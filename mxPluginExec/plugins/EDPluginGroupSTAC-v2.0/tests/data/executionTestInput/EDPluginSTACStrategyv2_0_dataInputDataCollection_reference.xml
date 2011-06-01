@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<XSDataCollection>
+    <XSSubWedge>
+        <XSBeamSetting>
+            <wavelength>
+                <value>0.000000e+00</value>
+            </wavelength>
+        </XSBeamSetting>
+        <XSCollectionWedge>
+
+                </XSCollectionWedge>
+        <XSDetectorSetting>
+            <axissetting>
+                <value>0.000000e+00</value>
+            </axissetting>
+        </XSDetectorSetting>
+        <XSDiffractionImages>
+        </XSDiffractionImages>
+        <XSImageRange>
+            <startimage>
+                <value>-1</value>
+            </startimage>
+            <endimage>
+                <value>-1</value>
+            </endimage>
+            <XSProcessingWedge>
+
+                         </XSProcessingWedge>
+        </XSImageRange>
+        <XSRotationalGoniostatSetting>
+            <baseaxissetting>
+                <value>0.000000e+00</value>
+0.0            </baseaxissetting>
+            <axissetting>
+                <value>0.000000e+00</value>
+0.0            </axissetting>
+            <axissetting>
+                <value>0.000000e+00</value>
+0.0            </axissetting>
+            <XSRotationalGoniostat>
+                <XSGoniostatBaseAxis>
+                    <isscannable>
+                        <value>0</value>
+                    </isscannable>
+                    <name>
+                        <value></value>
+                    </name>
+                    <XSCalibratedDisplacementAxis>
+                        <zerodirection>
+                            <v1>0.000000e+00</v1>
+                            <v2>0.000000e+00</v2>
+                            <v3>0.000000e+00</v3>
+ ???                         </zerodirection>
+                        <XSCalibration>
+                            <date>
+                            </date>
+                        </XSCalibration>
+                    </XSCalibratedDisplacementAxis>
+
+                     
+                     
+                     
+                                 </XSGoniostatBaseAxis>
+                <XSGoniostatRotatableAxis>
+                    <isscannable>
+                        <value>0</value>
+                    </isscannable>
+                    <name>
+                        <value></value>
+                    </name>
+                    <XSCalibratedDisplacementAxis>
+                        <zerodirection>
+                            <v1>0.000000e+00</v1>
+                            <v2>0.000000e+00</v2>
+                            <v3>0.000000e+00</v3>
+ ???                         </zerodirection>
+                        <XSCalibration>
+                            <date>
+                            </date>
+                        </XSCalibration>
+                    </XSCalibratedDisplacementAxis>
+
+                     
+                     
+                     
+                                 </XSGoniostatRotatableAxis>
+                <XSGoniostatRotatableAxis>
+                    <isscannable>
+                        <value>0</value>
+                    </isscannable>
+                    <name>
+                        <value></value>
+                    </name>
+                    <XSCalibratedDisplacementAxis>
+                        <zerodirection>
+                            <v1>0.000000e+00</v1>
+                            <v2>0.000000e+00</v2>
+                            <v3>0.000000e+00</v3>
+ ???                         </zerodirection>
+                        <XSCalibration>
+                            <date>
+                            </date>
+                        </XSCalibration>
+                    </XSCalibratedDisplacementAxis>
+
+                     
+                     
+                     
+                                 </XSGoniostatRotatableAxis>
+            </XSRotationalGoniostat>
+        </XSRotationalGoniostatSetting>
+        <XSRotationExposure>
+            <imagewidth>
+                <value>0.000000e+00</value>
+1.0            </imagewidth>
+            <numberimages>
+                <value>-1</value>
+            </numberimages>
+            <exposuretime>
+                <value>0.000000e+00</value>
+            </exposuretime>
+            <XSGoniostatAxis>
+                <isscannable>
+                    <value>0</value>
+                </isscannable>
+                <name>
+                    <value></value>
+                </name>
+                <XSCalibratedDisplacementAxis>
+                    <zerodirection>
+                        <v1>0.000000e+00</v1>
+                        <v2>0.000000e+00</v2>
+                        <v3>0.000000e+00</v3>
+ ???                     </zerodirection>
+                    <XSCalibration>
+                        <date>
+                        </date>
+                    </XSCalibration>
+                </XSCalibratedDisplacementAxis>
+            </XSGoniostatAxis>
+        </XSRotationExposure>
+    </XSSubWedge>
+    <XSSubWedge>
+        <XSDiffractionImages>
+        </XSDiffractionImages>
+    </XSSubWedge>
+</XSDataCollection>

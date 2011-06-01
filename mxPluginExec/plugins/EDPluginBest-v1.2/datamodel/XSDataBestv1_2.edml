@@ -1,0 +1,95 @@
+targetNamespace "http://www.edna-site.org"
+
+package XSDataBestv12 {
+	complex type XSDataBestCollectionPlan {
+		collectionPlanNumber : XSDataInteger
+		collectionRun : XSDataBestCollectionRun [] optional
+		comment : XSDataString
+		crystalScale : XSDataCrystalScale
+		statisticalPrediction : XSDataBestStatisticalPrediction
+		strategySummary : XSDataBestStrategySummary
+	}
+
+	complex type XSDataBestCollectionRun {
+		action : XSDataString
+		collectionRunNumber : XSDataInteger
+		exposureTime : XSDataTime
+		numberOfImages : XSDataInteger
+		overlaps : XSDataString
+		phiStart : XSDataAngle
+		phiWidth : XSDataAngle
+		transmission : XSDataDouble
+	}
+
+	complex type XSDataBestResolutionBin {
+		IOverSigma : XSDataDouble
+		averageIntensity : XSDataDouble
+		averageIntensityOverAverageSigma : XSDataDouble
+		averageSigma : XSDataDouble
+		completeness : XSDataDouble
+		maxResolution : XSDataDouble
+		minResolution : XSDataDouble
+		percentageOverload : XSDataDouble
+		rFactor : XSDataDouble
+		rFriedel : XSDataDouble
+		redundancy : XSDataDouble
+	}
+
+	complex type XSDataBestStatisticalPrediction {
+		resolutionBin : XSDataBestResolutionBin [] optional
+	}
+
+	complex type XSDataBestStrategySummary {
+		completeness : XSDataDouble
+		distance : XSDataLength
+		iSigma : XSDataDouble
+		rankingResolution : XSDataDouble
+		redundancy : XSDataDouble
+		resolution : XSDataDouble
+		resolutionReasoning : XSDataString
+		totalDataCollectionTime : XSDataTime
+		totalExposureTime : XSDataTime
+		transmission : XSDataDouble
+	}
+
+	complex type XSDataCrystalScale {
+		bFactor : XSDataDouble
+		scale : XSDataDouble
+	}
+
+	complex type XSDataInputBest extends XSDataInput {
+		"- anomalousData is deprecated, please use strategyOption instead.\n\n- minTransmission will work only with version v3.4 or higher of Best\n\n- xdsBackgroundFile will only work with version v3.4.1 or higher of Best\n\n- detectorDistanceMin and detectorDistanceMax (in mm) will work only with version v3.4.3 or higher of Best\n"
+		aimedCompleteness : XSDataDouble optional
+		aimedIOverSigma : XSDataDouble optional
+		aimedRedundancy : XSDataDouble
+		optional
+		aimedResolution : XSDataDouble optional
+		anomalousData : XSDataBoolean optional
+		beamExposureTime : XSDataTime
+		beamMaxExposureTime : XSDataTime optional
+		beamMinExposureTime : XSDataTime optional
+		bestFileContentDat : XSDataString
+		bestFileContentHKL : XSDataString []
+		bestFileContentPar : XSDataString
+		complexity : XSDataString optional
+		crystalAbsorbedDoseRate : XSDataAbsorbedDoseRate optional
+		crystalShape : XSDataDouble optional
+		crystalSusceptibility : XSDataDouble optional
+		detectorDistanceMax : XSDataLength optional
+		detectorDistanceMin : XSDataLength optional
+		detectorType : XSDataString
+		goniostatMaxRotationSpeed : XSDataAngularSpeed optional
+		goniostatMinRotationWidth : XSDataAngle optional
+		minTransmission : XSDataDouble optional
+		numberOfCrystalPositions : XSDataInteger optional
+		strategyOption : XSDataString optional
+		transmission : XSDataDouble optional
+		xdsBackgroundImage : XSDataFile optional
+	}
+
+	complex type XSDataResultBest extends XSDataResult {
+		collectionPlan : XSDataBestCollectionPlan [] optional
+		pathToLogFile : XSDataFile
+	}
+
+}

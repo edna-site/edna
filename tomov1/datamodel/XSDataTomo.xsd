@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputSinogramGeneration" type="XSDataInputSinogramGeneration"/>
+	<xs:complexType name="XSDataInputSinogramGeneration">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="imageDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="imageWidth" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfImages" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfSegments" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="segmentHeight" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputReconstruction" type="XSDataInputReconstruction"/>
+	<xs:complexType name="XSDataInputReconstruction">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="reconstructionCenter" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramLength" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramWidth" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataTomoParameters" type="XSDataTomoParameters"/>
+	<xs:complexType name="XSDataTomoParameters">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="name" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="values" type="XSDataString" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultSinogramGeneration" type="XSDataResultSinogramGeneration"/>
+	<xs:complexType name="XSDataResultSinogramGeneration">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="sinogramDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramLength" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramWidth" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultReconstruction" type="XSDataResultReconstruction"/>
+	<xs:complexType name="XSDataResultReconstruction">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="numberOfSlices" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sliceDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputTomography" type="XSDataInputTomography"/>
+	<xs:complexType name="XSDataInputTomography">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="byteDepthOfImage" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="chunkHeight" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="imageDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="imageWidth" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="jobName" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfChunks" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfProjectionsPerSegment" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfSegments" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="settingsFileName" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="timeoutLength" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="timeoutPollingInterval" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="uniqueName" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultTomography" type="XSDataResultTomography"/>
+	<xs:complexType name="XSDataResultTomography">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="numberOfSlices" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="overallTimeForReconstruction" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="reconstructionImageHeight" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="reconstructionImageWidth" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="reconstructionTimePerChunk" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="sinogramCreationTimePerChunk" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="sliceDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="voxelDepthScale" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="voxelHeightScale" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="voxelWidthScale" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

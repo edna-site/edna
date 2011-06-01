@@ -1,0 +1,20 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+
+complex type XSDataInputDatcmp extends XSDataInput {
+	"datcmp compares two curves from files
+	"
+	inputCurve: XSDataFile []
+	}
+
+complex type XSDataResultDatcmp extends XSDataResult {
+	"Higher chi-values indicate dis-similarities in the input.\n
+	 Fidelity gives the likelihood of the two data sets being identical.
+	"
+	chi: XSDataDouble 
+	fidelity: XSDataDouble
+}

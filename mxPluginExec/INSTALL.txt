@@ -1,0 +1,105 @@
+
+         EDNA MX execution plugins installation instructions
+         ===================================================
+
+Requirements:
+
+ * The EDNA kernel version 1.0.1 or higher.
+ 
+ * Python version 2.4 or later.
+
+ * bash shell : tested on Linux, the MX execution plugins could also run on 
+                different flavours of Unix (Mac OSX, FreeBSD, Solaris, HPUX, 
+                IRIX etc) and maybe even on Windows however these platforms 
+                have not been tested and hence are not supported.
+
+ * The following programs must be installed in order to run all the 
+   EDNA MX execution plugins:
+
+   - MOSFLM version 7.0.5 of May 13th 2009 or later. Note that the EDNA
+     MOSFLM execution plugins will _not_ work with the official CCP4 version
+     of MOSFLM 7.0.4 of October 16th 2008. Please contact Harry Powell
+     (harry@mrc-lmb.cam.ac.uk) for obtaining version 7.0.5 of May 13th. 
+   
+   - Labelit version 1.0 or later. The installation of Labelit is not
+     required, Labelit can be used for indexing instead of MOSFLM.
+
+   - BEST versions 3.1.0d, or 3.2.0 or later. Note that the BEST execution plugin
+     will not run with version 3.1.0c. BEST can be obtained by requesting
+     a licence on the BEST home web page:
+
+         http://www.embl-hamburg.de/BEST
+
+ * In order to take full advantage of the radiation damage prediction by 
+   BEST, it is also recommended to install RADDOSE. RADDOSE
+   can be obtained by contacting directly the authors: Elspeth Garman 
+   (elspeth.garman@bioch.ox.ac.uk) and/or Raimond Ravelli (ravelli@embl.fr).
+   We recommend to use the latest version of RADDOSE of 20090103, however
+   the RADDOSE execution plugin will also work with version 2007/07/05.
+   
+
+Installation:
+               
+1. Untar the distribution file in a the same directory as you have installed
+   the EDNA kernel. $EDNA_HOME should be set to the same value as for the
+   EDNA kernel, see $EDNA_HOME/kernel/INSTALL.txt.
+   
+2. You must then set up a configuration file for your installation.
+   The easiest solution is to copy one of the configuration files in
+   the EDNA MX execution plugin distribution to a new one. 
+   For example, copy
+
+        $EDNA_HOME/mxPluginExec/conf/XSConfiguration_ESRF.xml
+        
+   to
+   
+        $EDNA_HOME/mxPluginExec/conf/XSConfiguration_yourSite.xml
+   
+   where you can replace yourSite with the name of your site (e.g. NSLS,
+   Diamond etc). It's important to keep the "XSConfiguration_" prefix.
+   The "yourSite" name is later referred to as $EDNA_SITE.
+   
+   Edit the XSConfiguration_yourSite.xml file, you must change the paths
+   to the following programs/packages required by EDNA (we recommend
+   to always use the latest versions):
+   
+   * bash shell script
+   
+   * MOSFLM version 7.0.5 of May 13th 2009 or later
+   
+   * LABELIT version 1.0 or later
+   
+   * BEST version 3.1.0, 3.2.0 or later
+   
+   * RADDOSE version 2007/07/05 or 2.0 of 2009/01/03 or later
+   
+   * CCP4 version 6.0.2 or later
+   
+   
+ Testing the installation:
+
+It is recommended to try to run the EDNA execution plugin test suites in order to verify
+that the installation of the plugins is correct:
+
+   * Plugin unit :      This test suite unit tests the plugins, i.e. it check methods
+                        of the plugins but it doesn't execute the plugins:
+
+        $EDNA_HOME/kernel/bin/edna-test-launcher --test EDTestSuitePluginUnitMXPluginExec
+                   
+                  
+   * Plugin execution : This test suite tests the exeuction of all the plugins,
+                        some plugins are executed several times with different input
+                        data (note that test images are necessary, if they are not
+                        present the script will indicate how to obtain them):
+
+        $EDNA_HOME/kernel/bin/edna-test-launcher --test EDTestSuitePluginExecuteMXPluginExec
+           
+At the end of each test suite a report is presented with the number of successes / 
+failures of the test suite. Each test suite should normally contain only successes.
+
+If this is not the case check the error messages from the tests. If you cannot identify
+the problem please feel free to contact the EDNA support team at edna-support@esrf.fr.
+           
+                        
+                  
+                   

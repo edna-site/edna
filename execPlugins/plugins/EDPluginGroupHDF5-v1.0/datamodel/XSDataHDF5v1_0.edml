@@ -1,0 +1,62 @@
+targetNamespace "http://www.edna-site.org"
+complex type XSDataInputHDF5Writer extends XSDataInput {
+	"Common XSDataInput class for all hdf5 writers\n"
+	HDF5File : XSDataFile
+	internalHDF5Path : XSDataString
+	multiFiles : XSDataBoolean optional
+    extraAttributes : XSDataHDF5Attributes [] optional
+    forceDtype: XSDataString optional
+    chunkSegmentation: XSDataInteger optional
+}
+
+complex type XSDataHDF5Attributes extends XSData{
+	"Allows the fine definition of the metadata for group/datasets"
+	h5path : XSDataString
+	metadata : XSDataDictionary
+}
+
+complex type XSDataInputHDF5MapSpectra extends XSDataInputHDF5Writer {
+	deleteInputSpectrum : XSDataBoolean optional
+	inputSpectrumFile : XSDataSpectrum [] optional
+}
+
+complex type XSDataInputHDF5StackImages extends XSDataInputHDF5Writer {
+	deleteInputImage : XSDataBoolean optional
+	inputImageFile : XSDataImage [] optional
+	inputArray : XSDataArray [] optional
+	index : XSDataInteger [] optional
+}
+
+complex type XSDataResultHDF5Writer extends XSDataResult {
+	HDF5File : XSDataFile
+	internalHDF5Path : XSDataString
+}
+
+
+complex type XSDataResultHDF5MapSpectra extends XSDataResultHDF5Writer{
+}
+
+complex type XSDataResultHDF5StackImages extends XSDataResultHDF5Writer{
+}
+
+
+complex type XSDataSpectrum extends XSData {
+	path : XSDataString optional
+	array : XSDataArray optional
+	fastMotorPosition : XSDataDouble optional
+	meshScan : XSDataMeshScan optional
+	slowMotorPosition : XSDataDouble optional
+	fileType : XSDataString optional
+}
+
+complex type XSDataMeshScan extends XSData {
+	fastMotorName : XSDataString optional
+	fastMotorStart : XSDataFloat
+	fastMotorSteps : XSDataInteger
+	fastMotorStop : XSDataFloat
+	integrationTime : XSDataTime optional
+	slowMotorSteps : XSDataInteger
+	slowMotorName : XSDataString optional
+	slowMotorStart : XSDataFloat
+	slowMotorStop : XSDataFloat
+}

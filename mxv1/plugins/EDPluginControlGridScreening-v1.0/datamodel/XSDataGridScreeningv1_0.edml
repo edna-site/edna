@@ -1,0 +1,26 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataMXv1 
+
+complex type XSDataInputGridScreening extends XSDataInput {
+	imageFile : XSDataFile
+	diffractionPlan : XSDataDiffractionPlan optional
+	storeImageQualityIndicatorsInISPyB : XSDataBoolean optional
+	doOnlyImageQualityIndicators : XSDataBoolean optional
+}
+
+complex type XSDataResultGridScreening extends XSDataResult {
+	fileNameParameters : XSDataGridScreeningFileNameParameters optional
+	imageQualityIndicators : XSDataImageQualityIndicators optional
+	mosaicity : XSDataDouble optional
+	rankingResolution : XSDataDouble optional
+	comment : XSDataString optional
+	imageQualityIndicatorsId : XSDataInteger optional
+}
+
+complex type XSDataGridScreeningFileNameParameters extends XSData {
+	motorPosition1 : XSDataString
+	motorPosition2 : XSDataString
+	scanId1 : XSDataString
+	scanId2 : XSDataString	
+}

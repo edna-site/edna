@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<CCP4DataInputControlCopyUnitCellMTZtoPDB>
+   <HKLIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.mtz</value>
+      </path>
+   </HKLIN>
+   <XYZIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.pdb</value>
+      </path>
+   </XYZIN>
+   <XYZOUT>
+      <path>
+         <value>/tmp/ControlCopyUnitCellMTZtoPDBoutput.pdb</value>
+      </path>
+   </XYZOUT>
+</CCP4DataInputControlCopyUnitCellMTZtoPDB>

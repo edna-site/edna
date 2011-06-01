@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputReadHeader>
+	<inputFile>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/test_completed.edf</value>
+		</path>
+	</inputFile>
+</XSDataInputReadHeader>

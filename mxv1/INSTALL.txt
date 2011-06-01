@@ -1,0 +1,83 @@
+
+               EDNA MXv1 installation instructions
+               ===================================
+
+Requirements:
+
+ * The EDNA kernel version 1.0.1 or later
+ 
+ * The EDNA MX execution plugins version 1.0.1 or later
+
+ * Python version 2.4 or later.
+
+Installation:
+
+1. Untar the distribution file in a the same directory as you have installed
+   the EDNA kernel and the MXv1 execution plugins. $EDNA_HOME should be set to 
+   the same value as for the EDNA kernel, see $EDNA_HOME/kernel/INSTALL.txt.
+   
+2. You must then set up a configuration file for your installation.
+   The easiest solution is to copy one of the configuration files in
+   the EDNA prototype distribution to a new one. For example, copy
+
+        $EDNA_HOME/mxv1/conf/XSConfiguration_ESRF.xml
+        
+   to
+   
+        $EDNA_HOME/mxv1/conf/XSConfiguration_yourSite.xml
+   
+   where you can replace yourSite with the name of your site (e.g. NSLS,
+   Diamond etc). It's important to keep the "XSConfiguration_" prefix.
+   The "yourSite" name is later referred to as $EDNA_SITE.
+   
+   Note that currently the configuration file for the MXv1 characterisation
+   application must contain also the configuration for the MX execution
+   plugins. Therefore all entries in 
+   
+      $EDNA_HOME/mxPluginExec/conf/XSConfiguration_yourSite.xml
+      
+   be present in 
+ 
+      $EDNA_HOME/mxv1/conf/XSConfiguration_yourSite.xml
+ 
+ 
+ 3. You can then start EDNA if the $EDNA_HOME and $EDNA_SITE variables mentioned
+    above have been defined with the following command:
+    
+       $EDNA_HOME/mxv1/bin/edna-mxv1-characterisation
+       
+    In order to avoid having to define these variables you can easily create an
+    EDNA prototype startup script:
+    
+    #!/bin/bash
+    export EDNA_HOME=[path to your edna directory, e.g. /usr/local/xtal/edna]
+    export EDNA_SITE=[name of your site, e.g. NSLS, Diamond etc]
+    $EDNA_HOME/mxv1/bin/edna-mxv1-characterisation $*
+
+
+Testing the installation:
+
+It is recommended to try to run the EDNA MXv1 test suites in order to verify
+that the installation of the prototype is correct:
+
+   * Plugin unit :      This test suite unit tests the plugins, i.e. it check methods
+                        of the plugins but it doesn't execute the plugins:
+                   
+        $EDNA_HOME/kernel/bin/edna-test-launcher --test EDTestSuitePluginUnitMXv1
+                  
+   * Plugin execution : This test suite tests the exeuction of all the plugins,
+                        some plugins are executed several times with different input
+                        data (note that test images are necessary, if they are not
+                        present the script will indicate how to obtain them):
+
+        $EDNA_HOME/kernel/bin/edna-test-launcher --test EDTestSuitePluginExecuteMXv1
+           
+At the end of each test suite a report is presented with the number of successes / 
+failures of the test suite. Each test suite should normally contain only successes.
+
+If this is not the case check the error messages from the tests. If you cannot identify
+the problem please feel free to contact the EDNA support team at edna-support@esrf.fr.
+           
+                        
+                  
+                   

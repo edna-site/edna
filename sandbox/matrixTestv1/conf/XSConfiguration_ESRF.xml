@@ -1,0 +1,13 @@
+<?xml version="1.0" ?><XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecMatrixInvertv1_0</name>  
+		</XSPluginItem>
+	<XSPluginItem>
+			<name>EDPluginExecMatrixReadv1_0</name>  
+		</XSPluginItem><XSPluginItem>
+			<name>EDPluginExecMatrixWritev1_0</name>  
+		</XSPluginItem><XSPluginItem>
+			<name>EDPluginExecMatrixInvertFilev1_0</name>  
+		</XSPluginItem></XSPluginList> 
+</XSConfiguration>

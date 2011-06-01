@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.edna-site.org">
+    <xs:include schemaLocation="../../kernel/datamodel/XSDataCommon.xsd"></xs:include>
+    <xs:include schemaLocation="XSDataCommon.xsd" />
+	<xs:element name="XSDataInputGnom" type="XSDataInputGnom" />
+	<xs:complexType name="XSDataInputGnom">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="experimentalDataQ"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="experimentalDataValues"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="experimentalDataStdDev"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="rMax" type="XSDataFloat"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="mode" type="XSDataString" minOccurs="0"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultGnom" type="XSDataResultGnom" />
+	<xs:complexType name="XSDataResultGnom">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="fitQuality" type="XSDataFloat"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="output" type="XSDataFile" minOccurs="1"
+						maxOccurs="1" />
+					<xs:element name="scatteringFitQ" type="XSDataFloat"
+						minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="scatteringFitValues" type="XSDataFloat"
+						minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="distributionR" type="XSDataFloat"
+						minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="distributionPr" type="XSDataFloat"
+						minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="distributionErr" type="XSDataFloat"
+						minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="radiusOfCrossSection" type="XSDataFloat"
+						maxOccurs="1" minOccurs="1">
+					</xs:element>
+					<xs:element name="radiusOfGyration" type="XSDataFloat"
+						maxOccurs="1" minOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputDammin" type="XSDataInputDammin" />
+	<xs:complexType name="XSDataInputDammin">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="expectedParticleShape"
+						type="XSDataInteger" minOccurs="1" maxOccurs="1" />
+					<xs:element name="gnomOutputFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="initialDummyAtomModel"
+						type="XSDataInteger" minOccurs="1" maxOccurs="1" />
+					<xs:element name="pdbInputFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="symmetry" type="XSDataString"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="mode" type="XSDataString" minOccurs="0"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultDammin" type="XSDataResultDammin" />
+	<xs:complexType name="XSDataResultDammin">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="fitFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="logFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="pdbMoleculeFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="pdbSolventFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="rfactor" type="XSDataFloat"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="chiSqrt" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputDammif" type="XSDataInputDammif" />
+	<xs:complexType name="XSDataInputDammif">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="expectedParticleShape"
+						type="XSDataInteger" minOccurs="1" maxOccurs="1" />
+					<xs:element name="gnomOutputFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+
+
+					<xs:element name="symmetry" type="XSDataString"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="mode" type="XSDataString"
+						minOccurs="0">
+					</xs:element>
+					<xs:element name="chained" type="XSDataBoolean"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="constant" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultDammif" type="XSDataResultDammif" />
+	<xs:complexType name="XSDataResultDammif">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="fitFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="logFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="pdbMoleculeFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="pdbSolventFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="rfactor" type="XSDataFloat"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="chiSqrt" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSolutionScattering" type="XSDataInputSolutionScattering" />
+	<xs:complexType name="XSDataInputSolutionScattering">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="title" type="XSDataString"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="experimentalDataQ"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="experimentalDataValues"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="experimentalDataStdDev"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="rMaxSearchSettings"
+						type="XSDataSolutionScatteringSettings" minOccurs="0"
+						maxOccurs="1">
+					</xs:element>
+					<xs:element name="symmetry" type="XSDataString"
+						minOccurs="0" maxOccurs="1" />
+					<xs:element name="mode" type="XSDataString"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="iNbThreads" type="XSDataInteger"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="onlyGnom" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="plotFit" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultSolutionScattering" type="XSDataResultSolutionScattering" />
+	<xs:complexType name="XSDataResultSolutionScattering">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="corelationFitValues"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="fitFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="lineProfileFitQuality"
+						type="XSDataFloat" minOccurs="1" maxOccurs="1" />
+					<xs:element name="logFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="pdbMoleculeFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="pdbSolventFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+					<xs:element name="scatteringFitQ" type="XSDataFloat"
+						minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="scatteringFitValues"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="meanNSD" type="XSDataFloat"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="variationNSD" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="XSDataConfigGnom">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+		<xs:sequence>
+			<xs:element name="printer" type="XSDataString" minOccurs="0"
+				maxOccurs="unbounded">
+			</xs:element>
+			<xs:element name="forfac" type="XSDataFile" minOccurs="0"></xs:element>
+			<xs:element name="expert" type="XSDataFile" minOccurs="0"></xs:element>
+			<xs:element name="input1" type="XSDataFile" minOccurs="1"></xs:element>
+			<xs:element name="input2" type="XSDataFile" minOccurs="0"></xs:element>
+			<xs:element name="nskip1" type="XSDataInteger"
+				minOccurs="0">
+			</xs:element>
+			<xs:element name="nskip2" type="XSDataInteger"
+				minOccurs="0">
+			</xs:element>
+			<xs:element name="output" type="XSDataFile" minOccurs="0"></xs:element>
+			<xs:element name="iscale" type="XSDataInteger"
+				minOccurs="0">
+			</xs:element>
+			<xs:element name="plonp" type="XSDataBoolean" minOccurs="1"></xs:element>
+			<xs:element name="plores" type="XSDataBoolean" minOccurs="1"></xs:element>
+			<xs:element name="evaerr" type="XSDataBoolean" minOccurs="0"></xs:element>
+			<xs:element name="ploerr" type="XSDataBoolean" minOccurs="1"></xs:element>
+			<xs:element name="lkern" type="XSDataBoolean" minOccurs="0"></xs:element>
+			<xs:element name="jobtyp" type="XSDataInteger" minOccurs="0"></xs:element>
+			<xs:element name="rmin" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="rmax" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="lzrmin" type="XSDataBoolean" minOccurs="0"></xs:element>
+			<xs:element name="lzrmax" type="XSDataBoolean" minOccurs="0"></xs:element>
+			<xs:element name="kernel" type="XSDataFile" minOccurs="0"></xs:element>
+			<xs:element name="deviat" type="XSDataFloat" minOccurs="1"></xs:element>
+			<xs:element name="idet" type="XSDataInteger" minOccurs="0"></xs:element>
+			<xs:element name="fwhm1" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="fwhm2" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="ah1" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="lh1" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="aw1" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="lw1" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="ah2" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="lh2" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="aw2" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="lw2" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="spot1" type="XSDataFile" minOccurs="0"></xs:element>
+			<xs:element name="spot2" type="XSDataFile" minOccurs="0"></xs:element>
+			<xs:element name="alpha" type="XSDataFloat" minOccurs="1"></xs:element>
+			<xs:element name="nreal" type="XSDataInteger" minOccurs="1"></xs:element>
+			<xs:element name="coef" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="rad56" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="nextjob" type="XSDataBoolean" minOccurs="0"></xs:element>
+		</xs:sequence>
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="XSDataConfigGnom" type="XSDataConfigGnom"></xs:element>
+
+    <xs:complexType name="XSDataSolutionScatteringSettings">
+    	<xs:complexContent>
+    		<xs:extension base="XSData">
+    	<xs:sequence>
+    		<xs:element name="rMaxStart" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+    		<xs:element name="rMaxStop" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+    		<xs:element name="rMaxIntervals" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+    		<xs:element name="rMaxAbsTol" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+    	</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="XSDataInputDamaver">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataInput">
+    			<xs:sequence>
+    				<xs:element name="pdbInputFiles" type="XSDataFile"
+    					minOccurs="1" maxOccurs="unbounded">
+    				</xs:element>
+    				<xs:element name="symmetry" type="XSDataString"
+    					minOccurs="0" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="automatic" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="XSDataResultDamaver">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataResult">
+    			<xs:sequence>
+    				<xs:element name="meanNSD" type="XSDataFloat"
+    					minOccurs="0" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="variationNSD" type="XSDataFloat"
+    					minOccurs="0" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="damaverPdbFile" type="XSDataFile"
+    					minOccurs="0" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="damfilterPdbFile"
+    					type="XSDataFile" minOccurs="0" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="damstartPdbFile" type="XSDataFile" minOccurs="0" maxOccurs="1"></xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="XSDataInputDamaver" type="XSDataInputDamaver"></xs:element>
+
+    <xs:element name="XSDataResultDamaver" type="XSDataResultDamaver"></xs:element>
+
+    <xs:complexType name="XSDataInputDamfilt">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataInput">
+    			<xs:sequence>
+    				<xs:element name="inputPdbFile" type="XSDataFile"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="XSDataResultDamfilt">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataResult">
+    			<xs:sequence>    				<xs:element name="outputPdbFile" type="XSDataFile"
+    					minOccurs="0" maxOccurs="1">
+    				</xs:element>    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="XSDataInputDamfilt" type="XSDataInputDamfilt"></xs:element>
+
+    <xs:element name="XSDataResultDamfilt" type="XSDataResultDamfilt"></xs:element>
+    
+    <xs:complexType name="XSDataInputDamstart">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataInput">
+    			<xs:sequence>
+    				<xs:element name="inputPdbFile" type="XSDataFile"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="XSDataResultDamstart">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataResult">
+    			<xs:sequence>
+    				<xs:element name="outputPdbFile" type="XSDataFile"
+    					minOccurs="0" maxOccurs="1">
+    				</xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="XSDataInputDamstart" type="XSDataInputDamstart"></xs:element>
+
+    <xs:element name="XSDataResultDamstart" type="XSDataResultDamstart"></xs:element>
+    
+    <xs:complexType name="XSDataInputSupcomb">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataInput">
+    			<xs:sequence>
+    				<xs:element name="templateFile" type="XSDataFile"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="superimposeFile" type="XSDataFile"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="enantiomorphs"
+    					type="XSDataBoolean" minOccurs="0" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="backbone" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="XSDataResultSupcomb">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataResult">
+    			<xs:sequence>
+    				<xs:element name="outputFile" type="XSDataFile"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="rot" type="XSDataRotation"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="trns" type="XSDataVectorDouble"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    				<xs:element name="NSD" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+</xs:schema>                            

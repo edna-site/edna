@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSDataInputHDF5MapSpectra" type="XSDataInputHDF5MapSpectra"/>
+  <xs:complexType name="XSDataInputHDF5MapSpectra">
+    <xs:complexContent>
+      <xs:extension base="XSDataInputHDF5Writer">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="deleteInputSpectrum" type="XSDataBoolean"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="inputSpectrumFile" type="XSDataSpectrum"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputHDF5StackImages" type="XSDataInputHDF5StackImages"/>
+  <xs:complexType name="XSDataInputHDF5StackImages">
+    <xs:complexContent>
+      <xs:extension base="XSDataInputHDF5Writer">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="deleteInputImage" type="XSDataBoolean"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="inputImageFile" type="XSDataImage"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="inputArray" type="XSDataArray"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="index" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputHDF5Writer" type="XSDataInputHDF5Writer">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataInputHDF5Writer</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputHDF5Writer">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="HDF5File" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="internalHDF5Path" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="multiFiles" type="XSDataBoolean"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="extraAttributes" type="attributes"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="forceDtype" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="chunkSegmentation" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataMeshScan" type="XSDataMeshScan"/>
+  <xs:complexType name="XSDataMeshScan">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="fastMotorName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="fastMotorStart" type="XSDataFloat"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="fastMotorSteps" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="fastMotorStop" type="XSDataFloat"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="integrationTime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="slowMotorSteps" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="slowMotorName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="slowMotorStart" type="XSDataFloat"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="slowMotorStop" type="XSDataFloat"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultHDF5MapSpectra" type="XSDataResultHDF5MapSpectra"/>
+  <xs:complexType name="XSDataResultHDF5MapSpectra">
+    <xs:complexContent>
+      <xs:extension base="XSDataResultHDF5Writer">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultHDF5StackImages" type="XSDataResultHDF5StackImages"/>
+  <xs:complexType name="XSDataResultHDF5StackImages">
+    <xs:complexContent>
+      <xs:extension base="XSDataResultHDF5Writer">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultHDF5Writer" type="XSDataResultHDF5Writer"/>
+  <xs:complexType name="XSDataResultHDF5Writer">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="HDF5File" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="internalHDF5Path" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSpectrum" type="XSDataSpectrum"/>
+  <xs:complexType name="XSDataSpectrum">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="path" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="array" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="fastMotorPosition" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="meshScan" type="XSDataMeshScan"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="slowMotorPosition" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="fileType" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="attributes" type="attributes">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">attributes</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="attributes">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="h5path" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="metadata" type="XSDataDictionary"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

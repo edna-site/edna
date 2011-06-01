@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataPyarchThumbnail">
+    <packagedElement xmi:type="uml:Class" xmi:id="_-0Nd4AjUEeCiTdswbzRV6Q" name="XSDataInputPyarchThumbnail">
+      <generalization xmi:id="_7fK_QAjVEeCiTdswbzRV6Q">
+        <general xmi:type="uml:Class" href="../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_F5mMMAjVEeCiTdswbzRV6Q" name="inputImagePath">
+        <type xmi:type="uml:Class" href="../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EZd-wAjsEeCA4MnTf0y1pw" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_C5WR0AjWEeCiTdswbzRV6Q" name="XSDataResultPyarchThumbnail">
+      <generalization xmi:id="_SSDhMAjWEeCiTdswbzRV6Q">
+        <general xmi:type="uml:Class" href="../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_KV14kAjWEeCiTdswbzRV6Q" name="thumbnailPath">
+        <type xmi:type="uml:Class" href="../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_A5WG8AjsEeCA4MnTf0y1pw"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

@@ -1,0 +1,22 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon
+
+package XSDataPeakSearchv10 {
+	complex type XSDataInputPeakSearch extends XSDataInput {
+		darkFile : XSDataFile optional
+		imageFormat : XSDataString optional
+		indexMax : XSDataInteger
+		indexMin : XSDataInteger
+		numberOfDigits : XSDataInteger optional
+		outputStem : XSDataString optional
+		stem : XSDataString
+		threshold : XSDataDouble []
+	}
+
+	complex type XSDataResultPeakSearch extends XSDataResult {
+		peakFile2D : XSDataFile []
+		peakFile3D : XSDataFile []
+	}
+
+}

@@ -1,0 +1,26 @@
+targetNamespace "http://www.edna-site.org"
+
+complex type XSDataInputWaitFile extends XSDataInput {
+	"XSDataSize is not applicable here it is the size of a file in Bytes, not the size of a physical object in meters."
+	expectedFile : XSDataFile
+	expectedSize : XSDataInteger
+	timeOut : XSDataTime optional
+}
+
+complex type XSDataInputWaitMultiFile extends XSDataInput {
+	expectedFile : XSDataFile []
+	expectedSize : XSDataInteger
+	timeOut : XSDataTime optional
+}
+
+complex type XSDataResultWaitFile extends XSDataResult {
+	actualFile : XSDataFile optional
+	actualSize : XSDataInteger optional
+	timedOut : XSDataBoolean
+}
+
+complex type XSDataResultWaitMultiFile extends XSDataResult {
+	actualFile : XSDataFile [] optional
+	actualMinSize : XSDataInteger optional
+	timedOut : XSDataBoolean
+}

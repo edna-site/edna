@@ -1,0 +1,360 @@
+<!--
+********************************************************
+*
+* dna_collect.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_collect.xsd,v 1.29 2008/02/12 12:29:07 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+  <xsd:include schemaLocation="ispyb.xsd"/>
+  <xsd:include schemaLocation="dna_kappastrategy.xsd"/>
+  <xsd:include schemaLocation="dna_index.xsd"/>
+
+
+  <xsd:complexType name="collect_request">
+    <xsd:sequence>
+      <xsd:element name="beamline_parameters" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="beamline_parameters"/>
+      <xsd:element name="ignore_maximum_exposure" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>
+      <xsd:element name="fileinfo" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="fileinfo"/>
+      <xsd:element name="oscillation_sequence"
+                   minOccurs="1" 
+                   maxOccurs="unbounded" 
+                   type="oscillation_sequence"/>
+      <xsd:element name="wavelength" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="resolution" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="resolution"/>
+      <xsd:element name="kappa_collect_settings" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="kappa_collect_settings"/>
+      <xsd:element name="sample_reference"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="sample_reference"/>
+      <xsd:element name="sessionId" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="keep_sample_loaded" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>
+      <xsd:element name="collection_type"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example collect_request:
+
+        <collect_request>
+          <fileinfo>
+            <directory>/data/id14eh1/inhouse/dna</directory>
+            <prefix>dnatest</prefix>
+          </fileinfo>
+          <oscillation_sequence>
+            <start>0.0</start>
+            <range>1.0</range>
+            <number_of_images>2</number_of_images>
+            <overlap>-89.0</overlap>
+            <exposure_time>1.0</exposure_time>
+            <start_image_number>1</start_image_number>
+            <number_of_passes>1</number_of_passes>
+          </oscillation_sequence>
+        </collect_request>
+           
+   -->   
+
+
+  <xsd:complexType name="collect_reference_request">
+    <xsd:sequence>
+      <xsd:element name="collect_request" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="collect_request"/>
+      <xsd:element name="archive_reference_images"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="collect_reference_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="collect_data_request">
+    <xsd:sequence>
+      <xsd:element name="collect_request" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="collect_request"/>
+      <xsd:element name="integrate" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="collect_data_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+  <!--  Example collect_response:
+
+        <collect_response>
+          <status>
+            <code>ok</code>
+          </status>
+        </collect_response>
+
+   -->   
+
+  <xsd:complexType name="collect_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="dbstatus"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="dbstatus"/>
+   </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="characterize_crystal_request">
+    <xsd:sequence>
+      <xsd:element name="collect_reference_request"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="collect_reference_request"/>      
+      <xsd:element name="target"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="target"/>
+      <xsd:element name="anomalous"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <!-- this is the multiplicity in the range [0,inf]) -->
+      <xsd:element name="multiplicity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <!-- this is the user desired minimum phi oscillation - could be overridden by the strategy calculation -->
+      <xsd:element name="user_desired_minimum_phi_oscillation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <!-- this is the user desired max exposure time before radiation damage -->
+      <xsd:element name="user_desired_maximum_exposure"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="characterize_crystal_response">
+    <xsd:sequence>
+      <xsd:element name="strategy_response"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="strategy_response"/>      
+      <xsd:element name="status"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="collect_automatically_request">
+    <xsd:sequence>
+      <xsd:element name="characterize_crystal_request"
+                   minOccurs="1" 
+                   maxOccurs="unbounded" 
+                   type="characterize_crystal_request"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  
+  <xsd:complexType name="collect_automatically_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="bcm_parameters_request">
+    <xsd:sequence>
+      <xsd:element name="synchronous" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>
+    </xsd:sequence>    
+  </xsd:complexType>
+
+  <!--  Example:   
+
+        <?xml version="1.0"?>
+        <bcm_parameters_request>
+          <synchronous>true</synchronous>
+        <bcm_parameters_request>
+
+   -->
+
+  <xsd:complexType name="login_info">
+    <xsd:sequence>
+      <xsd:element name="Proposal" 
+                   minOccurs="1" 
+  	           maxOccurs="1"
+  	           type="Proposal"/> 
+      <xsd:element name="sessionId" 
+                   minOccurs="1" 
+                   maxOccurs="1"
+                   type="xsd:int"/> 
+      <xsd:element name="default_directory"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>                   
+      <xsd:element name="maximum_exposure"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="bcm_parameters_response">
+    <xsd:sequence>
+      <xsd:element name="beamline_parameters" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="beamline_parameters"/>
+      <xsd:element name="beam" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="beam"/>
+      <xsd:element name="experiment" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="experiment"/>
+      <xsd:element name="detector" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="detector"/>
+      <xsd:element name="login_info" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="login_info"/>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1"
+      	           type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example bcm_parameters_response:   
+
+        <?xml version="1.0"?>
+        <bcm_parameters_response>
+          <beam>
+            <x>94.32</x>
+            <y>95.29</y>
+          </beam>
+          <experiment>
+            <wavelength>0.9340</wavelength>
+            <distance>250.0</distance>
+          </experiment>
+          <detector>
+            <type>adsl</type>
+          </detector>
+          <status>
+            <code>ok</code>
+          </status>
+        </bcm_parameters_response>
+
+   -->
+
+
+  <xsd:complexType name="sample_references_request">
+    <xsd:sequence>
+      <xsd:element name="synchronous" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>
+    </xsd:sequence>    
+  </xsd:complexType>
+
+
+  <xsd:complexType name="sample_references_response">
+    <xsd:sequence>
+      <xsd:element name="sample_reference" 
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="sample_reference"/>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="bcm_synchronise_archive_request">
+    <xsd:sequence>
+      <xsd:element name="path" 
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="xsd:string"/>
+    </xsd:sequence>    
+  </xsd:complexType>
+
+</xsd:schema>

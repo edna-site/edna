@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<query>
+		<item><value>data1</value></item>
+		<item>
+			<value>data2</value></item></query>
+	<item>
+		<value>data2</value></item>
+	<item>
+		<value>data3</value></item>
+	<item>
+		<value>data1</value></item></XSDataInput>

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataInputThumbnail>
+	<inputImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+		</path>
+	</inputImagePath>
+	
+	<outputPath>
+		<path><value>/tmp/edna-${USER}/diff6105-400x400.jpg</value></path></outputPath>
+	<keepRatio>
+		<value>1</value></keepRatio>
+	<thumbHeight>
+		<value>400</value></thumbHeight>
+	<thumbWidth>
+		<value>500</value></thumbWidth></XSDataInputThumbnail>

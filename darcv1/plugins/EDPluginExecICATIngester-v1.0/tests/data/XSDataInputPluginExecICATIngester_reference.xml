@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataInputPluginControlDLSArchiver>
+	<xmlArchiveDirectory>
+		<path>
+			<value>../data/tests/</value>
+		</path>
+	</xmlArchiveDirectory>
+	<xmlIngestFileName>
+		<path>
+			<value>../data/tests/create-ds3.xml</value>
+		</path>
+	</xmlIngestFileName>
+	<command>
+		<value>echo XMLIngest_Software_Command</value>
+	</command>
+</XSDataInputPluginControlDLSArchiver>

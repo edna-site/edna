@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataResultCCP4i>
+    <listOfOutputFiles>
+        <value>
+${EDNA_PLUGIN_TESTS_DATA_HOME}
+${EDNA_PLUGIN_TESTS_DATA_HOME}/EDPluginMOSFLMGeneratePredictionv10-01_image.jpg
+${EDNA_PLUGIN_TESTS_DATA_HOME}/EDPluginMOSFLMGeneratePredictionv10-02_image.jpg
+${EDNA_PLUGIN_TESTS_DATA_HOME}/EDPluginControlCharacterisationv1_1_dataOutput.xml
+${EDNA_PLUGIN_TESTS_DATA_HOME}/EDPluginBestv1_1.log
+${EDNA_PLUGIN_TESTS_DATA_HOME}EDPluginBestv1_1_plots.mtv
+</value>
+    </listOfOutputFiles>
+</XSDataResultCCP4i>

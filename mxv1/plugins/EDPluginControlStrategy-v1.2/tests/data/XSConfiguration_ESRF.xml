@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlStrategyv1_2</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>symopHome</name>
+					<value>/opt/pxsoft/ccp4-6.0.2/lib/data</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem> 
+	</XSPluginList> 
+</XSConfiguration> 

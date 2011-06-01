@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataUnitCell" type="XSDataUnitCell"/>
+	<xs:complexType name="XSDataUnitCell">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="angle_alpha" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_beta" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_gamma" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_a" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_b" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_c" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSpaceGroup" type="XSDataSpaceGroup"/>
+	<xs:complexType name="XSDataSpaceGroup">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="ITNumber" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="name" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="symmetryOperator" type="XSDataString" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputPDBSETUnitCell" type="XSDataInputPDBSETUnitCell"/>
+	<xs:complexType name="XSDataInputPDBSETUnitCell">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="destinationPDBFile" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="inputPDBFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unitCell" type="XSDataUnitCell" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputMTZDUMPUnitCellSpaceGroup" type="XSDataInputMTZDUMPUnitCellSpaceGroup"/>
+	<xs:complexType name="XSDataInputMTZDUMPUnitCellSpaceGroup">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputMTZFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultMTZDUMPUnitCellSpaceGroup" type="XSDataResultMTZDUMPUnitCellSpaceGroup"/>
+	<xs:complexType name="XSDataResultMTZDUMPUnitCellSpaceGroup">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="spaceGroup" type="XSDataSpaceGroup" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unitCell" type="XSDataUnitCell" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultPDBSETUnitCell" type="XSDataResultPDBSETUnitCell"/>
+	<xs:complexType name="XSDataResultPDBSETUnitCell">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputPDBFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputCopyUnitCellMTZtoPDB" type="XSDataInputCopyUnitCellMTZtoPDB"/>
+	<xs:complexType name="XSDataInputCopyUnitCellMTZtoPDB">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="destinationPDBFile" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="inputMTZFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="inputPDBFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultCopyUnitCellMTZtoPDB" type="XSDataResultCopyUnitCellMTZtoPDB"/>
+	<xs:complexType name="XSDataResultCopyUnitCellMTZtoPDB">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputPDBFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

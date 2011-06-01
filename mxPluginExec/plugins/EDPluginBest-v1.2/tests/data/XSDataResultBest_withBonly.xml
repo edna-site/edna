@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<XSDataResultBest>
+    <pathToLogFile>
+        <path>
+            <value>${EDNA_WORKING_DIR}/best.log</value>
+        </path>
+    </pathToLogFile>
+    <collectionPlan>
+        <crystalScale>
+            <bFactor>
+                <value>8.120000e+00</value>
+            </bFactor>
+            <scale>
+                <value>2.640000e+00</value>
+            </scale>
+        </crystalScale>
+    </collectionPlan>
+</XSDataResultBest>

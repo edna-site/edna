@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<XSDataInputControlCopySpaceGroupPDBToMTZ>
+   <HKLIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.mtz</value>
+      </path>
+   </HKLIN>
+   <XYZIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.pdb</value>
+      </path>
+   </XYZIN>
+   <HKLOUT>
+      <path>
+         <value>/tmp/insulin_spacegroup.mtz</value>
+      </path>
+   </HKLOUT>
+</XSDataInputControlCopySpaceGroupPDBToMTZ>
+

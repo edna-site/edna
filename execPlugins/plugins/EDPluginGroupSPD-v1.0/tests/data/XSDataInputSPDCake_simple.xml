@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<XSDataInputSPDCake>
+	<beamCentreInPixelsX>
+		<value>956.389</value>
+	</beamCentreInPixelsX>
+	<beamCentreInPixelsY>
+		<value>913.277</value>
+	</beamCentreInPixelsY>
+	<bufferSizeX>
+		<value>2048</value>
+	</bufferSizeX>
+	<bufferSizeY>
+		<value>2048</value>
+	</bufferSizeY>
+	<pixelSizeX>
+		<value>0.0472244</value>
+		<unit><value>mm</value></unit>
+	</pixelSizeX>
+	<pixelSizeY>
+		<value>0.0468315</value>
+		<unit><value>mm</value></unit>
+	</pixelSizeY>
+	<inputFile>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+		</path>
+	</inputFile>
+	<darkCurrentImageFile>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/darks0001.edf</value>
+		</path>
+	</darkCurrentImageFile>
+	<flatFieldImageFile>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/flats0001.edf</value>
+		</path>
+	</flatFieldImageFile>
+	<sampleToDetectorDistance>
+		<value>80.637</value>
+		<unit><value>mm</value></unit>
+	</sampleToDetectorDistance>
+	<wavelength>
+		<value>0.70848</value>
+		<unit><value>A</value></unit>
+	</wavelength>
+	<outputFileType>
+		<value>CHIPLOT</value>
+	</outputFileType>
+</XSDataInputSPDCake>
+

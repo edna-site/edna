@@ -1,0 +1,567 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
+    "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
+<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/opid14/dawb_workspace/id14eh4/kappa/test_olof_complete.moml">
+    <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="7.0.1">
+    </property>
+    <property name="_workbenchVersion" class="ptolemy.kernel.attributes.VersionAttribute" value="0.8.2">
+    </property>
+    <property name="Director" class="com.isencia.passerelle.domain.cap.Director">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{20, 20}">
+        </property>
+    </property>
+    <entity name="Start" class="org.dawb.passerelle.actors.data.Scalar">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Name" class="ptolemy.data.expr.StringParameter" value="x">
+        </property>
+        <property name="Value" class="org.dawb.passerelle.actors.data.Scalar$RangeParameter" value="1">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{49.0, 152.0}">
+        </property>
+    </entity>
+    <entity name="Check sample" class="org.dawb.passerelle.actors.ui.MessageSink">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="PassThrough" class="ptolemy.data.expr.Parameter" value="false">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Message Type" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="4">
+        </property>
+        <property name="Message" class="ptolemy.data.expr.StringParameter" value="Please check that sample is centred and beamline is ok">
+        </property>
+        <property name="Message Title" class="ptolemy.data.expr.StringParameter" value="Check sample and beamline">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{439.0, 176.0}">
+        </property>
+    </entity>
+    <entity name="Exp parameters" class="org.dawb.passerelle.actors.ui.UserInputSource">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="User Fields" class="org.dawb.passerelle.actors.ui.config.FieldParameter" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gCjxqYXZhIHZlcnNpb249IjEuNi4wXzIyIiBjbGFzcz0iamF2YS5iZWFucy5YTUxEZWNvZGVyIj4gCiA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRDb250YWluZXIiPiAKICA8dm9pZCBwcm9wZXJ0eT0iZmllbGRzIj4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImRlZmF1bHRWYWx1ZSI+IAogICAgICA8c3RyaW5nPnJlZi1lZG5hPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5QcmVmaXg8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+cHJlZml4PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImRlZmF1bHRWYWx1ZSI+IAogICAgICA8c3RyaW5nPjAuMDwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJsb3dlckJvdW5kIj4gCiAgICAgIDxkb3VibGU+LTEuMDwvZG91YmxlPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUNsYXNzIj4gCiAgICAgIDxzdHJpbmc+dWsuYWMuZ2RhLnJpY2hiZWFucy5jb21wb25lbnRzLnNjYWxlYm94LlN0YW5kYXJkQm94PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5LYXBwYSAxPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVuaXQiPiAKICAgICAgPHN0cmluZz5kZWdyZWVzPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVwcGVyQm91bmQiPiAKICAgICAgPGRvdWJsZT4yNDAuMDwvZG91YmxlPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ2YXJpYWJsZU5hbWUiPiAKICAgICAgPHN0cmluZz5rYXAxPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImRlZmF1bHRWYWx1ZSI+IAogICAgICA8c3RyaW5nPjAuMDwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJsb3dlckJvdW5kIj4gCiAgICAgIDxkb3VibGU+MC4wPC9kb3VibGU+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpQ2xhc3MiPiAKICAgICAgPHN0cmluZz51ay5hYy5nZGEucmljaGJlYW5zLmNvbXBvbmVudHMuc2NhbGVib3guU3RhbmRhcmRCb3g8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idWlMYWJlbCI+IAogICAgICA8c3RyaW5nPkthcHBhIDI8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idW5pdCI+IAogICAgICA8c3RyaW5nPmRlZ3JlZXM8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idXBwZXJCb3VuZCI+IAogICAgICA8ZG91YmxlPjM2MC4wPC9kb3VibGU+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPmthcDI8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgIDwvb2JqZWN0PiAKICAgPC92b2lkPiAKICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5GaWVsZEJlYW4iPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0iZGVmYXVsdFZhbHVlIj4gCiAgICAgIDxzdHJpbmc+MC4wPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9Imxvd2VyQm91bmQiPiAKICAgICAgPGRvdWJsZT4wLjA8L2RvdWJsZT4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idWlDbGFzcyI+IAogICAgICA8c3RyaW5nPnVrLmFjLmdkYS5yaWNoYmVhbnMuY29tcG9uZW50cy5zY2FsZWJveC5TdGFuZGFyZEJveDwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+UGhpPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVuaXQiPiAKICAgICAgPHN0cmluZz5kZWdyZWVzPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVwcGVyQm91bmQiPiAKICAgICAgPGRvdWJsZT4zNjAuMDwvZG91YmxlPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ2YXJpYWJsZU5hbWUiPiAKICAgICAgPHN0cmluZz5waGk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgIDwvb2JqZWN0PiAKICAgPC92b2lkPiAKICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5GaWVsZEJlYW4iPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0iZGVmYXVsdFZhbHVlIj4gCiAgICAgIDxzdHJpbmc+MTwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUNsYXNzIj4gCiAgICAgIDxzdHJpbmc+dWsuYWMuZ2RhLnJpY2hiZWFucy5jb21wb25lbnRzLndyYXBwZXJzLlNwaW5uZXJXcmFwcGVyPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5SdW4gbnVtYmVyPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPnJ1bl9udW1iZXI8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgIDwvb2JqZWN0PiAKICAgPC92b2lkPiAKICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5GaWVsZEJlYW4iPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0iZGVmYXVsdFZhbHVlIj4gCiAgICAgIDxzdHJpbmc+aW1nPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5TdWZmaXg8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+c3VmZml4PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImRlZmF1bHRWYWx1ZSI+IAogICAgICA8c3RyaW5nPi9kYXRhL2lkMTRlaDQvaW5ob3VzZS9vcGlkMTQ0LzIwMTEwNTMxPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpQ2xhc3MiPiAKICAgICAgPHN0cmluZz51ay5hYy5nZGEucmljaGJlYW5zLmNvbXBvbmVudHMuZmlsZS5GaWxlQm94PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5EaXJlY3Rvcnk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+ZGlyZWN0b3J5PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImRlZmF1bHRWYWx1ZSI+IAogICAgICA8c3RyaW5nPkhhcmR3YXJlIEJpbm5lZDwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ0ZXh0Q2hvaWNlcyI+IAogICAgICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLlN0cmluZ1ZhbHVlQmVhbiI+IAogICAgICAgIDx2b2lkIHByb3BlcnR5PSJ0ZXh0VmFsdWUiPiAKICAgICAgICAgPHN0cmluZz5IYXJkd2FyZSBCaW5uZWQ8L3N0cmluZz4gCiAgICAgICAgPC92b2lkPiAKICAgICAgIDwvb2JqZWN0PiAKICAgICAgPC92b2lkPiAKICAgICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5TdHJpbmdWYWx1ZUJlYW4iPiAKICAgICAgICA8dm9pZCBwcm9wZXJ0eT0idGV4dFZhbHVlIj4gCiAgICAgICAgIDxzdHJpbmc+U29mdHdhcmUgQmlubmVkPC9zdHJpbmc+IAogICAgICAgIDwvdm9pZD4gCiAgICAgICA8L29iamVjdD4gCiAgICAgIDwvdm9pZD4gCiAgICAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuU3RyaW5nVmFsdWVCZWFuIj4gCiAgICAgICAgPHZvaWQgcHJvcGVydHk9InRleHRWYWx1ZSI+IAogICAgICAgICA8c3RyaW5nPk5vdCBCaW5uZWQ8L3N0cmluZz4gCiAgICAgICAgPC92b2lkPiAKICAgICAgIDwvb2JqZWN0PiAKICAgICAgPC92b2lkPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUNsYXNzIj4gCiAgICAgIDxzdHJpbmc+dWsuYWMuZ2RhLnJpY2hiZWFucy5jb21wb25lbnRzLndyYXBwZXJzLkNvbWJvV3JhcHBlcjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+RGV0ZWN0b3IgTW9kZTwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ2YXJpYWJsZU5hbWUiPiAKICAgICAgPHN0cmluZz5kZXRNb2RlPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImRlZmF1bHRWYWx1ZSI+IAogICAgICA8c3RyaW5nPkNlbGw8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idGV4dENob2ljZXMiPiAKICAgICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5TdHJpbmdWYWx1ZUJlYW4iPiAKICAgICAgICA8dm9pZCBwcm9wZXJ0eT0idGV4dFZhbHVlIj4gCiAgICAgICAgIDxzdHJpbmc+U21hbGxlc3RPdmVyYWxsT3NjaWxsYXRpb248L3N0cmluZz4gCiAgICAgICAgPC92b2lkPiAKICAgICAgIDwvb2JqZWN0PiAKICAgICAgPC92b2lkPiAKICAgICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5TdHJpbmdWYWx1ZUJlYW4iPiAKICAgICAgICA8dm9pZCBwcm9wZXJ0eT0idGV4dFZhbHVlIj4gCiAgICAgICAgIDxzdHJpbmc+Tm9LYXBwYTwvc3RyaW5nPiAKICAgICAgICA8L3ZvaWQ+IAogICAgICAgPC9vYmplY3Q+IAogICAgICA8L3ZvaWQ+IAogICAgICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLlN0cmluZ1ZhbHVlQmVhbiI+IAogICAgICAgIDx2b2lkIHByb3BlcnR5PSJ0ZXh0VmFsdWUiPiAKICAgICAgICAgPHN0cmluZz5NdWx0aUNyeXN0YWxSZWZlcmVuY2U8L3N0cmluZz4gCiAgICAgICAgPC92b2lkPiAKICAgICAgIDwvb2JqZWN0PiAKICAgICAgPC92b2lkPiAKICAgICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5TdHJpbmdWYWx1ZUJlYW4iPiAKICAgICAgICA8dm9pZCBwcm9wZXJ0eT0idGV4dFZhbHVlIj4gCiAgICAgICAgIDxzdHJpbmc+Q2VsbDwvc3RyaW5nPiAKICAgICAgICA8L3ZvaWQ+IAogICAgICAgPC9vYmplY3Q+IAogICAgICA8L3ZvaWQ+IAogICAgICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLlN0cmluZ1ZhbHVlQmVhbiI+IAogICAgICAgIDx2b2lkIHByb3BlcnR5PSJ0ZXh0VmFsdWUiPiAKICAgICAgICAgPHN0cmluZz5Bbm9tYWxvdXM8L3N0cmluZz4gCiAgICAgICAgPC92b2lkPiAKICAgICAgIDwvb2JqZWN0PiAKICAgICAgPC92b2lkPiAKICAgICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5TdHJpbmdWYWx1ZUJlYW4iPiAKICAgICAgICA8dm9pZCBwcm9wZXJ0eT0idGV4dFZhbHVlIj4gCiAgICAgICAgIDxzdHJpbmc+U21hcnRTcG90U2VwYXJhdGlvbjwvc3RyaW5nPiAKICAgICAgICA8L3ZvaWQ+IAogICAgICAgPC9vYmplY3Q+IAogICAgICA8L3ZvaWQ+IAogICAgICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLlN0cmluZ1ZhbHVlQmVhbiI+IAogICAgICAgIDx2b2lkIHByb3BlcnR5PSJ0ZXh0VmFsdWUiPiAKICAgICAgICAgPHN0cmluZz5WZWN0b3JBbGlnbm1lbnQ8L3N0cmluZz4gCiAgICAgICAgPC92b2lkPiAKICAgICAgIDwvb2JqZWN0PiAKICAgICAgPC92b2lkPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUNsYXNzIj4gCiAgICAgIDxzdHJpbmc+dWsuYWMuZ2RhLnJpY2hiZWFucy5jb21wb25lbnRzLndyYXBwZXJzLkNvbWJvV3JhcHBlcjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+S2FwcGEgU3RyYXRlZ3kgT3B0aW9uczwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ2YXJpYWJsZU5hbWUiPiAKICAgICAgPHN0cmluZz5rYXBwYVN0ck9wdDwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogIDwvdm9pZD4gCiA8L29iamVjdD4gCjwvamF2YT4gCg==">
+        </property>
+        <property name="User Input Type" class="org.dawb.passerelle.actors.ui.UserInputSource$1" value="Edit with dialog (non-blocking)">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{221.0, 152.0}">
+        </property>
+    </entity>
+    <entity name="ControlCharForReorientationv2_0" class="org.dawb.passerelle.actors.edna.ControlCharForReorientationv2_0">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Plugin Name" class="ptolemy.data.expr.StringParameter" value="EDPluginControlCharForReorientationv2_0">
+        </property>
+        <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputCharacterisationv2_01.xml">
+        </property>
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputCharacterisationv2_01.properties">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{941.0, 193.0}">
+        </property>
+    </entity>
+    <entity name="ReadImageHeaderPlugin" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Plugin Name" class="ptolemy.data.expr.StringParameter" value="EDPluginControlReadImageHeaderv10">
+        </property>
+        <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputReadImageHeader1.xml">
+        </property>
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader1.properties">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{681.0, 145.0}">
+        </property>
+    </entity>
+    <entity name="ReadImageHeaderPlugin(1)" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Plugin Name" class="ptolemy.data.expr.StringParameter" value="EDPluginControlReadImageHeaderv10">
+        </property>
+        <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputReadImageHeader2.xml">
+        </property>
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader2.properties">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{681.0, 239.0}">
+        </property>
+    </entity>
+    <entity name="Motor pos from comment" class="org.dawb.passerelle.actors.scripts.PythonScript">
+<display name="Motor pos from comment"/>        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Python Script" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/id14eh4/src/extract_positions_from_comment.py">
+        </property>
+        <property name="Create Separate Interpreter" class="ptolemy.data.expr.Parameter" value="false">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="false">
+        </property>
+        <property name="Interpreter Type" class="org.dawb.passerelle.actors.scripts.PythonScript$1" value="Python">
+        </property>
+        <property name="Dataset Outputs" class="ptolemy.data.expr.StringParameter" value="phi_new,kap1_new,kap2_new">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{312.0, 613.0}">
+        </property>
+    </entity>
+    <entity name="Set exp param" class="org.dawb.passerelle.actors.ui.UserModifyTransformer">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="User Fields" class="org.dawb.passerelle.actors.ui.config.FieldParameter" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gCjxqYXZhIHZlcnNpb249IjEuNi4wXzIzIiBjbGFzcz0iamF2YS5iZWFucy5YTUxEZWNvZGVyIj4gCiA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRDb250YWluZXIiPiAKICA8dm9pZCBwcm9wZXJ0eT0iY3VzdG9tTGFiZWwiPiAKICAgPHN0cmluZz5NWHYxIHNob3J0IHN1bW1hcnk6Cgoke214djFTaG9ydFN1bW1hcnl9CgpEbyB5b3Ugd2FudCB0byBjb2xsZWN0IHRoaXMgc3RyYXRlZ3k/PC9zdHJpbmc+IAogIDwvdm9pZD4gCiAgPHZvaWQgcHJvcGVydHk9ImZpZWxkcyI+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLkZpZWxkQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+UHJlZml4PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPnByZWZpeDwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLkZpZWxkQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUNsYXNzIj4gCiAgICAgIDxzdHJpbmc+dWsuYWMuZ2RhLnJpY2hiZWFucy5jb21wb25lbnRzLmZpbGUuRmlsZUJveDwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+RGlyZWN0b3J5PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPmRpcmVjdG9yeTwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLkZpZWxkQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUNsYXNzIj4gCiAgICAgIDxzdHJpbmc+dWsuYWMuZ2RhLnJpY2hiZWFucy5jb21wb25lbnRzLnNjYWxlYm94LlN0YW5kYXJkQm94PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5QaGk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+cGhpPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPmthcDE8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgIDwvb2JqZWN0PiAKICAgPC92b2lkPiAKICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5GaWVsZEJlYW4iPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+a2FwMjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogIDwvdm9pZD4gCiA8L29iamVjdD4gCjwvamF2YT4gCg==">
+        </property>
+        <property name="User Input Type" class="org.dawb.passerelle.actors.ui.UserModifyTransformer$1" value="Edit with dialog (non-blocking)">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{312.0, 486.0}">
+        </property>
+    </entity>
+    <entity name="No mxv1 strategy error" class="org.dawb.passerelle.actors.ui.MessageSink">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="PassThrough" class="ptolemy.data.expr.Parameter" value="false">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Message Type" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="1">
+        </property>
+        <property name="Message" class="ptolemy.data.expr.StringParameter" value="No mxv1 strategy calculated!">
+        </property>
+        <property name="Message Title" class="ptolemy.data.expr.StringParameter" value="Error Message">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{312.0, 391.0}">
+        </property>
+    </entity>
+    <entity name="If" class="org.dawb.passerelle.actors.flow.If">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Expressions" class="org.dawb.passerelle.actors.flow.ExpressionParameter" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gCjxqYXZhIHZlcnNpb249IjEuNi4wXzIyIiBjbGFzcz0iamF2YS5iZWFucy5YTUxEZWNvZGVyIj4gCiA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy5mbG93LkV4cHJlc3Npb25Db250YWluZXIiPiAKICA8dm9pZCBwcm9wZXJ0eT0iZXhwcmVzc2lvbnMiPiAKICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLmZsb3cuRXhwcmVzc2lvbkJlYW4iPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0iYWN0b3JOYW1lIj4gCiAgICAgIDxzdHJpbmc+Tm8gbXh2MSBzdHJhdGVneSBlcnJvcjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJleHByZXNzaW9uIj4gCiAgICAgIDxzdHJpbmc+KG14djFTdHJhdGVneVJlc3VsdCA9PSAmcXVvdDsmcXVvdDspPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy5mbG93LkV4cHJlc3Npb25CZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImFjdG9yTmFtZSI+IAogICAgICA8c3RyaW5nPlNldCBleHAgcGFyYW08L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0iZXhwcmVzc2lvbiI+IAogICAgICA8c3RyaW5nPihteHYxU3RyYXRlZ3lSZXN1bHQgIT0gJnF1b3Q7JnF1b3Q7KSAmYW1wOyZhbXA7IChzdWdnZXN0ZWRTdHJhdGVneUNvbW1lbnQgPT0gJnF1b3Q7JnF1b3Q7KTwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMuZmxvdy5FeHByZXNzaW9uQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJhY3Rvck5hbWUiPiAKICAgICAgPHN0cmluZz5Nb3RvciBwb3MgZnJvbSBjb21tZW50PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9ImV4cHJlc3Npb24iPiAKICAgICAgPHN0cmluZz4obXh2MVN0cmF0ZWd5UmVzdWx0ICE9ICZxdW90OyZxdW90OykgJmFtcDsmYW1wOyAoc3VnZ2VzdGVkU3RyYXRlZ3lDb21tZW50ICE9ICZxdW90OyZxdW90Oyk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgIDwvb2JqZWN0PiAKICAgPC92b2lkPiAKICA8L3ZvaWQ+IAogPC9vYmplY3Q+IAo8L2phdmE+IAo=">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{107.0, 462.0}">
+        </property>
+    </entity>
+    <entity name="Get data collection strategy" class="org.dawb.passerelle.actors.scripts.PythonScript">
+<display name="Get data collection strategy"/>        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Python Script" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/id14eh4/src/get_data_collection_strategy.py">
+        </property>
+        <property name="Create Separate Interpreter" class="ptolemy.data.expr.Parameter" value="false">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
+        </property>
+        <property name="Interpreter Type" class="org.dawb.passerelle.actors.scripts.PythonScript$1" value="Python">
+        </property>
+        <property name="Dataset Outputs" class="ptolemy.data.expr.StringParameter" value="rotationAxisStart">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{511.0, 485.0}">
+        </property>
+    </entity>
+    <entity name="Exp kappa parameters" class="org.dawb.passerelle.actors.ui.UserModifyTransformer">
+<display name="Exp kappa parameters"/>        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="User Fields" class="org.dawb.passerelle.actors.ui.config.FieldParameter" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gCjxqYXZhIHZlcnNpb249IjEuNi4wXzIyIiBjbGFzcz0iamF2YS5iZWFucy5YTUxEZWNvZGVyIj4gCiA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRDb250YWluZXIiPiAKICA8dm9pZCBwcm9wZXJ0eT0iZmllbGRzIj4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5QaGk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+cGhpX25ldzwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLkZpZWxkQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+UGhpPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPnBoaTwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLkZpZWxkQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJkZWZhdWx0VmFsdWUiPiAKICAgICAgPHN0cmluZz5ydW5fbnVtYmVyKzE8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idWlDbGFzcyI+IAogICAgICA8c3RyaW5nPnVrLmFjLmdkYS5yaWNoYmVhbnMuY29tcG9uZW50cy53cmFwcGVycy5TcGlubmVyV3JhcHBlcjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+UnVuIG51bWJlcjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ2YXJpYWJsZU5hbWUiPiAKICAgICAgPHN0cmluZz5ydW5fbnVtYmVyPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5LYXBwYSAxPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPmthcDFfbmV3PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5LYXBwYSAyPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPmthcDJfbmV3PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgPC92b2lkPiAKIDwvb2JqZWN0PiAKPC9qYXZhPiAK">
+        </property>
+        <property name="User Input Type" class="org.dawb.passerelle.actors.ui.UserModifyTransformer$1" value="Edit with dialog (non-blocking)">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{511.0, 616.0}">
+        </property>
+    </entity>
+    <entity name="Exp prep 1" class="org.dawb.passerelle.actors.hardware.TangoCommandTransformer">
+<display name="Exp prep 1"/>        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Commands" class="org.dawb.passerelle.actors.hardware.command.CommandParameter" value="">
+        </property>
+        <property name="Spec Macro" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/src/macro2.mac">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{346.0, 176.0}">
+        </property>
+    </entity>
+    <entity name="Data collection" class="org.dawb.passerelle.actors.hardware.TangoCommandTransformer">
+<display name="Data collection"/>        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Commands" class="org.dawb.passerelle.actors.hardware.command.CommandParameter" value="">
+        </property>
+        <property name="Spec Macro" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/workflows/src/macro1.mac">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{547.0, 185.0}">
+        </property>
+    </entity>
+    <entity name="Exp prep 2" class="org.dawb.passerelle.actors.hardware.TangoCommandTransformer">
+<display name="Exp prep 2"/>        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Commands" class="org.dawb.passerelle.actors.hardware.command.CommandParameter" value="">
+        </property>
+        <property name="Spec Macro" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/src/macro2.mac">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{641.0, 632.0}">
+        </property>
+    </entity>
+    <entity name="Data collection 2" class="org.dawb.passerelle.actors.hardware.TangoCommandTransformer">
+<display name="Data collection 2"/>        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Commands" class="org.dawb.passerelle.actors.hardware.command.CommandParameter" value="">
+        </property>
+        <property name="Spec Macro" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/workflows/src/macro1.mac">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{840.0, 632.0}">
+        </property>
+    </entity>
+    <entity name="ReadImageHeaderPlugin(2)" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Plugin Name" class="ptolemy.data.expr.StringParameter" value="EDPluginControlReadImageHeaderv10">
+        </property>
+        <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputReadImageHeader1.xml">
+        </property>
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader1.properties">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{941.0, 568.0}">
+        </property>
+    </entity>
+    <entity name="ReadImageHeaderPlugin(3)" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Plugin Name" class="ptolemy.data.expr.StringParameter" value="EDPluginControlReadImageHeaderv10">
+        </property>
+        <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputReadImageHeader2.xml">
+        </property>
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader2.properties">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{951.0, 685.0}">
+        </property>
+    </entity>
+    <entity name="MXv2 Char At New Orientation" class="org.dawb.passerelle.actors.edna.ControlCharAtNewOrientationv2_0">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="_icon" class="com.isencia.passerelle.actor.gui.EditorIcon">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="Plugin Name" class="ptolemy.data.expr.StringParameter" value="EDPluginControlCharAtNewOrientationv2_0">
+        </property>
+        <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputCharacterisationv2_02.xml">
+        </property>
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputCharacterisationv2_02.properties">
+        </property>
+        <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{1134.0, 632.0}">
+        </property>
+        <port name="requestFinish" class="com.isencia.passerelle.core.ControlPort">
+            <property name="input"/>
+            <property name="multiport"/>
+            <property name="control" class="ptolemy.kernel.util.StringAttribute">
+            </property>
+        </port>
+        <port name="error" class="com.isencia.passerelle.core.ErrorPort">
+            <property name="output"/>
+            <property name="multiport"/>
+            <property name="error" class="ptolemy.kernel.util.StringAttribute">
+            </property>
+        </port>
+        <port name="hasFired" class="com.isencia.passerelle.core.ControlPort">
+            <property name="output"/>
+            <property name="multiport"/>
+            <property name="control" class="ptolemy.kernel.util.StringAttribute">
+            </property>
+        </port>
+        <port name="hasFinished" class="com.isencia.passerelle.core.ControlPort">
+            <property name="output"/>
+            <property name="multiport"/>
+            <property name="control" class="ptolemy.kernel.util.StringAttribute">
+            </property>
+        </port>
+        <port name="input" class="com.isencia.passerelle.core.Port">
+            <property name="input"/>
+            <property name="multiport"/>
+        </port>
+        <port name="output" class="com.isencia.passerelle.core.Port">
+            <property name="output"/>
+            <property name="multiport"/>
+        </port>
+    </entity>
+    <entity name="MessageSink" class="org.dawb.passerelle.actors.ui.MessageSink">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="PassThrough" class="ptolemy.data.expr.Parameter" value="false">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Message Type" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="4">
+        </property>
+        <property name="Message" class="ptolemy.data.expr.StringParameter" value="Please check that sample is centred and beamline is ok">
+        </property>
+        <property name="Message Title" class="ptolemy.data.expr.StringParameter" value="Check sample and beamline">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{733.0, 633.0}">
+        </property>
+    </entity>
+    <relation name="_R" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R5" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R6" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R9" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R10" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R11" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R12" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R13" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R7" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R8" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R3" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R4" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R14" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R2" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R15" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R18" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R19" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R20" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R21" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R16" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R17" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R22" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <link port="Start.output" relation="_R"/>
+    <link port="Check sample.input" relation="_R8"/>
+    <link port="Check sample.shownMessage" relation="_R3"/>
+    <link port="Exp parameters.output" relation="_R2"/>
+    <link port="Exp parameters.trigger" relation="_R"/>
+    <link port="ControlCharForReorientationv2_0.input" relation="_R5"/>
+    <link port="ControlCharForReorientationv2_0.input" relation="_R6"/>
+    <link port="ControlCharForReorientationv2_0.output" relation="_R7"/>
+    <link port="ReadImageHeaderPlugin.input" relation="_R4"/>
+    <link port="ReadImageHeaderPlugin.output" relation="_R5"/>
+    <link port="ReadImageHeaderPlugin(1).input" relation="_R14"/>
+    <link port="ReadImageHeaderPlugin(1).output" relation="_R6"/>
+    <link port="Motor pos from comment.input" relation="_R11"/>
+    <link port="Motor pos from comment.output" relation="_R13"/>
+    <link port="Set exp param.input" relation="_R10"/>
+    <link port="Set exp param.output" relation="_R12"/>
+    <link port="No mxv1 strategy error.input" relation="_R9"/>
+    <link port="If.input" relation="_R7"/>
+    <link port="If.input" relation="_R22"/>
+    <link port="If.output" relation="_R9"/>
+    <link port="If.output" relation="_R10"/>
+    <link port="If.output" relation="_R11"/>
+    <link port="Get data collection strategy.input" relation="_R12"/>
+    <link port="Exp kappa parameters.input" relation="_R13"/>
+    <link port="Exp kappa parameters.input" relation="_R2"/>
+    <link port="Exp kappa parameters.output" relation="_R15"/>
+    <link port="Exp prep 1.output" relation="_R8"/>
+    <link port="Data collection.input" relation="_R3"/>
+    <link port="Data collection.output" relation="_R4"/>
+    <link port="Data collection.output" relation="_R14"/>
+    <link port="Exp prep 2.input" relation="_R15"/>
+    <link port="Exp prep 2.output" relation="_R16"/>
+    <link port="Data collection 2.input" relation="_R17"/>
+    <link port="Data collection 2.output" relation="_R18"/>
+    <link port="Data collection 2.output" relation="_R19"/>
+    <link port="ReadImageHeaderPlugin(2).input" relation="_R18"/>
+    <link port="ReadImageHeaderPlugin(2).output" relation="_R20"/>
+    <link port="ReadImageHeaderPlugin(3).input" relation="_R19"/>
+    <link port="ReadImageHeaderPlugin(3).output" relation="_R21"/>
+    <link port="MXv2 Char At New Orientation.input" relation="_R20"/>
+    <link port="MXv2 Char At New Orientation.input" relation="_R21"/>
+    <link port="MXv2 Char At New Orientation.output" relation="_R22"/>
+    <link port="MessageSink.input" relation="_R16"/>
+    <link port="MessageSink.shownMessage" relation="_R17"/>
+</entity>

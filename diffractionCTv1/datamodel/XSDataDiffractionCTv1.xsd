@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataDiffractionCTInstrument" type="XSDataDiffractionCTInstrument"/>
+	<xs:complexType name="XSDataDiffractionCTInstrument">
+		<xs:sequence>
+			<xs:element name="_diffrn_radiation_wavelength" type="XSDataWavelength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_pd_instr_dist_spec_detc" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_pd_meas_2theta_range_inc" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_pd_meas_2theta_range_max" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_pd_meas_2theta_range_min" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_synchrotron_photon_flux" type="XSDataFlux" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="_synchrotron_ring_intensity" type="XSDataDouble" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_scan_ampl" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_scan_type" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_rotation" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_rotation_inc" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_x" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_x_inc" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_x_max" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_x_min" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_z" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_z_inc" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_z_max" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_tomo_spec_displ_z_min" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSDataDiffractionCTImage" type="XSDataDiffractionCTImage"/>
+	<xs:complexType name="XSDataDiffractionCTImage">
+		<xs:sequence>
+			<xs:element name="_array_element_size_1" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_array_element_size_2" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_diffrn_detector_element_center_2" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_diffrn_detector_element_center_1" type="XSDataLength" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>in mm</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="_file_correction_image_dark_current" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_file_correction_image_flat_field" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_file_correction_image_mask" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_file_correction_spline_spatial_distortion" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_pd_instr_special_details_tilt_angle" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="_pd_instr_special_details_tilt_rotation" type="XSDataAngle" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSDataInputDiffractionCT" type="XSDataInputDiffractionCT"/>
+	<xs:complexType name="XSDataInputDiffractionCT">
+		<xs:sequence>
+			<xs:element name="destinationDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="image" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="sinogramFileNamePrefix" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="powderDiffractionSubdirectory" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="powderDiffractionFormat" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="overrideImageParam" type="XSDataDiffractionCTImage" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="overrideScanParam" type="XSDataDiffractionCTInstrument" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSDataResultDiffractionCT" type="XSDataResultDiffractionCT"/>
+	<xs:complexType name="XSDataResultDiffractionCT">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="integratedIntensities" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramFile" type="XSDataFile" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputReadHeader" type="XSDataInputReadHeader"/>
+	<xs:complexType name="XSDataInputReadHeader">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultReadHeader" type="XSDataResultReadHeader"/>
+	<xs:complexType name="XSDataResultReadHeader">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="dictionary" type="XSDataDictionary" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputPowderIntegration" type="XSDataInputPowderIntegration"/>
+	<xs:complexType name="XSDataInputPowderIntegration">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="destinationDir" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="imageFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="imageParameters" type="XSDataDiffractionCTImage" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="instrumentParameters" type="XSDataDiffractionCTInstrument" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultPowderIntegration" type="XSDataResultPowderIntegration"/>
+	<xs:complexType name="XSDataResultPowderIntegration">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="integratedIntensities" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputWriteSinogram" type="XSDataInputWriteSinogram"/>
+	<xs:complexType name="XSDataInputWriteSinogram">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="integratedIntensities" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sinogramFileNamePrefix" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultWriteSinogram" type="XSDataResultWriteSinogram"/>
+	<xs:complexType name="XSDataResultWriteSinogram">
+		<xs:sequence>
+			<xs:element name="sinogramFile" type="XSDataFile" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

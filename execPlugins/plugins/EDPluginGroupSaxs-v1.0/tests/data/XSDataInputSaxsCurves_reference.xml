@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+
+	<inputImage>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/bsa_013_08.ang</value>
+		</path>
+	</inputImage>
+	<outputDataFile>
+		<path>
+			<value>/tmp/edna-${USER}/bsa_013_08.dat</value>
+		</path>
+	</outputDataFile>
+	<extraHeaders>
+		<value>Code: BSA</value>
+	</extraHeaders>
+	<extraHeaders>
+		<value>Concentration: 5.77</value>
+	</extraHeaders>
+	<extraHeaders>
+		<value>Normalisation: 1.0</value>
+	</extraHeaders>
+	<options>
+		<value>-scf 2_pi</value>
+	</options>
+		
+</XSDataInput>

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlXAFSDataProcessingv0_1</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

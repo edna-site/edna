@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataResultSaxsAddv1_0" type="XSDataResultSaxsAddv1_0"/>
+	<xs:complexType name="XSDataResultSaxsAddv1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSaxsAddv1_0" type="XSDataInputSaxsAddv1_0"/>
+	<xs:complexType name="XSDataInputSaxsAddv1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputImage" type="XSDataImage" minOccurs="2" maxOccurs="2"/>
+					<xs:element name="options" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="outputImage" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultSaxsAnglev1_0" type="XSDataResultSaxsAnglev1_0"/>
+	<xs:complexType name="XSDataResultSaxsAnglev1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="regroupedDataFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSaxsAnglev1_0" type="XSDataInputSaxsAnglev1_0"/>
+	<xs:complexType name="XSDataInputSaxsAnglev1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputDataFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="regroupedDataFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="beamCenterX" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="beamCenterY" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="innerRadius" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="stepRadius" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="sizeRadial" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="startAzimuth" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="stepAzimuth" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="sizeAzimuth" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="firstImage" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="lastImage" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="increment" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="dummy" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="options" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultSaxsMacv1_0" type="XSDataResultSaxsMacv1_0"/>
+	<xs:complexType name="XSDataResultSaxsMacv1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputImage" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSaxsMacv1_0" type="XSDataInputSaxsMacv1_0"/>
+	<xs:complexType name="XSDataInputSaxsMacv1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputImage" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="outputImage" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="multConst" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="addConst" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="dummy" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="firstImage" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="lastImage" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="increment" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="options" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSaxsv1_0" type="XSDataInputSaxsv1_0"/>
+	<xs:complexType name="XSDataInputSaxsv1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultSaxsCurvesv1_0" type="XSDataResultSaxsCurvesv1_0"/>
+	<xs:complexType name="XSDataResultSaxsCurvesv1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputDataFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSaxsCurvesv1_0" type="XSDataInputSaxsCurvesv1_0"/>
+	<xs:complexType name="XSDataInputSaxsCurvesv1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputImage" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="options" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="outputDataFile" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="extraHeaders" type="XSDataString" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="headerMarker" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultSaxsAddMetadatav1_0" type="XSDataResultSaxsAddMetadatav1_0"/>
+	<xs:complexType name="XSDataResultSaxsAddMetadatav1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSaxsAddMetadatav1_0" type="XSDataInputSaxsAddMetadatav1_0"/>
+	<xs:complexType name="XSDataInputSaxsAddMetadatav1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="key" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="value" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultSaxsDelMetadatav1_0" type="XSDataResultSaxsDelMetadatav1_0"/>
+	<xs:complexType name="XSDataResultSaxsDelMetadatav1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputSaxsDelMetadatav1_0" type="XSDataInputSaxsDelMetadatav1_0"/>
+	<xs:complexType name="XSDataInputSaxsDelMetadatav1_0">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="key" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

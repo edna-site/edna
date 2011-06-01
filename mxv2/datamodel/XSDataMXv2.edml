@@ -1,0 +1,260 @@
+targetNamespace "http://www.edna-site.org"
+
+complex type XSBeam extends XSData {
+	polarisatation : XSDataUnitVector
+	direction : XSDataUnitVector
+}
+
+complex type XSBeamSetting extends XSData {
+	wavelength : XSDataWavelength
+	XSBeam : XSBeam
+}
+
+complex type XSCalibratedDisplacementAxis extends XSData {
+	zerodirection : XSDataUnitVector
+	XSCalibration : XSCalibration
+}
+
+complex type XSCalibration extends XSData {
+	date : XSDataDate
+}
+
+complex type XSCollectionWedge extends XSWedge {
+}
+
+complex type XSDataCollection extends XSData {
+	imagelocation : XSDataString
+	XSSubWedge : XSSubWedge []
+}
+
+complex type XSDataLattice extends XSData {
+	unitcell : XSDataUnitCell
+	representativespacegroup : XSDataSpaceGroupType
+	"Space group symbol for lowest symmetry space group that is consistent with the lattice type"
+}
+
+complex type XSDataSpaceGroupType extends XSData {
+	iucrnumber : XSDataInteger
+	iucrstandardsymbol : XSDataString
+}
+
+complex type XSDataUnitCell extends XSData {
+	angles : XSDataAngle []
+	edgelengths : XSDataLength []
+}
+
+complex type XSDetector extends XSDisplacementList {
+	name : XSDataString
+	shape : XSDataString "circular, square,..."
+	radius : XSDataDouble "units=mm"
+	readouttime : XSDataDouble "units=s"
+	switchingplatetime : XSDataDouble
+	darkcurrent : XSDataVectorDouble
+	background : XSDataDouble
+	profileerror : XSDataDouble
+	XSDetectorFaceAxis : XSDetectorFaceAxis []
+	XSDetectorAxis : XSDetectorAxis [] optional
+}
+
+complex type XSDetectorAxis extends XSDisplacementAxis {
+}
+
+complex type XSDetectorFaceAxis extends XSData {
+	name : XSDataString
+	pixelsize : XSDataDouble "units=mm"
+	numberofpixels : XSDataInteger
+	XSDetectorFaceAxisDirection : XSDetectorFaceAxisDirection [] optional
+}
+
+complex type XSDetectorFaceAxisDirection extends XSData {
+	direction : XSDataUnitVector
+}
+
+complex type XSDetectorFaceSetting extends XSData {
+	detectoraxesorigin : XSDataVectorDouble
+	XSDetectorFaceAxisDirection : XSDetectorFaceAxisDirection []
+}
+
+complex type XSDetectorImageProperties extends XSData {
+	mode : XSDataString
+	headersize : XSDataInteger
+	headersizevariable : XSDataBoolean
+	format : XSDataString
+}
+
+complex type XSDetectorRotationAxis extends XSDetectorAxis {
+}
+
+complex type XSDetectorSetting extends XSDisplacementListSetting {
+	axissetting : XSDataDisplacement []
+	XSDetector : XSDetector
+}
+
+complex type XSDetectorTranslationAxis extends XSDetectorAxis {
+}
+
+complex type XSDiffractionImages extends XSData {
+	filename : XSDataString
+}
+
+complex type XSDisplacementAxis extends XSData {
+	name : XSDataString
+	XSCalibratedDisplacementAxis : XSCalibratedDisplacementAxis [] optional
+}
+
+complex type XSDisplacementList extends XSData {
+}
+
+complex type XSDisplacementListSetting extends XSData {
+}
+
+complex type XSFoundSpot extends XSData {
+	detectorposition : XSDataDouble []
+	omega : XSDataAngle
+	intensity : XSDataDouble
+	intensityesu : XSDataDouble
+}
+
+complex type XSGoniostatAxis extends XSDisplacementAxis {
+	isscannable : XSDataBoolean
+}
+
+complex type XSGoniostatBaseAxis extends XSGoniostatAxis {
+}
+
+complex type XSGoniostatRotatableAxis extends XSGoniostatAxis {
+}
+
+complex type XSImageRange extends XSData {
+	startimage : XSDataInteger
+	endimage : XSDataInteger
+	XSProcessingWedge : XSProcessingWedge
+}
+
+complex type XSIndexingInput extends XSData {
+	XSSpotSearchOutput : XSSpotSearchOutput []
+	XSIndexingResult : XSIndexingResult [] optional
+}
+
+complex type XSIndexingOutput extends XSData {
+	statistics : XSStatisticsIndexing optional
+	refinedaxisdirection : XSDataUnitVector optional
+	XSWedge : XSWedge
+}
+
+complex type XSIndexingResult extends XSData {
+	selectedsolution : XSDataInteger "Index of selected solution in solution list"
+	XSIndexingOutput : XSIndexingOutput []
+	XSIndexingSolution : XSIndexingSolution [] optional
+}
+
+complex type XSIndexingSolution extends XSData {
+	lattice : XSDataLattice
+	penalty : XSDataDouble
+}
+
+complex type XSIndexingSolutionSelected extends XSIndexingSolution {
+	refineddetectorsetting : XSDetectorFaceSetting
+	mosaicityestimated : XSDataDouble
+	statistics : XSStatisticsIndexing
+	orientation : XSDataRotation
+}
+
+complex type XSProcessingWedge extends XSWedge {
+}
+
+complex type XSRotationExposure extends XSData {
+	imagewidth : XSDataAngle
+	numberimages : XSDataInteger
+	exposuretime : XSDataTime
+	XSGoniostatAxis : XSGoniostatAxis
+}
+
+complex type XSRotationalGoniostat extends XSDisplacementList {
+	XSGoniostatBaseAxis : XSGoniostatBaseAxis
+	XSGoniostatRotatableAxis : XSGoniostatRotatableAxis [] optional
+}
+
+complex type XSRotationalGoniostatSetting extends XSDisplacementListSetting {
+	baseaxissetting : XSDataAngle
+	axissetting : XSDataAngle [] optional
+	XSRotationalGoniostat : XSRotationalGoniostat
+}
+
+complex type XSSample extends XSData {
+	identifier : XSDataString
+	XSDataCollection : XSDataCollection [] optional
+}
+
+complex type XSSpotSearchOutput extends XSData {
+	spots : XSFoundSpot [] optional
+	XSWedge : XSWedge
+}
+
+complex type XSStatisticsIndexing extends XSData {
+	spotdeviationangular : XSDataAngle
+	spotdeviationpositional : XSDataLength
+	spotstotal : XSDataInteger
+	spotsused : XSDataInteger
+}
+
+complex type XSSubWedge extends XSData {
+	imagefilenametemplate : XSDataString
+	XSBeamSetting : XSBeamSetting
+	XSCollectionWedge : XSCollectionWedge
+	XSDetectorSetting : XSDetectorSetting
+	XSDiffractionImages : XSDiffractionImages [] optional
+	XSImageRange : XSImageRange [] optional
+	XSRotationalGoniostatSetting : XSRotationalGoniostatSetting
+	XSRotationExposure : XSRotationExposure
+}
+
+complex type XSWedge extends XSData {
+	ednaid : XSDataString
+}
+
+
+complex type status {
+	code : status_code
+	message : string optional
+}
+
+complex type status_code {
+	code : string
+}
+
+
+
+complex type kappa_alignment_response {
+	status : status
+	comment : string
+	possible_orientation : possible_orientation []		
+}
+
+
+complex type possible_orientation {
+	v1 : string
+	v2 : string
+	omega : double
+	kappa : double
+	phi : double
+	trans : string
+	rank : double
+}
+
+
+complex type XSDataInputCharacterisationv2_0 extends XSDataInput {
+	mxv1InputCharacterisation : XSDataInputCharacterisation
+	mxv1ResultCharacterisation_Reference : XSDataResultCharacterisation optional
+	mxv2DataCollection : XSDataCollection optional
+	mxv2DataCollection_Reference : XSDataCollection optional
+	possibleOrientations : kappa_alignment_response optional
+}
+
+complex type XSDataResultCharacterisationv2_0 extends XSDataResult {
+	mxv1ResultCharacterisation : XSDataResultCharacterisation
+	mxv1ResultCharacterisation_Reference : XSDataResultCharacterisation optional
+	suggestedStrategy : XSDataResultStrategy optional
+	possibleOrientations : kappa_alignment_response optional
+}
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlInterfaceToMXCuBEv1_2</name>  
+			<XSParamList>
+			    <XSParamItem>
+			        <name>contactEmail</name>
+			        <value>svensson@esrf.fr</value>
+			    </XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

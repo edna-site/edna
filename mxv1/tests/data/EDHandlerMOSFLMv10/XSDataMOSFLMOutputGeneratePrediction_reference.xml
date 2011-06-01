@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataMOSFLMOutputGeneratePrediction>
+    <predictionImage>
+        <number>
+            <value>1</value>
+        </number>
+        <path>
+            <value>prediction.jpg</value>
+        </path>
+    </predictionImage>
+</XSDataMOSFLMOutputGeneratePrediction>

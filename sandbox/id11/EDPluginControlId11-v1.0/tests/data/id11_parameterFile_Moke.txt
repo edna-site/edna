@@ -1,0 +1,43 @@
+# Image correction parameters
+DARK CURRENT = NO
+DC FILE = ${TEST_DATA_IMAGES_HOME}/ID11-Dark.edf
+FLAT-FIELD = NO
+FF FILE = ${TEST_DATA_IMAGES_HOME}/ID11-Flat.edf
+FF SCALE = NO
+FF MULTIPLIER = 1000.000
+SPATIAL DIS. = NO
+SD FILE = ${TEST_DATA_IMAGES_HOME}/ID11-Frelon.spline
+# Integration parameters
+START AZIMUTH = 0.0
+END AZIMUTH = 360
+INNER RADIUS = 5
+OUTER RADIUS = 200
+SCAN TYPE = 2-THETA
+1 DEGREE AZ = NO
+AZIMUTH BINS = 36
+RADIAL BINS = 20
+CONSERVE INT. = NO
+POLARISATION = YES
+GEOMETRY COR. = YES
+# Experiment geometry parameters
+# 
+X-PIXEL SIZE = 100
+Y-PIXEL SIZE = 100
+DISTANCE = 10
+WAVELENGTH = 1.0
+X-BEAM CENTRE = 300
+Y-BEAM CENTRE = 200
+TILT ROTATION = 0
+ANGLE OF TILT = 0
+# Mask and dimensions
+USE MASK = NO
+MASK FILE = None
+DIM1_DATA = 300
+DIM2_DATA = 300
+# I/O parameters
+input_extn = edf
+saving_format = SPREAD SHEET
+output_extn = spr
+output_dir = /tmp/edna-${USER}
+
+

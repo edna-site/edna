@@ -1,0 +1,23 @@
+EDNA Sandbox
+------------
+
+As agreed at the meeting at the ESRF 20th November 2010 we need a sandbox 
+where quick developments may be made in the process of making proper new 
+developments.
+
+Intentions:
+
+ - this is a place where code for illustrating suggestions etc. can go, also 
+   things for discussion.
+ - when the discussion is complete the corresponding files should be removed.
+ - a directory should be created which helpfully indicates what is contained
+   therein - e.g. codecamp/nov10/interface_discussion/
+
+This should be ignored by the edna plugin finding code (if a duplicate plugin is found).
+
+Olof Svensson
+Mark Basham 
+Jérôme Kieffer
+Graeme Winter
+
+ - 20th November 2010

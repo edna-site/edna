@@ -1,0 +1,24 @@
+#CCP4I VERSION CCP4Interface 1.4.4.1
+#CCP4I SCRIPT DEF modules
+#CCP4I DATE 27 May 2009  11:46:31
+#CCP4I USER gleb
+PROJECT                   CCP4
+TITLE                     "CCP4 Program Interface"
+MODULE_LIST               DataCollection
+N_MODULES                 1
+MODULE_NAME,0             ""
+MODULE_NAME,1             DataCollection
+MODULE_TITLE,0            ""
+MODULE_TITLE,1            "Data Collection"
+MODULE_TASK_LIST,0        ""
+MODULE_TASK_LIST,1        edna-mxv1-characterisation
+N_TASKS                   1
+TASK_TITLE,0              ""
+TASK_TITLE,1              edna-mxv1-characterisation
+TASK_NAME,0               ""
+TASK_NAME,1               edna-mxv1-characterisation
+TASK_MODULE,0             ""
+TASK_MODULE,1             DataCollection
+TASK_DESCRIPT,0           ""
+TASK_DESCRIPT,1           edna-mxv1-characterisation
+

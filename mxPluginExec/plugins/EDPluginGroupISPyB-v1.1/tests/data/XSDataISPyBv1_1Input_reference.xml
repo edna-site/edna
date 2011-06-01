@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<XSDataInputISPyB>
+	<image>
+		<fileName><value>test.img</value></fileName>
+		<fileLocation><value>/tmp</value></fileLocation>
+	</image>
+	<screening>
+		<programVersion>
+			<value>EDNA Prototype</value>
+		</programVersion>
+	</screening>
+	<screeningInput>
+        <beamX><value>10.4</value></beamX>
+		<beamY><value>2.31</value></beamY>
+		<rmsErrorLimits><value>0.8</value></rmsErrorLimits>		
+		<minimumFractionIndexed><value>0.4</value></minimumFractionIndexed>
+		<maximumFractionRejected><value>0.45</value></maximumFractionRejected>
+		<minimumSignalToNoise><value>0.56</value></minimumSignalToNoise>
+	</screeningInput>
+    <screeningOutputContainer>
+	<screeningOutput>
+		<statusDescription><value>It's just fine.</value></statusDescription>
+		<mosaicity><value>0.25</value></mosaicity>
+		<beamShiftX><value>0.141</value></beamShiftX>
+		<beamShiftY><value>0.156</value></beamShiftY>
+	</screeningOutput>
+	<screeningOutputLattice>
+		<spaceGroup><value>P222</value></spaceGroup>
+	</screeningOutputLattice>
+	<screeningStrategy>
+		<phiStart><value>0</value></phiStart>
+		<phiEnd><value>20</value></phiEnd>
+		<rotation><value>1</value></rotation>
+		<program><value>EDNA</value></program>
+		<anomalous><value>true</value></anomalous>
+	</screeningStrategy>
+	</screeningOutputContainer>
+	<screeningRank>
+		<rankValue>
+			<value>1.4</value>
+		</rankValue>
+		<rankInformation>
+			<value>This is the only one</value>
+		</rankInformation>
+	</screeningRank>
+	<screeningRankSet>
+		<rankEngine>
+			<value>ISPyB</value>
+		</rankEngine>
+	</screeningRankSet>
+</XSDataInputISPyB>

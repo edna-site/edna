@@ -1,0 +1,66 @@
+targetNamespace "http://www.edna-site.org"
+
+package XSDataFullFieldXAS {
+	complex type MeasureOffset {
+		alwaysVersusRef : XSDataBoolean optional
+		cropBorders : XSDataInteger [] optional
+		removeBackground : XSDataBoolean
+		optional
+		smoothBorders : XSDataInteger [] optional
+		sobelFilter : XSDataBoolean optional
+		useSift : XSDataBoolean
+		optional
+	}
+
+	complex type XSDataImageExt extends XSDataImage {
+		array : XSDataArray optional
+		exposureTime : XSDataTime optional
+	}
+
+	complex type XSDataInputAlignStack extends XSDataInput {
+		HDF5File : XSDataFile
+		alwaysMOvsRef : XSDataBoolean optional
+		array : XSDataArray [] optional
+		backgroundSubtractionMO : XSDataBoolean optional
+		cropBordersMO : XSDataInteger [] optional
+		extraAttributes : XSDataHDF5Attributes [] optional
+		frameReference : XSDataInteger optional
+		image : XSDataImage [] optional
+		index : XSDataInteger [] optional
+		internalHDF5Path : XSDataString
+		measureOffset : MeasureOffset optional
+		smoothBordersMO : XSDataInteger [] optional
+		sobelFilterMO : XSDataBoolean optional
+		useSift : XSDataBoolean optional
+	}
+
+	complex type XSDataHDF5Attributes extends XSData{
+		"Allows the fine definition of the metadata for group/datasets"
+		h5path : XSDataString
+		metadata : XSDataDictionary
+	}
+
+	complex type XSDataInputFullFieldXAS extends XSDataInput {
+		HDF5File : XSDataFile
+		dark : XSDataImageExt [] optional
+		data : XSDataImageExt []
+		energy : XSDataDouble optional
+		flat : XSDataImageExt [] optional
+		index : XSDataInteger
+		internalHDF5Path : XSDataString
+		measureOffset : MeasureOffset optional
+		reference : XSDataInteger optional
+		saveNormalized : XSDataFile optional
+	}
+
+	complex type XSDataResultAlignStack extends XSDataResult {
+		HDF5File : XSDataFile
+		internalHDF5Path : XSDataString
+	}
+
+	complex type XSDataResultFullFieldXAS extends XSDataResult {
+		HDF5File : XSDataFile
+		internalHDF5Path : XSDataString
+	}
+
+}

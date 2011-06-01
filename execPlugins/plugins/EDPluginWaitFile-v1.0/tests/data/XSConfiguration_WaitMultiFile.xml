@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+   		<XSPluginItem>
+			<name>EDPluginWaitFile</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>2</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>		
+	</XSPluginList> 
+</XSConfiguration> 

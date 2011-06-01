@@ -1,0 +1,1888 @@
+<!--
+********************************************************
+*
+* ispyb.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: ispyb.xsd,v 1.20 2007/11/08 14:08:04 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+<xsd:include schemaLocation="dna_common.xsd"/>
+
+  <xsd:complexType name="AnomalousScatterer">
+    <xsd:sequence>
+      <xsd:element name="anomalousScattererId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="crystalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="element"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="numberOfInstances"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="incorporation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="assessmentMethod"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="AnomalousScattering">
+    <xsd:sequence>
+      <xsd:element name="anomalousScatteringId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="dataCollectionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="element"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="fPrime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="fDoublePrime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="BLSample">
+    <xsd:sequence>
+      <xsd:element name="blSampleId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="diffractionPlanId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="crystalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="containerId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="code"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="location"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="holderLength"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="loopLength"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="loopType"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="wireWidth"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="completionStage"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="structureStage"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="publicationStage"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="publicationComments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="blSampleStatus"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="isInSampleChanger"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="lastKnownCenteringPosition"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="BLSample_has_EnergyScan">
+    <xsd:sequence>
+      <xsd:element name="blSampleId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="energyScanId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="BeamLineSetup">
+    <xsd:sequence>
+      <xsd:element name="beamLineSetupId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="synchrotronMode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="detectorType"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="detectorManufacturer"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="detectorModel"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="detectorPixelSizeHorizontal"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="detectorPixelSizeVertical"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="undulatorType1"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="undulatorType2"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="undulatorType3"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="focalSpotSizeAtSample"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="focusingOptic"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="beamDivergenceHorizontal"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="beamDivergenceVertical"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="polarisation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="monochromatorType"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="setupDate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="synchrotronName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Container">
+    <xsd:sequence>
+      <xsd:element name="containerId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="dewarId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="code"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="containerType"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="capacity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="sampleChangerLocation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="containerStatus"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Crystal">
+    <xsd:sequence>
+      <xsd:element name="crystalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="diffractionPlanId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="proteinId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="crystalUUID"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="spaceGroup"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="morphology"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="color"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="size_X"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="size_Y"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="size_Z"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="cell_a"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="cell_b"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="cell_c"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="cell_alpha"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="cell_beta"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="cell_gamma"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Crystal_has_UUID">
+    <xsd:sequence>
+      <xsd:element name="crystal_has_UUID_Id"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="crystalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="UUID"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="DataCollection">
+    <xsd:sequence>
+      <xsd:element name="dataCollectionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="blSampleId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="sessionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="experimentType"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="dataCollectionNumber"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="startTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="endTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="runStatus"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="axisStart"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="axisEnd"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="axisRange"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="overlap"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="numberOfImages"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="startImageNumber"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="numberOfPasses"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="exposureTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="imageDirectory"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="imagePrefix"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="imageSuffix"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="fileTemplate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="wavelength"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="resolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="detectorDistance"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="xBeam"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="yBeam"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="printableForReport"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="crystalClass"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="beamSizeVertical"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="beamSizeHorizontal"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="transmission"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="synchrotronMode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="xtalSnapshotFullPath1"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="xtalSnapshotFullPath2"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="xtalSnapshotFullPath3"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="xtalSnapshotFullPath4"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rotationAxis"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="phiStart"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="kappaStart"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="omegaStart"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="resolutionAtCorner"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="detector2Theta"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="detectorMode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="undulatorGap1"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="undulatorGap2"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="undulatorGap3"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="beamSizeAtSampleX"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="beamSizeAtSampleY"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="centeringMethod"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="averageTemperature"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="DatamatrixInSampleChanger">
+    <xsd:sequence>
+      <xsd:element name="datamatrixInSampleChangerId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="proposalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="beamLineName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="datamatrixCode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="locationInContainer"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="containerLocationInSC"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="containerDatamatrixCode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Dewar">
+    <xsd:sequence>
+      <xsd:element name="dewarId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="shippingId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="code"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="storageLocation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="dewarStatus"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="DiffractionPlan">
+    <xsd:sequence>
+      <xsd:element name="diffractionPlanId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="xmlDocumentId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="experimentKind"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="observedResolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="minimalResolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="exposureTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="oscillationRange"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="maximalResolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="screeningResolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="radiationSensitivity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="anomalousScatterer"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="preferredBeamSizeX"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="preferredBeamSizeY"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="EnergyScan">
+    <xsd:sequence>
+      <xsd:element name="energyScanId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="sessionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="fluorescenceDetector"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="jpegScanFileFullPath"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="jpegChoochFileFullPath"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="element"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="startEnergy"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="endEnergy"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="transmissionFactor"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="exposureTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="synchrotronCurrent"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="temperature"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="peakEnergy"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="peakFPrime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="peakFDoublePrime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="inflectionEnergy"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="inflectionFPrime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="inflectionFDoublePrime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="xrayDose"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="startTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="endTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="edgeEnergy"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ExperimentKindDetails">
+    <xsd:sequence>
+      <xsd:element name="experimentKindId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="diffractionPlanId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="exposureIndex"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="dataCollectionType"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="dataCollectionKind"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="wedgeValue"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Image">
+    <xsd:sequence>
+      <xsd:element name="imageId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="dataCollectionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="imageNumber"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="fileName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="fileLocation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="measuredIntensity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="jpegFileFullPath"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="jpegThumbnailFileFullPath"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="temperature"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="cumulativeIntensity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="synchrotronCurrent"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="machineMessage"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Laboratory">
+    <xsd:sequence>
+      <xsd:element name="laboratoryId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="laboratoryUUID"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="address"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="city"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="country"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="url"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="organization"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Person">
+    <xsd:sequence>
+      <xsd:element name="personId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="laboratoryId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="personUUID"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="familyName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="givenName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="title"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="emailAddress"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="phoneNumber"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="login"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="passwd"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Proposal">
+    <xsd:sequence>
+      <xsd:element name="proposalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="personId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="title"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="code"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="number"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Protein">
+    <xsd:sequence>
+      <xsd:element name="proteinId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="proposalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="acronym"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="molecularMass"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="proteinType"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="sequence"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="personId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="SafetyRequest">
+    <xsd:sequence>
+      <xsd:element name="safetyRequestId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="xmlDocumentId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="proteinId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="projectCode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="submissionDate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="response"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="reponseDate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="responseDetails"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Screening">
+    <xsd:sequence>
+      <xsd:element name="screeningId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="dataCollectionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="programVersion"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ScreeningInput">
+    <xsd:sequence>
+      <xsd:element name="screeningInputId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="screeningId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="beamX"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="beamY"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rmsErrorLimits"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="minimumFractionIndexed"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="maximumFractionRejected"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="minimumSignalToNoise"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ScreeningOutput">
+    <xsd:sequence>
+      <xsd:element name="screeningOutputId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="screeningId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="statusDescription"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rejectedReflections"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="resolutionObtained"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="spotDeviationR"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="spotDeviationTheta"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="beamShiftX"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="beamShiftY"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="numSpotsFound"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="numSpotsUsed"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="numSpotsRejected"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="mosaicity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="iOverSigma"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="diffractionRings"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="screeningSuccess"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="mosaicityEstimated"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ScreeningOutputLattice">
+    <xsd:sequence>
+      <xsd:element name="screeningOutputLatticeId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="screeningOutputId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="spaceGroup"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="pointGroup"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="bravaisLattice"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rawOrientationMatrix_a_x"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_a_y"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_a_z"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_b_x"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_b_y"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_b_z"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_c_x"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_c_y"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rawOrientationMatrix_c_z"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="unitCell_a"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="unitCell_b"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="unitCell_c"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="unitCell_alpha"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="unitCell_beta"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="unitCell_gamma"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ScreeningRank">
+    <xsd:sequence>
+      <xsd:element name="screeningRankId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="screeningRankSetId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="screeningId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="rankValue"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rankInformation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ScreeningRankSet">
+    <xsd:sequence>
+      <xsd:element name="screeningRankSetId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="rankEngine"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rankingProjectFileName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rankingSummaryFileName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ScreeningStrategy">
+    <xsd:sequence>
+      <xsd:element name="screeningStrategyId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="screeningOutputId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="phiStart"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="phiEnd"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rotation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="exposureTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="resolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="completeness"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="multiplicity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="anomalous"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="program"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rankingResolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Session">
+    <xsd:sequence>
+      <xsd:element name="sessionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="beamLineSetupId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="proposalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="projectCode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="startDate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="endDate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="beamLineName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="scheduled"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="nbShifts"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="beamLineOperator"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Session_has_Person">
+    <xsd:sequence>
+      <xsd:element name="sessionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="personId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="role"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Shipping">
+    <xsd:sequence>
+      <xsd:element name="shippingId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="proposalId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="shippingName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="deliveryAgent_agentName"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="deliveryAgent_shippingDate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="deliveryAgent_deliveryDate"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="deliveryAgent_agentCode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="deliveryAgent_flightCode"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="shippingStatus"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="timeStamp"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="laboratoryId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="XFEFluorescenceSpectrum">
+    <xsd:sequence>
+      <xsd:element name="xfeFluorescenceSpectrumId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="sessionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="blSampleId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="jpegScanFileFullPath"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="startTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="endTime"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="XmlDocument">
+    <xsd:sequence>
+      <xsd:element name="xmlDocumentId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="XmlSchemaId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="xml"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="XmlSchema">
+    <xsd:sequence>
+      <xsd:element name="xmlSchemaId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="description"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="schema"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="dbstatus">
+    <xsd:sequence>
+      <xsd:element name="safetyRequestId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="experimentKindId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="datamatrixInSampleChangerId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="blSampleId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="screeningRankId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="screeningId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="screeningInputId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="xmlSchemaId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="containerId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="proposalId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="anomalousScatteringId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="beamLineSetupId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="anomalousScattererId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="dewarId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="screeningStrategyId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="crystal_has_UUID_Id"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="sessionId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="personId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="xmlDocumentId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="screeningRankSetId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="energyScanId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="shippingId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="laboratoryId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="crystalId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="imageId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="screeningOutputId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="screeningOutputLatticeId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="dataCollectionId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="xfeFluorescenceSpectrumId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="diffractionPlanId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="proteinId"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="code"    
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status_code"/>      
+      <xsd:element name="message" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="dbobject">
+    <xsd:sequence>
+      <xsd:element name="SafetyRequest_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="SafetyRequest"/>
+      <xsd:element name="ExperimentKindDetails_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="ExperimentKindDetails"/>
+      <xsd:element name="DatamatrixInSampleChanger_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="DatamatrixInSampleChanger"/>
+      <xsd:element name="BLSample_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="BLSample"/>
+      <xsd:element name="ScreeningRank_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="ScreeningRank"/>
+      <xsd:element name="Screening_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Screening"/>
+      <xsd:element name="ScreeningInput_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="ScreeningInput"/>
+      <xsd:element name="XmlSchema_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="XmlSchema"/>
+      <xsd:element name="Container_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Container"/>
+      <xsd:element name="Proposal_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Proposal"/>
+      <xsd:element name="AnomalousScattering_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="AnomalousScattering"/>
+      <xsd:element name="BeamLineSetup_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="BeamLineSetup"/>
+      <xsd:element name="AnomalousScatterer_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="AnomalousScatterer"/>
+      <xsd:element name="Dewar_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Dewar"/>
+      <xsd:element name="ScreeningStrategy_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="ScreeningStrategy"/>
+      <xsd:element name="Crystal_has_UUID_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Crystal_has_UUID"/>
+      <xsd:element name="Session_has_Person_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Session_has_Person"/>
+      <xsd:element name="XmlDocument_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="XmlDocument"/>
+      <xsd:element name="ScreeningRankSet_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="ScreeningRankSet"/>
+      <xsd:element name="BLSample_has_EnergyScan_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="BLSample_has_EnergyScan"/>
+      <xsd:element name="Person_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Person"/>
+      <xsd:element name="Shipping_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Shipping"/>
+      <xsd:element name="Laboratory_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Laboratory"/>
+      <xsd:element name="EnergyScan_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="EnergyScan"/>
+      <xsd:element name="Crystal_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Crystal"/>
+      <xsd:element name="Image_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Image"/>
+      <xsd:element name="ScreeningOutput_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="ScreeningOutput"/>
+      <xsd:element name="ScreeningOutputLattice_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="ScreeningOutputLattice"/>
+      <xsd:element name="DataCollection_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="DataCollection"/>
+      <xsd:element name="Session_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Session"/>
+      <xsd:element name="XFEFluorescenceSpectrum_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="XFEFluorescenceSpectrum"/>
+      <xsd:element name="DiffractionPlan_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="DiffractionPlan"/>
+      <xsd:element name="Protein_object"
+               minOccurs="0" 
+               maxOccurs="unbounded" 
+               type="Protein"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>
+

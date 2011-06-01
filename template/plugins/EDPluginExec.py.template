@@ -1,0 +1,72 @@
+# coding: utf8
+#
+#    Project: PROJECT
+#             http://www.edna-site.org
+#
+#    File: "$Id$"
+#
+#    Copyright (C) <copyright>
+#
+#    Principal author:       <author>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+__author__="<author>"
+__license__ = "GPLv3+"
+__copyright__ = "<copyright>"
+
+from EDPluginExec import EDPluginExec
+
+from <xsDataBaseName> import <xsDataInputName>
+from <xsDataBaseName> import <xsDataResultName>
+
+class EDPluginExec<pluginName>(EDPluginExec ):
+    """
+    [To be replaced with a description of EDPluginExecTemplatev10]
+    """
+    
+
+    def __init__(self ):
+        """
+        """
+        EDPluginExec.__init__(self )
+        self.setXSDataInputClass(<xsDataInputName>)
+
+
+    def checkParameters(self):
+        """
+        Checks the mandatory parameters.
+        """
+        self.DEBUG("EDPluginExec<pluginName>.checkParameters")
+        self.checkMandatoryParameters(self.getDataInput(),"Data Input is None")
+
+    
+    def preProcess(self, _edObject = None):
+        EDPluginExec.preProcess(self)
+        self.DEBUG("EDPluginExec<pluginName>.preProcess")
+        
+        
+    def process(self, _edObject = None):
+        EDPluginExec.process(self)
+        self.DEBUG("EDPluginExec<pluginName>.process")
+
+        
+    def postProcess(self, _edObject = None):
+        EDPluginExec.postProcess(self)
+        self.DEBUG("EDPluginExec<pluginName>.postProcess")
+        # Create some output data
+        xsDataResult = <xsDataResultName>()
+        self.setDataOutput(xsDataResult)
+    

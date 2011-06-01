@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="XSDataSubWedge" type="XSDataSubWedge"/>
+	<xs:complexType name="XSDataSubWedge">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="experimentalCondition" type="XSDataExperimentalCondition" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="image" type="XSDataImage" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataCollection" type="XSDataCollection"/>
+	<xs:complexType name="XSDataCollection">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="diffractionPlan" type="XSDataDiffractionPlan" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sample" type="XSDataSampleCrystalMM" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="subWedge" type="XSDataSubWedge" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSample" type="XSDataSample"/>
+	<xs:complexType name="XSDataSample">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="absorbedDoseRate" type="XSDataAbsorbedDoseRate" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="shape" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="size" type="XSDataSize" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="susceptibility" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataImage" type="XSDataImage"/>
+	<xs:complexType name="XSDataImage">
+		<xs:complexContent>
+			<xs:extension base="XSDataFile">
+				<xs:sequence>
+					<xs:element name="date" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="number" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSampleCrystalMM" type="XSDataSampleCrystalMM"/>
+	<xs:complexType name="XSDataSampleCrystalMM">
+		<xs:complexContent>
+			<xs:extension base="XSDataSampleCrystal">
+				<xs:sequence>
+					<xs:element name="chemicalComposition" type="XSDataChemicalCompositionMM" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSampleCrystal" type="XSDataSampleCrystal"/>
+	<xs:complexType name="XSDataSampleCrystal">
+		<xs:complexContent>
+			<xs:extension base="XSDataSample">
+				<xs:sequence>
+					<xs:element name="crystal" type="XSDataCrystal" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataDiffractionPlan" type="XSDataDiffractionPlan"/>
+	<xs:complexType name="XSDataDiffractionPlan">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="aimedCompleteness" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="aimedIOverSigmaAtHighestResolution" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="aimedMultiplicity" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="aimedResolution" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="complexity" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="forcedSpaceGroup" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="maxExposureTimePerDataCollection" type="XSDataTime" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="requiredCompleteness" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="requiredMultiplicity" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="requiredResolution" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataAngularSpeed" type="XSDataAngularSpeed"/>
+	<xs:complexType name="XSDataAngularSpeed">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataCrystal" type="XSDataCrystal"/>
+	<xs:complexType name="XSDataCrystal">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="cell" type="XSDataCell" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="mosaicity" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="spaceGroup" type="XSDataSpaceGroup" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSpaceGroup" type="XSDataSpaceGroup"/>
+	<xs:complexType name="XSDataSpaceGroup">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="ITNumber" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="name" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataAtom" type="XSDataAtom"/>
+	<xs:complexType name="XSDataAtom">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="concentration" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOf" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="symbol" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataAbsorbedDoseRate" type="XSDataAbsorbedDoseRate"/>
+	<xs:complexType name="XSDataAbsorbedDoseRate">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataLength" type="XSDataLength"/>
+	<xs:complexType name="XSDataLength">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataFile" type="XSDataFile"/>
+	<xs:complexType name="XSDataFile">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="path" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataString" type="XSDataString"/>
+	<xs:complexType name="XSDataString">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataBeam" type="XSDataBeam"/>
+	<xs:complexType name="XSDataBeam">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="exposureTime" type="XSDataTime" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="flux" type="XSDataFlux" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="minExposureTimePerImage" type="XSDataTime" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="size" type="XSDataSize" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="wavelength" type="XSDataWavelength" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInteger" type="XSDataInteger"/>
+	<xs:complexType name="XSDataInteger">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:int" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataExperimentalCondition" type="XSDataExperimentalCondition"/>
+	<xs:complexType name="XSDataExperimentalCondition">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="beam" type="XSDataBeam" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="detector" type="XSDataDetector" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="goniostat" type="XSDataGoniostat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataFlux" type="XSDataFlux"/>
+	<xs:complexType name="XSDataFlux">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSpeed" type="XSDataSpeed"/>
+	<xs:complexType name="XSDataSpeed">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataFloat" type="XSDataFloat"/>
+	<xs:complexType name="XSDataFloat">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataStructure" type="XSDataStructure"/>
+	<xs:complexType name="XSDataStructure">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="chain" type="XSDataChain" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ligand" type="XSDataLigand" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="numberOfCopiesInAsymmetricUnit" type="XSDataFloat" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>number of copies of the structure in the asymmetric unit</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSize" type="XSDataSize"/>
+	<xs:complexType name="XSDataSize">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="x" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="y" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="z" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataAngle" type="XSDataAngle"/>
+	<xs:complexType name="XSDataAngle">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataDetector" type="XSDataDetector"/>
+	<xs:complexType name="XSDataDetector">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="beamPositionX" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="beamPositionY" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="bin" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="byteOrder" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="dataType" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="distance" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="gain" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="imageSaturation" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="name" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberBytesInHeader" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberPixelX" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberPixelY" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="pixelSizeX" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="pixelSizeY" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="serialNumber" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="twoTheta" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="type" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataTime" type="XSDataTime"/>
+	<xs:complexType name="XSDataTime">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSData" type="XSData"/>
+	<xs:complexType name="XSData">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="XSDataGoniostat" type="XSDataGoniostat"/>
+	<xs:complexType name="XSDataGoniostat">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="maxOscillationSpeed" type="XSDataAngularSpeed" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="minOscillationWidth" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="oscillationWidth" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="rotationAxis" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="rotationAxisEnd" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="rotationAxisStart" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataChain" type="XSDataChain"/>
+	<xs:complexType name="XSDataChain">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="heavyAtoms" type="XSDataAtomicComposition" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfCopies" type="XSDataFloat" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>number of identical chain within the structure</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="numberOfMonomers" type="XSDataFloat" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>should be the number of amino-acid, ribonuclotides or desoxyribonucleotides depending on the type</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="type" type="XSDataString" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>should be either: 'protein', 'dna'or 'rna'</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataCell" type="XSDataCell"/>
+	<xs:complexType name="XSDataCell">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="angle_alpha" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_beta" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_gamma" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_a" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_b" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_c" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataWavelength" type="XSDataWavelength"/>
+	<xs:complexType name="XSDataWavelength">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataLigand" type="XSDataLigand"/>
+	<xs:complexType name="XSDataLigand">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="heavyAtoms" type="XSDataAtomicComposition" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfCopies" type="XSDataFloat" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>should be the number of chemically identical ligands in the structure</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="numberOfLightAtoms" type="XSDataFloat" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Should be the total of the number of atoms of C, O, N
+H is negligible</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSolvent" type="XSDataSolvent"/>
+	<xs:complexType name="XSDataSolvent">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="atoms" type="XSDataAtomicComposition" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataMatrix" type="XSDataMatrix"/>
+	<xs:complexType name="XSDataMatrix">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="m11" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m12" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m13" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m21" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m22" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m23" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m31" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m32" type="xs:double" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="m33" type="xs:double" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataAtomicComposition" type="XSDataAtomicComposition"/>
+	<xs:complexType name="XSDataAtomicComposition">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="atom" type="XSDataAtom" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataChemicalCompositionMM" type="XSDataChemicalCompositionMM"/>
+	<xs:complexType name="XSDataChemicalCompositionMM">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="solvent" type="XSDataSolvent" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="structure" type="XSDataStructure" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInput" type="XSDataInput"/>
+	<xs:complexType name="XSDataInput">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="configuration" type="XSConfiguration" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResult" type="XSDataResult"/>
+	<xs:complexType name="XSDataResult">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="status" type="XSDataStatus" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataExecutionInfo" type="XSDataExecutionInfo"/>
+	<xs:complexType name="XSDataExecutionInfo">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="baseDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="configuration" type="XSConfiguration" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="executionTime" type="XSDataTime" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="pluginName" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="startOfExecution" type="XSDataDate" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="systemInfo" type="XSDataSystemInfo" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="workingDirectory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataDate" type="XSDataDate"/>
+	<xs:complexType name="XSDataDate">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataMessage" type="XSDataMessage"/>
+	<xs:complexType name="XSDataMessage">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="debugInfo" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="level" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="text" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="type" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataMessageError" type="XSDataMessageError"/>
+	<xs:complexType name="XSDataMessageError">
+		<xs:complexContent>
+			<xs:extension base="XSDataMessage">
+				<xs:sequence>
+					<xs:element name="debugMessage" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="errorType" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSConfiguration" type="XSConfiguration"/>
+	<xs:complexType name="XSConfiguration">
+		<xs:sequence>
+			<xs:element name="XSPluginList" type="XSPluginList" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSPluginList" type="XSPluginList"/>
+	<xs:complexType name="XSPluginList">
+		<xs:sequence>
+			<xs:element name="XSPluginItem" type="XSPluginItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSOptionItem" type="XSOptionItem"/>
+	<xs:complexType name="XSOptionItem">
+		<xs:sequence>
+			<xs:element name="enabled" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSOptionList" type="XSOptionList"/>
+	<xs:complexType name="XSOptionList">
+		<xs:sequence>
+			<xs:element name="XSOptionItem" type="XSOptionItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSParamItem" type="XSParamItem"/>
+	<xs:complexType name="XSParamItem">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSParamList" type="XSParamList"/>
+	<xs:complexType name="XSParamList">
+		<xs:sequence>
+			<xs:element name="XSParamItem" type="XSParamItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSPluginItem" type="XSPluginItem"/>
+	<xs:complexType name="XSPluginItem">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="XSOptionList" type="XSOptionList" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="XSParamList" type="XSParamList" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSDataBoolean" type="XSDataBoolean"/>
+	<xs:complexType name="XSDataBoolean">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="value" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataStatus" type="XSDataStatus"/>
+	<xs:complexType name="XSDataStatus">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="executionInfo" type="XSDataExecutionInfo" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="executiveSummary" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="isSuccess" type="XSDataBoolean" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="message" type="XSDataMessage" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataSystemInfo" type="XSDataSystemInfo"/>
+	<xs:complexType name="XSDataSystemInfo">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="compiler" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="hostIP" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="hostName" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="operatingSystem" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="operatingSystemType" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="userName" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="virtualMachine" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

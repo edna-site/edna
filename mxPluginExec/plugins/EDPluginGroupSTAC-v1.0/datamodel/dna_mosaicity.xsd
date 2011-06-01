@@ -1,0 +1,38 @@
+<!--
+********************************************************
+*
+* dna_mosaicity.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_mosaicity.xsd,v 1.4 2003/02/28 15:22:01 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+
+  <xsd:complexType name="mosaicity_request">
+  </xsd:complexType>
+
+
+  <xsd:complexType name="mosaicity_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>      
+      <xsd:element name="mosaicity_value"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>

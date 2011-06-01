@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.edna-site.org">
+    <xs:include schemaLocation="../../../../kernel/datamodel/XSDataCommon.xsd"></xs:include>
+    <xs:include schemaLocation="../../kernel/datamodel/XSDataCommon.xsd"></xs:include>
+    <xs:include schemaLocation="XSDataCommon.xsd" />	<xs:element name="XSDataInputFindPipeline" type="XSDataInputFindPipeline" />
+	<xs:complexType name="XSDataInputFindPipeline">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="searchPath" type="XSDataFile"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+					<xs:element name="inputString1" type="XSDataString"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>					<xs:element name="inputString2" type="XSDataString"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+					<xs:element name="inputString3" type="XSDataString"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultFindPipeline" type="XSDataResultFindPipeline" />
+	<xs:complexType name="XSDataResultFindPipeline">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    <xs:complexType name="XSDataInputFind">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataInput">
+    			<xs:sequence>
+    				<xs:element name="inputString" type="XSDataString"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>    				<xs:element name="searchPath" type="XSDataString"
+    					minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="XSDataResultFind">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataResult">
+    			<xs:sequence>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+    <xs:element name="XSDataInputFind" type="XSDataInputFind"></xs:element>
+    <xs:element name="XSDataResultFind" type="XSDataResultFind"></xs:element>
+</xs:schema>                            

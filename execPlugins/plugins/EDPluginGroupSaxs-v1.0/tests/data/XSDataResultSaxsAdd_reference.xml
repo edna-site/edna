@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<outputImage>
+		<path>
+			<value>/tmp/edna-${USER}/bsa_014_07.msk</value>
+		</path>
+	</outputImage>
+</XSDataResult>

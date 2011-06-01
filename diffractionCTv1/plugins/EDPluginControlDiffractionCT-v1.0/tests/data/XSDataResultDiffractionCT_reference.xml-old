@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<XSDataResultDiffractionCT>
+    <integratedIntensities>
+        <path>
+            <value>/tmp/${USER}_edna_unit/pd_CIF_line_0005/test.cif</value>
+        </path>
+    </integratedIntensities>
+    <sinogramFile>
+        <path>
+            <value>/tmp/${USER}_edna_unit/UnitTestSinogramROI20-25CorSize61x21.edf</value>
+        </path>
+    </sinogramFile>
+    <sinogramFile>
+        <path>
+            <value>/tmp/${USER}_edna_unit/UnitTestSinogramROI10-15CorSize61x21.edf</value>
+        </path>
+    </sinogramFile>
+    <sinogramFile>
+        <path>
+            <value>/tmp/${USER}_edna_unit/UnitTestSinogramIntegratedCorSize61x21.edf</value>
+        </path>
+    </sinogramFile>
+    <sinogramFile>
+        <path>
+            <value>/tmp/${USER}_edna_unit/UnitTestSinogramROI20-25RawSize61x21.edf</value>
+        </path>
+    </sinogramFile>
+    <sinogramFile>
+        <path>
+            <value>/tmp/${USER}_edna_unit/UnitTestSinogramROI10-15RawSize61x21.edf</value>
+        </path>
+    </sinogramFile>
+    <sinogramFile>
+        <path>
+            <value>/tmp/${USER}_edna_unit/UnitTestSinogramPhotonFluxSize61x21.edf</value>
+        </path>
+    </sinogramFile>
+    <sinogramFile>
+        <path>
+            <value>/tmp/${USER}_edna_unit/UnitTestSinogramIntegratedRawSize61x21.edf</value>
+        </path>
+    </sinogramFile>
+</XSDataResultDiffractionCT>

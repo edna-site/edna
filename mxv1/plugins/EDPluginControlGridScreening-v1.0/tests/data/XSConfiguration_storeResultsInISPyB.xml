@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem> 
+			<name>EDPluginISPyBStoreImageQualityIndicatorsv1_3</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>mx415</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>pimx415</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForMXCubeWebServiceWsdl</name>
+					<value>http://pytest.esrf.fr:8080/jboss-net/services/ToolsForMXCubeWebService?wsdl</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>imageServiceWdsl</name>
+					<value>http://pytest.esrf.fr:8080/jboss-net/services/ImageService?wsdl</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>autoProcProgramId</name>
+					<value>1</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

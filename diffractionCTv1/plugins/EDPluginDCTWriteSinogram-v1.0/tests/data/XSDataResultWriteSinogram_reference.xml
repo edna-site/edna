@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<XSDataResultWriteSinogram>
+   <sinogramFile>
+       <path>/tmp/FakeTestSinogramIntegratedCor.edf</path>
+   </sinogramFile>
+   <sinogramFile>    
+       <path>/tmp/FakeTestSinogramIntegratedRaw.edf</path>
+   </sinogramFile>
+   <sinogramFile>    
+       <path>/tmp/FakeTestSinogramPhotonFlux.edf</path>
+   </sinogramFile>
+   <sinogramFile>    
+       <path>/tmp/FakeTestSinogramROI10-15Cor.edf</path>
+   </sinogramFile>
+   <sinogramFile>    
+       <path>/tmp/FakeTestSinogramROI20-25Cor.edf</path>
+   </sinogramFile>
+   <sinogramFile>    
+       <path>/tmp/FakeTestSinogramROI10-15Raw.edf</path>
+   </sinogramFile>
+   <sinogramFile>    
+       <path>/tmp/FakeTestSinogramROI20-25Raw.edf</path>
+   </sinogramFile>
+</XSDataResultWriteSinogram>

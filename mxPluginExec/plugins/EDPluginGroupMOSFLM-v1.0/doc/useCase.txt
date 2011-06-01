@@ -1,0 +1,23 @@
+The EDPluginGroupMOSFLMv10 contains the following plugins:
+
+EDPluginMOSFLMv10 : 
+
+An abstract plugin class
+
+
+EDPluginMOSFLMIndexingv10 : 
+
+Indexing of one or several images with MOSFLM
+
+
+EDPluginMOSFLMIntegrationv10 :
+
+Integration of a sub-wedge with MOSFLM. 
+Required input : MOSFLM newmat from indexing.
+
+
+EDPluginMOSFLMGeneratePredictionsv10 :
+
+This plugin generates JPEG images of diffraction patterns
+with an overlayed diffraction patters.
+Required input : MOSFLM newmat from indexing.

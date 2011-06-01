@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSDataResultWaitFile>
+    <actualFile>
+        <path>
+            <value>/tmp/edna-${USER}/sizeIsTen</value>
+        </path>
+    </actualFile>
+    <actualSize>
+        <value>10</value>
+    </actualSize>
+    <timedOut>
+        <value>0</value>
+    </timedOut>
+</XSDataResultWaitFile>

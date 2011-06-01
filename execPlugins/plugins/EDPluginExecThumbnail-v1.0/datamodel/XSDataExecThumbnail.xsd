@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSDataInputExecThumbnail" type="XSDataInputExecThumbnail"/>
+  <xs:complexType name="XSDataInputExecThumbnail">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="inputImagePath" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="inputArray" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="keepRatio" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputPath" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="thumbFormat" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="thumbHeight" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="thumbWidth" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsColorize" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsNormalize" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsEqualize" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsGamma" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsLog" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsInvert" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsMin" type="XSDataDoubleWithUnit"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsMax" type="XSDataDoubleWithUnit"/>
+          <xs:element maxOccurs="2" minOccurs="0" name="cropBorders" type="XSDataInteger"/>
+          <xs:element maxOccurs="2" minOccurs="0" name="filterBlur" type="XSDataInteger"/>
+          <xs:element maxOccurs="2" minOccurs="0" name="filterDilatation" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="levelsAutoContrast" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultExecThumbnail" type="XSDataResultExecThumbnail"/>
+  <xs:complexType name="XSDataResultExecThumbnail">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="thumbnailPath" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="thumbnailType" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

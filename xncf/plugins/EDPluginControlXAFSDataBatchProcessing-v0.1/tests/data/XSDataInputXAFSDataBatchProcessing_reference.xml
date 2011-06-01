@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<XSDataInputXAFSDataBatchProcessing>
+	<splineDataInput>
+		<rbkg>
+			<value>1.0</value></rbkg>
+	</splineDataInput>
+	<fftfDataInput>
+		<kmin>
+			<value>2.0</value></kmin>
+		<kmax>
+			<value>17.0</value></kmax>
+		<dk>
+			<value>1.0</value></dk>
+		<kweight>
+			<value>2</value></kweight>
+	</fftfDataInput>
+</XSDataInputXAFSDataBatchProcessing>

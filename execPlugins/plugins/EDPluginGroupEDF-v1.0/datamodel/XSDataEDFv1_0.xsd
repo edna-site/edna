@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputChiToEDF" type="XSDataInputChiToEDF"/>
+	<xs:complexType name="XSDataInputChiToEDF">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="chiFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="header" type="XSDataDictionary" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputPathEDF" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultChiToEDF" type="XSDataResultChiToEDF"/>
+	<xs:complexType name="XSDataResultChiToEDF">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="edfFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputEDFReadHeader" type="XSDataInputEDFReadHeader"/>
+	<xs:complexType name="XSDataInputEDFReadHeader">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="edfFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultEDFReadHeader" type="XSDataResultEDFReadHeader"/>
+	<xs:complexType name="XSDataResultEDFReadHeader">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="dictionary" type="XSDataDictionary" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInput1DPowderEDF" type="XSDataInput1DPowderEDF"/>
+	<xs:complexType name="XSDataInput1DPowderEDF">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="edfFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="intensities" type="XSDataArray" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="outputFile" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="outputFormat" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="distance" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="pixelSize" type="XSDataLength" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="offset" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="numberOfBins" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResult1DPowderEDF" type="XSDataResult1DPowderEDF"/>
+	<xs:complexType name="XSDataResult1DPowderEDF">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputFile" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="twoTheta" type="XSDataArray" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="intensity" type="XSDataArray" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

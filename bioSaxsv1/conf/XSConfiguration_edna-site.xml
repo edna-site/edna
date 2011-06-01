@@ -1,0 +1,24 @@
+<?xml version="1.0" ?><XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginBioSaxsAzimutIntv1_0</name>  
+		</XSPluginItem>
+		
+		<XSPluginItem>
+			<name>EDPluginBioSaxsNormalizev1_0</name>  
+		</XSPluginItem>
+		
+		<XSPluginItem>
+			<name>EDPluginExecBioSaxsReprocessv1_0</name>  
+		</XSPluginItem>
+		
+		<XSPluginItem>
+			<name>EDPluginControlBioSaxsReprocessv1_0</name>  
+		</XSPluginItem>
+		 
+		<XSPluginItem>
+			<name>EDPluginControlBioSaxsReprocessv1_0</name>  
+		</XSPluginItem>
+		
+	</XSPluginList> 
+</XSConfiguration>

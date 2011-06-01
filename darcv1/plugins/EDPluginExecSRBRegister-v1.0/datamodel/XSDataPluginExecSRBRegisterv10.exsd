@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputPluginExecSRBRegister" type="XSDataInputPluginExecSRBRegister"/>
+	<xs:complexType name="XSDataInputPluginExecSRBRegister">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="srbDropFileName" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="srbURIPattern" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="srbURIReplacement" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="xmlIngestFileName" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultPluginExecSRBRegister" type="XSDataResultPluginExecSRBRegister"/>
+	<xs:complexType name="XSDataResultPluginExecSRBRegister">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="xmlIngestFileName" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

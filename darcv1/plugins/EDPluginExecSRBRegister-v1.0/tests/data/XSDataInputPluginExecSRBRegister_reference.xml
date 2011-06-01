@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<XSDataInputPluginControlDLSArchiver>
+	<srbDropFileName>
+		<path>
+			<value>../data/out/test2.drop</value>
+		</path>
+	</srbDropFileName>
+	<srbURIPattern>
+		<value>/dls/([ibp][0-9][0-9])/data/([0-9]*)/(.*)</value>
+	</srbURIPattern>
+	<srbURIReplacement>
+		<value>srb://lalalala/\1/data/data/\2/\3</value>
+	</srbURIReplacement>
+	<xmlIngestFileName>
+		<path>
+			<value>../data/create-ds.xml</value>
+		</path>
+	</xmlIngestFileName>
+	
+</XSDataInputPluginControlDLSArchiver>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="MeasureOffset" type="MeasureOffset"/>
+  <xs:complexType name="MeasureOffset">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="0" name="alwaysVersusRef" type="XSDataBoolean"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="removeBackground" type="XSDataBoolean"/>
+      <xs:element maxOccurs="2" minOccurs="0" name="cropBorders" type="XSDataInteger"/>
+      <xs:element maxOccurs="2" minOccurs="0" name="smoothBorders" type="XSDataInteger"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="sobelFilter" type="XSDataBoolean"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="useSift" type="XSDataBoolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataImageExt" type="XSDataImageExt"/>
+  <xs:complexType name="XSDataImageExt">
+    <xs:complexContent>
+      <xs:extension base="XSDataImage">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="exposureTime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="array" type="XSDataArray"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputAlignStack" type="XSDataInputAlignStack"/>
+  <xs:complexType name="XSDataInputAlignStack">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="XSDataImage"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="array" type="XSDataArray"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="index" type="XSDataInteger"/>
+          <xs:element maxOccurs="2" minOccurs="0" name="smoothBordersMO" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="backgroundSubtractionMO" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="sobelFilterMO" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="alwaysMOvsRef" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="useSift" type="XSDataBoolean"/>
+          <xs:element maxOccurs="2" minOccurs="0" name="cropBordersMO" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="HDF5File" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="internalHDF5Path" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="frameReference" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="measureOffset" type="MeasureOffset"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="datasetExtraAttributes" type="XSDataDictionary"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputFullFieldXAS" type="XSDataInputFullFieldXAS"/>
+  <xs:complexType name="XSDataInputFullFieldXAS">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="data" type="XSDataImageExt"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="dark" type="XSDataImageExt"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="flat" type="XSDataImageExt"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="index" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="energy" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="reference" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="measureOffset" type="MeasureOffset"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="HDF5File" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="internalHDF5Path" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="saveNormalized" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultAlignStack" type="XSDataResultAlignStack"/>
+  <xs:complexType name="XSDataResultAlignStack">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="HDF5File" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="internalHDF5Path" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultFullFieldXAS" type="XSDataResultFullFieldXAS"/>
+  <xs:complexType name="XSDataResultFullFieldXAS">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="HDF5File" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="internalHDF5Path" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataResultHDF5ImageWriter>
+	<HDF5File><path><value>/tmp/edna-${USER}/stack.h5</value></path></HDF5File>
+	<internalHDF5Path><value>RawStackManyFilesForced</value></internalHDF5Path>
+</XSDataResultHDF5ImageWriter>
+

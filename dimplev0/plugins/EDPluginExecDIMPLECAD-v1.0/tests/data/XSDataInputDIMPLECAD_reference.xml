@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<CCP4DataInputCAD> 
+   <HKLIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.mtz</value>
+      </path>
+   </HKLIN>
+   <columnLabels>
+      <values>
+         <value>F</value>
+      </values>
+      <values>
+         <value>SIGF</value>
+      </values>
+   </columnLabels>
+   <HKLOUT>
+      <path>
+         <value>/tmp/insulin_cad.mtz</value>
+      </path>
+   </HKLOUT>
+</CCP4DataInputCAD>

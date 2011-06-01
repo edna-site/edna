@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<XSDataGeneratePredictionResult>
+    <predictionImage>
+        <number>
+            <value>1</value>
+        </number>
+        <path>
+            <value>${EDNA_WORKING_DIR}/MOSFLMGeneratePredictionv10-01/ref-testscale_1_001_pred.jpg</value>
+        </path>
+    </predictionImage>
+    <predictionImage>
+        <number>
+            <value>2</value>
+        </number>
+        <path>
+            <value>${EDNA_WORKING_DIR}/MOSFLMGeneratePredictionv10-02/ref-testscale_1_002_pred.jpg</value>
+        </path>
+    </predictionImage>
+</XSDataGeneratePredictionResult>

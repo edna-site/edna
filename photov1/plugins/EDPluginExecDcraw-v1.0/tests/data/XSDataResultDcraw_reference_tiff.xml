@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+	<outputPath>
+		<path>
+			<value>/tmp/edna-${USER}/dcraw.tiff</value>
+		</path>
+	</outputPath>
+	<outputFileType>
+		<value>tiff</value>
+	</outputFileType>
+</XSDataResult>

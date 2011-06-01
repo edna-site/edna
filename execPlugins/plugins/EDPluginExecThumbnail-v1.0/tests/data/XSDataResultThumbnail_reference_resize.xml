@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+	<thumbnailPath>
+		<path>
+			<value>/tmp/edna-${USER}/diff6105-500x400.jpg</value>
+		</path>
+	</thumbnailPath>
+	<thumbnailType>
+		<value>jpg</value>
+	</thumbnailType>
+</XSDataResult>

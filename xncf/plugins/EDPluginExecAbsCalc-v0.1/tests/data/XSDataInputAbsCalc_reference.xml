@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<numCompounds>
+		<value>3</value></numCompounds>
+	<edge>
+		<value>Fe K</value></edge>
+	<compoundList>
+		<formula>
+			<value>Fe2 O3</value></formula>
+		<fraction>
+			<value>15</value></fraction>
+		<density>
+			<value>5.25</value></density></compoundList>
+	<compoundList>
+		<formula>
+			<value>Fe</value></formula>
+		<fraction>
+			<value>15</value></fraction>
+		<density>
+			<value>7.87</value></density></compoundList>
+	<buffer>
+		<formula>
+			<value>B N</value></formula>
+		<density>
+			<value>2.3</value></density></buffer>
+	<transAfterEdge>
+		<value>0.0045</value></transAfterEdge>
+	<diameterDisk>
+		<value>1.3</value></diameterDisk>
+</XSDataInput>

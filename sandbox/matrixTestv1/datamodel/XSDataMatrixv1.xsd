@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputWriteMatrix" type="XSDataInputWriteMatrix"/>
+	<xs:complexType name="XSDataInputWriteMatrix">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputMatrix" type="XSDataArray" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultWriteMatrix" type="XSDataResultWriteMatrix"/>
+	<xs:complexType name="XSDataResultWriteMatrix">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputMatrixInvert" type="XSDataInputMatrixInvert"/>
+	<xs:complexType name="XSDataInputMatrixInvert">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputMatrix" type="XSDataArray" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputReadMatrix" type="XSDataInputReadMatrix"/>
+	<xs:complexType name="XSDataInputReadMatrix">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultMatrixInvert" type="XSDataResultMatrixInvert"/>
+	<xs:complexType name="XSDataResultMatrixInvert">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputMatrix" type="XSDataArray" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultReadMatrix" type="XSDataResultReadMatrix"/>
+	<xs:complexType name="XSDataResultReadMatrix">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputMatrix" type="XSDataArray" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputMatrixInvertFile" type="XSDataInputMatrixInvertFile"/>
+	<xs:complexType name="XSDataInputMatrixInvertFile">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultMatrixInvertFile" type="XSDataResultMatrixInvertFile"/>
+	<xs:complexType name="XSDataResultMatrixInvertFile">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

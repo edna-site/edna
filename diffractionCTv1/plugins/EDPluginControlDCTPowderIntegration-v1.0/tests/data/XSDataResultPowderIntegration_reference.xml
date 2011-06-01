@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+    <integratedIntensities>
+        <path>${EDNA_TESTS_DATA_HOME}/Reference_powder_diffraction.cif</path>
+    </integratedIntensities>
+</XSDataResult>

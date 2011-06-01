@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecFindv0_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value></XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/find</value></XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptVersionString</name>
+					<value></value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>10</value></XSParamItem></XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlFindPipelinev0_1</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

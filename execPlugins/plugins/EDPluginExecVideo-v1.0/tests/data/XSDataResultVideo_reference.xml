@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<videoPath><path><value>/tmp/edna-${USER}/testVideo-mpeg4.avi</value></path></videoPath>
+<videoCodec><value>mpeg4</value></videoCodec>
+</XSDataResult>

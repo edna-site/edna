@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSDataCharacterisation" type="XSDataCharacterisation">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataCharacterisation</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataCharacterisation">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollection" type="XSDataCollection"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="indexingResult" type="XSDataIndexingResult"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="integrationResult" type="XSDataIntegrationResult"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="strategyResult" type="XSDataStrategyResult"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataImageQualityIndicators" type="XSDataImageQualityIndicators"/>
+  <xs:complexType name="XSDataImageQualityIndicators">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="binPopCutOffMethod2Res" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="goodBraggCandidates" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="iceRings" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="image" type="XSDataImage"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="inResTotal" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="inResolutionOvrlSpots" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="maxUnitCell" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="method1Res" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="method2Res" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="pctSaturationTop50Peaks" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotTotal" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputCharacterisation" type="XSDataInputCharacterisation"/>
+  <xs:complexType name="XSDataInputCharacterisation">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollection" type="XSDataCollection"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputControlISPyB" type="XSDataInputControlISPyB"/>
+  <xs:complexType name="XSDataInputControlISPyB">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="characterisationResult" type="XSDataResultCharacterisation"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="dataCollectionId" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputControlXDSGenerateBackgroundImage" type="XSDataInputControlXDSGenerateBackgroundImage"/>
+  <xs:complexType name="XSDataInputControlXDSGenerateBackgroundImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollection" type="XSDataCollection"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputInducedRadiationProcess" type="XSDataInputInducedRadiationProcess"/>
+  <xs:complexType name="XSDataInputInducedRadiationProcess">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="characterisationResult" type="XSDataResultCharacterisation"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputReadImageHeader" type="XSDataInputReadImageHeader">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataInputReadImageHeader</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputReadImageHeader">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="image" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputSubWedgeAssemble" type="XSDataInputSubWedgeAssemble">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataInputSubWedgeAssemble</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputSubWedgeAssemble">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="file" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputSubWedgeMerge" type="XSDataInputSubWedgeMerge">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataInputSubWedgeMerge</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputSubWedgeMerge">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="subWedge" type="XSDataSubWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultCharacterisation" type="XSDataResultCharacterisation"/>
+  <xs:complexType name="XSDataResultCharacterisation">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollection" type="XSDataCollection"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="executiveSummary" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="imageQualityIndicators" type="XSDataImageQualityIndicators"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="indexingResult" type="XSDataIndexingResult"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="integrationResult" type="XSDataIntegrationResult"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="shortSummary" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="statusMessage" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="strategyResult" type="XSDataResultStrategy"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultControlISPyB" type="XSDataResultControlISPyB">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataResultControlISPyB</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataResultControlISPyB">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultControlXDSGenerateBackgroundImage" type="XSDataResultControlXDSGenerateBackgroundImage"/>
+  <xs:complexType name="XSDataResultControlXDSGenerateBackgroundImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="xdsBackgroundImage" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultInducedRadiationProcess" type="XSDataResultInducedRadiationProcess"/>
+  <xs:complexType name="XSDataResultInducedRadiationProcess">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="bFactor" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="crystal" type="XSDataCrystal"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="scale" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultReadImageHeader" type="XSDataResultReadImageHeader">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataResultReadImageHeader</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataResultReadImageHeader">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="subWedge" type="XSDataSubWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultSubWedgeAssemble" type="XSDataResultSubWedgeAssemble">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataResultSubWedgeAssemble</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataResultSubWedgeAssemble">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="subWedge" type="XSDataSubWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultSubWedgeMerge" type="XSDataResultSubWedgeMerge">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1CharacterisationEtc.XSDataResultSubWedgeMerge</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataResultSubWedgeMerge">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="subWedge" type="XSDataSubWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataCell" type="XSDataCell">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Crystal.XSDataCell</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataCell">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="angle_alpha" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="angle_beta" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="angle_gamma" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="length_a" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="length_b" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="length_c" type="XSDataLength"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataCrystal" type="XSDataCrystal">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Crystal.XSDataCrystal</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataCrystal">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="cell" type="XSDataCell"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="mosaicity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spaceGroup" type="XSDataSpaceGroup"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSpaceGroup" type="XSDataSpaceGroup">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Crystal.XSDataSpaceGroup</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSpaceGroup">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="ITNumber" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="name" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataBeam" type="XSDataBeam">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1DataCollection.XSDataBeam</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataBeam">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="exposureTime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="flux" type="XSDataFlux"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="minExposureTimePerImage" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="size" type="XSDataSize"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="transmission" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="wavelength" type="XSDataWavelength"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataCollection" type="XSDataCollection">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1DataCollection.XSDataCollection</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataCollection">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="diffractionPlan" type="XSDataDiffractionPlan"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="sample" type="XSDataSampleCrystalMM"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="subWedge" type="XSDataSubWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataDetector" type="XSDataDetector">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1DataCollection.XSDataDetector</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataDetector">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamPositionX" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamPositionY" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="bin" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="byteOrder" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataType" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="distance" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="gain" type="XSDataFloat"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="imageSaturation" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="name" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberBytesInHeader" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberPixelX" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberPixelY" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="pixelSizeX" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="pixelSizeY" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="serialNumber" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="twoTheta" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="type" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataExperimentalCondition" type="XSDataExperimentalCondition">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1DataCollection.XSDataExperimentalCondition</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataExperimentalCondition">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="beam" type="XSDataBeam"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="detector" type="XSDataDetector"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="goniostat" type="XSDataGoniostat"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataGoniostat" type="XSDataGoniostat">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1DataCollection.XSDataGoniostat</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataGoniostat">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="maxOscillationSpeed" type="XSDataAngularSpeed"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="minOscillationWidth" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="oscillationWidth" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rotationAxis" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rotationAxisEnd" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rotationAxisStart" type="XSDataAngle"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSubWedge" type="XSDataSubWedge">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1DataCollection.XSDataSubWedge</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSubWedge">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="action" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="experimentalCondition" type="XSDataExperimentalCondition"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="XSDataImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="subWedgeNumber" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataDiffractionPlan" type="XSDataDiffractionPlan">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1DiffractionPlan.XSDataDiffractionPlan</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataDiffractionPlan">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedCompleteness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedIOverSigmaAtHighestResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedMultiplicity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="anomalousData" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="complexity" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="detectorMaxResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="detectorMinResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="estimateRadiationDamage" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="forcedSpaceGroup" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="goniostatMaxOscillationSpeed" type="XSDataAngularSpeed"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="goniostatMinOscillationWidth" type="XSDataAngle"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="kappaStrategyOption" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="maxExposureTimePerDataCollection" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="minExposureTimePerImage" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="minTransmission" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="numberOfPositions" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="requiredCompleteness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="requiredMultiplicity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="requiredResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="strategyOption" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataIndexingInput" type="XSDataIndexingInput"/>
+  <xs:complexType name="XSDataIndexingInput">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="crystal" type="XSDataCrystal"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollection" type="XSDataCollection"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="experimentalCondition" type="XSDataExperimentalCondition"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataIndexingResult" type="XSDataIndexingResult"/>
+  <xs:complexType name="XSDataIndexingResult">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="image" type="XSDataImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="indexingLogFile" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="predictionResult" type="XSDataGeneratePredictionResult"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="selectedSolution" type="XSDataIndexingSolutionSelected"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="solution" type="XSDataIndexingSolution"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataIndexingSolution" type="XSDataIndexingSolution"/>
+  <xs:complexType name="XSDataIndexingSolution">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="crystal" type="XSDataCrystal"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="number" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="penalty" type="XSDataFloat"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataIndexingSolutionSelected" type="XSDataIndexingSolutionSelected"/>
+  <xs:complexType name="XSDataIndexingSolutionSelected">
+    <xs:complexContent>
+      <xs:extension base="XSDataIndexingSolution">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="experimentalConditionRefined" type="XSDataExperimentalCondition"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="mosaicityEstimation" type="XSDataFloat"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="orientation" type="XSDataOrientation"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="statistics" type="XSDataStatisticsIndexing"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataOrientation" type="XSDataOrientation"/>
+  <xs:complexType name="XSDataOrientation">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="matrixA" type="XSDataMatrixDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="matrixU" type="XSDataMatrixDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStatisticsIndexing" type="XSDataStatisticsIndexing"/>
+  <xs:complexType name="XSDataStatisticsIndexing">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamPositionShiftX" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamPositionShiftY" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotDeviationAngular" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotDeviationPositional" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotsTotal" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotsUsed" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataGeneratePredictionInput" type="XSDataGeneratePredictionInput">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1PredictionAndIntegration.XSDataGeneratePredictionInput</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataGeneratePredictionInput">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollection" type="XSDataCollection"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="selectedIndexingSolution" type="XSDataIndexingSolutionSelected"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataGeneratePredictionResult" type="XSDataGeneratePredictionResult"/>
+  <xs:complexType name="XSDataGeneratePredictionResult">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="predictionImage" type="XSDataImage"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataIntegrationInput" type="XSDataIntegrationInput">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1PredictionAndIntegration.XSDataIntegrationInput</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataIntegrationInput">
+    <xs:complexContent>
+      <xs:extension base="XSDataGeneratePredictionInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="crystalRefined" type="XSDataCrystal"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="experimentalConditionRefined" type="XSDataExperimentalCondition"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataIntegrationResult" type="XSDataIntegrationResult"/>
+  <xs:complexType name="XSDataIntegrationResult">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="integrationSubWedgeResult" type="XSDataIntegrationSubWedgeResult"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataIntegrationSubWedgeResult" type="XSDataIntegrationSubWedgeResult"/>
+  <xs:complexType name="XSDataIntegrationSubWedgeResult">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestfileDat" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestfileHKL" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestfilePar" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="experimentalConditionRefined" type="XSDataExperimentalCondition"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="generatedMTZFile" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="integrationLogFile" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="statistics" type="XSDataStatisticsIntegration"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="statisticsPerResolutionBin" type="XSDataStatisticsIntegrationPerResolutionBin"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="subWedgeNumber" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStatisticsIntegration" type="XSDataStatisticsIntegration"/>
+  <xs:complexType name="XSDataStatisticsIntegration">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="RMSSpotDeviation" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="iOverSigmaAtHighestResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="iOverSigmaOverall" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfBadReflections" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfFullyRecordedReflections" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfNegativeReflections" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfOverlappedReflections" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfPartialReflections" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfReflectionsGenerated" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStatisticsIntegrationAverageAndNumberOfReflections" type="XSDataStatisticsIntegrationAverageAndNumberOfReflections"/>
+  <xs:complexType name="XSDataStatisticsIntegrationAverageAndNumberOfReflections">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="averageIOverSigma" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="averageIntensity" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="averageSigma" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="numberOfReflections" type="XSDataInteger"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataStatisticsIntegrationPerReflectionType" type="XSDataStatisticsIntegrationPerReflectionType"/>
+  <xs:complexType name="XSDataStatisticsIntegrationPerReflectionType">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="fullyRecorded" type="XSDataStatisticsIntegrationAverageAndNumberOfReflections"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="partials" type="XSDataStatisticsIntegrationAverageAndNumberOfReflections"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStatisticsIntegrationPerResolutionBin" type="XSDataStatisticsIntegrationPerResolutionBin"/>
+  <xs:complexType name="XSDataStatisticsIntegrationPerResolutionBin">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="maxResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="minResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="profileFitted" type="XSDataStatisticsIntegrationPerReflectionType"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="summation" type="XSDataStatisticsIntegrationPerReflectionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataAtom" type="XSDataAtom">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataAtom</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataAtom">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="concentration" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOf" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="symbol" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataAtomicComposition" type="XSDataAtomicComposition"/>
+  <xs:complexType name="XSDataAtomicComposition">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="atom" type="XSDataAtom"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataChain" type="XSDataChain">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataChain</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataChain">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="heavyAtoms" type="XSDataAtomicComposition"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfCopies" type="XSDataDouble">
+            <xs:annotation>
+              <xs:documentation>number of identical chain within the structure</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfMonomers" type="XSDataDouble">
+            <xs:annotation>
+              <xs:documentation>should be the number of amino-acid, ribonuclotides or desoxyribonucleotides depending on the type</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="1" minOccurs="1" name="type" type="XSDataString">
+            <xs:annotation>
+              <xs:documentation>should be either: 'protein', 'dna'or 'rna'</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataChemicalCompositionMM" type="XSDataChemicalCompositionMM">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataChemicalCompositionMM</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataChemicalCompositionMM">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="solvent" type="XSDataSolvent"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="structure" type="XSDataStructure"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataLigand" type="XSDataLigand">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataLigand</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataLigand">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="heavyAtoms" type="XSDataAtomicComposition"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfCopies" type="XSDataDouble">
+            <xs:annotation>
+              <xs:documentation>should be the number of chemically identical ligands in the structure</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfLightAtoms" type="XSDataDouble">
+            <xs:annotation>
+              <xs:documentation>Should be the total of the number of atoms of C, O, N&#13;
+H is negligible</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSample" type="XSDataSample">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataSample</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSample">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="absorbedDoseRate" type="XSDataAbsorbedDoseRate"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="shape" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="size" type="XSDataSize"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="susceptibility" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSampleCrystal" type="XSDataSampleCrystal">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataSampleCrystal</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSampleCrystal">
+    <xs:complexContent>
+      <xs:extension base="XSDataSample">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="crystal" type="XSDataCrystal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSampleCrystalMM" type="XSDataSampleCrystalMM">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataSampleCrystalMM</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSampleCrystalMM">
+    <xs:complexContent>
+      <xs:extension base="XSDataSampleCrystal">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="chemicalComposition" type="XSDataChemicalCompositionMM"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSolvent" type="XSDataSolvent">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataSolvent</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSolvent">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="atoms" type="XSDataAtomicComposition"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStructure" type="XSDataStructure">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Sample.XSDataStructure</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataStructure">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="chain" type="XSDataChain"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="ligand" type="XSDataLigand"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfCopiesInAsymmetricUnit" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataCollectionPlan" type="XSDataCollectionPlan">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Strategy.XSDataCollectionPlan</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataCollectionPlan">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="collectionPlanNumber" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="collectionStrategy" type="XSDataCollection"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="comment" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="statistics" type="XSDataStatisticsStrategy"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="strategySummary" type="XSDataStrategySummary"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputStrategy" type="XSDataInputStrategy"/>
+  <xs:complexType name="XSDataInputStrategy">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestFileContentDat" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="bestFileContentHKL" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestFileContentPar" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="crystalRefined" type="XSDataCrystal"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="diffractionPlan" type="XSDataDiffractionPlan"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="experimentalCondition" type="XSDataExperimentalCondition"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="sample" type="XSDataSampleCrystalMM"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="xdsBackgroundImage" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResolutionBin" type="XSDataResolutionBin"/>
+  <xs:complexType name="XSDataResolutionBin">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="IOverSigma" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="IOverSigmaChi" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="averageIntensity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="averageIntensityOverAverageSigma" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="averageSigma" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="chi2" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="completeness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="maxResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="minResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="percentageOverload" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rFactor" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rFriedel" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="redundancy" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultStrategy" type="XSDataResultStrategy">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Strategy.XSDataResultStrategy</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataResultStrategy">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="bestLogFile" type="XSDataFile"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="collectionPlan" type="XSDataCollectionPlan"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="raddoseLogFile" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStatisticsStrategy" type="XSDataStatisticsStrategy"/>
+  <xs:complexType name="XSDataStatisticsStrategy">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="resolutionBin" type="XSDataResolutionBin"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStrategyInput" type="XSDataStrategyInput">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Strategy.XSDataStrategyInput</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataStrategyInput">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestFileContentDat" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="bestFileContentHKL" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestFileContentPar" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="crystalRefined" type="XSDataCrystal"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="diffractionPlan" type="XSDataDiffractionPlan"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="experimentalCondition" type="XSDataExperimentalCondition"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="sample" type="XSDataSampleCrystalMM"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStrategyResult" type="XSDataStrategyResult">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Strategy.XSDataStrategyResult</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataStrategyResult">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="collectionPlan" type="XSDataCollectionPlan"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStrategySummary" type="XSDataStrategySummary">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataMXv1.MXv1Strategy.XSDataStrategySummary</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataStrategySummary">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="attenuation" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="completeness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="iSigma" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rankingResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="redundancy" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="resolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="resolutionReasoning" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="totalDataCollectionTime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="totalExposureTime" type="XSDataTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

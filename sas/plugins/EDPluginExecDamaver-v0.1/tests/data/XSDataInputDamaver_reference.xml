@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<XSDataInputDamaver>
+	<pdbInputFiles>
+		<path>
+			<value>dammif-1.pdb</value>
+		</path>
+	</pdbInputFiles>
+	<pdbInputFiles>
+		<path>
+			<value>dammif-2.pdb</value>
+		</path>
+	</pdbInputFiles>
+	<pdbInputFiles>
+		<path>
+			<value>dammif-3.pdb</value>
+		</path>
+	</pdbInputFiles>
+	<pdbInputFiles>
+		<path>
+			<value>dammif-4.pdb</value>
+		</path>
+	</pdbInputFiles>
+	<pdbInputFiles>
+		<path>
+			<value>dammif-5.pdb</value>
+		</path>
+	</pdbInputFiles>
+	<pdbInputFiles>
+		<path>
+			<value>dammif-6.pdb</value>
+		</path>
+	</pdbInputFiles>
+	<symmetry>
+		<value>P2</value></symmetry></XSDataInputDamaver>

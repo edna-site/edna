@@ -1,0 +1,328 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+  <xsd:complexType name="scale_reflections_request">
+    <xsd:sequence>
+      <xsd:element name="input_reflections"
+                   type="input_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="output_reflections"
+                   type="output_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="scaling_options"
+                   type="scaling_options"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="scaling_options">
+    <xsd:sequence>
+      <!-- this is the limit in the number of cycles of parameter
+           refinement which may be performed - default is 10 -->
+      <xsd:element name="cycle_limit"
+                   type="xsd:integer"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <!-- the spacing is the number of degrees smoothed over in
+           rotation scaling - default value in scala is 10 -->
+      <xsd:element name="spacing"
+                   type="xsd:double"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <!-- the secondary beam correction - default value is 6 -->
+      <xsd:element name="secondary"
+                   type="xsd:double"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <!-- bfactor refinement - the default is on -->
+      <xsd:element name="bfactor_refinement"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <!-- anomalous diffraction - this will not alter the scaling
+           but will change the statistics - default is on -->
+      <xsd:element name="anomalous_scattering"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <xsd:element name="resolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="resolution"/>
+      <!-- standard deviation corrections - from a previous 
+           run of scala -->
+      <xsd:element name="standard_deviation_parameters"
+                   type="standard_deviation_parameters"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <!-- unmerged polish output file -->
+      <xsd:element name="unmerged_polish_output"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <!-- optional limits on the batches to use for scaling - if "end" is 
+           defined but start is not an error will be reported -->
+      <xsd:element name="start"
+                   type="xsd:integer"
+                   minOccurs="0"
+                   maxOccurs="1"/>               
+      <xsd:element name="end"
+                   type="xsd:integer"
+                   minOccurs="0"
+                   maxOccurs="1"/>               
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="scale_factor">
+    <xsd:sequence>
+      <xsd:element name="batch"
+                   type="xsd:integer"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="mean_k"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="scale_factor_list">
+    <xsd:sequence>
+      <xsd:element name="scale_factor"
+                   type="scale_factor"
+                   minOccurs="0"
+                   maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="scale_reflections_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   type="status"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="rmerge"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="scale_factor_list"
+                   type="scale_factor_list"
+                   minOccurs="1"
+                   maxOccurs="1"/>        
+      <xsd:element name="standard_deviation_parameters"
+                   type="standard_deviation_parameters"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="per_batch_results"
+                   type="per_batch_results"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:elememt name="per_resolution_bin_results"
+                   type="per_resolution_bin_results"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:elememt name="per_intensity_bin_results"
+                   type="per_intensity_bin_results"
+                   minOccurs="1"
+                   maxOccues="1"/>
+    </xsd:sequence>
+  </xsd:complexType>                   
+
+  <xsd:complexType name="per_batch_results">
+    <xsd:sequence>
+      <xsd:element name="batch_results"
+                   type="batch_results"
+                   minOccurs="0"
+                   maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="batch_results">
+    <xsd:sequence>
+      <xsd:element name="batch"
+                   type="xsd:integer"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:element name="bfactor"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:element name="number_rejected"
+                   type="xsd:integer"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:element name="rmerge"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+        
+  <xsd:complexType name="per_resolution_bin_results">
+    <xsd:sequence>
+      <xsd:element name="resolution_bin_results"
+                   type="resolution_bin_results"
+                   minOccurs="0"
+                   maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="resolution_bin_results">
+    <xsd:sequence>
+      <xsd:element name="bin"
+                   type="xsd:integer"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="resolution"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="resolution"/>
+      <xsd:element name="rmerge"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="mean_i_over_sigma"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="fractional_bias"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="per_intensity_bin_results">
+    <xsd:sequence>
+      <xsd:element name="intensity_bin_results"
+                   type="intensity_bin_results"
+                   minOccurs="0"
+                   maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="intensity_bin_results">
+    <xsd:sequence>
+      <xsd:element name="bin"
+                   type="xsd:integer"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="min_intensity"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="max_intensity"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="mean_full"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="sigma_full"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="n_ref_full"
+                   type="xsd:integer"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="mean_partial"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="sigma_partial"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="n_ref_partial"
+                   type="xsd:integer"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="standard_deviation_parameters">
+    <xsd:sequence>
+      <xsd:element name="sdfac_full"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:element name="sdadd_full"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:element name="sdfac_partial"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccues="1"/>
+      <xsd:element name="sdadd_partial"
+                   type="xsd:double"
+                   minOccurs="1"
+                   maxOccues="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="truncate_reflections_request">
+    <xsd:sequence>
+      <xsd:element name="input_reflections"
+                   type="input_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="output_reflections"
+                   type="output_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="truncate_options"
+                   type="truncate_options"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="truncate_options">
+    <xsd:sequence>
+      <!-- one or the other of these is needed, unless a "good" guess 
+           can be made from the size of the crystal unit cell and number
+           of molecules in the asymmetric unit (NCS not withstanding) -->
+      <xsd:element name="residue_count"
+                   type="xsd:integer"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <xsd:element name="aa_sequence"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="truncate_reflections_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   type="status"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="bfactor_value"
+                   type="xsd:double"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <xsd:element name="solvent_content"
+                   type="xsd:double"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <xsd:element name="twinning"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

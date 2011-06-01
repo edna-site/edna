@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputXDS" type="XSDataInputXDS"/>
+	<xs:complexType name="XSDataInputXDS">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="beam" type="XSDataXDSBeam" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystal" type="XSDataXDSCrystal" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="detector" type="XSDataXDSDetector" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="goniostat" type="XSDataXDSGoniostat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="image" type="XSDataXDSImage" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="image_link" type="XSDataXDSImageLink" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSBeam" type="XSDataXDSBeam"/>
+	<xs:complexType name="XSDataXDSBeam">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="fraction_of_polarization" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="incident_beam_direction" type="XSDataVectorDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="polarization_plane_normal" type="XSDataVectorDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="x_ray_wavelength" type="XSDataWavelength" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputXDSIndexing" type="XSDataInputXDSIndexing"/>
+	<xs:complexType name="XSDataInputXDSIndexing">
+		<xs:complexContent>
+			<xs:extension base="XSDataInputXDS">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSImage" type="XSDataXDSImage"/>
+	<xs:complexType name="XSDataXDSImage">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="background_range" type="XSDataXDSIntegerRange" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="data_range" type="XSDataXDSIntegerRange" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="spot_range" type="XSDataXDSIntegerRange" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="starting_frame" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="name_template_of_data_frames" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSIntegerRange" type="XSDataXDSIntegerRange"/>
+	<xs:complexType name="XSDataXDSIntegerRange">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="lower" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="upper" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSImageLink" type="XSDataXDSImageLink"/>
+	<xs:complexType name="XSDataXDSImageLink">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="source" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="target" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSDetector" type="XSDataXDSDetector"/>
+	<xs:complexType name="XSDataXDSDetector">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="detector_distance" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="detector_name" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="direction_of_detector_x_axis" type="XSDataVectorDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="direction_of_detector_y_axis" type="XSDataVectorDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="minimum_valid_pixel_value" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="nx" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ny" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="orgx" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="orgy" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="overload" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="qx" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="qy" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="value_range_for_trusted_detector_pixels" type="XSDataXDSDoubleRange" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="untrusted_rectangle" type="XSDataXDSRectangle" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="sensor_thickness" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="trusted_region" type="XSDataXDSDoubleRange" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSGoniostat" type="XSDataXDSGoniostat"/>
+	<xs:complexType name="XSDataXDSGoniostat">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="oscillation_range" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="rotation_axis" type="XSDataVectorDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="starting_angle" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSDoubleRange" type="XSDataXDSDoubleRange"/>
+	<xs:complexType name="XSDataXDSDoubleRange">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="lower" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="upper" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSCrystal" type="XSDataXDSCrystal"/>
+	<xs:complexType name="XSDataXDSCrystal">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="friedels_law" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="space_group_number" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="strong_pixel" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unit_cell_constants" type="XSDataXDSCell" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSVector" type="XSDataXDSVector"/>
+	<xs:complexType name="XSDataXDSVector">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="v1" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="v2" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="v3" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSCell" type="XSDataXDSCell"/>
+	<xs:complexType name="XSDataXDSCell">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="angle_alpha" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_beta" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_a" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_b" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_c" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_gamma" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputXDSGenerateBackgroundImage" type="XSDataInputXDSGenerateBackgroundImage"/>
+	<xs:complexType name="XSDataInputXDSGenerateBackgroundImage">
+		<xs:complexContent>
+			<xs:extension base="XSDataInputXDS">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultXDS" type="XSDataResultXDS"/>
+	<xs:complexType name="XSDataResultXDS">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultXDSGenerateBackgroundImage" type="XSDataResultXDSGenerateBackgroundImage"/>
+	<xs:complexType name="XSDataResultXDSGenerateBackgroundImage">
+		<xs:complexContent>
+			<xs:extension base="XSDataResultXDS">
+				<xs:sequence>
+					<xs:element name="xdsBackgroundImage" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSRectangle" type="XSDataXDSRectangle"/>
+	<xs:complexType name="XSDataXDSRectangle">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="x1" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="x2" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="y1" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="y2" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

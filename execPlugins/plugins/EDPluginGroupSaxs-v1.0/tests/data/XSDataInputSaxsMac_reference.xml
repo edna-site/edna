@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+
+	<inputImage>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/Moke-2th%%-tilt0-rot0.edf,4,12</value>
+		</path>
+	</inputImage>
+	<outputImage>
+		<path>
+			<value>/tmp/edna-${USER}/moke.edf</value>
+		</path>
+	</outputImage>
+	<dummy>
+		<value>-5</value>
+	</dummy>
+	<multConst>
+		<value>2</value>
+	</multConst>
+	<addConst>
+		<value>0.5</value>
+	</addConst>
+	<options>
+		<value>-add 9</value>
+	</options>
+		
+</XSDataInput>

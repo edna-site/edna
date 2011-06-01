@@ -1,0 +1,23 @@
+targetNamespace "http://www.edna-site.org"
+
+complex type XSDataInputMXCuBE extends XSDataInput {
+	characterisationInput : XSDataInputCharacterisation
+	dataCollectionId : XSDataInteger optional
+	diffractionPlan : XSDataDiffractionPlan
+	experimentalCondition : XSDataExperimentalCondition optional
+	outputFileDirectory : XSDataFile
+	sample : XSDataSampleCrystalMM
+	dataSet : XSDataMXCuBEDataSet [] optional
+}
+
+complex type XSDataMXCuBEDataSet {
+	imageFile : XSDataFile []
+}
+
+complex type XSDataResultMXCuBE extends XSDataResult {
+	characterisationExecutiveSummary : XSDataString
+	characterisationResult : XSDataResultCharacterisation
+	collectionPlan : XSDataCollectionPlan [] optional
+	listOfOutputFiles : XSDataString
+	outputFileDictionary : XSDataDictionary optional
+}

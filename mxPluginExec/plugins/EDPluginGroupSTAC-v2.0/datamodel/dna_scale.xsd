@@ -1,0 +1,81 @@
+<!--
+********************************************************
+*
+* dna_quick_scale.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_scale.xsd,v 1.7 2006/10/30 13:48:55 gwin Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+
+  <xsd:complexType name="quick_scale_request">
+    <xsd:sequence>
+      <xsd:element name="fileinfo" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="fileinfo"/>
+      <xsd:element name="anomalous"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <xsd:element name="high_resolution_limit"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+     </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example quick_scale_request:
+
+        <quick_scale_request>
+          <fileinfo>
+            <directory>/data/id14eh1/inhouse/dna</directory>
+            <prefix>dnatest</prefix>
+          </fileinfo>
+        </quick_scale_request>
+           
+   -->   
+
+
+  <!--  Example quick_scale_response:
+
+        <quick_scale_response>
+          <status>
+            <code>ok</code>
+          </status>
+        </quick_scale_response>
+
+   -->   
+
+  <xsd:complexType name="quick_scale_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="qs_rmerge"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="qs_completeness"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="qs_multiplicity"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>

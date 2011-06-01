@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<inputFile><path><value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0040.edf</value></path></inputFile>
+<outputFile><path><value>/tmp/edna-${USER}/inverted.edf</value></path></outputFile>
+</XSDataInput>

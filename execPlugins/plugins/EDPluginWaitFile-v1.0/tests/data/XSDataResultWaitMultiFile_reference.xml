@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<XSDataResultWaitMultiFile>
+    <actualFile>
+        <path>
+            <value>/tmp/edna-${USER}/File1sizeIsTen</value>
+        </path>
+    </actualFile>
+    <actualFile>
+        <path>
+            <value>/tmp/edna-${USER}/File2sizeIsTen</value>
+        </path>
+    </actualFile>
+    <actualFile>
+        <path>
+            <value>/tmp/edna-${USER}/File3sizeIsTen</value>
+        </path>
+    </actualFile>
+    <actualFile>
+        <path>
+            <value>/tmp/edna-${USER}/File4sizeIsTen</value>
+        </path>
+    </actualFile>
+    <actualFile>
+        <path>
+            <value>/tmp/edna-${USER}/File5sizeIsTen</value>
+        </path>
+    </actualFile>
+    <actualFile>
+        <path>
+            <value>/tmp/edna-${USER}/File6sizeIsTen</value>
+        </path>
+    </actualFile>
+    <actualMinSize>
+        <value>10</value>
+    </actualMinSize>
+    <timedOut>
+        <value>0</value>
+    </timedOut>
+</XSDataResultWaitMultiFile>

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputIfeffit>
+	<scriptFile>
+		<path>
+			<value>script.iff</value>
+		</path>
+	</scriptFile>
+</XSDataInputIfeffit>

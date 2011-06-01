@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<XSDataInputDiffractionCT>
+	<image>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/test.edf</value>			
+		</path>
+	</image>
+	<destinationDirectory>
+		<path>
+			<value>/tmp/${USER}_edna_unit</value>
+		</path>
+	</destinationDirectory>
+	<sinogramFileNamePrefix>
+		<value>UnitTest</value>
+	</sinogramFileNamePrefix>
+	<powderDiffractionSubdirectory>
+		<value>pd_CIF_line_</value>
+	</powderDiffractionSubdirectory>
+</XSDataInputDiffractionCT>

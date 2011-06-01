@@ -1,0 +1,3 @@
+<XSDataString>
+  <value>none 3 2 600 0.1 0.25 1 none /dls/i04-1/data/2011/sw2082-6/CPS-109/IgE-Fc/co-1452519/co-1452519a_M5S14_1_0001.cbf /dls/i04-1/data/2011/sw2082-6/CPS-109/IgE-Fc/co-1452519/co-1452519a_M5S14_1_0002.cbf /dls/i04-1/data/2011/sw2082-6/CPS-109/IgE-Fc/co-1452519/co-1452519a_M5S14_1_0003.cbf</value>
+</XSDataString>

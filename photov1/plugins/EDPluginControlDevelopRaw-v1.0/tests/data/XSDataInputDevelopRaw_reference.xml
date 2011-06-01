@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<inputRaw>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/dcraw.dng</value>
+		</path>
+	</inputRaw>
+</XSDataInput>

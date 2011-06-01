@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputMTZDUMPUnitCellSpaceGroup>
+   <inputMTZFile>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/edna_example.mtz</value>
+      </path>
+   </inputMTZFile>
+</XSDataInputMTZDUMPUnitCellSpaceGroup>

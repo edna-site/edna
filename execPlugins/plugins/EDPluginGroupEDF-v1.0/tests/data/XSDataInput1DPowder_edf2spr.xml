@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<edfFile><path><value>${EDNA_TESTS_DATA_HOME}/images/moke-azim.edf</value></path></edfFile>
+<outputFile><path><value>/tmp/edna-${USER}/moke-azim.spr</value></path></outputFile>
+<outputFormat><value>spr</value></outputFormat>
+<numberOfBins><value>100</value></numberOfBins>
+</XSDataInput>

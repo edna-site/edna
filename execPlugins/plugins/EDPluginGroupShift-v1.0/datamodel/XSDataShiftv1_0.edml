@@ -1,0 +1,99 @@
+targetNamespace "http://www.edna-site.org"
+
+package XSDataShiftv10 {
+	complex type OffsetedImage {
+		"DummyValue is the value for which the data are considered as invalid (0 by default)\n"
+		array : XSDataArray
+		optional
+		deltaDummy : XSDataDouble optional
+		dummyValue : XSDataDouble optional
+		file : XSDataImage optional
+		offset : XSDataDouble []
+	}
+
+	complex type XSDataInputMeasureOffset extends XSDataInput {
+		"Input can be given as a pair of 2D arrays or 2 EDF files. \nMeasurement is done on the full image by default but borders can be cropped, smoothed, ...\nImages must have the same size\n"
+		array : XSDataArray [] optional
+		backgroundSubtraction : XSDataBoolean optional
+		center : XSDataInteger [] optional
+		cropBorders : XSDataInteger [] optional
+		image : XSDataImage [] optional
+		index : XSDataInteger [] optional
+		smoothBorders : XSDataInteger [] optional
+		sobelFilter : XSDataBoolean optional
+		width : XSDataInteger [] optional
+	}
+
+	complex type XSDataInputMeasureOffsetSift extends XSDataInput {
+		descriptorFile : XSDataFile [] optional
+	}
+
+	complex type XSDataInputShiftImage extends XSDataInput {
+		index : XSDataInteger optional
+		inputArray : XSDataArray optional
+		inputImage : XSDataImage optional
+		invertCorrection : XSDataBoolean optional
+		offset : XSDataDouble [] optional
+		outputImage : XSDataImage optional
+		panoFile : XSDataFile optional
+	}
+
+	complex type XSDataInputSiftDescriptor extends XSDataInput {
+		image : XSDataImage
+	}
+
+	complex type XSDataInputStitchImage extends XSDataInput {
+		inputImages : XSDataImage []
+		outputImage : XSDataImage optional
+		autoscale : XSDataBoolean optional
+		dummyValue : XSDataDouble optional
+		deltaDummy : XSDataDouble optional
+		centerROI : XSDataInteger [] optional
+		widthROI : XSDataInteger [] optional
+		blending : XSDataString optional
+		mask:  XSDataImage optional
+	}
+
+	complex type XSDataInputStitchOffsetedImage extends XSDataInput {
+		"Dummy is the value of pixels that are still invalid after stitching.\nBlending can be: max, min or mean (default)."
+		inputImages : OffsetedImage []
+		outputImage : XSDataImage optional
+		autoscale : XSDataBoolean optional
+		dummyValue : XSDataDouble
+		centerROI : XSDataInteger [] optional
+		widthROI : XSDataInteger [] optional
+		blending : XSDataString optional
+		mask:  XSDataImage optional
+	}
+
+	complex type XSDataResultMeasureOffset extends XSDataResult {
+		offset : XSDataDouble []
+		panoFile : XSDataFile optional
+	}
+
+	complex type XSDataResultMeasureOffsetSift extends XSDataResult {
+		outputArray : XSDataArray []
+		panoFile : XSDataFile
+	}
+
+	complex type XSDataResultShiftImage extends XSDataResult {
+		"Export as array by default unless an output filename is provided.\nCorrection can be either a simple global shift or a transformation based on a cubic spline if a panoFile (.pto) is provided.\nThe correction can be inverted if needed. "
+		outputArray : XSDataArray optional
+		outputImage : XSDataImage optional
+	}
+
+	complex type XSDataResultSiftDescriptor extends XSDataResult {
+		descriptorFile : XSDataFile
+	}
+
+	complex type XSDataResultStitchImage extends XSDataResult {
+		outputArray : XSDataArray optional
+		outputImage : XSDataImage optional
+	}
+
+	complex type XSDataResultStitchOffsetedImage extends XSDataResult {
+		outputArray : XSDataArray optional
+		outputImage : XSDataImage optional
+	}
+
+}

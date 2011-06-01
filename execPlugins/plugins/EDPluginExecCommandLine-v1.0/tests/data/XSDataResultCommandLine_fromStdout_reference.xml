@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataResultExecCommandLine>
+
+	<outputFilename>
+		<path>
+			<value>/tmp/edna-${USER}/test_region1_dark_1_0041.edf.bz2</value></path></outputFilename></XSDataResultExecCommandLine>

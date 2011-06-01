@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<integratedImageSize><value>26000</value></integratedImageSize>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated01.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated02.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated03.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated04.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated05.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated06.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated07.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated08.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated09.edf</value></path></integratedImage>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated10.edf</value></path></integratedImage>
+<averagedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsAveraged.dat</value></path></averagedSpectrum>
+<averagedImage><path><value>/tmp/edna-${USER}/bioSaxsAveraged.edf</value></path></averagedImage>
+<logFile><path><value>/tmp/edna-${USER}/bioSaxsAveraged.log</value></path></logFile>
+<normalizationFactor><value>1.0</value></normalizationFactor>
+<sampleConcentration><value>5.77</value></sampleConcentration>
+<sampleComments><value>bsa2</value></sampleComments>
+<sampleCode><value>BSA</value></sampleCode>
+</XSDataInput>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSDataBestCollectionPlan" type="XSDataBestCollectionPlan"/>
+  <xs:complexType name="XSDataBestCollectionPlan">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="collectionPlanNumber" type="XSDataInteger"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="comment" type="XSDataString"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="collectionRun" type="XSDataBestCollectionRun"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="crystalScale" type="XSDataCrystalScale"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="strategySummary" type="XSDataBestStrategySummary"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="statisticalPrediction" type="XSDataBestStatisticalPrediction"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataBestCollectionRun" type="XSDataBestCollectionRun"/>
+  <xs:complexType name="XSDataBestCollectionRun">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="action" type="XSDataString"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="collectionRunNumber" type="XSDataInteger"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="exposureTime" type="XSDataTime"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="overlaps" type="XSDataString"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="phiStart" type="XSDataAngle"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="phiWidth" type="XSDataAngle"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="transmission" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="numberOfImages" type="XSDataInteger"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataBestResolutionBin" type="XSDataBestResolutionBin"/>
+  <xs:complexType name="XSDataBestResolutionBin">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="averageIntensity" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="averageIntensityOverAverageSigma" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="averageSigma" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="completeness" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="IOverSigma" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="maxResolution" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="minResolution" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="percentageOverload" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="redundancy" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="rFactor" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="rFriedel" type="XSDataDouble"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataBestStatisticalPrediction" type="XSDataBestStatisticalPrediction"/>
+  <xs:complexType name="XSDataBestStatisticalPrediction">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="resolutionBin" type="XSDataBestResolutionBin"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataBestStrategySummary" type="XSDataBestStrategySummary"/>
+  <xs:complexType name="XSDataBestStrategySummary">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="completeness" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="distance" type="XSDataLength"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="iSigma" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="rankingResolution" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="redundancy" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="resolution" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="resolutionReasoning" type="XSDataString"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="totalDataCollectionTime" type="XSDataTime"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="totalExposureTime" type="XSDataTime"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="transmission" type="XSDataDouble"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataCrystalScale" type="XSDataCrystalScale"/>
+  <xs:complexType name="XSDataCrystalScale">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="bFactor" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="scale" type="XSDataDouble"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataInputBest" type="XSDataInputBest">
+    <xs:annotation>
+      <xs:documentation>- anomalousData is deprecated, please use strategyOption instead.
+
+- minTransmission will work only with version v3.4 or higher of Best
+
+- xdsBackgroundFile will only work with version v3.4.1 or higher of Best
+</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputBest">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedCompleteness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedIOverSigma" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedRedundancy" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="aimedResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="anomalousData" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamExposureTime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="beamMaxExposureTime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="beamMinExposureTime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestFileContentDat" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="bestFileContentHKL" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="bestFileContentPar" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="complexity" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="crystalAbsorbedDoseRate" type="XSDataAbsorbedDoseRate"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="crystalShape" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="crystalSusceptibility" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="detectorType" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="goniostatMaxRotationSpeed" type="XSDataAngularSpeed"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="goniostatMinRotationWidth" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="strategyOption" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="transmission" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="minTransmission" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="xdsBackgroundImage" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="numberOfCrystalPositions" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultBest" type="XSDataResultBest"/>
+  <xs:complexType name="XSDataResultBest">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="pathToLogFile" type="XSDataFile"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="collectionPlan" type="XSDataBestCollectionPlan"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

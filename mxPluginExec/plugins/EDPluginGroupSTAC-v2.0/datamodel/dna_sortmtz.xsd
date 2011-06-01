@@ -1,0 +1,62 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+  <xsd:complexType name="sort_reflections_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   type="status"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="reindex_reflections_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   type="status"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="sort_reflections_request">
+    <xsd:sequence>
+      <xsd:element name="sort_key"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccirs="1"/>
+      <xsd:element name="input_reflections"
+                   type="input_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="output_reflections"
+                   type="output_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="reindex_reflections_request">
+    <xsd:sequence>
+      <xsd:element name="spacegroup"
+                   type="xsd:string"
+                   minOccurs="1"
+                   maxOccirs="1"/>
+      <xsd:element name="input_reflections"
+                   type="input_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+      <xsd:element name="output_reflections"
+                   type="output_reflections"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

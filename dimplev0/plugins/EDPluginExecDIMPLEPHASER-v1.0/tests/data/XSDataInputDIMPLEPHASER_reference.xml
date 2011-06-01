@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<CCP4DataInputPhaser>
+   <HKLIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.mtz</value>
+      </path>
+   </HKLIN>
+   <HKLOUT>
+      <path>
+         <value>/tmp/insulin-mr.mtz</value>
+      </path>
+   </HKLOUT>
+   <XYZIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.pdb</value>
+      </path>
+   </XYZIN>
+   <XYZOUT>
+      <path>
+         <value>/tmp/insulin-mr.pdb</value>
+      </path>
+   </XYZOUT>
+   <ColLabels>
+        <F>
+            <value>F</value>
+        </F>
+        <SIGF>
+            <value>SIGF</value>
+        </SIGF>
+    </ColLabels>
+</CCP4DataInputPhaser>

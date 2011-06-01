@@ -1,0 +1,11 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataString
+package XSDataTestTransformation {
+
+	complex type XSDataInputTest extends XSDataInput {
+		param : XSDataString
+	}
+
+}

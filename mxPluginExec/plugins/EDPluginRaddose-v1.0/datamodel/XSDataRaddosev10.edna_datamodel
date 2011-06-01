@@ -1,0 +1,42 @@
+targetNamespace "http://www.edna-site.org"
+
+complex type XSDataAtom extends XSData {
+	concentration : XSDataDouble
+	numberOf : XSDataDouble
+	symbol : XSDataString
+}
+
+complex type XSDataAtomicComposition extends XSData {
+	atom : XSDataAtom [] optional
+}
+
+complex type XSDataCell extends XSData {
+	angle_alpha : XSDataAngle
+	angle_beta : XSDataAngle
+	angle_gamma : XSDataAngle
+	length_a : XSDataLength
+	length_b : XSDataLength
+	length_c : XSDataLength
+}
+
+complex type XSDataRaddoseInput extends XSDataInput {
+	beamExposureTime : XSDataTime
+	beamFlux : XSDataFlux
+	beamSize : XSDataSize
+	beamWavelength : XSDataWavelength
+	crystalCell : XSDataCell
+	crystalNDNA : XSDataInteger
+	crystalNMON : XSDataInteger
+	crystalNRES : XSDataInteger
+	crystalNRNA : XSDataInteger
+	crystalPATM : XSDataAtomicComposition
+	crystalSATM : XSDataAtomicComposition
+	crystalSize : XSDataSize
+	numberOfImages : XSDataInteger
+}
+
+complex type XSDataRaddoseOutput extends XSDataResult {
+	absorbedDose : XSDataDouble
+	absorbedDoseRate : XSDataAbsorbedDoseRate
+	timeToReachHendersonLimit : XSDataTime
+}

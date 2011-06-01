@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataMXv1.xsd"/>
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataResultCCP4i" type="XSDataResultCCP4i"/>
+	<xs:complexType name="XSDataResultCCP4i">
+		<xs:sequence>
+			<xs:element name="listOfOutputFiles" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSDataInputCCP4i" type="XSDataInputCCP4i"/>
+	<xs:complexType name="XSDataInputCCP4i">
+		<xs:sequence>
+			<xs:element name="dataFile" type="XSDataFile" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="diffractionPlan" type="XSDataDiffractionPlan" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="experimentalCondition" type="XSDataExperimentalCondition" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="sample" type="XSDataSampleCrystalMM" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="dataSet" type="XSDataCCP4iDataSet" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSDataCCP4iDataSet" type="XSDataCCP4iDataSet"/>
+	<xs:complexType name="XSDataCCP4iDataSet">
+		<xs:sequence>
+			<xs:element name="imageFile" type="XSDataFile" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

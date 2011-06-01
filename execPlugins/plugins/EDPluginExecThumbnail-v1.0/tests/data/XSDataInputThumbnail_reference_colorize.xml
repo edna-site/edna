@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataInputThumbnail>
+	<inputImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+		</path>
+	</inputImagePath>
+	<outputPath>
+		<path><value>/tmp/edna-${USER}/diff6105-colorize.jpg</value></path></outputPath>
+	<levelsColorize>
+		<value>1</value></levelsColorize><levelsGamma>
+        <value>0.3</value></levelsGamma></XSDataInputThumbnail>

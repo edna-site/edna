@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<XSDataRaddoseOutput>
+    <absorbedDose>
+        <value>220000.000000</value>
+    </absorbedDose>
+    <absorbedDoseRate>
+        <value>220000.000000</value>
+    </absorbedDoseRate>
+</XSDataRaddoseOutput>

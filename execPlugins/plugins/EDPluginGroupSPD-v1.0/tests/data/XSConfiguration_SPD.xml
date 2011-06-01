@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPlugineSP2DCakev1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>~/bin/spd-gcc44</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

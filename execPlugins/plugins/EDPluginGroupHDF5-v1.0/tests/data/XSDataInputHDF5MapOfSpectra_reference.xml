@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<HDF5File><path><value>/tmp/edna-${USER}/MapSpectra.h5</value></path></HDF5File>
+	<internalHDF5Path><value>Map</value></internalHDF5Path>
+	<inputSpectrumFile>
+		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5077.edf</value></path>
+		<slowMotorPosition><value>1</value></slowMotorPosition>
+		<fastMotorPosition><value>1</value></fastMotorPosition>
+		<meshScan>
+			<fastMotorStart><value>1</value></fastMotorStart>
+			<fastMotorStop><value>2</value></fastMotorStop>
+			<fastMotorSteps><value>1</value></fastMotorSteps>
+			<slowMotorStart><value>1</value></slowMotorStart>
+			<slowMotorStop><value>2</value></slowMotorStop>
+			<slowMotorSteps><value>1</value></slowMotorSteps>
+		</meshScan>
+	</inputSpectrumFile>
+	<inputSpectrumFile>
+		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5078.edf</value></path>
+		<slowMotorPosition><value>1</value></slowMotorPosition>
+		<fastMotorPosition><value>2</value></fastMotorPosition>
+		<meshScan>
+			<fastMotorStart><value>1</value></fastMotorStart>
+			<fastMotorStop><value>2</value></fastMotorStop>
+			<fastMotorSteps><value>1</value></fastMotorSteps>
+			<slowMotorStart><value>1</value></slowMotorStart>
+			<slowMotorStop><value>2</value></slowMotorStop>
+			<slowMotorSteps><value>1</value></slowMotorSteps>
+		</meshScan>
+	</inputSpectrumFile>
+	<inputSpectrumFile>
+		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5204.edf</value></path>
+		<slowMotorPosition><value>2</value></slowMotorPosition>
+		<fastMotorPosition><value>1</value></fastMotorPosition>
+		<meshScan>
+			<fastMotorStart><value>1</value></fastMotorStart>
+			<fastMotorStop><value>2</value></fastMotorStop>
+			<fastMotorSteps><value>1</value></fastMotorSteps>
+			<slowMotorStart><value>1</value></slowMotorStart>
+			<slowMotorStop><value>2</value></slowMotorStop>
+			<slowMotorSteps><value>1</value></slowMotorSteps>
+		</meshScan>
+	</inputSpectrumFile>
+	<inputSpectrumFile>
+		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5203.edf</value></path>
+		<slowMotorPosition><value>2</value></slowMotorPosition>
+		<fastMotorPosition><value>2</value></fastMotorPosition>
+		<meshScan>
+			<fastMotorStart><value>1</value></fastMotorStart>
+			<fastMotorStop><value>2</value></fastMotorStop>
+			<fastMotorSteps><value>1</value></fastMotorSteps>
+			<slowMotorStart><value>1</value></slowMotorStart>
+			<slowMotorStop><value>2</value></slowMotorStop>
+			<slowMotorSteps><value>1</value></slowMotorSteps>
+		</meshScan>
+	</inputSpectrumFile>
+
+	
+	
+	
+	
+</XSDataInput>

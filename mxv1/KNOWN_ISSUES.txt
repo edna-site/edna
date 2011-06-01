@@ -1,0 +1,14 @@
+          Known issues with EDNA MXv1 version 1.0.1
+		  =========================================
+
+* Pilatus detector format is not yet supported (bug #52)
+
+* A shorter summary from the MXv1 characterisation application must be
+  implemented, especially for the ccp4i GUI log output (bug #313)
+
+* The edna_mxv1_characterisation ccp4i GUI does not work correctly when
+  using CCP4 version 6.1.1 (i.e. ccp4i version higher that 2.0), some
+  of the output files can not be accessed from the GUI. This bug has
+  already been fixed in the development version and thus will be fixed
+  in the next minor release of the EDNA MXv1 Characterisation application.
+  

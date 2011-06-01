@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<XSDataInputPeakSearch>
+	<stem><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/tiftest</value></stem>
+	<indexMin><value>6</value></indexMin>
+	<indexMax><value>16</value></indexMax>
+	<outputStem><value>outFile</value></outputStem>
+	<threshold><value>5.0</value></threshold>
+	<numberOfDigits><value>4</value></numberOfDigits>
+	<imageFormat><value>.tif</value></imageFormat>
+</XSDataInputPeakSearch>

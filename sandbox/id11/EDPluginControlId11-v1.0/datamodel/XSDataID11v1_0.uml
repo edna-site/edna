@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataID11v1_0">
+    <packagedElement xmi:type="uml:Class" xmi:id="_yy0XWCOpEeCg4YYV2O-jIQ" name="XSDataInputID11">
+      <generalization xmi:id="_86eR0CRvEeCrd82MWE7fCA">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_6LCiEiOpEeCg4YYV2O-jIQ" name="parameterFile">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_EYmiQiOqEeCg4YYV2O-jIQ" name="dataFile" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_L4RY0COqEeCg4YYV2O-jIQ" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_DIK8UEWwEeC_bq3ZHkJcXw" name="outputdir">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QIVnAEWwEeC_bq3ZHkJcXw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_3un2gGBQEeCpXrFy_Wop7A" name="correctMask">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8KioMGBQEeCpXrFy_Wop7A"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_R7Gd8COqEeCg4YYV2O-jIQ" name="XSDataResultID11">
+      <generalization xmi:id="_A_ipwCRwEeCrd82MWE7fCA">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_znb0gC1UEeCL9_KV9NCAvQ" name="outputFile" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Arh88C1VEeCL9_KV9NCAvQ" value="*"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

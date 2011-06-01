@@ -1,0 +1,139 @@
+<!--
+********************************************************
+*
+* dna_gui.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_gui.xsd,v 1.23 2006/11/07 09:52:22 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+  <xsd:include schemaLocation="dna_collect.xsd"/>
+  <xsd:include schemaLocation="dna_index.xsd"/>
+  <xsd:include schemaLocation="dna_mosaicity.xsd"/>
+  <xsd:include schemaLocation="dna_strategy.xsd"/>
+  <xsd:include schemaLocation="dna_kappastrategy.xsd"/>
+
+
+  <xsd:complexType name="gui_message">
+    <xsd:sequence>
+      <xsd:element name="content"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="dna_status_request">
+  </xsd:complexType>
+
+
+  <xsd:complexType name="dna_status">
+    <xsd:sequence>
+      <xsd:element name="es_status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>
+      <xsd:element name="dpm_status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>
+      <xsd:element name="bcm_status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>
+      <xsd:element name="http_server_status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="gui_display_url_request">
+    <xsd:sequence>
+      <xsd:element name="url"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="gui_display_url_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="gui_status_message">
+    <xsd:sequence>
+      <xsd:element name="line_information_colour"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="line_information"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="popup_information"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="gui_display_es_status_request">
+    <xsd:sequence>
+      <xsd:element name="bcm_status"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="gui_status_message"/>
+      <xsd:element name="dpm_status"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="gui_status_message"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="feedback_request">
+    <xsd:sequence>
+      <xsd:element name="cause"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="xsd:string"/>      
+      <xsd:element name="comments"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="contact_email"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="blSampleId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="feedback_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

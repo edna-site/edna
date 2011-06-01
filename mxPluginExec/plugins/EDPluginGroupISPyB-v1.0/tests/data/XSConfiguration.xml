@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem> 
+			<name>EDPluginISPyBv10</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>dbserverHost</name>
+					<value>localhost</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>dbserverPort</name>
+					<value>9090</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

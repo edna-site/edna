@@ -1,0 +1,91 @@
+Changes to make to dimplev0 prior to extension.
+-----------------------------------------------
+
+Rename - pdbfile, mtzfile to xyz, hkl. InputPDBFile -> XYZIN, HKLIN &c.
+
+Then add scope for additional information in these objects - 
+
+hkl:
+  file
+  columns:
+    name, label
+
+so for instance, for the truncate plugin:
+
+hklin:
+  fast_dp.mtz
+  columns:
+    i = I
+    sigi = SIGI
+    etc.
+
+Additional Exec Plugins
+-----------------------
+
+ - Pointless for xyzin, hklin to reindex for different indexing origin
+ - Pointless (or other) for spacegroup assignment
+ - Molecular replacement (e.g. with Phaser) 
+
+-- example script for identical molecular replacement --
+
+  phaser << eof
+  mode mr_auto
+  hklin f.mtz
+  labin F=F SIGF=SIGF
+  ensemble model pdb 2VHK.pdb identity 100
+  composition protein mw 25600 num 1
+  search ensemble model num 1
+  root mr
+  eof
+
+
+
+
+Additional Control Plugins
+--------------------------
+
+ - Pointless decide indexing
+ - Select right pdb file
+ - Chose to do MR or RB
+ - Runner of MR
+
+
+
+
+Port to Windows 
+
+
+Dimple V2
+---------
+
+Two pipelines: dimple_mr and dimple_ms (molecular replacement and molecular
+substitution i.e. difference map)
+
+Overall dimple pipeline: 
+
+input: hklin
+       xyzin list
+       [spacegroup] * assumed to be the same as the selected pdb if not set
+
+phase 1: select pdb file
+         for each xyzin in xyzin_list:
+             if pointgroup(xyzin) != pointgroup(hklin)
+                 continue
+             if cell(xyzin) ~ cell(hklin):
+                 select
+             else
+                 test with pointless; reindex; compare cell
+
+         if len(selected) == 0:
+             dimple_mr(xyzin_list[0], spacegroup)
+         elif len(selected) == 1:
+             dimple_ms(xyzin_list[0])
+         else:
+             raise error?
+
+dimple_ms pipeline is much like we already have, with pointless reindexing 
+added.
+
+dimple_mr is almost the same as current pipeline with spacegroup assigned 
+as input (or searched for or guessed) and phaser mr in place of refmac 
+rigid body refinement.

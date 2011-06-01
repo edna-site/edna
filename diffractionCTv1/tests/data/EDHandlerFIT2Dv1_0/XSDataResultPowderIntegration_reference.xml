@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataResultPowderIntegration>
+	<integratedIntensities>
+		<path>/tmp/test.cif</path>
+	</integratedIntensities>
+</XSDataResultPowderIntegration>

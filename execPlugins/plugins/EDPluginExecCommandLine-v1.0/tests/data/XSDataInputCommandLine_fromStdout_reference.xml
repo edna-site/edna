@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<XSDataInputExecCommandLine>
+	<commandLineProgram>
+		<path>
+			<value>bzip2</value></path></commandLineProgram>
+	<commandLineOptions>
+		<value>-9 -c </value>
+	</commandLineOptions>
+	<inputFileName>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0041.edf</value>
+		</path>
+	</inputFileName>
+	<outputPath>
+		<path><value>/tmp/edna-${USER}/test_region1_dark_1_0041.edf.bz2</value></path></outputPath>
+	<outfileFromStdout>
+		<value>true</value></outfileFromStdout></XSDataInputExecCommandLine>

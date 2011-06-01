@@ -1,0 +1,539 @@
+#
+#    Project: EDNA MXv1
+#             http://www.edna-site.org
+#
+#    File: "$Id: EDPluginControlInterfaceToMXCuBEv1_3.py 2100 2010-09-27 09:17:13Z svensson $"
+#
+#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#                            Grenoble, France
+#
+#    Principal author:       Olof Svensson (svensson@esrf.fr) 
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+import os
+import shutil
+import smtplib
+import time
+
+from EDVerbose import EDVerbose
+from EDMessage import EDMessage
+from EDPluginControl import EDPluginControl
+from EDUtilsFile import EDUtilsFile
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDUtilsImage import EDUtilsImage
+from EDConfiguration import EDConfiguration
+from EDUtilsPath import EDUtilsPath
+
+from XSDataCommon import XSDataString
+from XSDataCommon import XSDataDictionary
+from XSDataCommon import XSDataKeyValuePair
+
+from XSDataMXv1 import XSDataInputControlISPyB
+from XSDataMXv1 import XSDataResultCharacterisation
+
+from XSDataMXCuBEv1_3 import XSDataInputMXCuBE
+from XSDataMXCuBEv1_3 import XSDataResultMXCuBE
+
+
+
+class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
+    """
+    This is the plugin interface to launch the MXv1 characterisation from an MXCuBE gui.
+    It is for the moment a wrapper for the EDPluginControlCCP4iv1_1 plugin, which also
+    runs the ISPyB control plugin if a data collection id is available.
+    """
+
+    EDNA_CONTACT_EMAIL = "contactEmail"
+    EDNA_EMAIL_SENDER = "emailSender"
+
+
+    def __init__ (self):
+        """
+        Initialisation of EDPluginControlInterfaceToMXCuBEv1_3:
+        - Input data type class : XSDataInputMXCuBE
+        - Name of default characterisation plugin : EDPluginControlCharacterisationv1_1
+        """
+        EDPluginControl.__init__(self)
+        self.setXSDataInputClass(XSDataInputMXCuBE)
+        self.strPluginControlInterface = "EDPluginControlInterfacev1_2"
+        self.edPluginControlInterface = None
+        self.strPluginControlISPyB = "EDPluginControlISPyBv1_1"
+        self.edPluginControlISPyB = None
+        self.xsDataResultMXCuBE = None
+        self.xsDataIntegerDataCollectionId = None
+        self.strPluginExecOutputHTMLName = "EDPluginExecOutputHTMLv1_0"
+        self.edPluginExecOutputHTML = None
+        self.strEDNAContactEmail = None
+        self.strEDNAEmailSender = "edna-support@esrf.fr"
+        self.tStart = None
+        self.tStop = None
+
+
+    def checkParameters(self):
+        """
+        Checks the mandatory input parameters :
+        - dataSet
+        - outputFileDirectory
+        """
+        self.verboseDebug("EDPluginControlInterfaceToMXCuBEv1_3.checkParameters")
+        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
+        self.checkMandatoryParameters(self.getDataInput().getDataSet(), "dataSet")
+
+
+    def configure(self):
+        EDPluginControl.configure(self)
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure")
+        xsPluginItem = self.getConfiguration()
+        if xsPluginItem == None:
+            EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: No plugin item defined.")
+        else:
+            self.strEDNAContactEmail = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginControlInterfaceToMXCuBEv1_3.EDNA_CONTACT_EMAIL)
+            EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: EDNAContactEmail = %s" % self.strEDNAContactEmail)
+            strEDNAEmailSender = EDConfiguration.getStringParamValue(xsPluginItem, self.EDNA_EMAIL_SENDER)
+            if strEDNAEmailSender:
+                self.strEDNAEmailSender = strEDNAEmailSender
+
+
+
+    def preProcess(self, _edPlugin=None):
+        """
+        This method prepares the input for the CCP4i plugin and loads it.
+        """
+        EDPluginControl.preProcess(self, _edPlugin)
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.preProcess...")
+
+        self.tStart = time.time()
+
+        xsDataInputMXCuBE = self.getDataInput()
+
+        self.edPluginControlInterface = self.loadPlugin(self.strPluginControlInterface)
+        for xsDataSetMXCuBE in xsDataInputMXCuBE.getDataSet():
+            for xsDataFile in xsDataSetMXCuBE.getImageFile():
+                strPath = xsDataFile.getPath().getValue()
+                self.edPluginControlInterface.setDataInput(XSDataString(strPath), "imagePaths")
+
+        if xsDataInputMXCuBE.getExperimentalCondition() != None:
+            self.edPluginControlInterface.setDataInput(str(xsDataInputMXCuBE.getExperimentalCondition().marshal()), "experimentalCondition")
+        if xsDataInputMXCuBE.getDiffractionPlan() != None:
+            self.edPluginControlInterface.setDataInput(str(xsDataInputMXCuBE.getDiffractionPlan().marshal()), "diffractionPlan")
+        if xsDataInputMXCuBE.getSample() != None:
+            self.edPluginControlInterface.setDataInput(xsDataInputMXCuBE.getSample().marshal(), "sample")
+        if xsDataInputMXCuBE.getDataCollectionId() != None:
+            self.edPluginControlInterface.setDataInput(xsDataInputMXCuBE.getDataCollectionId().marshal(), "dataCollectionId")
+
+        self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
+        self.xsDataResultMXCuBE = XSDataResultMXCuBE()
+
+
+    def process(self, _edPlugin=None):
+        EDPluginControl.process(self, _edPlugin)
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.process...")
+
+        if self.edPluginControlInterface is not None:
+            self.connectProcess(self.edPluginControlInterface.executeSynchronous)
+            self.edPluginControlInterface.connectSUCCESS(self.doSuccessActionInterface)
+            self.edPluginControlInterface.connectFAILURE(self.doFailureActionInterface)
+
+
+    def finallyProcess(self, _edPlugin=None):
+        EDPluginControl.finallyProcess(self, _edPlugin)
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.postProcess...")
+        self.setDataOutput(self.xsDataResultMXCuBE)
+
+
+    def doSuccessActionInterface(self, _edPlugin=None):
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface...")
+        self.retrieveSuccessMessages(self.edPluginControlInterface, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface")
+        if self.edPluginControlInterface.hasDataOutput("characterisation"):
+            xsDataCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
+            self.xsDataResultMXCuBE.setCharacterisationResult(xsDataCharacterisation)
+            strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
+            xsDataCharacterisation.outputFile(strPathCharacterisationResult)
+            self.xsDataResultMXCuBE.setListOfOutputFiles(XSDataString(strPathCharacterisationResult))
+            # For the moment, create "DNA" style output directory
+            strPathToDNAFileDirectory = self.createDNAFileDirectoryPath(xsDataCharacterisation)
+            xsDataDictionaryLogFile = None
+            if (self.createDNAFileDirectory(strPathToDNAFileDirectory)):
+                xsDataDictionaryLogFile = self.createOutputFileDictionary(xsDataCharacterisation, strPathToDNAFileDirectory)
+            strPyArchPathToDNAFileDirectory = self.createPyArchDNAFilePath(strPathToDNAFileDirectory)
+            if (self.createDNAFileDirectory(strPyArchPathToDNAFileDirectory)):
+                xsDataDictionaryLogFile = self.createOutputFileDictionary(xsDataCharacterisation, strPyArchPathToDNAFileDirectory)
+            self.xsDataResultMXCuBE.setOutputFileDictionary(xsDataDictionaryLogFile)
+            # Send success email message (MXSUP-183):
+            self.tStop = time.time()
+            strSubject = "%s : SUCCESS! (%.1f s)" % (EDUtilsPath.getEdnaSite(), self.tStop-self.tStart)
+            strMessage = "Characterisation success!"
+            if xsDataCharacterisation.getStatusMessage():
+                strMessage += "\n\n"
+                strMessage += xsDataCharacterisation.getStatusMessage().getValue()
+            if xsDataCharacterisation.getShortSummary():
+                strMessage += "\n\n"
+                strMessage += xsDataCharacterisation.getShortSummary().getValue()
+            self.sendEmail(strSubject, strMessage)
+            # Fix for bug EDNA-55 : If burning strategy EDNA2html shouldn't be run
+            bRunExecOutputHTML = True
+            xsDataInputMXCuBE = self.getDataInput()
+            xsDataDiffractionPlan = xsDataInputMXCuBE.getDiffractionPlan()
+            if xsDataDiffractionPlan.getStrategyOption() is not None:
+                strStrategyOption = xsDataDiffractionPlan.getStrategyOption().getValue()
+                if strStrategyOption.find("-DamPar") != -1:
+                    bRunExecOutputHTML = False
+            if (self.edPluginExecOutputHTML is not None) and bRunExecOutputHTML:
+                self.edPluginExecOutputHTML.executeSynchronous()
+                if not self.edPluginExecOutputHTML.isFailure() and self.edPluginExecOutputHTML.hasDataOutput("htmlFile"):
+                    strPathToHTMLFile = self.edPluginExecOutputHTML.getDataOutput("htmlFile")[0].getPath().getValue()
+                    strPathToHTMLDir = self.edPluginExecOutputHTML.getDataOutput("htmlDir")[0].getPath().getValue()
+                    strPathToDNAIndexDirectory = os.path.join(strPathToDNAFileDirectory, "index")
+                    if os.path.exists(strPathToHTMLFile):
+                        try:
+                            os.mkdir(strPathToDNAIndexDirectory)
+                            shutil.copy(strPathToHTMLFile, os.path.join(strPathToDNAIndexDirectory, "index.html"))
+                            shutil.copytree(strPathToHTMLDir, os.path.join(strPathToDNAIndexDirectory, os.path.basename(strPathToHTMLDir)))
+                            if strPyArchPathToDNAFileDirectory is not None:
+                                strPathToPyArchIndexDirectory = os.path.join(strPyArchPathToDNAFileDirectory, "index")
+                                os.mkdir(strPathToPyArchIndexDirectory)
+                                shutil.copy(strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
+                                shutil.copytree(strPathToHTMLDir, os.path.join(strPathToPyArchIndexDirectory, os.path.basename(strPathToHTMLDir)))
+                        except Exception, e:
+                            EDVerbose.DEBUG("Exception caught: %r" % e)
+            # Fix for bug MXSUP-251: Put the BEST .par file in the EDNA characterisation root directory
+            xsDataIntegrationResult = xsDataCharacterisation.getIntegrationResult()
+            if xsDataIntegrationResult:
+                listXSDataIntegrationSubWedgeResult = xsDataIntegrationResult.getIntegrationSubWedgeResult()
+                if listXSDataIntegrationSubWedgeResult:
+                    if listXSDataIntegrationSubWedgeResult != []:
+                        strBestfilePar = listXSDataIntegrationSubWedgeResult[0].getBestfilePar().getValue()
+                        # Put the file one directory above the mxCuBE v1.3 plugin working directory:
+                        strDir = os.path.dirname(self.getWorkingDirectory())
+                        strPath = os.path.join(strDir, "bestfile.par")
+                        EDUtilsFile.writeFile(strPath, strBestfilePar)
+
+
+
+    def doFailureActionInterface(self, _edPlugin=None):
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doFailureActionInterface...")
+        self.setFailure()
+        xsDataResultMXCuBE = XSDataResultMXCuBE()
+        self.setDataOutput(xsDataResultMXCuBE)
+        self.writeDataOutput()
+        # Send failure email message (MXSUP-183):
+        strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
+        strMessage = "Interface FAILURE!"
+        if self.edPluginControlInterface.hasDataOutput("characterisation"):
+            xsDataCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
+            if xsDataCharacterisation.getStatusMessage():
+                strMessage += "\n\n"
+                strMessage += xsDataCharacterisation.getStatusMessage().getValue()
+            if xsDataCharacterisation.getShortSummary():
+                strMessage += "\n\n"
+                strMessage += xsDataCharacterisation.getShortSummary().getValue()
+        self.sendEmail(strSubject, strMessage)
+
+
+    def doSuccessActionISPyB(self, _edPlugin):
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionISPyB...")
+        self.retrieveSuccessMessages(self.edPluginControlISPyB, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionISPyB")
+
+
+    def doFailureActionISPyB(self, _edPlugin=None):
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doFailureActionISpyB...")
+        self.retrieveFailureMessages(self.edPluginControlISPyB, "EDPluginControlInterfaceToMXCuBEv1_3.doFailureActionISpyB")
+        # Send failure email message (MXSUP-183):
+        strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
+        strMessage = "ISPyB FAILURE!"
+        self.sendEmail(strSubject, strMessage)
+
+
+    def createDNAFileDirectoryPath(self, _xsDataCharacterisation):
+        """
+        This method creates a "DNA" style directory path, i.e. in the same directory were the 
+        images are located a new directory is created with the following convention:
+        
+          dnafiles_prefix_runNumber
+        
+        The path to this directory is returned if the directory was successfully created.
+        """
+        # First extract all reference image directory paths and names
+        xsDataCollection = _xsDataCharacterisation.getDataCollection()
+        listImageDirectoryPath = []
+        listImagePrefix = []
+        for xsDataSubWedge in xsDataCollection.getSubWedge():
+            for xsDataImage in xsDataSubWedge.getImage():
+                strImagePath = xsDataImage.getPath().getValue()
+                listImageDirectoryPath.append(os.path.dirname(strImagePath))
+                listImagePrefix.append(EDUtilsImage.getPrefix(strImagePath))
+        # TODO: Check that all paths and prefixes are the same
+        strImageDirectory = listImageDirectoryPath[0]
+        strPrefix = listImagePrefix[0]
+        # Remove any "ref-" or "postref-" from the prefix in order to make it fully
+        # compatitble with DNA standards:
+        if (strPrefix is not None):
+            if (strPrefix.startswith("ref-")):
+                strPrefix = strPrefix[4:]
+            elif (strPrefix.startswith("postref-")):
+                strPrefix = strPrefix[8:]
+        strDNAFileDirectoryPath = os.path.join(strImageDirectory, "%s_dnafiles" % strPrefix)
+        return strDNAFileDirectoryPath
+
+
+
+    def createPyArchDNAFilePath(self, _strDNAFileDirectoryPath):
+        """
+        This method translates from a "visitor" path to a "pyarch" path:
+        /data/visitor/mx415/id14eh1/20100209 -> /data/pyarch/id14eh1/mx415/20100209
+        """
+        strPyarchDNAFilePath = None
+        listOfDirectories = _strDNAFileDirectoryPath.split(os.sep)
+        listBeamlines = ["id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2", "id29"]
+        # Check that we have at least four levels of directories:
+        if (len(listOfDirectories) > 4):
+            strDataDirectory = listOfDirectories[ 1 ]
+            strSecondDirectory = listOfDirectories[ 2 ]
+            strProposal = None
+            strBeamline = None
+            if ((strDataDirectory == "data") and (strSecondDirectory == "visitor")):
+                strProposal = listOfDirectories[ 3 ]
+                strBeamline = listOfDirectories[ 4 ]
+            elif ((strDataDirectory == "data") and (strSecondDirectory in listBeamlines)):
+                strBeamline = strSecondDirectory
+                strProposal = listOfDirectories[ 4 ]
+            if (strProposal != None) and (strBeamline != None):
+                strPyarchDNAFilePath = os.path.join(os.sep, "data")
+                strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, "pyarch")
+                strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, strBeamline)
+                strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, strProposal)
+                for strDirectory in listOfDirectories[ 5: ]:
+                    strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, strDirectory)
+        if (strPyarchDNAFilePath is None):
+            EDVerbose.WARNING("EDPluginControlInterfaceToMXCuBEv1_3.createPyArchDNAFilePath: path not converted for pyarch: %s " % _strDNAFileDirectoryPath)
+        return strPyarchDNAFilePath
+
+
+
+    def createDNAFileDirectory(self, _strDNAFileDirectoryPath):
+        """
+        Create a "DNA-files" directory - if possible.
+        """
+        bSuccess = False
+        if (_strDNAFileDirectoryPath is not None):
+            if (os.path.exists(_strDNAFileDirectoryPath)):
+                EDVerbose.warning("Removing existing DNA files directory: %s" % _strDNAFileDirectoryPath)
+                if (os.access(_strDNAFileDirectoryPath, os.W_OK)):
+                    shutil.rmtree(_strDNAFileDirectoryPath)
+                else:
+                    EDVerbose.warning("Cannot remove existing DNA files directory!")
+            if (_strDNAFileDirectoryPath is not None):
+                # Check if directory one level up is writeable
+                strDNAFileBaseDirectory = os.path.split(_strDNAFileDirectoryPath)[0]
+                if (os.access(strDNAFileBaseDirectory, os.W_OK)):
+                    EDVerbose.DEBUG("Creating DNA files directory: %s" % _strDNAFileDirectoryPath)
+                    os.mkdir(_strDNAFileDirectoryPath)
+                    bSuccess = True
+                else:
+                    EDVerbose.warning("Cannot create DNA files directory: %s" % _strDNAFileDirectoryPath)
+        return bSuccess
+
+
+
+    def splitHeadDirectory(self, _strPath):
+        """
+        This method works like os.path.split except that it splits the head directory
+        from the rest of the path. Example:
+        "/" -> [ None, None]
+        "/data" -> ["data", None]
+        "/data/visitor" -> ["data", "visitor"]
+        "/data/visitor/mx415/id14eh2/20100212" -> ["data", "visitor/mx415/id14eh2/20100212"]
+        """
+        listOfDirectories = _strPath.split(os.sep)
+        strTail = None
+        strHead = None
+        if (len(listOfDirectories) > 1):
+            strHead = listOfDirectories[1]
+            if (strHead == ""):
+                strHead = None
+            if (len(listOfDirectories) > 1):
+                for strEntry in listOfDirectories[2:]:
+                    if (strTail is None):
+                        strTail = strEntry
+                    else:
+                        strTail = os.path.join(strTail, strEntry)
+        return [ strHead, strTail ]
+
+
+    def createOutputFileDictionary(self, _xsDataCharacterisation, _strPathToLogFileDirectory=None):
+        """
+        This method creates an XSDataDictionary containing the name and locations of the 
+        characterisation output files.
+        """
+        xsDataDictionaryLogFile = XSDataDictionary()
+        # Start with the prediction images
+        xsDataIndexingResult = _xsDataCharacterisation.getIndexingResult()
+        xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
+        listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
+        for xsDataImagePrediction in listXSDataImagePrediction:
+            xsDataKeyValuePair = XSDataKeyValuePair()
+            iPredictionImageNumber = xsDataImagePrediction.getNumber().getValue()
+            xsDataStringKey = XSDataString("predictionImage_%d" % iPredictionImageNumber)
+            xsDataStringValue = None
+            strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
+            if (_strPathToLogFileDirectory is not None):
+                strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
+                strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
+                EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
+                xsDataStringValue = XSDataString(strNewPredictionImagePath)
+            else:
+                xsDataStringValue = XSDataString(strPredictionImageFileName)
+            xsDataKeyValuePair.setKey(xsDataStringKey)
+            xsDataKeyValuePair.setValue(xsDataStringValue)
+            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+        # Best log file
+        strPathToBESTLogFile = None
+        strPathToExecutiveSummary = None
+        if _xsDataCharacterisation.getStrategyResult().getBestLogFile() != None:
+            strPathToBESTLogFile = _xsDataCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
+        if strPathToBESTLogFile is not None:
+            xsDataStringKey = XSDataString("logFileBest")
+            xsDataStringValue = None
+            if (_strPathToLogFileDirectory is not None):
+                strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
+                EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
+                xsDataStringValue = XSDataString(strNewBestLogPath)
+            else:
+                xsDataStringValue = XSDataString(strPathToBESTLogFile)
+            xsDataKeyValuePair = XSDataKeyValuePair()
+            xsDataKeyValuePair.setKey(xsDataStringKey)
+            xsDataKeyValuePair.setValue(xsDataStringValue)
+            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+        if (strPathToExecutiveSummary is not None):
+            xsDataStringKey = XSDataString("executiveSummary")
+            xsDataStringValue = None
+            if (_strPathToLogFileDirectory is not None):
+                strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
+                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
+                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+                xsDataStringValue = XSDataString(strNewExecutiveSummaryPath)
+                # Copy also the executive summary file to "dna_log.txt"...
+                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
+                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+            else:
+                xsDataStringValue = XSDataString(strPathToExecutiveSummary)
+            xsDataKeyValuePair = XSDataKeyValuePair()
+            xsDataKeyValuePair.setKey(xsDataStringKey)
+            xsDataKeyValuePair.setValue(xsDataStringValue)
+            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+
+        return xsDataDictionaryLogFile
+
+
+
+
+
+    def doFailureActionCharacterisation(self, _edPlugin=None):
+        """
+        retrieve the potential warning messages
+        retrieve the potential error messages
+        """
+        EDVerbose.DEBUG("EDPluginControlInterfacev1_3.doFailureActionCharacterisation")
+        self.setFailure()
+        # Send failure email message (MXSUP-183):
+        strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
+        strMessage = "Characterisation FAILURE!"
+        self.sendEmail(strSubject, strMessage)
+
+
+
+    def updateDataInputCharacterisation(self, _xsDataInputCharacterisation):
+        """
+        This method updates the xsDataInputCharacterisation object given as argument with the following
+        parameters (if available) goven as input:
+        - Diffraction plan
+        - Beam size
+        - Beam flux
+        - Min exposure time per image
+        - Max oscillation speed
+        - Min oscillation width
+        - Sample information
+        """
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.createDataInputCharacterisationFromDataSets")
+        xsDataCollection = _xsDataInputCharacterisation.getDataCollection()
+        if (_xsDataInputCharacterisation is not None):
+            xsDataInputCCP4i = self.getDataInput()
+            # Update with diffraction plan
+            xsDiffactionPlan = xsDataInputCCP4i.getDiffractionPlan()
+            if(xsDiffactionPlan is not None):
+                xsDataCollection.setDiffractionPlan(xsDiffactionPlan)
+            # Update the data collection subwedges with additional experimental conditions
+            for xsDataSubWedge in xsDataCollection.getSubWedge():
+                xsDataExperimentalCondition = xsDataInputCCP4i.getExperimentalCondition()
+                if(xsDataExperimentalCondition is not None):
+                    xsDataBeam = xsDataExperimentalCondition.getBeam()
+                    if(xsDataBeam is not None):
+                        xsDataBeamSize = xsDataBeam.getSize()
+                        if(xsDataBeamSize is not None):
+                            xsDataSubWedge.getExperimentalCondition().getBeam().setSize(xsDataBeamSize)
+                        xsDataBeamFlux = xsDataBeam.getFlux()
+                        if(xsDataBeamFlux is not None):
+                            xsDataSubWedge.getExperimentalCondition().getBeam().setFlux(xsDataBeamFlux)
+                        xsDataMinExposureTime = xsDataBeam.getMinExposureTimePerImage()
+                        if(xsDataMinExposureTime is not None):
+                            xsDataSubWedge.getExperimentalCondition().getBeam().setMinExposureTimePerImage(xsDataMinExposureTime)
+                    xsDataGoniostat = xsDataExperimentalCondition.getGoniostat()
+                    if(xsDataGoniostat is not None):
+                        xsDataMaxOscSpeed = xsDataGoniostat.getMaxOscillationSpeed()
+                        if(xsDataMaxOscSpeed is not None):
+                            xsDataSubWedge.getExperimentalCondition().getGoniostat().setMaxOscillationSpeed(xsDataMaxOscSpeed)
+                        xsDataMinOscWidth = xsDataGoniostat.getMinOscillationWidth()
+                        if(xsDataMinOscWidth is not None):
+                            xsDataSubWedge.getExperimentalCondition().getGoniostat().setMinOscillationWidth(xsDataMinOscWidth)
+            # Update with the sample
+            xsDataSample = xsDataInputCCP4i.getSample()
+            if(xsDataSample is not None):
+                xsDataCollection.setSample(xsDataSample)
+
+
+    def sendEmail(self, _strSubject, _strMessage):
+        """Sends an email to the EDNA contact person (if configured)."""
+
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.sendEmail: Subject = %s" % _strSubject)
+        EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.sendEmail: Message:")
+        EDVerbose.DEBUG(_strMessage)
+        if self.strEDNAContactEmail == None:
+            EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.sendEmail: No email address configured!")
+        elif not EDUtilsPath.getEdnaSite().startswith("ESRF"):
+            EDVerbose.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.sendEmail: Not executed at the ESRF! EDNA_SITE=%s" % EDUtilsPath.getEdnaSite())
+        else:
+            try:
+                EDVerbose.DEBUG("Sending message to %s." % self.strEDNAContactEmail)
+                EDVerbose.DEBUG("Message: %s" % _strMessage)
+                strMessage = """
+EDNA_HOME = %s
+EDNA_SITE = %s
+PLUGIN_NAME = %s
+working_dir = %s
+%s
+
+""" % (EDUtilsPath.getEdnaHome(), EDUtilsPath.getEdnaSite(), self.getPluginName(), self.getWorkingDirectory(), _strMessage)
+                strEmailMsg = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s" % (self.strEDNAEmailSender, \
+                                                                                self.strEDNAContactEmail, \
+                                                                                _strSubject, strMessage))
+                server = smtplib.SMTP("localhost")
+                server.sendmail(self.strEDNAEmailSender, self.strEDNAContactEmail, strEmailMsg)
+                server.quit()
+            except:
+                EDVerbose.ERROR("Error when sending email message!")
+                EDVerbose.writeErrorTrace()
+
+

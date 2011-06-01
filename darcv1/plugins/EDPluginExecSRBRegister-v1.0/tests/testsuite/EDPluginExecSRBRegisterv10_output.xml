@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResultPluginExecSRBRegister>
+    <xmlIngestFileName>
+        <path>
+            <value>../data/create-ds.xml.icat</value>
+        </path>
+    </xmlIngestFileName>
+</XSDataResultPluginExecSRBRegister>

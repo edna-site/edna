@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<HDF5File><path><value>/tmp/edna-${USER}/ALIGN.h5</value></path></HDF5File>
+<internalHDF5Path><value>alignedStack</value></internalHDF5Path>
+</XSDataResult>

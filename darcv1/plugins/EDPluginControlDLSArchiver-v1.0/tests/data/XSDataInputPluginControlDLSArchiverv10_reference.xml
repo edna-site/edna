@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<XSDataInputPluginControlDLSArchiver>
+	<archiveLocation>
+		<path>
+			<value>../data/test/archive/</value>
+		</path>
+	</archiveLocation>
+	<dropZonePath>
+		<path>
+			<value>../data/test/ingest/</value>
+		</path>
+	</dropZonePath>
+	<srbDropFilePath>
+		<path>
+			<value>../data/test/drop/</value>
+		</path>
+	</srbDropFilePath>
+	<srbURIPattern>
+		<value>/dls/([ibp][0-9][0-9])/data/([0-9]*)/(.*)</value>
+	</srbURIPattern>
+	<srbURIReplacement>
+		<value>srb://lalalala/\1/data/data/\2/\3</value>
+	</srbURIReplacement>
+	<pollTime>
+		<value>-1</value>
+	</pollTime>
+	<iCatIngesterCommand>
+		<value>echo java -Djavax.net.ssl.trustStore=cacerts.jks -jar dist/icat3-xmlingest-client.jar GUARDIAN</value>
+	</iCatIngesterCommand>
+    <ignoreList>
+        <value>0-0</value>
+    </ignoreList>
+    <ignoreList>
+        <value>1-0</value>
+    </ignoreList>
+</XSDataInputPluginControlDLSArchiver>

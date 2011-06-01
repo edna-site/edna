@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="CCP4UnitCell" type="CCP4UnitCell"/>
+	<xs:complexType name="CCP4UnitCell">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="a" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="b" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="c" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="alpha" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="beta" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="gamma" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4MTZColLabels" type="CCP4MTZColLabels"/>
+	<xs:complexType name="CCP4MTZColLabels">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="F" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="SIGF" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="IMEAN" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="SIGIMEAN" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4SymmetryOperation" type="CCP4SymmetryOperation"/>
+	<xs:complexType name="CCP4SymmetryOperation">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="symmetryOperation" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="symmetryMatrix" type="CCP4RTMatrix" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4RTMatrix" type="CCP4RTMatrix"/>
+	<xs:complexType name="CCP4RTMatrix">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="e11" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e12" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e13" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e21" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e22" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e23" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e31" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e32" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e33" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e41" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e42" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="e43" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4SpaceGroup" type="CCP4SpaceGroup"/>
+	<xs:complexType name="CCP4SpaceGroup">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="name" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="number" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="symmetryOperations" type="CCP4SymmetryOperation" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4ResolutionLimit" type="CCP4ResolutionLimit"/>
+	<xs:complexType name="CCP4ResolutionLimit">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="resolution" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="HKL" type="HKL"/>
+	<xs:complexType name="HKL">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="path" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XYZ" type="XYZ"/>
+	<xs:complexType name="XYZ">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="path" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4Sequence" type="CCP4Sequence"/>
+	<xs:complexType name="CCP4Sequence">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="oneLetterCode" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfResidues" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="molecularMass" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4ReindexingOperation" type="CCP4ReindexingOperation"/>
+	<xs:complexType name="CCP4ReindexingOperation">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="ReindexingOperation" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ReindexingMatrix" type="CCP4RTMatrix" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4ReturnStatus" type="CCP4ReturnStatus"/>
+	<xs:complexType name="CCP4ReturnStatus">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="code" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="message" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4LogFile" type="CCP4LogFile"/>
+	<xs:complexType name="CCP4LogFile">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="path" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputMTZDUMP" type="CCP4DataInputMTZDUMP"/>
+	<xs:complexType name="CCP4DataInputMTZDUMP">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultMTZDUMP" type="CCP4DataResultMTZDUMP"/>
+	<xs:complexType name="CCP4DataResultMTZDUMP">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="spaceGroup" type="CCP4SpaceGroup" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unitCell" type="CCP4UnitCell" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="upperResolutionLimit" type="CCP4ResolutionLimit" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="lowerResolutionLimit" type="CCP4ResolutionLimit" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="listOfColumns" type="XSParamList" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputPDBDUMP" type="CCP4DataInputPDBDUMP"/>
+	<xs:complexType name="CCP4DataInputPDBDUMP">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultPDBDUMP" type="CCP4DataResultPDBDUMP"/>
+	<xs:complexType name="CCP4DataResultPDBDUMP">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="spaceGroup" type="CCP4SpaceGroup" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unitCell" type="CCP4UnitCell" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sequence" type="CCP4Sequence" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputPDBSET" type="CCP4DataInputPDBSET"/>
+	<xs:complexType name="CCP4DataInputPDBSET">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unitCell" type="CCP4UnitCell" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultPDBSET" type="CCP4DataResultPDBSET"/>
+	<xs:complexType name="CCP4DataResultPDBSET">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputTRUNCATE" type="CCP4DataInputTRUNCATE"/>
+	<xs:complexType name="CCP4DataInputTRUNCATE">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sequence" type="CCP4Sequence" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultTRUNCATE" type="CCP4DataResultTRUNCATE"/>
+	<xs:complexType name="CCP4DataResultTRUNCATE">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputREINDEX" type="CCP4DataInputREINDEX"/>
+	<xs:complexType name="CCP4DataInputREINDEX">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="spaceGroup" type="CCP4SpaceGroup" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="reindexingOperation" type="CCP4SymmetryOperation" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultREINDEX" type="CCP4DataResultREINDEX"/>
+	<xs:complexType name="CCP4DataResultREINDEX">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputUNIQUE" type="CCP4DataInputUNIQUE"/>
+	<xs:complexType name="CCP4DataInputUNIQUE">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="spaceGroup" type="CCP4SpaceGroup" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unitCell" type="CCP4UnitCell" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="resolutionLimit" type="CCP4ResolutionLimit" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultUNIQUE" type="CCP4DataResultUNIQUE"/>
+	<xs:complexType name="CCP4DataResultUNIQUE">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputFREERFLAG" type="CCP4DataInputFREERFLAG"/>
+	<xs:complexType name="CCP4DataInputFREERFLAG">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultFREERFLAG" type="CCP4DataResultFREERFLAG"/>
+	<xs:complexType name="CCP4DataResultFREERFLAG">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputREFMACRigidBody" type="CCP4DataInputREFMACRigidBody"/>
+	<xs:complexType name="CCP4DataInputREFMACRigidBody">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultREFMACRigidBody" type="CCP4DataResultREFMACRigidBody"/>
+	<xs:complexType name="CCP4DataResultREFMACRigidBody">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="initialR" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="initialRFree" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="finalR" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="finalRFree" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputREFMACRestrainedRefinement" type="CCP4DataInputREFMACRestrainedRefinement"/>
+	<xs:complexType name="CCP4DataInputREFMACRestrainedRefinement">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultREFMACRestrainedRefinement" type="CCP4DataResultREFMACRestrainedRefinement"/>
+	<xs:complexType name="CCP4DataResultREFMACRestrainedRefinement">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="initialR" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="initialRFree" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="finalR" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="finalRFree" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputCAD" type="CCP4DataInputCAD"/>
+	<xs:complexType name="CCP4DataInputCAD">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="columnLabels" type="XSDataListOfStrings" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultCAD" type="CCP4DataResultCAD"/>
+	<xs:complexType name="CCP4DataResultCAD">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputControlCopyUnitCellMTZtoPDB" type="CCP4DataInputControlCopyUnitCellMTZtoPDB"/>
+	<xs:complexType name="CCP4DataInputControlCopyUnitCellMTZtoPDB">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultControlCopyUnitCellMTZtoPDB" type="CCP4DataResultControlCopyUnitCellMTZtoPDB"/>
+	<xs:complexType name="CCP4DataResultControlCopyUnitCellMTZtoPDB">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputControlCopySpaceGroupPDBtoMTZ" type="CCP4DataInputControlCopySpaceGroupPDBtoMTZ"/>
+	<xs:complexType name="CCP4DataInputControlCopySpaceGroupPDBtoMTZ">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultControlCopySpaceGroupPDBtoMTZ" type="CCP4DataResultControlCopySpaceGroupPDBtoMTZ"/>
+	<xs:complexType name="CCP4DataResultControlCopySpaceGroupPDBtoMTZ">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputControlPrepareMTZFileForRefinement" type="CCP4DataInputControlPrepareMTZFileForRefinement"/>
+	<xs:complexType name="CCP4DataInputControlPrepareMTZFileForRefinement">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultControlPrepareMTZFileForRefinement" type="CCP4DataResultControlPrepareMTZFileForRefinement"/>
+	<xs:complexType name="CCP4DataResultControlPrepareMTZFileForRefinement">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputControlPipelineCalcDiffMap" type="CCP4DataInputControlPipelineCalcDiffMap"/>
+	<xs:complexType name="CCP4DataInputControlPipelineCalcDiffMap">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultControlPipelineCalcDiffMap" type="CCP4DataResultControlPipelineCalcDiffMap"/>
+	<xs:complexType name="CCP4DataResultControlPipelineCalcDiffMap">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="initialR" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="initialRFree" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="finalR" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="finalRFree" type="XSDataFloat" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataListOfStrings" type="XSDataListOfStrings"/>
+	<xs:complexType name="XSDataListOfStrings">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="values" type="XSDataString" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataListOfIntegers" type="XSDataListOfIntegers"/>
+	<xs:complexType name="XSDataListOfIntegers">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="values" type="XSDataInteger" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataListOfFloats" type="XSDataListOfFloats"/>
+	<xs:complexType name="XSDataListOfFloats">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="values" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputPhaser" type="CCP4DataInputPhaser"/>
+	<xs:complexType name="CCP4DataInputPhaser">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultPhaser" type="CCP4DataResultPhaser"/>
+	<xs:complexType name="CCP4DataResultPhaser">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputMRBUMP" type="CCP4DataInputMRBUMP"/>
+	<xs:complexType name="CCP4DataInputMRBUMP">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sequence" type="CCP4Sequence" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="prepdir" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultMRBUMP" type="CCP4DataResultMRBUMP"/>
+	<xs:complexType name="CCP4DataResultMRBUMP">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outpuLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputBUCCANEER" type="CCP4DataInputBUCCANEER"/>
+	<xs:complexType name="CCP4DataInputBUCCANEER">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="XYZINREF" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLINREF" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sequence" type="CCP4Sequence" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultBUCCANEER" type="CCP4DataResultBUCCANEER"/>
+	<xs:complexType name="CCP4DataResultBUCCANEER">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataListOfLists" type="XSDataListOfLists"/>
+	<xs:complexType name="XSDataListOfLists">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputPointlessOrigin" type="CCP4DataInputPointlessOrigin"/>
+	<xs:complexType name="CCP4DataInputPointlessOrigin">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultPointlessOrigin" type="CCP4DataResultPointlessOrigin"/>
+	<xs:complexType name="CCP4DataResultPointlessOrigin">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputRefmacMonomerCheck" type="CCP4DataInputRefmacMonomerCheck"/>
+	<xs:complexType name="CCP4DataInputRefmacMonomerCheck">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultRefmacMonomerCheck" type="CCP4DataResultRefmacMonomerCheck"/>
+	<xs:complexType name="CCP4DataResultRefmacMonomerCheck">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="fileStatus" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputCheckValidHKL" type="CCP4DataInputCheckValidHKL"/>
+	<xs:complexType name="CCP4DataInputCheckValidHKL">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultCheckValidHKL" type="CCP4DataResultCheckValidHKL"/>
+	<xs:complexType name="CCP4DataResultCheckValidHKL">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputCheckValidXYZ" type="CCP4DataInputCheckValidXYZ"/>
+	<xs:complexType name="CCP4DataInputCheckValidXYZ">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultCheckValidXYZ" type="CCP4DataResultCheckValidXYZ"/>
+	<xs:complexType name="CCP4DataResultCheckValidXYZ">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputControlRefmacRigidBodyPhaser" type="CCP4DataInputControlRefmacRigidBodyPhaser"/>
+	<xs:complexType name="CCP4DataInputControlRefmacRigidBodyPhaser">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ColLabels" type="CCP4MTZColLabels" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultControlRefmacRigidBodyPhaser" type="CCP4DataResultControlRefmacRigidBodyPhaser"/>
+	<xs:complexType name="CCP4DataResultControlRefmacRigidBodyPhaser">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputPDBList" type="CCP4DataInputPDBList"/>
+	<xs:complexType name="CCP4DataInputPDBList">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultPDBList" type="CCP4DataResultPDBList"/>
+	<xs:complexType name="CCP4DataResultPDBList">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="spaceGroup" type="CCP4SpaceGroup" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="returnStatus" type="CCP4ReturnStatus" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataInputControlDIMPLES" type="CCP4DataInputControlDIMPLES"/>
+	<xs:complexType name="CCP4DataInputControlDIMPLES">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="HKLIN" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZIN" type="XYZ" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CCP4DataResultControlDIMPLES" type="CCP4DataResultControlDIMPLES"/>
+	<xs:complexType name="CCP4DataResultControlDIMPLES">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="HKLOUT" type="HKL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XYZOUT" type="XYZ" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputLogFile" type="CCP4LogFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

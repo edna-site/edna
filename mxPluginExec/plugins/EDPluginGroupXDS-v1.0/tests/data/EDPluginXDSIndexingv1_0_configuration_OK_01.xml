@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem> 
+			<name>EDPluginXDSIndexingv1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/xds/vdefault/XDS-linux_ifc_Intel+AMD/xds</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessWorkingDirectory</name>
+					<value>.</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessTimeOut</name>
+					<value>600</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem> 
+	</XSPluginList> 
+</XSConfiguration> 

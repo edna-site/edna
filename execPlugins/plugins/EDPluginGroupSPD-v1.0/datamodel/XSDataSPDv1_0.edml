@@ -1,0 +1,77 @@
+targetNamespace "http://www.edna-site.org"
+
+complex type XSDataInputSPD extends XSDataInput {
+	angleOfTilt : XSDataAngle optional
+	beamCentreInPixelsX : XSDataDouble optional
+	beamCentreInPixelsY : XSDataDouble
+	optional
+	bufferSizeX : XSDataInteger optional
+	bufferSizeY : XSDataInteger optional
+	darkCurrentImageFile : XSDataFile optional
+	distortionFileX : XSDataFile optional
+	distortionFileY : XSDataFile
+	optional
+	flatFieldImageFile : XSDataFile optional
+	inputFile : XSDataFile
+	outputFileType : XSDataString optional
+	pixelSizeX : XSDataLength optional
+	pixelSizeY : XSDataLength optional
+	sampleToDetectorDistance : XSDataLength
+	optional
+	spatialDistortionFile : XSDataFile optional
+	tiltRotation : XSDataAngle
+	wavelength : XSDataWavelength
+	optional
+	outputDir : XSDataFile optional
+}
+
+complex type XSDataInputSPDCake extends XSDataInputSPD {
+	innerRadius : XSDataDouble optional
+	outerRadius : XSDataDouble optional
+	outputAxis : XSDataString optional
+	outputDirCake : XSDataFile optional
+	deleteCorImg : XSDataBoolean optional
+	startAzimuth : XSDataAngle optional
+	stepAzimuth : XSDataAngle optional
+	stopAzimuth : XSDataAngle optional
+	maskFile : XSDataFile optional
+	intensityScaleFactor : XSDataDouble optional
+	correctTiltMask : XSDataBoolean optional
+}
+
+complex type XSDataResultSPD extends XSDataResult {
+	correctedFile : XSDataFile optional
+}
+
+complex type XSDataResultSPDCake extends XSDataResultSPD {
+	cakedFile : XSDataFile
+}
+
+complex type XSDataPeakPosition extends XSData {
+	"Set of pixel coordinates and the associated 2Theta diffraction angle"
+	position1 : XSDataDouble
+	position2 : XSDataDouble
+	twoTheta  : XSDataDouble
+}
+
+complex type XSDataInputRefineDiffractionGeometry extends XSDataInput {
+	points : XSDataPeakPosition []
+	pixelSize1 : XSDataLength
+	pixelSize2 : XSDataLength
+	splineFile : XSDataFile optional
+	guessSampleDetectorDistance : XSDataLength optional
+	guessPointOfNormalIncidence1 : XSDataLength optional
+	guessPointOfNormalIncidence2 : XSDataLength optional
+	guessRotation1: XSDataAngle optional
+	guessRotation2: XSDataAngle optional
+	guessRotation3: XSDataAngle optional
+}
+
+complex type XSDataResultRefineDiffractionGeometry extends XSDataResult {
+	sampleDetectorDistance : XSDataLength 
+	pointOfNormalIncidence1 : XSDataLength 
+	pointOfNormalIncidence2 : XSDataLength 
+	rotation1: XSDataAngle 
+	rotation2: XSDataAngle 
+	rotation3: XSDataAngle 
+}

@@ -1,0 +1,2 @@
+
+Plugin to extract the data from an 1D powder diffraction pattern created with SPD.

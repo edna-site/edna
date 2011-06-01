@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<rawImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/dcraw.dng</value>
+		</path>
+	</rawImagePath>
+	<outputPath>
+		<path>
+			<value>/tmp/edna-${USER}/dcraw.ppm</value>
+		</path>
+	</outputPath>
+</XSDataInput>

@@ -1,0 +1,16 @@
+targetNamespace "http://www.edna-site.org"
+complex type XSDataInputEpydoc extends XSDataInput {
+	"docType can be pdf ot html (default)
+	verbosity is the one for epydoc, from -1 (-q) to +2 (-vv)
+	
+	"
+	docPath: XSDataFile
+	sources: XSDataFile []
+	docType: XSDataString optional 
+	verbosity: XSDataInteger optional
+	projectName:  XSDataString optional 
+	
+	}
+complex type XSDataResultEpydoc extends XSDataResult {
+	docPath: XSDataFile
+}

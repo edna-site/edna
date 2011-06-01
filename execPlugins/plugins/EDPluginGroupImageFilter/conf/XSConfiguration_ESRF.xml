@@ -1,0 +1,9 @@
+<?xml version="1.0" ?><XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecMedianFilterv1_0</name>  
+		</XSPluginItem>
+	<XSPluginItem>
+			<name>EDPluginControlMedianFilterImagesv1_0</name>  
+		</XSPluginItem></XSPluginList> 
+</XSConfiguration>

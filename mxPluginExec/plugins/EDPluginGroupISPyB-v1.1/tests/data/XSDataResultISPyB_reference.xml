@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<XSDataResultISPyB>
+	<dataCollectionId>
+		<value>1</value>
+	</dataCollectionId>
+	<screeningStatus>
+		<programVersion>
+			<value>EDNA Prototype</value>
+		</programVersion>
+		<code>
+			<value>ok</value>
+		</code>
+	</screeningStatus>
+	<screeningInputStatus>
+        <beamX><value>10.4</value></beamX>
+		<beamY><value>2.31</value></beamY>
+		<rmsErrorLimits><value>0.8</value></rmsErrorLimits>		
+		<minimumFractionIndexed><value>0.4</value></minimumFractionIndexed>
+		<maximumFractionRejected><value>0.45</value></maximumFractionRejected>
+		<minimumSignalToNoise><value>0.56</value></minimumSignalToNoise>
+		<code>
+			<value>ok</value>
+		</code>
+	</screeningInputStatus>
+	<screeningOutputStatus>
+		<code>
+			<value>ok</value>
+		</code>
+	</screeningOutputStatus>
+	<screeningOutputLatticeStatus>
+		<code>
+			<value>ok</value>
+		</code>
+	</screeningOutputLatticeStatus>
+	<screeningStrategyStatus>
+		<code>
+			<value>ok</value>
+		</code>
+	</screeningStrategyStatus>
+	<screeningRankStatus>
+		<code>
+			<value>ok</value>
+		</code>
+	</screeningRankStatus>
+	<screeningRankSetStatus>
+		<code>
+			<value>ok</value>
+		</code>
+	</screeningRankSetStatus>
+</XSDataResultISPyB>

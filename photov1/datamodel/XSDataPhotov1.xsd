@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputExecDcrawv1" type="XSDataInputExecDcrawv1"/>
+	<xs:complexType name="XSDataInputExecDcrawv1">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="rawImagePath" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputPath" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="exportTiff" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="extractThumbnail" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="whiteBalanceAuto" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="whiteBalanceFromCamera" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="levelsFromCamera" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="interpolationQuality" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultExecDcrawv1" type="XSDataResultExecDcrawv1"/>
+	<xs:complexType name="XSDataResultExecDcrawv1">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputPath" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputFileType" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputCopyExifv1" type="XSDataInputCopyExifv1"/>
+	<xs:complexType name="XSDataInputCopyExifv1">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputImagePath" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputImagePath" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultCopyExifv1" type="XSDataResultCopyExifv1"/>
+	<xs:complexType name="XSDataResultCopyExifv1">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputImagePath" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputDevelopRawv1" type="XSDataInputDevelopRawv1"/>
+	<xs:complexType name="XSDataInputDevelopRawv1">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="inputRaw" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputJpeg" type="XSDataFile" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="copyExifTag" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="compressRaw" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="cleanUp" type="XSDataBoolean" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultDevelopRawv1" type="XSDataResultDevelopRawv1"/>
+	<xs:complexType name="XSDataResultDevelopRawv1">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="outputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataInputStackOfImagesHDF5Writer>
+	<HDF5File><path><value>/tmp/edna-${USER}/stack.h5</value></path></HDF5File>
+	<internalHDF5Path><value>RawStack</value></internalHDF5Path>
+	<inputImageFile><path><value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0040.edf</value></path></inputImageFile>
+</XSDataInputStackOfImagesHDF5Writer>

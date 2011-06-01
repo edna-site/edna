@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataRaddoseOutput>
+    <absorbedDose>
+        <value>223000.000000</value>
+    </absorbedDose>
+    <absorbedDoseRate>
+        <value>223000.000000</value>
+    </absorbedDoseRate>
+    <timeToReachHendersonLimit>
+        <value>8.968610e+01</value>
+    </timeToReachHendersonLimit>
+</XSDataRaddoseOutput>

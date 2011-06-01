@@ -1,0 +1,499 @@
+targetNamespace "http://www.edna-site.org"
+
+package XSDataMXv1 {
+	package MXv1CharacterisationEtc {
+		complex type XSDataCharacterisation extends XSData {
+			"Deprecated - only used by EDPluginControlCharacterisationv10\n"
+			dataCollection : XSDataCollection
+			indexingResult : XSDataIndexingResult optional
+			integrationResult : XSDataIntegrationResult optional
+			strategyResult : XSDataStrategyResult optional
+		}
+
+		complex type XSDataImageQualityIndicators extends XSData {
+			binPopCutOffMethod2Res : XSDataDouble
+			goodBraggCandidates : XSDataInteger
+			iceRings : XSDataInteger
+			image : XSDataImage
+			inResTotal : XSDataInteger
+			inResolutionOvrlSpots : XSDataInteger
+			maxUnitCell : XSDataDouble
+			method1Res : XSDataDouble
+			method2Res : XSDataDouble
+			pctSaturationTop50Peaks : XSDataDouble
+			saturationRangeAverage : XSDataDouble optional
+			saturationRangeMax : XSDataDouble optional
+			saturationRangeMin : XSDataDouble optional
+			signalRangeAverage : XSDataDouble optional
+			signalRangeMax : XSDataDouble optional
+			signalRangeMin : XSDataDouble optional
+			spotTotal : XSDataInteger
+			totalIntegratedSignal : XSDataDouble optional
+		}
+
+		complex type XSDataInputCharacterisation extends XSDataInput {
+			dataCollection : XSDataCollection
+		}
+
+		complex type XSDataInputControlISPyB extends XSDataInput {
+			characterisationResult : XSDataResultCharacterisation
+			dataCollectionId : XSDataInteger optional
+		}
+
+		complex type XSDataInputControlImageQualityIndicators extends XSDataInput {
+			image : XSDataImage []
+		}
+
+		complex type XSDataInputControlXDSGenerateBackgroundImage extends XSDataInput {
+			dataCollection : XSDataCollection
+		}
+
+		complex type XSDataInputInducedRadiationProcess extends XSDataInput {
+			characterisationResult : XSDataResultCharacterisation
+		}
+
+		complex type XSDataInputReadImageHeader extends XSDataInput {
+			"These two definitions are used by the read image header plugin."
+			image : XSDataFile
+		}
+
+		complex type XSDataInputSubWedgeAssemble extends XSDataInput {
+			"These two definitions are used by the sub wedge assemble plugin."
+			file : XSDataFile []
+		}
+
+		complex type XSDataInputSubWedgeMerge extends XSDataInput {
+			"These two definitions are used by the sub wedge merge plugins."
+			subWedge : XSDataSubWedge []
+		}
+
+		complex type XSDataResultCharacterisation extends XSDataResult {
+			dataCollection : XSDataCollection
+			executiveSummary : XSDataString
+			imageQualityIndicators : XSDataImageQualityIndicators [] optional
+			indexingResult : XSDataIndexingResult optional
+			integrationResult : XSDataIntegrationResult optional
+			shortSummary : XSDataString
+			statusMessage : XSDataString
+			strategyResult : XSDataResultStrategy optional
+		}
+
+		complex type XSDataResultControlISPyB extends XSDataResult {
+			"No attributes - the return value is XSDataStatus provided by XSDataResult"
+		}
+
+		complex type XSDataResultControlImageQualityIndicators extends XSDataResult {
+			imageQualityIndicators : XSDataImageQualityIndicators [] optional
+		}
+
+		complex type XSDataResultControlXDSGenerateBackgroundImage extends XSDataResult {
+			xdsBackgroundImage : XSDataFile
+		}
+
+		complex type XSDataResultInducedRadiationProcess extends XSDataResult {
+			bFactor : XSDataDouble
+			crystal : XSDataCrystal
+			scale : XSDataDouble
+		}
+
+		complex type XSDataResultReadImageHeader extends XSDataResult {
+			"These two definitions are used by the read image header plugin."
+			subWedge : XSDataSubWedge
+		}
+
+		complex type XSDataResultSubWedgeAssemble extends XSDataResult {
+			"These two definitions are used by the sub wedge assemble plugin."
+			subWedge : XSDataSubWedge []
+		}
+
+		complex type XSDataResultSubWedgeMerge extends XSDataResult {
+			"These two definitions are used by the sub wedge merge plugins."
+			subWedge : XSDataSubWedge []
+		}
+
+	}
+
+	package MXv1Crystal {
+		complex type XSDataCell extends XSData {
+			"Crystallographic properties"
+			angle_alpha : XSDataAngle
+			angle_beta : XSDataAngle
+			angle_gamma : XSDataAngle
+			length_a : XSDataLength
+			length_b : XSDataLength
+			length_c : XSDataLength
+		}
+
+		complex type XSDataCrystal extends XSData {
+			"Crystallographic properties"
+			cell : XSDataCell
+			mosaicity : XSDataDouble
+			spaceGroup : XSDataSpaceGroup
+		}
+
+		complex type XSDataSpaceGroup extends XSData {
+			"Crystallographic properties"
+			ITNumber : XSDataInteger
+			name : XSDataString
+		}
+
+	}
+
+	package MXv1DataCollection {
+		complex type XSDataBeam extends XSData {
+			"This object contains all the properties related to the beam:\r\n- the exposure time (sec)\r\n- the flux (photons/sec)\r\n- The minimum exposure time permitted by hardware (sec)\r\n- The size of the beam (mm x mm)\r\n- The wavelength (a)\r\n- Transmission in %"
+			exposureTime : XSDataTime optional
+			flux : XSDataFlux optional
+			minExposureTimePerImage : XSDataTime optional
+			size : XSDataSize optional
+			transmission : XSDataDouble optional
+			wavelength : XSDataWavelength optional
+		}
+
+		complex type XSDataCollection extends XSData {
+			"The data collection carried out or to be carried out with a particular sample with specific user inputs defined by the diffraction plan."
+			diffractionPlan : XSDataDiffractionPlan optional
+			sample : XSDataSampleCrystalMM optional
+			subWedge : XSDataSubWedge []
+		}
+
+		complex type XSDataDetector extends XSData {
+			"The properties of a detector. "
+			beamPositionX : XSDataLength
+			beamPositionY : XSDataLength
+			bin : XSDataString
+			byteOrder : XSDataString
+			dataType : XSDataString
+			distance : XSDataLength
+			gain : XSDataFloat
+			imageSaturation : XSDataInteger
+			name : XSDataString
+			numberBytesInHeader : XSDataInteger
+			numberPixelX : XSDataInteger
+			numberPixelY : XSDataInteger
+			pixelSizeX : XSDataLength
+			pixelSizeY : XSDataLength
+			serialNumber : XSDataString
+			twoTheta : XSDataAngle
+			^type : XSDataString
+		}
+
+		complex type XSDataExperimentalCondition extends XSData {
+			"This object encapsulates all the physical properties of an experiment instrumentation. i.e: Beam, detector, Goniostat."
+			beam : XSDataBeam optional
+			detector : XSDataDetector optional
+			goniostat : XSDataGoniostat optional
+		}
+
+		complex type XSDataGoniostat extends XSData {
+			"The properties of a goniostat:\r\n- the maximal rotation speed permitted\r\n- the minimal width for an oscillation width of subwedge\r\n- the name of the rotation axis (typically phi)\r\n- the rotation start angle\r\n- the rotation end angle"
+			maxOscillationSpeed : XSDataAngularSpeed
+			minOscillationWidth : XSDataAngle
+			oscillationWidth : XSDataAngle
+			rotationAxis : XSDataString
+			rotationAxisEnd : XSDataAngle
+			rotationAxisStart : XSDataAngle
+		}
+
+		complex type XSDataSubWedge extends XSData {
+			"A subwedge is defined as a list of images that been collected or is to be collected with some particular experimental condition. If the images are to be collected, the image list is empty.\r\nThe subWedgeNumber is an optional number for relating different subwedges, especially for planning data collections."
+			action : XSDataString optional
+			experimentalCondition : XSDataExperimentalCondition
+			image : XSDataImage []
+			optional
+			subWedgeNumber : XSDataInteger optional
+		}
+
+	}
+
+	package MXv1DiffractionPlan {
+		complex type XSDataDiffractionPlan extends XSData {
+			"This object contains the main properties a user can parameterize for a crystal characterisation:\r\n\r\n- the aimed* parameters are the parameters that a user would like to reach for a BEST run.\r\n- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)\r\n- complexity: BEST complexity input, can be either \"none\" (always single wedge strategy). \"min\" (few subwedges) or \"full\" (many subwedges).\r\n- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.\r\n- forcedSpaceGroup: option to force the space group of the indexing solution\r\n- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage\r\n- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.\r\n- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.\r\n- detectorMinResolution and detectorMaxResolution: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.\n- minTransmission: optional input for BEST\r\n- kappaStrategyOption: optional input for kappa strategies\r\n- numberOfPositions: optional input for BEST"
+			aimedCompleteness : XSDataDouble optional
+			aimedIOverSigmaAtHighestResolution : XSDataDouble optional
+			aimedMultiplicity : XSDataDouble optional
+			aimedResolution : XSDataDouble optional
+			anomalousData : XSDataBoolean optional
+			complexity : XSDataString optional
+			detectorMaxResolution : XSDataDouble
+			optional
+			detectorMinResolution : XSDataDouble optional
+			estimateRadiationDamage : XSDataBoolean optional
+			forcedSpaceGroup : XSDataString optional
+			goniostatMaxOscillationSpeed : XSDataAngularSpeed optional
+			goniostatMinOscillationWidth : XSDataAngle optional
+			kappaStrategyOption : XSDataString [] optional
+			maxExposureTimePerDataCollection : XSDataTime optional
+			minExposureTimePerImage : XSDataTime optional
+			minTransmission : XSDataDouble optional
+			numberOfPositions : XSDataInteger optional
+			requiredCompleteness : XSDataDouble optional
+			requiredMultiplicity : XSDataDouble optional
+			requiredResolution : XSDataDouble optional
+			strategyOption : XSDataString optional
+		}
+
+	}
+
+	package MXv1Indexing {
+		complex type XSDataIndexingInput extends XSDataInput {
+			crystal : XSDataCrystal optional
+			dataCollection : XSDataCollection
+			experimentalCondition : XSDataExperimentalCondition optional
+		}
+
+		complex type XSDataIndexingResult extends XSDataResult {
+			image : XSDataImage []
+			indexingLogFile : XSDataFile optional
+			predictionResult : XSDataGeneratePredictionResult
+			optional
+			selectedSolution : XSDataIndexingSolutionSelected optional
+			solution : XSDataIndexingSolution []
+			optional
+		}
+
+		complex type XSDataIndexingSolution extends XSData {
+			crystal : XSDataCrystal
+			number : XSDataInteger
+			penalty : XSDataFloat
+		}
+
+		complex type XSDataIndexingSolutionSelected extends XSDataIndexingSolution {
+			experimentalConditionRefined : XSDataExperimentalCondition
+			mosaicityEstimation : XSDataFloat
+			orientation : XSDataOrientation
+			statistics : XSDataStatisticsIndexing
+		}
+
+		complex type XSDataOrientation extends XSData {
+			matrixA : XSDataMatrixDouble
+			matrixU : XSDataMatrixDouble
+		}
+
+		complex type XSDataStatisticsIndexing extends XSData {
+			beamPositionShiftX : XSDataLength
+			beamPositionShiftY : XSDataLength
+			spotDeviationAngular : XSDataAngle
+			spotDeviationPositional : XSDataLength
+			spotsTotal : XSDataInteger
+			spotsUsed : XSDataInteger
+		}
+
+	}
+
+	package MXv1PredictionAndIntegration {
+		complex type XSDataGeneratePredictionInput extends XSDataInput {
+			"This generalisation is not very logical in terms of names, it should be fixed after the prototype (see bug #49)."
+			dataCollection : XSDataCollection
+			selectedIndexingSolution : XSDataIndexingSolutionSelected
+		}
+
+		complex type XSDataGeneratePredictionResult extends XSDataResult {
+			predictionImage : XSDataImage []
+		}
+
+		complex type XSDataIntegrationInput extends XSDataGeneratePredictionInput {
+			"This generalisation is not very logical in terms of names, it should be fixed after the prototype (see bug #49)."
+			crystalRefined : XSDataCrystal optional
+			experimentalConditionRefined : XSDataExperimentalCondition optional
+		}
+
+		complex type XSDataIntegrationResult extends XSDataResult {
+			integrationSubWedgeResult : XSDataIntegrationSubWedgeResult [] optional
+		}
+
+		complex type XSDataIntegrationSubWedgeResult extends XSData {
+			bestfileDat : XSDataString
+			bestfileHKL : XSDataString
+			bestfilePar : XSDataString
+			experimentalConditionRefined : XSDataExperimentalCondition
+			generatedMTZFile : XSDataFile
+			integrationLogFile : XSDataFile
+			statistics : XSDataStatisticsIntegration
+			statisticsPerResolutionBin : XSDataStatisticsIntegrationPerResolutionBin []
+			subWedgeNumber : XSDataInteger
+		}
+
+		complex type XSDataStatisticsIntegration extends XSData {
+			RMSSpotDeviation : XSDataLength
+			iOverSigmaAtHighestResolution : XSDataDouble
+			iOverSigmaOverall : XSDataDouble
+			numberOfBadReflections : XSDataInteger
+			numberOfFullyRecordedReflections : XSDataInteger
+			numberOfNegativeReflections : XSDataInteger
+			numberOfOverlappedReflections : XSDataInteger
+			numberOfPartialReflections : XSDataInteger
+			numberOfReflectionsGenerated : XSDataInteger
+		}
+
+		complex type XSDataStatisticsIntegrationAverageAndNumberOfReflections {
+			averageIOverSigma : XSDataDouble
+			averageIntensity : XSDataDouble
+			averageSigma : XSDataDouble
+			numberOfReflections : XSDataInteger
+		}
+
+		complex type XSDataStatisticsIntegrationPerReflectionType extends XSData {
+			fullyRecorded : XSDataStatisticsIntegrationAverageAndNumberOfReflections
+			partials : XSDataStatisticsIntegrationAverageAndNumberOfReflections
+		}
+
+		complex type XSDataStatisticsIntegrationPerResolutionBin extends XSData {
+			maxResolution : XSDataDouble
+			minResolution : XSDataDouble
+			profileFitted : XSDataStatisticsIntegrationPerReflectionType
+			summation : XSDataStatisticsIntegrationPerReflectionType
+		}
+
+	}
+
+	package MXv1Sample {
+		complex type XSDataAtom extends XSData {
+			"This object describes a single atom content (of type \'symbol\' i.e \'S\') that could be either expressed in concentration if dilute in a solvent (mM) or in number in a structure"
+			concentration : XSDataDouble
+			numberOf : XSDataDouble
+			symbol : XSDataString
+		}
+
+		complex type XSDataAtomicComposition extends XSData {
+			atom : XSDataAtom [] optional
+		}
+
+		complex type XSDataChain extends XSData {
+			"A polymer chain of type \'protein\', \'dna\' or \'rna\' that contains monomers (which number is defined by numberOfMonomers) and a list of heavy atoms. The number of this is particular chain in the whole polymer is defined by numberOfCopies."
+			heavyAtoms : XSDataAtomicComposition
+			numberOfCopies : XSDataDouble
+			"number of identical chain within the structure"
+			numberOfMonomers : XSDataDouble
+			"should be the number of amino-acid, ribonuclotides or desoxyribonucleotides depending on the type"
+			^type : XSDataString "should be either: \'protein\', \'dna\'or \'rna\'"
+		}
+
+		complex type XSDataChemicalCompositionMM extends XSData {
+			"This is the composition of a crystal sample of a Macro Molecule (MM stand for Macro Molecule)"
+			solvent : XSDataSolvent
+			structure : XSDataStructure
+		}
+
+		complex type XSDataLigand extends XSData {
+			"A polymer ligand that contains a set of heavy atoms, the number of all the light atoms (weight <= Oxygen) and the number of copies of this particular ligand in the polymer."
+			heavyAtoms : XSDataAtomicComposition
+			numberOfCopies : XSDataDouble
+			"should be the number of chemically identical ligands in the structure"
+			numberOfLightAtoms : XSDataDouble
+			"Should be the total of the number of atoms of C, O, N\r\nH is negligible"
+		}
+
+		complex type XSDataSample extends XSData {
+			"This defines the main properties of a sample:\r\n- absorbed dose rate in Gray/sec\r\n- shape: the factor that is related to the sample and the beam size (1 if crystal smaller than beam size or = to the ratio of crystal size to the beam size if the beam is smaller then crystal).\r\n- sample size\r\n- the susceptibility of the sample to radiation damage."
+			absorbedDoseRate : XSDataAbsorbedDoseRate optional
+			shape : XSDataDouble optional
+			size : XSDataSize optional
+			susceptibility : XSDataDouble optional
+		}
+
+		complex type XSDataSampleCrystal extends XSDataSample {
+			"A crystal sample. Inherites of all the XSDataSample attributes (inheritance relationship). In addition has the crystallographic properties (cell, mosaicity, space, group)"
+			crystal : XSDataCrystal
+		}
+
+		complex type XSDataSampleCrystalMM extends XSDataSampleCrystal {
+			"A particular crystal sample that contains a macro molecule defined by its chemical composition."
+			chemicalComposition : XSDataChemicalCompositionMM
+		}
+
+		complex type XSDataSolvent extends XSData {
+			"Defines the content of the solvent by defining the concentration of elements in millimoles/litre. Note that this atom composition should not include oxygen and lighter atoms."
+			atoms : XSDataAtomicComposition
+		}
+
+		complex type XSDataStructure extends XSData {
+			"This is the polymer structure composed by a list of chains and a list of ligands.\r\nThis structure is also defined by its number in the asymmetric unit."
+			chain : XSDataChain [] optional
+			ligand : XSDataLigand [] optional
+			numberOfCopiesInAsymmetricUnit : XSDataDouble
+		}
+
+	}
+
+	package MXv1Strategy {
+		complex type XSDataCollectionPlan extends XSData {
+			"The comment can be used for describing exotic data collections, for example without collecting any images."
+			collectionPlanNumber : XSDataInteger
+			collectionStrategy : XSDataCollection
+			comment : XSDataString
+			statistics : XSDataStatisticsStrategy
+			strategySummary : XSDataStrategySummary
+		}
+
+		complex type XSDataInputStrategy extends XSDataInput {
+			bestFileContentDat : XSDataString
+			bestFileContentHKL : XSDataString []
+			bestFileContentPar : XSDataString
+			crystalRefined : XSDataCrystal
+			diffractionPlan : XSDataDiffractionPlan
+			experimentalCondition : XSDataExperimentalCondition
+			sample : XSDataSampleCrystalMM
+			xdsBackgroundImage : XSDataFile optional
+		}
+
+		complex type XSDataResolutionBin extends XSData {
+			IOverSigma : XSDataDouble
+			IOverSigmaChi : XSDataDouble
+			averageIntensity : XSDataDouble
+			averageIntensityOverAverageSigma : XSDataDouble
+			averageSigma : XSDataDouble
+			chi2 : XSDataDouble
+			completeness : XSDataDouble
+			maxResolution : XSDataDouble
+			minResolution : XSDataDouble
+			percentageOverload : XSDataDouble
+			rFactor : XSDataDouble
+			rFriedel : XSDataDouble
+			redundancy : XSDataDouble
+		}
+
+		complex type XSDataResultStrategy extends XSDataResult {
+			"Several collection plans could be present in case of multi-sweep strategy"
+			bestLogFile : XSDataFile optional
+			collectionPlan : XSDataCollectionPlan [] optional
+			raddoseLogFile : XSDataFile optional
+		}
+
+		complex type XSDataStatisticsStrategy extends XSData {
+			resolutionBin : XSDataResolutionBin [] optional
+		}
+
+		complex type XSDataStrategyInput extends XSDataInput {
+			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
+			bestFileContentDat : XSDataString
+			bestFileContentHKL : XSDataString []
+			bestFileContentPar : XSDataString
+			crystalRefined : XSDataCrystal
+			diffractionPlan : XSDataDiffractionPlan
+			experimentalCondition : XSDataExperimentalCondition
+			sample : XSDataSampleCrystalMM
+		}
+
+		complex type XSDataStrategyResult extends XSDataResult {
+			"Several collection plans could be present in case of multi-sweep strategy"
+			collectionPlan : XSDataCollectionPlan
+			[]
+		}
+
+		complex type XSDataStrategySummary extends XSData {
+			"OBS! The attribute \"attenuation\" in XSDataStrategySummary is deprecated, see bug #379. Please use instead \"transmission\" in XSDataBeam."
+			attenuation : XSDataDouble
+			completeness : XSDataDouble
+			iSigma : XSDataDouble
+			rankingResolution : XSDataDouble
+			redundancy : XSDataDouble
+			resolution : XSDataDouble
+			resolutionReasoning : XSDataString
+			totalDataCollectionTime : XSDataTime
+			totalExposureTime : XSDataTime
+		}
+
+	}
+
+}

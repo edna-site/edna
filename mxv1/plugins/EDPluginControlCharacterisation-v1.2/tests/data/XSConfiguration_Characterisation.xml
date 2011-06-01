@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlCharacterisationv1_2</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

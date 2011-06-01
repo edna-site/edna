@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataResultHDF5MapSpectra>
+    <HDF5File>
+        <path>
+            <value>/tmp/edna-${USER}/MapSpectra.h5</value>
+        </path>
+    </HDF5File>
+    <internalHDF5Path>
+        <value>Map</value>
+    </internalHDF5Path>
+</XSDataResultHDF5MapSpectra>

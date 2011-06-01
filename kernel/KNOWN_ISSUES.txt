@@ -1,0 +1,23 @@
+          Known issues with EDNA Kernel version 1.0.1
+		  ===========================================
+
+* The configuration of the size of action clusters should be implemented in
+  EDPluginControl (bug #95)
+  
+* The path of some of the output files from EDNA can become too long for the
+  NTFS disks (bug #261)
+  
+* There's no check that the EDNA_HOME environment variable actually points
+  to a valid EDNA installation (bug #273)
+  
+* The tests suites should create an unique top directory where all the tests
+  run by the suite are stored (bug #304)
+  
+* The command line parsing of the EDApplication must be improved, for example
+  --help does not work (bug #309)
+  
+* The EDApplication log file is stored in the current working directory and
+  not in --basedir (bug #310)
+  
+ 
+        

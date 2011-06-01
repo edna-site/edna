@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResultControlXDSGenerateBackgroundImage>
+    <xdsBackgroundImage>
+       <path>
+          <value>${EDNA_WORKING_DIR}/BKGINIT.cbf</value>
+       </path>
+    </xdsBackgroundImage>
+</XSDataResultControlXDSGenerateBackgroundImage>

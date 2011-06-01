@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputEDFReadHeader>
+	<edfFile>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+		</path>
+	</edfFile>
+</XSDataInputEDFReadHeader>

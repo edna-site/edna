@@ -1,0 +1,774 @@
+<!--
+********************************************************
+*
+* dna_database.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: db.xsd,v 1.2 2004/05/18 11:32:16 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+  <xsd:complexType name="db_proposal">
+    <xsd:sequence>
+      <xsd:element name="proposal_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="propos_uo_ref" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="proposal_code" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="proposid" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="proposal_number" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="surname" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="labo_name" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="labo_pays_code" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="propos_tit" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_proposal_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="db_proposal"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_proposal"/>
+      <xsd:element name="db_session"
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="db_session"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example proposal_response:
+  
+  The response to a login is to return an xml document with the proposal and all
+  the sessions associated with it.
+
+        <db_proposal_response>
+          <status>
+            <code>ok</code>
+          </status>
+          <db_proposal>
+            <propos_categ_code>LS</propos_categ_code>
+            <propos_categ_cpt>1234</propos_categ_cpt>
+            <proposid>1</proposid>
+            <surname>spruce</surname>
+            <labo_name>esrf</labo_name>
+            <labo_pays_code>F</labo_pays_code>
+            <propos_tit>test</propos_tit>
+          </db_proposal>
+          <session>
+            <se_pl_no> 1234 </se_pl_no>....
+          </session>
+        </db_proposal_response>
+
+   -->   
+
+  <xsd:complexType name="db_proposal_session_selection">
+    <xsd:sequence>
+      <xsd:element name="db_proposal" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="db_proposal"/>
+      <xsd:element name="session" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_session"/>
+      <xsd:element name="start_date" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="end_date" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="run" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+    </xsd:sequence>
+    
+  </xsd:complexType>
+
+  <xsd:complexType name="db_session">
+    <xsd:sequence>
+      <xsd:element name="sessionno" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="se_pl_no" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="user_no" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="proposal_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="scheduled" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="local_contact" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="date_deb" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="date_fin" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="no_shifts" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="instr_nom" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="exp_operator" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="no_perf_shifts" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="comment" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="blom_comment" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="lc_comment" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_session_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="db_session"
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="db_session"/>
+                   
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_protein">
+    <xsd:sequence>
+      <xsd:element name="protein_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="protein_name" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="protein_anacronym" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="proposal_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="sample_uo_ref" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="molecular_mass" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="protein_type" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="dna_sequence" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="db_crystaltype">
+    <xsd:sequence>
+      <xsd:element name="crystal_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="protein_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="space_group" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="cell_dim_a" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="cell_dim_b" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="cell_dim_c" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="cell_dim_al" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="cell_dim_be" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="cell_dim_ga" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="res_prev" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="comments" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_blsample">
+    <xsd:sequence>
+      <xsd:element name="sample_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="dewar_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="crystal_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="blsample_name" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="uniquecrystalid" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="data_set" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="crystal_size" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="rsym" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="res_req" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="remarks" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="exp_status" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="holder_id" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_sample_location">
+    <xsd:sequence>
+      <xsd:element name="cane" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="cane_position" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="sc_basket_id" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="sample_sc_basket_position" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="sample_sc_loop_length" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="sample_sc_pin_length" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="sample_sc_basket_loaded" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_sample">
+    <xsd:sequence>
+      <xsd:element name="protein_type" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_protein"/>
+      <xsd:element name="crystal_type" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_crystaltype"/>
+      <xsd:element name="db_blsample" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_blsample"/>
+      <xsd:element name="db_sample_location" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_sample_location"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_sample_response">
+    <xsd:sequence>
+      <xsd:element name="db_sample"
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="db_sample"/>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_collect_store_request">
+    <xsd:sequence>
+      <xsd:element name="db_session" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="db_session"/>
+      <xsd:element name="fileinfo" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="fileinfo"/>
+      <xsd:element name="oscillation_sequence"
+                   minOccurs="1" 
+                   maxOccurs="unbounded" 
+                   type="oscillation_sequence"/>
+      <xsd:element name="db_sample"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_sample"/>
+      <xsd:element name="wavelength" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="xbeam" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="ybeam" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="distance" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="resolution" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example collect_request:
+  This looks exactly like a collect request but it is used differently.
+  Maybe it will evolve!
+
+        <db_collect_store_request>
+          <db_proposal>
+           <db_session>
+              <sessionno>123454</sessionno>
+            </db_session>
+           </db_proposal>
+          <fileinfo>
+            <directory>/data/id14eh1/inhouse/dna</directory>
+            <prefix>dnatest</prefix>
+          </fileinfo>
+          <oscillation_sequence>
+            <start>0.0</start>
+            <range>1.0</range>
+            <number_of_images>2</number_of_images>
+            <overlap>-89.0</overlap>
+            <exposure_time>1.0</exposure_time>
+            <start_image_number>1</start_image_number>
+            <number_of_passes>1</number_of_passes>
+          </oscillation_sequence>
+        </db_collect_store_request>
+           
+   -->   
+
+  <xsd:complexType name="db_run">
+    <xsd:sequence>
+      <xsd:element name="rununiqueid" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="sessionno" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="sample_key" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="runidentifier" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="typeid" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="run_start" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="run_end" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="run_status" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="db_image">
+    <xsd:sequence>
+      <xsd:element name="imageid" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="rununiqueid" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="type" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="filename" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="directory" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_image_store_request">
+    <xsd:sequence>
+      <xsd:element name="db_image" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="db_image"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<xsd:complexType name="db_image_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="db_image" 
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="db_image"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example image_store_request:
+    This would have been fileinfo but the database needs to have the exact image
+    name in order to display the image. This is not possible with fileinfo.
+        <db_image_store_request>
+          <filename> xxx_001.img </filename>
+          <directory>/data/id14eh1/inhouse/dna</directory>
+        </db_image_store_request>
+           
+   -->   
+
+
+
+  <xsd:complexType name="db_collect_store_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="db_run" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="db_run"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+
+
+  <xsd:complexType name="db_dnascreening">
+    <xsd:sequence>
+      <xsd:element name="DNAScreenID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="UniqueCrystalID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="UniqueRunID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="TimeStamp"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="ProgramVersion"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+                   
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_dnascreeninput">
+    <xsd:sequence>
+      <xsd:element name="InputParametersID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="DNAScreenID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="BeamX" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="BeamY" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="RMSErrorLimits" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="MinimumFractionIndexed" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="MinimumFractionRejected" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="MinimumSignalToNoise" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="ResolutionRequested" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+                   
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_dnascreenoutput">
+    <xsd:sequence>
+      <xsd:element name="OutputResultsID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="DNAScreenID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="RawOrientationMatrix" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="StatusDescription" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="ReflectedReflections" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="ResolutionObtained" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="SpotDeviationR" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="SpotDeviationTheta" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="UnitCell" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+      <xsd:element name="SpaceGroup" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="BeamShift" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="NumSpotsFound" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="NumSpotsUsed" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="NumSpotsRejected" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:integer"/>
+      <xsd:element name="Mosaicity" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:float"/>
+                   
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <!--  db_dnascreen_request:
+  This can be used to store results as well as query them. The server request
+  can be /db_dnascreen_store_request or /db_get_dnascreen_request
+   -->   
+
+  <xsd:complexType name="db_dnascreen_request">
+    <xsd:sequence>
+      <xsd:element name="db_dnascreening" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_dnascreening"/>
+      <xsd:element name="db_dnascreeninput" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_dnascreeninput"/>
+      <xsd:element name="db_dnascreenoutput" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_dnascreenoutput"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="db_dnascreen_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="db_dnascreen_request" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="db_dnascreen_request"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

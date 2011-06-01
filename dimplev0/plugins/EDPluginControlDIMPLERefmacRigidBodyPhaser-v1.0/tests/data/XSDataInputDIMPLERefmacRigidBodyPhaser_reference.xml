@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<CCP4DataResultControlRefmacRigidBodyPhaser>
+   <XYZIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.pdb</value>
+      </path>
+   </XYZIN>
+   <HKLIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.mtz</value>
+      </path>
+   </HKLIN>
+   <XYZOUT>
+      <path>
+         <value>/tmp/ControlRefmacRigidBodyPhaseroutput.pdb</value>
+      </path>
+   </XYZOUT>
+   <ColLabels>
+        <FP>
+            <value>F</value>
+        </FP>
+        <SIGFP>
+            <value>SIGF</value>
+        </SIGFP>
+   </ColLabels>
+</CCP4DataResultControlRefmacRigidBodyPhaser>

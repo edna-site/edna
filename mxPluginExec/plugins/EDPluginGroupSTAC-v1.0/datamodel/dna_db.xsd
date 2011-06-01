@@ -1,0 +1,391 @@
+<!--
+********************************************************
+*
+* dna_database.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_db.xsd,v 1.23 2007/11/08 14:08:04 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+  <xsd:include schemaLocation="dna_gui.xsd"/>
+  <xsd:include schemaLocation="ispyb.xsd"/>
+
+  <xsd:complexType name="proposal_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="Proposal"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="Proposal"/>
+      <xsd:element name="Person"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="Person"/>
+      <xsd:element name="Laboratory"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="Laboratory"/>
+      <xsd:element name="Session"
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="Session"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example proposal_response:
+  
+  The response to a login is to return an xml document with the proposal and all
+  the sessions associated with it.
+
+  <?xml version="1.0"?>
+  <proposal_response>
+    <status>
+      <code>ok</code>
+      <message>testmessage</message>
+    </status>
+    <Proposal>
+      <proposalId>10127</proposalId>
+      <personId>0</personId>
+      <code>MX</code>
+      <number>415</number>
+    </Proposal>
+    <Session>
+      <sessionId>21466</sessionId>
+      <beamLineSetupId>0</beamLineSetupId>
+      <proposalId>10127</proposalId>
+      <startDate>2004-12-09</startDate>
+      <endDate>2004-12-10</endDate>
+      <beamLineName>ID14 3</beamLineName>
+      <scheduled>1</scheduled>
+      <nbShifts>3</nbShifts>
+    </Session>
+  </Proposal_response>
+
+   -->   
+
+
+  <xsd:complexType name="loaded_samples_request">
+    <xsd:sequence>
+      <xsd:element name="Proposal" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="Proposal"/>
+      <xsd:element name="sessionId"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="sample_reference" 
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="sample_reference"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="loaded_sample">
+    <xsd:sequence>
+      <xsd:element name="sample_reference" 
+                   minOccurs="0" 
+                   maxOccurs="1"
+                   type="sample_reference"/>
+      <xsd:element name="Protein" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="Protein"/>
+      <xsd:element name="Crystal" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="Crystal"/>
+      <xsd:element name="BLSample" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="BLSample"/>
+      <xsd:element name="DiffractionPlan" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="DiffractionPlan"/>
+      <xsd:element name="DiffractionPlan_BLSample" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="DiffractionPlan"/>
+      <xsd:element name="DiffractionPlan_CrystalType" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="DiffractionPlan"/>
+      <xsd:element name="Container" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="Container"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="loaded_samples_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="loaded_sample" 
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="loaded_sample"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <!--  Example loaded_samples_response:
+  
+  <?xml version="1.0"?>
+    <loaded_samples_response>
+      <loaded_sample>
+        <Protein>
+          <proteinId>2</proteinId>
+        </Protein>
+        <BLSample>
+          <blSampleId>1</blSampleId>
+          <crystalId>2</crystalId>
+          <ContainerId>3</ContainerId>
+          <name>myTest</name>
+        </BLSample>
+      </loaded_sample>
+    <status>
+      <code>ok</code>
+      <message>testmessage</message>
+    </status>
+  </loaded_samples_response
+   --> 
+
+
+  <xsd:complexType name="screen_request">
+    <xsd:sequence>
+      <xsd:element name="sessionId" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="characterize_crystal_request" 
+                   minOccurs="1" 
+                   maxOccurs="unbounded" 
+                   type="characterize_crystal_request"/>
+      <xsd:element name="rankProjectFile"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="screen_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+
+  <xsd:complexType name="dataRank">
+    <xsd:sequence>
+      <xsd:element name="rankValue" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="rankEngine" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="rankInformation" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="dataExtended">
+    <xsd:sequence>
+      <xsd:element name="Proposal" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="Proposal"/>
+      <xsd:element name="characterize_crystal_request" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="characterize_crystal_request"/>
+    </xsd:sequence>    
+  </xsd:complexType>
+
+  <xsd:complexType name="dataCrystal">
+    <xsd:sequence>
+      <xsd:element name="proposal" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="Proposal"/>
+      <xsd:element name="fileinfo" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="fileinfo"/>
+      <xsd:element name="sample_reference" 
+                   minOccurs="0" 
+                   maxOccurs="1"
+                   type="sample_reference"/>
+      <xsd:element name="dataExtendedXML" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="ScreeningOutput" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="ScreeningOutput"/>
+      <xsd:element name="ScreeningOutputLattice" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="ScreeningOutputLattice"/>
+      <xsd:element name="ScreeningStrategy" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="ScreeningStrategy"/>
+      <xsd:element name="dataRank" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="dataRank"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="magDRProject">
+    <xsd:sequence>
+      <xsd:element name="objectID" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="objectVersion" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="objectName" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="objectMagicNumber" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="odrEngineType" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="bisValidProject" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>
+      <xsd:element name="dataCrystal" 
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="dataCrystal"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="dataRankProjectDNA">
+    <xsd:sequence>
+      <xsd:element name="magDRProject" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="magDRProject"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="rank_request">
+    <xsd:sequence>
+      <xsd:element name="rankEngine" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="rankProjectFile" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="dataRankProjectDNA" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="dataRankProjectDNA"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="rank_response">
+    <xsd:sequence>
+      <xsd:element name="rankProjectFile" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="dataRankProjectDNA" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="dataRankProjectDNA"/>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="get_rank_engine_request">
+  </xsd:complexType>
+
+
+  <xsd:complexType name="get_rank_engine_response">
+    <xsd:sequence>
+      <xsd:element name="rankEngineCurrent" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="rankEngineAvailable" 
+                   minOccurs="1" 
+                   maxOccurs="unbounded" 
+                   type="xsd:string"/>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="set_rank_engine_request">
+    <xsd:sequence>
+      <xsd:element name="rankEngine" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="set_rank_engine_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>

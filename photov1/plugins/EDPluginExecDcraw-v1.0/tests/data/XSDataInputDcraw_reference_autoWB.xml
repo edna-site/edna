@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<rawImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/dcraw.dng</value>
+		</path>
+	</rawImagePath>
+	<outputPath>
+		<path>
+			<value>/tmp/edna-${USER}/dcraw.autoWB</value>
+		</path>
+	</outputPath>
+	<whiteBalanceAuto>
+		<value>1</value>
+	</whiteBalanceAuto>
+</XSDataInput>

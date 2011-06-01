@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlStrategyv1_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>symopHome</name>
+					<value>/usr/local/xtal/ccp4-6.1.2/lib/data</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem> 
+			<name>EDPluginControlIntegrationv1_1</name> 
+			<XSParamList>
+			    <XSParamItem>
+			        <name>maxRMSSpotDeviation</name>
+			        <value>0.8</value>
+			    </XSParamItem>
+			</XSParamList>
+		</XSPluginItem> 
+	</XSPluginList> 
+</XSConfiguration> 

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+	<normalizedImage>
+		<path>
+			<value>/tmp/edna-${USER}/bioSaxsNormalized.edf</value>
+		</path>
+	</normalizedImage>
+	<logFile>
+		<path>
+			<value>/tmp/edna-${USER}/bioSaxsNormalized.log</value>
+		</path>
+	</logFile>
+	<processLog>
+		<value>Normalizing EDF frame '/home/kieffer/workspace/edna/tests/data/images/bioSaxsRaw.edf' -> '/tmp/edna-kieffer/bioSaxsNormalized.edf'</value>
+	</processLog>
+</XSDataResult>

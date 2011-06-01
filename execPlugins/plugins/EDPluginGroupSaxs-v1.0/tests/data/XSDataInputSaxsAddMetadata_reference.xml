@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<inputImage><path><value>${EDNA_TESTS_DATA_HOME}/images/saxsAddMetadata.edf</value></path></inputImage>
+<key><value>Concentration</value></key>
+<value><value>0.2 mol/L</value></value>
+</XSDataInput>

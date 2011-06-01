@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_BPoeoOZ_Ed-EdKKHX-lwYA" activeDiagram="_BPpFsOZ_Ed-EdKKHX-lwYA">
+  <model href="XSDPrimitiveTypes.uml#_qb8akM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_BPpFsOZ_Ed-EdKKHX-lwYA" position="0,0" size="100,100" name="XSD Primitive Types" viewport="0,65">
+    <property xmi:id="_BQKDEOZ_Ed-EdKKHX-lwYA" key="pageFormatName" value="A4"/>
+    <property xmi:id="_BQKDEeZ_Ed-EdKKHX-lwYA" key="diagramWidth" value="840"/>
+    <property xmi:id="_BQKDEuZ_Ed-EdKKHX-lwYA" key="diagramHeight" value="1188"/>
+    <property xmi:id="_BQKDE-Z_Ed-EdKKHX-lwYA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_BQKDFOZ_Ed-EdKKHX-lwYA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_BQKDFeZ_Ed-EdKKHX-lwYA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_BQKDFuZ_Ed-EdKKHX-lwYA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_BQKDF-Z_Ed-EdKKHX-lwYA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_BQKDGOZ_Ed-EdKKHX-lwYA" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_BPpFseZ_Ed-EdKKHX-lwYA" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="XSDPrimitiveTypes.uml#_qb8akM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_G9_voOZ_Ed-EdKKHX-lwYA" position="52,114" size="113,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_G9_voeZ_Ed-EdKKHX-lwYA" presentation="default">
+        <element href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_G9_vouZ_Ed-EdKKHX-lwYA">
+        <property xmi:id="_G9_vo-Z_Ed-EdKKHX-lwYA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_G9_vpOZ_Ed-EdKKHX-lwYA" presentation="default">
+          <element href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_G9_vpeZ_Ed-EdKKHX-lwYA">
+        <property xmi:id="_G9_vpuZ_Ed-EdKKHX-lwYA" key="eStructuralFeatureID" value="38"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_G9_vp-Z_Ed-EdKKHX-lwYA" presentation="default">
+          <element href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+  <subdiagrams xmi:id="_qD5X0OZ-Ed-EdKKHX-lwYA"/>
+</diagrams:Diagrams>

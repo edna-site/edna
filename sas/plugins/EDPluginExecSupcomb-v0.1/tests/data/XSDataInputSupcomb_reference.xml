@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataInputSupercomb>
+	<templateFile>
+		<path>
+			<value>dammif-ref.pdb</value>
+		</path>
+	</templateFile>
+	<superimposeFile>
+		<path>
+			<value>dammif-sup.pdb</value>
+		</path>
+	</superimposeFile>
+</XSDataInputSupercomb>

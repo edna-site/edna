@@ -1,0 +1,62 @@
+Possible Improvements Identified for the EDNA Kernel
+----------------------------------------------------
+
+G Winter
+25 March 2010
+
+During the implementation of the DIMPLE pipeline using the EDNA framework
+I have noted the following changes which could be made to the EDNA kernel
+and principles to make the implementation of plugins more straightforward.
+I also believe that these changes will make the kernel better, and will make
+the best of the data modelling efforts which have been made.
+
+EKP #1: Automatic unpacking of input objects
+--------------------------------------------
+
+Given that we have defined the data types and objects for the input and 
+output, it should be trivial to automatically unpack the input data objects
+into plugin member variables. I will produce a demonstration implementation 
+of this. As a side effect, it would be also good to define getter and setter 
+functions for these dynamically.
+
+The plugins could therefore symmetrically take input XML documents or use 
+set / get methods to provide input and output information. In some cases 
+this may make the use less cumbersome.
+
+In terms of debugging, it is helpful to have the full input document available.
+If we could also automatically repack, the process() method call could roll
+up the values which are actually going to be used for execution. 
+
+EKP #2: Definition of methods
+-----------------------------
+
+In some cases I implemented two plugins which perform almost exactly the 
+same task. It would be nice to do this once, then have methods which allow
+one route or another to be decided based on the implementation. For reasons
+of state it is better to have methods than to customise through inheriting.
+
+EKP #3: Allow use of state
+--------------------------
+
+Although most of the input and output is handled through documents, it would
+be helpful to be able to define the state internally to the plugin and allow
+this to be used to cache information. Example: XDS plugin, storing intermediate
+results.
+
+N.B. implementation of state makes debugging more tricky, though automated
+rolling of XML documents would help.
+
+EKP #4: Define plugin types in data model
+-----------------------------------------
+
+Could define plugins in the data model as follows:
+
+  XSPluginExec math
+
+  XSDataFloat sqrt(XSDataFloat)
+  XSDataFloat log(XSDataFloat)
+  XSDataFloat exp(XSDataFloat)
+
+(say) so that you could link the methods, data types and so on. This could be
+used to cleanly define what happens in #2, and inform the unpacking of input
+documents in #1.

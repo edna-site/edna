@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataWaitFilev1_0">
+    <ownedComment xmi:id="_KoumECiYEeCLKZV5WoKhGg" annotatedElement="_tNLjgCiWEeCLKZV5WoKhGg">
+      <body>XSDataSize is not applicable here it is the size of a file in Bytes, not the size of a physical object in meters.</body>
+    </ownedComment>
+    <packagedElement xmi:type="uml:Class" xmi:id="_tNLjgCiWEeCLKZV5WoKhGg" name="XSDataInputWaitFile">
+      <generalization xmi:id="_y6u8MCiWEeCLKZV5WoKhGg">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_EQmb0CiXEeCLKZV5WoKhGg" name="expectedFile">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_IDEn4CiXEeCLKZV5WoKhGg" name="expectedSize">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_K0BFgCiXEeCLKZV5WoKhGg" name="timeOut">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MIUmACiXEeCLKZV5WoKhGg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_4wyJkCiWEeCLKZV5WoKhGg" name="XSDataResultWaitFile">
+      <generalization xmi:id="_ek4A4CiXEeCLKZV5WoKhGg">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_R2bYUCiXEeCLKZV5WoKhGg" name="actualFile">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cwpqMCiXEeCLKZV5WoKhGg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_SOiWUCiXEeCLKZV5WoKhGg" name="actualSize">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dROnsCiXEeCLKZV5WoKhGg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_TDGm0CiXEeCLKZV5WoKhGg" name="timedOut">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_86d7wCiWEeCLKZV5WoKhGg" name="XSDataInputWaitMultiFile">
+      <generalization xmi:id="_jTOmYCiXEeCLKZV5WoKhGg">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_rrMW4CiXEeCLKZV5WoKhGg" name="expectedFile" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0HspICiXEeCLKZV5WoKhGg" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_sDwn4CiXEeCLKZV5WoKhGg" name="expectedSize">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Qd7e4CiYEeCLKZV5WoKhGg" name="timeOut">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Tlg64CiYEeCLKZV5WoKhGg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_An7E8CiXEeCLKZV5WoKhGg" name="XSDataResultWaitMultiFile">
+      <generalization xmi:id="_neGEUCiXEeCLKZV5WoKhGg">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_sr4-4CiXEeCLKZV5WoKhGg" name="actualFile" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3wy2wCiXEeCLKZV5WoKhGg" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__19nECiXEeCLKZV5WoKhGg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_tIMgYCiXEeCLKZV5WoKhGg" name="actualMinSize">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__GR2kCiXEeCLKZV5WoKhGg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_to29cCiXEeCLKZV5WoKhGg" name="timedOut">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

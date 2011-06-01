@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<docPath><path><value>/tmp/edna-${USER}</value></path></docPath>
+<sources><path><value>${EDNA_HOME}/kernel/bin/cat.py</value></path></sources>
+<docType><value>latex</value></docType>
+</XSDataInput>

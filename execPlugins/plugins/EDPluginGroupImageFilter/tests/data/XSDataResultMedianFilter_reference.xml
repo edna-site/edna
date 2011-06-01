@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataResultMedianFilter>
+    <outputArray>
+        <shape>10</shape>
+        <shape>10</shape>
+        <size>100</size>
+        <dtype>float32</dtype>
+        <data>A0KhPoq1xT6cpTU/JeJPP8fs8j49Q0M/1imvPkjyyT5AQuY+KPAUP2GO4T75CYE+bhUcP0z+Sz9W2i8/DR4jP2yyXz7tet0+e+MWP4LfMT89tzM/WfMBP0uSMD+2ybY+f5PQPgTpzD7qudQ+lkgrPzu9Rz92b/M+lOHRPtpgVj89o/k+MqAvP2xXHD/zqvY+mJSHPpv3ij5nrP4+AAT4Po3pDT9TJBw/5ho2Pr/4zD7q7As/1Xw/Pz8nnD6Dp+Q+nyn9PmSt1T4DycI+tIg6Pl6d8T5zKfw+zBLSPoLwLj9Dgf0+Nvi7Pt4jgD6TrUU/5GPNPquCyj7ESpo+RJ4HPzOF6z58P90+BCQzPxsmtz77VCg/doYQP6v9sj47kkM/RH6dPtpbKT8RpMc+gdeAPhTGXD+d5yE/g7woP1zAYz947BM/D3rKPlfx5T6jkM4+f4SsPu8+ej7zl9A+Pq7UPl6IzT6G1iM/5k4TP2VTWz6KaK4+PqG9Ppoj9D53XME+q2GlPqWbcD7ABqE+JQEZPw==</data>
+        <coding>
+            <value>base64</value>
+        </coding>
+        <md5sum>
+            <value>e68fddc91020c7902f0e35829fe7728e</value>
+        </md5sum>
+    </outputArray>
+</XSDataResultMedianFilter>

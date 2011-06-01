@@ -1,0 +1,3 @@
+@PATH=%PATH%;%XIA2CORE_ROOT%\Test
+@PATH=%PATH%;%XIA2CORE_ROOT%\Test\Compiled\win32
+

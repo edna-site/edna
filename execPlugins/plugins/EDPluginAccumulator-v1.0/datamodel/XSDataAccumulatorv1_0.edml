@@ -1,0 +1,16 @@
+targetNamespace "http://www.edna-site.org"
+
+complex type XSDataInputAccumulator extends XSDataInput {
+	flush : XSDataBoolean optional
+	item : XSDataString [] optional
+	query : XSDataQuery [] optional
+}
+
+complex type XSDataQuery extends XSData {
+	item : XSDataString []
+	removeItems : XSDataBoolean optional
+}
+
+complex type XSDataResultAccumulator extends XSDataResult {
+	query : XSDataQuery [] optional
+}

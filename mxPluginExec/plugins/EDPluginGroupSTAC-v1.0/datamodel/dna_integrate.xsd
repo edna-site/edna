@@ -1,0 +1,333 @@
+<!--
+********************************************************
+*
+* dna_integrate.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_integrate.xsd,v 1.20 2007/07/12 15:02:06 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+
+  <xsd:complexType name="integrate_request">
+    <xsd:sequence>
+      <xsd:element name="extra_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+      <xsd:element name="start"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="end"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="number_of_batches"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="fileinfo"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="fileinfo"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="single_integrate_request">
+    <xsd:sequence>
+      <xsd:element name="extra_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+      <xsd:element name="image"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="xsd:integer"/>
+      <xsd:element name="fileinfo"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="fileinfo"/>
+      <xsd:element name="I_over_sigma"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+  <xsd:complexType name="integrate_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>
+      <!-- need to define the type "integrated_image" somewhere -->
+      <xsd:element name="integrated_image"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="integrated_image"/>
+      <xsd:element name="calculated_resolution"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="resolution"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="spot_information">
+    <xsd:sequence>
+      <xsd:element name="full_spots"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="partial_spots"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="overlap_spots"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="negative_spots"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="bad_spots"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="integration_summary">
+    <xsd:sequence>
+      <xsd:element name="distance"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="yscale"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="overall_signal"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="outer_signal"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="spot_information"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="spot_information"/>
+    </xsd:sequence>
+  </xsd:complexType>
+      
+
+
+
+  <xsd:complexType name="integrated_image">
+    <xsd:sequence>
+      <xsd:element name="image"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="integration_bin"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="integration_bin"/>
+      <xsd:element name="integration_summary"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="integration_summary"/>
+      <xsd:element name="refined_mosaic_spread"
+                   type="xsd:double"
+                   minOccurs="0"
+                   maxOccurs="1"/>                   
+      <xsd:element name="resolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="resolution"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <!-- next to define a few of the types here described -->
+
+  <xsd:complexType name="spot_profile">
+    <xsd:sequence>
+      <xsd:element name="width"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="height"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <!-- the profile is really a sequence of integers, but how
+           can we express this in an XML Schema? -->
+      <xsd:element name="profile"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="mask"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="integration_bin">
+    <xsd:sequence>
+      <xsd:element name="number"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <!-- also need to define the resolution type -->
+      <xsd:element name="resolution"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="resolution"/>
+      <xsd:element name="measured_spots_profile"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="measured_spot_summary"/>
+      <xsd:element name="measured_spots_summation"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="measured_spot_summary"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="measured_spot_summary">
+    <xsd:sequence>
+      <xsd:element name="full"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="spot_summary_element"/>
+      <xsd:element name="partial"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="spot_summary_element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="spot_summary_element">
+    <xsd:sequence>
+      <xsd:element name="spot_count"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="signal"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="noise"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:integer"/>
+      <xsd:element name="signal_to_noise"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="start_images">
+    <xsd:sequence>
+      <xsd:element name="image"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="end_images">
+    <xsd:sequence>
+      <xsd:element name="image"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+  <xsd:complexType name="cell_refinement_request">
+    <xsd:sequence>
+      <xsd:element name="extra_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+      <xsd:element name="start_images"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="start_images"/>
+      <xsd:element name="end_images"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="end_images"/>
+      <xsd:element name="symmetry"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="spacegroup"/>
+      <xsd:element name="fileinfo"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="fileinfo"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="pointless_results">
+    <xsd:sequence>
+      <xsd:element name="pg_confidence"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="pg_pointgroup"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="pg_reindex_op"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="cell_refinement_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>
+      <xsd:element name="refined_cell"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="cell"/>
+      <xsd:element name="pointless_results"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="pointless_results"/>
+      <xsd:element name="refined_mosaic_spread"
+                   type="xsd:double"
+                   minOccurs="0"
+                   maxOccurs="1"/>                   
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>
+
+

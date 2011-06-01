@@ -1,0 +1,1202 @@
+#!/usr/bin/env python
+
+#
+# Generated Thu May 12 12:14::32 2011 by EDGenerateDS.
+#
+
+import sys
+from xml.dom import minidom
+from xml.dom import Node
+
+from XSDataCommon import XSData
+from XSDataCommon import XSDataDictionary
+from XSDataCommon import XSDataBoolean
+from XSDataCommon import XSDataInput
+from XSDataCommon import XSDataInteger
+from XSDataCommon import XSDataString
+from XSDataCommon import XSDataArray
+from XSDataCommon import XSDataDouble
+from XSDataCommon import XSDataFile
+from XSDataCommon import XSDataResult
+from XSDataCommon import XSDataImage
+from XSDataCommon import XSDataTime
+
+
+
+
+#
+# Support/utility functions.
+#
+
+# Compabiltity between Python 2 and 3:
+if sys.version.startswith('3'):
+	unicode = str
+	from io import StringIO
+else:
+	from StringIO import StringIO
+
+
+def showIndent(outfile, level):
+	for idx in range(level):
+		outfile.write(unicode('    '))
+
+
+def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
+	if not _strExpectedType in ["float", "double", "string", "boolean", "integer"]:
+		if _value != None:
+			if _value.__class__.__name__ != _strExpectedType:
+				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
+				print(strMessage)
+				#raise BaseException(strMessage)
+	elif _value is None:
+		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+		print(strMessage)
+		#raise BaseException(strMessage)
+
+
+def warnEmptyAttribute(_strName, _strTypeName):
+	pass
+	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
+
+class MixedContainer(object):
+	# Constants for category:
+	CategoryNone = 0
+	CategoryText = 1
+	CategorySimple = 2
+	CategoryComplex = 3
+	# Constants for content_type:
+	TypeNone = 0
+	TypeText = 1
+	TypeString = 2
+	TypeInteger = 3
+	TypeFloat = 4
+	TypeDecimal = 5
+	TypeDouble = 6
+	TypeBoolean = 7
+	def __init__(self, category, content_type, name, value):
+		self.category = category
+		self.content_type = content_type
+		self.name = name
+		self.value = value
+	def getCategory(self):
+		return self.category
+	def getContenttype(self, content_type):
+		return self.content_type
+	def getValue(self):
+		return self.value
+	def getName(self):
+		return self.name
+	def export(self, outfile, level, name):
+		if self.category == MixedContainer.CategoryText:
+			outfile.write(self.value)
+		elif self.category == MixedContainer.CategorySimple:
+			self.exportSimple(outfile, level, name)
+		else:	 # category == MixedContainer.CategoryComplex
+			self.value.export(outfile, level, name)
+	def exportSimple(self, outfile, level, name):
+		if self.content_type == MixedContainer.TypeString:
+			outfile.write(unicode('<%s>%s</%s>' % (self.name, self.value, self.name)))
+		elif self.content_type == MixedContainer.TypeInteger or \
+				self.content_type == MixedContainer.TypeBoolean:
+			outfile.write(unicode('<%s>%d</%s>' % (self.name, self.value, self.name)))
+		elif self.content_type == MixedContainer.TypeFloat or \
+				self.content_type == MixedContainer.TypeDecimal:
+			outfile.write(unicode('<%s>%f</%s>' % (self.name, self.value, self.name)))
+		elif self.content_type == MixedContainer.TypeDouble:
+			outfile.write(unicode('<%s>%g</%s>' % (self.name, self.value, self.name)))
+
+#
+# Data representation classes.
+#
+
+
+class MeasureOffset(object):
+	def __init__(self, useSift=None, sobelFilter=None, smoothBorders=None, removeBackground=None, cropBorders=None, alwaysVersusRef=None):
+		self.__alwaysVersusRef = alwaysVersusRef
+		if cropBorders is None:
+			self.__cropBorders = []
+		else:
+			self.__cropBorders = cropBorders
+		self.__removeBackground = removeBackground
+		if smoothBorders is None:
+			self.__smoothBorders = []
+		else:
+			self.__smoothBorders = smoothBorders
+		self.__sobelFilter = sobelFilter
+		self.__useSift = useSift
+	def getAlwaysVersusRef(self): return self.__alwaysVersusRef
+	def setAlwaysVersusRef(self, alwaysVersusRef):
+		checkType("MeasureOffset", "setAlwaysVersusRef", alwaysVersusRef, "XSDataBoolean")
+		self.__alwaysVersusRef = alwaysVersusRef
+	def delAlwaysVersusRef(self): self.__alwaysVersusRef = None
+	# Properties
+	alwaysVersusRef = property(getAlwaysVersusRef, setAlwaysVersusRef, delAlwaysVersusRef, "Property for alwaysVersusRef")
+	def getCropBorders(self): return self.__cropBorders
+	def setCropBorders(self, cropBorders):
+		checkType("MeasureOffset", "setCropBorders", cropBorders, "list")
+		self.__cropBorders = cropBorders
+	def delCropBorders(self): self.__cropBorders = None
+	# Properties
+	cropBorders = property(getCropBorders, setCropBorders, delCropBorders, "Property for cropBorders")
+	def addCropBorders(self, value):
+		checkType("MeasureOffset", "setCropBorders", value, "XSDataInteger")
+		self.__cropBorders.append(value)
+	def insertCropBorders(self, index, value):
+		checkType("MeasureOffset", "setCropBorders", value, "XSDataInteger")
+		self.__cropBorders[index] = value
+	def getRemoveBackground(self): return self.__removeBackground
+	def setRemoveBackground(self, removeBackground):
+		checkType("MeasureOffset", "setRemoveBackground", removeBackground, "XSDataBoolean")
+		self.__removeBackground = removeBackground
+	def delRemoveBackground(self): self.__removeBackground = None
+	# Properties
+	removeBackground = property(getRemoveBackground, setRemoveBackground, delRemoveBackground, "Property for removeBackground")
+	def getSmoothBorders(self): return self.__smoothBorders
+	def setSmoothBorders(self, smoothBorders):
+		checkType("MeasureOffset", "setSmoothBorders", smoothBorders, "list")
+		self.__smoothBorders = smoothBorders
+	def delSmoothBorders(self): self.__smoothBorders = None
+	# Properties
+	smoothBorders = property(getSmoothBorders, setSmoothBorders, delSmoothBorders, "Property for smoothBorders")
+	def addSmoothBorders(self, value):
+		checkType("MeasureOffset", "setSmoothBorders", value, "XSDataInteger")
+		self.__smoothBorders.append(value)
+	def insertSmoothBorders(self, index, value):
+		checkType("MeasureOffset", "setSmoothBorders", value, "XSDataInteger")
+		self.__smoothBorders[index] = value
+	def getSobelFilter(self): return self.__sobelFilter
+	def setSobelFilter(self, sobelFilter):
+		checkType("MeasureOffset", "setSobelFilter", sobelFilter, "XSDataBoolean")
+		self.__sobelFilter = sobelFilter
+	def delSobelFilter(self): self.__sobelFilter = None
+	# Properties
+	sobelFilter = property(getSobelFilter, setSobelFilter, delSobelFilter, "Property for sobelFilter")
+	def getUseSift(self): return self.__useSift
+	def setUseSift(self, useSift):
+		checkType("MeasureOffset", "setUseSift", useSift, "XSDataBoolean")
+		self.__useSift = useSift
+	def delUseSift(self): self.__useSift = None
+	# Properties
+	useSift = property(getUseSift, setUseSift, delUseSift, "Property for useSift")
+	def export(self, outfile, level, name_='MeasureOffset'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='MeasureOffset'):
+		pass
+		if self.__alwaysVersusRef is not None:
+			self.alwaysVersusRef.export(outfile, level, name_='alwaysVersusRef')
+		for cropBorders_ in self.getCropBorders():
+			cropBorders_.export(outfile, level, name_='cropBorders')
+		if self.__removeBackground is not None:
+			self.removeBackground.export(outfile, level, name_='removeBackground')
+		for smoothBorders_ in self.getSmoothBorders():
+			smoothBorders_.export(outfile, level, name_='smoothBorders')
+		if self.__sobelFilter is not None:
+			self.sobelFilter.export(outfile, level, name_='sobelFilter')
+		if self.__useSift is not None:
+			self.useSift.export(outfile, level, name_='useSift')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'alwaysVersusRef':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setAlwaysVersusRef(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'cropBorders':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.cropBorders.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'removeBackground':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setRemoveBackground(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'smoothBorders':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.smoothBorders.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sobelFilter':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setSobelFilter(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'useSift':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setUseSift(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="MeasureOffset" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='MeasureOffset' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return MeasureOffset.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = MeasureOffset()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="MeasureOffset" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = MeasureOffset()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class MeasureOffset
+
+class XSDataHDF5Attributes(XSData):
+	"""Allows the fine definition of the metadata for group/datasets"""
+	def __init__(self, metadata=None, h5path=None):
+		XSData.__init__(self, )
+		self.__h5path = h5path
+		self.__metadata = metadata
+	def getH5path(self): return self.__h5path
+	def setH5path(self, h5path):
+		checkType("XSDataHDF5Attributes", "setH5path", h5path, "XSDataString")
+		self.__h5path = h5path
+	def delH5path(self): self.__h5path = None
+	# Properties
+	h5path = property(getH5path, setH5path, delH5path, "Property for h5path")
+	def getMetadata(self): return self.__metadata
+	def setMetadata(self, metadata):
+		checkType("XSDataHDF5Attributes", "setMetadata", metadata, "XSDataDictionary")
+		self.__metadata = metadata
+	def delMetadata(self): self.__metadata = None
+	# Properties
+	metadata = property(getMetadata, setMetadata, delMetadata, "Property for metadata")
+	def export(self, outfile, level, name_='XSDataHDF5Attributes'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataHDF5Attributes'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__h5path is not None:
+			self.h5path.export(outfile, level, name_='h5path')
+		else:
+			warnEmptyAttribute("h5path", "XSDataString")
+		if self.__metadata is not None:
+			self.metadata.export(outfile, level, name_='metadata')
+		else:
+			warnEmptyAttribute("metadata", "XSDataDictionary")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'h5path':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setH5path(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'metadata':
+			obj_ = XSDataDictionary()
+			obj_.build(child_)
+			self.setMetadata(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataHDF5Attributes" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataHDF5Attributes' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataHDF5Attributes.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataHDF5Attributes()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataHDF5Attributes" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataHDF5Attributes()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataHDF5Attributes
+
+class XSDataInputAlignStack(XSDataInput):
+	def __init__(self, configuration=None, useSift=None, sobelFilterMO=None, smoothBordersMO=None, measureOffset=None, internalHDF5Path=None, index=None, image=None, frameReference=None, extraAttributes=None, cropBordersMO=None, backgroundSubtractionMO=None, array=None, alwaysMOvsRef=None, HDF5File=None):
+		XSDataInput.__init__(self, configuration)
+		self.__HDF5File = HDF5File
+		self.__alwaysMOvsRef = alwaysMOvsRef
+		if array is None:
+			self.__array = []
+		else:
+			self.__array = array
+		self.__backgroundSubtractionMO = backgroundSubtractionMO
+		if cropBordersMO is None:
+			self.__cropBordersMO = []
+		else:
+			self.__cropBordersMO = cropBordersMO
+		if extraAttributes is None:
+			self.__extraAttributes = []
+		else:
+			self.__extraAttributes = extraAttributes
+		self.__frameReference = frameReference
+		if image is None:
+			self.__image = []
+		else:
+			self.__image = image
+		if index is None:
+			self.__index = []
+		else:
+			self.__index = index
+		self.__internalHDF5Path = internalHDF5Path
+		self.__measureOffset = measureOffset
+		if smoothBordersMO is None:
+			self.__smoothBordersMO = []
+		else:
+			self.__smoothBordersMO = smoothBordersMO
+		self.__sobelFilterMO = sobelFilterMO
+		self.__useSift = useSift
+	def getHDF5File(self): return self.__HDF5File
+	def setHDF5File(self, HDF5File):
+		checkType("XSDataInputAlignStack", "setHDF5File", HDF5File, "XSDataFile")
+		self.__HDF5File = HDF5File
+	def delHDF5File(self): self.__HDF5File = None
+	# Properties
+	HDF5File = property(getHDF5File, setHDF5File, delHDF5File, "Property for HDF5File")
+	def getAlwaysMOvsRef(self): return self.__alwaysMOvsRef
+	def setAlwaysMOvsRef(self, alwaysMOvsRef):
+		checkType("XSDataInputAlignStack", "setAlwaysMOvsRef", alwaysMOvsRef, "XSDataBoolean")
+		self.__alwaysMOvsRef = alwaysMOvsRef
+	def delAlwaysMOvsRef(self): self.__alwaysMOvsRef = None
+	# Properties
+	alwaysMOvsRef = property(getAlwaysMOvsRef, setAlwaysMOvsRef, delAlwaysMOvsRef, "Property for alwaysMOvsRef")
+	def getArray(self): return self.__array
+	def setArray(self, array):
+		checkType("XSDataInputAlignStack", "setArray", array, "list")
+		self.__array = array
+	def delArray(self): self.__array = None
+	# Properties
+	array = property(getArray, setArray, delArray, "Property for array")
+	def addArray(self, value):
+		checkType("XSDataInputAlignStack", "setArray", value, "XSDataArray")
+		self.__array.append(value)
+	def insertArray(self, index, value):
+		checkType("XSDataInputAlignStack", "setArray", value, "XSDataArray")
+		self.__array[index] = value
+	def getBackgroundSubtractionMO(self): return self.__backgroundSubtractionMO
+	def setBackgroundSubtractionMO(self, backgroundSubtractionMO):
+		checkType("XSDataInputAlignStack", "setBackgroundSubtractionMO", backgroundSubtractionMO, "XSDataBoolean")
+		self.__backgroundSubtractionMO = backgroundSubtractionMO
+	def delBackgroundSubtractionMO(self): self.__backgroundSubtractionMO = None
+	# Properties
+	backgroundSubtractionMO = property(getBackgroundSubtractionMO, setBackgroundSubtractionMO, delBackgroundSubtractionMO, "Property for backgroundSubtractionMO")
+	def getCropBordersMO(self): return self.__cropBordersMO
+	def setCropBordersMO(self, cropBordersMO):
+		checkType("XSDataInputAlignStack", "setCropBordersMO", cropBordersMO, "list")
+		self.__cropBordersMO = cropBordersMO
+	def delCropBordersMO(self): self.__cropBordersMO = None
+	# Properties
+	cropBordersMO = property(getCropBordersMO, setCropBordersMO, delCropBordersMO, "Property for cropBordersMO")
+	def addCropBordersMO(self, value):
+		checkType("XSDataInputAlignStack", "setCropBordersMO", value, "XSDataInteger")
+		self.__cropBordersMO.append(value)
+	def insertCropBordersMO(self, index, value):
+		checkType("XSDataInputAlignStack", "setCropBordersMO", value, "XSDataInteger")
+		self.__cropBordersMO[index] = value
+	def getExtraAttributes(self): return self.__extraAttributes
+	def setExtraAttributes(self, extraAttributes):
+		checkType("XSDataInputAlignStack", "setExtraAttributes", extraAttributes, "list")
+		self.__extraAttributes = extraAttributes
+	def delExtraAttributes(self): self.__extraAttributes = None
+	# Properties
+	extraAttributes = property(getExtraAttributes, setExtraAttributes, delExtraAttributes, "Property for extraAttributes")
+	def addExtraAttributes(self, value):
+		checkType("XSDataInputAlignStack", "setExtraAttributes", value, "XSDataHDF5Attributes")
+		self.__extraAttributes.append(value)
+	def insertExtraAttributes(self, index, value):
+		checkType("XSDataInputAlignStack", "setExtraAttributes", value, "XSDataHDF5Attributes")
+		self.__extraAttributes[index] = value
+	def getFrameReference(self): return self.__frameReference
+	def setFrameReference(self, frameReference):
+		checkType("XSDataInputAlignStack", "setFrameReference", frameReference, "XSDataInteger")
+		self.__frameReference = frameReference
+	def delFrameReference(self): self.__frameReference = None
+	# Properties
+	frameReference = property(getFrameReference, setFrameReference, delFrameReference, "Property for frameReference")
+	def getImage(self): return self.__image
+	def setImage(self, image):
+		checkType("XSDataInputAlignStack", "setImage", image, "list")
+		self.__image = image
+	def delImage(self): self.__image = None
+	# Properties
+	image = property(getImage, setImage, delImage, "Property for image")
+	def addImage(self, value):
+		checkType("XSDataInputAlignStack", "setImage", value, "XSDataImage")
+		self.__image.append(value)
+	def insertImage(self, index, value):
+		checkType("XSDataInputAlignStack", "setImage", value, "XSDataImage")
+		self.__image[index] = value
+	def getIndex(self): return self.__index
+	def setIndex(self, index):
+		checkType("XSDataInputAlignStack", "setIndex", index, "list")
+		self.__index = index
+	def delIndex(self): self.__index = None
+	# Properties
+	index = property(getIndex, setIndex, delIndex, "Property for index")
+	def addIndex(self, value):
+		checkType("XSDataInputAlignStack", "setIndex", value, "XSDataInteger")
+		self.__index.append(value)
+	def insertIndex(self, index, value):
+		checkType("XSDataInputAlignStack", "setIndex", value, "XSDataInteger")
+		self.__index[index] = value
+	def getInternalHDF5Path(self): return self.__internalHDF5Path
+	def setInternalHDF5Path(self, internalHDF5Path):
+		checkType("XSDataInputAlignStack", "setInternalHDF5Path", internalHDF5Path, "XSDataString")
+		self.__internalHDF5Path = internalHDF5Path
+	def delInternalHDF5Path(self): self.__internalHDF5Path = None
+	# Properties
+	internalHDF5Path = property(getInternalHDF5Path, setInternalHDF5Path, delInternalHDF5Path, "Property for internalHDF5Path")
+	def getMeasureOffset(self): return self.__measureOffset
+	def setMeasureOffset(self, measureOffset):
+		checkType("XSDataInputAlignStack", "setMeasureOffset", measureOffset, "MeasureOffset")
+		self.__measureOffset = measureOffset
+	def delMeasureOffset(self): self.__measureOffset = None
+	# Properties
+	measureOffset = property(getMeasureOffset, setMeasureOffset, delMeasureOffset, "Property for measureOffset")
+	def getSmoothBordersMO(self): return self.__smoothBordersMO
+	def setSmoothBordersMO(self, smoothBordersMO):
+		checkType("XSDataInputAlignStack", "setSmoothBordersMO", smoothBordersMO, "list")
+		self.__smoothBordersMO = smoothBordersMO
+	def delSmoothBordersMO(self): self.__smoothBordersMO = None
+	# Properties
+	smoothBordersMO = property(getSmoothBordersMO, setSmoothBordersMO, delSmoothBordersMO, "Property for smoothBordersMO")
+	def addSmoothBordersMO(self, value):
+		checkType("XSDataInputAlignStack", "setSmoothBordersMO", value, "XSDataInteger")
+		self.__smoothBordersMO.append(value)
+	def insertSmoothBordersMO(self, index, value):
+		checkType("XSDataInputAlignStack", "setSmoothBordersMO", value, "XSDataInteger")
+		self.__smoothBordersMO[index] = value
+	def getSobelFilterMO(self): return self.__sobelFilterMO
+	def setSobelFilterMO(self, sobelFilterMO):
+		checkType("XSDataInputAlignStack", "setSobelFilterMO", sobelFilterMO, "XSDataBoolean")
+		self.__sobelFilterMO = sobelFilterMO
+	def delSobelFilterMO(self): self.__sobelFilterMO = None
+	# Properties
+	sobelFilterMO = property(getSobelFilterMO, setSobelFilterMO, delSobelFilterMO, "Property for sobelFilterMO")
+	def getUseSift(self): return self.__useSift
+	def setUseSift(self, useSift):
+		checkType("XSDataInputAlignStack", "setUseSift", useSift, "XSDataBoolean")
+		self.__useSift = useSift
+	def delUseSift(self): self.__useSift = None
+	# Properties
+	useSift = property(getUseSift, setUseSift, delUseSift, "Property for useSift")
+	def export(self, outfile, level, name_='XSDataInputAlignStack'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputAlignStack'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__HDF5File is not None:
+			self.HDF5File.export(outfile, level, name_='HDF5File')
+		else:
+			warnEmptyAttribute("HDF5File", "XSDataFile")
+		if self.__alwaysMOvsRef is not None:
+			self.alwaysMOvsRef.export(outfile, level, name_='alwaysMOvsRef')
+		for array_ in self.getArray():
+			array_.export(outfile, level, name_='array')
+		if self.__backgroundSubtractionMO is not None:
+			self.backgroundSubtractionMO.export(outfile, level, name_='backgroundSubtractionMO')
+		for cropBordersMO_ in self.getCropBordersMO():
+			cropBordersMO_.export(outfile, level, name_='cropBordersMO')
+		for extraAttributes_ in self.getExtraAttributes():
+			extraAttributes_.export(outfile, level, name_='extraAttributes')
+		if self.__frameReference is not None:
+			self.frameReference.export(outfile, level, name_='frameReference')
+		for image_ in self.getImage():
+			image_.export(outfile, level, name_='image')
+		for index_ in self.getIndex():
+			index_.export(outfile, level, name_='index')
+		if self.__internalHDF5Path is not None:
+			self.internalHDF5Path.export(outfile, level, name_='internalHDF5Path')
+		else:
+			warnEmptyAttribute("internalHDF5Path", "XSDataString")
+		if self.__measureOffset is not None:
+			self.measureOffset.export(outfile, level, name_='measureOffset')
+		for smoothBordersMO_ in self.getSmoothBordersMO():
+			smoothBordersMO_.export(outfile, level, name_='smoothBordersMO')
+		if self.__sobelFilterMO is not None:
+			self.sobelFilterMO.export(outfile, level, name_='sobelFilterMO')
+		if self.__useSift is not None:
+			self.useSift.export(outfile, level, name_='useSift')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'HDF5File':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setHDF5File(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'alwaysMOvsRef':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setAlwaysMOvsRef(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'array':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.array.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'backgroundSubtractionMO':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setBackgroundSubtractionMO(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'cropBordersMO':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.cropBordersMO.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'extraAttributes':
+			obj_ = XSDataHDF5Attributes()
+			obj_.build(child_)
+			self.extraAttributes.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'frameReference':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setFrameReference(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'image':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.image.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'index':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.index.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'internalHDF5Path':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setInternalHDF5Path(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'measureOffset':
+			obj_ = MeasureOffset()
+			obj_.build(child_)
+			self.setMeasureOffset(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'smoothBordersMO':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.smoothBordersMO.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sobelFilterMO':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setSobelFilterMO(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'useSift':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setUseSift(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputAlignStack" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputAlignStack' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputAlignStack.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputAlignStack()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputAlignStack" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputAlignStack()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputAlignStack
+
+class XSDataInputFullFieldXAS(XSDataInput):
+	def __init__(self, configuration=None, saveNormalized=None, reference=None, measureOffset=None, internalHDF5Path=None, index=None, flat=None, energy=None, data=None, dark=None, HDF5File=None):
+		XSDataInput.__init__(self, configuration)
+		self.__HDF5File = HDF5File
+		if dark is None:
+			self.__dark = []
+		else:
+			self.__dark = dark
+		if data is None:
+			self.__data = []
+		else:
+			self.__data = data
+		self.__energy = energy
+		if flat is None:
+			self.__flat = []
+		else:
+			self.__flat = flat
+		self.__index = index
+		self.__internalHDF5Path = internalHDF5Path
+		self.__measureOffset = measureOffset
+		self.__reference = reference
+		self.__saveNormalized = saveNormalized
+	def getHDF5File(self): return self.__HDF5File
+	def setHDF5File(self, HDF5File):
+		checkType("XSDataInputFullFieldXAS", "setHDF5File", HDF5File, "XSDataFile")
+		self.__HDF5File = HDF5File
+	def delHDF5File(self): self.__HDF5File = None
+	# Properties
+	HDF5File = property(getHDF5File, setHDF5File, delHDF5File, "Property for HDF5File")
+	def getDark(self): return self.__dark
+	def setDark(self, dark):
+		checkType("XSDataInputFullFieldXAS", "setDark", dark, "list")
+		self.__dark = dark
+	def delDark(self): self.__dark = None
+	# Properties
+	dark = property(getDark, setDark, delDark, "Property for dark")
+	def addDark(self, value):
+		checkType("XSDataInputFullFieldXAS", "setDark", value, "XSDataImageExt")
+		self.__dark.append(value)
+	def insertDark(self, index, value):
+		checkType("XSDataInputFullFieldXAS", "setDark", value, "XSDataImageExt")
+		self.__dark[index] = value
+	def getData(self): return self.__data
+	def setData(self, data):
+		checkType("XSDataInputFullFieldXAS", "setData", data, "list")
+		self.__data = data
+	def delData(self): self.__data = None
+	# Properties
+	data = property(getData, setData, delData, "Property for data")
+	def addData(self, value):
+		checkType("XSDataInputFullFieldXAS", "setData", value, "XSDataImageExt")
+		self.__data.append(value)
+	def insertData(self, index, value):
+		checkType("XSDataInputFullFieldXAS", "setData", value, "XSDataImageExt")
+		self.__data[index] = value
+	def getEnergy(self): return self.__energy
+	def setEnergy(self, energy):
+		checkType("XSDataInputFullFieldXAS", "setEnergy", energy, "XSDataDouble")
+		self.__energy = energy
+	def delEnergy(self): self.__energy = None
+	# Properties
+	energy = property(getEnergy, setEnergy, delEnergy, "Property for energy")
+	def getFlat(self): return self.__flat
+	def setFlat(self, flat):
+		checkType("XSDataInputFullFieldXAS", "setFlat", flat, "list")
+		self.__flat = flat
+	def delFlat(self): self.__flat = None
+	# Properties
+	flat = property(getFlat, setFlat, delFlat, "Property for flat")
+	def addFlat(self, value):
+		checkType("XSDataInputFullFieldXAS", "setFlat", value, "XSDataImageExt")
+		self.__flat.append(value)
+	def insertFlat(self, index, value):
+		checkType("XSDataInputFullFieldXAS", "setFlat", value, "XSDataImageExt")
+		self.__flat[index] = value
+	def getIndex(self): return self.__index
+	def setIndex(self, index):
+		checkType("XSDataInputFullFieldXAS", "setIndex", index, "XSDataInteger")
+		self.__index = index
+	def delIndex(self): self.__index = None
+	# Properties
+	index = property(getIndex, setIndex, delIndex, "Property for index")
+	def getInternalHDF5Path(self): return self.__internalHDF5Path
+	def setInternalHDF5Path(self, internalHDF5Path):
+		checkType("XSDataInputFullFieldXAS", "setInternalHDF5Path", internalHDF5Path, "XSDataString")
+		self.__internalHDF5Path = internalHDF5Path
+	def delInternalHDF5Path(self): self.__internalHDF5Path = None
+	# Properties
+	internalHDF5Path = property(getInternalHDF5Path, setInternalHDF5Path, delInternalHDF5Path, "Property for internalHDF5Path")
+	def getMeasureOffset(self): return self.__measureOffset
+	def setMeasureOffset(self, measureOffset):
+		checkType("XSDataInputFullFieldXAS", "setMeasureOffset", measureOffset, "MeasureOffset")
+		self.__measureOffset = measureOffset
+	def delMeasureOffset(self): self.__measureOffset = None
+	# Properties
+	measureOffset = property(getMeasureOffset, setMeasureOffset, delMeasureOffset, "Property for measureOffset")
+	def getReference(self): return self.__reference
+	def setReference(self, reference):
+		checkType("XSDataInputFullFieldXAS", "setReference", reference, "XSDataInteger")
+		self.__reference = reference
+	def delReference(self): self.__reference = None
+	# Properties
+	reference = property(getReference, setReference, delReference, "Property for reference")
+	def getSaveNormalized(self): return self.__saveNormalized
+	def setSaveNormalized(self, saveNormalized):
+		checkType("XSDataInputFullFieldXAS", "setSaveNormalized", saveNormalized, "XSDataFile")
+		self.__saveNormalized = saveNormalized
+	def delSaveNormalized(self): self.__saveNormalized = None
+	# Properties
+	saveNormalized = property(getSaveNormalized, setSaveNormalized, delSaveNormalized, "Property for saveNormalized")
+	def export(self, outfile, level, name_='XSDataInputFullFieldXAS'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputFullFieldXAS'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__HDF5File is not None:
+			self.HDF5File.export(outfile, level, name_='HDF5File')
+		else:
+			warnEmptyAttribute("HDF5File", "XSDataFile")
+		for dark_ in self.getDark():
+			dark_.export(outfile, level, name_='dark')
+		for data_ in self.getData():
+			data_.export(outfile, level, name_='data')
+		if self.getData() == []:
+			warnEmptyAttribute("data", "XSDataImageExt")
+		if self.__energy is not None:
+			self.energy.export(outfile, level, name_='energy')
+		for flat_ in self.getFlat():
+			flat_.export(outfile, level, name_='flat')
+		if self.__index is not None:
+			self.index.export(outfile, level, name_='index')
+		else:
+			warnEmptyAttribute("index", "XSDataInteger")
+		if self.__internalHDF5Path is not None:
+			self.internalHDF5Path.export(outfile, level, name_='internalHDF5Path')
+		else:
+			warnEmptyAttribute("internalHDF5Path", "XSDataString")
+		if self.__measureOffset is not None:
+			self.measureOffset.export(outfile, level, name_='measureOffset')
+		if self.__reference is not None:
+			self.reference.export(outfile, level, name_='reference')
+		if self.__saveNormalized is not None:
+			self.saveNormalized.export(outfile, level, name_='saveNormalized')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'HDF5File':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setHDF5File(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dark':
+			obj_ = XSDataImageExt()
+			obj_.build(child_)
+			self.dark.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'data':
+			obj_ = XSDataImageExt()
+			obj_.build(child_)
+			self.data.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'energy':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setEnergy(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'flat':
+			obj_ = XSDataImageExt()
+			obj_.build(child_)
+			self.flat.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'index':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setIndex(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'internalHDF5Path':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setInternalHDF5Path(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'measureOffset':
+			obj_ = MeasureOffset()
+			obj_.build(child_)
+			self.setMeasureOffset(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'reference':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setReference(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'saveNormalized':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSaveNormalized(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputFullFieldXAS" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputFullFieldXAS' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputFullFieldXAS.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputFullFieldXAS()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputFullFieldXAS" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputFullFieldXAS()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputFullFieldXAS
+
+class XSDataResultAlignStack(XSDataResult):
+	def __init__(self, status=None, internalHDF5Path=None, HDF5File=None):
+		XSDataResult.__init__(self, status)
+		self.__HDF5File = HDF5File
+		self.__internalHDF5Path = internalHDF5Path
+	def getHDF5File(self): return self.__HDF5File
+	def setHDF5File(self, HDF5File):
+		checkType("XSDataResultAlignStack", "setHDF5File", HDF5File, "XSDataFile")
+		self.__HDF5File = HDF5File
+	def delHDF5File(self): self.__HDF5File = None
+	# Properties
+	HDF5File = property(getHDF5File, setHDF5File, delHDF5File, "Property for HDF5File")
+	def getInternalHDF5Path(self): return self.__internalHDF5Path
+	def setInternalHDF5Path(self, internalHDF5Path):
+		checkType("XSDataResultAlignStack", "setInternalHDF5Path", internalHDF5Path, "XSDataString")
+		self.__internalHDF5Path = internalHDF5Path
+	def delInternalHDF5Path(self): self.__internalHDF5Path = None
+	# Properties
+	internalHDF5Path = property(getInternalHDF5Path, setInternalHDF5Path, delInternalHDF5Path, "Property for internalHDF5Path")
+	def export(self, outfile, level, name_='XSDataResultAlignStack'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultAlignStack'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__HDF5File is not None:
+			self.HDF5File.export(outfile, level, name_='HDF5File')
+		else:
+			warnEmptyAttribute("HDF5File", "XSDataFile")
+		if self.__internalHDF5Path is not None:
+			self.internalHDF5Path.export(outfile, level, name_='internalHDF5Path')
+		else:
+			warnEmptyAttribute("internalHDF5Path", "XSDataString")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'HDF5File':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setHDF5File(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'internalHDF5Path':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setInternalHDF5Path(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultAlignStack" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultAlignStack' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultAlignStack.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultAlignStack()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultAlignStack" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultAlignStack()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultAlignStack
+
+class XSDataResultFullFieldXAS(XSDataResult):
+	def __init__(self, status=None, internalHDF5Path=None, HDF5File=None):
+		XSDataResult.__init__(self, status)
+		self.__HDF5File = HDF5File
+		self.__internalHDF5Path = internalHDF5Path
+	def getHDF5File(self): return self.__HDF5File
+	def setHDF5File(self, HDF5File):
+		checkType("XSDataResultFullFieldXAS", "setHDF5File", HDF5File, "XSDataFile")
+		self.__HDF5File = HDF5File
+	def delHDF5File(self): self.__HDF5File = None
+	# Properties
+	HDF5File = property(getHDF5File, setHDF5File, delHDF5File, "Property for HDF5File")
+	def getInternalHDF5Path(self): return self.__internalHDF5Path
+	def setInternalHDF5Path(self, internalHDF5Path):
+		checkType("XSDataResultFullFieldXAS", "setInternalHDF5Path", internalHDF5Path, "XSDataString")
+		self.__internalHDF5Path = internalHDF5Path
+	def delInternalHDF5Path(self): self.__internalHDF5Path = None
+	# Properties
+	internalHDF5Path = property(getInternalHDF5Path, setInternalHDF5Path, delInternalHDF5Path, "Property for internalHDF5Path")
+	def export(self, outfile, level, name_='XSDataResultFullFieldXAS'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultFullFieldXAS'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__HDF5File is not None:
+			self.HDF5File.export(outfile, level, name_='HDF5File')
+		else:
+			warnEmptyAttribute("HDF5File", "XSDataFile")
+		if self.__internalHDF5Path is not None:
+			self.internalHDF5Path.export(outfile, level, name_='internalHDF5Path')
+		else:
+			warnEmptyAttribute("internalHDF5Path", "XSDataString")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'HDF5File':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setHDF5File(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'internalHDF5Path':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setInternalHDF5Path(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultFullFieldXAS" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultFullFieldXAS' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultFullFieldXAS.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultFullFieldXAS()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultFullFieldXAS" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultFullFieldXAS()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultFullFieldXAS
+
+class XSDataImageExt(XSDataImage):
+	def __init__(self, path=None, number=None, date=None, exposureTime=None, array=None):
+		XSDataImage.__init__(self, path, number, date)
+		self.__array = array
+		self.__exposureTime = exposureTime
+	def getArray(self): return self.__array
+	def setArray(self, array):
+		checkType("XSDataImageExt", "setArray", array, "XSDataArray")
+		self.__array = array
+	def delArray(self): self.__array = None
+	# Properties
+	array = property(getArray, setArray, delArray, "Property for array")
+	def getExposureTime(self): return self.__exposureTime
+	def setExposureTime(self, exposureTime):
+		checkType("XSDataImageExt", "setExposureTime", exposureTime, "XSDataTime")
+		self.__exposureTime = exposureTime
+	def delExposureTime(self): self.__exposureTime = None
+	# Properties
+	exposureTime = property(getExposureTime, setExposureTime, delExposureTime, "Property for exposureTime")
+	def export(self, outfile, level, name_='XSDataImageExt'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataImageExt'):
+		XSDataImage.exportChildren(self, outfile, level, name_)
+		if self.__array is not None:
+			self.array.export(outfile, level, name_='array')
+		if self.__exposureTime is not None:
+			self.exposureTime.export(outfile, level, name_='exposureTime')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'array':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setArray(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'exposureTime':
+			obj_ = XSDataTime()
+			obj_.build(child_)
+			self.setExposureTime(obj_)
+		XSDataImage.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataImageExt" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataImageExt' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataImageExt.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataImageExt()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataImageExt" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataImageExt()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataImageExt
+
+
+
+# End of data representation classes.
+
+

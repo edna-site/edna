@@ -1,0 +1,2 @@
+<?xml version="1.0" ?>
+<CCP4DataInputPDBDUMP><XYZIN><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.pdb</value></path></XYZIN></CCP4DataInputPDBDUMP>

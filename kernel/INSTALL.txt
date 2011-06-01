@@ -1,0 +1,35 @@
+
+               EDNA kernel installation instructions
+               =====================================
+
+Requirements:
+
+ * Python version 2.4 or later.
+
+Installation:
+               
+   Untar the distribution file in a suitable location on your file system,
+   for example /usr/local/xtal. The directory "edna" created in this
+   location is later referred to as $EDNA_HOME, e.g. in the example above
+   $EDNA_HOME should be set to: /usr/local/xtal/edna.
+      
+Testing the installation:
+
+It is recommended to test the EDNA kernel test suite in order to verify
+that the installation of the kernel is correct. After setting EDNA_HOME, 
+use this command for starting the kernel test suite:
+
+  $EDNA_HOME/kernel/bin/edna-test-launcher --test EDTestSuiteKernel
+
+At the end of the test suite you should see the following text:
+
+  [UnitTest]: ###################################################################
+  [UnitTest]: EDTestSuiteKernel summary report:
+  [UnitTest]:                      Total TestCases: 6
+  [UnitTest]:            Total TestCases [SUCCESS]: 6
+  [UnitTest]:               Total TestCases [FAIL]: 0
+  [UnitTest]:                  [Total TestMethods]: 16
+           
+If this is not the case check the error messages from the tests. If you cannot identify
+the problem please feel free to contact the EDNA support team at edna-support@esrf.fr.
+

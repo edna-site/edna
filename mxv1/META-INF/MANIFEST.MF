@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EDNA MXv1
+Bundle-SymbolicName: mxv1
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.edna.uml2xsd;bundle-version="1.0.0",
+ org.eclipse.emf.mwe.core;bundle-version="1.0.0"
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j

@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlIndexingv10</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>controlledPlugins</name>
+					<value>indexingPlugin,generatePredictionPlugin</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>indexingPlugin</name>
+					<value>EDPluginControlIndexingLabelitv10</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>generatePredictionPlugin</name>
+					<value>EDPluginControlGeneratePredictionv10</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

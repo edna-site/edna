@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataLabelitScreenOutput" type="XSDataLabelitScreenOutput"/>
+	<xs:complexType name="XSDataLabelitScreenOutput">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="beamCentreX" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="beamCentreY" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="distance" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="mosaicity" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="selectedSolutionNumber" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="labelitScreenSolution" type="XSDataLabelitScreenSolution" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataImageQualityIndicators" type="XSDataImageQualityIndicators"/>
+	<xs:complexType name="XSDataImageQualityIndicators">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="binPopCutOffMethod2Res" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="goodBraggCandidates" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="iceRings" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="image" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="inResolutionOvrlSpots" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="inResTotal" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="maxUnitCell" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="method1Res" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="method2Res" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="pctSaturationTop50Peaks" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="spotTotal" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataLabelitMosflmScriptsOutput" type="XSDataLabelitMosflmScriptsOutput"/>
+	<xs:complexType name="XSDataLabelitMosflmScriptsOutput">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="aMatrix" type="XSDataMatrixDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="uMatrix" type="XSDataMatrixDouble" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataCell" type="XSDataCell"/>
+	<xs:complexType name="XSDataCell">
+		<xs:sequence>
+			<xs:element name="angle_alpha" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="angle_beta" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="angle_gamma" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="length_a" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="length_b" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="length_c" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="XSDataLabelitScreenSolution" type="XSDataLabelitScreenSolution"/>
+	<xs:complexType name="XSDataLabelitScreenSolution">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="bravaisLattice" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalSystem" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="happy" type="XSDataBoolean" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="metricFitCode" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="metricFitValue" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfSpots" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="rmsd" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="solutionNumber" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="unitCell" type="XSDataCell" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="volume" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

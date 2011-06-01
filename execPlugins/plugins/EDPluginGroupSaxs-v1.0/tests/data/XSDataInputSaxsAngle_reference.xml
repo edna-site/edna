@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+
+	<inputDataFile>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/Moke-2th10-tilt0-rot0.edf</value>
+		</path>
+</inputDataFile>
+	<regroupedDataFile>
+		<path>
+			<value>/tmp/edna-${USER}/moke.azim.edf</value>
+		</path>
+	</regroupedDataFile>
+		<beamCenterX>
+			<value>200</value>
+		</beamCenterX>
+		<beamCenterY>
+			<value>300</value>
+		</beamCenterY>
+		
+</XSDataInput>

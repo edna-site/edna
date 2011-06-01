@@ -1,0 +1,4629 @@
+<?xml version="1.0" ?>
+<XSDataResultCharacterisation>
+    <dataCollection>
+        <diffractionPlan>
+            <anomalousData>
+                <value>0</value>
+            </anomalousData>
+            <complexity>
+                <value>none</value>
+            </complexity>
+            <maxExposureTimePerDataCollection>
+                <value>1.000000e+04</value>
+            </maxExposureTimePerDataCollection>
+        </diffractionPlan>
+        <subWedge>
+            <experimentalCondition>
+                <beam>
+                    <exposureTime>
+                        <value>1.000000e+00</value>
+                    </exposureTime>
+                    <wavelength>
+                        <value>9.340000e-01</value>
+                    </wavelength>
+                </beam>
+                <detector>
+                    <beamPositionX>
+                        <value>1.024590e+02</value>
+                    </beamPositionX>
+                    <beamPositionY>
+                        <value>1.047380e+02</value>
+                    </beamPositionY>
+                    <bin>
+                        <value>2x2</value>
+                    </bin>
+                    <byteOrder>
+                        <value>little_endian</value>
+                    </byteOrder>
+                    <dataType>
+                        <value>unsigned_short</value>
+                    </dataType>
+                    <distance>
+                        <value>1.984410e+02</value>
+                    </distance>
+                    <imageSaturation>
+                        <value>65535</value>
+                    </imageSaturation>
+                    <name>
+                        <value>ADSC Q210 bin 2x2</value>
+                    </name>
+                    <numberBytesInHeader>
+                        <value>512</value>
+                    </numberBytesInHeader>
+                    <numberPixelX>
+                        <value>2048</value>
+                    </numberPixelX>
+                    <numberPixelY>
+                        <value>2048</value>
+                    </numberPixelY>
+                    <pixelSizeX>
+                        <value>1.024000e-01</value>
+                    </pixelSizeX>
+                    <pixelSizeY>
+                        <value>1.024000e-01</value>
+                    </pixelSizeY>
+                    <serialNumber>
+                        <value>444</value>
+                    </serialNumber>
+                    <twoTheta>
+                        <value>0.000000e+00</value>
+                    </twoTheta>
+                    <type>
+                        <value>q210-2x</value>
+                    </type>
+                </detector>
+                <goniostat>
+                    <oscillationWidth>
+                        <value>1.000000e+00</value>
+                    </oscillationWidth>
+                    <rotationAxis>
+                        <value>phi</value>
+                    </rotationAxis>
+                    <rotationAxisEnd>
+                        <value>2.970000e+02</value>
+                    </rotationAxisEnd>
+                    <rotationAxisStart>
+                        <value>2.960000e+02</value>
+                    </rotationAxisStart>
+                </goniostat>
+            </experimentalCondition>
+            <image>
+                <date>
+                    <value>Mon Mar 20 12:40:02 2006</value>
+                </date>
+                <number>
+                    <value>1</value>
+                </number>
+                <path>
+                    <value>/users/svensson/parallelExecuteMXv1/testscale_1_001.img</value>
+                </path>
+            </image>
+            <subWedgeNumber>
+                <value>1</value>
+            </subWedgeNumber>
+        </subWedge>
+    </dataCollection>
+    <indexingResult>
+        <image>
+            <date>
+                <value>Mon Mar 20 12:40:02 2006</value>
+            </date>
+            <number>
+                <value>1</value>
+            </number>
+            <path>
+                <value>/users/svensson/parallelExecuteMXv1/testscale_1_001.img</value>
+            </path>
+        </image>
+        <predictionResult>
+            <predictionImage>
+                <number>
+                    <value>1</value>
+                </number>
+                <path>
+                    <value>/users/svensson/tmp/EDApplicationMXv1Characterisation_20100528-113750/ControlInterfacev1_2/Characterisation/Indexing/ControlIndexingMOSFLMv10/ControlGeneratePredictionv10/MOSFLMGeneratePredictionv10-01/testscale_1_001_pred.jpg</value>
+                </path>
+            </predictionImage>
+        </predictionResult>
+        <selectedSolution>
+            <experimentalConditionRefined>
+                <beam>
+                    <exposureTime>
+                        <value>1.000000e+00</value>
+                    </exposureTime>
+                    <wavelength>
+                        <value>9.340000e-01</value>
+                    </wavelength>
+                </beam>
+                <detector>
+                    <beamPositionX>
+                        <value>1.024544e+02</value>
+                    </beamPositionX>
+                    <beamPositionY>
+                        <value>1.049082e+02</value>
+                    </beamPositionY>
+                    <bin>
+                        <value>2x2</value>
+                    </bin>
+                    <byteOrder>
+                        <value>little_endian</value>
+                    </byteOrder>
+                    <dataType>
+                        <value>unsigned_short</value>
+                    </dataType>
+                    <distance>
+                        <value>1.984410e+02</value>
+                    </distance>
+                    <imageSaturation>
+                        <value>65535</value>
+                    </imageSaturation>
+                    <name>
+                        <value>ADSC Q210 bin 2x2</value>
+                    </name>
+                    <numberBytesInHeader>
+                        <value>512</value>
+                    </numberBytesInHeader>
+                    <numberPixelX>
+                        <value>2048</value>
+                    </numberPixelX>
+                    <numberPixelY>
+                        <value>2048</value>
+                    </numberPixelY>
+                    <pixelSizeX>
+                        <value>1.024000e-01</value>
+                    </pixelSizeX>
+                    <pixelSizeY>
+                        <value>1.024000e-01</value>
+                    </pixelSizeY>
+                    <serialNumber>
+                        <value>444</value>
+                    </serialNumber>
+                    <twoTheta>
+                        <value>0.000000e+00</value>
+                    </twoTheta>
+                    <type>
+                        <value>q210-2x</value>
+                    </type>
+                </detector>
+                <goniostat>
+                    <oscillationWidth>
+                        <value>1.000000e+00</value>
+                    </oscillationWidth>
+                    <rotationAxis>
+                        <value>phi</value>
+                    </rotationAxis>
+                    <rotationAxisEnd>
+                        <value>2.970000e+02</value>
+                    </rotationAxisEnd>
+                    <rotationAxisStart>
+                        <value>2.960000e+02</value>
+                    </rotationAxisStart>
+                </goniostat>
+            </experimentalConditionRefined>
+            <orientation>
+                <matrixA>
+                    <m11>-8.284580e-03</m11>
+                    <m12>8.824810e-03</m12>
+                    <m13>9.369650e-03</m13>
+                    <m21>1.258750e-03</m21>
+                    <m22>1.251970e-02</m22>
+                    <m23>-8.439020e-03</m23>
+                    <m31>-1.484400e-02</m31>
+                    <m32>-3.863570e-03</m32>
+                    <m33>-5.944910e-03</m33>
+                </matrixA>
+                <matrixU>
+                    <m11>-4.860157e-01</m11>
+                    <m12>5.586362e-01</m12>
+                    <m13>6.720970e-01</m13>
+                    <m21>7.384450e-02</m21>
+                    <m22>7.925330e-01</m22>
+                    <m23>-6.053414e-01</m23>
+                    <m31>-8.708248e-01</m31>
+                    <m32>-2.445748e-01</m32>
+                    <m33>-4.264358e-01</m33>
+                </matrixU>
+            </orientation>
+            <statistics>
+                <beamPositionShiftX>
+                    <value>4.608000e-03</value>
+                </beamPositionShiftX>
+                <beamPositionShiftY>
+                    <value>-1.701810e-01</value>
+                </beamPositionShiftY>
+                <spotDeviationAngular>
+                    <value>4.326360e-01</value>
+                </spotDeviationAngular>
+                <spotDeviationPositional>
+                    <value>1.476300e-01</value>
+                </spotDeviationPositional>
+                <spotsTotal>
+                    <value>734</value>
+                </spotsTotal>
+                <spotsUsed>
+                    <value>686</value>
+                </spotsUsed>
+            </statistics>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.000000e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.000000e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.000000e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.479320e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.912490e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.699700e+01</value>
+                    </length_c>
+                </cell>
+                <mosaicity>
+                    <value>5.400000e-01</value>
+                </mosaicity>
+                <spaceGroup>
+                    <ITNumber>
+                        <value>16</value>
+                    </ITNumber>
+                    <name>
+                        <value>P222</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>6</value>
+            </number>
+            <penalty>
+                <value>5.000000e+00</value>
+            </penalty>
+        </selectedSolution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.973174e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>6.821154e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.012700e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>1.464167e+02</value>
+                    </length_a>
+                    <length_b>
+                        <value>9.003032e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>hR</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>44</value>
+            </number>
+            <penalty>
+                <value>9.990000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>1.110585e+02</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.004919e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.168581e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>1.046282e+02</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.048167e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.051919e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>cF</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>43</value>
+            </number>
+            <penalty>
+                <value>7.750000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>6.102554e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>5.484646e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.496304e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.672002e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.065468e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>8.922274e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>cI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>42</value>
+            </number>
+            <penalty>
+                <value>7.740000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>1.105292e+02</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.325363e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>5.922026e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.065468e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.561761e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>41</value>
+            </number>
+            <penalty>
+                <value>7.380000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>5.885465e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.011562e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.598637e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.922273e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.051919e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>tI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>40</value>
+            </number>
+            <penalty>
+                <value>7.300000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.143559e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.046607e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.325363e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.065468e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>2.163873e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>hR</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>39</value>
+            </number>
+            <penalty>
+                <value>7.020000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.055799e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.121374e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.145233e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.306459e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.448575e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oF</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>38</value>
+            </number>
+            <penalty>
+                <value>6.580000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>6.496304e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>6.102554e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>5.484646e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.922275e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.672002e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>8.065468e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>tI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>37</value>
+            </number>
+            <penalty>
+                <value>5.960000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>6.102554e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>5.484646e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.496304e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.672002e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.065468e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>8.922274e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>tI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>36</value>
+            </number>
+            <penalty>
+                <value>5.940000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>5.484646e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>6.102554e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.496303e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.065468e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.672002e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>8.922275e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>35</value>
+            </number>
+            <penalty>
+                <value>5.920000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.199323e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.207797e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.538586e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.065468e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.106258e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.561761e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oF</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>34</value>
+            </number>
+            <penalty>
+                <value>5.230000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>6.496304e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.158529e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.538586e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.106258e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.065468e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>8.672002e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>33</value>
+            </number>
+            <penalty>
+                <value>5.200000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.401363e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>5.885465e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.988438e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.922274e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.051919e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>32</value>
+            </number>
+            <penalty>
+                <value>5.170000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>6.801166e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>6.943004e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.971003e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943112e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.562177e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>tI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>31</value>
+            </number>
+            <penalty>
+                <value>4.830000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>1.119883e+02</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.105700e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.971003e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943112e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.562177e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oI</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>30</value>
+            </number>
+            <penalty>
+                <value>4.830000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.988438e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>1.267956e+02</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.547669e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>1.306459e+02</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.482793e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>8.922275e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>29</value>
+            </number>
+            <penalty>
+                <value>4.450000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.989689e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.028998e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.052007e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.943112e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>6.708963e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>hP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>28</value>
+            </number>
+            <penalty>
+                <value>3.320000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.052007e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989689e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.028998e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943113e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>hP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>27</value>
+            </number>
+            <penalty>
+                <value>2.640000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.997677e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.028998e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.134543e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.943112e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.462579e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>26</value>
+            </number>
+            <penalty>
+                <value>2.600000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.028998e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.002323e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.654569e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>1.462579e+02</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943112e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>25</value>
+            </number>
+            <penalty>
+                <value>2.600000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.002323e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.028998e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.654569e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.943112e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.462579e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>24</value>
+            </number>
+            <penalty>
+                <value>2.580000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.962804e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.971003e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.121374e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.448575e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.943112e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>23</value>
+            </number>
+            <penalty>
+                <value>2.280000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.962804e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.028998e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.786262e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.448575e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.943112e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>22</value>
+            </number>
+            <penalty>
+                <value>2.270000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.971003e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.037196e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.786262e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>1.448575e+02</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.482793e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.943112e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>21</value>
+            </number>
+            <penalty>
+                <value>2.260000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.957012e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.010311e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.547669e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.306459e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>20</value>
+            </number>
+            <penalty>
+                <value>2.260000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.957012e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989690e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.145233e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>1.306459e+02</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>19</value>
+            </number>
+            <penalty>
+                <value>2.250000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.989690e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.042988e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>6.547669e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>1.306459e+02</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.482793e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>18</value>
+            </number>
+            <penalty>
+                <value>2.230000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.937381e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.673437e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.151273e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.106258e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.656722e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.046282e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>hR</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>17</value>
+            </number>
+            <penalty>
+                <value>1.170000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.052007e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989689e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.028998e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943113e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>cP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>16</value>
+            </number>
+            <penalty>
+                <value>1.160000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.953431e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.626133e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>1.156213e+02</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.065468e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.656722e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>1.056304e+02</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>hR</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>15</value>
+            </number>
+            <penalty>
+                <value>1.150000e+02</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.989689e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.028998e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.052007e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.943112e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>6.708963e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>tP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>14</value>
+            </number>
+            <penalty>
+                <value>7.700000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.973174e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.011562e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.307175e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.922272e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>9.003031e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>13</value>
+            </number>
+            <penalty>
+                <value>7.400000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.973174e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.011562e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.307175e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.922272e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>9.003031e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>12</value>
+            </number>
+            <penalty>
+                <value>7.400000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.011562e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.026826e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.692825e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>9.003031e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.922272e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.482793e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>11</value>
+            </number>
+            <penalty>
+                <value>7.300000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.052007e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989689e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.028998e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943113e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>tP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>10</value>
+            </number>
+            <penalty>
+                <value>4.400000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.045103e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.031311e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.538586e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.065468e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.106258e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>9</value>
+            </number>
+            <penalty>
+                <value>4.300000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.031311e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.045103e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.538586e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.106258e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.065468e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>8</value>
+            </number>
+            <penalty>
+                <value>4.300000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.968689e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.045103e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.461415e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>8.106258e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>8.065468e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mC</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>7</value>
+            </number>
+            <penalty>
+                <value>4.100000e+01</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.052007e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989689e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.028998e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943113e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>oP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>6</value>
+            </number>
+            <penalty>
+                <value>5.000000e+00</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.052007e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989689e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.028998e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943113e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>5</value>
+            </number>
+            <penalty>
+                <value>4.000000e+00</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.052007e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.028998e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.989689e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>6.708964e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>5.943113e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>4</value>
+            </number>
+            <penalty>
+                <value>4.000000e+00</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.989689e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>9.052007e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.028998e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.943112e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.482793e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708963e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>mP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>3</value>
+            </number>
+            <penalty>
+                <value>2.000000e+00</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>8.947994e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989689e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>8.971002e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943113e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>aP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>2</value>
+            </number>
+            <penalty>
+                <value>0.000000e+00</value>
+            </penalty>
+        </solution>
+        <solution>
+            <crystal>
+                <cell>
+                    <angle_alpha>
+                        <value>9.052007e+01</value>
+                    </angle_alpha>
+                    <angle_beta>
+                        <value>8.989689e+01</value>
+                    </angle_beta>
+                    <angle_gamma>
+                        <value>9.028998e+01</value>
+                    </angle_gamma>
+                    <length_a>
+                        <value>5.482793e+01</value>
+                    </length_a>
+                    <length_b>
+                        <value>5.943113e+01</value>
+                    </length_b>
+                    <length_c>
+                        <value>6.708964e+01</value>
+                    </length_c>
+                </cell>
+                <spaceGroup>
+                    <name>
+                        <value>aP</value>
+                    </name>
+                </spaceGroup>
+            </crystal>
+            <number>
+                <value>1</value>
+            </number>
+            <penalty>
+                <value>0.000000e+00</value>
+            </penalty>
+        </solution>
+    </indexingResult>
+    <integrationResult>
+        <integrationSubWedgeResult>
+            <bestfileDat>
+                <value>   90.5036     60      3
+   75.4210     66      3
+   64.6479     68      3
+   56.5683     71      3
+   50.2843     71      3
+   45.2572     68      3
+   41.1443     70      3
+   37.7170     71      3
+   34.8171     74      3
+   32.3315     70      3
+   30.1775     76      3
+   28.2928     74      3
+   26.6299     70      3
+   25.1519     76      3
+   23.8295     73      3
+   22.6394     73      3
+   21.5628     70      3
+   20.5841     73      3
+   19.6905     75      3
+   18.8715     73      3
+   18.1181     68      3
+   17.4226     70      3
+   16.7788     73      3
+   16.1809     69      3
+   15.6244     72      3
+   15.1050     70      3
+   14.6192     71      3
+   14.1637     70      3
+   13.7359     66      3
+   13.3334     70      3
+   12.9538     71      3
+   12.5954     72      3
+   12.2564     70      3
+   11.9353     63      3
+   11.6307     66      3
+   11.3414     67      3
+   11.0662     68      3
+   10.8041     70      3
+   10.5543     68      3
+   10.3158     67      3
+   10.0880     68      3
+    9.8701     64      3
+    9.6615     69      3
+    9.4617     65      3
+    9.2700     63      3
+    9.0860     68      3
+    8.9093     65      3
+    8.7394     63      3
+    8.5759     65      3
+    8.4185     65      3
+    8.2669     66      3
+    8.1207     66      3
+    7.9796     63      3
+    7.8435     66      3
+    7.7120     59      3
+    7.5849     59      3
+    7.4619     62      3
+    7.3430     63      3
+    7.2279     63      3
+    7.1164     61      3
+    7.0083     61      3
+    6.9035     62      3
+    6.8019     64      3
+    6.7033     62      3
+    6.6076     63      3
+    6.5146     66      3
+    6.4243     62      3
+    6.3365     62      3
+    6.2511     60      3
+    6.1680     64      3
+    6.0872     61      3
+    6.0085     64      3
+    5.9319     65      3
+    5.8573     64      3
+    5.7846     64      3
+    5.7137     65      3
+    5.6445     67      3
+    5.5771     64      3
+    5.5113     60      3
+    5.4471     63      3
+    5.3845     66      3
+    5.3233     66      3
+    5.2635     65      3
+    5.2051     65      3
+    5.1480     64      3
+    5.0922     65      3
+    5.0377     67      3
+    4.9843     64      3
+    4.9322     71      3
+    4.8811     67      3
+    4.8311     69      3
+    4.7822     72      3
+    4.7343     74      3
+    4.6874     74      3
+    4.6415     76      3
+    4.5965     80      4
+    4.5524     86      4
+    4.5091     89      4
+    4.4668     93      4
+    4.4252     92      4
+    4.3845     93      4
+    4.3445     88      4
+    4.3053     89      4
+    4.2669     85      4
+    4.2291     89      4
+    4.1921     87      4
+    4.1557     91      4
+    4.1200     92      4
+    4.0849     93      4
+    4.0505     92      4
+    4.0167     88      4
+    3.9835     99      4
+    3.9508    106      4
+    3.9187    107      4
+    3.8872    109      4
+    3.8562    111      4
+    3.8257    114      4
+    3.7957    115      5
+    3.7663    115      5
+    3.7373    114      4
+    3.7088    118      5
+    3.6807    117      5
+    3.6532    116      5
+    3.6260    112      4
+    3.5993    116      5
+    3.5730    116      5
+    3.5471    117      5
+    3.5216    110      4
+    3.4965    110      4
+    3.4718    106      4
+    3.4475    110      4
+    3.4235    101      4
+    3.3999    106      4
+    3.3766    104      4
+    3.3537    107      4
+    3.3312    100      4
+    3.3089     94      4
+    3.2870     97      4
+    3.2654     94      4
+    3.2441     91      4
+    3.2231     92      4
+    3.2024     91      4
+    3.1820     94      4
+    3.1618     80      4
+    3.1420     81      4
+    3.1224     82      4
+    3.1031     82      4
+    3.0841     75      3
+    3.0653     77      3
+    3.0468     74      3
+    3.0285     76      3
+    3.0104     68      3
+    2.9926     74      3
+    2.9750     71      3
+    2.9577     71      3
+    2.9406     64      3
+    2.9237     69      3
+    2.9070     67      3
+    2.8905     64      3
+    2.8742     61      3
+    2.8582     62      3
+    2.8423     62      3
+    2.8267     59      3
+    2.8112     55      3
+    2.7959     63      3
+    2.7808     59      3
+    2.7659     58      3
+    2.7512     57      3
+    2.7366     60      3
+    2.7222     53      3
+    2.7080     56      3
+    2.6940     61      3
+    2.6801     53      3
+    2.6664     54      3
+    2.6529     55      3
+    2.6395     52      3
+    2.6262     51      3
+    2.6132     54      3
+    2.6002     53      3
+    2.5874     52      3
+    2.5748     53      3
+    2.5623     53      3
+    2.5499     51      2
+    2.5377     54      3
+    2.5256     53      3
+    2.5136     55      3
+    2.5018     49      2
+    2.4901     56      3
+    2.4785     54      3
+    2.4671     49      2
+    2.4558     54      3
+    2.4446     52      3
+    2.4335     51      2
+    2.4225     52      3
+    2.4117     53      3
+    2.4010     52      3
+    2.3903     50      2
+    2.3798     53      3
+    2.3694     49      2
+    2.3591     53      3
+    2.3489     54      3
+    2.3389     40      2
+    2.3289     54      3
+    2.3190     56      3
+    2.3092     47      2
+    2.2995     49      2
+    2.2900     53      3
+    2.2805     52      3
+    2.2711     47      2
+    2.2618     49      2
+    2.2526     55      3
+    2.2434     52      3
+    2.2344     57      3
+    2.2255     52      3
+    2.2166     54      3
+    2.2078     56      3
+    2.1992     54      3
+    2.1905     49      2
+    2.1820     53      3
+    2.1736     45      2
+    2.1652     53      3
+    2.1569     55      3
+    2.1487     53      3
+    2.1406     52      3
+    2.1326     57      3
+    2.1246     49      2
+    2.1167     53      3
+    2.1088     52      3
+    2.1011     54      3
+    2.0934     54      3
+    2.0858     52      3
+    2.0782     46      2
+    2.0707     49      2
+    2.0633     51      3
+    2.0560     47      2
+    2.0487     51      3
+    2.0415     46      2
+    2.0343     47      2
+    2.0272     50      2
+    2.0202     48      2
+    2.0132     47      2
+    2.0063     50      2
+    1.9995     48      2
+    1.9927     48      2
+    1.9859     48      2
+    1.9793     23      2
+</value>
+            </bestfileDat>
+            <bestfileHKL>
+                <value>  -7  -21  -35    1516.94     133.07
+  -9  -21  -34     284.66     105.18
+  -7  -20  -34    1518.05     135.89
+  -9  -20  -33    2698.29     199.75
+ -11  -20  -32     238.91      91.46
+  -5  -19  -34     312.34     116.05
+  -4  -19  -34    2534.37     198.64
+  -7  -19  -33     665.39     108.93
+  -9  -19  -32     983.91     102.30
+ -11  -19  -31     286.32     102.78
+ -12  -19  -30    3523.50     233.61
+  -5  -18  -33    2203.86     153.37
+  -4  -18  -33     195.70     124.48
+  -7  -18  -32     599.62     100.08
+  -9  -18  -31     602.24      95.65
+ -11  -18  -30    1264.20     168.08
+ -12  -18  -29     335.80      48.19
+  -2  -17  -33    1893.48     107.62
+  -1  -17  -33     -77.43      75.06
+  -5  -17  -32     815.06     133.82
+  -4  -17  -32    2141.95     122.41
+  -7  -17  -31    1713.19     146.05
+  -6  -17  -31    5872.98     370.28
+  -9  -17  -30     169.85     126.05
+  -8  -17  -30    1104.17     207.12
+ -10  -17  -29    1177.68      71.66
+ -12  -17  -28      52.87      46.83
+ -13  -17  -27    4593.89     183.79
+  -2  -16  -32     320.94      99.12
+  -1  -16  -32    1262.98     102.68
+   0  -16  -32     532.22     107.55
+  -4  -16  -31    3864.97     131.93
+  -3  -16  -31    2421.68     183.78
+  -6  -16  -30    2403.72     165.93
+  -8  -16  -29    3517.11     225.49
+ -10  -16  -28     857.92      62.98
+ -13  -16  -26    2858.62     121.65
+ -14  -16  -25    5239.62     203.15
+   2  -15  -32     211.26     155.28
+  -1  -15  -31    6239.60     289.93
+   0  -15  -31    3157.52     133.58
+   1  -15  -31   13494.15     638.34
+  -4  -15  -30     664.86      95.47
+  -3  -15  -30    2310.16     122.45
+  -6  -15  -29    2442.33     132.84
+  -8  -15  -28    7290.78     279.44
+  -9  -15  -27   18331.16     647.14
+ -11  -15  -26    9971.44     358.59
+ -15  -15  -23    1111.02      77.08
+ -16  -15  -22    1141.17      61.59
+ -17  -15  -21    1408.19      69.24
+ -18  -15  -20    2799.37     127.05
+   4  -14  -31    1787.99     132.14
+   5  -14  -31    4974.16     209.02
+   0  -14  -30      64.10      80.97
+   1  -14  -30    3022.30     169.33
+   2  -14  -30    1853.30     188.28
+  -3  -14  -29    2742.41     155.29
+  -2  -14  -29    1323.11     112.65
+  -5  -14  -28    2652.68     112.97
+  -7  -14  -27    3134.34      83.31
+  -9  -14  -26    6298.86     234.32
+ -12  -14  -24    1906.60      99.01
+ -13  -14  -23    1452.00      77.23
+ -31  -14   15     462.31      84.27
+ -31  -14   16      70.38      73.76
+ -31  -14   17     297.44      70.36
+   5  -13  -30    5321.54     307.85
+   6  -13  -30     722.71      91.06
+   7  -13  -30    2124.52     117.25
+   1  -13  -29    1504.43     111.65
+   2  -13  -29    1363.70      93.60
+   3  -13  -29    4583.91     230.36
+  -2  -13  -28     685.92      74.99
+  -1  -13  -28    5094.71     269.76
+  -5  -13  -27     892.58      83.60
+  -4  -13  -27   17537.19     424.16
+  -6  -13  -26    2434.43      82.41
+  -8  -13  -25   21202.63     514.29
+ -10  -13  -24    3259.34     148.95
+ -11  -13  -23    1686.99      86.12
+ -26  -13   -3    2500.69     113.74
+ -27  -13    0    7354.48     260.30
+ -28  -13    3     210.85      39.08
+ -28  -13    4   10678.93     383.15
+ -29  -13    7     363.26      61.31
+ -29  -13    8     352.66      40.97
+ -29  -13    9      -7.27      46.77
+ -30  -13   15     494.05     102.31
+ -30  -13   16     328.50      82.12
+ -30  -13   17     918.25      89.04
+ -30  -13   18     165.45      72.99
+   2  -12  -28    1695.27     135.36
+   3  -12  -28   11617.73     199.08
+   4  -12  -28    4614.19     119.42
+   5  -12  -28    2905.71     147.88
+   6  -12  -28   15736.66     615.73
+  -1  -12  -27     679.14      77.13
+   0  -12  -27     643.73      95.41
+  -4  -12  -26    2943.31     106.44
+  -3  -12  -26   16563.54     424.74
+  -6  -12  -25     579.87      58.29
+  -5  -12  -25   20974.55     550.80
+  -7  -12  -24     417.17      52.00
+  -9  -12  -23   16032.36     433.53
+ -13  -12  -20    1316.10      71.51
+ -14  -12  -19    8098.66     335.60
+ -15  -12  -18    2709.66     109.55
+ -16  -12  -17    5973.90     240.64
+ -23  -12   -7     658.48      45.55
+ -26  -12    0     454.57      49.97
+ -27  -12    4     502.30      40.26
+ -28  -12    8     577.52      52.81
+ -28  -12    9    4593.92     174.12
+ -28  -12   10    1012.12      72.22
+   4  -11  -27    2726.05     147.93
+   5  -11  -27    9827.04     260.62
+   6  -11  -27    9357.20     157.45
+   7  -11  -27    7328.52     159.27
+   8  -11  -27    3575.14     115.03
+   9  -11  -27    2039.05     109.67
+  10  -11  -27   12455.32     259.84
+  11  -11  -27    2577.25     139.72
+  12  -11  -27    1515.99     115.43
+   0  -11  -26    2229.26     136.81
+   1  -11  -26    8501.01     179.62
+   2  -11  -26   18201.23     840.71
+  -3  -11  -25    5261.11     174.95
+  -2  -11  -25   10687.46     238.89
+  -5  -11  -24       3.80      51.03
+  -4  -11  -24    1967.22      82.87
+  -6  -11  -23   15867.30     445.97
+  -8  -11  -22    6536.08     190.51
+ -11  -11  -20    3918.77     123.49
+ -12  -11  -19    3324.11     102.15
+ -17  -11  -14     682.34      41.03
+ -23  -11   -4    5632.03     218.67
+ -24  -11   -2    1550.98      79.39
+ -25  -11    1    2350.63      91.20
+ -26  -11    4    1142.00      75.17
+ -26  -11    5     669.82      48.84
+ -27  -11    9    3046.39     128.70
+ -27  -11   10     591.90      56.68
+ -27  -11   11      68.89      47.07
+ -27  -11   12    1169.06      95.53
+   8  -10  -26    6111.87     276.86
+   9  -10  -26    6211.31     276.73
+  10  -10  -26    3955.59     205.88
+  11  -10  -26    3419.15     215.63
+   2  -10  -25    2159.23     129.49
+   3  -10  -25    1054.28      84.17
+   4  -10  -25    6607.65     258.93
+   5  -10  -25   16085.01     650.43
+  13  -10  -25    2191.35     150.77
+  14  -10  -25    1093.73     104.69
+  15  -10  -25     288.14      85.99
+  16  -10  -25    1248.20     100.53
+  -1  -10  -24   13432.53     276.24
+   0  -10  -24     257.24      53.85
+  17  -10  -24     416.39     138.53
+  -3  -10  -23   14006.88     402.58
+  -5  -10  -22    2841.56      92.12
+  -7  -10  -21    5789.37      96.73
+ -10  -10  -19    2952.25      90.87
+ -11  -10  -18   14283.38     411.09
+ -16  -10  -13    6357.88     252.21
+ -23  -10   -1    1907.93      86.02
+ -24  -10    2    1460.68      64.23
+ -25  -10    5     417.44      64.16
+ -25  -10    6    9465.36     332.06
+ -26  -10   10    1147.54      77.12
+ -26  -10   11    1640.99      76.62
+ -26  -10   12    8004.13     158.92
+ -26  -10   13    4668.76     190.17
+ -26  -10   14    7010.08     291.88
+ -26  -10   15    4184.04     182.78
+ -26  -10   16    1384.99     102.44
+ -26  -10   17    1611.42     113.98
+ -26  -10   18    1464.80      85.91
+ -26  -10   19    3805.32     140.61
+ -26  -10   20     366.19      53.43
+ -26  -10   21    5713.48     191.37
+   4   -9  -24    1738.97     136.05
+   5   -9  -24   10186.71     385.62
+   6   -9  -24    1178.07      81.36
+   7   -9  -24    5511.54     149.58
+   8   -9  -24   37358.34     616.67
+   9   -9  -24   10095.20     183.06
+  10   -9  -24    4693.12     125.91
+  11   -9  -24     522.52      80.51
+  13   -9  -24    2366.66     131.32
+  14   -9  -24    1352.19     129.29
+   1   -9  -23   24935.81     586.65
+   2   -9  -23   39340.05     763.66
+  15   -9  -23    3416.38     190.92
+  16   -9  -23   14552.90     346.91
+  17   -9  -23    7366.17     214.64
+  18   -9  -23    2418.94     152.65
+  -2   -9  -22    2785.61      93.65
+  -1   -9  -22    2987.68     112.17
+  19   -9  -22    2449.09     115.77
+  20   -9  -22    2686.01     132.37
+  -4   -9  -21    7672.51     127.70
+  21   -9  -21    2478.96     126.83
+  -6   -9  -20    9174.17     286.35
+  -9   -9  -18    6720.40     213.26
+ -10   -9  -17   17032.24     512.67
+  34   -9  -10     360.46      64.85
+ -21   -9   -2    5184.41     198.85
+ -22   -9    0    7835.72     301.36
+ -23   -9    3    1981.52      82.39
+ -24   -9    7    3475.55     125.97
+ -24   -9    8   15845.01     544.05
+ -25   -9   12    3116.54     147.48
+ -25   -9   13    2161.36      67.56
+ -25   -9   14    3163.05     105.99
+ -25   -9   15    1141.80      58.83
+ -25   -9   16    1407.00      66.76
+ -25   -9   17    6578.24     140.34
+ -25   -9   18    3195.33      86.73
+ -25   -9   19   10675.92     198.72
+ -25   -9   20    4181.86      89.10
+ -25   -9   21    1152.47      66.88
+ -25   -9   22    1461.14      69.69
+   3   -8  -22    2050.77      61.10
+   4   -8  -22    2473.97      91.53
+   5   -8  -22   22170.00     417.18
+   6   -8  -22   24647.62     483.80
+   7   -8  -22   37982.29    1482.53
+  10   -8  -22    2778.92     171.84
+  12   -8  -22    9699.51     384.80
+  13   -8  -22    5546.98     139.57
+  14   -8  -22    3435.44     108.96
+  15   -8  -22    4178.36     175.14
+   0   -8  -21     864.88      60.75
+   1   -8  -21   12850.17     275.77
+  16   -8  -21     696.63     143.29
+  17   -8  -21    5356.31     145.03
+  18   -8  -21    1145.48      96.06
+  -2   -8  -20   14220.41     423.01
+  19   -8  -20    2531.71     170.02
+  20   -8  -20    1852.26      96.12
+  21   -8  -20    1296.73     108.28
+  -4   -8  -19   37529.53    1167.10
+  22   -8  -19   15281.01     263.54
+  23   -8  -19     875.61     128.12
+  23   -8  -18    2337.81     130.67
+  24   -8  -18    2062.03     111.84
+  -6   -8  -18   30784.15     959.13
+  25   -8  -17    5915.89     159.40
+  26   -8  -17     539.02     109.18
+  26   -8  -16     993.48      90.26
+  27   -8  -16      87.85      61.29
+  -9   -8  -16   15510.61     373.31
+  28   -8  -15     208.93      55.15
+ -10   -8  -15   20548.23     481.18
+  29   -8  -14     193.70      75.04
+  30   -8  -13     502.90      74.47
+  31   -8  -12     207.36      52.68
+  32   -8  -11     931.58      71.75
+ -14   -8  -11   14487.51     350.83
+  32   -8  -10     458.04      92.09
+  33   -8   -9     660.61      65.11
+  34   -8   -8     258.53      53.60
+ -18   -8   -5    9433.19     225.21
+ -20   -8   -1    1965.19      48.45
+ -21   -8    2    4604.51     116.01
+ -22   -8    4    2925.62      91.38
+ -22   -8    5    2003.62      57.38
+ -23   -8    8   10267.41     269.42
+ -23   -8    9     561.60      37.42
+ -23   -8   10    2032.00      64.06
+ -23   -8   11    1004.91      69.98
+ -24   -8   16    1689.79     101.90
+ -24   -8   17     869.74      82.64
+ -24   -8   18     924.16      81.21
+ -24   -8   19    1747.65     100.77
+ -23   -8   23     158.25      67.92
+ -23   -8   24    6331.76     210.05
+   8   -7  -21    6054.04     141.01
+   9   -7  -21   11723.94     449.01
+  10   -7  -21    3337.08     166.43
+  11   -7  -21   14080.33     566.21
+   2   -7  -20    9077.56     207.48
+   3   -7  -20   44867.47     630.18
+   4   -7  -20    6150.42     137.63
+  13   -7  -20    5283.52     216.85
+  14   -7  -20    3218.66      97.29
+  15   -7  -20    1095.17      81.97
+  16   -7  -20    1939.20     112.67
+  -1   -7  -19   18201.70     421.57
+   0   -7  -19  139187.39    3064.69
+  17   -7  -19   18598.86     724.12
+  18   -7  -19    6522.62     157.28
+  19   -7  -19    3002.78     153.73
+  -3   -7  -18   67781.88    2136.12
+  20   -7  -18    2693.01      89.21
+  21   -7  -18    9742.88     354.50
+  22   -7  -17    6870.88     133.78
+  23   -7  -17     884.19     104.15
+  23   -7  -16    9075.48     376.81
+  24   -7  -16     769.17      80.38
+  -6   -7  -16   11602.87     354.56
+  25   -7  -15    5979.35     140.70
+  26   -7  -14    4652.13     186.33
+  27   -7  -14      87.86      77.67
+  27   -7  -13    5964.18     260.53
+  28   -7  -13    2988.28     135.88
+ -10   -7  -13   20273.58     496.13
+  29   -7  -12    1773.53     105.69
+ -11   -7  -12    4431.43     114.38
+  30   -7  -11     897.44      78.01
+  30   -7  -10     418.91      79.38
+  31   -7   -9     595.42      58.86
+  32   -7   -8     200.35      61.21
+  33   -7   -7     648.07      61.52
+  33   -7   -6     105.42      74.16
+ -18   -7   -2    9955.50     240.07
+ -20   -7    3    6658.75     163.56
+ -21   -7    6   11737.13     293.57
+ -21   -7    7   11650.95     288.82
+ -22   -7   11   10309.98     265.31
+ -22   -7   12    7030.42     135.94
+ -22   -7   13    7548.24     110.04
+ -22   -7   14    2457.62      73.65
+ -22   -7   15     278.13      44.04
+ -22   -7   16    9283.04     294.73
+ -22   -7   17    7146.93     227.38
+ -22   -7   18    6723.31     212.93
+ -22   -7   19   17220.94     537.38
+ -22   -7   20    2581.46      98.19
+ -22   -7   21      91.90      59.08
+ -22   -7   22     875.24      63.35
+ -22   -7   23    1179.66      70.07
+ -22   -7   24     476.69      53.62
+   7   -6  -19   24904.09     532.57
+   8   -6  -19    5852.96     129.87
+   9   -6  -19   12704.66     322.69
+  10   -6  -19    5045.00     117.31
+  11   -6  -19   53565.67    1121.64
+  12   -6  -19    8362.17     345.08
+   2   -6  -18   45514.32    1002.88
+   3   -6  -18   19947.50     349.28
+   4   -6  -18   12572.58     291.75
+  14   -6  -18   17540.35     675.42
+  15   -6  -18   11721.93     250.18
+  16   -6  -18    3335.74     133.82
+  -1   -6  -17    6703.70     174.80
+   0   -6  -17    2226.93      62.48
+  17   -6  -17    9311.86     372.64
+  18   -6  -17    3971.35     111.26
+  19   -6  -17    3082.86     147.76
+  -3   -6  -16    7720.55     283.62
+  20   -6  -16    2572.75      93.90
+  21   -6  -16    3304.91     156.88
+  22   -6  -15   30069.80     334.16
+  -4   -6  -15   10731.82     332.65
+  23   -6  -14   15438.99     588.72
+  24   -6  -14    2472.66     116.87
+  -6   -6  -14   43707.88    1101.93
+  25   -6  -13     992.05      78.85
+  -7   -6  -13   53132.68    1355.37
+  26   -6  -12    5657.24     120.02
+  27   -6  -11    6496.91     264.53
+  28   -6  -10     272.04      55.47
+  29   -6   -9     301.69      58.55
+  30   -6   -8    1623.08      78.48
+  31   -6   -7     818.98      67.14
+  31   -6   -6    1324.98      95.79
+  32   -6   -5    1881.00      90.00
+ -15   -6   -4   26600.76     660.58
+ -17   -6    0   56053.85    1377.32
+ -18   -6    2    1980.52      60.09
+ -19   -6    5   38156.44     951.69
+ -19   -6    6   19458.86     494.71
+ -20   -6    9    2823.40      80.49
+ -20   -6   10    4157.91     116.35
+ -20   -6   11   22203.35     562.70
+ -21   -6   16    1885.74      85.33
+ -21   -6   17    6099.46     215.14
+ -21   -6   18    2655.51     115.12
+ -21   -6   19    7258.86     250.56
+ -21   -6   20     801.31      92.10
+ -20   -6   23   20283.79     639.62
+ -20   -6   24    4266.74     145.27
+ -20   -6   25    4623.80      95.58
+ -20   -6   26    2632.84      85.15
+   7   -5  -17   19049.64     427.88
+   8   -5  -17     840.47      49.90
+   9   -5  -17    7894.36     181.30
+  10   -5  -17   93265.90    2022.02
+  11   -5  -17   33103.88     718.01
+   2   -5  -16   17516.64     414.35
+   3   -5  -16   54433.48     740.51
+   4   -5  -16   12119.07     285.71
+  13   -5  -16   13181.65     299.17
+  14   -5  -16   17545.81     369.06
+  15   -5  -16   11335.24     217.98
+  16   -5  -16   11263.93     238.38
+   0   -5  -15  281011.75    6436.31
+  17   -5  -15   58937.01    1210.19
+  18   -5  -15   22433.05     381.57
+  -2   -5  -14   17852.56     415.63
+  19   -5  -14   13873.55     434.95
+  20   -5  -14    8483.39     176.94
+  21   -5  -13    8128.59     308.96
+  22   -5  -13    8590.60     318.84
+  -4   -5  -13   13427.71     268.63
+  23   -5  -12    1022.17      73.01
+  24   -5  -11    6551.67     264.52
+  25   -5  -11    2513.66     144.64
+  25   -5  -10    7977.31     336.10
+  26   -5  -10    9512.07     367.46
+  27   -5   -9    6964.55     291.84
+  28   -5   -8    3839.01     182.81
+  28   -5   -7    7053.54     303.35
+  29   -5   -6    2570.85     117.02
+  30   -5   -5     490.60      40.42
+  31   -5   -4    3530.76     137.22
+  31   -5   -3    1163.20      64.49
+ -16   -5    2   66682.59    1700.79
+ -17   -5    4    2151.40      71.90
+ -17   -5    5   13793.85     355.00
+ -18   -5    8   11497.74     132.18
+ -18   -5    9    4634.10     130.82
+ -19   -5   12   10884.28     297.47
+ -19   -5   13    6351.99     174.32
+ -19   -5   14    9906.57     158.75
+ -19   -5   15   11249.12     119.38
+ -19   -5   16   12577.81     140.35
+ -19   -5   17    3472.48      74.73
+ -19   -5   18    1276.63      60.77
+ -19   -5   19    3086.63      78.09
+ -19   -5   20    6696.99     113.79
+ -19   -5   21    2440.26      84.51
+ -19   -5   22   12682.36     395.34
+ -19   -5   23     964.58      73.23
+ -19   -5   24    1174.54     116.23
+ -18   -5   25    4796.03     192.93
+ -18   -5   26    4183.27     106.47
+ -18   -5   27    5516.15     119.53
+   3   -4  -14   11779.13     286.63
+   4   -4  -14   32942.53     476.18
+   5   -4  -14   58655.61    1407.14
+  12   -4  -14    3297.97     104.24
+  13   -4  -14   17460.01     395.43
+  14   -4  -14    5922.56     101.06
+  15   -4  -14   17145.72     375.17
+   1   -4  -13   45141.02    1061.83
+  16   -4  -13    3153.51      91.05
+  17   -4  -13    2520.64      73.58
+  18   -4  -13    1753.86      90.01
+  19   -4  -12    7796.32     146.48
+  20   -4  -12    3536.61     130.79
+  21   -4  -11    2765.45      79.93
+  -3   -4  -11   10369.88     217.91
+  22   -4  -10    5454.17     164.41
+  23   -4  -10    1708.91      91.63
+  23   -4   -9    1052.21      93.62
+  24   -4   -9   16275.80     475.97
+  -6   -4   -9   24979.09     515.99
+  25   -4   -8    2206.65      77.01
+  -7   -4   -8    1774.60      48.26
+  26   -4   -7    3567.38     116.22
+  27   -4   -6    1102.37      61.72
+  28   -4   -4    1310.15      71.31
+  29   -4   -3    3435.75     119.25
+  30   -4   -2    1712.47      85.68
+ -12   -4   -2    2213.83      59.44
+  30   -4   -1     537.11      49.40
+  31   -4    0    1720.37      66.07
+ -13   -4    0   37225.23     966.07
+ -14   -4    2   42546.79    1103.64
+ -15   -4    4   31033.80     804.89
+ -16   -4    7    5267.20     150.89
+ -16   -4    8   21288.62     555.69
+ -17   -4   11    3806.53     116.56
+ -17   -4   12    1043.84      43.27
+ -17   -4   13    3000.67      66.62
+ -17   -4   14    8406.03     223.89
+ -17   -4   15    9921.87     258.59
+ -17   -4   16   11238.64     293.73
+ -17   -4   17    2363.31      78.66
+ -17   -4   18     901.52      53.55
+ -17   -4   19    4455.30     145.51
+ -17   -4   20   27973.15     973.55
+ -17   -4   21    6979.92     129.84
+ -17   -4   22    5810.24     114.10
+ -17   -4   23    6522.45     131.52
+ -17   -4   24    3806.91     154.26
+ -17   -4   25    2360.40     155.27
+ -16   -4   26    1577.52      94.86
+ -16   -4   27    1993.23      86.23
+ -16   -4   28    5077.81     125.58
+ -16   -4   29     260.19      99.16
+ -15   -4   29     729.28      93.68
+   5   -3  -12    4000.06     104.34
+   6   -3  -12   27609.43     454.61
+   7   -3  -12   34705.43     706.91
+   8   -3  -12   80235.77    1923.29
+   9   -3  -12  185529.69    4448.19
+  10   -3  -12   35598.86     842.17
+  11   -3  -12   71759.50    1640.70
+  12   -3  -12   15493.32     287.56
+  13   -3  -12    8980.76     204.24
+   2   -3  -11   27721.88     414.73
+  15   -3  -11   52397.13    1172.77
+  16   -3  -11    3473.08      82.82
+   0   -3  -10   13355.55     281.79
+  18   -3  -10   16306.90     252.75
+  20   -3   -9    4975.37     152.84
+  -2   -3   -9    2110.41      47.65
+  21   -3   -8    8991.72     274.64
+  22   -3   -7    7736.41     254.47
+  23   -3   -7     933.57      61.39
+  24   -3   -6    7907.25     242.70
+  -6   -3   -6    6316.52     136.22
+  25   -3   -5    7900.07     245.14
+  26   -3   -4    6779.71     240.98
+  26   -3   -3     491.83      66.00
+  27   -3   -2    1853.99      76.48
+  28   -3   -1    1905.18      72.94
+  29   -3    1    4913.99     165.10
+  30   -3    3     309.44      31.80
+ -13   -3    5   11045.10     285.31
+ -14   -3    7   32350.56     857.56
+ -14   -3    8   77701.98    2047.57
+ -15   -3   11   32868.12     872.20
+ -15   -3   12   19573.19     198.78
+ -15   -3   13   11059.18     180.85
+ -15   -3   14    3158.46      85.29
+ -15   -3   15   15792.07     368.41
+ -15   -3   16    2665.13      81.61
+ -15   -3   17    2717.96      82.80
+ -15   -3   18    9237.87     215.39
+ -15   -3   19    3115.39      85.69
+ -15   -3   20   30963.25     694.73
+ -15   -3   21    6372.46     107.36
+ -15   -3   22   28169.72     382.01
+ -15   -3   23     592.94      64.65
+ -15   -3   24    8488.00     301.49
+ -15   -3   25    7495.04     302.89
+ -14   -3   25    3214.81     155.63
+ -14   -3   26    9701.38     342.77
+ -14   -3   27     473.30      81.86
+ -14   -3   28    7218.17     276.96
+ -13   -3   29    6596.96     257.56
+ -13   -3   30   11859.39     206.52
+ -12   -3   31    2083.21     134.59
+   4   -2   -9   14829.89     335.90
+   5   -2   -9    3101.53      81.28
+  12   -2   -9     833.23      49.14
+  13   -2   -9    1716.24      65.92
+  14   -2   -9   23721.41     551.36
+  16   -2   -8    9903.12     140.80
+  17   -2   -8   16903.27     514.35
+  18   -2   -7    5032.30     157.12
+  20   -2   -6    7156.11     222.04
+  -2   -2   -6    5357.86     120.62
+  21   -2   -5    8684.42     264.84
+  22   -2   -4   15853.87     488.45
+  23   -2   -3     225.25      39.52
+  24   -2   -2    2054.93      78.94
+  25   -2   -1    9819.76     314.85
+  26   -2    0   11638.34     377.21
+  -8   -2    0    5690.53     121.72
+  26   -2    1   18725.07     638.26
+  27   -2    2   27031.05     900.82
+  28   -2    4    3083.76     108.19
+ -11   -2    6    2230.00      51.70
+ -12   -2    8   22888.65     551.07
+ -12   -2    9    1263.54      43.22
+ -13   -2   12   16898.07     416.29
+ -13   -2   13   43461.01     369.78
+ -13   -2   14   75286.77    1340.70
+ -13   -2   15   26693.65     427.09
+ -13   -2   16   39408.93     526.68
+ -13   -2   17   10777.99     145.78
+ -13   -2   18   12233.41     161.69
+ -13   -2   19    1283.89      64.23
+ -13   -2   20   18461.59     217.89
+ -13   -2   21    2231.07      84.90
+ -13   -2   22    8079.40     144.91
+ -13   -2   23    1731.70      87.97
+ -13   -2   24    3703.90     194.80
+ -12   -2   24   22004.64     758.48
+ -12   -2   25     224.90      63.86
+ -12   -2   26   12482.85     189.05
+ -12   -2   27    9699.51     364.72
+ -12   -2   28    3234.34     196.54
+ -11   -2   28      79.24      72.15
+ -11   -2   30     328.56      74.65
+ -10   -2   30    2152.94     131.44
+ -10   -2   31    3189.49     111.11
+ -10   -2   32     479.32      68.27
+  -9   -2   32    3570.44     161.67
+  -9   -2   33     111.17      71.60
+   4   -1   -6   12562.46     273.15
+   5   -1   -6   26387.51     572.66
+  12   -1   -6   27177.59     646.51
+  13   -1   -6   62316.21    1612.05
+  14   -1   -6   23143.95     698.37
+   2   -1   -5   34231.77     768.99
+  15   -1   -5    4726.76     161.74
+  16   -1   -5   10205.19     306.53
+  18   -1   -4    1685.38      68.08
+   0   -1   -4    6703.20     231.75
+  19   -1   -3    3928.63     125.07
+  20   -1   -2    9305.72     288.19
+  21   -1   -1   35286.17    1102.92
+  22   -1    0    3551.13     126.73
+  23   -1    1   12079.04     365.50
+  24   -1    2   19049.01     615.67
+  25   -1    4   18865.73     613.58
+  -8   -1    5     969.37      25.93
+  26   -1    6    4475.69     144.95
+  -9   -1    7   36692.16     791.65
+  27   -1    8     647.93      43.75
+  -9   -1    8     868.06      28.81
+ -10   -1   10   34519.02     832.13
+ -10   -1   11   57349.31     773.47
+ -10   -1   12   14950.57     364.81
+ -11   -1   15   56290.91    1358.15
+ -11   -1   16   17053.93     405.58
+ -11   -1   17   10947.76     271.08
+ -11   -1   18    1115.86      50.28
+ -11   -1   19   19447.13     461.45
+ -11   -1   20    8539.18     211.51
+ -11   -1   21   10021.05     258.91
+ -10   -1   21   18332.49     421.93
+ -10   -1   22    5361.10     130.28
+ -10   -1   23   13895.74     244.91
+ -10   -1   24     428.51      55.46
+ -10   -1   25    2086.84      98.48
+ -10   -1   26    3876.72     183.63
+  -9   -1   26   15098.46     527.63
+  -9   -1   27   12243.23     180.16
+  -9   -1   28    3965.30     152.31
+  -8   -1   28    5826.27     232.85
+  -8   -1   29    3837.71      98.97
+  -8   -1   30    1359.32      72.83
+  -7   -1   30    3607.92     188.10
+  -8   -1   31   12882.82     498.41
+  -7   -1   31    2063.89      90.22
+  -7   -1   32    3333.98     131.79
+  -6   -1   32    3047.14     132.99
+  -6   -1   33    1260.18      82.81
+  -6   -1   34     251.25      91.31
+  -5   -1   34    5990.09     144.54
+  -5   -1   35    3931.15     151.22
+  -4   -1   35     -27.01      67.06
+  -3   -1   36    2875.18     116.37
+  -2   -1   37    3514.88     117.34
+   5   -1   40     731.64     105.61
+  13   -1   40    2521.82     153.76
+   7   -1   41    2185.35     103.16
+   8   -1   41     537.56      65.95
+   9   -1   41     442.20      63.53
+  10   -1   41     749.89      64.78
+  11   -1   41      89.82      61.17
+  12   -1   41     463.39      69.99
+   9   -1   42     230.37      93.67
+  10   -1   42     215.15     103.77
+   7    0   -3   13580.28     307.12
+   8    0   -3    4853.46     105.56
+   9    0   -3   59073.47    1278.95
+  10    0   -3  250176.80   -3872.98
+  11    0   -3     179.96      14.34
+  12    0   -3    5402.88     118.75
+  14    0   -2   51491.40    1236.92
+  16    0   -1   28554.97     676.83
+  18    0    0    7972.48     189.61
+  19    0    1    2153.40      54.46
+  20    0    2    9155.60     210.55
+  21    0    3     541.51      28.20
+  -3    0    3     157.72       7.60
+  -4    0    4   35987.03     805.54
+  22    0    5     941.84      44.80
+  -5    0    6    5439.97     103.32
+  -6    0    8   31639.33    1006.90
+  24    0    9    2598.17      97.36
+  -7    0   10    1150.96      37.62
+  -7    0   11    3595.75      77.23
+  25    0   12    1428.75      59.69
+  -7    0   12   58855.17    1427.77
+  -8    0   14    3068.52     104.63
+  -8    0   15     633.42      42.73
+  -8    0   16    4209.99      73.67
+  -8    0   17   75010.14    1468.89
+  -8    0   18   39282.70     636.49
+  -8    0   19   76036.02    1594.68
+  -8    0   21   31717.42     725.79
+  -8    0   22    9291.23     233.15
+  -7    0   22    6415.27     155.01
+  -7    0   23   15029.40     252.72
+  -7    0   24    1946.08      83.28
+  -7    0   25     941.21      46.17
+  -6    0   25    9549.74     228.04
+  -7    0   26    1245.84     119.24
+  -6    0   26    1762.40     175.25
+  -6    0   27   10765.19     159.71
+  -6    0   28    6380.81     224.38
+  -5    0   28    2428.03     108.09
+  -5    0   29     159.89      74.59
+  -5    0   30    2361.01     121.17
+  -4    0   30   12353.81     161.10
+  -4    0   31   22672.91     764.23
+  -3    0   31   15459.39     524.02
+  -3    0   32    8595.01     165.16
+  -2    0   32     602.73      94.37
+  -3    0   33    2756.25     179.81
+  -2    0   33     322.52      71.29
+  -1    0   33    1993.89     121.51
+  -2    0   34     410.11     113.96
+  -1    0   34     634.94      84.78
+   0    0   34    7704.86     319.85
+  -1    0   35    1613.50     152.87
+   0    0   35     105.92      63.19
+   1    0   35    2810.38     133.24
+   2    0   35   10545.23     450.45
+   1    0   36    2294.81     116.82
+   2    0   36     115.66      64.11
+   3    0   36    9126.10     365.51
+   4    0   36    -151.15     106.36
+  15    0   36      62.29      45.50
+   2    0   37     269.65     115.18
+   3    0   37    1197.98      87.24
+   4    0   37   27290.50     515.86
+   5    0   37     -50.64      70.36
+   6    0   37    2736.72     129.31
+   7    0   37     993.43      86.23
+   8    0   37    1817.42     115.69
+   9    0   37    1621.92     116.01
+  10    0   37    6807.26     310.16
+  11    0   37     596.71      76.86
+  12    0   37     504.60      58.81
+  13    0   37    2584.01     120.29
+  14    0   37    1069.80      65.58
+   5    0   38     487.05      82.37
+   6    0   38     205.86      59.10
+   7    0   38    1131.08      75.93
+   8    0   38    1277.25      78.87
+   9    0   38     170.17      50.92
+  10    0   38     -21.00      53.63
+  11    0   38     989.98      69.33
+  12    0   38      65.77      65.19
+  13    1    2   10841.28     275.35
+  15    1    3    5498.83     136.80
+  16    1    4   55897.32    1368.98
+  19    1    7    3191.28      76.24
+  -2    1    8    1173.22      36.96
+  -3    1   10   12586.14     194.77
+  -3    1   11   46413.80    1015.40
+  -4    1   12   20357.65     491.44
+  -4    1   13    7708.57     191.89
+  -4    1   14   27800.63     751.92
+  -4    1   15  126856.99    3080.70
+  -4    1   16   59778.06    1449.23
+  -4    1   17   36063.54     868.14
+  -4    1   18   20998.10     504.15
+  22    1   19    2846.32     104.24
+  -4    1   19    7980.97     205.53
+  22    1   20    1084.19      51.92
+  -4    1   20  123528.50    1841.29
+  -4    1   21   15256.56     251.09
+  -4    1   22   23244.94     340.18
+  21    1   23    4907.84     175.94
+  -4    1   23     364.40      40.91
+  -3    1   23   21715.15     495.50
+  21    1   24     850.30      43.55
+  -3    1   24    6981.35     148.17
+  -3    1   25   30919.14     430.74
+  -2    1   25    2039.40      79.67
+  -3    1   26     513.20      48.43
+  -2    1   26    4191.84      88.07
+  20    1   26     717.00      39.34
+  -2    1   27    6842.24     131.32
+  -1    1   27    1866.62      64.13
+  19    1   27     679.54      51.84
+  -2    1   28    2508.57     125.60
+  -1    1   28   12599.08     159.93
+   0    1   28     389.38      75.28
+  19    1   28    3938.38     144.68
+  -1    1   29    4681.19     194.95
+   0    1   29    2667.35      79.83
+  18    1   29    3502.00     131.02
+   0    1   30    1680.22      96.71
+   1    1   30    1663.92     100.07
+   2    1   30   27491.92     678.74
+  17    1   30    1036.93      49.00
+   1    1   31   16613.04     649.81
+   2    1   31   13999.79     167.68
+   3    1   31    8804.48     364.29
+  15    1   31    -111.94      52.97
+  16    1   31    1204.07      54.70
+   2    1   32     696.78      83.31
+   3    1   32    4573.93     105.87
+   4    1   32    1128.10      74.52
+   5    1   32    7523.93     307.17
+  13    1   32    7330.28     267.50
+  14    1   32    1071.48      56.38
+  15    1   32    1306.95      63.33
+   4    1   33    1498.10      86.89
+   5    1   33    4728.33     107.94
+   6    1   33    1395.16      75.12
+   7    1   33     597.04      63.25
+   8    1   33    2213.96      67.04
+   9    1   33    1328.34      72.42
+  10    1   33    1725.76      80.64
+  11    1   33    1027.73      57.53
+  12    1   33     403.51      54.64
+  13    1   33      63.55      40.61
+  14    1   33    3809.85     165.25
+   6    1   34      68.08      89.32
+   7    1   34     458.42      71.42
+   8    1   34     249.73      60.90
+   9    1   34     -18.96      56.89
+  10    1   34     653.62      58.42
+  11    1   34     553.35      67.37
+   6    2    8   40298.97     880.75
+   4    2    9   12492.41     263.78
+   3    2   10   10244.06     216.42
+   2    2   11   29863.92     630.63
+   3    2   11   44490.72     942.22
+   2    2   12   30656.91     762.11
+   1    2   13   18335.22     400.45
+   2    2   13   62973.62    1386.48
+   1    2   14   10033.67     210.50
+   1    2   15    6922.45     177.07
+  17    2   15    3805.22      92.32
+   0    2   16  155704.11    3809.92
+   1    2   16   10889.67     278.97
+  17    2   16    1449.37      55.08
+   0    2   17    9791.00     236.94
+   1    2   17    4383.22     123.92
+  17    2   17    2401.70      83.96
+   0    2   18   30682.98     732.82
+   1    2   18   14839.58     347.90
+  17    2   18    6809.40     238.07
+   0    2   19    6823.07     173.46
+   1    2   19    3561.81      94.74
+  17    2   19   11265.38     390.67
+   1    2   20    7132.10     158.63
+  17    2   20    3047.15     111.48
+   1    2   21    1075.71      54.03
+   2    2   21   90327.80    2423.95
+  16    2   21    4727.60     166.18
+   1    2   22   12736.80     309.19
+   2    2   22    4493.63     126.02
+  16    2   22    5470.67     189.30
+   1    2   23    3988.30     130.23
+   2    2   23    1336.92      51.12
+   3    2   23   19243.39     509.95
+  15    2   23   11170.62     385.36
+  16    2   23    4607.97     164.61
+   2    2   24    6441.40     173.65
+   3    2   24   10160.25     113.97
+   4    2   24   15496.47     421.92
+  15    2   24    1244.87      54.54
+   3    2   25    1923.20      63.12
+   4    2   25     719.05      37.08
+   5    2   25   44550.21    1202.01
+  13    2   25     827.03      68.47
+  14    2   25     325.13      37.79
+  15    2   25    1080.58      69.77
+   3    2   26    9289.13     258.95
+   4    2   26    3323.44      96.40
+   5    2   26    4799.14      82.81
+   6    2   26   24051.36     629.59
+   7    2   26    3122.04      98.47
+  11    2   26    5295.39     144.62
+  12    2   26   14171.26     345.60
+  13    2   26    1795.72      73.08
+  14    2   26    1401.08      72.93
+   5    2   27    5768.50     155.74
+   6    2   27   10532.03     231.97
+   7    2   27   36153.52     541.67
+   8    2   27    5742.80     149.18
+   9    2   27    3575.87      96.45
+  10    2   27   12182.30     300.23
+  11    2   27   20699.55     409.81
+  12    2   27    9231.40     322.40
+  13    2   27    7654.77     277.46
+   6    2   28    2990.37     104.15
+   7    2   28    3233.45      92.14
+   8    2   28   15512.33     384.82
+   9    2   28    4271.10     113.57
+  10    2   28    9491.22     236.34
+  11    2   28     259.95      47.55
+</value>
+            </bestfileHKL>
+            <bestfilePar>
+                <value># parameter file for BEST 
+TITLE          .
+DETECTOR       ADSC
+SITE           Not set
+DIAMETER         209.72
+PIXEL          0.1024000
+ROTAXIS        0.00 0.00 1.00 FAST
+POLAXIS        0.00 0.00 1.00
+GAIN               0.25
+CMOSAIC            0.56
+PHISTART         296.00
+PHIWIDTH           1.00
+DISTANCE         198.30
+WAVELENGTH      0.93400
+POLARISATION    0.95000
+SYMMETRY       P222
+UB             -0.008285  0.001259 -0.014844
+                0.008825  0.012520 -0.003864
+                0.009370 -0.008439 -0.005945
+CELL              54.79    59.12    67.00  90.00  90.00  90.00
+RASTER           17  17  12   5   5
+SEPARATION      0.710  0.710
+BEAM            102.493  104.860
+# end of parameter file for BEST
+</value>
+            </bestfilePar>
+            <experimentalConditionRefined>
+                <beam>
+                    <exposureTime>
+                        <value>1.000000e+00</value>
+                    </exposureTime>
+                    <wavelength>
+                        <value>9.340000e-01</value>
+                    </wavelength>
+                </beam>
+                <detector>
+                    <beamPositionX>
+                        <value>1.024927e+02</value>
+                    </beamPositionX>
+                    <beamPositionY>
+                        <value>1.048597e+02</value>
+                    </beamPositionY>
+                    <bin>
+                        <value>2x2</value>
+                    </bin>
+                    <byteOrder>
+                        <value>little_endian</value>
+                    </byteOrder>
+                    <dataType>
+                        <value>unsigned_short</value>
+                    </dataType>
+                    <distance>
+                        <value>1.983000e+02</value>
+                    </distance>
+                    <imageSaturation>
+                        <value>65535</value>
+                    </imageSaturation>
+                    <name>
+                        <value>ADSC Q210 bin 2x2</value>
+                    </name>
+                    <numberBytesInHeader>
+                        <value>512</value>
+                    </numberBytesInHeader>
+                    <numberPixelX>
+                        <value>2048</value>
+                    </numberPixelX>
+                    <numberPixelY>
+                        <value>2048</value>
+                    </numberPixelY>
+                    <pixelSizeX>
+                        <value>1.024000e-01</value>
+                    </pixelSizeX>
+                    <pixelSizeY>
+                        <value>1.024000e-01</value>
+                    </pixelSizeY>
+                    <serialNumber>
+                        <value>444</value>
+                    </serialNumber>
+                    <twoTheta>
+                        <value>0.000000e+00</value>
+                    </twoTheta>
+                    <type>
+                        <value>q210-2x</value>
+                    </type>
+                </detector>
+                <goniostat>
+                    <oscillationWidth>
+                        <value>1.000000e+00</value>
+                    </oscillationWidth>
+                    <rotationAxis>
+                        <value>phi</value>
+                    </rotationAxis>
+                    <rotationAxisEnd>
+                        <value>2.970000e+02</value>
+                    </rotationAxisEnd>
+                    <rotationAxisStart>
+                        <value>2.960000e+02</value>
+                    </rotationAxisStart>
+                </goniostat>
+            </experimentalConditionRefined>
+            <generatedMTZFile>
+                <path>
+                    <value>/users/svensson/tmp/EDApplicationMXv1Characterisation_20100528-113750/ControlInterfacev1_2/Characterisation/Integration/MOSFLMIntegrationv10-01/process_1_1.mtz</value>
+                </path>
+            </generatedMTZFile>
+            <statistics>
+                <numberOfBadReflections>
+                    <value>3</value>
+                </numberOfBadReflections>
+                <numberOfFullyRecordedReflections>
+                    <value>223</value>
+                </numberOfFullyRecordedReflections>
+                <numberOfNegativeReflections>
+                    <value>56</value>
+                </numberOfNegativeReflections>
+                <numberOfOverlappedReflections>
+                    <value>2</value>
+                </numberOfOverlappedReflections>
+                <numberOfPartialReflections>
+                    <value>1404</value>
+                </numberOfPartialReflections>
+                <RMSSpotDeviation>
+                    <value>7.473300e-02</value>
+                </RMSSpotDeviation>
+            </statistics>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>4.148831e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>4.148831e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.977400e+05</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>4.644465e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>4.503000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>19</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>1.213310e+05</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>3.874562e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>2.668000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>109</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.916730e+05</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>4.172901e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>4.557000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>19</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>1.189370e+05</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>3.758625e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>2.668000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>109</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>2.933679e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>4.148831e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.437320e+05</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>5.760984e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>2.592000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>29</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>7.528400e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>3.466488e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.920000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>183</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.361760e+05</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>3.748998e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>3.413000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>29</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>7.261700e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>3.351708e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.920000e+03</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>183</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>2.395342e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.933679e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>2.847900e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>4.656847e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>5.380000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>41</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>2.378800e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>2.927724e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>6.960000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>245</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>2.659300e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>3.040284e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>8.210000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>41</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>2.250200e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>2.779328e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>6.960000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>245</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>2.074429e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.395342e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>2.023800e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>4.315081e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>4.010000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>62</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>1.233200e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.952854e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>4.780000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>303</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.983000e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>2.426421e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>7.160000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>62</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>1.221200e+04</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.956868e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>4.780000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>303</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>1.855426e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.074429e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>7.271000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>2.369180e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>2.530000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>41</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>6.319000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.508419e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>3.110000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>289</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>7.605000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.727829e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>3.510000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>41</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>6.554000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.590276e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>3.110000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>289</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>1.693765e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>1.855426e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>8.707000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>2.435758e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>2.670000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>20</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>2.743000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.052557e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.930000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>164</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>9.059000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.845122e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>3.830000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>20</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>2.920000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>1.130328e+01</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.930000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>164</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>1.568122e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>1.693765e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.719000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>8.271243e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>2.040000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>6</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>1.378000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>6.402916e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.620000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>92</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>2.013000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>8.765798e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.980000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>6</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>1.569000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>7.324984e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.620000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>92</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <statisticsPerResolutionBin>
+                <maxResolution>
+                    <value>1.466844e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>1.568122e+00</value>
+                </minResolution>
+                <profileFitted>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.400000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>6.496066e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.790000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>3</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>6.300000e+02</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>4.536217e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.290000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>15</value>
+                        </numberOfReflections>
+                    </partials>
+                </profileFitted>
+                <summation>
+                    <fullyRecorded>
+                        <averageIntensity>
+                            <value>1.593000e+03</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>6.911510e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.730000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>3</value>
+                        </numberOfReflections>
+                    </fullyRecorded>
+                    <partials>
+                        <averageIntensity>
+                            <value>6.900000e+02</value>
+                        </averageIntensity>
+                        <averageIOverSigma>
+                            <value>4.636096e+00</value>
+                        </averageIOverSigma>
+                        <averageSigma>
+                            <value>1.290000e+02</value>
+                        </averageSigma>
+                        <numberOfReflections>
+                            <value>15</value>
+                        </numberOfReflections>
+                    </partials>
+                </summation>
+            </statisticsPerResolutionBin>
+            <subWedgeNumber>
+                <value>1</value>
+            </subWedgeNumber>
+        </integrationSubWedgeResult>
+    </integrationResult>
+    <strategyResult>
+        <collectionPlan>
+            <collectionPlanNumber>
+                <value>1</value>
+            </collectionPlanNumber>
+            <collectionStrategy>
+                <sample>
+                    <crystal>
+                        <cell>
+                            <angle_alpha>
+                                <value>9.000000e+01</value>
+                            </angle_alpha>
+                            <angle_beta>
+                                <value>9.000000e+01</value>
+                            </angle_beta>
+                            <angle_gamma>
+                                <value>9.000000e+01</value>
+                            </angle_gamma>
+                            <length_a>
+                                <value>5.479320e+01</value>
+                            </length_a>
+                            <length_b>
+                                <value>5.912490e+01</value>
+                            </length_b>
+                            <length_c>
+                                <value>6.699700e+01</value>
+                            </length_c>
+                        </cell>
+                        <mosaicity>
+                            <value>5.400000e-01</value>
+                        </mosaicity>
+                        <spaceGroup>
+                            <ITNumber>
+                                <value>16</value>
+                            </ITNumber>
+                            <name>
+                                <value>P222</value>
+                            </name>
+                        </spaceGroup>
+                    </crystal>
+                </sample>
+                <subWedge>
+                    <experimentalCondition>
+                        <beam>
+                            <exposureTime>
+                                <value>5.900000e-02</value>
+                            </exposureTime>
+                            <transmission>
+                                <value>1.000000e+02</value>
+                            </transmission>
+                            <wavelength>
+                                <value>9.340000e-01</value>
+                            </wavelength>
+                        </beam>
+                        <detector>
+                            <beamPositionX>
+                                <value>1.024927e+02</value>
+                            </beamPositionX>
+                            <beamPositionY>
+                                <value>1.048597e+02</value>
+                            </beamPositionY>
+                            <bin>
+                                <value>2x2</value>
+                            </bin>
+                            <byteOrder>
+                                <value>little_endian</value>
+                            </byteOrder>
+                            <dataType>
+                                <value>unsigned_short</value>
+                            </dataType>
+                            <distance>
+                                <value>2.015000e+02</value>
+                            </distance>
+                            <imageSaturation>
+                                <value>65535</value>
+                            </imageSaturation>
+                            <name>
+                                <value>ADSC Q210 bin 2x2</value>
+                            </name>
+                            <numberBytesInHeader>
+                                <value>512</value>
+                            </numberBytesInHeader>
+                            <numberPixelX>
+                                <value>2048</value>
+                            </numberPixelX>
+                            <numberPixelY>
+                                <value>2048</value>
+                            </numberPixelY>
+                            <pixelSizeX>
+                                <value>1.024000e-01</value>
+                            </pixelSizeX>
+                            <pixelSizeY>
+                                <value>1.024000e-01</value>
+                            </pixelSizeY>
+                            <serialNumber>
+                                <value>444</value>
+                            </serialNumber>
+                            <twoTheta>
+                                <value>0.000000e+00</value>
+                            </twoTheta>
+                            <type>
+                                <value>q210-2x</value>
+                            </type>
+                        </detector>
+                        <goniostat>
+                            <oscillationWidth>
+                                <value>1.750000e+00</value>
+                            </oscillationWidth>
+                            <rotationAxis>
+                                <value>phi</value>
+                            </rotationAxis>
+                            <rotationAxisEnd>
+                                <value>1.297500e+02</value>
+                            </rotationAxisEnd>
+                            <rotationAxisStart>
+                                <value>3.700000e+01</value>
+                            </rotationAxisStart>
+                        </goniostat>
+                    </experimentalCondition>
+                    <subWedgeNumber>
+                        <value>1</value>
+                    </subWedgeNumber>
+                </subWedge>
+            </collectionStrategy>
+            <statistics>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.547848e+03</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>4.810000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.218500e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>5.050000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>7.700000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>1.200000e+01</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.420000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>2.400000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>8.415460e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>3.590000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>2.342100e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>3.840000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>6.110000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>7.700000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.460000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.300000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>8.793140e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>3.440000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>2.557100e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>3.690000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>5.220000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>6.110000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.530000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.500000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.333891e+03</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>3.960000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.365900e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>4.180000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>4.630000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>5.220000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.660000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.100000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.572716e+03</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>4.060000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.869300e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>4.280000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>4.200000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>4.630000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.680000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.000000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.430617e+03</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>3.750000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.816300e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>3.970000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>3.880000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>4.200000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.650000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.300000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.246743e+03</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>3.380000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.685800e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>3.580000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>3.620000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>3.880000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.670000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.700000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.054236e+03</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>2.960000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.558400e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>3.150000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>3.400000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>3.620000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.610000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>4.300000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>8.478890e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>2.550000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.329400e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>2.720000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>3.220000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>3.400000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.720000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>5.100000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>6.648380e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>2.070000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.211900e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>2.240000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>3.070000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>3.220000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.750000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>6.200000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>5.382560e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>1.730000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.114300e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>1.880000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.930000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>3.070000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.730000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>7.600000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>4.390330e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>1.440000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.051600e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>1.570000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.820000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.930000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.800000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>9.200000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>3.697620e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>1.210000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.065800e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>1.320000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.710000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.820000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.790000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>1.110000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>3.251300e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>1.040000e+01</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.127600e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>1.140000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.620000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.710000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.760000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>1.280000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>2.914610e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>9.300000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.150800e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>1.020000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.530000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.620000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.740000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>1.450000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>2.633250e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>8.200000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.201100e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>9.000000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.460000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.530000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.790000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>1.640000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>2.430070e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>7.400000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.287600e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>8.100000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.390000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.460000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.730000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>1.830000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>2.276830e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>6.800000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.328300e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>7.500000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.320000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.390000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.780000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>1.990000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>2.141350e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>6.300000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.396900e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>6.900000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.260000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.320000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.780000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>2.170000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>2.008960e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>5.800000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.487400e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>6.300000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.210000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.260000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.720000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>2.380000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.841510e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>5.200000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.530300e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>5.700000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.150000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.210000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.750000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>2.630000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.673360e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>4.600000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.618300e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>5.000000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.110000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.150000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.740000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>2.980000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.531120e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>4.200000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.645200e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>4.600000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.060000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.110000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.810000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.290000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.335070e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>3.600000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.741500e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>3.900000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>2.020000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.060000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.750000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>3.850000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>1.167260e+02</value>
+                    </averageIntensity>
+                    <averageIntensityOverAverageSigma>
+                        <value>3.100000e+00</value>
+                    </averageIntensityOverAverageSigma>
+                    <averageSigma>
+                        <value>3.760100e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>3.300000e+00</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>1.980000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>2.020000e+00</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.840000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>4.470000e+01</value>
+                    </rFactor>
+                </resolutionBin>
+                <resolutionBin>
+                    <averageIntensity>
+                        <value>4.734880e+02</value>
+                    </averageIntensity>
+                    <averageSigma>
+                        <value>3.318600e+01</value>
+                    </averageSigma>
+                    <completeness>
+                        <value>1.000000e+00</value>
+                    </completeness>
+                    <IOverSigma>
+                        <value>1.430000e+01</value>
+                    </IOverSigma>
+                    <maxResolution>
+                        <value>1.980000e+00</value>
+                    </maxResolution>
+                    <minResolution>
+                        <value>1.200000e+01</value>
+                    </minResolution>
+                    <percentageOverload>
+                        <value>0.000000e+00</value>
+                    </percentageOverload>
+                    <redundancy>
+                        <value>3.740000e+00</value>
+                    </redundancy>
+                    <rFactor>
+                        <value>9.500000e+00</value>
+                    </rFactor>
+                </resolutionBin>
+            </statistics>
+            <strategySummary>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <iSigma>
+                    <value>3.000000e+00</value>
+                </iSigma>
+                <rankingResolution>
+                    <value>1.160000e+00</value>
+                </rankingResolution>
+                <redundancy>
+                    <value>3.740000e+00</value>
+                </redundancy>
+                <resolution>
+                    <value>1.980000e+00</value>
+                </resolution>
+                <resolutionReasoning>
+                    <value>Resolution limit is set by the initial image resolution</value>
+                </resolutionReasoning>
+                <totalDataCollectionTime>
+                    <value>1.356150e+02</value>
+                </totalDataCollectionTime>
+                <totalExposureTime>
+                    <value>3.115000e+00</value>
+                </totalExposureTime>
+            </strategySummary>
+        </collectionPlan>
+    </strategyResult>
+</XSDataResultCharacterisation>

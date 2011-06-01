@@ -1,0 +1,66 @@
+targetNamespace "http://www.edna-site.org"
+
+complex type XSDataCell {
+	angle_alpha : XSDataAngle
+	angle_beta : XSDataAngle
+	angle_gamma : XSDataAngle
+	length_a : XSDataLength
+	length_b : XSDataLength
+	length_c : XSDataLength
+}
+
+complex type XSDataImageQualityIndicators extends XSData {
+	binPopCutOffMethod2Res : XSDataDouble
+	goodBraggCandidates : XSDataInteger
+	iceRings : XSDataInteger
+	image : XSDataImage
+	inResolutionOvrlSpots : XSDataInteger
+	inResTotal : XSDataInteger
+	maxUnitCell : XSDataDouble
+	method1Res : XSDataDouble
+	method2Res : XSDataDouble
+	pctSaturationTop50Peaks : XSDataDouble
+	spotTotal : XSDataInteger
+	totalIntegratedSignal : XSDataDouble optional
+	signalRangeMin : XSDataDouble optional
+	signalRangeMax : XSDataDouble optional
+	signalRangeAverage : XSDataDouble optional
+	saturationRangeMin : XSDataDouble optional
+	saturationRangeMax : XSDataDouble optional
+	saturationRangeAverage : XSDataDouble optional
+}
+
+complex type XSDataLabelitMosflmScriptsOutput extends XSData {
+	aMatrix : XSDataMatrixDouble
+	uMatrix : XSDataMatrixDouble
+}
+
+complex type XSDataLabelitScreenOutput extends XSData {
+	beamCentreX : XSDataLength
+	beamCentreY : XSDataLength
+	distance : XSDataLength
+	mosaicity : XSDataAngle
+	selectedSolutionNumber : XSDataInteger
+	labelitScreenSolution : XSDataLabelitScreenSolution [] optional
+}
+
+complex type XSDataLabelitScreenSolution extends XSData {
+	bravaisLattice : XSDataString
+	crystalSystem : XSDataString
+	happy : XSDataBoolean
+	metricFitCode : XSDataString
+	metricFitValue : XSDataDouble
+	numberOfSpots : XSDataInteger
+	rmsd : XSDataLength
+	solutionNumber : XSDataInteger
+	unitCell : XSDataCell
+	volume : XSDataInteger
+}
+
+complex type XSDataInputDistlSignalStrength extends XSDataInput {
+	referenceImage : XSDataImage
+}
+
+complex type XSDataResultDistlSignalStrength extends XSDataResult {
+	imageQualityIndicators : XSDataImageQualityIndicators
+}

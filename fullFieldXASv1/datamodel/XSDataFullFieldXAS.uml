@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataFullFieldXAS">
+    <packagedElement xmi:type="uml:Class" xmi:id="_DOhQQAB1EeCYBuAHmsenBw" name="XSDataInputAlignStack">
+      <generalization xmi:id="_aiBzAAB1EeCYBuAHmsenBw">
+        <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_tD-rQAB1EeCYBuAHmsenBw" name="image" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EKc0wAC8EeC1S7yuTuC5Nw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DCFegAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_uLrTIAB1EeCYBuAHmsenBw" name="array" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_BaSOIOftEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_FyDEsAC8EeC1S7yuTuC5Nw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GQ3usAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_vwJWkAB1EeCYBuAHmsenBw" name="index" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Hhu5oAC8EeC1S7yuTuC5Nw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G6rgsAC8EeC1S7yuTuC5Nw"/>
+        <qualifier xmi:id="_w1yI8AB1EeCYBuAHmsenBw" name="cropBordersMO"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_z6_mYAB1EeCYBuAHmsenBw" name="smoothBordersMO" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_rK1gEAC8EeC1S7yuTuC5Nw" value="2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_q0QMEAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_CVsVYAB2EeCYBuAHmsenBw" name="backgroundSubtractionMO">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_szI6oAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_E3VLsAB2EeCYBuAHmsenBw" name="sobelFilterMO">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uPEGEAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_JrwkAAB2EeCYBuAHmsenBw" name="alwaysMOvsRef">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tysTIAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Twh0kAB2EeCYBuAHmsenBw" name="useSift">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tQqkIAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_LOjwsAC8EeC1S7yuTuC5Nw" name="cropBordersMO" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cVmKIAC8EeC1S7yuTuC5Nw" value="2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_b2ZFoAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_M5FboAB2EeCYBuAHmsenBw" name="HDF5File" visibility="public">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_OxpfwAB2EeCYBuAHmsenBw" name="internalHDF5Path">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_RAjnUAB2EeCYBuAHmsenBw" name="frameReference" visibility="public">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Tq9VQAC8EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_ocDdgAKcEeCi9_4yO2qpbw" name="measureOffset" type="_kCYScAB2EeCYBuAHmsenBw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uJMmgAKcEeCi9_4yO2qpbw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Y0E4IGtMEeC7v9CL7O-u_g" name="datasetExtraAttributes">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_34enIOcwEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cgp3kGtMEeC7v9CL7O-u_g"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_HWwQ8AB1EeCYBuAHmsenBw" name="XSDataResultAlignStack">
+      <generalization xmi:id="_be5q8AB1EeCYBuAHmsenBw">
+        <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_gkM7YAB2EeCYBuAHmsenBw" name="HDF5File" visibility="public">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_hl8FMAB2EeCYBuAHmsenBw" name="internalHDF5Path">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_MZa5kAB1EeCYBuAHmsenBw" name="XSDataInputFullFieldXAS">
+      <generalization xmi:id="_c_48kAB1EeCYBuAHmsenBw">
+        <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_pQsDAAB5EeCYBuAHmsenBw" name="data" type="_aKIZ8ACBEeCYBuAHmsenBw" isUnique="false">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uxpQgACBEeCYBuAHmsenBw" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_qibXsAB5EeCYBuAHmsenBw" name="dark" type="_aKIZ8ACBEeCYBuAHmsenBw" isUnique="false">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oQmuIAC9EeC1S7yuTuC5Nw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pDdHYAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_rLfi0AB5EeCYBuAHmsenBw" name="flat" type="_aKIZ8ACBEeCYBuAHmsenBw" isUnique="false">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qM9GEAC9EeC1S7yuTuC5Nw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qx-esAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_PcMQkACBEeCYBuAHmsenBw" name="index">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Qw29cACBEeCYBuAHmsenBw" name="energy">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-9UhMAC-EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_TvpCwACBEeCYBuAHmsenBw" name="reference" visibility="public">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DdGfMAC_EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_I5iSsAC_EeC1S7yuTuC5Nw" name="measureOffset" type="_kCYScAB2EeCYBuAHmsenBw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MCPJAAC_EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_PiBCkAC_EeC1S7yuTuC5Nw" name="HDF5File">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_PiBCkQC_EeC1S7yuTuC5Nw" name="internalHDF5Path">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_OZoKIAmyEeCTjO4JELP5Lw" name="saveNormalized">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fnWaYAmyEeCTjO4JELP5Lw"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_VI7AUAB1EeCYBuAHmsenBw" name="XSDataResultFullFieldXAS">
+      <generalization xmi:id="_eABj4AB1EeCYBuAHmsenBw">
+        <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_9sFloAB4EeCYBuAHmsenBw" name="HDF5File">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_9sGMsAB4EeCYBuAHmsenBw" name="internalHDF5Path">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_kCYScAB2EeCYBuAHmsenBw" name="MeasureOffset">
+      <ownedAttribute xmi:id="_xyDugAB2EeCYBuAHmsenBw" name="alwaysVersusRef">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_N9MrwAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_zw3kkAB2EeCYBuAHmsenBw" name="removeBackground">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P2o5oAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_4OXDkAB2EeCYBuAHmsenBw" name="cropBorders" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SmbgsAC9EeC1S7yuTuC5Nw" value="2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_R1gaEAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_62EFoAB2EeCYBuAHmsenBw" name="smoothBorders" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_U8RWsAC9EeC1S7yuTuC5Nw" value="2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Vlt8UAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_9ucA8AB2EeCYBuAHmsenBw" name="sobelFilter">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_aArrwAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="__6AgoAB2EeCYBuAHmsenBw" name="useSift">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bvNqIAC9EeC1S7yuTuC5Nw"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_aKIZ8ACBEeCYBuAHmsenBw" name="XSDataImageExt">
+      <generalization xmi:id="_dg0o8ACBEeCYBuAHmsenBw">
+        <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+      </generalization>
+      <ownedAttribute xmi:id="_jTE7cACBEeCYBuAHmsenBw" name="exposureTime">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sMGKkACBEeCYBuAHmsenBw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_k_EjMACBEeCYBuAHmsenBw" name="array">
+        <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_BaSOIOftEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_osEZYACBEeCYBuAHmsenBw"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

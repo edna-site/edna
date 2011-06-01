@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataAtomicComposition" type="XSDataAtomicComposition"/>
+	<xs:complexType name="XSDataAtomicComposition">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="atom" type="XSDataAtom" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataAtom" type="XSDataAtom"/>
+	<xs:complexType name="XSDataAtom">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="concentration" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOf" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="symbol" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataCell" type="XSDataCell"/>
+	<xs:complexType name="XSDataCell">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="angle_alpha" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_beta" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="angle_gamma" type="XSDataAngle" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_a" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_b" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="length_c" type="XSDataLength" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataRaddoseOutput" type="XSDataRaddoseOutput"/>
+	<xs:complexType name="XSDataRaddoseOutput">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="absorbedDose" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="absorbedDoseRate" type="XSDataAbsorbedDoseRate" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="timeToReachHendersonLimit" type="XSDataTime" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataRaddoseInput" type="XSDataRaddoseInput"/>
+	<xs:complexType name="XSDataRaddoseInput">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="beamExposureTime" type="XSDataTime" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="beamFlux" type="XSDataFlux" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="beamSize" type="XSDataSize" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="beamWavelength" type="XSDataWavelength" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalCell" type="XSDataCell" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalNDNA" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalNMON" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalNRES" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalNRNA" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalPATM" type="XSDataAtomicComposition" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalSATM" type="XSDataAtomicComposition" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="crystalSize" type="XSDataSize" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="numberOfImages" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

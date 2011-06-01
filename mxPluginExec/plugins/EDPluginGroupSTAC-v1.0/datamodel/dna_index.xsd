@@ -1,0 +1,281 @@
+<!--
+********************************************************
+*
+* dna_index.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_index.xsd,v 1.18 2008/12/12 14:14:09 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+
+  <xsd:complexType name="target">
+    <xsd:sequence>
+      <xsd:element name="symmetry"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="spacegroup"/>
+      <xsd:element name="cell"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="cell"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="index_request">
+    <xsd:sequence>
+      <xsd:element name="extra_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+      <xsd:element name="fileinfo"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="fileinfo"/>
+      <xsd:element name="image"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="xsd:int"/>
+      <xsd:element name="beam"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="beam"/>
+      <xsd:element name="detector"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="detector"/>
+      <xsd:element name="target"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="target"/>
+      <xsd:element name="experiment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="experiment"/>
+      <xsd:element name="jpeg"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="dataCollectionId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+
+  <xsd:complexType name="orientation">
+    <xsd:sequence>
+      <xsd:element name="cell"     
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="cell"/>      
+      <xsd:element name="a_matrix" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="matrix"/>      
+      <xsd:element name="u_matrix"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="matrix"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="beam_shift">
+    <xsd:sequence>
+      <xsd:element name="shift"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="beam"/>      
+      <xsd:element name="new_beam"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="beam"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="reflections">
+    <xsd:sequence>
+      <xsd:element name="used"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>      
+      <xsd:element name="used_in_indexing"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="refinement">
+    <xsd:sequence>
+      <xsd:element name="beam_shift"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="beam_shift"/>      
+      <xsd:element name="reflections"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="reflections"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="initial">
+    <xsd:sequence>
+      <xsd:element name="cell"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="cell"/>      
+      <xsd:element name="orientation_matrix"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="matrix"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="spot_search_response">
+    <xsd:sequence>
+      <xsd:element name="found"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>      
+      <xsd:element name="rejected"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>      
+      <xsd:element name="used"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="solution">
+    <xsd:sequence>
+      <xsd:element name="lattice"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <xsd:element name="pointgroup"
+                   type="xsd:string"
+                   minOccurs="0"
+                   maxOccurs="1"/>
+      <xsd:element name="initial"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="initial"/>      
+      <xsd:element name="number"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>      
+      <xsd:element name="spacegroup_number"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>      
+      <xsd:element name="orientation"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="orientation"/>      
+      <xsd:element name="refinement"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="refinement"/>      
+      <xsd:element name="spot_deviation"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="symmetry"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="spacegroup"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="lattice_character">
+    <xsd:sequence>
+      <xsd:element name="number"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="penalty"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="lattice"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="cell"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="cell"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="lattice_character_response">
+    <xsd:sequence>
+      <xsd:element name="lattice_character"
+                   minOccurs="1" 
+                   maxOccurs="unbounded" 
+                   type="lattice_character"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="index_response">
+    <xsd:sequence>
+      <xsd:element name="solution"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="solution"/>
+      <xsd:element name="spot_search_response"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="spot_search_response"/>
+      <xsd:element name="status"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="lattice_character_response"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="lattice_character_response"/>
+      <xsd:element name="mosaicity_value"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="mosaicity_estimated"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>      
+      <xsd:element name="calculated_resolution"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="resolution"/>      
+      <xsd:element name="powder_ice_rings"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:boolean"/>      
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>

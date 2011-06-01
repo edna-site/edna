@@ -1,0 +1,16 @@
+= EDPluginGroupHDF5 =
+
+Group of Edna plugins for managing HDF5 / NeXus files through the H5Py libarary (provided in EDNA as an external library.   
+
+== EDPluginHDF5StackImagesv10 ==
+
+This plugin is made for putting together many images in a 3D cube, read using the Fabio library, and put them together in an NeXus/HDF5 file with this scheme.
+We provide two tools in the bin repository of this plugin: 
+ *One based on EDNA for stacking images and called edna-HDF5-ImageStacker.py
+ *The second is called HDF5Xtract2edf.py and allows the recovery of all the EDF images from an HDF5 Image Stack. This tool expects PyMca to be installed.
+ 
+  
+== EDPluginHDF5MapOfSpectrav10 ==
+
+This plugin is made for putting together the spectra aquiered during a 2D mesh scan, those spectra are typically fluorescence 
+spectra or 1D powder diffraction patterns.

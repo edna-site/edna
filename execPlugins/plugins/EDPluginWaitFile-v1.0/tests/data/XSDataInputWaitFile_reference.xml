@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<expectedFile><path><value>/tmp/edna-${USER}/sizeIsTen</value></path></expectedFile>
+<expectedSize><value>10</value></expectedSize>
+</XSDataInput>

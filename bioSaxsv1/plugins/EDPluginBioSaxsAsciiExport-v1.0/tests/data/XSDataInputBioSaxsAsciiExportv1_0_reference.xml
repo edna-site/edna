@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated.edf</value></path></integratedImage>
+<integratedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsAsciiExport.dat</value></path></integratedSpectrum>
+</XSDataInput>

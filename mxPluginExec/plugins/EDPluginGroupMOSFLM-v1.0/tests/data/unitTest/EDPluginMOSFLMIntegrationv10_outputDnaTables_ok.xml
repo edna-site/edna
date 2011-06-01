@@ -1,0 +1,453 @@
+<?xml version="1.0"?><!DOCTYPE dna_tables>
+<dna_tables program="mosflm">
+  <table name="integration_output" image=" 1">
+    <list name="output_files">
+      <item name="hklout">20080716-174720-4130-EDPluginMOSFLMv01Integration_process_1_1.mtz</item>
+    </list>
+  </table>
+  <table name="generated_reflections" image=" 1">
+    <list name="number">
+      <item name="total">           2112</item>
+      <item name="full">             55</item>
+      <item name="partial">           2057</item>
+      <item name="wide">            105</item>
+      <item name="overlap">              0</item>
+    </list>
+  </table>
+  <table name="processing_image" image=" 1">
+    <list name="image">
+      <item name="number">              1</item>
+      <item name="phi_start">       0.000000</item>
+      <item name="phi_end">       1.000000</item>
+    </list>
+  </table>
+  <table name="generated_reflections" image=" 1">
+    <list name="number">
+      <item name="total">           2121</item>
+      <item name="full">             55</item>
+      <item name="partial">           2066</item>
+      <item name="wide">            104</item>
+      <item name="overlap">             10</item>
+    </list>
+  </table>
+  <table name="integration_results" image=" 1">
+    <list name="final_residuals">
+      <item name="rms">       0.049300</item>
+      <item name="weighted">       0.838787</item>
+      <item name="xcen">     102.524231</item>
+      <item name="ycen">     104.820938</item>
+      <item name="xtofra">       0.999182</item>
+      <item name="xtofd">     198.279999</item>
+      <item name="yscale">       1.000517</item>
+    </list>
+  </table>
+  <table name="integration_results" image=" 1">
+    <list name="final_residuals">
+      <item name="rms">       0.051035</item>
+      <item name="weighted">       0.792365</item>
+      <item name="xcen">     102.531372</item>
+      <item name="ycen">     104.817856</item>
+      <item name="xtofra">       0.999134</item>
+      <item name="xtofd">     198.269989</item>
+      <item name="yscale">       1.000527</item>
+    </list>
+  </table>
+  <table name="integration_results" image=" 1">
+    <list name="final_residuals">
+      <item name="rms">       0.058098</item>
+      <item name="weighted">       1.044427</item>
+      <item name="xcen">     102.520432</item>
+      <item name="ycen">     104.901573</item>
+      <item name="xtofra">       0.999903</item>
+      <item name="xtofd">     198.419998</item>
+      <item name="yscale">       0.999842</item>
+    </list>
+  </table>
+  <table name="integration_results" image=" 1">
+    <list name="final_residuals">
+      <item name="rms">       0.059943</item>
+      <item name="weighted">       1.206464</item>
+      <item name="xcen">     102.512512</item>
+      <item name="ycen">     104.937202</item>
+      <item name="xtofra">       0.999936</item>
+      <item name="xtofd">     198.429993</item>
+      <item name="yscale">       0.999556</item>
+    </list>
+  </table>
+  <table name="generated_reflections" image=" 1">
+    <list name="number">
+      <item name="total">           2120</item>
+      <item name="full">             56</item>
+      <item name="partial">           2064</item>
+      <item name="wide">            105</item>
+      <item name="overlap">              4</item>
+    </list>
+  </table>
+  <table name="integrating_image" image=" 1">
+    <list name="image">
+      <item name="number">              1</item>
+      <item name="phi_start">       0.000000</item>
+      <item name="phi_end">       1.000000</item>
+    </list>
+  </table>
+  <table name="analysis_of_intensities" image=" 1">
+    <list name="intensity_bin_1">
+      <item name="number">             24</item>
+      <item name="background_ratio">       1.390556</item>
+      <item name="peak_ratio">       0.000000</item>
+      <item name="sdi">     226.208328</item>
+      <item name="sdp">     226.208328</item>
+    </list>
+    <list name="intensity_bin_2">
+      <item name="number">             97</item>
+      <item name="background_ratio">       1.388384</item>
+      <item name="peak_ratio">       0.000000</item>
+      <item name="sdi">     207.134018</item>
+      <item name="sdp">     207.134018</item>
+    </list>
+    <list name="intensity_bin_3">
+      <item name="number">            327</item>
+      <item name="background_ratio">       1.382289</item>
+      <item name="peak_ratio">       1.517862</item>
+      <item name="sdi">     209.914368</item>
+      <item name="sdp">     209.935776</item>
+    </list>
+    <list name="intensity_bin_4">
+      <item name="number">            245</item>
+      <item name="background_ratio">       1.387519</item>
+      <item name="peak_ratio">       1.747030</item>
+      <item name="sdi">     223.873474</item>
+      <item name="sdp">     223.922455</item>
+    </list>
+    <list name="intensity_bin_5">
+      <item name="number">            258</item>
+      <item name="background_ratio">       1.379502</item>
+      <item name="peak_ratio">       1.539178</item>
+      <item name="sdi">     234.612396</item>
+      <item name="sdp">     234.790695</item>
+    </list>
+    <list name="intensity_bin_6">
+      <item name="number">            278</item>
+      <item name="background_ratio">       1.385843</item>
+      <item name="peak_ratio">       1.242738</item>
+      <item name="sdi">     269.305756</item>
+      <item name="sdp">     269.460419</item>
+    </list>
+    <list name="intensity_bin_7">
+      <item name="number">            246</item>
+      <item name="background_ratio">       1.387626</item>
+      <item name="peak_ratio">       1.226723</item>
+      <item name="sdi">     365.719513</item>
+      <item name="sdp">     364.138214</item>
+    </list>
+    <list name="intensity_bin_8">
+      <item name="number">            200</item>
+      <item name="background_ratio">       1.396732</item>
+      <item name="peak_ratio">       2.061969</item>
+      <item name="sdi">     568.630005</item>
+      <item name="sdp">     570.150024</item>
+    </list>
+    <list name="intensity_bin_9">
+      <item name="number">            145</item>
+      <item name="background_ratio">       1.415686</item>
+      <item name="peak_ratio">       1.669856</item>
+      <item name="sdi">     993.082764</item>
+      <item name="sdp">     992.172424</item>
+    </list>
+    <list name="intensity_bin_10">
+      <item name="number">            132</item>
+      <item name="background_ratio">       1.465749</item>
+      <item name="peak_ratio">       2.722727</item>
+      <item name="sdi">    3484.522705</item>
+      <item name="sdp">    3548.212158</item>
+    </list>
+  </table>
+  <table name="profile_fitted_full" image=" 1">
+    <list name="bin_1">
+      <item name="resolution">       4.149483</item>
+      <item name="count">              7</item>
+      <item name="i">         103998</item>
+      <item name="sig">           2138</item>
+      <item name="i_sig">      50.860603</item>
+    </list>
+    <list name="bin_2">
+      <item name="resolution">       2.934140</item>
+      <item name="count">             11</item>
+      <item name="i">         150343</item>
+      <item name="sig">           2639</item>
+      <item name="i_sig">      49.159119</item>
+    </list>
+    <list name="bin_3">
+      <item name="resolution">       2.395719</item>
+      <item name="count">             10</item>
+      <item name="i">          24873</item>
+      <item name="sig">            507</item>
+      <item name="i_sig">      39.561001</item>
+    </list>
+    <list name="bin_4">
+      <item name="resolution">       2.074755</item>
+      <item name="count">             16</item>
+      <item name="i">          13410</item>
+      <item name="sig">            312</item>
+      <item name="i_sig">      34.640778</item>
+    </list>
+    <list name="bin_5">
+      <item name="resolution">       1.855718</item>
+      <item name="count">              9</item>
+      <item name="i">          15552</item>
+      <item name="sig">            407</item>
+      <item name="i_sig">      23.597803</item>
+    </list>
+    <list name="bin_6">
+      <item name="resolution">       1.694032</item>
+      <item name="count">              0</item>
+      <item name="i">              0</item>
+      <item name="sig">              0</item>
+      <item name="i_sig">       0.000000</item>
+    </list>
+    <list name="bin_7">
+      <item name="resolution">       1.568369</item>
+      <item name="count">              0</item>
+      <item name="i">              0</item>
+      <item name="sig">              0</item>
+      <item name="i_sig">       0.000000</item>
+    </list>
+    <list name="bin_8">
+      <item name="resolution">       1.467075</item>
+      <item name="count">              0</item>
+      <item name="i">              0</item>
+      <item name="sig">              0</item>
+      <item name="i_sig">       0.000000</item>
+    </list>
+    <list name="bin_0">
+      <item name="resolution">overall</item>
+      <item name="count">             53</item>
+      <item name="i">          56321</item>
+      <item name="sig">           1089</item>
+      <item name="i_sig">      38.849380</item>
+    </list>
+  </table>
+  <table name="profile_fitted_partial" image=" 1">
+    <list name="bin_1">
+      <item name="resolution">       4.149483</item>
+      <item name="count">            143</item>
+      <item name="i">         126225</item>
+      <item name="sig">           1867</item>
+      <item name="i_sig">      55.858727</item>
+    </list>
+    <list name="bin_2">
+      <item name="resolution">       2.934140</item>
+      <item name="count">            265</item>
+      <item name="i">          59772</item>
+      <item name="sig">            966</item>
+      <item name="i_sig">      48.220482</item>
+    </list>
+    <list name="bin_3">
+      <item name="resolution">       2.395719</item>
+      <item name="count">            351</item>
+      <item name="i">          22022</item>
+      <item name="sig">            449</item>
+      <item name="i_sig">      34.639076</item>
+    </list>
+    <list name="bin_4">
+      <item name="resolution">       2.074755</item>
+      <item name="count">            392</item>
+      <item name="i">          12287</item>
+      <item name="sig">            400</item>
+      <item name="i_sig">      23.010212</item>
+    </list>
+    <list name="bin_5">
+      <item name="resolution">       1.855718</item>
+      <item name="count">            392</item>
+      <item name="i">           6614</item>
+      <item name="sig">            307</item>
+      <item name="i_sig">      16.496767</item>
+    </list>
+    <list name="bin_6">
+      <item name="resolution">       1.694032</item>
+      <item name="count">            229</item>
+      <item name="i">           2829</item>
+      <item name="sig">            237</item>
+      <item name="i_sig">      10.264937</item>
+    </list>
+    <list name="bin_7">
+      <item name="resolution">       1.568369</item>
+      <item name="count">            103</item>
+      <item name="i">           1755</item>
+      <item name="sig">            238</item>
+      <item name="i_sig">       6.186685</item>
+    </list>
+    <list name="bin_8">
+      <item name="resolution">       1.467075</item>
+      <item name="count">             24</item>
+      <item name="i">            922</item>
+      <item name="sig">            219</item>
+      <item name="i_sig">       3.600640</item>
+    </list>
+    <list name="bin_0">
+      <item name="resolution">overall</item>
+      <item name="count">           1899</item>
+      <item name="i">          26266</item>
+      <item name="sig">            549</item>
+      <item name="i_sig">      27.111950</item>
+    </list>
+  </table>
+  <table name="summation_full" image=" 1">
+    <list name="bin_1">
+      <item name="resolution">       4.149483</item>
+      <item name="count">              7</item>
+      <item name="i">         103951</item>
+      <item name="sig">           1544</item>
+      <item name="i_sig">      59.055790</item>
+    </list>
+    <list name="bin_2">
+      <item name="resolution">       2.934140</item>
+      <item name="count">             11</item>
+      <item name="i">         142631</item>
+      <item name="sig">           2154</item>
+      <item name="i_sig">      53.145126</item>
+    </list>
+    <list name="bin_3">
+      <item name="resolution">       2.395719</item>
+      <item name="count">             10</item>
+      <item name="i">          21006</item>
+      <item name="sig">            426</item>
+      <item name="i_sig">      39.724220</item>
+    </list>
+    <list name="bin_4">
+      <item name="resolution">       2.074755</item>
+      <item name="count">             16</item>
+      <item name="i">          13162</item>
+      <item name="sig">            407</item>
+      <item name="i_sig">      25.243837</item>
+    </list>
+    <list name="bin_5">
+      <item name="resolution">       1.855718</item>
+      <item name="count">              9</item>
+      <item name="i">          15402</item>
+      <item name="sig">            460</item>
+      <item name="i_sig">      21.533054</item>
+    </list>
+    <list name="bin_6">
+      <item name="resolution">       1.694032</item>
+      <item name="count">              0</item>
+      <item name="i">              0</item>
+      <item name="sig">              0</item>
+      <item name="i_sig">       0.000000</item>
+    </list>
+    <list name="bin_7">
+      <item name="resolution">       1.568369</item>
+      <item name="count">              0</item>
+      <item name="i">              0</item>
+      <item name="sig">              0</item>
+      <item name="i_sig">       0.000000</item>
+    </list>
+    <list name="bin_8">
+      <item name="resolution">       1.467075</item>
+      <item name="count">              0</item>
+      <item name="i">              0</item>
+      <item name="sig">              0</item>
+      <item name="i_sig">       0.000000</item>
+    </list>
+    <list name="bin_0">
+      <item name="resolution">overall</item>
+      <item name="count">             53</item>
+      <item name="i">          53884</item>
+      <item name="sig">            932</item>
+      <item name="i_sig">      37.602413</item>
+    </list>
+  </table>
+  <table name="summation_partial" image=" 1">
+    <list name="bin_1">
+      <item name="resolution">       4.149483</item>
+      <item name="count">            143</item>
+      <item name="i">         122413</item>
+      <item name="sig">           1867</item>
+      <item name="i_sig">      54.272083</item>
+    </list>
+    <list name="bin_2">
+      <item name="resolution">       2.934140</item>
+      <item name="count">            265</item>
+      <item name="i">          56101</item>
+      <item name="sig">            966</item>
+      <item name="i_sig">      44.979897</item>
+    </list>
+    <list name="bin_3">
+      <item name="resolution">       2.395719</item>
+      <item name="count">            351</item>
+      <item name="i">          19787</item>
+      <item name="sig">            449</item>
+      <item name="i_sig">      31.236151</item>
+    </list>
+    <list name="bin_4">
+      <item name="resolution">       2.074755</item>
+      <item name="count">            392</item>
+      <item name="i">          11957</item>
+      <item name="sig">            400</item>
+      <item name="i_sig">      22.253809</item>
+    </list>
+    <list name="bin_5">
+      <item name="resolution">       1.855718</item>
+      <item name="count">            392</item>
+      <item name="i">           6672</item>
+      <item name="sig">            307</item>
+      <item name="i_sig">      16.750227</item>
+    </list>
+    <list name="bin_6">
+      <item name="resolution">       1.694032</item>
+      <item name="count">            229</item>
+      <item name="i">           3067</item>
+      <item name="sig">            237</item>
+      <item name="i_sig">      11.142407</item>
+    </list>
+    <list name="bin_7">
+      <item name="resolution">       1.568369</item>
+      <item name="count">            103</item>
+      <item name="i">           2052</item>
+      <item name="sig">            238</item>
+      <item name="i_sig">       7.169014</item>
+    </list>
+    <list name="bin_8">
+      <item name="resolution">       1.467075</item>
+      <item name="count">             24</item>
+      <item name="i">           1215</item>
+      <item name="sig">            219</item>
+      <item name="i_sig">       4.841983</item>
+    </list>
+    <list name="bin_0">
+      <item name="resolution">overall</item>
+      <item name="count">           1899</item>
+      <item name="i">          25046</item>
+      <item name="sig">            549</item>
+      <item name="i_sig">      25.982244</item>
+    </list>
+  </table>
+  <table name="generated_reflections" image=" 1">
+    <list name="number">
+      <item name="total">           2120</item>
+      <item name="full">             56</item>
+      <item name="partial">           2064</item>
+      <item name="wide">            105</item>
+      <item name="overlap">              4</item>
+    </list>
+  </table>
+  <table name="summary_information" image=" 1">
+    <list name="summary">
+      <item name="pack">              1</item>
+      <item name="ccx">       0.030000</item>
+      <item name="ccy">       0.000000</item>
+      <item name="ccom">      -0.001950</item>
+      <item name="distance">     198.429993</item>
+      <item name="yscale">       0.999556</item>
+      <item name="isigall">      38.849380</item>
+      <item name="isigout">       3.600640</item>
+    </list>
+    <list name="spots">
+      <item name="full">             53</item>
+      <item name="partial">           1899</item>
+      <item name="overlap">              1</item>
+      <item name="negative">            121</item>
+      <item name="bad_spots">              4</item>
+    </list>
+  </table>
+</dna_tables>

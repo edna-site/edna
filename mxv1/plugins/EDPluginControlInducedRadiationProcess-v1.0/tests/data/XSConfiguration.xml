@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlInducedRadiationProcessv10</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

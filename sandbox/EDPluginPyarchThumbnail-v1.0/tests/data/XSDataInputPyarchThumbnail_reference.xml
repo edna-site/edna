@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputPyarchThumbnail>
+	<inputImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/FAE_1_1_00001.cbf</value>
+		</path>
+	</inputImagePath>
+</XSDataInputPyarchThumbnail>

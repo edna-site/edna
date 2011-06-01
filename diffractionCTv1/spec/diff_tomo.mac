@@ -1,0 +1,782 @@
+# DIFF_TOMO.MAC
+#
+# Various tools for Diffraction Tomography.
+#
+
+
+# Communication with EDNA is done via a pyTango Device Server. At each
+# point, a call to dt_edna_start sends to the DS an XML string
+# containing the name/path of the last image acquiered.
+
+
+# DONE :
+# -real test :)
+# -
+# -
+# -
+# -
+
+# TODO :
+# -GUI
+# -multi roi
+# -make it "single count"-safe (not only mesh)
+# -check whats happens if more than 10K images.
+# -more generic config.
+# -package/distrib ?
+# -check overhead  (10ms ?)
+# -
+# -
+# -
+
+
+######################################################################
+##############################           #############################
+##############################  CONFIG   #############################
+##############################           #############################
+######################################################################
+
+# SPEC needs to know the name and location of the three calibration
+# images, as well as the correct values of the beam centre and the tilt
+# of the detector since all these values must be written to the
+# header. Therefore the user must be able to enter these values in SPEC.
+#
+# Now some of these parameters might be the same between experiments
+# while others might change.
+#
+# Cyril, would it be possible to implement a SPEC macro which before
+# each experiment presents which values that were previously used, and
+# then asks the user if he would like to update the values?
+
+
+global DIFF_TOMO_PAR[]
+
+# DIFF_TOMO_PAR["save_param"]
+# DIFF_TOMO_PAR["cdef_key"]
+# DIFF_TOMO_PAR["edna_ds"]
+# DIFF_TOMO_PAR["msg"]
+# DIFF_TOMO_PAR["warning"]
+# DIFF_TOMO_PAR["save_with_ds"]
+# DIFF_TOMO_PAR["save_with_spec"]
+
+######################################################################
+######################                          ######################
+######################  PARAMETERS DEFINITIONS  ######################
+######################                          ######################
+######################################################################
+
+global DIFF_TOMO_KW
+
+######################################################################
+##########################                   #########################
+##########################  (DES)ACTIVATION  #########################
+##########################                   #########################
+######################################################################
+
+def diff_tomo_setup '{
+    print ""
+    print "------------ID22 ODA setup ----------------"
+
+    global DIFF_TOMO_HEADER
+
+    _diff_tomo_setup()
+
+    # Activates saving of params
+    diff_tomo_param_saving_on
+
+    DIFF_TOMO_PAR["save_with_ds"] = 1
+
+    print ""
+}'
+
+
+#
+#  cdefs
+def _diff_tomo_setup() '{
+
+    DIFF_TOMO_PAR["edna_ds"] = "id22/edna/1"
+
+    DIFF_TOMO_PAR["cdef_key"] = "_dt_key_"
+
+    # diff_tomo_declare_kw
+
+    # Adds a macro called at each point of mesh (each count).
+    #  _diff_tomo_getcounts must be placed in front of user_getcounts.
+    cdef ("user_getcounts", "\n _diff_tomo_getcounts() \n", DIFF_TOMO_PAR["cdef_key"], 0x10)
+
+    # Automatic gathering of constant values.
+    cdef("user_prescan_head" , "\n _diff_tomo_prescan_head() \n" , DIFF_TOMO_PAR["cdef_key"], 0x10)
+
+}'
+
+def diff_tomo_param_saving_on '{
+    DIFF_TOMO_PAR["save_param"] = 1
+}'
+
+def diff_tomo_param_saving_off '{
+    DIFF_TOMO_PAR["save_param"] = 0
+}'
+
+def diff_tomo_unsetup '{
+    # Removes the cdef.
+    cdef ("user_getcounts",     "", DIFF_TOMO_PAR["cdef_key"], "delete")
+    cdef ("user_prescan_head" , "", DIFF_TOMO_PAR["cdef_key"], "delete")
+
+    # Removes global associative arrays.
+    unglobal DIFF_TOMO_HEADER
+    unglobal DIFF_TOMO_PAR
+    unglobal DIFF_TOMO_KW
+    unglobal DIFF_TOMO_KW_LIST
+    unglobal DT_PAR
+}'
+
+
+def diff_tomo_dbg '{
+    DIFF_TOMO_PAR["msg"] = !DIFF_TOMO_PAR["msg"]
+    DIFF_TOMO_PAR["warnings"] = !DIFF_TOMO_PAR["warnings"]
+
+    print "messages are now " DIFF_TOMO_PAR["msg"] ? "on " : "off"
+    print "warnings are now " DIFF_TOMO_PAR["warnings"] ? "on " : "off"
+}'
+
+######################################################################
+######################                           #####################
+######################  DECLARATION OF KEYWORDS  #####################
+######################                           #####################
+######################################################################
+
+
+def diff_tomo_declare_kw '{
+
+    local _arr_kw  _nb_kw
+    local _str
+    local ii
+
+    global DIFF_TOMO_KW[]
+    global DIFF_TOMO_KW_LIST[]
+
+    _str ="_diffrn_radiation_wavelength
+_pd_instr_dist_spec/detc
+_diffrn_detector_element.center[1]
+_diffrn_detector_element.center[2]
+_pd_instr_special_details_tilt_angle
+_pd_instr_special_details_tilt_rotation
+_pd_meas_2theta_range_min
+_pd_meas_2theta_range_max
+_pd_sum_2theta_range_min[1]
+_pd_sum_2theta_range_max[1]
+_array_element_size[1]
+_array_element_size[2]
+_file_correction_image_dark-current
+_file_correction_image_flat-field
+_file_correction_spline_spatial-distortion
+_file_correction_image_mask
+_synchrotron_ring-intensity
+_synchrotron_photon-flux
+_tomo_scan_type
+_tomo_scan_ampl
+_tomo_scan_amplitude
+_tomo_spec_displ_x
+_tomo_spec_displ_x_min
+_tomo_spec_displ_x_max
+_tomo_spec_displ_x_inc
+_tomo_spec_displ_z
+_tomo_spec_displ_z_min
+_tomo_spec_displ_z_max
+_tomo_spec_displ_z_inc
+_tomo_spec_displ_rotation
+_tomo_spec_displ_rotation_inc"
+
+    _nb_kw = split(_str, _arr_kw, "\n")
+
+    for (ii = 0; ii< _nb_kw ; ii++){
+        DIFF_TOMO_KW_LIST[ii] = _arr_kw[ii]
+        DIFF_TOMO_KW[_arr_kw[ii]]["desc"]  = ""
+        DIFF_TOMO_KW[_arr_kw[ii]]["unit"]  = ""
+        DIFF_TOMO_KW[_arr_kw[ii]]["value"] = ""
+        DIFF_TOMO_KW[_arr_kw[ii]]["type"]  = "user"
+    }
+
+    ## DEFAULT VALUES ####
+    DIFF_TOMO_KW["_diffrn_radiation_wavelength"]["value"]         =  0.70848
+    DIFF_TOMO_KW["_pd_instr_dist_spec/detc"]["value"]             = 98.724
+    DIFF_TOMO_KW["_diffrn_detector_element.center[1]"]["value"]   = 54.619
+    DIFF_TOMO_KW["_diffrn_detector_element.center[2]"]["value"]   = 57.901
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_angle"]["value"] = 130.772
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_rotation"]["value"] = 0.622
+    DIFF_TOMO_KW["_pd_meas_2theta_range_min"]["value"]   = 0.0
+    DIFF_TOMO_KW["_pd_meas_2theta_range_max"]["value"]   = 90.0
+
+    DIFF_TOMO_KW["_pd_sum_2theta_range_min[1]"]["value"] = "16.0"
+    DIFF_TOMO_KW["_pd_sum_2theta_range_max[1]"]["value"] = "18.0"
+
+    DIFF_TOMO_KW["_array_element_size[1]"]["value"]      =  4.722e-5
+    DIFF_TOMO_KW["_array_element_size[2]"]["value"]      =  4.683e-5
+    #DIFF_TOMO_KW["_file_correction_image_dark-current"]["value"] = "/sware/exp/pxsoft/EDNA/v20091019-913/linux/tests/data/images/darks0001.edf"
+    DIFF_TOMO_KW["_file_correction_image_dark-current"]["value"] = "/data/id22/inhouse/id22eh2/comm_09nov/IHR_diffct/scan0004/darks/darksMED_Stack.edf"
+    #DIFF_TOMO_KW["_file_correction_image_flat-field"]["value"]   = "/sware/exp/pxsoft/EDNA/v20091019-913/linux/tests/data/images/flats0001.edf"
+    DIFF_TOMO_KW["_file_correction_image_flat-field"]["value"]   = "/data/id22/inhouse/id22eh2/comm_09nov/IHR_diffct/scan0004/flats/flatsMED_Stack.edf"
+    # DIFF_TOMO_KW["_file_correction_spline_spatial-distortion"]["value"] =  "/sware/exp/pxsoft/EDNA/v20091019-913/linux/tests/data/images/frelon_spline_file_to_correct_SPD.spline"
+    DIFF_TOMO_KW["_file_correction_spline_spatial-distortion"]["value"] = "/data/id22/inhouse/id22eh2/comm_09nov/K4320T.A38pool.NoHorVerFlips.spline"
+    DIFF_TOMO_KW["_file_correction_image_mask"]["value"]   = "/sware/exp/pxsoft/EDNA/v20091019-913/linux/tests/data/images/ref-testscale_1_001.img"
+    DIFF_TOMO_KW["_synchrotron_ring-intensity"]["value"]   = 100
+    DIFF_TOMO_KW["_synchrotron_photon-flux"]["value"]      = 1000
+    DIFF_TOMO_KW["_tomo_scan_type"]["value"]               = "flat"
+    DIFF_TOMO_KW["_tomo_scan_ampl"]["value"]               = 180
+
+    DIFF_TOMO_KW["_tomo_spec_displ_x"]["value"]            = 1
+    DIFF_TOMO_KW["_tomo_spec_displ_z"]["value"]            = 0
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation"]["value"]     = 15
+
+    DIFF_TOMO_KW["_tomo_spec_displ_x_min"]["value"]        = 0
+    DIFF_TOMO_KW["_tomo_spec_displ_x_max"]["value"]        = 1
+    DIFF_TOMO_KW["_tomo_spec_displ_x_inc"]["value"]        = 1
+    DIFF_TOMO_KW["_tomo_spec_displ_z_min"]["value"]        = 0
+    DIFF_TOMO_KW["_tomo_spec_displ_z_max"]["value"]        = 1
+    DIFF_TOMO_KW["_tomo_spec_displ_z_inc"]["value"]        = 1
+    DIFF_TOMO_KW["_tomo_scan_amplitude"]["value"]          = 1
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation_inc"]["value"] = 1
+
+
+    ## UNITS ####
+    DIFF_TOMO_KW["_diffrn_radiation_wavelength"]["unit"] = "A"
+    DIFF_TOMO_KW["_pd_instr_dist_spec/detc"]["unit"]     = "mm"
+    DIFF_TOMO_KW["_diffrn_detector_element.center[1]"]["unit"] = "mm"
+    DIFF_TOMO_KW["_diffrn_detector_element.center[2]"]["unit"] = "mm"
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_angle"]["unit"]    = "deg"
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_rotation"]["unit"] = "deg"
+    DIFF_TOMO_KW["_pd_meas_2theta_range_min"]["unit"]   = "deg"
+    DIFF_TOMO_KW["_pd_meas_2theta_range_max"]["unit"]   = "deg"
+    DIFF_TOMO_KW["_pd_sum_2theta_range_min[1]"]["unit"] = "deg"
+    DIFF_TOMO_KW["_pd_sum_2theta_range_max[1]"]["unit"] = "deg"
+    DIFF_TOMO_KW["_array_element_size[1]"]["unit"]      = "m"
+    DIFF_TOMO_KW["_array_element_size[2]"]["unit"]      = "m"
+    DIFF_TOMO_KW["_file_correction_image_dark-current"]["unit"]        = "full/rel?"
+    DIFF_TOMO_KW["_file_correction_image_flat-field"]["unit"]          = "full/rel?"
+    DIFF_TOMO_KW["_file_correction_spline_spatial-distortion"]["unit"] = "full/rel?"
+    DIFF_TOMO_KW["_file_correction_image_mask"]["unit"] = "full/rel?"
+    DIFF_TOMO_KW["_synchrotron_ring-intensity"]["unit"] = "mA"
+    DIFF_TOMO_KW["_synchrotron_photon-flux"]["unit"]    = "photon/s?"
+    DIFF_TOMO_KW["_tomo_scan_type"]["unit"]     = "flat/spiral/mapping ?"
+    DIFF_TOMO_KW["_tomo_scan_ampl"]["unit"]     = "deg"
+    DIFF_TOMO_KW["_tomo_spec_displ_x"]["unit"]  = "mm/um ?"
+    DIFF_TOMO_KW["_tomo_spec_displ_z"]["unit"]  = "mm/um ?"
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation"]["unit"] = "deg"
+    DIFF_TOMO_KW["_tomo_spec_displ_x_min"]["unit"]  = "mm"
+    DIFF_TOMO_KW["_tomo_spec_displ_x_max"]["unit"]  = "mm"
+    DIFF_TOMO_KW["_tomo_spec_displ_x_inc"]["unit"]  = "mm"
+    DIFF_TOMO_KW["_tomo_spec_displ_z_min"]["unit"]  = "mm"
+    DIFF_TOMO_KW["_tomo_spec_displ_z_max"]["unit"]  = "mm"
+    DIFF_TOMO_KW["_tomo_spec_displ_z_inc"]["unit"]  = "mm"
+    DIFF_TOMO_KW["_tomo_scan_amplitude"]["unit"]    = "mm"
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation_inc"]["unit"]  = "mm"
+
+
+    ## DESCRIPTIONS ####
+    DIFF_TOMO_KW["_diffrn_radiation_wavelength"]["desc"] = ""
+    DIFF_TOMO_KW["_pd_instr_dist_spec/detc"]["desc"]     = ""
+    DIFF_TOMO_KW["_diffrn_detector_element.center[1]"]["desc"] = ""
+    DIFF_TOMO_KW["_diffrn_detector_element.center[2]"]["desc"] = ""
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_angle"]["desc"] = ""
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_rotation"]["desc"] = ""
+    DIFF_TOMO_KW["_pd_meas_2theta_range_min"]["desc"] = ""
+    DIFF_TOMO_KW["_pd_meas_2theta_range_max"]["desc"] = ""
+    DIFF_TOMO_KW["_pd_sum_2theta_range_min[1]"]["desc"] = "roi[1] min"
+    DIFF_TOMO_KW["_pd_sum_2theta_range_max[1]"]["desc"] = "roi[1] max"
+    DIFF_TOMO_KW["_array_element_size[1]"]["desc"] = ""
+    DIFF_TOMO_KW["_array_element_size[2]"]["desc"] = ""
+    DIFF_TOMO_KW["_file_correction_image_dark-current"]["desc"] = ""
+    DIFF_TOMO_KW["_file_correction_image_flat-field"]["desc"] = ""
+    DIFF_TOMO_KW["_file_correction_spline_spatial-distortion"]["desc"] = ""
+    DIFF_TOMO_KW["_file_correction_image_mask"]["desc"] = ""
+    DIFF_TOMO_KW["_synchrotron_ring-intensity"]["desc"] = ""
+    DIFF_TOMO_KW["_synchrotron_photon-flux"]["desc"] = ""
+    DIFF_TOMO_KW["_tomo_scan_type"]["desc"] = ""
+    DIFF_TOMO_KW["_tomo_scan_ampl"]["desc"] = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_x"]["desc"] = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_z"]["desc"] = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation"]["desc"] = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_x_min"]["desc"]  = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_x_max"]["desc"]  = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_x_inc"]["desc"]  = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_z_min"]["desc"]  = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_z_max"]["desc"]  = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_z_inc"]["desc"]  = ""
+    DIFF_TOMO_KW["_tomo_scan_amplitude"]["desc"]    = ""
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation_inc"]["desc"]  = ""
+
+    ## TYPES ####
+    # "constant"  "dynamic"  "user"
+    DIFF_TOMO_KW["_diffrn_radiation_wavelength"]["type"]       = "constant"
+    DIFF_TOMO_KW["_pd_instr_dist_spec/detc"]["type"]           = "user"
+    DIFF_TOMO_KW["_diffrn_detector_element.center[1]"]["type"] = "user"
+    DIFF_TOMO_KW["_diffrn_detector_element.center[2]"]["type"] = "user"
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_angle"]["type"]    = "user"
+    DIFF_TOMO_KW["_pd_instr_special_details_tilt_rotation"]["type"] = "user"
+    DIFF_TOMO_KW["_pd_meas_2theta_range_min"]["type"]   = "user"
+    DIFF_TOMO_KW["_pd_meas_2theta_range_max"]["type"]   = "user"
+    DIFF_TOMO_KW["_pd_sum_2theta_range_min[1]"]["type"] = "user"
+    DIFF_TOMO_KW["_pd_sum_2theta_range_max[1]"]["type"] = "user"
+    DIFF_TOMO_KW["_array_element_size[1]"]["type"]      = "user"
+    DIFF_TOMO_KW["_array_element_size[2]"]["type"]      = "user"
+    DIFF_TOMO_KW["_file_correction_image_dark-current"]["type"]        = "user"
+    DIFF_TOMO_KW["_file_correction_image_flat-field"]["type"]          = "user"
+    DIFF_TOMO_KW["_file_correction_spline_spatial-distortion"]["type"] = "user"
+    DIFF_TOMO_KW["_file_correction_image_mask"]["type"] = "user"
+    DIFF_TOMO_KW["_synchrotron_ring-intensity"]["type"] = "dynamic"
+    DIFF_TOMO_KW["_synchrotron_photon-flux"]["type"]    = "dynamic"
+    DIFF_TOMO_KW["_tomo_scan_type"]["type"]     = "user"
+    DIFF_TOMO_KW["_tomo_scan_ampl"]["type"]     = "user"
+    DIFF_TOMO_KW["_tomo_spec_displ_x"]["type"]  = "dynamic"
+    DIFF_TOMO_KW["_tomo_spec_displ_z"]["type"]  = "dynamic"
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation"]["type"] = "dynamic"
+
+    DIFF_TOMO_KW["_tomo_spec_displ_x_min"]["type"]  = "constant"
+    DIFF_TOMO_KW["_tomo_spec_displ_x_max"]["type"]  = "constant"
+    DIFF_TOMO_KW["_tomo_spec_displ_x_inc"]["type"]  = "constant"
+    DIFF_TOMO_KW["_tomo_spec_displ_z_min"]["type"]  = "constant"
+    DIFF_TOMO_KW["_tomo_spec_displ_z_max"]["type"]  = "constant"
+    DIFF_TOMO_KW["_tomo_spec_displ_z_inc"]["type"]  = "constant"
+    DIFF_TOMO_KW["_tomo_scan_amplitude"]["type"]    = "constant"
+    DIFF_TOMO_KW["_tomo_spec_displ_rotation_inc"]["type"]  = "constant"
+
+}'
+
+
+
+######################################################################
+###########################                 ##########################
+###########################  HOOKED MACROS  ##########################
+###########################                 ##########################
+######################################################################
+
+
+def _diff_tomo_prescan_head() '{
+
+    dt_msg("_diff_tomo_prescan_head")
+
+    # Asks for user defined values.
+    diff_tomo_show_kw
+    while (!yesno("Is this correct ?", 1)){
+        _diff_tomo_gather_user_values()
+    }
+
+    #
+    _diff_tomo_gather_constant_values()
+
+}'
+
+
+#    - Gathers dynamic parameters.
+#    - Saves ALL parameters (constant ; dynamic; users).
+def _diff_tomo_getcounts() '{
+
+    if(DIFF_TOMO_PAR["save_param"]){
+        _diff_tomo_gather_dynamic_values()
+        _diff_tomo_save_param()
+
+        if(DIFF_TOMO_PAR["save_with_ds"]){
+            print "Sending header to Device server."
+
+            # Sends the header to the device server.
+            esrf_io(CCD_DS[CCD_U], "DevCcdHeader", DIFF_TOMO_HEADER)
+        }
+
+        dt_edna_start
+
+    }
+}'
+
+
+
+######################################################################
+#######################                        #######################
+#######################  SAVING IN CCD HEADER  #######################
+#######################                        #######################
+######################################################################
+
+
+
+# Saves all param in ccd header
+def _diff_tomo_save_param() '{
+    local ii _pname _pvalue
+
+    # for all keywords, place them into the CCD header in order to be
+    # saved by ccd.mac macros
+
+    dt_msg("Saving parameters")
+
+    DIFF_TOMO_HEADER = ""
+
+    DIFF_TOMO_PAR["save_with_ds"]   = CCDSAVE_MODE[CCD_U]==1
+    DIFF_TOMO_PAR["save_with_spec"] = CCDSAVE_MODE[CCD_U]==0
+
+    if (    DIFF_TOMO_PAR["save_with_ds"] == DIFF_TOMO_PAR["save_with_spec"]) {
+        dt_error("HOW is the image saved ???")
+    }
+
+    for (ii in DIFF_TOMO_KW_LIST) {
+        #    Adds a parameter and the corresponding value in CCD_SUP_HEADER
+        # stlist. CCD_SUP_HEADER is used to build a CCD header of edf file.
+        # A description of the parameter can be added.
+        # example :
+        #   ccd_add_header_param("couleur", "rouge", "couleur du detecteur.")
+        #   ccd_add_header_param("age", "2", "age du detecteur (in years).")
+        _pname  = DIFF_TOMO_KW_LIST[ii]
+        _pvalue = DIFF_TOMO_KW[DIFF_TOMO_KW_LIST[ii]]["value"]
+
+        if (DIFF_TOMO_PAR["save_with_ds"]){
+
+            _str = sprintf( "%45s = %s ;\n" , _pname,  _pvalue)
+
+            DIFF_TOMO_HEADER =  DIFF_TOMO_HEADER _str
+        }
+        else if(DIFF_TOMO_PAR["save_with_spec"]){
+            ccd_add_header_param(_pname, _pvalue)
+        }
+        else {
+            dt_error( "How do you save ???")
+        }
+
+    }
+}'
+
+
+
+######################################################################
+########################                       #######################
+########################  GATHERING OF VALUES  #######################
+########################                       #######################
+######################################################################
+
+
+#     "constant"
+#
+#     Parameters AUTOMATICALY gathered and CONSTANT over the mesh (like lenght-wave).
+def _diff_tomo_gather_constant_values() '{
+
+    dt_msg("_diff_tomo_gather_constant_values")
+
+
+    ## X ####
+    DIFF_TOMO_KW["_tomo_spec_displ_x_min"] = _s1
+    DIFF_TOMO_KW["_tomo_spec_displ_x_max"] = _f1
+    if (_n1 == 0 ){
+        print "ARRRGGG _n1 == 0 "
+        DIFF_TOMO_KW["_tomo_spec_displ_x_inc"] = 1
+        # exit ?
+    }
+    else{
+        print "_n1=" _n1
+        DIFF_TOMO_KW["_tomo_spec_displ_x_inc"] = (_f1 - _s1)  / _n1
+    }
+
+
+    ## Z and ROT ####
+    if (_n2 == 0 ){
+        print "ARRRGGG _n2 == 0 "
+        # exit ?
+    }
+    else{
+        if( DIFF_TOMO_KW["_tomo_scan_type"]["value"] == "flat"){
+            DIFF_TOMO_KW["_tomo_spec_displ_z_min"]["value"] = 0
+            DIFF_TOMO_KW["_tomo_spec_displ_z_max"]["value"] = 0
+            DIFF_TOMO_KW["_tomo_spec_displ_z_inc"]["value"] = 0
+            DIFF_TOMO_KW["_tomo_scan_amplitude"]["value"]   =  _f2 - _s2
+            DIFF_TOMO_KW["_tomo_spec_displ_rotation_inc"]["value"] =  DIFF_TOMO_KW["_tomo_scan_amplitude"]["value"] / _n2
+        }
+        else if (DIFF_TOMO_KW["_tomo_scan_type"]["value"] == "mapping"){
+            DIFF_TOMO_KW["_tomo_spec_displ_z_min"]["value"] = _s2
+            DIFF_TOMO_KW["_tomo_spec_displ_z_max"]["value"] = _f2
+            DIFF_TOMO_KW["_tomo_spec_displ_z_inc"]["value"] = (_f2 - _s2) / _n2
+            DIFF_TOMO_KW["_tomo_scan_amplitude"]["value"]   =  0
+            DIFF_TOMO_KW["_tomo_spec_displ_rotation_inc"]["value"] = 0
+        }
+        else if (DIFF_TOMO_KW["_tomo_scan_type"]["value"] == "spiral") {
+            # ??? comment on gere avec le pseudo mot spirale ????
+            DIFF_TOMO_KW["_tomo_spec_displ_z_min"]["value"] = _s2
+            DIFF_TOMO_KW["_tomo_spec_displ_z_max"]["value"] = _f2
+            DIFF_TOMO_KW["_tomo_spec_displ_z_inc"]["value"] = (_f2 - _s2 ) / _n2
+            DIFF_TOMO_KW["_tomo_scan_amplitude"]["value"]   = _f2 - _s2
+            DIFF_TOMO_KW["_tomo_spec_displ_rotation_inc"]["value"] = (_f2 - _s2 ) / _n2
+        }
+        else{
+            dt_error(" error :  what is the type of scan ??? ")
+        }
+    }
+
+
+}'
+
+
+
+#     "dynamic"
+#
+#     Parameters automaticaly gathered and variable over the mesh (like ring current).
+def _diff_tomo_gather_dynamic_values()  '{
+
+    global DIFF_TOMO_KW
+
+    dt_msg("gathering dynamic values")
+
+    ####### Values to be provided by user.
+    # see mufid6:/users/opid22/.fit2d.def    ?
+
+    # DIFF_TOMO_KW["_pd_instr_dist_spec/detc"] = SAMPLE_DISTANCE
+    # DIFF_TOMO_KW["_diffrn_detector_element.center[1]"] = X_BEAM_CENTRE
+    # DIFF_TOMO_KW["_diffrn_detector_element.center[2]"] = Y_BEAM_CENTRE
+    # DIFF_TOMO_KW["_pd_instr_special_details_tilt_angle"] = TILT_ANGLE
+    # DIFF_TOMO_KW["_pd_instr_special_details_tilt_rotation"] = TILT_ROTATION
+    # DIFF_TOMO_KW["_pd_meas_2theta_range_min"] = 
+    # DIFF_TOMO_KW["_pd_meas_2theta_range_max"] = 
+    # DIFF_TOMO_KW["_array_element_size[1]"] = X_PIXEL_SIZE
+    # DIFF_TOMO_KW["_array_element_size[2]"] = Y_PIXEL_SIZE
+
+    # DIFF_TOMO_KW["_file_correction_image_dark-current"] = DARK_CURRENT_FILE
+    # DIFF_TOMO_KW["_file_correction_image_flat-field"] = FF_FILE
+    # DIFF_TOMO_KW["_file_correction_spline_spatial-distortion"] = SD_FILE
+    # DIFF_TOMO_KW["_file_correction_image_mask"] = 
+
+    # DIFF_TOMO_KW["_synchrotron_photon-flux"] = flux2 ?
+
+    # DIFF_TOMO_KW["_tomo_scan_type"] = flat / spiral / mapping
+    # DIFF_TOMO_KW["_tomo_scan_ampl"] = 
+    # DIFF_TOMO_KW["_tomo_spec_displ_x"] = 
+    # DIFF_TOMO_KW["_tomo_spec_displ_z"] = 
+    # DIFF_TOMO_KW["_tomo_spec_displ_rotation"] = 
+
+    ######## Values automaticaly gathered in spec.
+
+    # automatic and variable
+    # -> not asked to user.
+    if (cnt_num("srcur") != -1){
+        DIFF_TOMO_KW["_synchrotron_ring-intensity"] = S[srcur]
+    }
+    else {
+        print "srcur counter not defined"
+    }
+
+    if (cnt_num("k_ic") != -1){
+        DIFF_TOMO_KW["_synchrotron_photon-flux"] = S[srcur]
+    }
+    else {
+        print "k_ic counter not defined"
+    }
+
+    # Position of fast motor
+    if( 1 ){
+        DIFF_TOMO_KW["_tomo_spec_displ_x"]["value"] = A[_m[0]]
+        # print "_m[0]="  _m[0]   "  A[_m[0]]= ", A[_m[0]]
+    }
+    else{
+        print " error for gathering : "
+    }
+
+
+    # Position of slow motor
+    if( DIFF_TOMO_KW["_tomo_scan_type"]["value"] == "flat"){
+        DIFF_TOMO_KW["_tomo_spec_displ_z"]["value"]        = 0
+        DIFF_TOMO_KW["_tomo_spec_displ_rotation"]["value"] = A[_m[1]]
+    }
+    else if (DIFF_TOMO_KW["_tomo_scan_type"]["value"] == "mapping"){
+        DIFF_TOMO_KW["_tomo_spec_displ_z"]["value"]        = A[_m[1]]
+        DIFF_TOMO_KW["_tomo_spec_displ_rotation"]["value"] = 0
+    }
+    else if (DIFF_TOMO_KW["_tomo_scan_type"]["value"] == "spiral") {
+        DIFF_TOMO_KW["_tomo_spec_displ_z"]["value"]        = A[_m[1]]
+        DIFF_TOMO_KW["_tomo_spec_displ_rotation"]["value"] = A[_m[1]]
+    }
+    else{
+        print " error for gathering slow motor : "
+    }
+
+    # set by user
+    # ??? 2theta_min max
+
+}'
+
+
+#   "user"
+#
+#   Gather "user"-defined values: Ask user each value.
+def _diff_tomo_gather_user_values() '{
+    local _msg  ii
+    local _kw_name  _kw_desc  _kw_unit  _kw_value  _kw_type
+
+    for (ii in DIFF_TOMO_KW_LIST) {
+
+        _kw_name  = DIFF_TOMO_KW_LIST[ii]
+        _kw_value = DIFF_TOMO_KW[_kw_name]["value"]
+        _kw_unit  = DIFF_TOMO_KW[_kw_name]["unit"]
+        _kw_desc  = DIFF_TOMO_KW[_kw_name]["desc"]
+        _kw_type  = DIFF_TOMO_KW[_kw_name]["type"]
+
+        if (_kw_type == "user"){
+            _msg = _kw_name " (in " _kw_unit ")"
+            DIFF_TOMO_KW[_kw_name]["value"] = getval(_msg, _kw_value)
+        }
+        else{
+            # not a "user" value
+            print _kw_name, " is\"", _kw_type"\""
+        }
+    }
+}'
+
+
+# Display all parameters and values.
+def diff_tomo_show_kw '{
+    local ii
+
+    print "List of keywords:"
+
+    for (ii in DIFF_TOMO_KW_LIST) {
+        printf("name=\"%45s\"  value=\"%s\" \t unit=\"%s\"  \t desc=\"%s\"  \t type=\"%s\" \n", \
+               DIFF_TOMO_KW_LIST[ii],                                   \
+               DIFF_TOMO_KW[DIFF_TOMO_KW_LIST[ii]]["value"],           \
+               DIFF_TOMO_KW[DIFF_TOMO_KW_LIST[ii]]["unit"],            \
+               DIFF_TOMO_KW[DIFF_TOMO_KW_LIST[ii]]["desc"],            \
+               DIFF_TOMO_KW[DIFF_TOMO_KW_LIST[ii]]["type"]             \
+            )
+    }
+}'
+
+
+
+
+######################################################################
+###########################                 ##########################
+###########################  ROI MANAGMENT  ##########################
+###########################                 ##########################
+######################################################################
+
+#DIFF_TOMO_KW["_pd_sum_2theta_range_min[1]"]["value"] = "15.0 12.0"
+#DIFF_TOMO_KW["_pd_sum_2theta_range_max[1]"]["value"] = "18.0 17.0"
+
+
+def  _diff_tomo_test_rois() '{
+
+    local TOTOMIN TOTOMAX
+    TOTOMIN[0]=0
+    TOTOMAX[0]=0
+
+    _nb_min = split (DIFF_TOMO_KW["_pd_sum_2theta_range_min[1]"]["value"], TOTOMIN)
+    _nb_max = split (DIFF_TOMO_KW["_pd_sum_2theta_range_max[1]"]["value"], TOTOMAX)
+
+    if (_nb_min != _nb_max){
+        print "neuneu"
+        return -1
+    }
+
+
+    for (ii in TOTOMIN) {
+        print "min", ii, "= ",  TOTOMIN[ii]  "   max", ii, "= ",  TOTOMAX[ii]
+        if (TOTOMIN[ii] >= TOTOMAX[ii]){
+            print "aieaie"
+            return -1
+        }
+    }
+
+    print "ROIS seem OK."
+    return 0
+}'
+
+
+
+######################################################################
+#############################            #############################
+#############################  MESSAGES  #############################
+#############################            #############################
+######################################################################
+
+
+def dt_msg(msg) '{
+    if (DIFF_TOMO_PAR["msg"]){
+        printf("--DIFF_TOMO--MSG--%s\n", msg)
+    }
+}'
+
+def dt_warning(msg) '{
+    if (DIFF_TOMO_PAR["warnings"]){
+        printf("--DIFF_TOMO--WARNING--%s\n", msg)
+    }
+}'
+
+def dt_error(msg) '{
+    printf("--DIFF_TOMO--ERROR--%s\n", msg)
+}'
+
+
+######################################################################
+########################                      ########################
+########################  EDNA COMMUNICATION  ########################
+########################                      ########################
+######################################################################
+
+global DT_PAR
+
+def dt_edna_show_xml '{
+    DT_PAR["image"] = sprintf("%s/%s%04i%s", CCD_DIR[CCD_U],      \
+                              CCD_PREFIX[CCD_U],                  \
+                              CCD_N[CCD_U]-1,                     \
+                              CCD_SUFFIX[CCD_U] )
+
+    printf (DT_PAR["xml"], DT_PAR["image"], DT_PAR["dest_path"])
+}'
+
+
+
+#
+def dt_edna_start  '{
+
+    local EDNA_ARG
+    local _xml_string
+
+
+    # Builds XML string to pass to EDNA device server.
+    DT_PAR["xml"]="<?xml version=\"1.0\"?>
+<XSDataInputDiffractionCT>
+        <image>
+		<path>
+			<value>%s<\/value>
+		<\/path>
+	<\/image>
+	<destinationDirectory>
+		<path>
+			<value>%s<\/value>
+		<\/path>
+        <\/destinationDirectory>
+        <sinogramFileNamePrefix>
+                <value>ID22_12_nov_2009<\/value>
+        <\/sinogramFileNamePrefix>
+<\/XSDataInputDiffractionCT>
+"
+    # ???????   what if more than 10000 images ?
+
+    DT_PAR["image"] = sprintf( "%s/%s%04i%s",                           \
+                               image_par(__ccd_u,"file_dir"),           \
+                               image_par(__ccd_u,"file_prefix"),        \
+                               image_par(__ccd_u,"file_inum")-1,          \
+                               image_par(__ccd_u,"file_suffix") )
+
+
+#    DT_PAR["image"] = sprintf("%s/%s%04i%s", CCD_DIR[CCD_U],      \
+#                              CCD_PREFIX[CCD_U],                  \
+#                              CCD_N[CCD_U]-1,                     \
+#                              CCD_SUFFIX[CCD_U] )
+
+
+    # DT_PAR["dest_path"] = "/data/id22/inhouse/cyril/edna_test/out"
+
+    DT_PAR["dest_path"] = "/data/id22/inhouse/id22eh2/comm_09nov/IHR_diffct/sino"
+
+    _xml_string = sprintf (DT_PAR["xml"], DT_PAR["image"], DT_PAR["dest_path"])
+
+    # Plugin name.
+    EDNA_ARG["0"] = "EDPluginControlDiffractionCTv1_0"
+
+    # XML file passed as a string.
+    EDNA_ARG["1"] = _xml_string
+
+    tango_io(DIFF_TOMO_PAR["edna_ds"], "Start", EDNA_ARG)
+}'
+
+

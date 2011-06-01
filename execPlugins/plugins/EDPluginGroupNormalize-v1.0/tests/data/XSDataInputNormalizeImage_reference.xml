@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<data><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageData10.edf</value></path><exposureTime><value>10</value></exposureTime></data>
+<data><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageData15.edf</value></path><exposureTime><value>15</value></exposureTime></data>
+<flat><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageFlat2.edf</value></path><exposureTime><value>2</value></exposureTime></flat>
+<flat><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageFlat3.edf</value></path><exposureTime><value>3</value></exposureTime></flat>
+<dark><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageDark10.edf</value></path><exposureTime><value>10</value></exposureTime></dark>
+<dark><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageDark15.edf</value></path><exposureTime><value>15</value></exposureTime></dark>
+<dark><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageDark2.edf</value></path><exposureTime><value>2</value></exposureTime></dark>
+<dark><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageDark3.edf</value></path><exposureTime><value>3</value></exposureTime></dark>
+</XSDataInput>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.example.org/DNA_STF/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.example.org/DNA_STF/">
+
+	<xs:complexType name="dna_tables">
+		<xs:sequence>
+			<xs:element name="table" type="table" maxOccurs="unbounded" minOccurs="1"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="program" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+    <xs:complexType name="table">
+    	<xs:element name="list" maxOccurs="unbounded" minOccurs="0">
+  			<xs:complexType>
+    			<xs:simpleContent>
+      				<xs:extension base="list">
+        				<xs:attribute name="name" type="xs:string" />
+      				</xs:extension>
+    			</xs:simpleContent>
+  			</xs:complexType>
+		</xs:element>
+    	<xs:attribute name="name" type="xs:string"></xs:attribute>
+    	<xs:attribute name="image" type="xs:int"></xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="list">
+    	<xs:element name="item" maxOccurs="unbounded" minOccurs="0">
+  			<xs:complexType>
+    			<xs:simpleContent>
+      				<xs:extension base="xs:string">
+        				<xs:attribute name="name" type="xs:string" />
+      				</xs:extension>
+    			</xs:simpleContent>
+  			</xs:complexType>
+		</xs:element>
+    	<xs:attribute name="name" type="xs:string"></xs:attribute>
+    </xs:complexType>
+
+</xs:schema>

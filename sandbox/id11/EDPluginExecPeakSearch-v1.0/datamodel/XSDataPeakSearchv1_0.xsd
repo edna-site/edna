@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSDataInputPeakSearch" type="XSDataInputPeakSearch"/>
+  <xs:complexType name="XSDataInputPeakSearch">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="stem" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="indexMin" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="indexMax" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputStem" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="threshold" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="imageFormat" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="darkFile" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="numberOfDigits" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultPeakSearch" type="XSDataResultPeakSearch"/>
+  <xs:complexType name="XSDataResultPeakSearch">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="peakFile2D" type="XSDataFile"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="peakFile3D" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

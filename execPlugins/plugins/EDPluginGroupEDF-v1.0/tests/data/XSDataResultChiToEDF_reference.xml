@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResultChiToEDF>
+    <edfFile>
+        <path>
+            <value>/tmp/edna-${USER}/diff6105-int.edf</value>
+        </path>
+    </edfFile>
+</XSDataResultChiToEDF>

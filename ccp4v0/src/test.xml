@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputMTZDUMPUnitCellSpaceGroup>
+    <inputMTZFile>
+        <path>
+            <value>mtz_test.mtz</value>
+        </path>
+    </inputMTZFile>
+</XSDataInputMTZDUMPUnitCellSpaceGroup>

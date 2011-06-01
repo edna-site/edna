@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<workflow>
+  <property name="module" value="kernel"/>
+  <property name="modelname" value="XSDataCommon"/>
+
+  <!-- Transform to XSD using modelSlot as "root" model -->
+  <cartridge file="uml2xsd.mwe"
+             modelFile="platform:/resource/${module}/datamodel/${modelname}.uml"
+             modelSlot="${modelname}"
+             nsUri="'http://www.edna-site.org'"
+             targetFile="datamodel/${modelname}.xsd"
+             />
+</workflow>

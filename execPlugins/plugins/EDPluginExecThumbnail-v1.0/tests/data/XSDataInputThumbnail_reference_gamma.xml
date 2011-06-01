@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInputThumbnail>
+	<inputImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+		</path>
+	</inputImagePath>
+	<outputPath>
+		<path><value>/tmp/edna-${USER}/diff6105-gamma0.1.jpg</value></path></outputPath>
+	<levelsGamma>
+		<value>0.1</value></levelsGamma></XSDataInputThumbnail>

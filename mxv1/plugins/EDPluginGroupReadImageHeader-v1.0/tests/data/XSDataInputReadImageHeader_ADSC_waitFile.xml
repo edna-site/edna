@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputReadImageHeader>
+	<image>
+		<path>
+	        <value>${EDNA_TMP_DIR}/ref-testscale_1_001.img</value>
+	    </path>
+	</image>
+</XSDataInputReadImageHeader>

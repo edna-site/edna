@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataInputMTZUnitCellToPDB>
+   <inputMTZFile>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/edna_example.mtz</value>
+      </path>
+   </inputMTZFile>
+   <inputPDBFile>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/193L.pdb</value>
+      </path>
+   </inputPDBFile>
+</XSDataInputMTZUnitCellToPDB>

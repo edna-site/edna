@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginBestv1_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>besthome</name>
+					<value>/home/sweet/home</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/DNA/v20080304/redhate4-i686/third_party/best_v3.1.0.d/best</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptSetupCCP4</name>
+					<value>/opt/pxsoft/ccp4-6.0.2/include/ccp4.setup-bash.orig</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptVersionString</name>
+					<value>Version of Best to be tested</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessWorkingDirectory</name>
+					<value>.</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessTimeOut</name>
+					<value>600</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

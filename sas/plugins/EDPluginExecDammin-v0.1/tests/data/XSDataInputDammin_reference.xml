@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataInputDammin>
+	<gnomOutputFile>
+		<path><value>gnolyz.out</value></path>
+	</gnomOutputFile>
+	<initialDummyAtomModel>
+		<value>2</value></initialDummyAtomModel>
+	<pdbInputFile>
+		<path>
+			<value>damaver.pdb</value></path></pdbInputFile>
+	<expectedParticleShape>
+		<value>3</value></expectedParticleShape>
+	<mode>
+		<value>Fast</value></mode>
+	<symmetry>
+		<value>P1</value></symmetry></XSDataInputDammin>

@@ -1,0 +1,145 @@
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<html> <!-- CCP4 HTML LOGFILE -->
+<hr>
+<!--SUMMARY_END--></FONT></B>
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<pre>
+ 
+ ###############################################################
+ ###############################################################
+ ###############################################################
+ ### CCP4 6.1: MTZDUMP                  version 6.1 : 03/03/08##
+ ###############################################################
+ User: gpelios  Run date:  1/ 3/2010 Run time: 05:48:37 
+
+
+ Please reference: Collaborative Computational Project, Number 4. 1994.
+ "The CCP4 Suite: Programs for Protein Crystallography". Acta Cryst. D50, 760-763.
+ as well as any specific reference in the program write-up.
+
+<!--SUMMARY_END--></FONT></B>
+
+ OPENED INPUT MTZ FILE 
+ Logical Name: HKLIN   Filename: rnasa-1.8-all_refmac1.mtz 
+
+
+ Spacegroup information obtained from library file: 
+ Logical Name: SYMINFO   Filename: /home/gpelios/ccp4-6.1.3/lib/data/syminfo.lib
+
+ * Title:
+
+    Output mtz file from refmac.
+
+ * Base dataset:
+
+        0 HKL_base
+          HKL_base
+          HKL_base
+
+ * Number of Datasets = 2
+
+ * Dataset ID, project/crystal/dataset names, cell dimensions, wavelength:
+
+        1 RNASE
+          RNASE
+          NATIVE
+             64.8970   78.3230   38.7920   90.0000   90.0000   90.0000
+             0.00000
+        2 RNASE3GMP
+          RNASE3GMP
+          COMPLEX
+             64.8970   78.3230   38.7920   90.0000   90.0000   90.0000
+             0.00000
+
+ * Number of Columns = 13
+
+ * Number of Reflections = 17939
+
+ * Missing value set to NaN in input mtz file
+
+ * HISTORY for current MTZ file :
+
+
+ * Column Labels :
+
+ H K L FreeR_flag FGMP18 SIGFGMP18 FC PHIC FWT PHWT DELFWT PHDELWT FOM
+
+ * Column Types :
+
+ H H H I F Q F P F P F P W
+
+ * Associated datasets :
+
+ 0 0 0 1 2 2 2 2 2 2 2 2 2
+
+ * Cell Dimensions : (obsolete - refer to dataset cell dimensions above)
+
+   64.8970   78.3230   38.7920   90.0000   90.0000   90.0000 
+
+ *  Resolution Range :
+
+    0.00377    0.29751     (     16.287 -      1.833 A )
+
+ * Sort Order :
+
+      1     2     3     0     0
+
+ * Space group = 'P212121' (number     19)
+
+
+
+ OVERALL FILE STATISTICS for resolution range   0.004 -   0.298
+ ======================= 
+
+
+ Col Sort    Min    Max    Num      %     Mean     Mean   Resolution   Type Column
+ num order               Missing complete          abs.   Low    High       label 
+
+   1 ASC      0      35      0  100.00     13.1     13.1  16.28   1.83   H  H
+   2 NONE     0      42      0  100.00     15.9     15.9  16.28   1.83   H  K
+   3 NONE     0      21      0  100.00      7.7      7.7  16.28   1.83   H  L
+   4 NONE    1.7   857.1   915   94.90   130.80   130.80  16.28   1.85   F  FGMP18
+   5 NONE    1.8    56.8   915   94.90     6.95     6.95  16.28   1.85   Q  SIGFGMP18
+   6 NONE    0.0    19.0     0  100.00     9.49     9.49  16.28   1.83   I  FreeR_flag
+   7 NONE    0.0  3741.8     0  100.00   138.88   138.88  16.28   1.83   F  FC
+   8 NONE    0.0   360.0     0  100.00   179.74   179.74  16.28   1.83   P  PHIC
+   9 NONE    0.0  1025.3     0  100.00   121.79   121.79  16.28   1.83   F  FWT
+  10 NONE    0.0   360.0     0  100.00   180.82   180.82  16.28   1.83   P  PHWT
+  11 NONE    0.0   369.9     0  100.00    23.58    23.58  16.28   1.83   F  DELFWT
+  12 NONE    0.0   360.0     0  100.00   162.33   162.33  16.28   1.83   P  PHDELWT
+  13 NONE  0.000   1.000     0  100.00    0.762    0.762  16.28   1.83   W  FOM
+
+
+ No. of reflections used in FILE STATISTICS    17939
+
+
+
+ LIST OF REFLECTIONS
+ ===================
+
+    0   0   4      292.07     23.78     19.00   1551.92    180.00    111.50
+                   180.00    180.57      0.00      1.00
+    0   0   6      626.58     49.59     17.00    669.89      0.00    690.42
+                     0.00     63.84      0.00      1.00
+    0   0   8      489.00     38.28      8.00    357.94      0.00    572.06
+                     0.00     83.06      0.00      1.00
+    0   0  10       57.67     15.38      9.00    130.19      0.00    107.81
+                   180.00    143.41    180.00      0.62
+    0   0  12      259.93     21.26     11.00    146.32      0.00    264.15
+                     0.00      4.25      0.00      1.00
+    0   0  14       77.79     12.64     18.00     93.22      0.00      3.23
+                     0.00     46.89    180.00      0.64
+    0   0  16       89.14     14.69      4.00     27.67      0.00     35.62
+                   360.00      8.31    360.00      0.31
+    0   0  18      249.87     20.74     11.00    298.56    180.00    214.77
+                   180.00     35.10      0.00      1.00
+    0   0  20       29.90     29.90     13.00     12.73      0.00      0.70
+                   360.00      5.65    180.00      0.21
+    0   1   3      149.26      4.75      6.00    150.24    270.00    175.35
+                    90.00     57.72     90.00      0.79
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+ MTZDUMP:   Normal termination of mtzdump
+Times: User:       0.0s System:    0.0s Elapsed:     0:03  
+</pre>
+</html>
+<!--SUMMARY_END--></FONT></B>

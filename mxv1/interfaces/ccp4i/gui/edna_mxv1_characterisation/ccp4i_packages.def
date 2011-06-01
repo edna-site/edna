@@ -1,0 +1,28 @@
+#CCP4I VERSION CCP4Interface 1.4.4.1
+#CCP4I SCRIPT DEF packages
+#CCP4I DATE 27 May 2009  11:46:31
+#CCP4I USER gleb
+N_PACKAGES                1
+PACKAGE_NAME,0            ""
+PACKAGE_NAME,1            edna_mxv1_characterisation
+PACKAGE_VERSION,0         ""
+PACKAGE_VERSION,1         0.0.1
+PACKAGE_TASKS,0           ""
+PACKAGE_TASKS,1           "/home/gleb/.CCP4/CCP4I_TOP/tasks/edna-mxv1-characterisation.tcl /home/gleb/.CCP4/CCP4I_TOP/tasks/edna-mxv1-characterisation.def"
+PACKAGE_SCRIPTS,1         /home/gleb/.CCP4/CCP4I_TOP/scripts/edna-mxv1-characterisation.script
+PACKAGE_SCRIPTS,0         ""
+PACKAGE_TEMPLATES,0       ""
+PACKAGE_TEMPLATES,1       /home/gleb/.CCP4/CCP4I_TOP/templates/edna-mxv1-characterisation.com
+PACKAGE_HELP,0            ""
+PACKAGE_HELP,1            ""
+PACKAGE_BACKUPS,0         ""
+PACKAGE_BACKUPS,1         ""
+PACKAGE_MODULES,0         ""
+PACKAGE_MODULES,1         ""
+PACKAGE_REFERENCES,0      ""
+PACKAGE_REFERENCES,1      "{edna-mxv1-characterisation edna-mxv1-characterisation edna-mxv1-characterisation DataCollection {Data Collection}}"
+PACKAGE_INSTALL_SCRIPT,0  ""
+PACKAGE_INSTALL_SCRIPT,1  ""
+PACKAGE_CCP4I_VERSION,0   ""
+PACKAGE_CCP4I_VERSION,1   "CCP4Interface 1.4.4.1"
+

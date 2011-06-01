@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<XSDataInputREFMACRigidBody>
+   <HKLIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.mtz</value>
+      </path>
+   </HKLIN>
+   <HKLOUT>
+      <path>
+         <value>/tmp/insulin-refined.mtz</value>
+      </path>
+   </HKLOUT>
+   <XYZIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.pdb</value>
+      </path>
+   </XYZIN>
+   <XYZOUT>
+      <path>
+         <value>/tmp/insulin-refined.pdb</value>
+      </path>
+   </XYZOUT>
+   <ColLabels>
+        <F>
+            <value>F</value>
+        </F>
+        <SIGF>
+            <value>SIGF</value>
+        </SIGF>
+    </ColLabels>
+</XSDataInputREFMACRigidBody>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSDataInputEpydoc" type="XSDataInputEpydoc">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataInputEpydoc</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputEpydoc">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="docPath" type="XSDataFile"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="sources" type="XSDataFile"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="docType" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="verbosity" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="projectName" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultEpydoc" type="XSDataResultEpydoc"/>
+  <xs:complexType name="XSDataResultEpydoc">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="docPath" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

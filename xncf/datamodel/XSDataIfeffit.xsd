@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.edna-site.org">
+    <xs:include schemaLocation="../../kernel/datamodel/XSDataCommon.xsd"></xs:include>
+    <xs:include schemaLocation="XSDataCommon.xsd" />    <xs:include schemaLocation="XSDataAtomsCards.xsd" />
+    <xs:include schemaLocation="XSDataFeffCards.xsd" />
+    
+	<xs:element name="XSDataInputFeff" type="XSDataInputFeff" />
+	<xs:complexType name="XSDataInputFeff">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="file" type="XSDataFile" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="header" type="XSDataString" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="title" type="XSDataString" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="hole" type="XSDataFeffCardHole" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="control" type="XSDataFeffCardControl" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="print" type="XSDataFeffCardPrint" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="rmax" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="nleg" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="potentials" type="XSDataFeffCardPotentials" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="atoms" type="XSDataFeffCardAtoms" minOccurs="1" maxOccurs="unbounded"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataInputIfeffit" type="XSDataInputIfeffit" />
+	<xs:complexType name="XSDataInputIfeffit">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="scriptFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataResultIfeffit" type="XSDataResultIfeffit" />
+	<xs:complexType name="XSDataResultIfeffit">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="sessionFile" type="XSDataFile"
+						minOccurs="1" maxOccurs="1" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="XSDataInputPreEdgeSubtraction" type="XSDataInputPreEdgeSubtraction" />
+	<xs:complexType name="XSDataInputPreEdgeSubtraction">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="energy" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="xmu" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="group" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="pre1" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="pre2" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="norm1" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="norm2" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataResultPreEdgeSubtraction" type="XSDataResultPreEdgeSubtraction" />
+	<xs:complexType name="XSDataResultPreEdgeSubtraction">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="group" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="e0" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="pre1" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="pre2" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="norm1" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="norm2" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="edgeStep" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="preSlope" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="preOffset" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="preEdgeData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataResultNormalization" type="XSDataResultNormalization" />
+	<xs:complexType name="XSDataResultNormalization">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="group" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="normC0" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="normC1" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="normC2" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="normData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataInputSpline" type="XSDataInputSpline" />
+	<xs:complexType name="XSDataInputSpline">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="energy" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="xmu" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="group" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="e0" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="rbkg" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="toler" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="nKnots" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kminSpl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kmaxSpl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kweightSpl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk1Spl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk2Spl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kwindow" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataInputFFTF" type="XSDataInputFFTF" />
+	<xs:complexType name="XSDataInputFFTF">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="real" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="imag" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="k" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="group" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kmin" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kmax" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk1" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk2" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kweight" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kwindow" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataResultFFTF" type="XSDataResultFFTF" />
+	<xs:complexType name="XSDataResultFFTF">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="group" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kmin" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kmax" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk1" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk2" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kweight" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="rmaxOut" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="winData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="rData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="chiRMagData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="chiRReData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="chiRImData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>			</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataResultSpline" type="XSDataResultSpline" />
+	<xs:complexType name="XSDataResultSpline">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="group" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="e0" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="rbkg" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="toler" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="nKnots" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kminSpl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kmaxSpl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kweightSpl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk1Spl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="dk2Spl" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="kWindow" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataXAFSExperiment" type="XSDataXAFSExperiment" />
+	<xs:complexType name="XSDataXAFSExperiment">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="label"
+						type="XSDataString" minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="experimentalDataEnergy"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataI0"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataIref"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataIt"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataTime"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataLnI0Iref"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataLnI0It"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataInputXAFSDataBatchProcessing" type="XSDataInputXAFSDataBatchProcessing" />
+	<xs:complexType name="XSDataInputXAFSDataBatchProcessing">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="xafsExperimentData"
+						type="XSDataXAFSExperiment" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="preEdgeDataInput" type="XSDataInputPreEdgeSubtraction" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="splineDataInput" type="XSDataInputSpline" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="fftfDataInput" type="XSDataInputFFTF" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataInputXAFSDataProcessing" type="XSDataInputXAFSDataProcessing" />
+	<xs:complexType name="XSDataInputXAFSDataProcessing">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="experimentalDataEnergy"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataI0"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataIref"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataIt"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataTime"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataLnI0Iref"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="experimentalDataLnI0It"
+						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="preEdgeDataInput" type="XSDataInputPreEdgeSubtraction" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="splineDataInput" type="XSDataInputSpline" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="fftfDataInput" type="XSDataInputFFTF" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataResultXAFSDataProcessing" type="XSDataResultXAFSDataProcessing" />
+	<xs:complexType name="XSDataResultXAFSDataProcessing">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="label" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="preEdgeDataResult" type="XSDataResultPreEdgeSubtraction" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="normDataResult" type="XSDataResultNormalization" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="splineDataResult" type="XSDataResultSpline" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="rDataResult" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="chiRMagData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="chiRReData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="chiRImData" type="XSDataFloat" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="sessionFile" type="XSDataFile"	minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:element name="XSDataInputAtoms" type="XSDataInputAtoms" />
+	<xs:complexType name="XSDataInputAtoms">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="title" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="crystal" type="XSDataAtomsCrystal" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="sample" type="XSDataAtomsSample" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="flags" type="XSDataAtomsFlags" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="sites" type="XSDataAtomsSite" minOccurs="1" maxOccurs="unbounded"></xs:element>
+					<xs:element name="outputFile" type="XSDataString" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataResultAtoms" type="XSDataResultAtoms" />
+	<xs:complexType name="XSDataResultAtoms">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="inpFile" type="XSDataFile" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="optionsFeff" type="XSDataInputFeff" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataAtomsShift" type="XSDataAtomsShift" />
+	<xs:complexType name="XSDataAtomsShift">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="dx" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="dy" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="dz" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataAtomsSite" type="XSDataAtomsSite" />
+	<xs:complexType name="XSDataAtomsSite">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="type" type="XSDataString" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="x" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="y" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="z" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="tag" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataAtomsCrystal" type="XSDataAtomsCrystal" />
+	<xs:complexType name="XSDataAtomsCrystal">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="space" type="XSDataString" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="a" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="b" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="c" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="alpha" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="beta" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="gamma" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="shift" type="XSDataAtomsShift" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataAtomsSample" type="XSDataAtomsSample" />
+	<xs:complexType name="XSDataAtomsSample">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="core" type="XSDataString" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="edge" type="XSDataString" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="rmax" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="nitrogen" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="argon" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="krypton" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataAtomsFlags" type="XSDataAtomsFlags" />
+	<xs:complexType name="XSDataAtomsFlags">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="index" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="feff" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="feff8" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="corrections" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="geom" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="unit" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="p1" type="XSDataBoolean" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataFeffCardHole" type="XSDataFeffCardHole" />
+	<xs:complexType name="XSDataFeffCardHole">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="ihole" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="s02" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    
+	<xs:element name="XSDataFeffCardCriteria" type="XSDataFeffCardCriteria" />
+	<xs:complexType name="XSDataFeffCardCriteria">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="critcw" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="critpw" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    
+	<xs:element name="XSDataFeffCardDebye" type="XSDataFeffCardDebye" />
+	<xs:complexType name="XSDataFeffCardDebye">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="temp" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="tempDebye" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="idwopt" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    
+	<xs:element name="XSDataFeffCardControl" type="XSDataFeffCardControl" />
+	<xs:complexType name="XSDataFeffCardControl">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="mphase" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="mpath" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="mfeff" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="mchi" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    
+	<xs:element name="XSDataFeffCardPrint" type="XSDataFeffCardPrint" />
+	<xs:complexType name="XSDataFeffCardPrint">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="mphase" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="mpath" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="mfeff" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="mchi" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    
+	<xs:element name="XSDataFeffCardPotentials" type="XSDataFeffCardPotentials" />
+	<xs:complexType name="XSDataFeffCardPotentials">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="ipot" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="Z" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="element" type="XSDataString" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="XSDataFeffCardAtoms" type="XSDataFeffCardAtoms" />
+	<xs:complexType name="XSDataFeffCardAtoms">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="x" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="y" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="z" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="ipot" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="tag" type="XSDataString" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="distance" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>                            

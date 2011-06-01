@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_3CvssAjUEeCiTdswbzRV6Q" activeDiagram="_3CzXEAjUEeCiTdswbzRV6Q">
+  <model href="XSDataPyarchThumbnail.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_3CzXEAjUEeCiTdswbzRV6Q" position="0,0" size="100,100" name="XSDataPyarchThumbnail" zoom="0.75" viewport="69,0">
+    <property xmi:id="_3M_04AjUEeCiTdswbzRV6Q" key="pageFormatName" value="A4"/>
+    <property xmi:id="_3M_04QjUEeCiTdswbzRV6Q" key="diagramWidth" value="840"/>
+    <property xmi:id="_3M_04gjUEeCiTdswbzRV6Q" key="diagramHeight" value="1188"/>
+    <property xmi:id="_3M_04wjUEeCiTdswbzRV6Q" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_3M_05AjUEeCiTdswbzRV6Q" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_3M_05QjUEeCiTdswbzRV6Q" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_3M_05gjUEeCiTdswbzRV6Q" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_3M_05wjUEeCiTdswbzRV6Q" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_3M_06AjUEeCiTdswbzRV6Q" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_3C0lMAjUEeCiTdswbzRV6Q" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="XSDataPyarchThumbnail.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_-yp-sAjUEeCiTdswbzRV6Q" position="56,49" size="306,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-yqlwAjUEeCiTdswbzRV6Q" presentation="default">
+        <element href="XSDataPyarchThumbnail.uml#_-0Nd4AjUEeCiTdswbzRV6Q"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_-yqlwQjUEeCiTdswbzRV6Q">
+        <property xmi:id="_-yqlwgjUEeCiTdswbzRV6Q" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-yqlwwjUEeCiTdswbzRV6Q" presentation="default">
+          <element href="XSDataPyarchThumbnail.uml#_-0Nd4AjUEeCiTdswbzRV6Q"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_F5kXAAjVEeCiTdswbzRV6Q" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_F5kXAQjVEeCiTdswbzRV6Q" presentation="default">
+            <element href="XSDataPyarchThumbnail.uml#_F5mMMAjVEeCiTdswbzRV6Q"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_-yqlxAjUEeCiTdswbzRV6Q">
+        <property xmi:id="_-yqlxQjUEeCiTdswbzRV6Q" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-yqlxgjUEeCiTdswbzRV6Q" presentation="default">
+          <element href="XSDataPyarchThumbnail.uml#_-0Nd4AjUEeCiTdswbzRV6Q"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_C5LSsAjWEeCiTdswbzRV6Q" position="435,56" size="272,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_C5LSsQjWEeCiTdswbzRV6Q" presentation="default">
+        <element href="XSDataPyarchThumbnail.uml#_C5WR0AjWEeCiTdswbzRV6Q"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_C5LSsgjWEeCiTdswbzRV6Q">
+        <property xmi:id="_C5LSswjWEeCiTdswbzRV6Q" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_C5LStAjWEeCiTdswbzRV6Q" presentation="default">
+          <element href="XSDataPyarchThumbnail.uml#_C5WR0AjWEeCiTdswbzRV6Q"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_KV0qcAjWEeCiTdswbzRV6Q" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KV0qcQjWEeCiTdswbzRV6Q" presentation="default">
+            <element href="XSDataPyarchThumbnail.uml#_KV14kAjWEeCiTdswbzRV6Q"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_C5LStQjWEeCiTdswbzRV6Q">
+        <property xmi:id="_C5LStgjWEeCiTdswbzRV6Q" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_C5LStwjWEeCiTdswbzRV6Q" presentation="default">
+          <element href="XSDataPyarchThumbnail.uml#_C5WR0AjWEeCiTdswbzRV6Q"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+</diagrams:Diagrams>

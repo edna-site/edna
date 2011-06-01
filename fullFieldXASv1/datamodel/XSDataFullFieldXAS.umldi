@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_4vqrwAB0EeCYBuAHmsenBw" activeDiagram="_4vqrwQB0EeCYBuAHmsenBw">
+  <model href="XSDataFullFieldXAS.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_4vqrwQB0EeCYBuAHmsenBw" position="0,0" size="100,100" name="XSDataFullFieldXAS" viewport="0,0">
+    <property xmi:id="_4waSoAB0EeCYBuAHmsenBw" key="pageFormatName" value="A4"/>
+    <property xmi:id="_4waSoQB0EeCYBuAHmsenBw" key="diagramWidth" value="840"/>
+    <property xmi:id="_4wa5sAB0EeCYBuAHmsenBw" key="diagramHeight" value="1188"/>
+    <property xmi:id="_4wa5sQB0EeCYBuAHmsenBw" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_4wa5sgB0EeCYBuAHmsenBw" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_4wa5swB0EeCYBuAHmsenBw" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_4wa5tAB0EeCYBuAHmsenBw" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_4wa5tQB0EeCYBuAHmsenBw" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_4wa5tgB0EeCYBuAHmsenBw" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4vrS0AB0EeCYBuAHmsenBw" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="XSDataFullFieldXAS.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_DLqJgAB1EeCYBuAHmsenBw" position="25,259" size="364,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DLqJgQB1EeCYBuAHmsenBw" presentation="default">
+        <element href="XSDataFullFieldXAS.uml#_DOhQQAB1EeCYBuAHmsenBw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_DLqJggB1EeCYBuAHmsenBw">
+        <property xmi:id="_DLqJgwB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DLqJhAB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_DOhQQAB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_tDwBwAB1EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tDwBwQB1EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_tD-rQAB1EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_uLo24AB1EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uLo24QB1EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_uLrTIAB1EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_vwG6UAB1EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_vwG6UQB1EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_vwJWkAB1EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_My-JwAC8EeC1S7yuTuC5Nw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_My-JwQC8EeC1S7yuTuC5Nw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_M5FboAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_My_X4AC8EeC1S7yuTuC5Nw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_My_X4QC8EeC1S7yuTuC5Nw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_OxpfwAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_My_-8AC8EeC1S7yuTuC5Nw" position="0,0" size="-1,-1">
+          <property xmi:id="_MzgVQAC8EeC1S7yuTuC5Nw" key="backgroundColor" value=""/>
+          <property xmi:id="_MzgVQQC8EeC1S7yuTuC5Nw" key="foregroundColor" value=""/>
+          <property xmi:id="_MzgVQgC8EeC1S7yuTuC5Nw" key="font" value=""/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_My_-8QC8EeC1S7yuTuC5Nw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_RAjnUAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_ob2pMAKcEeCi9_4yO2qpbw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ob2pMQKcEeCi9_4yO2qpbw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_ocDdgAKcEeCi9_4yO2qpbw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_YzIc8GtMEeC7v9CL7O-u_g" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YzIc8WtMEeC7v9CL7O-u_g" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_Y0E4IGtMEeC7v9CL7O-u_g"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_DLqJhQB1EeCYBuAHmsenBw">
+        <property xmi:id="_DLqJhgB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DLqJhwB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_DOhQQAB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_HWl44AB1EeCYBuAHmsenBw" position="409,262" size="331,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HWl44QB1EeCYBuAHmsenBw" presentation="default">
+        <element href="XSDataFullFieldXAS.uml#_HWwQ8AB1EeCYBuAHmsenBw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_HWl44gB1EeCYBuAHmsenBw">
+        <property xmi:id="_HWl44wB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HWl45AB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_HWwQ8AB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_gkKfIAB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gkKfIQB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_gkM7YAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_hl5o8AB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_hl5o8QB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_hl8FMAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_HWl45QB1EeCYBuAHmsenBw">
+        <property xmi:id="_HWl45gB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HWl45wB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_HWwQ8AB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_MZP6cAB1EeCYBuAHmsenBw" position="23,24" size="314,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MZP6cQB1EeCYBuAHmsenBw" presentation="default">
+        <element href="XSDataFullFieldXAS.uml#_MZa5kAB1EeCYBuAHmsenBw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_MZP6cgB1EeCYBuAHmsenBw">
+        <property xmi:id="_MZP6cwB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MZP6dAB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_MZa5kAB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_pQqN0AB5EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_pQqN0QB5EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_pQsDAAB5EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_qiZigAB5EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_qiZigQB5EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_qibXsAB5EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_rLdtoAB5EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_rLdtoQB5EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_rLfi0AB5EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_PcKbYACBEeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_PcKbYQCBEeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_PcMQkACBEeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_Qw0hMACBEeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Qw0hMQCBEeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_Qw29cACBEeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_TvmmgACBEeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_TvnNkACBEeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_TvpCwACBEeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_I5f2cAC_EeC1S7yuTuC5Nw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_I5f2cQC_EeC1S7yuTuC5Nw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_I5iSsAC_EeC1S7yuTuC5Nw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_PiHJMAC_EeC1S7yuTuC5Nw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_PiHJMQC_EeC1S7yuTuC5Nw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_PiBCkAC_EeC1S7yuTuC5Nw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_PiIXUAC_EeC1S7yuTuC5Nw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_PiIXUQC_EeC1S7yuTuC5Nw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_PiBCkQC_EeC1S7yuTuC5Nw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_OY38MAmyEeCTjO4JELP5Lw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_OY38MQmyEeCTjO4JELP5Lw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_OZoKIAmyEeCTjO4JELP5Lw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_MZP6dQB1EeCYBuAHmsenBw">
+        <property xmi:id="_MZP6dgB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MZP6dwB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_MZa5kAB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_VI05sAB1EeCYBuAHmsenBw" position="358,25" size="326,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_VI05sQB1EeCYBuAHmsenBw" presentation="default">
+        <element href="XSDataFullFieldXAS.uml#_VI7AUAB1EeCYBuAHmsenBw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_VI05sgB1EeCYBuAHmsenBw">
+        <property xmi:id="_VI05swB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_VI05tAB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_VI7AUAB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_9sOIgAB4EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9sOIgQB4EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_9sFloAB4EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_9sP9sAB4EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9sP9sQB4EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_9sGMsAB4EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_VI05tQB1EeCYBuAHmsenBw">
+        <property xmi:id="_VI05tgB1EeCYBuAHmsenBw" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_VI05twB1EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_VI7AUAB1EeCYBuAHmsenBw"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_kB38IAB2EeCYBuAHmsenBw" position="320,463" size="349,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_kB38IQB2EeCYBuAHmsenBw" presentation="default">
+        <element href="XSDataFullFieldXAS.uml#_kCYScAB2EeCYBuAHmsenBw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_kB4jMAB2EeCYBuAHmsenBw">
+        <property xmi:id="_kB4jMQB2EeCYBuAHmsenBw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_kB4jMgB2EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_kCYScAB2EeCYBuAHmsenBw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_xyBSQAB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xyB5UAB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_xyDugAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_zw1IUAB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zw1IUQB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_zw3kkAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_4OV1cAB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4OV1cQB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_4OXDkAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_62BpYAB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_62BpYQB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_62EFoAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_9uY9oAB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9uY9oQB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_9ucA8AB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="__5-EYAB2EeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__5-EYQB2EeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#__6AgoAB2EeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_kB4jMwB2EeCYBuAHmsenBw">
+        <property xmi:id="_kB4jNAB2EeCYBuAHmsenBw" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_kB4jNQB2EeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_kCYScAB2EeCYBuAHmsenBw"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_aJdEgACBEeCYBuAHmsenBw" position="32,461" size="260,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_aJdEgQCBEeCYBuAHmsenBw" presentation="default">
+        <element href="XSDataFullFieldXAS.uml#_aKIZ8ACBEeCYBuAHmsenBw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_aJdEggCBEeCYBuAHmsenBw">
+        <property xmi:id="_aJdEgwCBEeCYBuAHmsenBw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_aJdEhACBEeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_aKIZ8ACBEeCYBuAHmsenBw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_jTEUYACBEeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_jTEUYQCBEeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_jTE7cACBEeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_k_CuAACBEeCYBuAHmsenBw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_k_CuAQCBEeCYBuAHmsenBw" presentation="default">
+            <element href="XSDataFullFieldXAS.uml#_k_EjMACBEeCYBuAHmsenBw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_aJdEhQCBEeCYBuAHmsenBw">
+        <property xmi:id="_aJdEhgCBEeCYBuAHmsenBw" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_aJdEhwCBEeCYBuAHmsenBw" presentation="default">
+          <element href="XSDataFullFieldXAS.uml#_aKIZ8ACBEeCYBuAHmsenBw"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+  <subdiagrams xmi:id="_bSMu4AB5EeCYBuAHmsenBw"/>
+</diagrams:Diagrams>

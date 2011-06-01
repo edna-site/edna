@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputGridScreening>
+	<imageFile>
+        <path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/integrationError_2_001.img</value>
+        </path>
+	</imageFile>
+</XSDataInputGridScreening>

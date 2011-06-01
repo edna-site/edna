@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_lUa-QHvqEeCEctr4Kn5v_g">
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-QXvqEeCEctr4Kn5v_g" name="A_&lt;xSDataInputHDF5Writer>_&lt;xSDataFile>" memberEnd="_lUa-QnvqEeCEctr4Kn5v_g _lUa-RXvqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-QnvqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-QnvqEeCEctr4Kn5v_g" name="HDF5File" association="_lUa-QXvqEeCEctr4Kn5v_g">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-Q3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-RHvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-RXvqEeCEctr4Kn5v_g" name="xSDataInputHDF5Writer" type="_lUa-VnvqEeCEctr4Kn5v_g" association="_lUa-QXvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-RnvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-R3vqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-SHvqEeCEctr4Kn5v_g" name="A_&lt;attributes>_&lt;xSDataDictionary>" memberEnd="_lUa-SXvqEeCEctr4Kn5v_g _lUa-THvqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-SXvqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-SXvqEeCEctr4Kn5v_g" name="metadata" association="_lUa-SHvqEeCEctr4Kn5v_g">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_34enIOcwEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-SnvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-S3vqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-THvqEeCEctr4Kn5v_g" name="attributes" type="_lUa-ZXvqEeCEctr4Kn5v_g" association="_lUa-SHvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-TXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-TnvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-T3vqEeCEctr4Kn5v_g" name="A_&lt;xSDataInputHDF5Writer>_&lt;attributes>" memberEnd="_lUa-UHvqEeCEctr4Kn5v_g _lUa-U3vqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-UHvqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-UHvqEeCEctr4Kn5v_g" name="extraAttributes" type="_lUa-ZXvqEeCEctr4Kn5v_g" association="_lUa-T3vqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-UXvqEeCEctr4Kn5v_g" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-UnvqEeCEctr4Kn5v_g"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-U3vqEeCEctr4Kn5v_g" name="xSDataInputHDF5Writer" type="_lUa-VnvqEeCEctr4Kn5v_g" association="_lUa-T3vqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-VHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-VXvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUa-VnvqEeCEctr4Kn5v_g" name="XSDataInputHDF5Writer">
+    <ownedComment xmi:id="_lUa-V3vqEeCEctr4Kn5v_g">
+      <body>Common XSDataInput class for all hdf5 writers
+</body>
+    </ownedComment>
+    <generalization xmi:id="_lUa-WHvqEeCEctr4Kn5v_g">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+    </generalization>
+    <ownedAttribute xmi:id="_lUa-WXvqEeCEctr4Kn5v_g" name="internalHDF5Path">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-WnvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-W3vqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUa-XHvqEeCEctr4Kn5v_g" name="multiFiles">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-XXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-XnvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUa-X3vqEeCEctr4Kn5v_g" name="forceDtype">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-YHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-YXvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUa-YnvqEeCEctr4Kn5v_g" name="chunkSegmentation">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-Y3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-ZHvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUa-ZXvqEeCEctr4Kn5v_g" name="attributes">
+    <ownedComment xmi:id="_lUa-ZnvqEeCEctr4Kn5v_g">
+      <body>Allows the fine definition of the metadata for group/datasets</body>
+    </ownedComment>
+    <generalization xmi:id="_lUa-Z3vqEeCEctr4Kn5v_g">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
+    </generalization>
+    <ownedAttribute xmi:id="_lUa-aHvqEeCEctr4Kn5v_g" name="h5path">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-aXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-anvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-a3vqEeCEctr4Kn5v_g" name="A_&lt;xSDataSpectrum>_&lt;xSDataArray>" memberEnd="_lUa-bHvqEeCEctr4Kn5v_g _lUa-b3vqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-bHvqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-bHvqEeCEctr4Kn5v_g" name="array" association="_lUa-a3vqEeCEctr4Kn5v_g">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_BaSOIOftEd-TcNOGyxZYYg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-bXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-bnvqEeCEctr4Kn5v_g"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-b3vqEeCEctr4Kn5v_g" name="xSDataSpectrum" type="_lUblaXvqEeCEctr4Kn5v_g" association="_lUa-a3vqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-cHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-cXvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-cnvqEeCEctr4Kn5v_g" name="A_&lt;xSDataSpectrum>_&lt;xSDataMeshScan>" memberEnd="_lUa-c3vqEeCEctr4Kn5v_g _lUa-dnvqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-c3vqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-c3vqEeCEctr4Kn5v_g" name="meshScan" type="_lUbld3vqEeCEctr4Kn5v_g" association="_lUa-cnvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-dHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-dXvqEeCEctr4Kn5v_g"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-dnvqEeCEctr4Kn5v_g" name="xSDataSpectrum" type="_lUblaXvqEeCEctr4Kn5v_g" association="_lUa-cnvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-d3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-eHvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-eXvqEeCEctr4Kn5v_g" name="A_&lt;xSDataInputHDF5MapSpectra>_&lt;xSDataSpectrum>" memberEnd="_lUa-envqEeCEctr4Kn5v_g _lUa-fXvqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-envqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-envqEeCEctr4Kn5v_g" name="inputSpectrumFile" type="_lUblaXvqEeCEctr4Kn5v_g" association="_lUa-eXvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-e3vqEeCEctr4Kn5v_g" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-fHvqEeCEctr4Kn5v_g"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-fXvqEeCEctr4Kn5v_g" name="xSDataInputHDF5MapSpectra" type="_lUa-gHvqEeCEctr4Kn5v_g" association="_lUa-eXvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-fnvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-f3vqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUa-gHvqEeCEctr4Kn5v_g" name="XSDataInputHDF5MapSpectra">
+    <generalization xmi:id="_lUa-gXvqEeCEctr4Kn5v_g" general="_lUa-VnvqEeCEctr4Kn5v_g"/>
+    <ownedAttribute xmi:id="_lUa-gnvqEeCEctr4Kn5v_g" name="deleteInputSpectrum">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-g3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-hHvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-hXvqEeCEctr4Kn5v_g" name="A_&lt;xSDataInputHDF5StackImages>_&lt;xSDataImage>" memberEnd="_lUa-hnvqEeCEctr4Kn5v_g _lUa-iXvqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-hnvqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-hnvqEeCEctr4Kn5v_g" name="inputImageFile" association="_lUa-hXvqEeCEctr4Kn5v_g">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-h3vqEeCEctr4Kn5v_g" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-iHvqEeCEctr4Kn5v_g"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-iXvqEeCEctr4Kn5v_g" name="xSDataInputHDF5StackImages" type="_lUblUXvqEeCEctr4Kn5v_g" association="_lUa-hXvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-invqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-i3vqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUa-jHvqEeCEctr4Kn5v_g" name="A_&lt;xSDataInputHDF5StackImages>_&lt;xSDataArray>" memberEnd="_lUa-jXvqEeCEctr4Kn5v_g _lUa-kHvqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUa-jXvqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUa-jXvqEeCEctr4Kn5v_g" name="inputArray" association="_lUa-jHvqEeCEctr4Kn5v_g">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_BaSOIOftEd-TcNOGyxZYYg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-jnvqEeCEctr4Kn5v_g" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUa-j3vqEeCEctr4Kn5v_g"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUa-kHvqEeCEctr4Kn5v_g" name="xSDataInputHDF5StackImages" type="_lUblUXvqEeCEctr4Kn5v_g" association="_lUa-jHvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUa-kXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblUHvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUblUXvqEeCEctr4Kn5v_g" name="XSDataInputHDF5StackImages">
+    <generalization xmi:id="_lUblUnvqEeCEctr4Kn5v_g" general="_lUa-VnvqEeCEctr4Kn5v_g"/>
+    <ownedAttribute xmi:id="_lUblU3vqEeCEctr4Kn5v_g" name="deleteInputImage">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblVHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblVXvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblVnvqEeCEctr4Kn5v_g" name="index">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblV3vqEeCEctr4Kn5v_g" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblWHvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lUblWXvqEeCEctr4Kn5v_g" name="A_&lt;xSDataResultHDF5Writer>_&lt;xSDataFile>" memberEnd="_lUblWnvqEeCEctr4Kn5v_g _lUblXXvqEeCEctr4Kn5v_g" navigableOwnedEnd="_lUblWnvqEeCEctr4Kn5v_g">
+    <ownedEnd xmi:id="_lUblWnvqEeCEctr4Kn5v_g" name="HDF5File" association="_lUblWXvqEeCEctr4Kn5v_g">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblW3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblXHvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_lUblXXvqEeCEctr4Kn5v_g" name="xSDataResultHDF5Writer" type="_lUblYHvqEeCEctr4Kn5v_g" association="_lUblWXvqEeCEctr4Kn5v_g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblXnvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblX3vqEeCEctr4Kn5v_g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUblYHvqEeCEctr4Kn5v_g" name="XSDataResultHDF5Writer">
+    <generalization xmi:id="_lUblYXvqEeCEctr4Kn5v_g">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+    </generalization>
+    <ownedAttribute xmi:id="_lUblYnvqEeCEctr4Kn5v_g" name="internalHDF5Path">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblY3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblZHvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUblZXvqEeCEctr4Kn5v_g" name="XSDataResultHDF5MapSpectra">
+    <generalization xmi:id="_lUblZnvqEeCEctr4Kn5v_g" general="_lUblYHvqEeCEctr4Kn5v_g"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUblZ3vqEeCEctr4Kn5v_g" name="XSDataResultHDF5StackImages">
+    <generalization xmi:id="_lUblaHvqEeCEctr4Kn5v_g" general="_lUblYHvqEeCEctr4Kn5v_g"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUblaXvqEeCEctr4Kn5v_g" name="XSDataSpectrum">
+    <generalization xmi:id="_lUblanvqEeCEctr4Kn5v_g">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
+    </generalization>
+    <ownedAttribute xmi:id="_lUbla3vqEeCEctr4Kn5v_g" name="path">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblbHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblbXvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblbnvqEeCEctr4Kn5v_g" name="fastMotorPosition">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblb3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblcHvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblcXvqEeCEctr4Kn5v_g" name="slowMotorPosition">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblcnvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblc3vqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUbldHvqEeCEctr4Kn5v_g" name="fileType">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUbldXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUbldnvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_lUbld3vqEeCEctr4Kn5v_g" name="XSDataMeshScan">
+    <generalization xmi:id="_lUbleHvqEeCEctr4Kn5v_g">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
+    </generalization>
+    <ownedAttribute xmi:id="_lUbleXvqEeCEctr4Kn5v_g" name="fastMotorName">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblenvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUble3vqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblfHvqEeCEctr4Kn5v_g" name="fastMotorStart">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_JJ8AgOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblfXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblfnvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblf3vqEeCEctr4Kn5v_g" name="fastMotorSteps">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblgHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblgXvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblgnvqEeCEctr4Kn5v_g" name="fastMotorStop">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_JJ8AgOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblg3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblhHvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblhXvqEeCEctr4Kn5v_g" name="integrationTime">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblhnvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblh3vqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUbliHvqEeCEctr4Kn5v_g" name="slowMotorSteps">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUbliXvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblinvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUbli3vqEeCEctr4Kn5v_g" name="slowMotorName">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUbljHvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUbljXvqEeCEctr4Kn5v_g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUbljnvqEeCEctr4Kn5v_g" name="slowMotorStart">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_JJ8AgOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblj3vqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblkHvqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lUblkXvqEeCEctr4Kn5v_g" name="slowMotorStop">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_JJ8AgOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lUblknvqEeCEctr4Kn5v_g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lUblk3vqEeCEctr4Kn5v_g" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+</uml:Model>

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?><XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecBioSaxsReprocessv1_0</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlBioSaxsReprocessv1_0</name>  
+		</XSPluginItem> 
+		<XSPluginItem>
+			<name>EDPluginControlBioSaxsReprocessv1_0</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBioSaxsNormalizev1_0</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration>

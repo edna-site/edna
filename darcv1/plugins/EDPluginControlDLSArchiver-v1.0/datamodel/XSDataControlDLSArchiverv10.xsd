@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputPluginControlDLSArchiver" type="XSDataInputPluginControlDLSArchiver"/>
+	<xs:complexType name="XSDataInputPluginControlDLSArchiver">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="archiveLocation" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="dropZonePath" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ignoreList" type="XSDataString" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="ignoreSubdirList" type="XSDataString" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="pollTime" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="srbDropFilePath" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+										
+					<xs:element name="nonExistantFiles" type="XSDataFile" minOccurs="1" maxOccurs="1"/>				
+					<xs:element name="nbRoundsDelay" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>	
+					
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultPluginControlDLSArchiver" type="XSDataResultPluginControlDLSArchiver"/>
+	<xs:complexType name="XSDataResultPluginControlDLSArchiver">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

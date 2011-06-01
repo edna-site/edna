@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<XSDataImageQualityIndicators>
+    <binPopCutOffMethod2Res>
+        <value>2.000000e+01</value>
+    </binPopCutOffMethod2Res>
+    <goodBraggCandidates>
+        <value>1013</value>
+    </goodBraggCandidates>
+    <iceRings>
+        <value>0</value>
+    </iceRings>
+    <image>
+        <date>
+            <value>Mon Mar 20 12:38:23 2006</value>
+        </date>
+        <number>
+            <value>1</value>
+        </number>
+        <path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_001.img</value>
+        </path>
+    </image>
+    <inResTotal>
+        <value>1334</value>
+    </inResTotal>
+    <inResolutionOvrlSpots>
+        <value>1</value>
+    </inResolutionOvrlSpots>
+    <maxUnitCell>
+        <value>2.082000e+02</value>
+    </maxUnitCell>
+    <method1Res>
+        <value>2.050000e+00</value>
+    </method1Res>
+    <method2Res>
+        <value>1.870000e+00</value>
+    </method2Res>
+    <pctSaturationTop50Peaks>
+        <value>1.841000e+01</value>
+    </pctSaturationTop50Peaks>
+    <spotTotal>
+        <value>1434</value>
+    </spotTotal>
+</XSDataImageQualityIndicators>

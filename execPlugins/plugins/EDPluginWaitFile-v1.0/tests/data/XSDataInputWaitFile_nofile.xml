@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<expectedFile><path><value>/tmp/edna-${USER}/noFile</value></path></expectedFile>
+<expectedSize><value>10</value></expectedSize>
+<timeOut><value>2</value></timeOut>
+</XSDataInput>

@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<outputImage><path><value>${EDNA_TESTS_DATA_HOME}/images/saxsDelMetadata.edf</value></path></outputImage>
+</XSDataResult>

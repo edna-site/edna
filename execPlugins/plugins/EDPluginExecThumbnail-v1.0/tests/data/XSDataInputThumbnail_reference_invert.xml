@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInputThumbnail>
+	<inputImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+		</path>
+	</inputImagePath>
+	<outputPath>
+		<path><value>/tmp/edna-${USER}/diff6105-invert.jpg</value></path></outputPath>
+	<levelsInvert>
+		<value>1</value></levelsInvert></XSDataInputThumbnail>

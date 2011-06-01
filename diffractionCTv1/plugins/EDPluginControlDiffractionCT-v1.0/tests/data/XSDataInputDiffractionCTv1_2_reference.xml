@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<XSDataInputDiffractionCT>
+    <destinationDirectory>
+        <path>
+            <value>/tmp/edna-${USER}</value>
+        </path>
+    </destinationDirectory>
+    <image>
+        <path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March.edf</value>
+        </path>
+    </image>
+    <sinogramFileNamePrefix>
+        <value>testSino</value>
+    </sinogramFileNamePrefix>
+    <powderDiffractionSubdirectory>
+        <value>powder</value>
+    </powderDiffractionSubdirectory>
+    <powderDiffractionFormat>
+        <value>chi</value>
+    </powderDiffractionFormat>
+    
+    
+    <overrideImageParam>
+        <_diffrn_detector_element_center_2>
+            <value>5.654500e+01</value>
+            <unit>
+                <value>mm</value>
+            </unit>
+        </_diffrn_detector_element_center_2>
+        <_diffrn_detector_element_center_1>
+            <value>5.059200e+01</value>
+            <unit>
+                <value>mm</value>
+            </unit>
+        </_diffrn_detector_element_center_1>
+        <_file_correction_image_dark_current>
+	        <path>
+	            <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March_dark.edf</value>
+	        </path>
+	    </_file_correction_image_dark_current>
+	    <_file_correction_image_flat_field>
+	        <path>
+	            <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March_flat.edf</value>
+	        </path>
+	    </_file_correction_image_flat_field>
+        <_file_correction_spline_spatial_distortion>
+		    <path>
+		       <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March.spline</value>
+		    </path>
+		</_file_correction_spline_spatial_distortion>
+    </overrideImageParam>
+</XSDataInputDiffractionCT>

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?><XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlControlDCTReadHeaderv10</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlDCTReadHeaderv10</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlDiffractionCTv1_2</name> 
+			<XSParamList>
+				<XSParamItem>
+					<name>inputImageSize</name>
+					<value>8000000</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>		
+	</XSPluginList> 
+</XSConfiguration>

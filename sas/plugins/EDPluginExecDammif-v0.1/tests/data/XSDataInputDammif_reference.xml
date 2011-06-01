@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<XSDataInputDammif>
+	<gnomOutputFile>
+		<path><value>gnolyz.out</value></path>
+	</gnomOutputFile>
+	<symmetry>
+		<value>P1</value></symmetry>
+	<expectedParticleShape>
+		<value>0</value></expectedParticleShape>
+	<mode>
+		<value>Fast</value></mode>
+	<chained>
+		<value>false</value></chained>
+	<constant>
+		<value>0.0</value></constant></XSDataInputDammif>

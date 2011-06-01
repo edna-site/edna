@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginTestXIA2CORE</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessExecutable</name>
+					<value>/usr/bin/dcraw</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

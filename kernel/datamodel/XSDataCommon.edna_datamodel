@@ -1,0 +1,274 @@
+targetNamespace "http://www.edna-site.org"
+
+package XSDataCommon {
+	package CommonBasicTypes {
+		complex type XSData {
+		}
+
+		complex type XSDataBoolean extends XSData {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+			value : boolean
+		}
+
+		complex type XSDataDate extends XSDataString {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+		complex type XSDataDouble extends XSData {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+			value : double
+		}
+
+		complex type XSDataFloat extends XSData {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+			value : double
+		}
+
+		complex type XSDataInteger extends XSData {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+			value : integer
+		}
+
+		complex type XSDataString extends XSData {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+			value : string
+		}
+
+	}
+
+	package CommonComplexTypes {
+		complex type XSDataArray extends XSData {
+			"md5 checksum has to be calculated on the decoded data, not the encoded one. Default encoding is \"base64\" default byte order is \"little-endian\" (intel) not \"big-endian\" (java)"
+			coding : XSDataString optional
+			data : string
+			dtype : string
+			md5sum : XSDataString optional
+			shape : integer []
+			size : integer
+		}
+
+		complex type XSDataDictionary {
+			keyValuePair : XSDataKeyValuePair [] optional
+		}
+
+		complex type XSDataFile extends XSData {
+			"These objects use the simple objects described above to create useful structures for the rest for the data model."
+			path : XSDataString
+		}
+
+		complex type XSDataImage extends XSDataFile {
+			"These objects use the simple objects described above to create useful structures for the rest for the data model."
+			date : XSDataString optional
+			number : XSDataInteger optional
+		}
+
+		complex type XSDataKeyValuePair {
+			key : XSDataString
+			value : XSDataString
+		}
+
+		complex type XSDataSize extends XSData {
+			"These objects use the simple objects described above to create useful structures for the rest for the data model."
+			x : XSDataLength
+			y : XSDataLength
+			z : XSDataLength
+		}
+
+	}
+
+	package CommonConfiguration {
+		complex type XSConfiguration {
+			XSPluginList : XSPluginList optional
+		}
+
+		complex type XSOptionItem {
+			enabled : boolean
+			name : string
+		}
+
+		complex type XSOptionList {
+			XSOptionItem : XSOptionItem []
+		}
+
+		complex type XSParamItem {
+			name : string
+			value : string
+		}
+
+		complex type XSParamList {
+			XSParamItem : XSParamItem []
+		}
+
+		complex type XSPluginItem {
+			XSOptionList : XSOptionList optional
+			XSParamList : XSParamList optional
+			name : string
+		}
+
+		complex type XSPluginList {
+			XSPluginItem : XSPluginItem []
+		}
+
+	}
+
+	package CommonInputAndResult {
+		complex type XSDataExecutionInfo {
+			"This class contains information about the system executing the plugin."
+			baseDirectory : XSDataFile
+			configuration : XSConfiguration
+			executionTime : XSDataTime
+			pluginName : XSDataString
+			startOfExecution : XSDataDate
+			systeminfo : XSDataSysteminfo
+			workingDirectory : XSDataFile
+		}
+
+		complex type XSDataInput extends XSData {
+			"All plugin input and result classes should be derived from these two classes."
+			configuration : XSConfiguration
+			optional
+		}
+
+		complex type XSDataMessage extends XSData {
+			"This message class is used (amongst other messages) for warning and error messages."
+			debuginfo : XSDataString
+			level : XSDataString
+			text : XSDataString
+			^type : XSDataString
+		}
+
+		complex type XSDataResult extends XSData {
+			"All plugin input and result classes should be derived from these two classes."
+			status : XSDataStatus optional
+		}
+
+		complex type XSDataStatus extends XSData {
+			"This class contains all data related to the execution of a plugin."
+			executionInfo : XSDataExecutionInfo optional
+			executiveSummary : XSDataString optional
+			isSuccess : XSDataBoolean
+			message : XSDataMessage optional
+		}
+
+		complex type XSDataSysteminfo extends XSData {
+			"This class contains information about the system executing the plugin."
+			compiler : XSDataString
+			hostIP : XSDataString
+			hostName : XSDataString
+			operatingSystem : XSDataString
+			operatingSystemType : XSDataString
+			userName : XSDataString
+			virtualMachine : XSDataString
+		}
+
+	}
+
+	package CommonLinearAlgebra {
+		complex type XSDataMatrix extends XSDataMatrixDouble {
+			"XSDataMatrix is deprecated and should be replaced with XSDataMatrixDouble."
+		}
+
+		complex type XSDataMatrixDouble extends XSData {
+			"These are compound object used for linear algebra operations."
+			m11 : double
+			m12 : double
+			m13 : double
+			m21 : double
+			m22 : double
+			m23 : double
+			m31 : double
+			m32 : double
+			m33 : double
+		}
+
+		complex type XSDataMatrixInteger extends XSData {
+			"These are compound object used for linear algebra operations."
+			m11 : integer
+			m12 : integer
+			m13 : integer
+			m21 : integer
+			m22 : integer
+			m23 : integer
+			m31 : integer
+			m32 : integer
+			m33 : integer
+		}
+
+		complex type XSDataUnitVector extends XSDataVectorDouble {
+			"<<Invariant>>\r\n{abs(v1**2.0 + v3**2.0-1.0) < epsilon}"
+		}
+
+		complex type XSDataVectorDouble extends XSData {
+			"These are compound object used for linear algebra operations."
+			v1 : double
+			v2 : double
+			v3 : double
+		}
+
+		complex type XSDataVectorInteger extends XSData {
+			"These are compound object used for linear algebra operations."
+			v1 : integer
+			v2 : integer
+			v3 : integer
+		}
+
+	}
+
+	package CommonTypesWithUnits {
+		complex type XSDataAbsorbedDoseRate extends XSDataDoubleWithUnit {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+		complex type XSDataAngle extends XSDataDisplacement {
+		}
+
+		complex type XSDataAngularSpeed extends XSDataDoubleWithUnit {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+		complex type XSDataDisplacement {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+			error : XSDataDouble optional
+			unit : XSDataString optional
+			value : double
+		}
+
+		complex type XSDataDoubleWithUnit extends XSDataDouble {
+			error : XSDataDouble optional
+			unit : XSDataString optional
+		}
+
+		complex type XSDataFlux extends XSDataDoubleWithUnit {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+		complex type XSDataLength extends XSDataDoubleWithUnit {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+		complex type XSDataLinearDisplacement extends XSDataDisplacement {
+		}
+
+		complex type XSDataRotation extends XSData {
+			"These are compound object used for linear algebra operations."
+			q0 : double
+			q1 : double
+			q2 : double
+			q3 : double
+		}
+
+		complex type XSDataSpeed extends XSDataDoubleWithUnit {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+		complex type XSDataTime extends XSDataDoubleWithUnit {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+		complex type XSDataWavelength extends XSDataDoubleWithUnit {
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
+		}
+
+	}
+
+}

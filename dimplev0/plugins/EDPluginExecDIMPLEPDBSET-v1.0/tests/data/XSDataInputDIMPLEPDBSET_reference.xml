@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<CCP4DataInputPDBSET>
+    <XYZIN>
+        <path>            
+            <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/toxd.pdb</value>            
+        </path>
+    </XYZIN>      
+    <XYZOUT>
+        <path>            
+            <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/output.pdb</value>            
+        </path>
+    </XYZOUT>      
+    <unitCell>
+        <a>
+            <value>7.815800e+01</value>
+        </a>
+        <b>
+            <value>7.815800e+01</value>
+        </b>
+        <c>
+            <value>7.815800e+01</value>
+        </c>
+        <alpha>
+            <value>9.000000e+01</value>
+        </alpha>
+        <beta>
+            <value>9.000000e+01</value>
+        </beta>
+        <gamma>
+            <value>9.000000e+01</value>
+        </gamma>
+    </unitCell>
+    <outputLogFile>
+        <path>            
+            <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/temp-DIMPLE.log</value>            
+        </path>
+    </outputLogFile>      
+</CCP4DataInputPDBSET>
+

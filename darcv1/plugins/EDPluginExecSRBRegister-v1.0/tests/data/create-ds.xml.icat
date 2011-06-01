@@ -1,0 +1,24 @@
+<?xml version="1.0" ?><icat version="1.0 RC6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="icatXSD.xsd">
+	<study>
+		<investigation>
+			<inv_number>SM999</inv_number>
+			<visit_id>SM999-1</visit_id>
+			<instrument>p45</instrument>
+			<title>spectroscopy icat food</title>
+			<inv_type>experiment</inv_type>
+			<dataset>
+				<name>boring xml ingest</name>
+				<dataset_type>EXPERIMENT_RAW</dataset_type>
+				<description>search for the holy grail</description>
+				<datafile>
+					<name>file.dat</name>
+					<location>EDPluginExecSRBRegisterv10_output.xml</location>
+					<description>just an example file</description>
+					<datafile_version>1.0</datafile_version>
+					<datafile_create_time>2009-02-24T18:08:35</datafile_create_time>
+					<datafile_modify_time>2009-02-24T18:08:35</datafile_modify_time>
+				</datafile>
+			</dataset>
+		</investigation>
+	</study>
+</icat>

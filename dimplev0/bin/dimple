@@ -1,0 +1,352 @@
+#!/usr/bin/env python
+#
+#     Copyright (C) 2010 Ronan Keegan 
+#
+#     This code is distributed under the terms and conditions of the
+#     CCP4 Program Suite Licence Agreement as a CCP4 Application.
+#     A copy of the CCP4 licence can be obtained by writing to the
+#     CCP4 Secretary, Daresbury Laboratory, Warrington WA4 4AD, UK.
+#
+# 
+# Master executable for running DIMPLE. To be placed in the CCP4 bin
+# directory or else in the users local CCP4 folder.
+# Ronan Keegan 01/04/10
+
+
+import os, sys, string, time
+import shutil
+import shlex
+import subprocess
+import tempfile
+
+# Test for environment variables
+
+if not "CCP4" in sorted(os.environ.keys()):
+    raise RuntimeError('CCP4 not found')
+if not "EDNA_HOME" in sorted(os.environ.keys()):
+    raise RuntimeError('EDNA_HOME not set')
+if not "EDNA_SITE" in sorted(os.environ.keys()):
+    raise RuntimeError('EDNA_SITE not set')
+
+# Output OS and Python version info for debugging
+
+sys.stdout.write("\n")
+sys.stdout.write("Operating System: %s\n" % sys.platform)
+sys.stdout.write("Python Version:\n%s\n" % sys.version)
+sys.stdout.write("\n")
+
+
+
+class Dimple:
+   """ Execute the dimple program """
+
+   def __init__(self):
+      self.colLabel = None
+      self.colLabelSIG = None
+
+      #self.SFACTORS = False
+      self.INTENSITIES = False
+      self.DEFAULT_KEYWORDS = False
+
+      self.HKLIN = None
+      self.HKLOUT = None
+      self.XYZIN = None
+      self.XYZOUT = None
+
+      self.inputXMLFile = None
+      self.inputXMLFileName = None
+
+   def usage(self):
+      sys.stdout.write("Error: Incorrectly formatted command line\n")
+      sys.stdout.write("Usage: dimple [-D] HKLIN <input mtz> XYZIN <input pdb> " + \
+                   "HKLOUT <output mtz> XYZOUT <output pdb>\n" + \
+                   "\n" + \
+                   "Options:\n" + \
+                   "\n" + \
+                   "    -D   Input LABIN keyword defaults to 'IMEAN=IMEAN' and 'SIGIMEAN=SIGIMEAN'.\n" + \
+                   "         Also causes input XML file lines to be written in temporary file in the local directory.'\n" + \
+                   "\n")
+      sys.exit()
+
+   def run(self, arguments):
+      """ Run dimple """
+
+      # Read the command line
+      self.readCommandLine(arguments)
+
+      # Read the keyword arguments
+      if self.DEFAULT_KEYWORDS:
+         self.INTENSITIES = True
+         self.colLabel="IMEAN"
+         self.colLabelSIG="SIGIMEAN"
+      else:
+         self.readKeywords()
+
+      # Setup the XML input file
+      self.makeInputXML()
+
+      # Set the plugin launcher
+      plugin_launcher = os.path.join(os.environ["EDNA_HOME"], "kernel",
+                                     "bin", "edna-plugin-launcher.py")
+      
+      # Set the command line
+      command_line = "cctbx.python " + str(plugin_launcher) \
+                     + " --execute EDPluginControlDIMPLEPipelineCalcDiffMapv10 --verbose --inputFile " + self.inputXMLFileName
+      
+      process_args = shlex.split(command_line)
+      
+      # Launch dimple
+      p = subprocess.Popen(process_args, stdin = subprocess.PIPE,
+                           stdout = subprocess.PIPE)
+      
+      (child_stdout, child_stdin) = (p.stdout, p.stdin)
+      
+      o=child_stdout.readline()
+      while o:
+         sys.stdout.write(o)
+         o = child_stdout.readline()
+      
+      # clean up after we have finished
+      
+      os.remove(self.inputXMLFileName)
+
+   def readCommandLine(self, arguments):
+      """ A function to read in the command line arguments. """
+      
+      # Create the command_line string so it can be scanned for relavent details
+      command_line=string.joinfields(arguments, " ")
+
+      sys.stdout.write("Parsing command line arguments....\n") 
+      sys.stdout.write("\n") 
+  
+      # Check to see if the default keywords option has been used (LABIN IMEAN=IMEAN SIGIMEAN=SIGIMEAN)
+      if "-D" in arguments[1]: 
+         self.DEFAULT_KEYWORDS = True
+
+      if "HKLIN" in command_line.upper() and "XYZIN" in command_line.upper() and "HKLOUT" in command_line.upper() and "XYZOUT" in command_line.upper(): 
+         # Grab the HKLIN file (account for spaces)
+         self.HKLIN = self.getFileName(arguments, "HKLIN", ["XYZIN", "HKLOUT", "XYZOUT"])
+         # Grab the XYZIN file (account for spaces)
+         self.XYZIN = self.getFileName(arguments, "XYZIN", ["HKLIN", "HKLOUT", "XYZOUT"])
+         # Grab the HKLOUT file (account for spaces)
+         self.HKLOUT = self.getFileName(arguments, "HKLOUT", ["HKLIN", "XYZIN", "XYZOUT"])
+         # Grab the XYZOUT file (account for spaces)
+         self.XYZOUT = self.getFileName(arguments, "XYZOUT", ["HKLIN", "XYZIN", "HKLOUT"])
+ 
+      else:
+         sys.stdout.write("Command line Error: The command line appears to be incorrect, please check it\n")
+         self.usage()
+      sys.stdout.write("\n")
+      
+   # Get the names of the input files
+   def getFileName(self, arguments, flag, flag_list=[]):
+      """ Get the File name for a given flag from the command_line. """
+
+      # Loop over the command line and pick out the filename (accounting for spaces)
+      name=[]
+      for i in range(len(arguments)):
+         if arguments[i].upper() == flag:
+            j=i+1
+            while j<len(arguments):
+               if arguments[j].upper() not in flag_list:
+                  name.append(arguments[j])
+               else:
+                  break
+               j=j+1
+            flagname=os.path.abspath(string.joinfields(name, " "))
+
+      # Check to see that the file was found
+      if name == []:
+         sys.stdout.write("Input file error: File not found: %s\n" % flag)
+         sys.stdout.write("                  %s must be specified.\n" % flag)
+         sys.stdout.write("\n")
+         sys.exit()
+
+      # Check to see that the file/directory exists (only applies to input files/directories):
+      if flag in ["HKLIN", "XYZIN"]:
+         if os.path.isdir(flagname) == False and os.path.isfile(flagname) == False:
+            sys.stdout.write("Input file error: File specified by %s does not appear to exist.\n" % flag)
+            sys.stdout.write("                    (%s)\n" % flagname)
+            sys.stdout.write("                    Please check that the value for %s is correct in the command line.\n" % flag)
+            sys.stdout.write("\n")
+            sys.exit()
+
+      sys.stdout.write("-> %s = %s\n" % (flag, flagname))
+      return flagname
+
+   # Read the keyword arguments
+   def readKeywords(self):
+      """ Read the keywords from the stdin """
+   
+      sys.stdout.write("ENTER KEYWORD INPUT:\n")
+   
+      labin_found = False
+      while True:
+         data_line = string.strip(raw_input("-->\n"))
+         if data_line == '':
+           keyword = "NULL"
+         else:
+           keyword = string.split(data_line)[0]
+   
+         if "LABI" in keyword[0:4].upper():
+            self.parse_LABIN(data_line)
+            labin_found = True
+  
+         elif "NULL" in keyword.upper():
+            sys.stdout.write("Please enter a keyword or type END to finish keyword entry\n")
+      
+         elif "END" in keyword.upper():
+            if labin_found == False:
+               sys.stdout.write("Input keyword error: Must specify LABIN column labels for IMEAN and SIGIMEAN e.g.:\n")
+               sys.stdout.write("                     LABIN IMEAN=IMEAN SIGIMEAN=IMEAN\n")
+               sys.exit()
+            else:
+               break
+          
+         else:
+            print "Ignoring unrecognised keyword: %s" % keyword 
+   
+   def parse_LABIN(self, data_line):
+         """ A function to parse the LABIN keyword. """
+   
+         labels=[]
+   
+         # Check that the correct number of arguments are given
+         if data_line.count('=') != 2:
+            sys.stdout.write('Keyword Error: Incorrect number of arguments for LABIN\n')
+            sys.exit()
+   
+         # Split the line into its separate parts
+         line=string.split(data_line,'=')
+   
+         # Remove the 'LABIN' word from the start of the line
+         labin_part=string.split(line[0])
+         del labin_part[0]
+   
+         # Remove the first entry and re-enter it without 'LABIN'
+         del line[0]
+         line.insert(0,labin_part[0])
+   
+         # Now split the line again
+         for i in line:
+           t=string.split(i)
+           for j in t:
+              labels.append(j)
+        
+         # Assign the column labels from the list (0=1, 2=3 4=5)
+         #if "F" in labels[0] and "SIGF" in labels[2]:         
+         #   self.SFACTORS=True
+         #   self.colLabel=labels[1]
+         #   self.colLabelSIG=labels[3]
+         if "IMEAN" in labels[0] and "SIGIMEAN" in labels[2]:         
+            self.INTENSITIES=True
+            self.colLabel=labels[1]
+            self.colLabelSIG=labels[3]
+         else:
+            sys.stdout.write('Keyword Error: Incorrect arguments for LABIN\n')
+            sys.stdout.write('               LABIN IMEAN=<IMEAN> SIGF=<SIGIMEAN> for intensities\n')
+            #sys.stdout.write('            or LABIN F=<F> SIGF=<SIGF> for structure factos\n')
+            sys.exit()
+   
+         # Check that all of the necessary column labels are given
+         sys.stdout.write("\n")
+         sys.stdout.write("Column '%s' labelled as %s\n" % (labels[0], self.colLabel))
+         sys.stdout.write("Column '%s' labelled as %s\n" % (labels[2], self.colLabelSIG))
+         sys.stdout.write("\n")
+
+   def makeInputXML(self):
+      """ Create an input XML file for dimple """
+
+      # Set the name of the input XML file - now make this random - we should make
+      # this random using tempfile.mkstemp() and then get the file name out
+      # somehows.
+      
+      # inputXMLFile = open("/tmp/dimple-input.xml", "w")
+      
+      if self.DEFAULT_KEYWORDS:
+         self.inputXMLFileName = os.path.join(os.getcwd(), 'dimple-input.xml')
+         self.inputXMLFile = open(self.inputXMLFileName, 'w')
+
+         self.inputXMLFile.write('<?xml version="1.0" ?>\n')
+      
+         self.inputXMLFile.write("<XSDataInputControlPipelineCalcDiffMap>\n" 
+                               + "<HKLIN>\n<path>\n<value>" + self.HKLIN + "</value>\n</path>\n</HKLIN>\n" 
+                               + "<HKLOUT>\n<path>\n<value>" + self.HKLOUT + "</value>\n</path>\n</HKLOUT>\n" 
+                               + "<XYZIN>\n<path>\n<value>" + self.XYZIN + "</value>\n</path>\n</XYZIN>\n" 
+                               + "<XYZOUT>\n<path>\n<value>" + self.XYZOUT + "</value>\n</path>\n</XYZOUT>\n") 
+
+         if self.INTENSITIES:
+            self.inputXMLFile.write("<ColLabels>\n" 
+                                  + "<IMEAN>\n<value>" + self.colLabel + "</value>\n</IMEAN>\n" 
+                                  + "<SIGIMEAN>\n<value>" + self.colLabelSIG + "</value>\n</SIGIMEAN>\n" 
+                                  + "</ColLabels>\n") 
+         else:
+            sys.stdout.write('XML file write error: Did not detect intensities column labels from the LABIN keyword\n')
+            sys.exit()
+
+         self.inputXMLFile.write("</XSDataInputControlPipelineCalcDiffMap>\n")
+         self.inputXMLFile.close()
+
+
+      else:
+         self.inputXMLFile, self.inputXMLFileName = tempfile.mkstemp()
+      
+         # Add the contents to the XML file - n.b. this is now talking to a file
+         # descriptor not a file object.
+      
+         os.write(self.inputXMLFile, '<?xml version="1.0" ?>\n')
+         
+         os.write(self.inputXMLFile, "<XSDataInputControlPipelineCalcDiffMap>\n" 
+                                   + "<HKLIN>\n<path>\n<value>" + self.HKLIN + "</value>\n</path>\n</HKLIN>\n" 
+                                   + "<HKLOUT>\n<path>\n<value>" + self.HKLOUT + "</value>\n</path>\n</HKLOUT>\n" 
+                                   + "<XYZIN>\n<path>\n<value>" + self.XYZIN + "</value>\n</path>\n</XYZIN>\n" 
+                                   + "<XYZOUT>\n<path>\n<value>" + self.XYZOUT + "</value>\n</path>\n</XYZOUT>\n") 
+   
+         if self.INTENSITIES:
+            os.write(self.inputXMLFile, "<ColLabels>\n" 
+                                      + "<IMEAN>\n<value>" + self.colLabel + "</value>\n</IMEAN>\n" 
+                                      + "<SIGIMEAN>\n<value>" + self.colLabelSIG + "</value>\n</SIGIMEAN>\n" 
+                                      + "</ColLabels>\n") 
+         else:
+            sys.stdout.write('XML file write error: Did not detect intensities column labels from the LABIN keyword\n')
+            sys.exit()
+
+         os.write(self.inputXMLFile, "</XSDataInputControlPipelineCalcDiffMap>\n")
+         os.close(self.inputXMLFile)
+
+
+if __name__ == "__main__":
+
+   dimple=Dimple()
+
+   # Check command line is right length
+   if len(sys.argv) != 9 and len(sys.argv) != 10:
+     dimple.usage()
+
+   # Run Dimple
+   dimple.run(sys.argv)
+
+
+# check we have the inputs correctly assigned
+
+#assert(sys.argv[1].lower() == 'hklin')
+#assert(sys.argv[3].lower() == 'xyzin')
+#assert(sys.argv[5].lower() == 'hklout')
+#assert(sys.argv[7].lower() == 'xyzout')
+
+# want absolute paths is relative paths have been given.
+
+#self.HKLIN = os.path.abspath(sys.argv[2])
+#self.XYZIN = os.path.abspath(sys.argv[4])
+#self.HKLOUT = os.path.abspath(sys.argv[6])
+#self.XYZOUT = os.path.abspath(sys.argv[8])
+
+# Echo the input files to stdout
+#sys.stdout.write("Input HKLIN (mtz file)   : %s\n" % HKLIN)
+#sys.stdout.write("Input XYZIN (pdb file)   : %s\n" % XYZIN)
+#sys.stdout.write("Output HKLOUT (mtz file) : %s\n" % HKLOUT)
+#sys.stdout.write("Output XYZOUT (pdb file) : %s\n" % XYZOUT)
+
+#sys.exit()
+
+

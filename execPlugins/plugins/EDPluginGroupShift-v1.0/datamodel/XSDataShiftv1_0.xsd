@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="OffsetedImage" type="OffsetedImage">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataShiftv10.OffsetedImage</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="OffsetedImage">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="0" name="array" type="XSDataArray"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="deltaDummy" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="dummyValue" type="XSDataDouble"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="file" type="XSDataImage"/>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="offset" type="XSDataDouble"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataInputMeasureOffset" type="XSDataInputMeasureOffset">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataShiftv10.XSDataInputMeasureOffset</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputMeasureOffset">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="array" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="backgroundSubtraction" type="XSDataBoolean"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="center" type="XSDataInteger"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="cropBorders" type="XSDataInteger"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="XSDataImage"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="index" type="XSDataInteger"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="smoothBorders" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="sobelFilter" type="XSDataBoolean"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="width" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputMeasureOffsetSift" type="XSDataInputMeasureOffsetSift"/>
+  <xs:complexType name="XSDataInputMeasureOffsetSift">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="descriptorFile" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputShiftImage" type="XSDataInputShiftImage"/>
+  <xs:complexType name="XSDataInputShiftImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="index" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="inputArray" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="inputImage" type="XSDataImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="invertCorrection" type="XSDataBoolean"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="offset" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputImage" type="XSDataImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="panoFile" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputSiftDescriptor" type="XSDataInputSiftDescriptor"/>
+  <xs:complexType name="XSDataInputSiftDescriptor">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="image" type="XSDataImage"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputStitchImage" type="XSDataInputStitchImage"/>
+  <xs:complexType name="XSDataInputStitchImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="inputImages" type="XSDataImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputImage" type="XSDataImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="autoscale" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="dummyValue" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="deltaDummy" type="XSDataDouble"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="centerROI" type="XSDataInteger"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="widthROI" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="blending" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputStitchOffsetedImage" type="XSDataInputStitchOffsetedImage">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataShiftv10.XSDataInputStitchOffsetedImage</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInputStitchOffsetedImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="autoscale" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="blending" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="centerROI" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dummyValue" type="XSDataDouble"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="inputImages" type="OffsetedImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputImage" type="XSDataImage"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="widthROI" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultMeasureOffset" type="XSDataResultMeasureOffset"/>
+  <xs:complexType name="XSDataResultMeasureOffset">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="offset" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="panoFile" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultMeasureOffsetSift" type="XSDataResultMeasureOffsetSift"/>
+  <xs:complexType name="XSDataResultMeasureOffsetSift">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="outputArray" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="panoFile" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultShiftImage" type="XSDataResultShiftImage">
+    <xs:annotation>
+      <xs:appinfo source="http://www.edna-site.org/dsl2xsd">XSDataShiftv10.XSDataResultShiftImage</xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataResultShiftImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputArray" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputImage" type="XSDataImage"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultSiftDescriptor" type="XSDataResultSiftDescriptor"/>
+  <xs:complexType name="XSDataResultSiftDescriptor">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="descriptorFile" type="XSDataFile"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultStitchImage" type="XSDataResultStitchImage"/>
+  <xs:complexType name="XSDataResultStitchImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputArray" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputImage" type="XSDataImage"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultStitchOffsetedImage" type="XSDataResultStitchOffsetedImage"/>
+  <xs:complexType name="XSDataResultStitchOffsetedImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputArray" type="XSDataArray"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="outputImage" type="XSDataImage"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

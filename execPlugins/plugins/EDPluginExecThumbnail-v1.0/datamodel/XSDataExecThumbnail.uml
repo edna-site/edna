@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataExecThumbnail">
+    <packagedElement xmi:type="uml:Class" xmi:id="_Ae4f4AjpEeCq7M3RkQekRg" name="XSDataInputExecThumbnail">
+      <generalization xmi:id="_HpH5AAjpEeCq7M3RkQekRg">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_X86QkAjpEeCq7M3RkQekRg" name="inputImagePath">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sNpzoAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Zl9SAAjpEeCq7M3RkQekRg" name="inputArray">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_BaSOIOftEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rt-1EAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_bYEv4AjpEeCq7M3RkQekRg" name="keepRatio">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rFw-gAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_fDB-sAjpEeCq7M3RkQekRg" name="outputPath">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qRGAUAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_g-EvEAjpEeCq7M3RkQekRg" name="thumbFormat">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pwIBQAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_jDzsgAjpEeCq7M3RkQekRg" name="thumbHeight">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pGTBIAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_lkYL0AjpEeCq7M3RkQekRg" name="thumbWidth">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_obeigAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_njT9sAjpEeCq7M3RkQekRg" name="levelsColorize">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n6R58AjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_pIfy0AjpEeCq7M3RkQekRg" name="levelsNormalize">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nOtNYAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_HUTKwAn1EeCq7M3RkQekRg" name="levelsEqualize">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bR3FYAn1EeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_sdjqIAjpEeCq7M3RkQekRg" name="levelsGamma">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mrImQAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_vCQbgAjpEeCq7M3RkQekRg" name="levelsLog">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mLKFsAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_xNjOYAjpEeCq7M3RkQekRg" name="levelsInvert">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ltAxIAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_1N8hsAjpEeCq7M3RkQekRg" name="levelsMin">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_FuNOUAA_EeCD1O9xtWfELw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lOPxgAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_2yHDIAjpEeCq7M3RkQekRg" name="levelsMax">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_FuNOUAA_EeCD1O9xtWfELw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kqj1oAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_wcDtwAjuEeCq7M3RkQekRg" name="cropBorders" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0aFCgAjuEeCq7M3RkQekRg" value="2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0NFvYAjuEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_dnuvQAjyEeCq7M3RkQekRg" name="filterBlur" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TDYKQAjzEeCq7M3RkQekRg" value="2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SykHEAjzEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_gFVaIAjyEeCq7M3RkQekRg" name="filterDilatation" isOrdered="true" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RDCqMAjzEeCq7M3RkQekRg" value="2"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QyBysAjzEeCq7M3RkQekRg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_3gctwAw0EeCq7M3RkQekRg" name="levelsAutoContrast">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7dytEAw0EeCq7M3RkQekRg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_DHyb0AjpEeCq7M3RkQekRg" name="XSDataResultExecThumbnail">
+      <generalization xmi:id="_IsIOIAjpEeCq7M3RkQekRg">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_UIgx4AjpEeCq7M3RkQekRg" name="thumbnailPath">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_WEEfoAjpEeCq7M3RkQekRg" name="thumbnailType">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

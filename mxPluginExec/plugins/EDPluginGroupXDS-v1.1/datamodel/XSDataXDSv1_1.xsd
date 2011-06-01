@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataXDSDetector" type="XSDataXDSDetector"/>
+	<xs:complexType name="XSDataXDSDetector">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="detector_name" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="image_format" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="nx" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ny" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="qx" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="qy" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputXDSSpotSearch" type="XSDataInputXDSSpotSearch"/>
+	<xs:complexType name="XSDataInputXDSSpotSearch">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="job" type="XSDataString" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="subWedge" type="XSDataXDSSubWedge" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="detector" type="XSDataXDSDetector" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSRange" type="XSDataXDSRange"/>
+	<xs:complexType name="XSDataXDSRange">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="lower" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="upper" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultXDSSpotSearch" type="XSDataResultXDSSpotSearch"/>
+	<xs:complexType name="XSDataResultXDSSpotSearch">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="spot" type="XSDataXDSSpot" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSSpot" type="XSDataXDSSpot"/>
+	<xs:complexType name="XSDataXDSSpot">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="centroidFrame" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="centroidX" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="centroidY" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="IoverSigma" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataXDSSubWedge" type="XSDataXDSSubWedge"/>
+	<xs:complexType name="XSDataXDSSubWedge">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="background_range" type="XSDataXDSRange" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="data_range" type="XSDataXDSRange" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="name_template_of_data_frames" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="XSDataXDSRange" type="XSDataXDSRange" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

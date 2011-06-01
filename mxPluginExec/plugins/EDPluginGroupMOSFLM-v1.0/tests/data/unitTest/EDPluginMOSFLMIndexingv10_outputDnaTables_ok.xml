@@ -1,0 +1,644 @@
+<?xml version="1.0"?><!DOCTYPE dna_tables>
+<dna_tables program="mosflm">
+  <table name="spot_size" image=" 1">
+    <list name="spot_size">
+      <item name="x">              8</item>
+      <item name="y">              8</item>
+    </list>
+  </table>
+  <table name="spot_finding" image=" 1">
+    <list name="spots_found">
+      <item name="total">           1154</item>
+      <item name="rejected_small_x">             94</item>
+      <item name="rejected_small_y">             38</item>
+      <item name="rejected_big_x">             28</item>
+      <item name="rejected_big_y">              8</item>
+      <item name="rejected_overlap">            131</item>
+      <item name="kept">            861</item>
+      <item name="resolution_hi">       2.124327</item>
+      <item name="resolution_95">       2.181087</item>
+    </list>
+  </table>
+  <table name="spot_size" image=" 2">
+    <list name="spot_size">
+      <item name="x">              8</item>
+      <item name="y">              7</item>
+    </list>
+  </table>
+  <table name="spot_finding" image=" 2">
+    <list name="spots_found">
+      <item name="total">           2784</item>
+      <item name="rejected_small_x">            216</item>
+      <item name="rejected_small_y">             80</item>
+      <item name="rejected_big_x">            108</item>
+      <item name="rejected_big_y">             25</item>
+      <item name="rejected_overlap">            919</item>
+      <item name="kept">           1330</item>
+      <item name="resolution_hi">       2.124406</item>
+      <item name="resolution_95">       2.292545</item>
+    </list>
+  </table>
+  <table name="spot_searching" image=" 2">
+    <list name="spots_written">
+      <item name="number">            861</item>
+      <item name="image_number">              1</item>
+    </list>
+  </table>
+  <table name="spot_searching" image=" 2">
+    <list name="spots_written">
+      <item name="number">           1330</item>
+      <item name="image_number">              2</item>
+    </list>
+  </table>
+  <table name="autoindexing_parameters" image=" 2">
+    <list name="parameter_list">
+      <item name="two_theta">       0.000000</item>
+      <item name="spot_count">           1161</item>
+      <item name="maximum_cell_edge">     212.463577</item>
+      <item name="closest_separation">       0.716800</item>
+    </list>
+    <list name="beam">
+      <item name="x">     102.459007</item>
+      <item name="y">     104.737999</item>
+    </list>
+  </table>
+  <table name="unconstrained_indexing_result" image=" 2">
+    <list name="a_matrix">
+      <item name="11">       0.001353</item>
+      <item name="12">      -0.013405</item>
+      <item name="13">       0.009049</item>
+      <item name="21">      -0.015901</item>
+      <item name="22">       0.004132</item>
+      <item name="23">       0.006358</item>
+      <item name="31">      -0.008841</item>
+      <item name="32">      -0.009478</item>
+      <item name="33">      -0.010030</item>
+    </list>
+  </table>
+  <table name="autoindex_solutions" image=" 2">
+    <list name="solution_44">
+      <item name="index">             44</item>
+      <item name="penalty">            999</item>
+      <item name="lattice">hR</item>
+      <item name="a">     146.414795</item>
+      <item name="b">      89.312233</item>
+      <item name="c">      54.813835</item>
+      <item name="alpha">      90.020645</item>
+      <item name="beta">      68.041107</item>
+      <item name="gamma">     100.998146</item>
+    </list>
+    <list name="solution_43">
+      <item name="index">             43</item>
+      <item name="penalty">            777</item>
+      <item name="lattice">cF</item>
+      <item name="a">     104.804977</item>
+      <item name="b">     104.749611</item>
+      <item name="c">     104.774536</item>
+      <item name="alpha">     111.356575</item>
+      <item name="beta">     100.540680</item>
+      <item name="gamma">     116.912964</item>
+    </list>
+    <list name="solution_42">
+      <item name="index">             42</item>
+      <item name="penalty">            777</item>
+      <item name="lattice">cI</item>
+      <item name="a">      86.521400</item>
+      <item name="b">      80.576424</item>
+      <item name="c">      89.295723</item>
+      <item name="alpha">      61.025173</item>
+      <item name="beta">      54.537193</item>
+      <item name="gamma">      64.503883</item>
+    </list>
+    <list name="solution_41">
+      <item name="index">             41</item>
+      <item name="penalty">            741</item>
+      <item name="lattice">tI</item>
+      <item name="a">      89.295723</item>
+      <item name="b">     104.774544</item>
+      <item name="c">      54.813828</item>
+      <item name="alpha">      58.476200</item>
+      <item name="beta">      89.966049</item>
+      <item name="gamma">      96.098892</item>
+    </list>
+    <list name="solution_40">
+      <item name="index">             40</item>
+      <item name="penalty">            739</item>
+      <item name="lattice">mI</item>
+      <item name="a">      80.576431</item>
+      <item name="b">     156.283463</item>
+      <item name="c">      59.068958</item>
+      <item name="alpha">     112.193703</item>
+      <item name="beta">     137.135162</item>
+      <item name="gamma">      58.996441</item>
+    </list>
+    <list name="solution_39">
+      <item name="index">             39</item>
+      <item name="penalty">            703</item>
+      <item name="lattice">hR</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      80.590546</item>
+      <item name="c">     216.445587</item>
+      <item name="alpha">      91.607628</item>
+      <item name="beta">     104.631882</item>
+      <item name="gamma">     132.865601</item>
+    </list>
+    <list name="solution_38">
+      <item name="index">             38</item>
+      <item name="penalty">            667</item>
+      <item name="lattice">oF</item>
+      <item name="a">      54.813831</item>
+      <item name="b">     130.243607</item>
+      <item name="c">     144.704758</item>
+      <item name="alpha">      80.828590</item>
+      <item name="beta">     112.222832</item>
+      <item name="gamma">     114.898712</item>
+    </list>
+    <list name="solution_37">
+      <item name="index">             37</item>
+      <item name="penalty">            590</item>
+      <item name="lattice">oI</item>
+      <item name="a">      80.576424</item>
+      <item name="b">      86.521400</item>
+      <item name="c">      89.295723</item>
+      <item name="alpha">      54.537193</item>
+      <item name="beta">      61.025173</item>
+      <item name="gamma">      64.503883</item>
+    </list>
+    <list name="solution_36">
+      <item name="index">             36</item>
+      <item name="penalty">            590</item>
+      <item name="lattice">tI</item>
+      <item name="a">      86.521400</item>
+      <item name="b">      80.576424</item>
+      <item name="c">      89.295723</item>
+      <item name="alpha">      61.025173</item>
+      <item name="beta">      54.537193</item>
+      <item name="gamma">      64.503883</item>
+    </list>
+    <list name="solution_35">
+      <item name="index">             35</item>
+      <item name="penalty">            590</item>
+      <item name="lattice">tI</item>
+      <item name="a">      89.295723</item>
+      <item name="b">      86.521393</item>
+      <item name="c">      80.576416</item>
+      <item name="alpha">      64.503883</item>
+      <item name="beta">      61.025173</item>
+      <item name="gamma">      54.537189</item>
+    </list>
+    <list name="solution_34">
+      <item name="index">             34</item>
+      <item name="penalty">            519</item>
+      <item name="lattice">oI</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      89.312225</item>
+      <item name="c">     104.749611</item>
+      <item name="alpha">      83.893784</item>
+      <item name="beta">      58.481140</item>
+      <item name="gamma">      90.020638</item>
+    </list>
+    <list name="solution_33">
+      <item name="index">             33</item>
+      <item name="penalty">            517</item>
+      <item name="lattice">oF</item>
+      <item name="a">      80.576431</item>
+      <item name="b">      80.590538</item>
+      <item name="c">     156.283478</item>
+      <item name="alpha">      92.219490</item>
+      <item name="beta">     121.003548</item>
+      <item name="gamma">      85.720383</item>
+    </list>
+    <list name="solution_32">
+      <item name="index">             32</item>
+      <item name="penalty">            516</item>
+      <item name="lattice">mC</item>
+      <item name="a">      80.590530</item>
+      <item name="b">      80.576431</item>
+      <item name="c">      86.521393</item>
+      <item name="alpha">      64.503876</item>
+      <item name="beta">     115.515114</item>
+      <item name="gamma">      85.720383</item>
+    </list>
+    <list name="solution_31">
+      <item name="index">             31</item>
+      <item name="penalty">            481</item>
+      <item name="lattice">tI</item>
+      <item name="a">      54.813831</item>
+      <item name="b">      59.068958</item>
+      <item name="c">     156.283463</item>
+      <item name="alpha">      67.806297</item>
+      <item name="beta">      69.505188</item>
+      <item name="gamma">      90.010056</item>
+    </list>
+    <list name="solution_30">
+      <item name="index">             30</item>
+      <item name="penalty">            481</item>
+      <item name="lattice">oI</item>
+      <item name="a">      54.813831</item>
+      <item name="b">      59.068958</item>
+      <item name="c">     156.283463</item>
+      <item name="alpha">     112.193703</item>
+      <item name="beta">     110.494812</item>
+      <item name="gamma">      90.010056</item>
+    </list>
+    <list name="solution_29">
+      <item name="index">             29</item>
+      <item name="penalty">            445</item>
+      <item name="lattice">mC</item>
+      <item name="a">     130.226120</item>
+      <item name="b">      54.813831</item>
+      <item name="c">      89.312233</item>
+      <item name="alpha">      90.020645</item>
+      <item name="beta">     126.888672</item>
+      <item name="gamma">      65.117836</item>
+    </list>
+    <list name="solution_28">
+      <item name="index">             28</item>
+      <item name="penalty">            332</item>
+      <item name="lattice">hP</item>
+      <item name="a">      59.068951</item>
+      <item name="b">      66.978058</item>
+      <item name="c">      54.813835</item>
+      <item name="alpha">      90.036392</item>
+      <item name="beta">      90.010063</item>
+      <item name="gamma">      90.010674</item>
+    </list>
+    <list name="solution_27">
+      <item name="index">             27</item>
+      <item name="penalty">            259</item>
+      <item name="lattice">hP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.010674</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+    <list name="solution_26">
+      <item name="index">             26</item>
+      <item name="penalty">            258</item>
+      <item name="lattice">mC</item>
+      <item name="a">      54.813831</item>
+      <item name="b">     144.704758</item>
+      <item name="c">      59.068951</item>
+      <item name="alpha">      89.986305</item>
+      <item name="beta">      89.989944</item>
+      <item name="gamma">      67.777168</item>
+    </list>
+    <list name="solution_25">
+      <item name="index">             25</item>
+      <item name="penalty">            258</item>
+      <item name="lattice">oC</item>
+      <item name="a">      54.813831</item>
+      <item name="b">     144.704758</item>
+      <item name="c">      59.068951</item>
+      <item name="alpha">      89.986305</item>
+      <item name="beta">      90.010056</item>
+      <item name="gamma">     112.222832</item>
+    </list>
+    <list name="solution_24">
+      <item name="index">             24</item>
+      <item name="penalty">            258</item>
+      <item name="lattice">mC</item>
+      <item name="a">     144.704773</item>
+      <item name="b">      54.813835</item>
+      <item name="c">      59.068951</item>
+      <item name="alpha">      90.010056</item>
+      <item name="beta">      90.013687</item>
+      <item name="gamma">      67.777176</item>
+    </list>
+    <list name="solution_23">
+      <item name="index">             23</item>
+      <item name="penalty">            223</item>
+      <item name="lattice">mC</item>
+      <item name="a">      54.813831</item>
+      <item name="b">     130.243607</item>
+      <item name="c">      66.978050</item>
+      <item name="alpha">      90.005630</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">      65.101288</item>
+    </list>
+    <list name="solution_22">
+      <item name="index">             22</item>
+      <item name="penalty">            223</item>
+      <item name="lattice">oC</item>
+      <item name="a">      54.813835</item>
+      <item name="b">     130.226135</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      89.974998</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">     114.882156</item>
+    </list>
+    <list name="solution_21">
+      <item name="index">             21</item>
+      <item name="penalty">            223</item>
+      <item name="lattice">mC</item>
+      <item name="a">     130.226135</item>
+      <item name="b">      54.813835</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.036392</item>
+      <item name="beta">      90.025002</item>
+      <item name="gamma">      65.117844</item>
+    </list>
+    <list name="solution_20">
+      <item name="index">             20</item>
+      <item name="penalty">            222</item>
+      <item name="lattice">mC</item>
+      <item name="a">      54.813831</item>
+      <item name="b">     144.704758</item>
+      <item name="c">      59.068951</item>
+      <item name="alpha">      89.986305</item>
+      <item name="beta">      89.989944</item>
+      <item name="gamma">      67.777168</item>
+    </list>
+    <list name="solution_19">
+      <item name="index">             19</item>
+      <item name="penalty">            222</item>
+      <item name="lattice">oC</item>
+      <item name="a">      54.813831</item>
+      <item name="b">     144.704758</item>
+      <item name="c">      59.068951</item>
+      <item name="alpha">      89.986305</item>
+      <item name="beta">      90.010056</item>
+      <item name="gamma">     112.222832</item>
+    </list>
+    <list name="solution_18">
+      <item name="index">             18</item>
+      <item name="penalty">            222</item>
+      <item name="lattice">mC</item>
+      <item name="a">     144.704773</item>
+      <item name="b">      54.813835</item>
+      <item name="c">      59.068951</item>
+      <item name="alpha">      90.010056</item>
+      <item name="beta">      90.013687</item>
+      <item name="gamma">      67.777176</item>
+    </list>
+    <list name="solution_17">
+      <item name="index">             17</item>
+      <item name="penalty">            110</item>
+      <item name="lattice">hR</item>
+      <item name="a">      80.590546</item>
+      <item name="b">      86.575294</item>
+      <item name="c">     104.749619</item>
+      <item name="alpha">      99.401131</item>
+      <item name="beta">      86.698402</item>
+      <item name="gamma">     115.527115</item>
+    </list>
+    <list name="solution_16">
+      <item name="index">             16</item>
+      <item name="penalty">            110</item>
+      <item name="lattice">hR</item>
+      <item name="a">      80.590538</item>
+      <item name="b">      86.521408</item>
+      <item name="c">     104.808212</item>
+      <item name="alpha">      99.411171</item>
+      <item name="beta">      86.721931</item>
+      <item name="gamma">     115.515114</item>
+    </list>
+    <list name="solution_15">
+      <item name="index">             15</item>
+      <item name="penalty">            110</item>
+      <item name="lattice">cP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.010674</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+    <list name="solution_14">
+      <item name="index">             14</item>
+      <item name="penalty">             74</item>
+      <item name="lattice">mC</item>
+      <item name="a">      89.295723</item>
+      <item name="b">      89.312248</item>
+      <item name="c">      54.813835</item>
+      <item name="alpha">      89.979362</item>
+      <item name="beta">      90.033951</item>
+      <item name="gamma">      97.180885</item>
+    </list>
+    <list name="solution_13">
+      <item name="index">             13</item>
+      <item name="penalty">             74</item>
+      <item name="lattice">tP</item>
+      <item name="a">      59.068951</item>
+      <item name="b">      66.978058</item>
+      <item name="c">      54.813835</item>
+      <item name="alpha">      90.036392</item>
+      <item name="beta">      90.010063</item>
+      <item name="gamma">      90.010674</item>
+    </list>
+    <list name="solution_12">
+      <item name="index">             12</item>
+      <item name="penalty">             74</item>
+      <item name="lattice">oC</item>
+      <item name="a">      89.295723</item>
+      <item name="b">      89.312248</item>
+      <item name="c">      54.813835</item>
+      <item name="alpha">      90.020638</item>
+      <item name="beta">      90.033951</item>
+      <item name="gamma">      82.819115</item>
+    </list>
+    <list name="solution_11">
+      <item name="index">             11</item>
+      <item name="penalty">             74</item>
+      <item name="lattice">mC</item>
+      <item name="a">      89.295723</item>
+      <item name="b">      89.312248</item>
+      <item name="c">      54.813835</item>
+      <item name="alpha">      90.020638</item>
+      <item name="beta">      90.033951</item>
+      <item name="gamma">      82.819115</item>
+    </list>
+    <list name="solution_10">
+      <item name="index">             10</item>
+      <item name="penalty">             36</item>
+      <item name="lattice">mC</item>
+      <item name="a">      80.576424</item>
+      <item name="b">      80.590538</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.016930</item>
+      <item name="beta">      90.032593</item>
+      <item name="gamma">      94.279617</item>
+    </list>
+    <list name="solution_9">
+      <item name="index">              9</item>
+      <item name="penalty">             36</item>
+      <item name="lattice">tP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.010674</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+    <list name="solution_8">
+      <item name="index">              8</item>
+      <item name="penalty">             36</item>
+      <item name="lattice">oC</item>
+      <item name="a">      80.576424</item>
+      <item name="b">      80.590538</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      89.983070</item>
+      <item name="beta">      90.032593</item>
+      <item name="gamma">      85.720383</item>
+    </list>
+    <list name="solution_7">
+      <item name="index">              7</item>
+      <item name="penalty">             36</item>
+      <item name="lattice">mC</item>
+      <item name="a">      80.576424</item>
+      <item name="b">      80.590538</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      89.983070</item>
+      <item name="beta">      90.032593</item>
+      <item name="gamma">      85.720383</item>
+    </list>
+    <list name="solution_6">
+      <item name="index">              6</item>
+      <item name="penalty">              0</item>
+      <item name="lattice">aP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      89.989326</item>
+      <item name="beta">      89.963608</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+    <list name="solution_5">
+      <item name="index">              5</item>
+      <item name="penalty">              0</item>
+      <item name="lattice">oP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.010674</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+    <list name="solution_4">
+      <item name="index">              4</item>
+      <item name="penalty">              0</item>
+      <item name="lattice">mP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.010674</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+    <list name="solution_3">
+      <item name="index">              3</item>
+      <item name="penalty">              0</item>
+      <item name="lattice">mP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      66.978058</item>
+      <item name="c">      59.068951</item>
+      <item name="alpha">      90.010674</item>
+      <item name="beta">      90.010063</item>
+      <item name="gamma">      90.036392</item>
+    </list>
+    <list name="solution_2">
+      <item name="index">              2</item>
+      <item name="penalty">              0</item>
+      <item name="lattice">mP</item>
+      <item name="a">      59.068951</item>
+      <item name="b">      54.813835</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.036392</item>
+      <item name="beta">      90.010674</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+    <list name="solution_1">
+      <item name="index">              1</item>
+      <item name="penalty">              0</item>
+      <item name="lattice">aP</item>
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.010674</item>
+      <item name="beta">      90.036392</item>
+      <item name="gamma">      90.010063</item>
+    </list>
+  </table>
+  <table name="solution_refinement" image=" 2">
+    <list name="selection">
+      <item name="number">              5</item>
+      <item name="spacegroup">P222</item>
+      <item name="spacegroup_number">             16</item>
+    </list>
+  </table>
+  <table name="initial_cell" image=" 2">
+    <list name="cell">
+      <item name="a">      54.813835</item>
+      <item name="b">      59.068951</item>
+      <item name="c">      66.978058</item>
+      <item name="alpha">      90.000000</item>
+      <item name="beta">      90.000000</item>
+      <item name="gamma">      90.000000</item>
+    </list>
+  </table>
+  <table name="refinement" image=" 2">
+    <list name="parameters">
+      <item name="used">           1070</item>
+      <item name="out_of">           1161</item>
+      <item name="position_cutoff">       2.500000</item>
+    </list>
+    <list name="results">
+      <item name="detector_distance">     198.440994</item>
+    </list>
+    <list name="deviations">
+      <item name="positional">       0.144106</item>
+      <item name="angular">       0.438746</item>
+    </list>
+  </table>
+  <table name="beam_refinement" image=" 2">
+    <list name="initial_beam">
+      <item name="x">     102.459007</item>
+      <item name="y">     104.737999</item>
+    </list>
+    <list name="refined_beam">
+      <item name="x">     102.478996</item>
+      <item name="y">     104.886200</item>
+    </list>
+  </table>
+  <table name="refined_cell" image=" 2">
+    <list name="cell">
+      <item name="a">      54.807903</item>
+      <item name="b">      59.075146</item>
+      <item name="c">      66.973557</item>
+      <item name="alpha">      90.000000</item>
+      <item name="beta">      90.000000</item>
+      <item name="gamma">      90.000000</item>
+    </list>
+  </table>
+  <table name="refined_matrices" image=" 2">
+    <list name="u_matrix">
+      <item name="11">      -0.484948</item>
+      <item name="12">       0.559805</item>
+      <item name="13">       0.671896</item>
+      <item name="21">       0.074263</item>
+      <item name="22">       0.791867</item>
+      <item name="23">      -0.606161</item>
+      <item name="31">      -0.871385</item>
+      <item name="32">      -0.244060</item>
+      <item name="33">      -0.425587</item>
+    </list>
+    <list name="a_matrix">
+      <item name="11">      -0.008264</item>
+      <item name="12">       0.008851</item>
+      <item name="13">       0.009370</item>
+      <item name="21">       0.001266</item>
+      <item name="22">       0.012520</item>
+      <item name="23">      -0.008453</item>
+      <item name="31">      -0.014850</item>
+      <item name="32">      -0.003859</item>
+      <item name="33">      -0.005935</item>
+    </list>
+  </table>
+  <table name="mosaicity_estimation" image=" 2">
+    <list name="mosaicity">
+      <item name="value">       0.680000</item>
+    </list>
+  </table>
+</dna_tables>

@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDPrimitiveTypes.xsd"/>
+  <xs:include schemaLocation="Standard.profile.xsd"/>
+  <xs:include schemaLocation="Ecore.profile.xsd"/>
+  <xs:element name="XSConfiguration" type="XSConfiguration"/>
+  <xs:complexType name="XSConfiguration">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="0" name="XSPluginList" type="XSPluginList"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSData" type="XSData"/>
+  <xs:complexType name="XSData">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:element name="XSDataAbsorbedDoseRate" type="XSDataAbsorbedDoseRate">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataAbsorbedDoseRate">
+    <xs:complexContent>
+      <xs:extension base="XSDataDoubleWithUnit">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataAngle" type="XSDataAngle"/>
+  <xs:complexType name="XSDataAngle">
+    <xs:complexContent>
+      <xs:extension base="XSDataDisplacement">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataAngularSpeed" type="XSDataAngularSpeed">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataAngularSpeed">
+    <xs:complexContent>
+      <xs:extension base="XSDataDoubleWithUnit">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataArray" type="XSDataArray">
+    <xs:annotation>
+      <xs:documentation>md5 checksum has to be calculated on the decoded data, not the encoded one. Default encoding is "base64" default byte order is "little-endian" (intel) not "big-endian" (java)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataArray">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="shape" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="size" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dtype" type="xs:string"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="data" type="xs:string"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="coding" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="md5sum" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataBoolean" type="XSDataBoolean">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataBoolean">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="value" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataDate" type="XSDataDate">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataDate">
+    <xs:complexContent>
+      <xs:extension base="XSDataString">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataDictionary" type="XSDataDictionary"/>
+  <xs:complexType name="XSDataDictionary">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="keyValuePair" type="XSDataKeyValuePair"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataDisplacement" type="XSDataDisplacement">
+    <xs:annotation>
+      <xs:documentation>Normally XSDataDisplacement should be derived from XSDataDoubleWithUnit. However a bug in generateDS prevent us for doing this for the moment (see bug #690).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataDisplacement">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="value" type="xs:double"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="unit" type="XSDataString"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="error" type="XSDataDouble"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataDouble" type="XSDataDouble">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataDouble">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="value" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataDoubleWithUnit" type="XSDataDoubleWithUnit"/>
+  <xs:complexType name="XSDataDoubleWithUnit">
+    <xs:complexContent>
+      <xs:extension base="XSDataDouble">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="unit" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="error" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataExecutionInfo" type="XSDataExecutionInfo">
+    <xs:annotation>
+      <xs:documentation>This class contains information about the system executing the plugin.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataExecutionInfo">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="baseDirectory" type="XSDataFile"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="executionTime" type="XSDataTime"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="pluginName" type="XSDataString"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="startOfExecution" type="XSDataDate"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="systeminfo" type="XSDataSysteminfo"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="workingDirectory" type="XSDataFile"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="configuration" type="XSConfiguration"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataFile" type="XSDataFile">
+    <xs:annotation>
+      <xs:documentation>These objects use the simple objects described above to create useful structures for the rest for the data model.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataFile">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="path" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataFloat" type="XSDataFloat">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataFloat">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="value" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataFlux" type="XSDataFlux">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataFlux">
+    <xs:complexContent>
+      <xs:extension base="XSDataDoubleWithUnit">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataImage" type="XSDataImage">
+    <xs:annotation>
+      <xs:documentation>These objects use the simple objects described above to create useful structures for the rest for the data model.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataImage">
+    <xs:complexContent>
+      <xs:extension base="XSDataFile">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="date" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="number" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInput" type="XSDataInput">
+    <xs:annotation>
+      <xs:documentation>All plugin input and result classes should be derived from these two classes.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInput">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="configuration" type="XSConfiguration"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInteger" type="XSDataInteger">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataInteger">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="value" type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataKeyValuePair" type="XSDataKeyValuePair"/>
+  <xs:complexType name="XSDataKeyValuePair">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="value" type="XSDataString"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="key" type="XSDataString"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSDataLength" type="XSDataLength">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataLength">
+    <xs:complexContent>
+      <xs:extension base="XSDataDoubleWithUnit">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataLinearDisplacement" type="XSDataLinearDisplacement"/>
+  <xs:complexType name="XSDataLinearDisplacement">
+    <xs:complexContent>
+      <xs:extension base="XSDataDisplacement">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataMatrix" type="XSDataMatrix">
+    <xs:annotation>
+      <xs:documentation>XSDataMatrix is deprecated and should be replaced with XSDataMatrixDouble.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataMatrix">
+    <xs:complexContent>
+      <xs:extension base="XSDataMatrixDouble">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataMatrixDouble" type="XSDataMatrixDouble">
+    <xs:annotation>
+      <xs:documentation>These are compound object used for linear algebra operations.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataMatrixDouble">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="m11" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m12" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m13" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m21" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m22" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m23" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m31" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m32" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m33" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataMatrixInteger" type="XSDataMatrixInteger">
+    <xs:annotation>
+      <xs:documentation>These are compound object used for linear algebra operations.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataMatrixInteger">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="m11" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m12" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m13" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m21" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m22" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m23" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m31" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m32" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="m33" type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataMessage" type="XSDataMessage">
+    <xs:annotation>
+      <xs:documentation>This message class is used (amongst other messages) for warning and error messages.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataMessage">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="debuginfo" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="level" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="text" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="type" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResult" type="XSDataResult">
+    <xs:annotation>
+      <xs:documentation>All plugin input and result classes should be derived from these two classes.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataResult">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="status" type="XSDataStatus"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataRotation" type="XSDataRotation">
+    <xs:annotation>
+      <xs:documentation>These are compound object used for linear algebra operations.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataRotation">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="q0" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="q1" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="q2" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="q3" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSize" type="XSDataSize">
+    <xs:annotation>
+      <xs:documentation>These objects use the simple objects described above to create useful structures for the rest for the data model.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSize">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="x" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="y" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="z" type="XSDataLength"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSpeed" type="XSDataSpeed">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSpeed">
+    <xs:complexContent>
+      <xs:extension base="XSDataDoubleWithUnit">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataStatus" type="XSDataStatus">
+    <xs:annotation>
+      <xs:documentation>This class contains all data related to the execution of a plugin.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataStatus">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="executiveSummary" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="isSuccess" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="executionInfo" type="XSDataExecutionInfo"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="message" type="XSDataMessage"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataString" type="XSDataString">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataString">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSysteminfo" type="XSDataSysteminfo">
+    <xs:annotation>
+      <xs:documentation>This class contains information about the system executing the plugin.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataSysteminfo">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="compiler" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="hostIP" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="hostName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="operatingSystem" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="operatingSystemType" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="userName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="virtualMachine" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataTime" type="XSDataTime">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataTime">
+    <xs:complexContent>
+      <xs:extension base="XSDataDoubleWithUnit">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataUnitVector" type="XSDataUnitVector">
+    <xs:annotation>
+      <xs:documentation>&lt;&lt;Invariant&gt;&gt;&#13;
+{abs(v1**2.0 + v3**2.0-1.0) &lt; epsilon}</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataUnitVector">
+    <xs:complexContent>
+      <xs:extension base="XSDataVectorDouble">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataVectorDouble" type="XSDataVectorDouble">
+    <xs:annotation>
+      <xs:documentation>These are compound object used for linear algebra operations.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataVectorDouble">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="v1" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="v2" type="xs:double"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="v3" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataVectorInteger" type="XSDataVectorInteger">
+    <xs:annotation>
+      <xs:documentation>These are compound object used for linear algebra operations.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataVectorInteger">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="v1" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="v2" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="v3" type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataWavelength" type="XSDataWavelength">
+    <xs:annotation>
+      <xs:documentation>These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XSDataWavelength">
+    <xs:complexContent>
+      <xs:extension base="XSDataDoubleWithUnit">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSOptionItem" type="XSOptionItem"/>
+  <xs:complexType name="XSOptionItem">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="enabled" type="xs:boolean"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSOptionList" type="XSOptionList"/>
+  <xs:complexType name="XSOptionList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="XSOptionItem" type="XSOptionItem"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSParamItem" type="XSParamItem"/>
+  <xs:complexType name="XSParamItem">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="name" type="xs:string"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSParamList" type="XSParamList"/>
+  <xs:complexType name="XSParamList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="XSParamItem" type="XSParamItem"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSPluginItem" type="XSPluginItem"/>
+  <xs:complexType name="XSPluginItem">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="name" type="xs:string"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="XSParamList" type="XSParamList"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="XSOptionList" type="XSOptionList"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XSPluginList" type="XSPluginList"/>
+  <xs:complexType name="XSPluginList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="XSPluginItem" type="XSPluginItem"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

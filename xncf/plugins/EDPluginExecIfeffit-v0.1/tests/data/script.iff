@@ -1,0 +1,5 @@
+read_data(file='/scratch/home/XAFS/r8447a.dat', group = 'Fe', type='xmu')
+spline(Fe.energy, Fe.4, rbkg=1.0)
+fftf(Fe.chi, kmin=2.0, kmax=17.0,dk=1.0,kweight=2)
+save(session.sav)
+

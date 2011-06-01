@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<XSDataInputExecThumbnail>
+    <inputImagePath>
+        <path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/run2_1_00052.cbf</value>
+        </path>
+    </inputImagePath>
+    <outputPath>
+        <path>
+            <value>/tmp/edna-${USER}/thumbnail-Pilatus6M.png</value>
+        </path>
+    </outputPath>
+    <thumbFormat>
+    <value>png</value>
+    </thumbFormat>
+<!--    <thumbHeight>-->
+<!--        <value>1024</value>-->
+<!--    </thumbHeight>-->
+<!--    <thumbWidth>-->
+<!--        <value>1024</value>-->
+<!--    </thumbWidth>-->
+    <levelsEqualize>
+        <value>1</value>
+    </levelsEqualize>
+    <levelsInvert>
+        <value>1</value>
+    </levelsInvert>
+    <levelsMin>
+        <value>0.000000e+00</value>
+    </levelsMin>
+    <levelsMax>
+        <unit>
+            <value>%</value>
+        </unit>
+        <value>9.990000e+01</value>
+    </levelsMax>
+</XSDataInputExecThumbnail>
+        

@@ -1,0 +1,1 @@
+<?xml version="1.0" ?><!-- EDPluginFactory test XML file --><XSConfiguration> 	<XSPluginList>		<XSPluginItem> 			<name>EDPluginLabelitv10</name>  			<XSParamList>				<XSParamItem>					<name>testItemName</name>					<value>testValue</value>				</XSParamItem>			</XSParamList>		</XSPluginItem>	</XSPluginList></XSConfiguration>

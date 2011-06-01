@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<CCP4DataInputCheckValidXYZ>
+	<XYZIN>	
+           <path>    	
+		<value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.pdb</value>
+           </path>
+        </XYZIN>
+        <outputLogFile>
+           <path>    	
+		<value>/tmp/checkXYZ.log</value>
+           </path>
+	</outputLogFile>	
+</CCP4DataInputCheckValidXYZ>

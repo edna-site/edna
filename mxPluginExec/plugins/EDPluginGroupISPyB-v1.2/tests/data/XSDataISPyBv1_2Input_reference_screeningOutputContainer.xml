@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<XSDataISPyBOutputContainer>
+	<screeningOutput>
+		<statusDescription><value>It's just fine.</value></statusDescription>
+		<mosaicity><value>0.25</value></mosaicity>
+		<beamShiftX><value>0.141</value></beamShiftX>
+		<beamShiftY><value>0.156</value></beamShiftY>
+	</screeningOutput>
+	<screeningOutputLattice>
+		<spaceGroup><value>P222</value></spaceGroup>
+	</screeningOutputLattice>
+	<screeningStrategyContainer>
+		<screeningStrategy>
+			<phiStart><value>0</value></phiStart>
+			<phiEnd><value>20</value></phiEnd>
+			<rotation><value>1</value></rotation>
+			<program><value>EDNA</value></program>
+			<anomalous><value>true</value></anomalous>
+		</screeningStrategy>
+		<screeningStrategyWedgeContainer>
+			<screeningStrategyWedge>
+				<wedgeNumber><value>1</value></wedgeNumber>
+				<resolution><value>2.1</value></resolution>
+				<completeness><value>90</value></completeness>
+				<multiplicity><value>1.5</value></multiplicity>
+				<doseTotal><value>40.5</value></doseTotal>
+				<numberOfImages><value>130</value></numberOfImages>
+			</screeningStrategyWedge>
+			<screeningStrategySubWedge>
+				<subWedgeNumber><value>1</value></subWedgeNumber>
+				<rotationAxis><value>Omega</value></rotationAxis>
+				<axisStart><value>0.0</value></axisStart>
+				<axisEnd><value>90.0</value></axisEnd>
+				<exposureTime><value>0.5</value></exposureTime>
+				<transmission><value>100.0</value></transmission>
+				<numberOfImages><value>130</value></numberOfImages>
+			</screeningStrategySubWedge>
+		</screeningStrategyWedgeContainer>
+	</screeningStrategyContainer>
+</XSDataISPyBOutputContainer>

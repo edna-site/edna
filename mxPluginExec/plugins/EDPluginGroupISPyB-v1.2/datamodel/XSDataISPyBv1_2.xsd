@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSDataISPyBDataCollection" type="XSDataISPyBDataCollection"/>
+  <xs:complexType name="XSDataISPyBDataCollection">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="blSampleId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollectionId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollectionNumber" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="experimentType" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="imageDirectory" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="imagePrefix" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="sessionId" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBImage" type="XSDataISPyBImage"/>
+  <xs:complexType name="XSDataISPyBImage">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="comments" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="cumulativeIntensity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="fileLocation" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="fileName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="imageId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="imageNumber" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="jpegFileFullPath" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="jpegThumbnailFileFullPath" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="machineMessage" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="measuredIntensity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="synchrotronCurrent" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="temperature" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreening" type="XSDataISPyBScreening"/>
+  <xs:complexType name="XSDataISPyBScreening">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="comments" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollectionId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="programVersion" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="shortComments" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="timeStamp" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningFile" type="XSDataISPyBScreeningFile"/>
+  <xs:complexType name="XSDataISPyBScreeningFile">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="description" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="fileName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="filePath" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="fileType" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningFileId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="timeStamp" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningInput" type="XSDataISPyBScreeningInput"/>
+  <xs:complexType name="XSDataISPyBScreeningInput">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamX" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamY" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="maximumFractionRejected" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="minimumFractionIndexed" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="minimumSignalToNoise" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rmsErrorLimits" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningInputId" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningInputContainer" type="XSDataISPyBScreeningInputContainer"/>
+  <xs:complexType name="XSDataISPyBScreeningInputContainer">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningInput" type="XSDataISPyBScreeningInput"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningOutput" type="XSDataISPyBScreeningOutput"/>
+  <xs:complexType name="XSDataISPyBScreeningOutput">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamShiftX" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="beamShiftY" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="diffractionRings" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="iOverSigma" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="mosaicity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="mosaicityEstimated" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numSpotsFound" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numSpotsRejected" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numSpotsUsed" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rejectedReflections" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="resolutionObtained" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningOutputId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningSuccess" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotDeviationR" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotDeviationTheta" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="statusDescription" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningOutputContainer" type="XSDataISPyBScreeningOutputContainer"/>
+  <xs:complexType name="XSDataISPyBScreeningOutputContainer">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningOutput" type="XSDataISPyBScreeningOutput"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningOutputLattice" type="XSDataISPyBScreeningOutputLattice"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningStrategyContainer" type="XSDataISPyBScreeningStrategyContainer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningOutputLattice" type="XSDataISPyBScreeningOutputLattice"/>
+  <xs:complexType name="XSDataISPyBScreeningOutputLattice">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="bravaisLattice" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="pointGroup" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_a_x" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_a_y" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_a_z" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_b_x" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_b_y" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_b_z" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_c_x" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_c_y" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rawOrientationMatrix_c_z" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningOutputId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningOutputLatticeId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spaceGroup" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="timeStamp" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="unitCell_a" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="unitCell_alpha" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="unitCell_b" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="unitCell_beta" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="unitCell_c" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="unitCell_gamma" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningRank" type="XSDataISPyBScreeningRank"/>
+  <xs:complexType name="XSDataISPyBScreeningRank">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="rankInformation" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rankValue" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningRankId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningRankSetId" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningRankSet" type="XSDataISPyBScreeningRankSet"/>
+  <xs:complexType name="XSDataISPyBScreeningRankSet">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="rankEngine" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rankingProjectFileName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rankingSummaryFileName" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningRankSetId" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningStrategy" type="XSDataISPyBScreeningStrategy"/>
+  <xs:complexType name="XSDataISPyBScreeningStrategy">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="anomalous" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="completeness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="exposureTime" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="multiplicity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="phiEnd" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="phiStart" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="program" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rankingResolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="resolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rotation" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningOutputId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategyId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="transmission" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningStrategyContainer" type="XSDataISPyBScreeningStrategyContainer"/>
+  <xs:complexType name="XSDataISPyBScreeningStrategyContainer">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategy" type="XSDataISPyBScreeningStrategy"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningStrategyWedgeContainer" type="XSDataISPyBScreeningStrategyWedgeContainer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningStrategySubWedge" type="XSDataISPyBScreeningStrategySubWedge"/>
+  <xs:complexType name="XSDataISPyBScreeningStrategySubWedge">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="axisEnd" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="axisStart" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="completeness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="doseTotal" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="exposureTime" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="multiplicity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfImages" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="oscillationRange" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="resolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="rotationAxis" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategySubWedgeId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategyWedgeId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="subWedgeNumber" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="transmission" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningStrategyWedge" type="XSDataISPyBScreeningStrategyWedge"/>
+  <xs:complexType name="XSDataISPyBScreeningStrategyWedge">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="completeness" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="doseTotal" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="kappa" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="multiplicity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberOfImages" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="phi" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="resolution" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategyId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategyWedgeId" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="wedgeNumber" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataISPyBScreeningStrategyWedgeContainer" type="XSDataISPyBScreeningStrategyWedgeContainer"/>
+  <xs:complexType name="XSDataISPyBScreeningStrategyWedgeContainer">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningStrategySubWedge" type="XSDataISPyBScreeningStrategySubWedge"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategyWedge" type="XSDataISPyBScreeningStrategyWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputISPyB" type="XSDataInputISPyB"/>
+  <xs:complexType name="XSDataInputISPyB">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="file" type="XSDataISPyBScreeningFile"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="image" type="XSDataISPyBImage"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="screening" type="XSDataISPyBScreening"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningInput" type="XSDataISPyBScreeningInput"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningOutputContainer" type="XSDataISPyBScreeningOutputContainer"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningRank" type="XSDataISPyBScreeningRank"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="screeningRankSet" type="XSDataISPyBScreeningRankSet"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultISPyB" type="XSDataResultISPyB"/>
+  <xs:complexType name="XSDataResultISPyB">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="dataCollectionId" type="XSDataInteger"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningFileStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningInputStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningOutputLatticeStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningOutputStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="screeningRankSetStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningRankStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="screeningStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningStrategyStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningStrategySubWedgeStatus" type="XSDataResultStatus"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="screeningStrategyWedgeStatus" type="XSDataResultStatus"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultStatus" type="XSDataResultStatus"/>
+  <xs:complexType name="XSDataResultStatus">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="code" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="id" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="message" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDatadbstatus" type="XSDatadbstatus"/>
+  <xs:complexType name="XSDatadbstatus">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="code" type="xs:string"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="dataCollectionId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="message" type="xs:string"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningFileId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningInputId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningOutputId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningOutputLatticeId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningRankId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningRankSetId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategyId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategySubWedgeId" type="xs:integer"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="screeningStrategyWedgeId" type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

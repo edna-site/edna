@@ -1,0 +1,99 @@
+#CCP4I VERSION CCP4Interface 1.3.20
+#CCP4I SCRIPT DEF edna-mxv1-characterisation:
+#CCP4I DATE 05 Aug 2006  18:06:30
+#CCP4I USER gleb
+
+TITLE                     _text                     "EDNA"
+
+ednaApplication		  _text 		    "edna-plugin-launcher --execute EDPluginControlCCP4iv1_1"
+
+InputType		  _menu_input_type          images
+RadiationDamage   	  _logical		    1
+chemicalCompositionInputType  _menu_chemicalCompositionInput	default
+
+NumberOfSubWedges	  _positiveint	            1
+NumberOfImages,0	  _positiveint              1
+NumberOfImages,1	  _positiveint              1
+Image,0                   _image_file               ""
+Image,1                   _image_file               ""
+DIR_Image,0               _default_dirs             ""
+DIR_Image,1               _default_dirs             ""
+
+NumberOfXMLFiles	  _positiveint	            1
+XMLInput,0		  _xml_file		    ""
+DIR_XMLInput,0		  _default_dirs		    ""
+XMLInput,1		  _xml_file		    ""
+DIR_XMLInput,1		  _default_dirs		    ""
+
+CharacterizationOutputFile _xml_file		    ""
+DIR_CharacterizationOutputFile _default_dirs	    ""
+
+projectDirectory	  _text			    ""
+listOfOutputFiles	  _text			    ""
+
+Complexity		  _menu_complexity	    "min"
+doForceSpaceGroup	  _logical		    0
+forcedSpaceGroup	  _text			    ""
+maxExposureTimePerDataCollection _positivereal	    3600
+useAimedResolution	  _logical		    0
+aimedResolution		  _positivereal		    1.0
+useAimedMultiplicity	  _logical		    0
+aimedMultiplicity	  _positivereal		    96
+useAimedCompleteness	  _logical		    0
+aimedCompleteness	  _positivereal		    0.99
+aimedIOverSigmaAtHighestResolution _positivereal    3.0
+anomalousData			_logical				0
+
+minOscillationWidth	  _positivereal		    0.2
+maxOscillationSpeed	  _positivereal		    360
+
+Flux			  _positivereal		    ""
+fluxTenTo		  _menu_tento		    11
+beamSizeHorizontal	  _positivereal		    ""
+beamSizeVertical	  _positivereal		    ""
+minExposureTimePerImage   _positivereal		    0.1
+
+sampleSizeX 		  _positivereal		    100
+sampleSizeY 		  _positivereal		    100
+sampleSizeZ 		  _positivereal		    100
+sampleShape		  _positivereal		    1
+sampleSusceptibility 	  _positivereal		    1
+
+numberOfSoventAtomTypes	 _positiveint		    1
+solventAtomType,0	 _text		            ""	 
+solventAtomType,1	 _text		    	    ""	 
+solventAtomConcentration,0 _positivereal	    ""
+solventAtomConcentration,1 _positivereal	    ""
+
+structureNumberOfCopiesInAsymmetricUnit  _positivereal	    1
+numberOfChains		  _positiveint		    1
+numberOfLigands		  _positiveint		    0
+
+chainNumberOfCopies,0	  _positivereal		    1
+chainNumberOfCopies,1	  _positivereal		    1
+chainNumberOfMonomers,0	  _positivereal		    ""
+chainNumberOfMonomers,1	  _positivereal		    ""
+chainType,0		  _menu_chain_type	    "protein"
+chainType,1		  _menu_chain_type	    "protein"
+chainNumberOfHeavyAtomTypes,0 _positiveint	    0
+
+chainNumberOfHeavyAtomTypes,1 _positiveint	    0
+chainHeavyAtomType,0	    _text		    "S"
+chainHeavyAtomType,1	    _text		    "S"
+chainHeavyAtomCount,0	    _positivereal	    0
+chainHeavyAtomCount,1	    _positivereal	    0
+
+
+ligandNumberOfCopies,0	    _positivereal	    1
+ligandNumberOfCopies,1	    _positivereal	    1
+ligandNumberOfLightAtoms,0  _positiveint	    0
+ligandNumberOfLightAtoms,1  _positiveint	    0
+
+ligandNumberOfHeavyAtomTypes,0  _positiveint	    0
+ligandNumberOfHeavyAtomTypes,1  _positiveint	    0
+ligandHeavyAtomType,0 	    _text        	    "S"
+ligandHeavyAtomType,1 	    _text        	    "S"
+ligandHeavyAtomCount,0	    _positivereal	    0
+ligandHeavyAtomCount,1	    _positivereal	    0
+
+XMLtmp 			    _text		    ""

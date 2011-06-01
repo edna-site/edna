@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<edfFile><path><value>${EDNA_TESTS_DATA_HOME}/images/sample1_6284.edf</value></path></edfFile>
+<outputFormat><value>array</value></outputFormat>
+</XSDataInput>

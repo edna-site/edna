@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Standard="http://www.eclipse.org/uml2/schemas/Standard/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http://www.eclipse.org/uml2/schemas/Standard/1 pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="XSD Primitive Types">
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_D3ClwOZ_Ed-EdKKHX-lwYA" name="string"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_LmI_cOZ_Ed-EdKKHX-lwYA" name="integer"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_L2AAYOZ_Ed-EdKKHX-lwYA" name="float"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_MCdIAOZ_Ed-EdKKHX-lwYA" name="double"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_MRnlYOZ_Ed-EdKKHX-lwYA" name="boolean"/>
+    <profileApplication xmi:id="_21OVQOZ-Ed-EdKKHX-lwYA">
+      <eAnnotations xmi:id="_21cXsOZ-Ed-EdKKHX-lwYA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Model>
+  <Standard:ModelLibrary xmi:id="_4YA9sOZ-Ed-EdKKHX-lwYA" base_Package="_qb8akM37EdqwVrslYOdUDA"/>
+</xmi:XMI>

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<inputImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/dcraw.dng</value>
+		</path>
+	</inputImagePath>
+	<outputImagePath>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/dcraw.dng</value>
+		</path>
+	</outputImagePath>
+</XSDataInput>

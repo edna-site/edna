@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<item><value>data1</value></item>
+	<item>
+		<value>data2</value></item>
+	<item>
+		<value>data3</value></item>
+	<item>
+		<value>data4</value></item>
+	<item>
+		<value>data5</value></item></XSDataInput>

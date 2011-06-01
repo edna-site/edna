@@ -1,0 +1,73 @@
+targetNamespace "http://www.edna-site.org"
+
+
+complex type status {
+	code : status_code
+	message : string optional
+}
+
+complex type status_code {
+	code : string
+}
+
+complex type generated_sweep {
+	strategyID : integer
+	omegaStart : double
+	omegaEnd : double
+	kappa : double
+	phi : double
+	completeness : double
+	rank : double
+}
+
+
+
+complex type possible_orientation {
+	v1 : string
+	v2 : string
+	omega : double
+	kappa : double
+	phi : double
+	trans : string
+	rank : double
+}
+
+complex type kappa_alignment_response {
+	status : status
+	comment : string
+	possible_orientation : possible_orientation []		
+}
+
+complex type kappa_alignment_request {
+	desired_orientation : kappa_alignment []
+	comment : string
+}
+
+complex type kappa_alignment {
+	v1 : string
+	v2 : string
+	close : string
+	comment : string
+}
+
+complex type kappa_strategy_request {
+	comment : string
+	desired_datum : possible_orientation []
+	standard_request : strategy_request
+}
+
+complex type strategy_request {
+	symmetry : string
+}
+
+complex type kappa_strategy_response {
+	status : status
+	comment : string
+	generated_sweep : generated_sweep []
+	standard_response : strategy_response
+}
+
+complex type strategy_response {
+	status : status
+}
+

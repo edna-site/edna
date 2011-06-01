@@ -1,0 +1,24 @@
+= EDNA Tango Device server =
+
+
+In this project we store the tango Launcher for EDNA as a server. it is in the 'bin' directory of the project.
+This is 
+
+To use this you will need a "tango database DS" running and setup the TANGO_HOST environment variable set-up  
+in addition to the EDNA_SITE and the EDNA_HOME
+
+Jive is available from: http://www.edna-site.org/pub/libraries/Jive.tar.bz2
+
+In Jive use the wizard and add:
+	Device Server Class: EdnaDS
+	Device: DAU
+	full description: DAU/edna/1
+
+then run:
+   ./tango-EdnaDS.py  --debug DAU -v5
+   
+debug is for EDNA, -v5 is for tango
+
+To test: execute "runJob" with this parameter (or something similar)
+"EDPluginExecThumbnailv10","<XSDataInputThumbnail><inputImagePath><path><value>/home/kieffer/workspace/edna/tests/data/images/diff6105.edf</value></path></inputImagePath><outputPath><path><value>/tmp/test.jpg</value></path></outputPath></XSDataInputThumbnail>"
+ 

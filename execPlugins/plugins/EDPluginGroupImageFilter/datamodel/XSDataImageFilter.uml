@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataImageFilter">
+    <packagedElement xmi:type="uml:Class" xmi:id="_PpggwFsLEeCCovOiQj6mJw" name="XSDataInputMedianFilter">
+      <generalization xmi:id="_qWUhoFsLEeCCovOiQj6mJw">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_-2L4EFsLEeCCovOiQj6mJw" name="inputImages" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_H0FAIFsMEeCCovOiQj6mJw" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_A6stgFsMEeCCovOiQj6mJw" name="outputImage">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_K8dGUFsMEeCCovOiQj6mJw"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_U1dBMFsLEeCCovOiQj6mJw" name="XSDataResultMedianFilter">
+      <generalization xmi:id="_rJ0bIFsLEeCCovOiQj6mJw">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_Cq2cgFsMEeCCovOiQj6mJw" name="outputArray">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_BaSOIOftEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MM9E4FsMEeCCovOiQj6mJw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_EEV_AFsMEeCCovOiQj6mJw" name="outputImage">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NIrtUFsMEeCCovOiQj6mJw"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_dAFgUFsLEeCCovOiQj6mJw" name="XSDataInputMedianFilterImage">
+      <generalization xmi:id="_r0jaMFsLEeCCovOiQj6mJw">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_PUNJsFsMEeCCovOiQj6mJw" name="inputImage">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_h_6a4FsMEeCCovOiQj6mJw" name="filterWidth">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_w6eN4FuJEeCpXrFy_Wop7A" name="medianFilteredImage">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_z5jOIFuJEeCpXrFy_Wop7A"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_kdK88FsLEeCCovOiQj6mJw" name="XSDataResultMedianFilterImage">
+      <generalization xmi:id="_sgkysFsLEeCCovOiQj6mJw">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_RRGUMFsMEeCCovOiQj6mJw" name="medianFilteredImage">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0gmAAFuJEeCpXrFy_Wop7A"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_hvr3AFuPEeCpXrFy_Wop7A" name="medianFilteredArray">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_BaSOIOftEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kHh4IFuPEeCpXrFy_Wop7A"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

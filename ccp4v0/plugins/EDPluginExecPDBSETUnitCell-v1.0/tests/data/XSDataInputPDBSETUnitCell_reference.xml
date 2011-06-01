@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<XSDataInputPDBSETUnitCell>
+   <inputPDBFile>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/193L.pdb</value>
+      </path>
+   </inputPDBFile>
+   <unitCell>
+        <angle_alpha>
+            <value>9.000000e+01</value>
+        </angle_alpha>
+        <angle_beta>
+            <value>9.000000e+01</value>
+        </angle_beta>
+        <angle_gamma>
+            <value>9.000000e+01</value>
+        </angle_gamma>
+        <length_a>
+            <value>7.815800e+01</value>
+        </length_a>
+        <length_b>
+            <value>7.815800e+01</value>
+        </length_b>
+        <length_c>
+            <value>7.815800e+01</value>
+        </length_c>
+   </unitCell>
+ </XSDataInputPDBSETUnitCell>

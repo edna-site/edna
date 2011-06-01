@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataResultExecThumbnail>
+    <thumbnailPath>
+        <path>
+            <value>/tmp/edna-${USER}/thumbnail-Pilatus6M.png</value>
+        </path>
+    </thumbnailPath>
+    <thumbnailType>
+        <value>png</value>
+    </thumbnailType>
+</XSDataResultExecThumbnail>
+        

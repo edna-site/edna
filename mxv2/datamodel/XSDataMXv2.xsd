@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.edna-site.org">
+  <xs:include schemaLocation="XSDataCommon.xsd"/>
+  <xs:element name="XSBeam" type="XSBeam"/>
+  <xs:complexType name="XSBeam">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="polarisatation" type="XSDataUnitVector"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="direction" type="XSDataUnitVector"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSBeamSetting" type="XSBeamSetting"/>
+  <xs:complexType name="XSBeamSetting">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="wavelength" type="XSDataWavelength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSBeam" type="XSBeam"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSCalibratedDisplacementAxis" type="XSCalibratedDisplacementAxis"/>
+  <xs:complexType name="XSCalibratedDisplacementAxis">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="zerodirection" type="XSDataUnitVector"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSCalibration" type="XSCalibration"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSCalibration" type="XSCalibration"/>
+  <xs:complexType name="XSCalibration">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="date" type="XSDataDate"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSCollectionWedge" type="XSCollectionWedge"/>
+  <xs:complexType name="XSCollectionWedge">
+    <xs:complexContent>
+      <xs:extension base="XSWedge">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataCollection" type="XSDataCollection"/>
+  <xs:complexType name="XSDataCollection">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="imagelocation" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="XSSubWedge" type="XSSubWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataInputCharacterisationv2_0" type="XSDataInputCharacterisationv2_0"/>
+  <xs:complexType name="XSDataInputCharacterisationv2_0">
+    <xs:complexContent>
+      <xs:extension base="XSDataInput">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="mxv1InputCharacterisation" type="null"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="mxv1ResultCharacterisation_Reference" type="null"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="mxv2DataCollection" type="XSDataCollection"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="mxv2DataCollection_Reference" type="XSDataCollection"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="possibleOrientations" type="kappa_alignment_response"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataLattice" type="XSDataLattice"/>
+  <xs:complexType name="XSDataLattice">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="unitcell" type="XSDataUnitCell"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="representativespacegroup" type="XSDataSpaceGroupType">
+            <xs:annotation>
+              <xs:documentation>Space group symbol for lowest symmetry space group that is consistent with the lattice type</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataResultCharacterisationv2_0" type="XSDataResultCharacterisationv2_0"/>
+  <xs:complexType name="XSDataResultCharacterisationv2_0">
+    <xs:complexContent>
+      <xs:extension base="XSDataResult">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="mxv1ResultCharacterisation" type="null"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="mxv1ResultCharacterisation_Reference" type="null"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="suggestedStrategy" type="null"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="possibleOrientations" type="kappa_alignment_response"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataSpaceGroupType" type="XSDataSpaceGroupType"/>
+  <xs:complexType name="XSDataSpaceGroupType">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="iucrnumber" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="iucrstandardsymbol" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDataUnitCell" type="XSDataUnitCell"/>
+  <xs:complexType name="XSDataUnitCell">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="angles" type="XSDataAngle"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="edgelengths" type="XSDataLength"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetector" type="XSDetector"/>
+  <xs:complexType name="XSDetector">
+    <xs:complexContent>
+      <xs:extension base="XSDisplacementList">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="name" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="shape" type="XSDataString">
+            <xs:annotation>
+              <xs:documentation>circular, square,...</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="1" minOccurs="1" name="radius" type="XSDataDouble">
+            <xs:annotation>
+              <xs:documentation>units=mm</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="1" minOccurs="1" name="readouttime" type="XSDataDouble">
+            <xs:annotation>
+              <xs:documentation>units=s</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="1" minOccurs="1" name="switchingplatetime" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="darkcurrent" type="XSDataVectorDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="background" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="profileerror" type="XSDataDouble"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="XSDetectorFaceAxis" type="XSDetectorFaceAxis"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSDetectorAxis" type="XSDetectorAxis"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorAxis" type="XSDetectorAxis"/>
+  <xs:complexType name="XSDetectorAxis">
+    <xs:complexContent>
+      <xs:extension base="XSDisplacementAxis">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorFaceAxis" type="XSDetectorFaceAxis"/>
+  <xs:complexType name="XSDetectorFaceAxis">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="name" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="pixelsize" type="XSDataDouble">
+            <xs:annotation>
+              <xs:documentation>units=mm</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberofpixels" type="XSDataInteger"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSDetectorFaceAxisDirection" type="XSDetectorFaceAxisDirection"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorFaceAxisDirection" type="XSDetectorFaceAxisDirection"/>
+  <xs:complexType name="XSDetectorFaceAxisDirection">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="direction" type="XSDataUnitVector"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorFaceSetting" type="XSDetectorFaceSetting"/>
+  <xs:complexType name="XSDetectorFaceSetting">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="detectoraxesorigin" type="XSDataVectorDouble"/>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="XSDetectorFaceAxisDirection" type="XSDetectorFaceAxisDirection"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorImageProperties" type="XSDetectorImageProperties"/>
+  <xs:complexType name="XSDetectorImageProperties">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="mode" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="headersize" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="headersizevariable" type="XSDataBoolean"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="format" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorRotationAxis" type="XSDetectorRotationAxis"/>
+  <xs:complexType name="XSDetectorRotationAxis">
+    <xs:complexContent>
+      <xs:extension base="XSDetectorAxis">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorSetting" type="XSDetectorSetting"/>
+  <xs:complexType name="XSDetectorSetting">
+    <xs:complexContent>
+      <xs:extension base="XSDisplacementListSetting">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="axissetting" type="XSDataDisplacement"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSDetector" type="XSDetector"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDetectorTranslationAxis" type="XSDetectorTranslationAxis"/>
+  <xs:complexType name="XSDetectorTranslationAxis">
+    <xs:complexContent>
+      <xs:extension base="XSDetectorAxis">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDiffractionImages" type="XSDiffractionImages"/>
+  <xs:complexType name="XSDiffractionImages">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="filename" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDisplacementAxis" type="XSDisplacementAxis"/>
+  <xs:complexType name="XSDisplacementAxis">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="name" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSCalibratedDisplacementAxis" type="XSCalibratedDisplacementAxis"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDisplacementList" type="XSDisplacementList"/>
+  <xs:complexType name="XSDisplacementList">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSDisplacementListSetting" type="XSDisplacementListSetting"/>
+  <xs:complexType name="XSDisplacementListSetting">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSFoundSpot" type="XSFoundSpot"/>
+  <xs:complexType name="XSFoundSpot">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="detectorposition" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="omega" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="intensity" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="intensityesu" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSGoniostatAxis" type="XSGoniostatAxis"/>
+  <xs:complexType name="XSGoniostatAxis">
+    <xs:complexContent>
+      <xs:extension base="XSDisplacementAxis">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="isscannable" type="XSDataBoolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSGoniostatBaseAxis" type="XSGoniostatBaseAxis"/>
+  <xs:complexType name="XSGoniostatBaseAxis">
+    <xs:complexContent>
+      <xs:extension base="XSGoniostatAxis">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSGoniostatRotatableAxis" type="XSGoniostatRotatableAxis"/>
+  <xs:complexType name="XSGoniostatRotatableAxis">
+    <xs:complexContent>
+      <xs:extension base="XSGoniostatAxis">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSImageRange" type="XSImageRange"/>
+  <xs:complexType name="XSImageRange">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="startimage" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="endimage" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSProcessingWedge" type="XSProcessingWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSIndexingInput" type="XSIndexingInput"/>
+  <xs:complexType name="XSIndexingInput">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="XSSpotSearchOutput" type="XSSpotSearchOutput"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSIndexingResult" type="XSIndexingResult"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSIndexingOutput" type="XSIndexingOutput"/>
+  <xs:complexType name="XSIndexingOutput">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="0" name="statistics" type="XSStatisticsIndexing"/>
+          <xs:element maxOccurs="1" minOccurs="0" name="refinedaxisdirection" type="XSDataUnitVector"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSWedge" type="XSWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSIndexingResult" type="XSIndexingResult"/>
+  <xs:complexType name="XSIndexingResult">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="selectedsolution" type="XSDataInteger">
+            <xs:annotation>
+              <xs:documentation>Index of selected solution in solution list</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="XSIndexingOutput" type="XSIndexingOutput"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSIndexingSolution" type="XSIndexingSolution"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSIndexingSolution" type="XSIndexingSolution"/>
+  <xs:complexType name="XSIndexingSolution">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="lattice" type="XSDataLattice"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="penalty" type="XSDataDouble"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSIndexingSolutionSelected" type="XSIndexingSolutionSelected"/>
+  <xs:complexType name="XSIndexingSolutionSelected">
+    <xs:complexContent>
+      <xs:extension base="XSIndexingSolution">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="refineddetectorsetting" type="XSDetectorFaceSetting"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="mosaicityestimated" type="XSDataDouble"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="statistics" type="XSStatisticsIndexing"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="orientation" type="XSDataRotation"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSProcessingWedge" type="XSProcessingWedge"/>
+  <xs:complexType name="XSProcessingWedge">
+    <xs:complexContent>
+      <xs:extension base="XSWedge">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSRotationExposure" type="XSRotationExposure"/>
+  <xs:complexType name="XSRotationExposure">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="imagewidth" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="numberimages" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="exposuretime" type="XSDataTime"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSGoniostatAxis" type="XSGoniostatAxis"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSRotationalGoniostat" type="XSRotationalGoniostat"/>
+  <xs:complexType name="XSRotationalGoniostat">
+    <xs:complexContent>
+      <xs:extension base="XSDisplacementList">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSGoniostatBaseAxis" type="XSGoniostatBaseAxis"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSGoniostatRotatableAxis" type="XSGoniostatRotatableAxis"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSRotationalGoniostatSetting" type="XSRotationalGoniostatSetting"/>
+  <xs:complexType name="XSRotationalGoniostatSetting">
+    <xs:complexContent>
+      <xs:extension base="XSDisplacementListSetting">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="baseaxissetting" type="XSDataAngle"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="axissetting" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSRotationalGoniostat" type="XSRotationalGoniostat"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSSample" type="XSSample"/>
+  <xs:complexType name="XSSample">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="identifier" type="XSDataString"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSDataCollection" type="XSDataCollection"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSSpotSearchOutput" type="XSSpotSearchOutput"/>
+  <xs:complexType name="XSSpotSearchOutput">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="spots" type="XSFoundSpot"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSWedge" type="XSWedge"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSStatisticsIndexing" type="XSStatisticsIndexing"/>
+  <xs:complexType name="XSStatisticsIndexing">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotdeviationangular" type="XSDataAngle"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotdeviationpositional" type="XSDataLength"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotstotal" type="XSDataInteger"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="spotsused" type="XSDataInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSSubWedge" type="XSSubWedge"/>
+  <xs:complexType name="XSSubWedge">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="imagefilenametemplate" type="XSDataString"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSBeamSetting" type="XSBeamSetting"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSCollectionWedge" type="XSCollectionWedge"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSDetectorSetting" type="XSDetectorSetting"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSDiffractionImages" type="XSDiffractionImages"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="XSImageRange" type="XSImageRange"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSRotationalGoniostatSetting" type="XSRotationalGoniostatSetting"/>
+          <xs:element maxOccurs="1" minOccurs="1" name="XSRotationExposure" type="XSRotationExposure"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XSWedge" type="XSWedge"/>
+  <xs:complexType name="XSWedge">
+    <xs:complexContent>
+      <xs:extension base="XSData">
+        <xs:sequence>
+          <xs:element maxOccurs="1" minOccurs="1" name="ednaid" type="XSDataString"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="kappa_alignment_response" type="kappa_alignment_response"/>
+  <xs:complexType name="kappa_alignment_response">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="status" type="status"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="comment" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="possible_orientation" type="possible_orientation"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="possible_orientation" type="possible_orientation"/>
+  <xs:complexType name="possible_orientation">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="v1" type="xs:string"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="v2" type="xs:string"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="omega" type="xs:double"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="kappa" type="xs:double"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="phi" type="xs:double"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="trans" type="xs:string"/>
+      <xs:element maxOccurs="1" minOccurs="1" name="rank" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="status" type="status"/>
+  <xs:complexType name="status">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="code" type="status_code"/>
+      <xs:element maxOccurs="1" minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="status_code" type="status_code"/>
+  <xs:complexType name="status_code">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="code" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

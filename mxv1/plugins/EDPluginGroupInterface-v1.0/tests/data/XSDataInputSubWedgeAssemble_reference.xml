@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataFile>
+	<file>
+		<path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_001.img</value>
+        </path>
+    </file>
+	<file>
+		<path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_002.img</value>
+        </path>
+    </file>
+</XSDataFile>

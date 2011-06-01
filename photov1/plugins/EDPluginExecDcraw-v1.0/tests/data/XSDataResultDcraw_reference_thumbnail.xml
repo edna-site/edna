@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+	<outputPath>
+		<path>
+			<value>/tmp/edna-${USER}/dcraw.thumb</value>
+		</path>
+	</outputPath>
+</XSDataResult>

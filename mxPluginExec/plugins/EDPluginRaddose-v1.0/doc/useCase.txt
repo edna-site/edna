@@ -1,0 +1,74 @@
+From http://www.edna-site.org/wiki/index.php/Use_case_%22RADDOSE%22:
+
+
+== Summary ==
+
+The main objective of RADDOSE is to estimate the absorbed dose by a sample. This information is necessary to BEST for calculating a strategy that takes radiation damage into account.
+
+see [http://www.biop.ox.ac.uk/www/garman/lab_tools.html#guide8 RADDOSE user guide].
+
+== Input ==
+
+=== Required ===
+
+( ): RADDOSE keywords
+
+* Crystal characteristics:
+** size (CRYSTAL) (1)
+** unit cell parameters (CELL) (2)
+** chemical composition (NMON, NRES, NRNA, NDNA, PATM, SATM, SOLVENT) (1) /(NMON will be converted from NMON/asymmetric unit to NMON/unit cell) (3)
+
+* Beam charateristics:
+** wavelength (WAVELENGTH) (1)
+** flux (PHOSEC) (1)
+** size (BEAM) (1)
+
+* Exposure time:
+** exposure time (1)
+** number of images (IMAGES) (1)
+
+
+=== Optional ===
+
+( ): RADDOSE keywords
+
+* Beam charateristics:
+** energy range (low energy - high energy) with an optional step (RANGE)
+** profile (full-width-half-maxima os a gaussian beam profile) for non uniform beam. (GAUSS)
+
+* Crystal characteristics:
+** convective heat transfer coefficient (not adviced to be changed) (CONV)
+** specific heat capacity of the Xtal (not adviced to be changed) (HEAT)
+
+
+== Output ==
+
+=== Required ===
+
+( ): RADDOSE keywords
+
+* Absorbed Dose  ('Dose in Grays')
+* Solvent Content ('Solvent Content (%)'): to check the data consistency
+
+=== Optional ===
+
+== Main Success Scenario ==
+
+== Variations ==
+
+== Notes and Questions ==
+
+=== Inputs ===
+
+* (1): from the diffraction plan or initial dataset
+* (2): from the indexing step
+
+* (3): 
+** Andrew suggested to ask for the following user-friendly inputs:
+*** 1- number of chemically different chains in the structure (a chain can be either protein or DNA/RNA).
+*** 2- For each of these chemically distinct chains, the users supplies the number of copies of this chain in the structure, the number of residues in the chain and whether the chain is protein of nucleic acid.
+*** 3- the number of copies of the structure in the crystallographic asymmetric unit, if known ; this can be fractional (eg a trimer can have just one subunit in the asymmetric unit  if there is a crystallographic 3-fold axis, so there is 0.333 oligomers in the au).
+*** 4- The user supplies the space group symmetry, if known.
+** I (MF) suggest that: 
+*** The parameters described in points (3) and (4) will be known for the prototype. If time allows, we will implement the cases where these parameters are not known
+*** The ligands should be added as well as a list of ligands per structure. The user will provide the composition  of each chemically different ligand of the structure and will provide the number of copies of them (like we do for the chains). The atoms will be given by entering the total number of light atoms (42 for the HEME example) and heavy atoms (1 Fe)

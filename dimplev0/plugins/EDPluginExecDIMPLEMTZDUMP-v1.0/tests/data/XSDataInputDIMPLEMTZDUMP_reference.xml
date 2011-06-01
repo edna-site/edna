@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<CCP4DataInputMTZDUMP>
+	<HKLIN>	
+              <path>    	
+		<value>${EDNA_PLUGIN_TESTS_DATA_HOME}/insulin.mtz</value>
+              </path>
+	</HKLIN>
+	<outputLogFile>
+              <path>    	
+		<value>/tmp/test.log</value>
+              </path>
+	</outputLogFile>
+</CCP4DataInputMTZDUMP>
+

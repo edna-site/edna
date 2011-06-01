@@ -1,0 +1,201 @@
+<!--
+********************************************************
+*
+* dna_strategy.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_strategy.xsd,v 1.18 2008/02/12 12:29:07 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+  <xsd:complexType name="strategy_request">
+    <xsd:sequence>
+      <xsd:element name="extra_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+      <xsd:element name="strategy_settings"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="strategy_settings"/>      
+      <xsd:element name="symmetry"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="spacegroup"/>
+   </xsd:sequence>
+  </xsd:complexType>
+
+<!--
+********************************************************
+*
+* I've put this in to get xml generation to work, but 
+* strategy_settings needs to be properly defined.(KSA).
+*
+********************************************************
+-->
+
+  <xsd:complexType name="strategy_settings">
+    <xsd:sequence>
+      <xsd:element name="resolution"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="resolution"/>
+      <!-- this is the limit on the number of 
+           overlaps in % -->      
+      <xsd:element name="overlap_limit"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+
+      <!-- settings pertaining to DNA 1.1 best strategy interface -->
+
+      <!-- this is the completeness in the range [0,1] -->
+      <xsd:element name="completeness"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <!-- this is the multiplicity in the range [0,inf]) -->
+      <xsd:element name="multiplicity"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <!-- this is the i/sigma requested at the target resolution -->
+      <xsd:element name="i_over_sigma"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+
+      <!-- spelling error this used to be anomolous -->
+      <xsd:element name="anomalous"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>
+      <!-- these are the parameters such as minimum exposure time coming from the BCM -->
+      <xsd:element name="beamline_parameters"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="beamline_parameters"/>
+      <!-- this is the user desired minimum phi oscillation - could be overridden by the strategy calculation -->
+      <xsd:element name="user_desired_minimum_phi_oscillation"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="completeness">
+    <xsd:sequence>
+      <xsd:element name="standard"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="predicted_spots">
+    <xsd:sequence>
+      <xsd:element name="full"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="percentage"/>      
+      <xsd:element name="overlap"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="percentage"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="segment">
+    <xsd:sequence>
+      <xsd:element name="oscillation_sequence"    
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="oscillation_sequence"/>      
+      <xsd:element name="predicted_spots"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="predicted_spots"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="strategy_summary">
+    <xsd:sequence>
+      <xsd:element name="number_of_segments"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="segment"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="segment"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="strategy_interpretation">
+    <xsd:sequence>
+      <xsd:element name="oscillation_sequence"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="oscillation_sequence"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="strategy_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>      
+      <xsd:element name="completeness"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="completeness"/>
+      <xsd:element name="strategy_summary"
+                   minOccurs="0" 
+                   maxOccurs="unbounded" 
+                   type="strategy_summary"/>
+      <xsd:element name="segment"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="segment"/>      
+      <xsd:element name="strategy_interpretation"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="strategy_interpretation"/> 
+      <!-- new element to allow printation of the stats 24/APR/06:GW -->
+      <xsd:element name="strategy_statistics"
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="strategy_statistics"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="strategy_statistics">
+    <xsd:sequence>
+      <xsd:element name="r_merge" type="xsd:double"/>
+      <xsd:element name="i_over_sigma" type="xsd:double"/>
+      <xsd:element name="overloads" type="xsd:double"/>
+      <xsd:element name="max_overloads" type="xsd:double"/>
+      <xsd:element name="multiplicity" type="xsd:double"/>
+      <xsd:element name="completeness" type="xsd:double"/>
+      <xsd:element name="resolution" type="xsd:double"/>
+      <xsd:element name="ranking_resolution" type="xsd:double"/>
+      <xsd:element name="maximum_exposure" type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

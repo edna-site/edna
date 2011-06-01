@@ -1,0 +1,513 @@
+<!--
+********************************************************
+*
+* dna_common.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_common.xsd,v 1.21 2007/11/08 14:08:04 svensson Exp $
+*
+********************************************************
+-->
+
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+
+  <xsd:simpleType name="status_code">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ok"/>
+      <xsd:enumeration value="warning"/>
+      <xsd:enumeration value="error"/>
+    </xsd:restriction>    
+  </xsd:simpleType>
+
+  <xsd:complexType name="mosflm_commands">
+    <xsd:sequence>
+      <xsd:element name="command"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="scala_commands">
+    <xsd:sequence>
+      <xsd:element name="command"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="xds_commands">
+    <xsd:sequence>
+      <xsd:element name="command"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="extra_commands">
+    <xsd:sequence>
+      <xsd:element name="mosflm_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="mosflm_commands"/>
+      <xsd:element name="scala_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="scala_commands"/>
+      <xsd:element name="xds_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xds_commands"/>
+     </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="status">
+    <xsd:sequence>
+      <xsd:element name="code"    
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status_code"/>      
+      <xsd:element name="message" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="fileinfo">
+    <xsd:sequence>
+      <xsd:element name="directory" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="prefix" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="suffix" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="template" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="run_number"   
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--    <fileinfo>
+            <directory>/data/id14eh1/inhouse/dna</directory>
+            <prefix>dnatest</prefix>
+            <run_number>3</run_number>
+          </fileinfo>
+
+  -->
+
+
+  <xsd:complexType name="oscillation_sequence">
+    <xsd:sequence>
+      <xsd:element name="start"              
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="end"              
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="range"              
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="number_of_images"   
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="overlap"            
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="exposure_time"      
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="start_image_number" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+      <xsd:element name="number_of_passes"   
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example oscillation_sequence:
+
+        <oscillation_sequence>
+          <run_number>1</run_number>
+          <start>0.0</start>
+          <range>1.0</range>
+          <number_of_images>2</number_of_images>
+          <overlap>-89.0</overlap>
+          <exposure_time>1.0</exposure_time>
+          <start_image_number>1</start_image_number>
+          <number_of_passes>1</number_of_passes>
+        </oscillation_sequence>
+           
+   -->   
+
+
+
+  <xsd:complexType name="detector">
+    <xsd:sequence>
+      <xsd:element name="type" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="suffix" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="beam">
+    <xsd:sequence>
+      <xsd:element name="x" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="y" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="cell">
+    <xsd:sequence>
+      <xsd:element name="a"     
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="b"     
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="c"     
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="alpha" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="beta"  
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="gamma" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="experiment">
+    <xsd:sequence>
+      <xsd:element name="wavelength"    
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="distance"      
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="resolution"      
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="resolution"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="matrix">
+    <xsd:sequence>
+      <xsd:element name="e11" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e12" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e13" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e21" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e22" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e23" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e31" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e32" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+      <xsd:element name="e33" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <!-- TYPE dna:Percentage - a decimal number constrained thus:
+       0.0 .le. value .le. 100.0 
+       Using FORTRAN style constraints because symbols are used by XML -->
+
+  <xsd:simpleType name="percentage">
+    <xsd:restriction base="xsd:double">
+      <xsd:minInclusive value="0.0"/>
+      <xsd:maxInclusive value="100.0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <!-- The spacegroup - which must be one of these -->
+
+  <xsd:simpleType name="spacegroup">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="unknown"/>
+      <xsd:enumeration value="P1"/>
+      <xsd:enumeration value="P2"/>
+      <xsd:enumeration value="P21"/>
+      <xsd:enumeration value="C2"/>
+      <xsd:enumeration value="P222"/>
+      <xsd:enumeration value="P2221"/>
+      <xsd:enumeration value="P21212"/>
+      <xsd:enumeration value="P212121"/>
+      <xsd:enumeration value="C222"/>
+      <xsd:enumeration value="C2221"/>
+      <xsd:enumeration value="F222"/>
+      <xsd:enumeration value="I222"/>
+      <xsd:enumeration value="I212121"/>
+      <xsd:enumeration value="P4"/>
+      <xsd:enumeration value="P41"/>
+      <xsd:enumeration value="P42"/>
+      <xsd:enumeration value="P43"/>
+      <xsd:enumeration value="P422"/>
+      <xsd:enumeration value="P4212"/>
+      <xsd:enumeration value="P4122"/>
+      <xsd:enumeration value="P41212"/>
+      <xsd:enumeration value="P4222"/>
+      <xsd:enumeration value="P42212"/>
+      <xsd:enumeration value="P4322"/>
+      <xsd:enumeration value="P43212"/>
+      <xsd:enumeration value="I4"/>
+      <xsd:enumeration value="I41"/>
+      <xsd:enumeration value="I422"/>
+      <xsd:enumeration value="I4122"/>
+      <xsd:enumeration value="P3"/>
+      <xsd:enumeration value="P31"/>
+      <xsd:enumeration value="P32"/>
+      <xsd:enumeration value="P312"/>
+      <xsd:enumeration value="P321"/>
+      <xsd:enumeration value="P3112"/>
+      <xsd:enumeration value="P3121"/>
+      <xsd:enumeration value="P3212"/>
+      <xsd:enumeration value="P3221"/>
+      <xsd:enumeration value="P6"/>
+      <xsd:enumeration value="P61"/>
+      <xsd:enumeration value="P65"/>
+      <xsd:enumeration value="P62"/>
+      <xsd:enumeration value="P64"/>
+      <xsd:enumeration value="P63"/>
+      <xsd:enumeration value="P622"/>
+      <xsd:enumeration value="P6122"/>
+      <xsd:enumeration value="P6522"/>
+      <xsd:enumeration value="P6222"/>
+      <xsd:enumeration value="P6422"/>
+      <xsd:enumeration value="P6322"/>
+      <xsd:enumeration value="R3"/>
+      <xsd:enumeration value="R32"/>
+      <xsd:enumeration value="H3"/>
+      <xsd:enumeration value="H32"/>
+      <xsd:enumeration value="P23"/>
+      <xsd:enumeration value="P213"/>
+      <xsd:enumeration value="P432"/>
+      <xsd:enumeration value="P4232"/>
+      <xsd:enumeration value="P4332"/>
+      <xsd:enumeration value="P4132"/>
+      <xsd:enumeration value="F23"/>
+      <xsd:enumeration value="F432"/>
+      <xsd:enumeration value="F4132"/>
+      <xsd:enumeration value="I23"/>
+      <xsd:enumeration value="I213"/>
+      <xsd:enumeration value="I432"/>
+      <xsd:enumeration value="I4132"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <xsd:complexType name="dna_message">
+    <xsd:sequence>
+      <xsd:element name="type"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="content_type"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="level"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+      <xsd:element name="message"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- input & output reflection files -->
+
+  <xsd:complexType name="input_reflections">
+    <xsd:sequence>
+      <xsd:element name="hklin"
+                   type="xsd:string"
+                   minOccurs="1"
+                   maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="output_reflections">
+    <xsd:sequence>
+      <xsd:element name="hklout"
+                   type="xsd:string"
+                   minOccurs="1"
+                   maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="resolution">
+    <xsd:sequence>
+      <xsd:element name="lower"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="upper"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- The abort level - which must be one of these -->
+
+  <xsd:simpleType name="abort_level">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="stop_immediately"/>
+      <xsd:enumeration value="stop_after_finishing_current_task"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <xsd:complexType name="abort_request">
+    <xsd:sequence>
+      <xsd:element name="level"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="abort_level"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="abort_response">
+    <xsd:sequence>
+      <xsd:element name="status"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="sample_reference">
+    <xsd:sequence>
+      <xsd:element name="code"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="container_reference"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="container_code"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="sample_location"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="blSampleId"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="beamline_parameters">
+    <xsd:sequence>
+      <xsd:element name="maximum_exposure" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="minimum_exposure_time" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="minimum_phi_speed" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="maximum_phi_speed" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="minimum_phi_oscillation" 
+                   minOccurs="0" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>

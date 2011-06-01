@@ -1,0 +1,48 @@
+#=====================================================================
+#
+#=====================================================================
+   WriteToLog "Job Title: $TITLE " -nohead -nofoot
+   CreateComScript edna-mxv1-characterisation edna_script
+#
+   set FullPath ""
+   if { [string range [ExtractFromText [GetVersion] "CCP4Interface" 0 [list 1 1] ] 0 0] == 1 } {
+          set FullPath "Full path.."
+   }
+#  
+  set outputFile [FileJoin [GetDefaultDirPath ] $job_params(JOB_ID)_EDPluginControlCCP4iv10_dataOutput.xml]
+# run command
+  set command "$ednaApplication"
+  set command "$command --inputFile $XMLtmp"
+  set command "$command --basedir $projectDirectory"
+  set command "$command --outputFile $outputFile"
+  set status [Execute "$command" $edna_script program_status report]
+#
+  if { [file exists $outputFile ] } {
+     ReadFile $outputFile txt
+     set x [ExtractFromText $txt "listOfOutputFiles" 1 all]
+     set n 0
+     while { $x != "</value>" && $x != "" && $n <= 40 } {
+    	 set x [ExtractFromText - "" 1 all]
+	 if {[file isdirectory $x]} {
+	    AddOutputDir $x
+	    set a ${x}/EDPluginControlCCP4iv10/Characterisation/EDPluginControlCharacterisationv10_dataOutput.xml
+	    set b [GetFullFileName1 $CharacterizationOutputFile $DIR_CharacterizationOutputFile ] 
+	    if { [file exists $a ] && ![file isdirectory $b] && $b != "" } {
+	       	 CopyFile $a $b -overwrite
+		 AddOutputFile $b $FullPath
+	    }
+### pack best log to "AdditionalLogFiles"
+	    AddOutputFile ${x}/EDPluginControlCCP4iv10/Characterisation/Strategy/EDPluginBestv10/EDPluginBestv10.log $FullPath
+###
+	 } elseif { [file isfile $x] } {
+	     AddOutputFile $x $FullPath
+	 } else {
+	     break
+	 } 
+	 incr n
+      } 
+  }
+  AddOutputFile $XMLtmp $FullPath
+  AddOutputFile $outputFile $FullPath
+##  
+##

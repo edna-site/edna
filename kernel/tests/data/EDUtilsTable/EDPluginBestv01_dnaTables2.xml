@@ -1,0 +1,721 @@
+<?xml version='1.0'?><!DOCTYPE dna_tables>
+<dna_tables program='BEST' version='3.1.0.d 26.04.2007'>
+   <table name="messages" index="1">
+   </table>
+   <table name="input" index="1">                                                                   
+     <list name="select_task" index="1">                                                            
+       <item name="task">optimize</item>                                                            
+     </list>                                                                                        
+   </table>                                                                                         
+   <table name="general_inform" index="1">                                                          
+     <list name="rel_achievable_refl" index="1">                                                    
+       <item name="fraction_achievable_%">100.00</item>                                             
+     </list>                                                                                        
+     <list name="crystal_scale" index="1">                                                          
+       <item name="scal">7.11</item>                                                                
+       <item name="B_factor">18.59</item>                                                           
+       <item name="eigenvalue_1">16.97</item>                                                       
+       <item name="eigenvalue_2">16.97</item>                                                       
+       <item name="eigenvalue_3">22.98</item>                                                       
+     </list>                                                                                        
+     <list name="ranking_resolution" index="1">                                                     
+       <item name="isigi">3.00</item>                                                               
+       <item name="dmin">1.42</item>                                                                
+       <item name="sigma_dmin">0.01</item>                                                          
+     </list>                                                                                        
+   </table>                                                                                         
+   <table name="dc_optimal_time" index="1">                                                         
+     <list name="conditions" index="1">                                                             
+       <item name="option">minimal_dose</item>                                                      
+       <item name="i_sigma">3.0</item>                                                              
+       <item name="completeness">99.1</item>                                                        
+       <item name="redundancy">2.11</item>                                                          
+       <item name="phi_start">17.0</item>                                                           
+       <item name="phi_end">82.0</item>                                                             
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="1">                                               
+       <item name="resolution_min">12.00</item>                                                     
+       <item name="resolution_max">6.40</item>                                                      
+       <item name="completeness">90.9</item>                                                        
+       <item name="redundancy">2.3</item>                                                           
+       <item name="dc_time">82.764</item>                                                           
+       <item name="ex_time">0.264</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="2">                                               
+       <item name="resolution_min">6.40</item>                                                      
+       <item name="resolution_max">4.89</item>                                                      
+       <item name="completeness">94.6</item>                                                        
+       <item name="redundancy">2.3</item>                                                           
+       <item name="dc_time">82.800</item>                                                           
+       <item name="ex_time">0.300</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="3">                                               
+       <item name="resolution_min">4.89</item>                                                      
+       <item name="resolution_max">4.11</item>                                                      
+       <item name="completeness">97.2</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">82.779</item>                                                           
+       <item name="ex_time">0.279</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="4">                                               
+       <item name="resolution_min">4.11</item>                                                      
+       <item name="resolution_max">3.61</item>                                                      
+       <item name="completeness">97.7</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">82.922</item>                                                           
+       <item name="ex_time">0.422</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="5">                                               
+       <item name="resolution_min">3.61</item>                                                      
+       <item name="resolution_max">3.26</item>                                                      
+       <item name="completeness">99.3</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">83.188</item>                                                           
+       <item name="ex_time">0.688</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="6">                                               
+       <item name="resolution_min">3.26</item>                                                      
+       <item name="resolution_max">2.99</item>                                                      
+       <item name="completeness">98.8</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">83.710</item>                                                           
+       <item name="ex_time">1.210</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="7">                                               
+       <item name="resolution_min">2.99</item>                                                      
+       <item name="resolution_max">2.78</item>                                                      
+       <item name="completeness">98.1</item>                                                        
+       <item name="redundancy">2.2</item>                                                           
+       <item name="dc_time">84.474</item>                                                           
+       <item name="ex_time">1.974</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="8">                                               
+       <item name="resolution_min">2.78</item>                                                      
+       <item name="resolution_max">2.61</item>                                                      
+       <item name="completeness">97.7</item>                                                        
+       <item name="redundancy">2.2</item>                                                           
+       <item name="dc_time">85.376</item>                                                           
+       <item name="ex_time">2.876</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="9">                                               
+       <item name="resolution_min">2.61</item>                                                      
+       <item name="resolution_max">2.47</item>                                                      
+       <item name="completeness">98.2</item>                                                        
+       <item name="redundancy">2.2</item>                                                           
+       <item name="dc_time">86.465</item>                                                           
+       <item name="ex_time">3.965</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="10">                                              
+       <item name="resolution_min">2.47</item>                                                      
+       <item name="resolution_max">2.35</item>                                                      
+       <item name="completeness">98.3</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">87.811</item>                                                           
+       <item name="ex_time">5.311</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="11">                                              
+       <item name="resolution_min">2.35</item>                                                      
+       <item name="resolution_max">2.24</item>                                                      
+       <item name="completeness">98.5</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">89.495</item>                                                           
+       <item name="ex_time">6.995</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="12">                                              
+       <item name="resolution_min">2.24</item>                                                      
+       <item name="resolution_max">2.15</item>                                                      
+       <item name="completeness">98.5</item>                                                        
+       <item name="redundancy">2.2</item>                                                           
+       <item name="dc_time">104.206</item>                                                          
+       <item name="ex_time">9.206</item>                                                            
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="13">                                              
+       <item name="resolution_min">2.15</item>                                                      
+       <item name="resolution_max">2.07</item>                                                      
+       <item name="completeness">99.1</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">108.200</item>                                                          
+       <item name="ex_time">13.200</item>                                                           
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="14">                                              
+       <item name="resolution_min">2.07</item>                                                      
+       <item name="resolution_max">2.00</item>                                                      
+       <item name="completeness">99.1</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">116.545</item>                                                          
+       <item name="ex_time">21.546</item>                                                           
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="15">                                              
+       <item name="resolution_min">2.00</item>                                                      
+       <item name="resolution_max">1.93</item>                                                      
+       <item name="completeness">100.0</item>                                                       
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">144.235</item>                                                          
+       <item name="ex_time">34.235</item>                                                           
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="16">                                              
+       <item name="resolution_min">1.93</item>                                                      
+       <item name="resolution_max">1.87</item>                                                      
+       <item name="completeness">99.6</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">179.969</item>                                                          
+       <item name="ex_time">57.469</item>                                                           
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="17">                                              
+       <item name="resolution_min">1.87</item>                                                      
+       <item name="resolution_max">1.82</item>                                                      
+       <item name="completeness">100.0</item>                                                       
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">244.137</item>                                                          
+       <item name="ex_time">94.137</item>                                                           
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="18">                                              
+       <item name="resolution_min">1.82</item>                                                      
+       <item name="resolution_max">1.76</item>                                                      
+       <item name="completeness">100.0</item>                                                       
+       <item name="redundancy">2.0</item>                                                           
+       <item name="dc_time">362.327</item>                                                          
+       <item name="ex_time">157.327</item>                                                          
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="19">                                              
+       <item name="resolution_min">1.76</item>                                                      
+       <item name="resolution_max">1.72</item>                                                      
+       <item name="completeness">100.0</item>                                                       
+       <item name="redundancy">2.0</item>                                                           
+       <item name="dc_time">493.280</item>                                                          
+       <item name="ex_time">240.780</item>                                                          
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="20">                                              
+       <item name="resolution_min">1.72</item>                                                      
+       <item name="resolution_max">1.68</item>                                                      
+       <item name="completeness">100.0</item>                                                       
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">680.079</item>                                                          
+       <item name="ex_time">382.579</item>                                                          
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="21">                                              
+       <item name="resolution_min">1.68</item>                                                      
+       <item name="resolution_max">1.64</item>                                                      
+       <item name="completeness">100.0</item>                                                       
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">920.930</item>                                                          
+       <item name="ex_time">558.431</item>                                                          
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="22">                                              
+       <item name="resolution_min">1.64</item>                                                      
+       <item name="resolution_max">1.60</item>                                                      
+       <item name="completeness">100.0</item>                                                       
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">1319.916</item>                                                         
+       <item name="ex_time">854.916</item>                                                          
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="23">                                              
+       <item name="resolution_min">1.60</item>                                                      
+       <item name="resolution_max">1.57</item>                                                      
+       <item name="completeness">99.3</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">1873.287</item>                                                         
+       <item name="ex_time">1330.787</item>                                                         
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="24">                                              
+       <item name="resolution_min">1.57</item>                                                      
+       <item name="resolution_max">1.53</item>                                                      
+       <item name="completeness">98.9</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">2682.793</item>                                                         
+       <item name="ex_time">2032.794</item>                                                         
+     </list>                                                                                        
+     <list name="compl_time_vs_resolution" index="25">                                              
+       <item name="resolution_min">1.53</item>                                                      
+       <item name="resolution_max">1.50</item>                                                      
+       <item name="completeness">98.2</item>                                                        
+       <item name="redundancy">2.1</item>                                                           
+       <item name="dc_time">3691.015</item>                                                         
+       <item name="ex_time">3041.014</item>                                                         
+     </list>                                                                                        
+   </table>                                                                                         
+   <table name="data_collection_strategy" index="1">                                                
+     <list name="summary" index="1">                                                                
+       <item name="resolution">1.50</item>                                                          
+       <item name="resolution_reasoning">Resolution limit is set by the initial image resolution</item>
+       <item name="i_sigma">2.7</item>                                                              
+       <item name="completeness">99.1</item>                                                        
+       <item name="redundancy">2.11</item>                                                          
+       <item name="attenuation">1.0000</item>                                                       
+       <item name="total_exposure_time">3041.014</item>                                             
+       <item name="total_data_collection_time">3691.015</item>                                      
+     </list>                                                                                        
+     <list name="collection_run" index="1">                                                         
+       <item name="phi_start">17.00</item>                                                          
+       <item name="number_of_images">260</item>                                                     
+       <item name="phi_width">0.25</item>                                                           
+       <item name="exposure_time">11.696</item>                                                     
+       <item name="distance">200.79</item>                                                          
+       <item name="overlaps">No</item>                                                              
+     </list>                                                                                        
+   </table>                                                                                         
+   <table name="statistical_prediction" index="1">                                                  
+     <list name="resolution_bin" index="1">                                                         
+       <item name="min_resolution">12.00</item>                                                     
+       <item name="max_resolution">6.40</item>                                                      
+       <item name="completeness">0.91</item>                                                        
+       <item name="redundancy">2.30</item>                                                          
+       <item name="average_intensity">489583.531</item>                                             
+       <item name="average_error">9855.826</item>                                                   
+       <item name="average_i_over_sigma">49.7</item>                                                
+       <item name="R_factor">1.8</item>                                                             
+       <item name="fract_overload">6.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="2">                                                         
+       <item name="min_resolution">6.40</item>                                                      
+       <item name="max_resolution">4.89</item>                                                      
+       <item name="completeness">0.95</item>                                                        
+       <item name="redundancy">2.26</item>                                                          
+       <item name="average_intensity">351200.031</item>                                             
+       <item name="average_error">7191.924</item>                                                   
+       <item name="average_i_over_sigma">48.8</item>                                                
+       <item name="R_factor">1.8</item>                                                             
+       <item name="fract_overload">3.8</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="3">                                                         
+       <item name="min_resolution">4.89</item>                                                      
+       <item name="max_resolution">4.11</item>                                                      
+       <item name="completeness">0.97</item>                                                        
+       <item name="redundancy">2.13</item>                                                          
+       <item name="average_intensity">542263.250</item>                                             
+       <item name="average_error">11233.800</item>                                                  
+       <item name="average_i_over_sigma">48.3</item>                                                
+       <item name="R_factor">1.8</item>                                                             
+       <item name="fract_overload">5.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="4">                                                         
+       <item name="min_resolution">4.11</item>                                                      
+       <item name="max_resolution">3.61</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.14</item>                                                          
+       <item name="average_intensity">442569.500</item>                                             
+       <item name="average_error">9121.234</item>                                                   
+       <item name="average_i_over_sigma">48.5</item>                                                
+       <item name="R_factor">1.8</item>                                                             
+       <item name="fract_overload">1.1</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="5">                                                         
+       <item name="min_resolution">3.61</item>                                                      
+       <item name="max_resolution">3.26</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.15</item>                                                          
+       <item name="average_intensity">312858.125</item>                                             
+       <item name="average_error">6557.539</item>                                                   
+       <item name="average_i_over_sigma">47.7</item>                                                
+       <item name="R_factor">1.8</item>                                                             
+       <item name="fract_overload">0.1</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="6">                                                         
+       <item name="min_resolution">3.26</item>                                                      
+       <item name="max_resolution">2.99</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.14</item>                                                          
+       <item name="average_intensity">197487.422</item>                                             
+       <item name="average_error">4159.496</item>                                                   
+       <item name="average_i_over_sigma">47.5</item>                                                
+       <item name="R_factor">1.8</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="7">                                                         
+       <item name="min_resolution">2.99</item>                                                      
+       <item name="max_resolution">2.78</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.15</item>                                                          
+       <item name="average_intensity">130822.219</item>                                             
+       <item name="average_error">2777.862</item>                                                   
+       <item name="average_i_over_sigma">47.1</item>                                                
+       <item name="R_factor">1.8</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="8">                                                         
+       <item name="min_resolution">2.78</item>                                                      
+       <item name="max_resolution">2.61</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.18</item>                                                          
+       <item name="average_intensity">93844.312</item>                                              
+       <item name="average_error">2056.750</item>                                                   
+       <item name="average_i_over_sigma">45.6</item>                                                
+       <item name="R_factor">1.9</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="9">                                                         
+       <item name="min_resolution">2.61</item>                                                      
+       <item name="max_resolution">2.47</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.20</item>                                                          
+       <item name="average_intensity">73676.938</item>                                              
+       <item name="average_error">1665.562</item>                                                   
+       <item name="average_i_over_sigma">44.2</item>                                                
+       <item name="R_factor">1.9</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="10">                                                        
+       <item name="min_resolution">2.47</item>                                                      
+       <item name="max_resolution">2.35</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.11</item>                                                          
+       <item name="average_intensity">60875.070</item>                                              
+       <item name="average_error">1422.588</item>                                                   
+       <item name="average_i_over_sigma">42.8</item>                                                
+       <item name="R_factor">2.0</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="11">                                                        
+       <item name="min_resolution">2.35</item>                                                      
+       <item name="max_resolution">2.24</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.08</item>                                                          
+       <item name="average_intensity">51596.070</item>                                              
+       <item name="average_error">1243.252</item>                                                   
+       <item name="average_i_over_sigma">41.5</item>                                                
+       <item name="R_factor">2.1</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="12">                                                        
+       <item name="min_resolution">2.24</item>                                                      
+       <item name="max_resolution">2.15</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.17</item>                                                          
+       <item name="average_intensity">42936.664</item>                                              
+       <item name="average_error">1089.037</item>                                                   
+       <item name="average_i_over_sigma">39.4</item>                                                
+       <item name="R_factor">2.2</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="13">                                                        
+       <item name="min_resolution">2.15</item>                                                      
+       <item name="max_resolution">2.07</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.10</item>                                                          
+       <item name="average_intensity">35356.230</item>                                              
+       <item name="average_error">983.490</item>                                                    
+       <item name="average_i_over_sigma">35.9</item>                                                
+       <item name="R_factor">2.3</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="14">                                                        
+       <item name="min_resolution">2.07</item>                                                      
+       <item name="max_resolution">2.00</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.08</item>                                                          
+       <item name="average_intensity">27006.586</item>                                              
+       <item name="average_error">843.364</item>                                                    
+       <item name="average_i_over_sigma">32.0</item>                                                
+       <item name="R_factor">2.7</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="15">                                                        
+       <item name="min_resolution">2.00</item>                                                      
+       <item name="max_resolution">1.93</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.12</item>                                                          
+       <item name="average_intensity">19903.172</item>                                              
+       <item name="average_error">730.996</item>                                                    
+       <item name="average_i_over_sigma">27.2</item>                                                
+       <item name="R_factor">3.2</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="16">                                                        
+       <item name="min_resolution">1.93</item>                                                      
+       <item name="max_resolution">1.87</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.09</item>                                                          
+       <item name="average_intensity">14483.080</item>                                              
+       <item name="average_error">668.802</item>                                                    
+       <item name="average_i_over_sigma">21.7</item>                                                
+       <item name="R_factor">4.0</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="17">                                                        
+       <item name="min_resolution">1.87</item>                                                      
+       <item name="max_resolution">1.82</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.07</item>                                                          
+       <item name="average_intensity">10512.709</item>                                              
+       <item name="average_error">603.322</item>                                                    
+       <item name="average_i_over_sigma">17.4</item>                                                
+       <item name="R_factor">5.0</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="18">                                                        
+       <item name="min_resolution">1.82</item>                                                      
+       <item name="max_resolution">1.76</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.04</item>                                                          
+       <item name="average_intensity">7939.045</item>                                               
+       <item name="average_error">593.760</item>                                                    
+       <item name="average_i_over_sigma">13.4</item>                                                
+       <item name="R_factor">6.4</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="19">                                                        
+       <item name="min_resolution">1.76</item>                                                      
+       <item name="max_resolution">1.72</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.04</item>                                                          
+       <item name="average_intensity">6186.211</item>                                               
+       <item name="average_error">582.094</item>                                                    
+       <item name="average_i_over_sigma">10.6</item>                                                
+       <item name="R_factor">8.2</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="20">                                                        
+       <item name="min_resolution">1.72</item>                                                      
+       <item name="max_resolution">1.68</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.10</item>                                                          
+       <item name="average_intensity">4965.660</item>                                               
+       <item name="average_error">589.126</item>                                                    
+       <item name="average_i_over_sigma">8.4</item>                                                 
+       <item name="R_factor">10.2</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="21">                                                        
+       <item name="min_resolution">1.68</item>                                                      
+       <item name="max_resolution">1.64</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.07</item>                                                          
+       <item name="average_intensity">4011.044</item>                                               
+       <item name="average_error">587.937</item>                                                    
+       <item name="average_i_over_sigma">6.8</item>                                                 
+       <item name="R_factor">12.7</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="22">                                                        
+       <item name="min_resolution">1.64</item>                                                      
+       <item name="max_resolution">1.60</item>                                                      
+       <item name="completeness">1.00</item>                                                        
+       <item name="redundancy">2.08</item>                                                          
+       <item name="average_intensity">3385.385</item>                                               
+       <item name="average_error">604.674</item>                                                    
+       <item name="average_i_over_sigma">5.6</item>                                                 
+       <item name="R_factor">15.3</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="23">                                                        
+       <item name="min_resolution">1.60</item>                                                      
+       <item name="max_resolution">1.57</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.05</item>                                                          
+       <item name="average_intensity">2695.005</item>                                               
+       <item name="average_error">601.865</item>                                                    
+       <item name="average_i_over_sigma">4.5</item>                                                 
+       <item name="R_factor">19.5</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="24">                                                        
+       <item name="min_resolution">1.57</item>                                                      
+       <item name="max_resolution">1.53</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.12</item>                                                          
+       <item name="average_intensity">2311.890</item>                                               
+       <item name="average_error">629.455</item>                                                    
+       <item name="average_i_over_sigma">3.7</item>                                                 
+       <item name="R_factor">23.3</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="25">                                                        
+       <item name="min_resolution">1.53</item>                                                      
+       <item name="max_resolution">1.50</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.10</item>                                                          
+       <item name="average_intensity">1859.793</item>                                               
+       <item name="average_error">650.763</item>                                                    
+       <item name="average_i_over_sigma">2.9</item>                                                 
+       <item name="R_factor">29.8</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="26">                                                        
+       <item name="min_resolution">12.00</item>                                                     
+       <item name="max_resolution">1.50</item>                                                      
+       <item name="average_intensity">67855.336</item>                                              
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.11</item>                                                          
+       <item name="average_error">1739.307</item>                                                   
+       <item name="average_i_over_sigma">39.0</item>                                                
+       <item name="R_factor">2.2</item>                                                             
+       <item name="fract_overload">0.4</item>                                                       
+     </list>                                                                                        
+   </table>                                                                                         
+   <table name="data_collection_strategy" index="2">                                                
+     <list name="summary" index="1">                                                                
+       <item name="resolution">2.11</item>                                                          
+       <item name="resolution_reasoning">Low-resolution pass, no overloads</item>
+       <item name="i_sigma">2.9</item>                                                              
+       <item name="completeness">98.1</item>                                                        
+       <item name="redundancy">2.17</item>                                                          
+       <item name="attenuation">1.0000</item>                                                       
+       <item name="total_exposure_time">11.309</item>                                               
+       <item name="total_data_collection_time">106.309</item>                                       
+     </list>                                                                                        
+     <list name="collection_run" index="1">                                                         
+       <item name="phi_start">17.00</item>                                                          
+       <item name="number_of_images">38</item>                                                      
+       <item name="phi_width">1.75</item>                                                           
+       <item name="exposure_time">0.298</item>                                                      
+       <item name="distance">310.01</item>                                                          
+       <item name="overlaps">No</item>                                                              
+     </list>                                                                                        
+   </table>                                                                                         
+   <table name="statistical_prediction" index="2">                                                  
+     <list name="resolution_bin" index="1">                                                         
+       <item name="min_resolution">12.00</item>                                                     
+       <item name="max_resolution">6.40</item>                                                      
+       <item name="completeness">0.91</item>                                                        
+       <item name="redundancy">2.30</item>                                                          
+       <item name="average_intensity">1779.561</item>                                               
+       <item name="average_error">44.090</item>                                                     
+       <item name="average_i_over_sigma">40.4</item>                                                
+       <item name="R_factor">2.2</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="2">                                                         
+       <item name="min_resolution">6.40</item>                                                      
+       <item name="max_resolution">4.89</item>                                                      
+       <item name="completeness">0.95</item>                                                        
+       <item name="redundancy">2.26</item>                                                          
+       <item name="average_intensity">1276.558</item>                                               
+       <item name="average_error">38.612</item>                                                     
+       <item name="average_i_over_sigma">33.1</item>                                                
+       <item name="R_factor">2.7</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="3">                                                         
+       <item name="min_resolution">4.89</item>                                                      
+       <item name="max_resolution">4.11</item>                                                      
+       <item name="completeness">0.97</item>                                                        
+       <item name="redundancy">2.13</item>                                                          
+       <item name="average_intensity">1971.044</item>                                               
+       <item name="average_error">56.099</item>                                                     
+       <item name="average_i_over_sigma">35.1</item>                                                
+       <item name="R_factor">2.5</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="4">                                                         
+       <item name="min_resolution">4.11</item>                                                      
+       <item name="max_resolution">3.61</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.14</item>                                                          
+       <item name="average_intensity">1608.672</item>                                               
+       <item name="average_error">52.265</item>                                                     
+       <item name="average_i_over_sigma">30.8</item>                                                
+       <item name="R_factor">2.8</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="5">                                                         
+       <item name="min_resolution">3.61</item>                                                      
+       <item name="max_resolution">3.26</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.15</item>                                                          
+       <item name="average_intensity">1137.192</item>                                               
+       <item name="average_error">46.968</item>                                                     
+       <item name="average_i_over_sigma">24.2</item>                                                
+       <item name="R_factor">3.6</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="6">                                                         
+       <item name="min_resolution">3.26</item>                                                      
+       <item name="max_resolution">2.99</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.14</item>                                                          
+       <item name="average_intensity">717.837</item>                                                
+       <item name="average_error">41.874</item>                                                     
+       <item name="average_i_over_sigma">17.1</item>                                                
+       <item name="R_factor">5.1</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="7">                                                         
+       <item name="min_resolution">2.99</item>                                                      
+       <item name="max_resolution">2.78</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.15</item>                                                          
+       <item name="average_intensity">475.519</item>                                                
+       <item name="average_error">39.303</item>                                                     
+       <item name="average_i_over_sigma">12.1</item>                                                
+       <item name="R_factor">7.4</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="8">                                                         
+       <item name="min_resolution">2.78</item>                                                      
+       <item name="max_resolution">2.61</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.18</item>                                                          
+       <item name="average_intensity">341.110</item>                                                
+       <item name="average_error">39.318</item>                                                     
+       <item name="average_i_over_sigma">8.7</item>                                                 
+       <item name="R_factor">10.2</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="9">                                                         
+       <item name="min_resolution">2.61</item>                                                      
+       <item name="max_resolution">2.47</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.20</item>                                                          
+       <item name="average_intensity">267.804</item>                                                
+       <item name="average_error">40.394</item>                                                     
+       <item name="average_i_over_sigma">6.6</item>                                                 
+       <item name="R_factor">13.3</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="10">                                                        
+       <item name="min_resolution">2.47</item>                                                      
+       <item name="max_resolution">2.35</item>                                                      
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.11</item>                                                          
+       <item name="average_intensity">221.272</item>                                                
+       <item name="average_error">41.772</item>                                                     
+       <item name="average_i_over_sigma">5.3</item>                                                 
+       <item name="R_factor">16.6</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="11">                                                        
+       <item name="min_resolution">2.35</item>                                                      
+       <item name="max_resolution">2.24</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.08</item>                                                          
+       <item name="average_intensity">187.544</item>                                                
+       <item name="average_error">42.272</item>                                                     
+       <item name="average_i_over_sigma">4.4</item>                                                 
+       <item name="R_factor">20.1</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="12">                                                        
+       <item name="min_resolution">2.24</item>                                                      
+       <item name="max_resolution">2.15</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.17</item>                                                          
+       <item name="average_intensity">156.068</item>                                                
+       <item name="average_error">43.358</item>                                                     
+       <item name="average_i_over_sigma">3.6</item>                                                 
+       <item name="R_factor">25.0</item>                                                            
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="13">                                                        
+       <item name="min_resolution">2.15</item>                                                      
+       <item name="max_resolution">2.11</item>                                                      
+       <item name="completeness">0.99</item>                                                        
+       <item name="redundancy">2.07</item>                                                          
+       <item name="average_intensity">135.813</item>                                                
+       <item name="average_error">46.447</item>                                                     
+       <item name="average_i_over_sigma">2.9</item>                                                 
+       <item name="R_factor">0.3</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+     <list name="resolution_bin" index="14">                                                        
+       <item name="min_resolution">12.00</item>                                                     
+       <item name="max_resolution">2.11</item>                                                      
+       <item name="average_intensity">626.034</item>                                                
+       <item name="completeness">0.98</item>                                                        
+       <item name="redundancy">2.17</item>                                                          
+       <item name="average_error">43.551</item>                                                     
+       <item name="average_i_over_sigma">14.4</item>                                                
+       <item name="R_factor">6.0</item>                                                             
+       <item name="fract_overload">0.0</item>                                                       
+     </list>                                                                                        
+   </table>                                                                                         
+</dna_tables>

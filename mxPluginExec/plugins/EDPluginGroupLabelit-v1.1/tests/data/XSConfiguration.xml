@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem> 
+			<name>EDPluginLabelitIndexingv1_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>pathToLabelitSetpathScript</name>
+					<value>/opt/pxsoft/labelit/suse82/labelit_1.000b1/labelit_build/setpaths.sh</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/labelit/suse82/labelit_1.000b1/labelit_build/bin/labelit.screen</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptSetupCCP4</name>
+					<value>/usr/local/xtal/ccp4-6.0.2/include/ccp4.setup-bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptVersionString</name>
+					<value></value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessTimeOut</name>
+					<value>600</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

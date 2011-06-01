@@ -1,0 +1,32 @@
+
+   There are 3 main plugins for bio-saxs, all of them being control plugins
+   _________________________________________________________________________
+
+
+* EDPluginBioSaxsNormalizev1_0
+Takes a 2D image (as EDF), multiplies it by a NormalisationFactor and divide it by the signal of the BeamStopDiode.
+
+ - Wait for the input image to appear  (Uses EDPluginWaitFile from the ExecPlugins/WaitFile) 
+ - Do the normalization of the raw data by ring current and BeamStopDiode (Uses the  EDPluginExecSaxsMacv1_0 from ExecPlugins/Saxs)
+ - Append some information in the header related to the experiment setup (like beam position, pixel size...) 
+ - Calculates the variance of each pixel and store it as a second frame 
+ 
+* EDPluginBioSaxsAzimutIntv1_0
+Does the azimuthal integration of an image into a (q,I,sigma) spectrum
+ 
+ - Wait for the input image to appear  (Uses EDPluginWaitFile from the ExecPlugins/WaitFile) 
+ - Set the dead pixels according to the mask (Uses the  EDPluginExecSaxsAddv1_0 from ExecPlugins/Saxs)
+ - Does the azimuthal regrouping (Uses the EDPluginExecSaxsAnglev1_0 from ExecPlugins/Saxs)
+ - convert the image generated in spec-like spectrum (Uses the  EDPluginExecSaxsCurvesv1_0 from ExecPlugins/Saxs)
+ 
+* EDPluginBioSaxsAveragev1_0
+Averages many 1D EDF images (as obtained after SaxsAngle). Variance is treated decently.
+
+ - Wait for all input images to appear  (Uses EDPluginWaitMultiFile from the ExecPlugins/WaitFile)
+ - Sums all images and divide by their number  (Uses the  EDPluginExecSaxsMacv1_0 from ExecPlugins/Saxs)
+ - convert the image generated in spec-like spectrum (Uses the  EDPluginExecSaxsCurvesv1_0 from ExecPlugins/Saxs)
+
+* EDPluginBioSaxsMetadatav1_0
+Retrieves metadata from the headers of a file and mixes them with those from the XSD input.
+Can update a file
+   

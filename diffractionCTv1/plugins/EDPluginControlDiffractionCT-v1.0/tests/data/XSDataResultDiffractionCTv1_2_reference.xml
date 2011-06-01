@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataResultDiffractionCT>
+    <integratedIntensities>
+        <path>
+            <value>/tmp/edna-${USER}/powder0000/DCT2011March.chi</value>
+        </path>
+    </integratedIntensities>
+    <sinogramFile>
+        <path>
+            <value>/tmp/edna-${USER}/testSino.h5</value>
+        </path>
+    </sinogramFile>
+</XSDataResultDiffractionCT>

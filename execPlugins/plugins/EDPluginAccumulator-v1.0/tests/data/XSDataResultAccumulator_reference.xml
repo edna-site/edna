@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSDataResultAccumulator>
+    <query>
+        <item>
+            <value>data1</value>
+        </item>
+        <item>
+            <value>data2</value>
+        </item>
+        <removeItems>
+            <value>1</value>
+        </removeItems>
+    </query>
+</XSDataResultAccumulator>

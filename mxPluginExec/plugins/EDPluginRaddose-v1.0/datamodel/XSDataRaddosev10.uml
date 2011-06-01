@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_UBsRYUjVEeCYyYJyLDqBEQ" name="XSDataRaddosev10">
+  <packagedElement xmi:type="uml:Class" xmi:id="_UBsRYkjVEeCYyYJyLDqBEQ" name="XSDataAtom">
+    <generalization xmi:id="_UBsRY0jVEeCYyYJyLDqBEQ">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
+    </generalization>
+    <ownedAttribute xmi:id="_UBs4cEjVEeCYyYJyLDqBEQ" name="concentration">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4cUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBs4ckjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBs4c0jVEeCYyYJyLDqBEQ" name="numberOf">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4dEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBs4dUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBs4dkjVEeCYyYJyLDqBEQ" name="symbol">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4d0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBs4eEjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UBs4eUjVEeCYyYJyLDqBEQ" name="A_&lt;xSDataAtomicComposition>_&lt;xSDataAtom>" memberEnd="_UBs4ekjVEeCYyYJyLDqBEQ _UBs4fUjVEeCYyYJyLDqBEQ" navigableOwnedEnd="_UBs4ekjVEeCYyYJyLDqBEQ">
+    <ownedEnd xmi:id="_UBs4ekjVEeCYyYJyLDqBEQ" name="atom" type="_UBsRYkjVEeCYyYJyLDqBEQ" isUnique="false" association="_UBs4eUjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4e0jVEeCYyYJyLDqBEQ" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBs4fEjVEeCYyYJyLDqBEQ"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UBs4fUjVEeCYyYJyLDqBEQ" name="" visibility="public" type="_UBs4gEjVEeCYyYJyLDqBEQ" association="_UBs4eUjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4fkjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBs4f0jVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_UBs4gEjVEeCYyYJyLDqBEQ" name="XSDataAtomicComposition">
+    <generalization xmi:id="_UBs4gUjVEeCYyYJyLDqBEQ">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
+    </generalization>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_UBs4gkjVEeCYyYJyLDqBEQ" name="XSDataCell">
+    <generalization xmi:id="_UBs4g0jVEeCYyYJyLDqBEQ">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
+    </generalization>
+    <ownedAttribute xmi:id="_UBs4hEjVEeCYyYJyLDqBEQ" name="angle_alpha">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4hUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBs4hkjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBs4h0jVEeCYyYJyLDqBEQ" name="angle_beta">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4iEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBs4iUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBs4ikjVEeCYyYJyLDqBEQ" name="angle_gamma">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBs4i0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfgEjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBtfgUjVEeCYyYJyLDqBEQ" name="length_a">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtfgkjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfg0jVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBtfhEjVEeCYyYJyLDqBEQ" name="length_b">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtfhUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfhkjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBtfh0jVEeCYyYJyLDqBEQ" name="length_c">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtfiEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfiUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UBtfikjVEeCYyYJyLDqBEQ" name="A_&lt;xSDataRaddoseInput>_&lt;xSDataSize>" memberEnd="_UBtfi0jVEeCYyYJyLDqBEQ _UBtfjkjVEeCYyYJyLDqBEQ" navigableOwnedEnd="_UBtfi0jVEeCYyYJyLDqBEQ">
+    <ownedEnd xmi:id="_UBtfi0jVEeCYyYJyLDqBEQ" name="beamSize" association="_UBtfikjVEeCYyYJyLDqBEQ">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_okeyMOfsEd-TcNOGyxZYYg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtfjEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfjUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UBtfjkjVEeCYyYJyLDqBEQ" name="xSDataRaddoseInput" type="_UBuGoUjVEeCYyYJyLDqBEQ" association="_UBtfikjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtfj0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfkEjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UBtfkUjVEeCYyYJyLDqBEQ" name="A_&lt;xSDataRaddoseInput>_&lt;xSDataCell>" memberEnd="_UBtfkkjVEeCYyYJyLDqBEQ _UBtflUjVEeCYyYJyLDqBEQ" navigableOwnedEnd="_UBtfkkjVEeCYyYJyLDqBEQ">
+    <ownedEnd xmi:id="_UBtfkkjVEeCYyYJyLDqBEQ" name="crystalCell" type="_UBs4gkjVEeCYyYJyLDqBEQ" association="_UBtfkUjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtfk0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtflEjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UBtflUjVEeCYyYJyLDqBEQ" name="" type="_UBuGoUjVEeCYyYJyLDqBEQ" association="_UBtfkUjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtflkjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfl0jVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UBtfmEjVEeCYyYJyLDqBEQ" name="A_&lt;xSDataRaddoseInput>_&lt;xSDataAtomicComposition>" memberEnd="_UBtfmUjVEeCYyYJyLDqBEQ _UBuGkEjVEeCYyYJyLDqBEQ" navigableOwnedEnd="_UBtfmUjVEeCYyYJyLDqBEQ">
+    <ownedEnd xmi:id="_UBtfmUjVEeCYyYJyLDqBEQ" name="crystalPATM" type="_UBs4gEjVEeCYyYJyLDqBEQ" association="_UBtfmEjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBtfmkjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBtfm0jVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UBuGkEjVEeCYyYJyLDqBEQ" name="" type="_UBuGoUjVEeCYyYJyLDqBEQ" association="_UBtfmEjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGkUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGkkjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UBuGk0jVEeCYyYJyLDqBEQ" name="A_&lt;xSDataRaddoseInput>_&lt;xSDataAtomicComposition>" memberEnd="_UBuGlEjVEeCYyYJyLDqBEQ _UBuGl0jVEeCYyYJyLDqBEQ" navigableOwnedEnd="_UBuGlEjVEeCYyYJyLDqBEQ">
+    <ownedEnd xmi:id="_UBuGlEjVEeCYyYJyLDqBEQ" name="crystalSATM" type="_UBs4gEjVEeCYyYJyLDqBEQ" association="_UBuGk0jVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGlUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGlkjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UBuGl0jVEeCYyYJyLDqBEQ" name="" type="_UBuGoUjVEeCYyYJyLDqBEQ" association="_UBuGk0jVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGmEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGmUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UBuGmkjVEeCYyYJyLDqBEQ" name="A_&lt;xSDataRaddoseInput>_&lt;xSDataSize>" memberEnd="_UBuGm0jVEeCYyYJyLDqBEQ _UBuGnkjVEeCYyYJyLDqBEQ" navigableOwnedEnd="_UBuGm0jVEeCYyYJyLDqBEQ">
+    <ownedEnd xmi:id="_UBuGm0jVEeCYyYJyLDqBEQ" name="crystalSize" association="_UBuGmkjVEeCYyYJyLDqBEQ">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_okeyMOfsEd-TcNOGyxZYYg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGnEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGnUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UBuGnkjVEeCYyYJyLDqBEQ" name="xSDataRaddoseInput" type="_UBuGoUjVEeCYyYJyLDqBEQ" association="_UBuGmkjVEeCYyYJyLDqBEQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGn0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGoEjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_UBuGoUjVEeCYyYJyLDqBEQ" name="XSDataRaddoseInput">
+    <generalization xmi:id="_UBuGokjVEeCYyYJyLDqBEQ">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+    </generalization>
+    <ownedAttribute xmi:id="_UBuGo0jVEeCYyYJyLDqBEQ" name="beamExposureTime">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGpEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGpUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBuGpkjVEeCYyYJyLDqBEQ" name="beamFlux">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_6daFMOc0Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGp0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGqEjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UBuGqUjVEeCYyYJyLDqBEQ" name="beamWavelength">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_Fpu-QOc2Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UBuGqkjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UBuGq0jVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UButoEjVEeCYyYJyLDqBEQ" name="crystalNDNA">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButoUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButokjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UButo0jVEeCYyYJyLDqBEQ" name="crystalNMON">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButpEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButpUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UButpkjVEeCYyYJyLDqBEQ" name="crystalNRES">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButp0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButqEjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UButqUjVEeCYyYJyLDqBEQ" name="crystalNRNA">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButqkjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButq0jVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UButrEjVEeCYyYJyLDqBEQ" name="numberOfImages">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButrUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButrkjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_UButr0jVEeCYyYJyLDqBEQ" name="XSDataRaddoseOutput">
+    <generalization xmi:id="_UButsEjVEeCYyYJyLDqBEQ">
+      <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+    </generalization>
+    <ownedAttribute xmi:id="_UButsUjVEeCYyYJyLDqBEQ" name="absorbedDose">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButskjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButs0jVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UButtEjVEeCYyYJyLDqBEQ" name="absorbedDoseRate">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_p1pMQOc1Ed-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButtUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButtkjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UButt0jVEeCYyYJyLDqBEQ" name="timeToReachHendersonLimit">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButuEjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButuUjVEeCYyYJyLDqBEQ" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+</uml:Model>

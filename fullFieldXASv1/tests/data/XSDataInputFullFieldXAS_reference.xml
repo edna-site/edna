@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<index><value>0</value></index>
+<HDF5File><path><value>/tmp/edna-${USER}/FFXAS.h5</value></path></HDF5File>
+<internalHDF5Path><value>/entry/myData</value></internalHDF5Path>
+</XSDataInput>

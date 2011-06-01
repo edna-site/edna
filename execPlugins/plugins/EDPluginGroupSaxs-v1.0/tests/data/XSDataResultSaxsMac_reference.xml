@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<outputImage>
+		<path>
+			<value>/tmp/edna-${USER}/moke.edf</value>
+		</path>
+	</outputImage>
+</XSDataResult>

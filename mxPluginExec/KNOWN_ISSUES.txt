@@ -1,0 +1,18 @@
+          Known issues with EDNA mxPluginExec version 1.0.1
+		  =================================================
+
+* The MOSFLM error reporting must be improved, for example if CCP4 is not
+  set up or if MOSFLM crashes the error messages are cryptic (bug #114)
+
+* In the executive output of BEST the attenuation is considered to be 
+  transmission (bug #133) 
+
+* The space group international tables number is not provided in the Labelit
+  indexing results (bug #285)
+  
+* The MOSFLM plugin should check the presence of images before launching
+  the MOSFLM script (bug #295)
+  
+* The Labelit plugin cannot handle more than two input images (bug #311)
+
+* The Labelit plugin cannot handle forced space group (bug #312)

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+    <inputImage>
+        <path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/noise4.edf</value>
+        </path>
+    </inputImage>
+    <filterWidth><value>5</value></filterWidth>
+</XSDataInput>

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPlugineFIT2DCakev1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/local/bin/fit2d</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

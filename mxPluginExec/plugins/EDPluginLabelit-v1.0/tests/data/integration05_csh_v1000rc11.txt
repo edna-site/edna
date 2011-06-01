@@ -1,0 +1,58 @@
+#!/bin/csh -f
+cat > integration05.mat <<eof-cat
+ -0.00826964 -0.00886322 -0.00937081
+  0.00127317 -0.01251356  0.00847164
+ -0.01485286  0.00386214  0.00594357
+       0.000       0.000       0.000
+ -0.48509555 -0.56048981 -0.67121790
+  0.07468384 -0.79132900  0.60681195
+ -0.87126611  0.24423265  0.42572971
+     54.7883     59.0640     66.9011     90.0000     90.0000     90.0000
+       0.000       0.000       0.000
+eof-cat
+
+ipmosflm summary integrate05.sum <<eof
+# This unix script assumes MOSFLM 6.2.3 or higher
+# It is assumed that the user has the program ipmosflm in the path
+TITLE integration script starting with labelit model
+# Upon running this script, the user is advised to refine the cell first
+#  (assuming several images are available), and then proceed with integration.
+
+DIRECTORY /home/svensson/WorkSpace-340/edna-HEAD/prototype/tests/data/images
+# Should be run in same directory as the image files
+TEMPLATE ref-testscale_1_###.img
+IMAGE 1
+HKLOUT integration05.mtz
+GENFILE integration05.gen
+#detector-take defaults
+
+#UIS_PIXEL 0.102400
+#UIS_SIZE 2048
+
+NUSPOT OFF
+BEAM 102.489000 104.770800
+DISTANCE 198.308800
+TWOTHETA 0.0
+
+WAVE 0.934000
+#beam
+SYNCHROTRON POLARIZATION 0.9
+DIVERGENCE 0.100 0.020
+DISPERSION 0.0001
+
+
+MOSAICITY 0.30
+SYMMETRY P222
+RESOLUTION 1.819
+MATRIX integration05.mat
+
+PROFILE OVERLOAD PARTIALS
+
+SEPARATION CLOSE
+REFINEMENT INCLUDE PARTIALS 
+
+RUN
+
+EXIT
+eof
+

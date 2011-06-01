@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.edna-site.org">
+    <xs:include schemaLocation="../../kernel/datamodel/XSDataCommon.xsd"></xs:include>
+    <xs:include schemaLocation="XSDataCommon.xsd" />		<xs:complexType name="XSDataInputAbsCalc">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="numCompounds" type="XSDataInteger"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+
+					<xs:element name="compoundList"
+						type="XSDataCompound" minOccurs="1" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="buffer" type="XSDataCompound"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+					<xs:element name="edge" type="XSDataString"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+					<xs:element name="transAfterEdge" type="XSDataFloat"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="diameterDisk" type="XSDataFloat"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+					<xs:element name="thicknessDisk" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="XSDataResultAbsCalc">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>					<xs:element name="densitySample" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="weightSample" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="compoundList"
+						type="XSDataCompound" minOccurs="1" maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="buffer" type="XSDataCompound"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="transBeforeEdge" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="transAfterEdge" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="thicknessDisk" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:element name="radiusDisk" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="XSDataCompound">
+		<xs:complexContent>
+			<xs:extension base="XSData">
+				<xs:sequence>
+					<xs:element name="formula" type="XSDataString"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+					<xs:element name="fraction" type="XSDataFloat"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+					<xs:element name="density" type="XSDataFloat"
+						minOccurs="1" maxOccurs="1">
+					</xs:element>
+					<xs:element name="weight" type="XSDataFloat"
+						minOccurs="0" maxOccurs="1">
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+    <xs:element name="XSDataInputAbsCalc" type="XSDataInputAbsCalc"></xs:element>
+
+    <xs:element name="XSDataResultAbsCalc" type="XSDataResultAbsCalc"></xs:element>
+
+    <xs:complexType name="XSDataInputAbsorption">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataInput">
+    			<xs:sequence>
+    				<xs:element name="deltaMuT" type="XSDataFloat"
+    					minOccurs="0" maxOccurs="1">
+    				</xs:element>
+
+    				<xs:element name="absCalcReference"
+    					type="XSDataInputAbsCalc" minOccurs="1" maxOccurs="1">
+    				</xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="XSDataResultAbsorption">
+    	<xs:complexContent>
+    		<xs:extension base="XSDataResult">
+    			<xs:sequence>
+    				<xs:element name="compound" type="XSDataResultAbsCalc" minOccurs="1" maxOccurs="1"></xs:element>
+    			</xs:sequence>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="XSDataInputAbsorption" type="XSDataInputAbsorption"></xs:element>
+
+    <xs:element name="XSDataResultAbsorption" type="XSDataResultAbsorption"></xs:element>
+
+    <xs:element name="XSDataCompound" type="XSDataCompound"></xs:element>
+</xs:schema>                            

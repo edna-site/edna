@@ -1,0 +1,137 @@
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<html> <!-- CCP4 HTML LOGFILE -->
+<hr>
+<!--SUMMARY_END--></FONT></B>
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<pre>
+ 
+ ###############################################################
+ ###############################################################
+ ###############################################################
+ ### CCP4 6.1: MTZDUMP                  version 6.1 : 03/03/08##
+ ###############################################################
+ User: unknown  Run date: 19/ 1/2010 Run time: 15:03:37 
+
+
+ Please reference: Collaborative Computational Project, Number 4. 1994.
+ "The CCP4 Suite: Programs for Protein Crystallography". Acta Cryst. D50, 760-763.
+ as well as any specific reference in the program write-up.
+
+<!--SUMMARY_END--></FONT></B>
+
+ OPENED INPUT MTZ FILE 
+ Logical Name: HKLIN   Filename: /home/svensson/WorkSpace-350/edna/ccp4v0/plugins/EDPluginExecMTZDUMPUnitCellSpaceGroup-v1.0/tests/data/edna_example.mtz 
+
+
+ Spacegroup information obtained from library file: 
+ Logical Name: SYMINFO   Filename: /usr/local/xtal/ccp4-6.1.1/lib/data/syminfo.lib
+
+ * Title:
+
+ 
+
+ * Base dataset:
+
+        0 HKL_base
+          HKL_base
+          HKL_base
+
+ * Number of Datasets = 1
+
+ * Dataset ID, project/crystal/dataset names, cell dimensions, wavelength:
+
+        1 XDSproject
+          XDScrystal
+          XDSdataset
+             78.1580   78.1580   78.1580   90.0000   90.0000   90.0000
+             0.97630
+
+ * Number of Columns = 9
+
+ * Number of Reflections = 16465
+
+ * Missing value set to NaN in input mtz file
+
+ * HISTORY for current MTZ file :
+
+ From SCALA: run at 18:20:23 on 18/ 1/10                                         
+
+ * Column Labels :
+
+ H K L IMEAN SIGIMEAN I(+) SIGI(+) I(-) SIGI(-)
+
+ * Column Types :
+
+ H H H J Q K M K M
+
+ * Associated datasets :
+
+ 0 0 0 1 1 1 1 1 1
+
+ * Cell Dimensions : (obsolete - refer to dataset cell dimensions above)
+
+   78.1580   78.1580   78.1580   90.0000   90.0000   90.0000 
+
+ *  Resolution Range :
+
+    0.00262    0.52810     (     19.539 -      1.376 A )
+
+ * Sort Order :
+
+      1     2     3     4     5
+
+ * Space group = 'I 2 3' (number     197)
+
+
+
+ OVERALL FILE STATISTICS for resolution range   0.003 -   0.528
+ ======================= 
+
+
+ Col Sort    Min    Max    Num      %     Mean     Mean   Resolution   Type Column
+ num order               Missing complete          abs.   Low    High       label 
+
+   1 ASC      0      32      0  100.00      8.7      8.7  19.54   1.38   H  H
+   2 NONE     1      56      0  100.00     27.8     27.8  19.54   1.38   H  K
+   3 NONE     0      56      0  100.00     27.1     27.1  19.54   1.38   H  L
+   4 NONE -222.3222000.0     0  100.00  5110.48  5113.84  19.54   1.38   J  IMEAN
+   5 NONE   11.0  6698.0     0  100.00    91.65    91.65  19.54   1.38   Q  SIGIMEAN
+   6 NONE -399.1222000.0     0  100.00  4838.77  4843.58  19.54   1.38   K  I(+)
+   7 NONE    0.0  6698.0     0  100.00   121.34   121.34  19.54   1.38   M  SIGI(+)
+   8 NONE -361.8191000.0     0  100.00  4978.80  4984.13  19.54   1.38   K  I(-)
+   9 NONE    0.0  5764.0     0  100.00   115.92   115.92  19.54   1.38   M  SIGI(-)
+
+
+ No. of reflections used in FILE STATISTICS    16465
+
+
+
+ LIST OF REFLECTIONS
+ ===================
+
+    0   1   7    32409.61    693.24  31850.00    963.60  33010.00    998.10
+
+    0   1  11     9661.33    149.24   9677.49    211.43   9645.28    210.68
+
+    0   1  13     1068.54     28.22   1045.42     39.54   1092.52     40.28
+
+    0   1  15    97193.95   1695.02  96740.00   2923.00  97423.95   2080.56
+
+    0   1  17    31797.59    483.38  31831.97    684.42  31763.38    682.79
+
+    0   1  19    52981.39    803.36  54494.98   1167.79  51621.53   1106.90
+
+    0   1  21    35301.07    538.16  35726.16    769.53  34894.19    752.88
+
+    0   1  23      203.96     44.07    262.64     63.90    150.71     60.86
+
+    0   1  25     9065.64    149.46   9021.00    210.51   9111.03    212.25
+
+    0   1  27    21441.66    332.75  21530.00    472.76  21354.93    468.42
+
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+ MTZDUMP:   Normal termination of mtzdump
+Times: User:       0.3s System:    0.0s Elapsed:     0:01  
+</pre>
+</html>
+<!--SUMMARY_END--></FONT></B>

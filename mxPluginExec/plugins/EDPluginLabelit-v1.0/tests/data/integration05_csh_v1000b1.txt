@@ -1,0 +1,58 @@
+#!/bin/csh -f
+cat > integration05.mat <<eof-cat
+ 0.000026510 0.000827615  0.01402983
+  0.00755128 -0.02215572 0.000479809
+  0.02610370  0.00640837-0.000153048
+       0.000       0.000       0.000
+ 0.000975578  0.03586049  0.99935633
+  0.27788652 -0.96000573  0.03417718
+  0.96061341  0.27767431 -0.01090171
+     39.7770     46.8353     76.9934     90.0000     90.0000     90.0000
+       0.000       0.000       0.000
+eof-cat
+
+ipmosflm summary integrate05.sum <<eof
+# This unix script assumes MOSFLM 6.2.3 or higher
+# It is assumed that the user has the program ipmosflm in the path
+TITLE integration script starting with labelit model
+# Upon running this script, the user is advised to refine the cell first
+#  (assuming several images are available), and then proceed with integration.
+
+DIRECTORY /img11/data1/pxuser/staff/skinner/ednatest
+# Should be run in same directory as the image files
+TEMPLATE ref-x500_1_###.img
+IMAGE 1
+HKLOUT integration05.mtz
+GENFILE integration05.gen
+#detector-take defaults
+
+#UIS_PIXEL 0.102600
+#UIS_SIZE 3072
+
+NUSPOT OFF
+BEAM 158.490000 156.700000
+DISTANCE 99.94
+TWOTHETA 0.0
+
+WAVE 1.080900
+#beam
+SYNCHROTRON POLARIZATION 0.9
+DIVERGENCE 0.100 0.020
+DISPERSION 0.0001
+
+
+MOSAICITY 0.35
+SYMMETRY P222
+RESOLUTION 1.48
+MATRIX integration05.mat
+
+PROFILE OVERLOAD PARTIALS
+
+SEPARATION CLOSE
+REFINEMENT INCLUDE PARTIALS 
+
+RUN
+
+EXIT
+eof
+

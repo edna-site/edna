@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+
+  <xsd:complexType name="DTCrystalDiffractionImage">
+      <xsd:sequence>
+        <xsd:element name="fileName"             type="xsd:string"/>
+        <xsd:element name="fileNameOriginal"     type="xsd:string"/>
+        <xsd:element name="date"                 type="xsd:string"/>
+        <xsd:element name="detectorId"           type="xsd:string"/>
+        <xsd:element name="detectorType"         type="xsd:string"/>
+        <xsd:element name="detectorInformation"  type="xsd:string"/>
+        <xsd:element name="blank"                type="xsd:boolean"/>
+        <xsd:element name="powderIceRings"       type="xsd:boolean"/>
+        <xsd:element name="information"          type="xsd:string"/>
+        <xsd:element name="mosaicity"            type="xsd:double"/>
+        <xsd:element name="resolution"           type="xsd:double"/>
+        <xsd:element name="IOverSigmaI"          type="xsd:double"/>
+        </xsd:sequence>
+  </xsd:complexType>
+  
+  
+  <xsd:complexType name="DTCrystalGroupDiffractionImage">
+        <xsd:sequence>
+            <xsd:element name="diffractionImage" minOccurs="0" maxOccurs="unbounded" type="DTCrystalDiffractionImage"/>
+        </xsd:sequence>
+  </xsd:complexType>
+  
+  
+  <xsd:complexType name="DTCrystalReference">
+      <xsd:sequence>
+        <xsd:element name="date"                    type="xsd:string"/>
+        <xsd:element name="information"             type="xsd:string"/>
+        <xsd:element name="applicationErrorMessage" type="xsd:string"/>
+        <xsd:element name="applicationName"         type="xsd:string"/>
+        <xsd:element name="applicationInformation"  type="xsd:string"/>
+        <xsd:element name="applicationSuccess"      type="xsd:boolean"/>
+        <xsd:element name="groupDiffractionImage"    type="DTCrystalGroupDiffractionImage"/>
+        <xsd:element name="blankImage"              type="xsd:boolean"/>
+        <xsd:element name="powderIceRings"          type="xsd:boolean"/>
+        <xsd:element name="beamX"                   type="xsd:double"/>
+        <xsd:element name="beamY"                   type="xsd:double"/>
+        <xsd:element name="cellA"                   type="xsd:double"/>
+        <xsd:element name="cellB"                   type="xsd:double"/>
+        <xsd:element name="cellC"                   type="xsd:double"/>
+        <xsd:element name="cellAlpha"               type="xsd:double"/>
+        <xsd:element name="cellBeta"                type="xsd:double"/>
+        <xsd:element name="cellGamma"               type="xsd:double"/>
+        <xsd:element name="mosaicity"               type="xsd:double"/>
+        <xsd:element name="resolution"              type="xsd:double"/>
+        <xsd:element name="IOverSigmaI"             type="xsd:double"/>
+        <xsd:element name="bravaisLattice"          type="xsd:string"/>
+        <xsd:element name="phiStart"                type="xsd:double"/>
+        <xsd:element name="phiEnd"                  type="xsd:double"/>
+        <xsd:element name="rotation"                type="xsd:double"/>
+        <xsd:element name="exposureTime"            type="xsd:double"/>
+        <xsd:element name="generalInformation"      type="xsd:string"/>
+        <xsd:element name="generalXMLObject"        type="xsd:string"/>
+        </xsd:sequence>
+  </xsd:complexType>
+  
+      
+</xsd:schema>

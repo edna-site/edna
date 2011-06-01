@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataResultPeakSearch>
+    <peakFile2D>
+        <path>
+            <value>${EDNA_WORKING_DIR}/outFile_t5.spt</value>
+        </path>
+    </peakFile2D>
+    <peakFile3D>
+        <path>
+            <value>${EDNA_WORKING_DIR}/outFile_t5.flt</value>
+        </path>
+    </peakFile3D>
+</XSDataResultPeakSearch>

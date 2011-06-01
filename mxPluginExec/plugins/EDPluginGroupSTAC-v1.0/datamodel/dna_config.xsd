@@ -1,0 +1,400 @@
+<!--
+********************************************************
+*
+* dna_gui.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_config.xsd,v 1.26 2008/09/02 11:55:40 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+
+  <xsd:complexType name="system_defaults">
+    <xsd:sequence>
+      <xsd:element name="server_data"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="server_data"/>      
+      <xsd:element name="local_info"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="local_info"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="user_defaults">
+    <xsd:sequence>
+      <xsd:element name="default_values"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="default_values"/>      
+      <xsd:element name="index_parameters"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="index_parameters"/>
+      <xsd:element name="integrate_parameters"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="integrate_parameters"/>
+      <xsd:element name="strategy_parameters"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="strategy_parameters"/>
+      <xsd:element name="rank_parameters"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="rank_parameters"/>
+      <xsd:element name="server_data"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="server_data"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="dna_configuration">
+    <xsd:sequence>
+      <xsd:element name="server_data"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="server_data"/>      
+      <xsd:element name="local_info"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="local_info"/>      
+      <xsd:element name="default_values"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="default_values"/>      
+      <xsd:element name="index_parameters"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="index_parameters"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="local_info">
+    <xsd:sequence>
+      <xsd:element name="detector"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="detector"/>
+      <xsd:element name="bcm_name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="bcm_connection_timeout"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+      <xsd:element name="login_required"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>      
+      <xsd:element name="archive_directory"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="dna_contact_email"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="max_exposure_time_before_radiation_damage"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+      <xsd:element name="bcm_synchronise_archive_available"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>      
+      <xsd:element name="I_over_sigma"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="index_parameters">
+    <xsd:sequence>
+      <xsd:element name="extra_index_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+      <xsd:element name="warning_index_spot_rms_error"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+      <xsd:element name="max_index_spot_rms_error"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+      <xsd:element name="warning_beam_shift"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+      <xsd:element name="max_beam_shift"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+      <xsd:element name="warning_index_spot_frac_rejected"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+      <xsd:element name="max_index_spot_frac_rejected"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+      <xsd:element name="min_threshold_I_sigma"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="integrate_parameters">
+    <xsd:sequence>
+      <xsd:element name="extra_integrate_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="strategy_parameters">
+    <xsd:sequence>
+      <xsd:element name="extra_strategy_commands"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="extra_commands"/>
+      <!-- this is the limit on the number of 
+           overlaps in % -->      
+      <xsd:element name="overlap_limit"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="rank_parameters">
+    <xsd:sequence>
+      <xsd:element name="rankEngine"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rankProjectFile"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="server_data">
+    <xsd:sequence>
+      <xsd:element name="expert_system_host_name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="expert_system_port_number"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+      <xsd:element name="dpm_host_name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="dpm_log_file"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="mosflm_executable"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="bcm_host_name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="bcm_port_number"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+      <xsd:element name="bcm_kappa_in_use"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>      
+      <xsd:element name="db_host_name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="db_port_number"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+      <xsd:element name="gui_host_name"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="gui_port_number"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+      <xsd:element name="timeout_length"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:int"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="default_values">
+    <xsd:sequence>
+      <xsd:element name="sample_identifier"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+      <xsd:element name="fileinfo"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="fileinfo"/>      
+      <xsd:element name="oscillation_sequence"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="oscillation_sequence"/>      
+      <xsd:element name="detector"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="detector"/>
+      <xsd:element name="beam"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="beam"/>      
+      <xsd:element name="resolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="dna_configuration_request">
+    <xsd:sequence>
+      <xsd:element name="system_defaults"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="system_defaults"/>
+      <xsd:element name="user_defaults"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="user_defaults"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="dna_configuration_response">
+    <xsd:sequence>
+      <xsd:element name="system_defaults"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="system_defaults"/>
+      <xsd:element name="user_defaults"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="user_defaults"/>
+      <xsd:element name="status"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+  <xsd:complexType name="dna_context">
+    <xsd:sequence>
+      <xsd:element name="online"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:boolean"/>      
+      <xsd:element name="current_fileinfo"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="fileinfo"/>      
+      <xsd:element name="current_oscillation_sequence"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="oscillation_sequence"/>      
+      <xsd:element name="current_detector"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="detector"/>      
+      <xsd:element name="current_experiment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="experiment"/>
+      <xsd:element name="current_beam"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="beam"/>
+      <xsd:element name="current_collect_resolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="resolution"/>
+      <xsd:element name="current_calculated_resolution"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="resolution"/>
+      <xsd:element name="current_log_dir"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="current_archive_reference_images"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="current_database_comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="dna_context_request">
+    <xsd:sequence>
+      <xsd:element name="dna_context"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="dna_context"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="dna_context_response">
+    <xsd:sequence>
+      <xsd:element name="dna_context"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="dna_context"/>
+      <xsd:element name="status"
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>

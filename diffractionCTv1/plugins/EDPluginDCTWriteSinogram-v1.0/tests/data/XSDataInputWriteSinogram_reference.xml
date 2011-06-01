@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataInputWriteSinogram>
+	<integratedIntensities>
+		<path>
+			<value>${EDNA_PLUGIN_TESTS_DATA_HOME}/test.cif</value>
+		</path>
+	</integratedIntensities>
+	<sinogramDirectory>
+		<path>
+			<value>/tmp</value>
+		</path>
+	</sinogramDirectory>
+	<sinogramFileNamePrefix>
+		<value>FakeTest</value>
+	</sinogramFileNamePrefix>
+</XSDataInputWriteSinogram>

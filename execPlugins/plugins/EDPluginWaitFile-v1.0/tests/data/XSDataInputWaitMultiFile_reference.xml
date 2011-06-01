@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<expectedFile><path><value>/tmp/edna-${USER}/File1sizeIsTen</value></path></expectedFile>
+<expectedFile><path><value>/tmp/edna-${USER}/File2sizeIsTen</value></path></expectedFile>
+<expectedFile><path><value>/tmp/edna-${USER}/File3sizeIsTen</value></path></expectedFile>
+<expectedFile><path><value>/tmp/edna-${USER}/File4sizeIsTen</value></path></expectedFile>
+<expectedFile><path><value>/tmp/edna-${USER}/File5sizeIsTen</value></path></expectedFile>
+<expectedFile><path><value>/tmp/edna-${USER}/File6sizeIsTen</value></path></expectedFile>
+<expectedSize><value>10</value></expectedSize>
+</XSDataInput>

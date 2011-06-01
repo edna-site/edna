@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="XSDataCommon.xsd"/>
+	<xs:element name="XSDataInputFIT2D" type="XSDataInputFIT2D"/>
+	<xs:complexType name="XSDataInputFIT2D">
+		<xs:complexContent>
+			<xs:extension base="XSDataInput">
+				<xs:sequence>
+					<xs:element name="beamCentreInPixelsX" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="beamCentreInPixelsY" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="bufferSizeX" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="bufferSizeY" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="darkCurrentImageFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="flatFieldImageFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="inputFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outputFileType" type="XSDataString" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="pixelSizeX" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="pixelSizeY" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="spatialDistortionFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="wavelength" type="XSDataWavelength" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataInputFIT2DCake" type="XSDataInputFIT2DCake"/>
+	<xs:complexType name="XSDataInputFIT2DCake">
+		<xs:complexContent>
+			<xs:extension base="XSDataInputFIT2D">
+				<xs:sequence>
+					<xs:element name="angleOfTilt" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="endAzimuth" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="innerRadius" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="outerRadius" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="sampleToDetectorDistance" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="startAzimuth" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="tiltRotation" type="XSDataDouble" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="XSDataResultFIT2DCake" type="XSDataResultFIT2DCake"/>
+	<xs:complexType name="XSDataResultFIT2DCake">
+		<xs:complexContent>
+			<xs:extension base="XSDataResult">
+				<xs:sequence>
+					<xs:element name="resultFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

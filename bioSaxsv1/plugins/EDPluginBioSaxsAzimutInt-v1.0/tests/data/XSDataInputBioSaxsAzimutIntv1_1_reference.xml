@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<normalizedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsCorrected.edf</value></path></normalizedImage>
+<normalizedImageSize><value>4100000</value></normalizedImageSize>
+<integratedImage><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.edf</value></path></integratedImage>
+<integratedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedSpectrum>
+<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
+<normalizationFactor><value>1.0</value></normalizationFactor>
+<sampleConcentration><value>5.77</value></sampleConcentration>
+<sampleComments><value>bsa2</value></sampleComments>
+<sampleCode><value>BAS</value></sampleCode>
+</XSDataInput>

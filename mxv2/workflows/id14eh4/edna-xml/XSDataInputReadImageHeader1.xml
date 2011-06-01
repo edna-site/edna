@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<XSDataInputReadImageHeader>
+  <image>
+    <path><value>${directory}/RAW_DATA/${prefix}_${run_number}_0001.${suffix}</value></path>
+  </image>
+</XSDataInputReadImageHeader>

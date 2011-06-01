@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<XSDataInputXDSSpotSearch>
+	<job>
+    	<value>COLSPOT</value>
+  	</job>
+  	<detector>
+  		<detector_name>
+  			<value>ADSC</value>
+  		</detector_name>
+  		<image_format>
+  			<value>SMV DIRECT</value>
+  		</image_format>
+  		<nx>
+  			<value>2048</value>
+  		</nx>
+  		<ny>
+  			<value>2048</value>
+  		</ny>
+  		<qx>
+  			<value>0.102400</value>
+  		</qx>
+  		<qy>
+  			<value>0.102400</value>
+  		</qy>
+  	</detector>
+  	<subWedge>
+  		<data_range>
+  			<lower>
+  				<value>1</value>
+  			</lower>
+  			<upper>
+  				<value>1</value>
+  			</upper>
+  		</data_range>
+  		<background_range>
+  			<lower>
+  				<value>1</value>
+  			</lower>
+  			<upper>
+  				<value>1</value>
+  			</upper>
+  		</background_range>
+  		<name_template_of_data_frames>
+            <value>ref-testscale_1_???.img</value>
+        </name_template_of_data_frames>
+    </subWedge>
+</XSDataInputXDSSpotSearch>

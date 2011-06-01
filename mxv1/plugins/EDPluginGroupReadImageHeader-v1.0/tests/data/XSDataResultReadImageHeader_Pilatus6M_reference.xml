@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<XSDataResultReadImageHeader>
+    <subWedge>
+        <experimentalCondition>
+            <beam>
+                <exposureTime>
+                    <value>2.550000e-01</value>
+                </exposureTime>
+                <wavelength>
+                    <value>9.788000e-01</value>
+                </wavelength>
+            </beam>
+            <detector>
+                <beamPositionX>
+                    <value>2.287944e-01</value>
+                </beamPositionX>
+                <beamPositionY>
+                    <value>2.257844e-01</value>
+                </beamPositionY>
+                <distance>
+                    <value>3.500000e-01</value>
+                </distance>
+                <name>
+                    <value>PILATUS 6M</value>
+                </name>
+                <numberPixelX>
+                    <value>2463</value>
+                </numberPixelX>
+                <numberPixelY>
+                    <value>2527</value>
+                </numberPixelY>
+                <pixelSizeX>
+                    <value>1.720000e-04</value>
+                </pixelSizeX>
+                <pixelSizeY>
+                    <value>1.720000e-04</value>
+                </pixelSizeY>
+                <serialNumber>
+                    <value>PILATUS 6M, SN 60-0001, X06SA@SLS.PSI.CH</value>
+                </serialNumber>
+                <type>
+                    <value>pilatus6m</value>
+                </type>
+            </detector>
+            <goniostat>
+                <oscillationWidth>
+                    <value>2.500000e-01</value>
+                </oscillationWidth>
+                <rotationAxisEnd>
+                    <value>2.500000e-01</value>
+                </rotationAxisEnd>
+                <rotationAxisStart>
+                    <value>0.000000e+00</value>
+                </rotationAxisStart>
+            </goniostat>
+        </experimentalCondition>
+        <image>
+            <date>
+                <value>2008/Mar/05 18:04:59.549</value>
+            </date>
+            <number>
+                <value>1</value>
+            </number>
+            <path>
+                <value>/users/svensson/WorkSpace/edna-HEAD/tests/data/images/FAE_1_1_00001.cbf</value>
+            </path>
+        </image>
+    </subWedge>
+</XSDataResultReadImageHeader>

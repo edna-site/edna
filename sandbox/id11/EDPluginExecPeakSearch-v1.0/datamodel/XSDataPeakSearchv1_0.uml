@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataPeakSearchv1_0">
+    <packagedElement xmi:type="uml:Class" xmi:id="_9VQXsEPcEeC6S8Rxp8BZLw" name="XSDataInputPeakSearch">
+      <generalization xmi:id="_rPMUwEPdEeC6S8Rxp8BZLw">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_2nf0UEPeEeC6S8Rxp8BZLw" name="stem">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_bpan0EPfEeCgkodpZ8TWtw" name="indexMin">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_f_UREEPfEeCgkodpZ8TWtw" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_gfuPcEPfEeCgkodpZ8TWtw" name="indexMax">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jP-JgEPfEeCgkodpZ8TWtw" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_jzK9MEPfEeCgkodpZ8TWtw" name="outputStem">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eS4vAEPgEeCgkodpZ8TWtw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_nBy1UEPfEeCgkodpZ8TWtw" name="threshold" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_FtwzYEPgEeCgkodpZ8TWtw" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_9xcdEEPfEeCgkodpZ8TWtw" name="imageFormat">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_e_D4gEPgEeCgkodpZ8TWtw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_LWZP0EPgEeCgkodpZ8TWtw" name="darkFile">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PukxAEPgEeCgkodpZ8TWtw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_bXMq0F-IEeC7GJtbRyrBtg" name="numberOfDigits">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rLCXAF-IEeC7GJtbRyrBtg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Lu3hkEPdEeC6S8Rxp8BZLw" name="XSDataResultPeakSearch">
+      <generalization xmi:id="_AsXoAEPeEeC6S8Rxp8BZLw">
+        <general xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
+      </generalization>
+      <ownedAttribute xmi:id="_ksmqIEPgEeCgkodpZ8TWtw" name="peakFile2D" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6-xEoEPgEeCgkodpZ8TWtw" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_0PnsEEPgEeCgkodpZ8TWtw" name="peakFile3D" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_20VEgEPgEeCgkodpZ8TWtw" value="*"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

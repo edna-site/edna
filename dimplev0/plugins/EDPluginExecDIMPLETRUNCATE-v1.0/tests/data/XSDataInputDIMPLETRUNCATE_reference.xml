@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<XSDataInputTRUNCATE>
+   <HKLIN>
+      <path>
+         <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/merged_intensity_insulin.mtz</value>
+      </path>
+   </HKLIN>
+   <HKLOUT>
+      <path>
+         <value>/tmp/insulin_truncate.mtz</value>
+      </path>
+   </HKLOUT>
+   <sequence>
+      <oneLetterCode>
+         <value>GIVEQCCTSVCSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKA</value>
+      </oneLetterCode>
+      <numberOfResidues>
+         <value>51</value>
+      </numberOfResidues>
+      <molecularMass>
+         <value>6.645000e+03</value>
+      </molecularMass>
+   </sequence>
+   <ColLabels>
+        <IMEAN>
+            <value>IMEAN</value>
+        </IMEAN>
+        <SIGIMEAN>
+            <value>SIGIMEAN</value>
+        </SIGIMEAN>
+        <F>
+            <value></value>
+        </F>
+        <SIGF>
+            <value></value>
+        </SIGF>
+    </ColLabels>
+</XSDataInputTRUNCATE>

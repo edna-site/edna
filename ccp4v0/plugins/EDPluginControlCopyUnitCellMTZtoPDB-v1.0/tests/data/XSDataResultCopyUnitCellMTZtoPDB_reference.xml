@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResultMTZUnitCellToPDB>
+    <outputPDBFile>
+        <path>
+            <value>${EDNA_WORKING_DIR}/output.pdb</value>
+        </path>
+    </outputPDBFile>
+</XSDataResultMTZUnitCellToPDB>

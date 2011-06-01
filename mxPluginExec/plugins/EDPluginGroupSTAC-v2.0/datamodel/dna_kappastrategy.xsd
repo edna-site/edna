@@ -1,0 +1,218 @@
+<!--
+********************************************************
+*
+* dna_collect.xsd
+*
+* Authors: The DNA team, http://www.dna.ac.uk
+*
+* Version: $Id: dna_kappastrategy.xsd,v 1.3 2007/11/08 14:08:04 svensson Exp $
+*
+********************************************************
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dna="http://www.dna.ac.uk/DNA_XMLSchema">
+
+
+  <xsd:include schemaLocation="dna_common.xsd"/>
+  <xsd:include schemaLocation="dna_strategy.xsd"/>
+
+
+  <xsd:complexType name="kappa_alignment">
+    <xsd:sequence>
+      <xsd:element name="v1"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="v2"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="close"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="comment"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="kappa_alignment_request">
+    <xsd:sequence>
+      <xsd:element name="desired_orientation"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="kappa_alignment"/>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--  Example collect_request:
+
+        <collect_request>
+        </collect_request>
+           
+   -->   
+
+  <xsd:complexType name="kappa_possible_alignment">
+    <xsd:sequence>
+      <xsd:element name="v1"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="v2"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="omega"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="kappa"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="phi"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="trans"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="rank"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="kappa_alignment_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="possible_orientation"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="kappa_possible_alignment"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="kappa_strategy_request">
+    <xsd:sequence>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="desired_datum"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="kappa_possible_alignment"/>
+      <xsd:element name="standard_request"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="strategy_request"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="kappa_strategy_sweep">
+    <xsd:sequence>
+      <xsd:element name="strategyID"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:int"/>
+      <xsd:element name="omegaStart"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="omegaEnd"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="kappa"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="phi"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="completeness"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+      <xsd:element name="rank"
+                   minOccurs="1"
+                   maxOccurs="1"
+                   type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="kappa_strategy_response">
+    <xsd:sequence>
+      <xsd:element name="status" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="status"/>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+      <xsd:element name="generated_sweep"
+                   minOccurs="0"
+                   maxOccurs="unbounded"
+                   type="kappa_strategy_sweep"/>
+      <xsd:element name="standard_response"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="strategy_response"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="kappa_motor_setting">
+    <xsd:sequence>
+      <xsd:element name="motorName" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:string"/>
+      <xsd:element name="motorValue" 
+                   minOccurs="1" 
+                   maxOccurs="1" 
+                   type="xsd:double"/>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>  
+
+  <xsd:complexType name="kappa_collect_settings">
+    <xsd:sequence>
+      <xsd:element name="motorSettings"
+                   minOccurs="1"
+                   maxOccurs="unbounded"
+                   type="kappa_motor_setting"/>
+      <xsd:element name="comment"
+                   minOccurs="0"
+                   maxOccurs="1"
+                   type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+
+</xsd:schema>

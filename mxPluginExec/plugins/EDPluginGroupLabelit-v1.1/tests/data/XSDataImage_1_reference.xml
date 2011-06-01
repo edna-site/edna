@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataImage>
+  <date>
+      <value>Mon Mar 20 12:38:23 2006</value>
+  </date>
+  <number>
+      <value>1</value>
+  </number>
+  <path>
+    <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_001.img</value>
+  </path>
+</XSDataImage>

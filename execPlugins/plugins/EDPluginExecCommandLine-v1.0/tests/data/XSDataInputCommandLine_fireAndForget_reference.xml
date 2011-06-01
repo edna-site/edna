@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<XSDataInputExecCommandLine>
+	<commandLineProgram>
+		<path>
+			<value>gzip</value></path></commandLineProgram>
+	<commandLineOptions>
+		<value>-9</value>
+	</commandLineOptions>
+	<inputFileName>
+		<path>
+			<value>/tmp/edna-${USER}/test_region1_dark_1_0040.edf</value>
+		</path>
+	</inputFileName>
+	<outfileFromStdout>
+		<value>0</value></outfileFromStdout>
+	<fireAndForget>
+		<value>1</value></fireAndForget></XSDataInputExecCommandLine>

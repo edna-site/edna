@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<XSConfiguration>
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecTomographyv10</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/dls_sw/i12/software/tomography_scripts/sino_and_recon.sh</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessTimeOut</name>
+					<value>600</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList>
+</XSConfiguration> 

@@ -1,0 +1,24 @@
+# parameter file for BEST 
+TITLE          .
+DETECTOR       ADSC
+SITE           Not set
+DIAMETER         209.72
+PIXEL          0.1024000
+ROTAXIS        0.00 0.00 1.00 FAST
+POLAXIS        0.00 0.00 1.00
+GAIN               0.25
+CMOSAIC            0.85
+PHISTART          90.00
+PHIWIDTH           1.00
+DISTANCE         198.26
+WAVELENGTH      0.93400
+POLARISATION    0.95000
+SYMMETRY       P222
+UB             -0.008265  0.001266 -0.014851
+                0.008852  0.012522 -0.003860
+                0.009372 -0.008455 -0.005936
+CELL              54.80    59.06    66.96  90.00  90.00  90.00
+RASTER           21  19  15   8   6
+SEPARATION      0.510  0.710
+BEAM            102.521  104.797
+# end of parameter file for BEST
