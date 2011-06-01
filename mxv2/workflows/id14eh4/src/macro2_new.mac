@@ -1,0 +1,4 @@
+# Please insert spec macro contents here, and use the view on the left to insert variables.
+eval('mv phi ${phi_new}')
+eval('mv kap1 ${kap1_new}')
+eval('mv kap2 ${kap2_new}')

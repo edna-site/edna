@@ -3,6 +3,7 @@ eval('COLLECT_SEQ["archive_dir"] = "/data/pyarch/id14eh4/opid144/20110510/RAW_DA
 eval('COLLECT_SEQ["collection_message"] = "Starting a data collection..."')
 eval('COLLECT_SEQ["collection_start_time"] = "2011-05-10 16:50:00"')
 eval('COLLECT_SEQ["comment"] = "Image created for EDNA characterisation"')
+eval('COLLECT_SEQ["dark"] = "$(darkCurrentImage)"')
 eval('COLLECT_SEQ["detector_mode"] = "2"')
 eval('COLLECT_SEQ["do_inducedraddam"] = "False"')
 eval('COLLECT_SEQ["experiment_type"] = "SAD"')

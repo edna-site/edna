@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
-<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/svensson/dawb_workspace/id14eh4/kappa/test_complete.moml">
+<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/opid14/dawb_workspace/id14eh4/kappa/test_olof_complete.moml">
     <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="7.0.1">
     </property>
     <property name="_workbenchVersion" class="ptolemy.kernel.attributes.VersionAttribute" value="0.8.2">
@@ -141,7 +141,7 @@
         </property>
         <property name="Dataset Outputs" class="ptolemy.data.expr.StringParameter" value="phi_new,kap1_new,kap2_new">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{305.0, 755.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{299.0, 826.0}">
         </property>
     </entity>
     <entity name="Set exp param" class="org.dawb.passerelle.actors.ui.UserModifyTransformer">
@@ -237,7 +237,7 @@
         </property>
         <property name="User Input Type" class="org.dawb.passerelle.actors.ui.UserModifyTransformer$1" value="Edit with dialog (non-blocking)">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{504.0, 758.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{498.0, 829.0}">
         </property>
     </entity>
     <entity name="Exp prep 1" class="org.dawb.passerelle.actors.hardware.TangoCommandTransformer">
@@ -291,7 +291,7 @@
         </property>
         <property name="Spec Macro" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/src/macro2.mac">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{634.0, 774.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{628.0, 845.0}">
         </property>
     </entity>
     <entity name="Data collection 2" class="org.dawb.passerelle.actors.hardware.TangoCommandTransformer">
@@ -309,7 +309,7 @@
         </property>
         <property name="Spec Macro" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/workflows/src/macro1.mac">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{797.0, 774.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{791.0, 845.0}">
         </property>
     </entity>
     <entity name="ReadImageHeaderPlugin(2)" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
@@ -331,7 +331,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{934.0, 710.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{928.0, 781.0}">
         </property>
     </entity>
     <entity name="ReadImageHeaderPlugin(3)" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
@@ -353,7 +353,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{944.0, 827.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{938.0, 898.0}">
         </property>
     </entity>
     <entity name="MXv2 Char At New Orientation" class="org.dawb.passerelle.actors.edna.ControlCharAtNewOrientationv2_0">
@@ -375,7 +375,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{1127.0, 774.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{1121.0, 845.0}">
         </property>
     </entity>
     <entity name="Open prediction image" class="org.dawb.passerelle.actors.file.OpenFileSink">
