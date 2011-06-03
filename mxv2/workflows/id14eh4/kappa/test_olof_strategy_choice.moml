@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
-<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/svensson/dawb_workspace/id14eh4/kappa/test_olof_strategy_choice.moml">
+<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/opid14/dawb_workspace/id14eh4/kappa/test_olof_strategy_choice.moml">
     <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="7.0.1">
     </property>
     <property name="_workbenchVersion" class="ptolemy.kernel.attributes.VersionAttribute" value="0.8.2">
@@ -49,7 +49,7 @@
         </property>
         <property name="Interpreter Type" class="org.dawb.passerelle.actors.scripts.PythonScript$1" value="Python">
         </property>
-        <property name="Dataset Outputs" class="ptolemy.data.expr.StringParameter" value="phi_new,kap1_new,kap2_new">
+        <property name="Dataset Outputs" class="ptolemy.data.expr.StringParameter" value="phi,kap1,kap2,strategy">
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="{523.0, 430.0}">
         </property>
@@ -65,7 +65,7 @@
         </property>
         <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
         </property>
-        <property name="User Fields" class="org.dawb.passerelle.actors.ui.config.FieldParameter" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gCjxqYXZhIHZlcnNpb249IjEuNi4wXzIyIiBjbGFzcz0iamF2YS5iZWFucy5YTUxEZWNvZGVyIj4gCiA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRDb250YWluZXIiPiAKICA8dm9pZCBwcm9wZXJ0eT0iZmllbGRzIj4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5QaGk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+cGhpX25ldzwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLkZpZWxkQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+S2FwcGEgMTwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ2YXJpYWJsZU5hbWUiPiAKICAgICAgPHN0cmluZz5rYXAxX25ldzwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogICA8dm9pZCBtZXRob2Q9ImFkZCI+IAogICAgPG9iamVjdCBjbGFzcz0ib3JnLmRhd2IucGFzc2VyZWxsZS5hY3RvcnMudWkuY29uZmlnLkZpZWxkQmVhbiI+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ1aUxhYmVsIj4gCiAgICAgIDxzdHJpbmc+S2FwcGEgMjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgIDx2b2lkIHByb3BlcnR5PSJ2YXJpYWJsZU5hbWUiPiAKICAgICAgPHN0cmluZz5rYXAyX25ldzwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogIDwvdm9pZD4gCiA8L29iamVjdD4gCjwvamF2YT4gCg==">
+        <property name="User Fields" class="org.dawb.passerelle.actors.ui.config.FieldParameter" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gCjxqYXZhIHZlcnNpb249IjEuNi4wXzIyIiBjbGFzcz0iamF2YS5iZWFucy5YTUxEZWNvZGVyIj4gCiA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRDb250YWluZXIiPiAKICA8dm9pZCBwcm9wZXJ0eT0iZmllbGRzIj4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5QaGk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+cGhpPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5UeXBlIG9mIHN0cmF0ZWd5PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPnN0cmF0ZWd5PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5LYXBwYSAxPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPmthcDE8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgIDwvb2JqZWN0PiAKICAgPC92b2lkPiAKICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5GaWVsZEJlYW4iPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idWlMYWJlbCI+IAogICAgICA8c3RyaW5nPkthcHBhIDI8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+a2FwMjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogIDwvdm9pZD4gCiA8L29iamVjdD4gCjwvamF2YT4gCg==">
         </property>
         <property name="User Input Type" class="org.dawb.passerelle.actors.ui.UserModifyTransformer$1" value="Edit with dialog (non-blocking)">
         </property>
@@ -149,7 +149,7 @@
         </property>
         <property name="Interpreter Type" class="org.dawb.passerelle.actors.scripts.PythonScript$1" value="Python">
         </property>
-        <property name="Dataset Outputs" class="ptolemy.data.expr.StringParameter" value="mxv1StrategyResult,possibleOrientations,suggestedStrategy,suggestedStrategyComment">
+        <property name="Dataset Outputs" class="ptolemy.data.expr.StringParameter" value="mxv1StrategyResult,possibleOrientations,suggestedStrategy,suggestedStrategyComment,phi,kap1,kap2">
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="{162.0, 273.0}">
         </property>
@@ -166,11 +166,25 @@
         <property name="_location" class="ptolemy.kernel.util.Location" value="{49.0, 273.0}">
         </property>
     </entity>
-    <relation name="_R" class="ptolemy.actor.TypedIORelation">
-        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+    <entity name="UserModifyTransformer" class="org.dawb.passerelle.actors.ui.UserModifyTransformer">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
         </property>
-    </relation>
-    <relation name="_R2" class="ptolemy.actor.TypedIORelation">
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
+        </property>
+        <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
+        </property>
+        <property name="Name Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Attempt to use image name if there is one.">
+        </property>
+        <property name="User Fields" class="org.dawb.passerelle.actors.ui.config.FieldParameter" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gCjxqYXZhIHZlcnNpb249IjEuNi4wXzIyIiBjbGFzcz0iamF2YS5iZWFucy5YTUxEZWNvZGVyIj4gCiA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRDb250YWluZXIiPiAKICA8dm9pZCBwcm9wZXJ0eT0iZmllbGRzIj4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5QaGk8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+cGhpPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5UeXBlIG9mIHN0cmF0ZWd5PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPnN0cmF0ZWd5PC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICA8L29iamVjdD4gCiAgIDwvdm9pZD4gCiAgIDx2b2lkIG1ldGhvZD0iYWRkIj4gCiAgICA8b2JqZWN0IGNsYXNzPSJvcmcuZGF3Yi5wYXNzZXJlbGxlLmFjdG9ycy51aS5jb25maWcuRmllbGRCZWFuIj4gCiAgICAgPHZvaWQgcHJvcGVydHk9InVpTGFiZWwiPiAKICAgICAgPHN0cmluZz5LYXBwYSAxPC9zdHJpbmc+IAogICAgIDwvdm9pZD4gCiAgICAgPHZvaWQgcHJvcGVydHk9InZhcmlhYmxlTmFtZSI+IAogICAgICA8c3RyaW5nPmthcDE8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgIDwvb2JqZWN0PiAKICAgPC92b2lkPiAKICAgPHZvaWQgbWV0aG9kPSJhZGQiPiAKICAgIDxvYmplY3QgY2xhc3M9Im9yZy5kYXdiLnBhc3NlcmVsbGUuYWN0b3JzLnVpLmNvbmZpZy5GaWVsZEJlYW4iPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idWlMYWJlbCI+IAogICAgICA8c3RyaW5nPkthcHBhIDI8L3N0cmluZz4gCiAgICAgPC92b2lkPiAKICAgICA8dm9pZCBwcm9wZXJ0eT0idmFyaWFibGVOYW1lIj4gCiAgICAgIDxzdHJpbmc+a2FwMjwvc3RyaW5nPiAKICAgICA8L3ZvaWQ+IAogICAgPC9vYmplY3Q+IAogICA8L3ZvaWQ+IAogIDwvdm9pZD4gCiA8L29iamVjdD4gCjwvamF2YT4gCg==">
+        </property>
+        <property name="User Input Type" class="org.dawb.passerelle.actors.ui.UserModifyTransformer$1" value="Edit with dialog (non-blocking)">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{222.0, 380.0}">
+        </property>
+    </entity>
+    <relation name="_R" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
@@ -194,6 +208,14 @@
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
+    <relation name="_R2" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R8" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
     <link port="No mxv1 strategy error.input" relation="_R3"/>
     <link port="PythonScript.input" relation="_R6"/>
     <link port="PythonScript.output" relation="_R7"/>
@@ -201,11 +223,13 @@
     <link port="Extract strategy.input" relation="_R5"/>
     <link port="Set exp param.input" relation="_R4"/>
     <link port="Set exp param.output" relation="_R5"/>
-    <link port="If.input" relation="_R2"/>
+    <link port="If.input" relation="_R8"/>
     <link port="If.output" relation="_R3"/>
     <link port="If.output" relation="_R4"/>
     <link port="If.output" relation="_R6"/>
     <link port="Produce test XML.input" relation="_R"/>
     <link port="Produce test XML.output" relation="_R2"/>
     <link port="Start.output" relation="_R"/>
+    <link port="UserModifyTransformer.input" relation="_R2"/>
+    <link port="UserModifyTransformer.output" relation="_R8"/>
 </entity>

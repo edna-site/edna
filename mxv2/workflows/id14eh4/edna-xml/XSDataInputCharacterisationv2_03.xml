@@ -1,25 +1,9 @@
 <?xml version="1.0" ?>
 <XSDataInputCharacterisationv2_0>
-    <mxv1InputCharacterisation>
-    <dataCollection>
-      <diffractionPlan>
-        <kappaStrategyOption>
-          <value>${kappaStrOpt}</value>
-        </kappaStrategyOption>
-        <maxExposureTimePerDataCollection>
-          <value>1000.000000</value>
-        </maxExposureTimePerDataCollection>
-        <complexity>
-          <value>full</value>
-        </complexity>
-      </diffractionPlan>
-      ${sub_wedge1}
-      ${sub_wedge2}
-    </dataCollection>
-  </mxv1InputCharacterisation>
-  ${mxv1ReferenceStrategy}
+  ${mxv1InputCharacterisation}
+  ${mxv1ResultCharacterisation_Reference}
   ${possibleOrientations}
-    <mxv2DataCollection>
+  <mxv2DataCollection>
      <XSSubWedge>
         <imagefilenametemplate>
             <value>${directory}_${run_number}_####.${suffix}</value>
@@ -48,13 +32,13 @@
         </XSDiffractionImages>
         <XSRotationalGoniostatSetting>
             <baseaxissetting>
-                <value>${phi}</value>
+                <value>${phi_new}</value>
             </baseaxissetting>
             <axissetting>
-                <value>${kap1}</value>
+                <value>${kap1_new}</value>
             </axissetting>
             <axissetting>
-                <value>${kap2}</value>
+                <value>${kap2_new}</value>
             </axissetting>
             <XSRotationalGoniostat>
                 <XSGoniostatBaseAxis>
@@ -132,7 +116,7 @@
         </XSRotationExposure>
     </XSSubWedge>
   </mxv2DataCollection>
-    <mxv2DataCollection_Reference>
+  <mxv2DataCollection_Reference>
      <XSSubWedge>
         <imagefilenametemplate>
             <value>${directory}_${run_number}_####.${suffix}</value>
@@ -161,13 +145,13 @@
         </XSDiffractionImages>
         <XSRotationalGoniostatSetting>
             <baseaxissetting>
-                <value>${phi_reference}</value>
+                <value>${phi}</value>
             </baseaxissetting>
             <axissetting>
-                <value>${kap1_reference}</value>
+                <value>${kap1}</value>
             </axissetting>
             <axissetting>
-                <value>${kap2_reference}</value>
+                <value>${kap2}</value>
             </axissetting>
             <XSRotationalGoniostat>
                 <XSGoniostatBaseAxis>

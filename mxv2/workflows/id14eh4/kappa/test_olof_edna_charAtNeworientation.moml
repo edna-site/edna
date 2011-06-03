@@ -29,7 +29,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{305.0, 247.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{374.0, 210.0}">
         </property>
     </entity>
     <entity name="Read image header #1" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
@@ -51,7 +51,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{305.0, 127.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{237.0, 191.0}">
         </property>
     </entity>
     <entity name="UserInputSource" class="org.dawb.passerelle.actors.ui.UserInputSource">
@@ -71,8 +71,6 @@
         </property>
         <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
         </property>
-        <property name="_icon" class="com.isencia.passerelle.actor.gui.EditorIcon">
-        </property>
         <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
         </property>
         <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
@@ -91,45 +89,11 @@
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="{139.0, 180.0}">
         </property>
-        <port name="requestFinish" class="com.isencia.passerelle.core.ControlPort">
-            <property name="input"/>
-            <property name="multiport"/>
-            <property name="control" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="error" class="com.isencia.passerelle.core.ErrorPort">
-            <property name="output"/>
-            <property name="multiport"/>
-            <property name="error" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="hasFired" class="com.isencia.passerelle.core.ControlPort">
-            <property name="output"/>
-            <property name="multiport"/>
-            <property name="control" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="hasFinished" class="com.isencia.passerelle.core.ControlPort">
-            <property name="output"/>
-            <property name="multiport"/>
-            <property name="control" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="input" class="com.isencia.passerelle.core.Port">
-            <property name="input"/>
-            <property name="multiport"/>
-        </port>
-        <port name="output" class="com.isencia.passerelle.core.Port">
-            <property name="output"/>
-            <property name="multiport"/>
-        </port>
     </entity>
     <entity name="MXv2 Char At New Orientation" class="org.dawb.passerelle.actors.edna.ControlCharAtNewOrientationv2_0">
         <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
         </property>
         <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
-        </property>
-        <property name="_icon" class="com.isencia.passerelle.actor.gui.EditorIcon">
         </property>
         <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
         </property>
@@ -147,43 +111,7 @@
         </property>
         <property name="_location" class="ptolemy.kernel.util.Location" value="{545.0, 210.0}">
         </property>
-        <port name="requestFinish" class="com.isencia.passerelle.core.ControlPort">
-            <property name="input"/>
-            <property name="multiport"/>
-            <property name="control" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="error" class="com.isencia.passerelle.core.ErrorPort">
-            <property name="output"/>
-            <property name="multiport"/>
-            <property name="error" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="hasFired" class="com.isencia.passerelle.core.ControlPort">
-            <property name="output"/>
-            <property name="multiport"/>
-            <property name="control" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="hasFinished" class="com.isencia.passerelle.core.ControlPort">
-            <property name="output"/>
-            <property name="multiport"/>
-            <property name="control" class="ptolemy.kernel.util.StringAttribute">
-            </property>
-        </port>
-        <port name="input" class="com.isencia.passerelle.core.Port">
-            <property name="input"/>
-            <property name="multiport"/>
-        </port>
-        <port name="output" class="com.isencia.passerelle.core.Port">
-            <property name="output"/>
-            <property name="multiport"/>
-        </port>
     </entity>
-    <relation name="_R3" class="ptolemy.actor.TypedIORelation">
-        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
-        </property>
-    </relation>
     <relation name="_R4" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
@@ -196,18 +124,16 @@
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
-    <relation name="_R5" class="ptolemy.actor.TypedIORelation">
+    <relation name="_R3" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
-    <link port="Read image header #2.input" relation="_R5"/>
+    <link port="Read image header #2.input" relation="_R3"/>
     <link port="Read image header #2.output" relation="_R4"/>
     <link port="Read image header #1.input" relation="_R2"/>
     <link port="Read image header #1.output" relation="_R3"/>
     <link port="UserInputSource.output" relation="_R"/>
     <link port="Python.input" relation="_R"/>
     <link port="Python.output" relation="_R2"/>
-    <link port="Python.output" relation="_R5"/>
-    <link port="MXv2 Char At New Orientation.input" relation="_R3"/>
     <link port="MXv2 Char At New Orientation.input" relation="_R4"/>
 </entity>

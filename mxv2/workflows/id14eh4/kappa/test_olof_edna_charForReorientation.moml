@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
-<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/svensson/dawb_workspace/id14eh4/kappa/test_olof_edna_charForReorientation.moml">
+<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/opid14/dawb_workspace/id14eh4/kappa/test_olof_edna_charForReorientation.moml">
     <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="7.0.1">
     </property>
     <property name="_workbenchVersion" class="ptolemy.kernel.attributes.VersionAttribute" value="0.8.2">
@@ -29,7 +29,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{540.0, 180.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{561.0, 152.0}">
         </property>
     </entity>
     <entity name="Read image header #1" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
@@ -51,7 +51,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{357.0, 173.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{399.0, 145.0}">
         </property>
     </entity>
     <entity name="ControlCharForReorientationv2_0" class="org.dawb.passerelle.actors.edna.ControlCharForReorientationv2_0">
@@ -104,10 +104,6 @@
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
-    <relation name="_R2" class="ptolemy.actor.TypedIORelation">
-        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
-        </property>
-    </relation>
     <relation name="_R3" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
@@ -117,6 +113,10 @@
         </property>
     </relation>
     <relation name="_R4" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
+    <relation name="_R2" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
