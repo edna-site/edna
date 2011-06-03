@@ -54,7 +54,7 @@ class EDHandlerXSDataMXv1v1_0:
 #        omega = Orients[0].getOmega()
 #        kappa = Orients[0].getKappa()
 #        phi = Orients[0].getPhi()
-        suggestedStrategy = EDHandlerXSDataMXv1v1_0.copyStrategyToNewOrientation(suggestedStrategy, _fOmega, _fKappa, _fPhi)
+        suggestedStrategy = EDHandlerXSDataMXv1v1_0.copyStrategyToNewOrientation(suggestedStrategy, _fOmega, _fKappa, _fPhi, "MERGED")
 #        for dcplan in suggestedStrategy.getCollectionPlan():
 #            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "OMEGA=", omega))
 #            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "KAPPA=", kappa))
@@ -70,7 +70,7 @@ class EDHandlerXSDataMXv1v1_0:
 
 
     @staticmethod
-    def copyStrategyToNewOrientation(_xsDataResultStrategy, _fOmega, _fKappa, _fPhi):
+    def copyStrategyToNewOrientation(_xsDataResultStrategy, _fOmega, _fKappa, _fPhi, _strategy = "COPIED"):
         '''
         _xsDataResultStrategy: the strategy results in which the orientation should be changed
         omega,kappa,phi: the new orientation
@@ -89,6 +89,7 @@ class EDHandlerXSDataMXv1v1_0:
             dcplan.setComment(EDHandlerXSDataCommon.replaceElements(dcplan.getComment(), "OMEGA=", str(_fOmega)))
             dcplan.setComment(EDHandlerXSDataCommon.replaceElements(dcplan.getComment(), "KAPPA=", str(_fKappa)))
             dcplan.setComment(EDHandlerXSDataCommon.replaceElements(dcplan.getComment(), "PHI=", str(_fPhi)))
+            dcplan.setComment(EDHandlerXSDataCommon.replaceElements(dcplan.getComment(), "STRATEGY=", str(_strategy)))
         return suggestedStrategy
 
 
