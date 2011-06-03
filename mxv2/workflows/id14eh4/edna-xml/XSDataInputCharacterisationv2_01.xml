@@ -13,7 +13,8 @@
       	  <value>full</value>
         </complexity>
       </diffractionPlan>
-      ${sub_wedges}
+      ${sub_wedge1}
+      ${sub_wedge2}
     </dataCollection>
   </mxv1InputCharacterisation>
   <mxv2DataCollection>

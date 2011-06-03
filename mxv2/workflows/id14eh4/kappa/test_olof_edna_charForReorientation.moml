@@ -15,7 +15,7 @@
         </property>
         <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
         </property>
-        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
         </property>
         <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
         </property>
@@ -29,7 +29,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{305.0, 247.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{540.0, 180.0}">
         </property>
     </entity>
     <entity name="Read image header #1" class="org.dawb.passerelle.actors.edna.ReadImageHeaderPlugin">
@@ -37,7 +37,7 @@
         </property>
         <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
         </property>
-        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
         </property>
         <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
         </property>
@@ -51,7 +51,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{305.0, 127.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{357.0, 173.0}">
         </property>
     </entity>
     <entity name="ControlCharForReorientationv2_0" class="org.dawb.passerelle.actors.edna.ControlCharForReorientationv2_0">
@@ -59,7 +59,7 @@
         </property>
         <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
         </property>
-        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate after all data received">
+        <property name="Expression Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Evaluate on every data input">
         </property>
         <property name="Memory Mode" class="com.isencia.passerelle.util.ptolemy.StringChoiceParameter" value="Create copy of data leaving original data intact.">
         </property>
@@ -73,7 +73,7 @@
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{662.0, 172.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{796.0, 173.0}">
         </property>
     </entity>
     <entity name="UserInputSource" class="org.dawb.passerelle.actors.ui.UserInputSource">
@@ -85,7 +85,19 @@
         </property>
         <property name="User Input Type" class="org.dawb.passerelle.actors.ui.UserInputSource$1" value="Edit with dialog (non-blocking)">
         </property>
-        <property name="_location" class="ptolemy.kernel.util.Location" value="{69.0, 171.0}">
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{203.0, 172.0}">
+        </property>
+    </entity>
+    <entity name="Scalar" class="org.dawb.passerelle.actors.data.Scalar">
+        <property name="Receiver Q Capacity (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Receiver Q warning size (-1)" class="ptolemy.data.expr.Parameter" value="-1">
+        </property>
+        <property name="Name" class="ptolemy.data.expr.StringParameter" value="x">
+        </property>
+        <property name="Value" class="org.dawb.passerelle.actors.data.Scalar$RangeParameter" value="1">
+        </property>
+        <property name="_location" class="ptolemy.kernel.util.Location" value="{51.0, 123.0}">
         </property>
     </entity>
     <relation name="_R" class="ptolemy.actor.TypedIORelation">
@@ -100,16 +112,22 @@
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
+    <relation name="_R5" class="ptolemy.actor.TypedIORelation">
+        <property name="width" class="ptolemy.data.expr.Parameter" value="1">
+        </property>
+    </relation>
     <relation name="_R4" class="ptolemy.actor.TypedIORelation">
         <property name="width" class="ptolemy.data.expr.Parameter" value="1">
         </property>
     </relation>
     <link port="Read image header #2.input" relation="_R2"/>
-    <link port="Read image header #2.output" relation="_R4"/>
+    <link port="Read image header #2.output" relation="_R3"/>
     <link port="Read image header #1.input" relation="_R"/>
-    <link port="Read image header #1.output" relation="_R3"/>
+    <link port="Read image header #1.output" relation="_R2"/>
     <link port="ControlCharForReorientationv2_0.input" relation="_R3"/>
-    <link port="ControlCharForReorientationv2_0.input" relation="_R4"/>
+    <link port="ControlCharForReorientationv2_0.output" relation="_R4"/>
     <link port="UserInputSource.output" relation="_R"/>
-    <link port="UserInputSource.output" relation="_R2"/>
+    <link port="UserInputSource.trigger" relation="_R5"/>
+    <link port="UserInputSource.trigger" relation="_R4"/>
+    <link port="Scalar.output" relation="_R5"/>
 </entity>
