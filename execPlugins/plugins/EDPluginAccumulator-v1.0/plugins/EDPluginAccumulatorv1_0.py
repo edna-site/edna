@@ -1,12 +1,13 @@
+# coding: utf8
 #
-#    Project: PROJECT
+#    Project: General purpose plugins
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
 #    Copyright (C) ESRF
 #
-#    Principal author:       Jerome Kieffer
+#    Principal author:       Jérôme Kieffer
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,7 +22,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from XSDataCommon import XSDataBoolean
 """
 UseCase for EDPluginAccumulator:
 
@@ -37,16 +37,25 @@ There are static methods to emptyItems and emptyQueries
 
 """
 
-__author__ = "Jerome Kieffer"
+__author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__data__ = "2011-06-07"
 
 
 import threading
-from EDVerbose              import EDVerbose
 from EDPlugin               import EDPlugin
 
-from XSDataAccumulatorv1_0  import XSDataResultAccumulator, XSDataInputAccumulator, XSDataQuery, XSDataString
+from XSDataCommon           import XSDataBoolean, XSDataString
+from XSDataAccumulatorv1_0  import XSDataResultAccumulator, XSDataInputAccumulator, XSDataQuery
+
+class classproperty(property):
+    def __get__(self, obj, type_):
+        return self.fget.__get__(None, type_)()
+    def __set__(self, obj, value):
+        cls = type(obj)
+        return self.fset.__get__(None, cls)(value)
+
 
 class EDPluginAccumulatorv1_0(EDPlugin):
     """
@@ -57,9 +66,9 @@ class EDPluginAccumulatorv1_0(EDPlugin):
     EDPluginAccumulatorv1_0 is an execution plugin because it is not a control plugin (as it controls nothing) 
 
     """
-    semaphore = threading.Semaphore()
-    queries = {} #queries are stored as keys of a dictonary (as sorted tuple) where the value is the flag "Remove Item"
-    items = []
+    __semaphore = threading.Semaphore()
+    __queries = {} #queries are stored as keys of a dictionary (as sorted tuple) where the value is the flag "Remove Item"
+    __items = []
 
     def __init__(self):
         """
@@ -74,17 +83,17 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         """
         Checks the mandatory parameters.
         """
-        EDVerbose.DEBUG("EDPluginAccumulatorv1_0.checkParameters")
+        self.DEBUG("EDPluginAccumulatorv1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
 #        there are no mandatory parameters
 
 
     def preProcess(self, _edObject=None):
         EDPlugin.preProcess(self)
-        EDVerbose.DEBUG("EDPluginAccumulatorv1_0.preProcess")
-        EDPluginAccumulatorv1_0.semaphore.acquire()
+        self.DEBUG("EDPluginAccumulatorv1_0.preProcess")
+        self.__semaphore.acquire()
         for oneXsdItem in self.getDataInput().getItem(): #could be empty
-            EDPluginAccumulatorv1_0.items.append(oneXsdItem.getValue())
+            self.__items.append(oneXsdItem.getValue())
         for oneXsdQuery in self.getDataInput().getQuery(): #could be an empty list
             query = []
             for  oneXsdItem in oneXsdQuery.getItem():
@@ -100,8 +109,8 @@ class EDPluginAccumulatorv1_0(EDPlugin):
             else:
                 removeItems = True
             query.sort()
-            EDPluginAccumulatorv1_0.queries[tuple(query)] = removeItems
-        EDPluginAccumulatorv1_0.semaphore.release()
+            self.__queries[tuple(query)] = removeItems
+        self.__semaphore.release()
 
         if self.getDataInput().getFlush() is not None:
             if self.getDataInput().getFlush().getValue() in [1, True, "true"]:
@@ -110,51 +119,53 @@ class EDPluginAccumulatorv1_0(EDPlugin):
 
     def process(self, _edObject=None):
         EDPlugin.process(self)
-        EDVerbose.DEBUG("EDPluginAccumulatorv1_0.process")
+        self.DEBUG("EDPluginAccumulatorv1_0.process")
         queriesToRemove = []
         listXsdQuery = []
         if not self.flush:
-            EDPluginAccumulatorv1_0.semaphore.acquire()
-            for query in EDPluginAccumulatorv1_0.queries:
+            self.__semaphore.acquire()
+            for query in self.__queries:
                 present = True
                 for item in query:
-                    if not item in EDPluginAccumulatorv1_0.items:
+                    if not item in self.__items:
                         present = False
                         break
                 if present is True:
                     queriesToRemove.append(query)
                     xsdQuery = XSDataQuery()
                     xsdQuery.setItem([XSDataString(item) for item in query])
-                    if EDPluginAccumulatorv1_0.queries[query] is True:
+                    if self.__queries[query] is True:
                         xsdQuery.setRemoveItems(XSDataBoolean(True))
                         for item in query:
-                            EDPluginAccumulatorv1_0.items.remove(item)
+                            self.__items.remove(item)
                     else:
                         xsdQuery.setRemoveItems(XSDataBoolean(False))
                     listXsdQuery.append(xsdQuery)
 
 #Remove the query from the list of queries
             for query in queriesToRemove:
-                EDPluginAccumulatorv1_0.queries.pop(query)
-            EDPluginAccumulatorv1_0.semaphore.release()
+                self.__queries.pop(query)
+            self.__semaphore.release()
         else:
             xsdQuery = XSDataQuery()
-            EDPluginAccumulatorv1_0.semaphore.acquire()
-            xsdQuery.setItem([XSDataString(item) for item in EDPluginAccumulatorv1_0.items])
+            self.__semaphore.acquire()
+            xsdQuery.setItem([XSDataString(item) for item in self.__items])
             xsdQuery.setRemoveItems(XSDataBoolean(True))
-            EDPluginAccumulatorv1_0.items = []
-            EDPluginAccumulatorv1_0.semaphore.release()
+            self.__class__.__items = []
+            self.__semaphore.release()
             listXsdQuery.append(xsdQuery)
         self.xsDataResult.setQuery(listXsdQuery)
 
+
     def postProcess(self, _edObject=None):
         EDPlugin.postProcess(self)
-        EDVerbose.DEBUG("EDPluginAccumulatorv1_0.postProcess")
+        self.DEBUG("EDPluginAccumulatorv1_0.postProcess")
         # Create some output data
         self.setDataOutput(self.xsDataResult)
 
-    @staticmethod
-    def getItems():
+
+    @classmethod
+    def getItems(cls):
         """
         Static methods that returns the list of items stored without changing anything.
         Made for testing, nothing else.
@@ -162,40 +173,52 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         @return: list of items accumulated.
         @rtype: list of python string 
         """
-        return EDPluginAccumulatorv1_0.items
+        cls.__semaphore.acquire()
+        data = cls.__items
+        cls.__semaphore.release()
+        return data
+    items = classproperty(getItems)
 
-    @staticmethod
-    def getQueries():
+    @classmethod
+    def getQueries(cls):
         """
-        Static methods that returns the list of queries stored without changing anything.
+        Class methods that returns the list of queries stored without changing anything.
         Made for testing, nothing else.
          
         @return: dictionary of queries accumulated.
         @rtype: list of python string 
         """
-        return EDPluginAccumulatorv1_0.queries
+        return cls.__queries
+    queries = classproperty(getQueries)
 
-    @staticmethod
-    def emptyItems():
+    @classmethod
+    def reset(cls):
+        """
+        classmethod to reset the whole class
+        """
+        cls.emptyItems()
+        cls.emptyQueries()
+
+    @classmethod
+    def emptyItems(cls):
         """
         Static method for removing all stored items. 
         """
+        cls.__semaphore.acquire()
+        cls.__items = []
+        cls.__semaphore.release()
 
-        EDPluginAccumulatorv1_0.semaphore.acquire()
-        EDPluginAccumulatorv1_0.items = []
-        EDPluginAccumulatorv1_0.semaphore.release()
-
-    @staticmethod
-    def emptyQueries():
+    @classmethod
+    def emptyQueries(cls):
         """
         Static method for Resetting / removing all pending queries. 
         """
-        EDPluginAccumulatorv1_0.semaphore.acquire()
-        EDPluginAccumulatorv1_0.queries = {}
-        EDPluginAccumulatorv1_0.semaphore.release()
+        cls.__semaphore.acquire()
+        cls.__queries = {}
+        cls.__semaphore.release()
 
-    @staticmethod
-    def addQuery(_listItem, _removeItems=True):
+    @classmethod
+    def addQuery(cls, _listItem, _removeItems=True):
         """
         Static methods to append a query to the list of queries stored without changing anything else.
         Made for testing, nothing else.
@@ -206,14 +229,14 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         @type _removeItems: boolean
         @return: nothing
         """
-        EDPluginAccumulatorv1_0.semaphore.acquire()
-        EDPluginAccumulatorv1_0.queries[_listItem] = _removeItems
-        EDPluginAccumulatorv1_0.semaphore.release()
+        cls.__semaphore.acquire()
+        cls.__queries[_listItem] = _removeItems
+        cls.__semaphore.release()
 
-    @staticmethod
-    def addItem(_strItem):
+    @classmethod
+    def addItem(cls, _strItem):
         """
-        Static method for appending artifically an item, without changing anything else.
+        Static method for appending artificially an item, without changing anything else.
         Made for testing, nothing else.
         
         @param _strItem: list to be added to the queries 
@@ -221,7 +244,7 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         @return: nothing
         """
 
-        EDPluginAccumulatorv1_0.semaphore.acquire()
-        EDPluginAccumulatorv1_0.items.append(_strItem)
-        EDPluginAccumulatorv1_0.semaphore.release()
+        cls.__semaphore.acquire()
+        cls.__items.append(_strItem)
+        cls.__semaphore.release()
 
