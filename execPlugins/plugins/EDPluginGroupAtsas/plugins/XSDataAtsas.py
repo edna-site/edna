@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri May 20 03:01::25 2011 by EDGenerateDS.
+# Generated Tue Jun 7 11:34::22 2011 by EDGenerateDS.
 #
 
 import sys
@@ -111,7 +111,7 @@ class XSDataInputDatcmp(XSDataInput):
 		if inputCurve is None:
 			self.__inputCurve = []
 		else:
-			checkType("XSDataInputDatcmp", "Constructor of XSDataInputDatcmp", inputCurve, "XSDataFile")
+			checkType("XSDataInputDatcmp", "Constructor of XSDataInputDatcmp", inputCurve, "list")
 			self.__inputCurve = inputCurve
 	def getInputCurve(self): return self.__inputCurve
 	def setInputCurve(self, inputCurve):
@@ -165,7 +165,7 @@ class XSDataInputDatcmp(XSDataInput):
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARING: Method outputFile in class XSDataInputDatcmp is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class XSDataInputDatcmp is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
@@ -265,7 +265,7 @@ class XSDataResultDatcmp(XSDataResult):
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARING: Method outputFile in class XSDataResultDatcmp is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class XSDataResultDatcmp is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
