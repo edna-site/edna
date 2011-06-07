@@ -1,5 +1,11 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataString
+
 complex type XSDataInputAccumulator extends XSDataInput {
 	flush : XSDataBoolean optional
 	item : XSDataString [] optional
