@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Apr 21 06:23::16 2011 by EDGenerateDS.
+# Generated Tue Jun 7 05:10::02 2011 by EDGenerateDS.
 #
 
 import sys
@@ -41,10 +41,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -110,7 +110,9 @@ class XSDataQuery(XSData):
 		if item is None:
 			self.__item = []
 		else:
+			checkType("XSDataQuery", "Constructor of XSDataQuery", item, "list")
 			self.__item = item
+		checkType("XSDataQuery", "Constructor of XSDataQuery", removeItems, "XSDataBoolean")
 		self.__removeItems = removeItems
 	def getItem(self): return self.__item
 	def setItem(self, item):
@@ -171,11 +173,15 @@ class XSDataQuery(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataQuery' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataQuery is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataQuery.parseString(self.marshal())
@@ -204,14 +210,17 @@ class XSDataQuery(XSData):
 class XSDataInputAccumulator(XSDataInput):
 	def __init__(self, configuration=None, query=None, item=None, flush=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputAccumulator", "Constructor of XSDataInputAccumulator", flush, "XSDataBoolean")
 		self.__flush = flush
 		if item is None:
 			self.__item = []
 		else:
+			checkType("XSDataInputAccumulator", "Constructor of XSDataInputAccumulator", item, "list")
 			self.__item = item
 		if query is None:
 			self.__query = []
 		else:
+			checkType("XSDataInputAccumulator", "Constructor of XSDataInputAccumulator", query, "list")
 			self.__query = query
 	def getFlush(self): return self.__flush
 	def setFlush(self, flush):
@@ -290,11 +299,15 @@ class XSDataInputAccumulator(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputAccumulator' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputAccumulator is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputAccumulator.parseString(self.marshal())
@@ -326,6 +339,7 @@ class XSDataResultAccumulator(XSDataResult):
 		if query is None:
 			self.__query = []
 		else:
+			checkType("XSDataResultAccumulator", "Constructor of XSDataResultAccumulator", query, "list")
 			self.__query = query
 	def getQuery(self): return self.__query
 	def setQuery(self, query):
@@ -370,11 +384,15 @@ class XSDataResultAccumulator(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultAccumulator' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultAccumulator is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultAccumulator.parseString(self.marshal())
