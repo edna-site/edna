@@ -29,6 +29,7 @@ __copyright__ = "DLS"
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataSAS import XSDataInputSupcomb
+from XSDataCommon import XSDataFile
 
 class EDTestCasePluginUnitExecSupcombv0_1(EDTestCasePluginUnit):
     """
@@ -43,6 +44,8 @@ class EDTestCasePluginUnitExecSupcombv0_1(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputSupcomb()
+        xsDataInput.templateFile = XSDataFile()
+        xsDataInput.superimposeFile = XSDataFile()
         edPluginExecSupcomb = self.createPlugin()
         edPluginExecSupcomb.setDataInput(xsDataInput)
         edPluginExecSupcomb.checkParameters()

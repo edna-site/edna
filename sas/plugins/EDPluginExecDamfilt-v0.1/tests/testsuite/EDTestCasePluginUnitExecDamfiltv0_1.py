@@ -5,7 +5,7 @@
 #    File: "$Id$"
 #
 #    Copyright (C) DLS
-
+#
 #    Principal author:       irakli
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ __copyright__ = "DLS"
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataSAS import XSDataInputDamfilt
+from XSDataCommon import XSDataFile
 
 class EDTestCasePluginUnitExecDamfiltv0_1(EDTestCasePluginUnit):
     """
@@ -43,6 +44,7 @@ class EDTestCasePluginUnitExecDamfiltv0_1(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputDamfilt()
+        xsDataInput.setInputPdbFile(XSDataFile)
         edPluginExecDamfilt = self.createPlugin()
         edPluginExecDamfilt.setDataInput(xsDataInput)
         edPluginExecDamfilt.checkParameters()

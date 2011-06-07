@@ -29,6 +29,7 @@ __copyright__ = "DLS"
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataSAS import XSDataInputDammif
+from XSDataCommon import XSDataFile
 
 class EDTestCasePluginUnitExecDammifv0_1(EDTestCasePluginUnit):
     """
@@ -43,6 +44,7 @@ class EDTestCasePluginUnitExecDammifv0_1(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputDammif()
+        xsDataInput.gnomOutputFile = XSDataFile()
         edPluginExecDammif = self.createPlugin()
         edPluginExecDammif.setDataInput(xsDataInput)
         edPluginExecDammif.checkParameters()

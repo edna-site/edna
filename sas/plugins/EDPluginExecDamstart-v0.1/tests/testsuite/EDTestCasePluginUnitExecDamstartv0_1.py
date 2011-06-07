@@ -29,6 +29,7 @@ __copyright__ = "DLS"
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataSAS import XSDataInputDamstart
+from XSDataCommon import XSDataFile
 
 class EDTestCasePluginUnitExecDamstartv0_1(EDTestCasePluginUnit):
     """
@@ -44,6 +45,7 @@ class EDTestCasePluginUnitExecDamstartv0_1(EDTestCasePluginUnit):
     def testCheckParameters(self):
         xsDataInput = XSDataInputDamstart()
         edPluginExecDamstart = self.createPlugin()
+        xsDataInput.inputPdbFile = XSDataFile()
         edPluginExecDamstart.setDataInput(xsDataInput)
         edPluginExecDamstart.checkParameters()
 

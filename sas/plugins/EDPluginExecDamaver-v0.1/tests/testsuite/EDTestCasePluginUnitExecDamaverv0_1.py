@@ -22,7 +22,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="irakli"
+__author__ = "irakli"
 __license__ = "GPLv3+"
 __copyright__ = "DLS"
 
@@ -30,30 +30,32 @@ from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataSAS import XSDataInputDamaver
+from XSDataCommon import XSDataFile
 
 class EDTestCasePluginUnitExecDamaverv0_1(EDTestCasePluginUnit):
     """
     Those are all units tests for the EDNA Exec plugin Damaverv0_1
     """
 
-    def __init__(self, _strTestName = None):
+    def __init__(self, _strTestName=None):
         """
         """
         EDTestCasePluginUnit.__init__(self, "EDPluginExecDamaverv0_1")
-              
+
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputDamaver()
         edPluginExecDamaver = self.createPlugin()
+        xsDataInput.pdbInputFiles = [XSDataFile()]
         edPluginExecDamaver.setDataInput(xsDataInput)
         edPluginExecDamaver.checkParameters()
-        
-    
-    
+
+
+
     def process(self):
         self.addTestMethod(self.testCheckParameters)
 
-    
+
 
 if __name__ == '__main__':
 
