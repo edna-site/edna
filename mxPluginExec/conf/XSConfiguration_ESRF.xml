@@ -6,7 +6,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/pxsoft/labelit/v1.1.7/redhate5-x86_64/labelit_build/setpaths.sh</value>
+					<value>/opt/pxsoft/phenix/v1.7.1-743/centos5-x86_64/phenix-1.7.1-743/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -14,7 +14,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/labelit/v1.1.7/redhate5_x86_64/labelit_build/bin/labelit.screen</value>
+					<value>/opt/pxsoft/phenix/v1.7.1-743/centos5-x86_64/phenix-1.7.1-743/build/intel-linux-2.6-x86_64/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -35,7 +35,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/pxsoft/labelit/v1.1.7/redhate5-x86_64/labelit_build/setpaths.sh</value>
+					<value>/opt/pxsoft/phenix/v1.7.1-743/centos5-x86_64/phenix-1.7.1-743/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -43,7 +43,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/labelit/v1.1.7/redhate5-x86_64/labelit_build/bin/labelit.screen</value>
+					<value>/opt/pxsoft/phenix/v1.7.1-743/centos5-x86_64/phenix-1.7.1-743/build/intel-linux-2.6-x86_64/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -81,7 +81,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/pxsoft/labelit/v1.1.7/redhate5-x86_64/labelit_build/setpaths.sh</value>
+					<value>/opt/pxsoft/phenix/v1.7.1-743/centos5-x86_64/phenix-1.7.1-743/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -89,7 +89,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/labelit/v1.1.7/redhate5-x86_64/labelit_build/bin/labelit.distl</value>
+					<value>/opt/pxsoft/phenix/v1.7.1-743/centos5-x86_64/phenix-1.7.1-743/build/intel-linux-2.6-x86_64/bin/labelit.distl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
