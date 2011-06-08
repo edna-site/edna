@@ -321,21 +321,22 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         self.setScriptCommandline(self.__strCommandBest)
 
 
-    def postProcess(self, _edObject=None):
-        EDPluginExecProcessScript.postProcess(self)
-        EDVerbose.DEBUG("EDPluginBestv1_2.postProcess")
+    def finallyProcess(self, _edObject=None):
+        EDPluginExecProcessScript.finallyProcess(self)
+        EDVerbose.DEBUG("EDPluginBestv1_2.finallyProcess")
         strError = self.readProcessErrorLogFile()
         if((strError is not None) and (strError != "")):
             strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_2.postProcess', 'EDPluginBestv1_2', strError)
             EDVerbose.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
-            raise RuntimeError, strErrorMessage
-
-        xsDataResultBest = self.getOutputDataFromDNATableFile(EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
-        xsDataFilePathToLog = XSDataFile()
-        xsDataFilePathToLog.setPath(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
-        xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
-        self.setDataOutput(xsDataResultBest)
+            self.setDataOutput(XSDataResultBest())
+            self.setFailure()
+        else:
+            xsDataResultBest = self.getOutputDataFromDNATableFile(EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
+            xsDataFilePathToLog = XSDataFile()
+            xsDataFilePathToLog.setPath(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
+            xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
+            self.setDataOutput(xsDataResultBest)
 
 
     def getOutputDataFromDNATableFile(self, _strFileName):
