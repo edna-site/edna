@@ -6,7 +6,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/labelit_1.1.7/labelit_build/setpaths.sh</value>
+					<value>/opt/phenix-1.7.1-743/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -14,7 +14,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/labelit_1.1.7/labelit_build/bin/labelit.screen</value>
+					<value>/opt/phenix-1.7.1-743/build/intel-linux-2.6-x86_64/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -35,7 +35,7 @@
                         <XSParamList>
                                 <XSParamItem>
                                         <name>pathToLabelitSetpathScript</name>
-                                        <value>/opt/labelit_1.1.7/labelit_build/setpaths.sh</value>
+                                        <value>/opt/phenix-1.7.1-743/phenix_env.sh</value>
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>execProcessScriptShell</name>
@@ -43,7 +43,7 @@
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>execProcessScriptExecutable</name>
-                                        <value>/opt/labelit_1.1.7/labelit_build/bin/labelit.screen</value>
+                                        <value>/opt/phenix-1.7.1-743/build/intel-linux-2.6-x86_64/bin/labelit.screen</value>
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>execProcessScriptSetupCCP4</name>
@@ -64,7 +64,7 @@
                         <XSParamList>
                                 <XSParamItem>
                                         <name>pathToLabelitSetpathScript</name>
-                                        <value>/opt/labelit_1.1.7/labelit_build/setpaths.sh</value>
+                                        <value>/opt/phenix-1.7.1-743/phenix_env.sh</value>
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>execProcessScriptShell</name>
@@ -72,7 +72,7 @@
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>execProcessScriptExecutable</name>
-                                        <value>/opt/labelit_1.1.7/labelit_build/bin/labelit.distl</value>
+                                        <value>/opt/phenix-1.7.1-743/build/intel-linux-2.6-x86_64/bin/labelit.distl</value>
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>execProcessScriptSetupCCP4</name>
@@ -97,7 +97,7 @@
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>execProcessScriptExecutable</name>
-                                        <value>/opt/labelit_1.1.7/labelit_build/bin/distl.signal_strength</value>
+                                        <value>/opt/phenix-1.7.1-743/build/intel-linux-2.6-x86_64/bin/distl.signal_strength</value>
                                 </XSParamItem>
                                 <XSParamItem>
                                         <name>timeOut</name>
