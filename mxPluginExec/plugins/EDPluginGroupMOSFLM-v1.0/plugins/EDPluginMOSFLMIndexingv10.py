@@ -66,12 +66,11 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         self.generateMOSFLMCommands()
 
 
-    def postProcess(self, _edObject=None):
+    def finallyProcess(self, _edObject=None):
         EDPluginMOSFLMv10.postProcess(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.postProcess")
+        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.finallyProcess")
         xsDataMOSFLMOutputIndexing = self.createDataMOSFLMOutputIndexing()
-        if (xsDataMOSFLMOutputIndexing is not None):
-            self.setDataOutput(xsDataMOSFLMOutputIndexing)
+        self.setDataOutput(xsDataMOSFLMOutputIndexing)
 
 
     def configure(self):
@@ -126,7 +125,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
 
     def createDataMOSFLMOutputIndexing(self):
         EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
-        xsDataMOSFLMOutputIndexing = None
+        xsDataMOSFLMOutputIndexing = XSDataMOSFLMOutputIndexing()
         # Read Newmat file
         xsDataMOSFLMNewmat = self.getDataMOSFLMNewmat()
         if (xsDataMOSFLMNewmat is None):
@@ -134,7 +133,6 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
             EDVerbose.ERROR(strError)
             self.setFailure()
         else:
-            xsDataMOSFLMOutputIndexing = XSDataMOSFLMOutputIndexing()
             xsDataMOSFLMOutputIndexing.setRefinedNewmat(xsDataMOSFLMNewmat)
             # Then read the XML file
             strDnaTablesXML = self.readProcessFile(self.getScriptBaseName() + "_dnaTables.xml")
