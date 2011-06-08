@@ -4,7 +4,7 @@
         <value>2.000000e+01</value>
     </binPopCutOffMethod2Res>
     <goodBraggCandidates>
-        <value>1191</value>
+        <value>1224</value>
     </goodBraggCandidates>
     <iceRings>
         <value>0</value>
@@ -21,24 +21,24 @@
         </path>
     </image>
     <inResTotal>
-        <value>1422</value>
+        <value>1431</value>
     </inResTotal>
     <inResolutionOvrlSpots>
         <value>1</value>
     </inResolutionOvrlSpots>
     <maxUnitCell>
-        <value>2.328000e+02</value>
+        <value>2.082000e+02</value>
     </maxUnitCell>
     <method1Res>
-        <value>2.030000e+00</value>
+        <value>1.910000e+00</value>
     </method1Res>
     <method2Res>
-        <value>1.850000e+00</value>
+        <value>1.820000e+00</value>
     </method2Res>
     <pctSaturationTop50Peaks>
         <value>2.051000e+01</value>
     </pctSaturationTop50Peaks>
     <spotTotal>
-        <value>1532</value>
+        <value>1524</value>
     </spotTotal>
 </XSDataImageQualityIndicators>
