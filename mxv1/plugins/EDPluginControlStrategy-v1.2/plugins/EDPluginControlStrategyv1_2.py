@@ -44,6 +44,7 @@ from XSDataCommon                      import XSDataString
 from XSDataCommon                      import XSDataDouble
 
 from XSDataMXv1                        import XSDataInputStrategy
+from XSDataMXv1                        import XSDataResultStrategy
 from XSDataMXv1                        import XSDataSampleCrystalMM
 from XSDataMXv1                        import XSDataAtom
 from XSDataMXv1                        import XSDataAtomicComposition
@@ -284,6 +285,12 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
 
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
+
+    def finallyProcess(self, _edObject=None):
+        EDPluginControl.finallyProcess(self, _edObject)
+        EDVerbose.DEBUG("EDPluginControlStrategyv1_2.finallyProcess")
+        if not self.hasDataOutput():
+            self.setDataOutput(XSDataResultStrategy())
 
 
     def doRaddoseToBestTransition(self, _edPlugin):
