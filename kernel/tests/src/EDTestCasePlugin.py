@@ -248,7 +248,7 @@ class EDTestCasePlugin(EDTestCase):
          - USER
         Returns the content of this file as a string
         """
-        strXML = str(EDUtilsFile.readFile (_strFileName))
+        strXML = str(EDUtilsFile.readFileAndParseVariables (_strFileName))
 
         strXML = strXML.replace("${EDNA_TESTS_DATA_HOME}" , EDUtilsTest.getTestsDataHome())
         strXML = strXML.replace("${EDNA_PLUGIN_TESTS_DATA_HOME}" , self.getPluginTestsDataHome())
