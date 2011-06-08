@@ -34,7 +34,6 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, tempfile, stat
 
-from EDVerbose       import EDVerbose
 from EDSlot          import EDSlot
 from EDApplication   import EDApplication
 from EDConfiguration import EDConfiguration
@@ -43,6 +42,7 @@ from EDUtilsFile     import EDUtilsFile
 from EDAction import EDAction
 
 from XSDataCommon import XSPluginItem
+from XSDataCommon import XSDataResult
 
 
 class EDPlugin(EDAction):
@@ -96,27 +96,42 @@ class EDPlugin(EDAction):
 
     def preProcess(self, _edObject=None):
         """
-        Connect main methods responsible for:
-            - writing xml data input/output in the working dir
-            - generating the executive summary after the plugin execution
-        Initialize the base directoy
+        Writes xml data input in the working dir (if required)
+        Connects a slot for generating the executive summary after the plugin execution
+        Connects a slot for checking output data to the finally process
+        Initialize the base directory
         Configures the plugin
         Checks the input data
         """
-        EDVerbose.DEBUG("EDPlugin.preProcess")
+        EDAction.preProcess(self, _edObject)
+        self.DEBUG("EDPlugin.preProcess")
         self.connectPostProcess(self.exportDataOutput)
         if self.__bWriteDataXMLInputOutput:
             if self.__bWriteDataXMLInput:
                 self.connectPreProcess(self.writeDataInput)
-            if self.__bWriteDataXMLOutput:
-                self.connectFinallyProcess(self.writeDataOutput)
         self.connectPostProcess(self.generateExecutiveSummary)
-
+        self.connectFinallyProcess(self.checkDataOutput)
         if (self.__strBaseName is None):
             self.setBaseName(self.createBaseName())
         self.checkParameters()
 
 
+    def checkDataOutput(self, _edObject=None):
+        """
+        Checks if output data is available, if not issues a warning and sets an empty XSDataResult as output data
+        Writes xml data output in the working dir (if required)
+        """
+        EDAction.finallyProcess(self, _edObject)
+        if self.__dictXSDataOutput == {}:
+            strWarningMessage = "Output data for plugin %s not set, using XSDataResult as output" % self.getPluginName()
+            self.WARNING(strWarningMessage)
+            self.addWarningMessage(strWarningMessage)
+            self.setDataOutput(XSDataResult())
+        if self.__bWriteDataXMLInputOutput:
+            if self.__bWriteDataXMLOutput:
+                self.writeDataOutput()
+
+    
     def synchronize(self):
         """
         This method calls EDAction.synchronize and if a time-out occurs an error message
@@ -132,7 +147,7 @@ class EDPlugin(EDAction):
         """
         Receives an XSPluginItem (Plugin Configuration) from the application
         """
-        EDVerbose.DEBUG("EDPlugin.setConfiguration")
+        self.DEBUG("EDPlugin.setConfiguration")
         self.__xsPluginItem = _xsPluginItem
 
 
@@ -140,7 +155,7 @@ class EDPlugin(EDAction):
         """
         Gets the Plugin Configuration as an XSPluginItem
         """
-        EDVerbose.DEBUG("EDPlugin.getConfiguration")
+        self.DEBUG("EDPlugin.getConfiguration")
         return self.__xsPluginItem
 
 
@@ -156,7 +171,7 @@ class EDPlugin(EDAction):
           - If a plugin configuration item exists and the configration parameter name is present it will be used.
           - Otherwise if a product-wide (e.g. "mxPluginExec") configuration value exists it will be used.         
         """
-        EDVerbose.DEBUG("EDPlugin.getConfigurationParameterValue")
+        self.DEBUG("EDPlugin.getConfigurationParameterValue")
         strParameteValue = None
         xsPluginItem = self.getConfiguration()
         bFoundConfigurationParameter = False
@@ -203,7 +218,7 @@ class EDPlugin(EDAction):
         Should be overridden by the Final Plugin If needed
         This method should set its proper members attributes from a Plugin configuration Object
         """
-        EDVerbose.DEBUG("EDPlugin.configure : %s" % self.getClassName())
+        self.DEBUG("EDPlugin.configure : %s" % self.getClassName())
         xsPluginItem = self.getConfiguration()
 
         if xsPluginItem is None:
@@ -213,7 +228,7 @@ class EDPlugin(EDAction):
                 xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
 
             if (xsPluginItem is None):
-                EDVerbose.DEBUG("EDPlugin.configure: No plugin configuration found for " + self.getPluginName())
+                self.DEBUG("EDPlugin.configure: No plugin configuration found for " + self.getPluginName())
                 xsPluginItem = XSPluginItem()
             else:
                 self.setConfiguration(xsPluginItem)
@@ -223,10 +238,10 @@ class EDPlugin(EDAction):
             # Try to get time out from plugin configuration
             iTimeOut = EDConfiguration.getIntegerParamValue(xsPluginItem, EDPlugin.CONF_TIME_OUT)
             if iTimeOut is not None:
-                EDVerbose.DEBUG("EDPlugin.configure: Setting time out to %d s from plugin configuration." % iTimeOut)
+                self.DEBUG("EDPlugin.configure: Setting time out to %d s from plugin configuration." % iTimeOut)
                 self.setTimeOut(iTimeOut)
         else:
-            EDVerbose.DEBUG("EDPlugin.configure: Working directory already set before plugin is configured.")
+            self.DEBUG("EDPlugin.configure: Working directory already set before plugin is configured.")
         # Base directory
         strBaseDirectory = self.getBaseDirectory()
         if (strBaseDirectory is None):
@@ -236,33 +251,33 @@ class EDPlugin(EDAction):
                 # Try to get working directory from environment variable
                 strBaseDirectory = os.environ.get("EDNA_BASE_DIRECTORY")
                 if (strBaseDirectory is None):
-                    EDVerbose.DEBUG("EDPlugin.configure: Using current base directory as working directory.")
+                    self.DEBUG("EDPlugin.configure: Using current base directory as working directory.")
                     strBaseDirectory = os.getcwd()
                 else:
-                    EDVerbose.DEBUG("EDPlugin.configure: Setting base directory from $EDNA_WORKING_DIRECTORY.")
+                    self.DEBUG("EDPlugin.configure: Setting base directory from $EDNA_WORKING_DIRECTORY.")
             else:
                 if (strBaseDirectory == "."):
-                    EDVerbose.DEBUG("EDPlugin.configure: Using current base directory as working directory.")
+                    self.DEBUG("EDPlugin.configure: Using current base directory as working directory.")
                     strBaseDirectory = os.getcwd()
                 else:
                     strBaseDirectory = os.path.abspath(strBaseDirectory)
-                    EDVerbose.DEBUG("EDPlugin.configure: Setting base directory from plugin configuration.")
+                    self.DEBUG("EDPlugin.configure: Setting base directory from plugin configuration.")
             self.setBaseDirectory(strBaseDirectory)
         else:
-            EDVerbose.DEBUG("EDPlugin.configure: Base directory already set before plugin is configured.")
+            self.DEBUG("EDPlugin.configure: Base directory already set before plugin is configured.")
         # Working directory
         strWorkingDirectory = self.getWorkingDirectory()
         if (strWorkingDirectory is None):
             # Try to get working directory from plugin configuration
             strWorkingDirectory = EDConfiguration.getStringParamValue(xsPluginItem, EDPlugin.CONF_WORKING_DIR_LABEL)
             if(strWorkingDirectory is not None):
-                EDVerbose.DEBUG("EDPlugin.configure: Setting working directory from plugin configuration.")
+                self.DEBUG("EDPlugin.configure: Setting working directory from plugin configuration.")
             else:
-                EDVerbose.DEBUG("EDPlugin.configure: Setting working directory as base directory + base name.")
+                self.DEBUG("EDPlugin.configure: Setting working directory as base directory + base name.")
                 strWorkingDirectory = os.path.join(self.getBaseDirectory(), self.getBaseName())
             self.setWorkingDirectory(strWorkingDirectory)
         else:
-            EDVerbose.DEBUG("EDPlugin.configure: Working directory already set before plugin is configured.")
+            self.DEBUG("EDPlugin.configure: Working directory already set before plugin is configured.")
         #
         strWriteXMLInputOutput = EDConfiguration.getStringParamValue(xsPluginItem, EDPlugin.CONF_WRITE_XML_INPUT_OUTPUT)
         if strWriteXMLInputOutput != None:
@@ -296,7 +311,7 @@ class EDPlugin(EDAction):
         Should be overridden by the Final Plugin If needed
         This method should check that the data input are consistent
         """
-        EDVerbose.DEBUG("EDPlugin.checkParameters")
+        self.DEBUG("EDPlugin.checkParameters")
 
 
     def setXSDataInputClass(self, _xsDataInputClass, _strDataInputKey=None):
@@ -309,7 +324,7 @@ class EDPlugin(EDAction):
             strDataInputKey = self.__strDefaultInputDataKey
         if (strDataInputKey in self.__dictXSDataInputClass.keys()):
             strErrorMessage = "ERROR: " + self.getPluginName() + ".setXSDataInputClass, Data Input Class already defined for key: " + strDataInputKey
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             raise RuntimeError, strErrorMessage
         self.__dictXSDataInputClass[ strDataInputKey ] = _xsDataInputClass
@@ -343,32 +358,32 @@ class EDPlugin(EDAction):
         
         If _oDataInput is None the list corresponding to a keyword is deleted.
         """
-        EDVerbose.DEBUG("EDPlugin.setDataInput")
+        self.DEBUG("EDPlugin.setDataInput")
         strDataInputKey = _strDataInputKey
         if (strDataInputKey is None):
             strDataInputKey = self.__strDefaultInputDataKey
         # Allow for None input
         if (_oDataInput is None):
-            EDVerbose.DEBUG("EDPlugin.setDataInput: Data input is None")
+            self.DEBUG("EDPlugin.setDataInput: Data input is None")
             self.__dictXSDataInput[ strDataInputKey ] = []
         elif (self.getXSDataInputClass(strDataInputKey) is None):
             strErrorMessage = "ERROR: " + self.getPluginName() + ".setDataInput, Data Input Class not defined for key: " + strDataInputKey
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             raise RuntimeError, strErrorMessage
         else:
             # Check the type
             xsDataInput = None
             if isinstance(_oDataInput, (str, unicode)):
-                EDVerbose.DEBUG("EDPlugin.setDataInput: Input Data is string ")
+                self.DEBUG("EDPlugin.setDataInput: Input Data is string ")
                 xsDataInput = self.getXSDataInputClass(strDataInputKey).parseString(_oDataInput)
             elif (isinstance(_oDataInput, self.getXSDataInputClass(strDataInputKey))):
-                EDVerbose.DEBUG("EDPlugin.setDataInput: Input Data is of type " + str(_oDataInput.__class__))
+                self.DEBUG("EDPlugin.setDataInput: Input Data is of type " + str(_oDataInput.__class__))
                 xsDataInput = _oDataInput
             else:
                 strErrorMessage = "ERROR: %s.setDataInput, wrong data type %r for data input key: %s, expected XML string or %r" % \
                                   (self.getPluginName(), _oDataInput.__class__, strDataInputKey, self.getXSDataInputClass(strDataInputKey))
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
             # Add the object to a list if its key is not the default key
@@ -408,9 +423,28 @@ class EDPlugin(EDAction):
             oValue = self.__dictXSDataInput[ strDataInputKey ]
         else:
             strErrorMessage = self.getPluginName() + ".getDataInput, no input data defined for key: " + strDataInputKey
-            EDVerbose.warning(strErrorMessage)
+            self.warning(strErrorMessage)
             self.addWarningMessage(strErrorMessage)
         return oValue
+
+
+    def delDataInput(self, _strDataInputKey=None):
+        """
+        Deletes the data input for a particular key.
+        If the key is not provided a default key is used.
+        """
+        strDataInputKey = _strDataInputKey
+        if (strDataInputKey is None):
+            strDataInputKey = self.__strDefaultInputDataKey
+        if (strDataInputKey in self.__dictXSDataInput.keys()):
+            self.__dictXSDataInput[ strDataInputKey ] = None
+        else:
+            strErrorMessage = self.getPluginName() + ".delDataInput, no input data defined for key: " + strDataInputKey
+            self.warning(strErrorMessage)
+            self.addWarningMessage(strErrorMessage)
+
+    # Property for dataInput
+    dataInput = property(getDataInput, setDataInput, delDataInput, "Property for dataInput")
 
 
     def setDataOutput(self, _xsDataOutput, _strDataOutputKey=None):
@@ -464,12 +498,31 @@ class EDPlugin(EDAction):
             return False
 
 
+    def delDataOutput(self, _strDataOutputKey=None):
+        """
+        Deletes the data output for a particular key.
+        If the key is not provided a default key is used.
+        """
+        strDataOutputKey = _strDataOutputKey
+        if (strDataOutputKey is None):
+            strDataOutputKey = self.__strDefaultOutputDataKey
+        if (strDataOutputKey in self.__dictXSDataOutput.keys()):
+            self.__dictXSDataOutput[ strDataOutputKey ] = None
+        else:
+            strErrorMessage = self.getPluginName() + ".delDataOutput, no output data defined for key: " + strDataInputKey
+            self.warning(strErrorMessage)
+            self.addWarningMessage(strErrorMessage)
+
+    # Property for dataOutput
+    dataOutput = property(getDataOutput, setDataOutput, delDataOutput, "Property for dataOutput")
+
+    
     def exportDataOutput(self, _edPlugin=None):
         """
         Deprecated
         Exports the Plugin Output Data to slot
         """
-        EDVerbose.DEBUG("EDPlugin.exportDataOutput")
+        self.DEBUG("EDPlugin.exportDataOutput")
         self.__edSlotExportDataOutput.call(self.__dictXSDataOutput)
 
 
@@ -487,7 +540,7 @@ class EDPlugin(EDAction):
         """
         This method, which should be implemented by sub-classes, generates an executive summary (user-related output summary).
         """
-        EDVerbose.DEBUG("EDPlugin.generateExecutiveSummary")
+        self.DEBUG("EDPlugin.generateExecutiveSummary")
 
 
     def addErrorMessage(self, _strErrorMessage):
@@ -502,7 +555,7 @@ class EDPlugin(EDAction):
         Returns the error messages list
         OBS! This method is deprecated, please use getListOfErrorMessages instead.
         """
-        EDVerbose.warning("Deprecation by Monday 7th June 2010 of EDPlugin, called getErrorMessages")
+        self.warning("Deprecation by Monday 7th June 2010 of EDPlugin, called getErrorMessages")
         from EDImportLib import EDList
         return EDList(self.__listErrorMessages)
 
@@ -518,7 +571,7 @@ class EDPlugin(EDAction):
         """
         Adds a warning message to the warning messages list
         """
-        EDVerbose.DEBUG("EDPlugin.addWarningMessage : " + _strWarningMessage)
+        self.DEBUG("EDPlugin.addWarningMessage : " + _strWarningMessage)
         self.__listWarningMessages.append(_strWarningMessage)
 
 
@@ -527,7 +580,7 @@ class EDPlugin(EDAction):
         Returns the warning messages list
         OBS! This method is deprecated, please use getListOfWarningMessages instead.
         """
-        EDVerbose.warning("Deprecation by Monday 7th June 2010 of EDPlugin, called getWarningMessages")
+        self.warning("Deprecation by Monday 7th June 2010 of EDPlugin, called getWarningMessages")
         from EDImportLib import EDList
         return EDList(self.__listWarningMessages)
 
@@ -543,7 +596,7 @@ class EDPlugin(EDAction):
         """
         Writes the input data object(s) into a working dir xml file 
         """
-        EDVerbose.DEBUG("EDPlugin.writeDataInput")
+        self.DEBUG("EDPlugin.writeDataInput")
         for strKey in self.__dictXSDataInput.keys():
             if (strKey == self.__strDefaultInputDataKey):
                 # "Old" style
@@ -553,9 +606,9 @@ class EDPlugin(EDAction):
             else:
                 # We have a list of objects
                 listXSDataInput = self.__dictXSDataInput[ strKey ]
-                iIndex = 1
+                iIndex = 0
                 for xsDataInput in listXSDataInput:
-                    strPathDataInput = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()) + "_" + strKey + "[%s]_dataInput.xml" % iIndex)
+                    strPathDataInput = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()) + "_" + strKey + "_%d_dataInput.xml" % iIndex)
                     EDUtilsFile.writeFile(strPathDataInput, xsDataInput.marshal())
                     iIndex += 1
 
@@ -565,7 +618,7 @@ class EDPlugin(EDAction):
         """
         Writes the output data object(s) into a working dir xml file 
         """
-        EDVerbose.DEBUG("EDPlugin.writeDataOutput")
+        self.DEBUG("EDPlugin.writeDataOutput")
         for strKey in self.__dictXSDataOutput.keys():
             if (strKey == self.__strDefaultOutputDataKey):
                 # "Old" style
@@ -616,15 +669,15 @@ class EDPlugin(EDAction):
         try:
             os.mkdir(strBaseDir)
         except BaseException, strErrorDetail:
-            EDVerbose.error("EDPlugin.createBaseName: Could not create base directory %s because of %s" % (strBaseDir, strErrorDetail))
-            EDVerbose.warning("EDPlugin.createBaseName: Trying to create alternative base directory...")
-            EDVerbose.writeErrorTrace()
+            self.error("EDPlugin.createBaseName: Could not create base directory %s because of %s" % (strBaseDir, strErrorDetail))
+            self.warning("EDPlugin.createBaseName: Trying to create alternative base directory...")
+            self.writeErrorTrace()
             strTempDir = tempfile.mkdtemp(prefix=strBaseName, dir=self.getBaseDirectory())
             os.chmod(strTempDir, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
             strBaseName = os.path.split(strTempDir)[1]
             strBaseDir = os.path.join(self.getBaseDirectory(), strBaseName)
-            EDVerbose.warning("EDPlugin.createBaseName: Alternative base directory created: %s" % strBaseDir)
-        EDVerbose.DEBUG("EDPlugin.createBaseName : Directory created = " + strBaseDir)
+            self.warning("EDPlugin.createBaseName: Alternative base directory created: %s" % strBaseDir)
+        self.DEBUG("EDPlugin.createBaseName : Directory created = " + strBaseDir)
         return strBaseName
 
 
@@ -649,9 +702,9 @@ class EDPlugin(EDAction):
         """
         Sets the plugin base directory
         """
-        EDVerbose.DEBUG("EDPlugin.setBaseDirectory : " + _strBaseDirectory)
+        self.DEBUG("EDPlugin.setBaseDirectory : " + _strBaseDirectory)
         if (not os.path.isdir(_strBaseDirectory)):
-            EDVerbose.DEBUG("EDPlugin.setBaseDirectory: base directory %s does dot yet exist! Creating it." % _strBaseDirectory)
+            self.DEBUG("EDPlugin.setBaseDirectory: base directory %s does dot yet exist! Creating it." % _strBaseDirectory)
             os.mkdir(_strBaseDirectory)
         self.__strBaseDirectory = _strBaseDirectory
 
@@ -660,7 +713,7 @@ class EDPlugin(EDAction):
         """
         Returns the plugin base directory
         """
-        EDVerbose.DEBUG("EDPlugin.getBaseDirectory : %s" % self.__strBaseDirectory)
+        self.DEBUG("EDPlugin.getBaseDirectory : %s" % self.__strBaseDirectory)
         if (self.__strBaseDirectory is None):
             self.__strBaseDirectory = os.getcwd()
         return self.__strBaseDirectory
@@ -670,10 +723,10 @@ class EDPlugin(EDAction):
         """
         Sets the plugin working directory
         """
-        EDVerbose.DEBUG("EDPlugin.setWorkingDirectory : " + _strWorkingDirectory)
+        self.DEBUG("EDPlugin.setWorkingDirectory : " + _strWorkingDirectory)
         self.__strWorkingDirectory = _strWorkingDirectory
         if not os.path.isdir(_strWorkingDirectory):
-            EDVerbose.DEBUG("EDPlugin.setWorkingDirectory, creating working directory %s." % _strWorkingDirectory)
+            self.DEBUG("EDPlugin.setWorkingDirectory, creating working directory %s." % _strWorkingDirectory)
             os.mkdir(self.__strWorkingDirectory)
 
 
@@ -681,7 +734,7 @@ class EDPlugin(EDAction):
         """
         Returns the plugin base directory
         """
-        EDVerbose.DEBUG("EDPlugin.getWorkingDirectory : %s" % self.__strWorkingDirectory)
+        self.DEBUG("EDPlugin.getWorkingDirectory : %s" % self.__strWorkingDirectory)
         returnValue = None
         if (self.__strWorkingDirectory is not None):
             returnValue = self.__strWorkingDirectory
@@ -695,7 +748,7 @@ class EDPlugin(EDAction):
         """
         if (_xsData in [ None, list(), tuple(), dict()]):
             strErrorMessage = "%s: input parameter is missing: %s" % (self.getPluginName(), _strParamName)
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             raise RuntimeError, strErrorMessage
 
@@ -707,7 +760,7 @@ class EDPlugin(EDAction):
         """
         if(_xsData == None):
             strWarningMessage = "%s: input parameter is missing: %s" % (self.getPluginName(), _strParamName)
-            EDVerbose.warning(strWarningMessage)
+            self.warning(strWarningMessage)
             self.addWarningMessage(strWarningMessage)
 
 
@@ -715,7 +768,7 @@ class EDPlugin(EDAction):
         """
         Add a line to the executive summary string.
         """
-        EDVerbose.DEBUG("EDPlugin.addExecutiveSummaryLine : %r" % _strExecutiveSummaryLine)
+        self.DEBUG("EDPlugin.addExecutiveSummaryLine : %r" % _strExecutiveSummaryLine)
         strExecutiveSummaryLine = _strExecutiveSummaryLine
         if (not strExecutiveSummaryLine == ""):
             if (strExecutiveSummaryLine[-1] == "\n"):
@@ -751,10 +804,10 @@ class EDPlugin(EDAction):
         Prints the executive summary on the screen
         """
         for line in self.getListExecutiveSummaryLines():
-            EDVerbose.screen(line)
+            self.screen(line)
 
     def verboseDebug(self, _strMessage):
-        EDVerbose.DEBUG(self.getPluginName() + " : " + _strMessage)
+        self.DEBUG(self.getPluginName() + " : " + _strMessage)
 
 
     def getPluginName(self):

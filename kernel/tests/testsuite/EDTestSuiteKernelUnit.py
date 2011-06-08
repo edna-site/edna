@@ -40,6 +40,7 @@ class EDTestSuiteKernelUnit(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCaseEDActionCluster")
         self.addTestCaseFromName("EDTestCaseEDConfiguration")
+        self.addTestCaseFromName("EDTestCaseEDPlugin")
         self.addTestCaseFromName("EDTestCaseEDPluginExecProcessScript")
         self.addTestCaseFromName("EDTestCaseEDUtilsFile")
         self.addTestCaseFromName("EDTestCaseEDUtilsImage")
