@@ -36,11 +36,11 @@ class EDTestSuitePluginExecuteControlGridScreeningv1_0(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_fewSpots")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_bestBFactorFailed")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_iceRings")
+        #self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_bestBFactorFailed")
+        #self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_iceRings")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_indexingError")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_integrationError")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_meshImage")
+        #self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_meshImage")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_onlyImageQualityIndicators")
 
 
