@@ -43,7 +43,7 @@ class EDTestSuitePluginExecuteReadImageHeaderv10(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_MARCCD")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC_waitFile")
-        self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC_timeOut")
+        self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_failure")
 
 if __name__ == '__main__':
 
