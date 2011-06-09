@@ -5,6 +5,9 @@
 	        <maxExposureTimePerDataCollection>
 	            <value>10000.000000</value>
 	        </maxExposureTimePerDataCollection>
+	        <strategyOption>
+	            <value>-low ever</value>
+	        </strategyOption>
 	    </diffractionPlan>
 	    <subWedge>
 	        <experimentalCondition>
