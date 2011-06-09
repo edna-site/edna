@@ -333,8 +333,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
             self.setFailure()
         else:
             xsDataResultBest = self.getOutputDataFromDNATableFile(EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
-            xsDataFilePathToLog = XSDataFile()
-            xsDataFilePathToLog.setPath(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
+            xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
             xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
             self.setDataOutput(xsDataResultBest)
 
@@ -342,18 +341,20 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
     def getOutputDataFromDNATableFile(self, _strFileName):
         strDnaTablesXML = self.readProcessFile(_strFileName)
         xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
-        xsDataResultBest = None
+        xsDataResultBest = XSDataResultBest()
         # Loop through all the tables and fill in the relevant parts of xsDataResultBest
 
         xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
-        if (xsDataStringStrategyOption is None):
-            xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
-        else:
+        if (xsDataStringStrategyOption is not None):
             strStrategyOption = xsDataStringStrategyOption.getValue()
             if (strStrategyOption == "-DamPar"):
                 xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
             elif (strStrategyOption == "-Bonly"):
                 xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
+            else:
+                xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
+        else:
+            xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
 
         return xsDataResultBest
 
