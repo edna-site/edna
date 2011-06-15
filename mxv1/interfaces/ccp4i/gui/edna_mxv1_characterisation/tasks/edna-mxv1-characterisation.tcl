@@ -10,7 +10,7 @@ proc edna-mxv1-characterisation_setup { typedefVar arrayname } {
 
   SetProgramHelpFile [FileJoin [GetEnvPath EDNA_HOME] mxv1 interfaces ccp4i gui edna_mxv1_characterisation help edna-mxv1-characterisation.html ]
 
-  set typedef(_image_file)         { file IMG ".img,*.mccd,*.image,*.mar????" "image file" "{View Image}" "ImageViewer" }
+  set typedef(_image_file)         { file IMG "*.cbf,.img,*.mccd,*.image,*.mar????" "image file" "{View Image}" "ImageViewer" }
   set typedef(_mtv_file)           { file MTV ".mtv" "mtv plot file" "{View Plot}" "MtvViewer" }
   set typedef(_xml_file)           { file XML ".xml" "xml file" "{View XML}" "open_url" }
   set typedef(_jpg_file)           { file JPG ".jpg" "jpg file" "{View jpg image}" "open_url" }
