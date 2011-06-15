@@ -26,7 +26,7 @@ __author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "Copyrigth (c) 2010 ESRF"
 
-import os
+import os, tempfile, shutil
 
 from threading import Timer
 
@@ -42,18 +42,19 @@ class EDTestCasePluginExecuteControlPyarchThumbnailGeneratorv1_0_waitForFile(EDT
 
     def __init__(self):
         EDTestCasePluginExecuteControlPyarchThumbnailGeneratorv1_0.__init__(self)
-        self.__strInputDataFile = os.path.join(self.getTestsDataImagesHome(), "FAE_1_1_00001.cbf")
-        self.__strInputDataFileNew = os.path.join(self.getTestsDataImagesHome(), "FAE_1_1_00001.cbf.renamed")
+        strTmpDir = tempfile.mkdtemp(prefix="EDPluginControlPyarchThumbnailGeneratorv1_0_")
+        os.environ["EDNA_TMP_DIR"] = strTmpDir
+        self.strInputDataFile = os.path.join(self.getTestsDataImagesHome(), "FAE_1_1_00001.cbf")
+        self.strInputDataFileNew = os.path.join(strTmpDir, "FAE_1_1_00001.cbf")
 
 
-    def moveFileBack(self):
-        os.rename(self.__strInputDataFileNew, self.__strInputDataFile)
+    def copyFile(self):
+        shutil.copyfile(self.strInputDataFile, self.strInputDataFileNew)
 
 
     def testExecute(self):
-        os.rename(self.__strInputDataFile, self.__strInputDataFileNew)
         # Start a timer for copying the file
-        pyTimer = Timer(5, self.moveFileBack)
+        pyTimer = Timer(5, self.copyFile)
         pyTimer.start()
         self.run()
         pyTimer.cancel()

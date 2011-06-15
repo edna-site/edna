@@ -43,30 +43,11 @@ class EDTestCasePluginExecuteControlImageQualityIndicatorsv1_1_timeOut(EDTestCas
         EDTestCasePluginExecute.__init__(self, "EDPluginControlImageQualityIndicatorsv1_1")
         self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputControlImageQualityIndicators_reference.xml"))
-        self.strInputDataFile = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img")
-        self.strInputDataFileNew = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img.renamed")
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputControlImageQualityIndicators_timeOut.xml"))
         self.setNoExpectedErrorMessages(1)
         self.setAcceptPluginFailure(True)
 
 
-
-    def preProcess(self):
-        EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage([ "ref-testscale_1_001.img", "ref-testscale_1_002.img" ])
-
-
-
-    def testExecute(self):
-        os.rename(self.strInputDataFile, self.strInputDataFileNew)
-
-        self.run()
-
-
-    def process(self):
-        """
-        """
-        self.addTestMethod(self.testExecute)
 
 
 

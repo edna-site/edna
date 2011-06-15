@@ -43,35 +43,14 @@ class EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC_timeOut(EDTest
     def __init__(self, _strTestName="EDPluginControlReadImageHeaderv10"):
         EDTestCasePluginExecutePluginControlReadImageHeaderv10.__init__(self, _strTestName)
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputReadImageHeader_ADSC_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputReadImageHeader_ADSC_timeOut.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultReadImageHeader_ADSC_reference.xml"))
-        self.strInputDataFile = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img")
-        self.strInputDataFileNew = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img.renamed")
         self.setNoExpectedErrorMessages(1)
         self.setAcceptPluginFailure(True)
-
-    def preProcess(self):
-        EDTestCasePluginExecutePluginControlReadImageHeaderv10.preProcess(self)
-        self.loadTestImage([ "ref-testscale_1_001.img" ])
-
-
-    def moveFileBack(self):
-        os.rename(self.strInputDataFileNew, self.strInputDataFile)
-
-
-    def testExecute(self):
-        os.rename(self.strInputDataFile, self.strInputDataFileNew)
-        # Start a timer for copying the file
-        pyTimer = Timer(7, self.moveFileBack)
-        pyTimer.start()
-        self.run()
-        pyTimer.cancel()
 
 
     def process(self):
         self.addTestMethod(self.testExecute)
-
-
 
 
 

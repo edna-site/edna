@@ -29,7 +29,7 @@ __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import os
+import os, tempfile, shutil
 
 from threading import Timer
 
@@ -41,12 +41,16 @@ class EDTestCasePluginExecuteControlImageQualityIndicatorsv1_1_waitFile(EDTestCa
 
     def __init__(self, _edStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlImageQualityIndicatorsv1_1")
+        strTmpDir = tempfile.mkdtemp(prefix="EDPluginControlImageQualityIndicatorsv1_1_")
+        os.environ["EDNA_TMP_DIR"] = strTmpDir
         self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputControlImageQualityIndicators_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputControlImageQualityIndicators_waitFile.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultControlImageQualityIndicators_reference.xml"))
-        self.strInputDataFile = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img")
-        self.strInputDataFileNew = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img.renamed")
+        self.strInputDataFile1 = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img")
+        self.strInputDataFileNew1 = os.path.join(strTmpDir, "ref-testscale_1_001.img")
+        self.strInputDataFile2 = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_002.img")
+        self.strInputDataFileNew2 = os.path.join(strTmpDir, "ref-testscale_1_002.img")
 
 
 
@@ -55,14 +59,14 @@ class EDTestCasePluginExecuteControlImageQualityIndicatorsv1_1_waitFile(EDTestCa
         self.loadTestImage([ "ref-testscale_1_001.img", "ref-testscale_1_002.img" ])
 
 
-    def moveFileBack(self):
-        os.rename(self.strInputDataFileNew, self.strInputDataFile)
+    def copyFile(self):
+        shutil.copyfile(self.strInputDataFile1, self.strInputDataFileNew1)
+        shutil.copyfile(self.strInputDataFile2, self.strInputDataFileNew2)
 
 
     def testExecute(self):
-        os.rename(self.strInputDataFile, self.strInputDataFileNew)
         # Start a timer for copying the file
-        pyTimer = Timer(5, self.moveFileBack)
+        pyTimer = Timer(5, self.copyFile)
         pyTimer.start()
         self.run()
         pyTimer.cancel()
