@@ -99,12 +99,12 @@ class EDTestCasePluginUnitRaddosev10(EDTestCasePluginUnit):
         xsDataRaddoseInput.setCrystalPATM(xsDataAtomicComposition)
         xsDataRaddoseInput.setCrystalNRES(XSDataInteger(295))
         xsDataRaddoseInput.setCrystalNMON(XSDataInteger(8))
-        xsDataCell = XSDataCell(XSDataAngle(90.0),
-                                 XSDataAngle(90.0),
-                                 XSDataAngle(90.0),
-                                 XSDataLength(78.9),
-                                 XSDataLength(95.162),
-                                 XSDataLength(104.087))
+        xsDataCell = XSDataCell(angle_alpha = XSDataAngle(90.0),
+                                angle_beta =  XSDataAngle(90.0),
+                                angle_gamma =  XSDataAngle(90.0),
+                                length_a = XSDataLength(78.9),
+                                length_b = XSDataLength(95.162),
+                                length_c = XSDataLength(104.087))
 
         xsDataSizeCrystal = XSDataSize(XSDataLength(0.1),
                                         XSDataLength(0.1),
@@ -118,8 +118,8 @@ class EDTestCasePluginUnitRaddosev10(EDTestCasePluginUnit):
         from XSDataCommon import XSDataWavelength
         from XSDataCommon import XSDataTime
 
-        xsDataSize = XSDataSize(XSDataLength(0.1),
-                                 XSDataLength(0.1))
+        xsDataSize = XSDataSize(x = XSDataLength(0.1),
+                                y = XSDataLength(0.1))
 
         xsDataRaddoseInput.setBeamSize(xsDataSize)
         xsDataRaddoseInput.setBeamFlux(XSDataFlux(1e+12))
