@@ -43,7 +43,7 @@ from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataInteger
-from XSDataCommon import XSDataFloat
+from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataMatrixDouble
 from XSDataCommon import XSPluginItem
@@ -220,7 +220,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
                 xsDataLabelitScreenSolution.setSolutionNumber(XSDataInteger(iSolutionNumber))
 
                 fMetricFitValue = float(listStringLabelitSolution[2])
-                xsDataLabelitScreenSolution.setMetricFitValue(XSDataFloat(fMetricFitValue))
+                xsDataLabelitScreenSolution.setMetricFitValue(XSDataDouble(fMetricFitValue))
 
                 strMetricFitCode = listStringLabelitSolution[3]
                 xsDataLabelitScreenSolution.setMetricFitCode(XSDataString(strMetricFitCode))

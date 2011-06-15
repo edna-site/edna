@@ -23,7 +23,7 @@
             <value>orthorhombic</value>
         </crystalSystem>
         <happy>
-            <value>1</value>
+            <value>true</value>
         </happy>
         <metricFitCode>
             <value>dg</value>
@@ -72,7 +72,7 @@
             <value>monoclinic</value>
         </crystalSystem>
         <happy>
-            <value>1</value>
+            <value>true</value>
         </happy>
         <metricFitCode>
             <value>dg</value>
@@ -121,7 +121,7 @@
             <value>monoclinic</value>
         </crystalSystem>
         <happy>
-            <value>1</value>
+            <value>true</value>
         </happy>
         <metricFitCode>
             <value>dg</value>
@@ -170,7 +170,7 @@
             <value>monoclinic</value>
         </crystalSystem>
         <happy>
-            <value>1</value>
+            <value>true</value>
         </happy>
         <metricFitCode>
             <value>dg</value>
@@ -219,7 +219,7 @@
             <value>triclinic</value>
         </crystalSystem>
         <happy>
-            <value>1</value>
+            <value>true</value>
         </happy>
         <metricFitCode>
             <value>dg</value>

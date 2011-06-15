@@ -109,7 +109,7 @@ class EDTestCasePluginUnitLabelitv10(EDTestCasePluginUnit):
         strPathToMOSFLMScript = os.path.join(self.getPluginTestsDataHome(), "integration05_csh_v1000rc11.txt")
         strMOSFLMScript = self.readAndParseFile(strPathToMOSFLMScript)
         xsDataLabelitMosflmScriptsOutput = edPluginLabelitv10.parseMosflmScriptsOutput(strMOSFLMScript)
-        xsDataLabelitMosflmScriptsOutput.outputFile("XSDataLabelitMosflmScriptsOutput_reference.xml")
+        xsDataLabelitMosflmScriptsOutput.exportToFile("XSDataLabelitMosflmScriptsOutput_reference.xml")
         strLabelitMosflmScriptsOutputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataLabelitMosflmScriptsOutput_reference.xml")
         strLabelitMosflmScriptsOutputXML = self.readAndParseFile(strLabelitMosflmScriptsOutputFile)
         from XSDataLabelitv10 import XSDataLabelitMosflmScriptsOutput
@@ -119,7 +119,7 @@ class EDTestCasePluginUnitLabelitv10(EDTestCasePluginUnit):
         strPathToMOSFLMScript = os.path.join(self.getPluginTestsDataHome(), "integration05_csh_v1000b1.txt")
         strMOSFLMScript = self.readAndParseFile(strPathToMOSFLMScript)
         xsDataLabelitMosflmScriptsOutput = edPluginLabelitv10.parseMosflmScriptsOutput(strMOSFLMScript)
-        xsDataLabelitMosflmScriptsOutput.outputFile("XSDataLabelitMosflmScriptsOutput_v1000b1_reference.xml")
+        xsDataLabelitMosflmScriptsOutput.exportToFile("XSDataLabelitMosflmScriptsOutput_v1000b1_reference.xml")
         strLabelitMosflmScriptsOutputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataLabelitMosflmScriptsOutput_v1000b1_reference.xml")
         strLabelitMosflmScriptsOutputXML = self.readAndParseFile(strLabelitMosflmScriptsOutputFile)
         from XSDataLabelitv10 import XSDataLabelitMosflmScriptsOutput
