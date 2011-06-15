@@ -1,5 +1,12 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+
 complex type XSDataISPyBImageQualityIndicators extends XSData {
 	binPopCutOffMethod2Res : XSDataDouble
 	goodBraggCandidates : XSDataInteger

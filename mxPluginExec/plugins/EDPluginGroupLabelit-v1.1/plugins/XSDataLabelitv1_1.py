@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Apr 4 11:10::41 2011 by EDGenerateDS.
+# Generated Tue Jun 14 12:10::12 2011 by EDGenerateDS.
 #
 
 import sys
@@ -47,10 +47,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -58,7 +58,7 @@ def warnEmptyAttribute(_strName, _strTypeName):
 	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
 	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
-class MixedContainer:
+class MixedContainer(object):
 	# Constants for category:
 	CategoryNone = 0
 	CategoryText = 1
@@ -110,13 +110,19 @@ class MixedContainer:
 #
 
 
-class XSDataCell:
+class XSDataCell(object):
 	def __init__(self, length_c=None, length_b=None, length_a=None, angle_gamma=None, angle_beta=None, angle_alpha=None):
+		checkType("XSDataCell", "Constructor of XSDataCell", angle_alpha, "XSDataAngle")
 		self.__angle_alpha = angle_alpha
+		checkType("XSDataCell", "Constructor of XSDataCell", angle_beta, "XSDataAngle")
 		self.__angle_beta = angle_beta
+		checkType("XSDataCell", "Constructor of XSDataCell", angle_gamma, "XSDataAngle")
 		self.__angle_gamma = angle_gamma
+		checkType("XSDataCell", "Constructor of XSDataCell", length_a, "XSDataLength")
 		self.__length_a = length_a
+		checkType("XSDataCell", "Constructor of XSDataCell", length_b, "XSDataLength")
 		self.__length_b = length_b
+		checkType("XSDataCell", "Constructor of XSDataCell", length_c, "XSDataLength")
 		self.__length_c = length_c
 	def getAngle_alpha(self): return self.__angle_alpha
 	def setAngle_alpha(self, angle_alpha):
@@ -236,11 +242,15 @@ class XSDataCell:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataCell' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCell is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataCell.parseString(self.marshal())
@@ -267,26 +277,44 @@ class XSDataCell:
 # end class XSDataCell
 
 class XSDataImageQualityIndicators(XSData):
-	def __init__(self, saturationRangeAverage=None, saturationRangeMax=None, saturationRangeMin=None, signalRangeAverage=None, signalRangeMax=None, signalRangeMin=None, totalIntegratedSignal=None, spotTotal=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResTotal=None, inResolutionOvrlSpots=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
+	def __init__(self, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
 		XSData.__init__(self, )
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", binPopCutOffMethod2Res, "XSDataDouble")
 		self.__binPopCutOffMethod2Res = binPopCutOffMethod2Res
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", goodBraggCandidates, "XSDataInteger")
 		self.__goodBraggCandidates = goodBraggCandidates
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", iceRings, "XSDataInteger")
 		self.__iceRings = iceRings
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", image, "XSDataImage")
 		self.__image = image
-		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", inResTotal, "XSDataInteger")
 		self.__inResTotal = inResTotal
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", inResolutionOvrlSpots, "XSDataInteger")
+		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", maxUnitCell, "XSDataDouble")
 		self.__maxUnitCell = maxUnitCell
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", method1Res, "XSDataDouble")
 		self.__method1Res = method1Res
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", method2Res, "XSDataDouble")
 		self.__method2Res = method2Res
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", pctSaturationTop50Peaks, "XSDataDouble")
 		self.__pctSaturationTop50Peaks = pctSaturationTop50Peaks
-		self.__spotTotal = spotTotal
-		self.__totalIntegratedSignal = totalIntegratedSignal
-		self.__signalRangeMin = signalRangeMin
-		self.__signalRangeMax = signalRangeMax
-		self.__signalRangeAverage = signalRangeAverage
-		self.__saturationRangeMin = saturationRangeMin
-		self.__saturationRangeMax = saturationRangeMax
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeAverage, "XSDataDouble")
 		self.__saturationRangeAverage = saturationRangeAverage
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeMax, "XSDataDouble")
+		self.__saturationRangeMax = saturationRangeMax
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeMin, "XSDataDouble")
+		self.__saturationRangeMin = saturationRangeMin
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeAverage, "XSDataDouble")
+		self.__signalRangeAverage = signalRangeAverage
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeMax, "XSDataDouble")
+		self.__signalRangeMax = signalRangeMax
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeMin, "XSDataDouble")
+		self.__signalRangeMin = signalRangeMin
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", spotTotal, "XSDataInteger")
+		self.__spotTotal = spotTotal
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", totalIntegratedSignal, "XSDataDouble")
+		self.__totalIntegratedSignal = totalIntegratedSignal
 	def getBinPopCutOffMethod2Res(self): return self.__binPopCutOffMethod2Res
 	def setBinPopCutOffMethod2Res(self, binPopCutOffMethod2Res):
 		checkType("XSDataImageQualityIndicators", "setBinPopCutOffMethod2Res", binPopCutOffMethod2Res, "XSDataDouble")
@@ -315,13 +343,6 @@ class XSDataImageQualityIndicators(XSData):
 	def delImage(self): self.__image = None
 	# Properties
 	image = property(getImage, setImage, delImage, "Property for image")
-	def getInResolutionOvrlSpots(self): return self.__inResolutionOvrlSpots
-	def setInResolutionOvrlSpots(self, inResolutionOvrlSpots):
-		checkType("XSDataImageQualityIndicators", "setInResolutionOvrlSpots", inResolutionOvrlSpots, "XSDataInteger")
-		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
-	def delInResolutionOvrlSpots(self): self.__inResolutionOvrlSpots = None
-	# Properties
-	inResolutionOvrlSpots = property(getInResolutionOvrlSpots, setInResolutionOvrlSpots, delInResolutionOvrlSpots, "Property for inResolutionOvrlSpots")
 	def getInResTotal(self): return self.__inResTotal
 	def setInResTotal(self, inResTotal):
 		checkType("XSDataImageQualityIndicators", "setInResTotal", inResTotal, "XSDataInteger")
@@ -329,6 +350,13 @@ class XSDataImageQualityIndicators(XSData):
 	def delInResTotal(self): self.__inResTotal = None
 	# Properties
 	inResTotal = property(getInResTotal, setInResTotal, delInResTotal, "Property for inResTotal")
+	def getInResolutionOvrlSpots(self): return self.__inResolutionOvrlSpots
+	def setInResolutionOvrlSpots(self, inResolutionOvrlSpots):
+		checkType("XSDataImageQualityIndicators", "setInResolutionOvrlSpots", inResolutionOvrlSpots, "XSDataInteger")
+		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
+	def delInResolutionOvrlSpots(self): self.__inResolutionOvrlSpots = None
+	# Properties
+	inResolutionOvrlSpots = property(getInResolutionOvrlSpots, setInResolutionOvrlSpots, delInResolutionOvrlSpots, "Property for inResolutionOvrlSpots")
 	def getMaxUnitCell(self): return self.__maxUnitCell
 	def setMaxUnitCell(self, maxUnitCell):
 		checkType("XSDataImageQualityIndicators", "setMaxUnitCell", maxUnitCell, "XSDataDouble")
@@ -357,6 +385,48 @@ class XSDataImageQualityIndicators(XSData):
 	def delPctSaturationTop50Peaks(self): self.__pctSaturationTop50Peaks = None
 	# Properties
 	pctSaturationTop50Peaks = property(getPctSaturationTop50Peaks, setPctSaturationTop50Peaks, delPctSaturationTop50Peaks, "Property for pctSaturationTop50Peaks")
+	def getSaturationRangeAverage(self): return self.__saturationRangeAverage
+	def setSaturationRangeAverage(self, saturationRangeAverage):
+		checkType("XSDataImageQualityIndicators", "setSaturationRangeAverage", saturationRangeAverage, "XSDataDouble")
+		self.__saturationRangeAverage = saturationRangeAverage
+	def delSaturationRangeAverage(self): self.__saturationRangeAverage = None
+	# Properties
+	saturationRangeAverage = property(getSaturationRangeAverage, setSaturationRangeAverage, delSaturationRangeAverage, "Property for saturationRangeAverage")
+	def getSaturationRangeMax(self): return self.__saturationRangeMax
+	def setSaturationRangeMax(self, saturationRangeMax):
+		checkType("XSDataImageQualityIndicators", "setSaturationRangeMax", saturationRangeMax, "XSDataDouble")
+		self.__saturationRangeMax = saturationRangeMax
+	def delSaturationRangeMax(self): self.__saturationRangeMax = None
+	# Properties
+	saturationRangeMax = property(getSaturationRangeMax, setSaturationRangeMax, delSaturationRangeMax, "Property for saturationRangeMax")
+	def getSaturationRangeMin(self): return self.__saturationRangeMin
+	def setSaturationRangeMin(self, saturationRangeMin):
+		checkType("XSDataImageQualityIndicators", "setSaturationRangeMin", saturationRangeMin, "XSDataDouble")
+		self.__saturationRangeMin = saturationRangeMin
+	def delSaturationRangeMin(self): self.__saturationRangeMin = None
+	# Properties
+	saturationRangeMin = property(getSaturationRangeMin, setSaturationRangeMin, delSaturationRangeMin, "Property for saturationRangeMin")
+	def getSignalRangeAverage(self): return self.__signalRangeAverage
+	def setSignalRangeAverage(self, signalRangeAverage):
+		checkType("XSDataImageQualityIndicators", "setSignalRangeAverage", signalRangeAverage, "XSDataDouble")
+		self.__signalRangeAverage = signalRangeAverage
+	def delSignalRangeAverage(self): self.__signalRangeAverage = None
+	# Properties
+	signalRangeAverage = property(getSignalRangeAverage, setSignalRangeAverage, delSignalRangeAverage, "Property for signalRangeAverage")
+	def getSignalRangeMax(self): return self.__signalRangeMax
+	def setSignalRangeMax(self, signalRangeMax):
+		checkType("XSDataImageQualityIndicators", "setSignalRangeMax", signalRangeMax, "XSDataDouble")
+		self.__signalRangeMax = signalRangeMax
+	def delSignalRangeMax(self): self.__signalRangeMax = None
+	# Properties
+	signalRangeMax = property(getSignalRangeMax, setSignalRangeMax, delSignalRangeMax, "Property for signalRangeMax")
+	def getSignalRangeMin(self): return self.__signalRangeMin
+	def setSignalRangeMin(self, signalRangeMin):
+		checkType("XSDataImageQualityIndicators", "setSignalRangeMin", signalRangeMin, "XSDataDouble")
+		self.__signalRangeMin = signalRangeMin
+	def delSignalRangeMin(self): self.__signalRangeMin = None
+	# Properties
+	signalRangeMin = property(getSignalRangeMin, setSignalRangeMin, delSignalRangeMin, "Property for signalRangeMin")
 	def getSpotTotal(self): return self.__spotTotal
 	def setSpotTotal(self, spotTotal):
 		checkType("XSDataImageQualityIndicators", "setSpotTotal", spotTotal, "XSDataInteger")
@@ -371,48 +441,6 @@ class XSDataImageQualityIndicators(XSData):
 	def delTotalIntegratedSignal(self): self.__totalIntegratedSignal = None
 	# Properties
 	totalIntegratedSignal = property(getTotalIntegratedSignal, setTotalIntegratedSignal, delTotalIntegratedSignal, "Property for totalIntegratedSignal")
-	def getSignalRangeMin(self): return self.__signalRangeMin
-	def setSignalRangeMin(self, signalRangeMin):
-		checkType("XSDataImageQualityIndicators", "setSignalRangeMin", signalRangeMin, "XSDataDouble")
-		self.__signalRangeMin = signalRangeMin
-	def delSignalRangeMin(self): self.__signalRangeMin = None
-	# Properties
-	signalRangeMin = property(getSignalRangeMin, setSignalRangeMin, delSignalRangeMin, "Property for signalRangeMin")
-	def getSignalRangeMax(self): return self.__signalRangeMax
-	def setSignalRangeMax(self, signalRangeMax):
-		checkType("XSDataImageQualityIndicators", "setSignalRangeMax", signalRangeMax, "XSDataDouble")
-		self.__signalRangeMax = signalRangeMax
-	def delSignalRangeMax(self): self.__signalRangeMax = None
-	# Properties
-	signalRangeMax = property(getSignalRangeMax, setSignalRangeMax, delSignalRangeMax, "Property for signalRangeMax")
-	def getSignalRangeAverage(self): return self.__signalRangeAverage
-	def setSignalRangeAverage(self, signalRangeAverage):
-		checkType("XSDataImageQualityIndicators", "setSignalRangeAverage", signalRangeAverage, "XSDataDouble")
-		self.__signalRangeAverage = signalRangeAverage
-	def delSignalRangeAverage(self): self.__signalRangeAverage = None
-	# Properties
-	signalRangeAverage = property(getSignalRangeAverage, setSignalRangeAverage, delSignalRangeAverage, "Property for signalRangeAverage")
-	def getSaturationRangeMin(self): return self.__saturationRangeMin
-	def setSaturationRangeMin(self, saturationRangeMin):
-		checkType("XSDataImageQualityIndicators", "setSaturationRangeMin", saturationRangeMin, "XSDataDouble")
-		self.__saturationRangeMin = saturationRangeMin
-	def delSaturationRangeMin(self): self.__saturationRangeMin = None
-	# Properties
-	saturationRangeMin = property(getSaturationRangeMin, setSaturationRangeMin, delSaturationRangeMin, "Property for saturationRangeMin")
-	def getSaturationRangeMax(self): return self.__saturationRangeMax
-	def setSaturationRangeMax(self, saturationRangeMax):
-		checkType("XSDataImageQualityIndicators", "setSaturationRangeMax", saturationRangeMax, "XSDataDouble")
-		self.__saturationRangeMax = saturationRangeMax
-	def delSaturationRangeMax(self): self.__saturationRangeMax = None
-	# Properties
-	saturationRangeMax = property(getSaturationRangeMax, setSaturationRangeMax, delSaturationRangeMax, "Property for saturationRangeMax")
-	def getSaturationRangeAverage(self): return self.__saturationRangeAverage
-	def setSaturationRangeAverage(self, saturationRangeAverage):
-		checkType("XSDataImageQualityIndicators", "setSaturationRangeAverage", saturationRangeAverage, "XSDataDouble")
-		self.__saturationRangeAverage = saturationRangeAverage
-	def delSaturationRangeAverage(self): self.__saturationRangeAverage = None
-	# Properties
-	saturationRangeAverage = property(getSaturationRangeAverage, setSaturationRangeAverage, delSaturationRangeAverage, "Property for saturationRangeAverage")
 	def export(self, outfile, level, name_='XSDataImageQualityIndicators'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -437,14 +465,14 @@ class XSDataImageQualityIndicators(XSData):
 			self.image.export(outfile, level, name_='image')
 		else:
 			warnEmptyAttribute("image", "XSDataImage")
-		if self.__inResolutionOvrlSpots is not None:
-			self.inResolutionOvrlSpots.export(outfile, level, name_='inResolutionOvrlSpots')
-		else:
-			warnEmptyAttribute("inResolutionOvrlSpots", "XSDataInteger")
 		if self.__inResTotal is not None:
 			self.inResTotal.export(outfile, level, name_='inResTotal')
 		else:
 			warnEmptyAttribute("inResTotal", "XSDataInteger")
+		if self.__inResolutionOvrlSpots is not None:
+			self.inResolutionOvrlSpots.export(outfile, level, name_='inResolutionOvrlSpots')
+		else:
+			warnEmptyAttribute("inResolutionOvrlSpots", "XSDataInteger")
 		if self.__maxUnitCell is not None:
 			self.maxUnitCell.export(outfile, level, name_='maxUnitCell')
 		else:
@@ -461,24 +489,24 @@ class XSDataImageQualityIndicators(XSData):
 			self.pctSaturationTop50Peaks.export(outfile, level, name_='pctSaturationTop50Peaks')
 		else:
 			warnEmptyAttribute("pctSaturationTop50Peaks", "XSDataDouble")
+		if self.__saturationRangeAverage is not None:
+			self.saturationRangeAverage.export(outfile, level, name_='saturationRangeAverage')
+		if self.__saturationRangeMax is not None:
+			self.saturationRangeMax.export(outfile, level, name_='saturationRangeMax')
+		if self.__saturationRangeMin is not None:
+			self.saturationRangeMin.export(outfile, level, name_='saturationRangeMin')
+		if self.__signalRangeAverage is not None:
+			self.signalRangeAverage.export(outfile, level, name_='signalRangeAverage')
+		if self.__signalRangeMax is not None:
+			self.signalRangeMax.export(outfile, level, name_='signalRangeMax')
+		if self.__signalRangeMin is not None:
+			self.signalRangeMin.export(outfile, level, name_='signalRangeMin')
 		if self.__spotTotal is not None:
 			self.spotTotal.export(outfile, level, name_='spotTotal')
 		else:
 			warnEmptyAttribute("spotTotal", "XSDataInteger")
 		if self.__totalIntegratedSignal is not None:
 			self.totalIntegratedSignal.export(outfile, level, name_='totalIntegratedSignal')
-		if self.__signalRangeMin is not None:
-			self.signalRangeMin.export(outfile, level, name_='signalRangeMin')
-		if self.__signalRangeMax is not None:
-			self.signalRangeMax.export(outfile, level, name_='signalRangeMax')
-		if self.__signalRangeAverage is not None:
-			self.signalRangeAverage.export(outfile, level, name_='signalRangeAverage')
-		if self.__saturationRangeMin is not None:
-			self.saturationRangeMin.export(outfile, level, name_='saturationRangeMin')
-		if self.__saturationRangeMax is not None:
-			self.saturationRangeMax.export(outfile, level, name_='saturationRangeMax')
-		if self.__saturationRangeAverage is not None:
-			self.saturationRangeAverage.export(outfile, level, name_='saturationRangeAverage')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -505,15 +533,15 @@ class XSDataImageQualityIndicators(XSData):
 			obj_.build(child_)
 			self.setImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'inResolutionOvrlSpots':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setInResolutionOvrlSpots(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'inResTotal':
 			obj_ = XSDataInteger()
 			obj_.build(child_)
 			self.setInResTotal(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'inResolutionOvrlSpots':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setInResolutionOvrlSpots(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'maxUnitCell':
 			obj_ = XSDataDouble()
@@ -535,6 +563,36 @@ class XSDataImageQualityIndicators(XSData):
 			obj_.build(child_)
 			self.setPctSaturationTop50Peaks(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'saturationRangeAverage':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setSaturationRangeAverage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'saturationRangeMax':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setSaturationRangeMax(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'saturationRangeMin':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setSaturationRangeMin(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'signalRangeAverage':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setSignalRangeAverage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'signalRangeMax':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setSignalRangeMax(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'signalRangeMin':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setSignalRangeMin(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'spotTotal':
 			obj_ = XSDataInteger()
 			obj_.build(child_)
@@ -544,36 +602,6 @@ class XSDataImageQualityIndicators(XSData):
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setTotalIntegratedSignal(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'signalRangeMin':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setSignalRangeMin(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'signalRangeMax':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setSignalRangeMax(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'signalRangeAverage':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setSignalRangeAverage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'saturationRangeMin':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setSaturationRangeMin(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'saturationRangeMax':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setSaturationRangeMax(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'saturationRangeAverage':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setSaturationRangeAverage(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -584,11 +612,15 @@ class XSDataImageQualityIndicators(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataImageQualityIndicators' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataImageQualityIndicators is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataImageQualityIndicators.parseString(self.marshal())
@@ -617,7 +649,9 @@ class XSDataImageQualityIndicators(XSData):
 class XSDataLabelitMosflmScriptsOutput(XSData):
 	def __init__(self, uMatrix=None, aMatrix=None):
 		XSData.__init__(self, )
+		checkType("XSDataLabelitMosflmScriptsOutput", "Constructor of XSDataLabelitMosflmScriptsOutput", aMatrix, "XSDataMatrixDouble")
 		self.__aMatrix = aMatrix
+		checkType("XSDataLabelitMosflmScriptsOutput", "Constructor of XSDataLabelitMosflmScriptsOutput", uMatrix, "XSDataMatrixDouble")
 		self.__uMatrix = uMatrix
 	def getAMatrix(self): return self.__aMatrix
 	def setAMatrix(self, aMatrix):
@@ -674,11 +708,15 @@ class XSDataLabelitMosflmScriptsOutput(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataLabelitMosflmScriptsOutput' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataLabelitMosflmScriptsOutput is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataLabelitMosflmScriptsOutput.parseString(self.marshal())
@@ -707,15 +745,25 @@ class XSDataLabelitMosflmScriptsOutput(XSData):
 class XSDataLabelitScreenSolution(XSData):
 	def __init__(self, volume=None, unitCell=None, solutionNumber=None, rmsd=None, numberOfSpots=None, metricFitValue=None, metricFitCode=None, happy=None, crystalSystem=None, bravaisLattice=None):
 		XSData.__init__(self, )
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", bravaisLattice, "XSDataString")
 		self.__bravaisLattice = bravaisLattice
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", crystalSystem, "XSDataString")
 		self.__crystalSystem = crystalSystem
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", happy, "XSDataBoolean")
 		self.__happy = happy
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", metricFitCode, "XSDataString")
 		self.__metricFitCode = metricFitCode
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", metricFitValue, "XSDataDouble")
 		self.__metricFitValue = metricFitValue
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", numberOfSpots, "XSDataInteger")
 		self.__numberOfSpots = numberOfSpots
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", rmsd, "XSDataLength")
 		self.__rmsd = rmsd
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", solutionNumber, "XSDataInteger")
 		self.__solutionNumber = solutionNumber
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", unitCell, "XSDataCell")
 		self.__unitCell = unitCell
+		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", volume, "XSDataInteger")
 		self.__volume = volume
 	def getBravaisLattice(self): return self.__bravaisLattice
 	def setBravaisLattice(self, bravaisLattice):
@@ -900,11 +948,15 @@ class XSDataLabelitScreenSolution(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataLabelitScreenSolution' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataLabelitScreenSolution is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataLabelitScreenSolution.parseString(self.marshal())
@@ -931,17 +983,23 @@ class XSDataLabelitScreenSolution(XSData):
 # end class XSDataLabelitScreenSolution
 
 class XSDataLabelitScreenOutput(XSData):
-	def __init__(self, labelitScreenSolution=None, selectedSolutionNumber=None, mosaicity=None, distance=None, beamCentreY=None, beamCentreX=None):
+	def __init__(self, selectedSolutionNumber=None, mosaicity=None, labelitScreenSolution=None, distance=None, beamCentreY=None, beamCentreX=None):
 		XSData.__init__(self, )
+		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", beamCentreX, "XSDataLength")
 		self.__beamCentreX = beamCentreX
+		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", beamCentreY, "XSDataLength")
 		self.__beamCentreY = beamCentreY
+		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", distance, "XSDataLength")
 		self.__distance = distance
-		self.__mosaicity = mosaicity
-		self.__selectedSolutionNumber = selectedSolutionNumber
 		if labelitScreenSolution is None:
 			self.__labelitScreenSolution = []
 		else:
+			checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", labelitScreenSolution, "XSDataLabelitScreenSolution")
 			self.__labelitScreenSolution = labelitScreenSolution
+		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", mosaicity, "XSDataAngle")
+		self.__mosaicity = mosaicity
+		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", selectedSolutionNumber, "XSDataInteger")
+		self.__selectedSolutionNumber = selectedSolutionNumber
 	def getBeamCentreX(self): return self.__beamCentreX
 	def setBeamCentreX(self, beamCentreX):
 		checkType("XSDataLabelitScreenOutput", "setBeamCentreX", beamCentreX, "XSDataLength")
@@ -963,6 +1021,19 @@ class XSDataLabelitScreenOutput(XSData):
 	def delDistance(self): self.__distance = None
 	# Properties
 	distance = property(getDistance, setDistance, delDistance, "Property for distance")
+	def getLabelitScreenSolution(self): return self.__labelitScreenSolution
+	def setLabelitScreenSolution(self, labelitScreenSolution):
+		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", labelitScreenSolution, "list")
+		self.__labelitScreenSolution = labelitScreenSolution
+	def delLabelitScreenSolution(self): self.__labelitScreenSolution = None
+	# Properties
+	labelitScreenSolution = property(getLabelitScreenSolution, setLabelitScreenSolution, delLabelitScreenSolution, "Property for labelitScreenSolution")
+	def addLabelitScreenSolution(self, value):
+		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", value, "XSDataLabelitScreenSolution")
+		self.__labelitScreenSolution.append(value)
+	def insertLabelitScreenSolution(self, index, value):
+		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", value, "XSDataLabelitScreenSolution")
+		self.__labelitScreenSolution[index] = value
 	def getMosaicity(self): return self.__mosaicity
 	def setMosaicity(self, mosaicity):
 		checkType("XSDataLabelitScreenOutput", "setMosaicity", mosaicity, "XSDataAngle")
@@ -977,19 +1048,6 @@ class XSDataLabelitScreenOutput(XSData):
 	def delSelectedSolutionNumber(self): self.__selectedSolutionNumber = None
 	# Properties
 	selectedSolutionNumber = property(getSelectedSolutionNumber, setSelectedSolutionNumber, delSelectedSolutionNumber, "Property for selectedSolutionNumber")
-	def getLabelitScreenSolution(self): return self.__labelitScreenSolution
-	def setLabelitScreenSolution(self, labelitScreenSolution):
-		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", labelitScreenSolution, "list")
-		self.__labelitScreenSolution = labelitScreenSolution
-	def delLabelitScreenSolution(self): self.__labelitScreenSolution = None
-	# Properties
-	labelitScreenSolution = property(getLabelitScreenSolution, setLabelitScreenSolution, delLabelitScreenSolution, "Property for labelitScreenSolution")
-	def addLabelitScreenSolution(self, value):
-		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", value, "XSDataLabelitScreenSolution")
-		self.__labelitScreenSolution.append(value)
-	def insertLabelitScreenSolution(self, index, value):
-		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", value, "XSDataLabelitScreenSolution")
-		self.__labelitScreenSolution[index] = value
 	def export(self, outfile, level, name_='XSDataLabelitScreenOutput'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1010,6 +1068,8 @@ class XSDataLabelitScreenOutput(XSData):
 			self.distance.export(outfile, level, name_='distance')
 		else:
 			warnEmptyAttribute("distance", "XSDataLength")
+		for labelitScreenSolution_ in self.getLabelitScreenSolution():
+			labelitScreenSolution_.export(outfile, level, name_='labelitScreenSolution')
 		if self.__mosaicity is not None:
 			self.mosaicity.export(outfile, level, name_='mosaicity')
 		else:
@@ -1018,8 +1078,6 @@ class XSDataLabelitScreenOutput(XSData):
 			self.selectedSolutionNumber.export(outfile, level, name_='selectedSolutionNumber')
 		else:
 			warnEmptyAttribute("selectedSolutionNumber", "XSDataInteger")
-		for labelitScreenSolution_ in self.getLabelitScreenSolution():
-			labelitScreenSolution_.export(outfile, level, name_='labelitScreenSolution')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1041,6 +1099,11 @@ class XSDataLabelitScreenOutput(XSData):
 			obj_.build(child_)
 			self.setDistance(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'labelitScreenSolution':
+			obj_ = XSDataLabelitScreenSolution()
+			obj_.build(child_)
+			self.labelitScreenSolution.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mosaicity':
 			obj_ = XSDataAngle()
 			obj_.build(child_)
@@ -1050,11 +1113,6 @@ class XSDataLabelitScreenOutput(XSData):
 			obj_ = XSDataInteger()
 			obj_.build(child_)
 			self.setSelectedSolutionNumber(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'labelitScreenSolution':
-			obj_ = XSDataLabelitScreenSolution()
-			obj_.build(child_)
-			self.labelitScreenSolution.append(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -1065,11 +1123,15 @@ class XSDataLabelitScreenOutput(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataLabelitScreenOutput' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataLabelitScreenOutput is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataLabelitScreenOutput.parseString(self.marshal())
@@ -1098,6 +1160,7 @@ class XSDataLabelitScreenOutput(XSData):
 class XSDataInputDistlSignalStrength(XSDataInput):
 	def __init__(self, configuration=None, referenceImage=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputDistlSignalStrength", "Constructor of XSDataInputDistlSignalStrength", referenceImage, "XSDataImage")
 		self.__referenceImage = referenceImage
 	def getReferenceImage(self): return self.__referenceImage
 	def setReferenceImage(self, referenceImage):
@@ -1138,11 +1201,15 @@ class XSDataInputDistlSignalStrength(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputDistlSignalStrength' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputDistlSignalStrength is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputDistlSignalStrength.parseString(self.marshal())
@@ -1171,6 +1238,7 @@ class XSDataInputDistlSignalStrength(XSDataInput):
 class XSDataResultDistlSignalStrength(XSDataResult):
 	def __init__(self, status=None, imageQualityIndicators=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultDistlSignalStrength", "Constructor of XSDataResultDistlSignalStrength", imageQualityIndicators, "XSDataImageQualityIndicators")
 		self.__imageQualityIndicators = imageQualityIndicators
 	def getImageQualityIndicators(self): return self.__imageQualityIndicators
 	def setImageQualityIndicators(self, imageQualityIndicators):
@@ -1211,11 +1279,15 @@ class XSDataResultDistlSignalStrength(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultDistlSignalStrength' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultDistlSignalStrength is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultDistlSignalStrength.parseString(self.marshal())

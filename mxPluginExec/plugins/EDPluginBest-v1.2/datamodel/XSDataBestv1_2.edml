@@ -1,6 +1,19 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSDataAbsorbedDoseRate
+import XSDataCommon.XSDataAngle
+import XSDataCommon.XSDataAngularSpeed
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataTime
 package XSDataBestv12 {
+
 	complex type XSDataBestCollectionPlan {
 		collectionPlanNumber : XSDataInteger
 		collectionRun : XSDataBestCollectionRun [] optional

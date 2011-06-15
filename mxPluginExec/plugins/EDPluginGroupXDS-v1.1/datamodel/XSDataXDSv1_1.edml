@@ -1,0 +1,46 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+
+complex type XSDataInputXDSSpotSearch extends XSDataInput {
+	job : XSDataString []
+	subWedge : XSDataXDSSubWedge
+	detector : XSDataXDSDetector
+}
+
+complex type XSDataResultXDSSpotSearch extends XSDataResult {
+	spot : XSDataXDSSpot [] optional
+}
+
+complex type XSDataXDSDetector extends XSData {
+	detector_name : XSDataString
+	image_format : XSDataString
+	nx : XSDataInteger
+	ny : XSDataInteger
+	qx : XSDataDouble
+	qy : XSDataDouble
+}
+
+complex type XSDataXDSRange extends XSData {
+	lower : XSDataInteger
+	upper : XSDataInteger
+}
+
+complex type XSDataXDSSpot extends XSData {
+	centroidFrame : XSDataDouble
+	centroidX : XSDataDouble
+	centroidY : XSDataDouble
+	IoverSigma : XSDataDouble
+}
+
+complex type XSDataXDSSubWedge extends XSData {
+	background_range : XSDataXDSRange
+	data_range : XSDataXDSRange
+	name_template_of_data_frames : XSDataString
+	XSDataXDSRange : XSDataXDSRange
+}

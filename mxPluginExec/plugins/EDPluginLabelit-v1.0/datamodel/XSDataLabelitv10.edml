@@ -21,31 +21,8 @@ complex type XSDataCell {
 	length_c : XSDataLength
 }
 
-complex type XSDataImageQualityIndicators extends XSData {
-	binPopCutOffMethod2Res : XSDataDouble
-	goodBraggCandidates : XSDataInteger
-	iceRings : XSDataInteger
-	image : XSDataImage
-	inResTotal : XSDataInteger
-	inResolutionOvrlSpots : XSDataInteger
-	maxUnitCell : XSDataDouble
-	method1Res : XSDataDouble
-	method2Res : XSDataDouble
-	pctSaturationTop50Peaks : XSDataDouble
-	saturationRangeAverage : XSDataDouble optional
-	saturationRangeMax : XSDataDouble optional
-	saturationRangeMin : XSDataDouble optional
-	signalRangeAverage : XSDataDouble optional
-	signalRangeMax : XSDataDouble
-	optional
-	signalRangeMin : XSDataDouble optional
-	spotTotal : XSDataInteger
-	totalIntegratedSignal : XSDataDouble
-	optional
-}
-
-complex type XSDataInputDistlSignalStrength extends XSDataInput {
-	referenceImage : XSDataImage
+complex type XSDataInputLabelit extends XSDataInput {
+	image : XSDataImage []
 }
 
 complex type XSDataLabelitMosflmScriptsOutput extends XSData {
@@ -57,9 +34,9 @@ complex type XSDataLabelitScreenOutput extends XSData {
 	beamCentreX : XSDataLength
 	beamCentreY : XSDataLength
 	distance : XSDataLength
-	labelitScreenSolution : XSDataLabelitScreenSolution [] optional
 	mosaicity : XSDataAngle
 	selectedSolutionNumber : XSDataInteger
+	labelitScreenSolution : XSDataLabelitScreenSolution [] optional
 }
 
 complex type XSDataLabelitScreenSolution extends XSData {
@@ -75,6 +52,7 @@ complex type XSDataLabelitScreenSolution extends XSData {
 	volume : XSDataInteger
 }
 
-complex type XSDataResultDistlSignalStrength extends XSDataResult {
-	imageQualityIndicators : XSDataImageQualityIndicators
+complex type XSDataResultLabelit extends XSDataResult {
+	labelitMosflmScriptsOutput : XSDataLabelitMosflmScriptsOutput
+	labelitScreenOutput : XSDataLabelitScreenOutput
 }

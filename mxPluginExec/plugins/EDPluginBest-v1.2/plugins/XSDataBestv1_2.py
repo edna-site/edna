@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri May 6 11:59::15 2011 by EDGenerateDS.
+# Generated Tue Jun 14 11:18::30 2011 by EDGenerateDS.
 #
 
 import sys
@@ -48,10 +48,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -113,13 +113,21 @@ class MixedContainer(object):
 
 class XSDataBestCollectionRun(object):
 	def __init__(self, transmission=None, phiWidth=None, phiStart=None, overlaps=None, numberOfImages=None, exposureTime=None, collectionRunNumber=None, action=None):
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", action, "XSDataString")
 		self.__action = action
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", collectionRunNumber, "XSDataInteger")
 		self.__collectionRunNumber = collectionRunNumber
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", exposureTime, "XSDataTime")
 		self.__exposureTime = exposureTime
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", numberOfImages, "XSDataInteger")
 		self.__numberOfImages = numberOfImages
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", overlaps, "XSDataString")
 		self.__overlaps = overlaps
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", phiStart, "XSDataAngle")
 		self.__phiStart = phiStart
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", phiWidth, "XSDataAngle")
 		self.__phiWidth = phiWidth
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", transmission, "XSDataDouble")
 		self.__transmission = transmission
 	def getAction(self): return self.__action
 	def setAction(self, action):
@@ -271,11 +279,15 @@ class XSDataBestCollectionRun(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBestCollectionRun' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBestCollectionRun is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBestCollectionRun.parseString(self.marshal())
@@ -303,16 +315,27 @@ class XSDataBestCollectionRun(object):
 
 class XSDataBestResolutionBin(object):
 	def __init__(self, redundancy=None, rFriedel=None, rFactor=None, percentageOverload=None, minResolution=None, maxResolution=None, completeness=None, averageSigma=None, averageIntensityOverAverageSigma=None, averageIntensity=None, IOverSigma=None):
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", IOverSigma, "XSDataDouble")
 		self.__IOverSigma = IOverSigma
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageIntensity, "XSDataDouble")
 		self.__averageIntensity = averageIntensity
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageIntensityOverAverageSigma, "XSDataDouble")
 		self.__averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageSigma, "XSDataDouble")
 		self.__averageSigma = averageSigma
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", completeness, "XSDataDouble")
 		self.__completeness = completeness
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", maxResolution, "XSDataDouble")
 		self.__maxResolution = maxResolution
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", minResolution, "XSDataDouble")
 		self.__minResolution = minResolution
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", percentageOverload, "XSDataDouble")
 		self.__percentageOverload = percentageOverload
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", rFactor, "XSDataDouble")
 		self.__rFactor = rFactor
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", rFriedel, "XSDataDouble")
 		self.__rFriedel = rFriedel
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", redundancy, "XSDataDouble")
 		self.__redundancy = redundancy
 	def getIOverSigma(self): return self.__IOverSigma
 	def setIOverSigma(self, IOverSigma):
@@ -512,11 +535,15 @@ class XSDataBestResolutionBin(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBestResolutionBin' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBestResolutionBin is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBestResolutionBin.parseString(self.marshal())
@@ -547,6 +574,7 @@ class XSDataBestStatisticalPrediction(object):
 		if resolutionBin is None:
 			self.__resolutionBin = []
 		else:
+			checkType("XSDataBestStatisticalPrediction", "Constructor of XSDataBestStatisticalPrediction", resolutionBin, "XSDataBestResolutionBin")
 			self.__resolutionBin = resolutionBin
 	def getResolutionBin(self): return self.__resolutionBin
 	def setResolutionBin(self, resolutionBin):
@@ -590,11 +618,15 @@ class XSDataBestStatisticalPrediction(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBestStatisticalPrediction' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBestStatisticalPrediction is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBestStatisticalPrediction.parseString(self.marshal())
@@ -622,15 +654,25 @@ class XSDataBestStatisticalPrediction(object):
 
 class XSDataBestStrategySummary(object):
 	def __init__(self, transmission=None, totalExposureTime=None, totalDataCollectionTime=None, resolutionReasoning=None, resolution=None, redundancy=None, rankingResolution=None, iSigma=None, distance=None, completeness=None):
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", completeness, "XSDataDouble")
 		self.__completeness = completeness
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", distance, "XSDataLength")
 		self.__distance = distance
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", iSigma, "XSDataDouble")
 		self.__iSigma = iSigma
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", rankingResolution, "XSDataDouble")
 		self.__rankingResolution = rankingResolution
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", redundancy, "XSDataDouble")
 		self.__redundancy = redundancy
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", resolution, "XSDataDouble")
 		self.__resolution = resolution
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", resolutionReasoning, "XSDataString")
 		self.__resolutionReasoning = resolutionReasoning
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", totalDataCollectionTime, "XSDataTime")
 		self.__totalDataCollectionTime = totalDataCollectionTime
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", totalExposureTime, "XSDataTime")
 		self.__totalExposureTime = totalExposureTime
+		checkType("XSDataBestStrategySummary", "Constructor of XSDataBestStrategySummary", transmission, "XSDataDouble")
 		self.__transmission = transmission
 	def getCompleteness(self): return self.__completeness
 	def setCompleteness(self, completeness):
@@ -814,11 +856,15 @@ class XSDataBestStrategySummary(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBestStrategySummary' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBestStrategySummary is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBestStrategySummary.parseString(self.marshal())
@@ -846,7 +892,9 @@ class XSDataBestStrategySummary(object):
 
 class XSDataCrystalScale(object):
 	def __init__(self, scale=None, bFactor=None):
+		checkType("XSDataCrystalScale", "Constructor of XSDataCrystalScale", bFactor, "XSDataDouble")
 		self.__bFactor = bFactor
+		checkType("XSDataCrystalScale", "Constructor of XSDataCrystalScale", scale, "XSDataDouble")
 		self.__scale = scale
 	def getBFactor(self): return self.__bFactor
 	def setBFactor(self, bFactor):
@@ -902,11 +950,15 @@ class XSDataCrystalScale(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataCrystalScale' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCrystalScale is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataCrystalScale.parseString(self.marshal())
@@ -934,14 +986,20 @@ class XSDataCrystalScale(object):
 
 class XSDataBestCollectionPlan(object):
 	def __init__(self, strategySummary=None, statisticalPrediction=None, crystalScale=None, comment=None, collectionRun=None, collectionPlanNumber=None):
+		checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", collectionPlanNumber, "XSDataInteger")
 		self.__collectionPlanNumber = collectionPlanNumber
 		if collectionRun is None:
 			self.__collectionRun = []
 		else:
+			checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", collectionRun, "XSDataBestCollectionRun")
 			self.__collectionRun = collectionRun
+		checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", comment, "XSDataString")
 		self.__comment = comment
+		checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", crystalScale, "XSDataCrystalScale")
 		self.__crystalScale = crystalScale
+		checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", statisticalPrediction, "XSDataBestStatisticalPrediction")
 		self.__statisticalPrediction = statisticalPrediction
+		checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", strategySummary, "XSDataBestStrategySummary")
 		self.__strategySummary = strategySummary
 	def getCollectionPlanNumber(self): return self.__collectionPlanNumber
 	def setCollectionPlanNumber(self, collectionPlanNumber):
@@ -1065,11 +1123,15 @@ class XSDataBestCollectionPlan(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBestCollectionPlan' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBestCollectionPlan is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBestCollectionPlan.parseString(self.marshal())
@@ -1106,33 +1168,58 @@ class XSDataInputBest(XSDataInput):
 """
 	def __init__(self, configuration=None, xdsBackgroundImage=None, transmission=None, strategyOption=None, numberOfCrystalPositions=None, minTransmission=None, goniostatMinRotationWidth=None, goniostatMaxRotationSpeed=None, detectorType=None, detectorDistanceMin=None, detectorDistanceMax=None, crystalSusceptibility=None, crystalShape=None, crystalAbsorbedDoseRate=None, complexity=None, bestFileContentPar=None, bestFileContentHKL=None, bestFileContentDat=None, beamMinExposureTime=None, beamMaxExposureTime=None, beamExposureTime=None, anomalousData=None, aimedResolution=None, aimedRedundancy=None, aimedIOverSigma=None, aimedCompleteness=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", aimedCompleteness, "XSDataDouble")
 		self.__aimedCompleteness = aimedCompleteness
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", aimedIOverSigma, "XSDataDouble")
 		self.__aimedIOverSigma = aimedIOverSigma
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", aimedRedundancy, "XSDataDouble")
 		self.__aimedRedundancy = aimedRedundancy
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", aimedResolution, "XSDataDouble")
 		self.__aimedResolution = aimedResolution
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", anomalousData, "XSDataBoolean")
 		self.__anomalousData = anomalousData
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", beamExposureTime, "XSDataTime")
 		self.__beamExposureTime = beamExposureTime
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", beamMaxExposureTime, "XSDataTime")
 		self.__beamMaxExposureTime = beamMaxExposureTime
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", beamMinExposureTime, "XSDataTime")
 		self.__beamMinExposureTime = beamMinExposureTime
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", bestFileContentDat, "XSDataString")
 		self.__bestFileContentDat = bestFileContentDat
 		if bestFileContentHKL is None:
 			self.__bestFileContentHKL = []
 		else:
+			checkType("XSDataInputBest", "Constructor of XSDataInputBest", bestFileContentHKL, "XSDataString")
 			self.__bestFileContentHKL = bestFileContentHKL
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", bestFileContentPar, "XSDataString")
 		self.__bestFileContentPar = bestFileContentPar
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", complexity, "XSDataString")
 		self.__complexity = complexity
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", crystalAbsorbedDoseRate, "XSDataAbsorbedDoseRate")
 		self.__crystalAbsorbedDoseRate = crystalAbsorbedDoseRate
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", crystalShape, "XSDataDouble")
 		self.__crystalShape = crystalShape
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", crystalSusceptibility, "XSDataDouble")
 		self.__crystalSusceptibility = crystalSusceptibility
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", detectorDistanceMax, "XSDataLength")
 		self.__detectorDistanceMax = detectorDistanceMax
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", detectorDistanceMin, "XSDataLength")
 		self.__detectorDistanceMin = detectorDistanceMin
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", detectorType, "XSDataString")
 		self.__detectorType = detectorType
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", goniostatMaxRotationSpeed, "XSDataAngularSpeed")
 		self.__goniostatMaxRotationSpeed = goniostatMaxRotationSpeed
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", goniostatMinRotationWidth, "XSDataAngle")
 		self.__goniostatMinRotationWidth = goniostatMinRotationWidth
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", minTransmission, "XSDataDouble")
 		self.__minTransmission = minTransmission
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", numberOfCrystalPositions, "XSDataInteger")
 		self.__numberOfCrystalPositions = numberOfCrystalPositions
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", strategyOption, "XSDataString")
 		self.__strategyOption = strategyOption
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", transmission, "XSDataDouble")
 		self.__transmission = transmission
+		checkType("XSDataInputBest", "Constructor of XSDataInputBest", xdsBackgroundImage, "XSDataFile")
 		self.__xdsBackgroundImage = xdsBackgroundImage
 	def getAimedCompleteness(self): return self.__aimedCompleteness
 	def setAimedCompleteness(self, aimedCompleteness):
@@ -1523,11 +1610,15 @@ class XSDataInputBest(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBest' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputBest is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBest.parseString(self.marshal())
@@ -1559,7 +1650,9 @@ class XSDataResultBest(XSDataResult):
 		if collectionPlan is None:
 			self.__collectionPlan = []
 		else:
+			checkType("XSDataResultBest", "Constructor of XSDataResultBest", collectionPlan, "XSDataBestCollectionPlan")
 			self.__collectionPlan = collectionPlan
+		checkType("XSDataResultBest", "Constructor of XSDataResultBest", pathToLogFile, "XSDataFile")
 		self.__pathToLogFile = pathToLogFile
 	def getCollectionPlan(self): return self.__collectionPlan
 	def setCollectionPlan(self, collectionPlan):
@@ -1620,11 +1713,15 @@ class XSDataResultBest(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBest' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultBest is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBest.parseString(self.marshal())
