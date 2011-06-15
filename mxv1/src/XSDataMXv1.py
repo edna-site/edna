@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Apr 18 11:20::15 2011 by EDGenerateDS.
+# Generated Tue Jun 14 11:27::04 2011 by EDGenerateDS.
 #
 
 import sys
@@ -55,10 +55,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -66,7 +66,7 @@ def warnEmptyAttribute(_strName, _strTypeName):
 	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
 	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
-class MixedContainer:
+class MixedContainer(object):
 	# Constants for category:
 	CategoryNone = 0
 	CategoryText = 1
@@ -118,11 +118,15 @@ class MixedContainer:
 #
 
 
-class XSDataStatisticsIntegrationAverageAndNumberOfReflections:
+class XSDataStatisticsIntegrationAverageAndNumberOfReflections(object):
 	def __init__(self, numberOfReflections=None, averageSigma=None, averageIntensity=None, averageIOverSigma=None):
+		checkType("XSDataStatisticsIntegrationAverageAndNumberOfReflections", "Constructor of XSDataStatisticsIntegrationAverageAndNumberOfReflections", averageIOverSigma, "XSDataDouble")
 		self.__averageIOverSigma = averageIOverSigma
+		checkType("XSDataStatisticsIntegrationAverageAndNumberOfReflections", "Constructor of XSDataStatisticsIntegrationAverageAndNumberOfReflections", averageIntensity, "XSDataDouble")
 		self.__averageIntensity = averageIntensity
+		checkType("XSDataStatisticsIntegrationAverageAndNumberOfReflections", "Constructor of XSDataStatisticsIntegrationAverageAndNumberOfReflections", averageSigma, "XSDataDouble")
 		self.__averageSigma = averageSigma
+		checkType("XSDataStatisticsIntegrationAverageAndNumberOfReflections", "Constructor of XSDataStatisticsIntegrationAverageAndNumberOfReflections", numberOfReflections, "XSDataInteger")
 		self.__numberOfReflections = numberOfReflections
 	def getAverageIOverSigma(self): return self.__averageIOverSigma
 	def setAverageIOverSigma(self, averageIOverSigma):
@@ -210,11 +214,15 @@ class XSDataStatisticsIntegrationAverageAndNumberOfReflections:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataStatisticsIntegrationAverageAndNumberOfReflections' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStatisticsIntegrationAverageAndNumberOfReflections is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataStatisticsIntegrationAverageAndNumberOfReflections.parseString(self.marshal())
@@ -244,8 +252,11 @@ class XSDataAtom(XSData):
 	"""This object describes a single atom content (of type 'symbol' i.e 'S') that could be either expressed in concentration if dilute in a solvent (mM) or in number in a structure"""
 	def __init__(self, symbol=None, numberOf=None, concentration=None):
 		XSData.__init__(self, )
+		checkType("XSDataAtom", "Constructor of XSDataAtom", concentration, "XSDataDouble")
 		self.__concentration = concentration
+		checkType("XSDataAtom", "Constructor of XSDataAtom", numberOf, "XSDataDouble")
 		self.__numberOf = numberOf
+		checkType("XSDataAtom", "Constructor of XSDataAtom", symbol, "XSDataString")
 		self.__symbol = symbol
 	def getConcentration(self): return self.__concentration
 	def setConcentration(self, concentration):
@@ -318,11 +329,15 @@ class XSDataAtom(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataAtom' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataAtom is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataAtom.parseString(self.marshal())
@@ -354,6 +369,7 @@ class XSDataAtomicComposition(XSData):
 		if atom is None:
 			self.__atom = []
 		else:
+			checkType("XSDataAtomicComposition", "Constructor of XSDataAtomicComposition", atom, "XSDataAtom")
 			self.__atom = atom
 	def getAtom(self): return self.__atom
 	def setAtom(self, atom):
@@ -398,11 +414,15 @@ class XSDataAtomicComposition(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataAtomicComposition' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataAtomicComposition is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataAtomicComposition.parseString(self.marshal())
@@ -438,11 +458,17 @@ class XSDataBeam(XSData):
 - Transmission in %"""
 	def __init__(self, wavelength=None, transmission=None, size=None, minExposureTimePerImage=None, flux=None, exposureTime=None):
 		XSData.__init__(self, )
+		checkType("XSDataBeam", "Constructor of XSDataBeam", exposureTime, "XSDataTime")
 		self.__exposureTime = exposureTime
+		checkType("XSDataBeam", "Constructor of XSDataBeam", flux, "XSDataFlux")
 		self.__flux = flux
+		checkType("XSDataBeam", "Constructor of XSDataBeam", minExposureTimePerImage, "XSDataTime")
 		self.__minExposureTimePerImage = minExposureTimePerImage
+		checkType("XSDataBeam", "Constructor of XSDataBeam", size, "XSDataSize")
 		self.__size = size
+		checkType("XSDataBeam", "Constructor of XSDataBeam", transmission, "XSDataDouble")
 		self.__transmission = transmission
+		checkType("XSDataBeam", "Constructor of XSDataBeam", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
 	def getExposureTime(self): return self.__exposureTime
 	def setExposureTime(self, exposureTime):
@@ -551,11 +577,15 @@ class XSDataBeam(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBeam' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBeam is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBeam.parseString(self.marshal())
@@ -585,11 +615,17 @@ class XSDataCell(XSData):
 	"""Crystallographic properties"""
 	def __init__(self, length_c=None, length_b=None, length_a=None, angle_gamma=None, angle_beta=None, angle_alpha=None):
 		XSData.__init__(self, )
+		checkType("XSDataCell", "Constructor of XSDataCell", angle_alpha, "XSDataAngle")
 		self.__angle_alpha = angle_alpha
+		checkType("XSDataCell", "Constructor of XSDataCell", angle_beta, "XSDataAngle")
 		self.__angle_beta = angle_beta
+		checkType("XSDataCell", "Constructor of XSDataCell", angle_gamma, "XSDataAngle")
 		self.__angle_gamma = angle_gamma
+		checkType("XSDataCell", "Constructor of XSDataCell", length_a, "XSDataLength")
 		self.__length_a = length_a
+		checkType("XSDataCell", "Constructor of XSDataCell", length_b, "XSDataLength")
 		self.__length_b = length_b
+		checkType("XSDataCell", "Constructor of XSDataCell", length_c, "XSDataLength")
 		self.__length_c = length_c
 	def getAngle_alpha(self): return self.__angle_alpha
 	def setAngle_alpha(self, angle_alpha):
@@ -710,11 +746,15 @@ class XSDataCell(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataCell' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCell is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataCell.parseString(self.marshal())
@@ -744,9 +784,13 @@ class XSDataChain(XSData):
 	"""A polymer chain of type 'protein', 'dna' or 'rna' that contains monomers (which number is defined by numberOfMonomers) and a list of heavy atoms. The number of this is particular chain in the whole polymer is defined by numberOfCopies."""
 	def __init__(self, type=None, numberOfMonomers=None, numberOfCopies=None, heavyAtoms=None):
 		XSData.__init__(self, )
+		checkType("XSDataChain", "Constructor of XSDataChain", heavyAtoms, "XSDataAtomicComposition")
 		self.__heavyAtoms = heavyAtoms
+		checkType("XSDataChain", "Constructor of XSDataChain", numberOfCopies, "XSDataDouble")
 		self.__numberOfCopies = numberOfCopies
+		checkType("XSDataChain", "Constructor of XSDataChain", numberOfMonomers, "XSDataDouble")
 		self.__numberOfMonomers = numberOfMonomers
+		checkType("XSDataChain", "Constructor of XSDataChain", type, "XSDataString")
 		self.__type = type
 	def getHeavyAtoms(self): return self.__heavyAtoms
 	def setHeavyAtoms(self, heavyAtoms):
@@ -835,11 +879,15 @@ class XSDataChain(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataChain' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataChain is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataChain.parseString(self.marshal())
@@ -866,13 +914,16 @@ class XSDataChain(XSData):
 # end class XSDataChain
 
 class XSDataCharacterisation(XSData):
-	"""Deprecated - only used by EDPluginControlCharacterisationv10
-"""
+	"""These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."""
 	def __init__(self, strategyResult=None, integrationResult=None, indexingResult=None, dataCollection=None):
 		XSData.__init__(self, )
+		checkType("XSDataCharacterisation", "Constructor of XSDataCharacterisation", dataCollection, "XSDataCollection")
 		self.__dataCollection = dataCollection
+		checkType("XSDataCharacterisation", "Constructor of XSDataCharacterisation", indexingResult, "XSDataIndexingResult")
 		self.__indexingResult = indexingResult
+		checkType("XSDataCharacterisation", "Constructor of XSDataCharacterisation", integrationResult, "XSDataIntegrationResult")
 		self.__integrationResult = integrationResult
+		checkType("XSDataCharacterisation", "Constructor of XSDataCharacterisation", strategyResult, "XSDataStrategyResult")
 		self.__strategyResult = strategyResult
 	def getDataCollection(self): return self.__dataCollection
 	def setDataCollection(self, dataCollection):
@@ -955,11 +1006,15 @@ class XSDataCharacterisation(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataCharacterisation' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCharacterisation is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataCharacterisation.parseString(self.marshal())
@@ -989,7 +1044,9 @@ class XSDataChemicalCompositionMM(XSData):
 	"""This is the composition of a crystal sample of a Macro Molecule (MM stand for Macro Molecule)"""
 	def __init__(self, structure=None, solvent=None):
 		XSData.__init__(self, )
+		checkType("XSDataChemicalCompositionMM", "Constructor of XSDataChemicalCompositionMM", solvent, "XSDataSolvent")
 		self.__solvent = solvent
+		checkType("XSDataChemicalCompositionMM", "Constructor of XSDataChemicalCompositionMM", structure, "XSDataStructure")
 		self.__structure = structure
 	def getSolvent(self): return self.__solvent
 	def setSolvent(self, solvent):
@@ -1046,11 +1103,15 @@ class XSDataChemicalCompositionMM(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataChemicalCompositionMM' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataChemicalCompositionMM is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataChemicalCompositionMM.parseString(self.marshal())
@@ -1076,127 +1137,19 @@ class XSDataChemicalCompositionMM(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataChemicalCompositionMM
 
-class XSDataCollection(XSData):
-	"""The data collection carried out or to be carried out with a particular sample with specific user inputs defined by the diffraction plan."""
-	def __init__(self, subWedge=None, sample=None, diffractionPlan=None):
-		XSData.__init__(self, )
-		self.__diffractionPlan = diffractionPlan
-		self.__sample = sample
-		if subWedge is None:
-			self.__subWedge = []
-		else:
-			self.__subWedge = subWedge
-	def getDiffractionPlan(self): return self.__diffractionPlan
-	def setDiffractionPlan(self, diffractionPlan):
-		checkType("XSDataCollection", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-	def delDiffractionPlan(self): self.__diffractionPlan = None
-	# Properties
-	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
-	def getSample(self): return self.__sample
-	def setSample(self, sample):
-		checkType("XSDataCollection", "setSample", sample, "XSDataSampleCrystalMM")
-		self.__sample = sample
-	def delSample(self): self.__sample = None
-	# Properties
-	sample = property(getSample, setSample, delSample, "Property for sample")
-	def getSubWedge(self): return self.__subWedge
-	def setSubWedge(self, subWedge):
-		checkType("XSDataCollection", "setSubWedge", subWedge, "list")
-		self.__subWedge = subWedge
-	def delSubWedge(self): self.__subWedge = None
-	# Properties
-	subWedge = property(getSubWedge, setSubWedge, delSubWedge, "Property for subWedge")
-	def addSubWedge(self, value):
-		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
-		self.__subWedge.append(value)
-	def insertSubWedge(self, index, value):
-		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
-		self.__subWedge[index] = value
-	def export(self, outfile, level, name_='XSDataCollection'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataCollection'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__diffractionPlan is not None:
-			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
-		if self.__sample is not None:
-			self.sample.export(outfile, level, name_='sample')
-		for subWedge_ in self.getSubWedge():
-			subWedge_.export(outfile, level, name_='subWedge')
-		if self.getSubWedge() == []:
-			warnEmptyAttribute("subWedge", "XSDataSubWedge")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'diffractionPlan':
-			obj_ = XSDataDiffractionPlan()
-			obj_.build(child_)
-			self.setDiffractionPlan(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'sample':
-			obj_ = XSDataSampleCrystalMM()
-			obj_.build(child_)
-			self.setSample(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'subWedge':
-			obj_ = XSDataSubWedge()
-			obj_.build(child_)
-			self.subWedge.append(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataCollection" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataCollection' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataCollection.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataCollection()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataCollection" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataCollection()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataCollection
-
 class XSDataCollectionPlan(XSData):
 	"""The comment can be used for describing exotic data collections, for example without collecting any images."""
 	def __init__(self, strategySummary=None, statistics=None, comment=None, collectionStrategy=None, collectionPlanNumber=None):
 		XSData.__init__(self, )
+		checkType("XSDataCollectionPlan", "Constructor of XSDataCollectionPlan", collectionPlanNumber, "XSDataInteger")
 		self.__collectionPlanNumber = collectionPlanNumber
+		checkType("XSDataCollectionPlan", "Constructor of XSDataCollectionPlan", collectionStrategy, "XSDataCollection")
 		self.__collectionStrategy = collectionStrategy
+		checkType("XSDataCollectionPlan", "Constructor of XSDataCollectionPlan", comment, "XSDataString")
 		self.__comment = comment
+		checkType("XSDataCollectionPlan", "Constructor of XSDataCollectionPlan", statistics, "XSDataStatisticsStrategy")
 		self.__statistics = statistics
+		checkType("XSDataCollectionPlan", "Constructor of XSDataCollectionPlan", strategySummary, "XSDataStrategySummary")
 		self.__strategySummary = strategySummary
 	def getCollectionPlanNumber(self): return self.__collectionPlanNumber
 	def setCollectionPlanNumber(self, collectionPlanNumber):
@@ -1301,11 +1254,15 @@ class XSDataCollectionPlan(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataCollectionPlan' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCollectionPlan is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataCollectionPlan.parseString(self.marshal())
@@ -1335,8 +1292,11 @@ class XSDataCrystal(XSData):
 	"""Crystallographic properties"""
 	def __init__(self, spaceGroup=None, mosaicity=None, cell=None):
 		XSData.__init__(self, )
+		checkType("XSDataCrystal", "Constructor of XSDataCrystal", cell, "XSDataCell")
 		self.__cell = cell
+		checkType("XSDataCrystal", "Constructor of XSDataCrystal", mosaicity, "XSDataDouble")
 		self.__mosaicity = mosaicity
+		checkType("XSDataCrystal", "Constructor of XSDataCrystal", spaceGroup, "XSDataSpaceGroup")
 		self.__spaceGroup = spaceGroup
 	def getCell(self): return self.__cell
 	def setCell(self, cell):
@@ -1409,11 +1369,15 @@ class XSDataCrystal(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataCrystal' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCrystal is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataCrystal.parseString(self.marshal())
@@ -1443,22 +1407,39 @@ class XSDataDetector(XSData):
 	"""The properties of a detector. """
 	def __init__(self, type=None, twoTheta=None, serialNumber=None, pixelSizeY=None, pixelSizeX=None, numberPixelY=None, numberPixelX=None, numberBytesInHeader=None, name=None, imageSaturation=None, gain=None, distance=None, dataType=None, byteOrder=None, bin=None, beamPositionY=None, beamPositionX=None):
 		XSData.__init__(self, )
+		checkType("XSDataDetector", "Constructor of XSDataDetector", beamPositionX, "XSDataLength")
 		self.__beamPositionX = beamPositionX
+		checkType("XSDataDetector", "Constructor of XSDataDetector", beamPositionY, "XSDataLength")
 		self.__beamPositionY = beamPositionY
+		checkType("XSDataDetector", "Constructor of XSDataDetector", bin, "XSDataString")
 		self.__bin = bin
+		checkType("XSDataDetector", "Constructor of XSDataDetector", byteOrder, "XSDataString")
 		self.__byteOrder = byteOrder
+		checkType("XSDataDetector", "Constructor of XSDataDetector", dataType, "XSDataString")
 		self.__dataType = dataType
+		checkType("XSDataDetector", "Constructor of XSDataDetector", distance, "XSDataLength")
 		self.__distance = distance
+		checkType("XSDataDetector", "Constructor of XSDataDetector", gain, "XSDataFloat")
 		self.__gain = gain
+		checkType("XSDataDetector", "Constructor of XSDataDetector", imageSaturation, "XSDataInteger")
 		self.__imageSaturation = imageSaturation
+		checkType("XSDataDetector", "Constructor of XSDataDetector", name, "XSDataString")
 		self.__name = name
+		checkType("XSDataDetector", "Constructor of XSDataDetector", numberBytesInHeader, "XSDataInteger")
 		self.__numberBytesInHeader = numberBytesInHeader
+		checkType("XSDataDetector", "Constructor of XSDataDetector", numberPixelX, "XSDataInteger")
 		self.__numberPixelX = numberPixelX
+		checkType("XSDataDetector", "Constructor of XSDataDetector", numberPixelY, "XSDataInteger")
 		self.__numberPixelY = numberPixelY
+		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeX, "XSDataLength")
 		self.__pixelSizeX = pixelSizeX
+		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeY, "XSDataLength")
 		self.__pixelSizeY = pixelSizeY
+		checkType("XSDataDetector", "Constructor of XSDataDetector", serialNumber, "XSDataString")
 		self.__serialNumber = serialNumber
+		checkType("XSDataDetector", "Constructor of XSDataDetector", twoTheta, "XSDataAngle")
 		self.__twoTheta = twoTheta
+		checkType("XSDataDetector", "Constructor of XSDataDetector", type, "XSDataString")
 		self.__type = type
 	def getBeamPositionX(self): return self.__beamPositionX
 	def setBeamPositionX(self, beamPositionX):
@@ -1755,11 +1736,15 @@ class XSDataDetector(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataDetector' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataDetector is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataDetector.parseString(self.marshal())
@@ -1802,29 +1787,50 @@ class XSDataDiffractionPlan(XSData):
 - numberOfPositions: optional input for BEST"""
 	def __init__(self, strategyOption=None, requiredResolution=None, requiredMultiplicity=None, requiredCompleteness=None, numberOfPositions=None, minTransmission=None, minExposureTimePerImage=None, maxExposureTimePerDataCollection=None, kappaStrategyOption=None, goniostatMinOscillationWidth=None, goniostatMaxOscillationSpeed=None, forcedSpaceGroup=None, estimateRadiationDamage=None, detectorMinResolution=None, detectorMaxResolution=None, complexity=None, anomalousData=None, aimedResolution=None, aimedMultiplicity=None, aimedIOverSigmaAtHighestResolution=None, aimedCompleteness=None):
 		XSData.__init__(self, )
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedCompleteness, "XSDataDouble")
 		self.__aimedCompleteness = aimedCompleteness
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedIOverSigmaAtHighestResolution, "XSDataDouble")
 		self.__aimedIOverSigmaAtHighestResolution = aimedIOverSigmaAtHighestResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedMultiplicity, "XSDataDouble")
 		self.__aimedMultiplicity = aimedMultiplicity
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedResolution, "XSDataDouble")
 		self.__aimedResolution = aimedResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", anomalousData, "XSDataBoolean")
 		self.__anomalousData = anomalousData
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", complexity, "XSDataString")
 		self.__complexity = complexity
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", detectorMaxResolution, "XSDataDouble")
 		self.__detectorMaxResolution = detectorMaxResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", detectorMinResolution, "XSDataDouble")
 		self.__detectorMinResolution = detectorMinResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", estimateRadiationDamage, "XSDataBoolean")
 		self.__estimateRadiationDamage = estimateRadiationDamage
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", forcedSpaceGroup, "XSDataString")
 		self.__forcedSpaceGroup = forcedSpaceGroup
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", goniostatMaxOscillationSpeed, "XSDataAngularSpeed")
 		self.__goniostatMaxOscillationSpeed = goniostatMaxOscillationSpeed
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", goniostatMinOscillationWidth, "XSDataAngle")
 		self.__goniostatMinOscillationWidth = goniostatMinOscillationWidth
 		if kappaStrategyOption is None:
 			self.__kappaStrategyOption = []
 		else:
+			checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", kappaStrategyOption, "XSDataString")
 			self.__kappaStrategyOption = kappaStrategyOption
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", maxExposureTimePerDataCollection, "XSDataTime")
 		self.__maxExposureTimePerDataCollection = maxExposureTimePerDataCollection
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", minExposureTimePerImage, "XSDataTime")
 		self.__minExposureTimePerImage = minExposureTimePerImage
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", minTransmission, "XSDataDouble")
 		self.__minTransmission = minTransmission
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", numberOfPositions, "XSDataInteger")
 		self.__numberOfPositions = numberOfPositions
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredCompleteness, "XSDataDouble")
 		self.__requiredCompleteness = requiredCompleteness
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredMultiplicity, "XSDataDouble")
 		self.__requiredMultiplicity = requiredMultiplicity
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredResolution, "XSDataDouble")
 		self.__requiredResolution = requiredResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", strategyOption, "XSDataString")
 		self.__strategyOption = strategyOption
 	def getAimedCompleteness(self): return self.__aimedCompleteness
 	def setAimedCompleteness(self, aimedCompleteness):
@@ -2149,11 +2155,15 @@ class XSDataDiffractionPlan(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataDiffractionPlan' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataDiffractionPlan is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataDiffractionPlan.parseString(self.marshal())
@@ -2179,6 +2189,126 @@ class XSDataDiffractionPlan(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataDiffractionPlan
 
+class XSDataCollection(XSData):
+	"""The data collection carried out or to be carried out with a particular sample with specific user inputs defined by the diffraction plan."""
+	def __init__(self, subWedge=None, sample=None, diffractionPlan=None):
+		XSData.__init__(self, )
+		checkType("XSDataCollection", "Constructor of XSDataCollection", diffractionPlan, "XSDataDiffractionPlan")
+		self.__diffractionPlan = diffractionPlan
+		checkType("XSDataCollection", "Constructor of XSDataCollection", sample, "XSDataSampleCrystalMM")
+		self.__sample = sample
+		if subWedge is None:
+			self.__subWedge = []
+		else:
+			checkType("XSDataCollection", "Constructor of XSDataCollection", subWedge, "XSDataSubWedge")
+			self.__subWedge = subWedge
+	def getDiffractionPlan(self): return self.__diffractionPlan
+	def setDiffractionPlan(self, diffractionPlan):
+		checkType("XSDataCollection", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
+		self.__diffractionPlan = diffractionPlan
+	def delDiffractionPlan(self): self.__diffractionPlan = None
+	# Properties
+	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataCollection", "setSample", sample, "XSDataSampleCrystalMM")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getSubWedge(self): return self.__subWedge
+	def setSubWedge(self, subWedge):
+		checkType("XSDataCollection", "setSubWedge", subWedge, "list")
+		self.__subWedge = subWedge
+	def delSubWedge(self): self.__subWedge = None
+	# Properties
+	subWedge = property(getSubWedge, setSubWedge, delSubWedge, "Property for subWedge")
+	def addSubWedge(self, value):
+		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
+		self.__subWedge.append(value)
+	def insertSubWedge(self, index, value):
+		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
+		self.__subWedge[index] = value
+	def export(self, outfile, level, name_='XSDataCollection'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataCollection'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__diffractionPlan is not None:
+			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		for subWedge_ in self.getSubWedge():
+			subWedge_.export(outfile, level, name_='subWedge')
+		if self.getSubWedge() == []:
+			warnEmptyAttribute("subWedge", "XSDataSubWedge")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'diffractionPlan':
+			obj_ = XSDataDiffractionPlan()
+			obj_.build(child_)
+			self.setDiffractionPlan(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataSampleCrystalMM()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subWedge':
+			obj_ = XSDataSubWedge()
+			obj_.build(child_)
+			self.subWedge.append(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataCollection" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataCollection' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCollection is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataCollection.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataCollection()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataCollection" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataCollection()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataCollection
+
 class XSDataGoniostat(XSData):
 	"""The properties of a goniostat:
 - the maximal rotation speed permitted
@@ -2188,11 +2318,17 @@ class XSDataGoniostat(XSData):
 - the rotation end angle"""
 	def __init__(self, rotationAxisStart=None, rotationAxisEnd=None, rotationAxis=None, oscillationWidth=None, minOscillationWidth=None, maxOscillationSpeed=None):
 		XSData.__init__(self, )
+		checkType("XSDataGoniostat", "Constructor of XSDataGoniostat", maxOscillationSpeed, "XSDataAngularSpeed")
 		self.__maxOscillationSpeed = maxOscillationSpeed
+		checkType("XSDataGoniostat", "Constructor of XSDataGoniostat", minOscillationWidth, "XSDataAngle")
 		self.__minOscillationWidth = minOscillationWidth
+		checkType("XSDataGoniostat", "Constructor of XSDataGoniostat", oscillationWidth, "XSDataAngle")
 		self.__oscillationWidth = oscillationWidth
+		checkType("XSDataGoniostat", "Constructor of XSDataGoniostat", rotationAxis, "XSDataString")
 		self.__rotationAxis = rotationAxis
+		checkType("XSDataGoniostat", "Constructor of XSDataGoniostat", rotationAxisEnd, "XSDataAngle")
 		self.__rotationAxisEnd = rotationAxisEnd
+		checkType("XSDataGoniostat", "Constructor of XSDataGoniostat", rotationAxisStart, "XSDataAngle")
 		self.__rotationAxisStart = rotationAxisStart
 	def getMaxOscillationSpeed(self): return self.__maxOscillationSpeed
 	def setMaxOscillationSpeed(self, maxOscillationSpeed):
@@ -2313,11 +2449,15 @@ class XSDataGoniostat(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataGoniostat' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataGoniostat is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataGoniostat.parseString(self.marshal())
@@ -2347,8 +2487,11 @@ class XSDataExperimentalCondition(XSData):
 	"""This object encapsulates all the physical properties of an experiment instrumentation. i.e: Beam, detector, Goniostat."""
 	def __init__(self, goniostat=None, detector=None, beam=None):
 		XSData.__init__(self, )
+		checkType("XSDataExperimentalCondition", "Constructor of XSDataExperimentalCondition", beam, "XSDataBeam")
 		self.__beam = beam
+		checkType("XSDataExperimentalCondition", "Constructor of XSDataExperimentalCondition", detector, "XSDataDetector")
 		self.__detector = detector
+		checkType("XSDataExperimentalCondition", "Constructor of XSDataExperimentalCondition", goniostat, "XSDataGoniostat")
 		self.__goniostat = goniostat
 	def getBeam(self): return self.__beam
 	def setBeam(self, beam):
@@ -2415,11 +2558,15 @@ class XSDataExperimentalCondition(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataExperimentalCondition' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataExperimentalCondition is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataExperimentalCondition.parseString(self.marshal())
@@ -2448,23 +2595,41 @@ class XSDataExperimentalCondition(XSData):
 class XSDataImageQualityIndicators(XSData):
 	def __init__(self, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
 		XSData.__init__(self, )
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", binPopCutOffMethod2Res, "XSDataDouble")
 		self.__binPopCutOffMethod2Res = binPopCutOffMethod2Res
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", goodBraggCandidates, "XSDataInteger")
 		self.__goodBraggCandidates = goodBraggCandidates
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", iceRings, "XSDataInteger")
 		self.__iceRings = iceRings
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", image, "XSDataImage")
 		self.__image = image
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", inResTotal, "XSDataInteger")
 		self.__inResTotal = inResTotal
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", inResolutionOvrlSpots, "XSDataInteger")
 		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", maxUnitCell, "XSDataDouble")
 		self.__maxUnitCell = maxUnitCell
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", method1Res, "XSDataDouble")
 		self.__method1Res = method1Res
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", method2Res, "XSDataDouble")
 		self.__method2Res = method2Res
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", pctSaturationTop50Peaks, "XSDataDouble")
 		self.__pctSaturationTop50Peaks = pctSaturationTop50Peaks
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeAverage, "XSDataDouble")
 		self.__saturationRangeAverage = saturationRangeAverage
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeMax, "XSDataDouble")
 		self.__saturationRangeMax = saturationRangeMax
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeMin, "XSDataDouble")
 		self.__saturationRangeMin = saturationRangeMin
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeAverage, "XSDataDouble")
 		self.__signalRangeAverage = signalRangeAverage
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeMax, "XSDataDouble")
 		self.__signalRangeMax = signalRangeMax
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeMin, "XSDataDouble")
 		self.__signalRangeMin = signalRangeMin
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", spotTotal, "XSDataInteger")
 		self.__spotTotal = spotTotal
+		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", totalIntegratedSignal, "XSDataDouble")
 		self.__totalIntegratedSignal = totalIntegratedSignal
 	def getBinPopCutOffMethod2Res(self): return self.__binPopCutOffMethod2Res
 	def setBinPopCutOffMethod2Res(self, binPopCutOffMethod2Res):
@@ -2763,11 +2928,15 @@ class XSDataImageQualityIndicators(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataImageQualityIndicators' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataImageQualityIndicators is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataImageQualityIndicators.parseString(self.marshal())
@@ -2796,8 +2965,11 @@ class XSDataImageQualityIndicators(XSData):
 class XSDataIndexingSolution(XSData):
 	def __init__(self, penalty=None, number=None, crystal=None):
 		XSData.__init__(self, )
+		checkType("XSDataIndexingSolution", "Constructor of XSDataIndexingSolution", crystal, "XSDataCrystal")
 		self.__crystal = crystal
+		checkType("XSDataIndexingSolution", "Constructor of XSDataIndexingSolution", number, "XSDataInteger")
 		self.__number = number
+		checkType("XSDataIndexingSolution", "Constructor of XSDataIndexingSolution", penalty, "XSDataFloat")
 		self.__penalty = penalty
 	def getCrystal(self): return self.__crystal
 	def setCrystal(self, crystal):
@@ -2870,11 +3042,15 @@ class XSDataIndexingSolution(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataIndexingSolution' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataIndexingSolution is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataIndexingSolution.parseString(self.marshal())
@@ -2900,1066 +3076,15 @@ class XSDataIndexingSolution(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataIndexingSolution
 
-class XSDataOrientation(XSData):
-	def __init__(self, matrixU=None, matrixA=None):
-		XSData.__init__(self, )
-		self.__matrixA = matrixA
-		self.__matrixU = matrixU
-	def getMatrixA(self): return self.__matrixA
-	def setMatrixA(self, matrixA):
-		checkType("XSDataOrientation", "setMatrixA", matrixA, "XSDataMatrixDouble")
-		self.__matrixA = matrixA
-	def delMatrixA(self): self.__matrixA = None
-	# Properties
-	matrixA = property(getMatrixA, setMatrixA, delMatrixA, "Property for matrixA")
-	def getMatrixU(self): return self.__matrixU
-	def setMatrixU(self, matrixU):
-		checkType("XSDataOrientation", "setMatrixU", matrixU, "XSDataMatrixDouble")
-		self.__matrixU = matrixU
-	def delMatrixU(self): self.__matrixU = None
-	# Properties
-	matrixU = property(getMatrixU, setMatrixU, delMatrixU, "Property for matrixU")
-	def export(self, outfile, level, name_='XSDataOrientation'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataOrientation'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__matrixA is not None:
-			self.matrixA.export(outfile, level, name_='matrixA')
-		else:
-			warnEmptyAttribute("matrixA", "XSDataMatrixDouble")
-		if self.__matrixU is not None:
-			self.matrixU.export(outfile, level, name_='matrixU')
-		else:
-			warnEmptyAttribute("matrixU", "XSDataMatrixDouble")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'matrixA':
-			obj_ = XSDataMatrixDouble()
-			obj_.build(child_)
-			self.setMatrixA(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'matrixU':
-			obj_ = XSDataMatrixDouble()
-			obj_.build(child_)
-			self.setMatrixU(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataOrientation" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataOrientation' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataOrientation.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataOrientation()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataOrientation" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataOrientation()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataOrientation
-
-class XSDataSolvent(XSData):
-	"""Defines the content of the solvent by defining the concentration of elements in millimoles/litre. Note that this atom composition should not include oxygen and lighter atoms."""
-	def __init__(self, atoms=None):
-		XSData.__init__(self, )
-		self.__atoms = atoms
-	def getAtoms(self): return self.__atoms
-	def setAtoms(self, atoms):
-		checkType("XSDataSolvent", "setAtoms", atoms, "XSDataAtomicComposition")
-		self.__atoms = atoms
-	def delAtoms(self): self.__atoms = None
-	# Properties
-	atoms = property(getAtoms, setAtoms, delAtoms, "Property for atoms")
-	def export(self, outfile, level, name_='XSDataSolvent'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataSolvent'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__atoms is not None:
-			self.atoms.export(outfile, level, name_='atoms')
-		else:
-			warnEmptyAttribute("atoms", "XSDataAtomicComposition")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'atoms':
-			obj_ = XSDataAtomicComposition()
-			obj_.build(child_)
-			self.setAtoms(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataSolvent" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataSolvent' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataSolvent.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataSolvent()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataSolvent" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataSolvent()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataSolvent
-
-class XSDataSpaceGroup(XSData):
-	"""Crystallographic properties"""
-	def __init__(self, name=None, ITNumber=None):
-		XSData.__init__(self, )
-		self.__ITNumber = ITNumber
-		self.__name = name
-	def getITNumber(self): return self.__ITNumber
-	def setITNumber(self, ITNumber):
-		checkType("XSDataSpaceGroup", "setITNumber", ITNumber, "XSDataInteger")
-		self.__ITNumber = ITNumber
-	def delITNumber(self): self.__ITNumber = None
-	# Properties
-	ITNumber = property(getITNumber, setITNumber, delITNumber, "Property for ITNumber")
-	def getName(self): return self.__name
-	def setName(self, name):
-		checkType("XSDataSpaceGroup", "setName", name, "XSDataString")
-		self.__name = name
-	def delName(self): self.__name = None
-	# Properties
-	name = property(getName, setName, delName, "Property for name")
-	def export(self, outfile, level, name_='XSDataSpaceGroup'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataSpaceGroup'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__ITNumber is not None:
-			self.ITNumber.export(outfile, level, name_='ITNumber')
-		else:
-			warnEmptyAttribute("ITNumber", "XSDataInteger")
-		if self.__name is not None:
-			self.name.export(outfile, level, name_='name')
-		else:
-			warnEmptyAttribute("name", "XSDataString")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'ITNumber':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setITNumber(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'name':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setName(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataSpaceGroup" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataSpaceGroup' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataSpaceGroup.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataSpaceGroup()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataSpaceGroup" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataSpaceGroup()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataSpaceGroup
-
-class XSDataStatisticsIndexing(XSData):
-	def __init__(self, spotsUsed=None, spotsTotal=None, spotDeviationPositional=None, spotDeviationAngular=None, beamPositionShiftY=None, beamPositionShiftX=None):
-		XSData.__init__(self, )
-		self.__beamPositionShiftX = beamPositionShiftX
-		self.__beamPositionShiftY = beamPositionShiftY
-		self.__spotDeviationAngular = spotDeviationAngular
-		self.__spotDeviationPositional = spotDeviationPositional
-		self.__spotsTotal = spotsTotal
-		self.__spotsUsed = spotsUsed
-	def getBeamPositionShiftX(self): return self.__beamPositionShiftX
-	def setBeamPositionShiftX(self, beamPositionShiftX):
-		checkType("XSDataStatisticsIndexing", "setBeamPositionShiftX", beamPositionShiftX, "XSDataLength")
-		self.__beamPositionShiftX = beamPositionShiftX
-	def delBeamPositionShiftX(self): self.__beamPositionShiftX = None
-	# Properties
-	beamPositionShiftX = property(getBeamPositionShiftX, setBeamPositionShiftX, delBeamPositionShiftX, "Property for beamPositionShiftX")
-	def getBeamPositionShiftY(self): return self.__beamPositionShiftY
-	def setBeamPositionShiftY(self, beamPositionShiftY):
-		checkType("XSDataStatisticsIndexing", "setBeamPositionShiftY", beamPositionShiftY, "XSDataLength")
-		self.__beamPositionShiftY = beamPositionShiftY
-	def delBeamPositionShiftY(self): self.__beamPositionShiftY = None
-	# Properties
-	beamPositionShiftY = property(getBeamPositionShiftY, setBeamPositionShiftY, delBeamPositionShiftY, "Property for beamPositionShiftY")
-	def getSpotDeviationAngular(self): return self.__spotDeviationAngular
-	def setSpotDeviationAngular(self, spotDeviationAngular):
-		checkType("XSDataStatisticsIndexing", "setSpotDeviationAngular", spotDeviationAngular, "XSDataAngle")
-		self.__spotDeviationAngular = spotDeviationAngular
-	def delSpotDeviationAngular(self): self.__spotDeviationAngular = None
-	# Properties
-	spotDeviationAngular = property(getSpotDeviationAngular, setSpotDeviationAngular, delSpotDeviationAngular, "Property for spotDeviationAngular")
-	def getSpotDeviationPositional(self): return self.__spotDeviationPositional
-	def setSpotDeviationPositional(self, spotDeviationPositional):
-		checkType("XSDataStatisticsIndexing", "setSpotDeviationPositional", spotDeviationPositional, "XSDataLength")
-		self.__spotDeviationPositional = spotDeviationPositional
-	def delSpotDeviationPositional(self): self.__spotDeviationPositional = None
-	# Properties
-	spotDeviationPositional = property(getSpotDeviationPositional, setSpotDeviationPositional, delSpotDeviationPositional, "Property for spotDeviationPositional")
-	def getSpotsTotal(self): return self.__spotsTotal
-	def setSpotsTotal(self, spotsTotal):
-		checkType("XSDataStatisticsIndexing", "setSpotsTotal", spotsTotal, "XSDataInteger")
-		self.__spotsTotal = spotsTotal
-	def delSpotsTotal(self): self.__spotsTotal = None
-	# Properties
-	spotsTotal = property(getSpotsTotal, setSpotsTotal, delSpotsTotal, "Property for spotsTotal")
-	def getSpotsUsed(self): return self.__spotsUsed
-	def setSpotsUsed(self, spotsUsed):
-		checkType("XSDataStatisticsIndexing", "setSpotsUsed", spotsUsed, "XSDataInteger")
-		self.__spotsUsed = spotsUsed
-	def delSpotsUsed(self): self.__spotsUsed = None
-	# Properties
-	spotsUsed = property(getSpotsUsed, setSpotsUsed, delSpotsUsed, "Property for spotsUsed")
-	def export(self, outfile, level, name_='XSDataStatisticsIndexing'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataStatisticsIndexing'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__beamPositionShiftX is not None:
-			self.beamPositionShiftX.export(outfile, level, name_='beamPositionShiftX')
-		else:
-			warnEmptyAttribute("beamPositionShiftX", "XSDataLength")
-		if self.__beamPositionShiftY is not None:
-			self.beamPositionShiftY.export(outfile, level, name_='beamPositionShiftY')
-		else:
-			warnEmptyAttribute("beamPositionShiftY", "XSDataLength")
-		if self.__spotDeviationAngular is not None:
-			self.spotDeviationAngular.export(outfile, level, name_='spotDeviationAngular')
-		else:
-			warnEmptyAttribute("spotDeviationAngular", "XSDataAngle")
-		if self.__spotDeviationPositional is not None:
-			self.spotDeviationPositional.export(outfile, level, name_='spotDeviationPositional')
-		else:
-			warnEmptyAttribute("spotDeviationPositional", "XSDataLength")
-		if self.__spotsTotal is not None:
-			self.spotsTotal.export(outfile, level, name_='spotsTotal')
-		else:
-			warnEmptyAttribute("spotsTotal", "XSDataInteger")
-		if self.__spotsUsed is not None:
-			self.spotsUsed.export(outfile, level, name_='spotsUsed')
-		else:
-			warnEmptyAttribute("spotsUsed", "XSDataInteger")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'beamPositionShiftX':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setBeamPositionShiftX(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'beamPositionShiftY':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setBeamPositionShiftY(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'spotDeviationAngular':
-			obj_ = XSDataAngle()
-			obj_.build(child_)
-			self.setSpotDeviationAngular(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'spotDeviationPositional':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setSpotDeviationPositional(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'spotsTotal':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setSpotsTotal(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'spotsUsed':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setSpotsUsed(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataStatisticsIndexing" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataStatisticsIndexing' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataStatisticsIndexing.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIndexing()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIndexing" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIndexing()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataStatisticsIndexing
-
-class XSDataStatisticsIntegration(XSData):
-	def __init__(self, numberOfReflectionsGenerated=None, numberOfPartialReflections=None, numberOfOverlappedReflections=None, numberOfNegativeReflections=None, numberOfFullyRecordedReflections=None, numberOfBadReflections=None, iOverSigmaOverall=None, iOverSigmaAtHighestResolution=None, RMSSpotDeviation=None):
-		XSData.__init__(self, )
-		self.__RMSSpotDeviation = RMSSpotDeviation
-		self.__iOverSigmaAtHighestResolution = iOverSigmaAtHighestResolution
-		self.__iOverSigmaOverall = iOverSigmaOverall
-		self.__numberOfBadReflections = numberOfBadReflections
-		self.__numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
-		self.__numberOfNegativeReflections = numberOfNegativeReflections
-		self.__numberOfOverlappedReflections = numberOfOverlappedReflections
-		self.__numberOfPartialReflections = numberOfPartialReflections
-		self.__numberOfReflectionsGenerated = numberOfReflectionsGenerated
-	def getRMSSpotDeviation(self): return self.__RMSSpotDeviation
-	def setRMSSpotDeviation(self, RMSSpotDeviation):
-		checkType("XSDataStatisticsIntegration", "setRMSSpotDeviation", RMSSpotDeviation, "XSDataLength")
-		self.__RMSSpotDeviation = RMSSpotDeviation
-	def delRMSSpotDeviation(self): self.__RMSSpotDeviation = None
-	# Properties
-	RMSSpotDeviation = property(getRMSSpotDeviation, setRMSSpotDeviation, delRMSSpotDeviation, "Property for RMSSpotDeviation")
-	def getIOverSigmaAtHighestResolution(self): return self.__iOverSigmaAtHighestResolution
-	def setIOverSigmaAtHighestResolution(self, iOverSigmaAtHighestResolution):
-		checkType("XSDataStatisticsIntegration", "setIOverSigmaAtHighestResolution", iOverSigmaAtHighestResolution, "XSDataDouble")
-		self.__iOverSigmaAtHighestResolution = iOverSigmaAtHighestResolution
-	def delIOverSigmaAtHighestResolution(self): self.__iOverSigmaAtHighestResolution = None
-	# Properties
-	iOverSigmaAtHighestResolution = property(getIOverSigmaAtHighestResolution, setIOverSigmaAtHighestResolution, delIOverSigmaAtHighestResolution, "Property for iOverSigmaAtHighestResolution")
-	def getIOverSigmaOverall(self): return self.__iOverSigmaOverall
-	def setIOverSigmaOverall(self, iOverSigmaOverall):
-		checkType("XSDataStatisticsIntegration", "setIOverSigmaOverall", iOverSigmaOverall, "XSDataDouble")
-		self.__iOverSigmaOverall = iOverSigmaOverall
-	def delIOverSigmaOverall(self): self.__iOverSigmaOverall = None
-	# Properties
-	iOverSigmaOverall = property(getIOverSigmaOverall, setIOverSigmaOverall, delIOverSigmaOverall, "Property for iOverSigmaOverall")
-	def getNumberOfBadReflections(self): return self.__numberOfBadReflections
-	def setNumberOfBadReflections(self, numberOfBadReflections):
-		checkType("XSDataStatisticsIntegration", "setNumberOfBadReflections", numberOfBadReflections, "XSDataInteger")
-		self.__numberOfBadReflections = numberOfBadReflections
-	def delNumberOfBadReflections(self): self.__numberOfBadReflections = None
-	# Properties
-	numberOfBadReflections = property(getNumberOfBadReflections, setNumberOfBadReflections, delNumberOfBadReflections, "Property for numberOfBadReflections")
-	def getNumberOfFullyRecordedReflections(self): return self.__numberOfFullyRecordedReflections
-	def setNumberOfFullyRecordedReflections(self, numberOfFullyRecordedReflections):
-		checkType("XSDataStatisticsIntegration", "setNumberOfFullyRecordedReflections", numberOfFullyRecordedReflections, "XSDataInteger")
-		self.__numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
-	def delNumberOfFullyRecordedReflections(self): self.__numberOfFullyRecordedReflections = None
-	# Properties
-	numberOfFullyRecordedReflections = property(getNumberOfFullyRecordedReflections, setNumberOfFullyRecordedReflections, delNumberOfFullyRecordedReflections, "Property for numberOfFullyRecordedReflections")
-	def getNumberOfNegativeReflections(self): return self.__numberOfNegativeReflections
-	def setNumberOfNegativeReflections(self, numberOfNegativeReflections):
-		checkType("XSDataStatisticsIntegration", "setNumberOfNegativeReflections", numberOfNegativeReflections, "XSDataInteger")
-		self.__numberOfNegativeReflections = numberOfNegativeReflections
-	def delNumberOfNegativeReflections(self): self.__numberOfNegativeReflections = None
-	# Properties
-	numberOfNegativeReflections = property(getNumberOfNegativeReflections, setNumberOfNegativeReflections, delNumberOfNegativeReflections, "Property for numberOfNegativeReflections")
-	def getNumberOfOverlappedReflections(self): return self.__numberOfOverlappedReflections
-	def setNumberOfOverlappedReflections(self, numberOfOverlappedReflections):
-		checkType("XSDataStatisticsIntegration", "setNumberOfOverlappedReflections", numberOfOverlappedReflections, "XSDataInteger")
-		self.__numberOfOverlappedReflections = numberOfOverlappedReflections
-	def delNumberOfOverlappedReflections(self): self.__numberOfOverlappedReflections = None
-	# Properties
-	numberOfOverlappedReflections = property(getNumberOfOverlappedReflections, setNumberOfOverlappedReflections, delNumberOfOverlappedReflections, "Property for numberOfOverlappedReflections")
-	def getNumberOfPartialReflections(self): return self.__numberOfPartialReflections
-	def setNumberOfPartialReflections(self, numberOfPartialReflections):
-		checkType("XSDataStatisticsIntegration", "setNumberOfPartialReflections", numberOfPartialReflections, "XSDataInteger")
-		self.__numberOfPartialReflections = numberOfPartialReflections
-	def delNumberOfPartialReflections(self): self.__numberOfPartialReflections = None
-	# Properties
-	numberOfPartialReflections = property(getNumberOfPartialReflections, setNumberOfPartialReflections, delNumberOfPartialReflections, "Property for numberOfPartialReflections")
-	def getNumberOfReflectionsGenerated(self): return self.__numberOfReflectionsGenerated
-	def setNumberOfReflectionsGenerated(self, numberOfReflectionsGenerated):
-		checkType("XSDataStatisticsIntegration", "setNumberOfReflectionsGenerated", numberOfReflectionsGenerated, "XSDataInteger")
-		self.__numberOfReflectionsGenerated = numberOfReflectionsGenerated
-	def delNumberOfReflectionsGenerated(self): self.__numberOfReflectionsGenerated = None
-	# Properties
-	numberOfReflectionsGenerated = property(getNumberOfReflectionsGenerated, setNumberOfReflectionsGenerated, delNumberOfReflectionsGenerated, "Property for numberOfReflectionsGenerated")
-	def export(self, outfile, level, name_='XSDataStatisticsIntegration'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataStatisticsIntegration'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__RMSSpotDeviation is not None:
-			self.RMSSpotDeviation.export(outfile, level, name_='RMSSpotDeviation')
-		else:
-			warnEmptyAttribute("RMSSpotDeviation", "XSDataLength")
-		if self.__iOverSigmaAtHighestResolution is not None:
-			self.iOverSigmaAtHighestResolution.export(outfile, level, name_='iOverSigmaAtHighestResolution')
-		else:
-			warnEmptyAttribute("iOverSigmaAtHighestResolution", "XSDataDouble")
-		if self.__iOverSigmaOverall is not None:
-			self.iOverSigmaOverall.export(outfile, level, name_='iOverSigmaOverall')
-		else:
-			warnEmptyAttribute("iOverSigmaOverall", "XSDataDouble")
-		if self.__numberOfBadReflections is not None:
-			self.numberOfBadReflections.export(outfile, level, name_='numberOfBadReflections')
-		else:
-			warnEmptyAttribute("numberOfBadReflections", "XSDataInteger")
-		if self.__numberOfFullyRecordedReflections is not None:
-			self.numberOfFullyRecordedReflections.export(outfile, level, name_='numberOfFullyRecordedReflections')
-		else:
-			warnEmptyAttribute("numberOfFullyRecordedReflections", "XSDataInteger")
-		if self.__numberOfNegativeReflections is not None:
-			self.numberOfNegativeReflections.export(outfile, level, name_='numberOfNegativeReflections')
-		else:
-			warnEmptyAttribute("numberOfNegativeReflections", "XSDataInteger")
-		if self.__numberOfOverlappedReflections is not None:
-			self.numberOfOverlappedReflections.export(outfile, level, name_='numberOfOverlappedReflections')
-		else:
-			warnEmptyAttribute("numberOfOverlappedReflections", "XSDataInteger")
-		if self.__numberOfPartialReflections is not None:
-			self.numberOfPartialReflections.export(outfile, level, name_='numberOfPartialReflections')
-		else:
-			warnEmptyAttribute("numberOfPartialReflections", "XSDataInteger")
-		if self.__numberOfReflectionsGenerated is not None:
-			self.numberOfReflectionsGenerated.export(outfile, level, name_='numberOfReflectionsGenerated')
-		else:
-			warnEmptyAttribute("numberOfReflectionsGenerated", "XSDataInteger")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'RMSSpotDeviation':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setRMSSpotDeviation(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'iOverSigmaAtHighestResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setIOverSigmaAtHighestResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'iOverSigmaOverall':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setIOverSigmaOverall(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfBadReflections':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberOfBadReflections(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfFullyRecordedReflections':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberOfFullyRecordedReflections(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfNegativeReflections':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberOfNegativeReflections(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfOverlappedReflections':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberOfOverlappedReflections(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfPartialReflections':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberOfPartialReflections(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfReflectionsGenerated':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberOfReflectionsGenerated(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataStatisticsIntegration" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataStatisticsIntegration' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataStatisticsIntegration.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIntegration()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIntegration" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIntegration()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataStatisticsIntegration
-
-class XSDataStatisticsIntegrationPerReflectionType(XSData):
-	def __init__(self, partials=None, fullyRecorded=None):
-		XSData.__init__(self, )
-		self.__fullyRecorded = fullyRecorded
-		self.__partials = partials
-	def getFullyRecorded(self): return self.__fullyRecorded
-	def setFullyRecorded(self, fullyRecorded):
-		checkType("XSDataStatisticsIntegrationPerReflectionType", "setFullyRecorded", fullyRecorded, "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
-		self.__fullyRecorded = fullyRecorded
-	def delFullyRecorded(self): self.__fullyRecorded = None
-	# Properties
-	fullyRecorded = property(getFullyRecorded, setFullyRecorded, delFullyRecorded, "Property for fullyRecorded")
-	def getPartials(self): return self.__partials
-	def setPartials(self, partials):
-		checkType("XSDataStatisticsIntegrationPerReflectionType", "setPartials", partials, "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
-		self.__partials = partials
-	def delPartials(self): self.__partials = None
-	# Properties
-	partials = property(getPartials, setPartials, delPartials, "Property for partials")
-	def export(self, outfile, level, name_='XSDataStatisticsIntegrationPerReflectionType'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataStatisticsIntegrationPerReflectionType'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__fullyRecorded is not None:
-			self.fullyRecorded.export(outfile, level, name_='fullyRecorded')
-		else:
-			warnEmptyAttribute("fullyRecorded", "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
-		if self.__partials is not None:
-			self.partials.export(outfile, level, name_='partials')
-		else:
-			warnEmptyAttribute("partials", "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'fullyRecorded':
-			obj_ = XSDataStatisticsIntegrationAverageAndNumberOfReflections()
-			obj_.build(child_)
-			self.setFullyRecorded(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'partials':
-			obj_ = XSDataStatisticsIntegrationAverageAndNumberOfReflections()
-			obj_.build(child_)
-			self.setPartials(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerReflectionType" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataStatisticsIntegrationPerReflectionType' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataStatisticsIntegrationPerReflectionType.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIntegrationPerReflectionType()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerReflectionType" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIntegrationPerReflectionType()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataStatisticsIntegrationPerReflectionType
-
-class XSDataStatisticsIntegrationPerResolutionBin(XSData):
-	def __init__(self, summation=None, profileFitted=None, minResolution=None, maxResolution=None):
-		XSData.__init__(self, )
-		self.__maxResolution = maxResolution
-		self.__minResolution = minResolution
-		self.__profileFitted = profileFitted
-		self.__summation = summation
-	def getMaxResolution(self): return self.__maxResolution
-	def setMaxResolution(self, maxResolution):
-		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setMaxResolution", maxResolution, "XSDataDouble")
-		self.__maxResolution = maxResolution
-	def delMaxResolution(self): self.__maxResolution = None
-	# Properties
-	maxResolution = property(getMaxResolution, setMaxResolution, delMaxResolution, "Property for maxResolution")
-	def getMinResolution(self): return self.__minResolution
-	def setMinResolution(self, minResolution):
-		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setMinResolution", minResolution, "XSDataDouble")
-		self.__minResolution = minResolution
-	def delMinResolution(self): self.__minResolution = None
-	# Properties
-	minResolution = property(getMinResolution, setMinResolution, delMinResolution, "Property for minResolution")
-	def getProfileFitted(self): return self.__profileFitted
-	def setProfileFitted(self, profileFitted):
-		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setProfileFitted", profileFitted, "XSDataStatisticsIntegrationPerReflectionType")
-		self.__profileFitted = profileFitted
-	def delProfileFitted(self): self.__profileFitted = None
-	# Properties
-	profileFitted = property(getProfileFitted, setProfileFitted, delProfileFitted, "Property for profileFitted")
-	def getSummation(self): return self.__summation
-	def setSummation(self, summation):
-		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setSummation", summation, "XSDataStatisticsIntegrationPerReflectionType")
-		self.__summation = summation
-	def delSummation(self): self.__summation = None
-	# Properties
-	summation = property(getSummation, setSummation, delSummation, "Property for summation")
-	def export(self, outfile, level, name_='XSDataStatisticsIntegrationPerResolutionBin'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataStatisticsIntegrationPerResolutionBin'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__maxResolution is not None:
-			self.maxResolution.export(outfile, level, name_='maxResolution')
-		else:
-			warnEmptyAttribute("maxResolution", "XSDataDouble")
-		if self.__minResolution is not None:
-			self.minResolution.export(outfile, level, name_='minResolution')
-		else:
-			warnEmptyAttribute("minResolution", "XSDataDouble")
-		if self.__profileFitted is not None:
-			self.profileFitted.export(outfile, level, name_='profileFitted')
-		else:
-			warnEmptyAttribute("profileFitted", "XSDataStatisticsIntegrationPerReflectionType")
-		if self.__summation is not None:
-			self.summation.export(outfile, level, name_='summation')
-		else:
-			warnEmptyAttribute("summation", "XSDataStatisticsIntegrationPerReflectionType")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'maxResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setMaxResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'minResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setMinResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'profileFitted':
-			obj_ = XSDataStatisticsIntegrationPerReflectionType()
-			obj_.build(child_)
-			self.setProfileFitted(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'summation':
-			obj_ = XSDataStatisticsIntegrationPerReflectionType()
-			obj_.build(child_)
-			self.setSummation(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerResolutionBin" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataStatisticsIntegrationPerResolutionBin' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataStatisticsIntegrationPerResolutionBin.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIntegrationPerResolutionBin()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerResolutionBin" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataStatisticsIntegrationPerResolutionBin()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataStatisticsIntegrationPerResolutionBin
-
-class XSDataIntegrationSubWedgeResult(XSData):
-	def __init__(self, subWedgeNumber=None, statisticsPerResolutionBin=None, statistics=None, integrationLogFile=None, generatedMTZFile=None, experimentalConditionRefined=None, bestfilePar=None, bestfileHKL=None, bestfileDat=None):
-		XSData.__init__(self, )
-		self.__bestfileDat = bestfileDat
-		self.__bestfileHKL = bestfileHKL
-		self.__bestfilePar = bestfilePar
-		self.__experimentalConditionRefined = experimentalConditionRefined
-		self.__generatedMTZFile = generatedMTZFile
-		self.__integrationLogFile = integrationLogFile
-		self.__statistics = statistics
-		if statisticsPerResolutionBin is None:
-			self.__statisticsPerResolutionBin = []
-		else:
-			self.__statisticsPerResolutionBin = statisticsPerResolutionBin
-		self.__subWedgeNumber = subWedgeNumber
-	def getBestfileDat(self): return self.__bestfileDat
-	def setBestfileDat(self, bestfileDat):
-		checkType("XSDataIntegrationSubWedgeResult", "setBestfileDat", bestfileDat, "XSDataString")
-		self.__bestfileDat = bestfileDat
-	def delBestfileDat(self): self.__bestfileDat = None
-	# Properties
-	bestfileDat = property(getBestfileDat, setBestfileDat, delBestfileDat, "Property for bestfileDat")
-	def getBestfileHKL(self): return self.__bestfileHKL
-	def setBestfileHKL(self, bestfileHKL):
-		checkType("XSDataIntegrationSubWedgeResult", "setBestfileHKL", bestfileHKL, "XSDataString")
-		self.__bestfileHKL = bestfileHKL
-	def delBestfileHKL(self): self.__bestfileHKL = None
-	# Properties
-	bestfileHKL = property(getBestfileHKL, setBestfileHKL, delBestfileHKL, "Property for bestfileHKL")
-	def getBestfilePar(self): return self.__bestfilePar
-	def setBestfilePar(self, bestfilePar):
-		checkType("XSDataIntegrationSubWedgeResult", "setBestfilePar", bestfilePar, "XSDataString")
-		self.__bestfilePar = bestfilePar
-	def delBestfilePar(self): self.__bestfilePar = None
-	# Properties
-	bestfilePar = property(getBestfilePar, setBestfilePar, delBestfilePar, "Property for bestfilePar")
-	def getExperimentalConditionRefined(self): return self.__experimentalConditionRefined
-	def setExperimentalConditionRefined(self, experimentalConditionRefined):
-		checkType("XSDataIntegrationSubWedgeResult", "setExperimentalConditionRefined", experimentalConditionRefined, "XSDataExperimentalCondition")
-		self.__experimentalConditionRefined = experimentalConditionRefined
-	def delExperimentalConditionRefined(self): self.__experimentalConditionRefined = None
-	# Properties
-	experimentalConditionRefined = property(getExperimentalConditionRefined, setExperimentalConditionRefined, delExperimentalConditionRefined, "Property for experimentalConditionRefined")
-	def getGeneratedMTZFile(self): return self.__generatedMTZFile
-	def setGeneratedMTZFile(self, generatedMTZFile):
-		checkType("XSDataIntegrationSubWedgeResult", "setGeneratedMTZFile", generatedMTZFile, "XSDataFile")
-		self.__generatedMTZFile = generatedMTZFile
-	def delGeneratedMTZFile(self): self.__generatedMTZFile = None
-	# Properties
-	generatedMTZFile = property(getGeneratedMTZFile, setGeneratedMTZFile, delGeneratedMTZFile, "Property for generatedMTZFile")
-	def getIntegrationLogFile(self): return self.__integrationLogFile
-	def setIntegrationLogFile(self, integrationLogFile):
-		checkType("XSDataIntegrationSubWedgeResult", "setIntegrationLogFile", integrationLogFile, "XSDataFile")
-		self.__integrationLogFile = integrationLogFile
-	def delIntegrationLogFile(self): self.__integrationLogFile = None
-	# Properties
-	integrationLogFile = property(getIntegrationLogFile, setIntegrationLogFile, delIntegrationLogFile, "Property for integrationLogFile")
-	def getStatistics(self): return self.__statistics
-	def setStatistics(self, statistics):
-		checkType("XSDataIntegrationSubWedgeResult", "setStatistics", statistics, "XSDataStatisticsIntegration")
-		self.__statistics = statistics
-	def delStatistics(self): self.__statistics = None
-	# Properties
-	statistics = property(getStatistics, setStatistics, delStatistics, "Property for statistics")
-	def getStatisticsPerResolutionBin(self): return self.__statisticsPerResolutionBin
-	def setStatisticsPerResolutionBin(self, statisticsPerResolutionBin):
-		checkType("XSDataIntegrationSubWedgeResult", "setStatisticsPerResolutionBin", statisticsPerResolutionBin, "list")
-		self.__statisticsPerResolutionBin = statisticsPerResolutionBin
-	def delStatisticsPerResolutionBin(self): self.__statisticsPerResolutionBin = None
-	# Properties
-	statisticsPerResolutionBin = property(getStatisticsPerResolutionBin, setStatisticsPerResolutionBin, delStatisticsPerResolutionBin, "Property for statisticsPerResolutionBin")
-	def addStatisticsPerResolutionBin(self, value):
-		checkType("XSDataIntegrationSubWedgeResult", "setStatisticsPerResolutionBin", value, "XSDataStatisticsIntegrationPerResolutionBin")
-		self.__statisticsPerResolutionBin.append(value)
-	def insertStatisticsPerResolutionBin(self, index, value):
-		checkType("XSDataIntegrationSubWedgeResult", "setStatisticsPerResolutionBin", value, "XSDataStatisticsIntegrationPerResolutionBin")
-		self.__statisticsPerResolutionBin[index] = value
-	def getSubWedgeNumber(self): return self.__subWedgeNumber
-	def setSubWedgeNumber(self, subWedgeNumber):
-		checkType("XSDataIntegrationSubWedgeResult", "setSubWedgeNumber", subWedgeNumber, "XSDataInteger")
-		self.__subWedgeNumber = subWedgeNumber
-	def delSubWedgeNumber(self): self.__subWedgeNumber = None
-	# Properties
-	subWedgeNumber = property(getSubWedgeNumber, setSubWedgeNumber, delSubWedgeNumber, "Property for subWedgeNumber")
-	def export(self, outfile, level, name_='XSDataIntegrationSubWedgeResult'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataIntegrationSubWedgeResult'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__bestfileDat is not None:
-			self.bestfileDat.export(outfile, level, name_='bestfileDat')
-		else:
-			warnEmptyAttribute("bestfileDat", "XSDataString")
-		if self.__bestfileHKL is not None:
-			self.bestfileHKL.export(outfile, level, name_='bestfileHKL')
-		else:
-			warnEmptyAttribute("bestfileHKL", "XSDataString")
-		if self.__bestfilePar is not None:
-			self.bestfilePar.export(outfile, level, name_='bestfilePar')
-		else:
-			warnEmptyAttribute("bestfilePar", "XSDataString")
-		if self.__experimentalConditionRefined is not None:
-			self.experimentalConditionRefined.export(outfile, level, name_='experimentalConditionRefined')
-		else:
-			warnEmptyAttribute("experimentalConditionRefined", "XSDataExperimentalCondition")
-		if self.__generatedMTZFile is not None:
-			self.generatedMTZFile.export(outfile, level, name_='generatedMTZFile')
-		else:
-			warnEmptyAttribute("generatedMTZFile", "XSDataFile")
-		if self.__integrationLogFile is not None:
-			self.integrationLogFile.export(outfile, level, name_='integrationLogFile')
-		else:
-			warnEmptyAttribute("integrationLogFile", "XSDataFile")
-		if self.__statistics is not None:
-			self.statistics.export(outfile, level, name_='statistics')
-		else:
-			warnEmptyAttribute("statistics", "XSDataStatisticsIntegration")
-		for statisticsPerResolutionBin_ in self.getStatisticsPerResolutionBin():
-			statisticsPerResolutionBin_.export(outfile, level, name_='statisticsPerResolutionBin')
-		if self.getStatisticsPerResolutionBin() == []:
-			warnEmptyAttribute("statisticsPerResolutionBin", "XSDataStatisticsIntegrationPerResolutionBin")
-		if self.__subWedgeNumber is not None:
-			self.subWedgeNumber.export(outfile, level, name_='subWedgeNumber')
-		else:
-			warnEmptyAttribute("subWedgeNumber", "XSDataInteger")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'bestfileDat':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setBestfileDat(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'bestfileHKL':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setBestfileHKL(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'bestfilePar':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setBestfilePar(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'experimentalConditionRefined':
-			obj_ = XSDataExperimentalCondition()
-			obj_.build(child_)
-			self.setExperimentalConditionRefined(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'generatedMTZFile':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setGeneratedMTZFile(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integrationLogFile':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setIntegrationLogFile(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'statistics':
-			obj_ = XSDataStatisticsIntegration()
-			obj_.build(child_)
-			self.setStatistics(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'statisticsPerResolutionBin':
-			obj_ = XSDataStatisticsIntegrationPerResolutionBin()
-			obj_.build(child_)
-			self.statisticsPerResolutionBin.append(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'subWedgeNumber':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setSubWedgeNumber(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataIntegrationSubWedgeResult" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataIntegrationSubWedgeResult' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataIntegrationSubWedgeResult.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataIntegrationSubWedgeResult()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataIntegrationSubWedgeResult" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataIntegrationSubWedgeResult()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataIntegrationSubWedgeResult
-
 class XSDataLigand(XSData):
 	"""A polymer ligand that contains a set of heavy atoms, the number of all the light atoms (weight <= Oxygen) and the number of copies of this particular ligand in the polymer."""
 	def __init__(self, numberOfLightAtoms=None, numberOfCopies=None, heavyAtoms=None):
 		XSData.__init__(self, )
+		checkType("XSDataLigand", "Constructor of XSDataLigand", heavyAtoms, "XSDataAtomicComposition")
 		self.__heavyAtoms = heavyAtoms
+		checkType("XSDataLigand", "Constructor of XSDataLigand", numberOfCopies, "XSDataDouble")
 		self.__numberOfCopies = numberOfCopies
+		checkType("XSDataLigand", "Constructor of XSDataLigand", numberOfLightAtoms, "XSDataDouble")
 		self.__numberOfLightAtoms = numberOfLightAtoms
 	def getHeavyAtoms(self): return self.__heavyAtoms
 	def setHeavyAtoms(self, heavyAtoms):
@@ -4032,11 +3157,15 @@ class XSDataLigand(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataLigand' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataLigand is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataLigand.parseString(self.marshal())
@@ -4065,18 +3194,31 @@ class XSDataLigand(XSData):
 class XSDataResolutionBin(XSData):
 	def __init__(self, redundancy=None, rFriedel=None, rFactor=None, percentageOverload=None, minResolution=None, maxResolution=None, completeness=None, chi2=None, averageSigma=None, averageIntensityOverAverageSigma=None, averageIntensity=None, IOverSigmaChi=None, IOverSigma=None):
 		XSData.__init__(self, )
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", IOverSigma, "XSDataDouble")
 		self.__IOverSigma = IOverSigma
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", IOverSigmaChi, "XSDataDouble")
 		self.__IOverSigmaChi = IOverSigmaChi
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", averageIntensity, "XSDataDouble")
 		self.__averageIntensity = averageIntensity
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", averageIntensityOverAverageSigma, "XSDataDouble")
 		self.__averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", averageSigma, "XSDataDouble")
 		self.__averageSigma = averageSigma
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", chi2, "XSDataDouble")
 		self.__chi2 = chi2
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", completeness, "XSDataDouble")
 		self.__completeness = completeness
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", maxResolution, "XSDataDouble")
 		self.__maxResolution = maxResolution
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", minResolution, "XSDataDouble")
 		self.__minResolution = minResolution
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", percentageOverload, "XSDataDouble")
 		self.__percentageOverload = percentageOverload
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", rFactor, "XSDataDouble")
 		self.__rFactor = rFactor
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", rFriedel, "XSDataDouble")
 		self.__rFriedel = rFriedel
+		checkType("XSDataResolutionBin", "Constructor of XSDataResolutionBin", redundancy, "XSDataDouble")
 		self.__redundancy = redundancy
 	def getIOverSigma(self): return self.__IOverSigma
 	def setIOverSigma(self, IOverSigma):
@@ -4309,11 +3451,15 @@ class XSDataResolutionBin(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResolutionBin' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResolutionBin is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResolutionBin.parseString(self.marshal())
@@ -4339,6 +3485,1031 @@ class XSDataResolutionBin(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataResolutionBin
 
+class XSDataSolvent(XSData):
+	"""Defines the content of the solvent by defining the concentration of elements in millimoles/litre. Note that this atom composition should not include oxygen and lighter atoms."""
+	def __init__(self, atoms=None):
+		XSData.__init__(self, )
+		checkType("XSDataSolvent", "Constructor of XSDataSolvent", atoms, "XSDataAtomicComposition")
+		self.__atoms = atoms
+	def getAtoms(self): return self.__atoms
+	def setAtoms(self, atoms):
+		checkType("XSDataSolvent", "setAtoms", atoms, "XSDataAtomicComposition")
+		self.__atoms = atoms
+	def delAtoms(self): self.__atoms = None
+	# Properties
+	atoms = property(getAtoms, setAtoms, delAtoms, "Property for atoms")
+	def export(self, outfile, level, name_='XSDataSolvent'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataSolvent'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__atoms is not None:
+			self.atoms.export(outfile, level, name_='atoms')
+		else:
+			warnEmptyAttribute("atoms", "XSDataAtomicComposition")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'atoms':
+			obj_ = XSDataAtomicComposition()
+			obj_.build(child_)
+			self.setAtoms(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataSolvent" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataSolvent' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSolvent is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataSolvent.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataSolvent()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataSolvent" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataSolvent()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataSolvent
+
+class XSDataSpaceGroup(XSData):
+	"""Crystallographic properties"""
+	def __init__(self, name=None, ITNumber=None):
+		XSData.__init__(self, )
+		checkType("XSDataSpaceGroup", "Constructor of XSDataSpaceGroup", ITNumber, "XSDataInteger")
+		self.__ITNumber = ITNumber
+		checkType("XSDataSpaceGroup", "Constructor of XSDataSpaceGroup", name, "XSDataString")
+		self.__name = name
+	def getITNumber(self): return self.__ITNumber
+	def setITNumber(self, ITNumber):
+		checkType("XSDataSpaceGroup", "setITNumber", ITNumber, "XSDataInteger")
+		self.__ITNumber = ITNumber
+	def delITNumber(self): self.__ITNumber = None
+	# Properties
+	ITNumber = property(getITNumber, setITNumber, delITNumber, "Property for ITNumber")
+	def getName(self): return self.__name
+	def setName(self, name):
+		checkType("XSDataSpaceGroup", "setName", name, "XSDataString")
+		self.__name = name
+	def delName(self): self.__name = None
+	# Properties
+	name = property(getName, setName, delName, "Property for name")
+	def export(self, outfile, level, name_='XSDataSpaceGroup'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataSpaceGroup'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__ITNumber is not None:
+			self.ITNumber.export(outfile, level, name_='ITNumber')
+		else:
+			warnEmptyAttribute("ITNumber", "XSDataInteger")
+		if self.__name is not None:
+			self.name.export(outfile, level, name_='name')
+		else:
+			warnEmptyAttribute("name", "XSDataString")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'ITNumber':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setITNumber(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'name':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setName(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataSpaceGroup" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataSpaceGroup' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSpaceGroup is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataSpaceGroup.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataSpaceGroup()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataSpaceGroup" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataSpaceGroup()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataSpaceGroup
+
+class XSDataStatisticsIndexing(XSData):
+	def __init__(self, spotsUsed=None, spotsTotal=None, spotDeviationPositional=None, spotDeviationAngular=None, beamPositionShiftY=None, beamPositionShiftX=None):
+		XSData.__init__(self, )
+		checkType("XSDataStatisticsIndexing", "Constructor of XSDataStatisticsIndexing", beamPositionShiftX, "XSDataLength")
+		self.__beamPositionShiftX = beamPositionShiftX
+		checkType("XSDataStatisticsIndexing", "Constructor of XSDataStatisticsIndexing", beamPositionShiftY, "XSDataLength")
+		self.__beamPositionShiftY = beamPositionShiftY
+		checkType("XSDataStatisticsIndexing", "Constructor of XSDataStatisticsIndexing", spotDeviationAngular, "XSDataAngle")
+		self.__spotDeviationAngular = spotDeviationAngular
+		checkType("XSDataStatisticsIndexing", "Constructor of XSDataStatisticsIndexing", spotDeviationPositional, "XSDataLength")
+		self.__spotDeviationPositional = spotDeviationPositional
+		checkType("XSDataStatisticsIndexing", "Constructor of XSDataStatisticsIndexing", spotsTotal, "XSDataInteger")
+		self.__spotsTotal = spotsTotal
+		checkType("XSDataStatisticsIndexing", "Constructor of XSDataStatisticsIndexing", spotsUsed, "XSDataInteger")
+		self.__spotsUsed = spotsUsed
+	def getBeamPositionShiftX(self): return self.__beamPositionShiftX
+	def setBeamPositionShiftX(self, beamPositionShiftX):
+		checkType("XSDataStatisticsIndexing", "setBeamPositionShiftX", beamPositionShiftX, "XSDataLength")
+		self.__beamPositionShiftX = beamPositionShiftX
+	def delBeamPositionShiftX(self): self.__beamPositionShiftX = None
+	# Properties
+	beamPositionShiftX = property(getBeamPositionShiftX, setBeamPositionShiftX, delBeamPositionShiftX, "Property for beamPositionShiftX")
+	def getBeamPositionShiftY(self): return self.__beamPositionShiftY
+	def setBeamPositionShiftY(self, beamPositionShiftY):
+		checkType("XSDataStatisticsIndexing", "setBeamPositionShiftY", beamPositionShiftY, "XSDataLength")
+		self.__beamPositionShiftY = beamPositionShiftY
+	def delBeamPositionShiftY(self): self.__beamPositionShiftY = None
+	# Properties
+	beamPositionShiftY = property(getBeamPositionShiftY, setBeamPositionShiftY, delBeamPositionShiftY, "Property for beamPositionShiftY")
+	def getSpotDeviationAngular(self): return self.__spotDeviationAngular
+	def setSpotDeviationAngular(self, spotDeviationAngular):
+		checkType("XSDataStatisticsIndexing", "setSpotDeviationAngular", spotDeviationAngular, "XSDataAngle")
+		self.__spotDeviationAngular = spotDeviationAngular
+	def delSpotDeviationAngular(self): self.__spotDeviationAngular = None
+	# Properties
+	spotDeviationAngular = property(getSpotDeviationAngular, setSpotDeviationAngular, delSpotDeviationAngular, "Property for spotDeviationAngular")
+	def getSpotDeviationPositional(self): return self.__spotDeviationPositional
+	def setSpotDeviationPositional(self, spotDeviationPositional):
+		checkType("XSDataStatisticsIndexing", "setSpotDeviationPositional", spotDeviationPositional, "XSDataLength")
+		self.__spotDeviationPositional = spotDeviationPositional
+	def delSpotDeviationPositional(self): self.__spotDeviationPositional = None
+	# Properties
+	spotDeviationPositional = property(getSpotDeviationPositional, setSpotDeviationPositional, delSpotDeviationPositional, "Property for spotDeviationPositional")
+	def getSpotsTotal(self): return self.__spotsTotal
+	def setSpotsTotal(self, spotsTotal):
+		checkType("XSDataStatisticsIndexing", "setSpotsTotal", spotsTotal, "XSDataInteger")
+		self.__spotsTotal = spotsTotal
+	def delSpotsTotal(self): self.__spotsTotal = None
+	# Properties
+	spotsTotal = property(getSpotsTotal, setSpotsTotal, delSpotsTotal, "Property for spotsTotal")
+	def getSpotsUsed(self): return self.__spotsUsed
+	def setSpotsUsed(self, spotsUsed):
+		checkType("XSDataStatisticsIndexing", "setSpotsUsed", spotsUsed, "XSDataInteger")
+		self.__spotsUsed = spotsUsed
+	def delSpotsUsed(self): self.__spotsUsed = None
+	# Properties
+	spotsUsed = property(getSpotsUsed, setSpotsUsed, delSpotsUsed, "Property for spotsUsed")
+	def export(self, outfile, level, name_='XSDataStatisticsIndexing'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataStatisticsIndexing'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__beamPositionShiftX is not None:
+			self.beamPositionShiftX.export(outfile, level, name_='beamPositionShiftX')
+		else:
+			warnEmptyAttribute("beamPositionShiftX", "XSDataLength")
+		if self.__beamPositionShiftY is not None:
+			self.beamPositionShiftY.export(outfile, level, name_='beamPositionShiftY')
+		else:
+			warnEmptyAttribute("beamPositionShiftY", "XSDataLength")
+		if self.__spotDeviationAngular is not None:
+			self.spotDeviationAngular.export(outfile, level, name_='spotDeviationAngular')
+		else:
+			warnEmptyAttribute("spotDeviationAngular", "XSDataAngle")
+		if self.__spotDeviationPositional is not None:
+			self.spotDeviationPositional.export(outfile, level, name_='spotDeviationPositional')
+		else:
+			warnEmptyAttribute("spotDeviationPositional", "XSDataLength")
+		if self.__spotsTotal is not None:
+			self.spotsTotal.export(outfile, level, name_='spotsTotal')
+		else:
+			warnEmptyAttribute("spotsTotal", "XSDataInteger")
+		if self.__spotsUsed is not None:
+			self.spotsUsed.export(outfile, level, name_='spotsUsed')
+		else:
+			warnEmptyAttribute("spotsUsed", "XSDataInteger")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamPositionShiftX':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setBeamPositionShiftX(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamPositionShiftY':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setBeamPositionShiftY(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'spotDeviationAngular':
+			obj_ = XSDataAngle()
+			obj_.build(child_)
+			self.setSpotDeviationAngular(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'spotDeviationPositional':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setSpotDeviationPositional(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'spotsTotal':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setSpotsTotal(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'spotsUsed':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setSpotsUsed(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataStatisticsIndexing" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataStatisticsIndexing' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStatisticsIndexing is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataStatisticsIndexing.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIndexing()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIndexing" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIndexing()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataStatisticsIndexing
+
+class XSDataStatisticsIntegration(XSData):
+	def __init__(self, numberOfReflectionsGenerated=None, numberOfPartialReflections=None, numberOfOverlappedReflections=None, numberOfNegativeReflections=None, numberOfFullyRecordedReflections=None, numberOfBadReflections=None, iOverSigmaOverall=None, iOverSigmaAtHighestResolution=None, RMSSpotDeviation=None):
+		XSData.__init__(self, )
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", RMSSpotDeviation, "XSDataLength")
+		self.__RMSSpotDeviation = RMSSpotDeviation
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", iOverSigmaAtHighestResolution, "XSDataDouble")
+		self.__iOverSigmaAtHighestResolution = iOverSigmaAtHighestResolution
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", iOverSigmaOverall, "XSDataDouble")
+		self.__iOverSigmaOverall = iOverSigmaOverall
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", numberOfBadReflections, "XSDataInteger")
+		self.__numberOfBadReflections = numberOfBadReflections
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", numberOfFullyRecordedReflections, "XSDataInteger")
+		self.__numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", numberOfNegativeReflections, "XSDataInteger")
+		self.__numberOfNegativeReflections = numberOfNegativeReflections
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", numberOfOverlappedReflections, "XSDataInteger")
+		self.__numberOfOverlappedReflections = numberOfOverlappedReflections
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", numberOfPartialReflections, "XSDataInteger")
+		self.__numberOfPartialReflections = numberOfPartialReflections
+		checkType("XSDataStatisticsIntegration", "Constructor of XSDataStatisticsIntegration", numberOfReflectionsGenerated, "XSDataInteger")
+		self.__numberOfReflectionsGenerated = numberOfReflectionsGenerated
+	def getRMSSpotDeviation(self): return self.__RMSSpotDeviation
+	def setRMSSpotDeviation(self, RMSSpotDeviation):
+		checkType("XSDataStatisticsIntegration", "setRMSSpotDeviation", RMSSpotDeviation, "XSDataLength")
+		self.__RMSSpotDeviation = RMSSpotDeviation
+	def delRMSSpotDeviation(self): self.__RMSSpotDeviation = None
+	# Properties
+	RMSSpotDeviation = property(getRMSSpotDeviation, setRMSSpotDeviation, delRMSSpotDeviation, "Property for RMSSpotDeviation")
+	def getIOverSigmaAtHighestResolution(self): return self.__iOverSigmaAtHighestResolution
+	def setIOverSigmaAtHighestResolution(self, iOverSigmaAtHighestResolution):
+		checkType("XSDataStatisticsIntegration", "setIOverSigmaAtHighestResolution", iOverSigmaAtHighestResolution, "XSDataDouble")
+		self.__iOverSigmaAtHighestResolution = iOverSigmaAtHighestResolution
+	def delIOverSigmaAtHighestResolution(self): self.__iOverSigmaAtHighestResolution = None
+	# Properties
+	iOverSigmaAtHighestResolution = property(getIOverSigmaAtHighestResolution, setIOverSigmaAtHighestResolution, delIOverSigmaAtHighestResolution, "Property for iOverSigmaAtHighestResolution")
+	def getIOverSigmaOverall(self): return self.__iOverSigmaOverall
+	def setIOverSigmaOverall(self, iOverSigmaOverall):
+		checkType("XSDataStatisticsIntegration", "setIOverSigmaOverall", iOverSigmaOverall, "XSDataDouble")
+		self.__iOverSigmaOverall = iOverSigmaOverall
+	def delIOverSigmaOverall(self): self.__iOverSigmaOverall = None
+	# Properties
+	iOverSigmaOverall = property(getIOverSigmaOverall, setIOverSigmaOverall, delIOverSigmaOverall, "Property for iOverSigmaOverall")
+	def getNumberOfBadReflections(self): return self.__numberOfBadReflections
+	def setNumberOfBadReflections(self, numberOfBadReflections):
+		checkType("XSDataStatisticsIntegration", "setNumberOfBadReflections", numberOfBadReflections, "XSDataInteger")
+		self.__numberOfBadReflections = numberOfBadReflections
+	def delNumberOfBadReflections(self): self.__numberOfBadReflections = None
+	# Properties
+	numberOfBadReflections = property(getNumberOfBadReflections, setNumberOfBadReflections, delNumberOfBadReflections, "Property for numberOfBadReflections")
+	def getNumberOfFullyRecordedReflections(self): return self.__numberOfFullyRecordedReflections
+	def setNumberOfFullyRecordedReflections(self, numberOfFullyRecordedReflections):
+		checkType("XSDataStatisticsIntegration", "setNumberOfFullyRecordedReflections", numberOfFullyRecordedReflections, "XSDataInteger")
+		self.__numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
+	def delNumberOfFullyRecordedReflections(self): self.__numberOfFullyRecordedReflections = None
+	# Properties
+	numberOfFullyRecordedReflections = property(getNumberOfFullyRecordedReflections, setNumberOfFullyRecordedReflections, delNumberOfFullyRecordedReflections, "Property for numberOfFullyRecordedReflections")
+	def getNumberOfNegativeReflections(self): return self.__numberOfNegativeReflections
+	def setNumberOfNegativeReflections(self, numberOfNegativeReflections):
+		checkType("XSDataStatisticsIntegration", "setNumberOfNegativeReflections", numberOfNegativeReflections, "XSDataInteger")
+		self.__numberOfNegativeReflections = numberOfNegativeReflections
+	def delNumberOfNegativeReflections(self): self.__numberOfNegativeReflections = None
+	# Properties
+	numberOfNegativeReflections = property(getNumberOfNegativeReflections, setNumberOfNegativeReflections, delNumberOfNegativeReflections, "Property for numberOfNegativeReflections")
+	def getNumberOfOverlappedReflections(self): return self.__numberOfOverlappedReflections
+	def setNumberOfOverlappedReflections(self, numberOfOverlappedReflections):
+		checkType("XSDataStatisticsIntegration", "setNumberOfOverlappedReflections", numberOfOverlappedReflections, "XSDataInteger")
+		self.__numberOfOverlappedReflections = numberOfOverlappedReflections
+	def delNumberOfOverlappedReflections(self): self.__numberOfOverlappedReflections = None
+	# Properties
+	numberOfOverlappedReflections = property(getNumberOfOverlappedReflections, setNumberOfOverlappedReflections, delNumberOfOverlappedReflections, "Property for numberOfOverlappedReflections")
+	def getNumberOfPartialReflections(self): return self.__numberOfPartialReflections
+	def setNumberOfPartialReflections(self, numberOfPartialReflections):
+		checkType("XSDataStatisticsIntegration", "setNumberOfPartialReflections", numberOfPartialReflections, "XSDataInteger")
+		self.__numberOfPartialReflections = numberOfPartialReflections
+	def delNumberOfPartialReflections(self): self.__numberOfPartialReflections = None
+	# Properties
+	numberOfPartialReflections = property(getNumberOfPartialReflections, setNumberOfPartialReflections, delNumberOfPartialReflections, "Property for numberOfPartialReflections")
+	def getNumberOfReflectionsGenerated(self): return self.__numberOfReflectionsGenerated
+	def setNumberOfReflectionsGenerated(self, numberOfReflectionsGenerated):
+		checkType("XSDataStatisticsIntegration", "setNumberOfReflectionsGenerated", numberOfReflectionsGenerated, "XSDataInteger")
+		self.__numberOfReflectionsGenerated = numberOfReflectionsGenerated
+	def delNumberOfReflectionsGenerated(self): self.__numberOfReflectionsGenerated = None
+	# Properties
+	numberOfReflectionsGenerated = property(getNumberOfReflectionsGenerated, setNumberOfReflectionsGenerated, delNumberOfReflectionsGenerated, "Property for numberOfReflectionsGenerated")
+	def export(self, outfile, level, name_='XSDataStatisticsIntegration'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataStatisticsIntegration'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__RMSSpotDeviation is not None:
+			self.RMSSpotDeviation.export(outfile, level, name_='RMSSpotDeviation')
+		else:
+			warnEmptyAttribute("RMSSpotDeviation", "XSDataLength")
+		if self.__iOverSigmaAtHighestResolution is not None:
+			self.iOverSigmaAtHighestResolution.export(outfile, level, name_='iOverSigmaAtHighestResolution')
+		else:
+			warnEmptyAttribute("iOverSigmaAtHighestResolution", "XSDataDouble")
+		if self.__iOverSigmaOverall is not None:
+			self.iOverSigmaOverall.export(outfile, level, name_='iOverSigmaOverall')
+		else:
+			warnEmptyAttribute("iOverSigmaOverall", "XSDataDouble")
+		if self.__numberOfBadReflections is not None:
+			self.numberOfBadReflections.export(outfile, level, name_='numberOfBadReflections')
+		else:
+			warnEmptyAttribute("numberOfBadReflections", "XSDataInteger")
+		if self.__numberOfFullyRecordedReflections is not None:
+			self.numberOfFullyRecordedReflections.export(outfile, level, name_='numberOfFullyRecordedReflections')
+		else:
+			warnEmptyAttribute("numberOfFullyRecordedReflections", "XSDataInteger")
+		if self.__numberOfNegativeReflections is not None:
+			self.numberOfNegativeReflections.export(outfile, level, name_='numberOfNegativeReflections')
+		else:
+			warnEmptyAttribute("numberOfNegativeReflections", "XSDataInteger")
+		if self.__numberOfOverlappedReflections is not None:
+			self.numberOfOverlappedReflections.export(outfile, level, name_='numberOfOverlappedReflections')
+		else:
+			warnEmptyAttribute("numberOfOverlappedReflections", "XSDataInteger")
+		if self.__numberOfPartialReflections is not None:
+			self.numberOfPartialReflections.export(outfile, level, name_='numberOfPartialReflections')
+		else:
+			warnEmptyAttribute("numberOfPartialReflections", "XSDataInteger")
+		if self.__numberOfReflectionsGenerated is not None:
+			self.numberOfReflectionsGenerated.export(outfile, level, name_='numberOfReflectionsGenerated')
+		else:
+			warnEmptyAttribute("numberOfReflectionsGenerated", "XSDataInteger")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'RMSSpotDeviation':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setRMSSpotDeviation(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'iOverSigmaAtHighestResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setIOverSigmaAtHighestResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'iOverSigmaOverall':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setIOverSigmaOverall(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfBadReflections':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberOfBadReflections(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfFullyRecordedReflections':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberOfFullyRecordedReflections(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfNegativeReflections':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberOfNegativeReflections(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfOverlappedReflections':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberOfOverlappedReflections(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfPartialReflections':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberOfPartialReflections(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfReflectionsGenerated':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberOfReflectionsGenerated(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataStatisticsIntegration" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataStatisticsIntegration' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStatisticsIntegration is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataStatisticsIntegration.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIntegration()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIntegration" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIntegration()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataStatisticsIntegration
+
+class XSDataStatisticsIntegrationPerResolutionBin(XSData):
+	def __init__(self, summation=None, profileFitted=None, minResolution=None, maxResolution=None):
+		XSData.__init__(self, )
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "Constructor of XSDataStatisticsIntegrationPerResolutionBin", maxResolution, "XSDataDouble")
+		self.__maxResolution = maxResolution
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "Constructor of XSDataStatisticsIntegrationPerResolutionBin", minResolution, "XSDataDouble")
+		self.__minResolution = minResolution
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "Constructor of XSDataStatisticsIntegrationPerResolutionBin", profileFitted, "XSDataStatisticsIntegrationPerReflectionType")
+		self.__profileFitted = profileFitted
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "Constructor of XSDataStatisticsIntegrationPerResolutionBin", summation, "XSDataStatisticsIntegrationPerReflectionType")
+		self.__summation = summation
+	def getMaxResolution(self): return self.__maxResolution
+	def setMaxResolution(self, maxResolution):
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setMaxResolution", maxResolution, "XSDataDouble")
+		self.__maxResolution = maxResolution
+	def delMaxResolution(self): self.__maxResolution = None
+	# Properties
+	maxResolution = property(getMaxResolution, setMaxResolution, delMaxResolution, "Property for maxResolution")
+	def getMinResolution(self): return self.__minResolution
+	def setMinResolution(self, minResolution):
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setMinResolution", minResolution, "XSDataDouble")
+		self.__minResolution = minResolution
+	def delMinResolution(self): self.__minResolution = None
+	# Properties
+	minResolution = property(getMinResolution, setMinResolution, delMinResolution, "Property for minResolution")
+	def getProfileFitted(self): return self.__profileFitted
+	def setProfileFitted(self, profileFitted):
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setProfileFitted", profileFitted, "XSDataStatisticsIntegrationPerReflectionType")
+		self.__profileFitted = profileFitted
+	def delProfileFitted(self): self.__profileFitted = None
+	# Properties
+	profileFitted = property(getProfileFitted, setProfileFitted, delProfileFitted, "Property for profileFitted")
+	def getSummation(self): return self.__summation
+	def setSummation(self, summation):
+		checkType("XSDataStatisticsIntegrationPerResolutionBin", "setSummation", summation, "XSDataStatisticsIntegrationPerReflectionType")
+		self.__summation = summation
+	def delSummation(self): self.__summation = None
+	# Properties
+	summation = property(getSummation, setSummation, delSummation, "Property for summation")
+	def export(self, outfile, level, name_='XSDataStatisticsIntegrationPerResolutionBin'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataStatisticsIntegrationPerResolutionBin'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__maxResolution is not None:
+			self.maxResolution.export(outfile, level, name_='maxResolution')
+		else:
+			warnEmptyAttribute("maxResolution", "XSDataDouble")
+		if self.__minResolution is not None:
+			self.minResolution.export(outfile, level, name_='minResolution')
+		else:
+			warnEmptyAttribute("minResolution", "XSDataDouble")
+		if self.__profileFitted is not None:
+			self.profileFitted.export(outfile, level, name_='profileFitted')
+		else:
+			warnEmptyAttribute("profileFitted", "XSDataStatisticsIntegrationPerReflectionType")
+		if self.__summation is not None:
+			self.summation.export(outfile, level, name_='summation')
+		else:
+			warnEmptyAttribute("summation", "XSDataStatisticsIntegrationPerReflectionType")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'maxResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setMaxResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'minResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setMinResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'profileFitted':
+			obj_ = XSDataStatisticsIntegrationPerReflectionType()
+			obj_.build(child_)
+			self.setProfileFitted(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'summation':
+			obj_ = XSDataStatisticsIntegrationPerReflectionType()
+			obj_.build(child_)
+			self.setSummation(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerResolutionBin" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataStatisticsIntegrationPerResolutionBin' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStatisticsIntegrationPerResolutionBin is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataStatisticsIntegrationPerResolutionBin.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIntegrationPerResolutionBin()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerResolutionBin" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIntegrationPerResolutionBin()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataStatisticsIntegrationPerResolutionBin
+
+class XSDataIntegrationSubWedgeResult(XSData):
+	def __init__(self, subWedgeNumber=None, statisticsPerResolutionBin=None, statistics=None, integrationLogFile=None, generatedMTZFile=None, experimentalConditionRefined=None, bestfilePar=None, bestfileHKL=None, bestfileDat=None):
+		XSData.__init__(self, )
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", bestfileDat, "XSDataString")
+		self.__bestfileDat = bestfileDat
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", bestfileHKL, "XSDataString")
+		self.__bestfileHKL = bestfileHKL
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", bestfilePar, "XSDataString")
+		self.__bestfilePar = bestfilePar
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", experimentalConditionRefined, "XSDataExperimentalCondition")
+		self.__experimentalConditionRefined = experimentalConditionRefined
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", generatedMTZFile, "XSDataFile")
+		self.__generatedMTZFile = generatedMTZFile
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", integrationLogFile, "XSDataFile")
+		self.__integrationLogFile = integrationLogFile
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", statistics, "XSDataStatisticsIntegration")
+		self.__statistics = statistics
+		if statisticsPerResolutionBin is None:
+			self.__statisticsPerResolutionBin = []
+		else:
+			checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", statisticsPerResolutionBin, "XSDataStatisticsIntegrationPerResolutionBin")
+			self.__statisticsPerResolutionBin = statisticsPerResolutionBin
+		checkType("XSDataIntegrationSubWedgeResult", "Constructor of XSDataIntegrationSubWedgeResult", subWedgeNumber, "XSDataInteger")
+		self.__subWedgeNumber = subWedgeNumber
+	def getBestfileDat(self): return self.__bestfileDat
+	def setBestfileDat(self, bestfileDat):
+		checkType("XSDataIntegrationSubWedgeResult", "setBestfileDat", bestfileDat, "XSDataString")
+		self.__bestfileDat = bestfileDat
+	def delBestfileDat(self): self.__bestfileDat = None
+	# Properties
+	bestfileDat = property(getBestfileDat, setBestfileDat, delBestfileDat, "Property for bestfileDat")
+	def getBestfileHKL(self): return self.__bestfileHKL
+	def setBestfileHKL(self, bestfileHKL):
+		checkType("XSDataIntegrationSubWedgeResult", "setBestfileHKL", bestfileHKL, "XSDataString")
+		self.__bestfileHKL = bestfileHKL
+	def delBestfileHKL(self): self.__bestfileHKL = None
+	# Properties
+	bestfileHKL = property(getBestfileHKL, setBestfileHKL, delBestfileHKL, "Property for bestfileHKL")
+	def getBestfilePar(self): return self.__bestfilePar
+	def setBestfilePar(self, bestfilePar):
+		checkType("XSDataIntegrationSubWedgeResult", "setBestfilePar", bestfilePar, "XSDataString")
+		self.__bestfilePar = bestfilePar
+	def delBestfilePar(self): self.__bestfilePar = None
+	# Properties
+	bestfilePar = property(getBestfilePar, setBestfilePar, delBestfilePar, "Property for bestfilePar")
+	def getExperimentalConditionRefined(self): return self.__experimentalConditionRefined
+	def setExperimentalConditionRefined(self, experimentalConditionRefined):
+		checkType("XSDataIntegrationSubWedgeResult", "setExperimentalConditionRefined", experimentalConditionRefined, "XSDataExperimentalCondition")
+		self.__experimentalConditionRefined = experimentalConditionRefined
+	def delExperimentalConditionRefined(self): self.__experimentalConditionRefined = None
+	# Properties
+	experimentalConditionRefined = property(getExperimentalConditionRefined, setExperimentalConditionRefined, delExperimentalConditionRefined, "Property for experimentalConditionRefined")
+	def getGeneratedMTZFile(self): return self.__generatedMTZFile
+	def setGeneratedMTZFile(self, generatedMTZFile):
+		checkType("XSDataIntegrationSubWedgeResult", "setGeneratedMTZFile", generatedMTZFile, "XSDataFile")
+		self.__generatedMTZFile = generatedMTZFile
+	def delGeneratedMTZFile(self): self.__generatedMTZFile = None
+	# Properties
+	generatedMTZFile = property(getGeneratedMTZFile, setGeneratedMTZFile, delGeneratedMTZFile, "Property for generatedMTZFile")
+	def getIntegrationLogFile(self): return self.__integrationLogFile
+	def setIntegrationLogFile(self, integrationLogFile):
+		checkType("XSDataIntegrationSubWedgeResult", "setIntegrationLogFile", integrationLogFile, "XSDataFile")
+		self.__integrationLogFile = integrationLogFile
+	def delIntegrationLogFile(self): self.__integrationLogFile = None
+	# Properties
+	integrationLogFile = property(getIntegrationLogFile, setIntegrationLogFile, delIntegrationLogFile, "Property for integrationLogFile")
+	def getStatistics(self): return self.__statistics
+	def setStatistics(self, statistics):
+		checkType("XSDataIntegrationSubWedgeResult", "setStatistics", statistics, "XSDataStatisticsIntegration")
+		self.__statistics = statistics
+	def delStatistics(self): self.__statistics = None
+	# Properties
+	statistics = property(getStatistics, setStatistics, delStatistics, "Property for statistics")
+	def getStatisticsPerResolutionBin(self): return self.__statisticsPerResolutionBin
+	def setStatisticsPerResolutionBin(self, statisticsPerResolutionBin):
+		checkType("XSDataIntegrationSubWedgeResult", "setStatisticsPerResolutionBin", statisticsPerResolutionBin, "list")
+		self.__statisticsPerResolutionBin = statisticsPerResolutionBin
+	def delStatisticsPerResolutionBin(self): self.__statisticsPerResolutionBin = None
+	# Properties
+	statisticsPerResolutionBin = property(getStatisticsPerResolutionBin, setStatisticsPerResolutionBin, delStatisticsPerResolutionBin, "Property for statisticsPerResolutionBin")
+	def addStatisticsPerResolutionBin(self, value):
+		checkType("XSDataIntegrationSubWedgeResult", "setStatisticsPerResolutionBin", value, "XSDataStatisticsIntegrationPerResolutionBin")
+		self.__statisticsPerResolutionBin.append(value)
+	def insertStatisticsPerResolutionBin(self, index, value):
+		checkType("XSDataIntegrationSubWedgeResult", "setStatisticsPerResolutionBin", value, "XSDataStatisticsIntegrationPerResolutionBin")
+		self.__statisticsPerResolutionBin[index] = value
+	def getSubWedgeNumber(self): return self.__subWedgeNumber
+	def setSubWedgeNumber(self, subWedgeNumber):
+		checkType("XSDataIntegrationSubWedgeResult", "setSubWedgeNumber", subWedgeNumber, "XSDataInteger")
+		self.__subWedgeNumber = subWedgeNumber
+	def delSubWedgeNumber(self): self.__subWedgeNumber = None
+	# Properties
+	subWedgeNumber = property(getSubWedgeNumber, setSubWedgeNumber, delSubWedgeNumber, "Property for subWedgeNumber")
+	def export(self, outfile, level, name_='XSDataIntegrationSubWedgeResult'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataIntegrationSubWedgeResult'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__bestfileDat is not None:
+			self.bestfileDat.export(outfile, level, name_='bestfileDat')
+		else:
+			warnEmptyAttribute("bestfileDat", "XSDataString")
+		if self.__bestfileHKL is not None:
+			self.bestfileHKL.export(outfile, level, name_='bestfileHKL')
+		else:
+			warnEmptyAttribute("bestfileHKL", "XSDataString")
+		if self.__bestfilePar is not None:
+			self.bestfilePar.export(outfile, level, name_='bestfilePar')
+		else:
+			warnEmptyAttribute("bestfilePar", "XSDataString")
+		if self.__experimentalConditionRefined is not None:
+			self.experimentalConditionRefined.export(outfile, level, name_='experimentalConditionRefined')
+		else:
+			warnEmptyAttribute("experimentalConditionRefined", "XSDataExperimentalCondition")
+		if self.__generatedMTZFile is not None:
+			self.generatedMTZFile.export(outfile, level, name_='generatedMTZFile')
+		else:
+			warnEmptyAttribute("generatedMTZFile", "XSDataFile")
+		if self.__integrationLogFile is not None:
+			self.integrationLogFile.export(outfile, level, name_='integrationLogFile')
+		else:
+			warnEmptyAttribute("integrationLogFile", "XSDataFile")
+		if self.__statistics is not None:
+			self.statistics.export(outfile, level, name_='statistics')
+		else:
+			warnEmptyAttribute("statistics", "XSDataStatisticsIntegration")
+		for statisticsPerResolutionBin_ in self.getStatisticsPerResolutionBin():
+			statisticsPerResolutionBin_.export(outfile, level, name_='statisticsPerResolutionBin')
+		if self.getStatisticsPerResolutionBin() == []:
+			warnEmptyAttribute("statisticsPerResolutionBin", "XSDataStatisticsIntegrationPerResolutionBin")
+		if self.__subWedgeNumber is not None:
+			self.subWedgeNumber.export(outfile, level, name_='subWedgeNumber')
+		else:
+			warnEmptyAttribute("subWedgeNumber", "XSDataInteger")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bestfileDat':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setBestfileDat(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bestfileHKL':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setBestfileHKL(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bestfilePar':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setBestfilePar(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentalConditionRefined':
+			obj_ = XSDataExperimentalCondition()
+			obj_.build(child_)
+			self.setExperimentalConditionRefined(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'generatedMTZFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setGeneratedMTZFile(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integrationLogFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setIntegrationLogFile(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'statistics':
+			obj_ = XSDataStatisticsIntegration()
+			obj_.build(child_)
+			self.setStatistics(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'statisticsPerResolutionBin':
+			obj_ = XSDataStatisticsIntegrationPerResolutionBin()
+			obj_.build(child_)
+			self.statisticsPerResolutionBin.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subWedgeNumber':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setSubWedgeNumber(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataIntegrationSubWedgeResult" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataIntegrationSubWedgeResult' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataIntegrationSubWedgeResult is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataIntegrationSubWedgeResult.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataIntegrationSubWedgeResult()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataIntegrationSubWedgeResult" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataIntegrationSubWedgeResult()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataIntegrationSubWedgeResult
+
+class XSDataOrientation(XSData):
+	def __init__(self, matrixU=None, matrixA=None):
+		XSData.__init__(self, )
+		checkType("XSDataOrientation", "Constructor of XSDataOrientation", matrixA, "XSDataMatrixDouble")
+		self.__matrixA = matrixA
+		checkType("XSDataOrientation", "Constructor of XSDataOrientation", matrixU, "XSDataMatrixDouble")
+		self.__matrixU = matrixU
+	def getMatrixA(self): return self.__matrixA
+	def setMatrixA(self, matrixA):
+		checkType("XSDataOrientation", "setMatrixA", matrixA, "XSDataMatrixDouble")
+		self.__matrixA = matrixA
+	def delMatrixA(self): self.__matrixA = None
+	# Properties
+	matrixA = property(getMatrixA, setMatrixA, delMatrixA, "Property for matrixA")
+	def getMatrixU(self): return self.__matrixU
+	def setMatrixU(self, matrixU):
+		checkType("XSDataOrientation", "setMatrixU", matrixU, "XSDataMatrixDouble")
+		self.__matrixU = matrixU
+	def delMatrixU(self): self.__matrixU = None
+	# Properties
+	matrixU = property(getMatrixU, setMatrixU, delMatrixU, "Property for matrixU")
+	def export(self, outfile, level, name_='XSDataOrientation'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataOrientation'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__matrixA is not None:
+			self.matrixA.export(outfile, level, name_='matrixA')
+		else:
+			warnEmptyAttribute("matrixA", "XSDataMatrixDouble")
+		if self.__matrixU is not None:
+			self.matrixU.export(outfile, level, name_='matrixU')
+		else:
+			warnEmptyAttribute("matrixU", "XSDataMatrixDouble")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'matrixA':
+			obj_ = XSDataMatrixDouble()
+			obj_.build(child_)
+			self.setMatrixA(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'matrixU':
+			obj_ = XSDataMatrixDouble()
+			obj_.build(child_)
+			self.setMatrixU(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataOrientation" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataOrientation' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataOrientation is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataOrientation.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataOrientation()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataOrientation" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataOrientation()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataOrientation
+
 class XSDataSample(XSData):
 	"""This defines the main properties of a sample:
 - absorbed dose rate in Gray/sec
@@ -4347,9 +4518,13 @@ class XSDataSample(XSData):
 - the susceptibility of the sample to radiation damage."""
 	def __init__(self, susceptibility=None, size=None, shape=None, absorbedDoseRate=None):
 		XSData.__init__(self, )
+		checkType("XSDataSample", "Constructor of XSDataSample", absorbedDoseRate, "XSDataAbsorbedDoseRate")
 		self.__absorbedDoseRate = absorbedDoseRate
+		checkType("XSDataSample", "Constructor of XSDataSample", shape, "XSDataDouble")
 		self.__shape = shape
+		checkType("XSDataSample", "Constructor of XSDataSample", size, "XSDataSize")
 		self.__size = size
+		checkType("XSDataSample", "Constructor of XSDataSample", susceptibility, "XSDataDouble")
 		self.__susceptibility = susceptibility
 	def getAbsorbedDoseRate(self): return self.__absorbedDoseRate
 	def setAbsorbedDoseRate(self, absorbedDoseRate):
@@ -4430,11 +4605,15 @@ class XSDataSample(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataSample' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSample is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataSample.parseString(self.marshal())
@@ -4460,12 +4639,109 @@ class XSDataSample(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataSample
 
+class XSDataStatisticsIntegrationPerReflectionType(XSData):
+	def __init__(self, partials=None, fullyRecorded=None):
+		XSData.__init__(self, )
+		checkType("XSDataStatisticsIntegrationPerReflectionType", "Constructor of XSDataStatisticsIntegrationPerReflectionType", fullyRecorded, "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
+		self.__fullyRecorded = fullyRecorded
+		checkType("XSDataStatisticsIntegrationPerReflectionType", "Constructor of XSDataStatisticsIntegrationPerReflectionType", partials, "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
+		self.__partials = partials
+	def getFullyRecorded(self): return self.__fullyRecorded
+	def setFullyRecorded(self, fullyRecorded):
+		checkType("XSDataStatisticsIntegrationPerReflectionType", "setFullyRecorded", fullyRecorded, "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
+		self.__fullyRecorded = fullyRecorded
+	def delFullyRecorded(self): self.__fullyRecorded = None
+	# Properties
+	fullyRecorded = property(getFullyRecorded, setFullyRecorded, delFullyRecorded, "Property for fullyRecorded")
+	def getPartials(self): return self.__partials
+	def setPartials(self, partials):
+		checkType("XSDataStatisticsIntegrationPerReflectionType", "setPartials", partials, "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
+		self.__partials = partials
+	def delPartials(self): self.__partials = None
+	# Properties
+	partials = property(getPartials, setPartials, delPartials, "Property for partials")
+	def export(self, outfile, level, name_='XSDataStatisticsIntegrationPerReflectionType'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataStatisticsIntegrationPerReflectionType'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__fullyRecorded is not None:
+			self.fullyRecorded.export(outfile, level, name_='fullyRecorded')
+		else:
+			warnEmptyAttribute("fullyRecorded", "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
+		if self.__partials is not None:
+			self.partials.export(outfile, level, name_='partials')
+		else:
+			warnEmptyAttribute("partials", "XSDataStatisticsIntegrationAverageAndNumberOfReflections")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fullyRecorded':
+			obj_ = XSDataStatisticsIntegrationAverageAndNumberOfReflections()
+			obj_.build(child_)
+			self.setFullyRecorded(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'partials':
+			obj_ = XSDataStatisticsIntegrationAverageAndNumberOfReflections()
+			obj_.build(child_)
+			self.setPartials(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerReflectionType" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataStatisticsIntegrationPerReflectionType' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStatisticsIntegrationPerReflectionType is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataStatisticsIntegrationPerReflectionType.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIntegrationPerReflectionType()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataStatisticsIntegrationPerReflectionType" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataStatisticsIntegrationPerReflectionType()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataStatisticsIntegrationPerReflectionType
+
 class XSDataStatisticsStrategy(XSData):
 	def __init__(self, resolutionBin=None):
 		XSData.__init__(self, )
 		if resolutionBin is None:
 			self.__resolutionBin = []
 		else:
+			checkType("XSDataStatisticsStrategy", "Constructor of XSDataStatisticsStrategy", resolutionBin, "XSDataResolutionBin")
 			self.__resolutionBin = resolutionBin
 	def getResolutionBin(self): return self.__resolutionBin
 	def setResolutionBin(self, resolutionBin):
@@ -4510,11 +4786,15 @@ class XSDataStatisticsStrategy(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataStatisticsStrategy' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStatisticsStrategy is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataStatisticsStrategy.parseString(self.marshal())
@@ -4544,14 +4824,23 @@ class XSDataStrategySummary(XSData):
 	"""OBS! The attribute "attenuation" in XSDataStrategySummary is deprecated, see bug #379. Please use instead "transmission" in XSDataBeam."""
 	def __init__(self, totalExposureTime=None, totalDataCollectionTime=None, resolutionReasoning=None, resolution=None, redundancy=None, rankingResolution=None, iSigma=None, completeness=None, attenuation=None):
 		XSData.__init__(self, )
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", attenuation, "XSDataDouble")
 		self.__attenuation = attenuation
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", completeness, "XSDataDouble")
 		self.__completeness = completeness
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", iSigma, "XSDataDouble")
 		self.__iSigma = iSigma
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", rankingResolution, "XSDataDouble")
 		self.__rankingResolution = rankingResolution
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", redundancy, "XSDataDouble")
 		self.__redundancy = redundancy
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", resolution, "XSDataDouble")
 		self.__resolution = resolution
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", resolutionReasoning, "XSDataString")
 		self.__resolutionReasoning = resolutionReasoning
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", totalDataCollectionTime, "XSDataTime")
 		self.__totalDataCollectionTime = totalDataCollectionTime
+		checkType("XSDataStrategySummary", "Constructor of XSDataStrategySummary", totalExposureTime, "XSDataTime")
 		self.__totalExposureTime = totalExposureTime
 	def getAttenuation(self): return self.__attenuation
 	def setAttenuation(self, attenuation):
@@ -4720,11 +5009,15 @@ class XSDataStrategySummary(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataStrategySummary' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStrategySummary is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataStrategySummary.parseString(self.marshal())
@@ -4758,11 +5051,14 @@ This structure is also defined by its number in the asymmetric unit."""
 		if chain is None:
 			self.__chain = []
 		else:
+			checkType("XSDataStructure", "Constructor of XSDataStructure", chain, "XSDataChain")
 			self.__chain = chain
 		if ligand is None:
 			self.__ligand = []
 		else:
+			checkType("XSDataStructure", "Constructor of XSDataStructure", ligand, "XSDataLigand")
 			self.__ligand = ligand
+		checkType("XSDataStructure", "Constructor of XSDataStructure", numberOfCopiesInAsymmetricUnit, "XSDataDouble")
 		self.__numberOfCopiesInAsymmetricUnit = numberOfCopiesInAsymmetricUnit
 	def getChain(self): return self.__chain
 	def setChain(self, chain):
@@ -4843,11 +5139,15 @@ This structure is also defined by its number in the asymmetric unit."""
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataStructure' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStructure is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataStructure.parseString(self.marshal())
@@ -4878,12 +5178,16 @@ class XSDataSubWedge(XSData):
 The subWedgeNumber is an optional number for relating different subwedges, especially for planning data collections."""
 	def __init__(self, subWedgeNumber=None, image=None, experimentalCondition=None, action=None):
 		XSData.__init__(self, )
+		checkType("XSDataSubWedge", "Constructor of XSDataSubWedge", action, "XSDataString")
 		self.__action = action
+		checkType("XSDataSubWedge", "Constructor of XSDataSubWedge", experimentalCondition, "XSDataExperimentalCondition")
 		self.__experimentalCondition = experimentalCondition
 		if image is None:
 			self.__image = []
 		else:
+			checkType("XSDataSubWedge", "Constructor of XSDataSubWedge", image, "XSDataImage")
 			self.__image = image
+		checkType("XSDataSubWedge", "Constructor of XSDataSubWedge", subWedgeNumber, "XSDataInteger")
 		self.__subWedgeNumber = subWedgeNumber
 	def getAction(self): return self.__action
 	def setAction(self, action):
@@ -4972,11 +5276,15 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataSubWedge' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSubWedge is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataSubWedge.parseString(self.marshal())
@@ -5008,6 +5316,7 @@ class XSDataGeneratePredictionResult(XSDataResult):
 		if predictionImage is None:
 			self.__predictionImage = []
 		else:
+			checkType("XSDataGeneratePredictionResult", "Constructor of XSDataGeneratePredictionResult", predictionImage, "XSDataImage")
 			self.__predictionImage = predictionImage
 	def getPredictionImage(self): return self.__predictionImage
 	def setPredictionImage(self, predictionImage):
@@ -5054,11 +5363,15 @@ class XSDataGeneratePredictionResult(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataGeneratePredictionResult' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataGeneratePredictionResult is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataGeneratePredictionResult.parseString(self.marshal())
@@ -5087,8 +5400,11 @@ class XSDataGeneratePredictionResult(XSDataResult):
 class XSDataIndexingInput(XSDataInput):
 	def __init__(self, configuration=None, experimentalCondition=None, dataCollection=None, crystal=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataIndexingInput", "Constructor of XSDataIndexingInput", crystal, "XSDataCrystal")
 		self.__crystal = crystal
+		checkType("XSDataIndexingInput", "Constructor of XSDataIndexingInput", dataCollection, "XSDataCollection")
 		self.__dataCollection = dataCollection
+		checkType("XSDataIndexingInput", "Constructor of XSDataIndexingInput", experimentalCondition, "XSDataExperimentalCondition")
 		self.__experimentalCondition = experimentalCondition
 	def getCrystal(self): return self.__crystal
 	def setCrystal(self, crystal):
@@ -5157,11 +5473,15 @@ class XSDataIndexingInput(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataIndexingInput' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataIndexingInput is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataIndexingInput.parseString(self.marshal())
@@ -5190,9 +5510,13 @@ class XSDataIndexingInput(XSDataInput):
 class XSDataIndexingSolutionSelected(XSDataIndexingSolution):
 	def __init__(self, penalty=None, number=None, crystal=None, statistics=None, orientation=None, mosaicityEstimation=None, experimentalConditionRefined=None):
 		XSDataIndexingSolution.__init__(self, penalty, number, crystal)
+		checkType("XSDataIndexingSolutionSelected", "Constructor of XSDataIndexingSolutionSelected", experimentalConditionRefined, "XSDataExperimentalCondition")
 		self.__experimentalConditionRefined = experimentalConditionRefined
+		checkType("XSDataIndexingSolutionSelected", "Constructor of XSDataIndexingSolutionSelected", mosaicityEstimation, "XSDataFloat")
 		self.__mosaicityEstimation = mosaicityEstimation
+		checkType("XSDataIndexingSolutionSelected", "Constructor of XSDataIndexingSolutionSelected", orientation, "XSDataOrientation")
 		self.__orientation = orientation
+		checkType("XSDataIndexingSolutionSelected", "Constructor of XSDataIndexingSolutionSelected", statistics, "XSDataStatisticsIndexing")
 		self.__statistics = statistics
 	def getExperimentalConditionRefined(self): return self.__experimentalConditionRefined
 	def setExperimentalConditionRefined(self, experimentalConditionRefined):
@@ -5281,11 +5605,15 @@ class XSDataIndexingSolutionSelected(XSDataIndexingSolution):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataIndexingSolutionSelected' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataIndexingSolutionSelected is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataIndexingSolutionSelected.parseString(self.marshal())
@@ -5315,7 +5643,9 @@ class XSDataGeneratePredictionInput(XSDataInput):
 	"""This generalisation is not very logical in terms of names, it should be fixed after the prototype (see bug #49)."""
 	def __init__(self, configuration=None, selectedIndexingSolution=None, dataCollection=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataGeneratePredictionInput", "Constructor of XSDataGeneratePredictionInput", dataCollection, "XSDataCollection")
 		self.__dataCollection = dataCollection
+		checkType("XSDataGeneratePredictionInput", "Constructor of XSDataGeneratePredictionInput", selectedIndexingSolution, "XSDataIndexingSolutionSelected")
 		self.__selectedIndexingSolution = selectedIndexingSolution
 	def getDataCollection(self): return self.__dataCollection
 	def setDataCollection(self, dataCollection):
@@ -5372,11 +5702,15 @@ class XSDataGeneratePredictionInput(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataGeneratePredictionInput' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataGeneratePredictionInput is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataGeneratePredictionInput.parseString(self.marshal())
@@ -5408,13 +5742,18 @@ class XSDataIndexingResult(XSDataResult):
 		if image is None:
 			self.__image = []
 		else:
+			checkType("XSDataIndexingResult", "Constructor of XSDataIndexingResult", image, "XSDataImage")
 			self.__image = image
+		checkType("XSDataIndexingResult", "Constructor of XSDataIndexingResult", indexingLogFile, "XSDataFile")
 		self.__indexingLogFile = indexingLogFile
+		checkType("XSDataIndexingResult", "Constructor of XSDataIndexingResult", predictionResult, "XSDataGeneratePredictionResult")
 		self.__predictionResult = predictionResult
+		checkType("XSDataIndexingResult", "Constructor of XSDataIndexingResult", selectedSolution, "XSDataIndexingSolutionSelected")
 		self.__selectedSolution = selectedSolution
 		if solution is None:
 			self.__solution = []
 		else:
+			checkType("XSDataIndexingResult", "Constructor of XSDataIndexingResult", solution, "XSDataIndexingSolution")
 			self.__solution = solution
 	def getImage(self): return self.__image
 	def setImage(self, image):
@@ -5523,11 +5862,15 @@ class XSDataIndexingResult(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataIndexingResult' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataIndexingResult is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataIndexingResult.parseString(self.marshal())
@@ -5556,6 +5899,7 @@ class XSDataIndexingResult(XSDataResult):
 class XSDataInputCharacterisation(XSDataInput):
 	def __init__(self, configuration=None, dataCollection=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputCharacterisation", "Constructor of XSDataInputCharacterisation", dataCollection, "XSDataCollection")
 		self.__dataCollection = dataCollection
 	def getDataCollection(self): return self.__dataCollection
 	def setDataCollection(self, dataCollection):
@@ -5596,11 +5940,15 @@ class XSDataInputCharacterisation(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputCharacterisation' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputCharacterisation is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputCharacterisation.parseString(self.marshal())
@@ -5626,100 +5974,13 @@ class XSDataInputCharacterisation(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputCharacterisation
 
-class XSDataInputControlISPyB(XSDataInput):
-	def __init__(self, configuration=None, dataCollectionId=None, characterisationResult=None):
-		XSDataInput.__init__(self, configuration)
-		self.__characterisationResult = characterisationResult
-		self.__dataCollectionId = dataCollectionId
-	def getCharacterisationResult(self): return self.__characterisationResult
-	def setCharacterisationResult(self, characterisationResult):
-		checkType("XSDataInputControlISPyB", "setCharacterisationResult", characterisationResult, "XSDataResultCharacterisation")
-		self.__characterisationResult = characterisationResult
-	def delCharacterisationResult(self): self.__characterisationResult = None
-	# Properties
-	characterisationResult = property(getCharacterisationResult, setCharacterisationResult, delCharacterisationResult, "Property for characterisationResult")
-	def getDataCollectionId(self): return self.__dataCollectionId
-	def setDataCollectionId(self, dataCollectionId):
-		checkType("XSDataInputControlISPyB", "setDataCollectionId", dataCollectionId, "XSDataInteger")
-		self.__dataCollectionId = dataCollectionId
-	def delDataCollectionId(self): self.__dataCollectionId = None
-	# Properties
-	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
-	def export(self, outfile, level, name_='XSDataInputControlISPyB'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataInputControlISPyB'):
-		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__characterisationResult is not None:
-			self.characterisationResult.export(outfile, level, name_='characterisationResult')
-		else:
-			warnEmptyAttribute("characterisationResult", "XSDataResultCharacterisation")
-		if self.__dataCollectionId is not None:
-			self.dataCollectionId.export(outfile, level, name_='dataCollectionId')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'characterisationResult':
-			obj_ = XSDataResultCharacterisation()
-			obj_.build(child_)
-			self.setCharacterisationResult(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'dataCollectionId':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setDataCollectionId(obj_)
-		XSDataInput.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputControlISPyB" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputControlISPyB' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataInputControlISPyB.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputControlISPyB()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputControlISPyB" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputControlISPyB()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataInputControlISPyB
-
 class XSDataInputControlImageQualityIndicators(XSDataInput):
 	def __init__(self, configuration=None, image=None):
 		XSDataInput.__init__(self, configuration)
 		if image is None:
 			self.__image = []
 		else:
+			checkType("XSDataInputControlImageQualityIndicators", "Constructor of XSDataInputControlImageQualityIndicators", image, "XSDataImage")
 			self.__image = image
 	def getImage(self): return self.__image
 	def setImage(self, image):
@@ -5766,11 +6027,15 @@ class XSDataInputControlImageQualityIndicators(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputControlImageQualityIndicators' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputControlImageQualityIndicators is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputControlImageQualityIndicators.parseString(self.marshal())
@@ -5799,6 +6064,7 @@ class XSDataInputControlImageQualityIndicators(XSDataInput):
 class XSDataInputControlXDSGenerateBackgroundImage(XSDataInput):
 	def __init__(self, configuration=None, dataCollection=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputControlXDSGenerateBackgroundImage", "Constructor of XSDataInputControlXDSGenerateBackgroundImage", dataCollection, "XSDataCollection")
 		self.__dataCollection = dataCollection
 	def getDataCollection(self): return self.__dataCollection
 	def setDataCollection(self, dataCollection):
@@ -5839,11 +6105,15 @@ class XSDataInputControlXDSGenerateBackgroundImage(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputControlXDSGenerateBackgroundImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputControlXDSGenerateBackgroundImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputControlXDSGenerateBackgroundImage.parseString(self.marshal())
@@ -5869,83 +6139,11 @@ class XSDataInputControlXDSGenerateBackgroundImage(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputControlXDSGenerateBackgroundImage
 
-class XSDataInputInducedRadiationProcess(XSDataInput):
-	def __init__(self, configuration=None, characterisationResult=None):
-		XSDataInput.__init__(self, configuration)
-		self.__characterisationResult = characterisationResult
-	def getCharacterisationResult(self): return self.__characterisationResult
-	def setCharacterisationResult(self, characterisationResult):
-		checkType("XSDataInputInducedRadiationProcess", "setCharacterisationResult", characterisationResult, "XSDataResultCharacterisation")
-		self.__characterisationResult = characterisationResult
-	def delCharacterisationResult(self): self.__characterisationResult = None
-	# Properties
-	characterisationResult = property(getCharacterisationResult, setCharacterisationResult, delCharacterisationResult, "Property for characterisationResult")
-	def export(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
-		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__characterisationResult is not None:
-			self.characterisationResult.export(outfile, level, name_='characterisationResult')
-		else:
-			warnEmptyAttribute("characterisationResult", "XSDataResultCharacterisation")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'characterisationResult':
-			obj_ = XSDataResultCharacterisation()
-			obj_.build(child_)
-			self.setCharacterisationResult(obj_)
-		XSDataInput.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputInducedRadiationProcess' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataInputInducedRadiationProcess.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputInducedRadiationProcess()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputInducedRadiationProcess()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataInputInducedRadiationProcess
-
 class XSDataInputReadImageHeader(XSDataInput):
 	"""These two definitions are used by the read image header plugin."""
 	def __init__(self, configuration=None, image=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputReadImageHeader", "Constructor of XSDataInputReadImageHeader", image, "XSDataFile")
 		self.__image = image
 	def getImage(self): return self.__image
 	def setImage(self, image):
@@ -5986,11 +6184,15 @@ class XSDataInputReadImageHeader(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputReadImageHeader' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputReadImageHeader is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputReadImageHeader.parseString(self.marshal())
@@ -6019,16 +6221,24 @@ class XSDataInputReadImageHeader(XSDataInput):
 class XSDataInputStrategy(XSDataInput):
 	def __init__(self, configuration=None, xdsBackgroundImage=None, sample=None, experimentalCondition=None, diffractionPlan=None, crystalRefined=None, bestFileContentPar=None, bestFileContentHKL=None, bestFileContentDat=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", bestFileContentDat, "XSDataString")
 		self.__bestFileContentDat = bestFileContentDat
 		if bestFileContentHKL is None:
 			self.__bestFileContentHKL = []
 		else:
+			checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", bestFileContentHKL, "XSDataString")
 			self.__bestFileContentHKL = bestFileContentHKL
+		checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", bestFileContentPar, "XSDataString")
 		self.__bestFileContentPar = bestFileContentPar
+		checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", crystalRefined, "XSDataCrystal")
 		self.__crystalRefined = crystalRefined
+		checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", diffractionPlan, "XSDataDiffractionPlan")
 		self.__diffractionPlan = diffractionPlan
+		checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", experimentalCondition, "XSDataExperimentalCondition")
 		self.__experimentalCondition = experimentalCondition
+		checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", sample, "XSDataSampleCrystalMM")
 		self.__sample = sample
+		checkType("XSDataInputStrategy", "Constructor of XSDataInputStrategy", xdsBackgroundImage, "XSDataFile")
 		self.__xdsBackgroundImage = xdsBackgroundImage
 	def getBestFileContentDat(self): return self.__bestFileContentDat
 	def setBestFileContentDat(self, bestFileContentDat):
@@ -6185,11 +6395,15 @@ class XSDataInputStrategy(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputStrategy' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputStrategy is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputStrategy.parseString(self.marshal())
@@ -6222,6 +6436,7 @@ class XSDataInputSubWedgeAssemble(XSDataInput):
 		if file is None:
 			self.__file = []
 		else:
+			checkType("XSDataInputSubWedgeAssemble", "Constructor of XSDataInputSubWedgeAssemble", file, "XSDataFile")
 			self.__file = file
 	def getFile(self): return self.__file
 	def setFile(self, file):
@@ -6268,11 +6483,15 @@ class XSDataInputSubWedgeAssemble(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputSubWedgeAssemble' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputSubWedgeAssemble is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputSubWedgeAssemble.parseString(self.marshal())
@@ -6305,6 +6524,7 @@ class XSDataInputSubWedgeMerge(XSDataInput):
 		if subWedge is None:
 			self.__subWedge = []
 		else:
+			checkType("XSDataInputSubWedgeMerge", "Constructor of XSDataInputSubWedgeMerge", subWedge, "XSDataSubWedge")
 			self.__subWedge = subWedge
 	def getSubWedge(self): return self.__subWedge
 	def setSubWedge(self, subWedge):
@@ -6351,11 +6571,15 @@ class XSDataInputSubWedgeMerge(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputSubWedgeMerge' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputSubWedgeMerge is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputSubWedgeMerge.parseString(self.marshal())
@@ -6387,6 +6611,7 @@ class XSDataIntegrationResult(XSDataResult):
 		if integrationSubWedgeResult is None:
 			self.__integrationSubWedgeResult = []
 		else:
+			checkType("XSDataIntegrationResult", "Constructor of XSDataIntegrationResult", integrationSubWedgeResult, "XSDataIntegrationSubWedgeResult")
 			self.__integrationSubWedgeResult = integrationSubWedgeResult
 	def getIntegrationSubWedgeResult(self): return self.__integrationSubWedgeResult
 	def setIntegrationSubWedgeResult(self, integrationSubWedgeResult):
@@ -6431,11 +6656,15 @@ class XSDataIntegrationResult(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataIntegrationResult' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataIntegrationResult is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataIntegrationResult.parseString(self.marshal())
@@ -6464,16 +6693,24 @@ class XSDataIntegrationResult(XSDataResult):
 class XSDataResultCharacterisation(XSDataResult):
 	def __init__(self, status=None, strategyResult=None, statusMessage=None, shortSummary=None, integrationResult=None, indexingResult=None, imageQualityIndicators=None, executiveSummary=None, dataCollection=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", dataCollection, "XSDataCollection")
 		self.__dataCollection = dataCollection
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", executiveSummary, "XSDataString")
 		self.__executiveSummary = executiveSummary
 		if imageQualityIndicators is None:
 			self.__imageQualityIndicators = []
 		else:
+			checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", imageQualityIndicators, "XSDataImageQualityIndicators")
 			self.__imageQualityIndicators = imageQualityIndicators
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", indexingResult, "XSDataIndexingResult")
 		self.__indexingResult = indexingResult
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", integrationResult, "XSDataIntegrationResult")
 		self.__integrationResult = integrationResult
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", shortSummary, "XSDataString")
 		self.__shortSummary = shortSummary
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", statusMessage, "XSDataString")
 		self.__statusMessage = statusMessage
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", strategyResult, "XSDataResultStrategy")
 		self.__strategyResult = strategyResult
 	def getDataCollection(self): return self.__dataCollection
 	def setDataCollection(self, dataCollection):
@@ -6624,11 +6861,15 @@ class XSDataResultCharacterisation(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultCharacterisation' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultCharacterisation is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultCharacterisation.parseString(self.marshal())
@@ -6653,6 +6894,178 @@ class XSDataResultCharacterisation(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultCharacterisation
+
+class XSDataInputControlISPyB(XSDataInput):
+	def __init__(self, configuration=None, dataCollectionId=None, characterisationResult=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputControlISPyB", "Constructor of XSDataInputControlISPyB", characterisationResult, "XSDataResultCharacterisation")
+		self.__characterisationResult = characterisationResult
+		checkType("XSDataInputControlISPyB", "Constructor of XSDataInputControlISPyB", dataCollectionId, "XSDataInteger")
+		self.__dataCollectionId = dataCollectionId
+	def getCharacterisationResult(self): return self.__characterisationResult
+	def setCharacterisationResult(self, characterisationResult):
+		checkType("XSDataInputControlISPyB", "setCharacterisationResult", characterisationResult, "XSDataResultCharacterisation")
+		self.__characterisationResult = characterisationResult
+	def delCharacterisationResult(self): self.__characterisationResult = None
+	# Properties
+	characterisationResult = property(getCharacterisationResult, setCharacterisationResult, delCharacterisationResult, "Property for characterisationResult")
+	def getDataCollectionId(self): return self.__dataCollectionId
+	def setDataCollectionId(self, dataCollectionId):
+		checkType("XSDataInputControlISPyB", "setDataCollectionId", dataCollectionId, "XSDataInteger")
+		self.__dataCollectionId = dataCollectionId
+	def delDataCollectionId(self): self.__dataCollectionId = None
+	# Properties
+	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
+	def export(self, outfile, level, name_='XSDataInputControlISPyB'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputControlISPyB'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__characterisationResult is not None:
+			self.characterisationResult.export(outfile, level, name_='characterisationResult')
+		else:
+			warnEmptyAttribute("characterisationResult", "XSDataResultCharacterisation")
+		if self.__dataCollectionId is not None:
+			self.dataCollectionId.export(outfile, level, name_='dataCollectionId')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'characterisationResult':
+			obj_ = XSDataResultCharacterisation()
+			obj_.build(child_)
+			self.setCharacterisationResult(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataCollectionId':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setDataCollectionId(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputControlISPyB" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputControlISPyB' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputControlISPyB is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputControlISPyB.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputControlISPyB()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputControlISPyB" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputControlISPyB()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputControlISPyB
+
+class XSDataInputInducedRadiationProcess(XSDataInput):
+	def __init__(self, configuration=None, characterisationResult=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputInducedRadiationProcess", "Constructor of XSDataInputInducedRadiationProcess", characterisationResult, "XSDataResultCharacterisation")
+		self.__characterisationResult = characterisationResult
+	def getCharacterisationResult(self): return self.__characterisationResult
+	def setCharacterisationResult(self, characterisationResult):
+		checkType("XSDataInputInducedRadiationProcess", "setCharacterisationResult", characterisationResult, "XSDataResultCharacterisation")
+		self.__characterisationResult = characterisationResult
+	def delCharacterisationResult(self): self.__characterisationResult = None
+	# Properties
+	characterisationResult = property(getCharacterisationResult, setCharacterisationResult, delCharacterisationResult, "Property for characterisationResult")
+	def export(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__characterisationResult is not None:
+			self.characterisationResult.export(outfile, level, name_='characterisationResult')
+		else:
+			warnEmptyAttribute("characterisationResult", "XSDataResultCharacterisation")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'characterisationResult':
+			obj_ = XSDataResultCharacterisation()
+			obj_.build(child_)
+			self.setCharacterisationResult(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputInducedRadiationProcess' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputInducedRadiationProcess is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputInducedRadiationProcess.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputInducedRadiationProcess()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputInducedRadiationProcess()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputInducedRadiationProcess
 
 class XSDataResultControlISPyB(XSDataResult):
 	"""No attributes - the return value is XSDataStatus provided by XSDataResult"""
@@ -6682,11 +7095,15 @@ class XSDataResultControlISPyB(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultControlISPyB' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultControlISPyB is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultControlISPyB.parseString(self.marshal())
@@ -6718,6 +7135,7 @@ class XSDataResultControlImageQualityIndicators(XSDataResult):
 		if imageQualityIndicators is None:
 			self.__imageQualityIndicators = []
 		else:
+			checkType("XSDataResultControlImageQualityIndicators", "Constructor of XSDataResultControlImageQualityIndicators", imageQualityIndicators, "XSDataImageQualityIndicators")
 			self.__imageQualityIndicators = imageQualityIndicators
 	def getImageQualityIndicators(self): return self.__imageQualityIndicators
 	def setImageQualityIndicators(self, imageQualityIndicators):
@@ -6762,11 +7180,15 @@ class XSDataResultControlImageQualityIndicators(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultControlImageQualityIndicators' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultControlImageQualityIndicators is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultControlImageQualityIndicators.parseString(self.marshal())
@@ -6795,6 +7217,7 @@ class XSDataResultControlImageQualityIndicators(XSDataResult):
 class XSDataResultControlXDSGenerateBackgroundImage(XSDataResult):
 	def __init__(self, status=None, xdsBackgroundImage=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultControlXDSGenerateBackgroundImage", "Constructor of XSDataResultControlXDSGenerateBackgroundImage", xdsBackgroundImage, "XSDataFile")
 		self.__xdsBackgroundImage = xdsBackgroundImage
 	def getXdsBackgroundImage(self): return self.__xdsBackgroundImage
 	def setXdsBackgroundImage(self, xdsBackgroundImage):
@@ -6835,11 +7258,15 @@ class XSDataResultControlXDSGenerateBackgroundImage(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultControlXDSGenerateBackgroundImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultControlXDSGenerateBackgroundImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultControlXDSGenerateBackgroundImage.parseString(self.marshal())
@@ -6868,8 +7295,11 @@ class XSDataResultControlXDSGenerateBackgroundImage(XSDataResult):
 class XSDataResultInducedRadiationProcess(XSDataResult):
 	def __init__(self, status=None, scale=None, crystal=None, bFactor=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultInducedRadiationProcess", "Constructor of XSDataResultInducedRadiationProcess", bFactor, "XSDataDouble")
 		self.__bFactor = bFactor
+		checkType("XSDataResultInducedRadiationProcess", "Constructor of XSDataResultInducedRadiationProcess", crystal, "XSDataCrystal")
 		self.__crystal = crystal
+		checkType("XSDataResultInducedRadiationProcess", "Constructor of XSDataResultInducedRadiationProcess", scale, "XSDataDouble")
 		self.__scale = scale
 	def getBFactor(self): return self.__bFactor
 	def setBFactor(self, bFactor):
@@ -6942,11 +7372,15 @@ class XSDataResultInducedRadiationProcess(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultInducedRadiationProcess' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultInducedRadiationProcess is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultInducedRadiationProcess.parseString(self.marshal())
@@ -6976,6 +7410,7 @@ class XSDataResultReadImageHeader(XSDataResult):
 	"""These two definitions are used by the read image header plugin."""
 	def __init__(self, status=None, subWedge=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultReadImageHeader", "Constructor of XSDataResultReadImageHeader", subWedge, "XSDataSubWedge")
 		self.__subWedge = subWedge
 	def getSubWedge(self): return self.__subWedge
 	def setSubWedge(self, subWedge):
@@ -7016,11 +7451,15 @@ class XSDataResultReadImageHeader(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultReadImageHeader' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultReadImageHeader is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultReadImageHeader.parseString(self.marshal())
@@ -7050,11 +7489,14 @@ class XSDataResultStrategy(XSDataResult):
 	"""Several collection plans could be present in case of multi-sweep strategy"""
 	def __init__(self, status=None, raddoseLogFile=None, collectionPlan=None, bestLogFile=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultStrategy", "Constructor of XSDataResultStrategy", bestLogFile, "XSDataFile")
 		self.__bestLogFile = bestLogFile
 		if collectionPlan is None:
 			self.__collectionPlan = []
 		else:
+			checkType("XSDataResultStrategy", "Constructor of XSDataResultStrategy", collectionPlan, "XSDataCollectionPlan")
 			self.__collectionPlan = collectionPlan
+		checkType("XSDataResultStrategy", "Constructor of XSDataResultStrategy", raddoseLogFile, "XSDataFile")
 		self.__raddoseLogFile = raddoseLogFile
 	def getBestLogFile(self): return self.__bestLogFile
 	def setBestLogFile(self, bestLogFile):
@@ -7127,11 +7569,15 @@ class XSDataResultStrategy(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultStrategy' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultStrategy is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultStrategy.parseString(self.marshal())
@@ -7164,6 +7610,7 @@ class XSDataResultSubWedgeAssemble(XSDataResult):
 		if subWedge is None:
 			self.__subWedge = []
 		else:
+			checkType("XSDataResultSubWedgeAssemble", "Constructor of XSDataResultSubWedgeAssemble", subWedge, "XSDataSubWedge")
 			self.__subWedge = subWedge
 	def getSubWedge(self): return self.__subWedge
 	def setSubWedge(self, subWedge):
@@ -7210,11 +7657,15 @@ class XSDataResultSubWedgeAssemble(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultSubWedgeAssemble' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultSubWedgeAssemble is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultSubWedgeAssemble.parseString(self.marshal())
@@ -7247,6 +7698,7 @@ class XSDataResultSubWedgeMerge(XSDataResult):
 		if subWedge is None:
 			self.__subWedge = []
 		else:
+			checkType("XSDataResultSubWedgeMerge", "Constructor of XSDataResultSubWedgeMerge", subWedge, "XSDataSubWedge")
 			self.__subWedge = subWedge
 	def getSubWedge(self): return self.__subWedge
 	def setSubWedge(self, subWedge):
@@ -7293,11 +7745,15 @@ class XSDataResultSubWedgeMerge(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultSubWedgeMerge' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultSubWedgeMerge is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultSubWedgeMerge.parseString(self.marshal())
@@ -7327,6 +7783,7 @@ class XSDataSampleCrystal(XSDataSample):
 	"""A crystal sample. Inherites of all the XSDataSample attributes (inheritance relationship). In addition has the crystallographic properties (cell, mosaicity, space, group)"""
 	def __init__(self, susceptibility=None, size=None, shape=None, absorbedDoseRate=None, crystal=None):
 		XSDataSample.__init__(self, susceptibility, size, shape, absorbedDoseRate)
+		checkType("XSDataSampleCrystal", "Constructor of XSDataSampleCrystal", crystal, "XSDataCrystal")
 		self.__crystal = crystal
 	def getCrystal(self): return self.__crystal
 	def setCrystal(self, crystal):
@@ -7367,11 +7824,15 @@ class XSDataSampleCrystal(XSDataSample):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataSampleCrystal' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSampleCrystal is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataSampleCrystal.parseString(self.marshal())
@@ -7401,15 +7862,22 @@ class XSDataStrategyInput(XSDataInput):
 	"""These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."""
 	def __init__(self, configuration=None, sample=None, experimentalCondition=None, diffractionPlan=None, crystalRefined=None, bestFileContentPar=None, bestFileContentHKL=None, bestFileContentDat=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataStrategyInput", "Constructor of XSDataStrategyInput", bestFileContentDat, "XSDataString")
 		self.__bestFileContentDat = bestFileContentDat
 		if bestFileContentHKL is None:
 			self.__bestFileContentHKL = []
 		else:
+			checkType("XSDataStrategyInput", "Constructor of XSDataStrategyInput", bestFileContentHKL, "XSDataString")
 			self.__bestFileContentHKL = bestFileContentHKL
+		checkType("XSDataStrategyInput", "Constructor of XSDataStrategyInput", bestFileContentPar, "XSDataString")
 		self.__bestFileContentPar = bestFileContentPar
+		checkType("XSDataStrategyInput", "Constructor of XSDataStrategyInput", crystalRefined, "XSDataCrystal")
 		self.__crystalRefined = crystalRefined
+		checkType("XSDataStrategyInput", "Constructor of XSDataStrategyInput", diffractionPlan, "XSDataDiffractionPlan")
 		self.__diffractionPlan = diffractionPlan
+		checkType("XSDataStrategyInput", "Constructor of XSDataStrategyInput", experimentalCondition, "XSDataExperimentalCondition")
 		self.__experimentalCondition = experimentalCondition
+		checkType("XSDataStrategyInput", "Constructor of XSDataStrategyInput", sample, "XSDataSampleCrystalMM")
 		self.__sample = sample
 	def getBestFileContentDat(self): return self.__bestFileContentDat
 	def setBestFileContentDat(self, bestFileContentDat):
@@ -7552,11 +8020,15 @@ class XSDataStrategyInput(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataStrategyInput' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStrategyInput is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataStrategyInput.parseString(self.marshal())
@@ -7583,12 +8055,13 @@ class XSDataStrategyInput(XSDataInput):
 # end class XSDataStrategyInput
 
 class XSDataStrategyResult(XSDataResult):
-	"""Several collection plans could be present in case of multi-sweep strategy"""
+	"""These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."""
 	def __init__(self, status=None, collectionPlan=None):
 		XSDataResult.__init__(self, status)
 		if collectionPlan is None:
 			self.__collectionPlan = []
 		else:
+			checkType("XSDataStrategyResult", "Constructor of XSDataStrategyResult", collectionPlan, "XSDataCollectionPlan")
 			self.__collectionPlan = collectionPlan
 	def getCollectionPlan(self): return self.__collectionPlan
 	def setCollectionPlan(self, collectionPlan):
@@ -7635,11 +8108,15 @@ class XSDataStrategyResult(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataStrategyResult' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataStrategyResult is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataStrategyResult.parseString(self.marshal())
@@ -7669,7 +8146,9 @@ class XSDataIntegrationInput(XSDataGeneratePredictionInput):
 	"""This generalisation is not very logical in terms of names, it should be fixed after the prototype (see bug #49)."""
 	def __init__(self, configuration=None, selectedIndexingSolution=None, dataCollection=None, experimentalConditionRefined=None, crystalRefined=None):
 		XSDataGeneratePredictionInput.__init__(self, configuration, selectedIndexingSolution, dataCollection)
+		checkType("XSDataIntegrationInput", "Constructor of XSDataIntegrationInput", crystalRefined, "XSDataCrystal")
 		self.__crystalRefined = crystalRefined
+		checkType("XSDataIntegrationInput", "Constructor of XSDataIntegrationInput", experimentalConditionRefined, "XSDataExperimentalCondition")
 		self.__experimentalConditionRefined = experimentalConditionRefined
 	def getCrystalRefined(self): return self.__crystalRefined
 	def setCrystalRefined(self, crystalRefined):
@@ -7722,11 +8201,15 @@ class XSDataIntegrationInput(XSDataGeneratePredictionInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataIntegrationInput' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataIntegrationInput is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataIntegrationInput.parseString(self.marshal())
@@ -7756,6 +8239,7 @@ class XSDataSampleCrystalMM(XSDataSampleCrystal):
 	"""A particular crystal sample that contains a macro molecule defined by its chemical composition."""
 	def __init__(self, susceptibility=None, size=None, shape=None, absorbedDoseRate=None, crystal=None, chemicalComposition=None):
 		XSDataSampleCrystal.__init__(self, susceptibility, size, shape, absorbedDoseRate, crystal)
+		checkType("XSDataSampleCrystalMM", "Constructor of XSDataSampleCrystalMM", chemicalComposition, "XSDataChemicalCompositionMM")
 		self.__chemicalComposition = chemicalComposition
 	def getChemicalComposition(self): return self.__chemicalComposition
 	def setChemicalComposition(self, chemicalComposition):
@@ -7796,11 +8280,15 @@ class XSDataSampleCrystalMM(XSDataSampleCrystal):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataSampleCrystalMM' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSampleCrystalMM is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataSampleCrystalMM.parseString(self.marshal())

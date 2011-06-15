@@ -1,9 +1,29 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataAbsorbedDoseRate
+import XSDataCommon.XSDataAngle
+import XSDataCommon.XSDataAngularSpeed
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataFlux
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataMatrixDouble
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataSize
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataWavelength
 package XSDataMXv1 {
 	package MXv1CharacterisationEtc {
+
 		complex type XSDataCharacterisation extends XSData {
-			"Deprecated - only used by EDPluginControlCharacterisationv10\n"
+			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
 			dataCollection : XSDataCollection
 			indexingResult : XSDataIndexingResult optional
 			integrationResult : XSDataIntegrationResult optional
@@ -114,6 +134,7 @@ package XSDataMXv1 {
 	}
 
 	package MXv1Crystal {
+
 		complex type XSDataCell extends XSData {
 			"Crystallographic properties"
 			angle_alpha : XSDataAngle
@@ -140,6 +161,7 @@ package XSDataMXv1 {
 	}
 
 	package MXv1DataCollection {
+
 		complex type XSDataBeam extends XSData {
 			"This object contains all the properties related to the beam:\r\n- the exposure time (sec)\r\n- the flux (photons/sec)\r\n- The minimum exposure time permitted by hardware (sec)\r\n- The size of the beam (mm x mm)\r\n- The wavelength (a)\r\n- Transmission in %"
 			exposureTime : XSDataTime optional
@@ -207,6 +229,7 @@ package XSDataMXv1 {
 	}
 
 	package MXv1DiffractionPlan {
+
 		complex type XSDataDiffractionPlan extends XSData {
 			"This object contains the main properties a user can parameterize for a crystal characterisation:\r\n\r\n- the aimed* parameters are the parameters that a user would like to reach for a BEST run.\r\n- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)\r\n- complexity: BEST complexity input, can be either \"none\" (always single wedge strategy). \"min\" (few subwedges) or \"full\" (many subwedges).\r\n- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.\r\n- forcedSpaceGroup: option to force the space group of the indexing solution\r\n- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage\r\n- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.\r\n- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.\r\n- detectorMinResolution and detectorMaxResolution: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.\n- minTransmission: optional input for BEST\r\n- kappaStrategyOption: optional input for kappa strategies\r\n- numberOfPositions: optional input for BEST"
 			aimedCompleteness : XSDataDouble optional
@@ -236,6 +259,7 @@ package XSDataMXv1 {
 	}
 
 	package MXv1Indexing {
+
 		complex type XSDataIndexingInput extends XSDataInput {
 			crystal : XSDataCrystal optional
 			dataCollection : XSDataCollection
@@ -282,6 +306,7 @@ package XSDataMXv1 {
 	}
 
 	package MXv1PredictionAndIntegration {
+
 		complex type XSDataGeneratePredictionInput extends XSDataInput {
 			"This generalisation is not very logical in terms of names, it should be fixed after the prototype (see bug #49)."
 			dataCollection : XSDataCollection
@@ -348,6 +373,7 @@ package XSDataMXv1 {
 	}
 
 	package MXv1Sample {
+
 		complex type XSDataAtom extends XSData {
 			"This object describes a single atom content (of type \'symbol\' i.e \'S\') that could be either expressed in concentration if dilute in a solvent (mM) or in number in a structure"
 			concentration : XSDataDouble
@@ -417,6 +443,7 @@ package XSDataMXv1 {
 	}
 
 	package MXv1Strategy {
+
 		complex type XSDataCollectionPlan extends XSData {
 			"The comment can be used for describing exotic data collections, for example without collecting any images."
 			collectionPlanNumber : XSDataInteger
@@ -476,9 +503,8 @@ package XSDataMXv1 {
 		}
 
 		complex type XSDataStrategyResult extends XSDataResult {
-			"Several collection plans could be present in case of multi-sweep strategy"
-			collectionPlan : XSDataCollectionPlan
-			[]
+			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
+			collectionPlan : XSDataCollectionPlan []
 		}
 
 		complex type XSDataStrategySummary extends XSData {
