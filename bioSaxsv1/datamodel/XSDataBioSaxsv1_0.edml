@@ -241,3 +241,14 @@ complex type XSDataSpecCommunication {
 	specVariableAbort : XSDataString
 	optional
 }
+
+complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
+	inputFile: XSDataFile []
+	absoluteSimilarity: XSDataDouble optional 
+	relativeSimilarity: XSDataDouble optional
+	mergedFile: XSDataFile
+}
+
+complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
+	mergedFile : XSDataFile
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun 16 05:22::20 2011 by EDGenerateDS.
+# Generated Thu Jun 16 06:16::08 2011 by EDGenerateDS.
 #
 
 import sys
@@ -10,6 +10,7 @@ from xml.dom import Node
 
 from XSDataCommon import XSConfiguration
 from XSDataCommon import XSDataBoolean
+from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataFloat
 from XSDataCommon import XSDataInput
@@ -48,10 +49,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-#	elif _value is None:
-#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-#		print(strMessage)
-#		#raise BaseException(strMessage)
+	elif _value is None:
+		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+		print(strMessage)
+		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -113,27 +114,16 @@ class MixedContainer(object):
 
 class XSDataBioSaxsExperimentSetup(object):
 	def __init__(self, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
 	def getDetector(self): return self.__detector
 	def setDetector(self, detector):
@@ -311,15 +301,11 @@ class XSDataBioSaxsExperimentSetup(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBioSaxsExperimentSetup' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataBioSaxsExperimentSetup is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBioSaxsExperimentSetup.parseString(self.marshal())
@@ -347,11 +333,8 @@ class XSDataBioSaxsExperimentSetup(object):
 
 class XSDataBioSaxsSample(object):
 	def __init__(self, sampleCode=None, sampleComments=None, sampleConcentration=None):
-		checkType("XSDataBioSaxsSample", "Constructor of XSDataBioSaxsSample", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataBioSaxsSample", "Constructor of XSDataBioSaxsSample", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataBioSaxsSample", "Constructor of XSDataBioSaxsSample", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
 	def getSampleConcentration(self): return self.__sampleConcentration
 	def setSampleConcentration(self, sampleConcentration):
@@ -417,15 +400,11 @@ class XSDataBioSaxsSample(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataBioSaxsSample' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataBioSaxsSample is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataBioSaxsSample.parseString(self.marshal())
@@ -453,48 +432,28 @@ class XSDataBioSaxsSample(object):
 
 class XSDataInputBioSaxsAveragev1_0(object):
 	def __init__(self, logFile=None, averagedSpectrum=None, averagedImage=None, integratedImageSize=None, integratedImage=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, configuration=None):
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", configuration, "XSConfiguration")
 		self.__configuration = configuration
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
 		if integratedImage is None:
 			self.__integratedImage = []
 		else:
-			checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", integratedImage, "list")
 			self.__integratedImage = integratedImage
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", integratedImageSize, "XSDataInteger")
 		self.__integratedImageSize = integratedImageSize
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", averagedImage, "XSDataImage")
 		self.__averagedImage = averagedImage
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", averagedSpectrum, "XSDataFile")
 		self.__averagedSpectrum = averagedSpectrum
-		checkType("XSDataInputBioSaxsAveragev1_0", "Constructor of XSDataInputBioSaxsAveragev1_0", logFile, "XSDataFile")
 		self.__logFile = logFile
 	def getConfiguration(self): return self.__configuration
 	def setConfiguration(self, configuration):
@@ -816,15 +775,11 @@ class XSDataInputBioSaxsAveragev1_0(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBioSaxsAveragev1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputBioSaxsAveragev1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBioSaxsAveragev1_0.parseString(self.marshal())
@@ -852,45 +807,25 @@ class XSDataInputBioSaxsAveragev1_0(object):
 
 class XSDataInputBioSaxsAzimutIntv1_0(object):
 	def __init__(self, correctedImage=None, integratedSpectrum=None, integratedImage=None, normalizedImageSize=None, normalizedImage=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, configuration=None):
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", configuration, "XSConfiguration")
 		self.__configuration = configuration
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", normalizedImage, "XSDataImage")
 		self.__normalizedImage = normalizedImage
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", normalizedImageSize, "XSDataInteger")
 		self.__normalizedImageSize = normalizedImageSize
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", integratedImage, "XSDataImage")
 		self.__integratedImage = integratedImage
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", integratedSpectrum, "XSDataFile")
 		self.__integratedSpectrum = integratedSpectrum
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "Constructor of XSDataInputBioSaxsAzimutIntv1_0", correctedImage, "XSDataImage")
 		self.__correctedImage = correctedImage
 	def getConfiguration(self): return self.__configuration
 	def setConfiguration(self, configuration):
@@ -1206,15 +1141,11 @@ class XSDataInputBioSaxsAzimutIntv1_0(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBioSaxsAzimutIntv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputBioSaxsAzimutIntv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBioSaxsAzimutIntv1_0.parseString(self.marshal())
@@ -1242,39 +1173,22 @@ class XSDataInputBioSaxsAzimutIntv1_0(object):
 
 class XSDataInputBioSaxsMetadatav1_0(object):
 	def __init__(self, outputImage=None, inputImage=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, configuration=None):
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", configuration, "XSConfiguration")
 		self.__configuration = configuration
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", inputImage, "XSDataImage")
 		self.__inputImage = inputImage
-		checkType("XSDataInputBioSaxsMetadatav1_0", "Constructor of XSDataInputBioSaxsMetadatav1_0", outputImage, "XSDataImage")
 		self.__outputImage = outputImage
 	def getConfiguration(self): return self.__configuration
 	def setConfiguration(self, configuration):
@@ -1540,15 +1454,11 @@ class XSDataInputBioSaxsMetadatav1_0(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBioSaxsMetadatav1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputBioSaxsMetadatav1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBioSaxsMetadatav1_0.parseString(self.marshal())
@@ -1576,43 +1486,24 @@ class XSDataInputBioSaxsMetadatav1_0(object):
 
 class XSDataInputBioSaxsNormalizev1_0(object):
 	def __init__(self, rawImageSize=None, normalizedImage=None, logFile=None, rawImage=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, configuration=None):
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", configuration, "XSConfiguration")
 		self.__configuration = configuration
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", rawImage, "XSDataImage")
 		self.__rawImage = rawImage
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", logFile, "XSDataFile")
 		self.__logFile = logFile
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", normalizedImage, "XSDataImage")
 		self.__normalizedImage = normalizedImage
-		checkType("XSDataInputBioSaxsNormalizev1_0", "Constructor of XSDataInputBioSaxsNormalizev1_0", rawImageSize, "XSDataInteger")
 		self.__rawImageSize = rawImageSize
 	def getConfiguration(self): return self.__configuration
 	def setConfiguration(self, configuration):
@@ -1912,15 +1803,11 @@ class XSDataInputBioSaxsNormalizev1_0(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBioSaxsNormalizev1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputBioSaxsNormalizev1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBioSaxsNormalizev1_0.parseString(self.marshal())
@@ -1948,60 +1835,34 @@ class XSDataInputBioSaxsNormalizev1_0(object):
 
 class XSDataInputBioSaxsProcessOneRunv1_0(object):
 	def __init__(self, directoryMisc=None, directory2D=None, directory1D=None, directoryRaw=None, prefix=None, isOnline=None, frames=None, runNumber=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, specVariableAbort=None, specVariableStatus=None, specVersion=None, configuration=None):
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", configuration, "XSConfiguration")
 		self.__configuration = configuration
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", specVersion, "XSDataString")
 		self.__specVersion = specVersion
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", specVariableStatus, "XSDataString")
 		self.__specVariableStatus = specVariableStatus
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", specVariableAbort, "XSDataString")
 		self.__specVariableAbort = specVariableAbort
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", runNumber, "XSDataInteger")
 		self.__runNumber = runNumber
 		if frames is None:
 			self.__frames = []
 		else:
-			checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", frames, "list")
 			self.__frames = frames
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", isOnline, "XSDataBoolean")
 		self.__isOnline = isOnline
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", prefix, "XSDataString")
 		self.__prefix = prefix
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", directoryRaw, "XSDataFile")
 		self.__directoryRaw = directoryRaw
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", directory1D, "XSDataFile")
 		self.__directory1D = directory1D
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", directory2D, "XSDataFile")
 		self.__directory2D = directory2D
-		checkType("XSDataInputBioSaxsProcessOneRunv1_0", "Constructor of XSDataInputBioSaxsProcessOneRunv1_0", directoryMisc, "XSDataFile")
 		self.__directoryMisc = directoryMisc
 	def getConfiguration(self): return self.__configuration
 	def setConfiguration(self, configuration):
@@ -2413,15 +2274,11 @@ class XSDataInputBioSaxsProcessOneRunv1_0(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBioSaxsProcessOneRunv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputBioSaxsProcessOneRunv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBioSaxsProcessOneRunv1_0.parseString(self.marshal())
@@ -2449,62 +2306,35 @@ class XSDataInputBioSaxsProcessOneRunv1_0(object):
 
 class XSDataInputBioSaxsReprocessv1_0(object):
 	def __init__(self, runNumber=None, prefix=None, operation=None, normalisation=None, keepOriginal=None, isOnline=None, frameLast=None, frameFirst=None, directory=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, specVariableAbort=None, specVariableStatus=None, specVersion=None, configuration=None):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", configuration, "XSConfiguration")
 		self.__configuration = configuration
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", specVersion, "XSDataString")
 		self.__specVersion = specVersion
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", specVariableStatus, "XSDataString")
 		self.__specVariableStatus = specVariableStatus
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", specVariableAbort, "XSDataString")
 		self.__specVariableAbort = specVariableAbort
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", directory, "XSDataFile")
 		self.__directory = directory
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", frameFirst, "XSDataInteger")
 		self.__frameFirst = frameFirst
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", frameLast, "XSDataInteger")
 		self.__frameLast = frameLast
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", isOnline, "XSDataBoolean")
 		self.__isOnline = isOnline
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", keepOriginal, "XSDataBoolean")
 		self.__keepOriginal = keepOriginal
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", normalisation, "XSDataString")
 		self.__normalisation = normalisation
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", operation, "XSDataString")
 		self.__operation = operation
-		checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", prefix, "XSDataString")
 		self.__prefix = prefix
 		if runNumber is None:
 			self.__runNumber = []
 		else:
-			checkType("XSDataInputBioSaxsReprocessv1_0", "Constructor of XSDataInputBioSaxsReprocessv1_0", runNumber, "list")
 			self.__runNumber = runNumber
 	def getConfiguration(self): return self.__configuration
 	def setConfiguration(self, configuration):
@@ -2922,15 +2752,11 @@ class XSDataInputBioSaxsReprocessv1_0(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBioSaxsReprocessv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputBioSaxsReprocessv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBioSaxsReprocessv1_0.parseString(self.marshal())
@@ -2958,37 +2784,21 @@ class XSDataInputBioSaxsReprocessv1_0(object):
 
 class XSDataResultBioSaxsMetadatav1_0(object):
 	def __init__(self, outputImage=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, status=None):
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", status, "XSDataStatus")
 		self.__status = status
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", detector, "XSDataString")
 		self.__detector = detector
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", detectorDistance, "XSDataLength")
 		self.__detectorDistance = detectorDistance
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", pixelSize_1, "XSDataLength")
 		self.__pixelSize_1 = pixelSize_1
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", pixelSize_2, "XSDataLength")
 		self.__pixelSize_2 = pixelSize_2
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", beamCenter_1, "XSDataFloat")
 		self.__beamCenter_1 = beamCenter_1
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", beamCenter_2, "XSDataFloat")
 		self.__beamCenter_2 = beamCenter_2
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", beamStopDiode, "XSDataFloat")
 		self.__beamStopDiode = beamStopDiode
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", machineCurrent, "XSDataFloat")
 		self.__machineCurrent = machineCurrent
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", maskFile, "XSDataImage")
 		self.__maskFile = maskFile
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", normalizationFactor, "XSDataFloat")
 		self.__normalizationFactor = normalizationFactor
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", sampleConcentration, "XSDataFloat")
 		self.__sampleConcentration = sampleConcentration
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", sampleComments, "XSDataString")
 		self.__sampleComments = sampleComments
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", sampleCode, "XSDataString")
 		self.__sampleCode = sampleCode
-		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", outputImage, "XSDataImage")
 		self.__outputImage = outputImage
 	def getStatus(self): return self.__status
 	def setStatus(self, status):
@@ -3238,15 +3048,11 @@ class XSDataResultBioSaxsMetadatav1_0(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBioSaxsMetadatav1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultBioSaxsMetadatav1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBioSaxsMetadatav1_0.parseString(self.marshal())
@@ -3274,11 +3080,8 @@ class XSDataResultBioSaxsMetadatav1_0(object):
 
 class XSDataSpecCommunication(object):
 	def __init__(self, specVariableAbort=None, specVariableStatus=None, specVersion=None):
-		checkType("XSDataSpecCommunication", "Constructor of XSDataSpecCommunication", specVersion, "XSDataString")
 		self.__specVersion = specVersion
-		checkType("XSDataSpecCommunication", "Constructor of XSDataSpecCommunication", specVariableStatus, "XSDataString")
 		self.__specVariableStatus = specVariableStatus
-		checkType("XSDataSpecCommunication", "Constructor of XSDataSpecCommunication", specVariableAbort, "XSDataString")
 		self.__specVariableAbort = specVariableAbort
 	def getSpecVersion(self): return self.__specVersion
 	def setSpecVersion(self, specVersion):
@@ -3344,15 +3147,11 @@ class XSDataSpecCommunication(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataSpecCommunication' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataSpecCommunication is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataSpecCommunication.parseString(self.marshal())
@@ -3381,9 +3180,7 @@ class XSDataSpecCommunication(object):
 class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 	def __init__(self, configuration=None, integratedSpectrum=None, integratedImage=None):
 		XSDataInput.__init__(self, configuration)
-		checkType("XSDataInputBioSaxsAsciiExportv1_0", "Constructor of XSDataInputBioSaxsAsciiExportv1_0", integratedImage, "XSDataImage")
 		self.__integratedImage = integratedImage
-		checkType("XSDataInputBioSaxsAsciiExportv1_0", "Constructor of XSDataInputBioSaxsAsciiExportv1_0", integratedSpectrum, "XSDataFile")
 		self.__integratedSpectrum = integratedSpectrum
 	def getIntegratedImage(self): return self.__integratedImage
 	def setIntegratedImage(self, integratedImage):
@@ -3440,15 +3237,11 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputBioSaxsAsciiExportv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputBioSaxsAsciiExportv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputBioSaxsAsciiExportv1_0.parseString(self.marshal())
@@ -3474,12 +3267,139 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputBioSaxsAsciiExportv1_0
 
+class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
+	def __init__(self, configuration=None, mergedFile=None, relativeSimilarity=None, absoluteSimilarity=None, inputFile=None):
+		XSDataInput.__init__(self, configuration)
+		if inputFile is None:
+			self.__inputFile = []
+		else:
+			self.__inputFile = inputFile
+		self.__absoluteSimilarity = absoluteSimilarity
+		self.__relativeSimilarity = relativeSimilarity
+		self.__mergedFile = mergedFile
+	def getInputFile(self): return self.__inputFile
+	def setInputFile(self, inputFile):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputFile", inputFile, "list")
+		self.__inputFile = inputFile
+	def delInputFile(self): self.__inputFile = None
+	# Properties
+	inputFile = property(getInputFile, setInputFile, delInputFile, "Property for inputFile")
+	def addInputFile(self, value):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputFile", value, "XSDataFile")
+		self.__inputFile.append(value)
+	def insertInputFile(self, index, value):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputFile", value, "XSDataFile")
+		self.__inputFile[index] = value
+	def getAbsoluteSimilarity(self): return self.__absoluteSimilarity
+	def setAbsoluteSimilarity(self, absoluteSimilarity):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setAbsoluteSimilarity", absoluteSimilarity, "XSDataDouble")
+		self.__absoluteSimilarity = absoluteSimilarity
+	def delAbsoluteSimilarity(self): self.__absoluteSimilarity = None
+	# Properties
+	absoluteSimilarity = property(getAbsoluteSimilarity, setAbsoluteSimilarity, delAbsoluteSimilarity, "Property for absoluteSimilarity")
+	def getRelativeSimilarity(self): return self.__relativeSimilarity
+	def setRelativeSimilarity(self, relativeSimilarity):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setRelativeSimilarity", relativeSimilarity, "XSDataDouble")
+		self.__relativeSimilarity = relativeSimilarity
+	def delRelativeSimilarity(self): self.__relativeSimilarity = None
+	# Properties
+	relativeSimilarity = property(getRelativeSimilarity, setRelativeSimilarity, delRelativeSimilarity, "Property for relativeSimilarity")
+	def getMergedFile(self): return self.__mergedFile
+	def setMergedFile(self, mergedFile):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setMergedFile", mergedFile, "XSDataFile")
+		self.__mergedFile = mergedFile
+	def delMergedFile(self): self.__mergedFile = None
+	# Properties
+	mergedFile = property(getMergedFile, setMergedFile, delMergedFile, "Property for mergedFile")
+	def export(self, outfile, level, name_='XSDataInputBioSaxsSmartMergev1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsSmartMergev1_0'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		for inputFile_ in self.getInputFile():
+			inputFile_.export(outfile, level, name_='inputFile')
+		if self.getInputFile() == []:
+			warnEmptyAttribute("inputFile", "XSDataFile")
+		if self.__absoluteSimilarity is not None:
+			self.absoluteSimilarity.export(outfile, level, name_='absoluteSimilarity')
+		if self.__relativeSimilarity is not None:
+			self.relativeSimilarity.export(outfile, level, name_='relativeSimilarity')
+		if self.__mergedFile is not None:
+			self.mergedFile.export(outfile, level, name_='mergedFile')
+		else:
+			warnEmptyAttribute("mergedFile", "XSDataFile")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'inputFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.inputFile.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'absoluteSimilarity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAbsoluteSimilarity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'relativeSimilarity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRelativeSimilarity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'mergedFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setMergedFile(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputBioSaxsSmartMergev1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputBioSaxsSmartMergev1_0' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputBioSaxsSmartMergev1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsSmartMergev1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsSmartMergev1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsSmartMergev1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputBioSaxsSmartMergev1_0
+
 class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
 	def __init__(self, status=None, processLog=None, integratedSpectrum=None):
 		XSDataResult.__init__(self, status)
-		checkType("XSDataResultBioSaxsAsciiExportv1_0", "Constructor of XSDataResultBioSaxsAsciiExportv1_0", integratedSpectrum, "XSDataFile")
 		self.__integratedSpectrum = integratedSpectrum
-		checkType("XSDataResultBioSaxsAsciiExportv1_0", "Constructor of XSDataResultBioSaxsAsciiExportv1_0", processLog, "XSDataString")
 		self.__processLog = processLog
 	def getIntegratedSpectrum(self): return self.__integratedSpectrum
 	def setIntegratedSpectrum(self, integratedSpectrum):
@@ -3536,15 +3456,11 @@ class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBioSaxsAsciiExportv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultBioSaxsAsciiExportv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBioSaxsAsciiExportv1_0.parseString(self.marshal())
@@ -3573,13 +3489,9 @@ class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
 class XSDataResultBioSaxsAveragev1_0(XSDataResult):
 	def __init__(self, status=None, logFile=None, processLog=None, averagedSpectrum=None, averagedImage=None):
 		XSDataResult.__init__(self, status)
-		checkType("XSDataResultBioSaxsAveragev1_0", "Constructor of XSDataResultBioSaxsAveragev1_0", averagedImage, "XSDataImage")
 		self.__averagedImage = averagedImage
-		checkType("XSDataResultBioSaxsAveragev1_0", "Constructor of XSDataResultBioSaxsAveragev1_0", averagedSpectrum, "XSDataFile")
 		self.__averagedSpectrum = averagedSpectrum
-		checkType("XSDataResultBioSaxsAveragev1_0", "Constructor of XSDataResultBioSaxsAveragev1_0", processLog, "XSDataString")
 		self.__processLog = processLog
-		checkType("XSDataResultBioSaxsAveragev1_0", "Constructor of XSDataResultBioSaxsAveragev1_0", logFile, "XSDataFile")
 		self.__logFile = logFile
 	def getAveragedImage(self): return self.__averagedImage
 	def setAveragedImage(self, averagedImage):
@@ -3668,15 +3580,11 @@ class XSDataResultBioSaxsAveragev1_0(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBioSaxsAveragev1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultBioSaxsAveragev1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBioSaxsAveragev1_0.parseString(self.marshal())
@@ -3705,13 +3613,9 @@ class XSDataResultBioSaxsAveragev1_0(XSDataResult):
 class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
 	def __init__(self, status=None, processLog=None, integratedSpectrum=None, integratedImage=None, correctedImage=None):
 		XSDataResult.__init__(self, status)
-		checkType("XSDataResultBioSaxsAzimutIntv1_0", "Constructor of XSDataResultBioSaxsAzimutIntv1_0", correctedImage, "XSDataImage")
 		self.__correctedImage = correctedImage
-		checkType("XSDataResultBioSaxsAzimutIntv1_0", "Constructor of XSDataResultBioSaxsAzimutIntv1_0", integratedImage, "XSDataImage")
 		self.__integratedImage = integratedImage
-		checkType("XSDataResultBioSaxsAzimutIntv1_0", "Constructor of XSDataResultBioSaxsAzimutIntv1_0", integratedSpectrum, "XSDataFile")
 		self.__integratedSpectrum = integratedSpectrum
-		checkType("XSDataResultBioSaxsAzimutIntv1_0", "Constructor of XSDataResultBioSaxsAzimutIntv1_0", processLog, "XSDataString")
 		self.__processLog = processLog
 	def getCorrectedImage(self): return self.__correctedImage
 	def setCorrectedImage(self, correctedImage):
@@ -3800,15 +3704,11 @@ class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBioSaxsAzimutIntv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultBioSaxsAzimutIntv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBioSaxsAzimutIntv1_0.parseString(self.marshal())
@@ -3837,11 +3737,8 @@ class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
 class XSDataResultBioSaxsNormalizev1_0(XSDataResult):
 	def __init__(self, status=None, processLog=None, logFile=None, normalizedImage=None):
 		XSDataResult.__init__(self, status)
-		checkType("XSDataResultBioSaxsNormalizev1_0", "Constructor of XSDataResultBioSaxsNormalizev1_0", normalizedImage, "XSDataImage")
 		self.__normalizedImage = normalizedImage
-		checkType("XSDataResultBioSaxsNormalizev1_0", "Constructor of XSDataResultBioSaxsNormalizev1_0", logFile, "XSDataFile")
 		self.__logFile = logFile
-		checkType("XSDataResultBioSaxsNormalizev1_0", "Constructor of XSDataResultBioSaxsNormalizev1_0", processLog, "XSDataString")
 		self.__processLog = processLog
 	def getNormalizedImage(self): return self.__normalizedImage
 	def setNormalizedImage(self, normalizedImage):
@@ -3914,15 +3811,11 @@ class XSDataResultBioSaxsNormalizev1_0(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBioSaxsNormalizev1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultBioSaxsNormalizev1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBioSaxsNormalizev1_0.parseString(self.marshal())
@@ -3975,15 +3868,11 @@ class XSDataResultBioSaxsProcessOneRunv1_0(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBioSaxsProcessOneRunv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultBioSaxsProcessOneRunv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBioSaxsProcessOneRunv1_0.parseString(self.marshal())
@@ -4036,15 +3925,11 @@ class XSDataResultBioSaxsReprocessv1_0(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
+	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultBioSaxsReprocessv1_0' )
 		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultBioSaxsReprocessv1_0 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultBioSaxsReprocessv1_0.parseString(self.marshal())
@@ -4069,6 +3954,79 @@ class XSDataResultBioSaxsReprocessv1_0(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultBioSaxsReprocessv1_0
+
+class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
+	def __init__(self, status=None, mergedFile=None):
+		XSDataResult.__init__(self, status)
+		self.__mergedFile = mergedFile
+	def getMergedFile(self): return self.__mergedFile
+	def setMergedFile(self, mergedFile):
+		checkType("XSDataResultBioSaxsSmartMergev1_0", "setMergedFile", mergedFile, "XSDataFile")
+		self.__mergedFile = mergedFile
+	def delMergedFile(self): self.__mergedFile = None
+	# Properties
+	mergedFile = property(getMergedFile, setMergedFile, delMergedFile, "Property for mergedFile")
+	def export(self, outfile, level, name_='XSDataResultBioSaxsSmartMergev1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsSmartMergev1_0'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__mergedFile is not None:
+			self.mergedFile.export(outfile, level, name_='mergedFile')
+		else:
+			warnEmptyAttribute("mergedFile", "XSDataFile")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'mergedFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setMergedFile(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultBioSaxsSmartMergev1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultBioSaxsSmartMergev1_0' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultBioSaxsSmartMergev1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultBioSaxsSmartMergev1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsSmartMergev1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultBioSaxsSmartMergev1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultBioSaxsSmartMergev1_0
 
 
 
