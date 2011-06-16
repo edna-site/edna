@@ -45,7 +45,7 @@ class EDTestCasePluginUnitExecMatrixWritev1_0(EDTestCasePluginUnit):
     def testCheckParameters(self):
         xsDataInput = XSDataInputWriteMatrix()
         xsDataInput.setInputMatrix(XSDataArray())
-        xsDataInput.setOutputFile(XSDataFile())
+        xsDataInput.setOutputMatrixFile(XSDataFile())
         edPluginExecMatrixWrite = self.createPlugin()
         edPluginExecMatrixWrite.setDataInput(xsDataInput)
         edPluginExecMatrixWrite.checkParameters()

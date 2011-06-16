@@ -1,0 +1,38 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataFile
+
+complex type XSDataInputMatrixInvert extends XSDataInput {
+	inputMatrix : XSDataArray
+}
+
+complex type XSDataInputMatrixInvertFile extends XSDataInput {
+	inputMatrixFile : XSDataFile
+	outputMatrixFile : XSDataFile
+}
+
+complex type XSDataInputReadMatrix extends XSDataInput {
+	inputMatrixFile : XSDataFile
+}
+
+complex type XSDataInputWriteMatrix extends XSDataInput {
+	inputMatrix : XSDataArray
+	outputMatrixFile : XSDataFile
+}
+
+complex type XSDataResultMatrixInvert extends XSDataResult {
+	outputMatrix : XSDataArray
+}
+
+complex type XSDataResultMatrixInvertFile extends XSDataResult {
+	outputMatrixFile : XSDataFile
+}
+
+complex type XSDataResultReadMatrix extends XSDataResult {
+	outputMatrix : XSDataArray
+}
+
+complex type XSDataResultWriteMatrix extends XSDataResult {
+	outputMatrixFile : XSDataFile
+}

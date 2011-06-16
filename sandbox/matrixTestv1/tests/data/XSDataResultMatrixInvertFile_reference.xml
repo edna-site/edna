@@ -1,4 +1,4 @@
 <?xml version="1.0" ?>
 <XSDataResult>
-<outputFile><path><value>/tmp/edna-${USER}/inverted.edf</value></path></outputFile>
+<outputMatrixFile><path><value>/tmp/edna-${USER}/inverted.edf</value></path></outputMatrixFile>
 </XSDataResult>

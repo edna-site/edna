@@ -36,7 +36,7 @@ from EDFactoryPluginStatic  import EDFactoryPluginStatic
 
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
 EDFactoryPluginStatic.loadModule("EDInstallPILv1_1_7")
-EDFactoryPluginStatic.loadModule("EDInstallFabio_r5080")
+EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
 
 import numpy
 from  fabio.edfimage import edfimage
@@ -65,12 +65,12 @@ class EDPluginExecMatrixWritev1_0(EDPluginExec):
         EDVerbose.DEBUG("EDPluginExecMatrixWritev1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.checkMandatoryParameters(self.getDataInput().getInputMatrix(), "No Input Matrix")
-        self.checkMandatoryParameters(self.getDataInput().getOutputFile(), "No Output File")
+        self.checkMandatoryParameters(self.getDataInput().getOutputMatrixFile(), "No Output File")
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
         EDVerbose.DEBUG("EDPluginExecMatrixWritev1_0.preProcess")
-        self.outputFile = self.getDataInput().getOutputFile().getPath().getValue()
+        self.outputFile = self.getDataInput().getOutputMatrixFile().getPath().getValue()
         self.xsdMatIn = self.getDataInput().getInputMatrix()
         self.matIn = EDUtilsArray.xsDataToArray(self.xsdMatIn)
 
@@ -87,6 +87,6 @@ class EDPluginExecMatrixWritev1_0(EDPluginExec):
         EDVerbose.DEBUG("EDPluginExecMatrixWritev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultWriteMatrix()
-        xsDataResult.setOutputFile(self.getDataInput().getOutputFile())
+        xsDataResult.setOutputMatrixFile(self.getDataInput().getOutputMatrixFile())
         self.setDataOutput(xsDataResult)
 

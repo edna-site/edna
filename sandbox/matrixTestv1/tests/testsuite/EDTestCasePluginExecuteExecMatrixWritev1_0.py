@@ -63,10 +63,10 @@ class EDTestCasePluginExecuteExecMatrixWritev1_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.preProcess(self)
 
         xsDataInput = XSDataInputWriteMatrix.parseString(self.readAndParseFile(self.getDataInputFile()))
-        self.inputFile = xsDataInput.getOutputFile().getPath().getValue()
+        self.inputFile = xsDataInput.getOutputMatrixFile().getPath().getValue()
 
         self.xsDataResultReference = XSDataResultWriteMatrix.parseString(self.readAndParseFile(self.getReferenceDataOutputFile()))
-        self.outputFile = self.xsDataResultReference.getOutputFile().getPath().getValue()
+        self.outputFile = self.xsDataResultReference.getOutputMatrixFile().getPath().getValue()
 
         self.loadTestImage([os.path.basename(self.inputFile), os.path.basename(self.outputFile) ])
 

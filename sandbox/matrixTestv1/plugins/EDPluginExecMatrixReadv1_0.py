@@ -61,12 +61,12 @@ class EDPluginExecMatrixReadv1_0(EDPluginExec):
         """
         EDVerbose.DEBUG("EDPluginExecMatrixReadv1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getInputFile(), "No InputFile")
+        self.checkMandatoryParameters(self.getDataInput().getInputMatrixFile(), "No InputFile")
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
         EDVerbose.DEBUG("EDPluginExecMatrixReadv1_0.preProcess")
-        self.inputFile = self.getDataInput().getInputFile().getPath().getValue()
+        self.inputFile = self.getDataInput().getInputMatrixFile().getPath().getValue()
 
     def process(self, _edObject=None):
         EDPluginExec.process(self)

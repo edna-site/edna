@@ -64,7 +64,7 @@ class EDTestCasePluginExecuteExecMatrixInvertv1_0(EDTestCasePluginExecute):
 ################################################################################
 # Compare XSDataResults
 ################################################################################
-        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
+        strExpectedOutput = self.readAndParseFile(self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("Checking obtained result...")
         xsDataResultReference = XSDataResultMatrixInvert.parseString(strExpectedOutput)
         xsDataResultObtained = plugin.getDataOutput()

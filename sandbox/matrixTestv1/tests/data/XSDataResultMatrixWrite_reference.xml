@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <XSDataResultWriteMatrix>
-    <outputFile>
+    <outputMatrixFile>
         <path>
             <value>/tmp/edna-${USER}/inverted.edf</value>
         </path>
-    </outputFile>
+    </outputMatrixFile>
 </XSDataResultWriteMatrix>

@@ -45,8 +45,8 @@ class EDTestCasePluginUnitMatrixInvertFilev1_0(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputMatrixInvertFile()
-        xsDataInput.setInputFile(XSDataFile())
-        xsDataInput.setOutputFile(XSDataFile())
+        xsDataInput.setInputMatrixFile(XSDataFile())
+        xsDataInput.setOutputMatrixFile(XSDataFile())
         edPluginExecMatrixInvertFile = self.createPlugin()
         edPluginExecMatrixInvertFile.setDataInput(xsDataInput)
         edPluginExecMatrixInvertFile.checkParameters()

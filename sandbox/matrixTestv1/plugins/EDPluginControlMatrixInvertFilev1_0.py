@@ -68,8 +68,8 @@ class EDPluginControlMatrixInvertFilev1_0(EDPluginControl):
         """
         EDVerbose.DEBUG("EDPluginControlMatrixInvertFilev1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getInputFile(), "No Input File")
-        self.checkMandatoryParameters(self.getDataInput().getOutputFile(), "No Output file")
+        self.checkMandatoryParameters(self.getDataInput().getInputMatrixFile(), "No Input File")
+        self.checkMandatoryParameters(self.getDataInput().getOutputMatrixFile(), "No Output file")
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
@@ -84,7 +84,7 @@ class EDPluginControlMatrixInvertFilev1_0(EDPluginControl):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginControlMatrixInvertFilev1_0.process")
         xsdin = XSDataInputReadMatrix()
-        xsdin.setInputFile(self.getDataInput().getInputFile())
+        xsdin.setInputMatrixFile(self.getDataInput().getInputMatrixFile())
         self.__edPluginExecRead.setDataInput(xsdin)
         self.__edPluginExecRead.connectSUCCESS(self.doSuccessExecRead)
         self.__edPluginExecRead.connectFAILURE(self.doFailureExecRead)
@@ -120,7 +120,7 @@ class EDPluginControlMatrixInvertFilev1_0(EDPluginControl):
         xsdmat = _edPlugin.getDataOutput().getOutputMatrix()
         xsdin = XSDataInputWriteMatrix()
         xsdin.setInputMatrix(xsdmat)
-        xsdin.setOutputFile(self.getDataInput().getOutputFile())
+        xsdin.setOutputMatrixFile(self.getDataInput().getOutputMatrixFile())
         self.__edPluginExecWrite.setDataInput(xsdin)
         self.__edPluginExecWrite.connectSUCCESS(self.doSuccessExecWrite)
         self.__edPluginExecWrite.connectFAILURE(self.doFailureExecWrite)
@@ -135,8 +135,8 @@ class EDPluginControlMatrixInvertFilev1_0(EDPluginControl):
     def doSuccessExecWrite(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlMatrixInvertFilev1_0.doSuccessExecWrite")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlMatrixInvertFilev1_0.doSuccessExecWrite")
-        xsdout = _edPlugin.getDataOutput().getOutputFile()
-        self.xsDataResult.setOutputFile(xsdout)
+        xsdout = _edPlugin.getDataOutput().getOutputMatrixFile()
+        self.xsDataResult.setOutputMatrixFile(xsdout)
 
 
     def doFailureExecWrite(self, _edPlugin=None):

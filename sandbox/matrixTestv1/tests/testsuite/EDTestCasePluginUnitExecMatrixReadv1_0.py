@@ -45,7 +45,7 @@ class EDTestCasePluginUnitExecMatrixReadv1_0(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputReadMatrix()
-        xsDataInput.setInputFile(XSDataFile())
+        xsDataInput.setInputMatrixFile(XSDataFile())
         edPluginExecMatrixRead = self.createPlugin()
         edPluginExecMatrixRead.setDataInput(xsDataInput)
         edPluginExecMatrixRead.checkParameters()
