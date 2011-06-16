@@ -1,5 +1,5 @@
 #
-#    Project: The EDNA Archive Project
+#    Project: <projectName>
 #             http://www.edna-site.org
 #
 #    File: "$Id:$"
@@ -33,10 +33,10 @@ if [ -z "$EDNA_HOME" ]; then
 	echo "Guessing EDNA_HOME= "$EDNA_HOME
 fi
 
-xsDataBaseName=<xsDataBaseName>
+xsDataName=<xsDataName>
 xsDataBaseDir=<xsDataBaseDir>
 xsdHomeDir=${EDNA_HOME}/<projectName>/plugins/${xsDataBaseDir}/datamodel
 pyHomeDir=${EDNA_HOME}/<projectName>/plugins/${xsDataBaseDir}/plugins
-includeXSDFilePath=${EDNA_HOME}/kernel/datamodel/XSDataCommon.xsd
+includeXSDFilePath=${EDNA_HOME}/kernel/datamodel
 
-sh ${EDNA_HOME}/kernel/datamodel/generateDataBinding.sh ${xsDataBaseName} ${xsdHomeDir} ${pyHomeDir} ${includeXSDFilePath} 
+java -jar ${EDNA_HOME}/kernel/datamodel/EDGenerateDS.jar -includepaths ${includeXSDFilePath},${xsdHomeDir} -source ${xsdHomeDir}/${xsDataName}  -targetdir ${pyHomeDir}

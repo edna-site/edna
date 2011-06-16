@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf8 
 #
-#    Project: test for Array manipulation
+#    Project: <projectName>
 #             http://www.edna-site.org
 #
 #    File: "$Id:$"
 #
-#    Copyright (C) 2011, ESRF, Grenoble
+#    Copyright (C) <copyright>
 #
-#    Principal author:       Jérôme Kieffer
+#    Principal author:       <author>
 #
 #    Contributing authors:   
 #
@@ -27,7 +27,7 @@
 #
 import os, sys, subprocess, tempfile
 
-xsDataName = "XSDataMatrixv1.edml"
+xsDataName = "<xsDataName>"
 
 if "EDNA_HOME" not in os.environ:
     full_path = os.path.abspath(sys.argv[0])
@@ -55,7 +55,6 @@ cmdLine.append(xsdHomeDir)
 cmdLine.append("-sourceFile")
 cmdLine.append(xsDataName)
 cmdLine.append("-targetdir")
-cmdLine.append(os.path.join(os.path.dirname(xsdHomeDir), "src"))
+cmdLine.append(os.path.join(os.path.dirname(xsdHomeDir), "plugins"))
 sub = subprocess.Popen(cmdLine, cwd=tempfile.gettempdir())
 print("Java code for data-binding finished with exit code %s" % sub.wait())
-

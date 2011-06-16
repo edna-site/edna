@@ -1,5 +1,7 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataArray
 import XSDataCommon.XSDataFile
 
