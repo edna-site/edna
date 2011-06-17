@@ -289,6 +289,19 @@
 			</XSParamList>
 		</XSPluginItem>
 		
+		<XSPluginItem>
+			<name>EDPluginExecDataverv1_0</name>  
+            <XSParamList>
+                <XSParamItem>
+                    <name>execProcessScriptShell</name>
+                    <value>python</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>execProcessScriptExecutable</name>
+                    <value>/usr/bin/dataver</value>
+                </XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 
 
 	</XSPluginList> 
