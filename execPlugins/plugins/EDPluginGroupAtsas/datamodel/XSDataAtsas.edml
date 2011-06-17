@@ -18,3 +18,14 @@ complex type XSDataResultDatcmp extends XSDataResult {
 	chi: XSDataDouble 
 	fidelity: XSDataDouble
 }
+
+complex type XSDataInputDataver extends XSDataInput {
+	"dataver averages two or more curves from files"
+	inputCurve: XSDataFile []
+	outputCurve: XSDataFile
+	}
+
+complex type XSDataResultDataver extends XSDataResult {
+	" 	"
+	outputCurve: XSDataFile
+}

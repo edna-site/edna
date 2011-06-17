@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 7 11:34::22 2011 by EDGenerateDS.
+# Generated Fri Jun 17 11:14::42 2011 by EDGenerateDS.
 #
 
 import sys
@@ -103,6 +103,112 @@ class MixedContainer(object):
 #
 
 
+class XSDataInputDataver(XSDataInput):
+	"""dataver averages two or more curves from files"""
+	def __init__(self, configuration=None, outputCurve=None, inputCurve=None):
+		XSDataInput.__init__(self, configuration)
+		if inputCurve is None:
+			self.__inputCurve = []
+		else:
+			checkType("XSDataInputDataver", "Constructor of XSDataInputDataver", inputCurve, "list")
+			self.__inputCurve = inputCurve
+		checkType("XSDataInputDataver", "Constructor of XSDataInputDataver", outputCurve, "XSDataFile")
+		self.__outputCurve = outputCurve
+	def getInputCurve(self): return self.__inputCurve
+	def setInputCurve(self, inputCurve):
+		checkType("XSDataInputDataver", "setInputCurve", inputCurve, "list")
+		self.__inputCurve = inputCurve
+	def delInputCurve(self): self.__inputCurve = None
+	# Properties
+	inputCurve = property(getInputCurve, setInputCurve, delInputCurve, "Property for inputCurve")
+	def addInputCurve(self, value):
+		checkType("XSDataInputDataver", "setInputCurve", value, "XSDataFile")
+		self.__inputCurve.append(value)
+	def insertInputCurve(self, index, value):
+		checkType("XSDataInputDataver", "setInputCurve", value, "XSDataFile")
+		self.__inputCurve[index] = value
+	def getOutputCurve(self): return self.__outputCurve
+	def setOutputCurve(self, outputCurve):
+		checkType("XSDataInputDataver", "setOutputCurve", outputCurve, "XSDataFile")
+		self.__outputCurve = outputCurve
+	def delOutputCurve(self): self.__outputCurve = None
+	# Properties
+	outputCurve = property(getOutputCurve, setOutputCurve, delOutputCurve, "Property for outputCurve")
+	def export(self, outfile, level, name_='XSDataInputDataver'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputDataver'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		for inputCurve_ in self.getInputCurve():
+			inputCurve_.export(outfile, level, name_='inputCurve')
+		if self.getInputCurve() == []:
+			warnEmptyAttribute("inputCurve", "XSDataFile")
+		if self.__outputCurve is not None:
+			self.outputCurve.export(outfile, level, name_='outputCurve')
+		else:
+			warnEmptyAttribute("outputCurve", "XSDataFile")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'inputCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.inputCurve.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'outputCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setOutputCurve(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputDataver" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputDataver' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputDataver is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputDataver.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputDataver()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputDataver" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputDataver()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputDataver
+
 class XSDataInputDatcmp(XSDataInput):
 	"""datcmp compares two curves from files
 	"""
@@ -191,6 +297,85 @@ class XSDataInputDatcmp(XSDataInput):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputDatcmp
+
+class XSDataResultDataver(XSDataResult):
+	""" 	"""
+	def __init__(self, status=None, outputCurve=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataResultDataver", "Constructor of XSDataResultDataver", outputCurve, "XSDataFile")
+		self.__outputCurve = outputCurve
+	def getOutputCurve(self): return self.__outputCurve
+	def setOutputCurve(self, outputCurve):
+		checkType("XSDataResultDataver", "setOutputCurve", outputCurve, "XSDataFile")
+		self.__outputCurve = outputCurve
+	def delOutputCurve(self): self.__outputCurve = None
+	# Properties
+	outputCurve = property(getOutputCurve, setOutputCurve, delOutputCurve, "Property for outputCurve")
+	def export(self, outfile, level, name_='XSDataResultDataver'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultDataver'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__outputCurve is not None:
+			self.outputCurve.export(outfile, level, name_='outputCurve')
+		else:
+			warnEmptyAttribute("outputCurve", "XSDataFile")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'outputCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setOutputCurve(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultDataver" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultDataver' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultDataver is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultDataver.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultDataver()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultDataver" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultDataver()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultDataver
 
 class XSDataResultDatcmp(XSDataResult):
 	"""Higher chi-values indicate dis-similarities in the input.
