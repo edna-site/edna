@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jun 17 11:14::42 2011 by EDGenerateDS.
+# Generated Fri Jun 17 11:33::11 2011 by EDGenerateDS.
 #
 
 import sys
@@ -299,7 +299,7 @@ class XSDataInputDatcmp(XSDataInput):
 # end class XSDataInputDatcmp
 
 class XSDataResultDataver(XSDataResult):
-	""" 	"""
+	"""Result of Dataver 	"""
 	def __init__(self, status=None, outputCurve=None):
 		XSDataResult.__init__(self, status)
 		checkType("XSDataResultDataver", "Constructor of XSDataResultDataver", outputCurve, "XSDataFile")

@@ -26,6 +26,6 @@ complex type XSDataInputDataver extends XSDataInput {
 	}
 
 complex type XSDataResultDataver extends XSDataResult {
-	" 	"
+	"Result of Dataver 	"
 	outputCurve: XSDataFile
 }
