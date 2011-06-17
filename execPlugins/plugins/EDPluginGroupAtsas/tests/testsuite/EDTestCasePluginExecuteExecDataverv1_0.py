@@ -23,23 +23,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jérôme Kieffer"
+__author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011 ESRF, Grenoble"
 
-import os
+import os, tempfile
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from XSDataAtsas                         import XSDataResultDataver
+from EDFactoryPluginStatic               import EDFactoryPluginStatic
 
 class EDTestCasePluginExecuteExecDataverv1_0(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin Dataverv1_0
     """
-    
-    def __init__(self, _strTestName = None):
+
+    def __init__(self, _strTestName=None):
         """
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginExecDataverv1_0")
@@ -49,32 +50,36 @@ class EDTestCasePluginExecuteExecDataverv1_0(EDTestCasePluginExecute):
                                            "XSDataInputDataver_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultDataver_reference.xml"))
-                 
+        self.destFile = os.path.join(tempfile.gettempdir(), "edna-%s" % os.environ["USER"], "merged.dat")
     def preProcess(self):
         """
         Download reference 1D curves
         """
         EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage([ "noise1.dat", "noise2.dat" ])
-        
+        self.loadTestImage([ "noise1.dat", "noise2.dat" , "merged.dat"])
+
+        if not os.path.isdir(os.path.dirname(self.destFile)):
+            os.makedirs(os.path.dirname(self.destFile))
+        if os.path.isfile(self.destFile):
+            os.remove(self.destFile)
 
     def testExecute(self):
+        """  
         """
-        """ 
         self.run()
         xsdOut = self.getPlugin().getDataOutput()
-        EDAssert.strAlmostEqual(XSDataResultDataver.parseFile(self.getReferenceDataOutputFile()).marshal(),
+        EDAssert.strAlmostEqual(XSDataResultDataver.parseString(self.readAndParseFile(self.getReferenceDataOutputFile())).marshal(),
                                 xsdOut.marshal() , "XSData are almost the same", _fAbsError=0.1)
-        EDAssert.lowerThan(xsdOut.chi.value, 1.0, "Chi2 is lower than 1")
-        EDAssert.equal(xsdOut.fidelity.value, 1.0, "Fidelity is 1")
-
+        refData = open(os.path.join(self.getTestsDataImagesHome(), "merged.dat")).read().replace("\n", " ")
+        obtData = open(self.destFile).read().replace(os.linesep, " ")
+        EDAssert.strAlmostEqual(refData, obtData, "Checking obtained file", _fRelError=0.1)
 
     def process(self):
         """
         """
         self.addTestMethod(self.testExecute)
 
-        
+
 
 if __name__ == '__main__':
 

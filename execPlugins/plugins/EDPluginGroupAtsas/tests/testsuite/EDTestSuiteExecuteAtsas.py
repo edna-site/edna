@@ -37,6 +37,7 @@ class EDTestSuiteExecuteAtsas(EDTestSuite):
 
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDatcmpv1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecDataverv1_0")
 
 
 

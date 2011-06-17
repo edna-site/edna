@@ -1,3 +1,19 @@
 <?xml version="1.0" ?>
 <XSDataInput>
+	<outputCurve>
+		<path>
+			<value>/tmp/edna-${USER}/merged.dat</value>
+		</path>
+	</outputCurve>
+	<inputCurve>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/noise1.dat</value>
+		</path>
+	</inputCurve>
+	<inputCurve>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/noise2.dat</value>
+		</path>
+	</inputCurve>
+	
 </XSDataInput>
