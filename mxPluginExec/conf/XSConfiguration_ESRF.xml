@@ -150,6 +150,10 @@
 					<value>Mosflm version 7.0.7 for Image plate and CCD data 20th December 2010</value>
 				</XSParamItem>
 				<XSParamItem>
+					<name>raster</name>
+					<value>15 15 3 3 3</value>
+				</XSParamItem>
+				<XSParamItem>
 					<name>timeOut</name>
 					<value>30</value>
 				</XSParamItem>
@@ -270,7 +274,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/BEST/v3.4.3_20110506/linux/best</value>
+					<value>/opt/pxsoft/BEST/v3.4.4_20110610/linux/best</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -278,7 +282,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Version 3.4.3 //  06.05.2010</value>
+					<value>Version 3.4.4 //  10.06.2011</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
