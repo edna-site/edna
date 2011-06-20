@@ -78,6 +78,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         self.addCompatibleVersion("Version 3.4.1 //  15.02.2011")
         self.addCompatibleVersion("Version 3.4.2 //  05.03.2011")
         self.addCompatibleVersion("Version 3.4.3 //  06.05.2011")
+        self.addCompatibleVersion("Version 3.4.4 //  10.06.2011")
 
         self.__strCONF_BEST_HOME_LABEL = "besthome"
 
