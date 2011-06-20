@@ -32,7 +32,7 @@ matplotlib.use('Agg')
 from matplotlib import pylab
 from matplotlib.colors import colorConverter
 
-from numpy import mean, std, var, arange
+from numpy import mean, std, var, arange, resize
 
 from EDVerbose import EDVerbose
 from EDSlot import EDSlot
@@ -493,18 +493,26 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
         
         import h5py
         tmpFile = h5py.File(_fileName,'r')
+        
         nxsExperimentalQ = tmpFile[_strNxsQ]
         nxsExperimentalValues = tmpFile[_strNxsData]
+        nxsShape = nxsExperimentalValues.shape 
+        if len(nxsShape) > 1:
+            _iNbColumns = min(_iNbColumns, nxsShape[-2])
+        else:
+            _iNbColumns = 1
+            
+        nxsExperimentalValues = resize(nxsExperimentalValues, (_iNbColumns,len(nxsExperimentalQ)))
         
         for (idx, _tmpQ) in enumerate(nxsExperimentalQ[:]):
             if (((_tmpQ > _fQMin) or (_fQMin is None)) and \
                 ((_tmpQ < _fQMax) or (_fQMax is None))):
 
-                _tmpValue = mean(nxsExperimentalValues[0,:_iNbColumns,idx])                  
+                _tmpValue = mean(nxsExperimentalValues[:_iNbColumns,idx])                  
                 tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
                 tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
                 if (_iNbColumns > 1):
-                    _tmpStdDev = std(nxsExperimentalValues[0,:_iNbColumns,idx])
+                    _tmpStdDev = std(nxsExperimentalValues[:_iNbColumns,idx])
                     tmpExperimentalDataStdDev.append(XSDataFloat(_tmpStdDev))
              
         self.getDataInput().setExperimentalDataQ(tmpExperimentalDataQ)
