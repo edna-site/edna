@@ -150,10 +150,6 @@
 					<value>Mosflm version 7.0.7 for Image plate and CCD data 20th December 2010</value>
 				</XSParamItem>
 				<XSParamItem>
-					<name>raster</name>
-					<value>15 15 3 3 3</value>
-				</XSParamItem>
-				<XSParamItem>
 					<name>timeOut</name>
 					<value>600</value>
 				</XSParamItem>
