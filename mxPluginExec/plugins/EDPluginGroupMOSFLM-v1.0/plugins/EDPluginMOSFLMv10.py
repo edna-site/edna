@@ -55,10 +55,10 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
         self.addCompatibleVersion("Mosflm version 7.0.6 for Image plate and CCD data 26th January 2010")
         self.addCompatibleVersion("Mosflm version 7.0.7 for Image plate and CCD data 20th December 2010")
 
-        self.__strMOSFLMNewmatFileName = None
-        self.__strMOSFLMMatrixFileName = None
-        self.__bReversephi = False
-
+        self.strMOSFLMNewmatFileName = None
+        self.strMOSFLMMatrixFileName = None
+        self.bReversephi = False
+        self.strRaster = None
 
     def process(self, _edObject=None):
         EDPluginExecProcessScript.process(self)
@@ -80,7 +80,10 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
                 strReversephi = xsDataStringParameter.getValue()
                 if  strReversephi is not None:
                     if strReversephi.lower() == "true":
-                        self.__bReversephi = True
+                        self.bReversephi = True
+            xsDataStringParameterRaster = EDConfiguration.getParamItem(self.getConfiguration(), "raster")
+            if xsDataStringParameterRaster:
+                self.strRaster = xsDataStringParameterRaster.getValue()
 
 
     def checkParameters(self):
@@ -168,29 +171,33 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
                 self.addListCommandExecution("LIMITS EXCLUDE  33.54  0.0 36.64  423.6")
             
             # Check if reversephi is configured
-            if self.__bReversephi:
+            if self.bReversephi:
                 self.addListCommandExecution("DETECTOR REVERSEPHI")
+
+            # Check if raster is configured
+            if self.strRaster:
+                self.addListCommandExecution("RASTER %s" % self.strRaster)
 
 
 
     def getNewmatFileName(self):
-        if (self.__strMOSFLMNewmatFileName is None):
-            self.__strMOSFLMNewmatFileName = self.getScriptBaseName() + "_newmat.mat"
-        return self.__strMOSFLMNewmatFileName
+        if (self.strMOSFLMNewmatFileName is None):
+            self.strMOSFLMNewmatFileName = self.getScriptBaseName() + "_newmat.mat"
+        return self.strMOSFLMNewmatFileName
 
 
     def setNewmatFileName(self, _strMOSFLMNewmatFileName):
-        self.__strMOSFLMNewmatFileName = _strMOSFLMNewmatFileName
+        self.strMOSFLMNewmatFileName = _strMOSFLMNewmatFileName
 
 
     def getMatrixFileName(self):
-        if (self.__strMOSFLMMatrixFileName is None):
-            self.__strMOSFLMMatrixFileName = self.getScriptBaseName() + "_matrix.mat"
-        return self.__strMOSFLMMatrixFileName
+        if (self.strMOSFLMMatrixFileName is None):
+            self.strMOSFLMMatrixFileName = self.getScriptBaseName() + "_matrix.mat"
+        return self.strMOSFLMMatrixFileName
 
 
     def setMatrixFileName(self, _strMOSFLMMatrixFileName):
-        self.__strMOSFLMMatrixFileName = _strMOSFLMMatrixFileName
+        self.strMOSFLMMatrixFileName = _strMOSFLMMatrixFileName
 
 
     def splitStringIntoListOfFloats(self, _strInput):

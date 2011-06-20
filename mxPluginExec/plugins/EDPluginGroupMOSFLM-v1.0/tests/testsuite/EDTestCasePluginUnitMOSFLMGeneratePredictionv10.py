@@ -119,7 +119,6 @@ class EDTestCasePluginUnitMOSFLMGeneratePredictionv10(EDTestCasePluginUnit):
         pluginGeneratePrediction.setDataInput(xsDataMOSFLMInputGeneratePrediction)
         xsDataMOSFLMOutputGeneratePrediction = pluginGeneratePrediction.createDataMOSFLMOutputGeneratePrediction()
         stringImagePath = xsDataMOSFLMOutputGeneratePrediction.getPredictionImage().getPath().getValue()
-        #xsDataMOSFLMOutputGeneratePrediction.outputFile( "XSDataMOSFLMOutputGeneratePrediction_reference.xml" )
         stringReferenceXML = self.readAndParseFile(self.strReferenceDataOutputFile)
         from XSDataMOSFLMv10 import XSDataMOSFLMOutputGeneratePrediction
         xsDataMOSFLMOutputGeneratePredictionReference = XSDataMOSFLMOutputGeneratePrediction.parseString(stringReferenceXML)

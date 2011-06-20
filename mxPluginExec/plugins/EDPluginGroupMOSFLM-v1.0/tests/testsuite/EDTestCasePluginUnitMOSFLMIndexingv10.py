@@ -128,7 +128,6 @@ class EDTestCasePluginUnitMOSFLMIndexingv10(EDTestCasePluginUnit):
         strNewmatFile = os.path.join(self.strUnitTestDataHome, "EDPluginMOSFLMv10_autoindexMat_ok.txt")
         pluginIndexing.setNewmatFileName(strNewmatFile)
         xsDataMOSFLMOutputIndexing = pluginIndexing.createDataMOSFLMOutputIndexing()
-        xsDataMOSFLMOutputIndexing.outputFile("XSDataMOSFLMOutputIndexing_reference.xml")
         strReferenceXML = self.readAndParseFile(self.strReferenceDataOutputFile)
         xsDataMOSFLMOutputIndexingReference = XSDataMOSFLMOutputIndexing.parseString(strReferenceXML)
         #print len( strReferenceXML )

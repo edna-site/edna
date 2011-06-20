@@ -116,8 +116,6 @@ class EDTestCasePluginUnitMOSFLMv10(EDTestCasePluginUnit):
         strFilename = os.path.join(self.strUnitTestDataHome, "EDPluginMOSFLMv10_autoindexMat_test.txt")
         xsDataMOSFLMNewmat = edPluginMOSFLMv10.getDataMOSFLMNewmat(strFilename)
         xsDataMOSFLMNewmatReference = self.getReferenceDataMOSFLMNewmat()
-        xsDataMOSFLMNewmatReference.outputFile("test_reference.xml")
-        xsDataMOSFLMNewmat.outputFile("test1.xml")
         EDAssert.equal(xsDataMOSFLMNewmatReference.marshal(), xsDataMOSFLMNewmat.marshal(), "MOSFLM newmat")
         self.cleanUp(edPluginMOSFLMv10)
 
@@ -186,11 +184,41 @@ class EDTestCasePluginUnitMOSFLMv10(EDTestCasePluginUnit):
         EDAssert.equal(edListCommandsReference, edListCommands, "MOSFLM commands with reversephi configured")
 
 
+    def testRasterConfiguration(self):
+        strPathToTestConfigFile = os.path.join(self.strUnitTestDataHome, "XSConfiguration_raster.xml")
+        edConfiguration = EDConfiguration(strPathToTestConfigFile)
+        edConfiguration.load()
+        xsPluginItem = edConfiguration.getPluginItem("EDPluginMOSFLMv10")
+        xsDataMOSFLMInput = XSDataMOSFLMInput()
+        xsDataMOSFLMBeam = XSDataMOSFLMBeamPosition()
+        xsDataMOSFLMBeam.setX(XSDataLength(1.0))
+        xsDataMOSFLMBeam.setY(XSDataLength(2.0))
+        xsDataMOSFLMInput.setBeam(xsDataMOSFLMBeam)
+        xsDataMOSFLMDetector = XSDataMOSFLMDetector()
+        xsDataMOSFLMDetector.setType(XSDataString("ADSC"))
+        xsDataMOSFLMInput.setDetector(xsDataMOSFLMDetector)
+        xsDataMOSFLMInput.setDirectory(XSDataString("/tmp"))
+        xsDataMOSFLMInput.setTemplate(XSDataString("testdata_1_###.img"))
+        xsDataMOSFLMInput.setWavelength(XSDataWavelength(1.1111))
+        xsDataMOSFLMInput.setDistance(XSDataLength(222.22))
+        edPluginMOSFLMv10 = self.createPlugin()
+        edPluginMOSFLMv10.setScriptExecutable("cat")
+        edPluginMOSFLMv10.setConfiguration(xsPluginItem)
+        edPluginMOSFLMv10.configure()
+        edPluginMOSFLMv10.setXSDataInputClass(XSDataMOSFLMInput)
+        edPluginMOSFLMv10.setDataInput(xsDataMOSFLMInput)
+        edPluginMOSFLMv10.generateMOSFLMCommands()
+        edListCommands = edPluginMOSFLMv10.getListCommandExecution()
+        edListCommandsReference = ['WAVELENGTH 1.1111', 'DISTANCE 222.22', 'BEAM 1.0 2.0', 'DETECTOR ADSC', 'DIRECTORY /tmp', 'TEMPLATE testdata_1_###.img', 'RASTER 15 15 3 3 3']
+        EDAssert.equal(edListCommandsReference, edListCommands, "MOSFLM commands with ratser configured")
+
+    
     def process(self):
         self.addTestMethod(self.testGetDataMOSFLMNewmat)
         self.addTestMethod(self.testWriteDataMOSFLMNewmat)
         self.addTestMethod(self.testGenerateMOSFLMCommands)
         self.addTestMethod(self.testReversephiConfiguration)
+        self.addTestMethod(self.testRasterConfiguration)
 
 
 

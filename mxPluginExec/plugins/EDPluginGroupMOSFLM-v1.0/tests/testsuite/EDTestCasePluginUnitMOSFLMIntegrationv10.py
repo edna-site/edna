@@ -101,7 +101,6 @@ class EDTestCasePluginUnitMOSFLMIntegrationv10(EDTestCasePluginUnit):
         xsDataFile.setPath(XSDataString("/tmp/EDPluginMOSFLMIntegrationv10_process_1_1.mtz"))
         xsDataMOSFLMIntegrationOutput.setGeneratedMTZFile(xsDataFile)
         strReferenceXML = self.readAndParseFile(self.strReferenceDataOutputFile)
-        #xsDataMOSFLMIntegrationOutput.outputFile( "test.xml" )
         xsDataMOSFLMIntegrationOutputReference = XSDataMOSFLMOutputIntegration.parseString(strReferenceXML)
         EDAssert.equal(xsDataMOSFLMIntegrationOutputReference.marshal(), xsDataMOSFLMIntegrationOutput.marshal())
 
