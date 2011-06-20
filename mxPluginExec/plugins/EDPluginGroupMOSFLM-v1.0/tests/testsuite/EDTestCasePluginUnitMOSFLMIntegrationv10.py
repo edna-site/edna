@@ -39,6 +39,7 @@ from EDVerbose            import EDVerbose
 from EDAssert             import EDAssert
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from EDUtilsPath          import EDUtilsPath
+from EDConfiguration import EDConfiguration
 
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataString
@@ -64,17 +65,18 @@ class EDTestCasePluginUnitMOSFLMIntegrationv10(EDTestCasePluginUnit):
 
 
     def preProcess(self):
-        """
-        """
         EDVerbose.DEBUG ("*** EDTestCaseEDPluginMOSFLMIntegrationv10.preProcess")
 
 
 
     def testGenerateMOSFLMIntegrationCommands(self):
-        """
-        """
+        strPathToTestConfigFile = os.path.join(self.strUnitTestDataHome, "XSConfiguration_unitTest.xml")
+        edConfiguration = EDConfiguration(strPathToTestConfigFile)
+        edConfiguration.load()
+        xsPluginItem = edConfiguration.getPluginItem("EDPluginMOSFLMIntegrationv10")
         pluginIntegration = self.createPlugin()
         pluginIntegration.setScriptExecutable("cat")
+        pluginIntegration.setConfiguration(xsPluginItem)
         pluginIntegration.configure()
         strXMLInputData = self.readAndParseFile (self.strReferenceDataInputFile)
         pluginIntegration.setDataInput(strXMLInputData)
