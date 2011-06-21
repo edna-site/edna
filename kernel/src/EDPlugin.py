@@ -34,15 +34,15 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, tempfile, stat
 
-from EDSlot          import EDSlot
-from EDApplication   import EDApplication
-from EDConfiguration import EDConfiguration
-from EDUtilsFile     import EDUtilsFile
+from EDSlot             import EDSlot
+from EDApplication      import EDApplication
+from EDConfiguration    import EDConfiguration
+from EDUtilsFile        import EDUtilsFile
+from EDStatus           import EDStatus
+from EDAction           import EDAction
 
-from EDAction import EDAction
-
-from XSDataCommon import XSPluginItem
-from XSDataCommon import XSDataResult
+from XSDataCommon       import XSPluginItem
+from XSDataCommon       import XSDataResult
 
 
 class EDPlugin(EDAction):
@@ -85,13 +85,14 @@ class EDPlugin(EDAction):
         self.__strWorkingDirectory = None
         self.__strBaseName = None
         self.__listExecutiveSummaryLines = []
-        self.__strExecutiveSummarySeparator = "-----------------------------------------------------------------------------------------------------------------"
+        self.__strExecutiveSummarySeparator = "-" * 80
         self.__listErrorMessages = []
         self.__listWarningMessages = []
         self.__isRequiredToHaveConfiguration = False
         self.__bWriteDataXMLInputOutput = True
         self.__bWriteDataXMLOutput = True
         self.__bWriteDataXMLInput = True
+        self.__strPluginId = "%s-%08i" % (self.getClassName(), self.getId())
 
 
     def preProcess(self, _edObject=None):
@@ -113,8 +114,19 @@ class EDPlugin(EDAction):
         self.connectFinallyProcess(self.checkDataOutput)
         if (self.__strBaseName is None):
             self.setBaseName(self.createBaseName())
+        EDStatus.tellRunning(self.__strPluginId)
+        self.connectFinallyProcess(self.tellFinished)
         self.checkParameters()
 
+
+    def tellFinished(self, _edObject=None):
+        """
+        Tell EDStatus that the plugin has finished, either in success either in error 
+        """
+        if self.isFailure():
+            EDStatus.tellFailure(self.__strPluginId)
+        else:
+            EDStatus.tellSuccess(self.__strPluginId)
 
     def checkDataOutput(self, _edObject=None):
         """
@@ -131,7 +143,7 @@ class EDPlugin(EDAction):
             if self.__bWriteDataXMLOutput:
                 self.writeDataOutput()
 
-    
+
     def synchronize(self):
         """
         This method calls EDAction.synchronize and if a time-out occurs an error message
@@ -157,6 +169,7 @@ class EDPlugin(EDAction):
         """
         self.DEBUG("EDPlugin.getConfiguration")
         return self.__xsPluginItem
+    configuration = property(getConfiguration, setConfiguration)
 
 
     def getStringConfigurationParameterValue(self, _strConfigurationParameterName):
@@ -516,7 +529,7 @@ class EDPlugin(EDAction):
     # Property for dataOutput
     dataOutput = property(getDataOutput, setDataOutput, delDataOutput, "Property for dataOutput")
 
-    
+
     def exportDataOutput(self, _edPlugin=None):
         """
         Deprecated
