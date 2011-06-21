@@ -29,7 +29,7 @@
 Tango device server launcher for EDNA server.
 """
 
-__authors__ = [ "Matias GUIJARRO", "Jérôme Kieffer" ]
+__authors__ = [ "Matias GUIJARRO", "Jérôme Kieffer", "Cyril Guilloud" ]
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
@@ -51,10 +51,11 @@ if not os.environ.has_key("EDNA_HOME"):
 
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
-from EDJob     import EDJob
-from EDObject  import EDObject
-from EDVerbose import EDVerbose
-from EDUtilsParallel import EDUtilsParallel
+from EDJob              import EDJob
+from EDObject           import EDObject
+from EDVerbose          import EDVerbose
+from EDUtilsParallel    import EDUtilsParallel
+from EDStatus           import EDStatus
 
 class EdnaDS(PyTango.Device_4Impl, EDObject):
     def __init__(self, cl, name):
@@ -122,6 +123,27 @@ class EdnaDS(PyTango.Device_4Impl, EDObject):
         self.synchronizeOn()
         self.push_change_event("jobFailure", jobId)
         self.synchronizeOff()
+
+
+    def getRunning(self):
+        """
+        retrieve the list of plugins currently under execution (with their plugin-Id)
+        """
+        return EDStatus.getRunning()
+
+
+    def getSuccess(self):
+        """
+        retrieve the list of plugins finished with success (with their plugin-Id)
+        """
+        return EDStatus.getSuccess()
+
+
+    def getFailure(self):
+        """
+        retrieve the list of plugins finished with failure (with their plugin-Id)
+        """
+        return EDStatus.getFailure()
 
 
 class EdnaDSClass(PyTango.DeviceClass):
