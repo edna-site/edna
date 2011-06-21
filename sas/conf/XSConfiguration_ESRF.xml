@@ -8,7 +8,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/gnom</value></XSParamItem>
+					<value>/opt/pxsoft/bin/gnom</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
@@ -25,15 +25,13 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/dammin</value></XSParamItem>
+					<value>/opt/pxsoft/bin/dammin</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value></XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1000</value>
-				</XSParamItem>
-			</XSParamList>
+					<value>600</value></XSParamItem></XSParamList>
 	</XSPluginItem>
 	<XSPluginItem>
 			<name>EDPluginExecDammifv0_1</name>
@@ -43,16 +41,13 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/dammif</value></XSParamItem>
+					<value>/opt/pxsoft/bin/dammif</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value></value>
-				</XSParamItem>
+					<value></value></XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
-				</XSParamItem>
-			</XSParamList>
+					<value>600</value></XSParamItem></XSParamList>
 	</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecDamaverv0_1</name>
@@ -62,16 +57,14 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/damaver</value></XSParamItem>
+					<value>/opt/pxsoft/bin/damaver</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
-				</XSParamItem>
-			</XSParamList>
+					<value>600</value></XSParamItem></XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecSupcombv0_1</name>
@@ -81,7 +74,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/supcomb20</value></XSParamItem>
+					<value>/opt/pxsoft/bin/supcomb20</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
@@ -98,7 +91,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/damfilt</value></XSParamItem>
+					<value>/opt/pxsoft/bin/damfilt</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
@@ -115,7 +108,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/damstart</value></XSParamItem>
+					<value>/opt/pxsoft/bin/damstart</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
@@ -129,21 +122,17 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1800</value>
-				</XSParamItem>
-			</XSParamList>
+					<value>1800</value></XSParamItem></XSParamList>
 	</XSPluginItem>
 	<XSPluginItem>
 			<name>EDPluginControlSolutionScatteringv0_3</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1800</value>
-				</XSParamItem>
+					<value>1800</value></XSParamItem>
 				<XSParamItem>
 					<name>jMol</name>
-					<value>/usr/bin/jmol</value>
-				</XSParamItem>
+					<value>/opt/pxsoft/bin/jmol</value></XSParamItem>
 			</XSParamList>
 	</XSPluginItem>
 </XSPluginList> 

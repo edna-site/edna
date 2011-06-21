@@ -42,6 +42,7 @@ class EDTestCasePluginUnitControlSolutionScatteringv0_3(EDTestCasePluginUnit):
     def testCheckParameters(self):
         xsDataInput = XSDataInputSolutionScattering()
         edPluginExecSolutionScattering = self.createPlugin()
+        edPluginExecSolutionScattering.configure()
         edPluginExecSolutionScattering.setDataInput(xsDataInput)
         edPluginExecSolutionScattering.checkParameters()
 
