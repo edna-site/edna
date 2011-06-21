@@ -30,7 +30,7 @@ import os, operator, itertools, matplotlib
 matplotlib.use('Agg')
 
 from matplotlib import pylab
-from numpy import mean, std
+from numpy import mean, std, resize
 
 from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
@@ -43,7 +43,7 @@ from XSDataSAS import XSDataInputGnom
 from XSDataSAS import XSDataInputDammif
 from XSDataSAS import XSDataInputDamaver
 
-from XSDataSAS import XSDataFloat, XSDataString
+from XSDataSAS import XSDataFloat, XSDataInteger, XSDataString
 
 
 def try_float(tmpStr):
@@ -99,6 +99,8 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
         self.__xsDataOutput = None
 
         self.__iNbThreads = None
+        self.__iUnit = 1
+        self.__strUnit = "ANGSTROM"
         self.__strMode = "Fast"
         self.__bOnlyGnom = False
         self.__bPlotFit = False
@@ -125,6 +127,7 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
 
         self.checkRMaxSearchParameters()
+        #self.checkUnitParameter()
         self.checkModeParameter()
 
     def checkRMaxSearchParameters(self):
@@ -149,6 +152,18 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
                 self.__strMode = self.getDataInput().getMode().getValue().lower()
         except:
             EDVerbose.WARNING("Running Solution Scattering pipeline in fast mode by default")
+
+    def checkUnitParameter(self):
+        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.checkUnitParameter")
+        try:
+            if self.getDataInput().getAngularUnits().getValue() in [1, 2, 3, 4]:
+                self.__iUnit = self.getDataInput().getAngularUnits().getValue()
+                if self.__iUnit in [1, 3]:
+                    self.__strUnit = "ANGSTROM"
+                else:
+                    self.__strUnit = "NANOMETER"
+        except:
+            EDVerbose.WARNING("Using Angstrom units for q-values by default")
 
 
     def preProcess(self, _edObject=None):
@@ -210,6 +225,7 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
                 if self.__xsDataExperimentalDataStdDev:
                     dictDataInputGnom[(ser,idx)].setExperimentalDataStdDev(self.__xsDataExperimentalDataStdDev)
                 dictDataInputGnom[(ser,idx)].setRMax(rMax)
+                dictDataInputGnom[(ser,idx)].setAngularScale(XSDataInteger(self.__iUnit))
                 dictDataInputGnom[(ser,idx)].setMode(XSDataString(self.__strMode))
             self.__xsGnomJobs = EDParallelJobLauncher(self, self.__strPluginExecGnom, dictDataInputGnom, self.__iNbThreads)
             self.executePluginSynchronous(self.__xsGnomJobs)
@@ -244,6 +260,7 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
     
             xsDataInputDammif = XSDataInputDammif()
             xsDataInputDammif.setGnomOutputFile(self.__xsDataOutput)
+            xsDataInputDammif.setUnit(XSDataString(self.__strUnit))
             xsDataInputDammif.setMode(XSDataString(self.__strMode))
     
             dictDataInputDammif = {}
@@ -348,16 +365,26 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
         tmpFile = h5py.File(_fileName,'r')
         nxsExperimentalQ = tmpFile[_strNxsQ]
         nxsExperimentalValues = tmpFile[_strNxsData]
+        nxsShape = nxsExperimentalValues.shape 
+        if len(nxsShape) > 1:
+            _iNbColumns = min(_iNbColumns, nxsShape[-2])
+        else:
+            _iNbColumns = 1
+            
+        nxsExperimentalValues = resize(nxsExperimentalValues, (_iNbColumns,len(nxsExperimentalQ)))
         
         for (idx, _tmpQ) in enumerate(nxsExperimentalQ[:]):
             if (((_tmpQ > _fQMin) or (_fQMin is None)) and \
                 ((_tmpQ < _fQMax) or (_fQMax is None))):
 
-                _tmpValue = mean(nxsExperimentalValues[0,:_iNbColumns,idx])                  
-                tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                _tmpValue = mean(nxsExperimentalValues[:_iNbColumns,idx])                  
+                if self.getDataInput().getAngularUnits().getValue() in [2,4]:                  
+                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
+                else:
+                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
                 tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
                 if (_iNbColumns > 1):
-                    _tmpStdDev = std(nxsExperimentalValues[0,:_iNbColumns,idx])
+                    _tmpStdDev = std(nxsExperimentalValues[:_iNbColumns,idx])
                     tmpExperimentalDataStdDev.append(XSDataFloat(_tmpStdDev))
              
         self.getDataInput().setExperimentalDataQ(tmpExperimentalDataQ)
@@ -386,7 +413,10 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
                     ((_tmpQ < _fQMax) or (_fQMax is None))):
                     
                     _tmpValue = mean(map(float, lineList[1:_iNbColumns+1]))                  
-                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                    if self.getDataInput().getAngularUnits().getValue() in [2,4]:                  
+                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
+                    else:
+                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
                     tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
                     if (_iNbColumns > 1):
                         _tmpStdDev = std(map(float, lineList[1:_iNbColumns+1]))

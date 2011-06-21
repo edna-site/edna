@@ -50,6 +50,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         self.setXSDataInputClass(XSDataInputDammif)
 
         self.__strMode = 'fast'
+        self.__strUnit = 'ANGSTROM'
         self.__strSymmetry = 'P1'
         self.__strParticleShape = 'UNKNOWN'
         self.__strConstant = ''
@@ -64,6 +65,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         self.checkMandatoryParameters(self.getDataInput().getGnomOutputFile(), "No GNOM output file specified")
 
         self.checkDammifModeInput()
+        self.checkDammifUnitInput()
         self.checkDammifSymmetryInput()
         self.checkDammifParticleShapeInput()
         self.checkDammifConstant()
@@ -76,6 +78,14 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
                 self.__strMode = self.getDataInput().getMode().getValue().lower()
         except:
             EDVerbose.WARNING("Running DAMMIF in fast mode by default")
+
+    def checkDammifUnitInput(self):
+        EDVerbose.DEBUG("EDPluginExecDammifv0_1.checkDammifUnit")
+        try:
+            if self.getDataInput().getUnit().getValue().lower() in ['angstrom', 'nanometer']:
+                self.__strUnit = self.getDataInput().getUnit().getValue().upper()
+        except:
+            EDVerbose.WARNING("Using A-1 units for q-axis values by default")
 
     def checkDammifSymmetryInput(self):
         EDVerbose.DEBUG("EDPluginExecDammifv0_1.checkDammifSymmetryInput")
@@ -162,6 +172,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         os.symlink(tmpInputFileName, os.path.join(self.getWorkingDirectory(), "dammif.out"))
 
         commandLine = ['--mode', self.__strMode, \
+                       #'--unit', self.__strUnit, \
                        '--symmetry', self.__strSymmetry, \
                        '--anisometry', self.__strParticleShape, \
                        self.__strConstant, self.__strChained, 'dammif.out']

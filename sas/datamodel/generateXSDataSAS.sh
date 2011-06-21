@@ -34,7 +34,6 @@ if [ -z "$EDNA_HOME" ]; then
 fi
 
 xsDataBaseName=XSDataSAS
-xsDataBaseDir=EDPluginControlSolutionScattering-v0.2
 xsdHomeDir=${EDNA_HOME}/sas/datamodel
 pyHomeDir=${EDNA_HOME}/sas/src
 includeXSDFilePath=${EDNA_HOME}/kernel/datamodel/XSDataCommon.xsd

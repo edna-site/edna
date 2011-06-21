@@ -16,6 +16,7 @@
 						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="rMax" type="XSDataFloat"
 						minOccurs="1" maxOccurs="1" />
+					<xs:element name="angularScale" type="XSDataInteger" minOccurs="0"></xs:element>
 					<xs:element name="mode" type="XSDataString" minOccurs="0"></xs:element>
 				</xs:sequence>
 			</xs:extension>
@@ -101,6 +102,8 @@
 						minOccurs="1" maxOccurs="1" />
 
 
+					<xs:element name="unit" type="XSDataString"
+						minOccurs="0" maxOccurs="1" />
 					<xs:element name="symmetry" type="XSDataString"
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="mode" type="XSDataString"
@@ -153,6 +156,8 @@
 						type="XSDataSolutionScatteringSettings" minOccurs="0"
 						maxOccurs="1">
 					</xs:element>
+					<xs:element name="angularUnits" type="XSDataInteger"
+						minOccurs="0" maxOccurs="1" />
 					<xs:element name="symmetry" type="XSDataString"
 						minOccurs="0" maxOccurs="1" />
 					<xs:element name="mode" type="XSDataString"

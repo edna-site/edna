@@ -91,7 +91,10 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         EDVerbose.DEBUG("*** EDPluginExecGnomv0_1.generateGnomScript")
         self.generateGnomInputFile()
         self.setScriptCommandline("")
-        commandString = 'gnom_tmp.dat' + '\n' * 11 + str(self.getDataInput().getRMax().getValue()) + '\n' * 3 +'No'+ '\n' * 6
+        commandString = 'gnom_tmp.dat' + \
+                        '\n' * 5 + str(self.getDataInput().getAngularScale().getValue()) + \
+                        '\n' * 5 + str(self.getDataInput().getRMax().getValue()) + \
+                        '\n' * 3 +'No'+ '\n' * 6
         self.addListCommandExecution(commandString)
 
 

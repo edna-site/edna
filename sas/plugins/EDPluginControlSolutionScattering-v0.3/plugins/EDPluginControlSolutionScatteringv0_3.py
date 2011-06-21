@@ -53,7 +53,7 @@ from XSDataSAS import XSDataInputDamaver
 from XSDataSAS import XSDataInputDamfilt
 from XSDataSAS import XSDataInputDamstart
 
-from XSDataSAS import XSDataFloat, XSDataString, XSDataBoolean
+from XSDataSAS import XSDataFloat, XSDataInteger, XSDataString, XSDataBoolean
 
 
 def try_float(tmpStr):
@@ -119,6 +119,8 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
         self.__xsDataOutput = None
 
         self.__iNbThreads = None
+        self.__iUnit = 1
+        self.__strUnit = "ANGSTROM"
         self.__strMode = "Fast"
         self.__strSymmetry = "P1"
         self.__bOnlyGnom = False
@@ -160,6 +162,7 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
 
         self.checkRMaxSearchParameters()
         self.checkModeParameter()
+        #self.checkUnitParameter()
         self.checkJMol()
         
     def checkRMaxSearchParameters(self):
@@ -187,6 +190,18 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
                 self.__strMode = self.getDataInput().getMode().getValue().lower()
         except:
             EDVerbose.WARNING("Running Solution Scattering pipeline in fast mode by default")
+
+    def checkUnitParameter(self):
+        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.checkUnitParameter")
+        try:
+            if self.getDataInput().getAngularUnits().getValue() in [1, 2, 3, 4]:
+                self.__iUnit = self.getDataInput().getAngularUnits().getValue()
+                if self.__iUnit in [1, 3]:
+                    self.__strUnit = "ANGSTROM"
+                else:
+                    self.__strUnit = "NANOMETER"
+        except:
+            EDVerbose.WARNING("Using Angstrom units for q-values by default")
 
     def checkJMol(self):
         self.__pluginConfiguration = self.getConfiguration()
@@ -257,6 +272,7 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
                 if self.__xsDataExperimentalDataStdDev:
                     dictDataInputGnom[(ser,idx)].setExperimentalDataStdDev(self.__xsDataExperimentalDataStdDev)
                 dictDataInputGnom[(ser,idx)].setRMax(rMax)
+                dictDataInputGnom[(ser,idx)].setAngularScale(XSDataInteger(self.__iUnit))
                 dictDataInputGnom[(ser,idx)].setMode(XSDataString(self.__strMode))
             self.__xsGnomJobs = EDParallelJobLauncher(self, self.__strPluginExecGnom, dictDataInputGnom, self.__iNbThreads)
             ##self.__xsGnomJobs.connectFAILURE(self.doFailureExecGnomActionCluster)
@@ -294,6 +310,7 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
     
             xsDataInputDammif = XSDataInputDammif()
             xsDataInputDammif.setGnomOutputFile(self.__xsDataOutput)
+            xsDataInputDammif.setUnit(XSDataString(self.__strUnit))
             xsDataInputDammif.setSymmetry(XSDataString(self.__strSymmetry))
             xsDataInputDammif.setMode(XSDataString(self.__strMode))
     
@@ -508,8 +525,11 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
             if (((_tmpQ > _fQMin) or (_fQMin is None)) and \
                 ((_tmpQ < _fQMax) or (_fQMax is None))):
 
-                _tmpValue = mean(nxsExperimentalValues[:_iNbColumns,idx])                  
-                tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                _tmpValue = mean(nxsExperimentalValues[:_iNbColumns,idx])
+                if self.getDataInput().getAngularUnits().getValue() in [2,4]:                  
+                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
+                else:
+                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
                 tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
                 if (_iNbColumns > 1):
                     _tmpStdDev = std(nxsExperimentalValues[:_iNbColumns,idx])
@@ -542,7 +562,10 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
                     ((_tmpQ < _fQMax) or (_fQMax is None))):
                     
                     _tmpValue = mean(map(float, lineList[1:_iNbColumns+1]))                  
-                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                    if self.getDataInput().getAngularUnits().getValue() in [2,4]:                  
+                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
+                    else:
+                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
                     tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
                     if (_iNbColumns > 1):
                         _tmpStdDev = std(map(float, lineList[1:_iNbColumns+1]))
