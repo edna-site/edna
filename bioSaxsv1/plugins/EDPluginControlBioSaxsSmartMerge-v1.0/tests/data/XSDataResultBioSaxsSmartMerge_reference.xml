@@ -1,3 +1,8 @@
 <?xml version="1.0" ?>
-<XSDataResult>
-</XSDataResult>
+<XSDataResultBioSaxsSmartMergev1_0>
+    <mergedFile>
+        <path>
+            <value>/tmp/edna-${USER}/bioSaxsMerged.dat</value>
+        </path>
+    </mergedFile>
+</XSDataResultBioSaxsSmartMergev1_0>

@@ -32,10 +32,10 @@ from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
 from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
-EDFactoryPluginStatic.loadModule("XSDataAtsas.py")
+EDFactoryPluginStatic.loadModule("XSDataAtsas")
 from XSDataAtsas import XSDataInputDatcmp
 from XSDataAtsas import XSDataInputDataver
-from XSDataCommon import XSDatadouble, XSDataFile, XSDataString
+from XSDataCommon import XSDataDouble, XSDataFile, XSDataString
 
 class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
     """
@@ -53,20 +53,18 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         """
         """
         EDPluginControl.__init__(self)
-        self.setXSDataInputClass(None)
-
         self.__strControlledPluginDataver = "EDPluginExecDataverv1_0"
         self.__strControlledPluginDatcmp = "EDPluginExecDatcmpv1_0"
-        self.__strControlledPluginName = "EDPluginExecTemplate"
-        self.__edPluginExecTemplate = None
         self.__edPluginExecDatcmp = None
         self.__edPluginExecDataver = None
         self.setXSDataInputClass(XSDataInputBioSaxsSmartMergev1_0)
-        self.__strControlledPluginDatCmp = ""
         self.__edPluginExecDatCmp = None
         self.lstInput = []
+        self.lstXsdInput = []
         self.absoluteSimilarity = None
         self.relativeSimilarity = None
+        self.dictSimilarities = {} #key: 2-tuple of images, similarities
+
 
     def checkParameters(self):
         """
@@ -77,28 +75,68 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         self.checkMandatoryParameters(self.getDataInput().inputFile, "Input curve list is empty")
         self.checkMandatoryParameters(self.getDataInput().mergedFile, "Output curve filename  is empty")
 
+
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.preProcess")
         # Load the execution plugin
-        self.__edPluginExecTemplate = self.loadPlugin(self.__strControlledPluginName)
         if self.getDataInput().absoluteSimilarity is not None:
             self.absoluteSimilarity = self.getDataInput().absoluteSimilarity.value
         if self.getDataInput().relativeSimilarity is not None:
-            self.absoluteSimilarity = self.getDataInput().relativeSimilarity.value
+            self.relativeSimilarity = self.getDataInput().relativeSimilarity.value
         self.lstInput = self.getDataInput().inputFile
+        self.lstStrInput = [i.path.value for i in self.lstInput]
+
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.process")
-        lstFile = []
-        if (self.absoluteSimilarity is None) and (self.relativeSimilarity is None):
-            lstFile = self.lstInput
+        if len(self.lstInput) == 1:
+            shutil.copy_file(self.lstInput[0].path.value, self.getDataInput().mergedFile.path.value)
         else:
-            if self.absoluteSimilarity is None :
-            lstFile
+            lstFile = []
+            if (self.absoluteSimilarity is None) and (self.relativeSimilarity is None):
+                lstFile = self.lstInput
+            else:
+                if self.absoluteSimilarity is not None :
+                    for oneFile in self.lstInput[1:]:
+                        edPluginExecAbsoluteSimilarity = self.loadPlugin(self.__strControlledPluginDatcmp)
+                        xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[0], oneFile])
+                        edPluginExecAbsoluteSimilarity.setDataInput(xsd)
+                        edPluginExecAbsoluteSimilarity.connectFAILURE(self.doFailureExecDatcmp)
+                        edPluginExecAbsoluteSimilarity.connectSUCCESS(self.doSuccessExecDatcmp)
+                        edPluginExecAbsoluteSimilarity.execute()
+                if (self.relativeSimilarity is not None) and (len(self.lstInput) > 2):
+                    for idx, oneFile in enumerate(self.lstInput[2:]):
+                        edPluginExecRelativeSimilarity = self.loadPlugin(self.__strControlledPluginDatcmp)
+                        xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[idx + 1], oneFile])
+                        edPluginExecRelativeSimilarity.setDataInput(xsd)
+                        edPluginExecRelativeSimilarity.connectFAILURE(self.doFailureExecDatcmp)
+                        edPluginExecRelativeSimilarity.connectSUCCESS(self.doSuccessExecDatcmp)
+                        edPluginExecRelativeSimilarity.execute()
+            self.synchronizePlugins()
 
-        if len(lstFile) > 1:
+            for idx, oneFile in enumerate(self.lstInput):
+                if idx == 0:
+                    lstFile.append(oneFile)
+                elif (self.absoluteSimilarity is not None) and (self.absoluteSimilarity is not None):
+                    if (self.dictSimilarities[(0, idx)] >= self.absoluteSimilarity) and (self.dictSimilarities[(idx - 1, idx)] >= self.relativeSimilarity):
+                        lstFile.append(oneFile)
+                    else:
+                        break
+                elif (self.absoluteSimilarity is not None) :
+                    if (self.dictSimilarities[(0, idx)] >= self.absoluteSimilarity):
+                        lstFile.append(oneFile)
+                    else:
+                        break
+                elif (self.relativeSimilarity is not None) :
+                    if (self.dictSimilarities[(idx - 1, idx)] >= self.relativeSimilarity):
+                        lstFile.append(oneFile)
+                    else:
+                        break
+                else:
+                    lstFile.append(oneFile)
+
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
             xsd = XSDataInputDataver(outputCurve=self.getDataInput().mergedFile,
                                     inputCurve=lstFile)
@@ -106,8 +144,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
             self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
             self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
             self.__edPluginExecDataver.executeSynchronous()
-        else:
-            shutil.copy_file(lstFile[0].path.value, self.getDataInput().mergedFile.path.value)
+
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
@@ -117,29 +154,29 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         xsDataResult.mergedFile = self.getDataInput().mergedFile
         self.setDataOutput(xsDataResult)
 
+
     def doSuccessExecDataver(self, _edPlugin=None):
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDataver")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDataver")
+
 
 
     def doFailureExecDataver(self, _edPlugin=None):
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDataver")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDataver")
 
+
     def doSuccessExecDatcmp(self, _edPlugin=None):
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
-
+        self.synchronizeOn()
+        xsdIn = _edPlugin.getDataInput()
+        xsdOut = _edPlugin.getDataOutput()
+        self.dictSimilarities[tuple([self.lstStrInput.index(i.path.value) for i in xsdIn.inputCurve])] = xsdOut.fidelity.value
+        self.synchronizeOff()
 
     def doFailureExecDatcmp(self, _edPlugin=None):
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDatcmp")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDatcmp")
 
-    def doSuccessExecTemplate(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecTemplate")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecTemplate")
 
-
-    def doFailureExecTemplate(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doFailureExecTemplate")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doFailureExecTemplate")

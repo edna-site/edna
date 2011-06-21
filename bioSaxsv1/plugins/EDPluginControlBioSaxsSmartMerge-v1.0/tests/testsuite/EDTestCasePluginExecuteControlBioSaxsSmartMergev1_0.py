@@ -23,20 +23,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jérôme Kieffer"
+__author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
-import os
+import os, tempfile
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
 
 class EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0(EDTestCasePluginExecute):
-    
 
-    def __init__(self, _strTestName = None):
+
+    def __init__(self, _strTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlBioSaxsSmartMergev1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_BioSaxsSmartMerge.xml"))
@@ -44,22 +45,38 @@ class EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0(EDTestCasePluginExecut
                                            "XSDataInputBioSaxsSmartMerge_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultBioSaxsSmartMerge_reference.xml"))
-                 
-        
+        self.destFile = os.path.join(tempfile.gettempdir(), "edna-%s" % os.environ["USER"], "bioSaxsMerged.dat")
+
+    def preProcess(self):
+        """
+        Download reference 1D curves
+        """
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([  "bioSaxsMerged.dat"] + ["bioSaxsIntegrated%02i.dat" % (i + 1) for i in range(10)])
+        if not os.path.isdir(os.path.dirname(self.destFile)):
+            os.makedirs(os.path.dirname(self.destFile))
+        if os.path.isfile(self.destFile):
+            os.remove(self.destFile)
+
     def testExecute(self):
         """
-        """ 
+        """
         self.run()
-        
-
+        plugin = self.getPlugin()
+        xsdRef = XSDataResultBioSaxsSmartMergev1_0.parseString(self.readAndParseFile(self.getReferenceDataOutputFile()))
+        xsdObt = plugin.getDataOutput()
+        EDAssert.equal(xsdRef.marshal(), xsdObt.marshal(), "XML output structures are the same")
+        ref = " ".join([" ".join(i.split()) for i in open(self.destFile)])
+        obt = " ".join([" ".join(i.split()) for i in open(xsdObt.mergedFile.path.value)])
+        EDAssert.strAlmostEqual(ref, obt, "Files are the same", _fAbsError=0.1)
 
     def process(self):
         """
         """
         self.addTestMethod(self.testExecute)
 
-        
-        
+
+
 
 if __name__ == '__main__':
 

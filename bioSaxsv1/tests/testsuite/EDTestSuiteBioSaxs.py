@@ -38,9 +38,6 @@ class EDTestSuiteBioSaxs(EDTestSuite):
 
 
     def process(self):
-
-#        self.addTestCaseFromName("EDTestSuitePluginUnitExecPlugins")
-#        self.addTestSuiteFromName("EDTestSuitePluginUnitControlDCTReadHeaderv1_0")
        self.addTestSuiteFromName("EDTestSuiteUnitBioSaxsv1_0")
        self.addTestSuiteFromName("EDTestSuiteExecuteBioSaxsv1_0")
 

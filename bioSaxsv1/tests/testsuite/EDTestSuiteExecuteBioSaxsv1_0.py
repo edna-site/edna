@@ -45,7 +45,7 @@ class EDTestSuiteExecuteBioSaxsv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsAzimutIntv1_1")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteBioSaxsMetadatav1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsNormalizev1_0")
-
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0")
 
 ##############################################################################
 if __name__ == '__main__':
