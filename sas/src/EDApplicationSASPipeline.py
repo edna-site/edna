@@ -51,6 +51,7 @@ class EDApplicationSASPipeline(EDApplication):
     RMAXSTOP_PARAM_LABEL = "--rMaxStop"
     RMAXINTERVALS_PARAM_LABEL = "--rMaxIntervals"
     RMAXABSTOL_PARAM_LABEL = "--rMaxAbsTol"
+    UNIT_PARAM_LABEL = "--unit"
     SYMMETRY_PARAM_LABEL = "--symmetry"
     MODE_PARAM_LABEL = "--mode"
     THREADS_PARAM_LABEL = "--threads"
@@ -94,6 +95,7 @@ class EDApplicationSASPipeline(EDApplication):
         self.__bOnlyGnom = False
         self.__bPlotFit = False
         self.__iThreads = None
+        self.__iUnit = 1
         self.__iColumns = 1
         self.__fQMin = None
         self.__fQMax = None
@@ -150,6 +152,8 @@ class EDApplicationSASPipeline(EDApplication):
 
         _edPlugin.getDataInput().setTitle(XSDataString(self.__strDatasetFileName))
         
+        if (not self.__iUnit is None):
+            _edPlugin.getDataInput().setAngularUnits(XSDataInteger(self.__iUnit))
         if (not self.__strSymmetry is None):
             _edPlugin.getDataInput().setSymmetry(XSDataString(self.__strSymmetry))
         if (not self.__strMode is None):
@@ -201,6 +205,13 @@ class EDApplicationSASPipeline(EDApplication):
         if (strNxsData is not None):
             self.__strNxsData = strNxsData
             EDVerbose.screen("Path to data values in Nexus file                         : %s " % (self.__strNxsData))
+            
+        strUnit = self.getCommandLineArgument(EDApplicationSASPipeline.UNIT_PARAM_LABEL)
+        if (strUnit is not None):
+            self.__iUnit = int(strUnit)
+            EDVerbose.screen("Angular units index set to                         : %d " % (self.__iUnit))
+        else:
+            EDVerbose.screen("Using default angular units")
             
         strSymmetry = self.getCommandLineArgument(EDApplicationSASPipeline.SYMMETRY_PARAM_LABEL)
         if (strSymmetry is not None):
@@ -337,6 +348,8 @@ class EDApplicationSASPipeline(EDApplication):
         EDVerbose.screen("%35s : sets minimal value of the scattering vector interval used in data analysis" % (EDApplicationSASPipeline.QMIN_PARAM_LABEL))
         EDVerbose.screen("")
         EDVerbose.screen("%35s : sets maximal value of the scattering vector interval used in data analysis" % (EDApplicationSASPipeline.QMAX_PARAM_LABEL))
+        EDVerbose.screen("")
+        EDVerbose.screen("%35s : specify angular units of the q-axis in input data [A^{-1} (default)]" % (EDApplicationSASPipeline.UNIT_PARAM_LABEL))
         EDVerbose.screen("")
         EDVerbose.screen("%35s : specify symmetry enforced on the particle by DAMMIF. Supported values are Pn (n=1...19) and Pn2 (n=1...12). [P1 (default)]" % (EDApplicationSASPipeline.SYMMETRY_PARAM_LABEL))
         EDVerbose.screen("")
