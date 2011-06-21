@@ -529,9 +529,9 @@ class EDApplication:
         if (_edPlugin.hasDataOutput()):
             xsDataOutput = _edPlugin.getDataOutput()
             if (xsDataOutput is not None and self.__strDataOutputFilePath is not None):
-                xsDataOutput.outputFile(self.__strDataOutputFilePath)
+                xsDataOutput.exportToFile(self.__strDataOutputFilePath)
             if (xsDataOutput is not None and self.__edObtainedOutputDataFile is not None):
-                xsDataOutput.outputFile(self.__edObtainedOutputDataFile)
+                xsDataOutput.exportToFile(self.__edObtainedOutputDataFile)
 
 
     def doFailureActionPlugin(self, _edPlugin):
@@ -551,9 +551,9 @@ class EDApplication:
         if (_edPlugin.hasDataOutput()):
             xsDataOutput = _edPlugin.getDataOutput()
             if (xsDataOutput is not None and self.__strDataOutputFilePath is not None):
-                xsDataOutput.outputFile(self.__strDataOutputFilePath)
+                xsDataOutput.exportToFile(self.__strDataOutputFilePath)
             if (xsDataOutput is not None and self.__edObtainedOutputDataFile is not None):
-                xsDataOutput.outputFile(self.__edObtainedOutputDataFile)
+                xsDataOutput.exportToFile(self.__edObtainedOutputDataFile)
 
 
     def getPlugin(self):

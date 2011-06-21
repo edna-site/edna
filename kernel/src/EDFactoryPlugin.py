@@ -147,7 +147,7 @@ class EDFactoryPlugin(EDObject):
             xsDataKeyValuePair.setValue(XSDataString(strModuleLocationStripped))
             xsDataDictionaryPlugin.addKeyValuePair(xsDataKeyValuePair)
         try:
-            xsDataDictionaryPlugin.outputFile(_strPath)
+            xsDataDictionaryPlugin.exportToFile(_strPath)
         except:
             EDVerbose.warning("The module cache could not be written to disk.")
 

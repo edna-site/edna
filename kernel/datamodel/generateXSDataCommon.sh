@@ -26,11 +26,18 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
-full_path="$(cd "${0%/*}" 2>/dev/null; echo "$PWD"/"${0##*/}")"
-export EDNA_HOME=`dirname "$full_path" | sed 's/\/kernel\/datamodel$//'`
+if [ -z "$EDNA_HOME" ]; then
+#	This cryptic version is kept in case of need ... showed to be useful for MacOSX users
+#	full_path="$(cd "${0%/*}" 2>/dev/null; echo "$PWD"/"${0##*/}")"
+	full_path=$( readlink -fn $0)
+	echo $full_path
+	export EDNA_HOME=`dirname "$full_path" | sed 's/\/kernel\/datamodel$//'`
+	echo "Guessing EDNA_HOME= "$EDNA_HOME
+fi
 
-xsDataBaseName=XSDataCommon
+xsdHomeDir=${EDNA_HOME}/kernel/datamodel 
+xsDataBaseName=XSDataCommon.edml
 xsdHomeDir=${EDNA_HOME}/kernel/datamodel
 pyHomeDir=${EDNA_HOME}/kernel/src
 
-${EDNA_HOME}/kernel/datamodel/generateDataBinding.sh ${xsDataBaseName} ${xsdHomeDir} ${pyHomeDir}
+java -jar ${EDNA_HOME}/kernel/datamodel/EDGenerateDS.jar -includepaths ${xsdHomeDir} -sourceDir ${xsdHomeDir} -sourceFile ${xsDataBaseName}  -targetdir ${pyHomeDir}
