@@ -39,7 +39,7 @@ from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDUtilsBioSaxs     import EDUtilsBioSaxs
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
-from XSDataCommon       import XSDataString, XSDataImage, XSDataFloat, XSDataLength, \
+from XSDataCommon       import XSDataString, XSDataImage, XSDataDouble, XSDataLength, \
     XSDataWavelength
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataSaxsv1_0")
@@ -231,13 +231,13 @@ class EDPluginBioSaxsMetadatav1_0(EDPluginControl):
             xsDataResult.setPixelSize_2(XSDataLength(self.pixelSize_2))
         if self.beamCenter_1 is not None:
 #            EDVerbose.DEBUG("beamCenter_1  %s(%s)" % (self.beamCenter_1, self.beamCenter_1.__class__))
-            xsDataResult.setBeamCenter_1(XSDataFloat(self.beamCenter_1))
+            xsDataResult.setBeamCenter_1(XSDataDouble(self.beamCenter_1))
         if self.beamCenter_2 is not None:
 #            EDVerbose.DEBUG("beamCenter_2  %s(%s)" % (self.beamCenter_2, self.beamCenter_2.__class__))
-            xsDataResult.setBeamCenter_2(XSDataFloat(self.beamCenter_2))
+            xsDataResult.setBeamCenter_2(XSDataDouble(self.beamCenter_2))
         if self.beamStopDiode is not None:
 #            EDVerbose.DEBUG("beamStopDiode  %s(%s)" % (self.beamStopDiode, self.beamStopDiode.__class__))
-            xsDataResult.setBeamStopDiode(XSDataFloat(self.beamStopDiode))
+            xsDataResult.setBeamStopDiode(XSDataDouble(self.beamStopDiode))
         if self.wavelength is not None:
             xsDataResult.setWavelength(XSDataWavelength(self.wavelength))
         if self.maskFile is not None:
@@ -245,15 +245,15 @@ class EDPluginBioSaxsMetadatav1_0(EDPluginControl):
             xsdFile.setPath(XSDataString(self.maskFile))
             xsDataResult.setMaskFile(xsdFile)
         if self.normalizationFactor is not None:
-            xsDataResult.setNormalizationFactor(XSDataFloat(self.normalizationFactor))
+            xsDataResult.setNormalizationFactor(XSDataDouble(self.normalizationFactor))
         if self.machineCurrent is not None:
-            xsDataResult.setMachineCurrent(XSDataFloat(self.machineCurrent))
+            xsDataResult.setMachineCurrent(XSDataDouble(self.machineCurrent))
         if self.sampleCode is not None:
             xsDataResult.setSampleCode(XSDataString(self.sampleCode))
         if self.sampleComments is not None:
             xsDataResult.setSampleComments(XSDataString(self.sampleComments))
         if self.sampleConcentration is not None:
-            xsDataResult.setSampleConcentration(XSDataFloat(self.sampleConcentration))
+            xsDataResult.setSampleConcentration(XSDataDouble(self.sampleConcentration))
         EDVerbose.DEBUG("xsDataResult=%s" % xsDataResult.marshal())
         self.setDataOutput(xsDataResult)
 

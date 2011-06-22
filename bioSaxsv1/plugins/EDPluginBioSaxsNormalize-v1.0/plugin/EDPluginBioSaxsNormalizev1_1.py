@@ -31,7 +31,7 @@ __copyright__ = "ESRF"
 import shutil, os
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
-from XSDataCommon           import XSDataInteger, XSDataFloat, XSDataImage, XSDataFile, XSDataString
+from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic

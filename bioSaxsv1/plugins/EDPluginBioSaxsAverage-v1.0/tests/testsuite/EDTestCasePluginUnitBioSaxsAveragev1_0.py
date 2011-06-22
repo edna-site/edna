@@ -32,7 +32,7 @@ __copyright__ = "ESRF"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsAveragev1_0
-from XSDataCommon import XSDataFile, XSDataInteger, XSDataFloat, XSDataString
+from XSDataCommon import XSDataFile, XSDataInteger, XSDataDouble, XSDataString
 
 class EDTestCasePluginUnitBioSaxsAveragev1_0(EDTestCasePluginUnit):
 
@@ -46,9 +46,9 @@ class EDTestCasePluginUnitBioSaxsAveragev1_0(EDTestCasePluginUnit):
         xsDataInput.setIntegratedImageSize(XSDataInteger())
         xsDataInput.setIntegratedImage([XSDataFile(), XSDataFile()])
         xsDataInput.setAveragedSpectrum(XSDataFile())
-        xsDataInput.setNormalizationFactor(XSDataFloat())
+        xsDataInput.setNormalizationFactor(XSDataDouble())
         xsDataInput.setAveragedImage(XSDataFile())
-        xsDataInput.setSampleConcentration(XSDataFloat())
+        xsDataInput.setSampleConcentration(XSDataDouble())
         xsDataInput.setSampleComments(XSDataString())
         xsDataInput.setSampleCode(XSDataString())
         xsDataInput.setLogFile(XSDataFile())

@@ -32,7 +32,7 @@ __copyright__ = "ESRF"
 import shutil, os
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
-from XSDataCommon       import XSDataInteger, XSDataFloat, XSDataImage, XSDataFile, XSDataString
+from XSDataCommon       import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0, XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
@@ -167,8 +167,8 @@ class EDPluginBioSaxsNormalizev1_0(EDPluginControl):
         xsdiSaxsMac = XSDataInputSaxsMacv1_0()
         xsdiSaxsMac.setInputImage(self.xsdInput.getRawImage())
         xsdiSaxsMac.setOutputImage(self.xsdInput.getNormalizedImage())
-        xsdiSaxsMac.setMultConst(XSDataFloat(self.normalizationFactor / self.beamStopDiode))
-        xsdiSaxsMac.setAddConst(XSDataFloat(0))
+        xsdiSaxsMac.setMultConst(XSDataDouble(self.normalizationFactor / self.beamStopDiode))
+        xsdiSaxsMac.setAddConst(XSDataDouble(0))
         if self.sampleComments is not None:
             title = ' -otit \"%s\" ' % self.sampleComments
         else:

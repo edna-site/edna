@@ -1,9 +1,10 @@
 targetNamespace "http://www.edna-site.org"
 
 import XSDataCommon.XSConfiguration
+import XSDataCommon.XSData
 import XSDataCommon.XSDataBoolean
 import XSDataCommon.XSDataFile
-import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataDouble
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataInteger
 import XSDataCommon.XSDataString
@@ -13,24 +14,70 @@ import XSDataCommon.XSDataImage
 import XSDataCommon.XSDataLength
 import XSDataCommon.XSDataWavelength
 
-complex type XSDataBioSaxsExperimentSetup {
+complex type XSDataInputBioSaxsSample extends XSDataInput{
+	"temporary class for multiple inhertitance emulation"
+	sampleConcentration : XSDataDouble optional
+	sampleComments : XSDataString optional
+	sampleCode : XSDataString optional
+	
+}
+complex type XSDataInputBioSaxsSampleExperiment extends XSDataInputBioSaxsSample{
+	"temporary class for multiple inhertitance emulation"
 	detector : XSDataString optional
 	detectorDistance : XSDataLength optional
 	pixelSize_1 : XSDataLength optional
 	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
+	beamCenter_1 : XSDataDouble optional
+	beamCenter_2 : XSDataDouble optional
+	beamStopDiode : XSDataDouble optional
 	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
+	machineCurrent : XSDataDouble optional
 	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-}
+	normalizationFactor : XSDataDouble optional
+	}
 
-complex type XSDataBioSaxsSample {
-	sampleConcentration : XSDataFloat optional
+complex type XSDataResultBioSaxsSample extends XSDataResult{
+	"temporary class for multiple inhertitance emulation"
+	sampleConcentration : XSDataDouble optional
 	sampleComments : XSDataString optional
 	sampleCode : XSDataString optional
+	
+}
+complex type XSDataResultBioSaxsSampleExperiment extends XSDataResultBioSaxsSample{
+	"temporary class for multiple inhertitance emulation"
+	detector : XSDataString optional
+	detectorDistance : XSDataLength optional
+	pixelSize_1 : XSDataLength optional
+	pixelSize_2 : XSDataLength optional
+	beamCenter_1 : XSDataDouble optional
+	beamCenter_2 : XSDataDouble optional
+	beamStopDiode : XSDataDouble optional
+	wavelength : XSDataWavelength optional
+	machineCurrent : XSDataDouble optional
+	maskFile : XSDataImage optional
+	normalizationFactor : XSDataDouble optional
+	}
+
+
+complex type XSDataBioSaxsExperimentSetup extends XSData{
+	detector : XSDataString optional
+	detectorDistance : XSDataLength optional
+	pixelSize_1 : XSDataLength optional
+	pixelSize_2 : XSDataLength optional
+	beamCenter_1 : XSDataDouble optional
+	beamCenter_2 : XSDataDouble optional
+	beamStopDiode : XSDataDouble optional
+	wavelength : XSDataWavelength optional
+	machineCurrent : XSDataDouble optional
+	maskFile : XSDataImage optional
+	normalizationFactor : XSDataDouble optional
+}
+
+complex type XSDataBioSaxsSample extends XSData {
+	sampleConcentration : XSDataDouble optional
+	sampleComments : XSDataString optional
+	sampleCode : XSDataString optional
+	
 }
 
 complex type XSDataInputBioSaxsAsciiExportv1_0 extends XSDataInput {
@@ -38,22 +85,7 @@ complex type XSDataInputBioSaxsAsciiExportv1_0 extends XSDataInput {
 	integratedSpectrum : XSDataFile
 }
 
-complex type XSDataInputBioSaxsAveragev1_0 {
-	configuration : XSConfiguration
-	detector : XSDataString optional
-	detectorDistance : XSDataLength optional
-	pixelSize_1 : XSDataLength optional
-	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
-	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
-	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-	sampleConcentration : XSDataFloat optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
+complex type XSDataInputBioSaxsAveragev1_0 extends XSDataInputBioSaxsSampleExperiment{
 	integratedImage : XSDataImage []
 	integratedImageSize : XSDataInteger
 	averagedImage : XSDataImage
@@ -61,22 +93,7 @@ complex type XSDataInputBioSaxsAveragev1_0 {
 	logFile : XSDataFile
 }
 
-complex type XSDataInputBioSaxsAzimutIntv1_0 {
-	configuration : XSConfiguration
-	detector : XSDataString optional
-	detectorDistance : XSDataLength optional
-	pixelSize_1 : XSDataLength optional
-	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
-	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
-	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-	sampleConcentration : XSDataFloat optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
+complex type XSDataInputBioSaxsAzimutIntv1_0 extends XSDataInputBioSaxsSampleExperiment{
 	normalizedImage : XSDataImage
 	normalizedImageSize : XSDataInteger
 	integratedImage : XSDataImage
@@ -84,96 +101,39 @@ complex type XSDataInputBioSaxsAzimutIntv1_0 {
 	correctedImage : XSDataImage
 }
 
-complex type XSDataInputBioSaxsMetadatav1_0 {
-	configuration : XSConfiguration
-	detector : XSDataString optional
-	detectorDistance : XSDataLength optional
-	pixelSize_1 : XSDataLength optional
-	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
-	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
-	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-	sampleConcentration : XSDataFloat optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
+complex type XSDataInputBioSaxsMetadatav1_0 extends XSDataInputBioSaxsSampleExperiment{
 	inputImage : XSDataImage
 	outputImage : XSDataImage optional
 }
 
-complex type XSDataInputBioSaxsNormalizev1_0 {
-	configuration : XSConfiguration
-	detector : XSDataString optional
-	detectorDistance : XSDataLength optional
-	pixelSize_1 : XSDataLength optional
-	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
-	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
-	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-	sampleConcentration : XSDataFloat optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
+complex type XSDataInputBioSaxsNormalizev1_0 extends  XSDataInputBioSaxsSampleExperiment{
 	rawImage : XSDataImage
 	logFile : XSDataFile
 	normalizedImage : XSDataImage
 	rawImageSize : XSDataInteger
 }
 
-complex type XSDataInputBioSaxsProcessOneRunv1_0 {
-	configuration : XSConfiguration
-	specVersion : XSDataString optional
-	specVariableStatus : XSDataString optional
-	specVariableAbort : XSDataString optional
-	detector : XSDataString optional
-	detectorDistance : XSDataLength optional
-	pixelSize_1 : XSDataLength optional
-	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
-	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
-	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-	sampleConcentration : XSDataFloat optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
-	runNumber : XSDataInteger
-	frames : XSDataInteger []
-	isOnline : XSDataBoolean
-	prefix : XSDataString
+complex type XSDataInputBioSaxsSingleRunv1_0 extends XSDataInputBioSaxsSampleExperiment{
+	"Class for precessing a single sample (at 1 single concentration)"
+//	specVersion : XSDataString optional
+//	specVariableStatus : XSDataString optional
+//	specVariableAbort : XSDataString optional
+//	runNumber : XSDataInteger
+//	frames : XSDataInteger []
+//	isOnline : XSDataBoolean
+//	prefix : XSDataString
 	directoryRaw : XSDataFile
 	directory1D : XSDataFile
 	directory2D : XSDataFile
 	directoryMisc : XSDataFile
+	backgroundSeries: XSDataFileSeries []
+	sampleSeries: XSDataFileSeries []
 }
 
-complex type XSDataInputBioSaxsReprocessv1_0 {
-	configuration : XSConfiguration
+complex type XSDataInputBioSaxsReprocessv1_0 extends XSDataInputBioSaxsSampleExperiment{
 	specVersion : XSDataString optional
 	specVariableStatus : XSDataString optional
 	specVariableAbort : XSDataString optional
-	detector : XSDataString optional
-	detectorDistance : XSDataLength optional
-	pixelSize_1 : XSDataLength optional
-	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
-	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
-	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-	sampleConcentration : XSDataFloat optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
 	directory : XSDataFile
 	frameFirst : XSDataInteger optional
 	frameLast : XSDataInteger optional
@@ -204,22 +164,7 @@ complex type XSDataResultBioSaxsAzimutIntv1_0 extends XSDataResult {
 	processLog : XSDataString
 }
 
-complex type XSDataResultBioSaxsMetadatav1_0 {
-	status : XSDataStatus
-	detector : XSDataString optional
-	detectorDistance : XSDataLength optional
-	pixelSize_1 : XSDataLength optional
-	pixelSize_2 : XSDataLength optional
-	beamCenter_1 : XSDataFloat optional
-	beamCenter_2 : XSDataFloat optional
-	beamStopDiode : XSDataFloat optional
-	wavelength : XSDataWavelength optional
-	machineCurrent : XSDataFloat optional
-	maskFile : XSDataImage optional
-	normalizationFactor : XSDataFloat optional
-	sampleConcentration : XSDataFloat optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
+complex type XSDataResultBioSaxsMetadatav1_0 extends XSDataResultBioSaxsSampleExperiment{
 	outputImage : XSDataImage optional
 }
 
@@ -251,4 +196,8 @@ complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
 
 complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
 	mergedFile : XSDataFile
+}
+
+complex type XSDataFileSeries extends XSData {
+	files : XSDataFile []
 }

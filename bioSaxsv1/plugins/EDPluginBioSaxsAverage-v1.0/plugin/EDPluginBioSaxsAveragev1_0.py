@@ -33,7 +33,7 @@ from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from XSDataCommon       import XSDataString, XSDataBoolean, XSDataImage, \
-    XSDataFloat, XSDataFile
+    XSDataDouble, XSDataFile
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsAveragev1_0, XSDataResultBioSaxsAveragev1_0, \
                                 XSDataInputBioSaxsAsciiExportv1_0, \
                                 XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
@@ -218,7 +218,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         xsdiSaxsMac.setInputImage(xsdImage)
         xsdiSaxsMac.setOutputImage(self.getDataInput().getAveragedImage())
         xsdiSaxsMac.setOptions(XSDataString("+pass -omod n +var -add %d" % len(self.integratedImages)))
-        xsdiSaxsMac.setMultConst(XSDataFloat(1.0 / len(self.integratedImages)))
+        xsdiSaxsMac.setMultConst(XSDataDouble(1.0 / len(self.integratedImages)))
         self.__edPluginSaxsMac.setDataInput(xsdiSaxsMac)
         self.__edPluginSaxsMac.connectSUCCESS(self.doSuccessSaxsMac)
         self.__edPluginSaxsMac.connectFAILURE(self.doFailureSaxsMac)
