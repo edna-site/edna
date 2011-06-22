@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<integratedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsAsciiExport.dat</value></path></integratedSpectrum>
+<processLog><value>Successful production of an ASCII 3-column spectrum in '/tmp/edna-${USER}/bioSaxsAsciiExport.dat'</value></processLog>
+</XSDataResult>

@@ -113,7 +113,7 @@ complex type XSDataInputBioSaxsNormalizev1_0 extends  XSDataInputBioSaxsSampleEx
 	rawImageSize : XSDataInteger
 }
 
-complex type XSDataInputBioSaxsSingleRunv1_0 extends XSDataInputBioSaxsSampleExperiment{
+complex type XSDataInputBioSaxsSingleSamplev1_0 extends XSDataInputBioSaxsSampleExperiment{
 	"Class for precessing a single sample (at 1 single concentration)"
 //	specVersion : XSDataString optional
 //	specVariableStatus : XSDataString optional

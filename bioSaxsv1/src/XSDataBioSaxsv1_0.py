@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Jun 22 10:21::35 2011 by EDGenerateDS.
+# Generated Wed Jun 22 12:05::43 2011 by EDGenerateDS.
 #
 
 import sys
@@ -2868,7 +2868,7 @@ class XSDataInputBioSaxsReprocessv1_0(XSDataInputBioSaxsSampleExperiment):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputBioSaxsReprocessv1_0
 
-class XSDataInputBioSaxsSingleRunv1_0(XSDataInputBioSaxsSampleExperiment):
+class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 	"""Class for precessing a single sample (at 1 single concentration)"""
 	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, sampleSeries=None, backgroundSeries=None, directoryMisc=None, directory2D=None, directory1D=None, directoryRaw=None):
 		XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, sampleCode, sampleComments, sampleConcentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
@@ -2886,65 +2886,65 @@ class XSDataInputBioSaxsSingleRunv1_0(XSDataInputBioSaxsSampleExperiment):
 			self.__sampleSeries = sampleSeries
 	def getDirectoryRaw(self): return self.__directoryRaw
 	def setDirectoryRaw(self, directoryRaw):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setDirectoryRaw", directoryRaw, "XSDataFile")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setDirectoryRaw", directoryRaw, "XSDataFile")
 		self.__directoryRaw = directoryRaw
 	def delDirectoryRaw(self): self.__directoryRaw = None
 	# Properties
 	directoryRaw = property(getDirectoryRaw, setDirectoryRaw, delDirectoryRaw, "Property for directoryRaw")
 	def getDirectory1D(self): return self.__directory1D
 	def setDirectory1D(self, directory1D):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setDirectory1D", directory1D, "XSDataFile")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setDirectory1D", directory1D, "XSDataFile")
 		self.__directory1D = directory1D
 	def delDirectory1D(self): self.__directory1D = None
 	# Properties
 	directory1D = property(getDirectory1D, setDirectory1D, delDirectory1D, "Property for directory1D")
 	def getDirectory2D(self): return self.__directory2D
 	def setDirectory2D(self, directory2D):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setDirectory2D", directory2D, "XSDataFile")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setDirectory2D", directory2D, "XSDataFile")
 		self.__directory2D = directory2D
 	def delDirectory2D(self): self.__directory2D = None
 	# Properties
 	directory2D = property(getDirectory2D, setDirectory2D, delDirectory2D, "Property for directory2D")
 	def getDirectoryMisc(self): return self.__directoryMisc
 	def setDirectoryMisc(self, directoryMisc):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setDirectoryMisc", directoryMisc, "XSDataFile")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setDirectoryMisc", directoryMisc, "XSDataFile")
 		self.__directoryMisc = directoryMisc
 	def delDirectoryMisc(self): self.__directoryMisc = None
 	# Properties
 	directoryMisc = property(getDirectoryMisc, setDirectoryMisc, delDirectoryMisc, "Property for directoryMisc")
 	def getBackgroundSeries(self): return self.__backgroundSeries
 	def setBackgroundSeries(self, backgroundSeries):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setBackgroundSeries", backgroundSeries, "list")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBackgroundSeries", backgroundSeries, "list")
 		self.__backgroundSeries = backgroundSeries
 	def delBackgroundSeries(self): self.__backgroundSeries = None
 	# Properties
 	backgroundSeries = property(getBackgroundSeries, setBackgroundSeries, delBackgroundSeries, "Property for backgroundSeries")
 	def addBackgroundSeries(self, value):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setBackgroundSeries", value, "XSDataFileSeries")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBackgroundSeries", value, "XSDataFileSeries")
 		self.__backgroundSeries.append(value)
 	def insertBackgroundSeries(self, index, value):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setBackgroundSeries", value, "XSDataFileSeries")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBackgroundSeries", value, "XSDataFileSeries")
 		self.__backgroundSeries[index] = value
 	def getSampleSeries(self): return self.__sampleSeries
 	def setSampleSeries(self, sampleSeries):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setSampleSeries", sampleSeries, "list")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setSampleSeries", sampleSeries, "list")
 		self.__sampleSeries = sampleSeries
 	def delSampleSeries(self): self.__sampleSeries = None
 	# Properties
 	sampleSeries = property(getSampleSeries, setSampleSeries, delSampleSeries, "Property for sampleSeries")
 	def addSampleSeries(self, value):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setSampleSeries", value, "XSDataFileSeries")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setSampleSeries", value, "XSDataFileSeries")
 		self.__sampleSeries.append(value)
 	def insertSampleSeries(self, index, value):
-		checkType("XSDataInputBioSaxsSingleRunv1_0", "setSampleSeries", value, "XSDataFileSeries")
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setSampleSeries", value, "XSDataFileSeries")
 		self.__sampleSeries[index] = value
-	def export(self, outfile, level, name_='XSDataInputBioSaxsSingleRunv1_0'):
+	def export(self, outfile, level, name_='XSDataInputBioSaxsSingleSamplev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsSingleRunv1_0'):
+	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsSingleSamplev1_0'):
 		XSDataInputBioSaxsSampleExperiment.exportChildren(self, outfile, level, name_)
 		if self.__directoryRaw is not None:
 			self.directoryRaw.export(outfile, level, name_='directoryRaw')
@@ -3010,7 +3010,7 @@ class XSDataInputBioSaxsSingleRunv1_0(XSDataInputBioSaxsSampleExperiment):
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputBioSaxsSingleRunv1_0" )
+		self.export( oStreamString, 0, name_="XSDataInputBioSaxsSingleSamplev1_0" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -3018,20 +3018,20 @@ class XSDataInputBioSaxsSingleRunv1_0(XSDataInputBioSaxsSampleExperiment):
 	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputBioSaxsSingleRunv1_0' )
+		self.export( outfile, 0, name_='XSDataInputBioSaxsSingleSamplev1_0' )
 		outfile.close()
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return XSDataInputBioSaxsSingleRunv1_0.parseString(self.marshal())
+		return XSDataInputBioSaxsSingleSamplev1_0.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = XSDataInputBioSaxsSingleRunv1_0()
+		rootObj = XSDataInputBioSaxsSingleSamplev1_0()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsSingleRunv1_0" )
+		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsSingleSamplev1_0" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -3039,11 +3039,11 @@ class XSDataInputBioSaxsSingleRunv1_0(XSDataInputBioSaxsSampleExperiment):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = XSDataInputBioSaxsSingleRunv1_0()
+		rootObj = XSDataInputBioSaxsSingleSamplev1_0()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class XSDataInputBioSaxsSingleRunv1_0
+# end class XSDataInputBioSaxsSingleSamplev1_0
 
 class XSDataResultBioSaxsMetadatav1_0(XSDataResultBioSaxsSampleExperiment):
 	def __init__(self, status=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, outputImage=None):
