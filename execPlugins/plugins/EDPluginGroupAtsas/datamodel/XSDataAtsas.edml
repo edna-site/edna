@@ -4,6 +4,8 @@ import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataFile
 import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+
 
 complex type XSDataInputDatcmp extends XSDataInput {
 	"datcmp compares two curves from files
@@ -27,5 +29,18 @@ complex type XSDataInputDataver extends XSDataInput {
 
 complex type XSDataResultDataver extends XSDataResult {
 	"Result of Dataver 	"
+	outputCurve: XSDataFile
+}
+
+complex type XSDataInputDatop extends XSDataInput {
+	"datop makes an operation on curves"
+	inputCurve: XSDataFile []
+	outputCurve: XSDataFile
+	operation: XSDataString
+	constant: XSDataDouble optional
+	}
+
+complex type XSDataResultDatop extends XSDataResult {
+	"Result of Datop 	"
 	outputCurve: XSDataFile
 }

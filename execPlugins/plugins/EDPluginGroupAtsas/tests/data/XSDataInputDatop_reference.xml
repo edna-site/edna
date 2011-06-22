@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<inputCurve>
+		<path>
+			<value></value>
+		</path>
+	</inputCurve>
+	<operation>
+		<value>*</value>
+	</operation>
+	<constant>
+		<value>1.0</value>
+	</constant>
+	<outputCurve>
+		<path>
+			<value></value>
+		</path>
+	</outputCurve>
+</XSDataInput>

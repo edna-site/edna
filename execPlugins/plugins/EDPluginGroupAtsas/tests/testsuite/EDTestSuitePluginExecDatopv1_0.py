@@ -1,11 +1,11 @@
 # coding: utf8
 #
-#    Project: ExecPlugins/GroupAtsas
+#    Project: templatev1
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2011, ESRF, Grenoble
+#    Copyright (C) 2011, ESRF Grenoble
 #
 #    Principal author:       Jérôme Kieffer
 #
@@ -23,27 +23,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__ = "Jérôme Kieffer"
+__author__="Jérôme Kieffer"
 __license__ = "GPLv3+"
-__copyright__ = "2011, ESRF, Grenoble"
+__copyright__ = "2011, ESRF Grenoble"
 
 from EDTestSuite  import EDTestSuite
 
-class EDTestSuiteExecuteAtsas(EDTestSuite):
+class EDTestSuitePluginExecDatopv1_0(EDTestSuite):
     """
-    This is the test suite for EDNA plugin Datcmpv1_0 
+    This is the test suite for EDNA plugin Datopv1_0 
     It will run subsequently all unit tests and execution tests.     
-    """
+    """        
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecDatcmpv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecDataverv1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitExecDatopv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDatopv1_0")
-
+        
 
 
 if __name__ == '__main__':
 
-    edTestSuite = EDTestSuiteExecuteAtsas("EDTestSuiteExecuteAtsas")
-    edTestSuite.execute()
+    edTestSuitePluginExecDatopv1_0 = EDTestSuitePluginExecDatopv1_0("EDTestSuitePluginExecDatopv1_0")
+    edTestSuitePluginExecDatopv1_0.execute()
 

@@ -38,6 +38,7 @@ class EDTestSuiteUnitAtsas(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitExecDatcmpv1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitExecDataverv1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitExecDatopv1_0")
 
 
 

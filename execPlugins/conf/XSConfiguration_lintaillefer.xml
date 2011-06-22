@@ -463,6 +463,19 @@
 			</XSParamList>
 		</XSPluginItem>
 
+		<XSPluginItem>
+			<name>EDPluginExecDatopv1_0</name>  
+            <XSParamList>
+                <XSParamItem>
+                    <name>execProcessScriptShell</name>
+                    <value>python</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>execProcessScriptExecutable</name>
+                    <value>/usr/bin/datop</value>
+                </XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 	
 	</XSPluginList> 
 </XSConfiguration>
