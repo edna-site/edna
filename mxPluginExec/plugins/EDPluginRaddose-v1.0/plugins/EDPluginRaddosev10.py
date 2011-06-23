@@ -39,6 +39,8 @@ from EDPluginExecProcessScript    import EDPluginExecProcessScript
 
 from XSDataCommon                 import XSDataAbsorbedDoseRate
 from XSDataCommon                 import XSDataDouble
+from XSDataCommon                 import XSDataTime
+
 from XSDataRaddosev10             import XSDataRaddoseInput
 from XSDataRaddosev10             import XSDataRaddoseOutput
 
@@ -255,7 +257,7 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
         xsDataRaddosev10Output = XSDataRaddoseOutput()
         xsDataRaddosev10Output.setAbsorbedDose(xsDataAbsorbedDose)
         xsDataRaddosev10Output.setAbsorbedDoseRate(xsDataAbsorbedDoseRate)
-        xsDataRaddosev10Output.setTimeToReachHendersonLimit(XSDataDouble(self.__fTimeToReachHendersonLimit))
+        xsDataRaddosev10Output.setTimeToReachHendersonLimit(XSDataTime(self.__fTimeToReachHendersonLimit))
 
         self.setDataOutput(xsDataRaddosev10Output)
 
