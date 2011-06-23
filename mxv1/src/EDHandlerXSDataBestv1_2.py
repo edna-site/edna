@@ -32,6 +32,8 @@ from EDVerbose import EDVerbose
 
 from XSDataCommon                   import XSDataDouble
 from XSDataCommon                   import XSDataAngle
+from XSDataCommon                   import XSDataString
+
 from XSDataMXv1                     import XSDataResultStrategy
 from XSDataMXv1                     import XSDataCollection
 from XSDataMXv1                     import XSDataCollectionPlan
@@ -146,6 +148,7 @@ class EDHandlerXSDataBestv1_2(EDObject):
             xsDataInputBest.setAnomalousData(xsDataDiffractionPlan.getAnomalousData())
             xsDataInputBest.setStrategyOption(xsDataDiffractionPlan.getStrategyOption())
             xsDataInputBest.setMinTransmission(xsDataDiffractionPlan.getMinTransmission())
+            xsDataInputBest.setNumberOfCrystalPositions(xsDataDiffractionPlan.getNumberOfPositions())
 
         # Best Files
         xsDataInputBest.setBestFileContentDat(xsDataStringBestFileContentDat)
@@ -186,7 +189,10 @@ class EDHandlerXSDataBestv1_2(EDObject):
                 xsDataExperimentalCondition.getGoniostat().setRotationAxisEnd(XSDataAngle(fRotationAxisEnd))
                 xsDataSubWedge.setExperimentalCondition(xsDataExperimentalCondition)
                 xsDataSubWedge.setSubWedgeNumber(xsDataBestCollectionRun.getCollectionRunNumber())
-                xsDataSubWedge.setAction(xsDataBestCollectionRun.getAction())
+                if xsDataBestCollectionRun.getCrystalPosition():
+                    xsDataSubWedge.setAction(XSDataString("Crystal position: %d" % xsDataBestCollectionRun.getCrystalPosition().getValue()))
+                else:
+                    xsDataSubWedge.setAction(xsDataBestCollectionRun.getAction())
                 xsDataCollectionStrategy.addSubWedge(xsDataSubWedge)
 
             xsDataCollectionStrategy.setSample(_xsDataSample)
