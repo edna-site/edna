@@ -556,6 +556,7 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                 strStrategyShortSummary += listStrategyOptions[-1]
             strStrategyShortSummary += "\n"
         fResolutionMax = None
+        fRankingResolution = None
         for xsDataCollectionPlan in _xsDataResultStrategy.getCollectionPlan():
             iNoCollectionPlan = xsDataCollectionPlan.getCollectionPlanNumber().getValue()
             strStrategyShortSummary += "Strategy: Collection plan %d" % iNoCollectionPlan
@@ -566,8 +567,9 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
             else:
                 strStrategyShortSummary += "\n"
             xsDataCollectionStrategy = xsDataCollectionPlan.getCollectionStrategy()
-            fRankingResolution = xsDataStrategySummary.getRankingResolution().getValue()
-            strStrategyShortSummary += "Strategy: Ranking resolution: %.2f [A]\n" % fRankingResolution
+            if xsDataStrategySummary.getRankingResolution() is not None:
+                fRankingResolution = xsDataStrategySummary.getRankingResolution().getValue()
+                strStrategyShortSummary += "Strategy: Ranking resolution: %.2f [A]\n" % fRankingResolution
             for xsDataSubWedge in xsDataCollectionStrategy.getSubWedge():
                 iWedgeNo = xsDataCollectionPlan.getCollectionPlanNumber().getValue()
                 strStrategyShortSummary += "Strategy: wedge %d: " % iWedgeNo
@@ -599,15 +601,16 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                 fTotalExposureTime += fExpTime * iNoImages
             strStrategyShortSummary += "Strategy: total no images %d, total exposure time %.1f [s]\n" % \
                                     (iTotalNoImages, fTotalExposureTime)
-        if (fRankingResolution < fResolutionMax) and (abs(fRankingResolution - fResolutionMax) > 0.1):
-            strStrategyShortSummary += "\n"
-            strStrategyShortSummary += "OBS! "*20 + "\n"
-            strStrategyShortSummary += "\n"
-            strStrategyShortSummary += "BEST has calculated that it should be possible to collect data to %.2f A from this sample.\n" % fRankingResolution
-            strStrategyShortSummary += "If you want to calculate a new strategy for data collection to this resolution you\n"
-            strStrategyShortSummary += "must first recollect reference images at this resolution.\n"
-            strStrategyShortSummary += "\n"
-            strStrategyShortSummary += "OBS! "*20 + "\n"
-            strStrategyShortSummary += "\n"
+        if fRankingResolution is not None:
+            if (fRankingResolution < fResolutionMax) and (abs(fRankingResolution - fResolutionMax) > 0.1):
+                strStrategyShortSummary += "\n"
+                strStrategyShortSummary += "OBS! "*20 + "\n"
+                strStrategyShortSummary += "\n"
+                strStrategyShortSummary += "BEST has calculated that it should be possible to collect data to %.2f A from this sample.\n" % fRankingResolution
+                strStrategyShortSummary += "If you want to calculate a new strategy for data collection to this resolution you\n"
+                strStrategyShortSummary += "must first recollect reference images at this resolution.\n"
+                strStrategyShortSummary += "\n"
+                strStrategyShortSummary += "OBS! "*20 + "\n"
+                strStrategyShortSummary += "\n"
         
         self.setDataOutput(XSDataString(strStrategyShortSummary), "strategyShortSummary")
