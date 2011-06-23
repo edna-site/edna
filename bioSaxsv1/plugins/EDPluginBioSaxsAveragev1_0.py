@@ -71,7 +71,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
 
         self.averagedImage = None
         self.integratedImages = []
-        self.averagedSpectrum = None
+        self.averagedCurve = None
         self.normalizationFactor = None
         self.correctedImage = None
         self.sampleConcentration = None
@@ -91,7 +91,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         self.checkMandatoryParameters(self.getDataInput().getIntegratedImage(), "Missing IntegratedImage")
         self.checkMandatoryParameters(self.getDataInput().getIntegratedImageSize(), "Missing IntegratedImageSize")
         self.checkMandatoryParameters(self.getDataInput().getAveragedImage(), "Missing AveragedImage")
-        self.checkMandatoryParameters(self.getDataInput().getAveragedSpectrum(), "Missing AveragedSpectrum")
+        self.checkMandatoryParameters(self.getDataInput().getAveragedCurve(), "Missing AveragedCurve")
         self.checkMandatoryParameters(self.getDataInput().getLogFile(), "Missing log File")
 
 
@@ -109,7 +109,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         self.integratedImages = [ oneImage.getPath().getValue() for oneImage in self.getDataInput().getIntegratedImage()]
 
         self.averagedImage = self.getDataInput().getAveragedImage().getPath().getValue()
-        self.averagedSpectrum = self.getDataInput().getAveragedSpectrum().getPath().getValue()
+        self.averagedCurve = self.getDataInput().getAveragedCurve().getPath().getValue()
         self.strLogFile = self.getDataInput().getLogFile().getPath().getValue()
 
 
@@ -278,10 +278,10 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAveragev1_0.doSuccessSetMetadata")
 
         self.xsdResult.setAveragedImage(self.getDataInput().getAveragedImage())
-        self.strProcessLog += "Conversion to 3-column ascii file: '%s'\n" % (self.averagedSpectrum)
+        self.strProcessLog += "Conversion to 3-column ascii file: '%s'\n" % (self.averagedCurve)
         xsdiAsciiExport = XSDataInputBioSaxsAsciiExportv1_0()
         xsdiAsciiExport.setIntegratedImage(self.getDataInput().getAveragedImage())
-        xsdiAsciiExport.setIntegratedSpectrum(self.getDataInput().getAveragedSpectrum())
+        xsdiAsciiExport.setIntegratedCurve(self.getDataInput().getAveragedCurve())
         self.__edPluginAsciiExport.setDataInput(xsdiAsciiExport)
         self.__edPluginAsciiExport.connectSUCCESS(self.doSuccessAsciiExport)
         self.__edPluginAsciiExport.connectFAILURE(self.doFailureAsciiExport)
@@ -298,12 +298,12 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
     def doSuccessAsciiExport(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAveragev1_0.doSuccessAsciiExport")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAveragev1_0.doSuccessAsciiExport")
-        self.xsdResult.setAveragedSpectrum(self.getDataInput().getAveragedSpectrum())
+        self.xsdResult.setAveragedCurve(self.getDataInput().getAveragedCurve())
 #        self.strProcessLog += "Successful Execution of EDPlugin BioSaxs Average v1_0"
 
     def doFailureAsciiExport(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAveragev1_0.doFailureAsciiExport")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsAveragev1_0.doFailureAsciiExport")
-        self.strProcessLog += "Error during the call of saxs_curves for the production of '%s'\n" % (self.averagedSpectrum)
+        self.strProcessLog += "Error during the call of saxs_curves for the production of '%s'\n" % (self.averagedCurve)
         self.setFailure()
 

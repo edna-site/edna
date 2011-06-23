@@ -30,3 +30,7 @@ Averages many 1D EDF images (as obtained after SaxsAngle). Variance is treated d
 Retrieves metadata from the headers of a file and mixes them with those from the XSD input.
 Can update a file
    
+In version 2.0 those plugins will ahve their input grouped in 
+	* sample description
+	* experiment description
+	

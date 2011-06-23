@@ -45,7 +45,7 @@ class EDTestCasePluginUnitBioSaxsAzimutIntv1_1(EDTestCasePluginUnit):
         xsDataInput.setNormalizedImage(XSDataFile())
         xsDataInput.setNormalizedImageSize(XSDataInteger())
         xsDataInput.setIntegratedImage(XSDataFile())
-        xsDataInput.setIntegratedSpectrum(XSDataFile())
+        xsDataInput.setIntegratedCurve(XSDataFile())
         xsDataInput.setNormalizationFactor(XSDataDouble())
         xsDataInput.setMaskFile(XSDataFile())
         xsDataInput.setCorrectedImage(XSDataFile())

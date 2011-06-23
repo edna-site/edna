@@ -2,7 +2,7 @@
 <XSDataResult>
 <correctedImage><path><value>/tmp/edna-${USER}/bioSaxsCorrected.edf</value></path></correctedImage>
 <integratedImage><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.edf</value></path></integratedImage>
-<integratedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedSpectrum>
+<integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
 <processLog><value>Retrieve metadata from file ${EDNA_TESTS_DATA_HOME}/images/bioSaxsNormalized.edf
 Correcting EDF image '${EDNA_TESTS_DATA_HOME}/images/bioSaxsNormalized.edf' with mask file
 Appending metadata to Corrected EDF image '/tmp/edna-${USER}/bioSaxsCorrected.edf'.

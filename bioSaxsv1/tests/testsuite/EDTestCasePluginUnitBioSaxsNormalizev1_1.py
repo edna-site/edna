@@ -32,7 +32,8 @@ import os, sys
 from EDVerbose              import EDVerbose
 from EDTestCasePluginUnit   import EDTestCasePluginUnit
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0
-from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString
+from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, \
+    XSDataLength, XSDataWavelength
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 # Needed for loading the plugin...
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
@@ -49,18 +50,18 @@ class EDTestCasePluginUnitBioSaxsNormalizev1_1(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputBioSaxsNormalizev1_0()
-        xsDataInput.setRawImage(XSDataFile())
+        xsDataInput.setRawImage(XSDataImage())
         xsDataInput.setLogFile(XSDataFile())
-        xsDataInput.setNormalizedImage(XSDataFile())
-        xsDataInput.setRawImageSize(XSDataDouble())
+        xsDataInput.setNormalizedImage(XSDataImage())
+        xsDataInput.setRawImageSize(XSDataInteger())
         xsDataInput.setBeamStopDiode(XSDataDouble())
         xsDataInput.setNormalizationFactor(XSDataDouble())
         xsDataInput.setMachineCurrent(XSDataDouble())
-        xsDataInput.setMaskFile(XSDataFile())
-        xsDataInput.setDetectorDistance(XSDataDouble())
-        xsDataInput.setWavelength(XSDataDouble())
-        xsDataInput.setPixelSize_1(XSDataDouble())
-        xsDataInput.setPixelSize_2(XSDataDouble())
+        xsDataInput.setMaskFile(XSDataImage())
+        xsDataInput.setDetectorDistance(XSDataLength())
+        xsDataInput.setWavelength(XSDataWavelength())
+        xsDataInput.setPixelSize_1(XSDataLength())
+        xsDataInput.setPixelSize_2(XSDataLength())
         xsDataInput.setBeamCenter_1(XSDataDouble())
         xsDataInput.setBeamCenter_2(XSDataDouble())
 

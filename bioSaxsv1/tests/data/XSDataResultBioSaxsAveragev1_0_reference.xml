@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <XSDataResult>
-	<averagedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsAveraged.dat</value></path></averagedSpectrum>
+	<averagedCurve><path><value>/tmp/edna-${USER}/bioSaxsAveraged.dat</value></path></averagedCurve>
 	<averagedImage><path><value>/tmp/edna-${USER}/bioSaxsAveraged.edf</value></path></averagedImage>
 	<logFile>
 		<path>

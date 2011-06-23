@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Jun 22 12:05::43 2011 by EDGenerateDS.
+# Generated Thu Jun 23 11:49::16 2011 by EDGenerateDS.
 #
 
 import sys
@@ -614,10 +614,10 @@ class XSDataFileSeries(XSData):
 # end class XSDataFileSeries
 
 class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
-	def __init__(self, configuration=None, integratedSpectrum=None, integratedImage=None):
+	def __init__(self, configuration=None, integratedCurve=None, integratedImage=None):
 		XSDataInput.__init__(self, configuration)
 		self.__integratedImage = integratedImage
-		self.__integratedSpectrum = integratedSpectrum
+		self.__integratedCurve = integratedCurve
 	def getIntegratedImage(self): return self.__integratedImage
 	def setIntegratedImage(self, integratedImage):
 		checkType("XSDataInputBioSaxsAsciiExportv1_0", "setIntegratedImage", integratedImage, "XSDataImage")
@@ -625,13 +625,13 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 	def delIntegratedImage(self): self.__integratedImage = None
 	# Properties
 	integratedImage = property(getIntegratedImage, setIntegratedImage, delIntegratedImage, "Property for integratedImage")
-	def getIntegratedSpectrum(self): return self.__integratedSpectrum
-	def setIntegratedSpectrum(self, integratedSpectrum):
-		checkType("XSDataInputBioSaxsAsciiExportv1_0", "setIntegratedSpectrum", integratedSpectrum, "XSDataFile")
-		self.__integratedSpectrum = integratedSpectrum
-	def delIntegratedSpectrum(self): self.__integratedSpectrum = None
+	def getIntegratedCurve(self): return self.__integratedCurve
+	def setIntegratedCurve(self, integratedCurve):
+		checkType("XSDataInputBioSaxsAsciiExportv1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+		self.__integratedCurve = integratedCurve
+	def delIntegratedCurve(self): self.__integratedCurve = None
 	# Properties
-	integratedSpectrum = property(getIntegratedSpectrum, setIntegratedSpectrum, delIntegratedSpectrum, "Property for integratedSpectrum")
+	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
 	def export(self, outfile, level, name_='XSDataInputBioSaxsAsciiExportv1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -644,10 +644,10 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 			self.integratedImage.export(outfile, level, name_='integratedImage')
 		else:
 			warnEmptyAttribute("integratedImage", "XSDataImage")
-		if self.__integratedSpectrum is not None:
-			self.integratedSpectrum.export(outfile, level, name_='integratedSpectrum')
+		if self.__integratedCurve is not None:
+			self.integratedCurve.export(outfile, level, name_='integratedCurve')
 		else:
-			warnEmptyAttribute("integratedSpectrum", "XSDataFile")
+			warnEmptyAttribute("integratedCurve", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -659,10 +659,10 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 			obj_.build(child_)
 			self.setIntegratedImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integratedSpectrum':
+			nodeName_ == 'integratedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setIntegratedSpectrum(obj_)
+			self.setIntegratedCurve(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -935,17 +935,17 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 # end class XSDataInputBioSaxsSmartMergev1_0
 
 class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
-	def __init__(self, status=None, processLog=None, integratedSpectrum=None):
+	def __init__(self, status=None, processLog=None, integratedCurve=None):
 		XSDataResult.__init__(self, status)
-		self.__integratedSpectrum = integratedSpectrum
+		self.__integratedCurve = integratedCurve
 		self.__processLog = processLog
-	def getIntegratedSpectrum(self): return self.__integratedSpectrum
-	def setIntegratedSpectrum(self, integratedSpectrum):
-		checkType("XSDataResultBioSaxsAsciiExportv1_0", "setIntegratedSpectrum", integratedSpectrum, "XSDataFile")
-		self.__integratedSpectrum = integratedSpectrum
-	def delIntegratedSpectrum(self): self.__integratedSpectrum = None
+	def getIntegratedCurve(self): return self.__integratedCurve
+	def setIntegratedCurve(self, integratedCurve):
+		checkType("XSDataResultBioSaxsAsciiExportv1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+		self.__integratedCurve = integratedCurve
+	def delIntegratedCurve(self): self.__integratedCurve = None
 	# Properties
-	integratedSpectrum = property(getIntegratedSpectrum, setIntegratedSpectrum, delIntegratedSpectrum, "Property for integratedSpectrum")
+	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
 	def getProcessLog(self): return self.__processLog
 	def setProcessLog(self, processLog):
 		checkType("XSDataResultBioSaxsAsciiExportv1_0", "setProcessLog", processLog, "XSDataString")
@@ -961,10 +961,10 @@ class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsAsciiExportv1_0'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__integratedSpectrum is not None:
-			self.integratedSpectrum.export(outfile, level, name_='integratedSpectrum')
+		if self.__integratedCurve is not None:
+			self.integratedCurve.export(outfile, level, name_='integratedCurve')
 		else:
-			warnEmptyAttribute("integratedSpectrum", "XSDataFile")
+			warnEmptyAttribute("integratedCurve", "XSDataFile")
 		if self.__processLog is not None:
 			self.processLog.export(outfile, level, name_='processLog')
 		else:
@@ -975,10 +975,10 @@ class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integratedSpectrum':
+			nodeName_ == 'integratedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setIntegratedSpectrum(obj_)
+			self.setIntegratedCurve(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'processLog':
 			obj_ = XSDataString()
@@ -1025,10 +1025,10 @@ class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
 # end class XSDataResultBioSaxsAsciiExportv1_0
 
 class XSDataResultBioSaxsAveragev1_0(XSDataResult):
-	def __init__(self, status=None, logFile=None, processLog=None, averagedSpectrum=None, averagedImage=None):
+	def __init__(self, status=None, logFile=None, processLog=None, averagedCurve=None, averagedImage=None):
 		XSDataResult.__init__(self, status)
 		self.__averagedImage = averagedImage
-		self.__averagedSpectrum = averagedSpectrum
+		self.__averagedCurve = averagedCurve
 		self.__processLog = processLog
 		self.__logFile = logFile
 	def getAveragedImage(self): return self.__averagedImage
@@ -1038,13 +1038,13 @@ class XSDataResultBioSaxsAveragev1_0(XSDataResult):
 	def delAveragedImage(self): self.__averagedImage = None
 	# Properties
 	averagedImage = property(getAveragedImage, setAveragedImage, delAveragedImage, "Property for averagedImage")
-	def getAveragedSpectrum(self): return self.__averagedSpectrum
-	def setAveragedSpectrum(self, averagedSpectrum):
-		checkType("XSDataResultBioSaxsAveragev1_0", "setAveragedSpectrum", averagedSpectrum, "XSDataFile")
-		self.__averagedSpectrum = averagedSpectrum
-	def delAveragedSpectrum(self): self.__averagedSpectrum = None
+	def getAveragedCurve(self): return self.__averagedCurve
+	def setAveragedCurve(self, averagedCurve):
+		checkType("XSDataResultBioSaxsAveragev1_0", "setAveragedCurve", averagedCurve, "XSDataFile")
+		self.__averagedCurve = averagedCurve
+	def delAveragedCurve(self): self.__averagedCurve = None
 	# Properties
-	averagedSpectrum = property(getAveragedSpectrum, setAveragedSpectrum, delAveragedSpectrum, "Property for averagedSpectrum")
+	averagedCurve = property(getAveragedCurve, setAveragedCurve, delAveragedCurve, "Property for averagedCurve")
 	def getProcessLog(self): return self.__processLog
 	def setProcessLog(self, processLog):
 		checkType("XSDataResultBioSaxsAveragev1_0", "setProcessLog", processLog, "XSDataString")
@@ -1071,10 +1071,10 @@ class XSDataResultBioSaxsAveragev1_0(XSDataResult):
 			self.averagedImage.export(outfile, level, name_='averagedImage')
 		else:
 			warnEmptyAttribute("averagedImage", "XSDataImage")
-		if self.__averagedSpectrum is not None:
-			self.averagedSpectrum.export(outfile, level, name_='averagedSpectrum')
+		if self.__averagedCurve is not None:
+			self.averagedCurve.export(outfile, level, name_='averagedCurve')
 		else:
-			warnEmptyAttribute("averagedSpectrum", "XSDataFile")
+			warnEmptyAttribute("averagedCurve", "XSDataFile")
 		if self.__processLog is not None:
 			self.processLog.export(outfile, level, name_='processLog')
 		else:
@@ -1094,10 +1094,10 @@ class XSDataResultBioSaxsAveragev1_0(XSDataResult):
 			obj_.build(child_)
 			self.setAveragedImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'averagedSpectrum':
+			nodeName_ == 'averagedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setAveragedSpectrum(obj_)
+			self.setAveragedCurve(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'processLog':
 			obj_ = XSDataString()
@@ -1149,11 +1149,11 @@ class XSDataResultBioSaxsAveragev1_0(XSDataResult):
 # end class XSDataResultBioSaxsAveragev1_0
 
 class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
-	def __init__(self, status=None, processLog=None, integratedSpectrum=None, integratedImage=None, correctedImage=None):
+	def __init__(self, status=None, processLog=None, integratedCurve=None, integratedImage=None, correctedImage=None):
 		XSDataResult.__init__(self, status)
 		self.__correctedImage = correctedImage
 		self.__integratedImage = integratedImage
-		self.__integratedSpectrum = integratedSpectrum
+		self.__integratedCurve = integratedCurve
 		self.__processLog = processLog
 	def getCorrectedImage(self): return self.__correctedImage
 	def setCorrectedImage(self, correctedImage):
@@ -1169,13 +1169,13 @@ class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
 	def delIntegratedImage(self): self.__integratedImage = None
 	# Properties
 	integratedImage = property(getIntegratedImage, setIntegratedImage, delIntegratedImage, "Property for integratedImage")
-	def getIntegratedSpectrum(self): return self.__integratedSpectrum
-	def setIntegratedSpectrum(self, integratedSpectrum):
-		checkType("XSDataResultBioSaxsAzimutIntv1_0", "setIntegratedSpectrum", integratedSpectrum, "XSDataFile")
-		self.__integratedSpectrum = integratedSpectrum
-	def delIntegratedSpectrum(self): self.__integratedSpectrum = None
+	def getIntegratedCurve(self): return self.__integratedCurve
+	def setIntegratedCurve(self, integratedCurve):
+		checkType("XSDataResultBioSaxsAzimutIntv1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+		self.__integratedCurve = integratedCurve
+	def delIntegratedCurve(self): self.__integratedCurve = None
 	# Properties
-	integratedSpectrum = property(getIntegratedSpectrum, setIntegratedSpectrum, delIntegratedSpectrum, "Property for integratedSpectrum")
+	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
 	def getProcessLog(self): return self.__processLog
 	def setProcessLog(self, processLog):
 		checkType("XSDataResultBioSaxsAzimutIntv1_0", "setProcessLog", processLog, "XSDataString")
@@ -1199,10 +1199,10 @@ class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
 			self.integratedImage.export(outfile, level, name_='integratedImage')
 		else:
 			warnEmptyAttribute("integratedImage", "XSDataImage")
-		if self.__integratedSpectrum is not None:
-			self.integratedSpectrum.export(outfile, level, name_='integratedSpectrum')
+		if self.__integratedCurve is not None:
+			self.integratedCurve.export(outfile, level, name_='integratedCurve')
 		else:
-			warnEmptyAttribute("integratedSpectrum", "XSDataFile")
+			warnEmptyAttribute("integratedCurve", "XSDataFile")
 		if self.__processLog is not None:
 			self.processLog.export(outfile, level, name_='processLog')
 		else:
@@ -1223,10 +1223,10 @@ class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
 			obj_.build(child_)
 			self.setIntegratedImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integratedSpectrum':
+			nodeName_ == 'integratedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setIntegratedSpectrum(obj_)
+			self.setIntegratedCurve(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'processLog':
 			obj_ = XSDataString()
@@ -1379,29 +1379,96 @@ class XSDataResultBioSaxsNormalizev1_0(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultBioSaxsNormalizev1_0
 
-class XSDataResultBioSaxsProcessOneRunv1_0(XSDataResult):
-	def __init__(self, status=None):
+class XSDataResultBioSaxsProcessOneFilev1_0(XSDataResult):
+	def __init__(self, status=None, processLog=None, logFile=None, normalizedImage=None, outputCurve=None):
 		XSDataResult.__init__(self, status)
-	def export(self, outfile, level, name_='XSDataResultBioSaxsProcessOneRunv1_0'):
+		self.__outputCurve = outputCurve
+		self.__normalizedImage = normalizedImage
+		self.__logFile = logFile
+		self.__processLog = processLog
+	def getOutputCurve(self): return self.__outputCurve
+	def setOutputCurve(self, outputCurve):
+		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setOutputCurve", outputCurve, "XSDataFile")
+		self.__outputCurve = outputCurve
+	def delOutputCurve(self): self.__outputCurve = None
+	# Properties
+	outputCurve = property(getOutputCurve, setOutputCurve, delOutputCurve, "Property for outputCurve")
+	def getNormalizedImage(self): return self.__normalizedImage
+	def setNormalizedImage(self, normalizedImage):
+		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setNormalizedImage", normalizedImage, "XSDataImage")
+		self.__normalizedImage = normalizedImage
+	def delNormalizedImage(self): self.__normalizedImage = None
+	# Properties
+	normalizedImage = property(getNormalizedImage, setNormalizedImage, delNormalizedImage, "Property for normalizedImage")
+	def getLogFile(self): return self.__logFile
+	def setLogFile(self, logFile):
+		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setLogFile", logFile, "XSDataFile")
+		self.__logFile = logFile
+	def delLogFile(self): self.__logFile = None
+	# Properties
+	logFile = property(getLogFile, setLogFile, delLogFile, "Property for logFile")
+	def getProcessLog(self): return self.__processLog
+	def setProcessLog(self, processLog):
+		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setProcessLog", processLog, "XSDataString")
+		self.__processLog = processLog
+	def delProcessLog(self): self.__processLog = None
+	# Properties
+	processLog = property(getProcessLog, setProcessLog, delProcessLog, "Property for processLog")
+	def export(self, outfile, level, name_='XSDataResultBioSaxsProcessOneFilev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsProcessOneRunv1_0'):
+	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsProcessOneFilev1_0'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__outputCurve is not None:
+			self.outputCurve.export(outfile, level, name_='outputCurve')
+		else:
+			warnEmptyAttribute("outputCurve", "XSDataFile")
+		if self.__normalizedImage is not None:
+			self.normalizedImage.export(outfile, level, name_='normalizedImage')
+		else:
+			warnEmptyAttribute("normalizedImage", "XSDataImage")
+		if self.__logFile is not None:
+			self.logFile.export(outfile, level, name_='logFile')
+		else:
+			warnEmptyAttribute("logFile", "XSDataFile")
+		if self.__processLog is not None:
+			self.processLog.export(outfile, level, name_='processLog')
+		else:
+			warnEmptyAttribute("processLog", "XSDataString")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
-		pass
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'outputCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setOutputCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'normalizedImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setNormalizedImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'logFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setLogFile(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'processLog':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setProcessLog(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultBioSaxsProcessOneRunv1_0" )
+		self.export( oStreamString, 0, name_="XSDataResultBioSaxsProcessOneFilev1_0" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -1409,20 +1476,20 @@ class XSDataResultBioSaxsProcessOneRunv1_0(XSDataResult):
 	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultBioSaxsProcessOneRunv1_0' )
+		self.export( outfile, 0, name_='XSDataResultBioSaxsProcessOneFilev1_0' )
 		outfile.close()
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return XSDataResultBioSaxsProcessOneRunv1_0.parseString(self.marshal())
+		return XSDataResultBioSaxsProcessOneFilev1_0.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultBioSaxsProcessOneRunv1_0()
+		rootObj = XSDataResultBioSaxsProcessOneFilev1_0()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsProcessOneRunv1_0" )
+		rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsProcessOneFilev1_0" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -1430,11 +1497,11 @@ class XSDataResultBioSaxsProcessOneRunv1_0(XSDataResult):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultBioSaxsProcessOneRunv1_0()
+		rootObj = XSDataResultBioSaxsProcessOneFilev1_0()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class XSDataResultBioSaxsProcessOneRunv1_0
+# end class XSDataResultBioSaxsProcessOneFilev1_0
 
 class XSDataResultBioSaxsReprocessv1_0(XSDataResult):
 	def __init__(self, status=None):
@@ -2113,7 +2180,7 @@ class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
 # end class XSDataResultBioSaxsSampleExperiment
 
 class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
-	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, logFile=None, averagedSpectrum=None, averagedImage=None, integratedImageSize=None, integratedImage=None):
+	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, logFile=None, averagedCurve=None, averagedImage=None, integratedImageSize=None, integratedImage=None):
 		XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, sampleCode, sampleComments, sampleConcentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
 		if integratedImage is None:
 			self.__integratedImage = []
@@ -2121,7 +2188,7 @@ class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
 			self.__integratedImage = integratedImage
 		self.__integratedImageSize = integratedImageSize
 		self.__averagedImage = averagedImage
-		self.__averagedSpectrum = averagedSpectrum
+		self.__averagedCurve = averagedCurve
 		self.__logFile = logFile
 	def getIntegratedImage(self): return self.__integratedImage
 	def setIntegratedImage(self, integratedImage):
@@ -2150,13 +2217,13 @@ class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
 	def delAveragedImage(self): self.__averagedImage = None
 	# Properties
 	averagedImage = property(getAveragedImage, setAveragedImage, delAveragedImage, "Property for averagedImage")
-	def getAveragedSpectrum(self): return self.__averagedSpectrum
-	def setAveragedSpectrum(self, averagedSpectrum):
-		checkType("XSDataInputBioSaxsAveragev1_0", "setAveragedSpectrum", averagedSpectrum, "XSDataFile")
-		self.__averagedSpectrum = averagedSpectrum
-	def delAveragedSpectrum(self): self.__averagedSpectrum = None
+	def getAveragedCurve(self): return self.__averagedCurve
+	def setAveragedCurve(self, averagedCurve):
+		checkType("XSDataInputBioSaxsAveragev1_0", "setAveragedCurve", averagedCurve, "XSDataFile")
+		self.__averagedCurve = averagedCurve
+	def delAveragedCurve(self): self.__averagedCurve = None
 	# Properties
-	averagedSpectrum = property(getAveragedSpectrum, setAveragedSpectrum, delAveragedSpectrum, "Property for averagedSpectrum")
+	averagedCurve = property(getAveragedCurve, setAveragedCurve, delAveragedCurve, "Property for averagedCurve")
 	def getLogFile(self): return self.__logFile
 	def setLogFile(self, logFile):
 		checkType("XSDataInputBioSaxsAveragev1_0", "setLogFile", logFile, "XSDataFile")
@@ -2184,10 +2251,10 @@ class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
 			self.averagedImage.export(outfile, level, name_='averagedImage')
 		else:
 			warnEmptyAttribute("averagedImage", "XSDataImage")
-		if self.__averagedSpectrum is not None:
-			self.averagedSpectrum.export(outfile, level, name_='averagedSpectrum')
+		if self.__averagedCurve is not None:
+			self.averagedCurve.export(outfile, level, name_='averagedCurve')
 		else:
-			warnEmptyAttribute("averagedSpectrum", "XSDataFile")
+			warnEmptyAttribute("averagedCurve", "XSDataFile")
 		if self.__logFile is not None:
 			self.logFile.export(outfile, level, name_='logFile')
 		else:
@@ -2213,10 +2280,10 @@ class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
 			obj_.build(child_)
 			self.setAveragedImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'averagedSpectrum':
+			nodeName_ == 'averagedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setAveragedSpectrum(obj_)
+			self.setAveragedCurve(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'logFile':
 			obj_ = XSDataFile()
@@ -2263,12 +2330,12 @@ class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
 # end class XSDataInputBioSaxsAveragev1_0
 
 class XSDataInputBioSaxsAzimutIntv1_0(XSDataInputBioSaxsSampleExperiment):
-	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, correctedImage=None, integratedSpectrum=None, integratedImage=None, normalizedImageSize=None, normalizedImage=None):
+	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, correctedImage=None, integratedCurve=None, integratedImage=None, normalizedImageSize=None, normalizedImage=None):
 		XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, sampleCode, sampleComments, sampleConcentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
 		self.__normalizedImage = normalizedImage
 		self.__normalizedImageSize = normalizedImageSize
 		self.__integratedImage = integratedImage
-		self.__integratedSpectrum = integratedSpectrum
+		self.__integratedCurve = integratedCurve
 		self.__correctedImage = correctedImage
 	def getNormalizedImage(self): return self.__normalizedImage
 	def setNormalizedImage(self, normalizedImage):
@@ -2291,13 +2358,13 @@ class XSDataInputBioSaxsAzimutIntv1_0(XSDataInputBioSaxsSampleExperiment):
 	def delIntegratedImage(self): self.__integratedImage = None
 	# Properties
 	integratedImage = property(getIntegratedImage, setIntegratedImage, delIntegratedImage, "Property for integratedImage")
-	def getIntegratedSpectrum(self): return self.__integratedSpectrum
-	def setIntegratedSpectrum(self, integratedSpectrum):
-		checkType("XSDataInputBioSaxsAzimutIntv1_0", "setIntegratedSpectrum", integratedSpectrum, "XSDataFile")
-		self.__integratedSpectrum = integratedSpectrum
-	def delIntegratedSpectrum(self): self.__integratedSpectrum = None
+	def getIntegratedCurve(self): return self.__integratedCurve
+	def setIntegratedCurve(self, integratedCurve):
+		checkType("XSDataInputBioSaxsAzimutIntv1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+		self.__integratedCurve = integratedCurve
+	def delIntegratedCurve(self): self.__integratedCurve = None
 	# Properties
-	integratedSpectrum = property(getIntegratedSpectrum, setIntegratedSpectrum, delIntegratedSpectrum, "Property for integratedSpectrum")
+	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
 	def getCorrectedImage(self): return self.__correctedImage
 	def setCorrectedImage(self, correctedImage):
 		checkType("XSDataInputBioSaxsAzimutIntv1_0", "setCorrectedImage", correctedImage, "XSDataImage")
@@ -2325,10 +2392,10 @@ class XSDataInputBioSaxsAzimutIntv1_0(XSDataInputBioSaxsSampleExperiment):
 			self.integratedImage.export(outfile, level, name_='integratedImage')
 		else:
 			warnEmptyAttribute("integratedImage", "XSDataImage")
-		if self.__integratedSpectrum is not None:
-			self.integratedSpectrum.export(outfile, level, name_='integratedSpectrum')
+		if self.__integratedCurve is not None:
+			self.integratedCurve.export(outfile, level, name_='integratedCurve')
 		else:
-			warnEmptyAttribute("integratedSpectrum", "XSDataFile")
+			warnEmptyAttribute("integratedCurve", "XSDataFile")
 		if self.__correctedImage is not None:
 			self.correctedImage.export(outfile, level, name_='correctedImage')
 		else:
@@ -2354,10 +2421,10 @@ class XSDataInputBioSaxsAzimutIntv1_0(XSDataInputBioSaxsSampleExperiment):
 			obj_.build(child_)
 			self.setIntegratedImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integratedSpectrum':
+			nodeName_ == 'integratedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setIntegratedSpectrum(obj_)
+			self.setIntegratedCurve(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'correctedImage':
 			obj_ = XSDataImage()
@@ -2614,6 +2681,199 @@ class XSDataInputBioSaxsNormalizev1_0(XSDataInputBioSaxsSampleExperiment):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputBioSaxsNormalizev1_0
+
+class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInputBioSaxsSampleExperiment):
+	"""Plugin that runs subsequently Normalize and Azimuthal integration"""
+	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, correctedImage=None, integratedCurve=None, integratedImage=None, normalizedImageSize=None, rawImageSize=None, normalizedImage=None, logFile=None, rawImage=None):
+		XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, sampleCode, sampleComments, sampleConcentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
+		self.__rawImage = rawImage
+		self.__logFile = logFile
+		self.__normalizedImage = normalizedImage
+		self.__rawImageSize = rawImageSize
+		self.__normalizedImageSize = normalizedImageSize
+		self.__integratedImage = integratedImage
+		self.__integratedCurve = integratedCurve
+		self.__correctedImage = correctedImage
+	def getRawImage(self): return self.__rawImage
+	def setRawImage(self, rawImage):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRawImage", rawImage, "XSDataImage")
+		self.__rawImage = rawImage
+	def delRawImage(self): self.__rawImage = None
+	# Properties
+	rawImage = property(getRawImage, setRawImage, delRawImage, "Property for rawImage")
+	def getLogFile(self): return self.__logFile
+	def setLogFile(self, logFile):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setLogFile", logFile, "XSDataFile")
+		self.__logFile = logFile
+	def delLogFile(self): self.__logFile = None
+	# Properties
+	logFile = property(getLogFile, setLogFile, delLogFile, "Property for logFile")
+	def getNormalizedImage(self): return self.__normalizedImage
+	def setNormalizedImage(self, normalizedImage):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setNormalizedImage", normalizedImage, "XSDataImage")
+		self.__normalizedImage = normalizedImage
+	def delNormalizedImage(self): self.__normalizedImage = None
+	# Properties
+	normalizedImage = property(getNormalizedImage, setNormalizedImage, delNormalizedImage, "Property for normalizedImage")
+	def getRawImageSize(self): return self.__rawImageSize
+	def setRawImageSize(self, rawImageSize):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRawImageSize", rawImageSize, "XSDataInteger")
+		self.__rawImageSize = rawImageSize
+	def delRawImageSize(self): self.__rawImageSize = None
+	# Properties
+	rawImageSize = property(getRawImageSize, setRawImageSize, delRawImageSize, "Property for rawImageSize")
+	def getNormalizedImageSize(self): return self.__normalizedImageSize
+	def setNormalizedImageSize(self, normalizedImageSize):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setNormalizedImageSize", normalizedImageSize, "XSDataInteger")
+		self.__normalizedImageSize = normalizedImageSize
+	def delNormalizedImageSize(self): self.__normalizedImageSize = None
+	# Properties
+	normalizedImageSize = property(getNormalizedImageSize, setNormalizedImageSize, delNormalizedImageSize, "Property for normalizedImageSize")
+	def getIntegratedImage(self): return self.__integratedImage
+	def setIntegratedImage(self, integratedImage):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setIntegratedImage", integratedImage, "XSDataImage")
+		self.__integratedImage = integratedImage
+	def delIntegratedImage(self): self.__integratedImage = None
+	# Properties
+	integratedImage = property(getIntegratedImage, setIntegratedImage, delIntegratedImage, "Property for integratedImage")
+	def getIntegratedCurve(self): return self.__integratedCurve
+	def setIntegratedCurve(self, integratedCurve):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+		self.__integratedCurve = integratedCurve
+	def delIntegratedCurve(self): self.__integratedCurve = None
+	# Properties
+	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
+	def getCorrectedImage(self): return self.__correctedImage
+	def setCorrectedImage(self, correctedImage):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setCorrectedImage", correctedImage, "XSDataImage")
+		self.__correctedImage = correctedImage
+	def delCorrectedImage(self): self.__correctedImage = None
+	# Properties
+	correctedImage = property(getCorrectedImage, setCorrectedImage, delCorrectedImage, "Property for correctedImage")
+	def export(self, outfile, level, name_='XSDataInputBioSaxsProcessOneFilev1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsProcessOneFilev1_0'):
+		XSDataInputBioSaxsSampleExperiment.exportChildren(self, outfile, level, name_)
+		if self.__rawImage is not None:
+			self.rawImage.export(outfile, level, name_='rawImage')
+		else:
+			warnEmptyAttribute("rawImage", "XSDataImage")
+		if self.__logFile is not None:
+			self.logFile.export(outfile, level, name_='logFile')
+		else:
+			warnEmptyAttribute("logFile", "XSDataFile")
+		if self.__normalizedImage is not None:
+			self.normalizedImage.export(outfile, level, name_='normalizedImage')
+		else:
+			warnEmptyAttribute("normalizedImage", "XSDataImage")
+		if self.__rawImageSize is not None:
+			self.rawImageSize.export(outfile, level, name_='rawImageSize')
+		else:
+			warnEmptyAttribute("rawImageSize", "XSDataInteger")
+		if self.__normalizedImageSize is not None:
+			self.normalizedImageSize.export(outfile, level, name_='normalizedImageSize')
+		else:
+			warnEmptyAttribute("normalizedImageSize", "XSDataInteger")
+		if self.__integratedImage is not None:
+			self.integratedImage.export(outfile, level, name_='integratedImage')
+		else:
+			warnEmptyAttribute("integratedImage", "XSDataImage")
+		if self.__integratedCurve is not None:
+			self.integratedCurve.export(outfile, level, name_='integratedCurve')
+		else:
+			warnEmptyAttribute("integratedCurve", "XSDataFile")
+		if self.__correctedImage is not None:
+			self.correctedImage.export(outfile, level, name_='correctedImage')
+		else:
+			warnEmptyAttribute("correctedImage", "XSDataImage")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rawImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setRawImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'logFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setLogFile(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'normalizedImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setNormalizedImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rawImageSize':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setRawImageSize(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'normalizedImageSize':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNormalizedImageSize(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integratedImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setIntegratedImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integratedCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setIntegratedCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'correctedImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setCorrectedImage(obj_)
+		XSDataInputBioSaxsSampleExperiment.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputBioSaxsProcessOneFilev1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputBioSaxsProcessOneFilev1_0' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputBioSaxsProcessOneFilev1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsProcessOneFilev1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsProcessOneFilev1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsProcessOneFilev1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputBioSaxsProcessOneFilev1_0
 
 class XSDataInputBioSaxsReprocessv1_0(XSDataInputBioSaxsSampleExperiment):
 	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, runNumber=None, prefix=None, operation=None, normalisation=None, keepOriginal=None, isOnline=None, frameLast=None, frameFirst=None, directory=None, specVariableAbort=None, specVariableStatus=None, specVersion=None):

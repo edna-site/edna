@@ -67,7 +67,7 @@ def fileName2xml(filename):
     xsd = XSDataInputBioSaxsAsciiExportv1_0()
     xsd.integratedImage = XSDataImage(XSDataString(filename))
 
-    xsd.integratedSpectrum = XSDataFile(XSDataString(os.path.splitext(filename)[0] + ".dat"))
+    xsd.integratedCurve = XSDataFile(XSDataString(os.path.splitext(filename)[0] + ".dat"))
     return xsd.marshal()
 
 def XMLerr(strXMLin):

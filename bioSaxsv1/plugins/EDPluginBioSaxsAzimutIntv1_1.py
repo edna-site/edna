@@ -73,7 +73,7 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
 
         self.normalizedImage = None
         self.integratedImage = None
-        self.integratedSpectrum = None
+        self.integratedCurve = None
         self.normalizationFactor = None
 
         self.lstProcessLog = []
@@ -90,7 +90,7 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         self.checkMandatoryParameters(self.getDataInput().getNormalizedImage(), "Missing normalizedImage")
         self.checkMandatoryParameters(self.getDataInput().getNormalizedImageSize(), "Missing normalizedImageSize")
         self.checkMandatoryParameters(self.getDataInput().getIntegratedImage(), "Missing integratedImage")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedSpectrum(), "Missing integratedSpectrum")
+        self.checkMandatoryParameters(self.getDataInput().getIntegratedCurve(), "Missing integratedCurve")
 
 
     def preProcess(self, _edObject=None):
@@ -104,7 +104,7 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
 
         self.normalizedImage = self.getDataInput().getNormalizedImage().getPath().getValue()
         self.integratedImage = self.getDataInput().getIntegratedImage().getPath().getValue()
-        self.integratedSpectrum = self.getDataInput().getIntegratedSpectrum().getPath().getValue()
+        self.integratedCurve = self.getDataInput().getIntegratedCurve().getPath().getValue()
 
 
     def process(self, _edObject=None):
@@ -199,7 +199,7 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         self.lstProcessLog.append("Conversion to spec-like file of '%s'" % (self.integratedImage))
         xsdiAsciiExport = XSDataInputBioSaxsAsciiExportv1_0()
         xsdiAsciiExport.setIntegratedImage(self.getDataInput().getIntegratedImage())
-        xsdiAsciiExport.setIntegratedSpectrum(self.getDataInput().getIntegratedSpectrum())
+        xsdiAsciiExport.setIntegratedCurve(self.getDataInput().getIntegratedCurve())
         self.__edPluginAsciiExport.setDataInput(xsdiAsciiExport)
 
 
@@ -213,7 +213,7 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
     def doSuccessAsciiExport(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.doSuccessAsciiExport")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_1.doSuccessAsciiExport")
-        self.xsdResult.setIntegratedSpectrum(self.getDataInput().getIntegratedSpectrum())
+        self.xsdResult.setIntegratedCurve(self.getDataInput().getIntegratedCurve())
         output = _edPlugin.getDataOutput()
         if output is not None:
             self.lstProcessLog.append(output.getProcessLog().getValue())

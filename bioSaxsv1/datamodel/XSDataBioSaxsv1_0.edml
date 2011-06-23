@@ -82,23 +82,23 @@ complex type XSDataBioSaxsSample extends XSData {
 
 complex type XSDataInputBioSaxsAsciiExportv1_0 extends XSDataInput {
 	integratedImage : XSDataImage
-	integratedSpectrum : XSDataFile
+	integratedCurve : XSDataFile
 }
 
 complex type XSDataInputBioSaxsAveragev1_0 extends XSDataInputBioSaxsSampleExperiment{
 	integratedImage : XSDataImage []
 	integratedImageSize : XSDataInteger
 	averagedImage : XSDataImage
-	averagedSpectrum : XSDataFile
+	averagedCurve : XSDataFile
 	logFile : XSDataFile
 }
 
 complex type XSDataInputBioSaxsAzimutIntv1_0 extends XSDataInputBioSaxsSampleExperiment{
 	normalizedImage : XSDataImage
-	normalizedImageSize : XSDataInteger
+	normalizedImageSize : XSDataInteger optional
 	integratedImage : XSDataImage
-	integratedSpectrum : XSDataFile
-	correctedImage : XSDataImage
+	integratedCurve : XSDataFile
+	correctedImage : XSDataImage optional
 }
 
 complex type XSDataInputBioSaxsMetadatav1_0 extends XSDataInputBioSaxsSampleExperiment{
@@ -146,13 +146,13 @@ complex type XSDataInputBioSaxsReprocessv1_0 extends XSDataInputBioSaxsSampleExp
 }
 
 complex type XSDataResultBioSaxsAsciiExportv1_0 extends XSDataResult {
-	integratedSpectrum : XSDataFile
+	integratedCurve : XSDataFile
 	processLog : XSDataString
 }
 
 complex type XSDataResultBioSaxsAveragev1_0 extends XSDataResult {
 	averagedImage : XSDataImage
-	averagedSpectrum : XSDataFile
+	averagedCurve : XSDataFile
 	processLog : XSDataString
 	logFile : XSDataFile
 }
@@ -160,7 +160,7 @@ complex type XSDataResultBioSaxsAveragev1_0 extends XSDataResult {
 complex type XSDataResultBioSaxsAzimutIntv1_0 extends XSDataResult {
 	correctedImage : XSDataImage
 	integratedImage : XSDataImage
-	integratedSpectrum : XSDataFile
+	integratedCurve : XSDataFile
 	processLog : XSDataString
 }
 
@@ -174,8 +174,6 @@ complex type XSDataResultBioSaxsNormalizev1_0 extends XSDataResult {
 	processLog : XSDataString
 }
 
-complex type XSDataResultBioSaxsProcessOneRunv1_0 extends XSDataResult {
-}
 
 complex type XSDataResultBioSaxsReprocessv1_0 extends XSDataResult {
 }
@@ -200,4 +198,23 @@ complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
 
 complex type XSDataFileSeries extends XSData {
 	files : XSDataFile []
+}
+
+complex type XSDataInputBioSaxsProcessOneFilev1_0 extends XSDataInputBioSaxsSampleExperiment {
+	"Plugin that runs subsequently Normalize and Azimuthal integration"
+	rawImage : XSDataImage
+	rawImageSize : XSDataInteger optional
+	logFile : XSDataFile optional
+	normalizedImage : XSDataImage optional
+	integratedImage : XSDataImage optional
+	integratedCurve : XSDataFile optional
+	
+}
+
+complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
+	normalizedImage: XSDataImage
+	integratedImage: XSDataImage
+	outputCurve: XSDataFile
+	logFile : XSDataFile
+	processLog : XSDataString
 }

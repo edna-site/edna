@@ -67,13 +67,13 @@ class EDTestCasePluginExecuteBioSaxsAveragev1_0(EDTestCasePluginExecute):
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsAveragev1_0.parseString(strExpectedOutput)
-        self.averagedSpectrum = xsDataResultReference.getAveragedSpectrum().getPath().getValue()
-        EDVerbose.DEBUG("Output file is %s" % self.averagedSpectrum)
-        if not os.path.isdir(os.path.dirname(self.averagedSpectrum)):
-            os.makedirs(os.path.dirname(self.averagedSpectrum))
-        if os.path.isfile(self.averagedSpectrum):
-            EDVerbose.DEBUG(" Output Averaged Spectrum file exists %s, I will remove it" % self.averagedSpectrum)
-            os.remove(self.averagedSpectrum)
+        self.averagedCurve = xsDataResultReference.getAveragedCurve().getPath().getValue()
+        EDVerbose.DEBUG("Output file is %s" % self.averagedCurve)
+        if not os.path.isdir(os.path.dirname(self.averagedCurve)):
+            os.makedirs(os.path.dirname(self.averagedCurve))
+        if os.path.isfile(self.averagedCurve):
+            EDVerbose.DEBUG(" Output Averaged Curve file exists %s, I will remove it" % self.averagedCurve)
+            os.remove(self.averagedCurve)
 
         self.AveragedImage = xsDataResultReference.getAveragedImage().getPath().getValue()
         EDVerbose.DEBUG("Output Integrated Image file is %s" % self.AveragedImage)
@@ -105,7 +105,7 @@ class EDTestCasePluginExecuteBioSaxsAveragev1_0(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = open(xsDataResultObtained.getAveragedSpectrum().getPath().getValue(), "rb").read()
+        outputData = open(xsDataResultObtained.getAveragedCurve().getPath().getValue(), "rb").read()
         referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsAveraged.dat"), "rb").read()
 
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3-column ascii spectra files spectra are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")

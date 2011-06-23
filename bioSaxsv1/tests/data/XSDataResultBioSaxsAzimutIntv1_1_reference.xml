@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <XSDataResult>
 <integratedImage><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.edf</value></path></integratedImage>
-<integratedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedSpectrum>
+<integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
 <processLog><value>Retrieve metadata from file ${EDNA_TESTS_DATA_HOME}/images/bioSaxsCorrected.edf
 Azimuthal integration of Corrected+Masked EDF image '/tmp/edna-${USER}/bioSaxsCorrected.edf'.
 Conversion to spec-like file of '/tmp/edna-${USER}/bioSaxsIntegrated.edf'

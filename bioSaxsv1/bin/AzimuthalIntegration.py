@@ -78,7 +78,7 @@ def fileName2xml(filename):
 <correctedImage><path><value>%s</value></path></correctedImage>\
 <normalizedImageSize><value>4100000</value></normalizedImageSize>\
 <integratedImage><path><value>%s</value></path></integratedImage>\
-<integratedSpectrum><path><value>%s</value></path></integratedSpectrum>\
+<integratedCurve><path><value>%s</value></path></integratedCurve>\
 <maskFile><path><value>%s</value></path></maskFile>\
 <code><value>BSAS</value></code>\
 </XSDataInput>" % (filename, correctedImg, integImg, specfile, maskFile)

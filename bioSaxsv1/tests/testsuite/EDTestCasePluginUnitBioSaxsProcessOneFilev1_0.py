@@ -31,9 +31,9 @@ __copyright__ = "ESRF"
 import os, sys
 from EDVerbose              import EDVerbose
 from EDTestCasePluginUnit   import EDTestCasePluginUnit
-from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0
-from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, \
-    XSDataLength, XSDataWavelength
+from XSDataBioSaxsv1_0     import XSDataInputBioSaxsProcessOneFilev1_0
+from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataLength, \
+    XSDataWavelength
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
 
 
@@ -42,29 +42,29 @@ EDFactoryPluginStatic.loadModule("EDInstallSpecClient")
 EDFactoryPluginStatic.loadModule("EDInstallEdfFile")
 
 
-class EDTestCasePluginUnitBioSaxsNormalizev1_0(EDTestCasePluginUnit):
+class EDTestCasePluginUnitBioSaxsProcessOneFilev1_0(EDTestCasePluginUnit):
 
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginBioSaxsNormalizev1_0")
+        EDTestCasePluginUnit.__init__(self, "EDPluginControlBioSaxsProcessOneFilev1_0")
 
 
     def testCheckParameters(self):
-        xsDataInput = XSDataInputBioSaxsNormalizev1_0()
-        xsDataInput.setRawImage(XSDataImage())
-        xsDataInput.setLogFile(XSDataFile())
-        xsDataInput.setNormalizedImage(XSDataImage())
-        xsDataInput.setRawImageSize(XSDataInteger())
-        xsDataInput.setBeamStopDiode(XSDataDouble())
-        xsDataInput.setNormalizationFactor(XSDataDouble())
-        xsDataInput.setMachineCurrent(XSDataDouble())
-        xsDataInput.setMaskFile(XSDataImage())
-        xsDataInput.setDetectorDistance(XSDataLength())
-        xsDataInput.setWavelength(XSDataWavelength())
-        xsDataInput.setPixelSize_1(XSDataLength())
-        xsDataInput.setPixelSize_2(XSDataLength())
-        xsDataInput.setBeamCenter_1(XSDataDouble())
-        xsDataInput.setBeamCenter_2(XSDataDouble())
+        xsDataInput = XSDataInputBioSaxsProcessOneFilev1_0()
+        xsDataInput.rawImage = XSDataImage()
+        xsDataInput.logFile = XSDataFile()
+        xsDataInput.normalizedImage = XSDataImage()
+        xsDataInput.rawImageSize = XSDataInteger()
+        xsDataInput.beamStopDiode = XSDataDouble()
+        xsDataInput.normalizationFactor = XSDataDouble()
+        xsDataInput.machineCurrent = XSDataDouble()
+        xsDataInput.maskFile = XSDataImage()
+        xsDataInput.detectorDistance = XSDataLength()
+        xsDataInput.wavelength = XSDataWavelength()
+        xsDataInput.pixelSize_1 = XSDataLength()
+        xsDataInput.pixelSize_2 = XSDataLength()
+        xsDataInput.beamCenter_1 = XSDataDouble()
+        xsDataInput.beamCenter_2 = XSDataDouble()
 
         edPluginExecBioSaxsNormalize = self.createPlugin()
         edPluginExecBioSaxsNormalize.setDataInput(xsDataInput)
@@ -80,5 +80,5 @@ class EDTestCasePluginUnitBioSaxsNormalizev1_0(EDTestCasePluginUnit):
 
 if __name__ == '__main__':
 
-    EDTestCasePluginUnitBioSaxsNormalizev1_0 = EDTestCasePluginUnitBioSaxsNormalizev1_0("EDTestCasePluginUnitBioSaxsNormalizev1_0")
-    EDTestCasePluginUnitBioSaxsNormalizev1_0.execute()
+    eDTestCase = EDTestCasePluginUnitBioSaxsProcessOneFilev1_0("EDTestCasePluginUnitBioSaxsProcessOneFilev1_0")
+    eDTestCase.execute()

@@ -175,9 +175,8 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         header_keys.sort()
         fabioOut = edfimage(header=self.dictOutputHeader, header_keys=header_keys,
                              data=numpy.ma.filled(npaMaskedData * scale, float(self.dummy)))
-        frameVariance = Frame(header={"Dummy": str(self.dummy), "DDummy":"0.1", "EDF_DataBlockID":"1.Image.Error"},
+        fabioOut.appendFrame(header={"Dummy": str(self.dummy), "DDummy":"0.1", "EDF_DataBlockID":"1.Image.Error"},
                               data=(numpy.ma.filled(npaMaskedData * (scale ** 2), float(self.dummy))))
-        fabioOut.frames.append(frameVariance)
         fabioOut.write(self.strNormalizedImage)
         self.lstProcessLog.append("Normalized image by factor %.3f " % (scale))
 

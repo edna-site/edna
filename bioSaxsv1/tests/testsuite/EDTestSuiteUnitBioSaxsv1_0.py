@@ -44,6 +44,7 @@ class EDTestSuiteUnitBioSaxsv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsMetadatav1_0")
         self.addTestSuiteFromName("EDTestSuitePluginUnitBioSaxsMetadatav1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsSmartMergev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsProcessOneFilev1_0")
 
 
 ##############################################################################

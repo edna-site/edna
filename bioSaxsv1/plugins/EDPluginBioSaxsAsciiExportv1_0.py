@@ -62,7 +62,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         self.__edPluginSaxsGetMetadata = None
 
         self.integratedImage = None
-        self.integratedSpectrum = None
+        self.integratedCurve = None
 
 
         self.detector = None
@@ -91,7 +91,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.checkMandatoryParameters(self.getDataInput().getIntegratedImage(), "Missing integratedImage")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedSpectrum(), "Missing integratedSpectrum")
+        self.checkMandatoryParameters(self.getDataInput().getIntegratedCurve(), "Missing integratedCurve")
 
 
     def preProcess(self, _edObject=None):
@@ -103,7 +103,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         self.__edPluginSaxsCurves = self.loadPlugin(self.__strControlledPluginSaxsCurves)
 
         self.integratedImage = self.getDataInput().getIntegratedImage().getPath().getValue()
-        self.integratedSpectrum = self.getDataInput().getIntegratedSpectrum().getPath().getValue()
+        self.integratedCurve = self.getDataInput().getIntegratedCurve().getPath().getValue()
 
 
     def process(self, _edObject=None):
@@ -188,7 +188,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
             self.maskFile = _edObject.getDataOutput().getMaskFile().getPath().getValue()
         xsdiSaxsCurves = XSDataInputSaxsCurvesv1_0()
         xsdiSaxsCurves.setInputImage(self.getDataInput().getIntegratedImage())
-        xsdiSaxsCurves.setOutputDataFile(self.getDataInput().getIntegratedSpectrum())
+        xsdiSaxsCurves.setOutputDataFile(self.getDataInput().getIntegratedCurve())
         xsdiSaxsCurves.setOptions(XSDataString('+pass -scf 2_pi  -spc \"  \" '))
         self.__edPluginSaxsCurves.setDataInput(xsdiSaxsCurves)
 
@@ -204,20 +204,20 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
     def doSuccessSaxsCurves(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.doSuccessSaxsCurves")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAsciiExportv1_0.doSuccessSaxsCurves")
-        self.xsdResult.setIntegratedSpectrum(self.getDataInput().getIntegratedSpectrum())
-        self.strProcessLog += "Successful production of an ASCII 3-column spectrum in '%s'\n" % (self.integratedSpectrum)
+        self.xsdResult.setIntegratedCurve(self.getDataInput().getIntegratedCurve())
+        self.strProcessLog += "Successful production of an ASCII 3-column spectrum in '%s'\n" % (self.integratedCurve)
         self.rewriteAsciiHeader()
 
     def doFailureSaxsCurves(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.doFailureSaxsCurves")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsAsciiExportv1_0.doFailureSaxsCurves")
-        self.strProcessLog += "Error during the call of saxs_curves for the production of '%s'\n" % (self.integratedSpectrum)
+        self.strProcessLog += "Error during the call of saxs_curves for the production of '%s'\n" % (self.integratedCurve)
 
 
     def rewriteAsciiHeader(self):
         if EDVerbose.isVerboseDebug():
-            shutil.copy(self.integratedSpectrum, self.integratedSpectrum + ".bak")
-        lines = open(self.integratedSpectrum, "rb").readlines()
+            shutil.copy(self.integratedCurve, self.integratedCurve + ".bak")
+        lines = open(self.integratedCurve, "rb").readlines()
         headerMarker = None
         headers = []
         firstData = None
@@ -232,7 +232,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
             else:
                 firstData = lines.index(oneLine)
                 break
-        outFile = open(self.integratedSpectrum, "wb")
+        outFile = open(self.integratedCurve, "wb")
         outFile.write("# %s \r\n" % self.sampleComments)
         outFile.write("#Sample c= %s mg/ml \r\n# \r\n# Sample environment:\r\n" % self.sampleConcentration)
 

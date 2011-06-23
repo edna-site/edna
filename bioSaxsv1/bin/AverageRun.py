@@ -80,15 +80,15 @@ def fnXMLinExample(_listStrFilename):
     suffix = "".join(revLst)
     averagedImage = prefix + "ave" + suffix
     base = os.path.splitext(averagedImage)[0]
-    averagedSpectrum = base + ".dat"
+    averagedCurve = base + ".dat"
     logFile = base + ".log"
     xml = "<XSDataInput>\
 <integratedImageSize><value>26000</value></integratedImageSize>" + \
 " ".join(["<integratedImage><path><value>%s</value></path></integratedImage>" % i for i in _listStrFilename]) + \
-"<averagedSpectrum><path><value>%s</value></path></averagedSpectrum>\
+"<averagedCurve><path><value>%s</value></path></averagedCurve>\
 <averagedImage><path><value>%s</value></path></averagedImage>\
 <logFile><path><value>%s</value></path></logFile>\
-</XSDataInput>" % (averagedSpectrum, averagedImage, logFile)
+</XSDataInput>" % (averagedCurve, averagedImage, logFile)
     return xml
 
 

@@ -11,7 +11,7 @@
 <integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated08.edf</value></path></integratedImage>
 <integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated09.edf</value></path></integratedImage>
 <integratedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated10.edf</value></path></integratedImage>
-<averagedSpectrum><path><value>/tmp/edna-${USER}/bioSaxsAveraged.dat</value></path></averagedSpectrum>
+<averagedCurve><path><value>/tmp/edna-${USER}/bioSaxsAveraged.dat</value></path></averagedCurve>
 <averagedImage><path><value>/tmp/edna-${USER}/bioSaxsAveraged.edf</value></path></averagedImage>
 <logFile><path><value>/tmp/edna-${USER}/bioSaxsAveraged.log</value></path></logFile>
 <normalizationFactor><value>1.0</value></normalizationFactor>

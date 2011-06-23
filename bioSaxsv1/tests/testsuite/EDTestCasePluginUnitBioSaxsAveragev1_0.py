@@ -45,7 +45,7 @@ class EDTestCasePluginUnitBioSaxsAveragev1_0(EDTestCasePluginUnit):
         xsDataInput = XSDataInputBioSaxsAveragev1_0()
         xsDataInput.setIntegratedImageSize(XSDataInteger())
         xsDataInput.setIntegratedImage([XSDataFile(), XSDataFile()])
-        xsDataInput.setAveragedSpectrum(XSDataFile())
+        xsDataInput.setAveragedCurve(XSDataFile())
         xsDataInput.setNormalizationFactor(XSDataDouble())
         xsDataInput.setAveragedImage(XSDataFile())
         xsDataInput.setSampleConcentration(XSDataDouble())
