@@ -23,23 +23,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jérôme Kieffer"
+__author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
-import os
+import os, tempfile
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
-
+from XSDataAtsas                         import XSDataResultDatop
 
 class EDTestCasePluginExecuteExecDatopv1_0(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin Datopv1_0
     """
-    
-    def __init__(self, _strTestName = None):
+
+    def __init__(self, _strTestName=None):
         """
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginExecDatopv1_0")
@@ -49,20 +49,39 @@ class EDTestCasePluginExecuteExecDatopv1_0(EDTestCasePluginExecute):
                                            "XSDataInputDatop_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultDatop_reference.xml"))
-                 
-        
+        self.destFile = os.path.join(tempfile.gettempdir(), "edna-%s" % os.environ["USER"], "noise1+2.dat")
+
+
+    def preProcess(self):
+        """
+        Download reference 1D curves
+        """
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([ "noise1.dat", "noise2.dat", "noise1+2.dat"])
+        if not os.path.isdir(os.path.dirname(self.destFile)):
+            os.makedirs(os.path.dirname(self.destFile))
+        if os.path.isfile(self.destFile):
+            os.remove(self.destFile)
+
+
     def testExecute(self):
         """
-        """ 
+        """
         self.run()
-        
+        xsdOut = self.getPlugin().getDataOutput()
+        EDAssert.strAlmostEqual(XSDataResultDatop.parseString(self.readAndParseFile(self.getReferenceDataOutputFile())).marshal(),
+                                xsdOut.marshal() , "XSData are almost the same", _fAbsError=0.1)
+        refData = open(os.path.join(self.getTestsDataImagesHome(), "noise1+2.dat")).read()
+        obtData = open(self.destFile).read()
+        EDAssert.strAlmostEqual(refData, obtData, "Checking obtained file")
+
 
     def process(self):
         """
         """
         self.addTestMethod(self.testExecute)
 
-        
+
 
 if __name__ == '__main__':
 

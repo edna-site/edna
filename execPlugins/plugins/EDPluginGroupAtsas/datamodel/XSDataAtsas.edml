@@ -11,7 +11,7 @@ complex type XSDataInputDatcmp extends XSDataInput {
 	"datcmp compares two curves from files
 	"
 	inputCurve: XSDataFile []
-	}
+}
 
 complex type XSDataResultDatcmp extends XSDataResult {
 	"Higher chi-values indicate dis-similarities in the input.\n
@@ -38,7 +38,7 @@ complex type XSDataInputDatop extends XSDataInput {
 	outputCurve: XSDataFile
 	operation: XSDataString
 	constant: XSDataDouble optional
-	}
+}
 
 complex type XSDataResultDatop extends XSDataResult {
 	"Result of Datop 	"

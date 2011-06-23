@@ -82,4 +82,4 @@ class EDPluginExecDatopv1_0(EDPluginExecProcessScript):
             strCommandLine = "--output='%s' %s '%s' '%s'" % (self.outputFile, self.strOperation, self.lstInputFiles[0], self.const)
         else:
             strCommandLine = "--output='%s' %s " % (self.outputFile, self.strOperation) + " ".join(["'%s'" % i for i in self.lstInputFiles])
-        self.setCommandline(strCommandLine)
+        self.setScriptCommandline(strCommandLine)

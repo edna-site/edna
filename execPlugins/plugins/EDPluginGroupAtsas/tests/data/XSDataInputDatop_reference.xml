@@ -2,18 +2,20 @@
 <XSDataInput>
 	<inputCurve>
 		<path>
-			<value></value>
+			<value>${EDNA_TESTS_DATA_HOME}/images/noise1.dat</value>
+		</path>
+	</inputCurve>
+	<inputCurve>
+		<path>
+			<value>${EDNA_TESTS_DATA_HOME}/images/noise2.dat</value>
 		</path>
 	</inputCurve>
 	<operation>
-		<value>*</value>
+		<value>+</value>
 	</operation>
-	<constant>
-		<value>1.0</value>
-	</constant>
 	<outputCurve>
 		<path>
-			<value></value>
+			<value>/tmp/edna-${USER}/noise1+2.dat</value>
 		</path>
 	</outputCurve>
 </XSDataInput>
