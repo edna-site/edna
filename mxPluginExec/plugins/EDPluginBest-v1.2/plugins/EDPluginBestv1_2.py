@@ -374,8 +374,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
             iCollectionRunNumber = 1
             for xsCollectionRunItemList in xsCollectionRunList:
-                xsDataCollectionRun = self.collectionRunItemListToCollectionRun(xsCollectionRunItemList)
-                xsDataCollectionRun.setCollectionRunNumber(XSDataInteger(iCollectionRunNumber))
+                xsDataCollectionRun = self.collectionRunItemListToCollectionRun(xsCollectionRunItemList, iCollectionRunNumber)
                 xsDataBestCollectionPlan.addCollectionRun(xsDataCollectionRun)
                 iCollectionRunNumber = iCollectionRunNumber + 1
 
@@ -436,8 +435,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
             iCollectionRunNumber = 1
             for xsCollectionRunItemList in xsCollectionRunList:
-                xsDataCollectionRun = self.collectionRunItemListToCollectionRun(xsCollectionRunItemList)
-                xsDataCollectionRun.setCollectionRunNumber(XSDataInteger(iCollectionRunNumber))
+                xsDataCollectionRun = self.collectionRunItemListToCollectionRun(xsCollectionRunItemList, iCollectionRunNumber)
                 xsDataBestCollectionPlan.addCollectionRun(xsDataCollectionRun)
                 iCollectionRunNumber = iCollectionRunNumber + 1
 
@@ -491,8 +489,20 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         return xsDataResultBest
 
 
-    def collectionRunItemListToCollectionRun(self, _xsCollectionRunItemList):
+    def collectionRunItemListToCollectionRun(self, _xsCollectionRunItemList, _iCollectionRunNumber):
         xsDataCollectionRun = XSDataBestCollectionRun()
+
+        xsItemWedge = EDUtilsTable.getItemFromList(_xsCollectionRunItemList, "Wedge")
+        if xsItemWedge is not None:
+            iWedge = int(xsItemWedge.getValueOf_())
+        else:
+            iWedge = _iCollectionRunNumber
+        xsDataCollectionRun.setCollectionRunNumber(XSDataInteger(iWedge))
+
+        xsItemCrystal = EDUtilsTable.getItemFromList(_xsCollectionRunItemList, "Crystal")
+        if xsItemCrystal is not None:
+            iCrystal = int(xsItemCrystal.getValueOf_())
+            xsDataCollectionRun.setCrystalPosition(XSDataInteger(iCrystal))
 
         xsItemExposureTime = EDUtilsTable.getItemFromList(_xsCollectionRunItemList, "exposure_time")
         fExposureTime = float(xsItemExposureTime.getValueOf_())

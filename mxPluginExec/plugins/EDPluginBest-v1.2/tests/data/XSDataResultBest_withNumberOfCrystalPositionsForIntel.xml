@@ -8,11 +8,14 @@
             <collectionRunNumber>
                 <value>1</value>
             </collectionRunNumber>
+            <crystalPosition>
+                <value>1</value>
+            </crystalPosition>
             <exposureTime>
                 <value>1.500000e-01</value>
             </exposureTime>
             <numberOfImages>
-                <value>134</value>
+                <value>14</value>
             </numberOfImages>
             <overlaps>
                 <value>No</value>
@@ -24,25 +27,232 @@
                 <value>1.500000e+00</value>
             </phiWidth>
         </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>2</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>2</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>13</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>5.700000e+01</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>3</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>3</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>13</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>7.650000e+01</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>4</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>4</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>14</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>9.600000e+01</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>5</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>5</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>13</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>1.170000e+02</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>6</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>6</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>13</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>1.365000e+02</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>7</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>7</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>14</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>1.560000e+02</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>8</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>8</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>13</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>1.770000e+02</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>9</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>9</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>13</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>1.965000e+02</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
+        <collectionRun>
+            <collectionRunNumber>
+                <value>10</value>
+            </collectionRunNumber>
+            <crystalPosition>
+                <value>10</value>
+            </crystalPosition>
+            <exposureTime>
+                <value>1.500000e-01</value>
+            </exposureTime>
+            <numberOfImages>
+                <value>14</value>
+            </numberOfImages>
+            <overlaps>
+                <value>No</value>
+            </overlaps>
+            <phiStart>
+                <value>2.160000e+02</value>
+            </phiStart>
+            <phiWidth>
+                <value>1.500000e+00</value>
+            </phiWidth>
+        </collectionRun>
         <statisticalPrediction>
             <resolutionBin>
                 <IOverSigma>
-                    <value>5.280000e+01</value>
+                    <value>5.330000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>5.169140e+02</value>
+                    <value>5.277580e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>5.030000e+01</value>
+                    <value>5.070000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.027700e+01</value>
+                    <value>1.039700e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>7.750000e+00</value>
+                    <value>7.730000e+00</value>
                 </maxResolution>
                 <minResolution>
                     <value>1.200000e+01</value>
@@ -54,126 +264,126 @@
                     <value>3.800000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>7.330000e+00</value>
+                    <value>7.310000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>3.350000e+01</value>
+                    <value>3.380000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>3.029530e+02</value>
+                    <value>3.090180e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>3.160000e+01</value>
+                    <value>3.190000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>9.581000e+00</value>
+                    <value>9.679000e+00</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>6.160000e+00</value>
+                    <value>6.140000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>7.750000e+00</value>
+                    <value>7.730000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>6.600000e+00</value>
+                    <value>6.500000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>7.580000e+00</value>
+                    <value>7.560000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>2.950000e+01</value>
+                    <value>3.010000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>2.994980e+02</value>
+                    <value>3.090430e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>2.770000e+01</value>
+                    <value>2.830000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.080300e+01</value>
+                    <value>1.091600e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>5.260000e+00</value>
+                    <value>5.250000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>6.160000e+00</value>
+                    <value>6.140000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>7.500000e+00</value>
+                    <value>7.400000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>7.720000e+00</value>
+                    <value>7.710000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>3.620000e+01</value>
+                    <value>3.690000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>4.589390e+02</value>
+                    <value>4.739590e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>3.440000e+01</value>
+                    <value>3.510000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.335000e+01</value>
+                    <value>1.350000e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>4.670000e+00</value>
+                    <value>4.660000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>5.260000e+00</value>
+                    <value>5.250000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>6.100000e+00</value>
+                    <value>6.000000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>7.870000e+00</value>
+                    <value>7.900000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>3.950000e+01</value>
+                    <value>3.990000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>5.793530e+02</value>
+                    <value>5.917500e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>3.790000e+01</value>
+                    <value>3.820000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.527600e+01</value>
+                    <value>1.547300e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>4.240000e+00</value>
+                    <value>4.230000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>4.670000e+00</value>
+                    <value>4.660000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
@@ -182,30 +392,30 @@
                     <value>5.600000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.150000e+00</value>
+                    <value>8.080000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>3.520000e+01</value>
+                    <value>3.570000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>5.446590e+02</value>
+                    <value>5.545670e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>3.360000e+01</value>
+                    <value>3.400000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.619500e+01</value>
+                    <value>1.628900e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>3.910000e+00</value>
+                    <value>3.900000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>4.240000e+00</value>
+                    <value>4.230000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
@@ -214,30 +424,30 @@
                     <value>6.300000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.070000e+00</value>
+                    <value>8.020000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>3.100000e+01</value>
+                    <value>3.110000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>4.880760e+02</value>
+                    <value>4.964250e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>2.950000e+01</value>
+                    <value>2.960000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.655200e+01</value>
+                    <value>1.673000e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>3.650000e+00</value>
+                    <value>3.640000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>3.910000e+00</value>
+                    <value>3.900000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
@@ -246,39 +456,39 @@
                     <value>7.300000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.020000e+00</value>
+                    <value>7.930000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>2.670000e+01</value>
+                    <value>2.690000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>4.270060e+02</value>
+                    <value>4.327630e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>2.530000e+01</value>
+                    <value>2.550000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.684300e+01</value>
+                    <value>1.694900e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>3.440000e+00</value>
+                    <value>3.420000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>3.650000e+00</value>
+                    <value>3.640000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>8.700000e+00</value>
+                    <value>8.600000e+00</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.130000e+00</value>
+                    <value>8.060000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
@@ -286,22 +496,22 @@
                     <value>2.220000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>3.574880e+02</value>
+                    <value>3.606240e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>2.090000e+01</value>
+                    <value>2.100000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.705900e+01</value>
+                    <value>1.715600e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>3.250000e+00</value>
+                    <value>3.240000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>3.440000e+00</value>
+                    <value>3.420000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
@@ -310,71 +520,71 @@
                     <value>1.050000e+01</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.100000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>1.780000e+01</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>2.875320e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>1.680000e+01</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>1.714700e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>3.100000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>3.250000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>1.330000e+01</value>
-                </rFactor>
-                <redundancy>
                     <value>8.140000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>1.470000e+01</value>
+                    <value>1.790000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>2.385750e+02</value>
+                    <value>2.890460e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>1.390000e+01</value>
+                    <value>1.690000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.720900e+01</value>
+                    <value>1.710900e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>2.960000e+00</value>
+                    <value>3.090000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>3.100000e+00</value>
+                    <value>3.240000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>1.620000e+01</value>
+                    <value>1.320000e+01</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.080000e+00</value>
+                    <value>8.200000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>1.480000e+01</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>2.405770e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>1.390000e+01</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>1.729100e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.950000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>3.090000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>1.610000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.120000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
@@ -382,22 +592,22 @@
                     <value>1.210000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>1.994430e+02</value>
+                    <value>2.010720e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>1.130000e+01</value>
+                    <value>1.140000e+01</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.758600e+01</value>
+                    <value>1.770700e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>2.840000e+00</value>
+                    <value>2.830000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>2.960000e+00</value>
+                    <value>2.950000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
@@ -406,356 +616,36 @@
                     <value>1.980000e+01</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.080000e+00</value>
+                    <value>8.100000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>1.010000e+01</value>
+                    <value>1.020000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>1.705910e+02</value>
+                    <value>1.724600e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>9.500000e+00</value>
+                    <value>9.600000e+00</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>1.792700e+01</value>
+                    <value>1.805400e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>2.740000e+00</value>
+                    <value>2.730000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>2.840000e+00</value>
+                    <value>2.830000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>2.370000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.110000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>8.800000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.526190e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>8.300000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>1.838200e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.640000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.740000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>2.720000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.210000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>8.000000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.405970e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>7.500000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>1.882600e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.560000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.640000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>3.030000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.160000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>7.000000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.285410e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>6.600000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>1.937600e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.480000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.560000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>3.440000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.260000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>6.500000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.222140e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>6.100000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>2.000000e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.410000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.480000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>3.700000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.310000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>6.000000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.172250e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>5.700000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>2.058300e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.340000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.410000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>3.970000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.180000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>5.700000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.125030e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>5.300000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>2.113700e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.280000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.340000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>4.260000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.200000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>5.300000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.084840e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>5.000000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>2.163700e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.230000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.280000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>4.530000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.310000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>4.900000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>1.034280e+02</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>4.600000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>2.227200e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.180000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.230000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>4.880000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.200000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>4.500000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>9.616600e+01</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>4.200000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>2.266300e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.130000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.180000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>5.370000e+01</value>
-                </rFactor>
-                <redundancy>
-                    <value>8.300000e+00</value>
-                </redundancy>
-            </resolutionBin>
-            <resolutionBin>
-                <IOverSigma>
-                    <value>4.100000e+00</value>
-                </IOverSigma>
-                <averageIntensity>
-                    <value>9.072300e+01</value>
-                </averageIntensity>
-                <averageIntensityOverAverageSigma>
-                    <value>3.900000e+00</value>
-                </averageIntensityOverAverageSigma>
-                <averageSigma>
-                    <value>2.333200e+01</value>
-                </averageSigma>
-                <completeness>
-                    <value>1.000000e+00</value>
-                </completeness>
-                <maxResolution>
-                    <value>2.080000e+00</value>
-                </maxResolution>
-                <minResolution>
-                    <value>2.130000e+00</value>
-                </minResolution>
-                <percentageOverload>
-                    <value>0.000000e+00</value>
-                </percentageOverload>
-                <rFactor>
-                    <value>5.820000e+01</value>
+                    <value>2.360000e+01</value>
                 </rFactor>
                 <redundancy>
                     <value>8.220000e+00</value>
@@ -763,22 +653,342 @@
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>3.600000e+00</value>
+                    <value>8.900000e+00</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>8.240300e+01</value>
+                    <value>1.548010e+02</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
-                    <value>3.500000e+00</value>
+                    <value>8.400000e+00</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>2.378200e+01</value>
+                    <value>1.845600e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>2.040000e+00</value>
+                    <value>2.630000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.730000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>2.690000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.250000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>8.000000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>1.425410e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>7.500000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>1.899900e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.550000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.630000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>3.010000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.200000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>7.100000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>1.309690e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>6.700000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>1.953700e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.470000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.550000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>3.390000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.250000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>6.600000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>1.242740e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>6.200000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.007000e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.400000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.470000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>3.660000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.300000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>6.100000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>1.189330e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>5.700000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.068300e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.340000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.400000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>3.940000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.250000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>5.700000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>1.145480e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>5.400000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.120500e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.280000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.340000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>4.200000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.180000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>5.400000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>1.106280e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>5.100000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.175400e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.220000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.280000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>4.470000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.230000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>4.900000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>1.045610e+02</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>4.700000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.234700e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.170000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.220000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>4.850000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.170000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>4.500000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>9.749900e+01</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>4.300000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.280700e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.120000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.170000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>5.320000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.290000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>4.100000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>9.200500e+01</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>3.900000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.341000e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.080000e+00</value>
+                </maxResolution>
+                <minResolution>
+                    <value>2.120000e+00</value>
+                </minResolution>
+                <percentageOverload>
+                    <value>0.000000e+00</value>
+                </percentageOverload>
+                <rFactor>
+                    <value>5.770000e+01</value>
+                </rFactor>
+                <redundancy>
+                    <value>8.270000e+00</value>
+                </redundancy>
+            </resolutionBin>
+            <resolutionBin>
+                <IOverSigma>
+                    <value>3.600000e+00</value>
+                </IOverSigma>
+                <averageIntensity>
+                    <value>8.288400e+01</value>
+                </averageIntensity>
+                <averageIntensityOverAverageSigma>
+                    <value>3.500000e+00</value>
+                </averageIntensityOverAverageSigma>
+                <averageSigma>
+                    <value>2.387400e+01</value>
+                </averageSigma>
+                <completeness>
+                    <value>1.000000e+00</value>
+                </completeness>
+                <maxResolution>
+                    <value>2.030000e+00</value>
                 </maxResolution>
                 <minResolution>
                     <value>2.080000e+00</value>
@@ -787,10 +997,10 @@
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>6.560000e+01</value>
+                    <value>6.540000e+01</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.260000e+00</value>
+                    <value>8.310000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
@@ -798,48 +1008,48 @@
                     <value>3.200000e+00</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>7.444200e+01</value>
+                    <value>7.465100e+01</value>
                 </averageIntensity>
                 <averageIntensityOverAverageSigma>
                     <value>3.000000e+00</value>
                 </averageIntensityOverAverageSigma>
                 <averageSigma>
-                    <value>2.457800e+01</value>
+                    <value>2.468100e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>2.000000e+00</value>
+                    <value>1.990000e+00</value>
                 </maxResolution>
                 <minResolution>
-                    <value>2.040000e+00</value>
+                    <value>2.030000e+00</value>
                 </minResolution>
                 <percentageOverload>
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>7.410000e+01</value>
+                    <value>7.420000e+01</value>
                 </rFactor>
                 <redundancy>
-                    <value>8.200000e+00</value>
+                    <value>8.240000e+00</value>
                 </redundancy>
             </resolutionBin>
             <resolutionBin>
                 <IOverSigma>
-                    <value>1.070000e+01</value>
+                    <value>1.080000e+01</value>
                 </IOverSigma>
                 <averageIntensity>
-                    <value>2.033160e+02</value>
+                    <value>2.064700e+02</value>
                 </averageIntensity>
                 <averageSigma>
-                    <value>1.901500e+01</value>
+                    <value>1.910400e+01</value>
                 </averageSigma>
                 <completeness>
                     <value>1.000000e+00</value>
                 </completeness>
                 <maxResolution>
-                    <value>2.000000e+00</value>
+                    <value>1.990000e+00</value>
                 </maxResolution>
                 <minResolution>
                     <value>1.200000e+01</value>
@@ -848,7 +1058,7 @@
                     <value>0.000000e+00</value>
                 </percentageOverload>
                 <rFactor>
-                    <value>2.120000e+01</value>
+                    <value>2.090000e+01</value>
                 </rFactor>
                 <redundancy>
                     <value>8.140000e+00</value>
@@ -860,19 +1070,19 @@
                 <value>1.000000e+00</value>
             </completeness>
             <distance>
-                <value>2.040100e+02</value>
+                <value>2.031400e+02</value>
             </distance>
             <iSigma>
                 <value>3.000000e+00</value>
             </iSigma>
             <rankingResolution>
-                <value>1.720000e+00</value>
+                <value>1.710000e+00</value>
             </rankingResolution>
             <redundancy>
                 <value>8.140000e+00</value>
             </redundancy>
             <resolution>
-                <value>2.000000e+00</value>
+                <value>1.990000e+00</value>
             </resolution>
             <resolutionReasoning>
                 <value>Resolution limit is set by the initial image resolution</value>
@@ -884,13 +1094,13 @@
                 <value>2.010000e+01</value>
             </totalExposureTime>
             <transmission>
-                <value>1.423730e+01</value>
+                <value>1.456060e+01</value>
             </transmission>
         </strategySummary>
     </collectionPlan>
     <pathToLogFile>
         <path>
-            <value>/mntdirect/_scisoft/users/svensson/tmp/EDTestCasePluginExecuteBestv1_2_withNumberOfCrystalPositions_20110328-220247/Bestv1_2-00000016/best.log</value>
+            <value>${EDNA_WORKING_DIR}/best.log</value>
         </path>
     </pathToLogFile>
 </XSDataResultBest>

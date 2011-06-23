@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="XSDataBestv1_2">
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="XSDataBestv1_2">
     <ownedComment xmi:id="_WQVusOwZEd-YN87dLY1EOA" annotatedElement="_tAIAsOwWEd-YN87dLY1EOA">
       <body>- anomalousData is deprecated, please use strategyOption instead.
@@ -161,6 +161,9 @@
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_oEG0YOyfEd-YN87dLY1EOA" name="numberOfImages">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_QsnYwJ2UEeC4ZuPIMRh-ww" name="crystalPosition">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
       </ownedAttribute>
     </packagedElement>

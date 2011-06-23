@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 14 11:18::30 2011 by EDGenerateDS.
+# Generated Thu Jun 23 02:37::49 2011 by EDGenerateDS.
 #
 
 import sys
@@ -112,11 +112,13 @@ class MixedContainer(object):
 
 
 class XSDataBestCollectionRun(object):
-	def __init__(self, transmission=None, phiWidth=None, phiStart=None, overlaps=None, numberOfImages=None, exposureTime=None, collectionRunNumber=None, action=None):
+	def __init__(self, transmission=None, phiWidth=None, phiStart=None, overlaps=None, numberOfImages=None, exposureTime=None, crystalPosition=None, collectionRunNumber=None, action=None):
 		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", action, "XSDataString")
 		self.__action = action
 		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", collectionRunNumber, "XSDataInteger")
 		self.__collectionRunNumber = collectionRunNumber
+		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", crystalPosition, "XSDataInteger")
+		self.__crystalPosition = crystalPosition
 		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", exposureTime, "XSDataTime")
 		self.__exposureTime = exposureTime
 		checkType("XSDataBestCollectionRun", "Constructor of XSDataBestCollectionRun", numberOfImages, "XSDataInteger")
@@ -143,6 +145,13 @@ class XSDataBestCollectionRun(object):
 	def delCollectionRunNumber(self): self.__collectionRunNumber = None
 	# Properties
 	collectionRunNumber = property(getCollectionRunNumber, setCollectionRunNumber, delCollectionRunNumber, "Property for collectionRunNumber")
+	def getCrystalPosition(self): return self.__crystalPosition
+	def setCrystalPosition(self, crystalPosition):
+		checkType("XSDataBestCollectionRun", "setCrystalPosition", crystalPosition, "XSDataInteger")
+		self.__crystalPosition = crystalPosition
+	def delCrystalPosition(self): self.__crystalPosition = None
+	# Properties
+	crystalPosition = property(getCrystalPosition, setCrystalPosition, delCrystalPosition, "Property for crystalPosition")
 	def getExposureTime(self): return self.__exposureTime
 	def setExposureTime(self, exposureTime):
 		checkType("XSDataBestCollectionRun", "setExposureTime", exposureTime, "XSDataTime")
@@ -201,6 +210,10 @@ class XSDataBestCollectionRun(object):
 			self.collectionRunNumber.export(outfile, level, name_='collectionRunNumber')
 		else:
 			warnEmptyAttribute("collectionRunNumber", "XSDataInteger")
+		if self.__crystalPosition is not None:
+			self.crystalPosition.export(outfile, level, name_='crystalPosition')
+		else:
+			warnEmptyAttribute("crystalPosition", "XSDataInteger")
 		if self.__exposureTime is not None:
 			self.exposureTime.export(outfile, level, name_='exposureTime')
 		else:
@@ -240,6 +253,11 @@ class XSDataBestCollectionRun(object):
 			obj_ = XSDataInteger()
 			obj_.build(child_)
 			self.setCollectionRunNumber(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'crystalPosition':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setCrystalPosition(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'exposureTime':
 			obj_ = XSDataTime()
@@ -312,345 +330,6 @@ class XSDataBestCollectionRun(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataBestCollectionRun
-
-class XSDataBestResolutionBin(object):
-	def __init__(self, redundancy=None, rFriedel=None, rFactor=None, percentageOverload=None, minResolution=None, maxResolution=None, completeness=None, averageSigma=None, averageIntensityOverAverageSigma=None, averageIntensity=None, IOverSigma=None):
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", IOverSigma, "XSDataDouble")
-		self.__IOverSigma = IOverSigma
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageIntensity, "XSDataDouble")
-		self.__averageIntensity = averageIntensity
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageIntensityOverAverageSigma, "XSDataDouble")
-		self.__averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageSigma, "XSDataDouble")
-		self.__averageSigma = averageSigma
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", completeness, "XSDataDouble")
-		self.__completeness = completeness
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", maxResolution, "XSDataDouble")
-		self.__maxResolution = maxResolution
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", minResolution, "XSDataDouble")
-		self.__minResolution = minResolution
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", percentageOverload, "XSDataDouble")
-		self.__percentageOverload = percentageOverload
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", rFactor, "XSDataDouble")
-		self.__rFactor = rFactor
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", rFriedel, "XSDataDouble")
-		self.__rFriedel = rFriedel
-		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", redundancy, "XSDataDouble")
-		self.__redundancy = redundancy
-	def getIOverSigma(self): return self.__IOverSigma
-	def setIOverSigma(self, IOverSigma):
-		checkType("XSDataBestResolutionBin", "setIOverSigma", IOverSigma, "XSDataDouble")
-		self.__IOverSigma = IOverSigma
-	def delIOverSigma(self): self.__IOverSigma = None
-	# Properties
-	IOverSigma = property(getIOverSigma, setIOverSigma, delIOverSigma, "Property for IOverSigma")
-	def getAverageIntensity(self): return self.__averageIntensity
-	def setAverageIntensity(self, averageIntensity):
-		checkType("XSDataBestResolutionBin", "setAverageIntensity", averageIntensity, "XSDataDouble")
-		self.__averageIntensity = averageIntensity
-	def delAverageIntensity(self): self.__averageIntensity = None
-	# Properties
-	averageIntensity = property(getAverageIntensity, setAverageIntensity, delAverageIntensity, "Property for averageIntensity")
-	def getAverageIntensityOverAverageSigma(self): return self.__averageIntensityOverAverageSigma
-	def setAverageIntensityOverAverageSigma(self, averageIntensityOverAverageSigma):
-		checkType("XSDataBestResolutionBin", "setAverageIntensityOverAverageSigma", averageIntensityOverAverageSigma, "XSDataDouble")
-		self.__averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
-	def delAverageIntensityOverAverageSigma(self): self.__averageIntensityOverAverageSigma = None
-	# Properties
-	averageIntensityOverAverageSigma = property(getAverageIntensityOverAverageSigma, setAverageIntensityOverAverageSigma, delAverageIntensityOverAverageSigma, "Property for averageIntensityOverAverageSigma")
-	def getAverageSigma(self): return self.__averageSigma
-	def setAverageSigma(self, averageSigma):
-		checkType("XSDataBestResolutionBin", "setAverageSigma", averageSigma, "XSDataDouble")
-		self.__averageSigma = averageSigma
-	def delAverageSigma(self): self.__averageSigma = None
-	# Properties
-	averageSigma = property(getAverageSigma, setAverageSigma, delAverageSigma, "Property for averageSigma")
-	def getCompleteness(self): return self.__completeness
-	def setCompleteness(self, completeness):
-		checkType("XSDataBestResolutionBin", "setCompleteness", completeness, "XSDataDouble")
-		self.__completeness = completeness
-	def delCompleteness(self): self.__completeness = None
-	# Properties
-	completeness = property(getCompleteness, setCompleteness, delCompleteness, "Property for completeness")
-	def getMaxResolution(self): return self.__maxResolution
-	def setMaxResolution(self, maxResolution):
-		checkType("XSDataBestResolutionBin", "setMaxResolution", maxResolution, "XSDataDouble")
-		self.__maxResolution = maxResolution
-	def delMaxResolution(self): self.__maxResolution = None
-	# Properties
-	maxResolution = property(getMaxResolution, setMaxResolution, delMaxResolution, "Property for maxResolution")
-	def getMinResolution(self): return self.__minResolution
-	def setMinResolution(self, minResolution):
-		checkType("XSDataBestResolutionBin", "setMinResolution", minResolution, "XSDataDouble")
-		self.__minResolution = minResolution
-	def delMinResolution(self): self.__minResolution = None
-	# Properties
-	minResolution = property(getMinResolution, setMinResolution, delMinResolution, "Property for minResolution")
-	def getPercentageOverload(self): return self.__percentageOverload
-	def setPercentageOverload(self, percentageOverload):
-		checkType("XSDataBestResolutionBin", "setPercentageOverload", percentageOverload, "XSDataDouble")
-		self.__percentageOverload = percentageOverload
-	def delPercentageOverload(self): self.__percentageOverload = None
-	# Properties
-	percentageOverload = property(getPercentageOverload, setPercentageOverload, delPercentageOverload, "Property for percentageOverload")
-	def getRFactor(self): return self.__rFactor
-	def setRFactor(self, rFactor):
-		checkType("XSDataBestResolutionBin", "setRFactor", rFactor, "XSDataDouble")
-		self.__rFactor = rFactor
-	def delRFactor(self): self.__rFactor = None
-	# Properties
-	rFactor = property(getRFactor, setRFactor, delRFactor, "Property for rFactor")
-	def getRFriedel(self): return self.__rFriedel
-	def setRFriedel(self, rFriedel):
-		checkType("XSDataBestResolutionBin", "setRFriedel", rFriedel, "XSDataDouble")
-		self.__rFriedel = rFriedel
-	def delRFriedel(self): self.__rFriedel = None
-	# Properties
-	rFriedel = property(getRFriedel, setRFriedel, delRFriedel, "Property for rFriedel")
-	def getRedundancy(self): return self.__redundancy
-	def setRedundancy(self, redundancy):
-		checkType("XSDataBestResolutionBin", "setRedundancy", redundancy, "XSDataDouble")
-		self.__redundancy = redundancy
-	def delRedundancy(self): self.__redundancy = None
-	# Properties
-	redundancy = property(getRedundancy, setRedundancy, delRedundancy, "Property for redundancy")
-	def export(self, outfile, level, name_='XSDataBestResolutionBin'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataBestResolutionBin'):
-		pass
-		if self.__IOverSigma is not None:
-			self.IOverSigma.export(outfile, level, name_='IOverSigma')
-		else:
-			warnEmptyAttribute("IOverSigma", "XSDataDouble")
-		if self.__averageIntensity is not None:
-			self.averageIntensity.export(outfile, level, name_='averageIntensity')
-		else:
-			warnEmptyAttribute("averageIntensity", "XSDataDouble")
-		if self.__averageIntensityOverAverageSigma is not None:
-			self.averageIntensityOverAverageSigma.export(outfile, level, name_='averageIntensityOverAverageSigma')
-		else:
-			warnEmptyAttribute("averageIntensityOverAverageSigma", "XSDataDouble")
-		if self.__averageSigma is not None:
-			self.averageSigma.export(outfile, level, name_='averageSigma')
-		else:
-			warnEmptyAttribute("averageSigma", "XSDataDouble")
-		if self.__completeness is not None:
-			self.completeness.export(outfile, level, name_='completeness')
-		else:
-			warnEmptyAttribute("completeness", "XSDataDouble")
-		if self.__maxResolution is not None:
-			self.maxResolution.export(outfile, level, name_='maxResolution')
-		else:
-			warnEmptyAttribute("maxResolution", "XSDataDouble")
-		if self.__minResolution is not None:
-			self.minResolution.export(outfile, level, name_='minResolution')
-		else:
-			warnEmptyAttribute("minResolution", "XSDataDouble")
-		if self.__percentageOverload is not None:
-			self.percentageOverload.export(outfile, level, name_='percentageOverload')
-		else:
-			warnEmptyAttribute("percentageOverload", "XSDataDouble")
-		if self.__rFactor is not None:
-			self.rFactor.export(outfile, level, name_='rFactor')
-		else:
-			warnEmptyAttribute("rFactor", "XSDataDouble")
-		if self.__rFriedel is not None:
-			self.rFriedel.export(outfile, level, name_='rFriedel')
-		else:
-			warnEmptyAttribute("rFriedel", "XSDataDouble")
-		if self.__redundancy is not None:
-			self.redundancy.export(outfile, level, name_='redundancy')
-		else:
-			warnEmptyAttribute("redundancy", "XSDataDouble")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'IOverSigma':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setIOverSigma(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'averageIntensity':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setAverageIntensity(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'averageIntensityOverAverageSigma':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setAverageIntensityOverAverageSigma(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'averageSigma':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setAverageSigma(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'completeness':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setCompleteness(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'maxResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setMaxResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'minResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setMinResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'percentageOverload':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setPercentageOverload(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rFactor':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setRFactor(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rFriedel':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setRFriedel(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'redundancy':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setRedundancy(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataBestResolutionBin' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataBestResolutionBin is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataBestResolutionBin.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataBestResolutionBin()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataBestResolutionBin()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataBestResolutionBin
-
-class XSDataBestStatisticalPrediction(object):
-	def __init__(self, resolutionBin=None):
-		if resolutionBin is None:
-			self.__resolutionBin = []
-		else:
-			checkType("XSDataBestStatisticalPrediction", "Constructor of XSDataBestStatisticalPrediction", resolutionBin, "XSDataBestResolutionBin")
-			self.__resolutionBin = resolutionBin
-	def getResolutionBin(self): return self.__resolutionBin
-	def setResolutionBin(self, resolutionBin):
-		checkType("XSDataBestStatisticalPrediction", "setResolutionBin", resolutionBin, "list")
-		self.__resolutionBin = resolutionBin
-	def delResolutionBin(self): self.__resolutionBin = None
-	# Properties
-	resolutionBin = property(getResolutionBin, setResolutionBin, delResolutionBin, "Property for resolutionBin")
-	def addResolutionBin(self, value):
-		checkType("XSDataBestStatisticalPrediction", "setResolutionBin", value, "XSDataBestResolutionBin")
-		self.__resolutionBin.append(value)
-	def insertResolutionBin(self, index, value):
-		checkType("XSDataBestStatisticalPrediction", "setResolutionBin", value, "XSDataBestResolutionBin")
-		self.__resolutionBin[index] = value
-	def export(self, outfile, level, name_='XSDataBestStatisticalPrediction'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataBestStatisticalPrediction'):
-		pass
-		for resolutionBin_ in self.getResolutionBin():
-			resolutionBin_.export(outfile, level, name_='resolutionBin')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'resolutionBin':
-			obj_ = XSDataBestResolutionBin()
-			obj_.build(child_)
-			self.resolutionBin.append(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataBestStatisticalPrediction" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataBestStatisticalPrediction' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataBestStatisticalPrediction is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataBestStatisticalPrediction.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataBestStatisticalPrediction()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataBestStatisticalPrediction" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataBestStatisticalPrediction()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataBestStatisticalPrediction
 
 class XSDataBestStrategySummary(object):
 	def __init__(self, transmission=None, totalExposureTime=None, totalDataCollectionTime=None, resolutionReasoning=None, resolution=None, redundancy=None, rankingResolution=None, iSigma=None, distance=None, completeness=None):
@@ -991,7 +670,7 @@ class XSDataBestCollectionPlan(object):
 		if collectionRun is None:
 			self.__collectionRun = []
 		else:
-			checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", collectionRun, "XSDataBestCollectionRun")
+			checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", collectionRun, "list")
 			self.__collectionRun = collectionRun
 		checkType("XSDataBestCollectionPlan", "Constructor of XSDataBestCollectionPlan", comment, "XSDataString")
 		self.__comment = comment
@@ -1157,6 +836,345 @@ class XSDataBestCollectionPlan(object):
 	parseFile = staticmethod( parseFile )
 # end class XSDataBestCollectionPlan
 
+class XSDataBestResolutionBin(object):
+	def __init__(self, redundancy=None, rFriedel=None, rFactor=None, percentageOverload=None, minResolution=None, maxResolution=None, completeness=None, averageSigma=None, averageIntensityOverAverageSigma=None, averageIntensity=None, IOverSigma=None):
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", IOverSigma, "XSDataDouble")
+		self.__IOverSigma = IOverSigma
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageIntensity, "XSDataDouble")
+		self.__averageIntensity = averageIntensity
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageIntensityOverAverageSigma, "XSDataDouble")
+		self.__averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", averageSigma, "XSDataDouble")
+		self.__averageSigma = averageSigma
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", completeness, "XSDataDouble")
+		self.__completeness = completeness
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", maxResolution, "XSDataDouble")
+		self.__maxResolution = maxResolution
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", minResolution, "XSDataDouble")
+		self.__minResolution = minResolution
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", percentageOverload, "XSDataDouble")
+		self.__percentageOverload = percentageOverload
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", rFactor, "XSDataDouble")
+		self.__rFactor = rFactor
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", rFriedel, "XSDataDouble")
+		self.__rFriedel = rFriedel
+		checkType("XSDataBestResolutionBin", "Constructor of XSDataBestResolutionBin", redundancy, "XSDataDouble")
+		self.__redundancy = redundancy
+	def getIOverSigma(self): return self.__IOverSigma
+	def setIOverSigma(self, IOverSigma):
+		checkType("XSDataBestResolutionBin", "setIOverSigma", IOverSigma, "XSDataDouble")
+		self.__IOverSigma = IOverSigma
+	def delIOverSigma(self): self.__IOverSigma = None
+	# Properties
+	IOverSigma = property(getIOverSigma, setIOverSigma, delIOverSigma, "Property for IOverSigma")
+	def getAverageIntensity(self): return self.__averageIntensity
+	def setAverageIntensity(self, averageIntensity):
+		checkType("XSDataBestResolutionBin", "setAverageIntensity", averageIntensity, "XSDataDouble")
+		self.__averageIntensity = averageIntensity
+	def delAverageIntensity(self): self.__averageIntensity = None
+	# Properties
+	averageIntensity = property(getAverageIntensity, setAverageIntensity, delAverageIntensity, "Property for averageIntensity")
+	def getAverageIntensityOverAverageSigma(self): return self.__averageIntensityOverAverageSigma
+	def setAverageIntensityOverAverageSigma(self, averageIntensityOverAverageSigma):
+		checkType("XSDataBestResolutionBin", "setAverageIntensityOverAverageSigma", averageIntensityOverAverageSigma, "XSDataDouble")
+		self.__averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
+	def delAverageIntensityOverAverageSigma(self): self.__averageIntensityOverAverageSigma = None
+	# Properties
+	averageIntensityOverAverageSigma = property(getAverageIntensityOverAverageSigma, setAverageIntensityOverAverageSigma, delAverageIntensityOverAverageSigma, "Property for averageIntensityOverAverageSigma")
+	def getAverageSigma(self): return self.__averageSigma
+	def setAverageSigma(self, averageSigma):
+		checkType("XSDataBestResolutionBin", "setAverageSigma", averageSigma, "XSDataDouble")
+		self.__averageSigma = averageSigma
+	def delAverageSigma(self): self.__averageSigma = None
+	# Properties
+	averageSigma = property(getAverageSigma, setAverageSigma, delAverageSigma, "Property for averageSigma")
+	def getCompleteness(self): return self.__completeness
+	def setCompleteness(self, completeness):
+		checkType("XSDataBestResolutionBin", "setCompleteness", completeness, "XSDataDouble")
+		self.__completeness = completeness
+	def delCompleteness(self): self.__completeness = None
+	# Properties
+	completeness = property(getCompleteness, setCompleteness, delCompleteness, "Property for completeness")
+	def getMaxResolution(self): return self.__maxResolution
+	def setMaxResolution(self, maxResolution):
+		checkType("XSDataBestResolutionBin", "setMaxResolution", maxResolution, "XSDataDouble")
+		self.__maxResolution = maxResolution
+	def delMaxResolution(self): self.__maxResolution = None
+	# Properties
+	maxResolution = property(getMaxResolution, setMaxResolution, delMaxResolution, "Property for maxResolution")
+	def getMinResolution(self): return self.__minResolution
+	def setMinResolution(self, minResolution):
+		checkType("XSDataBestResolutionBin", "setMinResolution", minResolution, "XSDataDouble")
+		self.__minResolution = minResolution
+	def delMinResolution(self): self.__minResolution = None
+	# Properties
+	minResolution = property(getMinResolution, setMinResolution, delMinResolution, "Property for minResolution")
+	def getPercentageOverload(self): return self.__percentageOverload
+	def setPercentageOverload(self, percentageOverload):
+		checkType("XSDataBestResolutionBin", "setPercentageOverload", percentageOverload, "XSDataDouble")
+		self.__percentageOverload = percentageOverload
+	def delPercentageOverload(self): self.__percentageOverload = None
+	# Properties
+	percentageOverload = property(getPercentageOverload, setPercentageOverload, delPercentageOverload, "Property for percentageOverload")
+	def getRFactor(self): return self.__rFactor
+	def setRFactor(self, rFactor):
+		checkType("XSDataBestResolutionBin", "setRFactor", rFactor, "XSDataDouble")
+		self.__rFactor = rFactor
+	def delRFactor(self): self.__rFactor = None
+	# Properties
+	rFactor = property(getRFactor, setRFactor, delRFactor, "Property for rFactor")
+	def getRFriedel(self): return self.__rFriedel
+	def setRFriedel(self, rFriedel):
+		checkType("XSDataBestResolutionBin", "setRFriedel", rFriedel, "XSDataDouble")
+		self.__rFriedel = rFriedel
+	def delRFriedel(self): self.__rFriedel = None
+	# Properties
+	rFriedel = property(getRFriedel, setRFriedel, delRFriedel, "Property for rFriedel")
+	def getRedundancy(self): return self.__redundancy
+	def setRedundancy(self, redundancy):
+		checkType("XSDataBestResolutionBin", "setRedundancy", redundancy, "XSDataDouble")
+		self.__redundancy = redundancy
+	def delRedundancy(self): self.__redundancy = None
+	# Properties
+	redundancy = property(getRedundancy, setRedundancy, delRedundancy, "Property for redundancy")
+	def export(self, outfile, level, name_='XSDataBestResolutionBin'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataBestResolutionBin'):
+		pass
+		if self.__IOverSigma is not None:
+			self.IOverSigma.export(outfile, level, name_='IOverSigma')
+		else:
+			warnEmptyAttribute("IOverSigma", "XSDataDouble")
+		if self.__averageIntensity is not None:
+			self.averageIntensity.export(outfile, level, name_='averageIntensity')
+		else:
+			warnEmptyAttribute("averageIntensity", "XSDataDouble")
+		if self.__averageIntensityOverAverageSigma is not None:
+			self.averageIntensityOverAverageSigma.export(outfile, level, name_='averageIntensityOverAverageSigma')
+		else:
+			warnEmptyAttribute("averageIntensityOverAverageSigma", "XSDataDouble")
+		if self.__averageSigma is not None:
+			self.averageSigma.export(outfile, level, name_='averageSigma')
+		else:
+			warnEmptyAttribute("averageSigma", "XSDataDouble")
+		if self.__completeness is not None:
+			self.completeness.export(outfile, level, name_='completeness')
+		else:
+			warnEmptyAttribute("completeness", "XSDataDouble")
+		if self.__maxResolution is not None:
+			self.maxResolution.export(outfile, level, name_='maxResolution')
+		else:
+			warnEmptyAttribute("maxResolution", "XSDataDouble")
+		if self.__minResolution is not None:
+			self.minResolution.export(outfile, level, name_='minResolution')
+		else:
+			warnEmptyAttribute("minResolution", "XSDataDouble")
+		if self.__percentageOverload is not None:
+			self.percentageOverload.export(outfile, level, name_='percentageOverload')
+		else:
+			warnEmptyAttribute("percentageOverload", "XSDataDouble")
+		if self.__rFactor is not None:
+			self.rFactor.export(outfile, level, name_='rFactor')
+		else:
+			warnEmptyAttribute("rFactor", "XSDataDouble")
+		if self.__rFriedel is not None:
+			self.rFriedel.export(outfile, level, name_='rFriedel')
+		else:
+			warnEmptyAttribute("rFriedel", "XSDataDouble")
+		if self.__redundancy is not None:
+			self.redundancy.export(outfile, level, name_='redundancy')
+		else:
+			warnEmptyAttribute("redundancy", "XSDataDouble")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'IOverSigma':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setIOverSigma(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'averageIntensity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAverageIntensity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'averageIntensityOverAverageSigma':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAverageIntensityOverAverageSigma(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'averageSigma':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAverageSigma(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'completeness':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setCompleteness(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'maxResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setMaxResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'minResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setMinResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'percentageOverload':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setPercentageOverload(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRFactor(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rFriedel':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRFriedel(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'redundancy':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRedundancy(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataBestResolutionBin' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBestResolutionBin is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataBestResolutionBin.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataBestResolutionBin()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataBestResolutionBin()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataBestResolutionBin
+
+class XSDataBestStatisticalPrediction(object):
+	def __init__(self, resolutionBin=None):
+		if resolutionBin is None:
+			self.__resolutionBin = []
+		else:
+			checkType("XSDataBestStatisticalPrediction", "Constructor of XSDataBestStatisticalPrediction", resolutionBin, "list")
+			self.__resolutionBin = resolutionBin
+	def getResolutionBin(self): return self.__resolutionBin
+	def setResolutionBin(self, resolutionBin):
+		checkType("XSDataBestStatisticalPrediction", "setResolutionBin", resolutionBin, "list")
+		self.__resolutionBin = resolutionBin
+	def delResolutionBin(self): self.__resolutionBin = None
+	# Properties
+	resolutionBin = property(getResolutionBin, setResolutionBin, delResolutionBin, "Property for resolutionBin")
+	def addResolutionBin(self, value):
+		checkType("XSDataBestStatisticalPrediction", "setResolutionBin", value, "XSDataBestResolutionBin")
+		self.__resolutionBin.append(value)
+	def insertResolutionBin(self, index, value):
+		checkType("XSDataBestStatisticalPrediction", "setResolutionBin", value, "XSDataBestResolutionBin")
+		self.__resolutionBin[index] = value
+	def export(self, outfile, level, name_='XSDataBestStatisticalPrediction'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataBestStatisticalPrediction'):
+		pass
+		for resolutionBin_ in self.getResolutionBin():
+			resolutionBin_.export(outfile, level, name_='resolutionBin')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'resolutionBin':
+			obj_ = XSDataBestResolutionBin()
+			obj_.build(child_)
+			self.resolutionBin.append(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataBestStatisticalPrediction" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataBestStatisticalPrediction' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBestStatisticalPrediction is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataBestStatisticalPrediction.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataBestStatisticalPrediction()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataBestStatisticalPrediction" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataBestStatisticalPrediction()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataBestStatisticalPrediction
+
 class XSDataInputBest(XSDataInput):
 	"""- anomalousData is deprecated, please use strategyOption instead.
 
@@ -1189,7 +1207,7 @@ class XSDataInputBest(XSDataInput):
 		if bestFileContentHKL is None:
 			self.__bestFileContentHKL = []
 		else:
-			checkType("XSDataInputBest", "Constructor of XSDataInputBest", bestFileContentHKL, "XSDataString")
+			checkType("XSDataInputBest", "Constructor of XSDataInputBest", bestFileContentHKL, "list")
 			self.__bestFileContentHKL = bestFileContentHKL
 		checkType("XSDataInputBest", "Constructor of XSDataInputBest", bestFileContentPar, "XSDataString")
 		self.__bestFileContentPar = bestFileContentPar
@@ -1650,7 +1668,7 @@ class XSDataResultBest(XSDataResult):
 		if collectionPlan is None:
 			self.__collectionPlan = []
 		else:
-			checkType("XSDataResultBest", "Constructor of XSDataResultBest", collectionPlan, "XSDataBestCollectionPlan")
+			checkType("XSDataResultBest", "Constructor of XSDataResultBest", collectionPlan, "list")
 			self.__collectionPlan = collectionPlan
 		checkType("XSDataResultBest", "Constructor of XSDataResultBest", pathToLogFile, "XSDataFile")
 		self.__pathToLogFile = pathToLogFile
