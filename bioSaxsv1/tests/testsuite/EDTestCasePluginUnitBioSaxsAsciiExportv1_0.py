@@ -32,7 +32,7 @@ __copyright__ = "ESRF"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsAsciiExportv1_0
-from XSDataCommon import XSDataFile, XSDataInteger, XSDataDouble, XSDataString
+from XSDataCommon import XSDataImage, XSDataInteger, XSDataDouble, XSDataString, XSDataFile
 
 class EDTestCasePluginUnitBioSaxsAsciiExportv1_0(EDTestCasePluginUnit):
 
@@ -43,13 +43,13 @@ class EDTestCasePluginUnitBioSaxsAsciiExportv1_0(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputBioSaxsAsciiExportv1_0()
-#        xsDataInput.setNormalizedImage(XSDataFile())
+#        xsDataInput.setNormalizedImage(XSDataImage())
 #        xsDataInput.setNormalizedImageSize(XSDataInteger())
-        xsDataInput.setIntegratedImage(XSDataFile())
+        xsDataInput.setIntegratedImage(XSDataImage())
         xsDataInput.setIntegratedCurve(XSDataFile())
 #        xsDataInput.setNormalizationFactor(XSDataDouble())
-#        xsDataInput.setMaskFile(XSDataFile())
-#        xsDataInput.setCorrectedImage(XSDataFile())
+#        xsDataInput.setMaskFile(XSDataImage())
+#        xsDataInput.setCorrectedImage(XSDataImage())
 #        xsDataInput.setSampleConcentration(XSDataDouble())
 #        xsDataInput.setSampleComments(XSDataString())
 #        xsDataInput.setSampleCode(XSDataString())

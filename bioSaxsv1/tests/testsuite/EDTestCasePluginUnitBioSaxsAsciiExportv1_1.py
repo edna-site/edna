@@ -32,7 +32,8 @@ __copyright__ = "ESRF"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsAsciiExportv1_0
-from XSDataCommon import XSDataFile, XSDataInteger, XSDataDouble, XSDataString
+from XSDataCommon import XSDataFile, XSDataInteger, XSDataDouble, XSDataString, \
+    XSDataImage
 
 class EDTestCasePluginUnitBioSaxsAsciiExportv1_1(EDTestCasePluginUnit):
 
@@ -45,7 +46,7 @@ class EDTestCasePluginUnitBioSaxsAsciiExportv1_1(EDTestCasePluginUnit):
         xsDataInput = XSDataInputBioSaxsAsciiExportv1_0()
 #        xsDataInput.setNormalizedImage(XSDataFile())
 #        xsDataInput.setNormalizedImageSize(XSDataInteger())
-        xsDataInput.setIntegratedImage(XSDataFile())
+        xsDataInput.setIntegratedImage(XSDataImage())
         xsDataInput.setIntegratedCurve(XSDataFile())
 #        xsDataInput.setNormalizationFactor(XSDataDouble())
 #        xsDataInput.setMaskFile(XSDataFile())
