@@ -122,7 +122,6 @@ complex type XSDataInputBioSaxsSingleSamplev1_0 extends XSDataInputBioSaxsSample
 //	frames : XSDataInteger []
 //	isOnline : XSDataBoolean
 //	prefix : XSDataString
-	directoryRaw : XSDataFile
 	directory1D : XSDataFile
 	directory2D : XSDataFile
 	directoryMisc : XSDataFile
