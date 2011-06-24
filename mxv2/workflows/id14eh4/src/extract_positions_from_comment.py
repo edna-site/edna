@@ -17,3 +17,5 @@ strategy =  str(listValues[3].split("=")[1].split()[0])
 print listValues, phi, kap1, kap2, [strategy]
 
 possibleOrientations_Reference = possibleOrientations
+
+print mxv1ReferenceStrategy
