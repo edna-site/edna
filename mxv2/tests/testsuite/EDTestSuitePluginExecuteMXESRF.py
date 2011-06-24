@@ -41,7 +41,7 @@ class EDTestSuitePluginExecuteMXESRF(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginExecThumbnailv10")
         # From mxPluginExec:
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXPluginExec")
-        self.addTestSuiteFromName("EDTestSuitePluginExecuteISPyBStoreImageQualityIndicatorsv1_3")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteISPyBv1_3")
         # From mxv1:
         self.addTestSuiteFromName("EDTestSuitePluginControlPyarchThumbnailGeneratorv1_0")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXv1")
