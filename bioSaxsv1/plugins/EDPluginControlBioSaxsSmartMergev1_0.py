@@ -73,7 +73,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.checkMandatoryParameters(self.getDataInput().inputFile, "Input curve list is empty")
-        self.checkMandatoryParameters(self.getDataInput().mergedFile, "Output curve filename  is empty")
+        self.checkMandatoryParameters(self.getDataInput().mergedCurve, "Output curve filename  is empty")
 
 
     def preProcess(self, _edObject=None):
@@ -92,7 +92,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.process")
         if len(self.lstInput) == 1:
-            shutil.copy_file(self.lstInput[0].path.value, self.getDataInput().mergedFile.path.value)
+            shutil.copy_file(self.lstInput[0].path.value, self.getDataInput().mergedCurve.path.value)
         else:
             lstFile = []
             if (self.absoluteSimilarity is None) and (self.relativeSimilarity is None):
@@ -138,7 +138,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
                     lstFile.append(oneFile)
 
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
-            xsd = XSDataInputDataver(outputCurve=self.getDataInput().mergedFile,
+            xsd = XSDataInputDataver(outputCurve=self.getDataInput().mergedCurve,
                                     inputCurve=lstFile)
             self.__edPluginExecDataver.setDataInput(xsd)
             self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
@@ -151,7 +151,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsSmartMergev1_0()
-        xsDataResult.mergedFile = self.getDataInput().mergedFile
+        xsDataResult.mergedCurve = self.getDataInput().mergedCurve
         self.setDataOutput(xsDataResult)
 
 

@@ -179,24 +179,25 @@ complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
 	inputFile: XSDataFile []
 	absoluteSimilarity: XSDataDouble optional 
 	relativeSimilarity: XSDataDouble optional
-	mergedFile: XSDataFile
+	mergedCurve: XSDataFile
 }
 
 complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
-	mergedFile : XSDataFile
+	mergedCurve : XSDataFile
 }
 
 complex type XSDataInputBioSaxsReduceFileSeriev1_0 extends XSDataInput{
 	"Run ProcessOneFile on each file of a time time serie  "	
 	fileSerie: XSDataFileSeries
-	sample:XSDataBioSaxsSample
-	experimentSetup:XSDataBioSaxsExperimentSetup
-	directory1D : XSDataFile
-	directory2D : XSDataFile
+	sample: XSDataBioSaxsSample
+	experimentSetup: XSDataBioSaxsExperimentSetup
+	directory1D: XSDataFile
+	directory2D: XSDataFile
 	directoryMisc : XSDataFile
 	forceReprocess: XSDataBoolean optional "if not present or False, just return the existing file, else force reprocessing in different folders"
 	absoluteSimilarity: XSDataDouble optional 
 	relativeSimilarity: XSDataDouble optional
+	rawImageSize: XSDataInteger optional
 }
 
 complex type XSDataResultBioSaxsReduceFileSeriev1_0 extends XSDataResult {

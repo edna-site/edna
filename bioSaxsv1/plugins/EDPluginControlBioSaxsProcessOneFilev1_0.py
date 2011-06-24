@@ -58,7 +58,7 @@ class EDPluginControlBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.__edPluginNormalize = None
         self.__edPluginIntegrate = None
 
-        self.iRawImageSize = 1024
+        self.rawImageSize = XSDataInteger(1024)
         self.normalizedImage = None
         self.integratedCurve = None
         self.integratedImage = None
@@ -81,6 +81,8 @@ class EDPluginControlBioSaxsProcessOneFilev1_0(EDPluginControl):
         # Load the execution plugin
         self.__edPluginNormalize = self.loadPlugin(self.__strControlledPluginNormalize)
         self.__edPluginIntegrate = self.loadPlugin(self.__strControlledPluginIntegrate)
+        if self.dataInput.rawImageSize is not None:
+            self.rawImageSize = self.dataInput.rawImageSize
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
@@ -90,7 +92,7 @@ class EDPluginControlBioSaxsProcessOneFilev1_0(EDPluginControl):
         xsd = XSDataInputBioSaxsNormalizev1_0()
         xsd.rawImage = self.dataInput.rawImage
         xsd.normalizedImage = self.dataInput.normalizedImage
-        xsd.rawImageSize = XSDataInteger(self.iRawImageSize)
+        xsd.rawImageSize = (self.rawImageSize)
         expe = self.dataInput.experimentSetup
         sample = self.dataInput.sample
         xsd.detector = expe.detector
@@ -118,7 +120,7 @@ class EDPluginControlBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.__edPluginIntegrate.connectFAILURE(self.doFailureIntegrate)
         xsd = XSDataInputBioSaxsAzimutIntv1_0()
         xsd.normalizedImage = self.dataInput.normalizedImage
-        xsd.normalizedImageSize = XSDataInteger(self.iRawImageSize)
+        xsd.normalizedImageSize = (self.rawImageSize)
         xsd.integratedImage = self.dataInput.integratedImage
         xsd.integratedCurve = self.dataInput.integratedCurve
 

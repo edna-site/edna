@@ -46,13 +46,13 @@ class EDTestCasePluginUnitControlBioSaxsSmartMergev1_0(EDTestCasePluginUnit):
     inputFile: XSDataFile []
     absoluteSimilarity: XSDataDouble optional 
     relativeSimilarity: XSDataDouble optional
-    mergedFile: XSDataFile
+    mergedCurve: XSDataFile
         """
         xsDataInput = XSDataInputBioSaxsSmartMergev1_0()
         xsDataInput.inputFile = [XSDataFile()]
         xsDataInput.absoluteSimilarity = XSDataDouble()
         xsDataInput.relativeSimilarity = XSDataDouble()
-        xsDataInput.mergedFile = XSDataFile()
+        xsDataInput.mergedCurve = XSDataFile()
         edPluginExecBioSaxsSmartMerge = self.createPlugin()
         edPluginExecBioSaxsSmartMerge.setDataInput(xsDataInput)
         edPluginExecBioSaxsSmartMerge.checkParameters()

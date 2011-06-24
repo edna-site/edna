@@ -56,9 +56,9 @@
     <relativeSimilarity>
     	<value>0.1</value>
     </relativeSimilarity>
-    <mergedFile>
+    <mergedCurve>
     	<path>
     		<value>/tmp/edna-${USER}/bioSaxsMerged.dat</value>
     	</path>
-    </mergedFile>
+    </mergedCurve>
 </XSDataInput>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jun 24 02:51::01 2011 by EDGenerateDS.
+# Generated Fri Jun 24 06:00::46 2011 by EDGenerateDS.
 #
 
 import sys
@@ -789,7 +789,7 @@ class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
 
 class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 	"""Run ProcessOneFile on each file of a time time serie  """
-	def __init__(self, configuration=None, relativeSimilarity=None, absoluteSimilarity=None, forceReprocess=None, directoryMisc=None, directory2D=None, directory1D=None, experimentSetup=None, sample=None, fileSerie=None):
+	def __init__(self, configuration=None, rawImageSize=None, relativeSimilarity=None, absoluteSimilarity=None, forceReprocess=None, directoryMisc=None, directory2D=None, directory1D=None, experimentSetup=None, sample=None, fileSerie=None):
 		XSDataInput.__init__(self, configuration)
 		self.__fileSerie = fileSerie
 		self.__sample = sample
@@ -800,6 +800,7 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 		self.__forceReprocess = forceReprocess
 		self.__absoluteSimilarity = absoluteSimilarity
 		self.__relativeSimilarity = relativeSimilarity
+		self.__rawImageSize = rawImageSize
 	def getFileSerie(self): return self.__fileSerie
 	def setFileSerie(self, fileSerie):
 		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setFileSerie", fileSerie, "XSDataFileSeries")
@@ -863,6 +864,13 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 	def delRelativeSimilarity(self): self.__relativeSimilarity = None
 	# Properties
 	relativeSimilarity = property(getRelativeSimilarity, setRelativeSimilarity, delRelativeSimilarity, "Property for relativeSimilarity")
+	def getRawImageSize(self): return self.__rawImageSize
+	def setRawImageSize(self, rawImageSize):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setRawImageSize", rawImageSize, "XSDataInteger")
+		self.__rawImageSize = rawImageSize
+	def delRawImageSize(self): self.__rawImageSize = None
+	# Properties
+	rawImageSize = property(getRawImageSize, setRawImageSize, delRawImageSize, "Property for rawImageSize")
 	def export(self, outfile, level, name_='XSDataInputBioSaxsReduceFileSeriev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -901,6 +909,8 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 			self.absoluteSimilarity.export(outfile, level, name_='absoluteSimilarity')
 		if self.__relativeSimilarity is not None:
 			self.relativeSimilarity.export(outfile, level, name_='relativeSimilarity')
+		if self.__rawImageSize is not None:
+			self.rawImageSize.export(outfile, level, name_='rawImageSize')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -951,6 +961,11 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setRelativeSimilarity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rawImageSize':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setRawImageSize(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -1094,7 +1109,7 @@ class XSDataInputBioSaxsSample(XSDataInput):
 # end class XSDataInputBioSaxsSample
 
 class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
-	def __init__(self, configuration=None, mergedFile=None, relativeSimilarity=None, absoluteSimilarity=None, inputFile=None):
+	def __init__(self, configuration=None, mergedCurve=None, relativeSimilarity=None, absoluteSimilarity=None, inputFile=None):
 		XSDataInput.__init__(self, configuration)
 		if inputFile is None:
 			self.__inputFile = []
@@ -1102,7 +1117,7 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			self.__inputFile = inputFile
 		self.__absoluteSimilarity = absoluteSimilarity
 		self.__relativeSimilarity = relativeSimilarity
-		self.__mergedFile = mergedFile
+		self.__mergedCurve = mergedCurve
 	def getInputFile(self): return self.__inputFile
 	def setInputFile(self, inputFile):
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputFile", inputFile, "list")
@@ -1130,13 +1145,13 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 	def delRelativeSimilarity(self): self.__relativeSimilarity = None
 	# Properties
 	relativeSimilarity = property(getRelativeSimilarity, setRelativeSimilarity, delRelativeSimilarity, "Property for relativeSimilarity")
-	def getMergedFile(self): return self.__mergedFile
-	def setMergedFile(self, mergedFile):
-		checkType("XSDataInputBioSaxsSmartMergev1_0", "setMergedFile", mergedFile, "XSDataFile")
-		self.__mergedFile = mergedFile
-	def delMergedFile(self): self.__mergedFile = None
+	def getMergedCurve(self): return self.__mergedCurve
+	def setMergedCurve(self, mergedCurve):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setMergedCurve", mergedCurve, "XSDataFile")
+		self.__mergedCurve = mergedCurve
+	def delMergedCurve(self): self.__mergedCurve = None
 	# Properties
-	mergedFile = property(getMergedFile, setMergedFile, delMergedFile, "Property for mergedFile")
+	mergedCurve = property(getMergedCurve, setMergedCurve, delMergedCurve, "Property for mergedCurve")
 	def export(self, outfile, level, name_='XSDataInputBioSaxsSmartMergev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1153,10 +1168,10 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			self.absoluteSimilarity.export(outfile, level, name_='absoluteSimilarity')
 		if self.__relativeSimilarity is not None:
 			self.relativeSimilarity.export(outfile, level, name_='relativeSimilarity')
-		if self.__mergedFile is not None:
-			self.mergedFile.export(outfile, level, name_='mergedFile')
+		if self.__mergedCurve is not None:
+			self.mergedCurve.export(outfile, level, name_='mergedCurve')
 		else:
-			warnEmptyAttribute("mergedFile", "XSDataFile")
+			warnEmptyAttribute("mergedCurve", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1178,10 +1193,10 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			obj_.build(child_)
 			self.setRelativeSimilarity(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'mergedFile':
+			nodeName_ == 'mergedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setMergedFile(obj_)
+			self.setMergedCurve(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -2109,16 +2124,16 @@ class XSDataResultBioSaxsSingleSamplev1_0(XSDataResult):
 # end class XSDataResultBioSaxsSingleSamplev1_0
 
 class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
-	def __init__(self, status=None, mergedFile=None):
+	def __init__(self, status=None, mergedCurve=None):
 		XSDataResult.__init__(self, status)
-		self.__mergedFile = mergedFile
-	def getMergedFile(self): return self.__mergedFile
-	def setMergedFile(self, mergedFile):
-		checkType("XSDataResultBioSaxsSmartMergev1_0", "setMergedFile", mergedFile, "XSDataFile")
-		self.__mergedFile = mergedFile
-	def delMergedFile(self): self.__mergedFile = None
+		self.__mergedCurve = mergedCurve
+	def getMergedCurve(self): return self.__mergedCurve
+	def setMergedCurve(self, mergedCurve):
+		checkType("XSDataResultBioSaxsSmartMergev1_0", "setMergedCurve", mergedCurve, "XSDataFile")
+		self.__mergedCurve = mergedCurve
+	def delMergedCurve(self): self.__mergedCurve = None
 	# Properties
-	mergedFile = property(getMergedFile, setMergedFile, delMergedFile, "Property for mergedFile")
+	mergedCurve = property(getMergedCurve, setMergedCurve, delMergedCurve, "Property for mergedCurve")
 	def export(self, outfile, level, name_='XSDataResultBioSaxsSmartMergev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2127,20 +2142,20 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsSmartMergev1_0'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__mergedFile is not None:
-			self.mergedFile.export(outfile, level, name_='mergedFile')
+		if self.__mergedCurve is not None:
+			self.mergedCurve.export(outfile, level, name_='mergedCurve')
 		else:
-			warnEmptyAttribute("mergedFile", "XSDataFile")
+			warnEmptyAttribute("mergedCurve", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'mergedFile':
+			nodeName_ == 'mergedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setMergedFile(obj_)
+			self.setMergedCurve(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

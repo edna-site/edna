@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jérôme Kieffer"
+__author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
@@ -31,27 +31,28 @@ __copyright__ = "2011, ESRF Grenoble"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataControlBioSaxsReduceFileSerie import None
+from XSDataBioSaxsv1_0 import XSDataInputBioSaxsReduceFileSeriev1_0, XSDataFileSeries, XSDataFileXSDAta
 
 class EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0(EDTestCasePluginUnit):
 
 
-    def __init__(self, _edStringTestName = None):
+    def __init__(self, _edStringTestName=None):
         EDTestCasePluginUnit.__init__(self, "EDPluginControlBioSaxsReduceFileSeriev1_0")
-              
+
 
     def testCheckParameters(self):
-        xsDataInput = None()
+        xsDataInput = XSDataInputBioSaxsReduceFileSeriev1_0()
         edPluginExecBioSaxsReduceFileSerie = self.createPlugin()
+
         edPluginExecBioSaxsReduceFileSerie.setDataInput(xsDataInput)
         edPluginExecBioSaxsReduceFileSerie.checkParameters()
-        
-    
-    
+
+
+
     def process(self):
         self.addTestMethod(self.testCheckParameters)
 
-    
+
 
 
 if __name__ == '__main__':
