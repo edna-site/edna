@@ -33,11 +33,11 @@ from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
-class EDTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteBioSaxsReduceFileSeriev1_0(EDTestCasePluginExecute):
     
 
     def __init__(self, _strTestName = None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlBioSaxsReduceFileSeriev1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginBioSaxsReduceFileSeriev1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_BioSaxsReduceFileSerie.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
@@ -63,5 +63,5 @@ class EDTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0(EDTestCasePluginE
 
 if __name__ == '__main__':
 
-    edTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0 = EDTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0("EDTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0")
-    edTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0.execute()
+    edTestCasePluginExecuteBioSaxsReduceFileSeriev1_0 = EDTestCasePluginExecuteBioSaxsReduceFileSeriev1_0("EDTestCasePluginExecuteBioSaxsReduceFileSeriev1_0")
+    edTestCasePluginExecuteBioSaxsReduceFileSeriev1_0.execute()

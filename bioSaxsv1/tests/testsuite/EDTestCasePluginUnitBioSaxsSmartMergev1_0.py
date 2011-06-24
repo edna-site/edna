@@ -33,11 +33,11 @@ from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0, XSDataFile, XSDataDouble
 
-class EDTestCasePluginUnitControlBioSaxsSmartMergev1_0(EDTestCasePluginUnit):
+class EDTestCasePluginUnitBioSaxsSmartMergev1_0(EDTestCasePluginUnit):
 
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlBioSaxsSmartMergev1_0")
+        EDTestCasePluginUnit.__init__(self, "EDPluginBioSaxsSmartMergev1_0")
 
 
     def testCheckParameters(self):
@@ -67,5 +67,5 @@ class EDTestCasePluginUnitControlBioSaxsSmartMergev1_0(EDTestCasePluginUnit):
 
 if __name__ == '__main__':
 
-    EDTestCasePluginUnitControlBioSaxsSmartMergev1_0 = EDTestCasePluginUnitControlBioSaxsSmartMergev1_0("EDTestCasePluginUnitControlBioSaxsSmartMergev1_0")
-    EDTestCasePluginUnitControlBioSaxsSmartMergev1_0.execute()
+    EDTestCasePluginUnitBioSaxsSmartMergev1_0 = EDTestCasePluginUnitBioSaxsSmartMergev1_0("EDTestCasePluginUnitBioSaxsSmartMergev1_0")
+    EDTestCasePluginUnitBioSaxsSmartMergev1_0.execute()

@@ -47,7 +47,7 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
 
 
     def __init__(self, _strTestName=None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlBioSaxsProcessOneFilev1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginBioSaxsProcessOneFilev1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_BioSaxsProcessOneFile.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \

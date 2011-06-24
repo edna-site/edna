@@ -35,15 +35,15 @@ __copyright__ = "ESRF"
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDUtilsBioSaxs     import EDUtilsBioSaxs
-from XSDataControlBioSaxsReprocess import XSDataInputBioSaxsReprocessv1_0
-from XSDataControlBioSaxsReprocess import XSDataResultBioSaxsReprocessv1_0
+from XSDataBioSaxsReprocess import XSDataInputBioSaxsReprocessv1_0
+from XSDataBioSaxsReprocess import XSDataResultBioSaxsReprocessv1_0
 
 
 
 
 
 
-class EDPluginControlBioSaxsReprocessv1_0(EDPluginControl):
+class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
     """
     Control plugin that does what was in the Reprocess function in the original program 
     
@@ -96,7 +96,7 @@ class EDPluginControlBioSaxsReprocessv1_0(EDPluginControl):
         """
         Checks the mandatory parameters.
         """
-        EDVerbose.DEBUG("EDPluginControlBioSaxsReprocessv1_0.checkParameters")
+        EDVerbose.DEBUG("EDPluginBioSaxsReprocessv1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.xsdInputData = self.getDataInput()
         self.checkMandatoryParameters(self.xsdInputData.getDetector(), "No detector found !")
@@ -125,7 +125,7 @@ class EDPluginControlBioSaxsReprocessv1_0(EDPluginControl):
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        EDVerbose.DEBUG("EDPluginControlBioSaxsReprocessv1_0.preProcess")
+        EDVerbose.DEBUG("EDPluginBioSaxsReprocessv1_0.preProcess")
         # Load the execution plugin
         self.__edPluginExecTemplate = self.loadPlugin(self.__strControlledPluginName)
 
@@ -177,7 +177,7 @@ class EDPluginControlBioSaxsReprocessv1_0(EDPluginControl):
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        EDVerbose.DEBUG("EDPluginControlBioSaxsReprocessv1_0.process")
+        EDVerbose.DEBUG("EDPluginBioSaxsReprocessv1_0.process")
 
         if not os.path.isdir(self.strDirectory):
             self.showMessage(4, "Directory '%s' not found!" % self.strDirectory)
@@ -338,18 +338,18 @@ class EDPluginControlBioSaxsReprocessv1_0(EDPluginControl):
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        EDVerbose.DEBUG("EDPluginControlBioSaxsReprocessv1_0.postProcess")
+        EDVerbose.DEBUG("EDPluginBioSaxsReprocessv1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsReprocessv1_0()
         self.setDataOutput(xsDataResult)
 
 
     def doSuccessExecTemplate(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlBioSaxsReprocessv1_0.doSuccessExecTemplate")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsReprocessv1_0.doSuccessExecTemplate")
+        EDVerbose.DEBUG("EDPluginBioSaxsReprocessv1_0.doSuccessExecTemplate")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsReprocessv1_0.doSuccessExecTemplate")
 
 
     def doFailureExecTemplate(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlBioSaxsReprocessv1_0.doFailureExecTemplate")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsReprocessv1_0.doFailureExecTemplate")
+        EDVerbose.DEBUG("EDPluginBioSaxsReprocessv1_0.doFailureExecTemplate")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsReprocessv1_0.doFailureExecTemplate")
 

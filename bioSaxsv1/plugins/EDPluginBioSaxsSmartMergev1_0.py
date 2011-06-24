@@ -37,7 +37,7 @@ from XSDataAtsas import XSDataInputDatcmp
 from XSDataAtsas import XSDataInputDataver
 from XSDataCommon import XSDataDouble, XSDataFile, XSDataString
 
-class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
+class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
     """
     This plugin takes a set of input data files (1D SAXS) measure
     their differences (versus previous and versus first) and merge those which are equivalent
@@ -70,7 +70,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.checkParameters")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.checkMandatoryParameters(self.getDataInput().inputFile, "Input curve list is empty")
         self.checkMandatoryParameters(self.getDataInput().mergedCurve, "Output curve filename  is empty")
@@ -78,7 +78,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.preProcess")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.preProcess")
         # Load the execution plugin
         if self.getDataInput().absoluteSimilarity is not None:
             self.absoluteSimilarity = self.getDataInput().absoluteSimilarity.value
@@ -90,7 +90,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.process")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.process")
         if len(self.lstInput) == 1:
             shutil.copy_file(self.lstInput[0].path.value, self.getDataInput().mergedCurve.path.value)
         else:
@@ -148,7 +148,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.postProcess")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsSmartMergev1_0()
         xsDataResult.mergedCurve = self.getDataInput().mergedCurve
@@ -156,19 +156,19 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
 
 
     def doSuccessExecDataver(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDataver")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDataver")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doSuccessExecDataver")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecDataver")
 
 
 
     def doFailureExecDataver(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDataver")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDataver")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecDataver")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doFailureExecDataver")
 
 
     def doSuccessExecDatcmp(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
         self.synchronizeOn()
         xsdIn = _edPlugin.getDataInput()
         xsdOut = _edPlugin.getDataOutput()
@@ -176,7 +176,7 @@ class EDPluginControlBioSaxsSmartMergev1_0(EDPluginControl):
         self.synchronizeOff()
 
     def doFailureExecDatcmp(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDatcmp")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsSmartMergev1_0.doFailureExecDatcmp")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecDatcmp")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doFailureExecDatcmp")
 
 

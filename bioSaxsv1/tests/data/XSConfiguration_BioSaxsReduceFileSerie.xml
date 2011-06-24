@@ -2,7 +2,7 @@
 <XSConfiguration> 
 	<XSPluginList>
 		<XSPluginItem>
-			<name>EDPluginControlBioSaxsReduceFileSeriev1_0</name>  
+			<name>EDPluginBioSaxsReduceFileSeriev1_0</name>  
 		</XSPluginItem>
 	</XSPluginList> 
 </XSConfiguration> 

@@ -46,7 +46,7 @@ class EDTestCasePluginUnitBioSaxsProcessOneFilev1_0(EDTestCasePluginUnit):
 
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlBioSaxsProcessOneFilev1_0")
+        EDTestCasePluginUnit.__init__(self, "EDPluginBioSaxsProcessOneFilev1_0")
 
 
     def testCheckParameters(self):

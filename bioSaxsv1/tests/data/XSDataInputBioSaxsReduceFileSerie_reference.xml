@@ -1,3 +1,45 @@
 <?xml version="1.0" ?>
-<XSDataInput>
+<XSDataInput>	
+	<fileSerie>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_01.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_02.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_03.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_04.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_05.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_06.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_07.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_08.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_09.edf</value></path></files>
+		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_10.edf</value></path></files>
+	</fileSerie>
+	<sample>
+		<sampleConcentration><value>5.77</value></sampleConcentration>
+		<sampleComments><value>bsa2</value></sampleComments>
+		<sampleCode><value>BSA</value></sampleCode>
+	</sample>
+	<experimentSetup>
+		<detector><value>pilatus</value></detector>
+		<detectorDistance><value>2.425</value></detectorDistance>
+		<pixelSize_1><value>172.0e-6</value></pixelSize_1>
+		<pixelSize_2><value>172.0e-6</value></pixelSize_2>
+		<beamCenter_1><value>871.0</value></beamCenter_1>
+		<beamCenter_2><value>105.0</value></beamCenter_2>
+		<beamStopDiode><value>2.03737e-05</value></beamStopDiode>
+		<machineCurrent><value>85.5755</value></machineCurrent>
+		<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
+		<wavelength><value>9.31e-11</value><unit>m</unit></wavelength>
+		<normalizationFactor><value>1.0</value></normalizationFactor>
+	</experimentSetup>
+	<directory1D><path><value>/tmp/edna-${USER}/serie1/1d</value></path></directory1D>
+	<directory2D><path><value>/tmp/edna-${USER}/serie1/2d</value></path></directory2D>
+	<directoryMisc><path><value>/tmp/edna-${USER}/serie1/misc</value></path></directoryMisc>
+	<absoluteSimilarity>
+		<value>1.0e-6</value>
+	</absoluteSimilarity> 
+	<relativeSimilarity>
+		<value>1.0e-6</value>
+	</relativeSimilarity>
+	<rawImageSize>
+		<value>2000000</value>
+	</rawImageSize>
 </XSDataInput>

@@ -34,11 +34,11 @@ from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
 
-class EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteBioSaxsSmartMergev1_0(EDTestCasePluginExecute):
 
 
     def __init__(self, _strTestName=None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlBioSaxsSmartMergev1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginBioSaxsSmartMergev1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_BioSaxsSmartMerge.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
@@ -80,5 +80,5 @@ class EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0(EDTestCasePluginExecut
 
 if __name__ == '__main__':
 
-    edTestCasePluginExecuteControlBioSaxsSmartMergev1_0 = EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0("EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0")
-    edTestCasePluginExecuteControlBioSaxsSmartMergev1_0.execute()
+    edTestCasePluginExecuteBioSaxsSmartMergev1_0 = EDTestCasePluginExecuteBioSaxsSmartMergev1_0("EDTestCasePluginExecuteBioSaxsSmartMergev1_0")
+    edTestCasePluginExecuteBioSaxsSmartMergev1_0.execute()

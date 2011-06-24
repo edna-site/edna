@@ -30,9 +30,9 @@ __copyright__ = "ESRF"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataControlBioSaxsReprocess import XSDataInputBioSaxsReprocessv1_0
+from XSDataBioSaxsReprocess import XSDataInputBioSaxsReprocessv1_0
 
-class EDTestCasePluginUnitControlBioSaxsReprocessv1_0(EDTestCasePluginUnit):
+class EDTestCasePluginUnitBioSaxsReprocessv1_0(EDTestCasePluginUnit):
 
 
     def __init__(self, _edStringTestName = None):
@@ -55,5 +55,5 @@ class EDTestCasePluginUnitControlBioSaxsReprocessv1_0(EDTestCasePluginUnit):
 
 if __name__ == '__main__':
 
-    EDTestCasePluginUnitControlBioSaxsReprocessv1_0 = EDTestCasePluginUnitControlBioSaxsReprocessv1_0("EDTestCasePluginUnitControlBioSaxsReprocessv1_0")
-    EDTestCasePluginUnitControlBioSaxsReprocessv1_0.execute()
+    EDTestCasePluginUnitBioSaxsReprocessv1_0 = EDTestCasePluginUnitBioSaxsReprocessv1_0("EDTestCasePluginUnitBioSaxsReprocessv1_0")
+    EDTestCasePluginUnitBioSaxsReprocessv1_0.execute()

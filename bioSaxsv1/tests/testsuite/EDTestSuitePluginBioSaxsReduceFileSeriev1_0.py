@@ -29,20 +29,20 @@ __copyright__ = "2011, ESRF Grenoble"
 
 from EDTestSuite  import EDTestSuite
 
-class EDTestSuitePluginControlBioSaxsReduceFileSeriev1_0(EDTestSuite):
+class EDTestSuitePluginBioSaxsReduceFileSeriev1_0(EDTestSuite):
     """
     This is the test suite for EDNA plugin BioSaxsReduceFileSeriev1_0 
     It will run subsequently all unit tests and execution tests.     
     """        
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsReduceFileSeriev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsReduceFileSeriev1_0")
         
 
 
 if __name__ == '__main__':
 
-    edTestSuitePluginControlBioSaxsReduceFileSeriev1_0 = EDTestSuitePluginControlBioSaxsReduceFileSeriev1_0("EDTestSuitePluginControlBioSaxsReduceFileSeriev1_0")
-    edTestSuitePluginControlBioSaxsReduceFileSeriev1_0.execute()
+    edTestSuitePluginBioSaxsReduceFileSeriev1_0 = EDTestSuitePluginBioSaxsReduceFileSeriev1_0("EDTestSuitePluginBioSaxsReduceFileSeriev1_0")
+    edTestSuitePluginBioSaxsReduceFileSeriev1_0.execute()
 

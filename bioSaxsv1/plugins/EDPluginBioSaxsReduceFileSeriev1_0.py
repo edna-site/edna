@@ -34,7 +34,7 @@ from XSDataBioSaxsv1_0 import XSDataInputBioSaxsReduceFileSeriev1_0, XSDataResul
 from XSDataCommon import XSDataInteger, XSDataString, XSDataFile, XSDataImage, \
     XSDataStatus
 
-class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
+class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
     """
     Control plugin that does: 
     
@@ -49,8 +49,8 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsReduceFileSeriev1_0)
-        self.__strControlledPluginProcessOneFile = "EDPluginControlBioSaxsProcessOneFilev1_0"
-        self.__strControlledPluginMerge = "EDPluginControlBioSaxsSmartMergev1_0"
+        self.__strControlledPluginProcessOneFile = "EDPluginBioSaxsProcessOneFilev1_0"
+        self.__strControlledPluginMerge = "EDPluginBioSaxsSmartMergev1_0"
         self.__edPluginExecSmartMerge = None
         self.bSkipProcess = False
         self.sample = None
@@ -75,7 +75,7 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.checkParameters")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.fileSerie, "No file serie provided")
         self.checkMandatoryParameters(self.dataInput.sample, "No sample information provided")
@@ -87,7 +87,7 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.preProcess")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.preProcess")
         self.sample = self.dataInput.sample
         self.experimentSetup = self.dataInput.experimentSetup
         self.lstRawImg = self.dataInput.fileSerie#[ i.path.value for i in self.dataInput.fileSerie]
@@ -139,7 +139,7 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.process")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.process")
 
         if self.bSkipProcess:
             return
@@ -172,7 +172,7 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.postProcess")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsReduceFileSeriev1_0()
         xsDataResult.status = XSDataStatus(executiveSummary=os.linesep.join(self.lstSummary))
@@ -184,8 +184,8 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
 
 
     def doSuccessExecProcessOneFile(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.doSuccessExecProcessOneFile")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsReduceFileSeriev1_0.doSuccessExecProcessOneFile")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.doSuccessExecProcessOneFile")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsReduceFileSeriev1_0.doSuccessExecProcessOneFile")
         self.synchronizeOn()
         xsdOut = _edPlugin.dataOutput
         self.lstSummary.append(xsdOut.status.executiveSummary.value)
@@ -195,8 +195,8 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
 
 
     def doFailureExecProcessOneFile(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.doFailureExecProcessOneFile")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsReduceFileSeriev1_0.doFailureExecProcessOneFile")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.doFailureExecProcessOneFile")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsReduceFileSeriev1_0.doFailureExecProcessOneFile")
         self.synchronizeOn()
         self.setFailure()
         pluginId = "Unknown"
@@ -212,13 +212,13 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
                 self.lstCurves.append(xsdOut.integratedCurve)
             except:
                 pass
-        self.lstSummary.append("EDPluginControlBioSaxsProcessOneFilev1_0 %s failed" % pluginId)
+        self.lstSummary.append("EDPluginBioSaxsProcessOneFilev1_0 %s failed" % pluginId)
         self.synchronizeOff()
 
 
     def doSuccessExecSmartMerge(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.doSuccessExecSmartMerge")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlBioSaxsReduceFileSeriev1_0.doSuccessExecSmartMerge")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.doSuccessExecSmartMerge")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsReduceFileSeriev1_0.doSuccessExecSmartMerge")
         self.synchronizeOn()
         pluginId = "Unknown"
         try:
@@ -231,13 +231,13 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
                 self.lstSummary.append(xsdOut.status.executiveSummary.value)
             except:
                 pass
-        self.lstSummary.append("EDPluginControlBioSaxsSmartMergev1_0 %s failed" % pluginId)
+        self.lstSummary.append("EDPluginBioSaxsSmartMergev1_0 %s failed" % pluginId)
         self.synchronizeOff()
 
 
     def doFailureExecSmartMerge(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlBioSaxsReduceFileSeriev1_0.doFailureExecSmartMerge")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlBioSaxsReduceFileSeriev1_0.doFailureExecSmartMerge")
+        self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.doFailureExecSmartMerge")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsReduceFileSeriev1_0.doFailureExecSmartMerge")
         self.synchronizeOn()
         self.setFailure()
         pluginId = "Unknown"
@@ -252,5 +252,5 @@ class EDPluginControlBioSaxsReduceFileSeriev1_0(EDPluginControl):
                 self.xsdMergedCurve = xsdOut
             except:
                 pass
-        self.lstSummary.append("EDPluginControlBioSaxsSmartMergev1_0 %s failed" % pluginId)
+        self.lstSummary.append("EDPluginBioSaxsSmartMergev1_0 %s failed" % pluginId)
         self.synchronizeOff()

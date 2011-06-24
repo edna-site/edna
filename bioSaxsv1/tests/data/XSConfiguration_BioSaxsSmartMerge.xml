@@ -2,7 +2,7 @@
 <XSConfiguration> 
 	<XSPluginList>
 		<XSPluginItem>
-			<name>EDPluginControlBioSaxsSmartMergev1_0</name>  
+			<name>EDPluginBioSaxsSmartMergev1_0</name>  
 		</XSPluginItem>
 	</XSPluginList> 
 </XSConfiguration> 

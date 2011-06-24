@@ -43,10 +43,10 @@ class EDTestSuiteUnitBioSaxsv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsAzimutIntv1_1")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsMetadatav1_0")
         self.addTestSuiteFromName("EDTestSuitePluginUnitBioSaxsMetadatav1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsSmartMergev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSmartMergev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsProcessOneFilev1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsSingleSamplev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsReduceFileSeriev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSingleSamplev1_0")
 
 
 ##############################################################################

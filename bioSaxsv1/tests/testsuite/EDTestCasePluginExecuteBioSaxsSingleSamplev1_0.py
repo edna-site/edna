@@ -33,11 +33,11 @@ from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
-class EDTestCasePluginExecuteControlBioSaxsSingleSamplev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteBioSaxsSingleSamplev1_0(EDTestCasePluginExecute):
 
 
     def __init__(self, _strTestName=None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlBioSaxsSingleSamplev1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginBioSaxsSingleSamplev1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_BioSaxsSingleSamplev1_0.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
@@ -63,5 +63,5 @@ class EDTestCasePluginExecuteControlBioSaxsSingleSamplev1_0(EDTestCasePluginExec
 
 if __name__ == '__main__':
 
-    edTestCasePluginExecuteControlBioSaxsSingleSamplev1_0 = EDTestCasePluginExecuteControlBioSaxsSingleSamplev1_0("EDTestCasePluginExecuteControlBioSaxsSingleSamplev1_0")
-    edTestCasePluginExecuteControlBioSaxsSingleSamplev1_0.execute()
+    edTestCasePluginExecuteBioSaxsSingleSamplev1_0 = EDTestCasePluginExecuteBioSaxsSingleSamplev1_0("EDTestCasePluginExecuteBioSaxsSingleSamplev1_0")
+    edTestCasePluginExecuteBioSaxsSingleSamplev1_0.execute()

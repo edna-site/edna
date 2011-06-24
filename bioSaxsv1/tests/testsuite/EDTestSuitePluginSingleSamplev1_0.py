@@ -23,26 +23,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jérôme Kieffer"
+__author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
 from EDTestSuite  import EDTestSuite
 
-class EDTestSuitePluginControlBioSaxsSmartMergev1_0(EDTestSuite):
+class EDTestSuitePluginControlSingleSamplev1_0(EDTestSuite):
     """
-    This is the test suite for EDNA plugin BioSaxsSmartMergev1_0 
+    This is the test suite for EDNA plugin SingleSamplev1_0 
     It will run subsequently all unit tests and execution tests.     
-    """        
+    """
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsSmartMergev1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlBioSaxsSmartMergev1_0")
-        
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSingleSamplev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlSingleSamplev1_0")
+
 
 
 if __name__ == '__main__':
 
-    edTestSuitePluginControlBioSaxsSmartMergev1_0 = EDTestSuitePluginControlBioSaxsSmartMergev1_0("EDTestSuitePluginControlBioSaxsSmartMergev1_0")
-    edTestSuitePluginControlBioSaxsSmartMergev1_0.execute()
+    edTestSuitePluginControlSingleSamplev1_0 = EDTestSuitePluginControlSingleSamplev1_0("EDTestSuitePluginControlSingleSamplev1_0")
+    edTestSuitePluginControlSingleSamplev1_0.execute()
 

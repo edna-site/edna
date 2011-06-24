@@ -5,7 +5,7 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2011, ESRF Grenoble
+#    Copyright (C) 2011, ESRF
 #
 #    Principal author:        Jérôme Kieffer
 #
@@ -25,34 +25,32 @@
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
-__copyright__ = "2011, ESRF Grenoble"
+__copyright__ = "2011, ESRF"
 
 
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataBioSaxsv1_0 import XSDataInputBioSaxsReduceFileSeriev1_0, XSDataFileSeries, \
-        XSDataFile, XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
+from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSingleSamplev1_0, \
+    XSDataFile, XSDataFileSeries
 
-class EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0(EDTestCasePluginUnit):
+class EDTestCasePluginUnitBioSaxsSingleSamplev1_0(EDTestCasePluginUnit):
 
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlBioSaxsReduceFileSeriev1_0")
+        EDTestCasePluginUnit.__init__(self, "EDPluginBioSaxsSingleSamplev1_0")
 
 
     def testCheckParameters(self):
-        xsDataInput = XSDataInputBioSaxsReduceFileSeriev1_0()
-        xsDataInput.fileSerie = XSDataFileSeries()
-        xsDataInput.sample = XSDataBioSaxsSample()
-        xsDataInput.experimentSetup = XSDataBioSaxsExperimentSetup()
+        xsDataInput = XSDataInputBioSaxsSingleSamplev1_0()
         xsDataInput.directory1D = XSDataFile()
         xsDataInput.directory2D = XSDataFile()
         xsDataInput.directoryMisc = XSDataFile()
-        edPluginExecBioSaxsReduceFileSerie = self.createPlugin()
-
-        edPluginExecBioSaxsReduceFileSerie.setDataInput(xsDataInput)
-        edPluginExecBioSaxsReduceFileSerie.checkParameters()
+        xsDataInput.bufferSeries = [XSDataFileSeries()]
+        xsDataInput.sampleSeries = [XSDataFileSeries()]
+        edPluginExecBioSaxsSingleSamplev1_0 = self.createPlugin()
+        edPluginExecBioSaxsSingleSamplev1_0.setDataInput(xsDataInput)
+        edPluginExecBioSaxsSingleSamplev1_0.checkParameters()
 
 
 
@@ -64,5 +62,5 @@ class EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0(EDTestCasePluginUnit
 
 if __name__ == '__main__':
 
-    EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0 = EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0("EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0")
-    EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0.execute()
+    EDTestCasePluginUnitBioSaxsSingleSamplev1_0 = EDTestCasePluginUnitBioSaxsSingleSamplev1_0("EDTestCasePluginUnitBioSaxsSingleSamplev1_0")
+    EDTestCasePluginUnitBioSaxsSingleSamplev1_0.execute()

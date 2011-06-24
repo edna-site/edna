@@ -14,7 +14,7 @@
         <XSPluginItem>
             <name>EDPluginBioSaxsNormalizev1_1</name>
             <XSParamList>
-                <XSParamItem>&gt;
+                <XSParamItem>
                     <name>DummyPixelValue</name>
                     <value>-1</value>
                 </XSParamItem>
@@ -27,21 +27,21 @@
 		</XSPluginItem>
 
 		<XSPluginItem>
-			<name>EDPluginControlBioSaxsReprocessv1_0</name>  
+			<name>EDPluginBioSaxsReprocessv1_0</name>  
 		</XSPluginItem> 
 
 		<XSPluginItem>
-			<name>EDPluginControlBioSaxsReprocessv1_0</name>  
+			<name>EDPluginBioSaxsReprocessv1_0</name>  
 		</XSPluginItem>
 
 	<XSPluginItem>
-			<name>EDPluginControlBioSaxsSmartMergev1_0</name>  
+			<name>EDPluginBioSaxsSmartMergev1_0</name>  
 		</XSPluginItem><XSPluginItem>
-			<name>EDPluginControlBioSaxsSmartMergev1_0</name>  
+			<name>EDPluginBioSaxsSmartMergev1_0</name>  
 		</XSPluginItem><XSPluginItem>
-			<name>EDPluginControlBioSaxsSmartMergev1_0</name>  
+			<name>EDPluginBioSaxsSmartMergev1_0</name>  
 		</XSPluginItem><XSPluginItem>
-			<name>EDPluginControlBioSaxsSmartMergev1_0</name>  
+			<name>EDPluginBioSaxsSmartMergev1_0</name>  
 		</XSPluginItem><XSPluginItem>
 			<name>EDPluginControlSingleSamplev1_0</name>  
 		</XSPluginItem></XSPluginList> 

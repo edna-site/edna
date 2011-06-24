@@ -28,20 +28,20 @@ __copyright__ = "ESRF"
 
 from EDTestSuite  import EDTestSuite
 
-class EDTestSuitePluginControlBioSaxsReprocessv1_0(EDTestSuite):
+class EDTestSuitePluginBioSaxsReprocessv1_0(EDTestSuite):
     """
     This is the test suite for EDNA plugin BioSaxsReprocessv1_0 
     It will run subsequently all unit tests and execution tests.     
     """        
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsReprocessv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlBioSaxsReprocessv1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsReprocessv1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsReprocessv1_0")
         
 
 
 if __name__ == '__main__':
 
-    edTestSuitePluginControlBioSaxsReprocessv1_0 = EDTestSuitePluginControlBioSaxsReprocessv1_0("EDTestSuitePluginControlBioSaxsReprocessv1_0")
-    edTestSuitePluginControlBioSaxsReprocessv1_0.execute()
+    edTestSuitePluginBioSaxsReprocessv1_0 = EDTestSuitePluginBioSaxsReprocessv1_0("EDTestSuitePluginBioSaxsReprocessv1_0")
+    edTestSuitePluginBioSaxsReprocessv1_0.execute()
 

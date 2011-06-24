@@ -48,11 +48,11 @@ if "EDNA_SITE" not in  os.environ:
 
 
 
-class EDTestCasePluginExecuteControlBioSaxsReprocessv1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteBioSaxsReprocessv1_0(EDTestCasePluginExecute):
 
 
     def __init__(self, _strTestName=None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlBioSaxsReprocessv1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginBioSaxsReprocessv1_0")
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
                                                "XSConfiguration_BioSaxsReprocess.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
@@ -74,5 +74,5 @@ class EDTestCasePluginExecuteControlBioSaxsReprocessv1_0(EDTestCasePluginExecute
 
 if __name__ == '__main__':
 
-    edTestCasePluginExecuteControlBioSaxsReprocessv1_0 = EDTestCasePluginExecuteControlBioSaxsReprocessv1_0("EDTestCasePluginExecuteControlBioSaxsReprocessv1_0")
-    edTestCasePluginExecuteControlBioSaxsReprocessv1_0.execute()
+    edTestCasePluginExecuteBioSaxsReprocessv1_0 = EDTestCasePluginExecuteBioSaxsReprocessv1_0("EDTestCasePluginExecuteBioSaxsReprocessv1_0")
+    edTestCasePluginExecuteBioSaxsReprocessv1_0.execute()

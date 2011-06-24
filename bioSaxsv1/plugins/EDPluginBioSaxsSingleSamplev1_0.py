@@ -32,7 +32,7 @@ import os
 from EDPluginControl import EDPluginControl
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSingleSamplev1_0, XSDataResultBioSaxsSingleSamplev1_0
 
-class EDPluginControlBioSaxsSingleSamplev1_0(EDPluginControl):
+class EDPluginBioSaxsSingleSamplev1_0(EDPluginControl):
     """
     Plugin that does the processing a sample: 
     - 1 protein 
@@ -52,8 +52,8 @@ class EDPluginControlBioSaxsSingleSamplev1_0(EDPluginControl):
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsSingleSamplev1_0)
-        self.__strControlledMerge = "EDPluginControlBioSaxsSmartMergev1_0"
-        self.__strControlledProcessOneFile = "EDPluginControlBioSaxsProcessOneFilev1_0"
+        self.__strControlledMerge = "EDPluginBioSaxsSmartMergev1_0"
+        self.__strControlledProcessOneFile = "EDPluginBioSaxsProcessOneFilev1_0"
         self.__edPluginMerge = None
 
         self.strDirectory1D = None
