@@ -31,7 +31,8 @@ __copyright__ = "2011, ESRF Grenoble"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataBioSaxsv1_0 import XSDataInputBioSaxsReduceFileSeriev1_0, XSDataFileSeries, XSDataFileXSDAta
+from XSDataBioSaxsv1_0 import XSDataInputBioSaxsReduceFileSeriev1_0, XSDataFileSeries, \
+        XSDataFile, XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
 
 class EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0(EDTestCasePluginUnit):
 
@@ -42,6 +43,12 @@ class EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0(EDTestCasePluginUnit
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputBioSaxsReduceFileSeriev1_0()
+        xsDataInput.fileSerie = XSDataFileSeries()
+        xsDataInput.sample = XSDataBioSaxsSample()
+        xsDataInput.experimentSetup = XSDataBioSaxsExperimentSetup()
+        xsDataInput.directory1D = XSDataFile()
+        xsDataInput.directory2D = XSDataFile()
+        xsDataInput.directoryMisc = XSDataFile()
         edPluginExecBioSaxsReduceFileSerie = self.createPlugin()
 
         edPluginExecBioSaxsReduceFileSerie.setDataInput(xsDataInput)
