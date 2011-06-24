@@ -31,7 +31,7 @@ __copyright__ = "ESRF"
 import os, sys
 from EDVerbose              import EDVerbose
 from EDTestCasePluginUnit   import EDTestCasePluginUnit
-from XSDataBioSaxsv1_0     import XSDataInputBioSaxsProcessOneFilev1_0
+from XSDataBioSaxsv1_0     import XSDataInputBioSaxsProcessOneFilev1_0, XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
 from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataLength, \
     XSDataWavelength
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
@@ -52,19 +52,21 @@ class EDTestCasePluginUnitBioSaxsProcessOneFilev1_0(EDTestCasePluginUnit):
     def testCheckParameters(self):
         xsDataInput = XSDataInputBioSaxsProcessOneFilev1_0()
         xsDataInput.rawImage = XSDataImage()
+        xsDataInput.sample = XSDataBioSaxsSample()
+        xsDataInput.experimentSetup = XSDataBioSaxsExperimentSetup()
         xsDataInput.logFile = XSDataFile()
         xsDataInput.normalizedImage = XSDataImage()
         xsDataInput.rawImageSize = XSDataInteger()
-        xsDataInput.beamStopDiode = XSDataDouble()
-        xsDataInput.normalizationFactor = XSDataDouble()
-        xsDataInput.machineCurrent = XSDataDouble()
-        xsDataInput.maskFile = XSDataImage()
-        xsDataInput.detectorDistance = XSDataLength()
-        xsDataInput.wavelength = XSDataWavelength()
-        xsDataInput.pixelSize_1 = XSDataLength()
-        xsDataInput.pixelSize_2 = XSDataLength()
-        xsDataInput.beamCenter_1 = XSDataDouble()
-        xsDataInput.beamCenter_2 = XSDataDouble()
+#        xsDataInput.beamStopDiode = XSDataDouble()
+#        xsDataInput.normalizationFactor = XSDataDouble()
+#        xsDataInput.machineCurrent = XSDataDouble()
+#        xsDataInput.maskFile = XSDataImage()
+#        xsDataInput.detectorDistance = XSDataLength()
+#        xsDataInput.wavelength = XSDataWavelength()
+#        xsDataInput.pixelSize_1 = XSDataLength()
+#        xsDataInput.pixelSize_2 = XSDataLength()
+#        xsDataInput.beamCenter_1 = XSDataDouble()
+#        xsDataInput.beamCenter_2 = XSDataDouble()
 
         edPluginExecBioSaxsNormalize = self.createPlugin()
         edPluginExecBioSaxsNormalize.setDataInput(xsDataInput)

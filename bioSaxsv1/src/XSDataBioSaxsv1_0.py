@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun 23 11:49::16 2011 by EDGenerateDS.
+# Generated Fri Jun 24 02:51::01 2011 by EDGenerateDS.
 #
 
 import sys
@@ -109,105 +109,6 @@ class MixedContainer(object):
 # Data representation classes.
 #
 
-
-class XSDataSpecCommunication(object):
-	def __init__(self, specVariableAbort=None, specVariableStatus=None, specVersion=None):
-		self.__specVersion = specVersion
-		self.__specVariableStatus = specVariableStatus
-		self.__specVariableAbort = specVariableAbort
-	def getSpecVersion(self): return self.__specVersion
-	def setSpecVersion(self, specVersion):
-		checkType("XSDataSpecCommunication", "setSpecVersion", specVersion, "XSDataString")
-		self.__specVersion = specVersion
-	def delSpecVersion(self): self.__specVersion = None
-	# Properties
-	specVersion = property(getSpecVersion, setSpecVersion, delSpecVersion, "Property for specVersion")
-	def getSpecVariableStatus(self): return self.__specVariableStatus
-	def setSpecVariableStatus(self, specVariableStatus):
-		checkType("XSDataSpecCommunication", "setSpecVariableStatus", specVariableStatus, "XSDataString")
-		self.__specVariableStatus = specVariableStatus
-	def delSpecVariableStatus(self): self.__specVariableStatus = None
-	# Properties
-	specVariableStatus = property(getSpecVariableStatus, setSpecVariableStatus, delSpecVariableStatus, "Property for specVariableStatus")
-	def getSpecVariableAbort(self): return self.__specVariableAbort
-	def setSpecVariableAbort(self, specVariableAbort):
-		checkType("XSDataSpecCommunication", "setSpecVariableAbort", specVariableAbort, "XSDataString")
-		self.__specVariableAbort = specVariableAbort
-	def delSpecVariableAbort(self): self.__specVariableAbort = None
-	# Properties
-	specVariableAbort = property(getSpecVariableAbort, setSpecVariableAbort, delSpecVariableAbort, "Property for specVariableAbort")
-	def export(self, outfile, level, name_='XSDataSpecCommunication'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataSpecCommunication'):
-		pass
-		if self.__specVersion is not None:
-			self.specVersion.export(outfile, level, name_='specVersion')
-		if self.__specVariableStatus is not None:
-			self.specVariableStatus.export(outfile, level, name_='specVariableStatus')
-		if self.__specVariableAbort is not None:
-			self.specVariableAbort.export(outfile, level, name_='specVariableAbort')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'specVersion':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setSpecVersion(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'specVariableStatus':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setSpecVariableStatus(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'specVariableAbort':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setSpecVariableAbort(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataSpecCommunication" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataSpecCommunication' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataSpecCommunication.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataSpecCommunication()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataSpecCommunication" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataSpecCommunication()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataSpecCommunication
 
 class XSDataBioSaxsExperimentSetup(XSData):
 	def __init__(self, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
@@ -702,6 +603,393 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputBioSaxsAsciiExportv1_0
+
+class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
+	"""Plugin that runs subsequently Normalize and Azimuthal integration"""
+	def __init__(self, configuration=None, integratedCurve=None, integratedImage=None, normalizedImage=None, logFile=None, rawImageSize=None, experimentSetup=None, sample=None, rawImage=None):
+		XSDataInput.__init__(self, configuration)
+		self.__rawImage = rawImage
+		self.__sample = sample
+		self.__experimentSetup = experimentSetup
+		self.__rawImageSize = rawImageSize
+		self.__logFile = logFile
+		self.__normalizedImage = normalizedImage
+		self.__integratedImage = integratedImage
+		self.__integratedCurve = integratedCurve
+	def getRawImage(self): return self.__rawImage
+	def setRawImage(self, rawImage):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRawImage", rawImage, "XSDataImage")
+		self.__rawImage = rawImage
+	def delRawImage(self): self.__rawImage = None
+	# Properties
+	rawImage = property(getRawImage, setRawImage, delRawImage, "Property for rawImage")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setSample", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getExperimentSetup(self): return self.__experimentSetup
+	def setExperimentSetup(self, experimentSetup):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setExperimentSetup", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
+	def delExperimentSetup(self): self.__experimentSetup = None
+	# Properties
+	experimentSetup = property(getExperimentSetup, setExperimentSetup, delExperimentSetup, "Property for experimentSetup")
+	def getRawImageSize(self): return self.__rawImageSize
+	def setRawImageSize(self, rawImageSize):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRawImageSize", rawImageSize, "XSDataInteger")
+		self.__rawImageSize = rawImageSize
+	def delRawImageSize(self): self.__rawImageSize = None
+	# Properties
+	rawImageSize = property(getRawImageSize, setRawImageSize, delRawImageSize, "Property for rawImageSize")
+	def getLogFile(self): return self.__logFile
+	def setLogFile(self, logFile):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setLogFile", logFile, "XSDataFile")
+		self.__logFile = logFile
+	def delLogFile(self): self.__logFile = None
+	# Properties
+	logFile = property(getLogFile, setLogFile, delLogFile, "Property for logFile")
+	def getNormalizedImage(self): return self.__normalizedImage
+	def setNormalizedImage(self, normalizedImage):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setNormalizedImage", normalizedImage, "XSDataImage")
+		self.__normalizedImage = normalizedImage
+	def delNormalizedImage(self): self.__normalizedImage = None
+	# Properties
+	normalizedImage = property(getNormalizedImage, setNormalizedImage, delNormalizedImage, "Property for normalizedImage")
+	def getIntegratedImage(self): return self.__integratedImage
+	def setIntegratedImage(self, integratedImage):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setIntegratedImage", integratedImage, "XSDataImage")
+		self.__integratedImage = integratedImage
+	def delIntegratedImage(self): self.__integratedImage = None
+	# Properties
+	integratedImage = property(getIntegratedImage, setIntegratedImage, delIntegratedImage, "Property for integratedImage")
+	def getIntegratedCurve(self): return self.__integratedCurve
+	def setIntegratedCurve(self, integratedCurve):
+		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+		self.__integratedCurve = integratedCurve
+	def delIntegratedCurve(self): self.__integratedCurve = None
+	# Properties
+	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
+	def export(self, outfile, level, name_='XSDataInputBioSaxsProcessOneFilev1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsProcessOneFilev1_0'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__rawImage is not None:
+			self.rawImage.export(outfile, level, name_='rawImage')
+		else:
+			warnEmptyAttribute("rawImage", "XSDataImage")
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		else:
+			warnEmptyAttribute("sample", "XSDataBioSaxsSample")
+		if self.__experimentSetup is not None:
+			self.experimentSetup.export(outfile, level, name_='experimentSetup')
+		else:
+			warnEmptyAttribute("experimentSetup", "XSDataBioSaxsExperimentSetup")
+		if self.__rawImageSize is not None:
+			self.rawImageSize.export(outfile, level, name_='rawImageSize')
+		if self.__logFile is not None:
+			self.logFile.export(outfile, level, name_='logFile')
+		if self.__normalizedImage is not None:
+			self.normalizedImage.export(outfile, level, name_='normalizedImage')
+		if self.__integratedImage is not None:
+			self.integratedImage.export(outfile, level, name_='integratedImage')
+		if self.__integratedCurve is not None:
+			self.integratedCurve.export(outfile, level, name_='integratedCurve')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rawImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setRawImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataBioSaxsSample()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentSetup':
+			obj_ = XSDataBioSaxsExperimentSetup()
+			obj_.build(child_)
+			self.setExperimentSetup(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rawImageSize':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setRawImageSize(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'logFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setLogFile(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'normalizedImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setNormalizedImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integratedImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setIntegratedImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integratedCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setIntegratedCurve(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputBioSaxsProcessOneFilev1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputBioSaxsProcessOneFilev1_0' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputBioSaxsProcessOneFilev1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsProcessOneFilev1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsProcessOneFilev1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsProcessOneFilev1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputBioSaxsProcessOneFilev1_0
+
+class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
+	"""Run ProcessOneFile on each file of a time time serie  """
+	def __init__(self, configuration=None, relativeSimilarity=None, absoluteSimilarity=None, forceReprocess=None, directoryMisc=None, directory2D=None, directory1D=None, experimentSetup=None, sample=None, fileSerie=None):
+		XSDataInput.__init__(self, configuration)
+		self.__fileSerie = fileSerie
+		self.__sample = sample
+		self.__experimentSetup = experimentSetup
+		self.__directory1D = directory1D
+		self.__directory2D = directory2D
+		self.__directoryMisc = directoryMisc
+		self.__forceReprocess = forceReprocess
+		self.__absoluteSimilarity = absoluteSimilarity
+		self.__relativeSimilarity = relativeSimilarity
+	def getFileSerie(self): return self.__fileSerie
+	def setFileSerie(self, fileSerie):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setFileSerie", fileSerie, "XSDataFileSeries")
+		self.__fileSerie = fileSerie
+	def delFileSerie(self): self.__fileSerie = None
+	# Properties
+	fileSerie = property(getFileSerie, setFileSerie, delFileSerie, "Property for fileSerie")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setSample", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getExperimentSetup(self): return self.__experimentSetup
+	def setExperimentSetup(self, experimentSetup):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setExperimentSetup", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
+	def delExperimentSetup(self): self.__experimentSetup = None
+	# Properties
+	experimentSetup = property(getExperimentSetup, setExperimentSetup, delExperimentSetup, "Property for experimentSetup")
+	def getDirectory1D(self): return self.__directory1D
+	def setDirectory1D(self, directory1D):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setDirectory1D", directory1D, "XSDataFile")
+		self.__directory1D = directory1D
+	def delDirectory1D(self): self.__directory1D = None
+	# Properties
+	directory1D = property(getDirectory1D, setDirectory1D, delDirectory1D, "Property for directory1D")
+	def getDirectory2D(self): return self.__directory2D
+	def setDirectory2D(self, directory2D):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setDirectory2D", directory2D, "XSDataFile")
+		self.__directory2D = directory2D
+	def delDirectory2D(self): self.__directory2D = None
+	# Properties
+	directory2D = property(getDirectory2D, setDirectory2D, delDirectory2D, "Property for directory2D")
+	def getDirectoryMisc(self): return self.__directoryMisc
+	def setDirectoryMisc(self, directoryMisc):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setDirectoryMisc", directoryMisc, "XSDataFile")
+		self.__directoryMisc = directoryMisc
+	def delDirectoryMisc(self): self.__directoryMisc = None
+	# Properties
+	directoryMisc = property(getDirectoryMisc, setDirectoryMisc, delDirectoryMisc, "Property for directoryMisc")
+	def getForceReprocess(self): return self.__forceReprocess
+	def setForceReprocess(self, forceReprocess):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setForceReprocess", forceReprocess, "XSDataBoolean")
+		self.__forceReprocess = forceReprocess
+	def delForceReprocess(self): self.__forceReprocess = None
+	# Properties
+	forceReprocess = property(getForceReprocess, setForceReprocess, delForceReprocess, "Property for forceReprocess")
+	def getAbsoluteSimilarity(self): return self.__absoluteSimilarity
+	def setAbsoluteSimilarity(self, absoluteSimilarity):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setAbsoluteSimilarity", absoluteSimilarity, "XSDataDouble")
+		self.__absoluteSimilarity = absoluteSimilarity
+	def delAbsoluteSimilarity(self): self.__absoluteSimilarity = None
+	# Properties
+	absoluteSimilarity = property(getAbsoluteSimilarity, setAbsoluteSimilarity, delAbsoluteSimilarity, "Property for absoluteSimilarity")
+	def getRelativeSimilarity(self): return self.__relativeSimilarity
+	def setRelativeSimilarity(self, relativeSimilarity):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setRelativeSimilarity", relativeSimilarity, "XSDataDouble")
+		self.__relativeSimilarity = relativeSimilarity
+	def delRelativeSimilarity(self): self.__relativeSimilarity = None
+	# Properties
+	relativeSimilarity = property(getRelativeSimilarity, setRelativeSimilarity, delRelativeSimilarity, "Property for relativeSimilarity")
+	def export(self, outfile, level, name_='XSDataInputBioSaxsReduceFileSeriev1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsReduceFileSeriev1_0'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__fileSerie is not None:
+			self.fileSerie.export(outfile, level, name_='fileSerie')
+		else:
+			warnEmptyAttribute("fileSerie", "XSDataFileSeries")
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		else:
+			warnEmptyAttribute("sample", "XSDataBioSaxsSample")
+		if self.__experimentSetup is not None:
+			self.experimentSetup.export(outfile, level, name_='experimentSetup')
+		else:
+			warnEmptyAttribute("experimentSetup", "XSDataBioSaxsExperimentSetup")
+		if self.__directory1D is not None:
+			self.directory1D.export(outfile, level, name_='directory1D')
+		else:
+			warnEmptyAttribute("directory1D", "XSDataFile")
+		if self.__directory2D is not None:
+			self.directory2D.export(outfile, level, name_='directory2D')
+		else:
+			warnEmptyAttribute("directory2D", "XSDataFile")
+		if self.__directoryMisc is not None:
+			self.directoryMisc.export(outfile, level, name_='directoryMisc')
+		else:
+			warnEmptyAttribute("directoryMisc", "XSDataFile")
+		if self.__forceReprocess is not None:
+			self.forceReprocess.export(outfile, level, name_='forceReprocess')
+		if self.__absoluteSimilarity is not None:
+			self.absoluteSimilarity.export(outfile, level, name_='absoluteSimilarity')
+		if self.__relativeSimilarity is not None:
+			self.relativeSimilarity.export(outfile, level, name_='relativeSimilarity')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileSerie':
+			obj_ = XSDataFileSeries()
+			obj_.build(child_)
+			self.setFileSerie(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataBioSaxsSample()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentSetup':
+			obj_ = XSDataBioSaxsExperimentSetup()
+			obj_.build(child_)
+			self.setExperimentSetup(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory1D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory1D(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory2D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory2D(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directoryMisc':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectoryMisc(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'forceReprocess':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setForceReprocess(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'absoluteSimilarity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAbsoluteSimilarity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'relativeSimilarity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRelativeSimilarity(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputBioSaxsReduceFileSeriev1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputBioSaxsReduceFileSeriev1_0' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputBioSaxsReduceFileSeriev1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsReduceFileSeriev1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsReduceFileSeriev1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsReduceFileSeriev1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputBioSaxsReduceFileSeriev1_0
 
 class XSDataInputBioSaxsSample(XSDataInput):
 	"""temporary class for multiple inhertitance emulation"""
@@ -1380,19 +1668,11 @@ class XSDataResultBioSaxsNormalizev1_0(XSDataResult):
 # end class XSDataResultBioSaxsNormalizev1_0
 
 class XSDataResultBioSaxsProcessOneFilev1_0(XSDataResult):
-	def __init__(self, status=None, processLog=None, logFile=None, normalizedImage=None, outputCurve=None):
+	def __init__(self, status=None, integratedCurve=None, integratedImage=None, normalizedImage=None):
 		XSDataResult.__init__(self, status)
-		self.__outputCurve = outputCurve
 		self.__normalizedImage = normalizedImage
-		self.__logFile = logFile
-		self.__processLog = processLog
-	def getOutputCurve(self): return self.__outputCurve
-	def setOutputCurve(self, outputCurve):
-		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setOutputCurve", outputCurve, "XSDataFile")
-		self.__outputCurve = outputCurve
-	def delOutputCurve(self): self.__outputCurve = None
-	# Properties
-	outputCurve = property(getOutputCurve, setOutputCurve, delOutputCurve, "Property for outputCurve")
+		self.__integratedImage = integratedImage
+		self.__integratedCurve = integratedCurve
 	def getNormalizedImage(self): return self.__normalizedImage
 	def setNormalizedImage(self, normalizedImage):
 		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setNormalizedImage", normalizedImage, "XSDataImage")
@@ -1400,20 +1680,20 @@ class XSDataResultBioSaxsProcessOneFilev1_0(XSDataResult):
 	def delNormalizedImage(self): self.__normalizedImage = None
 	# Properties
 	normalizedImage = property(getNormalizedImage, setNormalizedImage, delNormalizedImage, "Property for normalizedImage")
-	def getLogFile(self): return self.__logFile
-	def setLogFile(self, logFile):
-		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setLogFile", logFile, "XSDataFile")
-		self.__logFile = logFile
-	def delLogFile(self): self.__logFile = None
+	def getIntegratedImage(self): return self.__integratedImage
+	def setIntegratedImage(self, integratedImage):
+		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setIntegratedImage", integratedImage, "XSDataImage")
+		self.__integratedImage = integratedImage
+	def delIntegratedImage(self): self.__integratedImage = None
 	# Properties
-	logFile = property(getLogFile, setLogFile, delLogFile, "Property for logFile")
-	def getProcessLog(self): return self.__processLog
-	def setProcessLog(self, processLog):
-		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setProcessLog", processLog, "XSDataString")
-		self.__processLog = processLog
-	def delProcessLog(self): self.__processLog = None
+	integratedImage = property(getIntegratedImage, setIntegratedImage, delIntegratedImage, "Property for integratedImage")
+	def getIntegratedCurve(self): return self.__integratedCurve
+	def setIntegratedCurve(self, integratedCurve):
+		checkType("XSDataResultBioSaxsProcessOneFilev1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+		self.__integratedCurve = integratedCurve
+	def delIntegratedCurve(self): self.__integratedCurve = None
 	# Properties
-	processLog = property(getProcessLog, setProcessLog, delProcessLog, "Property for processLog")
+	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
 	def export(self, outfile, level, name_='XSDataResultBioSaxsProcessOneFilev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1422,47 +1702,38 @@ class XSDataResultBioSaxsProcessOneFilev1_0(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsProcessOneFilev1_0'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__outputCurve is not None:
-			self.outputCurve.export(outfile, level, name_='outputCurve')
-		else:
-			warnEmptyAttribute("outputCurve", "XSDataFile")
 		if self.__normalizedImage is not None:
 			self.normalizedImage.export(outfile, level, name_='normalizedImage')
 		else:
 			warnEmptyAttribute("normalizedImage", "XSDataImage")
-		if self.__logFile is not None:
-			self.logFile.export(outfile, level, name_='logFile')
+		if self.__integratedImage is not None:
+			self.integratedImage.export(outfile, level, name_='integratedImage')
 		else:
-			warnEmptyAttribute("logFile", "XSDataFile")
-		if self.__processLog is not None:
-			self.processLog.export(outfile, level, name_='processLog')
+			warnEmptyAttribute("integratedImage", "XSDataImage")
+		if self.__integratedCurve is not None:
+			self.integratedCurve.export(outfile, level, name_='integratedCurve')
 		else:
-			warnEmptyAttribute("processLog", "XSDataString")
+			warnEmptyAttribute("integratedCurve", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'outputCurve':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setOutputCurve(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'normalizedImage':
 			obj_ = XSDataImage()
 			obj_.build(child_)
 			self.setNormalizedImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'logFile':
+			nodeName_ == 'integratedImage':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setIntegratedImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integratedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setLogFile(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'processLog':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setProcessLog(obj_)
+			self.setIntegratedCurve(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -1503,29 +1774,96 @@ class XSDataResultBioSaxsProcessOneFilev1_0(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultBioSaxsProcessOneFilev1_0
 
-class XSDataResultBioSaxsReprocessv1_0(XSDataResult):
-	def __init__(self, status=None):
+class XSDataResultBioSaxsReduceFileSeriev1_0(XSDataResult):
+	def __init__(self, status=None, directoryMisc=None, directory2D=None, directory1D=None, mergedCurve=None):
 		XSDataResult.__init__(self, status)
-	def export(self, outfile, level, name_='XSDataResultBioSaxsReprocessv1_0'):
+		self.__mergedCurve = mergedCurve
+		self.__directory1D = directory1D
+		self.__directory2D = directory2D
+		self.__directoryMisc = directoryMisc
+	def getMergedCurve(self): return self.__mergedCurve
+	def setMergedCurve(self, mergedCurve):
+		checkType("XSDataResultBioSaxsReduceFileSeriev1_0", "setMergedCurve", mergedCurve, "XSDataFile")
+		self.__mergedCurve = mergedCurve
+	def delMergedCurve(self): self.__mergedCurve = None
+	# Properties
+	mergedCurve = property(getMergedCurve, setMergedCurve, delMergedCurve, "Property for mergedCurve")
+	def getDirectory1D(self): return self.__directory1D
+	def setDirectory1D(self, directory1D):
+		checkType("XSDataResultBioSaxsReduceFileSeriev1_0", "setDirectory1D", directory1D, "XSDataFile")
+		self.__directory1D = directory1D
+	def delDirectory1D(self): self.__directory1D = None
+	# Properties
+	directory1D = property(getDirectory1D, setDirectory1D, delDirectory1D, "Property for directory1D")
+	def getDirectory2D(self): return self.__directory2D
+	def setDirectory2D(self, directory2D):
+		checkType("XSDataResultBioSaxsReduceFileSeriev1_0", "setDirectory2D", directory2D, "XSDataFile")
+		self.__directory2D = directory2D
+	def delDirectory2D(self): self.__directory2D = None
+	# Properties
+	directory2D = property(getDirectory2D, setDirectory2D, delDirectory2D, "Property for directory2D")
+	def getDirectoryMisc(self): return self.__directoryMisc
+	def setDirectoryMisc(self, directoryMisc):
+		checkType("XSDataResultBioSaxsReduceFileSeriev1_0", "setDirectoryMisc", directoryMisc, "XSDataFile")
+		self.__directoryMisc = directoryMisc
+	def delDirectoryMisc(self): self.__directoryMisc = None
+	# Properties
+	directoryMisc = property(getDirectoryMisc, setDirectoryMisc, delDirectoryMisc, "Property for directoryMisc")
+	def export(self, outfile, level, name_='XSDataResultBioSaxsReduceFileSeriev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsReprocessv1_0'):
+	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsReduceFileSeriev1_0'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__mergedCurve is not None:
+			self.mergedCurve.export(outfile, level, name_='mergedCurve')
+		else:
+			warnEmptyAttribute("mergedCurve", "XSDataFile")
+		if self.__directory1D is not None:
+			self.directory1D.export(outfile, level, name_='directory1D')
+		else:
+			warnEmptyAttribute("directory1D", "XSDataFile")
+		if self.__directory2D is not None:
+			self.directory2D.export(outfile, level, name_='directory2D')
+		else:
+			warnEmptyAttribute("directory2D", "XSDataFile")
+		if self.__directoryMisc is not None:
+			self.directoryMisc.export(outfile, level, name_='directoryMisc')
+		else:
+			warnEmptyAttribute("directoryMisc", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
-		pass
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'mergedCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setMergedCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory1D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory1D(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory2D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory2D(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directoryMisc':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectoryMisc(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultBioSaxsReprocessv1_0" )
+		self.export( oStreamString, 0, name_="XSDataResultBioSaxsReduceFileSeriev1_0" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -1533,20 +1871,20 @@ class XSDataResultBioSaxsReprocessv1_0(XSDataResult):
 	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultBioSaxsReprocessv1_0' )
+		self.export( outfile, 0, name_='XSDataResultBioSaxsReduceFileSeriev1_0' )
 		outfile.close()
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return XSDataResultBioSaxsReprocessv1_0.parseString(self.marshal())
+		return XSDataResultBioSaxsReduceFileSeriev1_0.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultBioSaxsReprocessv1_0()
+		rootObj = XSDataResultBioSaxsReduceFileSeriev1_0()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsReprocessv1_0" )
+		rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsReduceFileSeriev1_0" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -1554,11 +1892,11 @@ class XSDataResultBioSaxsReprocessv1_0(XSDataResult):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultBioSaxsReprocessv1_0()
+		rootObj = XSDataResultBioSaxsReduceFileSeriev1_0()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class XSDataResultBioSaxsReprocessv1_0
+# end class XSDataResultBioSaxsReduceFileSeriev1_0
 
 class XSDataResultBioSaxsSample(XSDataResult):
 	"""temporary class for multiple inhertitance emulation"""
@@ -1661,6 +1999,114 @@ class XSDataResultBioSaxsSample(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultBioSaxsSample
+
+class XSDataResultBioSaxsSingleSamplev1_0(XSDataResult):
+	"""Class for precessing a single sample (at 1 single concentration)"""
+	def __init__(self, status=None, directory2D=None, directory1D=None, outputCurve=None):
+		XSDataResult.__init__(self, status)
+		self.__outputCurve = outputCurve
+		self.__directory1D = directory1D
+		self.__directory2D = directory2D
+	def getOutputCurve(self): return self.__outputCurve
+	def setOutputCurve(self, outputCurve):
+		checkType("XSDataResultBioSaxsSingleSamplev1_0", "setOutputCurve", outputCurve, "XSDataFile")
+		self.__outputCurve = outputCurve
+	def delOutputCurve(self): self.__outputCurve = None
+	# Properties
+	outputCurve = property(getOutputCurve, setOutputCurve, delOutputCurve, "Property for outputCurve")
+	def getDirectory1D(self): return self.__directory1D
+	def setDirectory1D(self, directory1D):
+		checkType("XSDataResultBioSaxsSingleSamplev1_0", "setDirectory1D", directory1D, "XSDataFile")
+		self.__directory1D = directory1D
+	def delDirectory1D(self): self.__directory1D = None
+	# Properties
+	directory1D = property(getDirectory1D, setDirectory1D, delDirectory1D, "Property for directory1D")
+	def getDirectory2D(self): return self.__directory2D
+	def setDirectory2D(self, directory2D):
+		checkType("XSDataResultBioSaxsSingleSamplev1_0", "setDirectory2D", directory2D, "XSDataFile")
+		self.__directory2D = directory2D
+	def delDirectory2D(self): self.__directory2D = None
+	# Properties
+	directory2D = property(getDirectory2D, setDirectory2D, delDirectory2D, "Property for directory2D")
+	def export(self, outfile, level, name_='XSDataResultBioSaxsSingleSamplev1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsSingleSamplev1_0'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__outputCurve is not None:
+			self.outputCurve.export(outfile, level, name_='outputCurve')
+		else:
+			warnEmptyAttribute("outputCurve", "XSDataFile")
+		if self.__directory1D is not None:
+			self.directory1D.export(outfile, level, name_='directory1D')
+		else:
+			warnEmptyAttribute("directory1D", "XSDataFile")
+		if self.__directory2D is not None:
+			self.directory2D.export(outfile, level, name_='directory2D')
+		else:
+			warnEmptyAttribute("directory2D", "XSDataFile")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'outputCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setOutputCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory1D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory1D(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory2D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory2D(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultBioSaxsSingleSamplev1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultBioSaxsSingleSamplev1_0' )
+		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultBioSaxsSingleSamplev1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultBioSaxsSingleSamplev1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsSingleSamplev1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultBioSaxsSingleSamplev1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultBioSaxsSingleSamplev1_0
 
 class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 	def __init__(self, status=None, mergedFile=None):
@@ -2386,8 +2832,6 @@ class XSDataInputBioSaxsAzimutIntv1_0(XSDataInputBioSaxsSampleExperiment):
 			warnEmptyAttribute("normalizedImage", "XSDataImage")
 		if self.__normalizedImageSize is not None:
 			self.normalizedImageSize.export(outfile, level, name_='normalizedImageSize')
-		else:
-			warnEmptyAttribute("normalizedImageSize", "XSDataInteger")
 		if self.__integratedImage is not None:
 			self.integratedImage.export(outfile, level, name_='integratedImage')
 		else:
@@ -2398,8 +2842,6 @@ class XSDataInputBioSaxsAzimutIntv1_0(XSDataInputBioSaxsSampleExperiment):
 			warnEmptyAttribute("integratedCurve", "XSDataFile")
 		if self.__correctedImage is not None:
 			self.correctedImage.export(outfile, level, name_='correctedImage')
-		else:
-			warnEmptyAttribute("correctedImage", "XSDataImage")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -2682,475 +3124,22 @@ class XSDataInputBioSaxsNormalizev1_0(XSDataInputBioSaxsSampleExperiment):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputBioSaxsNormalizev1_0
 
-class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInputBioSaxsSampleExperiment):
-	"""Plugin that runs subsequently Normalize and Azimuthal integration"""
-	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, correctedImage=None, integratedCurve=None, integratedImage=None, normalizedImageSize=None, rawImageSize=None, normalizedImage=None, logFile=None, rawImage=None):
-		XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, sampleCode, sampleComments, sampleConcentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
-		self.__rawImage = rawImage
-		self.__logFile = logFile
-		self.__normalizedImage = normalizedImage
-		self.__rawImageSize = rawImageSize
-		self.__normalizedImageSize = normalizedImageSize
-		self.__integratedImage = integratedImage
-		self.__integratedCurve = integratedCurve
-		self.__correctedImage = correctedImage
-	def getRawImage(self): return self.__rawImage
-	def setRawImage(self, rawImage):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRawImage", rawImage, "XSDataImage")
-		self.__rawImage = rawImage
-	def delRawImage(self): self.__rawImage = None
-	# Properties
-	rawImage = property(getRawImage, setRawImage, delRawImage, "Property for rawImage")
-	def getLogFile(self): return self.__logFile
-	def setLogFile(self, logFile):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setLogFile", logFile, "XSDataFile")
-		self.__logFile = logFile
-	def delLogFile(self): self.__logFile = None
-	# Properties
-	logFile = property(getLogFile, setLogFile, delLogFile, "Property for logFile")
-	def getNormalizedImage(self): return self.__normalizedImage
-	def setNormalizedImage(self, normalizedImage):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setNormalizedImage", normalizedImage, "XSDataImage")
-		self.__normalizedImage = normalizedImage
-	def delNormalizedImage(self): self.__normalizedImage = None
-	# Properties
-	normalizedImage = property(getNormalizedImage, setNormalizedImage, delNormalizedImage, "Property for normalizedImage")
-	def getRawImageSize(self): return self.__rawImageSize
-	def setRawImageSize(self, rawImageSize):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRawImageSize", rawImageSize, "XSDataInteger")
-		self.__rawImageSize = rawImageSize
-	def delRawImageSize(self): self.__rawImageSize = None
-	# Properties
-	rawImageSize = property(getRawImageSize, setRawImageSize, delRawImageSize, "Property for rawImageSize")
-	def getNormalizedImageSize(self): return self.__normalizedImageSize
-	def setNormalizedImageSize(self, normalizedImageSize):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setNormalizedImageSize", normalizedImageSize, "XSDataInteger")
-		self.__normalizedImageSize = normalizedImageSize
-	def delNormalizedImageSize(self): self.__normalizedImageSize = None
-	# Properties
-	normalizedImageSize = property(getNormalizedImageSize, setNormalizedImageSize, delNormalizedImageSize, "Property for normalizedImageSize")
-	def getIntegratedImage(self): return self.__integratedImage
-	def setIntegratedImage(self, integratedImage):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setIntegratedImage", integratedImage, "XSDataImage")
-		self.__integratedImage = integratedImage
-	def delIntegratedImage(self): self.__integratedImage = None
-	# Properties
-	integratedImage = property(getIntegratedImage, setIntegratedImage, delIntegratedImage, "Property for integratedImage")
-	def getIntegratedCurve(self): return self.__integratedCurve
-	def setIntegratedCurve(self, integratedCurve):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
-		self.__integratedCurve = integratedCurve
-	def delIntegratedCurve(self): self.__integratedCurve = None
-	# Properties
-	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
-	def getCorrectedImage(self): return self.__correctedImage
-	def setCorrectedImage(self, correctedImage):
-		checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setCorrectedImage", correctedImage, "XSDataImage")
-		self.__correctedImage = correctedImage
-	def delCorrectedImage(self): self.__correctedImage = None
-	# Properties
-	correctedImage = property(getCorrectedImage, setCorrectedImage, delCorrectedImage, "Property for correctedImage")
-	def export(self, outfile, level, name_='XSDataInputBioSaxsProcessOneFilev1_0'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsProcessOneFilev1_0'):
-		XSDataInputBioSaxsSampleExperiment.exportChildren(self, outfile, level, name_)
-		if self.__rawImage is not None:
-			self.rawImage.export(outfile, level, name_='rawImage')
-		else:
-			warnEmptyAttribute("rawImage", "XSDataImage")
-		if self.__logFile is not None:
-			self.logFile.export(outfile, level, name_='logFile')
-		else:
-			warnEmptyAttribute("logFile", "XSDataFile")
-		if self.__normalizedImage is not None:
-			self.normalizedImage.export(outfile, level, name_='normalizedImage')
-		else:
-			warnEmptyAttribute("normalizedImage", "XSDataImage")
-		if self.__rawImageSize is not None:
-			self.rawImageSize.export(outfile, level, name_='rawImageSize')
-		else:
-			warnEmptyAttribute("rawImageSize", "XSDataInteger")
-		if self.__normalizedImageSize is not None:
-			self.normalizedImageSize.export(outfile, level, name_='normalizedImageSize')
-		else:
-			warnEmptyAttribute("normalizedImageSize", "XSDataInteger")
-		if self.__integratedImage is not None:
-			self.integratedImage.export(outfile, level, name_='integratedImage')
-		else:
-			warnEmptyAttribute("integratedImage", "XSDataImage")
-		if self.__integratedCurve is not None:
-			self.integratedCurve.export(outfile, level, name_='integratedCurve')
-		else:
-			warnEmptyAttribute("integratedCurve", "XSDataFile")
-		if self.__correctedImage is not None:
-			self.correctedImage.export(outfile, level, name_='correctedImage')
-		else:
-			warnEmptyAttribute("correctedImage", "XSDataImage")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rawImage':
-			obj_ = XSDataImage()
-			obj_.build(child_)
-			self.setRawImage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'logFile':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setLogFile(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'normalizedImage':
-			obj_ = XSDataImage()
-			obj_.build(child_)
-			self.setNormalizedImage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rawImageSize':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setRawImageSize(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'normalizedImageSize':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNormalizedImageSize(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integratedImage':
-			obj_ = XSDataImage()
-			obj_.build(child_)
-			self.setIntegratedImage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integratedCurve':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setIntegratedCurve(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'correctedImage':
-			obj_ = XSDataImage()
-			obj_.build(child_)
-			self.setCorrectedImage(obj_)
-		XSDataInputBioSaxsSampleExperiment.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputBioSaxsProcessOneFilev1_0" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputBioSaxsProcessOneFilev1_0' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataInputBioSaxsProcessOneFilev1_0.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputBioSaxsProcessOneFilev1_0()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsProcessOneFilev1_0" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputBioSaxsProcessOneFilev1_0()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataInputBioSaxsProcessOneFilev1_0
-
-class XSDataInputBioSaxsReprocessv1_0(XSDataInputBioSaxsSampleExperiment):
-	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, runNumber=None, prefix=None, operation=None, normalisation=None, keepOriginal=None, isOnline=None, frameLast=None, frameFirst=None, directory=None, specVariableAbort=None, specVariableStatus=None, specVersion=None):
-		XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, sampleCode, sampleComments, sampleConcentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
-		self.__specVersion = specVersion
-		self.__specVariableStatus = specVariableStatus
-		self.__specVariableAbort = specVariableAbort
-		self.__directory = directory
-		self.__frameFirst = frameFirst
-		self.__frameLast = frameLast
-		self.__isOnline = isOnline
-		self.__keepOriginal = keepOriginal
-		self.__normalisation = normalisation
-		self.__operation = operation
-		self.__prefix = prefix
-		if runNumber is None:
-			self.__runNumber = []
-		else:
-			self.__runNumber = runNumber
-	def getSpecVersion(self): return self.__specVersion
-	def setSpecVersion(self, specVersion):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setSpecVersion", specVersion, "XSDataString")
-		self.__specVersion = specVersion
-	def delSpecVersion(self): self.__specVersion = None
-	# Properties
-	specVersion = property(getSpecVersion, setSpecVersion, delSpecVersion, "Property for specVersion")
-	def getSpecVariableStatus(self): return self.__specVariableStatus
-	def setSpecVariableStatus(self, specVariableStatus):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setSpecVariableStatus", specVariableStatus, "XSDataString")
-		self.__specVariableStatus = specVariableStatus
-	def delSpecVariableStatus(self): self.__specVariableStatus = None
-	# Properties
-	specVariableStatus = property(getSpecVariableStatus, setSpecVariableStatus, delSpecVariableStatus, "Property for specVariableStatus")
-	def getSpecVariableAbort(self): return self.__specVariableAbort
-	def setSpecVariableAbort(self, specVariableAbort):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setSpecVariableAbort", specVariableAbort, "XSDataString")
-		self.__specVariableAbort = specVariableAbort
-	def delSpecVariableAbort(self): self.__specVariableAbort = None
-	# Properties
-	specVariableAbort = property(getSpecVariableAbort, setSpecVariableAbort, delSpecVariableAbort, "Property for specVariableAbort")
-	def getDirectory(self): return self.__directory
-	def setDirectory(self, directory):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setDirectory", directory, "XSDataFile")
-		self.__directory = directory
-	def delDirectory(self): self.__directory = None
-	# Properties
-	directory = property(getDirectory, setDirectory, delDirectory, "Property for directory")
-	def getFrameFirst(self): return self.__frameFirst
-	def setFrameFirst(self, frameFirst):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setFrameFirst", frameFirst, "XSDataInteger")
-		self.__frameFirst = frameFirst
-	def delFrameFirst(self): self.__frameFirst = None
-	# Properties
-	frameFirst = property(getFrameFirst, setFrameFirst, delFrameFirst, "Property for frameFirst")
-	def getFrameLast(self): return self.__frameLast
-	def setFrameLast(self, frameLast):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setFrameLast", frameLast, "XSDataInteger")
-		self.__frameLast = frameLast
-	def delFrameLast(self): self.__frameLast = None
-	# Properties
-	frameLast = property(getFrameLast, setFrameLast, delFrameLast, "Property for frameLast")
-	def getIsOnline(self): return self.__isOnline
-	def setIsOnline(self, isOnline):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setIsOnline", isOnline, "XSDataBoolean")
-		self.__isOnline = isOnline
-	def delIsOnline(self): self.__isOnline = None
-	# Properties
-	isOnline = property(getIsOnline, setIsOnline, delIsOnline, "Property for isOnline")
-	def getKeepOriginal(self): return self.__keepOriginal
-	def setKeepOriginal(self, keepOriginal):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setKeepOriginal", keepOriginal, "XSDataBoolean")
-		self.__keepOriginal = keepOriginal
-	def delKeepOriginal(self): self.__keepOriginal = None
-	# Properties
-	keepOriginal = property(getKeepOriginal, setKeepOriginal, delKeepOriginal, "Property for keepOriginal")
-	def getNormalisation(self): return self.__normalisation
-	def setNormalisation(self, normalisation):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setNormalisation", normalisation, "XSDataString")
-		self.__normalisation = normalisation
-	def delNormalisation(self): self.__normalisation = None
-	# Properties
-	normalisation = property(getNormalisation, setNormalisation, delNormalisation, "Property for normalisation")
-	def getOperation(self): return self.__operation
-	def setOperation(self, operation):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setOperation", operation, "XSDataString")
-		self.__operation = operation
-	def delOperation(self): self.__operation = None
-	# Properties
-	operation = property(getOperation, setOperation, delOperation, "Property for operation")
-	def getPrefix(self): return self.__prefix
-	def setPrefix(self, prefix):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setPrefix", prefix, "XSDataString")
-		self.__prefix = prefix
-	def delPrefix(self): self.__prefix = None
-	# Properties
-	prefix = property(getPrefix, setPrefix, delPrefix, "Property for prefix")
-	def getRunNumber(self): return self.__runNumber
-	def setRunNumber(self, runNumber):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setRunNumber", runNumber, "list")
-		self.__runNumber = runNumber
-	def delRunNumber(self): self.__runNumber = None
-	# Properties
-	runNumber = property(getRunNumber, setRunNumber, delRunNumber, "Property for runNumber")
-	def addRunNumber(self, value):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setRunNumber", value, "XSDataInteger")
-		self.__runNumber.append(value)
-	def insertRunNumber(self, index, value):
-		checkType("XSDataInputBioSaxsReprocessv1_0", "setRunNumber", value, "XSDataInteger")
-		self.__runNumber[index] = value
-	def export(self, outfile, level, name_='XSDataInputBioSaxsReprocessv1_0'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsReprocessv1_0'):
-		XSDataInputBioSaxsSampleExperiment.exportChildren(self, outfile, level, name_)
-		if self.__specVersion is not None:
-			self.specVersion.export(outfile, level, name_='specVersion')
-		if self.__specVariableStatus is not None:
-			self.specVariableStatus.export(outfile, level, name_='specVariableStatus')
-		if self.__specVariableAbort is not None:
-			self.specVariableAbort.export(outfile, level, name_='specVariableAbort')
-		if self.__directory is not None:
-			self.directory.export(outfile, level, name_='directory')
-		else:
-			warnEmptyAttribute("directory", "XSDataFile")
-		if self.__frameFirst is not None:
-			self.frameFirst.export(outfile, level, name_='frameFirst')
-		if self.__frameLast is not None:
-			self.frameLast.export(outfile, level, name_='frameLast')
-		if self.__isOnline is not None:
-			self.isOnline.export(outfile, level, name_='isOnline')
-		if self.__keepOriginal is not None:
-			self.keepOriginal.export(outfile, level, name_='keepOriginal')
-		if self.__normalisation is not None:
-			self.normalisation.export(outfile, level, name_='normalisation')
-		else:
-			warnEmptyAttribute("normalisation", "XSDataString")
-		if self.__operation is not None:
-			self.operation.export(outfile, level, name_='operation')
-		else:
-			warnEmptyAttribute("operation", "XSDataString")
-		if self.__prefix is not None:
-			self.prefix.export(outfile, level, name_='prefix')
-		else:
-			warnEmptyAttribute("prefix", "XSDataString")
-		for runNumber_ in self.getRunNumber():
-			runNumber_.export(outfile, level, name_='runNumber')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'specVersion':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setSpecVersion(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'specVariableStatus':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setSpecVariableStatus(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'specVariableAbort':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setSpecVariableAbort(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'directory':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setDirectory(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'frameFirst':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setFrameFirst(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'frameLast':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setFrameLast(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'isOnline':
-			obj_ = XSDataBoolean()
-			obj_.build(child_)
-			self.setIsOnline(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'keepOriginal':
-			obj_ = XSDataBoolean()
-			obj_.build(child_)
-			self.setKeepOriginal(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'normalisation':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setNormalisation(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'operation':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setOperation(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'prefix':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setPrefix(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'runNumber':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.runNumber.append(obj_)
-		XSDataInputBioSaxsSampleExperiment.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputBioSaxsReprocessv1_0" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputBioSaxsReprocessv1_0' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataInputBioSaxsReprocessv1_0.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputBioSaxsReprocessv1_0()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsReprocessv1_0" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputBioSaxsReprocessv1_0()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataInputBioSaxsReprocessv1_0
-
 class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 	"""Class for precessing a single sample (at 1 single concentration)"""
-	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, sampleSeries=None, backgroundSeries=None, directoryMisc=None, directory2D=None, directory1D=None, directoryRaw=None):
+	def __init__(self, configuration=None, sampleCode=None, sampleComments=None, sampleConcentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, forceReprocess=None, sampleSeries=None, bufferSeries=None, directoryMisc=None, directory2D=None, directory1D=None):
 		XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, sampleCode, sampleComments, sampleConcentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
-		self.__directoryRaw = directoryRaw
 		self.__directory1D = directory1D
 		self.__directory2D = directory2D
 		self.__directoryMisc = directoryMisc
-		if backgroundSeries is None:
-			self.__backgroundSeries = []
+		if bufferSeries is None:
+			self.__bufferSeries = []
 		else:
-			self.__backgroundSeries = backgroundSeries
+			self.__bufferSeries = bufferSeries
 		if sampleSeries is None:
 			self.__sampleSeries = []
 		else:
 			self.__sampleSeries = sampleSeries
-	def getDirectoryRaw(self): return self.__directoryRaw
-	def setDirectoryRaw(self, directoryRaw):
-		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setDirectoryRaw", directoryRaw, "XSDataFile")
-		self.__directoryRaw = directoryRaw
-	def delDirectoryRaw(self): self.__directoryRaw = None
-	# Properties
-	directoryRaw = property(getDirectoryRaw, setDirectoryRaw, delDirectoryRaw, "Property for directoryRaw")
+		self.__forceReprocess = forceReprocess
 	def getDirectory1D(self): return self.__directory1D
 	def setDirectory1D(self, directory1D):
 		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setDirectory1D", directory1D, "XSDataFile")
@@ -3172,19 +3161,19 @@ class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 	def delDirectoryMisc(self): self.__directoryMisc = None
 	# Properties
 	directoryMisc = property(getDirectoryMisc, setDirectoryMisc, delDirectoryMisc, "Property for directoryMisc")
-	def getBackgroundSeries(self): return self.__backgroundSeries
-	def setBackgroundSeries(self, backgroundSeries):
-		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBackgroundSeries", backgroundSeries, "list")
-		self.__backgroundSeries = backgroundSeries
-	def delBackgroundSeries(self): self.__backgroundSeries = None
+	def getBufferSeries(self): return self.__bufferSeries
+	def setBufferSeries(self, bufferSeries):
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBufferSeries", bufferSeries, "list")
+		self.__bufferSeries = bufferSeries
+	def delBufferSeries(self): self.__bufferSeries = None
 	# Properties
-	backgroundSeries = property(getBackgroundSeries, setBackgroundSeries, delBackgroundSeries, "Property for backgroundSeries")
-	def addBackgroundSeries(self, value):
-		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBackgroundSeries", value, "XSDataFileSeries")
-		self.__backgroundSeries.append(value)
-	def insertBackgroundSeries(self, index, value):
-		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBackgroundSeries", value, "XSDataFileSeries")
-		self.__backgroundSeries[index] = value
+	bufferSeries = property(getBufferSeries, setBufferSeries, delBufferSeries, "Property for bufferSeries")
+	def addBufferSeries(self, value):
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBufferSeries", value, "XSDataFileSeries")
+		self.__bufferSeries.append(value)
+	def insertBufferSeries(self, index, value):
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setBufferSeries", value, "XSDataFileSeries")
+		self.__bufferSeries[index] = value
 	def getSampleSeries(self): return self.__sampleSeries
 	def setSampleSeries(self, sampleSeries):
 		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setSampleSeries", sampleSeries, "list")
@@ -3198,6 +3187,13 @@ class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 	def insertSampleSeries(self, index, value):
 		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setSampleSeries", value, "XSDataFileSeries")
 		self.__sampleSeries[index] = value
+	def getForceReprocess(self): return self.__forceReprocess
+	def setForceReprocess(self, forceReprocess):
+		checkType("XSDataInputBioSaxsSingleSamplev1_0", "setForceReprocess", forceReprocess, "XSDataBoolean")
+		self.__forceReprocess = forceReprocess
+	def delForceReprocess(self): self.__forceReprocess = None
+	# Properties
+	forceReprocess = property(getForceReprocess, setForceReprocess, delForceReprocess, "Property for forceReprocess")
 	def export(self, outfile, level, name_='XSDataInputBioSaxsSingleSamplev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -3206,10 +3202,6 @@ class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsSingleSamplev1_0'):
 		XSDataInputBioSaxsSampleExperiment.exportChildren(self, outfile, level, name_)
-		if self.__directoryRaw is not None:
-			self.directoryRaw.export(outfile, level, name_='directoryRaw')
-		else:
-			warnEmptyAttribute("directoryRaw", "XSDataFile")
 		if self.__directory1D is not None:
 			self.directory1D.export(outfile, level, name_='directory1D')
 		else:
@@ -3222,25 +3214,22 @@ class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 			self.directoryMisc.export(outfile, level, name_='directoryMisc')
 		else:
 			warnEmptyAttribute("directoryMisc", "XSDataFile")
-		for backgroundSeries_ in self.getBackgroundSeries():
-			backgroundSeries_.export(outfile, level, name_='backgroundSeries')
-		if self.getBackgroundSeries() == []:
-			warnEmptyAttribute("backgroundSeries", "XSDataFileSeries")
+		for bufferSeries_ in self.getBufferSeries():
+			bufferSeries_.export(outfile, level, name_='bufferSeries')
+		if self.getBufferSeries() == []:
+			warnEmptyAttribute("bufferSeries", "XSDataFileSeries")
 		for sampleSeries_ in self.getSampleSeries():
 			sampleSeries_.export(outfile, level, name_='sampleSeries')
 		if self.getSampleSeries() == []:
 			warnEmptyAttribute("sampleSeries", "XSDataFileSeries")
+		if self.__forceReprocess is not None:
+			self.forceReprocess.export(outfile, level, name_='forceReprocess')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'directoryRaw':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setDirectoryRaw(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'directory1D':
 			obj_ = XSDataFile()
 			obj_.build(child_)
@@ -3256,15 +3245,20 @@ class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 			obj_.build(child_)
 			self.setDirectoryMisc(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'backgroundSeries':
+			nodeName_ == 'bufferSeries':
 			obj_ = XSDataFileSeries()
 			obj_.build(child_)
-			self.backgroundSeries.append(obj_)
+			self.bufferSeries.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'sampleSeries':
 			obj_ = XSDataFileSeries()
 			obj_.build(child_)
 			self.sampleSeries.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'forceReprocess':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setForceReprocess(obj_)
 		XSDataInputBioSaxsSampleExperiment.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

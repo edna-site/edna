@@ -14,13 +14,21 @@ import XSDataCommon.XSDataImage
 import XSDataCommon.XSDataLength
 import XSDataCommon.XSDataWavelength
 
+/*******************************************
+  *  Common types used only in BioSaxs
+  ********************************************/
+complex type XSDataFileSeries extends XSData {
+	files : XSDataFile []
+}
+
+
 complex type XSDataInputBioSaxsSample extends XSDataInput{
 	"temporary class for multiple inhertitance emulation"
 	sampleConcentration : XSDataDouble optional
 	sampleComments : XSDataString optional
 	sampleCode : XSDataString optional
-	
 }
+
 complex type XSDataInputBioSaxsSampleExperiment extends XSDataInputBioSaxsSample{
 	"temporary class for multiple inhertitance emulation"
 	detector : XSDataString optional
@@ -43,6 +51,7 @@ complex type XSDataResultBioSaxsSample extends XSDataResult{
 	sampleCode : XSDataString optional
 	
 }
+
 complex type XSDataResultBioSaxsSampleExperiment extends XSDataResultBioSaxsSample{
 	"temporary class for multiple inhertitance emulation"
 	detector : XSDataString optional
@@ -77,12 +86,21 @@ complex type XSDataBioSaxsSample extends XSData {
 	sampleConcentration : XSDataDouble optional
 	sampleComments : XSDataString optional
 	sampleCode : XSDataString optional
-	
+
 }
+
+
+/**********************************************************
+ *  Start of classes XSDataInput/XSDataResult used outside
+ ***********************************************************/
 
 complex type XSDataInputBioSaxsAsciiExportv1_0 extends XSDataInput {
 	integratedImage : XSDataImage
 	integratedCurve : XSDataFile
+}
+complex type XSDataResultBioSaxsAsciiExportv1_0 extends XSDataResult {
+	integratedCurve : XSDataFile
+	processLog : XSDataString
 }
 
 complex type XSDataInputBioSaxsAveragev1_0 extends XSDataInputBioSaxsSampleExperiment{
@@ -92,6 +110,13 @@ complex type XSDataInputBioSaxsAveragev1_0 extends XSDataInputBioSaxsSampleExper
 	averagedCurve : XSDataFile
 	logFile : XSDataFile
 }
+complex type XSDataResultBioSaxsAveragev1_0 extends XSDataResult {
+	averagedImage : XSDataImage
+	averagedCurve : XSDataFile
+	processLog : XSDataString
+	logFile : XSDataFile
+}
+
 
 complex type XSDataInputBioSaxsAzimutIntv1_0 extends XSDataInputBioSaxsSampleExperiment{
 	normalizedImage : XSDataImage
@@ -101,8 +126,18 @@ complex type XSDataInputBioSaxsAzimutIntv1_0 extends XSDataInputBioSaxsSampleExp
 	correctedImage : XSDataImage optional
 }
 
+complex type XSDataResultBioSaxsAzimutIntv1_0 extends XSDataResult {
+	correctedImage : XSDataImage
+	integratedImage : XSDataImage
+	integratedCurve : XSDataFile
+	processLog : XSDataString
+
 complex type XSDataInputBioSaxsMetadatav1_0 extends XSDataInputBioSaxsSampleExperiment{
 	inputImage : XSDataImage
+	outputImage : XSDataImage optional
+}
+
+complex type XSDataResultBioSaxsMetadatav1_0 extends XSDataResultBioSaxsSampleExperiment{
 	outputImage : XSDataImage optional
 }
 
@@ -112,6 +147,69 @@ complex type XSDataInputBioSaxsNormalizev1_0 extends  XSDataInputBioSaxsSampleEx
 	normalizedImage : XSDataImage
 	rawImageSize : XSDataInteger
 }
+
+complex type XSDataResultBioSaxsNormalizev1_0 extends XSDataResult {
+	normalizedImage : XSDataImage
+	logFile : XSDataFile
+	processLog : XSDataString
+}
+
+complex type XSDataInputBioSaxsProcessOneFilev1_0 extends XSDataInput{
+	"Plugin that runs subsequently Normalize and Azimuthal integration"
+	rawImage : XSDataImage
+	sample: XSDataBioSaxsSample
+	experimentSetup: XSDataBioSaxsExperimentSetup
+	rawImageSize : XSDataInteger optional
+	logFile : XSDataFile optional
+	normalizedImage : XSDataImage optional
+	integratedImage : XSDataImage optional
+	integratedCurve : XSDataFile optional
+}
+
+complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
+	normalizedImage: XSDataImage
+	integratedImage: XSDataImage
+	integratedCurve: XSDataFile
+	//logFile : XSDataFile
+//	processLog : XSDataString => use executive summary
+}
+
+
+complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
+	inputFile: XSDataFile []
+	absoluteSimilarity: XSDataDouble optional 
+	relativeSimilarity: XSDataDouble optional
+	mergedFile: XSDataFile
+}
+
+complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
+	mergedFile : XSDataFile
+}
+
+complex type XSDataInputBioSaxsReduceFileSeriev1_0 extends XSDataInput{
+	"Run ProcessOneFile on each file of a time time serie  "	
+	fileSerie: XSDataFileSeries
+	sample:XSDataBioSaxsSample
+	experimentSetup:XSDataBioSaxsExperimentSetup
+	directory1D : XSDataFile
+	directory2D : XSDataFile
+	directoryMisc : XSDataFile
+	forceReprocess: XSDataBoolean optional "if not present or False, just return the existing file, else force reprocessing in different folders"
+	absoluteSimilarity: XSDataDouble optional 
+	relativeSimilarity: XSDataDouble optional
+}
+
+complex type XSDataResultBioSaxsReduceFileSeriev1_0 extends XSDataResult {
+	mergedCurve : XSDataFile
+	directory1D : XSDataFile
+	directory2D : XSDataFile
+	directoryMisc : XSDataFile
+}
+
+
+
+
+
 
 complex type XSDataInputBioSaxsSingleSamplev1_0 extends XSDataInputBioSaxsSampleExperiment{
 	"Class for precessing a single sample (at 1 single concentration)"
@@ -125,10 +223,21 @@ complex type XSDataInputBioSaxsSingleSamplev1_0 extends XSDataInputBioSaxsSample
 	directory1D : XSDataFile
 	directory2D : XSDataFile
 	directoryMisc : XSDataFile
-	backgroundSeries: XSDataFileSeries []
+	bufferSeries: XSDataFileSeries []
 	sampleSeries: XSDataFileSeries []
+	forceReprocess: XSDataBoolean optional
 }
 
+complex type XSDataResultBioSaxsSingleSamplev1_0 extends XSDataResult{
+	"Class for precessing a single sample (at 1 single concentration)"
+	outputCurve: XSDataFile
+	directory1D : XSDataFile
+	directory2D : XSDataFile
+}
+/**************************************
+ *Start of a deprecated classes zone  * 
+ **************************************/
+/*
 complex type XSDataInputBioSaxsReprocessv1_0 extends XSDataInputBioSaxsSampleExperiment{
 	specVersion : XSDataString optional
 	specVariableStatus : XSDataString optional
@@ -143,77 +252,12 @@ complex type XSDataInputBioSaxsReprocessv1_0 extends XSDataInputBioSaxsSampleExp
 	prefix : XSDataString
 	runNumber : XSDataInteger [] optional
 }
-
-complex type XSDataResultBioSaxsAsciiExportv1_0 extends XSDataResult {
-	integratedCurve : XSDataFile
-	processLog : XSDataString
-}
-
-complex type XSDataResultBioSaxsAveragev1_0 extends XSDataResult {
-	averagedImage : XSDataImage
-	averagedCurve : XSDataFile
-	processLog : XSDataString
-	logFile : XSDataFile
-}
-
-complex type XSDataResultBioSaxsAzimutIntv1_0 extends XSDataResult {
-	correctedImage : XSDataImage
-	integratedImage : XSDataImage
-	integratedCurve : XSDataFile
-	processLog : XSDataString
-}
-
-complex type XSDataResultBioSaxsMetadatav1_0 extends XSDataResultBioSaxsSampleExperiment{
-	outputImage : XSDataImage optional
-}
-
-complex type XSDataResultBioSaxsNormalizev1_0 extends XSDataResult {
-	normalizedImage : XSDataImage
-	logFile : XSDataFile
-	processLog : XSDataString
-}
-
-
 complex type XSDataResultBioSaxsReprocessv1_0 extends XSDataResult {
 }
 
 complex type XSDataSpecCommunication {
 	specVersion : XSDataString optional
 	specVariableStatus : XSDataString optional
-	specVariableAbort : XSDataString
-	optional
+	specVariableAbort : XSDataString	optional
 }
-
-complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
-	inputFile: XSDataFile []
-	absoluteSimilarity: XSDataDouble optional 
-	relativeSimilarity: XSDataDouble optional
-	mergedFile: XSDataFile
-}
-
-complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
-	mergedFile : XSDataFile
-}
-
-complex type XSDataFileSeries extends XSData {
-	files : XSDataFile []
-}
-
-complex type XSDataInputBioSaxsProcessOneFilev1_0 extends XSDataInputBioSaxsSampleExperiment {
-	"Plugin that runs subsequently Normalize and Azimuthal integration"
-	rawImage : XSDataImage
-	rawImageSize : XSDataInteger optional
-	logFile : XSDataFile optional
-	normalizedImage : XSDataImage optional
-	integratedImage : XSDataImage optional
-	integratedCurve : XSDataFile optional
-	
-}
-
-complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
-	normalizedImage: XSDataImage
-	integratedImage: XSDataImage
-	outputCurve: XSDataFile
-	logFile : XSDataFile
-	processLog : XSDataString
-}
+ */

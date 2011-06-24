@@ -1,13 +1,13 @@
 # coding: utf8
 #
-#    Project: templatev1
+#    Project: BioSaxs
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
 #    Copyright (C) 2011, ESRF Grenoble
 #
-#    Principal author:        Jérôme Kieffer
+#    Principal author:       Jérôme Kieffer
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -27,34 +27,22 @@ __author__="Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
+from EDTestSuite  import EDTestSuite
 
-from EDVerbose import EDVerbose
-from EDTestCasePluginUnit import EDTestCasePluginUnit
+class EDTestSuitePluginControlBioSaxsReduceFileSeriev1_0(EDTestSuite):
+    """
+    This is the test suite for EDNA plugin BioSaxsReduceFileSeriev1_0 
+    It will run subsequently all unit tests and execution tests.     
+    """        
 
-from XSDataControlSingleSample import None
-
-class EDTestCasePluginUnitControlSingleSamplev1_0(EDTestCasePluginUnit):
-
-
-    def __init__(self, _edStringTestName = None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlSingleSamplev1_0")
-              
-
-    def testCheckParameters(self):
-        xsDataInput = None()
-        edPluginExecSingleSample = self.createPlugin()
-        edPluginExecSingleSample.setDataInput(xsDataInput)
-        edPluginExecSingleSample.checkParameters()
-        
-    
-    
     def process(self):
-        self.addTestMethod(self.testCheckParameters)
-
-    
+        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsReduceFileSeriev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlBioSaxsReduceFileSeriev1_0")
+        
 
 
 if __name__ == '__main__':
 
-    EDTestCasePluginUnitControlSingleSamplev1_0 = EDTestCasePluginUnitControlSingleSamplev1_0("EDTestCasePluginUnitControlSingleSamplev1_0")
-    EDTestCasePluginUnitControlSingleSamplev1_0.execute()
+    edTestSuitePluginControlBioSaxsReduceFileSeriev1_0 = EDTestSuitePluginControlBioSaxsReduceFileSeriev1_0("EDTestSuitePluginControlBioSaxsReduceFileSeriev1_0")
+    edTestSuitePluginControlBioSaxsReduceFileSeriev1_0.execute()
+

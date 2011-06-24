@@ -22,22 +22,28 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from XSDataCommon import XSDataStatus, XSDataString
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
-import os, shutils
+import os
 from EDPluginControl import EDPluginControl
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSingleSamplev1_0, XSDataResultBioSaxsSingleSamplev1_0
 
-class EDPluginControlSingleSamplev1_0(EDPluginControl):
+class EDPluginControlBioSaxsSingleSamplev1_0(EDPluginControl):
     """
     Plugin that does the processing a sample: 
     - 1 protein 
     - 1 concentration
-    - 2+ serie of buffer files
-    - 1+ serie of sample files 
+    - 2+ serie of buffer files: each file is individually reduced to 1D data
+    - 1+ serie of sample files: each file is individually reduced to 1D data
+    
+    * Each serie is merged using smart merge
+    * All buffer are averages (regardless to radiation damage)
+    * All Samples are averages (they are at the same concentration) 
+    * buffer is subtracted from sample to obtain the final result
     """
 
 
@@ -45,7 +51,7 @@ class EDPluginControlSingleSamplev1_0(EDPluginControl):
         """
         """
         EDPluginControl.__init__(self)
-        self.setXSDataInputClass(None)
+        self.setXSDataInputClass(XSDataInputBioSaxsSingleSamplev1_0)
         self.__strControlledMerge = "EDPluginControlBioSaxsSmartMergev1_0"
         self.__strControlledProcessOneFile = "EDPluginControlBioSaxsProcessOneFilev1_0"
         self.__edPluginMerge = None
@@ -53,6 +59,9 @@ class EDPluginControlSingleSamplev1_0(EDPluginControl):
         self.strDirectory1D = None
         self.strDirectory2D = None
         self.strDirectoryMisc = None
+        self.bufferSeries = [] #list of list of files
+        self.sampleSeries = [] #list of list of files
+        self.strExecutiveSummary = ""
 
     def checkParameters(self):
         """
@@ -63,22 +72,19 @@ class EDPluginControlSingleSamplev1_0(EDPluginControl):
         self.checkMandatoryParameters(self.dataInput.directory1D, "No target Directory for 1D curves provided")
         self.checkMandatoryParameters(self.dataInput.directory2D , "No target Directory for 2D curves provided")
         self.checkMandatoryParameters(self.dataInput.directoryMisc , "No target Directory for Misc data provided")
-        self.checkMandatoryParameters(self.dataInput.backgroundSeries, "No target Directory for background data")
-        self.checkMandatoryParameters(self.dataInput.sampleSeries, "No target Directory for data ...")
+        self.checkMandatoryParameters(self.dataInput.bufferSeries, "No background file-serie provided")
+        self.checkMandatoryParameters(self.dataInput.sampleSeries, "No sample data file-series provided")
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlSingleSamplev1_0.preProcess")
         # Load the execution plugin
         self.__edPluginMerge = self.loadPlugin(self.__strControlledMerge)
-
-#
-#        self.strD    directory1D : XSDataFile
-#    directory2D : XSDataFile
-#    directoryMisc : XSDataFile
-#    backgroundSeries: XSDataFileSeries []
-#    sampleSeries: XSDataFileSeries []
-#
+        self.strDirectory1D = self.dataInput.direcory1D.path.value
+        self.strDirectory2D = self.dataInput.direcory2D.path.value
+        self.strDirectoryMisc = self.dataInput.direcoryMisc.path.value
+        self.bufferSeries = [ [j.path.value for j in i ] for i in  self.dataInput.bufferSeries]
+        self.sampleSeries = [ [j.path.value for j in i ] for i in  self.dataInput.sampleSeries]
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
@@ -92,15 +98,36 @@ class EDPluginControlSingleSamplev1_0(EDPluginControl):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginControlSingleSamplev1_0.postProcess")
         # Create some output data
-        xsDataResult = None()
+        xsDataResult = XSDataResultBioSaxsSingleSamplev1_0()
+        xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(self.strExecutiveSummary))
         self.setDataOutput(xsDataResult)
 
 
-    def doSuccessExecTemplate(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlSingleSamplev1_0.doSuccessExecTemplate")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doSuccessExecTemplate")
+    def doSuccessExecSubtract(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlSingleSamplev1_0.doSuccessExecSubtract")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doSuccessExecSubtract")
 
 
-    def doFailureExecTemplate(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlSingleSamplev1_0.doFailureExecTemplate")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doFailureExecTemplate")
+    def doFailureExecSubtract(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlSingleSamplev1_0.doFailureExecSubtract")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doFailureExecSubtract")
+
+
+    def doSuccessExecMerge(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlSingleSamplev1_0.doSuccessExecMerge")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doSuccessExecMerge")
+
+
+    def doFailureExecMerge(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlSingleSamplev1_0.doFailureExecMerge")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doFailureExecMerge")
+
+
+    def doSuccessExecProcessOneFile(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlSingleSamplev1_0.doSuccessExecProcessOneFile")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doSuccessExecProcessOneFile")
+
+
+    def doFailureExecProcessOneFile(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlSingleSamplev1_0.doFailureExecProcessOneFile")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginControlSingleSamplev1_0.doFailureExecProcessOneFile")

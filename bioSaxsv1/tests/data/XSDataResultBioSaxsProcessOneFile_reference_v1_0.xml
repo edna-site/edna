@@ -1,13 +1,29 @@
 <?xml version="1.0" ?>
-<XSDataResult>
-	<normalizedImage>
-		<path>
-			<value>/tmp/edna-${USER}/bioSaxsNormalized.edf</value>
-		</path>
-	</normalizedImage>
-    <processLog>
-        <value>Normalizing EDF frame '${EDNA_HOME}/tests/data/images/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsNormalized.edf'
-Normalized image by factor 49082.886 </value>
-    </processLog>
-
-</XSDataResult>
+<XSDataResultBioSaxsProcessOneFilev1_0>
+    <status>
+        <executiveSummary>
+            <value>
+Normalizing EDF frame '/home/${USER}/workspace/edna/tests/data/images/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsProcessNormalized.edf'
+Normalized image by factor 49082.886 
+Retrieve metadata from file /tmp/edna-${USER}/bioSaxsProcessNormalized.edf
+Azimuthal integration of Corrected+Masked EDF image '/tmp/edna-${USER}/bioSaxsProcessNormalized.edf'.
+Conversion to spec-like file of '/tmp/edna-${USER}/bioSaxsProcessIntegrated.edf'
+Successful production of an ASCII 3-column spectrum in '/tmp/edna-${USER}/bioSaxsProcessIntegrated.dat'</value>
+        </executiveSummary>
+    </status>
+    <normalizedImage>
+        <path>
+            <value>/tmp/edna-${USER}/bioSaxsProcessNormalized.edf</value>
+        </path>
+    </normalizedImage>
+    <integratedImage>
+        <path>
+            <value>/tmp/edna-${USER}/bioSaxsProcessIntegrated.edf</value>
+        </path>
+    </integratedImage>
+    <integratedCurve>
+        <path>
+            <value>/tmp/edna-${USER}/bioSaxsProcessIntegrated.dat</value>
+        </path>
+    </integratedCurve>
+</XSDataResultBioSaxsProcessOneFilev1_0>

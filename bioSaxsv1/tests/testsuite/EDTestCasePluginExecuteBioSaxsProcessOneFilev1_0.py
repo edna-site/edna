@@ -61,17 +61,23 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
         and remove any existing output file 
         """
         EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage(["bioSaxsRaw.edf", "bioSaxsMask.edf", "bioSaxsCorrected.edf"])
+        self.loadTestImage(["bioSaxsRaw.edf", "bioSaxsMask.edf",
+                            "bioSaxsCorrected.edf", "bioSaxsProcessNormalized.edf",
+                            "bioSaxsProcessIntegrated.edf", "bioSaxsProcessIntegrated.dat"])
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsProcessOneFilev1_0.parseString(strExpectedOutput)
-        self.refOutput = xsDataResultReference.getNormalizedImage().getPath().getValue()
-        EDVerbose.DEBUG("Output file is %s" % self.refOutput)
-        if not os.path.isdir(os.path.dirname(self.refOutput)):
-            os.makedirs(os.path.dirname(self.refOutput))
-        if os.path.isfile(self.refOutput):
-            EDVerbose.DEBUG(" Output file exists %s, I will remove it" % self.refOutput)
-            os.remove(self.refOutput)
+        self.refNormImg = xsDataResultReference.normalizedImage.path.value
+        self.refIntImg = xsDataResultReference.integratedImage.path.value
+        self.refIntCrv = xsDataResultReference.integratedCurve.path.value
+        if not os.path.isdir(os.path.dirname(self.refNormImg)):
+            os.makedirs(os.path.dirname(self.refNormImg))
+        if os.path.isfile(self.refNormImg):
+            os.remove(self.refNormImg)
+        if os.path.isfile(self.refIntImg):
+            os.remove(self.refIntImg)
+        if os.path.isfile(self.refIntCrv):
+            os.remove(self.refIntCrv)
 
 
 
@@ -96,8 +102,8 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
 # Compare dictionary
 ################################################################################
 
-        edfRef = openimage(xsDataResultObtained.getProcessOneFiledImage().getPath().getValue())
-        edfObt = openimage(os.path.join(self.getTestsDataImagesHome(), "bioSaxsCorrected.edf"))
+        edfRef = openimage(xsDataResultObtained.integratedImage.path.value)
+        edfObt = openimage(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.edf"))
         headerRef = edfRef.header
         headerObt = edfObt.header
 
@@ -122,6 +128,12 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
         referenceData = edfObt.next().data
         EDAssert.arraySimilar(numpy.maximum(outputData, 0), numpy.maximum(referenceData, 0) , _fAbsMaxDelta=0.1, _fScaledMaxDelta=0.05, _strComment="Images-ESD are the same")
 
+################################################################################
+# Compare Ascii files
+################################################################################
+        asciiObt = open(xsDataResultObtained.integratedCurve.path.value).read()
+        asciiRef = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.dat")).read()
+        EDAssert.strAlmostEqual(asciiRef, asciiObt, _strComment="3culumn ascii files are the same", _fRelError=0.1, _strExcluded=os.environ["USER"])
 
     def process(self):
         """

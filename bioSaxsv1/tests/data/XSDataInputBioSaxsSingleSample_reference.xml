@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<bufferSeries>
+	<files><path><value>bioSaxs_bsa_012_01.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_02.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_03.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_04.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_05.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_06.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_07.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_08.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_09.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_012_10.edf</value></path></files>
+</bufferSeries>
+<bufferSeries>
+	<files><path><value>bioSaxs_bsa_014_01.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_02.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_03.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_04.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_05.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_06.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_07.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_08.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_09.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_014_10.edf</value></path></files>
+</bufferSeries>
+<sampleSeries>
+	<files><path><value>bioSaxs_bsa_013_01.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_02.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_03.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_04.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_05.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_06.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_07.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_08.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_09.edf</value></path></files>
+	<files><path><value>bioSaxs_bsa_013_10.edf</value></path></files>
+</sampleSeries>
+</XSDataInput>

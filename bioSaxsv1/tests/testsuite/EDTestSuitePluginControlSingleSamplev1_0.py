@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jérôme Kieffer"
+__author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
@@ -33,12 +33,12 @@ class EDTestSuitePluginControlSingleSamplev1_0(EDTestSuite):
     """
     This is the test suite for EDNA plugin SingleSamplev1_0 
     It will run subsequently all unit tests and execution tests.     
-    """        
+    """
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitControlSingleSamplev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitControlBioSaxsSingleSamplev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlSingleSamplev1_0")
-        
+
 
 
 if __name__ == '__main__':
