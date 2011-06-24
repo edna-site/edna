@@ -101,9 +101,11 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
 ################################################################################
 # Compare dictionary
 ################################################################################
-
-        edfRef = openimage(xsDataResultObtained.integratedImage.path.value)
-        edfObt = openimage(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.edf"))
+        obtFile = xsDataResultObtained.integratedImage.path.value
+        refFile = os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.edf")
+        EDVerbose.DEBUG("fileRef=%s fileObt=%s" % (refFile, obtFile))
+        edfRef = openimage(refFile)
+        edfObt = openimage(obtFile)
         headerRef = edfRef.header
         headerObt = edfObt.header
 
@@ -122,11 +124,11 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
 
         outputData = edfRef.data
         referenceData = edfObt.data
-        EDAssert.arraySimilar(numpy.maximum(outputData, 0), numpy.maximum(referenceData, 0) , _fAbsMaxDelta=0.1, _fScaledMaxDelta=0.05, _strComment="Images-data are the same")
+        EDAssert.arraySimilar(numpy.maximum(outputData, 0), numpy.maximum(referenceData, 0) , _fScaledMaxDelta=0.05, _strComment="Images-data are the same")
 
         outputData = edfRef.next().data
         referenceData = edfObt.next().data
-        EDAssert.arraySimilar(numpy.maximum(outputData, 0), numpy.maximum(referenceData, 0) , _fAbsMaxDelta=0.1, _fScaledMaxDelta=0.05, _strComment="Images-ESD are the same")
+        EDAssert.arraySimilar(numpy.maximum(outputData, 0), numpy.maximum(referenceData, 0) , _fScaledMaxDelta=0.05, _strComment="Images-ESD are the same")
 
 ################################################################################
 # Compare Ascii files
