@@ -1,55 +1,55 @@
 <?xml version="1.0" ?>
 <XSDataInput>
-    <inputFile>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated01.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated02.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated03.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated04.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated05.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated06.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated07.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated08.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated09.dat</value>
     	</path>
-    </inputFile>
-    <inputFile>
+    </inputCurves>
+    <inputCurves>
     	<path>
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated10.dat</value>
     	</path>
-    </inputFile>
+    </inputCurves>
 	<absoluteSimilarity>
 		<value>0.0001</value>
 	</absoluteSimilarity>

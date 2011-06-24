@@ -27,7 +27,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 
-
+import os, shutil
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
@@ -35,7 +35,7 @@ from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
 EDFactoryPluginStatic.loadModule("XSDataAtsas")
 from XSDataAtsas import XSDataInputDatcmp
 from XSDataAtsas import XSDataInputDataver
-from XSDataCommon import XSDataDouble, XSDataFile, XSDataString
+from XSDataCommon import XSDataString, XSDataStatus
 
 class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
     """
@@ -43,7 +43,6 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
     their differences (versus previous and versus first) and merge those which are equivalent
     
     Controled plugins:
-#     - Execplugin/Accumulator
      - Execplugin/Atsas/DatCmp
      - Execplugin/Atsas/DatAver
     """
@@ -64,7 +63,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.absoluteSimilarity = None
         self.relativeSimilarity = None
         self.dictSimilarities = {} #key: 2-tuple of images, similarities
-
+        self.lstSummary = []
 
     def checkParameters(self):
         """
@@ -72,7 +71,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         """
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().inputFile, "Input curve list is empty")
+        self.checkMandatoryParameters(self.getDataInput().inputCurves, "Input curve list is empty")
         self.checkMandatoryParameters(self.getDataInput().mergedCurve, "Output curve filename  is empty")
 
 
@@ -84,7 +83,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
             self.absoluteSimilarity = self.getDataInput().absoluteSimilarity.value
         if self.getDataInput().relativeSimilarity is not None:
             self.relativeSimilarity = self.getDataInput().relativeSimilarity.value
-        self.lstInput = self.getDataInput().inputFile
+        self.lstInput = self.dataInput.inputCurves
         self.lstStrInput = [i.path.value for i in self.lstInput]
 
 
@@ -92,7 +91,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.process")
         if len(self.lstInput) == 1:
-            shutil.copy_file(self.lstInput[0].path.value, self.getDataInput().mergedCurve.path.value)
+            shutil.copyfile(self.lstInput[0].path.value, self.getDataInput().mergedCurve.path.value)
         else:
             lstFile = []
             if (self.absoluteSimilarity is None) and (self.relativeSimilarity is None):
@@ -136,7 +135,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
                         break
                 else:
                     lstFile.append(oneFile)
-
+            self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in lstFile]))
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
             xsd = XSDataInputDataver(outputCurve=self.getDataInput().mergedCurve,
                                     inputCurve=lstFile)
@@ -152,7 +151,10 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         # Create some output data
         xsDataResult = XSDataResultBioSaxsSmartMergev1_0()
         xsDataResult.mergedCurve = self.getDataInput().mergedCurve
+        executiveSummary = os.linesep.join(self.lstSummary)
+        xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         self.setDataOutput(xsDataResult)
+        self.DEBUG(executiveSummary)
 
 
     def doSuccessExecDataver(self, _edPlugin=None):
@@ -164,6 +166,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
     def doFailureExecDataver(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecDataver")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doFailureExecDataver")
+        self.setFailure
 
 
     def doSuccessExecDatcmp(self, _edPlugin=None):
@@ -172,11 +175,15 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.synchronizeOn()
         xsdIn = _edPlugin.getDataInput()
         xsdOut = _edPlugin.getDataOutput()
-        self.dictSimilarities[tuple([self.lstStrInput.index(i.path.value) for i in xsdIn.inputCurve])] = xsdOut.fidelity.value
+        file0 = xsdIn.inputCurve[0].path.value
+        file1 = xsdIn.inputCurve[1].path.value
+        fidelity = xsdOut.fidelity.value
+        self.dictSimilarities[(self.lstStrInput.index(file0), self.lstStrInput.index(file1))] = fidelity
+        self.lstSummary.append("Fidelity between %s and %s is %s" % (os.path.basename(file0), os.path.basename(file1), fidelity))
         self.synchronizeOff()
 
     def doFailureExecDatcmp(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecDatcmp")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doFailureExecDatcmp")
-
+        self.setFailure()
 

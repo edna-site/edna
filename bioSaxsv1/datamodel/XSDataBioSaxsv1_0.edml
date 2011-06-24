@@ -131,6 +131,7 @@ complex type XSDataResultBioSaxsAzimutIntv1_0 extends XSDataResult {
 	integratedImage : XSDataImage
 	integratedCurve : XSDataFile
 	processLog : XSDataString
+}
 
 complex type XSDataInputBioSaxsMetadatav1_0 extends XSDataInputBioSaxsSampleExperiment{
 	inputImage : XSDataImage
@@ -176,7 +177,7 @@ complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
 
 
 complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
-	inputFile: XSDataFile []
+	inputCurves: XSDataFile []
 	absoluteSimilarity: XSDataDouble optional 
 	relativeSimilarity: XSDataDouble optional
 	mergedCurve: XSDataFile

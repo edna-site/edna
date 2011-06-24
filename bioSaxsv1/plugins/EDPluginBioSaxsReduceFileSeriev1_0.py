@@ -50,7 +50,7 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsReduceFileSeriev1_0)
         self.__strControlledPluginProcessOneFile = "EDPluginBioSaxsProcessOneFilev1_0"
-        self.__strControlledPluginMerge = "EDPluginBioSaxsSmartMergev1_0"
+        self.__strControlledPluginSmartMerge = "EDPluginBioSaxsSmartMergev1_0"
         self.__edPluginExecSmartMerge = None
         self.bSkipProcess = False
         self.sample = None
@@ -59,6 +59,7 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         self.lstCorImg = []
         self.lstIntImg = []
         self.lstIntCrv = []
+        self.lstLogFil = []
         self.strMergedCurve = ""
         self.lstCurves = [] #list of 1D curves produced by the data reduction
         self.lstSummary = []
@@ -90,10 +91,12 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.preProcess")
         self.sample = self.dataInput.sample
         self.experimentSetup = self.dataInput.experimentSetup
-        self.lstRawImg = self.dataInput.fileSerie#[ i.path.value for i in self.dataInput.fileSerie]
+        self.lstRawImg = [XSDataImage(i.path) for i in self.dataInput.fileSerie.files]
         self.directory1D = self.dataInput.directory1D.path.value
         self.directory2D = self.dataInput.directory2D.path.value
         self.directoryMisc = self.dataInput.directoryMisc.path.value
+        if self.dataInput.forceReprocess is not None:
+            self.forceReprocess = bool(self.dataInput.forceReprocess.value)
         if self.dataInput.rawImageSize is not None:
             self.rawImageSize = self.dataInput.rawImageSize
 
@@ -108,17 +111,19 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         found.sort()
         if found[0]: #all files exists
             self.WARNING("All destination files already exists")
-            if not forceReprocess: #then everything is already done
+            self.lstSummary.append("All destination files already exists")
+            if not self.forceReprocess: #then everything is already done
                 self.bSkipProcess = True
             else:
                 bForceNewDirectories = True
         elif found[-1]:
             self.WARNING("At lease few destination files already exists, but not all ... I will reprocess in another directory")
+            self.lstSummary.append("At lease few destination files already exists, but not all ... I will reprocess in another directory")
             bForceNewDirectories = True
 
         if bForceNewDirectories:
-
-            suffix = time.strftime("-%Y%m%d%H%M%S", time.localtime(forceTime))
+            suffix = time.strftime("-%Y%m%d%H%M%S", time.localtime())
+            self.lstSummary.append("Adding suffix %s to directories" % suffix)
             self.directory1D += suffix
             self.directory2D += suffix
             self.directoryMisc += suffix
@@ -134,7 +139,8 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         self.lstCorImg = [ XSDataImage(XSDataString(i)) for i in list2D]
         self.lstIntImg = [ XSDataImage(XSDataString(i)) for i in listMisc]
         self.lstIntCrv = [ XSDataFile(XSDataString(i)) for i in list1D]
-
+        self.lstLogFil = [XSDataFile(XSDataString(os.path.join(self.directoryMisc, os.path.splitext(i)[0] + ".log")))\
+                           for i in listBasname]
 
 
     def process(self, _edObject=None):
@@ -145,7 +151,7 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
             return
 
 
-        for oneRaw, oneCor, oneInt, oneCrv  in zip(self.lstRawImg, self.lstCorImg, self.lstIntImg, self.lstIntCrv):
+        for oneRaw, oneCor, oneInt, oneCrv, oneLog in zip(self.lstRawImg, self.lstCorImg, self.lstIntImg, self.lstIntCrv, self.lstLogFil):
             pluginProcessOneFile = self.loadPlugin(self.__strControlledPluginProcessOneFile)
             xsd = XSDataInputBioSaxsProcessOneFilev1_0(integratedCurve=oneCrv,
                                                        integratedImage=oneInt,
@@ -153,35 +159,40 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
                                                        rawImageSize=self.rawImageSize,
                                                        experimentSetup=self.experimentSetup,
                                                        sample=self.sample,
-                                                       rawImage=oneFile)
+                                                       rawImage=oneRaw,
+                                                       logFile=oneLog)
             pluginProcessOneFile.dataInput = xsd
             pluginProcessOneFile.connectSUCCESS(self.doSuccessExecProcessOneFile)
             pluginProcessOneFile.connectFAILURE(self.doFailureExecProcessOneFile)
             pluginProcessOneFile.execute()
 
         self.synchronizePlugins()
-
+        self.lstCurves.sort()
         xsdMerge = XSDataInputBioSaxsSmartMergev1_0()
         xsdMerge.absoluteSimilarity = self.dataInput.absoluteSimilarity
         xsdMerge.relativeSimilarity = self.dataInput.relativeSimilarity
-        self.__edPluginExecSmartMerge = self.loadPlugin(self.__strControlledPluginName)
-        self.__edPluginExecSmartMerge.connectSUCCESS(self.doSuccessExecSmartMerge)
-        self.__edPluginExecSmartMerge.connectFAILURE(self.doFailureExecSmartMerge)
-        self.__edPluginExecSmartMerge.executeSynchronous()
+        xsdMerge.inputCurves = [XSDataFile(XSDataString(i)) for i in self.lstCurves]
+        xsdMerge.mergedCurve = XSDataFile(XSDataString(self.strMergedCurve))
+        edPluginExecSmartMerge = self.loadPlugin(self.__strControlledPluginSmartMerge)
+        edPluginExecSmartMerge.dataInput = xsdMerge
+        edPluginExecSmartMerge.connectSUCCESS(self.doSuccessExecSmartMerge)
+        edPluginExecSmartMerge.connectFAILURE(self.doFailureExecSmartMerge)
+        edPluginExecSmartMerge.executeSynchronous()
 
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.postProcess")
         # Create some output data
+        executiveSummary = os.linesep.join(self.lstSummary)
         xsDataResult = XSDataResultBioSaxsReduceFileSeriev1_0()
-        xsDataResult.status = XSDataStatus(executiveSummary=os.linesep.join(self.lstSummary))
+        xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         xsDataResult.directory1D = XSDataFile(XSDataString(self.directory1D))
         xsDataResult.directory2D = XSDataFile(XSDataString(self.directory2D))
         xsDataResult.directoryMisc = XSDataFile(XSDataString(self.directoryMisc))
         xsDataResult.mergedCurve = XSDataFile(XSDataString(self.strMergedCurve))
         self.setDataOutput(xsDataResult)
-
+        self.DEBUG(executiveSummary)
 
     def doSuccessExecProcessOneFile(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsReduceFileSeriev1_0.doSuccessExecProcessOneFile")
@@ -189,8 +200,7 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         self.synchronizeOn()
         xsdOut = _edPlugin.dataOutput
         self.lstSummary.append(xsdOut.status.executiveSummary.value)
-        curve = xsdOut.integratedCurve
-        self.lstCurves.append(curve)
+        self.lstCurves.append(xsdOut.integratedCurve.path.value)
         self.synchronizeOff()
 
 
@@ -208,8 +218,7 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         else:
             try:
                 self.lstSummary.append(xsdOut.status.executiveSummary.value)
-
-                self.lstCurves.append(xsdOut.integratedCurve)
+                self.lstCurves.append(xsdOut.integratedCurve.path.value)
             except:
                 pass
         self.lstSummary.append("EDPluginBioSaxsProcessOneFilev1_0 %s failed" % pluginId)
@@ -228,7 +237,8 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
             self.ERROR("ExecProcessOneFile: No dataOutput")
         else:
             try:
-                self.lstSummary.append(xsdOut.status.executiveSummary.value)
+                if xsdOut.status is not None:
+                    self.lstSummary.append(xsdOut.status.executiveSummary.value)
             except:
                 pass
         self.lstSummary.append("EDPluginBioSaxsSmartMergev1_0 %s failed" % pluginId)

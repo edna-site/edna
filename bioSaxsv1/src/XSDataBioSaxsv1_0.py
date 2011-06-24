@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jun 24 06:00::46 2011 by EDGenerateDS.
+# Generated Sat Jun 25 12:06::13 2011 by EDGenerateDS.
 #
 
 import sys
@@ -58,7 +58,7 @@ def warnEmptyAttribute(_strName, _strTypeName):
 	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
 	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
-class MixedContainer(object):
+class MixedContainer:
 	# Constants for category:
 	CategoryNone = 0
 	CategoryText = 1
@@ -1109,28 +1109,28 @@ class XSDataInputBioSaxsSample(XSDataInput):
 # end class XSDataInputBioSaxsSample
 
 class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
-	def __init__(self, configuration=None, mergedCurve=None, relativeSimilarity=None, absoluteSimilarity=None, inputFile=None):
+	def __init__(self, configuration=None, mergedCurve=None, relativeSimilarity=None, absoluteSimilarity=None, inputCurves=None):
 		XSDataInput.__init__(self, configuration)
-		if inputFile is None:
-			self.__inputFile = []
+		if inputCurves is None:
+			self.__inputCurves = []
 		else:
-			self.__inputFile = inputFile
+			self.__inputCurves = inputCurves
 		self.__absoluteSimilarity = absoluteSimilarity
 		self.__relativeSimilarity = relativeSimilarity
 		self.__mergedCurve = mergedCurve
-	def getInputFile(self): return self.__inputFile
-	def setInputFile(self, inputFile):
-		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputFile", inputFile, "list")
-		self.__inputFile = inputFile
-	def delInputFile(self): self.__inputFile = None
+	def getInputCurves(self): return self.__inputCurves
+	def setInputCurves(self, inputCurves):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputCurves", inputCurves, "list")
+		self.__inputCurves = inputCurves
+	def delInputCurves(self): self.__inputCurves = None
 	# Properties
-	inputFile = property(getInputFile, setInputFile, delInputFile, "Property for inputFile")
-	def addInputFile(self, value):
-		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputFile", value, "XSDataFile")
-		self.__inputFile.append(value)
-	def insertInputFile(self, index, value):
-		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputFile", value, "XSDataFile")
-		self.__inputFile[index] = value
+	inputCurves = property(getInputCurves, setInputCurves, delInputCurves, "Property for inputCurves")
+	def addInputCurves(self, value):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputCurves", value, "XSDataFile")
+		self.__inputCurves.append(value)
+	def insertInputCurves(self, index, value):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputCurves", value, "XSDataFile")
+		self.__inputCurves[index] = value
 	def getAbsoluteSimilarity(self): return self.__absoluteSimilarity
 	def setAbsoluteSimilarity(self, absoluteSimilarity):
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "setAbsoluteSimilarity", absoluteSimilarity, "XSDataDouble")
@@ -1160,10 +1160,10 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsSmartMergev1_0'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
-		for inputFile_ in self.getInputFile():
-			inputFile_.export(outfile, level, name_='inputFile')
-		if self.getInputFile() == []:
-			warnEmptyAttribute("inputFile", "XSDataFile")
+		for inputCurves_ in self.getInputCurves():
+			inputCurves_.export(outfile, level, name_='inputCurves')
+		if self.getInputCurves() == []:
+			warnEmptyAttribute("inputCurves", "XSDataFile")
 		if self.__absoluteSimilarity is not None:
 			self.absoluteSimilarity.export(outfile, level, name_='absoluteSimilarity')
 		if self.__relativeSimilarity is not None:
@@ -1178,10 +1178,10 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'inputFile':
+			nodeName_ == 'inputCurves':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.inputFile.append(obj_)
+			self.inputCurves.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'absoluteSimilarity':
 			obj_ = XSDataDouble()

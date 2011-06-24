@@ -49,7 +49,7 @@ class EDTestCasePluginUnitBioSaxsSmartMergev1_0(EDTestCasePluginUnit):
     mergedCurve: XSDataFile
         """
         xsDataInput = XSDataInputBioSaxsSmartMergev1_0()
-        xsDataInput.inputFile = [XSDataFile()]
+        xsDataInput.inputCurves = [XSDataFile()]
         xsDataInput.absoluteSimilarity = XSDataDouble()
         xsDataInput.relativeSimilarity = XSDataDouble()
         xsDataInput.mergedCurve = XSDataFile()

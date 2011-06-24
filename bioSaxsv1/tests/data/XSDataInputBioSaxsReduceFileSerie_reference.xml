@@ -34,7 +34,7 @@
 	<directory2D><path><value>/tmp/edna-${USER}/serie1/2d</value></path></directory2D>
 	<directoryMisc><path><value>/tmp/edna-${USER}/serie1/misc</value></path></directoryMisc>
 	<absoluteSimilarity>
-		<value>1.0e-6</value>
+		<value>1.0e-300</value>
 	</absoluteSimilarity> 
 	<relativeSimilarity>
 		<value>1.0e-6</value>
