@@ -10,15 +10,15 @@
         <value>0</value>
     </iceRings>
     <image>
+        <path>
+            <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_002.img</value>
+        </path>
         <date>
             <value>Mon Mar 20 12:38:28 2006</value>
         </date>
         <number>
             <value>2</value>
         </number>
-        <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_002.img</value>
-        </path>
     </image>
     <inResTotal>
         <value>1431</value>
