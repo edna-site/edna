@@ -31,11 +31,11 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
-					<value>mx415</value>
+					<value>${ISPyB_user}</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>passWord</name>
-					<value>pimx415</value>
+					<value>${ISPyB_pass}</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForMXCubeWebServiceWsdl</name>

@@ -33,18 +33,20 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 from EDTestSuite                                          import EDTestSuite
 
 
-class EDTestSuitePluginExecuteISPyBStoreImageQualityIndicatorsv1_3(EDTestSuite):
+class EDTestSuitePluginExecuteISPyBv1_3(EDTestSuite):
 
     def process(self):
         """
         Adds the plugin execute test cases 
         """
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_3")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_3_failedProcessing")
 
 
 ##############################################################################
 if __name__ == '__main__':
-    edTestSuitePluginExecuteISPyBStoreImageQualityIndicatorsv1_3 = EDTestSuitePluginExecuteISPyBStoreImageQualityIndicatorsv1_3("EDTestSuitePluginExecuteISPyBStoreImageQualityIndicatorsv1_3")
-    edTestSuitePluginExecuteISPyBStoreImageQualityIndicatorsv1_3.execute()
+    edTestSuitePluginExecuteISPyBv1_3 = EDTestSuitePluginExecuteISPyBv1_3("EDTestSuitePluginExecuteISPyBv1_3")
+    edTestSuitePluginExecuteISPyBv1_3.execute()
 
 ##############################################################################
