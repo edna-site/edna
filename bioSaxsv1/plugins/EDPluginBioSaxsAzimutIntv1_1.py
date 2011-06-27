@@ -47,9 +47,9 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
     * wait for normalized file to arrive  (EDPluginWaitFile) 
     * retrieve and update metadata (EDPluginBioSaxsMetadatav1_0)
     * integrate (EDPluginSaxsAnglev1_0)
-    * export as spec-file (EDPluginAsciiExportv1_0)    
+    * export as spec-file (EDPluginAsciiExportv1_1)    
     
-    TODO: remove the plugins marked with # 
+    TODO: switch the metadata from flat to more structured (sample/experiment setup)
     """
 
 

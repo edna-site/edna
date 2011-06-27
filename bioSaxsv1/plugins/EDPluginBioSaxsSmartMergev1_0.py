@@ -60,8 +60,8 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.__edPluginExecDatCmp = None
         self.lstInput = []
         self.lstXsdInput = []
-        self.absoluteSimilarity = None
-        self.relativeSimilarity = None
+        self.absoluteFidelity = None
+        self.relativeFidelity = None
         self.dictSimilarities = {} #key: 2-tuple of images, similarities
         self.lstSummary = []
 
@@ -79,10 +79,10 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.preProcess")
         # Load the execution plugin
-        if self.getDataInput().absoluteSimilarity is not None:
-            self.absoluteSimilarity = self.getDataInput().absoluteSimilarity.value
-        if self.getDataInput().relativeSimilarity is not None:
-            self.relativeSimilarity = self.getDataInput().relativeSimilarity.value
+        if self.getDataInput().absoluteFidelity is not None:
+            self.absoluteFidelity = self.getDataInput().absoluteFidelity.value
+        if self.getDataInput().relativeFidelity is not None:
+            self.relativeFidelity = self.getDataInput().relativeFidelity.value
         self.lstInput = self.dataInput.inputCurves
         self.lstStrInput = [i.path.value for i in self.lstInput]
 
@@ -94,42 +94,42 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
             shutil.copyfile(self.lstInput[0].path.value, self.getDataInput().mergedCurve.path.value)
         else:
             lstFile = []
-            if (self.absoluteSimilarity is None) and (self.relativeSimilarity is None):
+            if (self.absoluteFidelity is None) and (self.relativeFidelity is None):
                 lstFile = self.lstInput
             else:
-                if self.absoluteSimilarity is not None :
+                if self.absoluteFidelity is not None :
                     for oneFile in self.lstInput[1:]:
-                        edPluginExecAbsoluteSimilarity = self.loadPlugin(self.__strControlledPluginDatcmp)
+                        edPluginExecAbsoluteFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
                         xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[0], oneFile])
-                        edPluginExecAbsoluteSimilarity.setDataInput(xsd)
-                        edPluginExecAbsoluteSimilarity.connectFAILURE(self.doFailureExecDatcmp)
-                        edPluginExecAbsoluteSimilarity.connectSUCCESS(self.doSuccessExecDatcmp)
-                        edPluginExecAbsoluteSimilarity.execute()
-                if (self.relativeSimilarity is not None) and (len(self.lstInput) > 2):
+                        edPluginExecAbsoluteFidelity.setDataInput(xsd)
+                        edPluginExecAbsoluteFidelity.connectFAILURE(self.doFailureExecDatcmp)
+                        edPluginExecAbsoluteFidelity.connectSUCCESS(self.doSuccessExecDatcmp)
+                        edPluginExecAbsoluteFidelity.execute()
+                if (self.relativeFidelity is not None) and (len(self.lstInput) > 2):
                     for idx, oneFile in enumerate(self.lstInput[2:]):
-                        edPluginExecRelativeSimilarity = self.loadPlugin(self.__strControlledPluginDatcmp)
+                        edPluginExecRelativeFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
                         xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[idx + 1], oneFile])
-                        edPluginExecRelativeSimilarity.setDataInput(xsd)
-                        edPluginExecRelativeSimilarity.connectFAILURE(self.doFailureExecDatcmp)
-                        edPluginExecRelativeSimilarity.connectSUCCESS(self.doSuccessExecDatcmp)
-                        edPluginExecRelativeSimilarity.execute()
+                        edPluginExecRelativeFidelity.setDataInput(xsd)
+                        edPluginExecRelativeFidelity.connectFAILURE(self.doFailureExecDatcmp)
+                        edPluginExecRelativeFidelity.connectSUCCESS(self.doSuccessExecDatcmp)
+                        edPluginExecRelativeFidelity.execute()
             self.synchronizePlugins()
 
             for idx, oneFile in enumerate(self.lstInput):
                 if idx == 0:
                     lstFile.append(oneFile)
-                elif (self.absoluteSimilarity is not None) and (self.absoluteSimilarity is not None):
-                    if (self.dictSimilarities[(0, idx)] >= self.absoluteSimilarity) and (self.dictSimilarities[(idx - 1, idx)] >= self.relativeSimilarity):
+                elif (self.absoluteFidelity is not None) and (self.absoluteFidelity is not None):
+                    if (self.dictSimilarities[(0, idx)] >= self.absoluteFidelity) and (self.dictSimilarities[(idx - 1, idx)] >= self.relativeFidelity):
                         lstFile.append(oneFile)
                     else:
                         break
-                elif (self.absoluteSimilarity is not None) :
-                    if (self.dictSimilarities[(0, idx)] >= self.absoluteSimilarity):
+                elif (self.absoluteFidelity is not None) :
+                    if (self.dictSimilarities[(0, idx)] >= self.absoluteFidelity):
                         lstFile.append(oneFile)
                     else:
                         break
-                elif (self.relativeSimilarity is not None) :
-                    if (self.dictSimilarities[(idx - 1, idx)] >= self.relativeSimilarity):
+                elif (self.relativeFidelity is not None) :
+                    if (self.dictSimilarities[(idx - 1, idx)] >= self.relativeFidelity):
                         lstFile.append(oneFile)
                     else:
                         break

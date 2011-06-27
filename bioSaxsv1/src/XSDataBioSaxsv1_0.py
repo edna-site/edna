@@ -789,7 +789,7 @@ class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
 
 class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 	"""Run ProcessOneFile on each file of a time time serie  """
-	def __init__(self, configuration=None, rawImageSize=None, relativeSimilarity=None, absoluteSimilarity=None, forceReprocess=None, directoryMisc=None, directory2D=None, directory1D=None, experimentSetup=None, sample=None, fileSerie=None):
+	def __init__(self, configuration=None, rawImageSize=None, relativeFidelity=None, absoluteFidelity=None, forceReprocess=None, directoryMisc=None, directory2D=None, directory1D=None, experimentSetup=None, sample=None, fileSerie=None):
 		XSDataInput.__init__(self, configuration)
 		self.__fileSerie = fileSerie
 		self.__sample = sample
@@ -798,8 +798,8 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 		self.__directory2D = directory2D
 		self.__directoryMisc = directoryMisc
 		self.__forceReprocess = forceReprocess
-		self.__absoluteSimilarity = absoluteSimilarity
-		self.__relativeSimilarity = relativeSimilarity
+		self.__absoluteFidelity = absoluteFidelity
+		self.__relativeFidelity = relativeFidelity
 		self.__rawImageSize = rawImageSize
 	def getFileSerie(self): return self.__fileSerie
 	def setFileSerie(self, fileSerie):
@@ -850,20 +850,20 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 	def delForceReprocess(self): self.__forceReprocess = None
 	# Properties
 	forceReprocess = property(getForceReprocess, setForceReprocess, delForceReprocess, "Property for forceReprocess")
-	def getAbsoluteSimilarity(self): return self.__absoluteSimilarity
-	def setAbsoluteSimilarity(self, absoluteSimilarity):
-		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setAbsoluteSimilarity", absoluteSimilarity, "XSDataDouble")
-		self.__absoluteSimilarity = absoluteSimilarity
-	def delAbsoluteSimilarity(self): self.__absoluteSimilarity = None
+	def getAbsoluteFidelity(self): return self.__absoluteFidelity
+	def setAbsoluteFidelity(self, absoluteFidelity):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setAbsoluteFidelity", absoluteFidelity, "XSDataDouble")
+		self.__absoluteFidelity = absoluteFidelity
+	def delAbsoluteFidelity(self): self.__absoluteFidelity = None
 	# Properties
-	absoluteSimilarity = property(getAbsoluteSimilarity, setAbsoluteSimilarity, delAbsoluteSimilarity, "Property for absoluteSimilarity")
-	def getRelativeSimilarity(self): return self.__relativeSimilarity
-	def setRelativeSimilarity(self, relativeSimilarity):
-		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setRelativeSimilarity", relativeSimilarity, "XSDataDouble")
-		self.__relativeSimilarity = relativeSimilarity
-	def delRelativeSimilarity(self): self.__relativeSimilarity = None
+	absoluteFidelity = property(getAbsoluteFidelity, setAbsoluteFidelity, delAbsoluteFidelity, "Property for absoluteFidelity")
+	def getRelativeFidelity(self): return self.__relativeFidelity
+	def setRelativeFidelity(self, relativeFidelity):
+		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setRelativeFidelity", relativeFidelity, "XSDataDouble")
+		self.__relativeFidelity = relativeFidelity
+	def delRelativeFidelity(self): self.__relativeFidelity = None
 	# Properties
-	relativeSimilarity = property(getRelativeSimilarity, setRelativeSimilarity, delRelativeSimilarity, "Property for relativeSimilarity")
+	relativeFidelity = property(getRelativeFidelity, setRelativeFidelity, delRelativeFidelity, "Property for relativeFidelity")
 	def getRawImageSize(self): return self.__rawImageSize
 	def setRawImageSize(self, rawImageSize):
 		checkType("XSDataInputBioSaxsReduceFileSeriev1_0", "setRawImageSize", rawImageSize, "XSDataInteger")
@@ -905,10 +905,10 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 			warnEmptyAttribute("directoryMisc", "XSDataFile")
 		if self.__forceReprocess is not None:
 			self.forceReprocess.export(outfile, level, name_='forceReprocess')
-		if self.__absoluteSimilarity is not None:
-			self.absoluteSimilarity.export(outfile, level, name_='absoluteSimilarity')
-		if self.__relativeSimilarity is not None:
-			self.relativeSimilarity.export(outfile, level, name_='relativeSimilarity')
+		if self.__absoluteFidelity is not None:
+			self.absoluteFidelity.export(outfile, level, name_='absoluteFidelity')
+		if self.__relativeFidelity is not None:
+			self.relativeFidelity.export(outfile, level, name_='relativeFidelity')
 		if self.__rawImageSize is not None:
 			self.rawImageSize.export(outfile, level, name_='rawImageSize')
 	def build(self, node_):
@@ -952,15 +952,15 @@ class XSDataInputBioSaxsReduceFileSeriev1_0(XSDataInput):
 			obj_.build(child_)
 			self.setForceReprocess(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'absoluteSimilarity':
+			nodeName_ == 'absoluteFidelity':
 			obj_ = XSDataDouble()
 			obj_.build(child_)
-			self.setAbsoluteSimilarity(obj_)
+			self.setAbsoluteFidelity(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'relativeSimilarity':
+			nodeName_ == 'relativeFidelity':
 			obj_ = XSDataDouble()
 			obj_.build(child_)
-			self.setRelativeSimilarity(obj_)
+			self.setRelativeFidelity(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'rawImageSize':
 			obj_ = XSDataInteger()
@@ -1109,14 +1109,14 @@ class XSDataInputBioSaxsSample(XSDataInput):
 # end class XSDataInputBioSaxsSample
 
 class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
-	def __init__(self, configuration=None, mergedCurve=None, relativeSimilarity=None, absoluteSimilarity=None, inputCurves=None):
+	def __init__(self, configuration=None, mergedCurve=None, relativeFidelity=None, absoluteFidelity=None, inputCurves=None):
 		XSDataInput.__init__(self, configuration)
 		if inputCurves is None:
 			self.__inputCurves = []
 		else:
 			self.__inputCurves = inputCurves
-		self.__absoluteSimilarity = absoluteSimilarity
-		self.__relativeSimilarity = relativeSimilarity
+		self.__absoluteFidelity = absoluteFidelity
+		self.__relativeFidelity = relativeFidelity
 		self.__mergedCurve = mergedCurve
 	def getInputCurves(self): return self.__inputCurves
 	def setInputCurves(self, inputCurves):
@@ -1131,20 +1131,20 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 	def insertInputCurves(self, index, value):
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputCurves", value, "XSDataFile")
 		self.__inputCurves[index] = value
-	def getAbsoluteSimilarity(self): return self.__absoluteSimilarity
-	def setAbsoluteSimilarity(self, absoluteSimilarity):
-		checkType("XSDataInputBioSaxsSmartMergev1_0", "setAbsoluteSimilarity", absoluteSimilarity, "XSDataDouble")
-		self.__absoluteSimilarity = absoluteSimilarity
-	def delAbsoluteSimilarity(self): self.__absoluteSimilarity = None
+	def getAbsoluteFidelity(self): return self.__absoluteFidelity
+	def setAbsoluteFidelity(self, absoluteFidelity):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setAbsoluteFidelity", absoluteFidelity, "XSDataDouble")
+		self.__absoluteFidelity = absoluteFidelity
+	def delAbsoluteFidelity(self): self.__absoluteFidelity = None
 	# Properties
-	absoluteSimilarity = property(getAbsoluteSimilarity, setAbsoluteSimilarity, delAbsoluteSimilarity, "Property for absoluteSimilarity")
-	def getRelativeSimilarity(self): return self.__relativeSimilarity
-	def setRelativeSimilarity(self, relativeSimilarity):
-		checkType("XSDataInputBioSaxsSmartMergev1_0", "setRelativeSimilarity", relativeSimilarity, "XSDataDouble")
-		self.__relativeSimilarity = relativeSimilarity
-	def delRelativeSimilarity(self): self.__relativeSimilarity = None
+	absoluteFidelity = property(getAbsoluteFidelity, setAbsoluteFidelity, delAbsoluteFidelity, "Property for absoluteFidelity")
+	def getRelativeFidelity(self): return self.__relativeFidelity
+	def setRelativeFidelity(self, relativeFidelity):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setRelativeFidelity", relativeFidelity, "XSDataDouble")
+		self.__relativeFidelity = relativeFidelity
+	def delRelativeFidelity(self): self.__relativeFidelity = None
 	# Properties
-	relativeSimilarity = property(getRelativeSimilarity, setRelativeSimilarity, delRelativeSimilarity, "Property for relativeSimilarity")
+	relativeFidelity = property(getRelativeFidelity, setRelativeFidelity, delRelativeFidelity, "Property for relativeFidelity")
 	def getMergedCurve(self): return self.__mergedCurve
 	def setMergedCurve(self, mergedCurve):
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "setMergedCurve", mergedCurve, "XSDataFile")
@@ -1164,10 +1164,10 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			inputCurves_.export(outfile, level, name_='inputCurves')
 		if self.getInputCurves() == []:
 			warnEmptyAttribute("inputCurves", "XSDataFile")
-		if self.__absoluteSimilarity is not None:
-			self.absoluteSimilarity.export(outfile, level, name_='absoluteSimilarity')
-		if self.__relativeSimilarity is not None:
-			self.relativeSimilarity.export(outfile, level, name_='relativeSimilarity')
+		if self.__absoluteFidelity is not None:
+			self.absoluteFidelity.export(outfile, level, name_='absoluteFidelity')
+		if self.__relativeFidelity is not None:
+			self.relativeFidelity.export(outfile, level, name_='relativeFidelity')
 		if self.__mergedCurve is not None:
 			self.mergedCurve.export(outfile, level, name_='mergedCurve')
 		else:
@@ -1183,15 +1183,15 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			obj_.build(child_)
 			self.inputCurves.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'absoluteSimilarity':
+			nodeName_ == 'absoluteFidelity':
 			obj_ = XSDataDouble()
 			obj_.build(child_)
-			self.setAbsoluteSimilarity(obj_)
+			self.setAbsoluteFidelity(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'relativeSimilarity':
+			nodeName_ == 'relativeFidelity':
 			obj_ = XSDataDouble()
 			obj_.build(child_)
-			self.setRelativeSimilarity(obj_)
+			self.setRelativeFidelity(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mergedCurve':
 			obj_ = XSDataFile()

@@ -64,8 +64,8 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         self.lstCurves = [] #list of 1D curves produced by the data reduction
         self.lstSummary = []
         self.strSummary = ""
-        self.absoluteSimilarity = None
-        self.relativeSimilarity = None
+        self.absoluteFidelity = None
+        self.relativeFidelity = None
         self.forceReprocess = False
         self.rawImageSize = XSDataInteger(1024)
         self.directory1D = None
@@ -169,8 +169,8 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         self.synchronizePlugins()
         self.lstCurves.sort()
         xsdMerge = XSDataInputBioSaxsSmartMergev1_0()
-        xsdMerge.absoluteSimilarity = self.dataInput.absoluteSimilarity
-        xsdMerge.relativeSimilarity = self.dataInput.relativeSimilarity
+        xsdMerge.absoluteFidelity = self.dataInput.absoluteFidelity
+        xsdMerge.relativeFidelity = self.dataInput.relativeFidelity
         xsdMerge.inputCurves = [XSDataFile(XSDataString(i)) for i in self.lstCurves]
         xsdMerge.mergedCurve = XSDataFile(XSDataString(self.strMergedCurve))
         edPluginExecSmartMerge = self.loadPlugin(self.__strControlledPluginSmartMerge)

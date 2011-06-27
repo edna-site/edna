@@ -50,12 +50,12 @@
     		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated10.dat</value>
     	</path>
     </inputCurves>
-	<absoluteSimilarity>
+	<absoluteFidelity>
 		<value>0.0001</value>
-	</absoluteSimilarity>
-    <relativeSimilarity>
+	</absoluteFidelity>
+    <relativeFidelity>
     	<value>0.1</value>
-    </relativeSimilarity>
+    </relativeFidelity>
     <mergedCurve>
     	<path>
     		<value>/tmp/edna-${USER}/bioSaxsMerged.dat</value>

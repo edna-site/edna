@@ -178,8 +178,8 @@ complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
 
 complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
 	inputCurves: XSDataFile []
-	absoluteSimilarity: XSDataDouble optional 
-	relativeSimilarity: XSDataDouble optional
+	absoluteFidelity: XSDataDouble optional 
+	relativeFidelity: XSDataDouble optional
 	mergedCurve: XSDataFile
 }
 
@@ -196,8 +196,8 @@ complex type XSDataInputBioSaxsReduceFileSeriev1_0 extends XSDataInput{
 	directory2D: XSDataFile
 	directoryMisc : XSDataFile
 	forceReprocess: XSDataBoolean optional "if not present or False, just return the existing file, else force reprocessing in different folders"
-	absoluteSimilarity: XSDataDouble optional 
-	relativeSimilarity: XSDataDouble optional
+	absoluteFidelity: XSDataDouble optional 
+	relativeFidelity: XSDataDouble optional
 	rawImageSize: XSDataInteger optional
 }
 

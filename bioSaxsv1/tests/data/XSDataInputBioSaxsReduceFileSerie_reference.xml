@@ -33,12 +33,12 @@
 	<directory1D><path><value>/tmp/edna-${USER}/serie1/1d</value></path></directory1D>
 	<directory2D><path><value>/tmp/edna-${USER}/serie1/2d</value></path></directory2D>
 	<directoryMisc><path><value>/tmp/edna-${USER}/serie1/misc</value></path></directoryMisc>
-	<absoluteSimilarity>
+	<absoluteFidelity>
 		<value>1.0e-300</value>
-	</absoluteSimilarity> 
-	<relativeSimilarity>
+	</absoluteFidelity> 
+	<relativeFidelity>
 		<value>1.0e-6</value>
-	</relativeSimilarity>
+	</relativeFidelity>
 	<rawImageSize>
 		<value>2000000</value>
 	</rawImageSize>
