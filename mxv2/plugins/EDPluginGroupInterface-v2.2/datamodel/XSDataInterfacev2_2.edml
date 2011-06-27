@@ -1,5 +1,6 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSDataAngle
 import XSDataMXv1.XSDataInputCharacterisation
 import XSDataMXv1.XSDataResultCharacterisation
 import XSDataMXv1.XSDataResultStrategy
@@ -14,6 +15,9 @@ complex type XSDataInputInterfacev2_2 extends XSDataInputInterface {
 	mxv2DataCollection : XSDataCollection optional
 	mxv2DataCollection_Reference : XSDataCollection optional
 	possibleOrientations : kappa_alignment_response optional
+	omega : XSDataAngle optional
+	kappa : XSDataAngle optional
+	phi : XSDataAngle optional
 }
 
 complex type XSDataResultInterfacev2_2 extends XSDataResultInterface {

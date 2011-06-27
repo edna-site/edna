@@ -90,37 +90,37 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputCharacterisation, "inputCharacterisation")
         self.setXSDataInputClass(XSDataMXv2.XSDataCollection, "mxv2DataCollection")
 
-        self.__strEDPluginControlSubWedgeAssembleName = "EDPluginControlSubWedgeAssemblev1_1"
-        self.__strEDPluginControlCharacterisationName = "EDPluginControlCharForReorientationv2_0"
-        self.__strEDPluginControlISPyBName = "EDPluginControlISPyBv1_1"
+        self.strEDPluginControlSubWedgeAssembleName = "EDPluginControlSubWedgeAssemblev1_1"
+        self.strEDPluginControlCharacterisationName = "EDPluginControlCharForReorientationv2_0"
+        self.strEDPluginControlISPyBName = "EDPluginControlISPyBv1_1"
 
-        self.__edPluginControlSubWedgeAssemble = None
-        self.__edPluginControlCharacterisation = None
-        self.__edPluginControlISPyB = None
+        self.edPluginControlSubWedgeAssemble = None
+        self.edPluginControlCharacterisation = None
+        self.edPluginControlISPyB = None
 
-        self.__pyListImagePaths = None
-        self.__xsDataInputCharacterisation = None
-        self.__xsDataCollectionMXv2 = None
-        self.__strComplexity = "none"
+        self.pyListImagePaths = None
+        self.xsDataInputCharacterisation = None
+        self.xsDataCollectionMXv2 = None
+        self.strComplexity = "none"
 
-        self.__listImagePaths = []
-        self.__fFlux = None
-        self.__fMaxExposureTimePerDataCollection = 10000 # s, default prototype value
-        self.__fMinExposureTimePerImage = None
-        self.__fBeamSize = None
-        self.__bTemplateMode = False
-        self.__strGeneratedTemplateFile = None
-        self.__strGeneratedTemplateFileMXv2 = None
-        self.__strResultsFilePath = None
-        self.__strForcedSpaceGroup = None
-        self.__bAnomalousData = False
-        self.__fBeamPosX = None
-        self.__fBeamPosY = None
-        self.__fTransmission = None
-        self.__strStrategyOption = None
-        self.__iDataCollectionId = None
-        self.__strShortComments = None
-        self.__strComments = None
+        self.listImagePaths = []
+        self.fFlux = None
+        self.fMaxExposureTimePerDataCollection = 10000 # s, default prototype value
+        self.fMinExposureTimePerImage = None
+        self.fBeamSize = None
+        self.bTemplateMode = False
+        self.strGeneratedTemplateFile = None
+        self.strGeneratedTemplateFileMXv2 = None
+        self.strResultsFilePath = None
+        self.strForcedSpaceGroup = None
+        self.bAnomalousData = False
+        self.fBeamPosX = None
+        self.fBeamPosY = None
+        self.fTransmission = None
+        self.strStrategyOption = None
+        self.iDataCollectionId = None
+        self.strShortComments = None
+        self.strComments = None
 
 
     def configure(self):
@@ -136,15 +136,15 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
             EDVerbose.DEBUG("No plugin configuration found for EDPluginControlInterfacev2_0.")
         else:
             if (self.getControlledPluginName("subWedgeAssemblePlugin") is not None):
-                self.__strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
+                self.strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
             if (self.getControlledPluginName("characterisationPlugin") is not None):
-                self.__strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
+                self.strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
             if (self.getControlledPluginName("ispybPlugin") is not None):
-                self.__strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
+                self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
             strUseISPyBPlugin = EDConfiguration.getStringParamValue(pluginConfiguration, "useISPyBPlugin")
 
         if (strUseISPyBPlugin.lower() != "true"):
-            self.__strEDPluginControlISPyBName = None
+            self.strEDPluginControlISPyBName = None
 
 
     def preProcess(self, _edPlugin=None):
@@ -154,7 +154,7 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         EDPluginControl.preProcess(self, _edPlugin)
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.preProcess...")
 
-        self.__listImagePaths = []
+        self.listImagePaths = []
 
         if (self.hasDataInput("diffractionPlan")):
             xsDataDiffractionPlan = XSDataDiffractionPlan()
@@ -162,58 +162,58 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
             if (not xsDataDiffractionPlans[0] is None):
                 xsDataDiffractionPlan = xsDataDiffractionPlans[0]
                 if (not xsDataDiffractionPlan.getForcedSpaceGroup() is None):
-                    self.__strForcedSpaceGroup = xsDataDiffractionPlan.getForcedSpaceGroup().getValue()
+                    self.strForcedSpaceGroup = xsDataDiffractionPlan.getForcedSpaceGroup().getValue()
                 if (not xsDataDiffractionPlan.getMaxExposureTimePerDataCollection() is None):
-                    self.__fMaxExposureTimePerDataCollection = xsDataDiffractionPlan.getMaxExposureTimePerDataCollection().getValue()
+                    self.fMaxExposureTimePerDataCollection = xsDataDiffractionPlan.getMaxExposureTimePerDataCollection().getValue()
                 if (not xsDataDiffractionPlan.getAnomalousData() is None):
-                    self.__bAnomalousData = xsDataDiffractionPlan.getAnomalousData().getValue()
+                    self.bAnomalousData = xsDataDiffractionPlan.getAnomalousData().getValue()
                 if (not xsDataDiffractionPlan.getStrategyOption() is None):
-                    self.__strStrategyOption = xsDataDiffractionPlan.getStrategyOption().getValue()
+                    self.strStrategyOption = xsDataDiffractionPlan.getStrategyOption().getValue()
                 if (not xsDataDiffractionPlan.getComplexity() is None):
-                    self.__strComplexity = xsDataDiffractionPlan.getComplexity().getValue()
+                    self.strComplexity = xsDataDiffractionPlan.getComplexity().getValue()
 
         if (self.hasDataInput("imagePaths")):
             for strImagePath in self.getDataInput("imagePaths"):
-                self.__listImagePaths.append(strImagePath)
+                self.listImagePaths.append(strImagePath)
         if (self.hasDataInput("flux")):
-            self.__fFlux = self.getDataInput("flux")[0].getValue()
+            self.fFlux = self.getDataInput("flux")[0].getValue()
         if (self.hasDataInput("minExposureTimePerImage")):
-            self.__fMinExposureTimePerImage = self.getDataInput("minExposureTimePerImage")[0].getValue()
+            self.fMinExposureTimePerImage = self.getDataInput("minExposureTimePerImage")[0].getValue()
         if (self.hasDataInput("beamSize")):
-            self.__fBeamSize = self.getDataInput("beamSize")[0].getValue()
+            self.fBeamSize = self.getDataInput("beamSize")[0].getValue()
         if (self.hasDataInput("templateMode")):
-            self.__bTemplateMode = self.getDataInput("templateMode")[0].getValue()
+            self.bTemplateMode = self.getDataInput("templateMode")[0].getValue()
         if (self.hasDataInput("generatedTemplateFile")):
-            self.__strGeneratedTemplateFile = self.getDataInput("generatedTemplateFile")[0].getValue()
+            self.strGeneratedTemplateFile = self.getDataInput("generatedTemplateFile")[0].getValue()
         if (self.hasDataInput("generatedTemplateFileMXv2")):
-            self.__strGeneratedTemplateFileMXv2 = self.getDataInput("generatedTemplateFileMXv2")[0].getValue()
+            self.strGeneratedTemplateFileMXv2 = self.getDataInput("generatedTemplateFileMXv2")[0].getValue()
         if (self.hasDataInput("resultsFilePath")):
-            self.__strResultsFilePath = self.getDataInput("resultsFilePath")[0].getValue()
+            self.strResultsFilePath = self.getDataInput("resultsFilePath")[0].getValue()
         if (self.hasDataInput("beamPosX")):
-            self.__fBeamPosX = self.getDataInput("beamPosX")[0].getValue()
+            self.fBeamPosX = self.getDataInput("beamPosX")[0].getValue()
         if (self.hasDataInput("beamPosY")):
-            self.__fBeamPosY = self.getDataInput("beamPosY")[0].getValue()
+            self.fBeamPosY = self.getDataInput("beamPosY")[0].getValue()
         if (self.hasDataInput("transmission")):
-            self.__fTransmission = self.getDataInput("transmission")[0].getValue()
+            self.fTransmission = self.getDataInput("transmission")[0].getValue()
         if (self.hasDataInput("dataCollectionId")):
-            self.__iDataCollectionId = self.getDataInput("dataCollectionId")[0].getValue()
+            self.iDataCollectionId = self.getDataInput("dataCollectionId")[0].getValue()
         if (self.hasDataInput("shortComments")):
-            self.__strShortComments = self.getDataInput("shortComments")[0].getValue()
+            self.strShortComments = self.getDataInput("shortComments")[0].getValue()
         if (self.hasDataInput("comments")):
-            self.__strComments = self.getDataInput("comments")[0].getValue()
+            self.strComments = self.getDataInput("comments")[0].getValue()
         if (self.hasDataInput("inputCharacterisation")):
-            self.__xsDataInputCharacterisation = self.getDataInput("inputCharacterisation")[0]
+            self.xsDataInputCharacterisation = self.getDataInput("inputCharacterisation")[0]
         if (self.hasDataInput("mxv2DataCollection")):
-            self.__xsDataCollectionMXv2 = self.getDataInput("mxv2DataCollection")[0]
+            self.xsDataCollectionMXv2 = self.getDataInput("mxv2DataCollection")[0]
 
         # Check if XML data is given as input :
-        if (self.__xsDataInputCharacterisation is None):
-            self.__edPluginControlSubWedgeAssemble = self.loadPlugin(self.__strEDPluginControlSubWedgeAssembleName, "SubWedgeAssemble")
+        if (self.xsDataInputCharacterisation is None):
+            self.edPluginControlSubWedgeAssemble = self.loadPlugin(self.strEDPluginControlSubWedgeAssembleName, "SubWedgeAssemble")
 
-        self.__edPluginControlCharacterisation = self.loadPlugin(self.__strEDPluginControlCharacterisationName, "Characterisation")
+        self.edPluginControlCharacterisation = self.loadPlugin(self.strEDPluginControlCharacterisationName, "Characterisation")
 
-        if (self.__strEDPluginControlISPyBName is not None):
-            self.__edPluginControlISPyB = self.loadPlugin(self.__strEDPluginControlISPyBName, "ISPyB")
+        if (self.strEDPluginControlISPyBName is not None):
+            self.edPluginControlISPyB = self.loadPlugin(self.strEDPluginControlISPyBName, "ISPyB")
 
 
     def process(self, _edPlugin=None):
@@ -222,25 +222,25 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         EDPluginControl.process(self, _edPlugin)
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.process...")
 
-        if (self.__edPluginControlSubWedgeAssemble is not None):
-            if(self.__bTemplateMode == True):
-                self.__edPluginControlSubWedgeAssemble.connectSUCCESS(self.generateTemplateFile)
+        if (self.edPluginControlSubWedgeAssemble is not None):
+            if(self.bTemplateMode == True):
+                self.edPluginControlSubWedgeAssemble.connectSUCCESS(self.generateTemplateFile)
             else:
-                self.__edPluginControlSubWedgeAssemble.connectSUCCESS(self.doSubWedgeAssembleSUCCESS)
-            self.__edPluginControlSubWedgeAssemble.connectFAILURE(self.doSubWedgeAssembleFAILURE)
+                self.edPluginControlSubWedgeAssemble.connectSUCCESS(self.doSubWedgeAssembleSUCCESS)
+            self.edPluginControlSubWedgeAssemble.connectFAILURE(self.doSubWedgeAssembleFAILURE)
 
-        if(self.__edPluginControlCharacterisation is not None):
-            self.__edPluginControlCharacterisation.connectSUCCESS(self.doSuccessActionCharacterisation)
-            self.__edPluginControlCharacterisation.connectFAILURE(self.doFailureActionCharacterisation)
+        if(self.edPluginControlCharacterisation is not None):
+            self.edPluginControlCharacterisation.connectSUCCESS(self.doSuccessActionCharacterisation)
+            self.edPluginControlCharacterisation.connectFAILURE(self.doFailureActionCharacterisation)
 
-        if (self.__edPluginControlISPyB is not None):
-            self.__edPluginControlISPyB.connectSUCCESS(self.doSuccessActionISPyB)
-            self.__edPluginControlISPyB.connectFAILURE(self.doFailureActionISPyB)
+        if (self.edPluginControlISPyB is not None):
+            self.edPluginControlISPyB.connectSUCCESS(self.doSuccessActionISPyB)
+            self.edPluginControlISPyB.connectFAILURE(self.doFailureActionISPyB)
 
-        if (self.__xsDataInputCharacterisation is None):
-            self.createInputCharacterisationFromImageHeaders(self.__edPluginControlSubWedgeAssemble)
+        if (self.xsDataInputCharacterisation is None):
+            self.createInputCharacterisationFromImageHeaders(self.edPluginControlSubWedgeAssemble)
         else:
-            self.runCharacterisationPlugin(self.__edPluginControlCharacterisation)
+            self.runCharacterisationPlugin(self.edPluginControlCharacterisation)
 
 
     def postProcess(self, _edPlugin=None):
@@ -249,12 +249,12 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         EDPluginControl.postProcess(self, _edPlugin)
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.postProcess...")
 
-        if (not self.__edPluginControlCharacterisation is None):
-            if (self.__edPluginControlCharacterisation.hasDataOutput()):
-                self.setDataOutput(self.__edPluginControlCharacterisation.getDataOutput(), "resultCharacterisationv2_0")
-        if (not self.__edPluginControlISPyB is None):
-            if (self.__edPluginControlISPyB.hasDataOutput()):
-                self.setDataOutput(self.__edPluginControlISPyB.getDataOutput(), "ISPyB")
+        if (not self.edPluginControlCharacterisation is None):
+            if (self.edPluginControlCharacterisation.hasDataOutput()):
+                self.setDataOutput(self.edPluginControlCharacterisation.getDataOutput(), "resultCharacterisationv2_0")
+        if (not self.edPluginControlISPyB is None):
+            if (self.edPluginControlISPyB.hasDataOutput()):
+                self.setDataOutput(self.edPluginControlISPyB.getDataOutput(), "ISPyB")
 
 
     def createInputCharacterisationFromImageHeaders(self, _edPlugin):
@@ -262,7 +262,7 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         """
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.createInputCharacterisationFromImageHeaders")
         xsDataInputSubWedgeAssemble = XSDataInputSubWedgeAssemble()
-        for xsDataStringImagePath in self.__listImagePaths:
+        for xsDataStringImagePath in self.listImagePaths:
             xsDataFile = XSDataFile()
             xsDataFile.setPath(xsDataStringImagePath)
             xsDataInputSubWedgeAssemble.addFile(xsDataFile)
@@ -272,32 +272,32 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
 
     def runCharacterisationPlugin(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.runCharacterisationPlugin")
-        self.__edPluginControlCharacterisation.setDataInput(self.__xsDataInputCharacterisation, "mxv1InputCharacterisation")
-        if self.__xsDataCollectionMXv2 != None:
-            self.__edPluginControlCharacterisation.setDataInput(self.__xsDataCollectionMXv2, "mxv2DataCollection")
-        self.__edPluginControlCharacterisation.executeSynchronous()
+        self.edPluginControlCharacterisation.setDataInput(self.xsDataInputCharacterisation, "mxv1InputCharacterisation")
+        if self.xsDataCollectionMXv2 != None:
+            self.edPluginControlCharacterisation.setDataInput(self.xsDataCollectionMXv2, "mxv2DataCollection")
+        self.edPluginControlCharacterisation.executeSynchronous()
 
 
     def storeResultsInISPyB(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.storeResultsInISPyB")
-        if (self.__edPluginControlISPyB is not None):
+        if (self.edPluginControlISPyB is not None):
             # Execute the ISPyB control plugin
             xsDataInputControlISPyB = XSDataInputControlISPyB()
-            xsDataInputControlISPyB.setCharacterisationResult(self.__edPluginControlCharacterisation.getDataOutput())
-            if (not self.__iDataCollectionId is None):
-                xsDataInputControlISPyB.setDataCollectionId(XSDataInteger(self.__iDataCollectionId))
-            if (not self.__strShortComments is None):
-                self.__edPluginControlISPyB.setDataInput(XSDataString(self.__strShortComments), "shortComments")
-            if (not self.__strComments is None):
-                self.__edPluginControlISPyB.setDataInput(XSDataString(self.__strComments), "comments")
-            self.__edPluginControlISPyB.setDataInput(xsDataInputControlISPyB)
-            self.__edPluginControlISPyB.executeSynchronous()
+            xsDataInputControlISPyB.setCharacterisationResult(self.edPluginControlCharacterisation.getDataOutput())
+            if (not self.iDataCollectionId is None):
+                xsDataInputControlISPyB.setDataCollectionId(XSDataInteger(self.iDataCollectionId))
+            if (not self.strShortComments is None):
+                self.edPluginControlISPyB.setDataInput(XSDataString(self.strShortComments), "shortComments")
+            if (not self.strComments is None):
+                self.edPluginControlISPyB.setDataInput(XSDataString(self.strComments), "comments")
+            self.edPluginControlISPyB.setDataInput(xsDataInputControlISPyB)
+            self.edPluginControlISPyB.executeSynchronous()
 
 
     def createInputCharacterisationFromSubWedges(self):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.createInputCharacterisationFromSubWedges")
-        xsDataResultSubWedgeAssemble = self.__edPluginControlSubWedgeAssemble.getDataOutput()
-        self.__xsDataInputCharacterisation = XSDataInputCharacterisation()
+        xsDataResultSubWedgeAssemble = self.edPluginControlSubWedgeAssemble.getDataOutput()
+        self.xsDataInputCharacterisation = XSDataInputCharacterisation()
         xsDataCollection = XSDataCollection()
         # Default exposure time (for the moment, this value should be
         # possible to read from the command line)
@@ -306,49 +306,49 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
             pyListSubWedge = xsDataResultSubWedgeAssemble.getSubWedge()
             xsDataCollection.setSubWedge(pyListSubWedge)
             for xsDataSubWedge in pyListSubWedge:
-                if (self.__strComplexity is not None):
-                    xsDataDiffractionPlan.setComplexity(XSDataString(self.__strComplexity))
-                if (self.__fFlux is not None):
-                    xsDataSubWedge.getExperimentalCondition().getBeam().setFlux(XSDataFloat(self.__fFlux))
-                if (self.__fBeamSize is not None):
+                if (self.strComplexity is not None):
+                    xsDataDiffractionPlan.setComplexity(XSDataString(self.strComplexity))
+                if (self.fFlux is not None):
+                    xsDataSubWedge.getExperimentalCondition().getBeam().setFlux(XSDataFloat(self.fFlux))
+                if (self.fBeamSize is not None):
                     xsDataSize = XSDataSize()
-                    xsDataSize.setX(XSDataLength(self.__fBeamSize))
-                    xsDataSize.setY(XSDataLength(self.__fBeamSize))
+                    xsDataSize.setX(XSDataLength(self.fBeamSize))
+                    xsDataSize.setY(XSDataLength(self.fBeamSize))
                     xsDataSubWedge.getExperimentalCondition().getBeam().setSize(xsDataSize)
-                if (self.__fBeamPosX is not None):
-                    xsDataSubWedge.getExperimentalCondition().getDetector().setBeamPositionX(XSDataLength(self.__fBeamPosX))
-                if (self.__fBeamPosY is not None):
-                    xsDataSubWedge.getExperimentalCondition().getDetector().setBeamPositionY(XSDataLength(self.__fBeamPosY))
-                if (self.__fMinExposureTimePerImage is not None):
-                    xsDataSubWedge.getExperimentalCondition().getBeam().setMinExposureTimePerImage(XSDataFloat(self.__fMinExposureTimePerImage))
-                if (self.__fTransmission is not None):
-                    xsDataSubWedge.getExperimentalCondition().getBeam().setTransmission(XSDataDouble(self.__fTransmission))
-        if (self.__strForcedSpaceGroup is not None):
-            xsDataDiffractionPlan.setForcedSpaceGroup(XSDataString(self.__strForcedSpaceGroup))
-        xsDataDiffractionPlan.setAnomalousData(XSDataBoolean(self.__bAnomalousData))
-        xsDataDiffractionPlan.setMaxExposureTimePerDataCollection(XSDataTime(self.__fMaxExposureTimePerDataCollection))
-        if (self.__strStrategyOption is not None):
-            xsDataDiffractionPlan.setStrategyOption(XSDataString(self.__strStrategyOption))
+                if (self.fBeamPosX is not None):
+                    xsDataSubWedge.getExperimentalCondition().getDetector().setBeamPositionX(XSDataLength(self.fBeamPosX))
+                if (self.fBeamPosY is not None):
+                    xsDataSubWedge.getExperimentalCondition().getDetector().setBeamPositionY(XSDataLength(self.fBeamPosY))
+                if (self.fMinExposureTimePerImage is not None):
+                    xsDataSubWedge.getExperimentalCondition().getBeam().setMinExposureTimePerImage(XSDataFloat(self.fMinExposureTimePerImage))
+                if (self.fTransmission is not None):
+                    xsDataSubWedge.getExperimentalCondition().getBeam().setTransmission(XSDataDouble(self.fTransmission))
+        if (self.strForcedSpaceGroup is not None):
+            xsDataDiffractionPlan.setForcedSpaceGroup(XSDataString(self.strForcedSpaceGroup))
+        xsDataDiffractionPlan.setAnomalousData(XSDataBoolean(self.bAnomalousData))
+        xsDataDiffractionPlan.setMaxExposureTimePerDataCollection(XSDataTime(self.fMaxExposureTimePerDataCollection))
+        if (self.strStrategyOption is not None):
+            xsDataDiffractionPlan.setStrategyOption(XSDataString(self.strStrategyOption))
         xsDataCollection.setDiffractionPlan(xsDataDiffractionPlan)
-        self.__xsDataInputCharacterisation.setDataCollection(xsDataCollection)
+        self.xsDataInputCharacterisation.setDataCollection(xsDataCollection)
 
 
     def generateTemplateFile(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.generateTemplateFile")
         self.createInputCharacterisationFromSubWedges()
-        if self.__strGeneratedTemplateFile is not None:
-            if(self.__strGeneratedTemplateFile is None):
+        if self.strGeneratedTemplateFile is not None:
+            if(self.strGeneratedTemplateFile is None):
                 EDVerbose.screen("No argument for command line --generateTemplate key word found!")
-            elif (self.__xsDataInputCharacterisation is None):
-                EDVerbose.screen("ERROR! Cannot generate template file %s, please check the log files." % self.__strGeneratedTemplateFile)
+            elif (self.xsDataInputCharacterisation is None):
+                EDVerbose.screen("ERROR! Cannot generate template file %s, please check the log files." % self.strGeneratedTemplateFile)
             else:
-                EDVerbose.screen("Generating MXv1 xml template input file: " + self.__strGeneratedTemplateFile + "...")
-                self.__xsDataInputCharacterisation.outputFile(self.__strGeneratedTemplateFile)
-        if self.__strGeneratedTemplateFileMXv2 is not None:
-            if(self.__strGeneratedTemplateFileMXv2 is None):
+                EDVerbose.screen("Generating MXv1 xml template input file: " + self.strGeneratedTemplateFile + "...")
+                self.xsDataInputCharacterisation.outputFile(self.strGeneratedTemplateFile)
+        if self.strGeneratedTemplateFileMXv2 is not None:
+            if(self.strGeneratedTemplateFileMXv2 is None):
                 EDVerbose.screen("No argument for command line --generateTemplateMXv2 key word found!")
-            elif (self.__xsDataInputCharacterisation is None):
-                EDVerbose.screen("ERROR! Cannot generate template file %s, please check the log files." % self.__strGeneratedTemplateFileMXv2)
+            elif (self.xsDataInputCharacterisation is None):
+                EDVerbose.screen("ERROR! Cannot generate template file %s, please check the log files." % self.strGeneratedTemplateFileMXv2)
             else:
                 # TEMP: generates the file to be read in
                 ##PARAMS
@@ -366,12 +366,12 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
                 KappaV = 90.0
                 PhiV = 40.0
                 imgFnames = []
-                xsDataResultSubWedgeAssemble = self.__edPluginControlSubWedgeAssemble.getDataOutput()
+                xsDataResultSubWedgeAssemble = self.edPluginControlSubWedgeAssemble.getDataOutput()
                 for xsDataImage in xsDataResultSubWedgeAssemble.getSubWedge()[0].getImage():
                     imgFnames.append(xsDataImage.getPath().getValue())
                 xsDC_v2 = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
-                EDVerbose.screen("Generating MXv2 xml template input file: " + self.__strGeneratedTemplateFileMXv2 + "...")
-                xsDC_v2.outputFile(self.__strGeneratedTemplateFileMXv2)
+                EDVerbose.screen("Generating MXv2 xml template input file: " + self.strGeneratedTemplateFileMXv2 + "...")
+                xsDC_v2.outputFile(self.strGeneratedTemplateFileMXv2)
 
 
     def doSubWedgeAssembleSUCCESS(self, _edPlugin):
@@ -381,7 +381,7 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
 
     def doSubWedgeAssembleFAILURE(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.doSubWedgeAssembleFAILURE")
-        EDVerbose.screen("Execution of " + self.__strEDPluginControlSubWedgeAssembleName + "  failed.")
+        EDVerbose.screen("Execution of " + self.strEDPluginControlSubWedgeAssembleName + "  failed.")
         EDVerbose.screen("Please inspect the log file for further information.")
         self.setFailure()
 
@@ -391,7 +391,7 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         retrieve the potential error messages
         """
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.doFailureActionCharacterisation")
-        self.retrieveFailureMessages(self.__edPluginControlCharacterisation, "EDPluginControlInterfacev2_0.doSuccessActionISPyB")
+        self.retrieveFailureMessages(self.edPluginControlCharacterisation, "EDPluginControlInterfacev2_0.doSuccessActionISPyB")
         self.generateExecutiveSummary(self)
         self.setFailure()
 
@@ -401,15 +401,15 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         """
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.doSuccessActionCharacterisation")
         # Store the results if requested
-        if (self.__strResultsFilePath is not None):
+        if (self.strResultsFilePath is not None):
             xsDataCharacterisationResult = _edPlugin.getDataOutput()
             if (xsDataCharacterisationResult is not None):
-                xsDataCharacterisationResult.outputFile(self.__strResultsFilePath)
+                xsDataCharacterisationResult.outputFile(self.strResultsFilePath)
         self.storeResultsInISPyB(_edPlugin)
 
     def doSuccessActionISPyB(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.doSuccessActionISPyB...")
-        self.retrieveSuccessMessages(self.__edPluginControlISPyB, "EDPluginControlInterfacev2_0.doSuccessActionISPyB")
+        self.retrieveSuccessMessages(self.edPluginControlISPyB, "EDPluginControlInterfacev2_0.doSuccessActionISPyB")
 
     def doFailureActionISPyB(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.doFailureActionISpyB...")
@@ -421,16 +421,16 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         Prints the executive summary from the plugin
         """
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.generateExecutiveSummary")
-        if (self.__edPluginControlSubWedgeAssemble is not None):
-            if self.__edPluginControlSubWedgeAssemble.getListExecutiveSummaryLines() != []:
-                self.addExecutiveSummaryLine("Summary of plugin %s:" % self.__strEDPluginControlSubWedgeAssembleName)
-                self.appendExecutiveSummary(self.__edPluginControlSubWedgeAssemble)
-        if (self.__edPluginControlCharacterisation is not None):
-            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.__strEDPluginControlCharacterisationName)
-            self.appendExecutiveSummary(self.__edPluginControlCharacterisation)
-        if (self.__edPluginControlISPyB is not None):
-            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.__strEDPluginControlISPyBName)
-            self.appendExecutiveSummary(self.__edPluginControlISPyB)
+        if (self.edPluginControlSubWedgeAssemble is not None):
+            if self.edPluginControlSubWedgeAssemble.getListExecutiveSummaryLines() != []:
+                self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlSubWedgeAssembleName)
+                self.appendExecutiveSummary(self.edPluginControlSubWedgeAssemble)
+        if (self.edPluginControlCharacterisation is not None):
+            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlCharacterisationName)
+            self.appendExecutiveSummary(self.edPluginControlCharacterisation)
+        if (self.edPluginControlISPyB is not None):
+            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlISPyBName)
+            self.appendExecutiveSummary(self.edPluginControlISPyB)
         self.verboseScreenExecutiveSummary()
 
 
@@ -554,7 +554,7 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         return xsDC_v2
 
 
-        #xsDataResultSubWedgeAssemble = self.__edPluginControlSubWedgeAssemble.getDataOutput()
+        #xsDataResultSubWedgeAssemble = self.edPluginControlSubWedgeAssemble.getDataOutput()
         #imgFname = xsDataResultSubWedgeAssemble.getSubWedge()[0].getImage()[0].getPath().getValue()
         #self.xsDC_v2.outputFile(os.path.dirname(imgFname) + '/edna_' + EDUtilsImage.getTemplate(imgFname, "#") + '_auto')
 

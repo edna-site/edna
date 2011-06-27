@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<XSDataInputInterfacev2_2>
+    <diffractionPlan>
+        <complexity>
+            <value>full</value>
+        </complexity>
+        <kappaStrategyOption>
+            <value>Cell</value>
+        </kappaStrategyOption>
+        <maxExposureTimePerDataCollection>
+            <value>1.000000e+03</value>
+        </maxExposureTimePerDataCollection>
+    </diffractionPlan>
+	<imagePath>
+	    <path>
+	        <value>/opt/pxsoft/DNA/TestCase/KAPPA_ID23EH1_20110620/RAW_DATA/ref-edna_6_0001.img</value>
+	    </path>
+	</imagePath>
+	<imagePath>
+	    <path>
+	        <value>/opt/pxsoft/DNA/TestCase/KAPPA_ID23EH1_20110620/RAW_DATA/ref-edna_6_0002.img</value>
+	    </path>
+	</imagePath>
+	<omega>
+		<value>0.0</value>
+	</omega>
+	<kappa>
+		<value>0.0</value>
+	</kappa>
+	<phi>
+		<value>0.0</value>
+	</phi>
+</XSDataInputInterfacev2_2>

@@ -2,7 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteInterfacev2_2_xmlCell.py 1555 2010-05-25 07:27:29Z svensson $"
+#    File: "$Id: EDTestCasePluginExecuteInterfacev2_2_kappaCELL.py 1555 2010-05-25 07:27:29Z svensson $"
 #
 #    Copyright (C) 2008-2010 European Synchrotron Radiation Facility
 #                            Grenoble, France
@@ -40,7 +40,7 @@ from XSDataCommon               import XSDataFloat
 from XSDataCommon               import XSDataBoolean
 
 
-class EDTestCasePluginExecuteInterfacev2_2_xmlCell(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteInterfacev2_2_kappaCELL_2(EDTestCasePluginExecute):
 
 
     def __init__(self, _strTestName=None):
@@ -52,7 +52,7 @@ class EDTestCasePluginExecuteInterfacev2_2_xmlCell(EDTestCasePluginExecute):
         self.setRequiredPluginConfiguration("EDPluginBestv1_2")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), 
-                                           "XSDataInputInterfacev2_2_kappaCELL.xml"))
+                                           "XSDataInputInterfacev2_2_kappaCELL_2.xml"))
 
 
 
@@ -76,5 +76,5 @@ class EDTestCasePluginExecuteInterfacev2_2_xmlCell(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    edTestCasePluginExecuteInterfacev2_2_xmlCell = EDTestCasePluginExecuteInterfacev2_2_xmlCell("EDTestCasePluginExecuteInterfacev2_2_xmlCell")
-    edTestCasePluginExecuteInterfacev2_2_xmlCell.execute()
+    edTestCasePluginExecuteInterfacev2_2_kappaCELL_2 = EDTestCasePluginExecuteInterfacev2_2_kappaCELL_2("EDTestCasePluginExecuteInterfacev2_2_kappaCELL_2")
+    edTestCasePluginExecuteInterfacev2_2_kappaCELL_2.execute()

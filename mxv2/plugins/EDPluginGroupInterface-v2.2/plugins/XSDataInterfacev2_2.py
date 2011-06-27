@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jun 27 11:41::00 2011 by EDGenerateDS.
+# Generated Mon Jun 27 03:52::39 2011 by EDGenerateDS.
 #
 
 import sys
@@ -12,6 +12,7 @@ from XSDataInterfacev1_2 import XSDataInputInterface
 from XSDataInterfacev1_2 import XSDataResultInterface
 from XSDataMXv2 import kappa_alignment_response
 from XSDataMXv2 import XSDataCollection
+from XSDataCommon import XSDataAngle
 from XSDataMXv1 import XSDataInputCharacterisation
 from XSDataMXv1 import XSDataResultStrategy
 from XSDataMXv1 import XSDataResultCharacterisation
@@ -107,7 +108,7 @@ class MixedContainer(object):
 
 
 class XSDataInputInterfacev2_2(XSDataInputInterface):
-	def __init__(self, inputCharacterisation=None, comments=None, shortComments=None, dataCollectionId=None, transmission=None, wavelength=None, beamPosY=None, beamPosX=None, resultsFilePath=None, generatedTemplateFile=None, templateMode=None, beamSizeY=None, beamSizeX=None, beamSize=None, minExposureTimePerImage=None, flux=None, imagePath=None, sample=None, diffractionPlan=None, experimentalCondition=None, possibleOrientations=None, mxv2DataCollection_Reference=None, mxv2DataCollection=None, mxv1ResultCharacterisation_Reference=None, mxv1InputCharacterisation=None):
+	def __init__(self, inputCharacterisation=None, comments=None, shortComments=None, dataCollectionId=None, transmission=None, wavelength=None, beamPosY=None, beamPosX=None, resultsFilePath=None, generatedTemplateFile=None, templateMode=None, beamSizeY=None, beamSizeX=None, beamSize=None, minExposureTimePerImage=None, flux=None, imagePath=None, sample=None, diffractionPlan=None, experimentalCondition=None, phi=None, kappa=None, omega=None, possibleOrientations=None, mxv2DataCollection_Reference=None, mxv2DataCollection=None, mxv1ResultCharacterisation_Reference=None, mxv1InputCharacterisation=None):
 		XSDataInputInterface.__init__(self, inputCharacterisation, comments, shortComments, dataCollectionId, transmission, wavelength, beamPosY, beamPosX, resultsFilePath, generatedTemplateFile, templateMode, beamSizeY, beamSizeX, beamSize, minExposureTimePerImage, flux, imagePath, sample, diffractionPlan, experimentalCondition)
 		checkType("XSDataInputInterfacev2_2", "Constructor of XSDataInputInterfacev2_2", mxv1InputCharacterisation, "XSDataInputCharacterisation")
 		self.__mxv1InputCharacterisation = mxv1InputCharacterisation
@@ -119,6 +120,12 @@ class XSDataInputInterfacev2_2(XSDataInputInterface):
 		self.__mxv2DataCollection_Reference = mxv2DataCollection_Reference
 		checkType("XSDataInputInterfacev2_2", "Constructor of XSDataInputInterfacev2_2", possibleOrientations, "kappa_alignment_response")
 		self.__possibleOrientations = possibleOrientations
+		checkType("XSDataInputInterfacev2_2", "Constructor of XSDataInputInterfacev2_2", omega, "XSDataAngle")
+		self.__omega = omega
+		checkType("XSDataInputInterfacev2_2", "Constructor of XSDataInputInterfacev2_2", kappa, "XSDataAngle")
+		self.__kappa = kappa
+		checkType("XSDataInputInterfacev2_2", "Constructor of XSDataInputInterfacev2_2", phi, "XSDataAngle")
+		self.__phi = phi
 	def getMxv1InputCharacterisation(self): return self.__mxv1InputCharacterisation
 	def setMxv1InputCharacterisation(self, mxv1InputCharacterisation):
 		checkType("XSDataInputInterfacev2_2", "setMxv1InputCharacterisation", mxv1InputCharacterisation, "XSDataInputCharacterisation")
@@ -154,6 +161,27 @@ class XSDataInputInterfacev2_2(XSDataInputInterface):
 	def delPossibleOrientations(self): self.__possibleOrientations = None
 	# Properties
 	possibleOrientations = property(getPossibleOrientations, setPossibleOrientations, delPossibleOrientations, "Property for possibleOrientations")
+	def getOmega(self): return self.__omega
+	def setOmega(self, omega):
+		checkType("XSDataInputInterfacev2_2", "setOmega", omega, "XSDataAngle")
+		self.__omega = omega
+	def delOmega(self): self.__omega = None
+	# Properties
+	omega = property(getOmega, setOmega, delOmega, "Property for omega")
+	def getKappa(self): return self.__kappa
+	def setKappa(self, kappa):
+		checkType("XSDataInputInterfacev2_2", "setKappa", kappa, "XSDataAngle")
+		self.__kappa = kappa
+	def delKappa(self): self.__kappa = None
+	# Properties
+	kappa = property(getKappa, setKappa, delKappa, "Property for kappa")
+	def getPhi(self): return self.__phi
+	def setPhi(self, phi):
+		checkType("XSDataInputInterfacev2_2", "setPhi", phi, "XSDataAngle")
+		self.__phi = phi
+	def delPhi(self): self.__phi = None
+	# Properties
+	phi = property(getPhi, setPhi, delPhi, "Property for phi")
 	def export(self, outfile, level, name_='XSDataInputInterfacev2_2'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -174,6 +202,12 @@ class XSDataInputInterfacev2_2(XSDataInputInterface):
 			self.mxv2DataCollection_Reference.export(outfile, level, name_='mxv2DataCollection_Reference')
 		if self.__possibleOrientations is not None:
 			self.possibleOrientations.export(outfile, level, name_='possibleOrientations')
+		if self.__omega is not None:
+			self.omega.export(outfile, level, name_='omega')
+		if self.__kappa is not None:
+			self.kappa.export(outfile, level, name_='kappa')
+		if self.__phi is not None:
+			self.phi.export(outfile, level, name_='phi')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -204,6 +238,21 @@ class XSDataInputInterfacev2_2(XSDataInputInterface):
 			obj_ = kappa_alignment_response()
 			obj_.build(child_)
 			self.setPossibleOrientations(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'omega':
+			obj_ = XSDataAngle()
+			obj_.build(child_)
+			self.setOmega(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'kappa':
+			obj_ = XSDataAngle()
+			obj_.build(child_)
+			self.setKappa(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'phi':
+			obj_ = XSDataAngle()
+			obj_.build(child_)
+			self.setPhi(obj_)
 		XSDataInputInterface.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

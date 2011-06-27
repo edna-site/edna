@@ -35,6 +35,7 @@ from EDPluginControl    import EDPluginControl
 from EDMessage          import EDMessage
 from EDConfiguration    import EDConfiguration
 from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDUtilsImage import EDUtilsImage
 
 
 from XSDataCommon import XSDataFile
@@ -131,6 +132,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.fWavelength = None
         self.fTransmission = None
         self.strStrategyOption = None
+        self.listKappaStrategyOption = []
         self.iDataCollectionId = None
         self.strShortComments = None
         self.strComments = None
@@ -145,6 +147,10 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.mxv2DataCollection = None
         self.mxv2DataCollection_Reference = None
         self.mxv2PossibleOrientations = None
+        
+        self.fKappa = None
+        self.fOmega = None
+        self.fPhi = None
 
 
     def configure(self):
@@ -204,6 +210,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                     self.bAnomalousData = self.xsDataDiffractionPlan.getAnomalousData().getValue()
                 if self.xsDataDiffractionPlan.getStrategyOption():
                     self.strStrategyOption = self.xsDataDiffractionPlan.getStrategyOption().getValue()
+                if self.xsDataDiffractionPlan.getKappaStrategyOption():
+                    self.listKappaStrategyOption = self.xsDataDiffractionPlan.getKappaStrategyOption()
                 if self.xsDataDiffractionPlan.getComplexity():
                     self.strComplexity = self.xsDataDiffractionPlan.getComplexity().getValue()
                 if self.fMinOscillationWidth == None:
@@ -319,6 +327,15 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                 
             if xsDataInputInterface.getPossibleOrientations():
                 self.mxv2PossibleOrientations = xsDataInputInterface.getPossibleOrientations()
+                
+            if xsDataInputInterface.getKappa():
+                self.fKappa = xsDataInputInterface.getKappa().getValue()
+
+            if xsDataInputInterface.getOmega():
+                self.fOmega = xsDataInputInterface.getOmega().getValue()
+
+            if xsDataInputInterface.getPhi():
+                self.fPhi = xsDataInputInterface.getPhi().getValue()
 
         else:
 
@@ -348,6 +365,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                         self.bAnomalousData = self.xsDataDiffractionPlan.getAnomalousData().getValue()
                     if self.xsDataDiffractionPlan.getStrategyOption():
                         self.strStrategyOption = self.xsDataDiffractionPlan.getStrategyOption().getValue()
+                    if self.xsDataDiffractionPlan.getKappaStrategyOption():
+                        self.listKappaStrategyOption = self.xsDataDiffractionPlan.getKappaStrategyOption()
                     if self.xsDataDiffractionPlan.getComplexity():
                         self.strComplexity = self.xsDataDiffractionPlan.getComplexity().getValue()
                     if self.fMinOscillationWidth == None:
@@ -464,6 +483,9 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         if (self.strEDPluginControlISPyBName is not None):
             self.edPluginControlISPyB = self.loadPlugin(self.strEDPluginControlISPyBName, "ISPyB")
 
+        self.xsDataInputCharacterisationv2_0 = XSDataMXv2.XSDataInputCharacterisationv2_0()
+
+
 
     def process(self, _edPlugin=None):
         EDPluginControl.process(self, _edPlugin)
@@ -487,12 +509,6 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         if (self.mxv1InputCharacterisation is None):
             self.createInputCharacterisationFromImageHeaders(self.edPluginControlSubWedgeAssemble)
         else:
-            self.xsDataInputCharacterisationv2_0 = XSDataMXv2.XSDataInputCharacterisationv2_0()
-            self.xsDataInputCharacterisationv2_0.setMxv1InputCharacterisation(self.mxv1InputCharacterisation)
-            self.xsDataInputCharacterisationv2_0.setMxv1ResultCharacterisation_Reference(self.mxv1ResultCharacterisation_Reference)
-            self.xsDataInputCharacterisationv2_0.setMxv2DataCollection(self.mxv2DataCollection)
-            self.xsDataInputCharacterisationv2_0.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
-            self.xsDataInputCharacterisationv2_0.setPossibleOrientations(self.mxv2PossibleOrientations)
             self.runCharacterisationPlugin(self.edPluginControlCharacterisationv2)
 
 
@@ -531,6 +547,15 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
 
     def runCharacterisationPlugin(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.runCharacterisationPlugin")
+        if self.xsDataInputCharacterisationv2_0.getMxv1InputCharacterisation() is None:
+            self.xsDataInputCharacterisationv2_0.setMxv1InputCharacterisation(self.mxv1InputCharacterisation)
+        self.xsDataInputCharacterisationv2_0.setMxv1ResultCharacterisation_Reference(self.mxv1ResultCharacterisation_Reference)
+        if self.mxv2DataCollection is None:
+            self.mxv2DataCollection = self.generateMXv2DataCollection()
+        self.xsDataInputCharacterisationv2_0.setMxv2DataCollection(self.mxv2DataCollection)
+        self.xsDataInputCharacterisationv2_0.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
+        self.xsDataInputCharacterisationv2_0.setPossibleOrientations(self.mxv2PossibleOrientations)
+
         self.edPluginControlCharacterisationv2.setDataInput(self.xsDataInputCharacterisationv2_0)
         self.edPluginControlCharacterisationv2.executeSynchronous()
 
@@ -553,10 +578,9 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             self.edPluginControlISPyB.executeSynchronous()
 
 
-    def createInputCharacterisationFromSubWedges(self):
-        EDVerbose.DEBUG("EDPluginControlInterfacev2_2.createInputCharacterisationFromSubWedges")
+    def createMXv1InputCharacterisationFromSubWedges(self):
+        EDVerbose.DEBUG("EDPluginControlInterfacev2_2.createMXv1InputCharacterisationFromSubWedges")
         xsDataResultSubWedgeAssemble = self.edPluginControlSubWedgeAssemble.getDataOutput()
-        self.xsDataInputCharacterisationv2_0 = XSDataMXv2.XSDataInputCharacterisationv2_0()
         xsDataInputCharacterisation = XSDataMXv1.XSDataInputCharacterisation()
         xsDataCollection = XSDataMXv1.XSDataCollection()
         # Default exposure time (for the moment, this value should be
@@ -596,6 +620,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.xsDataDiffractionPlan.setMaxExposureTimePerDataCollection(XSDataTime(self.fMaxExposureTimePerDataCollection))
         if (self.strStrategyOption is not None):
             self.xsDataDiffractionPlan.setStrategyOption(XSDataString(self.strStrategyOption))
+        if (self.listKappaStrategyOption is not None):
+            self.xsDataDiffractionPlan.setKappaStrategyOption(self.listKappaStrategyOption)
         xsDataCollection.setDiffractionPlan(self.xsDataDiffractionPlan)
         if self.xsDataSample is not None:
             xsDataCollection.setSample(XSDataMXv1.XSDataSampleCrystalMM.parseString(self.xsDataSample.marshal()))
@@ -605,7 +631,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
 
     def generateTemplateFile(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.generateTemplateFile")
-        self.createInputCharacterisationFromSubWedges()
+        self.createMXv1InputCharacterisationFromSubWedges()
         if(self.strGeneratedTemplateFile is None):
             EDVerbose.screen("No argument for command line --generateTemplate key word found!")
         elif (self.xsDataInputCharacterisation is None):
@@ -619,33 +645,37 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             elif (self.xsDataInputCharacterisation is None):
                 EDVerbose.screen("ERROR! Cannot generate template file %s, please check the log files." % self.__strGeneratedTemplateFileMXv2)
             else:
-                # TEMP: generates the file to be read in
-                ##PARAMS
-                calibDate = '2009-12-10'
-                omegaR = (0, 0, 1)
-                kappaR = (0, 0.707106781187, 0.707106781187)
-                phiR = (0, 0, 1)
-                beamD = (1, 0, 0)
-                polarisationP = (0, 1, 0)
-                exposuretime = 1.0
-                imagewidth = 1.0
-                numberimages = 1
-                wavelength = 1.0
-                OmegaV = 0.0
-                KappaV = 90.0
-                PhiV = 40.0
-                imgFnames = []
-                xsDataResultSubWedgeAssemble = self.edPluginControlSubWedgeAssemble.getDataOutput()
-                for xsDataImage in xsDataResultSubWedgeAssemble.getSubWedge()[0].getImage():
-                    imgFnames.append(xsDataImage.getPath().getValue())
-                xsDC_v2 = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
                 EDVerbose.screen("Generating MXv2 xml template input file: " + self.strGeneratedTemplateFileMXv2 + "...")
+                xsDC_v2 = self.generateMXv2DataCollection()
                 xsDC_v2.outputFile(self.strGeneratedTemplateFileMXv2)
-
+                
+                
+    def generateMXv2DataCollection(self):
+        # TEMP: generates the file to be read in
+        ##PARAMS
+        calibDate = '2009-12-10'
+        omegaR = (0, 0, 1)
+        kappaR = (0, 0.707106781187, 0.707106781187)
+        phiR = (0, 0, 1)
+        beamD = (1, 0, 0)
+        polarisationP = (0, 1, 0)
+        exposuretime = 1.0
+        imagewidth = 1.0
+        numberimages = 1
+        wavelength = 1.0
+        OmegaV = self.fOmega
+        KappaV = self.fKappa
+        PhiV = self.fPhi
+        imgFnames = []
+        for xsDataImage in self.listImagePaths:
+            imgFnames.append(xsDataImage.getValue())
+        xsDataCollectionv2 = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
+        return xsDataCollectionv2
+    
 
     def doSubWedgeAssembleSUCCESS(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doSubWedgeAssembleSUCCESS")
-        self.createInputCharacterisationFromSubWedges()
+        self.createMXv1InputCharacterisationFromSubWedges()
         self.runCharacterisationPlugin(_edPlugin)
 
     def doSubWedgeAssembleFAILURE(self, _edPlugin):
@@ -781,23 +811,23 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         ###detector.set
 
         ##SUBWEDGE
-        sw = XSSubWedge_v2()
+        sw = XSDataMXv2.XSSubWedge()
         # template
         sw.setImagefilenametemplate(XSDataMXv2.XSDataString(EDUtilsImage.getTemplate(imgFnames[0], "#")))
         # images
         for imgFname in imgFnames:
-            img = XSDiffractionImages_v2()
+            img = XSDataMXv2.XSDiffractionImages()
             img.setFilename(XSDataMXv2.XSDataString(imgFname))
             sw.addXSDiffractionImages(img)
         #RotationExposure
-        rotexp = XSRotationExposure_v2()
+        rotexp = XSDataMXv2.XSRotationExposure()
         rotexp.setExposuretime(XSDataMXv2.XSDataTime(exposuretime))
         rotexp.setImagewidth(XSDataMXv2.XSDataAngle(imagewidth))
         rotexp.setNumberimages(XSDataMXv2.XSDataInteger(numberimages))
         rotexp.setXSGoniostatAxis(omega)
         sw.setXSRotationExposure(rotexp)
         #Beamsetting
-        beams = XSBeamSetting_v2()
+        beams = XSDataMXv2.XSBeamSetting()
         w = XSDataMXv2.XSDataWavelength()
         w.setValue(wavelength)
         beams.setWavelength(w)
