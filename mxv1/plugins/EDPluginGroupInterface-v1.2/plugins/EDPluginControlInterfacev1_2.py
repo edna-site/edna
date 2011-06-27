@@ -289,6 +289,9 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
             if xsDataInputInterface.getInputCharacterisation():
                 self.xsDataInputCharacterisation = xsDataInputInterface.getInputCharacterisation()
 
+            if xsDataInputInterface.getDataCollectionId():
+                self.iDataCollectionId = xsDataInputInterface.getDataCollectionId().getValue()
+
         else:
 
             if self.hasDataInput("experimentalCondition"):

@@ -220,9 +220,6 @@
      <transmission>
          <value>50</value>
      </transmission>
-     <dataCollectionId>
-         <value>1</value>
-     </dataCollectionId>
      <shortComments>
          <value>A short comment</value>
      </shortComments>
