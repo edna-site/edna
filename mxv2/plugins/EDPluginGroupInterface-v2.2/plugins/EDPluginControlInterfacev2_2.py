@@ -306,7 +306,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                 self.iDataCollectionId = xsDataInputInterface.getDataCollectionId().getValue()
 
             if xsDataInputInterface.getMxv1InputCharacterisation():
-                self.mxv1InputCharacterisation = xsDataInputInterface.mxv1InputCharacterisation()
+                self.mxv1InputCharacterisation = xsDataInputInterface.getMxv1InputCharacterisation()
                 
             if xsDataInputInterface.getMxv1ResultCharacterisation_Reference():
                 self.mxv1ResultCharacterisation_Reference = xsDataInputInterface.getMxv1ResultCharacterisation_Reference()
@@ -458,7 +458,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             self.strEDPluginControlCharacterisationName = self.strEDPluginControlCharForReorientationName
         else:
             self.strEDPluginControlCharacterisationName = self.strEDPluginControlCharAtNewOrientationName
-
+        self.screen("Using plugin %s" % self.strEDPluginControlCharacterisationName)
         self.edPluginControlCharacterisationv2 = self.loadPlugin(self.strEDPluginControlCharacterisationName, "Characterisation")
 
         if (self.strEDPluginControlISPyBName is not None):
@@ -484,9 +484,15 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             self.edPluginControlISPyB.connectSUCCESS(self.doSuccessActionISPyB)
             self.edPluginControlISPyB.connectFAILURE(self.doFailureActionISPyB)
 
-        if (self.xsDataInputCharacterisationv2_0 is None):
+        if (self.mxv1InputCharacterisation is None):
             self.createInputCharacterisationFromImageHeaders(self.edPluginControlSubWedgeAssemble)
         else:
+            self.xsDataInputCharacterisationv2_0 = XSDataMXv2.XSDataInputCharacterisationv2_0()
+            self.xsDataInputCharacterisationv2_0.setMxv1InputCharacterisation(self.mxv1InputCharacterisation)
+            self.xsDataInputCharacterisationv2_0.setMxv1ResultCharacterisation_Reference(self.mxv1ResultCharacterisation_Reference)
+            self.xsDataInputCharacterisationv2_0.setMxv2DataCollection(self.mxv2DataCollection)
+            self.xsDataInputCharacterisationv2_0.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
+            self.xsDataInputCharacterisationv2_0.setPossibleOrientations(self.mxv2PossibleOrientations)
             self.runCharacterisationPlugin(self.edPluginControlCharacterisationv2)
 
 
@@ -501,13 +507,15 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         if (not self.edPluginControlISPyB is None):
             if (self.edPluginControlISPyB.hasDataOutput()):
                 self.setDataOutput(self.edPluginControlISPyB.getDataOutput(), "ISPyB")
-        if self.hasDataInput():
-            xsDataResultInterface = XSDataResultInterfacev2_0()
-            if self.edPluginControlCharacterisationv2:
-                xsDataResultInterface.setResultCharacterisation(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
-            if self.edPluginControlISPyB:
-                xsDataResultInterface.setResultControlISPyB(self.edPluginControlISPyB.getDataOutput())
-            self.setDataOutput(xsDataResultInterface)
+        xsDataResultInterface = XSDataResultInterfacev2_2()
+        if self.edPluginControlCharacterisationv2:
+            xsDataResultInterface.setMxv1ResultCharacterisation(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
+            xsDataResultInterface.setMxv1ResultCharacterisation_Reference(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation_Reference())
+            xsDataResultInterface.setSuggestedStrategy(self.edPluginControlCharacterisationv2.getDataOutput().getSuggestedStrategy())
+            xsDataResultInterface.setPossibleOrientations(self.edPluginControlCharacterisationv2.getDataOutput().getPossibleOrientations())
+        if self.edPluginControlISPyB:
+            xsDataResultInterface.setResultControlISPyB(self.edPluginControlISPyB.getDataOutput())
+        self.setDataOutput(xsDataResultInterface)
 
 
     def createInputCharacterisationFromImageHeaders(self, _edPlugin):
