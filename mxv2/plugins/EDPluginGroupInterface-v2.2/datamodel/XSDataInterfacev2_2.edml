@@ -1,0 +1,24 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataMXv1.XSDataInputCharacterisation
+import XSDataMXv1.XSDataResultCharacterisation
+import XSDataMXv1.XSDataResultStrategy
+import XSDataMXv2.kappa_alignment_response
+import XSDataMXv2.XSDataCollection
+import XSDataInterfacev1_2.XSDataInputInterface
+import XSDataInterfacev1_2.XSDataResultInterface
+
+complex type XSDataInputInterfacev2_2 extends XSDataInputInterface {
+	mxv1InputCharacterisation : XSDataInputCharacterisation
+	mxv1ResultCharacterisation_Reference : XSDataResultCharacterisation optional
+	mxv2DataCollection : XSDataCollection optional
+	mxv2DataCollection_Reference : XSDataCollection optional
+	possibleOrientations : kappa_alignment_response optional
+}
+
+complex type XSDataResultInterfacev2_2 extends XSDataResultInterface {
+	mxv1ResultCharacterisation : XSDataResultCharacterisation
+	mxv1ResultCharacterisation_Reference : XSDataResultCharacterisation optional
+	suggestedStrategy : XSDataResultStrategy optional
+	possibleOrientations : kappa_alignment_response optional
+}
