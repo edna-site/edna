@@ -1,0 +1,46 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataWavelength
+import XSDataMXv1.XSDataDiffractionPlan
+import XSDataMXv1.XSDataExperimentalCondition
+import XSDataMXv1.XSDataInputCharacterisation
+import XSDataMXv1.XSDataResultCharacterisation
+import XSDataMXv1.XSDataResultControlISPyB
+import XSDataMXv1.XSDataSample
+
+complex type XSDataInputInterface {
+	experimentalCondition : XSDataExperimentalCondition optional
+	diffractionPlan : XSDataDiffractionPlan optional
+	sample : XSDataSample optional
+	imagePath : XSDataFile [] optional
+	flux : XSDataFloat optional
+	minExposureTimePerImage : XSDataTime optional
+	beamSize : XSDataLength optional
+	beamSizeX : XSDataLength optional
+	beamSizeY : XSDataLength optional
+	templateMode : XSDataBoolean optional
+	generatedTemplateFile : XSDataFile optional
+	resultsFilePath : XSDataFile optional
+	beamPosX : XSDataFloat optional
+	beamPosY : XSDataFloat optional
+	wavelength : XSDataWavelength optional
+	transmission : XSDataDouble optional
+	dataCollectionId : XSDataInteger
+	optional
+	shortComments : XSDataString optional
+	comments : XSDataString optional
+	inputCharacterisation : XSDataInputCharacterisation optional
+}
+
+complex type XSDataResultInterface {
+	resultCharacterisation : XSDataResultCharacterisation optional
+	resultControlISPyB : XSDataResultControlISPyB
+}

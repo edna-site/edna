@@ -33,6 +33,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 import os
 
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from EDUtilsPath import EDUtilsPath
 
 
 class EDTestCasePluginExecuteControlInterfacev1_2_withXMLInput(EDTestCasePluginExecute):
@@ -46,7 +47,10 @@ class EDTestCasePluginExecuteControlInterfacev1_2_withXMLInput(EDTestCasePluginE
         self.setRequiredPluginConfiguration("EDPluginBestv1_1")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputInterface_reference.xml"))
+        if EDUtilsPath.getEdnaSite().startswith("ESRF"):
+            self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputInterface_ESRF.xml"))
+        else:
+            self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputInterface_reference.xml"))
 
 
     def preProcess(self):
