@@ -552,7 +552,7 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
             self.xsDataDiffractionPlan.setStrategyOption(XSDataString(self.strStrategyOption))
         xsDataCollection.setDiffractionPlan(self.xsDataDiffractionPlan)
         if self.xsDataSample is not None:
-            xsDataCollection.setSample(self.xsDataSample)
+            xsDataCollection.setSample(XSDataSampleCrystalMM.parseString(self.xsDataSample.marshal()))
         self.xsDataInputCharacterisation.setDataCollection(xsDataCollection)
 
 
@@ -565,7 +565,7 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
             EDVerbose.screen("ERROR! Cannot generate template file %s, please check the log files." % self.strGeneratedTemplateFile)
         else:
             EDVerbose.screen("Generating xml template input file for edna: " + self.strGeneratedTemplateFile + "...")
-            self.xsDataInputCharacterisation.outputFile(self.strGeneratedTemplateFile)
+            self.xsDataInputCharacterisation.exportToFile(self.strGeneratedTemplateFile)
 
 
     def doSubWedgeAssembleSUCCESS(self, _edPlugin):
@@ -600,7 +600,7 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
         if (self.strResultsFilePath is not None):
             xsDataCharacterisationResult = _edPlugin.getDataOutput()
             if (xsDataCharacterisationResult is not None):
-                xsDataCharacterisationResult.outputFile(self.strResultsFilePath)
+                xsDataCharacterisationResult.exportToFile(self.strResultsFilePath)
         if _edPlugin.hasDataOutput("statusMessage"):
             self.strStatusMessage = _edPlugin.getDataOutput("statusMessage")[0].getValue()
         self.storeResultsInISPyB(_edPlugin)
