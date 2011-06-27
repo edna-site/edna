@@ -126,7 +126,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
+					<value>30</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>reversephi</name>
@@ -155,7 +155,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
+					<value>30</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>reversephi</name>
@@ -184,7 +184,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
+					<value>30</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>reversephi</name>
@@ -294,7 +294,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
+					<value>120</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
