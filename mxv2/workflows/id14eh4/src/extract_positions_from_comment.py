@@ -1,9 +1,3 @@
-
-print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 #suggestedStrategyComment = suggestedStrategyComment.split("\n")[0]
 print suggestedStrategyComment
 listValues = suggestedStrategyComment.split(" ")
@@ -18,4 +12,3 @@ print listValues, phi, kap1, kap2, [strategy]
 
 possibleOrientations_Reference = possibleOrientations
 
-print mxv1ReferenceStrategy

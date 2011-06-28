@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE entity PUBLIC "-//UC Berkeley//DTD MoML 1//EN"
     "http://ptolemy.eecs.berkeley.edu/xml/dtd/MoML_1.dtd">
-<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/svensson/debug_workspaces/runtime-dawb-workbench/id14eh4/kappa/test_complete.moml">
+<entity name="newModel" class="ptolemy.actor.TypedCompositeActor" source="/users/svensson/dawb_workspace/id14eh4/kappa/test_complete.moml">
     <property name="_createdBy" class="ptolemy.kernel.attributes.VersionAttribute" value="7.0.1">
     </property>
     <property name="_workbenchVersion" class="ptolemy.kernel.attributes.VersionAttribute" value="0.8.2">
@@ -281,7 +281,7 @@
         </property>
         <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputReadImageHeader1.xml">
         </property>
-        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader1.properties">
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader3.properties">
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
@@ -303,7 +303,7 @@
         </property>
         <property name="Input Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataInputReadImageHeader2.xml">
         </property>
-        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader2.properties">
+        <property name="Output Template" class="com.isencia.passerelle.util.ptolemy.ResourceParameter" value="/${project_name}/edna-xml/XSDataOutputReadImageHeader4.properties">
         </property>
         <property name="Pass Inputs On" class="ptolemy.data.expr.Parameter" value="true">
         </property>
