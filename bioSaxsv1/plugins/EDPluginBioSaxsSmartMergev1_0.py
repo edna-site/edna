@@ -32,9 +32,9 @@ from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
 from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
-EDFactoryPluginStatic.loadModule("XSDataAtsas")
-from XSDataAtsas import XSDataInputDatcmp
-from XSDataAtsas import XSDataInputDataver
+EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
+from XSDataEdnaSaxs import XSDataInputDatcmp
+from XSDataEdnaSaxs import XSDataInputDataver
 from XSDataCommon import XSDataString, XSDataStatus
 
 class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
