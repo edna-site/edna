@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<XSDataResult>
-	<outputCurve>
-		<path>
-			<value>/tmp/edna-${USER}/merged.dat</value>
-		</path>
-	</outputCurve>
-</XSDataResult>

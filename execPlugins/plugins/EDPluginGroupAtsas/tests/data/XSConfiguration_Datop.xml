@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<XSConfiguration> 
-	<XSPluginList>
-		<XSPluginItem>
-			<name>EDPluginExecDatopv1_0</name>  
-		</XSPluginItem>
-	</XSPluginList> 
-</XSConfiguration> 
