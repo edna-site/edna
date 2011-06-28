@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xs:schema targetNamespace="http://www.edna-site.org"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.edna-site.org">
-    <xs:include schemaLocation="../../kernel/datamodel/XSDataCommon.xsd"></xs:include>
+<xs:schema targetNamespace="http://www.edna-site.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="XSDataCommon.xsd" />
 	<xs:element name="XSDataInputGnom" type="XSDataInputGnom" />
 	<xs:complexType name="XSDataInputGnom">

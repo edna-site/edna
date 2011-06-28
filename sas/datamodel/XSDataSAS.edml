@@ -1,0 +1,199 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataRotation
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataVectorDouble
+
+complex type XSDataConfigGnom extends XSData {
+	printer : XSDataString [] optional
+	forfac : XSDataFile optional
+	expert : XSDataFile optional
+	input1 : XSDataFile
+	input2 : XSDataFile optional
+	nskip1 : XSDataInteger optional
+	nskip2 : XSDataInteger optional
+	output : XSDataFile
+	optional
+	iscale : XSDataInteger optional
+	plonp : XSDataBoolean
+	plores : XSDataBoolean
+	evaerr : XSDataBoolean
+	optional
+	ploerr : XSDataBoolean
+	lkern : XSDataBoolean optional
+	jobtyp : XSDataInteger optional
+	rmin : XSDataFloat
+	optional
+	rmax : XSDataFloat optional
+	lzrmin : XSDataBoolean optional
+	lzrmax : XSDataBoolean optional
+	kernel : XSDataFile optional
+	deviat : XSDataFloat
+	idet : XSDataInteger optional
+	fwhm1 : XSDataFloat optional
+	fwhm2 : XSDataFloat optional
+	ah1 : XSDataFloat optional
+	lh1 : XSDataFloat optional
+	aw1 : XSDataFloat optional
+	lw1 : XSDataFloat optional
+	ah2 : XSDataFloat optional
+	lh2 : XSDataFloat optional
+	aw2 : XSDataFloat optional
+	lw2 : XSDataFloat optional
+	spot1 : XSDataFile optional
+	spot2 : XSDataFile optional
+	alpha : XSDataFloat
+	nreal : XSDataInteger
+	coef : XSDataFloat optional
+	rad56 : XSDataFloat optional
+	nextjob : XSDataBoolean optional
+}
+
+complex type XSDataInputDamaver extends XSDataInput {
+	pdbInputFiles : XSDataFile []
+	symmetry : XSDataString optional
+	automatic : XSDataBoolean optional
+}
+
+complex type XSDataInputDamfilt extends XSDataInput {
+	inputPdbFile : XSDataFile
+}
+
+complex type XSDataInputDammif extends XSDataInput {
+	expectedParticleShape : XSDataInteger
+	gnomOutputFile : XSDataFile
+	unit : XSDataString optional
+	symmetry : XSDataString
+	mode : XSDataString optional
+	chained : XSDataBoolean optional
+	constant : XSDataFloat
+	optional
+}
+
+complex type XSDataInputDammin extends XSDataInput {
+	expectedParticleShape : XSDataInteger
+	gnomOutputFile : XSDataFile
+	initialDummyAtomModel : XSDataInteger
+	pdbInputFile : XSDataFile
+	symmetry : XSDataString
+	mode : XSDataString optional
+}
+
+complex type XSDataInputDamstart extends XSDataInput {
+	inputPdbFile : XSDataFile
+}
+
+complex type XSDataInputGnom extends XSDataInput {
+	experimentalDataQ : XSDataFloat [] optional
+	experimentalDataValues : XSDataFloat [] optional
+	experimentalDataStdDev : XSDataFloat [] optional
+	rMax : XSDataFloat
+	angularScale : XSDataInteger optional
+	mode : XSDataString optional
+}
+
+complex type XSDataInputSolutionScattering extends XSDataInput {
+	title : XSDataString optional
+	experimentalDataQ : XSDataFloat [] optional
+	experimentalDataValues : XSDataFloat []
+	optional
+	experimentalDataStdDev : XSDataFloat [] optional
+	rMaxSearchSettings : XSDataSolutionScatteringSettings
+	optional
+	angularUnits : XSDataInteger optional
+	symmetry : XSDataString optional
+	mode : XSDataString optional
+	iNbThreads : XSDataInteger optional
+	onlyGnom : XSDataBoolean optional
+	plotFit : XSDataBoolean optional
+}
+
+complex type XSDataInputSupcomb extends XSDataInput {
+	templateFile : XSDataFile
+	superimposeFile : XSDataFile
+	enantiomorphs : XSDataBoolean optional
+	backbone : XSDataBoolean optional
+}
+
+complex type XSDataResultDamaver extends XSDataResult {
+	meanNSD : XSDataFloat optional
+	variationNSD : XSDataFloat optional
+	damaverPdbFile : XSDataFile optional
+	damfilterPdbFile : XSDataFile optional
+	damstartPdbFile : XSDataFile optional
+}
+
+complex type XSDataResultDamfilt extends XSDataResult {
+	outputPdbFile : XSDataFile optional
+}
+
+complex type XSDataResultDammif extends XSDataResult {
+	fitFile : XSDataFile
+	logFile : XSDataFile
+	pdbMoleculeFile : XSDataFile
+	pdbSolventFile : XSDataFile
+	rfactor : XSDataFloat optional
+	chiSqrt : XSDataFloat optional
+}
+
+complex type XSDataResultDammin extends XSDataResult {
+	fitFile : XSDataFile
+	logFile : XSDataFile
+	pdbMoleculeFile : XSDataFile
+	pdbSolventFile : XSDataFile
+	rfactor : XSDataFloat optional
+	chiSqrt : XSDataFloat optional
+}
+
+complex type XSDataResultDamstart extends XSDataResult {
+	outputPdbFile : XSDataFile optional
+}
+
+complex type XSDataResultGnom extends XSDataResult {
+	fitQuality : XSDataFloat
+	output : XSDataFile
+	scatteringFitQ : XSDataFloat [] optional
+	scatteringFitValues : XSDataFloat [] optional
+	distributionR : XSDataFloat [] optional
+	distributionPr : XSDataFloat
+	[] optional
+	distributionErr : XSDataFloat [] optional
+	radiusOfCrossSection : XSDataFloat
+	radiusOfGyration : XSDataFloat
+}
+
+complex type XSDataResultSolutionScattering extends XSDataResult {
+	corelationFitValues : XSDataFloat [] optional
+	fitFile : XSDataFile
+	lineProfileFitQuality : XSDataFloat
+	logFile : XSDataFile
+	pdbMoleculeFile : XSDataFile
+	pdbSolventFile : XSDataFile
+	scatteringFitQ : XSDataFloat []
+	optional
+	scatteringFitValues : XSDataFloat [] optional
+	meanNSD : XSDataFloat optional
+	variationNSD : XSDataFloat
+	optional
+}
+
+complex type XSDataResultSupcomb extends XSDataResult {
+	outputFile : XSDataFile
+	rot : XSDataRotation
+	trns : XSDataVectorDouble
+	NSD : XSDataFloat
+}
+
+complex type XSDataSolutionScatteringSettings extends XSData {
+	rMaxStart : XSDataFloat
+	rMaxStop : XSDataFloat
+	rMaxIntervals : XSDataInteger
+	rMaxAbsTol : XSDataFloat
+}
