@@ -39,7 +39,7 @@ class EDTestSuiteExecuteAtsas(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDatcmpv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDataverv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDatopv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecAutoRgv1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecAutoRgv1_0")
 
 
 

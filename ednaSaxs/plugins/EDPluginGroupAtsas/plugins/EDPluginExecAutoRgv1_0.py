@@ -55,7 +55,6 @@ class EDPluginExecAutoRgv1_0(EDPluginExecProcessScript):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginExecProcessScriptAutoRgv1_0.checkParameters")
-        print self.dataInput.marshal()
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.sample, "No sample provided")
         self.checkMandatoryParameters(self.dataInput.inputCurve, "No input curve  provided ")

@@ -36,7 +36,7 @@ class EDTestSuiteUnitEdnaSaxs(EDTestSuite):
     """
 
     def process(self):
-        self.addTestSuiteFromName("EDTestCasePluginUnitExecDatcmpv1_0")
+        self.addTestSuiteFromName("EDTestSuiteUnitAtsas")
 
 
 if __name__ == '__main__':

@@ -29,7 +29,7 @@ __copyright__ = "2011, ESRF, Grenoble"
 
 from EDTestSuite  import EDTestSuite
 
-class c(EDTestSuite):
+class EDTestSuiteEdnaSaxs(EDTestSuite):
     """
     This is the test suite for EDNA saxs
     It will run subsequently all unit tests and execution tests.     
