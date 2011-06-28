@@ -1,0 +1,96 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSConfiguration
+import XSDataCommon.XSData
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataStatus
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataWavelength
+
+/*******************************************
+  *  Common types used only in EdnaSaxs
+  ********************************************/
+  
+  
+complex type XSDataSaxsSeries extends XSData {
+	"Basical"
+	curve : XSDataFile 
+	concentration: XSDataDouble optional
+}
+
+complex type XSDataSaxsSample extends XSData {
+	"Everything describing the sample"
+	name: XSDataString optional
+	comment: XSDataString optional
+	code: XSDataString optional
+	
+}
+
+complex type XSDataInputDatcmp extends XSDataInput {
+	"datcmp compares two curves from files
+	"
+	inputCurve: XSDataFile []
+}
+
+complex type XSDataResultDatcmp extends XSDataResult {
+	"Higher chi-values indicate dis-similarities in the input.\n
+	 Fidelity gives the likelihood of the two data sets being identical.
+	"
+	chi: XSDataDouble 
+	fidelity: XSDataDouble
+}
+
+complex type XSDataInputDataver extends XSDataInput {
+	"dataver averages two or more curves from files"
+	inputCurve: XSDataFile []
+	outputCurve: XSDataFile
+	}
+
+complex type XSDataResultDataver extends XSDataResult {
+	"Result of Dataver 	"
+	outputCurve: XSDataFile
+}
+
+complex type XSDataInputDatop extends XSDataInput {
+	"datop makes an operation on curves"
+	inputCurve: XSDataFile []
+	outputCurve: XSDataFile
+	operation: XSDataString
+	constant: XSDataDouble optional
+}
+
+complex type XSDataResultDatop extends XSDataResult {
+	"Result of Datop 	"
+	outputCurve: XSDataFile
+}
+
+complex type XSDataInputAutoRg extends XSDataInput{
+	sample: XSDataSaxsSample
+//	runs: XSDataSaxsSeries[]
+	inputCurve: XSDataFile[]
+	minIntervalLength: XSDataInteger optional
+	maxSmaxRg: XSDataDouble optional
+	maxSminRg: XSDataDouble optional
+}
+
+complex type XSDataAutoRg extends XSData{
+	filename:XSDataFile
+	rg:XSDataLength
+	rgStdev:XSDataLength
+	i0: XSDataDouble
+	i0Stdev:XSDataDouble
+	firstPointUsed:XSDataInteger
+	lastPointUsed:XSDataInteger
+	quality: XSDataDouble "from 0 to 1"
+	isagregated: XSDataBoolean
+}
+complex type XSDataResultAutoRg extends XSDataResult{
+	autoRgOut: XSDataAutoRg[]
+}
