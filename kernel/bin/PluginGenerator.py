@@ -23,9 +23,9 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-__authors__ = ["Mark Basham", "Olof Svensson"]
+__authors__ = ["Mark Basham", "Olof Svensson", "Jérôme Kieffer"]
 __license__ = "GPLv3"
-__date__ = "2010-02-02"
+__date__ = "2011-06-17"
 __copyright__ = "DLS"
 """
 
@@ -61,14 +61,14 @@ import shutil
 import subprocess
 import xml.dom.minidom
 
-class PluginGenerator:
+class PluginGenerator(object):
     """
     Class description
     """
     def __init__(self):
         # the name of the plugin from which this inherits
         self._base_name = None
-        # the name of the project where this pluginn will be placed
+        # the name of the project where this plugin will be placed
         self._project_name = None
         # name of the default site for the plugin
         self._site_name = None
@@ -124,6 +124,17 @@ class PluginGenerator:
         self._root_directory = root_directory
         return
 
+    def get_xsd_base_name(self):
+        if not self._cache_xsd_base_name :
+            assert(self._plugin_name)
+            if (self._xsd_general == None):
+                self._cache_xsd_base_name = "XSData%s%s" % (self._base_name, self._plugin_name)
+
+            else:
+                (filepath, filename) = os.path.split(self._xsd_filename)
+                self._cache_xsd_base_name = filename.split('.')[0]
+        return self._cache_xsd_base_name
+
     def set_base_name(self, base_name):
         """
         Sets the base name, and makes sure it is valid
@@ -135,6 +146,7 @@ class PluginGenerator:
 
         # if the base name is not on the list then return an error
         raise RuntimeError("Base plugin needs to be either a control or exec plugin you have specified a %s plugin" % base_name)
+
 
     def set_plugin_name(self, plugin_name):
         """
@@ -185,11 +197,12 @@ class PluginGenerator:
         _xsd_data_input_name
         _xsd_data_result_name
         """
-        if not os.path.exists(xsd_filename):
-            raise RuntimeError("The xsd filename '%s' does not exist" % xsd_filename)
-        self._xsd_filename = xsd_filename
-        self._xsd_name = os.path.split(xsd_filename)[-1]
-        self.check_xsd_input_and_result_with_xsd(xsd_filename)
+        if xsd_filename is not None:
+            if not os.path.exists(xsd_filename):
+                raise RuntimeError("The xsd filename '%s' does not exist" % xsd_filename)
+            self._xsd_filename = xsd_filename
+            self._xsd_name = os.path.split(xsd_filename)[-1]
+            self.check_xsd_input_and_result_with_xsd(xsd_filename)
         return
 
     def set_xsd_input(self, xsd_input):
@@ -219,16 +232,8 @@ class PluginGenerator:
             self._cache_dirname = "EDPlugin%s%s-v%s" % (self._base_name, self._plugin_name, self._version)
         return self._cache_dirname
 
-    def get_xsd_base_name(self):
-        if not self._cache_xsd_base_name :
-            assert(self._plugin_name)
-            if (self._xsd_general == None):
-                self._cache_xsd_base_name = "XSData%s%s" % (self._base_name, self._plugin_name)
-
-            else:
-                (filepath, filename) = os.path.split(self._xsd_filename)
-                self._cache_xsd_base_name = filename.split('.')[0]
-        return self._cache_xsd_base_name
+    def get_xsd_name(self):
+        return self.get_xsd_base_name() + ".xsd"
 
     def set_plugin_filename(self, plugin_filename):
         self._plugin_filename = plugin_filename
@@ -246,22 +251,32 @@ class PluginGenerator:
         self._site_name = site_name
         return
 
+    def set_plugin_directory(self, plugin_directory):
+        self._plugin_base_directory = plugin_directory
+
     def create_file_structure(self):
         """
         This creates the file structure and populates some other parameters which are needed
         """
         assert(self._root_directory)
-        self._plugin_base_directory = os.path.join(self._root_directory, self.get_dir_name())
-        if(os.path.exists(self._plugin_base_directory)):
-            raise Exception("The directory %s already exists, please delete this to continue" % (self._plugin_base_directory))
+        if not self._plugin_base_directory:
+            self._plugin_base_directory = os.path.join(self._root_directory, self.get_dir_name())
+#        if(os.path.exists(self._plugin_base_directory)):
+#            raise Exception("The directory %s already exists, please delete this to continue" % (self._plugin_base_directory))
 
         # now make the directories
         if not self._xsd_general:
-            os.makedirs(os.path.join(self._plugin_base_directory, "datamodel"))
-        os.makedirs(os.path.join(self._plugin_base_directory, "plugins"))
-        os.makedirs(os.path.join(self._plugin_base_directory, "tests", "data"))
-        os.makedirs(os.path.join(self._plugin_base_directory, "tests", "testsuite"))
-        return
+            if self._xsd_name:
+                os.makedirs(os.path.join(self._plugin_base_directory, "datamodel"))
+        plugin_dir = os.path.join(self._plugin_base_directory, "plugins")
+        for lmydir in [["plugins"], ["tests", "data"], ["tests", "testsuite"]]:
+            full_path = os.path.join(*([self._plugin_base_directory] + lmydir))
+            if not os.path.isdir(full_path):
+                os.makedirs(full_path)
+#        os.makedirs(os.path.join(self._plugin_base_directory, "plugins"))
+#        os.makedirs(os.path.join(self._plugin_base_directory, "tests", "data"))
+#        os.makedirs(os.path.join(self._plugin_base_directory, "tests", "testsuite"))
+#        return
 
     def get_replacement_dictionary(self):
         if not self._cache_replacements :
@@ -274,8 +289,8 @@ class PluginGenerator:
             self._cache_replacements['<author>'] = self._author
             self._cache_replacements['<xsDataBaseDir>'] = self.get_dir_name()
             self._cache_replacements['<xsDataBaseName>'] = self.get_xsd_base_name()
+            self._cache_replacements['<xsDataName>'] = self.get_xsd_name()
             self._cache_replacements['<projectName>'] = self._project_name
-
             self._cache_replacements['<fileName>'] = "EDPlugin%s%s%sv%s" % (self._base_name, self._plugin_name, self._version.replace(".", "_"), '.py')
             self._cache_replacements['<xsDataInputName>'] = self._xsd_data_input_name
             self._cache_replacements['<xsDataResultName>'] = self._xsd_data_result_name
@@ -293,7 +308,10 @@ class PluginGenerator:
         outfile = open(outputfilename, "w")
         for line in infile.readlines():
             for key in replacement_dict.keys():
-                line = line.replace(key, replacement_dict[key])
+                if replacement_dict[key] is not None:
+                    line = line.replace(key, replacement_dict[key])
+                else:
+                    line = line.replace(key, "None")
             outfile.write(line)
 
     def create_xsd_converter_script(self):
@@ -390,7 +408,7 @@ class PluginGenerator:
     def copy_xsd_to_local(self):
         assert(self._plugin_base_directory)
         assert(self._xsd_filename)
-        new_path = os.path.join(self._plugin_base_directory, "datamodel", self.get_xsd_base_name() + ".xsd")
+        new_path = os.path.join(self._plugin_base_directory, "datamodel", self.get_xsd_name())
         shutil.copy(self._xsd_filename, new_path)
         return
 
@@ -400,6 +418,12 @@ class PluginGenerator:
         subprocess.call(["bash", self._generator_filename])
         return
 
+    def check_file_does_not_exist(self, new_file):
+        if os.path.exists(new_file):
+            raise RuntimeError("The file %s already exist, I stop NOW !!!" % new_file)
+            sys.exit(1)
+
+
     def copy_and_populate_plugin(self):
         assert(self._base_name)
         replacements = self.get_replacement_dictionary()
@@ -407,6 +431,7 @@ class PluginGenerator:
         template_file = os.path.join(template_file, "EDPlugin%s.py.template" % self._base_name)
         new_file = os.path.join(self._plugin_base_directory, "plugins")
         new_file = os.path.join(new_file, "EDPlugin%s%sv%s.py" % (self._base_name, self._plugin_name, self._version.replace(".", "_")))
+        self.check_file_does_not_exist(new_file)
         self.set_plugin_filename(new_file)
         self.create_template_replaced_file(template_file, new_file, replacements)
         return
@@ -419,12 +444,15 @@ class PluginGenerator:
         plugin_dir = os.path.join(self._plugin_base_directory, "tests", "testsuite")
         template_file = os.path.join(template_dir, "EDTestCasePluginExecute%s.py.template" % self._base_name)
         new_file = os.path.join(plugin_dir, "EDTestCasePluginExecute%s%sv%s.py" % (self._base_name, self._plugin_name, self._version.replace(".", "_")))
+        self.check_file_does_not_exist(new_file)
         self.create_template_replaced_file(template_file, new_file, replacements)
         template_file = os.path.join(template_dir, "EDTestCasePluginUnit%s.py.template" % self._base_name)
         new_file = os.path.join(plugin_dir, "EDTestCasePluginUnit%s%sv%s.py" % (self._base_name, self._plugin_name, self._version.replace(".", "_")))
+        self.check_file_does_not_exist(new_file)
         self.create_template_replaced_file(template_file, new_file, replacements)
         template_file = os.path.join(template_dir, "EDTestSuitePlugin.py.template")
         new_file = os.path.join(plugin_dir, "EDTestSuitePlugin%s%sv%s.py" % (self._base_name, self._plugin_name, self._version.replace(".", "_")))
+        self.check_file_does_not_exist(new_file)
         self.create_template_replaced_file(template_file, new_file, replacements)
         return
 
@@ -434,12 +462,15 @@ class PluginGenerator:
         template_file = os.path.join(template_file_base, "XSConfigTemplate.xml")
         new_file_base = os.path.join(self._plugin_base_directory, "tests", "data")
         new_file = os.path.join(new_file_base, "XSConfiguration_%s.xml" % (self._plugin_name))
+        self.check_file_does_not_exist(new_file)
         self.create_template_replaced_file(template_file, new_file, replacements)
         template_file = os.path.join(template_file_base, "XSDataInputTemplate_reference.xml")
         new_file = os.path.join(new_file_base, "XSDataInput%s_reference.xml" % (self._plugin_name))
+        self.check_file_does_not_exist(new_file)
         self.create_template_replaced_file(template_file, new_file, replacements)
         template_file = os.path.join(template_file_base, "XSDataResultTemplate_reference.xml")
         new_file = os.path.join(new_file_base, "XSDataResult%s_reference.xml" % (self._plugin_name))
+        self.check_file_does_not_exist(new_file)
         self.create_template_replaced_file(template_file, new_file, replacements)
         return
 
@@ -488,7 +519,7 @@ class PluginGenerator:
         self.create_file_structure()
 
 
-        if (self._xsd_general == None):
+        if (self._xsd_general == None) and (self._xsd_filename):
             self.create_xsd_converter_script()
             self.copy_xsd_to_local()
             self.run_the_xsd_script()
@@ -496,7 +527,8 @@ class PluginGenerator:
         self.copy_and_populate_plugin()
         self.copy_and_populate_plugin_tests()
         self.copy_test_data_information()
-        self.run_execute_test()
+        if self._xsd_filename:
+            self.run_execute_test()
         self.register_with_site_config()
         return
 
@@ -531,7 +563,9 @@ def main():
         "\n\tGenerates an example plugin in the default project"
         "\nPluginGenerator.py -n MyPlugin -b Control -v 2.1 -i XSDataInputMTZDUMPUnitCellSpaceGroup -r XSDataResultMTZDUMPUnitCellSpaceGroup -a 'Mark Basham' -c DLS"
         "\n\tGenerates a plugin called MyPlugin which is version 2.1 of a control plugin with the specified input and result"
-        "\n\tauthored by Mark Basham and with DLS as the copyright holder")
+        "\n\tauthored by Mark Basham and with DLS as the copyright holder"
+        "\n\t"
+        )
 
     parser.add_option("-n", "--plugin-name", dest="plugin_name", help="Specifies the name of the plugin you wish to create", default="Template")
     parser.add_option("-b", "--base-plugin", dest="base_name", help="Specifies which plugin you want your new plugin to inherit from", default="Exec")
@@ -550,6 +584,8 @@ def main():
     parser.add_option("-c", "--copyright", dest="plugin_copyright", help="Specifies the copyright string which will be present in the plugin", default="2008-2009 - EDNA Default Copyright")
     parser.add_option("-s", "--slave-plugin-name", dest="slave_plugin_name", help="If the plugin is a control plugin, this specifies which plugin will be controled", default="EDPluginExecTemplate")
     parser.add_option("--site-name", dest="site_name", help="the name of the site, to decide which configuration file to add the plugin to, i.e. DLS/ESRF etc, default is DLS", default="DLS")
+    parser.add_option("--no-xsd", dest="generateDB", action="store_false", help="use this option to prevent the generation of the databindings ", default=True)
+    parser.add_option("--force_location", dest="plugin_root", help="use this option to enforce the location a plugin in EDNA's tree", default=None)
 
     (options, args) = parser.parse_args()
 
@@ -571,7 +607,11 @@ def main():
     else:
         pyStrEdnaHomePath = os.environ['EDNA_HOME']
 
-    root_dir = os.path.join(pyStrEdnaHomePath, options.project_name, "plugins")
+    if options.plugin_root:
+        root_dir = os.path.join(pyStrEdnaHomePath, options.plugin_root)
+        plugin_dir = os.path.join(pyStrEdnaHomePath, options.plugin_root)
+    else:
+        root_dir = os.path.join(pyStrEdnaHomePath, options.project_name, "plugins")
 
     if not os.path.exists(root_dir):
         # now make the directory
@@ -580,7 +620,7 @@ def main():
     template_dir = os.path.join(os.environ['EDNA_HOME'], "template")
 
     xsd_loc = options.xsd_location
-    if xsd_loc == None:
+    if xsd_loc == None and options.generateDB:
         xsd_loc = os.path.join(template_dir, "datamodel")
         xsd_loc = os.path.join(xsd_loc, "XSDataTemplate.xsd")
 
@@ -590,10 +630,12 @@ def main():
     pg.set_version(options.plugin_version)
     pg.set_author(options.plugin_author)
     pg.set_copyright(options.plugin_copyright)
-    pg.set_xsd_input(options.xsd_input)
-    pg.set_xsd_result(options.xsd_result)
-    pg.set_xsd_general(options.xsd_general)
-    pg.set_xsd_filename(xsd_loc)
+    pg.set_plugin_directory(plugin_dir)
+    if options.generateDB:
+        pg.set_xsd_input(options.xsd_input)
+        pg.set_xsd_result(options.xsd_result)
+        pg.set_xsd_general(options.xsd_general)
+        pg.set_xsd_filename(xsd_loc)
     pg.set_template_dir(template_dir)
     pg.set_project_name(options.project_name)
     pg.set_slave_plugin_name(options.slave_plugin_name)
