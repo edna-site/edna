@@ -111,22 +111,6 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         xsd.integratedCurve = self.dataInput.integratedCurve
         xsd.experimentSetup = self.dataInput.experimentSetup
         xsd.sample = self.dataInput.sample
-#        xsd.detector = expe.detector
-#        xsd.detectorDistance = expe.detectorDistance
-#        xsd.pixelSize_1 = expe.pixelSize_1
-#        xsd.pixelSize_2 = expe.pixelSize_2
-#        xsd.beamCenter_1 = expe.beamCenter_1
-#        xsd.beamCenter_2 = expe.beamCenter_2
-#        xsd.beamStopDiode = expe.beamStopDiode
-#        xsd.wavelength = expe.wavelength
-#        xsd.machineCurrent = expe.machineCurrent
-#        xsd.maskFile = expe.maskFile
-#        xsd.normalizationFactor = expe.normalizationFactor
-#        xsd.concentration = sample.concentration
-#        xsd.comments = sample.comments
-#        xsd.code = sample.code
-#        xsd.logFile = self.dataInput.logFile
-
         self.__edPluginIntegrate.dataInput = xsd
         self.__edPluginIntegrate.executeSynchronous()
 

@@ -30,7 +30,7 @@ __copyright__ = "ESRF"
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
-from XSDataCommon           import XSDataString
+from XSDataCommon           import XSDataString, XSDataStatus
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsAzimutIntv1_0, XSDataResultBioSaxsAzimutIntv1_0, \
                                XSDataInputBioSaxsAsciiExportv1_0, XSDataResultBioSaxsAsciiExportv1_0, \
                                XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
@@ -72,7 +72,8 @@ class EDPluginBioSaxsAzimutIntv1_0(EDPluginControl):
         self.__edPluginSaxsSetMetadata = None
 
         self.xsdMetadata = None
-
+        self.sample = None
+        self.exprimentSetup = None
         self.normalizedImage = None
         self.integratedImage = None
         self.integratedCurve = None
@@ -94,12 +95,16 @@ class EDPluginBioSaxsAzimutIntv1_0(EDPluginControl):
         self.checkMandatoryParameters(self.dataInput.getIntegratedImage(), "Missing integratedImage")
         self.checkMandatoryParameters(self.dataInput.getIntegratedCurve(), "Missing integratedCurve")
         self.checkMandatoryParameters(self.dataInput.getCorrectedImage(), "Missing correctedImage")
-
+        self.checkMandatoryParameters(self.dataInput.sample, "Missing sample description")
+        self.checkMandatoryParameters(self.dataInput.experimentSetup, "Missing experiment setup")
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_0.preProcess")
+        self.sample = self.dataInput.sample
+        self.exprimentSetup = self.dataInput.experimentSetup
         # Load the execution plugins
+
         self.__edPluginWaitFile = self.loadPlugin(self.__strControlledPluginWaitFile)
         self.__edPluginSaxsAdd = self.loadPlugin(self.__strControlledPluginSaxsAdd)
         self.__edPluginSaxsAngle = self.loadPlugin(self.__strControlledPluginSaxsAngle)
@@ -154,7 +159,7 @@ class EDPluginBioSaxsAzimutIntv1_0(EDPluginControl):
         if self.strProcessLog.endswith("\n"):
            self.strProcessLog = self.strProcessLog[:-1]
         # Create some output data
-        self.xsdResult.setProcessLog(XSDataString(self.strProcessLog))
+        self.xsdResult.setStatus(XSDataStatus(executiveSummary=XSDataString(self.strProcessLog)))
         self.setDataOutput(self.xsdResult)
         EDVerbose.DEBUG("Comment generated ...\n" + self.strProcessLog)
 
@@ -166,19 +171,19 @@ class EDPluginBioSaxsAzimutIntv1_0(EDPluginControl):
         self.strProcessLog += "Retrieve metadata from file %s\n" % (self.normalizedImage)
         xsdiMetadata = XSDataInputBioSaxsMetadatav1_0()
         xsdiMetadata.setInputImage(self.dataInput.normalizedImage)
-        xsdiMetadata.setConcentration(self.dataInput.concentration)
-        xsdiMetadata.setComments(self.dataInput.comments)
-        xsdiMetadata.setCode(self.dataInput.code)
-        xsdiMetadata.setDetector(self.dataInput.getDetector())
-        xsdiMetadata.setDetectorDistance(self.dataInput.detectorDistance)
-        xsdiMetadata.setPixelSize_1(self.dataInput.pixelSize_1)
-        xsdiMetadata.setPixelSize_2(self.dataInput.pixelSize_2)
-        xsdiMetadata.setBeamCenter_1(self.dataInput.beamCenter_1)
-        xsdiMetadata.setBeamCenter_2(self.dataInput.beamCenter_2)
-        xsdiMetadata.setWavelength(self.dataInput.wavelength)
-        xsdiMetadata.setMachineCurrent(self.dataInput.machineCurrent)
-        xsdiMetadata.setMaskFile(self.dataInput.maskFile)
-        xsdiMetadata.setNormalizationFactor(self.dataInput.normalizationFactor)
+        xsdiMetadata.setConcentration(self.sample.concentration)
+        xsdiMetadata.setComments(self.sample.comments)
+        xsdiMetadata.setCode(self.sample.code)
+        xsdiMetadata.setDetector(self.exprimentSetup.getDetector())
+        xsdiMetadata.setDetectorDistance(self.exprimentSetup.detectorDistance)
+        xsdiMetadata.setPixelSize_1(self.exprimentSetup.pixelSize_1)
+        xsdiMetadata.setPixelSize_2(self.exprimentSetup.pixelSize_2)
+        xsdiMetadata.setBeamCenter_1(self.exprimentSetup.beamCenter_1)
+        xsdiMetadata.setBeamCenter_2(self.exprimentSetup.beamCenter_2)
+        xsdiMetadata.setWavelength(self.exprimentSetup.wavelength)
+        xsdiMetadata.setMachineCurrent(self.exprimentSetup.machineCurrent)
+        xsdiMetadata.setMaskFile(self.exprimentSetup.maskFile)
+        xsdiMetadata.setNormalizationFactor(self.exprimentSetup.normalizationFactor)
         self.__edPluginSaxsGetMetadata.setDataInput(xsdiMetadata)
 
 

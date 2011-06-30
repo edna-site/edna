@@ -30,7 +30,7 @@ __copyright__ = "ESRF"
 
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
-from XSDataBioSaxsv1_0 import XSDataInputBioSaxsAzimutIntv1_0
+from XSDataBioSaxsv1_0 import XSDataInputBioSaxsAzimutIntv1_0, XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
 from XSDataCommon import XSDataFile, XSDataInteger, XSDataDouble, XSDataString, \
     XSDataImage
 
@@ -47,12 +47,8 @@ class EDTestCasePluginUnitBioSaxsAzimutIntv1_1(EDTestCasePluginUnit):
         xsDataInput.setNormalizedImageSize(XSDataInteger())
         xsDataInput.setIntegratedImage(XSDataImage())
         xsDataInput.setIntegratedCurve(XSDataFile())
-        xsDataInput.setNormalizationFactor(XSDataDouble())
-        xsDataInput.setMaskFile(XSDataImage())
-        xsDataInput.setCorrectedImage(XSDataImage())
-        xsDataInput.setConcentration(XSDataDouble())
-        xsDataInput.setComments(XSDataString())
-        xsDataInput.setCode(XSDataString())
+        xsDataInput.sample = XSDataBioSaxsSample
+        xsDataInput.experimentSetup = XSDataBioSaxsExperimentSetup()
 
         edPluginExec = self.createPlugin()
         edPluginExec.setDataInput(xsDataInput)
