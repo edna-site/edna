@@ -377,11 +377,15 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
             if (((_tmpQ > _fQMin) or (_fQMin is None)) and \
                 ((_tmpQ < _fQMax) or (_fQMax is None))):
 
-                _tmpValue = mean(nxsExperimentalValues[:_iNbColumns,idx])                  
-                if self.getDataInput().getAngularUnits().getValue() in [2,4]:                  
+                units = 1
+                if self.getDataInput().getAngularUnits() is not None:
+                    units = self.getDataInput().getAngularUnits().getValue()
+                if units in [2,4]:
                     tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
                 else:
                     tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                    
+                _tmpValue = mean(nxsExperimentalValues[:_iNbColumns,idx])                  
                 tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
                 if (_iNbColumns > 1):
                     _tmpStdDev = std(nxsExperimentalValues[:_iNbColumns,idx])
@@ -412,11 +416,15 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
                 if (((_tmpQ > _fQMin) or (_fQMin is None)) and \
                     ((_tmpQ < _fQMax) or (_fQMax is None))):
                     
-                    _tmpValue = mean(map(float, lineList[1:_iNbColumns+1]))                  
-                    if self.getDataInput().getAngularUnits().getValue() in [2,4]:                  
+                    units = 1
+                    if self.getDataInput().getAngularUnits() is not None:
+                        units = self.getDataInput().getAngularUnits().getValue()
+                    if units in [2,4]:
                         tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
                     else:
                         tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                        
+                    _tmpValue = mean(map(float, lineList[1:_iNbColumns+1]))                  
                     tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
                     if (_iNbColumns > 1):
                         _tmpStdDev = std(map(float, lineList[1:_iNbColumns+1]))
