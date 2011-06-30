@@ -82,6 +82,7 @@ class EDPluginControlCharAtNewOrientationv2_0(EDPluginControl):
         self.mxv1InputCharacterisation = None
         self.mxv1ResultCharacterisation_Reference = None
         self.mxv2DataCollection = None
+        self.mxv2DataCollection_Reference = None
         self.strPluginStrategyName = None
         self.edPluginControlStrategy = None
         self.xsDataResultCharacterisation = None
@@ -108,7 +109,7 @@ class EDPluginControlCharAtNewOrientationv2_0(EDPluginControl):
             if self.hasDataInput("mxv2DataCollection"):
                 self.mxv2DataCollection = self.getDataInput("mxv2DataCollection")[0]
             if self.hasDataInput("mxv2DataCollection_Reference"):
-                self.mxv2DataCollection = self.getDataInput("mxv2DataCollection_Reference")[0]
+                self.mxv2DataCollection_Reference = self.getDataInput("mxv2DataCollection_Reference")[0]
             if self.hasDataInput("possibleOrientations"):
                 self.possibleOrientations = self.getDataInput("possibleOrientations")[0]
         # Load the plugins
@@ -174,7 +175,7 @@ class EDPluginControlCharAtNewOrientationv2_0(EDPluginControl):
 #                    self.suggestedStrategy=XSDataMXv1.XSDataResultStrategy.parseString(self.getDataInput("mxv1ResultCharacterisation_Reference")[0].getStrategyResult().marshal())
 #                    #and we have to declare the orientation in Reference to be used
 #                    dc = XSDataMXv2.XSDataCollection()
-                    dc = self.getDataInput("mxv2DataCollection_Reference")[0]
+                    dc = self.mxv2DataCollection_Reference
                     omega = dc.getXSSubWedge()[0].getXSRotationalGoniostatSetting().getBaseaxissetting()
                     [kappa, phi] = dc.getXSSubWedge()[0].getXSRotationalGoniostatSetting().getAxissetting()
 #                    for dcplan in self.suggestedStrategy.getCollectionPlan():
