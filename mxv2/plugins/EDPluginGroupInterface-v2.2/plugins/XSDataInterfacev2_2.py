@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jun 27 03:52::39 2011 by EDGenerateDS.
+# Generated Thu Jun 30 09:26::16 2011 by EDGenerateDS.
 #
 
 import sys
@@ -298,12 +298,16 @@ class XSDataInputInterfacev2_2(XSDataInputInterface):
 # end class XSDataInputInterfacev2_2
 
 class XSDataResultInterfacev2_2(XSDataResultInterface):
-	def __init__(self, resultControlISPyB=None, resultCharacterisation=None, possibleOrientations=None, suggestedStrategy=None, mxv1ResultCharacterisation_Reference=None, mxv1ResultCharacterisation=None):
+	def __init__(self, resultControlISPyB=None, resultCharacterisation=None, possibleOrientations=None, suggestedStrategy=None, mxv2DataCollection_Reference=None, mxv2DataCollection=None, mxv1ResultCharacterisation_Reference=None, mxv1ResultCharacterisation=None):
 		XSDataResultInterface.__init__(self, resultControlISPyB, resultCharacterisation)
 		checkType("XSDataResultInterfacev2_2", "Constructor of XSDataResultInterfacev2_2", mxv1ResultCharacterisation, "XSDataResultCharacterisation")
 		self.__mxv1ResultCharacterisation = mxv1ResultCharacterisation
 		checkType("XSDataResultInterfacev2_2", "Constructor of XSDataResultInterfacev2_2", mxv1ResultCharacterisation_Reference, "XSDataResultCharacterisation")
 		self.__mxv1ResultCharacterisation_Reference = mxv1ResultCharacterisation_Reference
+		checkType("XSDataResultInterfacev2_2", "Constructor of XSDataResultInterfacev2_2", mxv2DataCollection, "XSDataCollection")
+		self.__mxv2DataCollection = mxv2DataCollection
+		checkType("XSDataResultInterfacev2_2", "Constructor of XSDataResultInterfacev2_2", mxv2DataCollection_Reference, "XSDataCollection")
+		self.__mxv2DataCollection_Reference = mxv2DataCollection_Reference
 		checkType("XSDataResultInterfacev2_2", "Constructor of XSDataResultInterfacev2_2", suggestedStrategy, "XSDataResultStrategy")
 		self.__suggestedStrategy = suggestedStrategy
 		checkType("XSDataResultInterfacev2_2", "Constructor of XSDataResultInterfacev2_2", possibleOrientations, "kappa_alignment_response")
@@ -322,6 +326,20 @@ class XSDataResultInterfacev2_2(XSDataResultInterface):
 	def delMxv1ResultCharacterisation_Reference(self): self.__mxv1ResultCharacterisation_Reference = None
 	# Properties
 	mxv1ResultCharacterisation_Reference = property(getMxv1ResultCharacterisation_Reference, setMxv1ResultCharacterisation_Reference, delMxv1ResultCharacterisation_Reference, "Property for mxv1ResultCharacterisation_Reference")
+	def getMxv2DataCollection(self): return self.__mxv2DataCollection
+	def setMxv2DataCollection(self, mxv2DataCollection):
+		checkType("XSDataResultInterfacev2_2", "setMxv2DataCollection", mxv2DataCollection, "XSDataCollection")
+		self.__mxv2DataCollection = mxv2DataCollection
+	def delMxv2DataCollection(self): self.__mxv2DataCollection = None
+	# Properties
+	mxv2DataCollection = property(getMxv2DataCollection, setMxv2DataCollection, delMxv2DataCollection, "Property for mxv2DataCollection")
+	def getMxv2DataCollection_Reference(self): return self.__mxv2DataCollection_Reference
+	def setMxv2DataCollection_Reference(self, mxv2DataCollection_Reference):
+		checkType("XSDataResultInterfacev2_2", "setMxv2DataCollection_Reference", mxv2DataCollection_Reference, "XSDataCollection")
+		self.__mxv2DataCollection_Reference = mxv2DataCollection_Reference
+	def delMxv2DataCollection_Reference(self): self.__mxv2DataCollection_Reference = None
+	# Properties
+	mxv2DataCollection_Reference = property(getMxv2DataCollection_Reference, setMxv2DataCollection_Reference, delMxv2DataCollection_Reference, "Property for mxv2DataCollection_Reference")
 	def getSuggestedStrategy(self): return self.__suggestedStrategy
 	def setSuggestedStrategy(self, suggestedStrategy):
 		checkType("XSDataResultInterfacev2_2", "setSuggestedStrategy", suggestedStrategy, "XSDataResultStrategy")
@@ -350,6 +368,10 @@ class XSDataResultInterfacev2_2(XSDataResultInterface):
 			warnEmptyAttribute("mxv1ResultCharacterisation", "XSDataResultCharacterisation")
 		if self.__mxv1ResultCharacterisation_Reference is not None:
 			self.mxv1ResultCharacterisation_Reference.export(outfile, level, name_='mxv1ResultCharacterisation_Reference')
+		if self.__mxv2DataCollection is not None:
+			self.mxv2DataCollection.export(outfile, level, name_='mxv2DataCollection')
+		if self.__mxv2DataCollection_Reference is not None:
+			self.mxv2DataCollection_Reference.export(outfile, level, name_='mxv2DataCollection_Reference')
 		if self.__suggestedStrategy is not None:
 			self.suggestedStrategy.export(outfile, level, name_='suggestedStrategy')
 		if self.__possibleOrientations is not None:
@@ -369,6 +391,16 @@ class XSDataResultInterfacev2_2(XSDataResultInterface):
 			obj_ = XSDataResultCharacterisation()
 			obj_.build(child_)
 			self.setMxv1ResultCharacterisation_Reference(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'mxv2DataCollection':
+			obj_ = XSDataCollection()
+			obj_.build(child_)
+			self.setMxv2DataCollection(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'mxv2DataCollection_Reference':
+			obj_ = XSDataCollection()
+			obj_.build(child_)
+			self.setMxv2DataCollection_Reference(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'suggestedStrategy':
 			obj_ = XSDataResultStrategy()

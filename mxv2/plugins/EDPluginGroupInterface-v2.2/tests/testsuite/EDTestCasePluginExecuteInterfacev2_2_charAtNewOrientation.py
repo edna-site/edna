@@ -4,13 +4,10 @@
 #
 #    File: "$Id: EDTestCasePluginExecuteInterfacev2_2_charAtNewOrientation.py 1555 2010-05-25 07:27:29Z svensson $"
 #
-#    Copyright (C) 2008-2010 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2011 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
-#    Principal author:       Karl Levik (karl.levik@diamond.ac.uk)
-#
-#    Contributing authors:   Marie-Francoise Incardona (incardon@esrf.fr),
-#                            Olof Svensson (svensson@esrf.fr) 
+#    Principal author:       Olof Svensson (svensson@esrf.fr) 
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -26,8 +23,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = [ "Karl Levik", "Marie-Francoise Incardona", "Olof Svensson" ]
-__contact__ = "karl.levik@diamond.ac.uk"
+__author__ = "Olof Svensson"
+__contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 

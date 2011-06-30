@@ -23,6 +23,8 @@ complex type XSDataInputInterfacev2_2 extends XSDataInputInterface {
 complex type XSDataResultInterfacev2_2 extends XSDataResultInterface {
 	mxv1ResultCharacterisation : XSDataResultCharacterisation
 	mxv1ResultCharacterisation_Reference : XSDataResultCharacterisation optional
+	mxv2DataCollection : XSDataCollection optional
+	mxv2DataCollection_Reference : XSDataCollection optional
 	suggestedStrategy : XSDataResultStrategy optional
 	possibleOrientations : kappa_alignment_response optional
 }

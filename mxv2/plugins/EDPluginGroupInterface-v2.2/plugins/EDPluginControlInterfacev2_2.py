@@ -4,12 +4,10 @@
 #
 #    File: "$Id: EDPluginControlInterfacev2_2.py 3504 2011-06-27 09:18:44Z svensson $"
 #
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2011 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
-#    Principal author:       Marie-Francoise Incardona (incardon@esrf.fr)
-#
-#    Contributing author:    Olof Svensson (svensson@esrf.fr) 
+#    Principal author:       Olof Svensson (svensson@esrf.fr) 
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = ["Marie-Francoise Incardona", "Olof Svensson", "Karl Levik"]
+__authors__ = ["Olof Svensson", "Karl Levik"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
@@ -527,6 +525,11 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         if self.edPluginControlCharacterisationv2:
             xsDataResultInterface.setMxv1ResultCharacterisation(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
             xsDataResultInterface.setMxv1ResultCharacterisation_Reference(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation_Reference())
+            xsDataResultInterface.setMxv2DataCollection(self.mxv2DataCollection)
+            if self.mxv2DataCollection_Reference:
+                xsDataResultInterface.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
+            else:
+                xsDataResultInterface.setMxv2DataCollection_Reference(self.mxv2DataCollection)
             xsDataResultInterface.setSuggestedStrategy(self.edPluginControlCharacterisationv2.getDataOutput().getSuggestedStrategy())
             xsDataResultInterface.setPossibleOrientations(self.edPluginControlCharacterisationv2.getDataOutput().getPossibleOrientations())
         if self.edPluginControlISPyB:
@@ -551,9 +554,15 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             self.xsDataInputCharacterisationv2_0.setMxv1InputCharacterisation(self.mxv1InputCharacterisation)
         self.xsDataInputCharacterisationv2_0.setMxv1ResultCharacterisation_Reference(self.mxv1ResultCharacterisation_Reference)
         if self.mxv2DataCollection is None:
-            self.mxv2DataCollection = self.generateMXv2DataCollection()
+            if (self.fKappa is not None) and (self.fOmega is not None) and (self.fPhi is not None):
+                self.mxv2DataCollection = self.generateMXv2DataCollection()
+            else:
+                self.screen("No kappa strategy calculated due to one or several missing kappa angles (phi, kappa and/or omega)")
         self.xsDataInputCharacterisationv2_0.setMxv2DataCollection(self.mxv2DataCollection)
-        self.xsDataInputCharacterisationv2_0.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
+        if self.mxv2DataCollection_Reference:
+            self.xsDataInputCharacterisationv2_0.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
+        else:
+            self.xsDataInputCharacterisationv2_0.setMxv2DataCollection_Reference(self.mxv2DataCollection)
         self.xsDataInputCharacterisationv2_0.setPossibleOrientations(self.mxv2PossibleOrientations)
 
         self.edPluginControlCharacterisationv2.setDataInput(self.xsDataInputCharacterisationv2_0)
