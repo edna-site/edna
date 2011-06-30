@@ -14,7 +14,7 @@ oscillationWidth = xsDataExperimentalCondition.getGoniostat().getOscillationWidt
 rotationAxisStart = xsDataExperimentalCondition.getGoniostat().getRotationAxisStart().getValue()
 rotationAxisEnd = xsDataExperimentalCondition.getGoniostat().getRotationAxisEnd().getValue()
 noImages = int( (rotationAxisEnd - rotationAxisStart) / oscillationWidth)
-runNumberDataCollection = run_number + 1
+runNumberDataCollection = run_number
 
 print "Suggested strategy:"
 print "Oscillation start: %.2f" % rotationAxisStart

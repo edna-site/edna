@@ -1,0 +1,5 @@
+# Please insert spec macro contents here, and use the view on the left to insert variables.
+eval('lightin')
+eval('mv phi ${phi}')
+eval('mv kap1 ${kap1}')
+eval('mv kap2 ${kap2}')

@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<XSDataInputInterfacev2_2>
+  <diffractionPlan>
+    <kappaStrategyOption>
+      <value>${kappaStrOpt}</value>
+    </kappaStrategyOption>
+  </diffractionPlan>
+  <imagePath>
+    <path>
+      <value>${directory}/RAW_DATA/${prefix}_${run_number}_0001.${suffix}</value>
+    </path>
+  </imagePath>
+  <imagePath>
+    <path>
+      <value>${directory}/RAW_DATA/${prefix}_${run_number}_0002.${suffix}</value>
+    </path>
+  </imagePath>
+  <omega>
+    <value>${phi}</value>
+  </omega>
+  <kappa>
+    <value>${kap1}</value>
+  </kappa>
+  <phi>
+    <value>${kap2}</value>
+  </phi>
+  ${mxv1ResultCharacterisation}
+  ${mxv1ResultCharacterisation_Reference}
+  ${mxv2DataCollection}
+  ${mxv2DataCollection_Reference}
+  ${possibleOrientations}
+</XSDataInputInterfacev2_2>

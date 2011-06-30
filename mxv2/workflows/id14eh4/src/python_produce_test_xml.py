@@ -1,5 +1,4 @@
 suggestedStrategyComment = "OMEGA=115.746 KAPPA=128.047 PHI=259.585 STRATEGY=MERGED\n"
-run_number = 26
 phi = 10.0
 kap1 = 20.0
 kap2 = 30.0
