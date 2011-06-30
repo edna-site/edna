@@ -8,6 +8,9 @@
 	        <complexity>
 	        	<value>full</value>
 	        </complexity>
+	        <kappaStrategyOption>
+		      	 <value>NoKappa</value>
+	        </kappaStrategyOption>
 	    </diffractionPlan>
 	    <sample>
 	        <chemicalComposition>
