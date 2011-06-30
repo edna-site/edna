@@ -31,7 +31,7 @@ __copyright__ = "ESRF"
 import shutil, os
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
-from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString
+from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataStatus
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
@@ -93,6 +93,8 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.lstProcessLog = [] #comments to be returned
 
         self.xsdInput = None
+        self.sample = None
+        self.experimentSetup = None
         self.xsdResult = XSDataResultBioSaxsNormalizev1_0()
         self.dictOutputHeader = {}
 
@@ -101,47 +103,39 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginBioSaxsNormalizev1_1.checkParameters")
-        self.xsdInput = self.getDataInput()
+        self.xsdInput = self.dataInput
         self.checkMandatoryParameters(self.xsdInput, "Data Input is None")
-        self.checkMandatoryParameters(self.xsdInput.getRawImage(), "Raw File is None")
-        self.checkMandatoryParameters(self.xsdInput.getLogFile(), "Output Log File is None")
-        self.checkMandatoryParameters(self.xsdInput.getNormalizedImage(), "Normalized File is None")
-        self.checkMandatoryParameters(self.xsdInput.getRawImageSize(), "No size given for expected Raw File")
-        self.checkMandatoryParameters(self.xsdInput.getBeamStopDiode(), "No beam stop diode signal given")
-        self.checkMandatoryParameters(self.xsdInput.getNormalizationFactor(), "No Normalization factor provided")
-        self.checkMandatoryParameters(self.xsdInput.getMachineCurrent(), "No Machine current provided")
-        self.checkMandatoryParameters(self.xsdInput.getMaskFile(), "No mask file provided")
-        self.checkMandatoryParameters(self.xsdInput.getDetectorDistance(), "No detector distance provided")
-        self.checkMandatoryParameters(self.xsdInput.getWavelength(), "No Wavelength provided")
-        self.checkMandatoryParameters(self.xsdInput.getPixelSize_1(), "No Pixel size X provided")
-        self.checkMandatoryParameters(self.xsdInput.getPixelSize_2(), "No Pixel size Y provided")
-        self.checkMandatoryParameters(self.xsdInput.getBeamCenter_1(), "No beam center X provided")
-        self.checkMandatoryParameters(self.xsdInput.getBeamCenter_2(), "No BeamCenter Y Provided")
+        self.checkMandatoryParameters(self.xsdInput.rawImage, "Raw File is None")
+#        self.checkMandatoryParameters(self.xsdInput.logFile(), "Output Log File is None")
+        self.checkMandatoryParameters(self.xsdInput.sample, "No sample provided")
+        self.checkMandatoryParameters(self.xsdInput.experimentSetup, "No experiment setup provided")
 
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginBioSaxsNormalizev1_1.preProcess")
-        self.strLogFile = self.xsdInput.getLogFile().getPath().getValue()
-        self.strRawImage = self.xsdInput.getRawImage().getPath().getValue()
-        self.strNormalizedImage = self.xsdInput.getNormalizedImage().getPath().getValue()
-        self.strRawImageSize = self.xsdInput.getRawImageSize().getValue()
-        self.dictOutputHeader["DiodeCurr"] = self.xsdInput.getBeamStopDiode().getValue()
-        self.dictOutputHeader["Normalization"] = self.xsdInput.getNormalizationFactor().getValue()
-        self.dictOutputHeader["MachCurr"] = self.xsdInput.getMachineCurrent().getValue()
-        self.dictOutputHeader["Mask"] = str(self.xsdInput.getMaskFile().getPath().getValue())
-        self.dictOutputHeader["SampleDistance"] = self.xsdInput.getDetectorDistance().getValue()
-        self.dictOutputHeader["WaveLength"] = self.xsdInput.getWavelength().getValue()
-        self.dictOutputHeader["PSize_1"] = self.xsdInput.getPixelSize_1().getValue()
-        self.dictOutputHeader["PSize_2"] = self.xsdInput.getPixelSize_2().getValue()
-        self.dictOutputHeader["Center_1"] = self.xsdInput.getBeamCenter_1().getValue()
-        self.dictOutputHeader["Center_2"] = self.xsdInput.getBeamCenter_2().getValue()
+        self.sample = self.xsdInput.sample
+        self.experimentSetup = self.xsdInput.experimentSetup
+#        self.strLogFile = self.xsdInput.getLogFile().path.value
+        self.strRawImage = self.xsdInput.rawImage.path.value
+        self.strNormalizedImage = self.xsdInput.normalizedImage.path.value
+        self.strRawImageSize = self.xsdInput.getRawImageSize().value
+        self.dictOutputHeader["DiodeCurr"] = self.experimentSetup.beamStopDiode.value
+        self.dictOutputHeader["Normalization"] = self.experimentSetup.normalizationFactor.value
+        self.dictOutputHeader["MachCurr"] = self.experimentSetup.machineCurrent.value
+        self.dictOutputHeader["Mask"] = str(self.experimentSetup.maskFile.path.value)
+        self.dictOutputHeader["SampleDistance"] = self.experimentSetup.detectorDistance.value
+        self.dictOutputHeader["WaveLength"] = self.experimentSetup.wavelength.value
+        self.dictOutputHeader["PSize_1"] = self.experimentSetup.pixelSize_1.value
+        self.dictOutputHeader["PSize_2"] = self.experimentSetup.pixelSize_2.value
+        self.dictOutputHeader["Center_1"] = self.experimentSetup.beamCenter_1.value
+        self.dictOutputHeader["Center_2"] = self.experimentSetup.beamCenter_2.value
 
-        if self.xsdInput.getSampleComments() is not None:
-            self.dictOutputHeader["Comments"] = str(self.xsdInput.getSampleComments().getValue())
-            self.dictOutputHeader["title"] = str(self.xsdInput.getSampleComments().getValue())
-        if self.xsdInput.getSampleCode() is not None:
-            self.dictOutputHeader["Code"] = str(self.xsdInput.getSampleCode().getValue())
+        if self.sample.comments is not None:
+            self.dictOutputHeader["Comments"] = str(self.sample.comments.value)
+            self.dictOutputHeader["title"] = str(self.sample.comments.value)
+        if self.sample.code is not None:
+            self.dictOutputHeader["Code"] = str(self.sample.code.value)
 
         # Load the execution plugin
         self.__edPluginExecWaitFile = self.loadPlugin(self.__strPluginNameWaitFile)
@@ -184,16 +178,14 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginBioSaxsNormalizev1_1.postProcess")
+
         if os.path.isfile(self.strNormalizedImage):
             xsNormFile = XSDataImage()
             xsNormFile.setPath(XSDataString(self.strNormalizedImage))
             self.xsdResult.setNormalizedImage(xsNormFile)
-
-        strProcessLog = os.linesep.join(self.lstProcessLog)
+        self.xsdResult.status = XSDataStatus(executiveSummary=XSDataString(os.linesep.join(self.lstProcessLog)))
         # Create some output data
-        self.xsdResult.setProcessLog(XSDataString(strProcessLog))
         self.setDataOutput(self.xsdResult)
-        self.DEBUG("Comment generated ...\n%s" % strProcessLog)
 
 
     def doSuccessExecWaitFile(self, _edPlugin=None):
@@ -206,7 +198,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
     def doFailureExecWaitFile(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsNormalizev1_1.doFailureExecWaitFile")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsNormalizev1_1.doFailureExecWaitFile")
-        self.lstProcessLog += "Timeout in waiting for file '%s'.\n" % (self.strRawImage)
+        self.lstProcessLog.append("Timeout in waiting for file '%s'.\n" % (self.strRawImage))
         self.setFailure()
 
 

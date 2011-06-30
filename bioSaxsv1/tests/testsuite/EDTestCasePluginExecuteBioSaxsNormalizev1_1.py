@@ -65,7 +65,7 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_1(EDTestCasePluginExecute):
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsNormalizev1_0.parseString(strExpectedOutput)
-        self.refOutput = xsDataResultReference.getNormalizedImage().getPath().getValue()
+        self.refOutput = xsDataResultReference.normalizedImage.getPath().value
         EDVerbose.DEBUG("Output file is %s" % self.refOutput)
         if not os.path.isdir(os.path.dirname(self.refOutput)):
             os.makedirs(os.path.dirname(self.refOutput))
@@ -96,7 +96,7 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_1(EDTestCasePluginExecute):
 # Compare dictionary
 ################################################################################
 
-        edfRef = openimage(xsDataResultObtained.getNormalizedImage().getPath().getValue())
+        edfRef = openimage(xsDataResultObtained.normalizedImage.getPath().value)
         edfObt = openimage(os.path.join(self.getTestsDataImagesHome(), "bioSaxsCorrected.edf"))
         headerRef = edfRef.header
         headerObt = edfObt.header

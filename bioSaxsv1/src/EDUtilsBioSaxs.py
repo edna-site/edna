@@ -52,9 +52,9 @@ class EDUtilsBioSaxs(EDObject):
     OPERATIONS = ["normalisation", "reprocess", "average", "complete"]
     TRANSLATION = {"beamStopDiode":"DiodeCurr",
                    "machineCurrent":"MachCurr",
-                   "sampleConcentration":"Concentration",
-                   "sampleComments":"Comments",
-                   "sampleCode":"Code",
+                   "concentration":"Concentration",
+                   "comments":"Comments",
+                   "code":"Code",
                    "maskFile":"Mask",
                    "normalizationFactor":"Normalization",
                    "beamCenter_1":"Center_1",
@@ -65,7 +65,7 @@ class EDUtilsBioSaxs(EDObject):
                    "wavelength":"WaveLength",
                    "detector":"Detector",
                    }
-    FLOAT_KEYS = ["beamStopDiode", "machineCurrent", "sampleConcentration", "normalizationFactor", "beamCenter_1", "beamCenter_2", "pixelSize_1", "pixelSize_2", "detectorDistance", "wavelength"]
+    FLOAT_KEYS = ["beamStopDiode", "machineCurrent", "concentration", "normalizationFactor", "beamCenter_1", "beamCenter_2", "pixelSize_1", "pixelSize_2", "detectorDistance", "wavelength"]
 
     __strSpecVersion = None
     __strSpecStatus = None
@@ -126,7 +126,7 @@ class EDUtilsBioSaxs(EDObject):
 
 
         if EDUtilsBioSaxs.specStatus is not None:
-            currentStatus = EDUtilsBioSaxs.specStatus.getValue()["reprocess"]["status"]     # must do this, since SpecClient is apparently returning a non-expected data structure
+            currentStatus = EDUtilsBioSaxs.specStatus.value["reprocess"]["status"]     # must do this, since SpecClient is apparently returning a non-expected data structure
             i = currentStatus.rfind(",")
             # TB: This ,1 or ,0 suffix nonsense seems to be a hack to force Spec to signal a variable change to bsxcube
             if i == -1 or currentStatus[i + 1:] == "1":
@@ -141,7 +141,7 @@ class EDUtilsBioSaxs(EDObject):
                     newStatus = "%s,%s,%s,1" % (_iLevel, _strMessage, _strFilename)
             EDUtilsBioSaxs.specStatus.setValue(newStatus)
 
-        if (EDUtilsBioSaxs.specAbort is not None) and (EDUtilsBioSaxs.specAbort.getValue()["reprocess"]["abort"]) == "1":
+        if (EDUtilsBioSaxs.specAbort is not None) and (EDUtilsBioSaxs.specAbort.value["reprocess"]["abort"]) == "1":
             # must do this, since SpecClient is apparently returning a non-expected data structure
             EDVerbose.ERROR("Aborting data reprocess!")
 #            sys.exit(0)

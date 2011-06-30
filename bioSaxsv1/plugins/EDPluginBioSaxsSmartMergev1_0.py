@@ -70,19 +70,19 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().inputCurves, "Input curve list is empty")
-        self.checkMandatoryParameters(self.getDataInput().mergedCurve, "Output curve filename  is empty")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.inputCurves, "Input curve list is empty")
+        self.checkMandatoryParameters(self.dataInput.mergedCurve, "Output curve filename  is empty")
 
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.preProcess")
         # Load the execution plugin
-        if self.getDataInput().absoluteFidelity is not None:
-            self.absoluteFidelity = self.getDataInput().absoluteFidelity.value
-        if self.getDataInput().relativeFidelity is not None:
-            self.relativeFidelity = self.getDataInput().relativeFidelity.value
+        if self.dataInput.absoluteFidelity is not None:
+            self.absoluteFidelity = self.dataInput.absoluteFidelity.value
+        if self.dataInput.relativeFidelity is not None:
+            self.relativeFidelity = self.dataInput.relativeFidelity.value
         self.lstInput = self.dataInput.inputCurves
         self.lstStrInput = [i.path.value for i in self.lstInput]
 
@@ -91,7 +91,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.process")
         if len(self.lstInput) == 1:
-            shutil.copyfile(self.lstInput[0].path.value, self.getDataInput().mergedCurve.path.value)
+            shutil.copyfile(self.lstInput[0].path.value, self.dataInput.mergedCurve.path.value)
         else:
             lstFile = []
             if (self.absoluteFidelity is None) and (self.relativeFidelity is None):
@@ -137,7 +137,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
                     lstFile.append(oneFile)
             self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in lstFile]))
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
-            xsd = XSDataInputDataver(outputCurve=self.getDataInput().mergedCurve,
+            xsd = XSDataInputDataver(outputCurve=self.dataInput.mergedCurve,
                                     inputCurve=lstFile)
             self.__edPluginExecDataver.setDataInput(xsd)
             self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
@@ -150,7 +150,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsSmartMergev1_0()
-        xsDataResult.mergedCurve = self.getDataInput().mergedCurve
+        xsDataResult.mergedCurve = self.dataInput.mergedCurve
         executiveSummary = os.linesep.join(self.lstSummary)
         xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         self.setDataOutput(xsDataResult)
@@ -173,7 +173,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
         self.synchronizeOn()
-        xsdIn = _edPlugin.getDataInput()
+        xsdIn = _edPlugin.dataInput
         xsdOut = _edPlugin.getDataOutput()
         file0 = xsdIn.inputCurve[0].path.value
         file1 = xsdIn.inputCurve[1].path.value

@@ -44,8 +44,9 @@ from XSDataCommon           import XSDataStatus
 
 class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
     """
-    Control plugin that does what was in the Reprocess function in the original program 
-    
+    Control plugin that does subsequent execution of: 
+    * EDPluginBioSaxsNormalizev1_1
+    * EDPluginBioSaxsAzimutIntv1_1
     """
 
     def __init__(self):
@@ -62,7 +63,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.normalizedImage = None
         self.integratedCurve = None
         self.integratedImage = None
-        self.strExecutiveSummary = ""
+        self.lstExecutiveSummary = []
 
     def checkParameters(self):
         """
@@ -93,24 +94,8 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         xsd.rawImage = self.dataInput.rawImage
         xsd.normalizedImage = self.dataInput.normalizedImage
         xsd.rawImageSize = (self.rawImageSize)
-        expe = self.dataInput.experimentSetup
-        sample = self.dataInput.sample
-        xsd.detector = expe.detector
-        xsd.detectorDistance = expe.detectorDistance
-        xsd.pixelSize_1 = expe.pixelSize_1
-        xsd.pixelSize_2 = expe.pixelSize_2
-        xsd.beamCenter_1 = expe.beamCenter_1
-        xsd.beamCenter_2 = expe.beamCenter_2
-        xsd.beamStopDiode = expe.beamStopDiode
-        xsd.wavelength = expe.wavelength
-        xsd.machineCurrent = expe.machineCurrent
-        xsd.maskFile = expe.maskFile
-        xsd.normalizationFactor = expe.normalizationFactor
-        xsd.sampleConcentration = sample.sampleConcentration
-        xsd.sampleComments = sample.sampleComments
-        xsd.sampleCode = sample.sampleCode
-        xsd.logFile = self.dataInput.logFile
-
+        xsd.experimentSetup = self.dataInput.experimentSetup
+        xsd.sample = self.dataInput.sample
         self.__edPluginNormalize.dataInput = xsd
         self.__edPluginNormalize.executeSynchronous()
         if self.isFailure():
@@ -120,25 +105,27 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.__edPluginIntegrate.connectFAILURE(self.doFailureIntegrate)
         xsd = XSDataInputBioSaxsAzimutIntv1_0()
         xsd.normalizedImage = self.dataInput.normalizedImage
+
         xsd.normalizedImageSize = (self.rawImageSize)
         xsd.integratedImage = self.dataInput.integratedImage
         xsd.integratedCurve = self.dataInput.integratedCurve
-
-        xsd.detector = expe.detector
-        xsd.detectorDistance = expe.detectorDistance
-        xsd.pixelSize_1 = expe.pixelSize_1
-        xsd.pixelSize_2 = expe.pixelSize_2
-        xsd.beamCenter_1 = expe.beamCenter_1
-        xsd.beamCenter_2 = expe.beamCenter_2
-        xsd.beamStopDiode = expe.beamStopDiode
-        xsd.wavelength = expe.wavelength
-        xsd.machineCurrent = expe.machineCurrent
-        xsd.maskFile = expe.maskFile
-        xsd.normalizationFactor = expe.normalizationFactor
-        xsd.sampleConcentration = sample.sampleConcentration
-        xsd.sampleComments = sample.sampleComments
-        xsd.sampleCode = sample.sampleCode
-        xsd.logFile = self.dataInput.logFile
+        xsd.experimentSetup = self.dataInput.experimentSetup
+        xsd.sample = self.dataInput.sample
+#        xsd.detector = expe.detector
+#        xsd.detectorDistance = expe.detectorDistance
+#        xsd.pixelSize_1 = expe.pixelSize_1
+#        xsd.pixelSize_2 = expe.pixelSize_2
+#        xsd.beamCenter_1 = expe.beamCenter_1
+#        xsd.beamCenter_2 = expe.beamCenter_2
+#        xsd.beamStopDiode = expe.beamStopDiode
+#        xsd.wavelength = expe.wavelength
+#        xsd.machineCurrent = expe.machineCurrent
+#        xsd.maskFile = expe.maskFile
+#        xsd.normalizationFactor = expe.normalizationFactor
+#        xsd.concentration = sample.concentration
+#        xsd.comments = sample.comments
+#        xsd.code = sample.code
+#        xsd.logFile = self.dataInput.logFile
 
         self.__edPluginIntegrate.dataInput = xsd
         self.__edPluginIntegrate.executeSynchronous()
@@ -153,7 +140,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         xsDataResult.normalizedImage = self.normalizedImage
         xsDataResult.integratedImage = self.integratedImage
         xsDataResult.integratedCurve = self.integratedCurve
-        xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(self.strExecutiveSummary))
+        xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(os.linesep.join(self.lstExecutiveSummary)))
         self.setDataOutput(xsDataResult)
 
 
@@ -162,14 +149,14 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_0.doSuccessNormalize")
         xsdOut = _edPlugin.dataOutput
         self.normalizedImage = xsdOut.normalizedImage
-        self.strExecutiveSummary += os.linesep + xsdOut.processLog.value
+        self.lstExecutiveSummary.append(xsdOut.status.executiveSummary.value)
 
     def doFailureNormalize(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.doFailureNormalize")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_0.doFailureNormalize")
         try:
             xsdOut = _edPlugin.dataOutput
-            self.strExecutiveSummary += os.linesep + xsdOut.processLog.value
+            self.lstExecutiveSummary.append(xsdOut.status.executiveSummary.value)
         except:
             pass
         self.setFailure()
@@ -180,7 +167,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         xsdOut = _edPlugin.dataOutput
         self.integratedImage = xsdOut.integratedImage
         self.integratedCurve = xsdOut.integratedCurve
-        self.strExecutiveSummary += os.linesep + xsdOut.processLog.value
+        self.lstExecutiveSummary.append(xsdOut.status.executiveSummary.value)
 
 
     def doFailureIntegrate(self, _edPlugin=None):
@@ -188,7 +175,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_0.doFailureIntegrate")
         try:
             xsdOut = _edPlugin.dataOutput
-            self.strExecutiveSummary += os.linesep + xsdOut.processLog.value
+            self.strExecutiveSummary.append(xsdOut.status.executiveSummary.value)
             self.integratedImage = xsdOut.integratedImage
             self.integratedCurve = xsdOut.integratedCurve
         except:

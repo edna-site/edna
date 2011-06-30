@@ -77,9 +77,9 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         self.normalizationFactor = None
         self.machineCurrent = None
 
-        self.sampleCode = None
-        self.sampleComments = None
-        self.sampleConcentration = None
+        self.code = None
+        self.comments = None
+        self.concentration = None
 
         self.strProcessLog = ""
         self.xsdResult = XSDataResultBioSaxsAsciiExportv1_0()
@@ -89,9 +89,9 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         Checks the mandatory parameters.
         """
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedImage(), "Missing integratedImage")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedCurve(), "Missing integratedCurve")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.getIntegratedImage(), "Missing integratedImage")
+        self.checkMandatoryParameters(self.dataInput.getIntegratedCurve(), "Missing integratedCurve")
 
 
     def preProcess(self, _edObject=None):
@@ -102,15 +102,15 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         self.__edPluginSaxsGetMetadata = self.loadPlugin(self.__strControlledPluginSaxsGetMetadata)
         self.__edPluginSaxsCurves = self.loadPlugin(self.__strControlledPluginSaxsCurves)
 
-        self.integratedImage = self.getDataInput().getIntegratedImage().getPath().getValue()
-        self.integratedCurve = self.getDataInput().getIntegratedCurve().getPath().getValue()
+        self.integratedImage = self.dataInput.getIntegratedImage().getPath().value
+        self.integratedCurve = self.dataInput.getIntegratedCurve().getPath().value
 
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.process")
         xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.getDataInput().getIntegratedImage())
+        xsdiWaitFile.setExpectedFile(self.dataInput.getIntegratedImage())
         xsdiWaitFile.setExpectedSize(XSDataInteger(8196)) #size of the header
         self.__edPluginWaitFile.setDataInput(xsdiWaitFile)
         self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
@@ -145,7 +145,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAsciiExportv1_0.doSuccessWaitFile")
 
         xsdiMetadata = XSDataInputBioSaxsMetadatav1_0()
-        xsdiMetadata.setInputImage(self.getDataInput().getIntegratedImage())
+        xsdiMetadata.setInputImage(self.dataInput.getIntegratedImage())
         self.__edPluginSaxsGetMetadata.setDataInput(xsdiMetadata)
 
 
@@ -159,36 +159,36 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
     def doSucessGetMetadata(self, _edObject=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.doSucessGetMetadata")
         if _edObject.getDataOutput().getDetector() is not None:
-            self.detector = _edObject.getDataOutput().getDetector().getValue()
-        if _edObject.getDataOutput().getDetectorDistance() is not None:
-            self.detectorDistance = _edObject.getDataOutput().getDetectorDistance().getValue()
-        if _edObject.getDataOutput().getBeamCenter_1() is not None:
-            self.beamCenter_1 = _edObject.getDataOutput().getBeamCenter_1().getValue()
-        if _edObject.getDataOutput().getPixelSize_1() is not None:
-            self.pixelSize_1 = _edObject.getDataOutput().getPixelSize_1().getValue()
-        if _edObject.getDataOutput().getBeamCenter_2() is not None:
-            self.beamCenter_2 = _edObject.getDataOutput().getBeamCenter_2().getValue()
-        if _edObject.getDataOutput().getPixelSize_2() is not None:
-            self.pixelSize_2 = _edObject.getDataOutput().getPixelSize_2().getValue()
-        if _edObject.getDataOutput().getBeamStopDiode() is not None:
-            self.beamStopDiode = _edObject.getDataOutput().getBeamStopDiode().getValue()
-        if _edObject.getDataOutput().getSampleCode() is not None:
-            self.sampleCode = _edObject.getDataOutput().getSampleCode().getValue()
-        if _edObject.getDataOutput().getSampleComments() is not None:
-            self.sampleComments = _edObject.getDataOutput().getSampleComments().getValue()
-        if _edObject.getDataOutput().getSampleConcentration() is not None:
-            self.sampleConcentration = _edObject.getDataOutput().getSampleConcentration().getValue()
-        if _edObject.getDataOutput().getMachineCurrent() is not None:
-            self.machineCurrent = _edObject.getDataOutput().getMachineCurrent().getValue()
-        if _edObject.getDataOutput().getWavelength() is not None:
-            self.wavelength = _edObject.getDataOutput().getWavelength().getValue()
-        if _edObject.getDataOutput().getNormalizationFactor() is not None:
-            self.normalizationFactor = _edObject.getDataOutput().getNormalizationFactor().getValue()
-        if _edObject.getDataOutput().getMaskFile() is not None:
-            self.maskFile = _edObject.getDataOutput().getMaskFile().getPath().getValue()
+            self.detector = _edObject.getDataOutput().getDetector().value
+        if _edObject.getDataOutput().detectorDistance is not None:
+            self.detectorDistance = _edObject.getDataOutput().detectorDistance.value
+        if _edObject.getDataOutput().beamCenter_1 is not None:
+            self.beamCenter_1 = _edObject.getDataOutput().beamCenter_1.value
+        if _edObject.getDataOutput().pixelSize_1 is not None:
+            self.pixelSize_1 = _edObject.getDataOutput().pixelSize_1.value
+        if _edObject.getDataOutput().beamCenter_2 is not None:
+            self.beamCenter_2 = _edObject.getDataOutput().beamCenter_2.value
+        if _edObject.getDataOutput().pixelSize_2 is not None:
+            self.pixelSize_2 = _edObject.getDataOutput().pixelSize_2.value
+        if _edObject.getDataOutput().beamStopDiode is not None:
+            self.beamStopDiode = _edObject.getDataOutput().beamStopDiode.value
+        if _edObject.getDataOutput().code is not None:
+            self.code = _edObject.getDataOutput().code.value
+        if _edObject.getDataOutput().comments is not None:
+            self.comments = _edObject.getDataOutput().comments.value
+        if _edObject.getDataOutput().concentration is not None:
+            self.concentration = _edObject.getDataOutput().concentration.value
+        if _edObject.getDataOutput().machineCurrent is not None:
+            self.machineCurrent = _edObject.getDataOutput().machineCurrent.value
+        if _edObject.getDataOutput().wavelength is not None:
+            self.wavelength = _edObject.getDataOutput().wavelength.value
+        if _edObject.getDataOutput().normalizationFactor is not None:
+            self.normalizationFactor = _edObject.getDataOutput().normalizationFactor.value
+        if _edObject.getDataOutput().maskFile is not None:
+            self.maskFile = _edObject.getDataOutput().maskFile.getPath().value
         xsdiSaxsCurves = XSDataInputSaxsCurvesv1_0()
-        xsdiSaxsCurves.setInputImage(self.getDataInput().getIntegratedImage())
-        xsdiSaxsCurves.setOutputDataFile(self.getDataInput().getIntegratedCurve())
+        xsdiSaxsCurves.setInputImage(self.dataInput.getIntegratedImage())
+        xsdiSaxsCurves.setOutputDataFile(self.dataInput.getIntegratedCurve())
         xsdiSaxsCurves.setOptions(XSDataString('+pass -scf 2_pi  -spc \"  \" '))
         self.__edPluginSaxsCurves.setDataInput(xsdiSaxsCurves)
 
@@ -204,7 +204,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
     def doSuccessSaxsCurves(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.doSuccessSaxsCurves")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAsciiExportv1_0.doSuccessSaxsCurves")
-        self.xsdResult.setIntegratedCurve(self.getDataInput().getIntegratedCurve())
+        self.xsdResult.setIntegratedCurve(self.dataInput.getIntegratedCurve())
         self.strProcessLog += "Successful production of an ASCII 3-column spectrum in '%s'\n" % (self.integratedCurve)
         self.rewriteAsciiHeader()
 
@@ -233,8 +233,8 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
                 firstData = lines.index(oneLine)
                 break
         outFile = open(self.integratedCurve, "wb")
-        outFile.write("# %s \r\n" % self.sampleComments)
-        outFile.write("#Sample c= %s mg/ml \r\n# \r\n# Sample environment:\r\n" % self.sampleConcentration)
+        outFile.write("# %s \r\n" % self.comments)
+        outFile.write("#Sample c= %s mg/ml \r\n# \r\n# Sample environment:\r\n" % self.concentration)
 
 
         if  self.detector is not None:
@@ -264,8 +264,8 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         for oneLine in headers:
             outFile.write("# %s \r\n" % oneLine.strip())
         outFile.write("# \r\n# Sample Information:\r\n")
-        outFile.write("# Concentration: %s\r\n" % self.sampleConcentration)
-        outFile.write("# Code: %s\r\n" % self.sampleCode)
+        outFile.write("# Concentration: %s\r\n" % self.concentration)
+        outFile.write("# Code: %s\r\n" % self.code)
         outFile.write("\r\n".join([i.strip() for i in lines[firstData:]]))
         outFile.close()
 

@@ -20,8 +20,8 @@
 		<normalizationFactor><value>1.0</value></normalizationFactor>
 	</experimentSetup>
 	<sample>
-		<sampleConcentration><value>5.77</value></sampleConcentration>
-		<sampleComments><value>bsa2</value></sampleComments>
-		<sampleCode><value>BSA</value></sampleCode>
+		<concentration><value>5.77</value></concentration>
+		<comments><value>bsa2</value></comments>
+		<code><value>BSA</value></code>
 	</sample>
 </XSDataInput>

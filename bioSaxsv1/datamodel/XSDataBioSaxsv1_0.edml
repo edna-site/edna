@@ -24,9 +24,9 @@ complex type XSDataFileSeries extends XSData {
 
 complex type XSDataInputBioSaxsSample extends XSDataInput{
 	"temporary class for multiple inhertitance emulation"
-	sampleConcentration : XSDataDouble optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
+	concentration : XSDataDouble optional
+	comments : XSDataString optional
+	code : XSDataString optional
 }
 
 complex type XSDataInputBioSaxsSampleExperiment extends XSDataInputBioSaxsSample{
@@ -46,9 +46,10 @@ complex type XSDataInputBioSaxsSampleExperiment extends XSDataInputBioSaxsSample
 
 complex type XSDataResultBioSaxsSample extends XSDataResult{
 	"temporary class for multiple inhertitance emulation"
-	sampleConcentration : XSDataDouble optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
+	concentration : XSDataDouble optional
+	comments : XSDataString optional
+	code : XSDataString optional
+	sampleTemperature: XSDataDouble optional
 	
 }
 
@@ -83,10 +84,10 @@ complex type XSDataBioSaxsExperimentSetup extends XSData{
 }
 
 complex type XSDataBioSaxsSample extends XSData {
-	sampleConcentration : XSDataDouble optional
-	sampleComments : XSDataString optional
-	sampleCode : XSDataString optional
-
+	concentration : XSDataDouble optional
+	comments : XSDataString optional
+	code : XSDataString optional
+	temperature: XSDataDouble optional
 }
 
 
@@ -118,19 +119,22 @@ complex type XSDataResultBioSaxsAveragev1_0 extends XSDataResult {
 }
 
 
-complex type XSDataInputBioSaxsAzimutIntv1_0 extends XSDataInputBioSaxsSampleExperiment{
+complex type XSDataInputBioSaxsAzimutIntv1_0 extends XSDataInput{
 	normalizedImage : XSDataImage
 	normalizedImageSize : XSDataInteger optional
 	integratedImage : XSDataImage
 	integratedCurve : XSDataFile
 	correctedImage : XSDataImage optional
+	sample: XSDataBioSaxsSample
+	experimentSetup: XSDataBioSaxsExperimentSetup
+	
 }
 
 complex type XSDataResultBioSaxsAzimutIntv1_0 extends XSDataResult {
 	correctedImage : XSDataImage
 	integratedImage : XSDataImage
 	integratedCurve : XSDataFile
-	processLog : XSDataString
+//	processLog : XSDataString
 }
 
 complex type XSDataInputBioSaxsMetadatav1_0 extends XSDataInputBioSaxsSampleExperiment{
@@ -142,11 +146,13 @@ complex type XSDataResultBioSaxsMetadatav1_0 extends XSDataResultBioSaxsSampleEx
 	outputImage : XSDataImage optional
 }
 
-complex type XSDataInputBioSaxsNormalizev1_0 extends  XSDataInputBioSaxsSampleExperiment{
+complex type XSDataInputBioSaxsNormalizev1_0 extends  XSDataInput{
 	rawImage : XSDataImage
-	logFile : XSDataFile
+	logFile : XSDataFile optional
 	normalizedImage : XSDataImage
 	rawImageSize : XSDataInteger
+	sample: XSDataBioSaxsSample
+	experimentSetup: XSDataBioSaxsExperimentSetup
 }
 
 complex type XSDataResultBioSaxsNormalizev1_0 extends XSDataResult {

@@ -74,9 +74,9 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         self.averagedCurve = None
         self.normalizationFactor = None
         self.correctedImage = None
-        self.sampleConcentration = None
-        self.sampleComments = None
-        self.sampleCode = None
+        self.concentration = None
+        self.comments = None
+        self.code = None
 
         self.strLogFile = None
         self.strProcessLog = ""
@@ -87,12 +87,12 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         Checks the mandatory parameters.
         """
         EDVerbose.DEBUG("EDPluginBioSaxsAveragev1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedImage(), "Missing IntegratedImage")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedImageSize(), "Missing IntegratedImageSize")
-        self.checkMandatoryParameters(self.getDataInput().getAveragedImage(), "Missing AveragedImage")
-        self.checkMandatoryParameters(self.getDataInput().getAveragedCurve(), "Missing AveragedCurve")
-        self.checkMandatoryParameters(self.getDataInput().getLogFile(), "Missing log File")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.getIntegratedImage(), "Missing IntegratedImage")
+        self.checkMandatoryParameters(self.dataInput.getIntegratedImageSize(), "Missing IntegratedImageSize")
+        self.checkMandatoryParameters(self.dataInput.getAveragedImage(), "Missing AveragedImage")
+        self.checkMandatoryParameters(self.dataInput.getAveragedCurve(), "Missing AveragedCurve")
+        self.checkMandatoryParameters(self.dataInput.getLogFile(), "Missing log File")
 
 
 
@@ -106,11 +106,11 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         self.__edPluginSaxsGetMetadata = self.loadPlugin(self.__strControlledPluginSaxsGetMetadata)
         self.__edPluginSaxsSetMetadata = self.loadPlugin(self.__strControlledPluginSaxsSetMetadata)
 
-        self.integratedImages = [ oneImage.getPath().getValue() for oneImage in self.getDataInput().getIntegratedImage()]
+        self.integratedImages = [ oneImage.getPath().value for oneImage in self.dataInput.getIntegratedImage()]
 
-        self.averagedImage = self.getDataInput().getAveragedImage().getPath().getValue()
-        self.averagedCurve = self.getDataInput().getAveragedCurve().getPath().getValue()
-        self.strLogFile = self.getDataInput().getLogFile().getPath().getValue()
+        self.averagedImage = self.dataInput.getAveragedImage().getPath().value
+        self.averagedCurve = self.dataInput.getAveragedCurve().getPath().value
+        self.strLogFile = self.dataInput.getLogFile().getPath().value
 
 
     def process(self, _edObject=None):
@@ -119,8 +119,8 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
 
 
         xsdiWaitMultiFile = XSDataInputWaitMultiFile()
-        xsdiWaitMultiFile.setExpectedFile(self.getDataInput().getIntegratedImage())
-        xsdiWaitMultiFile.setExpectedSize(self.getDataInput().getIntegratedImageSize())
+        xsdiWaitMultiFile.setExpectedFile(self.dataInput.getIntegratedImage())
+        xsdiWaitMultiFile.setExpectedSize(self.dataInput.getIntegratedImageSize())
         self.__edPluginWaitMultiFile.setDataInput(xsdiWaitMultiFile)
         self.__edPluginWaitMultiFile.connectSUCCESS(self.doSuccessWaitMultiFile)
         self.__edPluginWaitMultiFile.connectFAILURE(self.doFailureWaitMultiFile)
@@ -145,20 +145,20 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
 
         self.strProcessLog += "Retrieve metadata from file %s\n" % (self.integratedImages[0])
         xsdiMetadata = XSDataInputBioSaxsMetadatav1_0()
-        xsdiMetadata.setInputImage(self.getDataInput().getIntegratedImage()[0])
-        xsdiMetadata.setSampleConcentration(self.getDataInput().getSampleConcentration())
-        xsdiMetadata.setSampleComments(self.getDataInput().getSampleComments())
-        xsdiMetadata.setSampleCode(self.getDataInput().getSampleCode())
-        xsdiMetadata.setDetector(self.getDataInput().getDetector())
-        xsdiMetadata.setDetectorDistance(self.getDataInput().getDetectorDistance())
-        xsdiMetadata.setPixelSize_1(self.getDataInput().getPixelSize_1())
-        xsdiMetadata.setPixelSize_2(self.getDataInput().getPixelSize_2())
-        xsdiMetadata.setBeamCenter_1(self.getDataInput().getBeamCenter_1())
-        xsdiMetadata.setBeamCenter_2(self.getDataInput().getBeamCenter_2())
-        xsdiMetadata.setWavelength(self.getDataInput().getWavelength())
-        xsdiMetadata.setMachineCurrent(self.getDataInput().getMachineCurrent())
-        xsdiMetadata.setMaskFile(self.getDataInput().getMaskFile())
-        xsdiMetadata.setNormalizationFactor(self.getDataInput().getNormalizationFactor())
+        xsdiMetadata.setInputImage(self.dataInput.getIntegratedImage()[0])
+        xsdiMetadata.setConcentration(self.dataInput.concentration)
+        xsdiMetadata.setComments(self.dataInput.comments)
+        xsdiMetadata.setCode(self.dataInput.code)
+        xsdiMetadata.setDetector(self.dataInput.getDetector())
+        xsdiMetadata.setDetectorDistance(self.dataInput.detectorDistance)
+        xsdiMetadata.setPixelSize_1(self.dataInput.pixelSize_1)
+        xsdiMetadata.setPixelSize_2(self.dataInput.pixelSize_2)
+        xsdiMetadata.setBeamCenter_1(self.dataInput.beamCenter_1)
+        xsdiMetadata.setBeamCenter_2(self.dataInput.beamCenter_2)
+        xsdiMetadata.setWavelength(self.dataInput.wavelength)
+        xsdiMetadata.setMachineCurrent(self.dataInput.machineCurrent)
+        xsdiMetadata.setMaskFile(self.dataInput.maskFile)
+        xsdiMetadata.setNormalizationFactor(self.dataInput.normalizationFactor)
         self.__edPluginSaxsGetMetadata.setDataInput(xsdiMetadata)
         self.__edPluginSaxsGetMetadata.connectSUCCESS(self.doSucessGetMetadata)
         self.__edPluginSaxsGetMetadata.connectFAILURE(self.doFailureGetMetadata)
@@ -169,7 +169,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         self.synchronizeOn()
         EDVerbose.DEBUG("EDPluginBioSaxsAveragev1_0.doFailureWaitMultiFile")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsAveragev1_0.doFailureWaitMultiFile")
-        self.strProcessLog += "Timeout in waiting for file '%s'\n" % (_edPlugin.getDataInput().getExpectedFile().getPath().getValue())
+        self.strProcessLog += "Timeout in waiting for file '%s'\n" % (_edPlugin.dataInput.getExpectedFile().getPath().value)
         EDVerbose.DEBUG("XSDataResult from EDPluginWaitMultiFile that failed: \n%s" % _edPlugin.getDataOutput().marshal())
         self.synchronizeOff()
         self.setFailure()
@@ -216,7 +216,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         xsdImage.setPath(XSDataString(strImages))
         xsdiSaxsMac = XSDataInputSaxsMacv1_0()
         xsdiSaxsMac.setInputImage(xsdImage)
-        xsdiSaxsMac.setOutputImage(self.getDataInput().getAveragedImage())
+        xsdiSaxsMac.setOutputImage(self.dataInput.getAveragedImage())
         xsdiSaxsMac.setOptions(XSDataString("+pass -omod n +var -add %d" % len(self.integratedImages)))
         xsdiSaxsMac.setMultConst(XSDataDouble(1.0 / len(self.integratedImages)))
         self.__edPluginSaxsMac.setDataInput(xsdiSaxsMac)
@@ -245,21 +245,21 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
             self.xsdResult.setLogFile(xsLogFile)
 
         xsdiMetadata = XSDataInputBioSaxsMetadatav1_0()
-        xsdiMetadata.setInputImage(self.getDataInput().getAveragedImage())
-        xsdiMetadata.setOutputImage(self.getDataInput().getAveragedImage())
-        xsdiMetadata.setSampleConcentration(self.xsdMetadata.getSampleConcentration())
-        xsdiMetadata.setSampleComments(self.xsdMetadata.getSampleComments())
-        xsdiMetadata.setSampleCode(self.xsdMetadata.getSampleCode())
+        xsdiMetadata.setInputImage(self.dataInput.getAveragedImage())
+        xsdiMetadata.setOutputImage(self.dataInput.getAveragedImage())
+        xsdiMetadata.setConcentration(self.xsdMetadata.concentration)
+        xsdiMetadata.setComments(self.xsdMetadata.comments)
+        xsdiMetadata.setCode(self.xsdMetadata.code)
         xsdiMetadata.setDetector(self.xsdMetadata.getDetector())
-        xsdiMetadata.setDetectorDistance(self.xsdMetadata.getDetectorDistance())
-        xsdiMetadata.setPixelSize_1(self.xsdMetadata.getPixelSize_1())
-        xsdiMetadata.setPixelSize_2(self.xsdMetadata.getPixelSize_2())
-        xsdiMetadata.setBeamCenter_1(self.xsdMetadata.getBeamCenter_1())
-        xsdiMetadata.setBeamCenter_2(self.xsdMetadata.getBeamCenter_2())
-        xsdiMetadata.setWavelength(self.xsdMetadata.getWavelength())
-        xsdiMetadata.setMachineCurrent(self.xsdMetadata.getMachineCurrent())
-        xsdiMetadata.setMaskFile(self.xsdMetadata.getMaskFile())
-        xsdiMetadata.setNormalizationFactor(self.xsdMetadata.getNormalizationFactor())
+        xsdiMetadata.setDetectorDistance(self.xsdMetadata.detectorDistance)
+        xsdiMetadata.setPixelSize_1(self.xsdMetadata.pixelSize_1)
+        xsdiMetadata.setPixelSize_2(self.xsdMetadata.pixelSize_2)
+        xsdiMetadata.setBeamCenter_1(self.xsdMetadata.beamCenter_1)
+        xsdiMetadata.setBeamCenter_2(self.xsdMetadata.beamCenter_2)
+        xsdiMetadata.setWavelength(self.xsdMetadata.wavelength)
+        xsdiMetadata.setMachineCurrent(self.xsdMetadata.machineCurrent)
+        xsdiMetadata.setMaskFile(self.xsdMetadata.maskFile)
+        xsdiMetadata.setNormalizationFactor(self.xsdMetadata.normalizationFactor)
         self.__edPluginSaxsSetMetadata.setDataInput(xsdiMetadata)
         self.__edPluginSaxsSetMetadata.connectSUCCESS(self.doSuccessSetMetadata)
         self.__edPluginSaxsSetMetadata.connectFAILURE(self.doFailureSetMetadata)
@@ -277,11 +277,11 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         EDVerbose.DEBUG("EDPluginBioSaxsAveragev1_0.doSuccessSetMetadata")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAveragev1_0.doSuccessSetMetadata")
 
-        self.xsdResult.setAveragedImage(self.getDataInput().getAveragedImage())
+        self.xsdResult.setAveragedImage(self.dataInput.getAveragedImage())
         self.strProcessLog += "Conversion to 3-column ascii file: '%s'\n" % (self.averagedCurve)
         xsdiAsciiExport = XSDataInputBioSaxsAsciiExportv1_0()
-        xsdiAsciiExport.setIntegratedImage(self.getDataInput().getAveragedImage())
-        xsdiAsciiExport.setIntegratedCurve(self.getDataInput().getAveragedCurve())
+        xsdiAsciiExport.setIntegratedImage(self.dataInput.getAveragedImage())
+        xsdiAsciiExport.setIntegratedCurve(self.dataInput.getAveragedCurve())
         self.__edPluginAsciiExport.setDataInput(xsdiAsciiExport)
         self.__edPluginAsciiExport.connectSUCCESS(self.doSuccessAsciiExport)
         self.__edPluginAsciiExport.connectFAILURE(self.doFailureAsciiExport)
@@ -298,7 +298,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
     def doSuccessAsciiExport(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAveragev1_0.doSuccessAsciiExport")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAveragev1_0.doSuccessAsciiExport")
-        self.xsdResult.setAveragedCurve(self.getDataInput().getAveragedCurve())
+        self.xsdResult.setAveragedCurve(self.dataInput.getAveragedCurve())
 #        self.strProcessLog += "Successful Execution of EDPlugin BioSaxs Average v1_0"
 
     def doFailureAsciiExport(self, _edPlugin=None):

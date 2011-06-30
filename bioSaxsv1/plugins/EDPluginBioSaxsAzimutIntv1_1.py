@@ -31,7 +31,7 @@ import os
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
-from XSDataCommon           import XSDataString
+from XSDataCommon           import XSDataString, XSDataStatus
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsAzimutIntv1_0, XSDataResultBioSaxsAzimutIntv1_0, \
                                XSDataInputBioSaxsAsciiExportv1_0, XSDataInputBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
@@ -70,7 +70,8 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         self.__edPluginSaxsSetMetadata = None
 
         self.xsdMetadata = None
-
+        self.sample = None
+        self.experimentSetup = None
         self.normalizedImage = None
         self.integratedImage = None
         self.integratedCurve = None
@@ -86,33 +87,38 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         Checks the mandatory parameters.
         """
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getNormalizedImage(), "Missing normalizedImage")
-        self.checkMandatoryParameters(self.getDataInput().getNormalizedImageSize(), "Missing normalizedImageSize")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedImage(), "Missing integratedImage")
-        self.checkMandatoryParameters(self.getDataInput().getIntegratedCurve(), "Missing integratedCurve")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.normalizedImage, "Missing normalizedImage")
+        self.checkMandatoryParameters(self.dataInput.getNormalizedImageSize(), "Missing normalizedImageSize")
+        self.checkMandatoryParameters(self.dataInput.getIntegratedImage(), "Missing integratedImage")
+        self.checkMandatoryParameters(self.dataInput.getIntegratedCurve(), "Missing integratedCurve")
+        self.checkMandatoryParameters(self.dataInput.sample, "Missing a sample description")
+        self.checkMandatoryParameters(self.dataInput.experimentSetup, "Missing an experiment setup")
 
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.preProcess")
         # Load the execution plugins
+        self.sample = self.dataInput.sample
+        self.experimentSetup = self.dataInput.experimentSetup
+
         self.__edPluginWaitFile = self.loadPlugin(self.__strControlledPluginWaitFile)
         self.__edPluginSaxsAngle = self.loadPlugin(self.__strControlledPluginSaxsAngle)
         self.__edPluginAsciiExport = self.loadPlugin(self.__strControlledPluginAsciiExport)
         self.__edPluginSaxsGetMetadata = self.loadPlugin(self.__strControlledPluginSaxsGetMetadata)
 
-        self.normalizedImage = self.getDataInput().getNormalizedImage().getPath().getValue()
-        self.integratedImage = self.getDataInput().getIntegratedImage().getPath().getValue()
-        self.integratedCurve = self.getDataInput().getIntegratedCurve().getPath().getValue()
+        self.normalizedImage = self.dataInput.normalizedImage.path.value
+        self.integratedImage = self.dataInput.getIntegratedImage().path.value
+        self.integratedCurve = self.dataInput.getIntegratedCurve().path.value
 
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.process")
         xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.getDataInput().getNormalizedImage())
-        xsdiWaitFile.setExpectedSize(self.getDataInput().getNormalizedImageSize())
+        xsdiWaitFile.setExpectedFile(self.dataInput.normalizedImage)
+        xsdiWaitFile.setExpectedSize(self.dataInput.getNormalizedImageSize())
         self.__edPluginWaitFile.setDataInput(xsdiWaitFile)
         self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
         self.__edPluginWaitFile.connectFAILURE(self.doFailureWaitFile)
@@ -137,7 +143,7 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
 
         # Create some output data
         strLog = os.linesep.join(self.lstProcessLog)
-        self.xsdResult.setProcessLog(XSDataString(strLog))
+        self.xsdResult.status = XSDataStatus(executiveSummary=XSDataString(strLog))
         self.setDataOutput(self.xsdResult)
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.postProces: Comments generated: " + os.linesep + strLog)
 
@@ -148,20 +154,20 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
 
         self.lstProcessLog.append("Retrieve metadata from file %s" % (self.normalizedImage))
         xsdiMetadata = XSDataInputBioSaxsMetadatav1_0()
-        xsdiMetadata.setInputImage(self.getDataInput().getNormalizedImage())
-        xsdiMetadata.setSampleConcentration(self.getDataInput().getSampleConcentration())
-        xsdiMetadata.setSampleComments(self.getDataInput().getSampleComments())
-        xsdiMetadata.setSampleCode(self.getDataInput().getSampleCode())
-        xsdiMetadata.setDetector(self.getDataInput().getDetector())
-        xsdiMetadata.setDetectorDistance(self.getDataInput().getDetectorDistance())
-        xsdiMetadata.setPixelSize_1(self.getDataInput().getPixelSize_1())
-        xsdiMetadata.setPixelSize_2(self.getDataInput().getPixelSize_2())
-        xsdiMetadata.setBeamCenter_1(self.getDataInput().getBeamCenter_1())
-        xsdiMetadata.setBeamCenter_2(self.getDataInput().getBeamCenter_2())
-        xsdiMetadata.setWavelength(self.getDataInput().getWavelength())
-        xsdiMetadata.setMachineCurrent(self.getDataInput().getMachineCurrent())
-        xsdiMetadata.setMaskFile(self.getDataInput().getMaskFile())
-        xsdiMetadata.setNormalizationFactor(self.getDataInput().getNormalizationFactor())
+        xsdiMetadata.setInputImage(self.dataInput.normalizedImage)
+        xsdiMetadata.setConcentration(self.sample.concentration)
+        xsdiMetadata.setComments(self.sample.comments)
+        xsdiMetadata.setCode(self.sample.code)
+        xsdiMetadata.setDetector(self.experimentSetup.getDetector())
+        xsdiMetadata.setDetectorDistance(self.experimentSetup.detectorDistance)
+        xsdiMetadata.setPixelSize_1(self.experimentSetup.pixelSize_1)
+        xsdiMetadata.setPixelSize_2(self.experimentSetup.pixelSize_2)
+        xsdiMetadata.setBeamCenter_1(self.experimentSetup.beamCenter_1)
+        xsdiMetadata.setBeamCenter_2(self.experimentSetup.beamCenter_2)
+        xsdiMetadata.setWavelength(self.experimentSetup.wavelength)
+        xsdiMetadata.setMachineCurrent(self.experimentSetup.machineCurrent)
+        xsdiMetadata.setMaskFile(self.experimentSetup.maskFile)
+        xsdiMetadata.setNormalizationFactor(self.experimentSetup.normalizationFactor)
         self.__edPluginSaxsGetMetadata.setDataInput(xsdiMetadata)
 
 
@@ -178,9 +184,9 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
             self.xsdMetadata = _edPlugin.getDataOutput()
             self.lstProcessLog.append("Azimuthal integration of Corrected+Masked EDF image '%s'." % (self.normalizedImage))
             xsdiSaxsAngle = XSDataInputSaxsAnglev1_0()
-            xsdiSaxsAngle.setInputDataFile(self.getDataInput().getNormalizedImage())
+            xsdiSaxsAngle.setInputDataFile(self.dataInput.normalizedImage)
             # XSDataFile(XSDataString(self.normalizedImage)))
-            xsdiSaxsAngle.setRegroupedDataFile(self.getDataInput().getIntegratedImage())
+            xsdiSaxsAngle.setRegroupedDataFile(self.dataInput.getIntegratedImage())
             xsdiSaxsAngle.setOptions(XSDataString('+pass -omod n -rsys normal -da 360_deg -odim = 1'))
             self.__edPluginSaxsAngle.setDataInput(xsdiSaxsAngle)
 
@@ -195,11 +201,11 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
     def doSuccessSaxsAngle(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.doSuccessSaxsAngle")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_1.doSuccessSaxsAngle")
-        self.xsdResult.setIntegratedImage(self.getDataInput().getIntegratedImage())
+        self.xsdResult.setIntegratedImage(self.dataInput.getIntegratedImage())
         self.lstProcessLog.append("Conversion to spec-like file of '%s'" % (self.integratedImage))
         xsdiAsciiExport = XSDataInputBioSaxsAsciiExportv1_0()
-        xsdiAsciiExport.setIntegratedImage(self.getDataInput().getIntegratedImage())
-        xsdiAsciiExport.setIntegratedCurve(self.getDataInput().getIntegratedCurve())
+        xsdiAsciiExport.setIntegratedImage(self.dataInput.getIntegratedImage())
+        xsdiAsciiExport.setIntegratedCurve(self.dataInput.getIntegratedCurve())
         self.__edPluginAsciiExport.setDataInput(xsdiAsciiExport)
 
 
@@ -213,10 +219,10 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
     def doSuccessAsciiExport(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.doSuccessAsciiExport")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_1.doSuccessAsciiExport")
-        self.xsdResult.setIntegratedCurve(self.getDataInput().getIntegratedCurve())
+        self.xsdResult.setIntegratedCurve(self.dataInput.getIntegratedCurve())
         output = _edPlugin.getDataOutput()
         if output is not None:
-            self.lstProcessLog.append(output.getProcessLog().getValue())
+            self.lstProcessLog.append(output.getProcessLog().value)
 
 
 
@@ -225,5 +231,5 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_1.doFailureAsciiExport")
         output = _edPlugin.getDataOutput()
         if output is not None:
-            self.lstProcessLog.append(output.getProcessLog().getValue())
+            self.lstProcessLog.append(output.getProcessLog().value)
         self.setFailure()

@@ -1,502 +1,363 @@
+#!/usr/bin/env python
 # -*- coding: utf8 -*-
-"""
-=============================================
-  NAME       : Reprocess (Reprocess.py)
-  
-  DESCRIPTION:
-    
-  VERSION    : 1
-
-  REVISION   : 0
-
-  RELEASE    : 2010/FEB/18
-
-  PLATFORM   : None
-
-  EMAIL      : ricardo.fernandes@esrf.fr
-  
-  HISTORY    :
-=============================================
-"""
-
+#
+#    Project: BioSaxs
+#             http://www.edna-site.org
+#
+#    File: "$Id$"
+#
+#    Copyright (C) European Synchrotron Radiation Facility, Grenoble, France
+#
+#    Principal author:       Jérôme Kieffer (Jerome.Kieffer@ESRF.eu)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "2010/07/29"
 
-DETECTORS = ["pilatus", "vantec"]
-OPERATIONS = ["normalisation", "reprocess", "average", "complete"]
-#RAWDIR = "raw"
+import os, sys, time
 
-# =============================================
-#  IMPORT MODULES
-# =============================================
-try:
-    import sys
-    import os
-    import subprocess
-    import time
-    import HDFDictionary
-    import EDF
-    import SPEC
-    from SpecClient import SpecVariable
-except ImportError:
-    print "%s.py: error when importing module!" % __name__
+# Append the EDNA kernel source directory to the python path
+if not os.environ.has_key("EDNA_HOME"):
+    pyStrProgramPath = os.path.abspath(sys.argv[0])
+    pyLPath = pyStrProgramPath.split(os.sep)
+    if len(pyLPath) > 3:
+        pyStrEdnaHomePath = os.sep.join(pyLPath[:-3])
+    else:
+        print ("Problem in the EDNA_HOME path ..." + pyStrEdnaHomePath)
+        sys.exit()
+    os.environ["EDNA_HOME"] = pyStrEdnaHomePath
 
-global REPROCESS_STATUS, REPROCESS_ABORT
+sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
+from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDVerbose              import EDVerbose
+from EDLogging              import EDLogging
+from EDParallelExecute      import EDParallelExecute
+EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
+from XSDataBioSaxsv1_0      import XSDataInputBioSaxsProcessOneFilev1_0, \
+    XSDataFile, XSDataString, XSDataInteger, XSDataDouble, XSDataImage, \
+    XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
+from XSDataCommon import XSDataLength, XSDataWavelength, XSDataFile, XSDataString, XSDataInteger, XSDataDouble, XSDataImage
 
-REPROCESS_STATUS = None
-REPROCESS_ABORT = None
+
+EDNAPluginName = "EDPluginBioSaxsProcessOneFilev1_0"
+class BioSaxsReprocess(EDLogging):
+
+    def __init__(self, code=None, comment=None, \
+                 maskFile=None, normalization=None, imageSize=4.0e6, detector="pilatus", detectorDistance=None, pixelSize_1=None, pixelSize_2=None, beamCenter_1=None, beamCenter_2=None, wavelength=None,):
+        EDLogging.__init__(self)
+        self.comment = comment
+        self.code = code
+        self.maskFile = maskFile
+        self.normalization = normalization
+        self.imageSize = imageSize
+        self.detector = detector
+        self.detectorDistance = detectorDistance
+        self.pixelSize_1 = pixelSize_1
+        self.pixelSize_2 = pixelSize_2
+        self.beamCenter_1 = beamCenter_1
+        self.beamCenter_2 = beamCenter_2
+        self.wavelength = wavelength
+
+        self.timeStamp = time.strftime("-%Y%m%d%H%M%S", time.localtime())
+        self.dest1D = "1d" + self.timeStamp
+        self.dest2D = "2d" + self.timeStamp
+        self.destMisc = "misc" + self.timeStamp
+        self.xsdSample = XSDataBioSaxsSample()
+        if code is not None:
+            self.xsdSample.code = XSDataString(code)
+        if comment is not None:
+            self.xsdSample.comment = XSDataString(comment)
+        self.experimentSetup = XSDataBioSaxsExperimentSetup()
+        if self.detector:
+            self.experimentSetup.detector = XSDataString(self.detector)
+        if self.detectorDistance:
+            self.experimentSetup.detectorDistance = XSDataLength(self.detectorDistance)
+        if self.pixelSize_1:
+            self.experimentSetup.pixelSize_1 = XSDataLength(self.pixelSize_1)
+        if self.pixelSize_2:
+            self.experimentSetup.pixelSize_2 = XSDataLength(self.pixelSize_2)
+        if self.beamCenter_1:
+            self.experimentSetup.beamCenter_1 = XSDataDouble(self.beamCenter_1)
+        if self.beamCenter_2:
+            self.experimentSetup.beamCenter_2 = XSDataDouble(self.beamCenter_2)
+        if self.wavelength:
+            self.experimentSetup.wavelength = XSDataWavelength(self.wavelength)
+
+    def __repr__(self):
+        lst = [
+        "Sample comment:      %s" % self.comment, #
+        "Sample code:         %s" % self.code, #
+        "Mask file:           %s" % self.maskFile, #
+        "Normalization factor: %s" % self.normalization ,
+        "Raw image size:      %s" % self.imageSize, #
+        "Detector type:       %s" % self.detector , #
+        "Detector distance:   %s" % self.detectorDistance , #
+        "Pixel size 1:        %s" % self.pixelSize_1,
+        "Pixel size 2:        %s" % self.pixelSize_2 ,
+        "Beam center 1:       %s" % self.beamCenter_1 ,
+        "Beam center 2:       %s" % self.beamCenter_2 ,
+        "Wavelength:          %s" % self.wavelength ]#
+        return os.linesep.join(lst)
+
+    def cliReadParam(self):
+        print("Welcome to the Reprocessing of BioSaxs data")
+
+        raw = raw_input("Sample code [%s]: " % self.code).strip()
+        if raw != "":
+            self.code = raw
+
+        raw = raw_input("Sample comments [%s]: " % self.comment).strip()
+        if raw != "":
+            self.comment = raw
+
+        ok = False
+        while not ok:
+            raw = raw_input("Wavelength (in meter) [%s]: " % self.wavelength).strip()
+            if raw != "":
+                try:
+                    self.wavelenth = float(raw)
+                    ok = True
+                except:
+                    self.ERROR("Unable to convert to float: %s" % raw)
+                    ok = False
 
 
-def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirst, pFrameLast, pConcentration, pComments, pCode, \
-              pMaskFile, pDetectorDistance, pWaveLength, pPixelSizeX, pPixelSizeY, pBeamCenterX, pBeamCenterY, pNormalisation, pBeamStopDiode, \
-              pMachineCurrent, pKeepOriginal, pTimeOut, pSPECVersion, pSPECVariableStatus, pSPECVariableAbort, pTerminal):
+        raw = raw_input("Detector used [%s]:" % self.detector).strip()
+        if raw != "":
+            self.detector = raw.lower()
 
-    def doOneRunNumber(runNumber):
+
+        ok = False
+        while not ok:
+            raw = raw_input("Detector image size in bytes [%s]: " % self.imageSize).strip()
+            if raw != "":
+                try:
+                    self.imageSize = float(raw)
+                    ok = True
+                except:
+                    self.ERROR("Unable to convert to float: %s" % raw)
+                    ok = False
+            else:
+                ok = bool(self.imageSize)
+
+        ok = False
+        while not ok:
+            raw = raw_input("Mask file  [%s]: " % self.maskFile).strip()
+            if raw != "":
+                self.maskFile = raw
+                ok = True
+            if (self.maskFile is None) or (os.path.isfile(self.maskFile) is False):
+                ok = False
+
+        ok = False
+        while not ok:
+            raw = raw_input("Sample - Detector distance in meter [%s]: " % self.detectorDistance).strip()
+            if raw != "":
+                try:
+                    self.detectorDistance = float(raw)
+                    ok = True
+                except:
+                    self.ERROR("Unable to convert to float: %s" % raw)
+                    ok = False
+
+        ok = False
+        while not ok:
+            raw = raw_input("Normalization factor [%s]: " % self.normalization).strip()
+            if raw != "":
+                try:
+                    self.normalization = float(raw)
+                    ok = True
+                except:
+                    self.ERROR("Unable to convert to float: %s" % raw)
+                    ok = False
+
+        ok = False
+        while not ok:
+            raw = raw_input("Pixel size [%s %s]: " % (self.pixelSize_1, self.pixelSize_2)).strip()
+            if raw != "":
+                lpx = raw.split()
+                if len(lpx) == 1:
+                    try:
+                        self.pixelSize_1 = float(raw)
+                        self.pixelSize_2 = float(raw)
+                        ok = True
+                    except:
+                        self.ERROR("Unable to convert to float: %s" % raw)
+                        ok = False
+                else:
+                    try:
+                        self.pixelSize_1 = float(raw[0])
+                        self.pixelSize_2 = float(raw[1])
+                        ok = True
+                    except:
+                        self.ERROR("Unable to convert to float: %s" % raw)
+                        ok = False
+
+        ok = False
+        while not ok:
+            raw = raw_input("Beam Center position [%s %s]: " % (self.beamCenter_1, self.beamCenter_2)).strip()
+            if raw != "":
+                lpx = raw.split()
+                if len(lpx) == 1:
+                    try:
+                        self.beamCenter_1 = float(raw)
+                        self.beamCenter_2 = float(raw)
+                        ok = True
+                    except:
+                        self.ERROR("Unable to convert to float: %s" % raw)
+                        ok = False
+                else:
+                    try:
+                        self.beamCenter_1 = float(raw[0])
+                        self.beamCenter_2 = float(raw[1])
+                        ok = True
+                    except:
+                        self.ERROR("Unable to convert to float: %s" % raw)
+                        ok = False
+
+        ###########################################
+        if self.code is not None:
+            self.xsdSample.code = XSDataString(code)
+        if self.comment is not None:
+            self.xsdSample.comment = XSDataString(comment)
+        if self.detector is not None:
+            self.experimentSetup.detector = XSDataString(self.detector)
+        if self.detectorDistance is not None:
+            self.experimentSetup.detectorDistance = XSDataLength(self.detectorDistance)
+        if self.pixelSize_1 is not None:
+            self.experimentSetup.pixelSize_1 = XSDataLength(self.pixelSize_1)
+        if self.pixelSize_2 is not None:
+            self.experimentSetup.pixelSize_2 = XSDataLength(self.pixelSize_2)
+        if self.beamCenter_1 is not None:
+            self.experimentSetup.beamCenter_1 = XSDataDouble(self.beamCenter_1)
+        if self.beamCenter_2 is not None:
+            self.experimentSetup.beamCenter_2 = XSDataDouble(self.beamCenter_2)
+
+    def toXml(self, filename):
+        """Here we create the XML string to be passed to the EDNA plugin from the input filename
+        This can / should be modified by the final user
+        
+        @param filename: full path of the input file
+        @type filename: python string representing the path
+        @rtype: XML string
+        @return: python string  
         """
-        Attempt to separate the loop over the run-numbers
-        """
-        if __terminal or pSPECVersion is not None:   # reprocess was launched from terminal or from BsxCuBE while reprocessing data
-            frameList = []
-            for filename in os.listdir(pDirectory + "/raw"):
-                if os.path.isfile(pDirectory + "/raw/" + filename):
-                    prefix, run, frame, extra, extension = getFilenameDetails(filename)
-                    if prefix == pPrefix and run == runNumber and frame != "":
-                        if (pFrameFirst == "" or int(frame) >= int(pFrameFirst)) and (pFrameLast == "" or int(frame) <= int(pFrameLast)):
-                            if pDetector == "0" and extension == "edf" or pDetector == "1" and extension == "gfrm":
-                                try:
-                                    frameList.index(frame)
-                                except:
-                                    frameList.append(frame)
-        else:   # reprocess was launched from BsxCuBE while collecting data
-            frameList = ["%02d" % int(pFrameLast)]
 
+#        Is the file to process?
+        dirname, basename = os.path.split(filename)
+        rootDir, dirname = os.path.split(dirname)
+        basename, ext = os.path.splitext(basename)
+        if not ((dirname.lower() == "raw") and (ext.lower() == ".edf")):
+            self.DEBUG("Not processing %s" % filename)
+            return
+        existing2DImage = os .path.join(rootDir, "2d", basename + ".edf")
 
-
-
-
-
-def showMessage(pLevel, pMessage, pFilename=None):
-    """Similar to logging module of python but for udating BioSaxsCube ???
-    
-    @param pLevel: print level seems to be
-                    4 for Errors
-                    3 for Warnings
-                    2 for Info
-                    1
-                    0
-    @type pLevel: int
-    @param pMessage: comment to be printed
-    @type pMessage: string
-    @param pFilename: the file related to the message (nothing to do with a logfile)
-    @type pFilename: string or None
-    """
-
-    if REPROCESS_STATUS is not None:
-        currentStatus = REPROCESS_STATUS.getValue()["reprocess"]["status"]     # must do this, since SpecClient is apparently returning a non-expected data structure
-        i = currentStatus.rfind(",")
-        # TB: This ,1 or ,0 suffix nonsense seems to be a hack to force Spec to signal a variable change to bsxcube
-        if i == -1 or currentStatus[i + 1:] == "1":
-            if pFilename is None:
-                newStatus = "%s,%s,0" % (pLevel, pMessage)
-            else:
-                newStatus = "%s,%s,%s,0" % (pLevel, pMessage, pFilename)
-        else:
-            if pFilename is None:
-                newStatus = "%s,%s,1" % (pLevel, pMessage)
-            else:
-                newStatus = "%s,%s,%s,1" % (pLevel, pMessage, pFilename)
-        globals()["REPROCESS_STATUS"].setValue(newStatus)
-
-    if (REPROCESS_ABORT is not None) and (REPROCESS_ABORT.getValue()["reprocess"]["abort"]) == "1":
-        # must do this, since SpecClient is apparently returning a non-expected data structure
-        print "Aborting data reprocess!"
-        sys.exit(0)
-
-    print pMessage
-
-
-
-
-def makeTranslation(pTranslate, pKeyword, pDefaultValue):
-    """
-    ????
-    
-     
-    @type pTranslate: list ??
-    @param pKeyword: the given keyword to be replaced
-    @param pDefaultValue: default value fot the keyword
-    """
-    for keyword, value in pTranslate:
-        if keyword == pKeyword:
-            newValue = ""
-            for i in range(0, len(value)):
-                if value[i] != "\"":
-                    newValue += value[i]
-            return newValue
-
-    if len(pTranslate) > 0:
-        showMessage(3, "Trying to get value '%s' which doesn't exist!" % pKeyword)
-
-    return pDefaultValue
-
-
-
-
-def waitFile(pFilename, pSize, pTimeOut):
-    """
-    Wait for a file to reach the given/expected size (unless timeout)
-    
-    @param pFilename: name of the file
-    @type pFilename: string
-    @param pSize: size of the file to reach
-    @type pSize: scalar (int or float)
-    @param pTimeOut: timeout
-    @type pTimeOut: scalar (int or float) or a string representing an int
-    
-    @return:  0 if the file reached the good size,
-             -1 if timeout is reached
-              1 if there is no file and the system expects to abort
-    @rtype: int  
-    """
-    timeOut = int(pTimeOut)
-    while timeOut > 0:
-        time.sleep(0.5)
-        if os.path.exists(pFilename):
-#            os.stat(os.path.dirname(pFilename))
-            if os.path.getsize(pFilename) >= pSize:
-                return 0
-        else:
-            if REPROCESS_ABORT is not None and REPROCESS_ABORT.getValue()["reprocess"]["abort"] == "1":
-                # must do this, since SpecClient is apparently returning a non-expected data structure
-                return 1
-        timeOut -= 0.5
-
-    return - 1
-
-
-
-def getFilenameDetails(pFilename):
-    """
-    Split the name of the file in 4 components:
-    prefix_run_frame_extra.extension
-    @return: prefix, run, frame, extra, extension
-    @rtype: 4-tuple of strings
-    """
-    pFilename = str(pFilename)
-    file, extension = os.path.splitext(pFilename)
-
-    items = file.split("_")
-    prefix = items[0]
-    run = ""
-    frame = ""
-    extra = ""
-
-    for oneItem in items[1:]:
-        if oneItem.isdigit():
-            if run == "":
-                run = oneItem
-            elif frame == "":
-                frame = oneItem
-            elif extra == "":
-                extra = oneItem
-            else:
-                extra += "_" + oneItem
-        else:
-            if run == "":
-                prefix += "_" + oneItem
-            else:
-                extra += "_" + oneItem
-
-    try: #remove the "." at the begining of the extension
-        extension = extension[1:]
-    except IndexError:
-        extension = ""
-
-
-    try: #remove the "_" at the begining of the extra
-        extra = extra[1:]
-    except IndexError:
-        extra = ""
-
-
-    return prefix, run, frame, extra, extension
-
-
-
-if __name__ == "__main__":
-
-    try:
-
-        __parameters = {}
-
-        if len(sys.argv) == 1:
-
-            filenameREP = os.path.join(sys.path[0], "Reprocess.txt")
-
-            if os.path.exists(filenameREP):
-                handler = open(filenameREP, "r")
-                __parameters["detector"] = handler.readline()[:-1]
-                __parameters["operation"] = handler.readline()[:-1]
-                __parameters["directory"] = handler.readline()[:-1]
-                __parameters["prefix"] = handler.readline()[:-1]
-                __parameters["keepOriginal"] = handler.readline()[:-1]
-                handler.close()
-            else:
-                __parameters["detector"] = ""
-                __parameters["operation"] = ""
-                __parameters["directory"] = ""
-                __parameters["prefix"] = ""
-                __parameters["keepOriginal"] = ""
-
-            __parameters["concentration"] = ""
-            __parameters["comments"] = ""
-            __parameters["code"] = ""
-            __parameters["maskFile"] = ""
-            __parameters["detectorDistance"] = ""
-            __parameters["waveLength"] = ""
-            __parameters["pixelSizeX"] = ""
-            __parameters["pixelSizeY"] = ""
-            __parameters["beamCenterX"] = ""
-            __parameters["beamCenterY"] = ""
-            __parameters["normalisation"] = ""
-            __parameters["beamStopDiode"] = ""
-            __parameters["machineCurrent"] = ""
-
-
-            print
-
-            while True:
-                input = raw_input("0=Pilatus; 1=Vantec (empty='%s'): " % __parameters["detector"])
-                if input == "":
-                    input = __parameters["detector"]
-                if input in ("0", "1"):
-                    __parameters["detector"] = DETECTORS [int(input)]
+        if os.path.isfile(existing2DImage):
+            title = None
+            for line in open(existing2DImage):
+                if line.strip().startswith("title"):
+                    title = line.split("=", 1)[-1]
                     break
-                else:
-                    print "Wrong option!"
-
-            while True:
-                input = raw_input("0=Normalisation; 1=Reprocess; 2=Average; 3=Complete reprocess (empty='%s'): " % __parameters["operation"])
-                if input == "":
-                    input = __parameters["operation"]
-                if input in ("0", "1", "2", "3"):
-                    __parameters["operation"] = OPERATIONS[int(input)]
-                    break
-                else:
-                    print "Wrong option!"
-
-            while True:
-                input = raw_input("Directory (empty='%s'): " % __parameters["directory"])
-                if input == "":
-                    input = __parameters["directory"]
-                if os.path.isdir(input):
-                    __parameters["directory"] = input
-                    break
-                else:
-                    print "Directory '%s' not found!" % input
-
-            while True:
-                input = raw_input("Prefix (empty='%s'): " % __parameters["prefix"])
-                if input == "":
-                    input = __parameters["prefix"]
-                flag = False
-                for filename in os.listdir(os.path.join(__parameters["directory"], RAWDIR)):
-                    if os.path.isfile(os.path.join(__parameters["directory"], RAWDIR, filename)):
-                        prefix, run, frame, extra, extension = getFilenameDetails(filename)
-                        if prefix == input and run != "" and frame != "" and (__parameters["detector"] == "0" and extension == "edf" or __parameters["detector"] == "1" and extension == "gfrm"):
-                            flag = True
-                            break
-                if flag:
-                    __parameters["prefix"] = input
-                    break
-                else:
-                    print "Prefix '%s' not found!" % input
-
-            while True:
-                __parameters["runNumber"] = raw_input("Run # (empty=all): ")
-                if __parameters["runNumber"] == "":
-                    break
-                else:
-                    runNumberList = []
-                    for runNumber in __parameters["runNumber"].split(","):
-                        runNumber = "%03d" % int(runNumber)
-                        if runNumber not in runNumberList:
-                            runNumberList.append(runNumber)
-
-                    for runNumber in runNumberList:
-                        flag = False
-                        for filename in os.listdir(os.path.join(__parameters["directory"], RAWDIR)):
-                            if os.path.isfile(os.path.join(__parameters["directory"], RAWDIR, filename)):
-                                prefix, run, frame, extra, extension = getFilenameDetails(filename)
-                                if prefix == __parameters["prefix"] and run == runNumber and frame != "" and (\
-                                        __parameters["detector"] == "pilatus" and extension == "edf" or \
-                                        __parameters["detector"] == "vantec" and extension == "gfrm"):
-                                    flag = True
-                                    break
-                        if not flag:
-                            break
-                    if flag:
-                        break
+            if title:
+                for block in title.split(","):
+                    if "=" in block:
+                        key, value = block.split("=", 1)
+                    elif ":" in block:
+                        key, value = block.split(":", 1)
                     else:
-                        print "Run '%s' not found!" % runNumber
+                        key = None
+                    if key == "DiodeCurr":
+                        try:
+                            self.experimentSetup.beamStopDiode = XSDataDouble(float(value))
+                        except:
+                            self.ERROR("Unable to convert %s to float" % block)
+                    elif key == "MachCurr":
+                        try:
+                            self.experimentSetup.machineCurrent = XSDataDouble(float(value.split()[0]))
+                        except:
+                            self.ERROR("Unable to convert %s to float" % block)
+                    elif key == "Concentration":
+                        try:
+                            self.sample.concentration = XSDataDouble(float(value.split()[0]))
+                        except:
+                            self.ERROR("Unable to convert %s to float" % block)
+                    elif (key == "Comments") and (self.comment is None):
+                            self.sample.comments = XSDataString(value.strip())
+                    elif (key == "Code") and (self.code is None) :
+                        self.sample.code = XSDataString(value.strip())
+                    elif (key == "Mask") and (self.maskFile is None):
+                        self.experimentSetup.maskFile = XSDataImage(XSDataString(value.strip()))
+                    elif (key == "Normalisation") and (self.normalization is None):
+                        try:
+                            self.experimentSetup.normalizationFactor = XSDataDouble(float(value.split()[0]))
+                        except:
+                            self.ERROR("Unable to convert %s to float" % block)
 
-            if __parameters["runNumber"] == "" or len(__parameters["runNumber"].split(",")) > 1:
-                __parameters["frameFirst"] = ""
-                __parameters["frameLast"] = ""
-            else:
-                __parameters["frameFirst"] = raw_input("First frame (empty=first): ")
-                while True:
-                    __parameters["frameLast"] = raw_input("Last frame (empty=last): ")
-                    if __parameters["frameFirst"] == "" or __parameters["frameLast"] == "" or int(__parameters["frameFirst"]) <= int(__parameters["frameLast"]):
-                        break
-                    else:
-                        print "Last frame is lower than first frame!"
+        xsd = XSDataInputBioSaxsProcessOneFilev1_0()
+        xsd.rawImage = XSDataImage(XSDataString(filename))
+        xsd.rawImageSize = XSDataInteger(self.imageSize)
+        xsd.experimentSetup = self.experimentSetup
+        xsd.sample = self.xsdSample
+        normalizedImage = XSDataImage(XSDataString(os.path.join(rootDir, self.dest2D, basename + ".edf")))
+        integratedImage = XSDataImage(XSDataString(os.path.join(rootDir, self.destMisc, basename + ".ang")))
+        integratedCurve = XSDataFile(XSDataString(os.path.join(rootDir, self.dest1D, basename + ".dat")))
+        return xsd.marshal()
 
-
-            if __parameters["operation"] in ("1", "3"):
-                __parameters[""] = raw_input("New concentration (empty=from header): ")
-
-                __parameters["comments"] = raw_input("New comments (empty=from header): ")
-
-                __parameters["code"] = raw_input("New code (empty=from header): ")
-
-                while True:
-                    __parameters["maskFile"] = raw_input("New mask file (empty=from header): ")
-                    if __parameters["maskFile"] == "" or os.path.isfile(__parameters["maskFile"]):
-                        break
-                    else:
-                        print "Mask file '%s' not found!" % __parameters["maskFile"]
-
-                __parameters["detectorDistance"] = raw_input("New detector distance (empty=from header): ")
-
-                __parameters["waveLength"] = raw_input("New wave length (empty=from header): ")
-
-                __parameters["pixelSizeX"] = raw_input("New pixel size X (empty=from header): ")
-
-                __parameters["pixelSizeY"] = raw_input("New pixel size Y (empty=from header): ")
-
-                __parameters["beamCenterX"] = raw_input("New beam center X (empty=from header): ")
-
-                __parameters["beamCenterY"] = raw_input("New beam center Y (empty=from header): ")
-
-            if __parameters["operation"] in ("0", "3"):
-                __parameters["normalisation"] = raw_input("New normalisation (empty=from header): ")
-
-                __parameters["beamStopDiode"] = raw_input("New beam stop diode (empty=from header): ")
-
-            if __parameters["operation"] in ("1", "3"):
-                __parameters["machineCurrent"] = raw_input("New machine current (empty=from header): ")
-
-            while True:
-                input = raw_input("Keep original files (empty='%s'): " % __parameters["keepOriginal"])
-                if input == "":
-                    input = __parameters["keepOriginal"]
-                else:
-                    reducedInput = input[0].lower()
-                    if reducedInput in ("y" "n"):
-                        __parameters["keepOriginal"] = input.lower()
-                        break
-                print "Wrong option!"
+    def error(self, xmlin):
+        try:
+            xsd = XSDataInputBioSaxsProcessOneFilev1_0.parseString(xmlin)
+            filename = xsd.rawImage.path.value
+        except:
+            filename = xmlin
+        self.ERROR("Processing failed for: %s" % filename)
 
 
+if __name__ == '__main__':
+    paths = []
+    mode = "OffLine"
+    newerOnly = True
+    debug = False
+    for i in sys.argv[1:]:
+        if i.lower().find("-online") in [0, 1]:
+            mode = "dirwatch"
+        elif i.lower().find("-all") in [0, 1]:
+            newerOnly = False
+        elif i.lower().find("-debug") in [0, 1]:
+            debug = True
+        if os.path.exists(i):
+            paths.append(os.path.abspath(i))
 
-            handler = open(filenameREP, "w")
-            handler.write(__parameters["detector"] + "\n")
-            handler.write(__parameters["operation"] + "\n")
-            handler.write(__parameters["directory"] + "\n")
-            handler.write(__parameters["prefix"] + "\n")
-            handler.write(__parameters["keepOriginal"] + "\n")
-            handler.close()
+    if len(paths) == 0:
+        if mode == "OffLine":
+            print "This is the Azimuthal Integration application of EDNA-BioSaxs, \nplease give a path to process offline or the option:\n\
+            --online to process online incoming data in the given directory.\n\
+            --all to process all existing files (unless they will be excluded)\n\
+            --debug to turn on debugging mode in EDNA"
 
-#            if __parameters["keepOriginal"] in ("y", "Y"):
-#                __parameters["keepOriginal"] = "1"
-#            else:
-#                __parameters["keepOriginal"] = "0"
-
-            __timePerFrame = ""
-            __timeOut = 20
-            __SPECVersion = None
-            __SPECVariableStatus = None
-            __SPECVariableAbort = None
-            __terminal = True
-            flag = True
-
-        elif len(sys.argv) == 26:
-
-            if len(sys.argv[1]) == 1:
-                __parameters["detector"] = DETECTORS[int(sys.argv[1])]
-            else:
-                __parameters["detector"] = sys.argv[1]
-
-            if len(sys.argv[2]) < 3:
-                __parameters["operation"] = OPERATIONS[int(sys.argv[2])]
-            else:
-                __parameters["operation"] = sys.argv[2]
-
-            __parameters["directory"] = sys.argv[3]
-            __parameters["prefix"] = sys.argv[4]
-            __parameters["runNumber"] = sys.argv[5]
-            __parameters["frameFirst"] = sys.argv[6]
-            __parameters["frameLast"] = sys.argv[7]
-            __parameters["concentration"] = sys.argv[8]
-            __parameters["comments"] = sys.argv[9]
-            __parameters["code"] = sys.argv[10]
-            __parameters["maskFile"] = sys.argv[11]
-            __parameters["detectorDistance"] = sys.argv[12]
-            __parameters["waveLength"] = sys.argv[13]
-            __parameters["pixelSizeX"] = sys.argv[14]
-            __parameters["pixelSizeY"] = sys.argv[15]
-            __parameters["beamCenterX"] = sys.argv[16]
-            __parameters["beamCenterY"] = sys.argv[17]
-            __parameters["normalisation"] = sys.argv[18]
-            __parameters["beamStopDiode"] = sys.argv[19]
-            __parameters["machineCurrent"] = sys.argv[20]
-
-            if sys.argv[21][0].lower() in [0, "n"]:
-                __parameters["keepOriginal"] = "n"
-            elif sys.argv[21][0].lower() in [1, "y"]:
-                __parameters["keepOriginal"] = "y"
-
-            __timeOut = sys.argv[22]
-            __SPECVersion = sys.argv[23]
-            __SPECVariableStatus = sys.argv[24]
-            __SPECVariableAbort = sys.argv[25]
-
-
-#this is impossible
-#            if __SPECVersion == "":
-#                __SPECVersion = None
-#
-#            if __SPECVariableStatus == "":
-#                __SPECVariableStatus = None
-#
-#            if __SPECVariableAbort == "":
-#                __SPECVariableAbort = None
-
-            __terminal = False
-
-            flag = True
+            sys.exit()
         else:
-            print
-            print "Number of parameters is not correct. Need 25 parameters and %s were provided!" % (len(sys.argv) - 1)
-            flag = False
+            paths = [os.getcwd()]
 
-        #print __parameters
+    cli = BioSaxsReprocess()
+    print cli
+    cli.cliReadParam()
+    print cli
 
-        if flag:
-            Reprocess(__parameters["detector"], __parameters["operation"], __parameters["directory"], __parameters["prefix"], __parameters["runNumber"], __parameters["frameFirst"], \
-                      __parameters["frameLast"], __parameters["concentration"], __parameters["comments"], __parameters["code"], __parameters["maskFile"], __parameters["detectorDistance"], \
-                      __parameters["waveLength"], __parameters["pixelSizeX"], __parameters["pixelSizeY"], __parameters["beamCenterX"], __parameters["beamCenterY"], \
-                      __parameters["normalisation"], __parameters["beamStopDiode"], __parameters["machineCurrent"], __parameters["keepOriginal"], __timeOut, __SPECVersion, __SPECVariableStatus, __SPECVariableAbort, __terminal)
-
-    except KeyboardInterrupt:
-        print
-        print "Exiting..."
-        print
-    except SystemExit:
-        pass
+    edna = EDParallelExecute(EDNAPluginName, _functXMLin=cli.toXml, _functXMLerr=cli.error, _bVerbose=True, _bDebug=debug)
+    edna.runEDNA(paths, mode , newerOnly)
 
 

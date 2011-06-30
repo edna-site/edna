@@ -64,7 +64,7 @@ class EDTestCasePluginExecuteBioSaxsAsciiExportv1_0(EDTestCasePluginExecute):
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsAsciiExportv1_0.parseString(strExpectedOutput)
-        self.integratedCurve = xsDataResultReference.getIntegratedCurve().getPath().getValue()
+        self.integratedCurve = xsDataResultReference.getIntegratedCurve().getPath().value
         EDVerbose.DEBUG("Output file is %s" % self.integratedCurve)
         if not os.path.isdir(os.path.dirname(self.integratedCurve)):
             os.makedirs(os.path.dirname(self.integratedCurve))
@@ -94,7 +94,7 @@ class EDTestCasePluginExecuteBioSaxsAsciiExportv1_0(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().getValue(), "rb").read()
+        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read()
         referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsAsciiExport.dat"), "rb").read()
 
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3-column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")

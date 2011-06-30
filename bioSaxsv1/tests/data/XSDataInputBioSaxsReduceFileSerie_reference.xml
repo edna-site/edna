@@ -13,9 +13,9 @@
 		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_10.edf</value></path></files>
 	</fileSerie>
 	<sample>
-		<sampleConcentration><value>5.77</value></sampleConcentration>
-		<sampleComments><value>bsa2</value></sampleComments>
-		<sampleCode><value>BSA</value></sampleCode>
+		<concentration><value>5.77</value></concentration>
+		<comments><value>bsa2</value></comments>
+		<code><value>BSA</value></code>
 	</sample>
 	<experimentSetup>
 		<detector><value>pilatus</value></detector>

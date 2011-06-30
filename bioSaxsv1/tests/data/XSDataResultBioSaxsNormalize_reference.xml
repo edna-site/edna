@@ -10,7 +10,9 @@
 			<value>/tmp/edna-${USER}/bioSaxsNormalized.log</value>
 		</path>
 	</logFile>
-	<processLog>
-		<value>Normalizing EDF frame '/home/kieffer/workspace/edna/tests/data/images/bioSaxsRaw.edf' -> '/tmp/edna-kieffer/bioSaxsNormalized.edf'</value>
-	</processLog>
+	<status>
+	<executiveSummary>
+		<value>Normalizing EDF frame '${EDNA_TESTS_DATA_HOME}/images/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsNormalized.edf'</value>
+	</executiveSummary>	
+	</status>
 </XSDataResult>

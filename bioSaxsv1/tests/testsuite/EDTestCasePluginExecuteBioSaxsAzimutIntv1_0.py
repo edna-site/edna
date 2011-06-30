@@ -67,7 +67,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_0(EDTestCasePluginExecute):
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsAzimutIntv1_0.parseString(strExpectedOutput)
-        self.integratedCurve = xsDataResultReference.getIntegratedCurve().getPath().getValue()
+        self.integratedCurve = xsDataResultReference.getIntegratedCurve().getPath().value
         EDVerbose.DEBUG("Output file is %s" % self.integratedCurve)
         if not os.path.isdir(os.path.dirname(self.integratedCurve)):
             os.makedirs(os.path.dirname(self.integratedCurve))
@@ -75,7 +75,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_0(EDTestCasePluginExecute):
             EDVerbose.DEBUG(" Output Integrated Curve file exists %s, I will remove it" % self.integratedCurve)
             os.remove(self.integratedCurve)
 
-        self.integratedImage = xsDataResultReference.getIntegratedImage().getPath().getValue()
+        self.integratedImage = xsDataResultReference.getIntegratedImage().getPath().value
         EDVerbose.DEBUG("Output Integrated Image file is %s" % self.integratedImage)
         if not os.path.isdir(os.path.dirname(self.integratedImage)):
             os.makedirs(os.path.dirname(self.integratedImage))
@@ -83,7 +83,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_0(EDTestCasePluginExecute):
             EDVerbose.DEBUG(" Output Integrated Image file exists %s, I will remove it" % self.integratedImage)
             os.remove(self.integratedImage)
 
-        self.correctedImage = xsDataResultReference.getCorrectedImage().getPath().getValue()
+        self.correctedImage = xsDataResultReference.getCorrectedImage().getPath().value
         EDVerbose.DEBUG("Output Corrected Image file is %s" % self.correctedImage)
         if not os.path.isdir(os.path.dirname(self.correctedImage)):
             os.makedirs(os.path.dirname(self.correctedImage))
@@ -112,7 +112,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_0(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = os.linesep.join([i for i in open(xsDataResultObtained.getIntegratedCurve().getPath().getValue()) if not i.startswith("#")])
+        outputData = os.linesep.join([i for i in open(xsDataResultObtained.getIntegratedCurve().getPath().value) if not i.startswith("#")])
         referenceData = os.linesep.join([i for i in open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegrated.dat")) if not i.startswith("#")])
 
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")
@@ -120,7 +120,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_0(EDTestCasePluginExecute):
 ################################################################################
 # Compare images 
 ################################################################################
-        edfObt = EdfFile.EdfFile(xsDataResultObtained.getCorrectedImage().getPath().getValue())
+        edfObt = EdfFile.EdfFile(xsDataResultObtained.getCorrectedImage().getPath().value)
         edfRef = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsCorrected.edf"))
         outputData = edfObt.GetData(0)
         referenceData = edfRef.GetData(0)
@@ -140,7 +140,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_0(EDTestCasePluginExecute):
             EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value in Corrected %s are the same" % key, _strExcluded="bioSaxs")
 
         edfObt = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegrated.edf"))
-        edfRef = EdfFile.EdfFile(xsDataResultObtained.getIntegratedImage().getPath().getValue())
+        edfRef = EdfFile.EdfFile(xsDataResultObtained.getIntegratedImage().getPath().value)
         outputData = edfObt.GetData(0)
         referenceData = edfRef.GetData(0)
         EDAssert.arraySimilar(outputData, referenceData , _fScaledMaxDelta=0.05, _strComment="Integrated images are the same")

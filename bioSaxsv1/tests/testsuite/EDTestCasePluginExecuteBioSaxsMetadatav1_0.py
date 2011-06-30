@@ -67,7 +67,7 @@ class EDTestCasePluginExecuteBioSaxsMetadatav1_0(EDTestCasePluginExecute):
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsMetadatav1_0.parseString(strExpectedOutput)
-        self.outputImage = xsDataResultReference.getOutputImage().getPath().getValue()
+        self.outputImage = xsDataResultReference.getOutputImage().getPath().value
         EDVerbose.DEBUG("Output file is %s" % self.outputImage)
         if not os.path.isdir(os.path.dirname(self.outputImage)):
             os.makedirs(os.path.dirname(self.outputImage))
@@ -96,7 +96,7 @@ class EDTestCasePluginExecuteBioSaxsMetadatav1_0(EDTestCasePluginExecute):
 ################################################################################
 # Compare dictionary
 ################################################################################
-        edfRef = EdfFile.EdfFile(xsDataResultObtained.getOutputImage().getPath().getValue())
+        edfRef = EdfFile.EdfFile(xsDataResultObtained.getOutputImage().getPath().value)
         edfObt = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsMetadata.edf"))
         headerRef = edfRef.GetHeader(0)
         headerObt = edfObt.GetHeader(0)

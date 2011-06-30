@@ -49,9 +49,9 @@ class EDTestCasePluginUnitBioSaxsAveragev1_0(EDTestCasePluginUnit):
         xsDataInput.setAveragedCurve(XSDataFile())
         xsDataInput.setNormalizationFactor(XSDataDouble())
         xsDataInput.setAveragedImage(XSDataImage())
-        xsDataInput.setSampleConcentration(XSDataDouble())
-        xsDataInput.setSampleComments(XSDataString())
-        xsDataInput.setSampleCode(XSDataString())
+        xsDataInput.setConcentration(XSDataDouble())
+        xsDataInput.setComments(XSDataString())
+        xsDataInput.setCode(XSDataString())
         xsDataInput.setLogFile(XSDataFile())
 
         edPluginExec = self.createPlugin()

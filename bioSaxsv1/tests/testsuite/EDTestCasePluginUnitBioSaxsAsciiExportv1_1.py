@@ -51,9 +51,9 @@ class EDTestCasePluginUnitBioSaxsAsciiExportv1_1(EDTestCasePluginUnit):
 #        xsDataInput.setNormalizationFactor(XSDataDouble())
 #        xsDataInput.setMaskFile(XSDataFile())
 #        xsDataInput.setCorrectedImage(XSDataFile())
-#        xsDataInput.setSampleConcentration(XSDataDouble())
-#        xsDataInput.setSampleComments(XSDataString())
-#        xsDataInput.setSampleCode(XSDataString())
+#        xsDataInput.setConcentration(XSDataDouble())
+#        xsDataInput.setComments(XSDataString())
+#        xsDataInput.setCode(XSDataString())
 
         edPluginExec = self.createPlugin()
         edPluginExec.setDataInput(xsDataInput)

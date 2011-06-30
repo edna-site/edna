@@ -97,13 +97,13 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
         Checks the mandatory parameters.
         """
         EDVerbose.DEBUG("EDPluginBioSaxsReprocessv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.xsdInputData = self.getDataInput()
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.xsdInputData = self.dataInput
         self.checkMandatoryParameters(self.xsdInputData.getDetector(), "No detector found !")
         self.checkMandatoryParameters(self.xsdInputData.getOperation(), "No operation mode found !")
         self.checkMandatoryParameters(self.xsdInputData.getDirectory(), "No source directory defined !")
-        self.checkMandatoryParameters(self.xsdInputData.getBeamStopDiode(), "No beamStopDiod defined !")
-        self.checkMandatoryParameters(self.xsdInputData.getWavelength(), "No wavelength given !")
+        self.checkMandatoryParameters(self.xsdInputData.beamStopDiode, "No beamStopDiod defined !")
+        self.checkMandatoryParameters(self.xsdInputData.wavelength, "No wavelength given !")
 #        self.checkMandatoryParameters(self.xsdInputData.getRunNumber(), "No wavelength given !")
         self.checkMandatoryParameters(self.xsdInputData.getKeepOriginal(), "No Keep Original parameter !")
         self.checkMandatoryParameters(self.xsdInputData.getPixelSizeX(), "No beamCenterX defined !")
@@ -112,11 +112,11 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
         self.checkMandatoryParameters(self.xsdInputData.getBeamCenterY(), "No beamCenterY defined !")
 #        self.checkMandatoryParameters(self.xsdInputData.getFirstFrame(), "No First Frame given !")
 #        self.checkMandatoryParameters(self.xsdInputData.getLastFrame(), "No Last Frame given !")
-        self.checkMandatoryParameters(self.xsdInputData.getMaskFile(), "No Mask File given !")
+        self.checkMandatoryParameters(self.xsdInputData.maskFile, "No Mask File given !")
         self.checkMandatoryParameters(self.xsdInputData.getCode(), "No Code given !")
         self.checkMandatoryParameters(self.xsdInputData.getComments(), "No comments given !")
         self.checkMandatoryParameters(self.xsdInputData.getConcentration(), "No Concentration given !")
-        self.checkMandatoryParameters(self.xsdInputData.getMachineCurrent(), "No Machine Current given !")
+        self.checkMandatoryParameters(self.xsdInputData.machineCurrent, "No Machine Current given !")
         self.checkMandatoryParameters(self.xsdInputData.getNomalisation(), "No Normalisation given !")
         self.checkMandatoryParameters(self.xsdInputData.getPrefix(), "No Prefix given !")
 #        self.checkMandatoryParameters(self.xsdInputData.get(), "No  given !")
@@ -129,36 +129,36 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
         # Load the execution plugin
         self.__edPluginExecTemplate = self.loadPlugin(self.__strControlledPluginName)
 
-        self.strDetector = self.xsdInputData.getDetector().getValue()
-        self.strOperation = self.xsdInputData.getOperation().getValue()
-        self.strDirectory = self.xsdInputData.getDirectory().getValue()
-        self.beamCenterX = self.xsdInputData.getBeamCenterX().getValue()
-        self.pixelSizeX = self.xsdInputData.getPixelSizeX().getValue()
-        self.beamCenterY = self.xsdInputData.getBeamCenterY().getValue()
-        self.pixelSizeY = self.xsdInputData.getPixelSizeY().getValue()
+        self.strDetector = self.xsdInputData.getDetector().value
+        self.strOperation = self.xsdInputData.getOperation().value
+        self.strDirectory = self.xsdInputData.getDirectory().value
+        self.beamCenterX = self.xsdInputData.getBeamCenterX().value
+        self.pixelSizeX = self.xsdInputData.getPixelSizeX().value
+        self.beamCenterY = self.xsdInputData.getBeamCenterY().value
+        self.pixelSizeY = self.xsdInputData.getPixelSizeY().value
 
 
-        self.beamStopDiode = self.xsdInputData.getBeamStopDiode().getValue()
-        self.code = self.xsdInputData.getCode().getValue()
-        self.comments = self.xsdInputData.getComments().getValue()
-        self.concentration = self.xsdInputData.getConcentration().getValue()
-        self.keepOriginal = bool(self.xsdInputData.getKeepOriginal().getValue())
-        self.machineCurrent = self.xsdInputData.getMachineCurrent().getValue()
-        self.wavelength = self.xsdInputData.getWavelength().getValue()
-        self.strPrefix = self.xsDataInputSPD.getPrefix.getValue()
+        self.beamStopDiode = self.xsdInputData.beamStopDiode.value
+        self.code = self.xsdInputData.getCode().value
+        self.comments = self.xsdInputData.getComments().value
+        self.concentration = self.xsdInputData.getConcentration().value
+        self.keepOriginal = bool(self.xsdInputData.getKeepOriginal().value)
+        self.machineCurrent = self.xsdInputData.machineCurrent.value
+        self.wavelength = self.xsdInputData.wavelength.value
+        self.strPrefix = self.xsDataInputSPD.getPrefix.value
 
-        self.normalisation = self.xsdInputData.getNomalisation().getValue()
-        self.maskFile = self.xsdInputData.getMaskFile().getPath().getValue()
+        self.normalisation = self.xsdInputData.getNomalisation().value
+        self.maskFile = self.xsdInputData.maskFile.getPath().value
 
         if self.xsdInputData.getRunNumber() is not None:
-            self.runNumber = self.xsdInputData.getRunNumber().getValue()
+            self.runNumber = self.xsdInputData.getRunNumber().value
 
         if self.xsdInputData.getSpecVersion() is not None:
-            self.specVersion = self.xsdInputData.getSpecVersion().getValue()
+            self.specVersion = self.xsdInputData.getSpecVersion().value
         if self.xsdInputData.getSpecVariableAbort() is not None:
-            self.specAbort = self.xsdInputData.getSpecVariableAbort().getValue()
+            self.specAbort = self.xsdInputData.getSpecVariableAbort().value
         if self.xsdInputData.getSpecVariableStatus() is not None:
-            self.specStatus = self.xsdInputData.getSpecVariableStatus().getValue()
+            self.specStatus = self.xsdInputData.getSpecVariableStatus().value
         if self.specVersion and  self.specAbort and  self.specStatus:
             EDUtilsBioSaxs.initSpec(self.specVersion, self.specStatus, self.specAbort)
 
@@ -171,8 +171,8 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
             self.showMessage(4, "Invalid operation '%s'!" % self.strOperation)
             self.setFailure()
 
-        self.firstFrame = self.xsdInputData.getFirstFrame().getValue()
-        self.lastFrame = self.xsdInputData.getLastFrame().getValue()
+        self.firstFrame = self.xsdInputData.getFirstFrame().value
+        self.lastFrame = self.xsdInputData.getLastFrame().value
 
 
     def process(self, _edObject=None):

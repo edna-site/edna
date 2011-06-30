@@ -301,7 +301,7 @@ class EDParallelExecute:
             EDVerbose.screen("Plugin %s execution ended with success" % self.__strPluginName)
         else:
             self.__semaphoreOut.acquire()
-            self.__functXMLout(_edObject.getDataInput().marshal(), _edObject.getDataOutput().marshal())
+            self.__functXMLout(_edObject.dataInput.marshal(), _edObject.getDataOutput().marshal())
             self.__semaphoreOut.release()
 
 
@@ -315,7 +315,7 @@ class EDParallelExecute:
             EDVerbose.screen("Plugin %s execution ended with failure" % self.__strPluginName)
         else:
             self.__semaphoreErr.acquire()
-            self.__functXMLerr(_edObject.getDataInput().marshal())
+            self.__functXMLerr(_edObject.dataInput.marshal())
             self.__semaphoreErr.release()
 
 

@@ -5,9 +5,13 @@
 <normalizedImageSize><value>4100000</value></normalizedImageSize>
 <integratedImage><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.edf</value></path></integratedImage>
 <integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
-<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
-<normalizationFactor><value>1.0</value></normalizationFactor>
-<sampleConcentration><value>5.77</value></sampleConcentration>
-<sampleComments><value>bsa2</value></sampleComments>
-<sampleCode><value>BAS</value></sampleCode>
+<experimentSetup>
+	<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
+	<normalizationFactor><value>1.0</value></normalizationFactor>
+</experimentSetup>
+<sample>
+	<concentration><value>5.77</value></concentration>
+	<comments><value>bsa2</value></comments>
+	<code><value>BAS</value></code>
+</sample>
 </XSDataInput>

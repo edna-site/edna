@@ -66,7 +66,7 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_0(EDTestCasePluginExecute):
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsNormalizev1_0.parseString(strExpectedOutput)
-        self.refOutput = xsDataResultReference.getNormalizedImage().getPath().getValue()
+        self.refOutput = xsDataResultReference.normalizedImage.getPath().value
         EDVerbose.DEBUG("Output file is %s" % self.refOutput)
         if not os.path.isdir(os.path.dirname(self.refOutput)):
             os.makedirs(os.path.dirname(self.refOutput))
@@ -98,7 +98,7 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_0(EDTestCasePluginExecute):
 ################################################################################
 
         outputData = ""
-        for oneLine in open(xsDataResultObtained.getLogFile().getPath().getValue(), "rb").readlines():
+        for oneLine in open(xsDataResultObtained.getLogFile().getPath().value, "rb").readlines():
             oneline = oneLine.lower()
             if oneline.startswith("first"):outputData += oneLine
             if oneline.startswith("last"):outputData += oneLine
@@ -121,7 +121,7 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_0(EDTestCasePluginExecute):
 ################################################################################
 # Compare dictionary
 ################################################################################
-        edfRef = EdfFile.EdfFile(xsDataResultObtained.getNormalizedImage().getPath().getValue())
+        edfRef = EdfFile.EdfFile(xsDataResultObtained.normalizedImage.getPath().value)
         edfObt = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsNormalized.edf"))
         headerRef = edfRef.GetHeader(0)
         headerObt = edfObt.GetHeader(0)

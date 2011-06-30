@@ -448,7 +448,7 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
 def showMessage(pLevel, pMessage, pFilename=None):
 
     if globals()["REPROCESS_STATUS"] is not None:
-        currentStatus = globals()["REPROCESS_STATUS"].getValue()["reprocess"]["status"]     # must do this, since SpecClient is apparently returning a non-expected data structure
+        currentStatus = globals()["REPROCESS_STATUS"].value["reprocess"]["status"]     # must do this, since SpecClient is apparently returning a non-expected data structure
         i = currentStatus.rfind(",")
         # TB: This ,1 or ,0 suffix nonsense seems to be a hack to force Spec to signal a variable change to bsxcube
         if i == -1 or currentStatus[i + 1:] == "1":
@@ -464,7 +464,7 @@ def showMessage(pLevel, pMessage, pFilename=None):
         globals()["REPROCESS_STATUS"].setValue(newStatus)
 
     if globals()["REPROCESS_ABORT"] is not None:
-        if globals()["REPROCESS_ABORT"].getValue()["reprocess"]["abort"] == "1":    # must do this, since SpecClient is apparently returning a non-expected data structure
+        if globals()["REPROCESS_ABORT"].value["reprocess"]["abort"] == "1":    # must do this, since SpecClient is apparently returning a non-expected data structure
             print "Aborting data reprocess!"
             sys.exit(0)
 
@@ -501,7 +501,7 @@ def waitFile(pFilename, pSize, pTimeOut):
             if os.path.getsize(pFilename) >= pSize:
                 return 0
         else:
-            if globals()["REPROCESS_ABORT"] is not None and globals()["REPROCESS_ABORT"].getValue()["reprocess"]["abort"] == "1":   # must do this, since SpecClient is apparently returning a non-expected data structure
+            if globals()["REPROCESS_ABORT"] is not None and globals()["REPROCESS_ABORT"].value["reprocess"]["abort"] == "1":   # must do this, since SpecClient is apparently returning a non-expected data structure
                 return 1
         timeOut -= 0.5
 

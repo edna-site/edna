@@ -84,9 +84,9 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
         self.maskFile = None
         self.normalizationFactor = None
         self.machineCurrent = None
-        self.sampleCode = None
-        self.sampleComments = None
-        self.sampleConcentration = None
+        self.code = None
+        self.comments = None
+        self.concentration = None
         self.strInputImage = None
         self.strOutputImage = None
         self.fabioedf = fabio.edfimage.edfimage()
@@ -97,45 +97,45 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
         Checks the mandatory parameters.
         """
         EDVerbose.DEBUG("EDPluginBioSaxsMetadatav1_1.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.xsdInputData = self.getDataInput()
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.xsdInputData = self.dataInput
         self.checkMandatoryParameters(self.xsdInputData.getInputImage(), "No input Image given !")
 
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
         EDVerbose.DEBUG("EDPluginBioSaxsMetadatav1_1.preProcess")
-        self.strInputImage = self.xsdInputData.getInputImage().getPath().getValue()
+        self.strInputImage = self.xsdInputData.getInputImage().getPath().value
         if self.xsdInputData.getDetector() is not None:
-            self.detector = self.xsdInputData.getDetector().getValue()
-        if self.xsdInputData.getDetectorDistance() is not None:
-            self.detectorDistance = self.xsdInputData.getDetectorDistance().getValue()
-        if self.xsdInputData.getBeamCenter_1() is not None:
-            self.beamCenter_1 = self.xsdInputData.getBeamCenter_1().getValue()
-        if self.xsdInputData.getPixelSize_1() is not None:
-            self.pixelSize_1 = self.xsdInputData.getPixelSize_1().getValue()
-        if self.xsdInputData.getBeamCenter_2() is not None:
-            self.beamCenter_2 = self.xsdInputData.getBeamCenter_2().getValue()
-        if self.xsdInputData.getPixelSize_2() is not None:
-            self.pixelSize_2 = self.xsdInputData.getPixelSize_2().getValue()
-        if self.xsdInputData.getBeamStopDiode() is not None:
-            self.beamStopDiode = self.xsdInputData.getBeamStopDiode().getValue()
-        if self.xsdInputData.getSampleCode() is not None:
-            self.sampleCode = self.xsdInputData.getSampleCode().getValue()
-        if self.xsdInputData.getSampleComments() is not None:
-            self.sampleComments = self.xsdInputData.getSampleComments().getValue()
-        if self.xsdInputData.getSampleConcentration() is not None:
-            self.sampleConcentration = self.xsdInputData.getSampleConcentration().getValue()
-        if self.xsdInputData.getMachineCurrent() is not None:
-            self.machineCurrent = self.xsdInputData.getMachineCurrent().getValue()
-        if self.xsdInputData.getWavelength() is not None:
-            self.wavelength = self.xsdInputData.getWavelength().getValue()
-        if self.xsdInputData.getNormalizationFactor() is not None:
-            self.normalizationFactor = self.xsdInputData.getNormalizationFactor().getValue()
-        if self.xsdInputData.getMaskFile() is not None:
-            self.maskFile = self.xsdInputData.getMaskFile().getPath().getValue()
+            self.detector = self.xsdInputData.getDetector().value
+        if self.xsdInputData.detectorDistance is not None:
+            self.detectorDistance = self.xsdInputData.detectorDistance.value
+        if self.xsdInputData.beamCenter_1 is not None:
+            self.beamCenter_1 = self.xsdInputData.beamCenter_1.value
+        if self.xsdInputData.pixelSize_1 is not None:
+            self.pixelSize_1 = self.xsdInputData.pixelSize_1.value
+        if self.xsdInputData.beamCenter_2 is not None:
+            self.beamCenter_2 = self.xsdInputData.beamCenter_2.value
+        if self.xsdInputData.pixelSize_2 is not None:
+            self.pixelSize_2 = self.xsdInputData.pixelSize_2.value
+        if self.xsdInputData.beamStopDiode is not None:
+            self.beamStopDiode = self.xsdInputData.beamStopDiode.value
+        if self.xsdInputData.code is not None:
+            self.code = self.xsdInputData.code.value
+        if self.xsdInputData.comments is not None:
+            self.comments = self.xsdInputData.comments.value
+        if self.xsdInputData.concentration is not None:
+            self.concentration = self.xsdInputData.concentration.value
+        if self.xsdInputData.machineCurrent is not None:
+            self.machineCurrent = self.xsdInputData.machineCurrent.value
+        if self.xsdInputData.wavelength is not None:
+            self.wavelength = self.xsdInputData.wavelength.value
+        if self.xsdInputData.normalizationFactor is not None:
+            self.normalizationFactor = self.xsdInputData.normalizationFactor.value
+        if self.xsdInputData.maskFile is not None:
+            self.maskFile = self.xsdInputData.maskFile.getPath().value
         if self.xsdInputData.getOutputImage() is not None:
-            self.strOutputImage = self.xsdInputData.getOutputImage().getPath().getValue()
+            self.strOutputImage = self.xsdInputData.getOutputImage().getPath().value
 
 
     def process(self, _edObject=None):
@@ -216,12 +216,12 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
             xsDataResult.setNormalizationFactor(XSDataDouble(self.normalizationFactor))
         if self.machineCurrent is not None:
             xsDataResult.setMachineCurrent(XSDataDouble(self.machineCurrent))
-        if self.sampleCode is not None:
-            xsDataResult.setSampleCode(XSDataString(self.sampleCode))
-        if self.sampleComments is not None:
-            xsDataResult.setSampleComments(XSDataString(self.sampleComments))
-        if self.sampleConcentration is not None:
-            xsDataResult.setSampleConcentration(XSDataDouble(self.sampleConcentration))
+        if self.code is not None:
+            xsDataResult.setCode(XSDataString(self.code))
+        if self.comments is not None:
+            xsDataResult.setComments(XSDataString(self.comments))
+        if self.concentration is not None:
+            xsDataResult.setConcentration(XSDataDouble(self.concentration))
         EDVerbose.DEBUG("xsDataResult=%s" % xsDataResult.marshal())
         self.setDataOutput(xsDataResult)
 

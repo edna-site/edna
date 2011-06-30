@@ -4,9 +4,9 @@
 	<xs:element name="XSDataBioSaxsSample" type="XSDataBioSaxsSample"/>
 	<xs:complexType name="XSDataBioSaxsSample">
 		<xs:sequence>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="XSDataInputBioSaxsReprocessv1_0" type="XSDataInputBioSaxsReprocessv1_0"/>
@@ -27,9 +27,9 @@
 			<xs:element name="machineCurrent" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="maskFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizationFactor" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="directory" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="frameFirst" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="frameLast" type="XSDataInteger" minOccurs="0" maxOccurs="1"/>
@@ -68,9 +68,9 @@
 			<xs:element name="machineCurrent" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="maskFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizationFactor" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="rawImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="logFile" type="XSDataFile" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="normalizedImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
@@ -116,9 +116,9 @@
 			<xs:element name="machineCurrent" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="maskFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizationFactor" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizedImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="normalizedImageSize" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="integratedImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
@@ -152,9 +152,9 @@
 			<xs:element name="machineCurrent" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="maskFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizationFactor" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="runNumber" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="frames" type="XSDataInteger" minOccurs="1" maxOccurs="unbounded"/>
 			<xs:element name="isOnline" type="XSDataBoolean" minOccurs="1" maxOccurs="1"/>
@@ -205,9 +205,9 @@
 			<xs:element name="machineCurrent" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="maskFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizationFactor" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="integratedImage" type="XSDataImage" minOccurs="1" maxOccurs="unbounded"/>
 			<xs:element name="integratedImageSize" type="XSDataInteger" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="averagedImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
@@ -243,9 +243,9 @@
 			<xs:element name="machineCurrent" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="maskFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizationFactor" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="inputImage" type="XSDataImage" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="outputImage" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
@@ -265,9 +265,9 @@
 			<xs:element name="machineCurrent" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="maskFile" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="normalizationFactor" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleConcentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleComments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="sampleCode" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="concentration" type="XSDataFloat" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="XSDataString" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="code" type="XSDataString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="outputImage" type="XSDataImage" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>

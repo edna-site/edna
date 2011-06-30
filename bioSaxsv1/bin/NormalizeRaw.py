@@ -85,9 +85,9 @@ def fileName2xml(filename):
     <beamStopDiode><value>2.03737e-05</value></beamStopDiode>\
     <machineCurrent><value>85.5755</value></machineCurrent>\
     <maskFile><path><value>%s</value></path></maskFile>\
-    <sampleConcentration><value>5.77</value></sampleConcentration>\
-    <sampleComments><value>bsa2</value></sampleComments>\
-    <sampleCode><value>BSA</value></sampleCode>\
+    <concentration><value>5.77</value></concentration>\
+    <comments><value>bsa2</value></comments>\
+    <code><value>BSA</value></code>\
     <concentration><value>5.77</value></concentration>\
     <wavelength><value>9.31e-11</value></wavelength>\
     <normalizationFactor><value>1.0</value></normalizationFactor>\

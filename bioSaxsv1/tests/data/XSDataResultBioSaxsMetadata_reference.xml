@@ -9,9 +9,9 @@
 <beamStopDiode><value>2.03737e-05</value></beamStopDiode>
 <machineCurrent><value>85.5755</value></machineCurrent>
 <maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
-<sampleConcentration><value>5.77</value></sampleConcentration>
-<sampleComments><value>bsa2</value></sampleComments>
-<sampleCode><value>BSA</value></sampleCode>
+<concentration><value>5.77</value></concentration>
+<comments><value>bsa2</value></comments>
+<code><value>BSA</value></code>
 <wavelength><value>9.31e-11</value></wavelength>
 <normalizationFactor><value>1.0</value></normalizationFactor>
 <outputImage><path><value>/tmp/edna-${USER}/bioSaxsMetadata.edf</value></path></outputImage>

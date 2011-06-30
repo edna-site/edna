@@ -31,7 +31,7 @@ __date__ = "2011-02-25"
 import os, sys
 from EDVerbose              import EDVerbose
 from EDTestCasePluginUnit   import EDTestCasePluginUnit
-from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0
+from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0, XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
 from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, \
     XSDataLength, XSDataWavelength
 from EDFactoryPluginStatic import EDFactoryPluginStatic
@@ -51,19 +51,21 @@ class EDTestCasePluginUnitBioSaxsNormalizev1_1(EDTestCasePluginUnit):
     def testCheckParameters(self):
         xsDataInput = XSDataInputBioSaxsNormalizev1_0()
         xsDataInput.setRawImage(XSDataImage())
-        xsDataInput.setLogFile(XSDataFile())
+#        xsDataInput.setLogFile(XSDataFile())
         xsDataInput.setNormalizedImage(XSDataImage())
         xsDataInput.setRawImageSize(XSDataInteger())
-        xsDataInput.setBeamStopDiode(XSDataDouble())
-        xsDataInput.setNormalizationFactor(XSDataDouble())
-        xsDataInput.setMachineCurrent(XSDataDouble())
-        xsDataInput.setMaskFile(XSDataImage())
-        xsDataInput.setDetectorDistance(XSDataLength())
-        xsDataInput.setWavelength(XSDataWavelength())
-        xsDataInput.setPixelSize_1(XSDataLength())
-        xsDataInput.setPixelSize_2(XSDataLength())
-        xsDataInput.setBeamCenter_1(XSDataDouble())
-        xsDataInput.setBeamCenter_2(XSDataDouble())
+        xsDataInput.setExperimentSetup(XSDataBioSaxsExperimentSetup())
+        xsDataInput.setSample(XSDataBioSaxsSample())
+#        xsDataInput.setBeamStopDiode(XSDataDouble())
+#        xsDataInput.setNormalizationFactor(XSDataDouble())
+#        xsDataInput.setMachineCurrent(XSDataDouble())
+#        xsDataInput.setMaskFile(XSDataImage())
+#        xsDataInput.setDetectorDistance(XSDataLength())
+#        xsDataInput.setWavelength(XSDataWavelength())
+#        xsDataInput.setPixelSize_1(XSDataLength())
+#        xsDataInput.setPixelSize_2(XSDataLength())
+#        xsDataInput.setBeamCenter_1(XSDataDouble())
+#        xsDataInput.setBeamCenter_2(XSDataDouble())
 
         edPluginExecBioSaxsNormalize = self.createPlugin()
         edPluginExecBioSaxsNormalize.setDataInput(xsDataInput)

@@ -66,7 +66,7 @@ class EDTestCasePluginExecuteBioSaxsMetadatav1_1(EDTestCasePluginExecute):
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsMetadatav1_0.parseString(strExpectedOutput)
-        self.outputImage = xsDataResultReference.getOutputImage().getPath().getValue()
+        self.outputImage = xsDataResultReference.getOutputImage().getPath().value
         EDVerbose.DEBUG("Output file is %s" % self.outputImage)
         if not os.path.isdir(os.path.dirname(self.outputImage)):
             os.makedirs(os.path.dirname(self.outputImage))
@@ -95,7 +95,7 @@ class EDTestCasePluginExecuteBioSaxsMetadatav1_1(EDTestCasePluginExecute):
 ################################################################################
 # Compare dictionary
 ################################################################################
-        edfRef = fabio.open(xsDataResultObtained.getOutputImage().getPath().getValue())
+        edfRef = fabio.open(xsDataResultObtained.getOutputImage().getPath().value)
         edfObt = fabio.open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsMetadata.edf"))
         keysRef = edfRef.header_keys
         keysObt = edfObt.header_keys
