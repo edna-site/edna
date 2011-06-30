@@ -9,7 +9,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/find</value></XSParamItem>
+					<value>/home/voo82357/testedna.sh</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>

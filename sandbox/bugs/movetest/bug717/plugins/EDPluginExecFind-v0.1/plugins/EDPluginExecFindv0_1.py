@@ -79,5 +79,6 @@ class EDPluginExecFindv0_1(EDPluginExecProcessScript ):
     
     def generateFindScript(self):
         commandString = ' '.join([self.__searchPath,'-name "*" -exec grep',self.__inputString, "{} \;"])
-        self.setScriptCommandline(commandString)
+        self.setScriptCommandline('')
+        #self.setScriptCommandline(commandString)
         #self.setScriptCommandline('\n'.join([commandString + ' & ','/usr/bin/find ' + commandString + ' & ','/usr/bin/find ' + commandString]))
