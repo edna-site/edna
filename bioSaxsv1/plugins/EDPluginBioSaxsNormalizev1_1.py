@@ -106,7 +106,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.xsdInput = self.dataInput
         self.checkMandatoryParameters(self.xsdInput, "Data Input is None")
         self.checkMandatoryParameters(self.xsdInput.rawImage, "Raw File is None")
-#        self.checkMandatoryParameters(self.xsdInput.logFile(), "Output Log File is None")
+        self.checkMandatoryParameters(self.xsdInput.normalizedImage, "No normalized output image provided")
         self.checkMandatoryParameters(self.xsdInput.sample, "No sample provided")
         self.checkMandatoryParameters(self.xsdInput.experimentSetup, "No experiment setup provided")
 
