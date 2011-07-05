@@ -121,24 +121,27 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             bHigherResolutionDetected = False
             for xsDataCollectionPlan in listXSDataCollectionPlan:
                 xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
-                fResolutionMax = xsDataSummaryStrategy.getResolution().getValue()
-                fRankingResolution = xsDataSummaryStrategy.getRankingResolution().getValue()
-                if fRankingResolution < fResolutionMax:
-                    if not bHigherResolutionDetected:
-                        self.page.i()
-                        self.page.h3("OBS! Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
-                        self.page.br()
-                        self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
-                        self.page.br()
-                        self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to %.2f &Aring; and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
-                        self.page.i.close()
-                    bHigherResolutionDetected = True
+                if xsDataSummaryStrategy.getRankingResolution():
+                    fResolutionMax = xsDataSummaryStrategy.getResolution().getValue()
+                    fRankingResolution = xsDataSummaryStrategy.getRankingResolution().getValue()
+                    if fRankingResolution < fResolutionMax:
+                        if not bHigherResolutionDetected:
+                            self.page.i()
+                            self.page.h3("OBS! Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
+                            self.page.br()
+                            self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
+                            self.page.br()
+                            self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to %.2f &Aring; and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
+                            self.page.i.close()
+                        bHigherResolutionDetected = True
                 
                 
             for xsDataCollectionPlan in listXSDataCollectionPlan:
                 xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
                 fResolutionMax = xsDataSummaryStrategy.getResolution().getValue()
-                strResolutionReasoning = xsDataSummaryStrategy.getResolutionReasoning().getValue()
+                strResolutionReasoning = ""
+                if xsDataSummaryStrategy.getResolutionReasoning():
+                    strResolutionReasoning = xsDataSummaryStrategy.getResolutionReasoning().getValue()
                 self.page.table( class_='indexResults', border_="1", cellpadding_="2", style_="font-size:12px" )
                 self.page.tr()
                 self.page.th(strResolutionReasoning, colspan_="8", style_="font-size:20px")

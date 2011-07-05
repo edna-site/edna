@@ -20,4 +20,5 @@ complex type XSDataResultMXCuBE extends XSDataResult {
 	collectionPlan : XSDataCollectionPlan [] optional
 	listOfOutputFiles : XSDataString
 	outputFileDictionary : XSDataDictionary optional
+	htmlPage : XSDataFile optional
 }

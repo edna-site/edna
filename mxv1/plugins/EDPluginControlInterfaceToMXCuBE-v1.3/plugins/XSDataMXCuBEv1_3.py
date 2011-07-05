@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Mar 28 03:27::32 2011 by EDGenerateDS.
+# Generated Tue Jul 5 03:32::25 2011 by EDGenerateDS.
 #
 
 import sys
@@ -370,7 +370,7 @@ class XSDataInputMXCuBE(XSDataInput):
 # end class XSDataInputMXCuBE
 
 class XSDataResultMXCuBE(XSDataResult):
-	def __init__(self, status=None, outputFileDictionary=None, listOfOutputFiles=None, collectionPlan=None, characterisationResult=None, characterisationExecutiveSummary=None):
+	def __init__(self, status=None, htmlPage=None, outputFileDictionary=None, listOfOutputFiles=None, collectionPlan=None, characterisationResult=None, characterisationExecutiveSummary=None):
 		XSDataResult.__init__(self, status)
 		self.__characterisationExecutiveSummary = characterisationExecutiveSummary
 		self.__characterisationResult = characterisationResult
@@ -380,6 +380,7 @@ class XSDataResultMXCuBE(XSDataResult):
 			self.__collectionPlan = collectionPlan
 		self.__listOfOutputFiles = listOfOutputFiles
 		self.__outputFileDictionary = outputFileDictionary
+		self.__htmlPage = htmlPage
 	def getCharacterisationExecutiveSummary(self): return self.__characterisationExecutiveSummary
 	def setCharacterisationExecutiveSummary(self, characterisationExecutiveSummary):
 		checkType("XSDataResultMXCuBE", "setCharacterisationExecutiveSummary", characterisationExecutiveSummary, "XSDataString")
@@ -421,6 +422,13 @@ class XSDataResultMXCuBE(XSDataResult):
 	def delOutputFileDictionary(self): self.__outputFileDictionary = None
 	# Properties
 	outputFileDictionary = property(getOutputFileDictionary, setOutputFileDictionary, delOutputFileDictionary, "Property for outputFileDictionary")
+	def getHtmlPage(self): return self.__htmlPage
+	def setHtmlPage(self, htmlPage):
+		checkType("XSDataResultMXCuBE", "setHtmlPage", htmlPage, "XSDataFile")
+		self.__htmlPage = htmlPage
+	def delHtmlPage(self): self.__htmlPage = None
+	# Properties
+	htmlPage = property(getHtmlPage, setHtmlPage, delHtmlPage, "Property for htmlPage")
 	def export(self, outfile, level, name_='XSDataResultMXCuBE'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -445,6 +453,8 @@ class XSDataResultMXCuBE(XSDataResult):
 			warnEmptyAttribute("listOfOutputFiles", "XSDataString")
 		if self.__outputFileDictionary is not None:
 			self.outputFileDictionary.export(outfile, level, name_='outputFileDictionary')
+		if self.__htmlPage is not None:
+			self.htmlPage.export(outfile, level, name_='htmlPage')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -475,6 +485,11 @@ class XSDataResultMXCuBE(XSDataResult):
 			obj_ = XSDataDictionary()
 			obj_.build(child_)
 			self.setOutputFileDictionary(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'htmlPage':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setHtmlPage(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
