@@ -30,8 +30,6 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-from EDVerbose import EDVerbose
-
 from EDPluginControl import EDPluginControl
 from EDMessage       import EDMessage
 
@@ -62,18 +60,18 @@ class EDPluginControlIndexingv10(EDPluginControl):
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataIndexingInput)
-        self.__strPluginIndexingName = "EDPluginControlIndexingMOSFLMv10"
-        #self.__strPluginIndexingName = "EDPluginControlIndexingLabelitv10"
-        #self.__strPluginIndexingName = "EDPluginControlIndexingParallelv10"
-        self.__edPluginIndexing = None
-        self.__strPluginGeneratePredictionName = "EDPluginControlGeneratePredictionv10"
-        self.__edPluginGeneratePrediction = None
-        self.__xsDataIndexingOutput = None
-        self.__xsDataExperimentalCondition = None
-        self.__xsDataIndexingResult = None
-        self.__xsDataCollection = None
-        self.__bGeneratePredictionImage = False
-        self.__strPluginIndexingExecutiveSummaryName = None
+        self.strPluginIndexingName = "EDPluginControlIndexingMOSFLMv10"
+        #self.strPluginIndexingName = "EDPluginControlIndexingLabelitv10"
+        #self.strPluginIndexingName = "EDPluginControlIndexingParallelv10"
+        self.edPluginIndexing = None
+        self.strPluginGeneratePredictionName = "EDPluginControlGeneratePredictionv10"
+        self.edPluginGeneratePrediction = None
+        self.xsDataIndexingOutput = None
+        self.xsDataExperimentalCondition = None
+        self.xsDataIndexingResult = None
+        self.xsDataCollection = None
+        self.bGeneratePredictionImage = False
+        self.strPluginIndexingExecutiveSummaryName = None
 
 
 
@@ -83,9 +81,9 @@ class EDPluginControlIndexingv10(EDPluginControl):
         """
         EDPluginControl.configure(self)
         if (self.getControlledPluginName("indexingPlugin") is not None):
-            self.__strPluginIndexingName = self.getControlledPluginName("indexingPlugin")
+            self.strPluginIndexingName = self.getControlledPluginName("indexingPlugin")
         if (self.getControlledPluginName("generatePredictionPlugin") is not None):
-            self.__strPluginGeneratePredictionName = self.getControlledPluginName("generatePredictionPlugin")
+            self.strPluginGeneratePredictionName = self.getControlledPluginName("generatePredictionPlugin")
 
     def checkParameters(self):
         """
@@ -102,17 +100,17 @@ class EDPluginControlIndexingv10(EDPluginControl):
         """
         EDPluginControl.preProcess(self, _edObject)
         self.verboseDebug("EDPluginControlIndexingv10.preProcess...")
-        if (self.__strPluginIndexingName is not None):
+        if (self.strPluginIndexingName is not None):
             # Load the indexing plugin and generate input data
-            self.verboseDebug("EDPluginControlIndexingv10.preProcess : loading plugin %s" % self.__strPluginIndexingName)
-            self.__edPluginIndexing = self.loadPlugin(self.__strPluginIndexingName)
+            self.verboseDebug("EDPluginControlIndexingv10.preProcess : loading plugin %s" % self.strPluginIndexingName)
+            self.edPluginIndexing = self.loadPlugin(self.strPluginIndexingName)
             self.loadPluginIndexingInputData()
             xsDataIndexingInput = self.getDataInput()
             # Save the data collection and the experimental condition for constructing the indexing results
-            self.__xsDataExperimentalCondition = xsDataIndexingInput.getExperimentalCondition()
-            self.__xsDataCollection = xsDataIndexingInput.getDataCollection()
+            self.xsDataExperimentalCondition = xsDataIndexingInput.getExperimentalCondition()
+            self.xsDataCollection = xsDataIndexingInput.getDataCollection()
         # Load the generate prediction plugin
-        self.__edPluginGeneratePrediction = self.loadPlugin(self.__strPluginGeneratePredictionName)
+        self.edPluginGeneratePrediction = self.loadPlugin(self.strPluginGeneratePredictionName)
 
 
     def loadPluginIndexingInputData(self):
@@ -121,7 +119,7 @@ class EDPluginControlIndexingv10(EDPluginControl):
         plugins in order to set their specific data input.
         """
         self.verboseDebug("EDPluginControlIndexingv10.loadPluginIndexingInputData...")
-        self.__edPluginIndexing.setDataInput(self.getDataInput())
+        self.edPluginIndexing.setDataInput(self.getDataInput())
 
 
     def process(self, _edObject=None):
@@ -129,36 +127,36 @@ class EDPluginControlIndexingv10(EDPluginControl):
         """
         EDPluginControl.process(self, _edObject)
         self.verboseDebug("EDPluginControlIndexingv10.process")
-        if (self.__edPluginIndexing is not None):
-            self.__edPluginIndexing.connectSUCCESS(self.doSuccessActionIndexing)
-            self.__edPluginIndexing.connectFAILURE(self.doFailureActionIndexing)
-            self.connectProcess(self.__edPluginIndexing.executeSynchronous)
-        self.__edPluginGeneratePrediction.connectSUCCESS(self.doSuccessActionGeneratePrediction)
-        self.__edPluginGeneratePrediction.connectFAILURE(self.doFailureActionGeneratePrediction)
+        if (self.edPluginIndexing is not None):
+            self.edPluginIndexing.connectSUCCESS(self.doSuccessActionIndexing)
+            self.edPluginIndexing.connectFAILURE(self.doFailureActionIndexing)
+            self.connectProcess(self.edPluginIndexing.executeSynchronous)
+        self.edPluginGeneratePrediction.connectSUCCESS(self.doSuccessActionGeneratePrediction)
+        self.edPluginGeneratePrediction.connectFAILURE(self.doFailureActionGeneratePrediction)
 
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self, _edObject)
         self.verboseDebug("EDPluginControlIndexingv10.postProcess")
-        self.setDataOutput(self.__xsDataIndexingResult)
+        self.setDataOutput(self.xsDataIndexingResult)
 
 
     def doSuccessActionIndexing(self, _edPlugin=None):
         self.verboseDebug("EDPluginControlIndexingv10.doSuccessActionIndexing")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlIndexingv10.doSuccessActionIndexing")
         # Retrieve the output from the plugin
-        self.__xsDataIndexingResult = self.getDataIndexingResult(_edPlugin)
+        self.xsDataIndexingResult = self.getDataIndexingResult(_edPlugin)
         self.generateShortSummary()
         # Add the list of images to the results
-        xsDataListImage = self.generateImageList(self.__xsDataCollection)
-        self.__xsDataIndexingResult.setImage(xsDataListImage)
-        if (self.__bGeneratePredictionImage):
+        xsDataListImage = self.generateImageList(self.xsDataCollection)
+        self.xsDataIndexingResult.setImage(xsDataListImage)
+        if (self.bGeneratePredictionImage):
             # Generate prediction images
             xsDataGeneratePredictionInput = XSDataGeneratePredictionInput()
-            xsDataGeneratePredictionInput.setDataCollection(XSDataCollection.parseString(self.__xsDataCollection.marshal()))
-            xsDataGeneratePredictionInput.setSelectedIndexingSolution(XSDataIndexingSolutionSelected.parseString(self.__xsDataIndexingResult.getSelectedSolution().marshal()))
-            self.__edPluginGeneratePrediction.setDataInput(xsDataGeneratePredictionInput)
-            self.__edPluginGeneratePrediction.executeSynchronous()
+            xsDataGeneratePredictionInput.setDataCollection(XSDataCollection.parseString(self.xsDataCollection.marshal()))
+            xsDataGeneratePredictionInput.setSelectedIndexingSolution(XSDataIndexingSolutionSelected.parseString(self.xsDataIndexingResult.getSelectedSolution().marshal()))
+            self.edPluginGeneratePrediction.setDataInput(xsDataGeneratePredictionInput)
+            self.edPluginGeneratePrediction.executeSynchronous()
 
 
     def getDataIndexingResult(self, _edPlugin):
@@ -171,8 +169,8 @@ class EDPluginControlIndexingv10(EDPluginControl):
 
     def doFailureActionIndexing(self, _edPlugin=None):
         self.verboseDebug("EDPluginControlIndexingv10.doFailureActionIndexing")
-        EDVerbose.screen("Execution of " + self.__strPluginIndexingName + "  failed.")
-        EDVerbose.screen("Please inspect the log file for further information.")
+        self.screen("Execution of " + self.strPluginIndexingName + "  failed.")
+        self.screen("Please inspect the log file for further information.")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlIndexingv10.doFailureActionIndexing")
         self.generateExecutiveSummary(self)
         self.setFailure()
@@ -202,14 +200,14 @@ class EDPluginControlIndexingv10(EDPluginControl):
             # Translate all error messages to warning messages
             for errorMessage in _edPlugin.getListOfErrorMessages():
                 warningMessage = EDMessage.WARNING_CANNOT_USE_PLUGIN_03 % ("EDPluginControlIndexingv10.generatePredictionImageList", \
-                                                                            self.__strPluginGeneratePredictionName, \
+                                                                            self.strPluginGeneratePredictionName, \
                                                                             errorMessage)
-                EDVerbose.warning(warningMessage)
+                self.warning(warningMessage)
                 self.addWarningMessages([ warningMessage ])
         else:
             self.retrieveSuccessMessages(_edPlugin, "EDPluginControlIndexingv10.doSuccessActionGeneratePrediction")
             xsDataGeneratePredictionResult = _edPlugin.getDataOutput()
-            self.__xsDataIndexingResult.setPredictionResult(xsDataGeneratePredictionResult)
+            self.xsDataIndexingResult.setPredictionResult(xsDataGeneratePredictionResult)
 
 
     def doFailureActionGeneratePrediction(self, _edPlugin):
@@ -218,7 +216,7 @@ class EDPluginControlIndexingv10(EDPluginControl):
         """
         self.verboseDebug("EDPluginControlIndexingv10.doFailureActionGeneratePrediction")
         strWarningMessage = "Cannot generate prediction pattern"
-        EDVerbose.warning(strWarningMessage)
+        self.warning(strWarningMessage)
         self.addWarningMessages([ strWarningMessage ])
 
 
@@ -246,9 +244,16 @@ class EDPluginControlIndexingv10(EDPluginControl):
         Generates a very short summary of the indexing
         """
         strIndexingShortSummary = ""
-        if not self.isFailure() and self.__xsDataIndexingResult is not None:
+        # Check if forced space group requested.
+        xsDataIndexingInput = self.getDataInput()
+        xsDataCrystal = xsDataIndexingInput.getCrystal()
+        if xsDataCrystal is not None:
+            if xsDataCrystal.getSpaceGroup() is not None:
+                strForcedSpaceGroup = xsDataCrystal.getSpaceGroup().getName().getValue()
+                strIndexingShortSummary += "Forced space group: %s\n" % strForcedSpaceGroup
+        if not self.isFailure() and self.xsDataIndexingResult is not None:
             # Indexing solution
-            xsDataSelectedSolution = self.__xsDataIndexingResult.getSelectedSolution()
+            xsDataSelectedSolution = self.xsDataIndexingResult.getSelectedSolution()
             xsDataCrystal = xsDataSelectedSolution.getCrystal()
             # Refined cell parameters
             xsDataCell = xsDataCrystal.getCell()
@@ -274,9 +279,9 @@ class EDPluginControlIndexingv10(EDPluginControl):
             strIndexingShortSummary += "Indexing: refined Cell %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f\n" % (fA, fB, fC, fAlpha, fBeta, fGamma)
         else:
             strIndexingShortSummary += "Indexing failed."
-        EDVerbose.screen("Control indexing short summary:")
+        self.screen("Control indexing short summary:")
         for strLine in strIndexingShortSummary.split("\n"):
-            EDVerbose.screen(strLine)
+            self.screen(strLine)
         self.setDataOutput(XSDataString(strIndexingShortSummary), "indexingShortSummary")
 
 
@@ -287,32 +292,32 @@ class EDPluginControlIndexingv10(EDPluginControl):
         Generates a summary of the execution of the plugin.
         """
         self.verboseDebug("EDPluginControlIndexingv10.generateExecutiveSummary")
-        self.addExecutiveSummaryLine("Summary of indexing with %s :" % self.__strPluginIndexingName)
+        self.addExecutiveSummaryLine("Summary of indexing with %s :" % self.strPluginIndexingName)
         self.addErrorWarningMessagesToExecutiveSummary("Indexing failure! Error messages: ")
-        if (self.__edPluginIndexing is not None):
-            if (self.__strPluginIndexingExecutiveSummaryName is not None):
-                self.appendExecutiveSummary(self.__edPluginIndexing, self.__strPluginIndexingExecutiveSummaryName + " : ")
+        if (self.edPluginIndexing is not None):
+            if (self.strPluginIndexingExecutiveSummaryName is not None):
+                self.appendExecutiveSummary(self.edPluginIndexing, self.strPluginIndexingExecutiveSummaryName + " : ")
             else:
-                self.appendExecutiveSummary(self.__edPluginIndexing)
-        if (self.__edPluginGeneratePrediction is not None):
-            self.appendExecutiveSummary(self.__edPluginGeneratePrediction, "Prediction : ")
+                self.appendExecutiveSummary(self.edPluginIndexing)
+        if (self.edPluginGeneratePrediction is not None):
+            self.appendExecutiveSummary(self.edPluginGeneratePrediction, "Prediction : ")
 
 
     def setPluginIndexingName(self, _strPluginIndexingName):
-        self.__strPluginIndexingName = _strPluginIndexingName
+        self.strPluginIndexingName = _strPluginIndexingName
 
 
     def setPluginIndexingExecutiveSummaryName(self, _strPluginIndexingExecutiveSummaryName):
-        self.__strPluginIndexingExecutiveSummaryName = _strPluginIndexingExecutiveSummaryName
+        self.strPluginIndexingExecutiveSummaryName = _strPluginIndexingExecutiveSummaryName
 
 
     def setGeneratePredictionImage(self, _bGeneratePredictionImage):
-        self.__bGeneratePredictionImage = _bGeneratePredictionImage
+        self.bGeneratePredictionImage = _bGeneratePredictionImage
 
 
     def getPluginIndexing(self):
-        return self.__edPluginIndexing
+        return self.edPluginIndexing
 
 
     def getExperimentalCondition(self):
-        return self.__xsDataExperimentalCondition
+        return self.xsDataExperimentalCondition
