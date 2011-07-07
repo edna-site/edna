@@ -239,9 +239,6 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
         # Execute plugin which creates a simple HTML page
         self.executeSimpleHTML(xsDataResultCharacterisation)            
-        xsDataResultMXCuBE = XSDataResultMXCuBE()
-        self.setDataOutput(xsDataResultMXCuBE)
-        self.writeDataOutput()
         # Send failure email message (MXSUP-183):
         strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
         strMessage = "Interface FAILURE!"
