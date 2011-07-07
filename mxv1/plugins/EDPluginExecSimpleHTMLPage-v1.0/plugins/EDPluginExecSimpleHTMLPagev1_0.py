@@ -284,7 +284,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     def imageQualityIndicatorResults(self):
         listXSDataResultImageQualityIndicators = self.xsDataResultCharacterisation.imageQualityIndicators
         self.page.p("<H3>Image quality indicators</H3>")
-        self.page.table( class_='imageQualityIndicatorResults', border_="1", cellpadding_="1", style_="font-size:8px" )
+        self.page.table( class_='imageQualityIndicatorResults', border_="1", cellpadding_="1", style_="font-size:10px" )
         self.page.tr()
         self.page.th("File")
         self.page.th("Total integrated signal")

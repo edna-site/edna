@@ -339,7 +339,7 @@
         <predictionResult>
             <predictionImage>
                 <path>
-                    <value>/buffer/metis1421/WorkSpace/tmp/EDTestCasePluginExecuteControlCharacterisationv1_2With2Sweep_20110707-125759/ControlCharacterisationv1_2-00000016/GeneratePrediction/MOSFLMGeneratePredictionv10-01/ref-thermo1_1_001_pred.jpg</value>
+                    <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_001_pred.jpg</value>
                 </path>
                 <number>
                     <value>1</value>
@@ -347,7 +347,7 @@
             </predictionImage>
             <predictionImage>
                 <path>
-                    <value>/buffer/metis1421/WorkSpace/tmp/EDTestCasePluginExecuteControlCharacterisationv1_2With2Sweep_20110707-125759/ControlCharacterisationv1_2-00000016/GeneratePrediction/MOSFLMGeneratePredictionv10-02/ref-thermo1_1_002_pred.jpg</value>
+                    <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_002_pred.jpg</value>
                 </path>
                 <number>
                     <value>2</value>
@@ -20079,7 +20079,7 @@ OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! 
     <strategyResult>
         <bestLogFile>
             <path>
-                <value>/buffer/metis1421/WorkSpace/tmp/EDTestCasePluginExecuteControlCharacterisationv1_2With2Sweep_20110707-125759/ControlCharacterisationv1_2-00000016/Strategy/Bestv1_2/best.log</value>
+                <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/best.log</value>
             </path>
         </bestLogFile>
         <collectionPlan>
