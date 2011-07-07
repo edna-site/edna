@@ -78,6 +78,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.hr()
         self.indexingResults()
         self.page.hr()
+        self.imageQualityIndicatorResults()
+        self.page.hr()
         
 
 
@@ -279,15 +281,36 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         
 
         
+    def imageQualityIndicatorResults(self):
+        listXSDataResultImageQualityIndicators = self.xsDataResultCharacterisation.imageQualityIndicators
+        self.page.p("<H3>Image quality indicators</H3>")
+        self.page.table( class_='imageQualityIndicatorResults', border_="1", cellpadding_="1", style_="font-size:8px" )
+        self.page.tr()
+        self.page.th("File")
+        self.page.th("Total integrated signal")
+        self.page.th("Spot total")
+        self.page.th("In-Resolution Total")
+        self.page.th("Good Bragg Candidates")
+        self.page.th("Ice Rings")
+        self.page.th("Method 1 Resolution")
+        self.page.th("Method 2 Resolution")
+        self.page.tr.close()
+        for xsDataResultImageQualityIndicators in listXSDataResultImageQualityIndicators:
+            self.page.tr()
+            self.page.td("%s" % os.path.basename(xsDataResultImageQualityIndicators.image.path.value))
+            self.page.td("%.0f" % xsDataResultImageQualityIndicators.totalIntegratedSignal.value)
+            self.page.td("%d" % xsDataResultImageQualityIndicators.spotTotal.value)
+            self.page.td("%d" % xsDataResultImageQualityIndicators.inResTotal.value)
+            self.page.td("%d" % xsDataResultImageQualityIndicators.goodBraggCandidates.value)
+            self.page.td("%d" % xsDataResultImageQualityIndicators.iceRings.value)
+            self.page.td("%.2f" % xsDataResultImageQualityIndicators.method1Res.value)
+            self.page.td("%.2f" % xsDataResultImageQualityIndicators.method2Res.value)
+            self.page.td.close()
+            self.page.tr.close()
+        self.page.table.close()
         
         
-        # Reference images
-#        self.page.p( "<H2>Reference images</H2>" )
-#        xsDataCollection = self.xsDataResultCharacterisation.getDataCollection()
-#        for xsDataSubWedge in xsDataCollection.getSubWedge():
-#            self.page.p( "<H3>Subwedge</H3>" )
-#            for xsDataImage in xsDataSubWedge.getImage():
-#                self.page.p( "Reference image path: %s" % xsDataImage.getPath().getValue() )
+        
                 
             
 
