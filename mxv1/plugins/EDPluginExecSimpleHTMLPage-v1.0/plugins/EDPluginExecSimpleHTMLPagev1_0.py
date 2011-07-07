@@ -178,7 +178,19 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                     self.page.th("%.2f" % fDistance)
                     self.page.tr.close()
                 self.page.table.close()
-
+            # Add link to BEST log file:
+            if xsDataResultStrategy.getBestLogFile():
+                strPathToBestLogFile = xsDataResultStrategy.getBestLogFile().getPath().getValue()
+                strPageBestLog = os.path.join(self.getWorkingDirectory(), "best_log.html")
+                pageBestLog = markupv1_7.page()
+                pageBestLog.h1("Best Log")
+                pageBestLog.a("Back to previous page", href_=self.strPath)
+                pageBestLog.pre(EDUtilsFile.readFile(strPathToBestLogFile))
+                pageBestLog.a("Back to previous page", href_=self.strPath)
+                EDUtilsFile.writeFile(strPageBestLog, str(pageBestLog))
+                self.page.h3()
+                self.page.a("Best log file", href=strPageBestLog)
+                self.page.h3.close()
                     
         else:
             self.page.h2( "Strategy calculation failed" )
