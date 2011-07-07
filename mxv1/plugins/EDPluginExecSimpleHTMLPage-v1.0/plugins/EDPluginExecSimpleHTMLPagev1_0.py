@@ -284,8 +284,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     def imageQualityIndicatorResults(self):
         listXSDataResultImageQualityIndicators = self.xsDataResultCharacterisation.imageQualityIndicators
         self.page.p("<H3>Image quality indicators</H3>")
-        self.page.table( class_='imageQualityIndicatorResults', border_="1", cellpadding_="1", style_="font-size:10px" )
-        self.page.tr()
+        self.page.table( class_='imageQualityIndicatorResults', border_="1", cellpadding_="1", style_="font-size:12px")
+        self.page.tr( align_="CENTER" )
         self.page.th("File")
         self.page.th("Total integrated signal")
         self.page.th("Spot total")
@@ -294,9 +294,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.th("Ice Rings")
         self.page.th("Method 1 Resolution")
         self.page.th("Method 2 Resolution")
+        self.page.th("Max unit cell")
         self.page.tr.close()
         for xsDataResultImageQualityIndicators in listXSDataResultImageQualityIndicators:
-            self.page.tr()
+            self.page.tr( align_="CENTER" )
             self.page.td("%s" % os.path.basename(xsDataResultImageQualityIndicators.image.path.value))
             self.page.td("%.0f" % xsDataResultImageQualityIndicators.totalIntegratedSignal.value)
             self.page.td("%d" % xsDataResultImageQualityIndicators.spotTotal.value)
@@ -304,7 +305,14 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.td("%d" % xsDataResultImageQualityIndicators.goodBraggCandidates.value)
             self.page.td("%d" % xsDataResultImageQualityIndicators.iceRings.value)
             self.page.td("%.2f" % xsDataResultImageQualityIndicators.method1Res.value)
-            self.page.td("%.2f" % xsDataResultImageQualityIndicators.method2Res.value)
+            if xsDataResultImageQualityIndicators.method2Res:
+                self.page.td("%.2f" % xsDataResultImageQualityIndicators.method2Res.value)
+            else:
+                self.page.td("NA")
+            if xsDataResultImageQualityIndicators.maxUnitCell:
+                self.page.td("%.1f" % xsDataResultImageQualityIndicators.maxUnitCell.value)
+            else:
+                self.page.td("NA")
             self.page.td.close()
             self.page.tr.close()
         self.page.table.close()
