@@ -301,7 +301,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         for xsDataResultImageQualityIndicators in listXSDataResultImageQualityIndicators:
             self.page.tr( align_="CENTER" )
             self.page.td("%s" % os.path.basename(xsDataResultImageQualityIndicators.image.path.value))
-            self.page.td("%.0f" % xsDataResultImageQualityIndicators.totalIntegratedSignal.value)
+            if xsDataResultImageQualityIndicators.totalIntegratedSignal:
+                self.page.td("%.0f" % xsDataResultImageQualityIndicators.totalIntegratedSignal.value)
+            else:
+                self.page.td("NA")
             self.page.td("%d" % xsDataResultImageQualityIndicators.spotTotal.value)
             self.page.td("%d" % xsDataResultImageQualityIndicators.inResTotal.value)
             self.page.td("%d" % xsDataResultImageQualityIndicators.goodBraggCandidates.value)
