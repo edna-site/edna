@@ -53,9 +53,9 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_NormalizeImage.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputNormalizeImage_reference_array.xml"))
+                                           "XSDataInputNormalizeImage_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultNormalizeImage_array.xml"))
+                                                     "XSDataResultNormalizeImage_Array.xml"))
 
     def preProcess(self):
         """

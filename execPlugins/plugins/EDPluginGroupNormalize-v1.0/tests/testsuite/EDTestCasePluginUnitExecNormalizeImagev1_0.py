@@ -45,7 +45,7 @@ class EDTestCasePluginUnitExecNormalizeImagev1_0(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputNormalize()
-        xsDataInput.setData(XSDataImageExt())
+        xsDataInput.setData([XSDataImageExt()])
         edPluginExecNormalizeImage = self.createPlugin()
         edPluginExecNormalizeImage.setDataInput(xsDataInput)
         edPluginExecNormalizeImage.checkParameters()

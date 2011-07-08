@@ -1,0 +1,29 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataImageExt
+import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataStatus
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataArray
+
+
+
+complex type XSDataInputNormalize extends XSDataInput {
+	data : XSDataImageExt []
+	dark : XSDataImageExt [] optional
+	flat : XSDataImageExt [] optional
+	output : XSDataImageExt optional
+}
+
+complex type XSDataResultNormalize extends XSDataResult {
+	output: XSDataImageExt 
+}

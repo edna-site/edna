@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <XSDataResultNormalize>
-    <normalizedArray>
+	<output>
+		<array>
         <shape>10</shape>
         <shape>10</shape>
         <size>100</size>
@@ -12,5 +13,6 @@
         <md5sum>
             <value>56d3c74504e19bfae87f0f8450b16326</value>
         </md5sum>
-    </normalizedArray>
+		</array>
+	</output>
 </XSDataResultNormalize>

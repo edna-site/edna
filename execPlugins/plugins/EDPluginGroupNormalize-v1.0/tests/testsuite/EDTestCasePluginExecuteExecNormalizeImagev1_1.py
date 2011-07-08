@@ -41,7 +41,7 @@ EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
 
 
 
-class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecNormalizeImagev1_1(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin NormalizeImagev1_0
     """
@@ -53,9 +53,9 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_NormalizeImage.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputNormalizeImage_reference_array.xml"))
+                                           "XSDataInputNormalizeImage_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultNormalizeImage_array.xml"))
+                                                     "XSDataResultNormalizeImage_Array.xml"))
 
     def preProcess(self):
         """
@@ -88,8 +88,8 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
 
         #EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "Result XML are the same")
 
-        npaReference = EDUtilsArray.xsDataToArray(xsDataResultReference.output.array)
-        npaObtained = EDUtilsArray.xsDataToArray(xsDataResultObtained.output.array)
+        npaReference = EDUtilsArray.xsDataToArray(xsDataResultReference.getNormalizedArray())
+        npaObtained = EDUtilsArray.xsDataToArray(xsDataResultObtained.getNormalizedArray())
         EDAssert.arraySimilar(npaReference, npaObtained, "Arrays are the same", _fAbsMaxDelta=1e-6)
         EDAssert.equal(npaReference.dtype, npaObtained.dtype, "Datatypes are the same")
 #        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
@@ -112,5 +112,5 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    testNormalizeImagev1_0instance = EDTestCasePluginExecuteExecNormalizeImagev1_0("EDTestCasePluginExecuteExecNormalizeImagev1_0")
+    testNormalizeImagev1_0instance = EDTestCasePluginExecuteExecNormalizeImagev1_1("EDTestCasePluginExecuteExecNormalizeImagev1_1")
     testNormalizeImagev1_0instance.execute()
