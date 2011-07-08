@@ -131,7 +131,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                     if fRankingResolution < fResolutionMax:
                         if not bHigherResolutionDetected:
                             self.page.i()
-                            self.page.h3("OBS! Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
+                            self.page.h3("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
                             self.page.br()
                             self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
                             self.page.br()
