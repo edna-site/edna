@@ -249,7 +249,7 @@ class EDPluginControlIndexingv10(EDPluginControl):
         xsDataCrystal = xsDataIndexingInput.getCrystal()
         if xsDataCrystal is not None:
             if xsDataCrystal.getSpaceGroup() is not None:
-                strForcedSpaceGroup = xsDataCrystal.getSpaceGroup().getName().getValue()
+                strForcedSpaceGroup = xsDataCrystal.getSpaceGroup().getName().getValue().upper()
                 strIndexingShortSummary += "Forced space group: %s\n" % strForcedSpaceGroup
         if not self.isFailure() and self.xsDataIndexingResult is not None:
             # Indexing solution

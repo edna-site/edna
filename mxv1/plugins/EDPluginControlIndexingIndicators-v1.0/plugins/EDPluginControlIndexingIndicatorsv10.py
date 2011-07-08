@@ -232,6 +232,11 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
         Generates a very short summary of the indexing
         """
         strIndexingShortSummary = ""
+        if self.hasDataInput("crystal"):
+            xsDataCrystal = self.getDataInput("crystal")[0]
+            if xsDataCrystal.getSpaceGroup() is not None:
+                strForcedSpaceGroup = xsDataCrystal.getSpaceGroup().getName().getValue().upper()
+                strIndexingShortSummary += "Forced space group: %s\n" % strForcedSpaceGroup
         if _xsDataIndexingResult is not None:
             # Indexing solution
             xsDataSelectedSolution = _xsDataIndexingResult.getSelectedSolution()

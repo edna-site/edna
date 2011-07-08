@@ -293,14 +293,14 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
             xsDataIndexingSolutionSelected = xsDataIndexingResult.getSelectedSolution()
             xsDataCrystal = xsDataIndexingSolutionSelected.getCrystal()
             xsDataSpaceGroup = xsDataCrystal.getSpaceGroup()
-            strSpaceGroupName = xsDataSpaceGroup.getName().getValue()
+            strSpaceGroupName = xsDataSpaceGroup.getName().getValue().upper()
             # Check if MOSFLM has indexed in P1
             if strSpaceGroupName == "P1":
                 # Check if the user maybe asked for P1!
                 bIndexWithLabelit = True
                 if self.__xsDataCollection.getDiffractionPlan() is not None:
                     if self.__xsDataCollection.getDiffractionPlan().getForcedSpaceGroup() is not None:
-                        if self.__xsDataCollection.getDiffractionPlan().getForcedSpaceGroup().getValue() == "P1":
+                        if self.__xsDataCollection.getDiffractionPlan().getForcedSpaceGroup().getValue().upper() == "P1":
                             EDVerbose.screen("P1 space forced by diffraction plan")
                             bIndexWithLabelit = False
             if bIndexWithLabelit:
