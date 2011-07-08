@@ -61,7 +61,12 @@ package XSDataCommon {
 			date : XSDataString optional
 			number : XSDataInteger optional
 		}
-
+		complex type XSDataImageExt extends XSDataImage {
+			"Represents an image that can either be in a file (path), either inside the XML (array) or as a reference for EDShare (shared) "
+			array : XSDataArray optional
+			shared: XSDataString optional
+			exposureTime : XSDataTime optional
+		}
 		complex type XSDataKeyValuePair {
 			key : XSDataString
 			value : XSDataString

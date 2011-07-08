@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 21 10:50::49 2011 by EDGenerateDS.
+# Generated Fri Jul 8 10:08::30 2011 by EDGenerateDS.
 #
 
 import sys
@@ -232,6 +232,89 @@ class XSData(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSData
+
+class XSDataDictionary(object):
+	def __init__(self, keyValuePair=None):
+		if keyValuePair is None:
+			self.__keyValuePair = []
+		else:
+			checkType("XSDataDictionary", "Constructor of XSDataDictionary", keyValuePair, "list")
+			self.__keyValuePair = keyValuePair
+	def getKeyValuePair(self): return self.__keyValuePair
+	def setKeyValuePair(self, keyValuePair):
+		checkType("XSDataDictionary", "setKeyValuePair", keyValuePair, "list")
+		self.__keyValuePair = keyValuePair
+	def delKeyValuePair(self): self.__keyValuePair = None
+	# Properties
+	keyValuePair = property(getKeyValuePair, setKeyValuePair, delKeyValuePair, "Property for keyValuePair")
+	def addKeyValuePair(self, value):
+		checkType("XSDataDictionary", "setKeyValuePair", value, "XSDataKeyValuePair")
+		self.__keyValuePair.append(value)
+	def insertKeyValuePair(self, index, value):
+		checkType("XSDataDictionary", "setKeyValuePair", value, "XSDataKeyValuePair")
+		self.__keyValuePair[index] = value
+	def export(self, outfile, level, name_='XSDataDictionary'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataDictionary'):
+		pass
+		for keyValuePair_ in self.getKeyValuePair():
+			keyValuePair_.export(outfile, level, name_='keyValuePair')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'keyValuePair':
+			obj_ = XSDataKeyValuePair()
+			obj_.build(child_)
+			self.keyValuePair.append(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataDictionary" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataDictionary' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataDictionary is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataDictionary.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataDictionary()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataDictionary" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataDictionary()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataDictionary
 
 class XSDataDisplacement(object):
 	"""These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."""
@@ -625,89 +708,6 @@ class XSDataKeyValuePair(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataKeyValuePair
-
-class XSDataDictionary(object):
-	def __init__(self, keyValuePair=None):
-		if keyValuePair is None:
-			self.__keyValuePair = []
-		else:
-			checkType("XSDataDictionary", "Constructor of XSDataDictionary", keyValuePair, "list")
-			self.__keyValuePair = keyValuePair
-	def getKeyValuePair(self): return self.__keyValuePair
-	def setKeyValuePair(self, keyValuePair):
-		checkType("XSDataDictionary", "setKeyValuePair", keyValuePair, "list")
-		self.__keyValuePair = keyValuePair
-	def delKeyValuePair(self): self.__keyValuePair = None
-	# Properties
-	keyValuePair = property(getKeyValuePair, setKeyValuePair, delKeyValuePair, "Property for keyValuePair")
-	def addKeyValuePair(self, value):
-		checkType("XSDataDictionary", "setKeyValuePair", value, "XSDataKeyValuePair")
-		self.__keyValuePair.append(value)
-	def insertKeyValuePair(self, index, value):
-		checkType("XSDataDictionary", "setKeyValuePair", value, "XSDataKeyValuePair")
-		self.__keyValuePair[index] = value
-	def export(self, outfile, level, name_='XSDataDictionary'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataDictionary'):
-		pass
-		for keyValuePair_ in self.getKeyValuePair():
-			keyValuePair_.export(outfile, level, name_='keyValuePair')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'keyValuePair':
-			obj_ = XSDataKeyValuePair()
-			obj_.build(child_)
-			self.keyValuePair.append(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataDictionary" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataDictionary' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataDictionary is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataDictionary.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataDictionary()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataDictionary" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataDictionary()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataDictionary
 
 class XSOptionItem(object):
 	def __init__(self, name=None, enabled=None):
@@ -2627,88 +2627,6 @@ class XSDataMatrixInteger(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataMatrixInteger
 
-class XSDataString(XSData):
-	"""These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."""
-	def __init__(self, value=None):
-		XSData.__init__(self, )
-		checkType("XSDataString", "Constructor of XSDataString", value, "string")
-		self.__value = value
-	def getValue(self): return self.__value
-	def setValue(self, value):
-		checkType("XSDataString", "setValue", value, "string")
-		self.__value = value
-	def delValue(self): self.__value = None
-	# Properties
-	value = property(getValue, setValue, delValue, "Property for value")
-	def export(self, outfile, level, name_='XSDataString'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataString'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__value is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<value>%s</value>\n' % self.__value))
-		else:
-			warnEmptyAttribute("value", "string")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'value':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self.__value = value_
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataString" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataString' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataString is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataString.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataString()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataString" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataString()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataString
-
 class XSDataMessage(XSData):
 	"""This message class is used (amongst other messages) for warning and error messages."""
 	def __init__(self, type=None, text=None, level=None, debuginfo=None):
@@ -3313,6 +3231,88 @@ class XSDataSize(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataSize
+
+class XSDataString(XSData):
+	"""These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."""
+	def __init__(self, value=None):
+		XSData.__init__(self, )
+		checkType("XSDataString", "Constructor of XSDataString", value, "string")
+		self.__value = value
+	def getValue(self): return self.__value
+	def setValue(self, value):
+		checkType("XSDataString", "setValue", value, "string")
+		self.__value = value
+	def delValue(self): self.__value = None
+	# Properties
+	value = property(getValue, setValue, delValue, "Property for value")
+	def export(self, outfile, level, name_='XSDataString'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataString'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__value is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<value>%s</value>\n' % self.__value))
+		else:
+			warnEmptyAttribute("value", "string")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'value':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__value = value_
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataString" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataString' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataString is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataString.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataString()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataString" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataString()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataString
 
 class XSDataSysteminfo(XSData):
 	"""This class contains information about the system executing the plugin."""
@@ -4318,6 +4318,115 @@ class XSDataFlux(XSDataDoubleWithUnit):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataFlux
+
+class XSDataImageExt(XSDataImage):
+	"""Represents an image that can either be in a file (path), either inside the XML (array) or as a reference for EDShare (shared) """
+	def __init__(self, path=None, number=None, date=None, exposureTime=None, shared=None, array=None):
+		XSDataImage.__init__(self, path, number, date)
+		checkType("XSDataImageExt", "Constructor of XSDataImageExt", array, "XSDataArray")
+		self.__array = array
+		checkType("XSDataImageExt", "Constructor of XSDataImageExt", shared, "XSDataString")
+		self.__shared = shared
+		checkType("XSDataImageExt", "Constructor of XSDataImageExt", exposureTime, "XSDataTime")
+		self.__exposureTime = exposureTime
+	def getArray(self): return self.__array
+	def setArray(self, array):
+		checkType("XSDataImageExt", "setArray", array, "XSDataArray")
+		self.__array = array
+	def delArray(self): self.__array = None
+	# Properties
+	array = property(getArray, setArray, delArray, "Property for array")
+	def getShared(self): return self.__shared
+	def setShared(self, shared):
+		checkType("XSDataImageExt", "setShared", shared, "XSDataString")
+		self.__shared = shared
+	def delShared(self): self.__shared = None
+	# Properties
+	shared = property(getShared, setShared, delShared, "Property for shared")
+	def getExposureTime(self): return self.__exposureTime
+	def setExposureTime(self, exposureTime):
+		checkType("XSDataImageExt", "setExposureTime", exposureTime, "XSDataTime")
+		self.__exposureTime = exposureTime
+	def delExposureTime(self): self.__exposureTime = None
+	# Properties
+	exposureTime = property(getExposureTime, setExposureTime, delExposureTime, "Property for exposureTime")
+	def export(self, outfile, level, name_='XSDataImageExt'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataImageExt'):
+		XSDataImage.exportChildren(self, outfile, level, name_)
+		if self.__array is not None:
+			self.array.export(outfile, level, name_='array')
+		if self.__shared is not None:
+			self.shared.export(outfile, level, name_='shared')
+		if self.__exposureTime is not None:
+			self.exposureTime.export(outfile, level, name_='exposureTime')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'array':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setArray(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'shared':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setShared(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'exposureTime':
+			obj_ = XSDataTime()
+			obj_.build(child_)
+			self.setExposureTime(obj_)
+		XSDataImage.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataImageExt" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataImageExt' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataImageExt is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataImageExt.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataImageExt()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataImageExt" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataImageExt()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataImageExt
 
 class XSDataLength(XSDataDoubleWithUnit):
 	"""These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."""
