@@ -24,7 +24,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os, shutil, time
+import os, shutil, time, cgi
 
 from EDPluginExec import EDPluginExec
 from EDFactoryPluginStatic import EDFactoryPluginStatic
@@ -79,6 +79,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.indexingResults()
         self.page.hr()
         self.imageQualityIndicatorResults()
+        self.page.hr()
+        self.addLinkToEDNALogFile()
         self.page.hr()
         
 
@@ -317,8 +319,38 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.tr.close()
         self.page.table.close()
         
-        
-        
-                
-            
+
+
+    def findEDNALogFile(self):
+        """Trying to locate the EDNA plugin launcher log file..."""
+        strBaseDir = self.getWorkingDirectory()
+        for iLevels in range(4):
+            strBaseDir = os.path.dirname(strBaseDir)
+            self.DEBUG("Searching in strBaseDir: " + strBaseDir)
+            # Now search for a ED*.log file...
+            for strFileName in os.listdir(strBaseDir):
+                if strFileName.startswith("ED") and strFileName.endswith(".log"):
+                    # Check that the corresponding direcory exists...
+                    strDirectoryName = strFileName[:-4]
+                    if os.path.isdir(os.path.join(strBaseDir, strDirectoryName)):
+                        # Final check - is the directory name in the working dir
+                        if self.getWorkingDirectory().find(strDirectoryName) != -1:
+                            # Ok, we found it!
+                            strPathToLogFile = os.path.join(strBaseDir, strFileName)
+        return strPathToLogFile
+
+
+    def addLinkToEDNALogFile(self):
+        strPathToLogFile = self.findEDNALogFile()
+        if strPathToLogFile is not None:
+            strPageEDNALog = os.path.join(self.getWorkingDirectory(), "edna_log.html")
+            pageEDNALog = markupv1_7.page()
+            pageEDNALog.h1("EDNA Log")
+            pageEDNALog.a("Back to previous page", href_=self.strPath)
+            pageEDNALog.pre(cgi.escape(EDUtilsFile.readFile(strPathToLogFile)))
+            pageEDNALog.a("Back to previous page", href_=self.strPath)
+            EDUtilsFile.writeFile(strPageEDNALog, str(pageEDNALog))
+            self.page.h3()
+            self.page.a("EDNA log file", href=strPageEDNALog)
+            self.page.h3.close()
 
