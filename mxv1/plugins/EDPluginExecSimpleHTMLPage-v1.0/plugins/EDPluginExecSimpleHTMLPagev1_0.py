@@ -100,10 +100,15 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     def indexingResults(self):
         # Was the indexing successful?
         xsDataResultIndexing = self.xsDataResultCharacterisation.getIndexingResult()
+        strForcedSpaceGroup = None
+        # Check for forced space group!
+        if self.xsDataResultCharacterisation.dataCollection.diffractionPlan is not None:
+            if self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup is not None:
+                strForcedSpaceGroup = self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup.value
         if xsDataResultIndexing:
             self.page.h2( "Indexing summary" )
             # Table with indexing results
-            self.createTableWithIndexResults(xsDataResultIndexing)
+            self.createTableWithIndexResults(xsDataResultIndexing, strForcedSpaceGroup)
             # Thumbnail images
             self.createThumbnailRowOfImages(xsDataResultIndexing)
             
@@ -253,11 +258,18 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.div.close()
 
 
-    def createTableWithIndexResults(self, _xsDataResultIndexing):
+    def createTableWithIndexResults(self, _xsDataResultIndexing, _strForcedSpaceGroup):
         xsDataSolutionSelected = _xsDataResultIndexing.getSelectedSolution()
         xsDataCrystal = xsDataSolutionSelected.getCrystal()
         xsDataCell = xsDataCrystal.getCell()
-        self.page.p("<H3>Selected spacegroup: %s</H3>" % xsDataCrystal.getSpaceGroup().getName().getValue())
+        strSpaceGroup = xsDataCrystal.spaceGroup.name.value
+        if _strForcedSpaceGroup is None:
+            self.page.p("<H3>Selected spacegroup: %s</H3>" % strSpaceGroup)
+        else:
+            if strSpaceGroup.upper() == _strForcedSpaceGroup.upper():
+                self.page.p("<H3>Forced spacegroup: %s</H3>" % strSpaceGroup)
+            else:
+                self.page.p("<H3>Selected spacegroup: %s, forced space group: %s</H3>" % strSpaceGroup, _strForcedSpaceGroup)
         self.page.table( class_='indexResults', border_="1", cellpadding_="1", style_="font-size:12px" )
         self.page.tr( align_="CENTER" )
         self.page.th("Refined unit cell parameters (&Aring;/degrees)", colspan_="6", style_="font-size:15px")
