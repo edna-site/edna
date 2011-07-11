@@ -39,6 +39,10 @@ class EDTestSuitePluginsExecuteMatrix(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecMatrixReadv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecMatrixInvertv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteMatrixInvertFilev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecMatrixInvertv2_0_path")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecMatrixInvertv2_0_shared")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecMatrixInvertv2_0_array")
+
 
 if __name__ == '__main__':
 

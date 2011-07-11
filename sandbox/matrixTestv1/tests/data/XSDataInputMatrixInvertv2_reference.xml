@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+    <inputMatrix>
+		<shared>
+			<value>/EDPluginExecMatrixInvertv2_0/inputMatrix</value>
+		</shared>
+    </inputMatrix>
+    <outputMatrix>
+		<shared>
+			<value>/EDPluginExecMatrixInvertv2_0/outputMatrix</value>
+		</shared>
+    </outputMatrix>
+</XSDataInput>

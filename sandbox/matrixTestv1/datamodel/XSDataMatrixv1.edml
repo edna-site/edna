@@ -4,6 +4,16 @@ import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataArray
 import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataImageExt
+
+complex type XSDataInputMatrixInvertv2 extends XSDataInput {
+	inputMatrix : XSDataImageExt
+	outputMatrix : XSDataImageExt
+}
+complex type XSDataResultMatrixInvertv2 extends XSDataResult {
+	outputMatrix : XSDataImageExt
+}
+
 
 complex type XSDataInputMatrixInvert extends XSDataInput {
 	inputMatrix : XSDataArray

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun 16 03:07::23 2011 by EDGenerateDS.
+# Generated Mon Jul 11 08:47::38 2011 by EDGenerateDS.
 #
 
 import sys
@@ -12,6 +12,7 @@ from XSDataCommon import XSDataArray
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataResult
+from XSDataCommon import XSDataImageExt
 
 
 
@@ -40,10 +41,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -106,6 +107,7 @@ class MixedContainer(object):
 class XSDataInputMatrixInvert(XSDataInput):
 	def __init__(self, configuration=None, inputMatrix=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputMatrixInvert", "Constructor of XSDataInputMatrixInvert", inputMatrix, "XSDataArray")
 		self.__inputMatrix = inputMatrix
 	def getInputMatrix(self): return self.__inputMatrix
 	def setInputMatrix(self, inputMatrix):
@@ -146,11 +148,15 @@ class XSDataInputMatrixInvert(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputMatrixInvert' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputMatrixInvert is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputMatrixInvert.parseString(self.marshal())
@@ -179,7 +185,9 @@ class XSDataInputMatrixInvert(XSDataInput):
 class XSDataInputMatrixInvertFile(XSDataInput):
 	def __init__(self, configuration=None, outputMatrixFile=None, inputMatrixFile=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputMatrixInvertFile", "Constructor of XSDataInputMatrixInvertFile", inputMatrixFile, "XSDataFile")
 		self.__inputMatrixFile = inputMatrixFile
+		checkType("XSDataInputMatrixInvertFile", "Constructor of XSDataInputMatrixInvertFile", outputMatrixFile, "XSDataFile")
 		self.__outputMatrixFile = outputMatrixFile
 	def getInputMatrixFile(self): return self.__inputMatrixFile
 	def setInputMatrixFile(self, inputMatrixFile):
@@ -236,11 +244,15 @@ class XSDataInputMatrixInvertFile(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputMatrixInvertFile' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputMatrixInvertFile is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputMatrixInvertFile.parseString(self.marshal())
@@ -266,9 +278,106 @@ class XSDataInputMatrixInvertFile(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputMatrixInvertFile
 
+class XSDataInputMatrixInvertv2(XSDataInput):
+	def __init__(self, configuration=None, outputMatrix=None, inputMatrix=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputMatrixInvertv2", "Constructor of XSDataInputMatrixInvertv2", inputMatrix, "XSDataImageExt")
+		self.__inputMatrix = inputMatrix
+		checkType("XSDataInputMatrixInvertv2", "Constructor of XSDataInputMatrixInvertv2", outputMatrix, "XSDataImageExt")
+		self.__outputMatrix = outputMatrix
+	def getInputMatrix(self): return self.__inputMatrix
+	def setInputMatrix(self, inputMatrix):
+		checkType("XSDataInputMatrixInvertv2", "setInputMatrix", inputMatrix, "XSDataImageExt")
+		self.__inputMatrix = inputMatrix
+	def delInputMatrix(self): self.__inputMatrix = None
+	# Properties
+	inputMatrix = property(getInputMatrix, setInputMatrix, delInputMatrix, "Property for inputMatrix")
+	def getOutputMatrix(self): return self.__outputMatrix
+	def setOutputMatrix(self, outputMatrix):
+		checkType("XSDataInputMatrixInvertv2", "setOutputMatrix", outputMatrix, "XSDataImageExt")
+		self.__outputMatrix = outputMatrix
+	def delOutputMatrix(self): self.__outputMatrix = None
+	# Properties
+	outputMatrix = property(getOutputMatrix, setOutputMatrix, delOutputMatrix, "Property for outputMatrix")
+	def export(self, outfile, level, name_='XSDataInputMatrixInvertv2'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputMatrixInvertv2'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__inputMatrix is not None:
+			self.inputMatrix.export(outfile, level, name_='inputMatrix')
+		else:
+			warnEmptyAttribute("inputMatrix", "XSDataImageExt")
+		if self.__outputMatrix is not None:
+			self.outputMatrix.export(outfile, level, name_='outputMatrix')
+		else:
+			warnEmptyAttribute("outputMatrix", "XSDataImageExt")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'inputMatrix':
+			obj_ = XSDataImageExt()
+			obj_.build(child_)
+			self.setInputMatrix(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'outputMatrix':
+			obj_ = XSDataImageExt()
+			obj_.build(child_)
+			self.setOutputMatrix(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputMatrixInvertv2" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputMatrixInvertv2' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputMatrixInvertv2 is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputMatrixInvertv2.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputMatrixInvertv2()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputMatrixInvertv2" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputMatrixInvertv2()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputMatrixInvertv2
+
 class XSDataInputReadMatrix(XSDataInput):
 	def __init__(self, configuration=None, inputMatrixFile=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputReadMatrix", "Constructor of XSDataInputReadMatrix", inputMatrixFile, "XSDataFile")
 		self.__inputMatrixFile = inputMatrixFile
 	def getInputMatrixFile(self): return self.__inputMatrixFile
 	def setInputMatrixFile(self, inputMatrixFile):
@@ -309,11 +418,15 @@ class XSDataInputReadMatrix(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputReadMatrix' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputReadMatrix is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputReadMatrix.parseString(self.marshal())
@@ -342,7 +455,9 @@ class XSDataInputReadMatrix(XSDataInput):
 class XSDataInputWriteMatrix(XSDataInput):
 	def __init__(self, configuration=None, outputMatrixFile=None, inputMatrix=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputWriteMatrix", "Constructor of XSDataInputWriteMatrix", inputMatrix, "XSDataArray")
 		self.__inputMatrix = inputMatrix
+		checkType("XSDataInputWriteMatrix", "Constructor of XSDataInputWriteMatrix", outputMatrixFile, "XSDataFile")
 		self.__outputMatrixFile = outputMatrixFile
 	def getInputMatrix(self): return self.__inputMatrix
 	def setInputMatrix(self, inputMatrix):
@@ -399,11 +514,15 @@ class XSDataInputWriteMatrix(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputWriteMatrix' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputWriteMatrix is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputWriteMatrix.parseString(self.marshal())
@@ -432,6 +551,7 @@ class XSDataInputWriteMatrix(XSDataInput):
 class XSDataResultMatrixInvert(XSDataResult):
 	def __init__(self, status=None, outputMatrix=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultMatrixInvert", "Constructor of XSDataResultMatrixInvert", outputMatrix, "XSDataArray")
 		self.__outputMatrix = outputMatrix
 	def getOutputMatrix(self): return self.__outputMatrix
 	def setOutputMatrix(self, outputMatrix):
@@ -472,11 +592,15 @@ class XSDataResultMatrixInvert(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultMatrixInvert' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultMatrixInvert is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultMatrixInvert.parseString(self.marshal())
@@ -505,6 +629,7 @@ class XSDataResultMatrixInvert(XSDataResult):
 class XSDataResultMatrixInvertFile(XSDataResult):
 	def __init__(self, status=None, outputMatrixFile=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultMatrixInvertFile", "Constructor of XSDataResultMatrixInvertFile", outputMatrixFile, "XSDataFile")
 		self.__outputMatrixFile = outputMatrixFile
 	def getOutputMatrixFile(self): return self.__outputMatrixFile
 	def setOutputMatrixFile(self, outputMatrixFile):
@@ -545,11 +670,15 @@ class XSDataResultMatrixInvertFile(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultMatrixInvertFile' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultMatrixInvertFile is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultMatrixInvertFile.parseString(self.marshal())
@@ -575,9 +704,88 @@ class XSDataResultMatrixInvertFile(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultMatrixInvertFile
 
+class XSDataResultMatrixInvertv2(XSDataResult):
+	def __init__(self, status=None, outputMatrix=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataResultMatrixInvertv2", "Constructor of XSDataResultMatrixInvertv2", outputMatrix, "XSDataImageExt")
+		self.__outputMatrix = outputMatrix
+	def getOutputMatrix(self): return self.__outputMatrix
+	def setOutputMatrix(self, outputMatrix):
+		checkType("XSDataResultMatrixInvertv2", "setOutputMatrix", outputMatrix, "XSDataImageExt")
+		self.__outputMatrix = outputMatrix
+	def delOutputMatrix(self): self.__outputMatrix = None
+	# Properties
+	outputMatrix = property(getOutputMatrix, setOutputMatrix, delOutputMatrix, "Property for outputMatrix")
+	def export(self, outfile, level, name_='XSDataResultMatrixInvertv2'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultMatrixInvertv2'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__outputMatrix is not None:
+			self.outputMatrix.export(outfile, level, name_='outputMatrix')
+		else:
+			warnEmptyAttribute("outputMatrix", "XSDataImageExt")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'outputMatrix':
+			obj_ = XSDataImageExt()
+			obj_.build(child_)
+			self.setOutputMatrix(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultMatrixInvertv2" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultMatrixInvertv2' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultMatrixInvertv2 is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultMatrixInvertv2.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultMatrixInvertv2()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultMatrixInvertv2" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultMatrixInvertv2()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultMatrixInvertv2
+
 class XSDataResultReadMatrix(XSDataResult):
 	def __init__(self, status=None, outputMatrix=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultReadMatrix", "Constructor of XSDataResultReadMatrix", outputMatrix, "XSDataArray")
 		self.__outputMatrix = outputMatrix
 	def getOutputMatrix(self): return self.__outputMatrix
 	def setOutputMatrix(self, outputMatrix):
@@ -618,11 +826,15 @@ class XSDataResultReadMatrix(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultReadMatrix' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultReadMatrix is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultReadMatrix.parseString(self.marshal())
@@ -651,6 +863,7 @@ class XSDataResultReadMatrix(XSDataResult):
 class XSDataResultWriteMatrix(XSDataResult):
 	def __init__(self, status=None, outputMatrixFile=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultWriteMatrix", "Constructor of XSDataResultWriteMatrix", outputMatrixFile, "XSDataFile")
 		self.__outputMatrixFile = outputMatrixFile
 	def getOutputMatrixFile(self): return self.__outputMatrixFile
 	def setOutputMatrixFile(self, outputMatrixFile):
@@ -691,11 +904,15 @@ class XSDataResultWriteMatrix(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultWriteMatrix' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultWriteMatrix is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultWriteMatrix.parseString(self.marshal())
