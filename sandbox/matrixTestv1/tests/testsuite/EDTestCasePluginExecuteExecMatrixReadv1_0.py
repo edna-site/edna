@@ -30,7 +30,7 @@ import os, sys
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
-from XSDataMatrixv1                      import XSDataResultReadMatrix
+from XSDataMatrixv1                      import XSDataResultReadMatrix, XSDataInputReadMatrix
 from EDFactoryPluginStatic              import EDFactoryPluginStatic
 
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
@@ -55,6 +55,17 @@ class EDTestCasePluginExecuteExecMatrixReadv1_0(EDTestCasePluginExecute):
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultMatrixRead_reference.xml"))
 
+    def preProcess(self):
+        """
+        PreProcess of the execution test: download a set of images  from http://www.edna-site.org
+        and delete any output file
+        """
+        EDTestCasePluginExecute.preProcess(self)
+
+        xsDataInput = XSDataInputReadMatrix.parseString(self.readAndParseFile(self.getDataInputFile()))
+        self.inputFile = xsDataInput.getInputMatrixFile().getPath().getValue()
+
+        self.loadTestImage([os.path.basename(self.inputFile) ])
 
     def testExecute(self):
         """
