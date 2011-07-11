@@ -52,6 +52,7 @@ class EDTestSuiteKernelUnit(EDTestSuite):
         self.addTestCaseFromName("EDTestCaseEDFactoryPlugin")
         self.addTestCaseFromName("EDTestCaseEDFactoryPluginTest")
         self.addTestCaseFromName("EDTestCaseEDStatus")
+        self.addTestCaseFromName("EDTestCaseEDShare")
 
 
 if __name__ == '__main__':
