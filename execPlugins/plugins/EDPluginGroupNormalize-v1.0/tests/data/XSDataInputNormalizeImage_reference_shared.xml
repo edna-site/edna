@@ -8,9 +8,9 @@
 <dark><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageDark15.edf</value></path><exposureTime><value>15</value></exposureTime></dark>
 <dark><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageDark2.edf</value></path><exposureTime><value>2</value></exposureTime></dark>
 <dark><path><value>${EDNA_TESTS_DATA_HOME}/images/normaliseImageDark3.edf</value></path><exposureTime><value>3</value></exposureTime></dark>
-<!-- <output>
-	<path>
-		<value>/tmp/edna-%{USER}/normaliseImageFile.edf</value>
-	</path>
-</output> -->
+<output>
+	<shared>
+		<value></value>
+	</shared>
+</output>
 </XSDataInput>

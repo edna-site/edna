@@ -21,7 +21,7 @@ complex type XSDataInputNormalize extends XSDataInput {
 	data : XSDataImageExt []
 	dark : XSDataImageExt [] optional
 	flat : XSDataImageExt [] optional
-	output : XSDataImageExt optional
+	output : XSDataImageExt  optional
 }
 
 complex type XSDataResultNormalize extends XSDataResult {

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResultNormalize>
+	<output>
+		<path>
+			<value>/tmp/edna-${USER}/normaliseImageFile.edf</value>
+		</path>
+	</output>
+</XSDataResultNormalize>

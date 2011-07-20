@@ -82,6 +82,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
 #        self.dictDark = {}
         self.npaNormalized = None
         self.strOutputFilename = None
+        self.strOutputShared = None
         self.shape = None
 
     def checkParameters(self):
@@ -198,13 +199,16 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                     raise RuntimeError(strError)
         EDPluginExecNormalizeImagev1_0.semaphore.release()
 
-        if (sdi.output is not None) and (sdi.output.path is not None):
-            self.strOutputFilename = sdi.output.path.value
+        if sdi.output is not None:
+            if (sdi.output.path is not None):
+                self.strOutputFilename = sdi.output.path.value
+            elif (sdi.output.shared is not None):
+                self.strOutputShared = sdi.output.shared.value
         # else export as array.
 
-        EDAssert.equal(len(self.listDataArray), len(self.listDataExposure) , _strComment="number of data images / exposure times ")
-        EDAssert.equal(len(self.listFlatArray), len(self.listFlatExposure) , _strComment="number of flat images / exposure times ")
-        EDAssert.equal(len(self.listDarkArray), len(self.listDarkExposure) , _strComment="number of dark images / exposure times ")
+        EDAssert.equal(len(self.listDataArray), len(self.listDataExposure), _strComment="number of data images / exposure times ")
+        EDAssert.equal(len(self.listFlatArray), len(self.listFlatExposure), _strComment="number of flat images / exposure times ")
+        EDAssert.equal(len(self.listDarkArray), len(self.listDarkExposure), _strComment="number of dark images / exposure times ")
 
 
     def process(self, _edObject=None):
@@ -218,7 +222,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
 
         for i in range(len(self.listDataArray)):
             fTotalDataTime += self.listDataExposure[i]
-            npaSummedData += numpy.maximum(self.listDataArray[i] - self.getMeanDark(self.listDataExposure[i]), numpy.zeros(self.shape))
+            npaSummedData += numpy.maximum(self.listDataArray[i] - self.getMeanDark(self.listDataExposure[i]), 0)
         npaNormalizedData = (npaSummedData / fTotalDataTime).astype(self.dtype)
 
         #denominator part
@@ -241,10 +245,17 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
         self.DEBUG("EDPluginExecNormalizeImagev1_0.postProcess")
         xsDataResult = XSDataResultNormalize()
         if self.strOutputFilename is not None:
-            self.DEBUG("Writing file " + self.strOutputFilename)
+            self.DEBUG("Writing file %s" % self.strOutputFilename)
+            print self.npaNormalized
+            print self.npaNormalized.dtype, self.npaNormalized.shape
             edf = fabio.edfimage.edfimage(data=self.npaNormalized, header={})
+            print self.strOutputFilename
             edf.write(self.strOutputFilename)
             xsdo = XSDataImageExt(path=XSDataString(self.strOutputFilename))
+        elif self.strOutputShared is not None:
+            self.DEBUG("EDShare --> %" % self.strOutputShared)
+            EDShare[ self.strOutputShared] = self.npaNormalized
+            xsdo = XSDataImageExt(shared=XSDataString(self.strOutputShared))
         else:
             xsdo = XSDataImageExt(array=EDUtilsArray.arrayToXSData(self.npaNormalized))
         xsDataResult.output = xsdo
