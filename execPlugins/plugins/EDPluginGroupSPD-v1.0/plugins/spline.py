@@ -30,8 +30,8 @@ __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, time, sys
-from EDVerbose import EDVerbose
-from EDUtilsPlatform   import EDUtilsPlatform
+from EDVerbose                  import EDVerbose
+from EDUtilsPlatform            import EDUtilsPlatform
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 
 ################################################################################
@@ -43,17 +43,16 @@ imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
 
-EDFactoryPluginStatic.preImport("numpy", numpyPath)
-EDFactoryPluginStatic.preImport("scipy", scipyPath)
-EDFactoryPluginStatic.preImport("fabio", fabioPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+scipy = EDFactoryPluginStatic.preImport("scipy", scipyPath)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 try:
-    import numpy
     import scipy.optimize
     import scipy.interpolate
     import scipy.interpolate.fitpack
 except:
-    EDVerbose.ERROR("Error in loading numpy, PIL, Scipy or Fabio,\n\
+    EDVerbose.ERROR("Error in loading Scipy,\n\
     Please re-run the test suite for EDTestSuiteSPD \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
 
@@ -71,7 +70,7 @@ class Spline:
     """
 
 
-    def __init__(self):
+    def __init__(self, filename=None):
         """this is the constructor of the Spline class, for"""
         self.splineOrder = 3  #This is the default, so cubic splines
         self.lenStrFloat = 14 # by default one float is 14 char in ascii
@@ -90,6 +89,9 @@ class Spline:
         self.pixelSize = None
         self.grid = None
         self.filename = None
+        if filename is not None:
+            self.read(filename)
+
 
 
     def __repr__(self):
@@ -135,7 +137,7 @@ class Spline:
         @type filename: string
         """
         if not os.path.isfile(filename):
-            raise
+            raise IOError("File does not exist %s" % filename)
         self.filename = filename
         stringSpline = [ i.rstrip() for i in open (filename).readlines() ]
         indexLine = 0
@@ -241,6 +243,45 @@ class Spline:
             if timing:
                 print "Timing for: X-Displacement spline evaluation: %.3f sec, Y-Displacement Spline evaluation:  %.3f sec." % \
                         ((intermediateTime - startTime), (time.time() - intermediateTime))
+
+    def splineFuncX(self, x, y):
+        """ calculates the displacement matrix using fitpack for the X direction 
+        @param x: numpy array repesenting the points in the x direction
+        @param y: numpy array repesenting the points in the y direction
+        @return: displacement matrix for the X direction
+        @rtype: numpy arrays
+        """
+        if x.ndim == 2:
+            if abs(x[1:, :] - x[:-1, :] - numpy.zeros((x.shape[0] - 1, x.shape[1]))).max() < 1e-6:
+                x = x[0]
+                y = y[:, 0]
+            elif abs(x[:, 1:] - x[:, :-1] - numpy.zeros((x.shape[0], x.shape[1] - 1))).max() < 1e-6:
+                x = x[:, 0]
+                y = y[0]
+        xDispArray = scipy.interpolate.fitpack.bisplev(y, x, \
+                                               [self.xSplineKnotsX, self.xSplineKnotsY, self.xSplineCoeff, self.splineOrder, self.splineOrder ], \
+                                               dx=0, dy=0).transpose()
+        return xDispArray
+
+    def splineFuncY(self, x, y):
+        """ calculates the displacement matrix using fitpack for the Y direction 
+        @param x: numpy array repesenting the points in the x direction
+        @param y: numpy array repesenting the points in the y direction
+        @return: displacement matrix for the Y direction
+        @rtype: numpy array
+        """
+        if x.ndim == 2:
+            if abs(x[1:, :] - x[:-1, :] - numpy.zeros((x.shape[0] - 1, x.shape[1]))).max() < 1e-6:
+                x = x[0]
+                y = y[:, 0]
+            elif abs(x[:, 1:] - x[:, :-1] - numpy.zeros((x.shape[0], x.shape[1] - 1))).max() < 1e-6:
+                x = x[:, 0]
+                y = y[0]
+
+        yDispArray = scipy.interpolate.fitpack.bisplev(y, x, \
+                                               [self.ySplineKnotsX, self.ySplineKnotsY, self.ySplineCoeff, self.splineOrder, self.splineOrder ], \
+                                               dx=0, dy=0).transpose()
+        return yDispArray
 
 
     def array2spline(self, smoothing=1000, timing=False):

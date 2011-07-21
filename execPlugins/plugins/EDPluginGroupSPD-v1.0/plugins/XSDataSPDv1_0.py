@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu May 19 10:00::47 2011 by EDGenerateDS.
+# Generated Thu Jul 21 12:11::08 2011 by EDGenerateDS.
 #
 
 import sys
@@ -47,10 +47,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -114,8 +114,11 @@ class XSDataPeakPosition(XSData):
 	"""Set of pixel coordinates and the associated 2Theta diffraction angle"""
 	def __init__(self, twoTheta=None, position2=None, position1=None):
 		XSData.__init__(self, )
+		checkType("XSDataPeakPosition", "Constructor of XSDataPeakPosition", position1, "XSDataDouble")
 		self.__position1 = position1
+		checkType("XSDataPeakPosition", "Constructor of XSDataPeakPosition", position2, "XSDataDouble")
 		self.__position2 = position2
+		checkType("XSDataPeakPosition", "Constructor of XSDataPeakPosition", twoTheta, "XSDataDouble")
 		self.__twoTheta = twoTheta
 	def getPosition1(self): return self.__position1
 	def setPosition1(self, position1):
@@ -188,11 +191,15 @@ class XSDataPeakPosition(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataPeakPosition' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataPeakPosition is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataPeakPosition.parseString(self.marshal())
@@ -224,15 +231,25 @@ class XSDataInputRefineDiffractionGeometry(XSDataInput):
 		if points is None:
 			self.__points = []
 		else:
+			checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", points, "list")
 			self.__points = points
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", pixelSize1, "XSDataLength")
 		self.__pixelSize1 = pixelSize1
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", pixelSize2, "XSDataLength")
 		self.__pixelSize2 = pixelSize2
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", splineFile, "XSDataFile")
 		self.__splineFile = splineFile
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", guessSampleDetectorDistance, "XSDataLength")
 		self.__guessSampleDetectorDistance = guessSampleDetectorDistance
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", guessPointOfNormalIncidence1, "XSDataLength")
 		self.__guessPointOfNormalIncidence1 = guessPointOfNormalIncidence1
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", guessPointOfNormalIncidence2, "XSDataLength")
 		self.__guessPointOfNormalIncidence2 = guessPointOfNormalIncidence2
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", guessRotation1, "XSDataAngle")
 		self.__guessRotation1 = guessRotation1
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", guessRotation2, "XSDataAngle")
 		self.__guessRotation2 = guessRotation2
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", guessRotation3, "XSDataAngle")
 		self.__guessRotation3 = guessRotation3
 	def getPoints(self): return self.__points
 	def setPoints(self, points):
@@ -409,11 +426,15 @@ class XSDataInputRefineDiffractionGeometry(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputRefineDiffractionGeometry' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputRefineDiffractionGeometry is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputRefineDiffractionGeometry.parseString(self.marshal())
@@ -442,23 +463,41 @@ class XSDataInputRefineDiffractionGeometry(XSDataInput):
 class XSDataInputSPD(XSDataInput):
 	def __init__(self, configuration=None, outputDir=None, wavelength=None, tiltRotation=None, spatialDistortionFile=None, sampleToDetectorDistance=None, pixelSizeY=None, pixelSizeX=None, outputFileType=None, inputFile=None, flatFieldImageFile=None, distortionFileY=None, distortionFileX=None, darkCurrentImageFile=None, bufferSizeY=None, bufferSizeX=None, beamCentreInPixelsY=None, beamCentreInPixelsX=None, angleOfTilt=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", angleOfTilt, "XSDataAngle")
 		self.__angleOfTilt = angleOfTilt
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", beamCentreInPixelsX, "XSDataDouble")
 		self.__beamCentreInPixelsX = beamCentreInPixelsX
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", beamCentreInPixelsY, "XSDataDouble")
 		self.__beamCentreInPixelsY = beamCentreInPixelsY
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", bufferSizeX, "XSDataInteger")
 		self.__bufferSizeX = bufferSizeX
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", bufferSizeY, "XSDataInteger")
 		self.__bufferSizeY = bufferSizeY
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", darkCurrentImageFile, "XSDataFile")
 		self.__darkCurrentImageFile = darkCurrentImageFile
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", distortionFileX, "XSDataFile")
 		self.__distortionFileX = distortionFileX
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", distortionFileY, "XSDataFile")
 		self.__distortionFileY = distortionFileY
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", flatFieldImageFile, "XSDataFile")
 		self.__flatFieldImageFile = flatFieldImageFile
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", inputFile, "XSDataFile")
 		self.__inputFile = inputFile
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", outputFileType, "XSDataString")
 		self.__outputFileType = outputFileType
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", pixelSizeX, "XSDataLength")
 		self.__pixelSizeX = pixelSizeX
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", pixelSizeY, "XSDataLength")
 		self.__pixelSizeY = pixelSizeY
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", sampleToDetectorDistance, "XSDataLength")
 		self.__sampleToDetectorDistance = sampleToDetectorDistance
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", spatialDistortionFile, "XSDataFile")
 		self.__spatialDistortionFile = spatialDistortionFile
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", tiltRotation, "XSDataAngle")
 		self.__tiltRotation = tiltRotation
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", wavelength, "XSDataWavelength")
 		self.__wavelength = wavelength
+		checkType("XSDataInputSPD", "Constructor of XSDataInputSPD", outputDir, "XSDataFile")
 		self.__outputDir = outputDir
 	def getAngleOfTilt(self): return self.__angleOfTilt
 	def setAngleOfTilt(self, angleOfTilt):
@@ -739,11 +778,15 @@ class XSDataInputSPD(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputSPD' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputSPD is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputSPD.parseString(self.marshal())
@@ -772,11 +815,17 @@ class XSDataInputSPD(XSDataInput):
 class XSDataResultRefineDiffractionGeometry(XSDataResult):
 	def __init__(self, status=None, rotation3=None, rotation2=None, rotation1=None, pointOfNormalIncidence2=None, pointOfNormalIncidence1=None, sampleDetectorDistance=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", sampleDetectorDistance, "XSDataLength")
 		self.__sampleDetectorDistance = sampleDetectorDistance
+		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", pointOfNormalIncidence1, "XSDataLength")
 		self.__pointOfNormalIncidence1 = pointOfNormalIncidence1
+		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", pointOfNormalIncidence2, "XSDataLength")
 		self.__pointOfNormalIncidence2 = pointOfNormalIncidence2
+		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", rotation1, "XSDataAngle")
 		self.__rotation1 = rotation1
+		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", rotation2, "XSDataAngle")
 		self.__rotation2 = rotation2
+		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", rotation3, "XSDataAngle")
 		self.__rotation3 = rotation3
 	def getSampleDetectorDistance(self): return self.__sampleDetectorDistance
 	def setSampleDetectorDistance(self, sampleDetectorDistance):
@@ -897,11 +946,15 @@ class XSDataResultRefineDiffractionGeometry(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultRefineDiffractionGeometry' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultRefineDiffractionGeometry is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultRefineDiffractionGeometry.parseString(self.marshal())
@@ -930,6 +983,7 @@ class XSDataResultRefineDiffractionGeometry(XSDataResult):
 class XSDataResultSPD(XSDataResult):
 	def __init__(self, status=None, correctedFile=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultSPD", "Constructor of XSDataResultSPD", correctedFile, "XSDataFile")
 		self.__correctedFile = correctedFile
 	def getCorrectedFile(self): return self.__correctedFile
 	def setCorrectedFile(self, correctedFile):
@@ -968,11 +1022,15 @@ class XSDataResultSPD(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultSPD' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultSPD is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultSPD.parseString(self.marshal())
@@ -1001,16 +1059,27 @@ class XSDataResultSPD(XSDataResult):
 class XSDataInputSPDCake(XSDataInputSPD):
 	def __init__(self, configuration=None, outputDir=None, wavelength=None, tiltRotation=None, spatialDistortionFile=None, sampleToDetectorDistance=None, pixelSizeY=None, pixelSizeX=None, outputFileType=None, inputFile=None, flatFieldImageFile=None, distortionFileY=None, distortionFileX=None, darkCurrentImageFile=None, bufferSizeY=None, bufferSizeX=None, beamCentreInPixelsY=None, beamCentreInPixelsX=None, angleOfTilt=None, correctTiltMask=None, intensityScaleFactor=None, maskFile=None, stopAzimuth=None, stepAzimuth=None, startAzimuth=None, deleteCorImg=None, outputDirCake=None, outputAxis=None, outerRadius=None, innerRadius=None):
 		XSDataInputSPD.__init__(self, configuration, outputDir, wavelength, tiltRotation, spatialDistortionFile, sampleToDetectorDistance, pixelSizeY, pixelSizeX, outputFileType, inputFile, flatFieldImageFile, distortionFileY, distortionFileX, darkCurrentImageFile, bufferSizeY, bufferSizeX, beamCentreInPixelsY, beamCentreInPixelsX, angleOfTilt)
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", innerRadius, "XSDataDouble")
 		self.__innerRadius = innerRadius
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", outerRadius, "XSDataDouble")
 		self.__outerRadius = outerRadius
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", outputAxis, "XSDataString")
 		self.__outputAxis = outputAxis
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", outputDirCake, "XSDataFile")
 		self.__outputDirCake = outputDirCake
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", deleteCorImg, "XSDataBoolean")
 		self.__deleteCorImg = deleteCorImg
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", startAzimuth, "XSDataAngle")
 		self.__startAzimuth = startAzimuth
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", stepAzimuth, "XSDataAngle")
 		self.__stepAzimuth = stepAzimuth
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", stopAzimuth, "XSDataAngle")
 		self.__stopAzimuth = stopAzimuth
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", maskFile, "XSDataFile")
 		self.__maskFile = maskFile
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", intensityScaleFactor, "XSDataDouble")
 		self.__intensityScaleFactor = intensityScaleFactor
+		checkType("XSDataInputSPDCake", "Constructor of XSDataInputSPDCake", correctTiltMask, "XSDataBoolean")
 		self.__correctTiltMask = correctTiltMask
 	def getInnerRadius(self): return self.__innerRadius
 	def setInnerRadius(self, innerRadius):
@@ -1189,11 +1258,15 @@ class XSDataInputSPDCake(XSDataInputSPD):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputSPDCake' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputSPDCake is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputSPDCake.parseString(self.marshal())
@@ -1222,6 +1295,7 @@ class XSDataInputSPDCake(XSDataInputSPD):
 class XSDataResultSPDCake(XSDataResultSPD):
 	def __init__(self, status=None, correctedFile=None, cakedFile=None):
 		XSDataResultSPD.__init__(self, status, correctedFile)
+		checkType("XSDataResultSPDCake", "Constructor of XSDataResultSPDCake", cakedFile, "XSDataFile")
 		self.__cakedFile = cakedFile
 	def getCakedFile(self): return self.__cakedFile
 	def setCakedFile(self, cakedFile):
@@ -1262,11 +1336,15 @@ class XSDataResultSPDCake(XSDataResultSPD):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultSPDCake' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultSPDCake is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultSPDCake.parseString(self.marshal())

@@ -25,7 +25,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import os, sys
+import os, sys, subprocess, tempfile
 
 xsDataName = "XSDataSPDv1_0.edml"
 
@@ -45,9 +45,16 @@ else:
     EDNA_HOME = os.environ["EDNA_HOME"]
 
 xsdHomeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
-xsdFilePath = os.path.join(xsdHomeDir, xsDataName)
-pyHomeDir = os.path.join(os.path.dirname(xsdHomeDir), "plugins")
-includeXSDFilePath = os.path.join(EDNA_HOME, "kernel", "datamodel")
-jar = os.path.join(includeXSDFilePath, "EDGenerateDS.jar")
-os.system("java -jar %s -includepaths %s,%s -source %s -targetdir %s" % (jar, includeXSDFilePath, xsdHomeDir, xsdFilePath, pyHomeDir))
 
+cmdLine = ["java", "-jar"]
+cmdLine.append(os.path.join(EDNA_HOME, "kernel", "datamodel", "EDGenerateDS.jar"))
+cmdLine.append("-includepaths")
+cmdLine.append(os.path.join(EDNA_HOME, "kernel", "datamodel"))
+cmdLine.append("-sourceDir")
+cmdLine.append(xsdHomeDir)
+cmdLine.append("-sourceFile")
+cmdLine.append(xsDataName)
+cmdLine.append("-targetdir")
+cmdLine.append(os.path.join(os.path.dirname(xsdHomeDir), "plugins"))
+sub = subprocess.Popen(cmdLine, cwd=tempfile.gettempdir())
+print("Java code for data-binding finished with exit code %s" % sub.wait())
