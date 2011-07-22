@@ -9,7 +9,7 @@
 #    Copyright (C) European Synchrotron Radiation Facility, Grenoble, France
 #
 #    Principal authors:   Olof Svensson (svensson@esrf.fr)
-#                         Jérôme Kieffer (Jerome.Kieffer@ESRF.eu)
+#                         Jerome Kieffer (Jerome.Kieffer@ESRF.eu)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #
 #
 
-"""EDNA installer for numpy version 1.4.1"""
+"""EDNA installer for matplotlib version 1.0.1"""
 
 __authors__ = ["Olof Svensson", "Jerome Kieffer"]
 __contact__ = "svensson@esrf.fr"
@@ -44,37 +44,35 @@ kernel_src = os.path.join(EDNA_HOME, "kernel", "src")
 if kernel_src not in sys.path:
     sys.path.append(kernel_src)
 
-from EDVerbose                  import EDVerbose
-from EDUtilsPlatform            import EDUtilsPlatform
-from EDUtilsLibraryInstaller    import EDUtilsLibraryInstaller, installLibrary
+from EDVerbose import EDVerbose
+from EDUtilsPlatform import EDUtilsPlatform
+from EDUtilsLibraryInstaller             import EDUtilsLibraryInstaller, installLibrary
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 
-moduleName = "numpy"
-modulePath = os.path.join(os.environ["EDNA_HOME"], "libraries", "NumPy-1.4.1", EDUtilsPlatform.architecture)
-moduleVersion = "1.4.0"
-
 ################################################################################
-# Import the right version of numpy 
+# Import the right version of Scipy 
 ################################################################################
+moduleName = "matplotlib"
+modulePath = os.path.join(os.environ["EDNA_HOME"], "libraries", "Matplotlib-1.0.1", EDUtilsPlatform.architecture)
+moduleVersion = "0.9.0" #minimum version to be compatible
 
-oModule = EDFactoryPluginStatic.preImport(moduleName, _strMethodVersion="version.version")
+oModule = EDFactoryPluginStatic.preImport(moduleName)
 if not oModule:
-    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.version")
+    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath)
     if oModule is None:
         installLibrary(modulePath)
-        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.version")
+        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath)
 try:
-    version = oModule.version.version
+    version = oModule.__version__
 except AttributeError:
     version = "0.0.0"
 
 if version.split(".") < moduleVersion.split("."):
     EDVerbose.screen("Wrong %s library:  %s " % (moduleName, version))
     EDFactoryPluginStatic.unImport(moduleName)
-    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion, _strMethodVersion="version.version")
+    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion, _strMethodVersion="__version__")
 
 if oModule is None:
     EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
 else:
     EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version.version, oModule.__file__))
-
