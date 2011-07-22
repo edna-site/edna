@@ -128,7 +128,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         edPluginExecNormalize.connectFAILURE(self.doFailureExecNormalize)
         xsdInNorm = XSDataInputNormalize()
         sdi = self.getDataInput()
-        print sdi.marshal()
+#        print sdi.marshal()
         xsdInNorm.setData(sdi.getData())
         xsdInNorm.setFlat(sdi.getFlat())
         xsdInNorm.setDark(sdi.getDark())
@@ -168,16 +168,9 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlFullFieldXASv1_0.doSuccessExecNormalize")
         self.xsdAlignStack = XSDataInputAlignStack()
         self.xsdAlignStack.setMeasureOffset(self.xsdMeasureOffset)
-        normFile = _edPlugin.dataOutput.getNormalizedFile()
-        if normFile is not None:
-            data = fabio.open(normFile.getPath().getValue()).data.flatten()
-            data.sort()
-            self.xsdAlignStack.setImage([normFile])
-        else:
-            data = _edPlugin.dataOutput.getNormalizedArray()
-            self.xsdAlignStack.setArray([ data])
-            data = EDUtilsArray.xsDataToArray(data).flatten()
-            data.sort()
+        output = _edPlugin.dataOutput.output
+        self.xsdAlignStack.images = [output]
+        data = EDUtilsArray.getArray(output).flatten()
 
         self.xsdAlignStack.setIndex([XSDataInteger(self.index)])
         self.xsdAlignStack.setFrameReference(XSDataInteger(self.reference))
@@ -199,16 +192,13 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
                         metadata=XSDataDictionary([XSDataKeyValuePair(key=XSDataString("NX_class"), value=XSDataString("NXentry")),
                                                    XSDataKeyValuePair(key=XSDataString("index"), value=XSDataString("1"))]),
                                            )
-#        self.screen(xsAttrEntry.marshal())
-#        self.screen(xsAttrData.marshal())
-#        self.screen(xsAttrDataset.marshal())
 
         self.xsdAlignStack.extraAttributes = [xsAttrDataset, xsAttrData, xsAttrEntry]
 
         ########################################################################
         # Selecte the mean of last centile
         ########################################################################
-
+        data.sort()
         fMaxSignal = data[int(0.99 * len(data)):].mean()
         self.makeHDF5MaxIntStructure(fMaxSignal)
         self.synchronizeOff()

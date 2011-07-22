@@ -18,11 +18,10 @@ import XSDataCommon.XSDataArray
 import XSDataCommon.XSDataDictionary
 
 package XSDataFullFieldXAS {
-	complex type MeasureOffset {
+	complex type MeasureOffset extends XSData{
 		alwaysVersusRef : XSDataBoolean optional
 		cropBorders : XSDataInteger [] optional
-		removeBackground : XSDataBoolean
-		optional
+		removeBackground : XSDataBoolean optional
 		smoothBorders : XSDataInteger [] optional
 		sobelFilter : XSDataBoolean optional
 		useSift : XSDataBoolean optional
@@ -31,19 +30,17 @@ package XSDataFullFieldXAS {
 	complex type XSDataInputAlignStack extends XSDataInput {
 		HDF5File : XSDataFile
 		alwaysMOvsRef : XSDataBoolean optional
-		array : XSDataArray [] optional
 		backgroundSubtractionMO : XSDataBoolean optional
 		cropBordersMO : XSDataInteger [] optional
 		extraAttributes : XSDataHDF5Attributes [] optional
 		frameReference : XSDataInteger optional
-		image : XSDataImage [] optional
+		images : XSDataImageExt [] optional
 		index : XSDataInteger [] optional
 		internalHDF5Path : XSDataString
 		measureOffset : MeasureOffset optional
 		smoothBordersMO : XSDataInteger [] optional
 		sobelFilterMO : XSDataBoolean optional
 		useSift : XSDataBoolean optional
-		shared : XSDataString [] optional
 	}
 
 	complex type XSDataHDF5Attributes extends XSData{

@@ -33,7 +33,8 @@ EDFactoryPluginStatic.loadModule('EDPluginControlAlignStackv1_0')
 from EDPluginControlAlignStackv1_0 import EDPluginControlAlignStackv1_0
 from EDPluginControlFullFieldXASv1_0 import EDPluginControlFullFieldXASv1_0
 from EDPluginHDF5StackImagesv10 import EDPluginHDF5StackImagesv10
-from XSDataFullFieldXAS import *
+from XSDataFullFieldXAS     import MeasureOffset, XSDataInputAlignStack, XSDataInputFullFieldXAS
+from XSDataCommon           import XSDataTime, XSDataFile, XSDataImageExt, XSDataString, XSDataInteger, XSDataBoolean, XSDataDouble
 
 if socket.gethostname() == 'lintaillefer':
     EDShare.initialize("/mnt/data/EDShare")
@@ -176,8 +177,7 @@ class FullFieldXas(object):
             if strtmp == "":
                 strtmp = tmpHDF5
             if (strtmp is not None) and os.path.isdir(os.path.dirname(strtmp)):
-                self.xsdHDF5 = XSDataFile()
-                self.xsdHDF5.setPath(XSDataString(os.path.abspath(strtmp)))
+                self.xsdHDF5 = XSDataFile(path=XSDataString(os.path.abspath(strtmp)))
                 bOK = True
         if self.xsdInternalHdf5 is not None:
             tmpHDF5 = self.xsdInternalHdf5.getValue()
