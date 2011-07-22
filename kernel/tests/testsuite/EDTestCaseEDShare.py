@@ -30,6 +30,7 @@ __authors__ = ["Jérôme Kieffer"]
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20110722"
 
 """Test cases for testing EDShare"""
 
@@ -38,8 +39,13 @@ from EDVerbose                           import EDVerbose
 from EDTestCase                          import EDTestCase
 from EDAssert                            import EDAssert
 from EDShare                             import EDShare
+from EDFactoryPluginStatic               import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
+EDFactoryPluginStatic.loadModule("EDInstallH5Pyv1_3_0")
 if "USER" not in os.environ:
     os.environ["USER"] = "ednatester"
+
+
 
 class EDTestCaseEDShare(EDTestCase):
     """
@@ -68,36 +74,8 @@ class EDTestCaseEDShare(EDTestCase):
         EDAssert.equal(False, os.path.isfile(filename), "dump-file has been removed")
 
 
-#    def unitTestRunning(self):
-#        """
-#        check the status after a job creation
-#        """
-#        EDVerbose.DEBUG("EDTestCaseEDShare.unitTestRunning")
-#        EDShare.tellRunning(self.strPluginName)
-#        EDVerbose.DEBUG("Success Plugins: " + ",".join(EDShare.getSuccess()))
-#        EDVerbose.DEBUG("Running Plugins: " + ",".join(EDShare.getRunning()))
-#        EDVerbose.DEBUG("Failed Plugins: " + ",".join(EDShare.getFailure()))
-#        EDAssert.equal(True, self.strPluginName in EDShare.getRunning(), "Plugin  running")
-#        EDAssert.equal(False, self.strPluginName in EDShare.getSuccess(), "Plugin not yet Finished")
-#        EDAssert.equal(False, self.strPluginName in EDShare.getFailure(), "Plugin not yet Finished")
-#
-#    def unitTestFailed(self):
-#        """
-#        check the failure of a plugin is registerd 
-#        """
-#        EDVerbose.DEBUG("EDTestCaseEDShare.unitTestFailed")
-#        EDShare.tellFailure(self.strPluginName)
-#        EDVerbose.DEBUG("Success Plugins: " + ",".join(EDShare.getSuccess()))
-#        EDVerbose.DEBUG("Running Plugins: " + ",".join(EDShare.getRunning()))
-#        EDVerbose.DEBUG("Failed Plugins: " + ",".join(EDShare.getFailure()))
-#        EDAssert.equal(False, self.strPluginName in EDShare.getRunning(), "Plugin not yet running")
-#        EDAssert.equal(False, self.strPluginName in EDShare.getSuccess(), "Plugin not yet Finished")
-#        EDAssert.equal(True, self.strPluginName in EDShare.getFailure(), "Plugin Failed as expected")
-
     def process(self):
         self.addTestMethod(self.unitTestInitialState)
-#        self.addTestMethod(self.unitTestRunning)
-#        self.addTestMethod(self.unitTestFailed)
 
 
 if __name__ == '__main__':

@@ -41,21 +41,14 @@ from EDSession              import EDSession
 
 TEMPDIR = tempfile.gettempdir()
 
-if os.name == "java":
-    BACKEND = "dict"
-elif os.name == "posix":
+if os.name in ["posix", "nt"]:
     h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
-    try:
-        h5py = EDFactoryPluginStatic.preImport("h5py", _strPath=h5pyPath, _strForceVersion="1.8", _strMethodVersion="version.api_version")
-        BACKEND = "hdf5"
-    except:
+    h5py = EDFactoryPluginStatic.preImport("h5py", _strPath=h5pyPath, _strForceVersion="1.8", _strMethodVersion="version.api_version")
+#    h5py = None
+    if h5py is None:
         BACKEND = "dict"
-elif os.name == "nt":
-    try:
-        import h5py
+    else:
         BACKEND = "hdf5"
-    except ImportError:
-         BACKEND = "dict"
 else:
     BACKEND = "dict"
 if BACKEND == "dict":
