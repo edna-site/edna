@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 28 07:36::26 2011 by EDGenerateDS.
+# Generated Thu Jul 21 03:20::22 2011 by EDGenerateDS.
 #
 
 import sys
@@ -16,7 +16,9 @@ from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataLength
+from XSDataCommon import XSDataWavelength
 
 
 
@@ -329,6 +331,453 @@ class XSDataAutoRg(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataAutoRg
+
+class XSDataBioSaxsExperimentSetup(XSData):
+	def __init__(self, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
+		XSData.__init__(self, )
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", detector, "XSDataString")
+		self.__detector = detector
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", detectorDistance, "XSDataLength")
+		self.__detectorDistance = detectorDistance
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", pixelSize_1, "XSDataLength")
+		self.__pixelSize_1 = pixelSize_1
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", pixelSize_2, "XSDataLength")
+		self.__pixelSize_2 = pixelSize_2
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", beamCenter_1, "XSDataDouble")
+		self.__beamCenter_1 = beamCenter_1
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", beamCenter_2, "XSDataDouble")
+		self.__beamCenter_2 = beamCenter_2
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", beamStopDiode, "XSDataDouble")
+		self.__beamStopDiode = beamStopDiode
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", wavelength, "XSDataWavelength")
+		self.__wavelength = wavelength
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", machineCurrent, "XSDataDouble")
+		self.__machineCurrent = machineCurrent
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", maskFile, "XSDataImage")
+		self.__maskFile = maskFile
+		checkType("XSDataBioSaxsExperimentSetup", "Constructor of XSDataBioSaxsExperimentSetup", normalizationFactor, "XSDataDouble")
+		self.__normalizationFactor = normalizationFactor
+	def getDetector(self): return self.__detector
+	def setDetector(self, detector):
+		checkType("XSDataBioSaxsExperimentSetup", "setDetector", detector, "XSDataString")
+		self.__detector = detector
+	def delDetector(self): self.__detector = None
+	# Properties
+	detector = property(getDetector, setDetector, delDetector, "Property for detector")
+	def getDetectorDistance(self): return self.__detectorDistance
+	def setDetectorDistance(self, detectorDistance):
+		checkType("XSDataBioSaxsExperimentSetup", "setDetectorDistance", detectorDistance, "XSDataLength")
+		self.__detectorDistance = detectorDistance
+	def delDetectorDistance(self): self.__detectorDistance = None
+	# Properties
+	detectorDistance = property(getDetectorDistance, setDetectorDistance, delDetectorDistance, "Property for detectorDistance")
+	def getPixelSize_1(self): return self.__pixelSize_1
+	def setPixelSize_1(self, pixelSize_1):
+		checkType("XSDataBioSaxsExperimentSetup", "setPixelSize_1", pixelSize_1, "XSDataLength")
+		self.__pixelSize_1 = pixelSize_1
+	def delPixelSize_1(self): self.__pixelSize_1 = None
+	# Properties
+	pixelSize_1 = property(getPixelSize_1, setPixelSize_1, delPixelSize_1, "Property for pixelSize_1")
+	def getPixelSize_2(self): return self.__pixelSize_2
+	def setPixelSize_2(self, pixelSize_2):
+		checkType("XSDataBioSaxsExperimentSetup", "setPixelSize_2", pixelSize_2, "XSDataLength")
+		self.__pixelSize_2 = pixelSize_2
+	def delPixelSize_2(self): self.__pixelSize_2 = None
+	# Properties
+	pixelSize_2 = property(getPixelSize_2, setPixelSize_2, delPixelSize_2, "Property for pixelSize_2")
+	def getBeamCenter_1(self): return self.__beamCenter_1
+	def setBeamCenter_1(self, beamCenter_1):
+		checkType("XSDataBioSaxsExperimentSetup", "setBeamCenter_1", beamCenter_1, "XSDataDouble")
+		self.__beamCenter_1 = beamCenter_1
+	def delBeamCenter_1(self): self.__beamCenter_1 = None
+	# Properties
+	beamCenter_1 = property(getBeamCenter_1, setBeamCenter_1, delBeamCenter_1, "Property for beamCenter_1")
+	def getBeamCenter_2(self): return self.__beamCenter_2
+	def setBeamCenter_2(self, beamCenter_2):
+		checkType("XSDataBioSaxsExperimentSetup", "setBeamCenter_2", beamCenter_2, "XSDataDouble")
+		self.__beamCenter_2 = beamCenter_2
+	def delBeamCenter_2(self): self.__beamCenter_2 = None
+	# Properties
+	beamCenter_2 = property(getBeamCenter_2, setBeamCenter_2, delBeamCenter_2, "Property for beamCenter_2")
+	def getBeamStopDiode(self): return self.__beamStopDiode
+	def setBeamStopDiode(self, beamStopDiode):
+		checkType("XSDataBioSaxsExperimentSetup", "setBeamStopDiode", beamStopDiode, "XSDataDouble")
+		self.__beamStopDiode = beamStopDiode
+	def delBeamStopDiode(self): self.__beamStopDiode = None
+	# Properties
+	beamStopDiode = property(getBeamStopDiode, setBeamStopDiode, delBeamStopDiode, "Property for beamStopDiode")
+	def getWavelength(self): return self.__wavelength
+	def setWavelength(self, wavelength):
+		checkType("XSDataBioSaxsExperimentSetup", "setWavelength", wavelength, "XSDataWavelength")
+		self.__wavelength = wavelength
+	def delWavelength(self): self.__wavelength = None
+	# Properties
+	wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
+	def getMachineCurrent(self): return self.__machineCurrent
+	def setMachineCurrent(self, machineCurrent):
+		checkType("XSDataBioSaxsExperimentSetup", "setMachineCurrent", machineCurrent, "XSDataDouble")
+		self.__machineCurrent = machineCurrent
+	def delMachineCurrent(self): self.__machineCurrent = None
+	# Properties
+	machineCurrent = property(getMachineCurrent, setMachineCurrent, delMachineCurrent, "Property for machineCurrent")
+	def getMaskFile(self): return self.__maskFile
+	def setMaskFile(self, maskFile):
+		checkType("XSDataBioSaxsExperimentSetup", "setMaskFile", maskFile, "XSDataImage")
+		self.__maskFile = maskFile
+	def delMaskFile(self): self.__maskFile = None
+	# Properties
+	maskFile = property(getMaskFile, setMaskFile, delMaskFile, "Property for maskFile")
+	def getNormalizationFactor(self): return self.__normalizationFactor
+	def setNormalizationFactor(self, normalizationFactor):
+		checkType("XSDataBioSaxsExperimentSetup", "setNormalizationFactor", normalizationFactor, "XSDataDouble")
+		self.__normalizationFactor = normalizationFactor
+	def delNormalizationFactor(self): self.__normalizationFactor = None
+	# Properties
+	normalizationFactor = property(getNormalizationFactor, setNormalizationFactor, delNormalizationFactor, "Property for normalizationFactor")
+	def export(self, outfile, level, name_='XSDataBioSaxsExperimentSetup'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataBioSaxsExperimentSetup'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__detector is not None:
+			self.detector.export(outfile, level, name_='detector')
+		if self.__detectorDistance is not None:
+			self.detectorDistance.export(outfile, level, name_='detectorDistance')
+		if self.__pixelSize_1 is not None:
+			self.pixelSize_1.export(outfile, level, name_='pixelSize_1')
+		if self.__pixelSize_2 is not None:
+			self.pixelSize_2.export(outfile, level, name_='pixelSize_2')
+		if self.__beamCenter_1 is not None:
+			self.beamCenter_1.export(outfile, level, name_='beamCenter_1')
+		if self.__beamCenter_2 is not None:
+			self.beamCenter_2.export(outfile, level, name_='beamCenter_2')
+		if self.__beamStopDiode is not None:
+			self.beamStopDiode.export(outfile, level, name_='beamStopDiode')
+		if self.__wavelength is not None:
+			self.wavelength.export(outfile, level, name_='wavelength')
+		if self.__machineCurrent is not None:
+			self.machineCurrent.export(outfile, level, name_='machineCurrent')
+		if self.__maskFile is not None:
+			self.maskFile.export(outfile, level, name_='maskFile')
+		if self.__normalizationFactor is not None:
+			self.normalizationFactor.export(outfile, level, name_='normalizationFactor')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detector':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setDetector(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detectorDistance':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setDetectorDistance(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pixelSize_1':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setPixelSize_1(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pixelSize_2':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setPixelSize_2(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamCenter_1':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setBeamCenter_1(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamCenter_2':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setBeamCenter_2(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamStopDiode':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setBeamStopDiode(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'wavelength':
+			obj_ = XSDataWavelength()
+			obj_.build(child_)
+			self.setWavelength(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'machineCurrent':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setMachineCurrent(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'maskFile':
+			obj_ = XSDataImage()
+			obj_.build(child_)
+			self.setMaskFile(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'normalizationFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setNormalizationFactor(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataBioSaxsExperimentSetup" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataBioSaxsExperimentSetup' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBioSaxsExperimentSetup is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataBioSaxsExperimentSetup.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataBioSaxsExperimentSetup()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataBioSaxsExperimentSetup" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataBioSaxsExperimentSetup()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataBioSaxsExperimentSetup
+
+class XSDataBioSaxsSample(XSData):
+	def __init__(self, temperature=None, code=None, comments=None, concentration=None):
+		XSData.__init__(self, )
+		checkType("XSDataBioSaxsSample", "Constructor of XSDataBioSaxsSample", concentration, "XSDataDouble")
+		self.__concentration = concentration
+		checkType("XSDataBioSaxsSample", "Constructor of XSDataBioSaxsSample", comments, "XSDataString")
+		self.__comments = comments
+		checkType("XSDataBioSaxsSample", "Constructor of XSDataBioSaxsSample", code, "XSDataString")
+		self.__code = code
+		checkType("XSDataBioSaxsSample", "Constructor of XSDataBioSaxsSample", temperature, "XSDataDouble")
+		self.__temperature = temperature
+	def getConcentration(self): return self.__concentration
+	def setConcentration(self, concentration):
+		checkType("XSDataBioSaxsSample", "setConcentration", concentration, "XSDataDouble")
+		self.__concentration = concentration
+	def delConcentration(self): self.__concentration = None
+	# Properties
+	concentration = property(getConcentration, setConcentration, delConcentration, "Property for concentration")
+	def getComments(self): return self.__comments
+	def setComments(self, comments):
+		checkType("XSDataBioSaxsSample", "setComments", comments, "XSDataString")
+		self.__comments = comments
+	def delComments(self): self.__comments = None
+	# Properties
+	comments = property(getComments, setComments, delComments, "Property for comments")
+	def getCode(self): return self.__code
+	def setCode(self, code):
+		checkType("XSDataBioSaxsSample", "setCode", code, "XSDataString")
+		self.__code = code
+	def delCode(self): self.__code = None
+	# Properties
+	code = property(getCode, setCode, delCode, "Property for code")
+	def getTemperature(self): return self.__temperature
+	def setTemperature(self, temperature):
+		checkType("XSDataBioSaxsSample", "setTemperature", temperature, "XSDataDouble")
+		self.__temperature = temperature
+	def delTemperature(self): self.__temperature = None
+	# Properties
+	temperature = property(getTemperature, setTemperature, delTemperature, "Property for temperature")
+	def export(self, outfile, level, name_='XSDataBioSaxsSample'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataBioSaxsSample'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__concentration is not None:
+			self.concentration.export(outfile, level, name_='concentration')
+		if self.__comments is not None:
+			self.comments.export(outfile, level, name_='comments')
+		if self.__code is not None:
+			self.code.export(outfile, level, name_='code')
+		if self.__temperature is not None:
+			self.temperature.export(outfile, level, name_='temperature')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'concentration':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setConcentration(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'comments':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setComments(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'code':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setCode(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'temperature':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setTemperature(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataBioSaxsSample" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataBioSaxsSample' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataBioSaxsSample is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataBioSaxsSample.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataBioSaxsSample()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataBioSaxsSample" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataBioSaxsSample()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataBioSaxsSample
+
+class XSDataFileSeries(XSData):
+	def __init__(self, files=None):
+		XSData.__init__(self, )
+		if files is None:
+			self.__files = []
+		else:
+			checkType("XSDataFileSeries", "Constructor of XSDataFileSeries", files, "list")
+			self.__files = files
+	def getFiles(self): return self.__files
+	def setFiles(self, files):
+		checkType("XSDataFileSeries", "setFiles", files, "list")
+		self.__files = files
+	def delFiles(self): self.__files = None
+	# Properties
+	files = property(getFiles, setFiles, delFiles, "Property for files")
+	def addFiles(self, value):
+		checkType("XSDataFileSeries", "setFiles", value, "XSDataFile")
+		self.__files.append(value)
+	def insertFiles(self, index, value):
+		checkType("XSDataFileSeries", "setFiles", value, "XSDataFile")
+		self.__files[index] = value
+	def export(self, outfile, level, name_='XSDataFileSeries'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataFileSeries'):
+		XSData.exportChildren(self, outfile, level, name_)
+		for files_ in self.getFiles():
+			files_.export(outfile, level, name_='files')
+		if self.getFiles() == []:
+			warnEmptyAttribute("files", "XSDataFile")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'files':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.files.append(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataFileSeries" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataFileSeries' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataFileSeries is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataFileSeries.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataFileSeries()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataFileSeries" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataFileSeries()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataFileSeries
 
 class XSDataSaxsSample(XSData):
 	"""Everything describing the sample"""
@@ -1022,6 +1471,239 @@ class XSDataInputDatop(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputDatop
 
+class XSDataInputSaxsPipeline(XSDataInput):
+	"""Run ProcessOneFile on each file of a time time serie until autorg """
+	def __init__(self, configuration=None, rawImageSize=None, relativeFidelity=None, absoluteFidelity=None, forceReprocess=None, directoryMisc=None, directory2D=None, directory1D=None, experimentSetup=None, sample=None, fileSerie=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", fileSerie, "XSDataFileSeries")
+		self.__fileSerie = fileSerie
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", directory1D, "XSDataFile")
+		self.__directory1D = directory1D
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", directory2D, "XSDataFile")
+		self.__directory2D = directory2D
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", directoryMisc, "XSDataFile")
+		self.__directoryMisc = directoryMisc
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", forceReprocess, "XSDataBoolean")
+		self.__forceReprocess = forceReprocess
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", absoluteFidelity, "XSDataDouble")
+		self.__absoluteFidelity = absoluteFidelity
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", relativeFidelity, "XSDataDouble")
+		self.__relativeFidelity = relativeFidelity
+		checkType("XSDataInputSaxsPipeline", "Constructor of XSDataInputSaxsPipeline", rawImageSize, "XSDataInteger")
+		self.__rawImageSize = rawImageSize
+	def getFileSerie(self): return self.__fileSerie
+	def setFileSerie(self, fileSerie):
+		checkType("XSDataInputSaxsPipeline", "setFileSerie", fileSerie, "XSDataFileSeries")
+		self.__fileSerie = fileSerie
+	def delFileSerie(self): self.__fileSerie = None
+	# Properties
+	fileSerie = property(getFileSerie, setFileSerie, delFileSerie, "Property for fileSerie")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataInputSaxsPipeline", "setSample", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getExperimentSetup(self): return self.__experimentSetup
+	def setExperimentSetup(self, experimentSetup):
+		checkType("XSDataInputSaxsPipeline", "setExperimentSetup", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
+	def delExperimentSetup(self): self.__experimentSetup = None
+	# Properties
+	experimentSetup = property(getExperimentSetup, setExperimentSetup, delExperimentSetup, "Property for experimentSetup")
+	def getDirectory1D(self): return self.__directory1D
+	def setDirectory1D(self, directory1D):
+		checkType("XSDataInputSaxsPipeline", "setDirectory1D", directory1D, "XSDataFile")
+		self.__directory1D = directory1D
+	def delDirectory1D(self): self.__directory1D = None
+	# Properties
+	directory1D = property(getDirectory1D, setDirectory1D, delDirectory1D, "Property for directory1D")
+	def getDirectory2D(self): return self.__directory2D
+	def setDirectory2D(self, directory2D):
+		checkType("XSDataInputSaxsPipeline", "setDirectory2D", directory2D, "XSDataFile")
+		self.__directory2D = directory2D
+	def delDirectory2D(self): self.__directory2D = None
+	# Properties
+	directory2D = property(getDirectory2D, setDirectory2D, delDirectory2D, "Property for directory2D")
+	def getDirectoryMisc(self): return self.__directoryMisc
+	def setDirectoryMisc(self, directoryMisc):
+		checkType("XSDataInputSaxsPipeline", "setDirectoryMisc", directoryMisc, "XSDataFile")
+		self.__directoryMisc = directoryMisc
+	def delDirectoryMisc(self): self.__directoryMisc = None
+	# Properties
+	directoryMisc = property(getDirectoryMisc, setDirectoryMisc, delDirectoryMisc, "Property for directoryMisc")
+	def getForceReprocess(self): return self.__forceReprocess
+	def setForceReprocess(self, forceReprocess):
+		checkType("XSDataInputSaxsPipeline", "setForceReprocess", forceReprocess, "XSDataBoolean")
+		self.__forceReprocess = forceReprocess
+	def delForceReprocess(self): self.__forceReprocess = None
+	# Properties
+	forceReprocess = property(getForceReprocess, setForceReprocess, delForceReprocess, "Property for forceReprocess")
+	def getAbsoluteFidelity(self): return self.__absoluteFidelity
+	def setAbsoluteFidelity(self, absoluteFidelity):
+		checkType("XSDataInputSaxsPipeline", "setAbsoluteFidelity", absoluteFidelity, "XSDataDouble")
+		self.__absoluteFidelity = absoluteFidelity
+	def delAbsoluteFidelity(self): self.__absoluteFidelity = None
+	# Properties
+	absoluteFidelity = property(getAbsoluteFidelity, setAbsoluteFidelity, delAbsoluteFidelity, "Property for absoluteFidelity")
+	def getRelativeFidelity(self): return self.__relativeFidelity
+	def setRelativeFidelity(self, relativeFidelity):
+		checkType("XSDataInputSaxsPipeline", "setRelativeFidelity", relativeFidelity, "XSDataDouble")
+		self.__relativeFidelity = relativeFidelity
+	def delRelativeFidelity(self): self.__relativeFidelity = None
+	# Properties
+	relativeFidelity = property(getRelativeFidelity, setRelativeFidelity, delRelativeFidelity, "Property for relativeFidelity")
+	def getRawImageSize(self): return self.__rawImageSize
+	def setRawImageSize(self, rawImageSize):
+		checkType("XSDataInputSaxsPipeline", "setRawImageSize", rawImageSize, "XSDataInteger")
+		self.__rawImageSize = rawImageSize
+	def delRawImageSize(self): self.__rawImageSize = None
+	# Properties
+	rawImageSize = property(getRawImageSize, setRawImageSize, delRawImageSize, "Property for rawImageSize")
+	def export(self, outfile, level, name_='XSDataInputSaxsPipeline'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputSaxsPipeline'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__fileSerie is not None:
+			self.fileSerie.export(outfile, level, name_='fileSerie')
+		else:
+			warnEmptyAttribute("fileSerie", "XSDataFileSeries")
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		else:
+			warnEmptyAttribute("sample", "XSDataBioSaxsSample")
+		if self.__experimentSetup is not None:
+			self.experimentSetup.export(outfile, level, name_='experimentSetup')
+		else:
+			warnEmptyAttribute("experimentSetup", "XSDataBioSaxsExperimentSetup")
+		if self.__directory1D is not None:
+			self.directory1D.export(outfile, level, name_='directory1D')
+		else:
+			warnEmptyAttribute("directory1D", "XSDataFile")
+		if self.__directory2D is not None:
+			self.directory2D.export(outfile, level, name_='directory2D')
+		else:
+			warnEmptyAttribute("directory2D", "XSDataFile")
+		if self.__directoryMisc is not None:
+			self.directoryMisc.export(outfile, level, name_='directoryMisc')
+		else:
+			warnEmptyAttribute("directoryMisc", "XSDataFile")
+		if self.__forceReprocess is not None:
+			self.forceReprocess.export(outfile, level, name_='forceReprocess')
+		if self.__absoluteFidelity is not None:
+			self.absoluteFidelity.export(outfile, level, name_='absoluteFidelity')
+		if self.__relativeFidelity is not None:
+			self.relativeFidelity.export(outfile, level, name_='relativeFidelity')
+		if self.__rawImageSize is not None:
+			self.rawImageSize.export(outfile, level, name_='rawImageSize')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileSerie':
+			obj_ = XSDataFileSeries()
+			obj_.build(child_)
+			self.setFileSerie(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataBioSaxsSample()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentSetup':
+			obj_ = XSDataBioSaxsExperimentSetup()
+			obj_.build(child_)
+			self.setExperimentSetup(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory1D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory1D(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directory2D':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectory2D(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'directoryMisc':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDirectoryMisc(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'forceReprocess':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setForceReprocess(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'absoluteFidelity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAbsoluteFidelity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'relativeFidelity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRelativeFidelity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rawImageSize':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setRawImageSize(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputSaxsPipeline" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputSaxsPipeline' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputSaxsPipeline is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputSaxsPipeline.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputSaxsPipeline()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputSaxsPipeline" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputSaxsPipeline()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputSaxsPipeline
+
 class XSDataResultAutoRg(XSDataResult):
 	def __init__(self, status=None, autoRgOut=None):
 		XSDataResult.__init__(self, status)
@@ -1366,6 +2048,93 @@ class XSDataResultDatop(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultDatop
+
+class XSDataResultSaxsPipeline(XSDataResult):
+	def __init__(self, status=None, autoRgOut=None):
+		XSDataResult.__init__(self, status)
+		if autoRgOut is None:
+			self.__autoRgOut = []
+		else:
+			checkType("XSDataResultSaxsPipeline", "Constructor of XSDataResultSaxsPipeline", autoRgOut, "list")
+			self.__autoRgOut = autoRgOut
+	def getAutoRgOut(self): return self.__autoRgOut
+	def setAutoRgOut(self, autoRgOut):
+		checkType("XSDataResultSaxsPipeline", "setAutoRgOut", autoRgOut, "list")
+		self.__autoRgOut = autoRgOut
+	def delAutoRgOut(self): self.__autoRgOut = None
+	# Properties
+	autoRgOut = property(getAutoRgOut, setAutoRgOut, delAutoRgOut, "Property for autoRgOut")
+	def addAutoRgOut(self, value):
+		checkType("XSDataResultSaxsPipeline", "setAutoRgOut", value, "XSDataAutoRg")
+		self.__autoRgOut.append(value)
+	def insertAutoRgOut(self, index, value):
+		checkType("XSDataResultSaxsPipeline", "setAutoRgOut", value, "XSDataAutoRg")
+		self.__autoRgOut[index] = value
+	def export(self, outfile, level, name_='XSDataResultSaxsPipeline'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultSaxsPipeline'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		for autoRgOut_ in self.getAutoRgOut():
+			autoRgOut_.export(outfile, level, name_='autoRgOut')
+		if self.getAutoRgOut() == []:
+			warnEmptyAttribute("autoRgOut", "XSDataAutoRg")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoRgOut':
+			obj_ = XSDataAutoRg()
+			obj_.build(child_)
+			self.autoRgOut.append(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultSaxsPipeline" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultSaxsPipeline' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultSaxsPipeline is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultSaxsPipeline.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultSaxsPipeline()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultSaxsPipeline" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultSaxsPipeline()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultSaxsPipeline
 
 
 

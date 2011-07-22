@@ -94,3 +94,47 @@ complex type XSDataAutoRg extends XSData{
 complex type XSDataResultAutoRg extends XSDataResult{
 	autoRgOut: XSDataAutoRg[]
 }
+
+complex type XSDataBioSaxsExperimentSetup extends XSData{
+	detector : XSDataString optional
+	detectorDistance : XSDataLength optional
+	pixelSize_1 : XSDataLength optional
+	pixelSize_2 : XSDataLength optional
+	beamCenter_1 : XSDataDouble optional
+	beamCenter_2 : XSDataDouble optional
+	beamStopDiode : XSDataDouble optional
+	wavelength : XSDataWavelength optional
+	machineCurrent : XSDataDouble optional
+	maskFile : XSDataImage optional
+	normalizationFactor : XSDataDouble optional
+}
+
+complex type XSDataBioSaxsSample extends XSData {
+	concentration : XSDataDouble optional
+	comments : XSDataString optional
+	code : XSDataString optional
+	temperature: XSDataDouble optional
+}
+
+complex type XSDataInputSaxsPipeline extends XSDataInput{
+	"Run ProcessOneFile on each file of a time time serie until autorg "	
+	fileSerie: XSDataFileSeries
+	sample: XSDataBioSaxsSample
+	experimentSetup: XSDataBioSaxsExperimentSetup
+	directory1D: XSDataFile
+	directory2D: XSDataFile
+	directoryMisc : XSDataFile
+	forceReprocess: XSDataBoolean optional "if not present or False, just return the existing file, else force reprocessing in different folders"
+	absoluteFidelity: XSDataDouble optional 
+	relativeFidelity: XSDataDouble optional
+	rawImageSize: XSDataInteger optional
+}
+
+complex type XSDataResultSaxsPipeline extends XSDataResult{
+	autoRgOut: XSDataAutoRg[]
+}
+
+complex type XSDataFileSeries extends XSData {
+	files : XSDataFile []
+}
+
