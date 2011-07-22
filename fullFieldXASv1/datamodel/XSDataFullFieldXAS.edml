@@ -1,5 +1,22 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataImageExt
+import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataStatus
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataDictionary
+
 package XSDataFullFieldXAS {
 	complex type MeasureOffset {
 		alwaysVersusRef : XSDataBoolean optional
@@ -8,13 +25,7 @@ package XSDataFullFieldXAS {
 		optional
 		smoothBorders : XSDataInteger [] optional
 		sobelFilter : XSDataBoolean optional
-		useSift : XSDataBoolean
-		optional
-	}
-
-	complex type XSDataImageExt extends XSDataImage {
-		array : XSDataArray optional
-		exposureTime : XSDataTime optional
+		useSift : XSDataBoolean optional
 	}
 
 	complex type XSDataInputAlignStack extends XSDataInput {
@@ -32,6 +43,7 @@ package XSDataFullFieldXAS {
 		smoothBordersMO : XSDataInteger [] optional
 		sobelFilterMO : XSDataBoolean optional
 		useSift : XSDataBoolean optional
+		shared : XSDataString [] optional
 	}
 
 	complex type XSDataHDF5Attributes extends XSData{

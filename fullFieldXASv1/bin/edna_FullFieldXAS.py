@@ -6,7 +6,7 @@ __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2011, European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, time, sys, threading, tempfile, string, shlex
+import os, time, sys, threading, tempfile, string, shlex, socket
 
 # Append the EDNA kernel source directory to the python path
 if not os.environ.has_key("EDNA_HOME"):
@@ -27,12 +27,25 @@ from EDParallelExecute      import EDParallelExecute
 from EDVerbose              import EDVerbose
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDShare                import EDShare
 EDFactoryPluginStatic.loadModule('EDPluginHDF5StackImagesv10')
-from EDPluginHDF5StackImagesv10 import EDPluginHDF5StackImagesv10
 EDFactoryPluginStatic.loadModule('EDPluginControlAlignStackv1_0')
 from EDPluginControlAlignStackv1_0 import EDPluginControlAlignStackv1_0
 from EDPluginControlFullFieldXASv1_0 import EDPluginControlFullFieldXASv1_0
+from EDPluginHDF5StackImagesv10 import EDPluginHDF5StackImagesv10
 from XSDataFullFieldXAS import *
+
+if socket.gethostname() == 'lintaillefer':
+    EDShare.initialize("/mnt/data/EDShare")
+else:
+    try:
+        dirnames = [i for i in os.listdir("/buffer") if i.strartswith(socket.gethostname())]
+    except OSError:
+        dirnames = []
+    if dirnames != []:
+         EDShare.initialize(dirnames[0])
+
+
 
 fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)

@@ -27,6 +27,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF, Grenoble"
 __contact__ = "jerome.kieffer@esrf.eu"
+__date__ = "20110722"
 
 import threading, os, time
 from EDPluginControl        import EDPluginControl
@@ -58,9 +59,11 @@ fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath)
 
 
-class EDPluginControlFullFieldXASv1_0(EDPluginControl):
+class EDPluginControlFullFieldXASv1_1(EDPluginControl):
     """
     Plugin to control  Full Field XRay Absorption Spectroscopy Experiment, ID21 ESRF
+    
+    Same as version 1.0 but making profit of EDShare
     """
     _semaphore = threading.Semaphore()
     energyAttr = {"unit":"keV",
@@ -96,44 +99,46 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getIndex(), "No index given for data input ")
-        self.checkMandatoryParameters(self.getDataInput().getHDF5File(), "No HDF5 file given for data input")
-        self.checkMandatoryParameters(self.getDataInput().getInternalHDF5Path(), "No HDF5 internal path given for data input")
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.checkParameters")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.getIndex(), "No index given for data input ")
+        self.checkMandatoryParameters(self.dataInput.getHDF5File(), "No HDF5 file given for data input")
+        self.checkMandatoryParameters(self.dataInput.getInternalHDF5Path(), "No HDF5 internal path given for data input")
 
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.preProcess")
-        sdi = self.getDataInput()
-        self.index = sdi.getIndex().getValue()
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.preProcess")
+        sdi = self.dataInput
+        self.index = sdi.getIndex().value
         self.HDF5filename = sdi.getHDF5File()
         self.internalHDF5Path = sdi.getInternalHDF5Path()
         self.xsdMeasureOffset = sdi.getMeasureOffset()
         if sdi.getEnergy() is not None:
-            self.energy = sdi.getEnergy().getValue()
+            self.energy = sdi.getEnergy().value
         if sdi.getReference() is not None:
-            self.reference = sdi.getReference().getValue()
+            self.reference = sdi.getReference().value
         self.xsdNormalizedFilename = sdi.getSaveNormalized()
 
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.process")
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.process")
         if self.energy is not None:
             self.makeHDF5EnergyStructure()
         edPluginExecNormalize = self.loadPlugin(self.__strControlledNormalize)
         edPluginExecNormalize.connectSUCCESS(self.doSuccessExecNormalize)
         edPluginExecNormalize.connectFAILURE(self.doFailureExecNormalize)
         xsdInNorm = XSDataInputNormalize()
-        sdi = self.getDataInput()
-        print sdi.marshal()
-        xsdInNorm.setData(sdi.getData())
-        xsdInNorm.setFlat(sdi.getFlat())
-        xsdInNorm.setDark(sdi.getDark())
+        sdi = self.dataInput
+#        print sdi.marshal()
+        xsdInNorm.setData(sdi.data())
+        xsdInNorm.setFlat(sdi.flat())
+        xsdInNorm.setDark(sdi.dark())
         if self.xsdNormalizedFilename is not None:
             xsdInNorm.output = XSDataImageExt(path=self.xsdNormalizedFilename.path)
+        else:
+            xsdInNorm.output = XSDataImageExt(shared=XSDataSring("normalized_%04i" % self.index))
         print xsdInNorm.marshal()
         edPluginExecNormalize.setDataInput(xsdInNorm)
         edPluginExecNormalize.executeSynchronous()
@@ -148,13 +153,13 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.postProcess")
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.postProcess")
         # Create some output data
         self.synchronizePlugins()
         self.makeHDF5NeXus()
         xsDataResult = XSDataResultFullFieldXAS()
-        xsDataResult.setHDF5File(self.getDataInput().getHDF5File())
-        xsDataResult.setInternalHDF5Path(self.getDataInput().getInternalHDF5Path())
+        xsDataResult.setHDF5File(self.dataInput.getHDF5File())
+        xsDataResult.setInternalHDF5Path(self.dataInput.getInternalHDF5Path())
         self.setDataOutput(xsDataResult)
         self.emptyListOfLoadedPlugin()
         self.xsdMeasureOffset = None
@@ -164,25 +169,32 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
 
     def doSuccessExecNormalize(self, _edPlugin=None):
         self.synchronizeOn()
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.doSuccessExecNormalize")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlFullFieldXASv1_0.doSuccessExecNormalize")
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.doSuccessExecNormalize")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlFullFieldXASv1_1.doSuccessExecNormalize")
         self.xsdAlignStack = XSDataInputAlignStack()
         self.xsdAlignStack.setMeasureOffset(self.xsdMeasureOffset)
-        normFile = _edPlugin.dataOutput.getNormalizedFile()
-        if normFile is not None:
-            data = fabio.open(normFile.getPath().getValue()).data.flatten()
-            data.sort()
-            self.xsdAlignStack.setImage([normFile])
-        else:
-            data = _edPlugin.dataOutput.getNormalizedArray()
-            self.xsdAlignStack.setArray([ data])
+        output = _edPlugin.dataOutput.output
+        if output.path is not None:
+            data = fabio.open(output.path.value).data.flatten()
+            self.xsdAlignStack.image = [XSDataImage(output.path)]
+        elif output.shared is not None:
+            data = numpy.array(EDShare[output.shared.value])
+            self.xsdAlignStack.shared = [ output.shared]
+        elif output.array is not None:
+            data = output.array
+            self.xsdAlignStack.array = [ data ]
             data = EDUtilsArray.xsDataToArray(data).flatten()
-            data.sort()
+        else:
+            strError = "No output data from Normalize plugin!"
+            self.ERROR(strError)
+            self.setFailure()
+            self.xsdAlignStack = None
+            return
 
-        self.xsdAlignStack.setIndex([XSDataInteger(self.index)])
-        self.xsdAlignStack.setFrameReference(XSDataInteger(self.reference))
-        self.xsdAlignStack.setHDF5File(self.getDataInput().getHDF5File())
-        self.xsdAlignStack.setInternalHDF5Path(self.getDataInput().getInternalHDF5Path())
+
+        self.xsdAlignStack.index = [XSDataInteger(self.index)]
+        self.xsdAlignStack.frameReference = XSDataInteger(self.reference)
+        self.xsdAlignStack.HDF5File = self.dataInput.getHDF5File()
 
         keyValuePair1 = XSDataKeyValuePair(key=XSDataString("axes"), value=XSDataString("energy"))
         keyValuePair2 = XSDataKeyValuePair(key=XSDataString("long_name"), value=XSDataString(self.TITLE))
@@ -199,76 +211,73 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
                         metadata=XSDataDictionary([XSDataKeyValuePair(key=XSDataString("NX_class"), value=XSDataString("NXentry")),
                                                    XSDataKeyValuePair(key=XSDataString("index"), value=XSDataString("1"))]),
                                            )
-#        self.screen(xsAttrEntry.marshal())
-#        self.screen(xsAttrData.marshal())
-#        self.screen(xsAttrDataset.marshal())
 
         self.xsdAlignStack.extraAttributes = [xsAttrDataset, xsAttrData, xsAttrEntry]
 
         ########################################################################
         # Selecte the mean of last centile
         ########################################################################
-
+        data.sort()
         fMaxSignal = data[int(0.99 * len(data)):].mean()
         self.makeHDF5MaxIntStructure(fMaxSignal)
         self.synchronizeOff()
 
     def doFailureExecNormalize(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.doFailureExecNormalize")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlFullFieldXASv1_0.doFailureExecNormalize")
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.doFailureExecNormalize")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginControlFullFieldXASv1_1.doFailureExecNormalize")
         self.setFailure()
 
 
     def doSuccessExecAlign(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.doSuccessExecAlign")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlFullFieldXASv1_0.doSuccessExecAlign")
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.doSuccessExecAlign")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlFullFieldXASv1_1.doSuccessExecAlign")
 
 
     def doFailureExecAlign(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.doFailureExecAlign")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlFullFieldXASv1_0.doFailureExecAlign")
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.doFailureExecAlign")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginControlFullFieldXASv1_1.doFailureExecAlign")
         self.setFailure()
 
 
     def makeHDF5EnergyStructure(self):
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5EnergyStructure")
-        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().getValue(), self.internalHDF5Path.getValue())
-        EDPluginControlFullFieldXASv1_0._semaphore.acquire()
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.makeHDF5EnergyStructure")
+        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
+        EDPluginControlFullFieldXASv1_1._semaphore.acquire()
         if "energy" in h5Grp:
             dataset = h5Grp["energy"]
         else:
             dataset = h5Grp.create_dataset("energy", shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
-            for key in  EDPluginControlFullFieldXASv1_0.energyAttr:
-                dataset.attrs.create(key, EDPluginControlFullFieldXASv1_0.energyAttr[key])
+            for key in  EDPluginControlFullFieldXASv1_1.energyAttr:
+                dataset.attrs.create(key, EDPluginControlFullFieldXASv1_1.energyAttr[key])
         if self.index >= dataset.shape[0]:
             dataset.resize((self.index + 1,))
         dataset[self.index] = self.energy
-        EDPluginControlFullFieldXASv1_0._semaphore.release()
+        EDPluginControlFullFieldXASv1_1._semaphore.release()
 
 
     def makeHDF5MaxIntStructure(self, _fMaxIntensity):
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5MaxIntStructure")
-        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().getValue(), self.internalHDF5Path.getValue())
-        EDPluginControlFullFieldXASv1_0._semaphore.acquire()
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.makeHDF5MaxIntStructure")
+        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
+        EDPluginControlFullFieldXASv1_1._semaphore.acquire()
         if "maxInt" in h5Grp:
             dataset = h5Grp["maxInt"]
         else:
             dataset = h5Grp.create_dataset("maxInt", shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
-            for key in  EDPluginControlFullFieldXASv1_0.maxIntAttr:
-                dataset.attrs.create(key, EDPluginControlFullFieldXASv1_0.maxIntAttr[key])
+            for key in  EDPluginControlFullFieldXASv1_1.maxIntAttr:
+                dataset.attrs.create(key, EDPluginControlFullFieldXASv1_1.maxIntAttr[key])
         if self.index >= dataset.shape[0]:
             dataset.resize((self.index + 1,))
         dataset[self.index] = _fMaxIntensity
-        EDPluginControlFullFieldXASv1_0._semaphore.release()
+        EDPluginControlFullFieldXASv1_1._semaphore.release()
 
     def makeHDF5NeXus(self):
-        self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5NeXus")
-        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().getValue(), self.internalHDF5Path.getValue())
+        self.DEBUG("EDPluginControlFullFieldXASv1_1.makeHDF5NeXus")
+        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
         entry = h5Grp.parent
         if not "title" in  entry:
             entry.create_dataset("title", data=self.TITLE)
         if not "program" in  entry:
-            entry.create_dataset("program", data="EDNA EDPluginControlFullFieldXASv1_0")
+            entry.create_dataset("program", data="EDNA EDPluginControlFullFieldXASv1_1")
         if not "start_time" in  entry:
             entry.create_dataset("start_time", data=EDPluginHDF5.getIsoTime(self.start_time))
         ########################################################################

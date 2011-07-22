@@ -22,7 +22,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from EDUtilsParallel import EDUtilsParallel
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
@@ -34,7 +33,9 @@ from EDVerbose                  import EDVerbose
 from EDPluginControl            import EDPluginControl
 from EDUtilsArray               import EDUtilsArray
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
-from EDUtilsPlatform           import EDUtilsPlatform
+from EDUtilsPlatform            import EDUtilsPlatform
+from EDUtilsParallel import EDUtilsParallel
+
 from XSDataCommon               import XSDataString, XSDataBoolean, XSDataDouble, XSDataInteger
 
 EDFactoryPluginStatic.loadModule("XSDataFullFieldXAS")
@@ -424,9 +425,9 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         EDVerbose.screen("*"*20 + "EDPluginControlAlignStackv1_0" + "*" * 20)
         EDVerbose.screen("Reference Frame: %s" % EDPluginControlAlignStackv1_0.__iRefFrame)
         if len(EDPluginControlAlignStackv1_0.__dictRelShift) < len(EDPluginControlAlignStackv1_0.__dictAbsShift):
-            mydict = EDPluginControlAlignStackv1_0.__dictAbsShift
+            mydict = EDPluginControlAlignStackv1_0.__dictAbsShift.copy()
         else:
-            mydict = EDPluginControlAlignStackv1_0.__dictRelShift
+            mydict = EDPluginControlAlignStackv1_0.__dictRelShift.copy()
         for i in mydict:
             EDVerbose.screen("Frame %i relative: %s absolute: %s" % \
                              (i, EDPluginControlAlignStackv1_0.__dictRelShift.get(i), EDPluginControlAlignStackv1_0.__dictAbsShift.get(i)))
