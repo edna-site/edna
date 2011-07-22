@@ -38,7 +38,7 @@ from EDUtilsArray               import EDUtilsArray
 from EDUtilsUnit                import EDUtilsUnit
 from EDConfiguration            import EDConfiguration
 #EDFactoryPluginStatic.loadModule("XSDataNormalizeImage")
-from XSDataCommon               import XSDataFile, XSDataString, XSPluginItem
+from XSDataCommon               import XSDataImageExt, XSDataString, XSPluginItem
 from XSDataNormalizeImage       import XSDataInputNormalize, XSDataResultNormalize
 from EDAssert                   import EDAssert
 from EDUtilsPlatform            import EDUtilsPlatform
@@ -85,6 +85,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         self.listFlatExposure = []
         self.npaNormalized = None
         self.strOutputFilename = None
+        self.strOutputShared = None
         self.shape = None
 
     def checkParameters(self):
@@ -97,7 +98,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
 
     def configure(self):
         """
-        Add the dtype the the configuration file, probably "float32" or "float64"
+        Add the dtype to the configuration file, probably "float32" or "float64"
         """
         EDPluginExec.configure(self)
         self.DEBUG("EDPluginExecNormalizeImagev1_1.configure")
@@ -204,8 +205,11 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
                     raise RuntimeError(strError)
         EDPluginExecNormalizeImagev1_1.semaphore.release()
 
-        if sdi.getOutputFile() is not None:
-            self.strOutputFilename = sdi.getOutputFile().path.value
+        if sdi.output is not None:
+            if (sdi.output.path is not None):
+                self.strOutputFilename = sdi.output.path.value
+            elif (sdi.output.shared is not None):
+                self.strOutputShared = sdi.output.shared.value
         # else export as array.
 
         EDAssert.equal(len(self.listDataArray), len(self.listDataExposure) , _strComment="number of data images / exposure times ")
@@ -224,7 +228,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
 
         for i in range(len(self.listDataArray)):
             fTotalDataTime += self.listDataExposure[i]
-            npaSummedData += numpy.maximum(self.listDataArray[i] - self.getMeanDark(self.listDataExposure[i]), numpy.zeros(self.shape))
+            npaSummedData += numpy.maximum(self.listDataArray[i] - self.getMeanDark(self.listDataExposure[i]), 0)
         npaNormalizedData = (npaSummedData / fTotalDataTime).astype(self.dtype)
 
         #denominator part
@@ -233,7 +237,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
 
         for i in range(len(self.listFlatArray)):
             fTotalFlatTime += self.listFlatExposure[i]
-            npaSummedFlat += numpy.maximum(self.listFlatArray[i] - self.getMeanDark(self.listFlatExposure[i]), numpy.zeros(self.shape))
+            npaSummedFlat += numpy.maximum(self.listFlatArray[i] - self.getMeanDark(self.listFlatExposure[i]), 0)
 
         npaNormalizedFlat = (npaSummedFlat / fTotalFlatTime).astype(self.dtype)
 
@@ -247,16 +251,21 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         self.DEBUG("EDPluginExecNormalizeImagev1_1.postProcess")
         xsDataResult = XSDataResultNormalize()
         if self.strOutputFilename is not None:
-            print "writing file " + self.strOutputFilename
+            self.DEBUG("Writing file %s" % self.strOutputFilename)
+            print self.npaNormalized
+            print self.npaNormalized.dtype, self.npaNormalized.shape
             edf = fabio.edfimage.edfimage(data=self.npaNormalized, header={})
+            print self.strOutputFilename
             edf.write(self.strOutputFilename)
-            xsdf = XSDataFile()
-            xsdf.setPath(XSDataString(self.strOutputFilename))
-            xsDataResult.setNormalizedFile(xsdf)
+            xsdo = XSDataImageExt(path=XSDataString(self.strOutputFilename))
+        elif self.strOutputShared is not None:
+            self.DEBUG("EDShare --> %" % self.strOutputShared)
+            EDShare[ self.strOutputShared] = self.npaNormalized
+            xsdo = XSDataImageExt(shared=XSDataString(self.strOutputShared))
         else:
-            xsDataResult.setNormalizedArray(EDUtilsArray.arrayToXSData(self.npaNormalized))
+            xsdo = XSDataImageExt(array=EDUtilsArray.arrayToXSData(self.npaNormalized))
+        xsDataResult.output = xsdo
         # Create some output data
-
         self.setDataOutput(xsDataResult)
 
     def finallyProcess(self, _edObject=None):

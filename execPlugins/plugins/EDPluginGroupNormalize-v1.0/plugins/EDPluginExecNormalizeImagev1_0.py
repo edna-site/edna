@@ -41,6 +41,7 @@ from XSDataCommon               import XSDataImageExt, XSDataString, XSPluginIte
 from XSDataNormalizeImage       import XSDataInputNormalize, XSDataResultNormalize
 from EDAssert                   import EDAssert
 from EDUtilsPlatform            import EDUtilsPlatform
+from EDShare                    import EDShare
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
@@ -231,7 +232,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
 
         for i in range(len(self.listFlatArray)):
             fTotalFlatTime += self.listFlatExposure[i]
-            npaSummedFlat += numpy.maximum(self.listFlatArray[i] - self.getMeanDark(self.listFlatExposure[i]), numpy.zeros(self.shape))
+            npaSummedFlat += numpy.maximum(self.listFlatArray[i] - self.getMeanDark(self.listFlatExposure[i]), 0)
 
         npaNormalizedFlat = (npaSummedFlat / fTotalFlatTime).astype(self.dtype)
 
@@ -246,10 +247,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
         xsDataResult = XSDataResultNormalize()
         if self.strOutputFilename is not None:
             self.DEBUG("Writing file %s" % self.strOutputFilename)
-            print self.npaNormalized
-            print self.npaNormalized.dtype, self.npaNormalized.shape
             edf = fabio.edfimage.edfimage(data=self.npaNormalized, header={})
-            print self.strOutputFilename
             edf.write(self.strOutputFilename)
             xsdo = XSDataImageExt(path=XSDataString(self.strOutputFilename))
         elif self.strOutputShared is not None:
@@ -260,7 +258,6 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
             xsdo = XSDataImageExt(array=EDUtilsArray.arrayToXSData(self.npaNormalized))
         xsDataResult.output = xsdo
         # Create some output data
-
         self.setDataOutput(xsDataResult)
 
     def finallyProcess(self, _edObject=None):
