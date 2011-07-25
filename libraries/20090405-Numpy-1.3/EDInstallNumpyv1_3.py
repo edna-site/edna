@@ -56,24 +56,24 @@ moduleVersion = "1.3.0"
 ################################################################################
 # Import the right version of numpy 
 ################################################################################
-
-oModule = EDFactoryPluginStatic.preImport(moduleName, _strMethodVersion="version.version")
-if not oModule:
-    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.version")
-    if oModule is None:
-        installLibrary(modulePath)
+if os.name == "posix":
+    oModule = EDFactoryPluginStatic.preImport(moduleName, _strMethodVersion="version.version")
+    if not oModule:
         oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.version")
-try:
-    version = oModule.version.version
-except AttributeError:
-    version = "0.0.0"
+        if oModule is None:
+            installLibrary(modulePath)
+            oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.version")
+    try:
+        version = oModule.version.version
+    except AttributeError:
+        version = "0.0.0"
 
-if version.split(".") < moduleVersion.split("."):
-    EDVerbose.screen("Wrong %s library:  %s " % (moduleName, version))
-    EDFactoryPluginStatic.unImport(moduleName)
-    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion, "version.version", _strMethodVersion="version.version")
+    if version.split(".") < moduleVersion.split("."):
+        EDVerbose.screen("Wrong %s library:  %s " % (moduleName, version))
+        EDFactoryPluginStatic.unImport(moduleName)
+        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion, _strMethodVersion="version.version")
 
-if oModule is None:
-    EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
-else:
-    EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version.version, oModule.__file__))
+    if oModule is None:
+        EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
+    else:
+        EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version.version, oModule.__file__))
