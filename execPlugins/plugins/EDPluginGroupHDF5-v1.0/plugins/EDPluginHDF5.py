@@ -48,8 +48,8 @@ h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", arch
 fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
-h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath,)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 
@@ -101,7 +101,7 @@ class EDPluginHDF5(EDPluginExec):
         self.strHDF5Path = None
         self.dtype = None
         self.dictExtraAttributes = {} #key= h5path, value dict of attributes
-        self.iChunkSegmentation = 1
+        self.__iChunkSegmentation = 1
         self.__startTime = time.time()
 
 
@@ -154,7 +154,7 @@ class EDPluginHDF5(EDPluginExec):
                  attr[meta.key.value] = meta.value.value
              self.dictExtraAttributes[h5path] = attr
         if self.getDataInput().chunkSegmentation is not None:
-            self.iChunkSegmentation = self.getDataInput().chunkSegmentation.value
+            self._iChunkSegmentation = self.getDataInput().chunkSegmentation.value
 
     def postProcess(self, _edObject=None):
         self.DEBUG("EDPluginHDF5.postProcess")
@@ -228,8 +228,14 @@ class EDPluginHDF5(EDPluginExec):
                 try:
                     cls.__dictHDF5[filename] = h5py.File(filename)
                 except:
-                    EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 file " + filename)
-                    raise
+                    EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 file %s" % filename)
+                    EDVerbose.ERROR("I will now delete this file: %s and re-create it " % filename)
+                    try:
+                        os.remove(filename)
+                    except:
+                        EDVerbose.ERROR("Fatal error !!! no way to recreate this corruped file %s" % filename)
+                        raise
+                    cls.__dictHDF5[filename] = h5py.File(filename)
         if not filename in cls.__dictLock:
             cls.__dictLock[filename] = threading.Semaphore()
         cls.__semaphore.release()
@@ -427,3 +433,6 @@ class EDPluginHDF5(EDPluginExec):
             forceTime = time.time()
         return time.strftime("%Y-%m-%d %H:%M:%S %Z", time.localtime(forceTime))
 
+    def get_iChunkSegmentation(self):
+        return self.__iChunkSegmentation
+    iChunkSegmentation = property(get_iChunkSegmentation)

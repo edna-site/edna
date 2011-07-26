@@ -1,4 +1,21 @@
 targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDictionary
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataImageExt
+
+
 complex type XSDataInputHDF5Writer extends XSDataInput {
 	"Common XSDataInput class for all hdf5 writers\n"
 	HDF5File : XSDataFile
@@ -22,7 +39,7 @@ complex type XSDataInputHDF5MapSpectra extends XSDataInputHDF5Writer {
 
 complex type XSDataInputHDF5StackImages extends XSDataInputHDF5Writer {
 	deleteInputImage : XSDataBoolean optional
-	inputImageFile : XSDataImage [] optional
+	inputImageFile : XSDataImageExt [] optional
 	inputArray : XSDataArray [] optional
 	index : XSDataInteger [] optional
 }
@@ -51,12 +68,12 @@ complex type XSDataSpectrum extends XSData {
 
 complex type XSDataMeshScan extends XSData {
 	fastMotorName : XSDataString optional
-	fastMotorStart : XSDataFloat
+	fastMotorStart : XSDataDouble
 	fastMotorSteps : XSDataInteger
-	fastMotorStop : XSDataFloat
+	fastMotorStop : XSDataDouble
 	integrationTime : XSDataTime optional
 	slowMotorSteps : XSDataInteger
 	slowMotorName : XSDataString optional
-	slowMotorStart : XSDataFloat
-	slowMotorStop : XSDataFloat
+	slowMotorStart : XSDataDouble
+	slowMotorStop : XSDataDouble
 }

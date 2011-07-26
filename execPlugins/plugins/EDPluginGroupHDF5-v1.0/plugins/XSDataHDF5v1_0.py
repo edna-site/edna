@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed May 11 06:20::16 2011 by EDGenerateDS.
+# Generated Tue Jul 26 01:47::17 2011 by EDGenerateDS.
 #
 
 import sys
@@ -10,15 +10,14 @@ from xml.dom import Node
 
 from XSDataCommon import XSData
 from XSDataCommon import XSDataDictionary
+from XSDataCommon import XSDataArray
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataFile
-from XSDataCommon import XSDataFloat
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
-from XSDataCommon import XSDataArray
 from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataTime
 
@@ -49,10 +48,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -112,17 +111,123 @@ class MixedContainer(object):
 #
 
 
+class XSDataHDF5Attributes(XSData):
+	"""Allows the fine definition of the metadata for group/datasets"""
+	def __init__(self, metadata=None, h5path=None):
+		XSData.__init__(self, )
+		checkType("XSDataHDF5Attributes", "Constructor of XSDataHDF5Attributes", h5path, "XSDataString")
+		self.__h5path = h5path
+		checkType("XSDataHDF5Attributes", "Constructor of XSDataHDF5Attributes", metadata, "XSDataDictionary")
+		self.__metadata = metadata
+	def getH5path(self): return self.__h5path
+	def setH5path(self, h5path):
+		checkType("XSDataHDF5Attributes", "setH5path", h5path, "XSDataString")
+		self.__h5path = h5path
+	def delH5path(self): self.__h5path = None
+	# Properties
+	h5path = property(getH5path, setH5path, delH5path, "Property for h5path")
+	def getMetadata(self): return self.__metadata
+	def setMetadata(self, metadata):
+		checkType("XSDataHDF5Attributes", "setMetadata", metadata, "XSDataDictionary")
+		self.__metadata = metadata
+	def delMetadata(self): self.__metadata = None
+	# Properties
+	metadata = property(getMetadata, setMetadata, delMetadata, "Property for metadata")
+	def export(self, outfile, level, name_='XSDataHDF5Attributes'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataHDF5Attributes'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__h5path is not None:
+			self.h5path.export(outfile, level, name_='h5path')
+		else:
+			warnEmptyAttribute("h5path", "XSDataString")
+		if self.__metadata is not None:
+			self.metadata.export(outfile, level, name_='metadata')
+		else:
+			warnEmptyAttribute("metadata", "XSDataDictionary")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'h5path':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setH5path(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'metadata':
+			obj_ = XSDataDictionary()
+			obj_.build(child_)
+			self.setMetadata(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataHDF5Attributes" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataHDF5Attributes' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataHDF5Attributes is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataHDF5Attributes.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataHDF5Attributes()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataHDF5Attributes" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataHDF5Attributes()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataHDF5Attributes
+
 class XSDataMeshScan(XSData):
 	def __init__(self, slowMotorStop=None, slowMotorStart=None, slowMotorName=None, slowMotorSteps=None, integrationTime=None, fastMotorStop=None, fastMotorSteps=None, fastMotorStart=None, fastMotorName=None):
 		XSData.__init__(self, )
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", fastMotorName, "XSDataString")
 		self.__fastMotorName = fastMotorName
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", fastMotorStart, "XSDataDouble")
 		self.__fastMotorStart = fastMotorStart
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", fastMotorSteps, "XSDataInteger")
 		self.__fastMotorSteps = fastMotorSteps
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", fastMotorStop, "XSDataDouble")
 		self.__fastMotorStop = fastMotorStop
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", integrationTime, "XSDataTime")
 		self.__integrationTime = integrationTime
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", slowMotorSteps, "XSDataInteger")
 		self.__slowMotorSteps = slowMotorSteps
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", slowMotorName, "XSDataString")
 		self.__slowMotorName = slowMotorName
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", slowMotorStart, "XSDataDouble")
 		self.__slowMotorStart = slowMotorStart
+		checkType("XSDataMeshScan", "Constructor of XSDataMeshScan", slowMotorStop, "XSDataDouble")
 		self.__slowMotorStop = slowMotorStop
 	def getFastMotorName(self): return self.__fastMotorName
 	def setFastMotorName(self, fastMotorName):
@@ -133,7 +238,7 @@ class XSDataMeshScan(XSData):
 	fastMotorName = property(getFastMotorName, setFastMotorName, delFastMotorName, "Property for fastMotorName")
 	def getFastMotorStart(self): return self.__fastMotorStart
 	def setFastMotorStart(self, fastMotorStart):
-		checkType("XSDataMeshScan", "setFastMotorStart", fastMotorStart, "XSDataFloat")
+		checkType("XSDataMeshScan", "setFastMotorStart", fastMotorStart, "XSDataDouble")
 		self.__fastMotorStart = fastMotorStart
 	def delFastMotorStart(self): self.__fastMotorStart = None
 	# Properties
@@ -147,7 +252,7 @@ class XSDataMeshScan(XSData):
 	fastMotorSteps = property(getFastMotorSteps, setFastMotorSteps, delFastMotorSteps, "Property for fastMotorSteps")
 	def getFastMotorStop(self): return self.__fastMotorStop
 	def setFastMotorStop(self, fastMotorStop):
-		checkType("XSDataMeshScan", "setFastMotorStop", fastMotorStop, "XSDataFloat")
+		checkType("XSDataMeshScan", "setFastMotorStop", fastMotorStop, "XSDataDouble")
 		self.__fastMotorStop = fastMotorStop
 	def delFastMotorStop(self): self.__fastMotorStop = None
 	# Properties
@@ -175,14 +280,14 @@ class XSDataMeshScan(XSData):
 	slowMotorName = property(getSlowMotorName, setSlowMotorName, delSlowMotorName, "Property for slowMotorName")
 	def getSlowMotorStart(self): return self.__slowMotorStart
 	def setSlowMotorStart(self, slowMotorStart):
-		checkType("XSDataMeshScan", "setSlowMotorStart", slowMotorStart, "XSDataFloat")
+		checkType("XSDataMeshScan", "setSlowMotorStart", slowMotorStart, "XSDataDouble")
 		self.__slowMotorStart = slowMotorStart
 	def delSlowMotorStart(self): self.__slowMotorStart = None
 	# Properties
 	slowMotorStart = property(getSlowMotorStart, setSlowMotorStart, delSlowMotorStart, "Property for slowMotorStart")
 	def getSlowMotorStop(self): return self.__slowMotorStop
 	def setSlowMotorStop(self, slowMotorStop):
-		checkType("XSDataMeshScan", "setSlowMotorStop", slowMotorStop, "XSDataFloat")
+		checkType("XSDataMeshScan", "setSlowMotorStop", slowMotorStop, "XSDataDouble")
 		self.__slowMotorStop = slowMotorStop
 	def delSlowMotorStop(self): self.__slowMotorStop = None
 	# Properties
@@ -200,7 +305,7 @@ class XSDataMeshScan(XSData):
 		if self.__fastMotorStart is not None:
 			self.fastMotorStart.export(outfile, level, name_='fastMotorStart')
 		else:
-			warnEmptyAttribute("fastMotorStart", "XSDataFloat")
+			warnEmptyAttribute("fastMotorStart", "XSDataDouble")
 		if self.__fastMotorSteps is not None:
 			self.fastMotorSteps.export(outfile, level, name_='fastMotorSteps')
 		else:
@@ -208,7 +313,7 @@ class XSDataMeshScan(XSData):
 		if self.__fastMotorStop is not None:
 			self.fastMotorStop.export(outfile, level, name_='fastMotorStop')
 		else:
-			warnEmptyAttribute("fastMotorStop", "XSDataFloat")
+			warnEmptyAttribute("fastMotorStop", "XSDataDouble")
 		if self.__integrationTime is not None:
 			self.integrationTime.export(outfile, level, name_='integrationTime')
 		if self.__slowMotorSteps is not None:
@@ -220,11 +325,11 @@ class XSDataMeshScan(XSData):
 		if self.__slowMotorStart is not None:
 			self.slowMotorStart.export(outfile, level, name_='slowMotorStart')
 		else:
-			warnEmptyAttribute("slowMotorStart", "XSDataFloat")
+			warnEmptyAttribute("slowMotorStart", "XSDataDouble")
 		if self.__slowMotorStop is not None:
 			self.slowMotorStop.export(outfile, level, name_='slowMotorStop')
 		else:
-			warnEmptyAttribute("slowMotorStop", "XSDataFloat")
+			warnEmptyAttribute("slowMotorStop", "XSDataDouble")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -237,7 +342,7 @@ class XSDataMeshScan(XSData):
 			self.setFastMotorName(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'fastMotorStart':
-			obj_ = XSDataFloat()
+			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setFastMotorStart(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -247,7 +352,7 @@ class XSDataMeshScan(XSData):
 			self.setFastMotorSteps(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'fastMotorStop':
-			obj_ = XSDataFloat()
+			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setFastMotorStop(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -267,12 +372,12 @@ class XSDataMeshScan(XSData):
 			self.setSlowMotorName(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'slowMotorStart':
-			obj_ = XSDataFloat()
+			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setSlowMotorStart(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'slowMotorStop':
-			obj_ = XSDataFloat()
+			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setSlowMotorStop(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
@@ -285,11 +390,15 @@ class XSDataMeshScan(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataMeshScan' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataMeshScan is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataMeshScan.parseString(self.marshal())
@@ -318,11 +427,17 @@ class XSDataMeshScan(XSData):
 class XSDataSpectrum(XSData):
 	def __init__(self, fileType=None, slowMotorPosition=None, meshScan=None, fastMotorPosition=None, array=None, path=None):
 		XSData.__init__(self, )
+		checkType("XSDataSpectrum", "Constructor of XSDataSpectrum", path, "XSDataString")
 		self.__path = path
+		checkType("XSDataSpectrum", "Constructor of XSDataSpectrum", array, "XSDataArray")
 		self.__array = array
+		checkType("XSDataSpectrum", "Constructor of XSDataSpectrum", fastMotorPosition, "XSDataDouble")
 		self.__fastMotorPosition = fastMotorPosition
+		checkType("XSDataSpectrum", "Constructor of XSDataSpectrum", meshScan, "XSDataMeshScan")
 		self.__meshScan = meshScan
+		checkType("XSDataSpectrum", "Constructor of XSDataSpectrum", slowMotorPosition, "XSDataDouble")
 		self.__slowMotorPosition = slowMotorPosition
+		checkType("XSDataSpectrum", "Constructor of XSDataSpectrum", fileType, "XSDataString")
 		self.__fileType = fileType
 	def getPath(self): return self.__path
 	def setPath(self, path):
@@ -431,11 +546,15 @@ class XSDataSpectrum(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataSpectrum' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSpectrum is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataSpectrum.parseString(self.marshal())
@@ -461,110 +580,25 @@ class XSDataSpectrum(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataSpectrum
 
-class attributes(XSData):
-	"""Allows the fine definition of the metadata for group/datasets"""
-	def __init__(self, metadata=None, h5path=None):
-		XSData.__init__(self, )
-		self.__h5path = h5path
-		self.__metadata = metadata
-	def getH5path(self): return self.__h5path
-	def setH5path(self, h5path):
-		checkType("attributes", "setH5path", h5path, "XSDataString")
-		self.__h5path = h5path
-	def delH5path(self): self.__h5path = None
-	# Properties
-	h5path = property(getH5path, setH5path, delH5path, "Property for h5path")
-	def getMetadata(self): return self.__metadata
-	def setMetadata(self, metadata):
-		checkType("attributes", "setMetadata", metadata, "XSDataDictionary")
-		self.__metadata = metadata
-	def delMetadata(self): self.__metadata = None
-	# Properties
-	metadata = property(getMetadata, setMetadata, delMetadata, "Property for metadata")
-	def export(self, outfile, level, name_='attributes'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='attributes'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__h5path is not None:
-			self.h5path.export(outfile, level, name_='h5path')
-		else:
-			warnEmptyAttribute("h5path", "XSDataString")
-		if self.__metadata is not None:
-			self.metadata.export(outfile, level, name_='metadata')
-		else:
-			warnEmptyAttribute("metadata", "XSDataDictionary")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'h5path':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setH5path(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'metadata':
-			obj_ = XSDataDictionary()
-			obj_.build(child_)
-			self.setMetadata(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="attributes" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='attributes' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return attributes.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = attributes()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="attributes" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = attributes()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class attributes
-
 class XSDataInputHDF5Writer(XSDataInput):
 	"""Common XSDataInput class for all hdf5 writers
 """
 	def __init__(self, configuration=None, chunkSegmentation=None, forceDtype=None, extraAttributes=None, multiFiles=None, internalHDF5Path=None, HDF5File=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputHDF5Writer", "Constructor of XSDataInputHDF5Writer", HDF5File, "XSDataFile")
 		self.__HDF5File = HDF5File
+		checkType("XSDataInputHDF5Writer", "Constructor of XSDataInputHDF5Writer", internalHDF5Path, "XSDataString")
 		self.__internalHDF5Path = internalHDF5Path
+		checkType("XSDataInputHDF5Writer", "Constructor of XSDataInputHDF5Writer", multiFiles, "XSDataBoolean")
 		self.__multiFiles = multiFiles
 		if extraAttributes is None:
 			self.__extraAttributes = []
 		else:
+			checkType("XSDataInputHDF5Writer", "Constructor of XSDataInputHDF5Writer", extraAttributes, "list")
 			self.__extraAttributes = extraAttributes
+		checkType("XSDataInputHDF5Writer", "Constructor of XSDataInputHDF5Writer", forceDtype, "XSDataString")
 		self.__forceDtype = forceDtype
+		checkType("XSDataInputHDF5Writer", "Constructor of XSDataInputHDF5Writer", chunkSegmentation, "XSDataInteger")
 		self.__chunkSegmentation = chunkSegmentation
 	def getHDF5File(self): return self.__HDF5File
 	def setHDF5File(self, HDF5File):
@@ -595,10 +629,10 @@ class XSDataInputHDF5Writer(XSDataInput):
 	# Properties
 	extraAttributes = property(getExtraAttributes, setExtraAttributes, delExtraAttributes, "Property for extraAttributes")
 	def addExtraAttributes(self, value):
-		checkType("XSDataInputHDF5Writer", "setExtraAttributes", value, "attributes")
+		checkType("XSDataInputHDF5Writer", "setExtraAttributes", value, "XSDataHDF5Attributes")
 		self.__extraAttributes.append(value)
 	def insertExtraAttributes(self, index, value):
-		checkType("XSDataInputHDF5Writer", "setExtraAttributes", value, "attributes")
+		checkType("XSDataInputHDF5Writer", "setExtraAttributes", value, "XSDataHDF5Attributes")
 		self.__extraAttributes[index] = value
 	def getForceDtype(self): return self.__forceDtype
 	def setForceDtype(self, forceDtype):
@@ -660,7 +694,7 @@ class XSDataInputHDF5Writer(XSDataInput):
 			self.setMultiFiles(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'extraAttributes':
-			obj_ = attributes()
+			obj_ = XSDataHDF5Attributes()
 			obj_.build(child_)
 			self.extraAttributes.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -683,11 +717,15 @@ class XSDataInputHDF5Writer(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputHDF5Writer' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputHDF5Writer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputHDF5Writer.parseString(self.marshal())
@@ -716,7 +754,9 @@ class XSDataInputHDF5Writer(XSDataInput):
 class XSDataResultHDF5Writer(XSDataResult):
 	def __init__(self, status=None, internalHDF5Path=None, HDF5File=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultHDF5Writer", "Constructor of XSDataResultHDF5Writer", HDF5File, "XSDataFile")
 		self.__HDF5File = HDF5File
+		checkType("XSDataResultHDF5Writer", "Constructor of XSDataResultHDF5Writer", internalHDF5Path, "XSDataString")
 		self.__internalHDF5Path = internalHDF5Path
 	def getHDF5File(self): return self.__HDF5File
 	def setHDF5File(self, HDF5File):
@@ -773,11 +813,15 @@ class XSDataResultHDF5Writer(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultHDF5Writer' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultHDF5Writer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultHDF5Writer.parseString(self.marshal())
@@ -806,10 +850,12 @@ class XSDataResultHDF5Writer(XSDataResult):
 class XSDataInputHDF5MapSpectra(XSDataInputHDF5Writer):
 	def __init__(self, configuration=None, chunkSegmentation=None, forceDtype=None, extraAttributes=None, multiFiles=None, internalHDF5Path=None, HDF5File=None, inputSpectrumFile=None, deleteInputSpectrum=None):
 		XSDataInputHDF5Writer.__init__(self, configuration, chunkSegmentation, forceDtype, extraAttributes, multiFiles, internalHDF5Path, HDF5File)
+		checkType("XSDataInputHDF5MapSpectra", "Constructor of XSDataInputHDF5MapSpectra", deleteInputSpectrum, "XSDataBoolean")
 		self.__deleteInputSpectrum = deleteInputSpectrum
 		if inputSpectrumFile is None:
 			self.__inputSpectrumFile = []
 		else:
+			checkType("XSDataInputHDF5MapSpectra", "Constructor of XSDataInputHDF5MapSpectra", inputSpectrumFile, "list")
 			self.__inputSpectrumFile = inputSpectrumFile
 	def getDeleteInputSpectrum(self): return self.__deleteInputSpectrum
 	def setDeleteInputSpectrum(self, deleteInputSpectrum):
@@ -868,11 +914,15 @@ class XSDataInputHDF5MapSpectra(XSDataInputHDF5Writer):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputHDF5MapSpectra' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputHDF5MapSpectra is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputHDF5MapSpectra.parseString(self.marshal())
@@ -901,18 +951,22 @@ class XSDataInputHDF5MapSpectra(XSDataInputHDF5Writer):
 class XSDataInputHDF5StackImages(XSDataInputHDF5Writer):
 	def __init__(self, configuration=None, chunkSegmentation=None, forceDtype=None, extraAttributes=None, multiFiles=None, internalHDF5Path=None, HDF5File=None, index=None, inputArray=None, inputImageFile=None, deleteInputImage=None):
 		XSDataInputHDF5Writer.__init__(self, configuration, chunkSegmentation, forceDtype, extraAttributes, multiFiles, internalHDF5Path, HDF5File)
+		checkType("XSDataInputHDF5StackImages", "Constructor of XSDataInputHDF5StackImages", deleteInputImage, "XSDataBoolean")
 		self.__deleteInputImage = deleteInputImage
 		if inputImageFile is None:
 			self.__inputImageFile = []
 		else:
+			checkType("XSDataInputHDF5StackImages", "Constructor of XSDataInputHDF5StackImages", inputImageFile, "list")
 			self.__inputImageFile = inputImageFile
 		if inputArray is None:
 			self.__inputArray = []
 		else:
+			checkType("XSDataInputHDF5StackImages", "Constructor of XSDataInputHDF5StackImages", inputArray, "list")
 			self.__inputArray = inputArray
 		if index is None:
 			self.__index = []
 		else:
+			checkType("XSDataInputHDF5StackImages", "Constructor of XSDataInputHDF5StackImages", index, "list")
 			self.__index = index
 	def getDeleteInputImage(self): return self.__deleteInputImage
 	def setDeleteInputImage(self, deleteInputImage):
@@ -1011,11 +1065,15 @@ class XSDataInputHDF5StackImages(XSDataInputHDF5Writer):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputHDF5StackImages' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputHDF5StackImages is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputHDF5StackImages.parseString(self.marshal())
@@ -1068,11 +1126,15 @@ class XSDataResultHDF5MapSpectra(XSDataResultHDF5Writer):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultHDF5MapSpectra' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultHDF5MapSpectra is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultHDF5MapSpectra.parseString(self.marshal())
@@ -1125,11 +1187,15 @@ class XSDataResultHDF5StackImages(XSDataResultHDF5Writer):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultHDF5StackImages' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultHDF5StackImages is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultHDF5StackImages.parseString(self.marshal())
