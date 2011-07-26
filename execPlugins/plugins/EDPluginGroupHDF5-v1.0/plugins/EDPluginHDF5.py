@@ -27,7 +27,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF Grenoble"
-__date__ = "2011/05/11"
+__date__ = "2011-07-26"
 
 ###############################################################################
 # BIG FAT WARNING
@@ -48,10 +48,10 @@ h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", arch
 fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
-h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath,)
-fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
-Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.version")
+EDFactoryPluginStatic.preImport("Image", imagingPath, _strMethodVersion="VERSION")
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
 
 if "EDNA_SITE" not in os.environ:
     os.environ["EDNA_SITE"] = "edna-site"
@@ -111,9 +111,9 @@ class EDPluginHDF5(EDPluginExec):
         """
         EDPluginExec.checkParameters(self)
         self.DEBUG("EDPluginHDF5.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getHDF5File(), "No HDF5 file provided")
-        self.checkMandatoryParameters(self.getDataInput().getInternalHDF5Path(), "No HDF5 internal path provided")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.HDF5File, "No HDF5 file provided")
+        self.checkMandatoryParameters(self.dataInput.internalHDF5Path, "No HDF5 internal path provided")
 
 
     def configure(self):
@@ -136,25 +136,25 @@ class EDPluginHDF5(EDPluginExec):
         EDPluginExec.preProcess(self)
         self.DEBUG("EDPluginHDF.preProcess")
         self.__startTime = time.time()
-        self.strHDF5Filename = self.getDataInput().getHDF5File().getPath().getValue()
-        self.strHDF5Path = self.getDataInput().getInternalHDF5Path().getValue()
+        self.strHDF5Filename = self.dataInput.HDF5File.path.value
+        self.strHDF5Path = self.dataInput.internalHDF5Path.value
 
-        if self.getDataInput().multiFiles is not None:
-            if self.getDataInput().multiFiles.value:
+        if self.dataInput.multiFiles is not None:
+            if self.dataInput.multiFiles.value:
                 base, ext = os.path.splitext(self.strHDF5Filename)
                 self.strHDF5Filename = base + "%04d" + ext
                 self.HDF5_Multifiles = True
 
-        if self.getDataInput().forceDtype is not None:
-            self.dtype = self.getDataInput().forceDtype.value
-        for extraAttr in self.getDataInput().extraAttributes:
+        if self.dataInput.forceDtype is not None:
+            self.dtype = self.dataInput.forceDtype.value
+        for extraAttr in self.dataInput.extraAttributes:
              attr = {}
              h5path = extraAttr.h5path.value
              for meta in extraAttr.metadata.keyValuePair:
                  attr[meta.key.value] = meta.value.value
              self.dictExtraAttributes[h5path] = attr
-        if self.getDataInput().chunkSegmentation is not None:
-            self._iChunkSegmentation = self.getDataInput().chunkSegmentation.value
+        if self.dataInput.chunkSegmentation is not None:
+            self._iChunkSegmentation = self.dataInput.chunkSegmentation.value
 
     def postProcess(self, _edObject=None):
         self.DEBUG("EDPluginHDF5.postProcess")

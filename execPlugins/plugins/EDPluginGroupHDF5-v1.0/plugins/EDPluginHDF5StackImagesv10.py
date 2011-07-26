@@ -27,7 +27,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF Grenoble"
-__date__ = "2011-05-11"
+__date__ = "2011-07-26"
 
 ###############################################################################
 # BIG FAT WARNING
@@ -37,11 +37,14 @@ import os
 from EDAssert                   import EDAssert
 from EDPluginHDF5               import EDPluginHDF5
 from XSDataHDF5v1_0             import XSDataInputHDF5StackImages, XSDataResultHDF5StackImages
-from XSDataCommon               import XSDataFile, XSDataString
+from XSDataCommon               import XSDataFile, XSDataString, XSDataImageExt
 from EDUtilsArray               import EDUtilsArray
 from EDConfiguration            import EDConfiguration
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
-import h5py, numpy
+from EDPluginHDF5               import numpyPath, h5pyPath
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.version")
+
 
 class EDPluginHDF5StackImagesv10(EDPluginHDF5):
     """
@@ -75,21 +78,23 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
         EDPluginHDF5.preProcess(self)
         self.DEBUG("EDPluginHDF5StackImagesv10.preProcess")
 
-        for onefile in self.getDataInput().getInputImageFile():
-            self.listImageFilenames.append(onefile.getPath().getValue())
-            if onefile.getDate() is not None:
-                self.listImageDates.append(onefile.getDate.getValue())
-            if onefile.getNumber() is not None:
-                self.listForcedPositions.append(onefile.getNumber().getValue())
+        for onefile in self.dataInput.inputImageFile:
+            if onefile.path is not None:
+                self.listImageFilenames.append(onefile.path.value)
+            if onefile.date is not None:
+                self.listImageDates.append(onefile.date.value)
+            if onefile.number is not None:
+                self.listForcedPositions.append(onefile.number.value)
+            self.listArray.append(EDUtilsArray.getArray(onefile))
 
-        for oneArray in self.getDataInput().getInputArray():
+        for oneArray in self.dataInput.getInputArray():
             self.listArray.append(EDUtilsArray.xsDataToArray(oneArray))
 
-        if self.getDataInput().getIndex() != []:
-            self.listForcedPositions = [i.getValue() for i in self.getDataInput().getIndex()]
+        if self.dataInput.index != []:
+            self.listForcedPositions = [i.value for i in self.dataInput.index]
 
-        if self.getDataInput().getDeleteInputImage() is not None:
-            self.bDeleteImage = bool(self.getDataInput().deleteInputImage.value)
+        if self.dataInput.getDeleteInputImage() is not None:
+            self.bDeleteImage = bool(self.dataInput.deleteInputImage.value)
 
         if self.listForcedPositions != []:
             EDAssert.equal(len(self.listForcedPositions), max(len(self.listImageFilenames), len(self.listArray)), "Forced position list has a good length")
@@ -297,7 +302,7 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
             self.DEBUG("Warning probably un-consistent dataset for " + oneItem)
             oneMetaDataset = self.hdf5group[oneItem]
             if oneMetaDataset.len() < iMaxSize + 1:
-                oneMetaDataset.resize(iMaxSize + 1)
+                oneMetaDataset.resize((iMaxSize + 1,))
             else:
                 if isinstance(h5py.check_dtype(vlen=oneMetaDataset.dtype), str):
                     oneMetaDataset[iMaxSize] = ""
