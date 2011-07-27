@@ -29,12 +29,20 @@
 
 """EDNA installer for PIL v1.1.7"""
 
-__authors__ = ["Olof Svensson", "Jérôme Kieffer"]
+__authors__ = ["Olof Svensson", "Jerome Kieffer"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
+__date__ = "20110722"
 import os, sys
+if "EDNA_HOME" not in os.environ:
+    EDNA_HOME = os.path.dirname(os.path.dirname(__file__))
+    os.environ["EDNA_HOME"] = EDNA_HOME
+else:
+    EDNA_HOME = os.environ["EDNA_HOME"]
+kernel_src = os.path.join(EDNA_HOME, "kernel", "src")
+if kernel_src not in sys.path:
+    sys.path.append(kernel_src)
 
 from EDVerbose                  import EDVerbose
 from EDUtilsPlatform            import EDUtilsPlatform
@@ -64,5 +72,8 @@ if version.split(".") < moduleVersion.split("."):
     EDFactoryPluginStatic.unImport(moduleName)
     oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion, _strMethodVersion="VERSION")
 
-EDVerbose.screen("Version of %s: %s from %s" % (moduleName, version, oModule.__file__))
+if oModule is None:
+    EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
+else:
+    EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.VERSION, oModule.__file__))
 

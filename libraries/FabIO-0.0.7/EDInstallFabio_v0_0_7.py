@@ -55,24 +55,24 @@ moduleVersion = "0.0.7"
 ################################################################################
 # Import the good version of FabIO ... 
 ################################################################################
-
-oModule = EDFactoryPluginStatic.preImport(moduleName)
-if not oModule:
-    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath)
-    if oModule is None:
-        installLibrary(modulePath)
+if os.name == "posix":
+    oModule = EDFactoryPluginStatic.preImport(moduleName)
+    if not oModule:
         oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath)
-try:
-    version = oModule.version
-except AttributeError:
-    version = "0.0.0"
+        if oModule is None:
+            installLibrary(modulePath)
+            oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath)
+    try:
+        version = oModule.version
+    except AttributeError:
+        version = "0.0.0"
 
-if version.split(".") < moduleVersion.split("."):
-    EDVerbose.screen("Wrong %s library:  %s " % (moduleName, version))
-    EDFactoryPluginStatic.unImport(moduleName)
-    oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion)
+    if version.split(".") < moduleVersion.split("."):
+        EDVerbose.screen("Wrong %s library:  %s " % (moduleName, version))
+        EDFactoryPluginStatic.unImport(moduleName)
+        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion)
 
-if oModule is None:
-    EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
-else:
-    EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version, oModule.__file__))
+    if oModule is None:
+        EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
+    else:
+        EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version, oModule.__file__))
