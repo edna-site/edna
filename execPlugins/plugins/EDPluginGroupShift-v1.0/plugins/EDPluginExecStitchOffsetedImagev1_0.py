@@ -35,7 +35,7 @@ from EDUtilsArray           import EDUtilsArray
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDVerbose              import EDVerbose
 from XSDataShiftv1_0        import XSDataInputStitchOffsetedImage, \
-    XSDataResultStitchOffsetedImage, XSDataString, XSDataImage
+    XSDataResultStitchOffsetedImage, XSDataString, XSDataImageExt
 
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
@@ -97,7 +97,7 @@ class EDPluginExecStitchOffsetedImagev1_0(EDPluginExec):
         sdi = self.getDataInput()
         for ofImage in sdi.getInputImages():
             if (ofImage.file is not None) and os.path.isfile(ofImage.file.path.value):
-                self._lImages.append(fabio.open(ofImage.file.path.value).data)
+                self._lImages.append(EDUtilsArray.getArray(ofImage.file))
             elif (ofImage.array is not None):
                 self._lImages.append(EDUtilsArray.xsDataToArray(ofImage.array))
             else:
@@ -233,7 +233,7 @@ class EDPluginExecStitchOffsetedImagev1_0(EDPluginExec):
         if self._strOutFile is not None:
             edf = edfimage(data=self._ndaResult, header={"Dummy":str(self._fDummy), "Blending":self._strBlending, "Autoscale":str(self._bAutoscale)})
             edf.write(self._strOutFile)
-            xsDataResult.setOutputImage(XSDataImage(XSDataString(self._strOutFile)))
+            xsDataResult.setOutputImage(XSDataImageExt(path=XSDataString(self._strOutFile)))
         else:
             xsDataResult.setOutputArray(EDUtilsArray.arrayToXSData(self._ndaResult))
         self.setDataOutput(xsDataResult)

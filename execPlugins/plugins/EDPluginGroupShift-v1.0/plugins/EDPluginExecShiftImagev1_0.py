@@ -88,8 +88,8 @@ class EDPluginExecShiftImagev1_0(EDPluginExec):
         EDPluginExec.preProcess(self)
         EDVerbose.DEBUG("EDPluginExecShiftImagev1_0.preProcess")
         sdi = self.getDataInput()
-        if sdi.getInputImage() is not None:
-            self.npaImage = fabio.open(sdi.getInputImage().getPath().getValue()).data
+        if sdi.inputImage is not None:
+            self.npaImage = EDUtilsArray.getArray(sdi.inputImage)
         elif  sdi.getInputArray() is not None:
             self.npaImage = EDUtilsArray.xsDataToArray(sdi.getInputArray())
         else:

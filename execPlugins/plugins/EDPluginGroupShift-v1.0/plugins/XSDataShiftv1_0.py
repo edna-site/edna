@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu May 26 01:52::29 2011 by EDGenerateDS.
+# Generated Wed Jul 27 01:08::55 2011 by EDGenerateDS.
 #
 
 import sys
 from xml.dom import minidom
 from xml.dom import Node
 
+from XSDataCommon import XSData
 from XSDataCommon import XSDataArray
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
@@ -17,6 +18,7 @@ from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataImage
+from XSDataCommon import XSDataImageExt
 
 
 
@@ -45,10 +47,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -108,17 +110,22 @@ class MixedContainer(object):
 #
 
 
-class OffsetedImage(object):
-	"""DummyValue is the value for which the data are considered as invalid (0 by default)
-"""
+class OffsetedImage(XSData):
+	"""DummyValue is the value for which the data are considered as invalid (0 by default)"""
 	def __init__(self, offset=None, file=None, dummyValue=None, deltaDummy=None, array=None):
+		XSData.__init__(self, )
+		checkType("OffsetedImage", "Constructor of OffsetedImage", array, "XSDataArray")
 		self.__array = array
+		checkType("OffsetedImage", "Constructor of OffsetedImage", deltaDummy, "XSDataDouble")
 		self.__deltaDummy = deltaDummy
+		checkType("OffsetedImage", "Constructor of OffsetedImage", dummyValue, "XSDataDouble")
 		self.__dummyValue = dummyValue
+		checkType("OffsetedImage", "Constructor of OffsetedImage", file, "XSDataImageExt")
 		self.__file = file
 		if offset is None:
 			self.__offset = []
 		else:
+			checkType("OffsetedImage", "Constructor of OffsetedImage", offset, "list")
 			self.__offset = offset
 	def getArray(self): return self.__array
 	def setArray(self, array):
@@ -143,7 +150,7 @@ class OffsetedImage(object):
 	dummyValue = property(getDummyValue, setDummyValue, delDummyValue, "Property for dummyValue")
 	def getFile(self): return self.__file
 	def setFile(self, file):
-		checkType("OffsetedImage", "setFile", file, "XSDataImage")
+		checkType("OffsetedImage", "setFile", file, "XSDataImageExt")
 		self.__file = file
 	def delFile(self): self.__file = None
 	# Properties
@@ -168,7 +175,7 @@ class OffsetedImage(object):
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='OffsetedImage'):
-		pass
+		XSData.exportChildren(self, outfile, level, name_)
 		if self.__array is not None:
 			self.array.export(outfile, level, name_='array')
 		if self.__deltaDummy is not None:
@@ -203,7 +210,7 @@ class OffsetedImage(object):
 			self.setDummyValue(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'file':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setFile(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -211,6 +218,7 @@ class OffsetedImage(object):
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.offset.append(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
 		oStreamString = StringIO()
@@ -220,11 +228,15 @@ class OffsetedImage(object):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='OffsetedImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class OffsetedImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return OffsetedImage.parseString(self.marshal())
@@ -260,32 +272,41 @@ Images must have the same size
 		if array is None:
 			self.__array = []
 		else:
+			checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", array, "list")
 			self.__array = array
+		checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", backgroundSubtraction, "XSDataBoolean")
 		self.__backgroundSubtraction = backgroundSubtraction
 		if center is None:
 			self.__center = []
 		else:
+			checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", center, "list")
 			self.__center = center
 		if cropBorders is None:
 			self.__cropBorders = []
 		else:
+			checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", cropBorders, "list")
 			self.__cropBorders = cropBorders
 		if image is None:
 			self.__image = []
 		else:
+			checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", image, "list")
 			self.__image = image
 		if index is None:
 			self.__index = []
 		else:
+			checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", index, "list")
 			self.__index = index
 		if smoothBorders is None:
 			self.__smoothBorders = []
 		else:
+			checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", smoothBorders, "list")
 			self.__smoothBorders = smoothBorders
+		checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", sobelFilter, "XSDataBoolean")
 		self.__sobelFilter = sobelFilter
 		if width is None:
 			self.__width = []
 		else:
+			checkType("XSDataInputMeasureOffset", "Constructor of XSDataInputMeasureOffset", width, "list")
 			self.__width = width
 	def getArray(self): return self.__array
 	def setArray(self, array):
@@ -478,11 +499,15 @@ Images must have the same size
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputMeasureOffset' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputMeasureOffset is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputMeasureOffset.parseString(self.marshal())
@@ -514,6 +539,7 @@ class XSDataInputMeasureOffsetSift(XSDataInput):
 		if descriptorFile is None:
 			self.__descriptorFile = []
 		else:
+			checkType("XSDataInputMeasureOffsetSift", "Constructor of XSDataInputMeasureOffsetSift", descriptorFile, "list")
 			self.__descriptorFile = descriptorFile
 	def getDescriptorFile(self): return self.__descriptorFile
 	def setDescriptorFile(self, descriptorFile):
@@ -558,11 +584,15 @@ class XSDataInputMeasureOffsetSift(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputMeasureOffsetSift' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputMeasureOffsetSift is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputMeasureOffsetSift.parseString(self.marshal())
@@ -591,15 +621,22 @@ class XSDataInputMeasureOffsetSift(XSDataInput):
 class XSDataInputShiftImage(XSDataInput):
 	def __init__(self, configuration=None, panoFile=None, outputImage=None, offset=None, invertCorrection=None, inputImage=None, inputArray=None, index=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputShiftImage", "Constructor of XSDataInputShiftImage", index, "XSDataInteger")
 		self.__index = index
+		checkType("XSDataInputShiftImage", "Constructor of XSDataInputShiftImage", inputArray, "XSDataArray")
 		self.__inputArray = inputArray
+		checkType("XSDataInputShiftImage", "Constructor of XSDataInputShiftImage", inputImage, "XSDataImageExt")
 		self.__inputImage = inputImage
+		checkType("XSDataInputShiftImage", "Constructor of XSDataInputShiftImage", invertCorrection, "XSDataBoolean")
 		self.__invertCorrection = invertCorrection
 		if offset is None:
 			self.__offset = []
 		else:
+			checkType("XSDataInputShiftImage", "Constructor of XSDataInputShiftImage", offset, "list")
 			self.__offset = offset
+		checkType("XSDataInputShiftImage", "Constructor of XSDataInputShiftImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
+		checkType("XSDataInputShiftImage", "Constructor of XSDataInputShiftImage", panoFile, "XSDataFile")
 		self.__panoFile = panoFile
 	def getIndex(self): return self.__index
 	def setIndex(self, index):
@@ -617,7 +654,7 @@ class XSDataInputShiftImage(XSDataInput):
 	inputArray = property(getInputArray, setInputArray, delInputArray, "Property for inputArray")
 	def getInputImage(self): return self.__inputImage
 	def setInputImage(self, inputImage):
-		checkType("XSDataInputShiftImage", "setInputImage", inputImage, "XSDataImage")
+		checkType("XSDataInputShiftImage", "setInputImage", inputImage, "XSDataImageExt")
 		self.__inputImage = inputImage
 	def delInputImage(self): self.__inputImage = None
 	# Properties
@@ -644,7 +681,7 @@ class XSDataInputShiftImage(XSDataInput):
 		self.__offset[index] = value
 	def getOutputImage(self): return self.__outputImage
 	def setOutputImage(self, outputImage):
-		checkType("XSDataInputShiftImage", "setOutputImage", outputImage, "XSDataImage")
+		checkType("XSDataInputShiftImage", "setOutputImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def delOutputImage(self): self.__outputImage = None
 	# Properties
@@ -695,7 +732,7 @@ class XSDataInputShiftImage(XSDataInput):
 			self.setInputArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'inputImage':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setInputImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -710,7 +747,7 @@ class XSDataInputShiftImage(XSDataInput):
 			self.offset.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'outputImage':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setOutputImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -728,11 +765,15 @@ class XSDataInputShiftImage(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputShiftImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputShiftImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputShiftImage.parseString(self.marshal())
@@ -761,10 +802,11 @@ class XSDataInputShiftImage(XSDataInput):
 class XSDataInputSiftDescriptor(XSDataInput):
 	def __init__(self, configuration=None, image=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputSiftDescriptor", "Constructor of XSDataInputSiftDescriptor", image, "XSDataImageExt")
 		self.__image = image
 	def getImage(self): return self.__image
 	def setImage(self, image):
-		checkType("XSDataInputSiftDescriptor", "setImage", image, "XSDataImage")
+		checkType("XSDataInputSiftDescriptor", "setImage", image, "XSDataImageExt")
 		self.__image = image
 	def delImage(self): self.__image = None
 	# Properties
@@ -780,7 +822,7 @@ class XSDataInputSiftDescriptor(XSDataInput):
 		if self.__image is not None:
 			self.image.export(outfile, level, name_='image')
 		else:
-			warnEmptyAttribute("image", "XSDataImage")
+			warnEmptyAttribute("image", "XSDataImageExt")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -788,7 +830,7 @@ class XSDataInputSiftDescriptor(XSDataInput):
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'image':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setImage(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
@@ -801,11 +843,15 @@ class XSDataInputSiftDescriptor(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputSiftDescriptor' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputSiftDescriptor is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputSiftDescriptor.parseString(self.marshal())
@@ -837,20 +883,29 @@ class XSDataInputStitchImage(XSDataInput):
 		if inputImages is None:
 			self.__inputImages = []
 		else:
+			checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", inputImages, "list")
 			self.__inputImages = inputImages
+		checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
+		checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", autoscale, "XSDataBoolean")
 		self.__autoscale = autoscale
+		checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", dummyValue, "XSDataDouble")
 		self.__dummyValue = dummyValue
+		checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", deltaDummy, "XSDataDouble")
 		self.__deltaDummy = deltaDummy
 		if centerROI is None:
 			self.__centerROI = []
 		else:
+			checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", centerROI, "list")
 			self.__centerROI = centerROI
 		if widthROI is None:
 			self.__widthROI = []
 		else:
+			checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", widthROI, "list")
 			self.__widthROI = widthROI
+		checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", blending, "XSDataString")
 		self.__blending = blending
+		checkType("XSDataInputStitchImage", "Constructor of XSDataInputStitchImage", mask, "XSDataImageExt")
 		self.__mask = mask
 	def getInputImages(self): return self.__inputImages
 	def setInputImages(self, inputImages):
@@ -860,14 +915,14 @@ class XSDataInputStitchImage(XSDataInput):
 	# Properties
 	inputImages = property(getInputImages, setInputImages, delInputImages, "Property for inputImages")
 	def addInputImages(self, value):
-		checkType("XSDataInputStitchImage", "setInputImages", value, "XSDataImage")
+		checkType("XSDataInputStitchImage", "setInputImages", value, "XSDataImageExt")
 		self.__inputImages.append(value)
 	def insertInputImages(self, index, value):
-		checkType("XSDataInputStitchImage", "setInputImages", value, "XSDataImage")
+		checkType("XSDataInputStitchImage", "setInputImages", value, "XSDataImageExt")
 		self.__inputImages[index] = value
 	def getOutputImage(self): return self.__outputImage
 	def setOutputImage(self, outputImage):
-		checkType("XSDataInputStitchImage", "setOutputImage", outputImage, "XSDataImage")
+		checkType("XSDataInputStitchImage", "setOutputImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def delOutputImage(self): self.__outputImage = None
 	# Properties
@@ -928,7 +983,7 @@ class XSDataInputStitchImage(XSDataInput):
 	blending = property(getBlending, setBlending, delBlending, "Property for blending")
 	def getMask(self): return self.__mask
 	def setMask(self, mask):
-		checkType("XSDataInputStitchImage", "setMask", mask, "XSDataImage")
+		checkType("XSDataInputStitchImage", "setMask", mask, "XSDataImageExt")
 		self.__mask = mask
 	def delMask(self): self.__mask = None
 	# Properties
@@ -944,7 +999,7 @@ class XSDataInputStitchImage(XSDataInput):
 		for inputImages_ in self.getInputImages():
 			inputImages_.export(outfile, level, name_='inputImages')
 		if self.getInputImages() == []:
-			warnEmptyAttribute("inputImages", "XSDataImage")
+			warnEmptyAttribute("inputImages", "XSDataImageExt")
 		if self.__outputImage is not None:
 			self.outputImage.export(outfile, level, name_='outputImage')
 		if self.__autoscale is not None:
@@ -968,12 +1023,12 @@ class XSDataInputStitchImage(XSDataInput):
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'inputImages':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.inputImages.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'outputImage':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setOutputImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -1008,7 +1063,7 @@ class XSDataInputStitchImage(XSDataInput):
 			self.setBlending(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mask':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setMask(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
@@ -1021,11 +1076,15 @@ class XSDataInputStitchImage(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputStitchImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputStitchImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputStitchImage.parseString(self.marshal())
@@ -1059,19 +1118,27 @@ Blending can be: max, min or mean (default)."""
 		if inputImages is None:
 			self.__inputImages = []
 		else:
+			checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", inputImages, "list")
 			self.__inputImages = inputImages
+		checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
+		checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", autoscale, "XSDataBoolean")
 		self.__autoscale = autoscale
+		checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", dummyValue, "XSDataDouble")
 		self.__dummyValue = dummyValue
 		if centerROI is None:
 			self.__centerROI = []
 		else:
+			checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", centerROI, "list")
 			self.__centerROI = centerROI
 		if widthROI is None:
 			self.__widthROI = []
 		else:
+			checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", widthROI, "list")
 			self.__widthROI = widthROI
+		checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", blending, "XSDataString")
 		self.__blending = blending
+		checkType("XSDataInputStitchOffsetedImage", "Constructor of XSDataInputStitchOffsetedImage", mask, "XSDataImageExt")
 		self.__mask = mask
 	def getInputImages(self): return self.__inputImages
 	def setInputImages(self, inputImages):
@@ -1088,7 +1155,7 @@ Blending can be: max, min or mean (default)."""
 		self.__inputImages[index] = value
 	def getOutputImage(self): return self.__outputImage
 	def setOutputImage(self, outputImage):
-		checkType("XSDataInputStitchOffsetedImage", "setOutputImage", outputImage, "XSDataImage")
+		checkType("XSDataInputStitchOffsetedImage", "setOutputImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def delOutputImage(self): self.__outputImage = None
 	# Properties
@@ -1142,7 +1209,7 @@ Blending can be: max, min or mean (default)."""
 	blending = property(getBlending, setBlending, delBlending, "Property for blending")
 	def getMask(self): return self.__mask
 	def setMask(self, mask):
-		checkType("XSDataInputStitchOffsetedImage", "setMask", mask, "XSDataImage")
+		checkType("XSDataInputStitchOffsetedImage", "setMask", mask, "XSDataImageExt")
 		self.__mask = mask
 	def delMask(self): self.__mask = None
 	# Properties
@@ -1187,7 +1254,7 @@ Blending can be: max, min or mean (default)."""
 			self.inputImages.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'outputImage':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setOutputImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -1217,7 +1284,7 @@ Blending can be: max, min or mean (default)."""
 			self.setBlending(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mask':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setMask(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
@@ -1230,11 +1297,15 @@ Blending can be: max, min or mean (default)."""
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputStitchOffsetedImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputStitchOffsetedImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputStitchOffsetedImage.parseString(self.marshal())
@@ -1266,7 +1337,9 @@ class XSDataResultMeasureOffset(XSDataResult):
 		if offset is None:
 			self.__offset = []
 		else:
+			checkType("XSDataResultMeasureOffset", "Constructor of XSDataResultMeasureOffset", offset, "list")
 			self.__offset = offset
+		checkType("XSDataResultMeasureOffset", "Constructor of XSDataResultMeasureOffset", panoFile, "XSDataFile")
 		self.__panoFile = panoFile
 	def getOffset(self): return self.__offset
 	def setOffset(self, offset):
@@ -1327,11 +1400,15 @@ class XSDataResultMeasureOffset(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultMeasureOffset' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultMeasureOffset is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultMeasureOffset.parseString(self.marshal())
@@ -1363,7 +1440,9 @@ class XSDataResultMeasureOffsetSift(XSDataResult):
 		if outputArray is None:
 			self.__outputArray = []
 		else:
+			checkType("XSDataResultMeasureOffsetSift", "Constructor of XSDataResultMeasureOffsetSift", outputArray, "list")
 			self.__outputArray = outputArray
+		checkType("XSDataResultMeasureOffsetSift", "Constructor of XSDataResultMeasureOffsetSift", panoFile, "XSDataFile")
 		self.__panoFile = panoFile
 	def getOutputArray(self): return self.__outputArray
 	def setOutputArray(self, outputArray):
@@ -1426,11 +1505,15 @@ class XSDataResultMeasureOffsetSift(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultMeasureOffsetSift' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultMeasureOffsetSift is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultMeasureOffsetSift.parseString(self.marshal())
@@ -1462,7 +1545,9 @@ Correction can be either a simple global shift or a transformation based on a cu
 The correction can be inverted if needed. """
 	def __init__(self, status=None, outputImage=None, outputArray=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultShiftImage", "Constructor of XSDataResultShiftImage", outputArray, "XSDataArray")
 		self.__outputArray = outputArray
+		checkType("XSDataResultShiftImage", "Constructor of XSDataResultShiftImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def getOutputArray(self): return self.__outputArray
 	def setOutputArray(self, outputArray):
@@ -1473,7 +1558,7 @@ The correction can be inverted if needed. """
 	outputArray = property(getOutputArray, setOutputArray, delOutputArray, "Property for outputArray")
 	def getOutputImage(self): return self.__outputImage
 	def setOutputImage(self, outputImage):
-		checkType("XSDataResultShiftImage", "setOutputImage", outputImage, "XSDataImage")
+		checkType("XSDataResultShiftImage", "setOutputImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def delOutputImage(self): self.__outputImage = None
 	# Properties
@@ -1502,7 +1587,7 @@ The correction can be inverted if needed. """
 			self.setOutputArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'outputImage':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setOutputImage(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
@@ -1515,11 +1600,15 @@ The correction can be inverted if needed. """
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultShiftImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultShiftImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultShiftImage.parseString(self.marshal())
@@ -1548,6 +1637,7 @@ The correction can be inverted if needed. """
 class XSDataResultSiftDescriptor(XSDataResult):
 	def __init__(self, status=None, descriptorFile=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultSiftDescriptor", "Constructor of XSDataResultSiftDescriptor", descriptorFile, "XSDataFile")
 		self.__descriptorFile = descriptorFile
 	def getDescriptorFile(self): return self.__descriptorFile
 	def setDescriptorFile(self, descriptorFile):
@@ -1588,11 +1678,15 @@ class XSDataResultSiftDescriptor(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultSiftDescriptor' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultSiftDescriptor is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultSiftDescriptor.parseString(self.marshal())
@@ -1621,7 +1715,9 @@ class XSDataResultSiftDescriptor(XSDataResult):
 class XSDataResultStitchImage(XSDataResult):
 	def __init__(self, status=None, outputImage=None, outputArray=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultStitchImage", "Constructor of XSDataResultStitchImage", outputArray, "XSDataArray")
 		self.__outputArray = outputArray
+		checkType("XSDataResultStitchImage", "Constructor of XSDataResultStitchImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def getOutputArray(self): return self.__outputArray
 	def setOutputArray(self, outputArray):
@@ -1632,7 +1728,7 @@ class XSDataResultStitchImage(XSDataResult):
 	outputArray = property(getOutputArray, setOutputArray, delOutputArray, "Property for outputArray")
 	def getOutputImage(self): return self.__outputImage
 	def setOutputImage(self, outputImage):
-		checkType("XSDataResultStitchImage", "setOutputImage", outputImage, "XSDataImage")
+		checkType("XSDataResultStitchImage", "setOutputImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def delOutputImage(self): self.__outputImage = None
 	# Properties
@@ -1661,7 +1757,7 @@ class XSDataResultStitchImage(XSDataResult):
 			self.setOutputArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'outputImage':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setOutputImage(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
@@ -1674,11 +1770,15 @@ class XSDataResultStitchImage(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultStitchImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultStitchImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultStitchImage.parseString(self.marshal())
@@ -1707,7 +1807,9 @@ class XSDataResultStitchImage(XSDataResult):
 class XSDataResultStitchOffsetedImage(XSDataResult):
 	def __init__(self, status=None, outputImage=None, outputArray=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultStitchOffsetedImage", "Constructor of XSDataResultStitchOffsetedImage", outputArray, "XSDataArray")
 		self.__outputArray = outputArray
+		checkType("XSDataResultStitchOffsetedImage", "Constructor of XSDataResultStitchOffsetedImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def getOutputArray(self): return self.__outputArray
 	def setOutputArray(self, outputArray):
@@ -1718,7 +1820,7 @@ class XSDataResultStitchOffsetedImage(XSDataResult):
 	outputArray = property(getOutputArray, setOutputArray, delOutputArray, "Property for outputArray")
 	def getOutputImage(self): return self.__outputImage
 	def setOutputImage(self, outputImage):
-		checkType("XSDataResultStitchOffsetedImage", "setOutputImage", outputImage, "XSDataImage")
+		checkType("XSDataResultStitchOffsetedImage", "setOutputImage", outputImage, "XSDataImageExt")
 		self.__outputImage = outputImage
 	def delOutputImage(self): self.__outputImage = None
 	# Properties
@@ -1747,7 +1849,7 @@ class XSDataResultStitchOffsetedImage(XSDataResult):
 			self.setOutputArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'outputImage':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setOutputImage(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
@@ -1760,11 +1862,15 @@ class XSDataResultStitchOffsetedImage(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultStitchOffsetedImage' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultStitchOffsetedImage is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultStitchOffsetedImage.parseString(self.marshal())

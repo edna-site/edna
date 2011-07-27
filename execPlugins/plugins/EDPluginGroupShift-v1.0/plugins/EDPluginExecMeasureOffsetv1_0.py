@@ -78,7 +78,9 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     CONF_CONVOLUTION = None
     CONF_CONVOLUTION_KEY = "convolution"
     CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "signal"
-
+################################################################################
+# TODO: implement pyfftw3
+################################################################################
 
     def __init__(self):
         """
@@ -94,6 +96,14 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         self.tSmooth = None
         self.bBackgroundsubtraction = False
         self.sobel = False
+
+################################################################################
+# TODO: implement pyfftw3
+################################################################################
+        self.fftw3Plan = None
+        self.ifftw3Plan = None
+        self.fftw3Input = None
+        self.fftw3Output = None
 
     def checkParameters(self):
         """
@@ -132,15 +142,16 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         arrays = sdi.getArray()
 
         if len(images) == 2:
-            self.npaIm1 = fabio.open(images[0].getPath().getValue()).data
-            self.npaIm2 = fabio.open(images[1].getPath().getValue()).data
+            self.npaIm1 = numpy.array(EDUtilsArray.getArray(images[0]))
+            self.npaIm2 = numpy.array(EDUtilsArray.getArray(images[1]))
         elif len(arrays) == 2:
             self.npaIm1 = EDUtilsArray.xsDataToArray(arrays[0])
             self.npaIm2 = EDUtilsArray.xsDataToArray(arrays[1])
         else:
-            self.ERROR("EDPluginExecMeasureOffsetv1_0.preProcess: You should either provide two images or two arrays, but I got: %s" % sdi.marshal())
+            strError = "EDPluginExecMeasureOffsetv1_0.preProcess: You should either provide two images or two arrays, but I got: %s" % sdi.marshal()[:1000]
+            self.ERROR(strError)
             self.setFailure()
-            raise
+            raise RuntimeError(strError)
 
         crop = sdi.getCropBorders()
         if len(crop) > 1 :
@@ -222,7 +233,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 
         if self.sobel:
             self.npaIm1 = sobel(self.npaIm1)
-            self.npaIm1 = sobel(self.npaIm2)
+            self.npaIm2 = sobel(self.npaIm2)
 
 ################################################################################
 # Start convolutions

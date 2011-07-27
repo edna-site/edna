@@ -1,19 +1,35 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataImageExt
+import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataStatus
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataArray
+
 package XSDataShiftv10 {
-	complex type OffsetedImage {
-		"DummyValue is the value for which the data are considered as invalid (0 by default)\n"
-		array : XSDataArray
-		optional
+	complex type OffsetedImage extends XSData {
+		"DummyValue is the value for which the data are considered as invalid (0 by default)"
+		array : XSDataArray		optional 
+//Array is deprecated ... use file which is an XSDataImageExt that can contain an array or a file or a shared array
 		deltaDummy : XSDataDouble optional
 		dummyValue : XSDataDouble optional
-		file : XSDataImage optional
+		file : XSDataImageExt optional
 		offset : XSDataDouble []
 	}
 
 	complex type XSDataInputMeasureOffset extends XSDataInput {
 		"Input can be given as a pair of 2D arrays or 2 EDF files. \nMeasurement is done on the full image by default but borders can be cropped, smoothed, ...\nImages must have the same size\n"
 		array : XSDataArray [] optional
+//Array is deprecated ... use image which is an XSDataImageExt that can contain an array or a file or a shared array
 		backgroundSubtraction : XSDataBoolean optional
 		center : XSDataInteger [] optional
 		cropBorders : XSDataInteger [] optional
@@ -31,39 +47,40 @@ package XSDataShiftv10 {
 	complex type XSDataInputShiftImage extends XSDataInput {
 		index : XSDataInteger optional
 		inputArray : XSDataArray optional
-		inputImage : XSDataImage optional
+//inputArray is deprecated ... use inputImage which is an XSDataImageExt that can contain an array or a file or a shared array
+		inputImage : XSDataImageExt optional
 		invertCorrection : XSDataBoolean optional
 		offset : XSDataDouble [] optional
-		outputImage : XSDataImage optional
+		outputImage : XSDataImageExt optional
 		panoFile : XSDataFile optional
 	}
 
 	complex type XSDataInputSiftDescriptor extends XSDataInput {
-		image : XSDataImage
+		image : XSDataImageExt
 	}
 
 	complex type XSDataInputStitchImage extends XSDataInput {
-		inputImages : XSDataImage []
-		outputImage : XSDataImage optional
+		inputImages : XSDataImageExt []
+		outputImage : XSDataImageExt optional
 		autoscale : XSDataBoolean optional
 		dummyValue : XSDataDouble optional
 		deltaDummy : XSDataDouble optional
 		centerROI : XSDataInteger [] optional
 		widthROI : XSDataInteger [] optional
 		blending : XSDataString optional
-		mask:  XSDataImage optional
+		mask:  XSDataImageExt optional
 	}
 
 	complex type XSDataInputStitchOffsetedImage extends XSDataInput {
 		"Dummy is the value of pixels that are still invalid after stitching.\nBlending can be: max, min or mean (default)."
 		inputImages : OffsetedImage []
-		outputImage : XSDataImage optional
+		outputImage : XSDataImageExt optional
 		autoscale : XSDataBoolean optional
 		dummyValue : XSDataDouble
 		centerROI : XSDataInteger [] optional
 		widthROI : XSDataInteger [] optional
 		blending : XSDataString optional
-		mask:  XSDataImage optional
+		mask:  XSDataImageExt optional
 	}
 
 	complex type XSDataResultMeasureOffset extends XSDataResult {
@@ -79,7 +96,7 @@ package XSDataShiftv10 {
 	complex type XSDataResultShiftImage extends XSDataResult {
 		"Export as array by default unless an output filename is provided.\nCorrection can be either a simple global shift or a transformation based on a cubic spline if a panoFile (.pto) is provided.\nThe correction can be inverted if needed. "
 		outputArray : XSDataArray optional
-		outputImage : XSDataImage optional
+		outputImage : XSDataImageExt optional
 	}
 
 	complex type XSDataResultSiftDescriptor extends XSDataResult {
@@ -88,12 +105,12 @@ package XSDataShiftv10 {
 
 	complex type XSDataResultStitchImage extends XSDataResult {
 		outputArray : XSDataArray optional
-		outputImage : XSDataImage optional
+		outputImage : XSDataImageExt optional
 	}
 
 	complex type XSDataResultStitchOffsetedImage extends XSDataResult {
 		outputArray : XSDataArray optional
-		outputImage : XSDataImage optional
+		outputImage : XSDataImageExt optional
 	}
 
 }

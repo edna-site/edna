@@ -30,7 +30,7 @@ __copyright__ = "2011, ESRF, Grenoble"
 
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
-from XSDataShiftv1_0 import XSDataInputStitchImage, XSDataImage
+from XSDataShiftv1_0 import XSDataInputStitchImage, XSDataImageExt
 
 class EDTestCasePluginUnitControlStitchImagev1_0(EDTestCasePluginUnit):
 
@@ -41,7 +41,7 @@ class EDTestCasePluginUnitControlStitchImagev1_0(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputStitchImage()
-        xsDataInput.setInputImages([XSDataImage()])
+        xsDataInput.setInputImages([XSDataImageExt()])
         edPluginExecStitchImage = self.createPlugin()
         edPluginExecStitchImage.setDataInput(xsDataInput)
         edPluginExecStitchImage.checkParameters()
