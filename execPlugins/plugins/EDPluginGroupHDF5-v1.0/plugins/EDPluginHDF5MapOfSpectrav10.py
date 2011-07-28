@@ -45,8 +45,11 @@ from XSDataCommon               import XSDataFile, XSDataString
 from EDConfiguration            import EDConfiguration
 from EDUtilsArray               import EDUtilsArray
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
+from EDPluginHDF5               import numpyPath, h5pyPath, fabioPath
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.version")
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
 
-import h5py, fabio
 
 
 class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
@@ -122,11 +125,9 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
         EDPluginHDF5.process(self)
         EDVerbose.DEBUG("EDPluginHDF5MapOfSpectrav10.process")
         maxSize = (((self.meshScan["SlowMotorSteps" ]), (self.meshScan["FastMotorSteps" ])))
-        EDVerbose.DEBUG("maxSize: " + str(maxSize))
-        EDVerbose.DEBUG("listSpectrumFilenames:" + str(self.listSpectrumFilenames))
 
         for filename in self.listSpectrumFilenames:
-            self.listArray.append(fabio.openimage.openimage(filename).data)
+            self.listArray.append(fabio.open(filename).data)
 
         if self.listForcedPositions == []:
             for oneArray in self.listArray:
@@ -140,6 +141,7 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
                             (self.meshScan["FastMotorStop"] - self.meshScan["FastMotorStart"]) * \
                                (self.meshScan["FastMotorSteps" ])
                 self.processOneSpectrum(self.listArray[i], (int(round(fSlowPosition)), int(round(fFastPosition))), maxSize=maxSize)
+
 
     def postProcess(self, _edObject=None):
         EDPluginHDF5.postProcess(self)
@@ -156,6 +158,11 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
         if self.bDeleteSpectrum:
             for oneImage in self.listSpectrumFilenames:
                 os.remove(oneImage)
+#        De-Allocate memory
+        self.listSpectrumFilenames = []
+        self.listForcedPositions = []
+        self.listSpectrumFileType = []
+        self.listArray = []
 
 
     def processOneSpectrum(self, npaImage, position, maxSize=None):

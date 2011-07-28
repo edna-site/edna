@@ -22,7 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
@@ -61,7 +61,7 @@ class EDPluginHDF5(EDPluginExec):
     """
     This is a common part for all EDNA plugin writing HDF5. most methods are class methods 
     """
-    __semaphore = threading.Semaphore()
+    __semCls = threading.Semaphore()
     __dictHDF5 = {} #key: filename, value: hdf5 h5py objects
     __dictLock = {} #key: filename, value:semaphores for writing
     HDF5_Multifiles = False
@@ -215,30 +215,29 @@ class EDPluginHDF5(EDPluginExec):
         if not os.path.isdir(os.path.dirname(filename)):
                 os.makedirs(os.path.dirname(filename))
 
-        cls.__semaphore.acquire()
-        if not cls.__dictHDF5.has_key(filename):
+        with cls.__semCls:
+            if not cls.__dictHDF5.has_key(filename):
 
-            if cls.HDF5_Multifiles:
-                try:
-                    cls.__dictHDF5[filename] = h5py.File(filename, driver="family")
-                except:
-                    EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 multi-file " + filename)
-                    raise
-            else:
-                try:
-                    cls.__dictHDF5[filename] = h5py.File(filename)
-                except:
-                    EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 file %s" % filename)
-                    EDVerbose.ERROR("I will now delete this file: %s and re-create it " % filename)
+                if cls.HDF5_Multifiles:
                     try:
-                        os.remove(filename)
+                        cls.__dictHDF5[filename] = h5py.File(filename, driver="family")
                     except:
-                        EDVerbose.ERROR("Fatal error !!! no way to recreate this corruped file %s" % filename)
+                        EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 multi-file " + filename)
                         raise
-                    cls.__dictHDF5[filename] = h5py.File(filename)
-        if not filename in cls.__dictLock:
-            cls.__dictLock[filename] = threading.Semaphore()
-        cls.__semaphore.release()
+                else:
+                    try:
+                        cls.__dictHDF5[filename] = h5py.File(filename)
+                    except:
+                        EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 file %s" % filename)
+                        EDVerbose.ERROR("I will now delete this file: %s and re-create it " % filename)
+                        try:
+                            os.remove(filename)
+                        except:
+                            EDVerbose.ERROR("Fatal error !!! no way to recreate this corruped file %s" % filename)
+                            raise
+                        cls.__dictHDF5[filename] = h5py.File(filename)
+            if not filename in cls.__dictLock:
+                cls.__dictLock[filename] = threading.Semaphore()
         cls.lockFile(filename)
         hdf5 = cls.__dictHDF5[filename]
         attrs = hdf5.attrs
@@ -281,11 +280,10 @@ class EDPluginHDF5(EDPluginExec):
         @type filename: string
         """
         if cls.__dictHDF5.has_key(filename):
-            EDVerbose.DEBUG("Flushing HDF5 buffer for " + filename)
-            cls.lockFile(filename)
-            cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
-            cls.__dictHDF5[filename].flush()
-            cls.releaseFile(filename)
+            EDVerbose.log("Flushing HDF5 buffer for " + filename)
+            with cls.__dictLock[filename]:
+                cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
+                cls.__dictHDF5[filename].flush()
         else:
             EDVerbose.WARNING("HDF5 Flush: %s, no such file under control" % filename)
 
@@ -317,14 +315,12 @@ class EDPluginHDF5(EDPluginExec):
         """
         Write down to the disk all HDF5 files under control.
         """
-        cls.__semaphore.acquire()
-        for filename in cls.__dictHDF5:
-            EDVerbose.DEBUG("Flushing HDF5 buffer for " + filename)
-            cls.lockFile(filename)
-            cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
-            cls.__dictHDF5[filename].flush()
-            cls.releaseFile(filename)
-        cls.__semaphore.release()
+        with cls.__semCls:
+            for filename in cls.__dictHDF5:
+                EDVerbose.log("Flushing HDF5 buffer for " + filename)
+                with cls.__dictLock[filename]:
+                    cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
+                    cls.__dictHDF5[filename].flush()
 
 
     @classmethod
@@ -336,15 +332,12 @@ class EDPluginHDF5(EDPluginExec):
         @type filename: string
         """
         if cls.__dictHDF5.has_key(filename):
-            cls.__semaphore.acquire()
-            EDVerbose.DEBUG("Closing HDF5 file " + filename)
-            sem = cls.__dictLock.pop(filename)
-            sem.acquire()
-            hdf5File = cls.__dictHDF5.pop(filename)
-            hdf5File.attrs.create("file_update_time", cls.getIsoTime())
-            hdf5File.close()
-            sem.release()
-            cls.__semaphore.release()
+            with cls.__semCls:
+                EDVerbose.log("Closing HDF5 file " + filename)
+                with cls.__dictLock.pop(filename):
+                    hdf5File = cls.__dictHDF5.pop(filename)
+                    hdf5File.attrs.create("file_update_time", cls.getIsoTime())
+                    hdf5File.close()
         else:
             EDVerbose.WARNING("HDF5 Flush: %s, no such file under control" % filename)
 
@@ -354,16 +347,13 @@ class EDPluginHDF5(EDPluginExec):
         """
         Write down to the disk all the HDF5 file and close them all.
         """
-        cls.__semaphore.acquire()
-        for filename in cls.__dictHDF5.copy():
-            EDVerbose.DEBUG("Closing HDF5 file " + filename)
-            sem = cls.__dictLock.pop(filename)
-            sem.acquire()
-            hdf5File = cls.__dictHDF5.pop(filename)
-            hdf5File.attrs.create("file_update_time", cls.getIsoTime())
-            hdf5File.close()
-            sem.release()
-        cls.__semaphore.release()
+        with cls.__semCls:
+            for filename in cls.__dictHDF5.copy():
+                EDVerbose.log("Closing HDF5 file " + filename)
+                with cls.__dictLock.pop(filename):
+                    hdf5File = cls.__dictHDF5.pop(filename)
+                    hdf5File.attrs.create("file_update_time", cls.getIsoTime())
+                    hdf5File.close()
 
 
     @classmethod

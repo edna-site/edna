@@ -143,6 +143,12 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
             for oneImage in self.listImageFilenames:
                 os.remove(oneImage)
 
+        #De-allocate memory no more used.
+        self.listImageFilenames = []
+        self.listForcedPositions = []
+        self.listImageDates = []
+        self.listArray = []
+
 
 
     def processOneImage(self, npaArray, position=None, filename=None, dictHeaders=None):
