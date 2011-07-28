@@ -22,11 +22,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble"
 __contact__ = "jerome.kieffer@esrf.fr"
+__data__ = "20110726"
 
 import os, sys, threading, time
 from EDVerbose                  import EDVerbose
@@ -34,10 +35,10 @@ from EDPluginControl            import EDPluginControl
 from EDUtilsArray               import EDUtilsArray
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from EDUtilsPlatform            import EDUtilsPlatform
-from EDUtilsParallel import EDUtilsParallel
-
-from XSDataCommon               import XSDataString, XSDataBoolean, XSDataDouble, XSDataInteger
-
+from EDUtilsParallel            import EDUtilsParallel
+from EDShare                    import EDShare
+from XSDataCommon               import XSDataString, XSDataBoolean, XSDataDouble, XSDataInteger, \
+    XSDataImageExt
 EDFactoryPluginStatic.loadModule("XSDataFullFieldXAS")
 from XSDataFullFieldXAS         import XSDataInputAlignStack
 from XSDataFullFieldXAS         import XSDataResultAlignStack
@@ -75,9 +76,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
     __iRefFrame = None
     __dictRelShift = {}#key=frame number N, value= 2-tuple of shift relative to frame N-1
     __dictAbsShift = {}#key=frame number N, value= 2-tuple of shift relative to frame iRefFrame
-    __dictFrame = {} #key=frame number N, value= XSD array ... needs to be cleaned up from time to time
     __semaphore = threading.Semaphore()
-    __dictUsed = {} #Every frame is used twice: once as reference once for shifting (iframref is used 2x as reference
 
 
     def __init__(self):
@@ -86,7 +85,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputAlignStack)
         self.iFrames = []
-        self.xsdArrays = []
+        self.npArrays = []
         self.xsdMeasureOffset = None
         self.hdf5ExtraAttributes = None
         self.xsdHDF5File = None
@@ -107,74 +106,73 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginControlAlignStackv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getHDF5File(), "No Output HDF5 file provided")
-        self.checkMandatoryParameters(self.getDataInput().getInternalHDF5Path(), "No output HDF5 internal path provided")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.getHDF5File(), "No Output HDF5 file provided")
+        self.checkMandatoryParameters(self.dataInput.getInternalHDF5Path(), "No output HDF5 internal path provided")
+        self.checkMandatoryParameters(self.dataInput.images, "No images to process provided")
 
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlAlignStackv1_0.preProcess")
 
-        sdi = self.getDataInput()
+        sdi = self.dataInput
         self.xsdHDF5File = sdi.getHDF5File()
         self.xsdHDF5Internal = sdi.getInternalHDF5Path()
         self.hdf5ExtraAttributes = sdi.extraAttributes
 
         self.iFrames = [ xsd.getValue() for xsd in sdi.getIndex()]
 
-#        print self.iFrames
-        for idx, oneXSDFile in enumerate(sdi.getImage()):
-            filename = oneXSDFile.getPath().getValue()
-            self.xsdArrays.append(EDUtilsArray.arrayToXSData(fabio.open(filename).data))
-#            print idx
+        for idx, oneXSDFile in enumerate(sdi.getImages()):
+            self.npArrays.append(EDUtilsArray.getArray(oneXSDFile))
             if len(self.iFrames) <= idx:
-                number = ""
-                basename = os.path.splitext(filename)[0]
-                for i in basename[-1:0:-1]:
-                    if i.isdigit():
-                        number = i + number
-                    else: break
-                self.iFrames.append(int(number))
-        for oneXSDArray in sdi.getArray():
-            self.xsdArrays.append(oneXSDArray)
-        if self.xsdArrays == []:
+                if (oneXSDFile.number is not None):
+                    self.iFrames.append(oneXSDFile.number.value)
+                elif oneXSDFile.path is not None :
+                    number = ""
+                    filename = oneXSDFile.path.value
+                    basename = os.path.splitext(filename)[0]
+                    for i in basename[-1:0:-1]:
+                        if i.isdigit():
+                            number = i + number
+                        else: break
+                    self.iFrames.append(int(number))
+
+        if self.npArrays == []:
             strError = "EDPluginControlAlignStackv1_0.preProcess: You should either provide an images or an arrays, but I got: %s" % sdi.marshal()
             self.ERROR(strError)
             self.setFailure()
-            raise RuntimeError(strError)
-
 
         self.xsdMeasureOffset = sdi.getMeasureOffset()
         if self.xsdMeasureOffset.getAlwaysVersusRef() is not None:
-            self.bAlwaysMOvsRef = (self.xsdMeasureOffset.getAlwaysVersusRef().getValue() in [1, "true", "True", True])
+            self.bAlwaysMOvsRef = bool(self.xsdMeasureOffset.alwaysVersusRef.value)
 
-        EDPluginControlAlignStackv1_0.__semaphore.acquire()
-        if (EDPluginControlAlignStackv1_0.__iRefFrame is None):
-            self.DEBUG("reference Frame is: %s" % sdi.getFrameReference().getValue())
-            if  sdi.getFrameReference() is not None:
-                EDPluginControlAlignStackv1_0.__iRefFrame = sdi.getFrameReference().getValue()
-            else:
-                EDPluginControlAlignStackv1_0.__iRefFrame = 0
-        EDPluginControlAlignStackv1_0.__semaphore.release()
+        with self.__class__.__semaphore:
+            if (self.__class__.__iRefFrame is None):
+                self.DEBUG("reference Frame is: %s" % sdi.getFrameReference().getValue())
+                if  sdi.getFrameReference() is not None:
+                    self.__class__.__iRefFrame = sdi.getFrameReference().getValue()
+                else:
+                    self.__class__.__iRefFrame = 0
 
-        if len(self.iFrames) != len(self.xsdArrays):
+        if len(self.iFrames) == len(self.npArrays):
+            for i, j in zip(self.iFrames, self.npArrays):
+                self.addFrame(i, j)
+        else:
             self.ERROR("EDPluginControlAlignStackv1_0.preProcess: You should either provide an images with a frame number or precise it in the XML !  I got: %s" % sdi.marshal())
             self.setFailure()
             raise RuntimeError
-        else:
-            for i in range(len(self.iFrames)):
-                EDPluginControlAlignStackv1_0.addFrame(self.iFrames[i], self.xsdArrays[i])
+
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlAlignStackv1_0.process")
 
         for iFrame in self.iFrames:
-            if self.bAlwaysMOvsRef:
-                EDPluginControlAlignStackv1_0.__dictUsed[iFrame] = 1
-            else:
-                EDPluginControlAlignStackv1_0.__dictUsed[iFrame] = 2
+#            if self.bAlwaysMOvsRef:
+#                EDPluginControlAlignStackv1_0.__dictUsed[iFrame] = 1
+#            else:
+#                EDPluginControlAlignStackv1_0.__dictUsed[iFrame] = 2
             edPluginExecAccumulator = self.loadPlugin(self.__strControlledPluginAccumulator)
             queryRaw = XSDataQuery()
             queryShift = XSDataQuery()
@@ -207,7 +205,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                                                     internalHDF5Path=self.xsdHDF5Internal,
                                                     HDF5File=self.xsdHDF5File,
                                                     index=[XSDataInteger(iFrame)],
-                                                    inputArray=[EDPluginControlAlignStackv1_0.__dictFrame[iFrame]])
+                                                    inputImageFile=[self.getFrameRef(iFrame)])
                 edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
                 edPluginExecHDF5.setDataInput(xsdata)
                 edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
@@ -226,109 +224,91 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.DEBUG("EDPluginControlAlignStackv1_0.postProcess")
         # Create some output data
         self.synchronizePlugins()
-        EDPluginControlAlignStackv1_0.__semaphore.acquire()
-        for oneKey in list(EDPluginControlAlignStackv1_0.__dictFrame.keys()):
-            if (oneKey in  EDPluginControlAlignStackv1_0.__dictUsed) and EDPluginControlAlignStackv1_0.__dictUsed[oneKey] < 1:
-                self.DEBUG("EDPluginControlAlignStackv1_0.postProcess: pop frame %i" % oneKey)
-                if not(self.bAlwaysMOvsRef and oneKey == EDPluginControlAlignStackv1_0.__iRefFrame):
-                    EDPluginControlAlignStackv1_0.__dictFrame.pop(oneKey)
-        EDPluginControlAlignStackv1_0.__semaphore.release()
         xsDataResult = XSDataResultAlignStack()
         xsDataResult.setHDF5File(self.xsdHDF5File)
         xsDataResult.setInternalHDF5Path(self.xsdHDF5Internal)
         self.setDataOutput(xsDataResult)
         self.emptyListOfLoadedPlugin()
-        self.xsdArrays = []
 
 
     def doSuccessExecMeasureOffset(self, _edPlugin=None):
-        self.semMeasure.acquire()
-        self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecMeasureOffset")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecMeasureOffset")
-        listIndex = [ i.getValue() for i in _edPlugin.getDataInput().getIndex()]
-        listIndex.sort()
-        if self.bAlwaysMOvsRef:
-            if min(listIndex) < EDPluginControlAlignStackv1_0.__iRefFrame:
-                iToShift, iRef = tuple(listIndex)
-                EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift] = tuple([ -i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
+        with self.semMeasure:
+            self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecMeasureOffset")
+            self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecMeasureOffset")
+            listIndex = [ i.getValue() for i in _edPlugin.dataInput.getIndex()]
+            listIndex.sort()
+            if self.bAlwaysMOvsRef:
+                if min(listIndex) < EDPluginControlAlignStackv1_0.__iRefFrame:
+                    iToShift, iRef = tuple(listIndex)
+                    EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift] = tuple([ -i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
+                else:
+                    iRef, iToShift = tuple(listIndex)
+                    EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift] = tuple([ i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
+                self.screen("Frame number %i has absolute offset of %.3f,%.3f" %
+                                     (iToShift, EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift][0], EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift][1]))
+                edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
+                xsdata = XSDataInputShiftImage()
+                xsdata.setIndex(XSDataInteger(iToShift))
+                xsdata.setOffset([XSDataDouble(i) for i in EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift]])
+                xsdata.setInputImage(self.getFrameRef(iToShift))
+                edPluginExecShift.setDataInput(xsdata)
+                edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
+                edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
+                edPluginExecShift.execute()
             else:
-                iRef, iToShift = tuple(listIndex)
-                EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift] = tuple([ i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
-            self.screen("Frame number %i has absolute offset of %.3f,%.3f" %
-                                 (iToShift, EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift][0], EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift][1]))
-            edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
-            xsdata = XSDataInputShiftImage()
-            xsdata.setIndex(XSDataInteger(iToShift))
-            xsdata.setOffset([XSDataDouble(i) for i in EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift]])
-            xsdata.setInputArray(EDPluginControlAlignStackv1_0.__dictFrame[iToShift])
-            edPluginExecShift.setDataInput(xsdata)
-            edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
-            edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
-            edPluginExecShift.execute()
-            self.synchronizeOn()
-            EDPluginControlAlignStackv1_0.__dictUsed[iRef] -= 1
-            self.synchronizeOff()
-        else:
-            if min(listIndex) < EDPluginControlAlignStackv1_0.__iRefFrame:
+                if min(listIndex) < EDPluginControlAlignStackv1_0.__iRefFrame:
 
-                iToShift, iRef = tuple(listIndex)
-                EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ -i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
-            else:
-                iRef, iToShift = tuple(listIndex)
-                EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
-            self.screen("Frame number %i has relative offset of %.3f,%.3f" %
-                                 (iToShift, EDPluginControlAlignStackv1_0.__dictRelShift[iToShift][0], EDPluginControlAlignStackv1_0.__dictRelShift[iToShift][1]))
+                    iToShift, iRef = tuple(listIndex)
+                    EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ -i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
+                else:
+                    iRef, iToShift = tuple(listIndex)
+                    EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ i.getValue() for i in _edPlugin.getDataOutput().getOffset()])
+                self.screen("Frame number %i has relative offset of %.3f,%.3f" %
+                                     (iToShift, EDPluginControlAlignStackv1_0.__dictRelShift[iToShift][0], EDPluginControlAlignStackv1_0.__dictRelShift[iToShift][1]))
 
-            xsdata = XSDataInputAccumulator()
-            xsdata.setItem([XSDataString("shift %04i" % iToShift)])
-            edPluginExecAccumulator = self.loadPlugin(self.__strControlledPluginAccumulator)
-            edPluginExecAccumulator.setDataInput(xsdata)
-            edPluginExecAccumulator.connectSUCCESS(self.doSuccessExecAccumultor)
-            edPluginExecAccumulator.connectFAILURE(self.doFailureExecAccumulator)
-            edPluginExecAccumulator.execute()
-            self.synchronizeOn()
-            EDPluginControlAlignStackv1_0.__dictUsed[iRef] -= 1
-            self.synchronizeOff()
-        self.semMeasure.release()
+                xsdata = XSDataInputAccumulator()
+                xsdata.setItem([XSDataString("shift %04i" % iToShift)])
+                edPluginExecAccumulator = self.loadPlugin(self.__strControlledPluginAccumulator)
+                edPluginExecAccumulator.setDataInput(xsdata)
+                edPluginExecAccumulator.connectSUCCESS(self.doSuccessExecAccumultor)
+                edPluginExecAccumulator.connectFAILURE(self.doFailureExecAccumulator)
+                edPluginExecAccumulator.execute()
         self.removeLoadedPlugin(_edPlugin)
 
 
     def doFailureExecMeasureOffset(self, _edPlugin=None):
         self.DEBUG("EDPluginControlAlignStackv1_0.doFailureExecMeasureOffset")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecMeasureOffset")
-        self.ERROR("Failure in execution of the MeasureOffset with input: %s and output %s" % (_edPlugin.getDataInput().marshal()[:1000], _edPlugin.getDataOutput().marshal()[:1000]))
+        self.ERROR("Failure in execution of the MeasureOffset with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.getDataOutput().marshal()[:1000]))
         self.setFailure()
         self.removeLoadedPlugin(_edPlugin)
 
 
     def doSuccessExecShiftImage(self, _edPlugin=None):
-        self.semShift.acquire()
-        self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
-        xsdIdx = _edPlugin.getDataInput().getIndex()
-        xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
-                                            forceDtype=XSDataString("float32"),
-                                            extraAttributes=self.hdf5ExtraAttributes,
-                                            internalHDF5Path=self.xsdHDF5Internal,
-                                            HDF5File=self.xsdHDF5File,
-                                            index=[xsdIdx],
-                                            inputArray=[_edPlugin.getDataOutput().getOutputArray()])
-        edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
-        edPluginExecHDF5.setDataInput(xsdata)
-        edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
-        edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
-        edPluginExecHDF5.execute()
-        self.synchronizeOn()
-        EDPluginControlAlignStackv1_0.__dictUsed[xsdIdx.value] -= 1
-        self.synchronizeOff()
-        self.semShift.release()
+#        self.semShift.acquire()
+        with self.semShift:
+            self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
+            self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
+            xsdIdx = _edPlugin.dataInput.getIndex()
+            xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
+                                                forceDtype=XSDataString("float32"),
+                                                extraAttributes=self.hdf5ExtraAttributes,
+                                                internalHDF5Path=self.xsdHDF5Internal,
+                                                HDF5File=self.xsdHDF5File,
+                                                index=[xsdIdx],
+                                                inputArray=[_edPlugin.getDataOutput().getOutputArray()])
+            edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
+            edPluginExecHDF5.setDataInput(xsdata)
+            edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
+            edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
+            edPluginExecHDF5.execute()
         self.removeLoadedPlugin(_edPlugin)
 
 
     def doFailureExecShiftImage(self, _edPlugin=None):
         self.DEBUG("EDPluginControlAlignStackv1_0.doFailureExecShiftImage")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecShiftImage")
-        self.ERROR("Failure in execution of the ExecShiftImage with input: %s and output %s" % (_edPlugin.getDataInput().marshal()[:1000], _edPlugin.getDataOutput().marshal()[:1000]))
+        self.ERROR("Failure in execution of the ExecShiftImage with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.getDataOutput().marshal()[:1000]))
         self.setFailure()
         self.removeLoadedPlugin(_edPlugin)
 
@@ -340,123 +320,127 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
     def doFailureExecStackHDF5(self, _edPlugin=None):
         self.DEBUG("EDPluginControlAlignStackv1_0.doFailureExecStackHDF5")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecStackHDF5")
-        self.ERROR("Failure in execution of the ExecStackHDF5 with input: %s " % (_edPlugin.getDataInput().marshal()[:1000]))
+        self.ERROR("Failure in execution of the ExecStackHDF5 with input: %s " % (_edPlugin.dataInput.marshal()[:1000]))
         if _edPlugin.getDataOutput() is not None:
             self.ERROR("Failure in execution of the ExecStackHDF5 with output %s" % (_edPlugin.getDataOutput().marshal()[:1000]))
 
 
     def doSuccessExecAccumultor(self, _edPlugin=None):
-        self.semAccumulator.acquire()
-        self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecAccumultor")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecAccumultor")
-        for query in _edPlugin.getDataOutput().getQuery():
-            self.addExtraTime(60)
-            _edPlugin.addExtraTime(60)
-            accType = query.getItem()[0].getValue().split()[0]
-            listInt = [int(i.getValue().split()[1]) for i in query.getItem()]
-#            self.screen("Processing Success Accumulator %s for %s" % (accType, listInt))
-            if accType == "raw":
-                listFrame = [EDPluginControlAlignStackv1_0.__dictFrame[i] for i in listInt]
-                #this is a hack to prevent thousands of threads to be launched at once.
-                EDUtilsParallel.semaphoreNbThreadsAcquire()
-                EDUtilsParallel.semaphoreNbThreadsRelease()
-                edPluginExecMeasure = self.loadPlugin(self.__strControlledPluginMeasure)
-                xsdata = XSDataInputMeasureOffset()
-                xsdata.setArray(listFrame)
-                if self.xsdMeasureOffset is not None:
-                    xsdata.setCropBorders(self.xsdMeasureOffset.getCropBorders())
-                    xsdata.setSmoothBorders(self.xsdMeasureOffset.getSmoothBorders())
-                    xsdata.setBackgroundSubtraction(self.xsdMeasureOffset.getRemoveBackground())
-                if max(listInt) > EDPluginControlAlignStackv1_0.__iRefFrame:
-                    listInt.sort()
-                else:
-                    listInt.sort(reverse=True)
-#                self.screen("Processing Success Accumulator raw for %s" % (listInt))
-                xsdata.setIndex([XSDataInteger(i) for i in listInt ])
-                edPluginExecMeasure.setDataInput(xsdata)
-                edPluginExecMeasure.connectSUCCESS(self.doSuccessExecMeasureOffset)
-                edPluginExecMeasure.connectFAILURE(self.doFailureExecMeasureOffset)
-                edPluginExecMeasure.execute()
+        with self.semAccumulator:
+            self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecAccumultor")
+            self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecAccumultor")
+            for query in _edPlugin.getDataOutput().getQuery():
+                self.addExtraTime(60)
+                _edPlugin.addExtraTime(60)
+                accType = query.getItem()[0].getValue().split()[0]
+                listInt = [int(i.getValue().split()[1]) for i in query.getItem()]
+                if accType == "raw":
+                    listFrame = [self.getFrameRef(i) for i in listInt]
+                    #this is a hack to prevent thousands of threads to be launched at once.
+                    EDUtilsParallel.semaphoreNbThreadsAcquire()
+                    EDUtilsParallel.semaphoreNbThreadsRelease()
+                    edPluginExecMeasure = self.loadPlugin(self.__strControlledPluginMeasure)
+                    xsdata = XSDataInputMeasureOffset()
+                    xsdata.setImage(listFrame)
+                    if self.xsdMeasureOffset is not None:
+                        xsdata.setCropBorders(self.xsdMeasureOffset.getCropBorders())
+                        xsdata.setSmoothBorders(self.xsdMeasureOffset.getSmoothBorders())
+                        xsdata.setBackgroundSubtraction(self.xsdMeasureOffset.getRemoveBackground())
+                    if max(listInt) > EDPluginControlAlignStackv1_0.__iRefFrame:
+                        listInt.sort()
+                    else:
+                        listInt.sort(reverse=True)
+                    xsdata.setIndex([XSDataInteger(i) for i in listInt ])
+                    edPluginExecMeasure.setDataInput(xsdata)
+                    edPluginExecMeasure.connectSUCCESS(self.doSuccessExecMeasureOffset)
+                    edPluginExecMeasure.connectFAILURE(self.doFailureExecMeasureOffset)
+                    edPluginExecMeasure.execute()
 
-            elif accType == "shift":
-                shift_1 = 0.0
-                shift_2 = 0.0
+                elif accType == "shift":
+                    shift_1 = 0.0
+                    shift_2 = 0.0
 
-                for frame in listInt:
-                    shift_1 += EDPluginControlAlignStackv1_0.__dictRelShift[frame][0]
-                    shift_2 += EDPluginControlAlignStackv1_0.__dictRelShift[frame][1]
-                if listInt[0] > EDPluginControlAlignStackv1_0.__iRefFrame:
-                    iFrameShift = max(listInt)
-#                    shift_1 *=1
-#                    shift_2 *=1
-                else:
-                    iFrameShift = min(listInt)
-#                    shift_1 *= -1
-#                    shift_2 *= -1
-                EDPluginControlAlignStackv1_0.__dictAbsShift[iFrameShift] = (shift_1, shift_2)
-                self.screen("Frame number %i has absolute offset of %.3f,%.3f" % (iFrameShift, shift_1, shift_2))
+                    for frame in listInt:
+                        shift_1 += EDPluginControlAlignStackv1_0.__dictRelShift[frame][0]
+                        shift_2 += EDPluginControlAlignStackv1_0.__dictRelShift[frame][1]
+                    if listInt[0] > EDPluginControlAlignStackv1_0.__iRefFrame:
+                        iFrameShift = max(listInt)
+                    else:
+                        iFrameShift = min(listInt)
+                    EDPluginControlAlignStackv1_0.__dictAbsShift[iFrameShift] = (shift_1, shift_2)
+                    self.screen("Frame number %i has absolute offset of %.3f,%.3f" % (iFrameShift, shift_1, shift_2))
 
-                #this is a hack to prevent thousands of threads to be launched at once.
-                EDUtilsParallel.semaphoreNbThreadsAcquire()
-                EDUtilsParallel.semaphoreNbThreadsRelease()
+                    #this is a hack to prevent thousands of threads to be launched at once.
+                    EDUtilsParallel.semaphoreNbThreadsAcquire()
+                    EDUtilsParallel.semaphoreNbThreadsRelease()
 
-                edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
-                xsdata = XSDataInputShiftImage()
-                xsdata.setIndex(XSDataInteger(iFrameShift))
-                xsdata.setOffset([XSDataDouble(shift_1), XSDataDouble(shift_2)])
-                xsdata.setInputArray(EDPluginControlAlignStackv1_0.__dictFrame[iFrameShift])
-                edPluginExecShift.setDataInput(xsdata)
-                edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
-                edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
-                edPluginExecShift.execute()
-        self.DEBUG("Items: %s" % EDPluginAccumulatorv1_0.getItems())
-        self.DEBUG("Queries: %s" % EDPluginAccumulatorv1_0.getQueries())
-        self.semAccumulator.release()
+                    edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
+                    xsdata = XSDataInputShiftImage()
+                    xsdata.setIndex(XSDataInteger(iFrameShift))
+                    xsdata.setOffset([XSDataDouble(shift_1), XSDataDouble(shift_2)])
+                    xsdata.setInputImage(self.getFrameRef(iFrameShift))
+                    edPluginExecShift.setDataInput(xsdata)
+                    edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
+                    edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
+                    edPluginExecShift.execute()
+            self.DEBUG("Items: %s" % EDPluginAccumulatorv1_0.getItems())
+            self.DEBUG("Queries: %s" % EDPluginAccumulatorv1_0.getQueries())
 
 
     def doFailureExecAccumulator(self, _edPlugin=None):
         self.DEBUG("EDPluginControlAlignStackv1_0.doFailureExecAccumulator")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecAccumulator")
-        self.ERROR("Failure in execution of the accumulator with input: %s and output %s" % (_edPlugin.getDataInput().marshal()[:1000], _edPlugin.getDataOutput().marshal()[:1000]))
+        self.ERROR("Failure in execution of the accumulator with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.getDataOutput().marshal()[:1000]))
         self.setFailure()
 
-    @staticmethod
-    def showData():
+    @classmethod
+    def showData(cls):
         EDVerbose.screen("*"*20 + "EDPluginControlAlignStackv1_0" + "*" * 20)
-        EDVerbose.screen("Reference Frame: %s" % EDPluginControlAlignStackv1_0.__iRefFrame)
-        if len(EDPluginControlAlignStackv1_0.__dictRelShift) < len(EDPluginControlAlignStackv1_0.__dictAbsShift):
-            mydict = EDPluginControlAlignStackv1_0.__dictAbsShift.copy()
+        EDVerbose.screen("Reference Frame: %s" % cls.__iRefFrame)
+        if len(cls.__dictRelShift) < len(cls.__dictAbsShift):
+            mydict = cls.__dictAbsShift.copy()
         else:
-            mydict = EDPluginControlAlignStackv1_0.__dictRelShift.copy()
+            mydict = cls.__dictRelShift.copy()
         for i in mydict:
             EDVerbose.screen("Frame %i relative: %s absolute: %s" % \
-                             (i, EDPluginControlAlignStackv1_0.__dictRelShift.get(i), EDPluginControlAlignStackv1_0.__dictAbsShift.get(i)))
+                             (i, cls.__dictRelShift.get(i), cls.__dictAbsShift.get(i)))
         items = EDPluginAccumulatorv1_0.getItems()
         items.sort()
         EDVerbose.screen("Items in the accumultor: %s" % (items))
         querylist = [" "] + [ str(i) for i in EDPluginAccumulatorv1_0.getQueries().keys()]
         EDVerbose.screen("Queries in the accumultor: " + os.linesep.join(querylist))
-        EDVerbose.screen("Frames still in memory: %s" % list(EDPluginControlAlignStackv1_0.__dictFrame.keys()))
 
 
-    @staticmethod
-    def addFrame(index, value):
+    @classmethod
+    def addFrame(cls, index, value):
         """
-        Just add the value to the dictionnary
+        Just store the value to EDShare 
         """
-        EDPluginControlAlignStackv1_0.__semaphore.acquire()
-        EDPluginControlAlignStackv1_0.__dictFrame[index] = value
-        EDPluginControlAlignStackv1_0.__semaphore.release()
+        EDShare["EDPluginControlAlignStackv1_0/%i" % int(index)] = value
 
 
-    @staticmethod
-    def cleanUp():
+    @classmethod
+    def getFrame(cls, index):
         """
-        Clean up of the dictionary containing images
+        Just Retrives the value from EDShare 
         """
-        EDPluginControlAlignStackv1_0.__semaphore.acquire()
-        for oneFrame in EDPluginControlAlignStackv1_0.__dictFrame:
-            if ((oneFrame - 1) in EDPluginControlAlignStackv1_0.__dictAbsShift) and ((oneFrame + 1) in EDPluginControlAlignStackv1_0.__dictAbsShift) and (oneFrame  in EDPluginControlAlignStackv1_0.__dictAbsShift):
-                EDVerbose.DEBUG("Cleaning up frame nr: %s" % oneFrame)
-                EDPluginControlAlignStackv1_0.__dictFrame.pop(oneFrame)
-        EDPluginControlAlignStackv1_0.__semaphore.release()
+        return EDShare["EDPluginControlAlignStackv1_0/%i" % int(index)]
+
+
+    @classmethod
+    def getFrameRef(cls, index):
+        """
+        Just retrieves the reference in the EDShare store 
+        @return: reference to the frame in EDShare
+        @rtype: XSDataImageExt
+        """
+        return XSDataImageExt(shared=XSDataString("EDPluginControlAlignStackv1_0/%i" % int(index)))
+
+
+    @classmethod
+    def cleanUp(cls):
+        """
+        Clean up of the dictionary containing images: Left for compatibility reasons
+        """
+        EDShare.flush()
+
