@@ -23,7 +23,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
@@ -66,7 +66,10 @@ except:
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
 
-
+try:
+    import fftw3
+except:
+    fftw3 = None
 
 class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     """
@@ -77,10 +80,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 
     CONF_CONVOLUTION = None
     CONF_CONVOLUTION_KEY = "convolution"
-    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "signal"
-################################################################################
-# TODO: implement pyfftw3
-################################################################################
+    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "signal" or even "fftw"
 
     def __init__(self):
         """
@@ -97,13 +97,8 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         self.bBackgroundsubtraction = False
         self.sobel = False
 
-################################################################################
-# TODO: implement pyfftw3
-################################################################################
-        self.fftw3Plan = None
-        self.ifftw3Plan = None
-        self.fftw3Input = None
-        self.fftw3Output = None
+
+
 
     def checkParameters(self):
         """
@@ -240,7 +235,30 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 ################################################################################
 
         t0 = time.time()
-        if self.CONF_CONVOLUTION == "signal":
+        if self.CONF_CONVOLUTION[:4] == "fftw" and (fftw3 is not None):
+
+            input = numpy.zeros(shape, dtype=complex)
+            output = numpy.zeros(shape, dtype=complex)
+
+            with self.__class__.__sem:
+                    fft = fftw3.Plan(input, output, direction='forward', flags=['measure'])
+                    ifft = fftw3.Plan(output, input, direction='backward', flags=['measure'])
+
+            input[:, :] = self.npaIm2.astype(complex)
+            fft()
+            temp = output.conjugate()
+
+            input[:, :] = self.npaIm1.astype(complex)
+            fft()
+
+            output *= temp
+            ifft()
+            res = input.astype("float32")
+            ma = res.argmax()
+            self.DEBUG("EDPluginExecMeasureOffsetv1_0.fftw took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, ma // shape[0] % shape[0], ma % shape[0]))
+            offset1 = scipy.ndimage.measurements.maximum_position(res)
+            res = scipy.ndimage.interpolation.shift(res, (shape[0] // 2 - offset1[0], shape[1] // 2 - offset1[1]), mode="wrap", order=0)
+        elif self.CONF_CONVOLUTION == "signal":
             offset1 = (0, 0) #tuple([i // 2 for i in  self.npaIm1.shape])
             res = scipy.signal.fftconvolve(self.npaIm1, self.npaIm2, mode="same")
             ma = res.argmax()
@@ -310,8 +328,8 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 
 
 
-    @staticmethod
-    def getMask(shape, sigma):
+    @classmethod
+    def getMask(cls, shape, sigma):
         """
         Generate a mask with 1 in the center and 0 on the border.
         
@@ -319,14 +337,13 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         @param sigma: 2-tuple of floats with the width of the border
         return: array 
         """
-        EDPluginExecMeasureOffsetv1_0.__sem.acquire()
-        if EDPluginExecMeasureOffsetv1_0.__npaMask == None:
-            self.screen("got Shape=%s and Sigma=%s" % (shape, sigma))
-            npa1 = numpy.ones(shape)
-            npa2 = scipy.ndimage.interpolation.shift(npa1, (-2 * sigma[0], -2 * sigma[1]), mode='constant', cval=0.0 , order=0)
-            npa3 = scipy.ndimage.interpolation.shift(npa2, sigma, mode='constant', cval=0.0 , order=0)
-            npa4 = scipy.ndimage.gaussian_filter(npa3, sigma)
-            EDPluginExecMeasureOffsetv1_0.__npaMask = npa4
-            self.DEBUG("final matrix %s is %s" % (npa4.shape, npa4))
-        EDPluginExecMeasureOffsetv1_0.__sem.release()
+        with cls.__sem:
+            if EDPluginExecMeasureOffsetv1_0.__npaMask == None:
+                self.screen("got Shape=%s and Sigma=%s" % (shape, sigma))
+                npa1 = numpy.ones(shape)
+                npa2 = scipy.ndimage.interpolation.shift(npa1, (-2 * sigma[0], -2 * sigma[1]), mode='constant', cval=0.0 , order=0)
+                npa3 = scipy.ndimage.interpolation.shift(npa2, sigma, mode='constant', cval=0.0 , order=0)
+                npa4 = scipy.ndimage.gaussian_filter(npa3, sigma)
+                EDPluginExecMeasureOffsetv1_0.__npaMask = npa4
+                self.DEBUG("final matrix %s is %s" % (npa4.shape, npa4))
         return EDPluginExecMeasureOffsetv1_0.__npaMask

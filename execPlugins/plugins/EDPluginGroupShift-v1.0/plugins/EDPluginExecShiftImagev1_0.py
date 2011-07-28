@@ -48,8 +48,9 @@ scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 scipy = EDFactoryPluginStatic.preImport("scipy", scipyPath)
+EDFactoryPluginStatic.preImport("Image", imagingPath)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
-Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+
 
 try:
     from fabio.edfimage import edfimage
@@ -89,7 +90,7 @@ class EDPluginExecShiftImagev1_0(EDPluginExec):
         EDVerbose.DEBUG("EDPluginExecShiftImagev1_0.preProcess")
         sdi = self.getDataInput()
         if sdi.inputImage is not None:
-            self.npaImage = EDUtilsArray.getArray(sdi.inputImage)
+            self.npaImage = numpy.array(EDUtilsArray.getArray(sdi.inputImage))
         elif  sdi.getInputArray() is not None:
             self.npaImage = EDUtilsArray.xsDataToArray(sdi.getInputArray())
         else:
