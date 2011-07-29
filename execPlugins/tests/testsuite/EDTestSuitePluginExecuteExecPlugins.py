@@ -77,7 +77,7 @@ class EDTestSuitePluginExecuteExecPlugins(EDTestSuite):
 #SAXS
         self.addTestSuiteFromName("EDTestSuitePluginExecuteGroupSaxsv1_0")
 # HDF5
-        self.addTestSuiteFromName("EDTestSuitePluginExecuteHDF5")
+        #self.addTestSuiteFromName("EDTestSuitePluginExecuteHDF5")
 #WaitFile
         self.addTestSuiteFromName("EDTestSuitePluginExecuteWaitFile")
 #EDF
