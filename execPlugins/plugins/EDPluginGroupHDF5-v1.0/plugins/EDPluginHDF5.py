@@ -238,36 +238,36 @@ class EDPluginHDF5(EDPluginExec):
                         cls.__dictHDF5[filename] = h5py.File(filename)
             if not filename in cls.__dictLock:
                 cls.__dictLock[filename] = threading.Semaphore()
-        cls.lockFile(filename)
-        hdf5 = cls.__dictHDF5[filename]
-        attrs = hdf5.attrs
-        if "/" in dictAttributes:
-            for key in dictAttributes["/"]:
-                if not key in attrs:
-                    attrs.create(key, dictAttributes["/"][key])
-        for key in cls.HDF5_ROOT_ATTRIBUTES:
-            if not key in attrs.keys():
-                attrs.create(key, cls.HDF5_ROOT_ATTRIBUTES[key])
-        if "file_name" not in attrs:
-            file_name = os.path.basename(filename)
-            if isinstance(file_name, unicode):
-                file_name = file_name.encode(cls.ENCODING)
-            attrs.create("file_name", os.path.basename(file_name))
-        if not "file_time" in attrs.keys():
-            attrs.create("file_time", cls.getIsoTime())
-        hdf5group = hdf5
-        for subpath in h5path.split("/"):
-            if subpath == "":
-                continue
-            hdf5group = hdf5group.require_group(subpath)
-            if hdf5group.name in dictAttributes:
-                for key in dictAttributes[hdf5group.name]:
-                    if not key in hdf5group.attrs:
-                        hdf5group.attrs.create(key, dictAttributes[hdf5group.name][key])
-            for key in cls.HDF5_GROUP_ATTRIBUTES:
-                if key not in hdf5group.attrs:
-                    hdf5group.attrs.create(key, cls.HDF5_GROUP_ATTRIBUTES[key])
-        cls.releaseFile(filename)
+            filelock = cls.__dictLock[filename]
+        with filelock:
+            hdf5 = cls.__dictHDF5[filename]
+            attrs = hdf5.attrs
+            if "/" in dictAttributes:
+                for key in dictAttributes["/"]:
+                    if not key in attrs:
+                        attrs.create(key, dictAttributes["/"][key])
+            for key in cls.HDF5_ROOT_ATTRIBUTES:
+                if not key in attrs.keys():
+                    attrs.create(key, cls.HDF5_ROOT_ATTRIBUTES[key])
+            if "file_name" not in attrs:
+                file_name = os.path.basename(filename)
+                if isinstance(file_name, unicode):
+                    file_name = file_name.encode(cls.ENCODING)
+                attrs.create("file_name", os.path.basename(file_name))
+            if not "file_time" in attrs.keys():
+                attrs.create("file_time", cls.getIsoTime())
+            hdf5group = hdf5
+            for subpath in h5path.split("/"):
+                if subpath == "":
+                    continue
+                hdf5group = hdf5group.require_group(subpath)
+                if hdf5group.name in dictAttributes:
+                    for key in dictAttributes[hdf5group.name]:
+                        if not key in hdf5group.attrs:
+                            hdf5group.attrs.create(key, dictAttributes[hdf5group.name][key])
+                for key in cls.HDF5_GROUP_ATTRIBUTES:
+                    if key not in hdf5group.attrs:
+                        hdf5group.attrs.create(key, cls.HDF5_GROUP_ATTRIBUTES[key])
         return hdf5group
 
 
