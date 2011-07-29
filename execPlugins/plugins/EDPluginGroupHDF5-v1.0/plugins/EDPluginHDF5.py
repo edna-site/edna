@@ -64,6 +64,7 @@ class EDPluginHDF5(EDPluginExec):
     __semCls = threading.Semaphore()
     __dictHDF5 = {} #key: filename, value: hdf5 h5py objects
     __dictLock = {} #key: filename, value:semaphores for writing
+    __bConfigured = False
     HDF5_Multifiles = False
     HDF5_Compression = None
     CONF_COMPRESSION_KEY = "compression"
@@ -102,7 +103,6 @@ class EDPluginHDF5(EDPluginExec):
         self.dtype = None
         self.dictExtraAttributes = {} #key= h5path, value dict of attributes
         self.__iChunkSegmentation = 1
-        self.__startTime = time.time()
 
 
     def checkParameters(self):
@@ -122,20 +122,21 @@ class EDPluginHDF5(EDPluginExec):
         """
         EDPluginExec.configure(self)
         self.DEBUG("EDPluginHDF5.configure")
-        xsPluginItem = self.getConfiguration()
-        if xsPluginItem is not None:
-            strCompression = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginHDF5.CONF_COMPRESSION_KEY)
-            if strCompression != None:
-                if strCompression == "None":
-                    self.HDF5_Compression = None
-                else:
-                    self.HDF5_Compression = strCompression
+        if not EDPluginHDF5.__bConfigured:
+            xsPluginItem = self.getConfiguration()
+            if xsPluginItem is not None:
+                strCompression = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginHDF5.CONF_COMPRESSION_KEY)
+                if strCompression != None:
+                    if strCompression == "None":
+                        EDPluginHDF5.HDF5_Compression = None
+                    else:
+                        EDPluginHDF5.HDF5_Compression = strCompression
+            EDPluginHDF5.__bConfigured = True
 
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
         self.DEBUG("EDPluginHDF.preProcess")
-        self.__startTime = time.time()
         self.strHDF5Filename = self.dataInput.HDF5File.path.value
         self.strHDF5Path = self.dataInput.internalHDF5Path.value
 
@@ -161,7 +162,6 @@ class EDPluginHDF5(EDPluginExec):
         EDPluginExec.postProcess(self)
         if self.isVerboseDebug():
             self.flush(self.strHDF5Filename)
-        self.log("EDPluginHDF5.postProcess %s: HDF5 writing took %.3fs" % (self.getId(), time.time() - self.__startTime))
 
     @classmethod
     def readImage(cls, filename):

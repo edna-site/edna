@@ -169,15 +169,11 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.DEBUG("EDPluginControlAlignStackv1_0.process")
 
         for iFrame in self.iFrames:
-#            if self.bAlwaysMOvsRef:
-#                EDPluginControlAlignStackv1_0.__dictUsed[iFrame] = 1
-#            else:
-#                EDPluginControlAlignStackv1_0.__dictUsed[iFrame] = 2
             edPluginExecAccumulator = self.loadPlugin(self.__strControlledPluginAccumulator)
             queryRaw = XSDataQuery()
             queryShift = XSDataQuery()
-            queryRaw.setRemoveItems(XSDataBoolean(0))
-            queryShift.setRemoveItems(XSDataBoolean(0))
+            queryRaw.setRemoveItems(XSDataBoolean(False))
+            queryShift.setRemoveItems(XSDataBoolean(False))
             xsdataAcc = XSDataInputAccumulator()
             if EDPluginControlAlignStackv1_0.__iRefFrame < iFrame:
                 if self.bAlwaysMOvsRef:

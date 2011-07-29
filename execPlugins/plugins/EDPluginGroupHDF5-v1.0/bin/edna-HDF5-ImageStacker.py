@@ -45,53 +45,61 @@ if not os.environ.has_key("EDNA_HOME"):
 
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 from EDParallelExecute import EDParallelExecute
-sys.path.append(os.path.join(os.environ["EDNA_HOME"], "execPlugins", "plugins" , "EDPluginGroupHDF5-v1.0", "plugins"))
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("EDPluginHDF5StackImagesv10")
 from EDPluginHDF5StackImagesv10 import EDPluginHDF5StackImagesv10
-
-
+from XSDataHDF5v1_0 import XSDataInputHDF5StackImages, XSDataImageExt, XSDataInteger, XSDataFile, XSDataString
+from EDUtilsArray import EDUtilsArray
+import fabio
 EDNAPluginName = "EDPluginHDF5StackImagesv10"
 
-def fileName2xml(filename):
-    """Here we create the XML string to be passed to the EDNA plugin from the input filename
-    This can / should be modified by the final user
-    
-    @param filename: full path of the input file
-    @type filename: python string representing the path
-    @rtype: XML string
-    @return: python string  
-    """
+class MakeXML(object):
+    def __init__(self, hdfFile=None):
+        self.hdfFile = hdfFile
+        self.index = 0
+        self.dict = {}#key:index, value: filename
+    def fileName2xml(self, filename):
+        """Here we create the XML string to be passed to the EDNA plugin from the input filename
+        This can / should be modified by the final user
+        
+        @param filename: full path of the input file
+        @type filename: python string representing the path
+        @rtype: XML string
+        @return: python string  
+        """
 
-    basename = list(os.path.splitext(os.path.basename(filename))[0])
-    basename.reverse()
-    number = ""
-    for i in basename:
-        if i.isdigit():
-            number = i + number
-        else: break
-    hdf5File = os.path.splitext(filename)[0][:-len(number)] + ".h5"
-    xml = "<XSDataInputStackOfImagesHDF5Writer>\
-    <HDF5File><path><value>%s</value></path></HDF5File>\
-    <internalHDF5Path><value>RawStack</value></internalHDF5Path>\
-    <inputImageFile>\
-        <path><value>%s</value></path>\
-        <index><value>%s</value></index>\
-    </inputImageFile>\
-    <multiFiles><value>0</value></multiFiles>\
-    </XSDataInputStackOfImagesHDF5Writer>" % (hdf5File, filename, number)
-#    print filename + " should be on position " + number
-    return xml
+        basename = list(os.path.splitext(os.path.basename(filename))[0])
+        basename.reverse()
+        number = ""
+        for i in basename:
+            if i.isdigit():
+                number = i + number
+            else: break
+        if self.hdfFile is None:
+            self.hdfFile = os.path.splitext(filename)[0][:-len(number)] + ".h5"
 
-def XMLerr(strXMLin):
-    """
-    This is an example of XMLerr function ... it prints only the name of the file created
-    @param srXMLin: The XML string used to launch the job
-    @type strXMLin: python string with the input XML
-    @rtype: None
-    @return: None     
-    """
-    print "Error in the processing of :"
-    print strXMLin
-    return None
+        xsd = XSDataInputHDF5StackImages(index=[XSDataInteger(self.index)],
+                                         HDF5File=XSDataFile(XSDataString(self.hdfFile)),
+                                         internalHDF5Path=XSDataString("RawStack"),
+                                         inputImageFile=[XSDataImageExt(path=XSDataString(filename))]
+                                         )
+#                                         inputArray=[EDUtilsArray.arrayToXSData(fabio.open(filename).data)])
+
+        self.dict[self.index] = filename
+        self.index += 1
+        return xsd.marshal()
+
+    def errBack(self, strXMLin):
+        """
+        This is an example of XMLerr function ... it prints only the name of the file created
+        @param srXMLin: The XML string used to launch the job
+        @type strXMLin: python string with the input XML
+        @rtype: None
+        @return: None     
+        """
+        xsd = XSDataInputHDF5StackImages.parseString(strXMLin)
+        print "Error in the processing of : %s" % (self.dict[xsd.index[0].value])
+
 
 
 if __name__ == '__main__':
@@ -100,6 +108,7 @@ if __name__ == '__main__':
     newerOnly = True
     debug = False
     iNbCPU = None
+    hdf5 = None
     for i in sys.argv[1:]:
         if i.lower().find("-online") in [0, 1]:
             mode = "dirwatch"
@@ -109,9 +118,12 @@ if __name__ == '__main__':
             debug = True
         elif i.lower().find("-ncpu") in [0, 1]:
             iNbCPU = int(i.split("=", 1)[1])
+        elif i.lower().find("-h") in [0, 1]:
+            hdf5 = i.split("=", 1)[1]
         elif os.path.exists(i):
             paths.append(os.path.abspath(i))
-
+    print hdf5
+    mkXml = MakeXML(hdf5)
     if len(paths) == 0:
         if mode == "OffLine":
             print "This is the HDF5 3D image stacker application of EDNA, \nplease give a path to process offline or the option:\n\
@@ -122,7 +134,7 @@ if __name__ == '__main__':
             sys.exit()
         else:
             paths = [os.getcwd()]
-    edna = EDParallelExecute(EDNAPluginName, fileName2xml, _functXMLerr=XMLerr, _bVerbose=True, _bDebug=debug, _iNbThreads=iNbCPU)
+    edna = EDParallelExecute(EDNAPluginName, mkXml.fileName2xml, _functXMLerr=mkXml.errBack, _bVerbose=True, _bDebug=debug, _iNbThreads=iNbCPU)
     edna.runEDNA(paths, mode , newerOnly)
     print "Back in main"
     EDPluginHDF5StackImagesv10.closeAll()

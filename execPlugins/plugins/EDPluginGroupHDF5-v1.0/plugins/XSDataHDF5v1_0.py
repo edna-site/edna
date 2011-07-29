@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jul 26 01:47::17 2011 by EDGenerateDS.
+# Generated Fri Jul 29 08:55::05 2011 by EDGenerateDS.
 #
 
 import sys
@@ -18,8 +18,8 @@ from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
-from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataTime
+from XSDataCommon import XSDataImageExt
 
 
 
@@ -983,10 +983,10 @@ class XSDataInputHDF5StackImages(XSDataInputHDF5Writer):
 	# Properties
 	inputImageFile = property(getInputImageFile, setInputImageFile, delInputImageFile, "Property for inputImageFile")
 	def addInputImageFile(self, value):
-		checkType("XSDataInputHDF5StackImages", "setInputImageFile", value, "XSDataImage")
+		checkType("XSDataInputHDF5StackImages", "setInputImageFile", value, "XSDataImageExt")
 		self.__inputImageFile.append(value)
 	def insertInputImageFile(self, index, value):
-		checkType("XSDataInputHDF5StackImages", "setInputImageFile", value, "XSDataImage")
+		checkType("XSDataInputHDF5StackImages", "setInputImageFile", value, "XSDataImageExt")
 		self.__inputImageFile[index] = value
 	def getInputArray(self): return self.__inputArray
 	def setInputArray(self, inputArray):
@@ -1042,7 +1042,7 @@ class XSDataInputHDF5StackImages(XSDataInputHDF5Writer):
 			self.setDeleteInputImage(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'inputImageFile':
-			obj_ = XSDataImage()
+			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.inputImageFile.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \

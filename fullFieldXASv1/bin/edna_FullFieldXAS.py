@@ -21,6 +21,11 @@ if not os.environ.has_key("EDNA_HOME"):
 
     os.environ["EDNA_HOME"] = pyStrEdnaHomePath
 
+try:
+    from rfoo.utils import rconsole
+    rconsole.spawn_server()
+except ImportError:
+    print("No socket opened for debuging -> please install rfoo")
 
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 from EDParallelExecute      import EDParallelExecute
@@ -35,6 +40,13 @@ from EDPluginControlFullFieldXASv1_0 import EDPluginControlFullFieldXASv1_0
 from EDPluginHDF5StackImagesv10 import EDPluginHDF5StackImagesv10
 from XSDataFullFieldXAS     import MeasureOffset, XSDataInputAlignStack, XSDataInputFullFieldXAS
 from XSDataCommon           import XSDataTime, XSDataFile, XSDataImageExt, XSDataString, XSDataInteger, XSDataBoolean, XSDataDouble
+numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
+fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
+h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.version")
+
 
 if socket.gethostname() == 'lintaillefer':
     EDShare.initialize("/mnt/data/EDShare")
@@ -48,11 +60,6 @@ else:
 
 
 
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
-fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
-import fabio
 
 EDNAPluginName = "EDPluginControlFullFieldXASv1_0"
 class FullFieldXas(object):
@@ -75,7 +82,7 @@ class FullFieldXas(object):
         self.exposureTime = {}
         self.normalizedSuffix = "_norm.edf"
         self.flatPrefix = None
-
+        self.iLinewidth = 50
         self.listInput = []
         self.bNewerOnly = False
         self.strMode = "OffLine"
@@ -119,13 +126,26 @@ class FullFieldXas(object):
         self.readDark()
         self.readMeasureOffset()
 
+    def raw_input(self, txt):
+        """
+        Same behavour as raw_input but adapted to this program 
+        
+        @param txt: text to be displayed
+        @return: string
+        """
+        if len(txt) > self.iLinewidth:
+            self.iLinewidth = len(txt)
+        else:
+            txt = txt.ljust(self.iLinewidth)
+        return raw_input(txt).strip()
 
     def readInputDir(self, _listInput):
         bOK = False
         if _listInput == []:
             _listInput = [os.getcwd()]
         while not bOK:
-            strtmp = raw_input("What are the input directories (mandatory, space separated) %s: " % _listInput).strip()
+            txt = "What are the input directories (mandatory, space separated) %s: " % _listInput
+            strtmp = self.raw_input(txt)
             if len(strtmp) > 0:
                 bAllExists = True
                 lstTemp = shlex.split(strtmp)
@@ -144,7 +164,8 @@ class FullFieldXas(object):
     def readMode(self, _mode):
         bOK = False
         while not bOK:
-            strtmp = raw_input("What is operation mode [offline|online|all] (%s): " % _mode).strip().lower()
+            txt = "What is operation mode [offline|online|all] (%s): " % _mode
+            strtmp = self.raw_input(txt).lower()
             if len(strtmp) == 0:
                 strtmp = _mode.lower()
             if strtmp == "offline":
@@ -173,7 +194,7 @@ class FullFieldXas(object):
             tmpHDF5 = common.strip("_") + "_0001/Aligned"
         bOK = False
         while not bOK:
-            strtmp = raw_input("What is the destination HDF5 file [%s]: \t" % tmpHDF5).strip()
+            strtmp = self.raw_input("What is the destination HDF5 file [%s]: " % tmpHDF5)
             if strtmp == "":
                 strtmp = tmpHDF5
             if (strtmp is not None) and os.path.isdir(os.path.dirname(strtmp)):
@@ -185,7 +206,7 @@ class FullFieldXas(object):
             tmpHDF5 = None
         bOK = False
         while not bOK:
-            strtmp = raw_input("What is the internal HDF5 path  [%s]: \t" % tmpHDF5).strip()
+            strtmp = self.raw_input("What is the internal HDF5 path  [%s]: " % tmpHDF5)
             if strtmp == "":
                 strtmp = tmpHDF5
             if isinstance(strtmp, (str, unicode)):
@@ -195,7 +216,7 @@ class FullFieldXas(object):
     def readPrefix(self):
         bOK = False
         while not bOK:
-            strtmp = raw_input("What is the input data filename prefix [%s]: \t" % self.prefix).strip()
+            strtmp = self.raw_input("What is the input data filename prefix [%s]: " % self.prefix)
             if strtmp != "":
                 self.prefix = strtmp
                 bOK = True
@@ -203,7 +224,7 @@ class FullFieldXas(object):
     def readSuffix(self):
         bOK = False
         while not bOK:
-            strtmp = raw_input("What is common input data suffix [%s]: \t" % self.suffix).strip()
+            strtmp = self.raw_input("What is common input data suffix [%s]: " % self.suffix)
             if strtmp == "":
                 bOK = (self.suffix is not None)
             else:
@@ -214,7 +235,7 @@ class FullFieldXas(object):
         bOK = False
         self.flatPrefix = self.prefix.replace("data", "ref")
         while not bOK:
-            strtmp = raw_input("What is the flat image filename prefix [%s]: \t" % self.flatPrefix).strip()
+            strtmp = self.raw_input("What is the flat image filename prefix [%s]: " % self.flatPrefix)
             if strtmp == "":
                 bOK = (self.suffix is not None)
             else:
@@ -224,7 +245,7 @@ class FullFieldXas(object):
     def readNormSuffix(self):
         bOK = False
         while not bOK:
-            strtmp = raw_input("What is the suffix for normalized images [%s]: " % self.normalizedSuffix).strip()
+            strtmp = self.raw_input("What is the suffix for normalized images [%s]: " % self.normalizedSuffix)
             if strtmp == "":
                 bOK = (self.normalizedSuffix is not None)
             else:
@@ -239,7 +260,7 @@ class FullFieldXas(object):
             tmpRef = None
         bOK = False
         while not bOK:
-            strtmp = raw_input("What is the reference frame [%s]: \t\t" % tmpRef).strip()
+            strtmp = self.raw_input("What is the reference frame [%s]: " % tmpRef)
             if strtmp != "":
                 try:
                     tmpRef = int(strtmp)
@@ -256,17 +277,17 @@ class FullFieldXas(object):
             print self.xsdMeasureOffset.marshal()
         else:
             print("No settings are available for measuring offset")
-        strtmp = raw_input("Do you want to change them [N|y] ").strip().lower()
+        strtmp = self.raw_input("Do you want to change them [N|y] ").lower()
         if strtmp.find("y") == 0:
             if self.xsdMeasureOffset is None :
                  self.xsdMeasureOffset = MeasureOffset()
-            strtmp = raw_input("Measure Offset versus reference (not versus the next) [0|1] : ").strip()
+            strtmp = self.raw_input("Measure Offset versus reference (not versus the next) [0|1]: ")
             if len(strtmp) > 0:
                 self.xsdMeasureOffset.setAlwaysVersusRef(XSDataBoolean(int(strtmp)))
-            strtmp = raw_input("Remove background for measuring offset [0|1] : ").strip()
+            strtmp = self.raw_input("Remove background for measuring offset [0|1]: ")
             if len(strtmp) > 0:
                 self.xsdMeasureOffset.setRemoveBackground(XSDataBoolean(int(strtmp)))
-            strtmp = raw_input("Crop borders befor measuring offset (1 or 2 integers) : ").strip()
+            strtmp = self.raw_input("Crop borders befor measuring offset (1 or 2 integers): ")
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
@@ -274,7 +295,7 @@ class FullFieldXas(object):
                     print("error in reading integers from %s" % strtmp)
                 else:
                     self.xsdMeasureOffset.setCropBorders([XSDataInteger(i) for i in ints])
-            strtmp = raw_input("Smooth borders before measuring offset (1 or 2 integers) : ").strip()
+            strtmp = self.raw_input("Smooth borders before measuring offset (1 or 2 integers): ")
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
@@ -282,7 +303,7 @@ class FullFieldXas(object):
                     print("error in reading integers from %s" % strtmp)
                 else:
                     self.xsdMeasureOffset.setSmoothBorders([XSDataInteger(i) for i in ints])
-            strtmp = raw_input("Use Sobel filter to enhance feature detections [0|1] : ").strip()
+            strtmp = self.raw_input("Use Sobel filter to enhance feature detections [0|1]: ")
             if len(strtmp) > 0:
                 self.xsdMeasureOffset.setSobelFilter(XSDataBoolean(int(strtmp)))
 
@@ -294,17 +315,17 @@ class FullFieldXas(object):
                 print("%s\t\t%s" % (oneXSDark.getPath().getValue(), oneXSDark.getExposureTime().getValue()))
         else:
             print("No dark images are defined, you should define some !")
-        strtmp = raw_input("Do you want to change anything [N|y]:").strip().lower()
+        strtmp = self.raw_input("Do you want to change anything [N|y]: ").lower()
         if  strtmp.find("y") == 0:
             self.xsdDarks = []
-            strtmp = raw_input("Enter the list of all dark images, spaces separated: ").strip()
+            strtmp = self.raw_input("Enter the list of all dark images, spaces separated: ")
             for oneFile in shlex.split(strtmp):
                 if os.path.isfile(oneFile):
                     xsdata = XSDataImageExt()
                     xsdata.setPath(XSDataString(os.path.abspath(oneFile)))
                     expTime = self.getExposureTime(oneFile)
                     while expTime is None:
-                        strtmp = raw_input("What is the exposure time of %s: " % os.path.basename(oneFile)).strip()
+                        strtmp = self.raw_input("What is the exposure time of %s: " % os.path.basename(oneFile))
                         try:
                             expTime = float(strtmp)
                         except:
