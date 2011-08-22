@@ -1,0 +1,12 @@
+Image: /users/svensson/WorkSpace/edna/tests/data/images/ref-testscale_1_001.img
+                                                     Spot Total :    1434
+                                      Method-2 Resolution Total :    1334
+                                          Good Bragg Candidates :    1013
+Total integrated signal, pixel-ADC units above local background : 10152941
+                                                      Ice Rings :       0
+                                            Method 1 Resolution :    2.05
+                                            Method 2 Resolution :    1.87
+                                              Maximum unit cell :   208.2
+                                       Saturation, Top 50 Peaks :  18.4 %
+                                 In-resolution overloaded spots :       1
+
