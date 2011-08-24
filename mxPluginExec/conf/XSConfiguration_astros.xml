@@ -88,8 +88,16 @@
 					<value>/opt/phenix-1.7-650/build/intel-linux-2.6-x86_64/bin/distl.thin_client</value>
 				</XSParamItem>
 				<XSParamItem>
-					<name>distl.mp_spotfinder_server_read_file</name>
+					<name>pathToDistlServer</name>
 					<value>/opt/phenix-1.7-650/build/intel-linux-2.6-x86_64/bin/distl.mp_spotfinder_server_read_file</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>distlServerHost</name>
+					<value>astros</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>distlServerPort</name>
+					<value>8126</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>

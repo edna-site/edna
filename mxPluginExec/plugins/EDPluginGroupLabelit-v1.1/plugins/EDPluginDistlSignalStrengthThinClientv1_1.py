@@ -49,23 +49,28 @@ class EDPluginDistlSignalStrengthThinClientv1_1(EDPluginExecProcessScript):
     This plugin runs the labelit.distl command for pre-screening reference images.
     """
     
-    CONF_DISTL_SIGNAL_STRENGTH_SERVER_HOST = None
-    CONF_DISTL_SIGNAL_STRENGTH_SERVER_PORT = None
+    CONF_DISTL_SIGNAL_STRENGTH_SERVER_HOST = "distlServerHost"
+    CONF_DISTL_SIGNAL_STRENGTH_SERVER_PORT = "distlServerPort"
+    CONF_PATH_TO_DISTL_SIGNAL_STRENGTH_SERVER = "pathToDistlServer"
+    DEFAULT_SERVER_PORT = 8125
 
     def __init__(self):
         EDPluginExecProcessScript.__init__(self)
         self.setXSDataInputClass(XSDataInputDistlSignalStrength)
         self.strHostName = "localhost"
-        self.iPortNumber = 8125
+        self.iPortNumber = self.DEFAULT_SERVER_PORT
 
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
         EDVerbose.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            EDVerbose.warning("EDPluginDistlSignalStrengthThinClientv1_1.configure: No EDPluginDistlSignalStrengthThinClientv1_1 item defined.")
-            xsPluginItem = XSPluginItem()
+        strHostName = self.getStringConfigurationParameterValue(self.CONF_DISTL_SIGNAL_STRENGTH_SERVER_HOST)
+        if strHostName is not None:
+            self.strHostName = strHostName
+        iPortNumber = self.getIntegerConfigurationParameterValue(self.CONF_DISTL_SIGNAL_STRENGTH_SERVER_PORT)
+        if iPortNumber is not None:
+            self.iPortNumber = iPortNumber
+        
 
 
     def preProcess(self, _edObject=None):

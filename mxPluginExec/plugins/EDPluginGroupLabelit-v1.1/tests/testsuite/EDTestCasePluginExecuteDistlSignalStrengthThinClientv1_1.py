@@ -30,16 +30,18 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import os
+import os, time, shlex
 
 from EDTestCasePluginExecute import EDTestCasePluginExecute
 
+from EDPluginDistlSignalStrengthThinClientv1_1 import EDPluginDistlSignalStrengthThinClientv1_1
 
 
 class EDTestCasePluginExecuteDistlSignalStrengthThinClientv1_1(EDTestCasePluginExecute):
 
     def __init__(self, _edStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginDistlSignalStrengthThinClientv1_1")
+        self.setRequiredPluginConfiguration()
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputDistlSignalStrength_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultDistlSignalStrengthThinClient_reference.xml"))
@@ -47,6 +49,7 @@ class EDTestCasePluginExecuteDistlSignalStrengthThinClientv1_1(EDTestCasePluginE
     def preProcess(self):
         EDTestCasePluginExecute.preProcess(self)
         self.loadTestImage([ "ref-testscale_1_001.img" ])
+        
 
 
     def testExecute(self):
