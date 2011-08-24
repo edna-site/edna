@@ -85,8 +85,8 @@ class EDPluginControlStitchImagev1_0(EDPluginControl):
         self.xWidth = self.getDataInput().widthROI
         self.xBlending = self.getDataInput().blending
         self.xMask = self.getDataInput().mask
-        print [i.value for i in self.xCenter]
-        print [i.value for i in self.xWidth]
+#        print [i.value for i in self.xCenter]
+#        print [i.value for i in self.xWidth]
 
 
     def process(self, _edObject=None):

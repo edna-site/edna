@@ -59,7 +59,7 @@ EDFactoryPluginStatic.preImport("Image", imagingPath)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
 try:
-    import scipy.ndimage, scipy.fftpack, scipy.interpolate, scipy.signal
+    import scipy.ndimage, scipy.fftpack, scipy.interpolate#, scipy.signal
     from scipy.ndimage import sobel
 except:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
@@ -71,6 +71,26 @@ try:
 except:
     fftw3 = None
 
+def shift(input, shift):
+    """
+    Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order=0) but faster
+    @param in: 2d numpy array
+    @param d: 2-tuple of integers 
+    @return: shifted image
+    """
+    re = numpy.zeros_like(input)
+    s0, s1 = input.shape
+    d0 = shift[0] % s0
+    d1 = shift[0] % s1
+    r0 = (-d0) % s0
+    r1 = (-d1) % s1
+    re[d0:, d1:] = input[:r0, :r1]
+    re[:d0, d1:] = input[r0:, :r1]
+    re[d0:, :d1] = input[:r0, r1:]
+    re[:d0, :d1] = input[r0:, r1:]
+    return re
+
+
 class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     """
     An exec plugin that taked two images and measures the offset between the two.
@@ -80,7 +100,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 
     CONF_CONVOLUTION = None
     CONF_CONVOLUTION_KEY = "convolution"
-    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "signal" or even "fftw"
+    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "fftw". signal is no more possible
 
     def __init__(self):
         """
@@ -236,63 +256,58 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 
         t0 = time.time()
         if self.CONF_CONVOLUTION[:4] == "fftw" and (fftw3 is not None):
-
             input = numpy.zeros(shape, dtype=complex)
             output = numpy.zeros(shape, dtype=complex)
-
             with self.__class__.__sem:
                     fft = fftw3.Plan(input, output, direction='forward', flags=['measure'])
                     ifft = fftw3.Plan(output, input, direction='backward', flags=['measure'])
-
             input[:, :] = self.npaIm2.astype(complex)
             fft()
             temp = output.conjugate()
-
             input[:, :] = self.npaIm1.astype(complex)
             fft()
-
             output *= temp
             ifft()
             res = input.astype("float32")
-            ma = res.argmax()
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0.fftw took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, ma // shape[0] % shape[0], ma % shape[0]))
             offset1 = scipy.ndimage.measurements.maximum_position(res)
-            res = scipy.ndimage.interpolation.shift(res, (shape[0] // 2 - offset1[0], shape[1] // 2 - offset1[1]), mode="wrap", order=0)
-        elif self.CONF_CONVOLUTION == "signal":
-            offset1 = (0, 0) #tuple([i // 2 for i in  self.npaIm1.shape])
-            res = scipy.signal.fftconvolve(self.npaIm1, self.npaIm2, mode="same")
-            ma = res.argmax()
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0. signal took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, ma // shape[0] % shape[0], ma % shape[0]))
-            self.DEBUG("%s %s" % offset1)
+            self.DEBUG("EDPluginExecMeasureOffsetv1_0.fftw took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, offset1[0], offset1[1]))
+            res = shift(res, (shape[0] // 2 , shape[1] // 2))
+
+            ####################################################################
+            # Signal does not give the right answer
+            ####################################################################
+#        elif self.CONF_CONVOLUTION == "signal":
+##            offset1 = (0, 0) #tuple([i // 2 for i in  self.npaIm1.shape])
+#            res = scipy.signal.fftconvolve(self.npaIm1, self.npaIm2, mode="same")
+#            ma = res.argmax()
+#            self.DEBUG("EDPluginExecMeasureOffsetv1_0. signal took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, ma // shape[0] % shape[0], ma % shape[0]))
+#            self.DEBUG("%s %s" % offset1)
+
         elif self.CONF_CONVOLUTION == "scipy":
             i1f = scipy.fft((self.npaIm1).flatten())
             i2f = scipy.fft((self.npaIm2).flatten())
             res = scipy.ifft(i1f * i2f.conjugate()).real
-            ma = res.argmax()
             res = res.reshape(shape)
             offset1 = scipy.ndimage.measurements.maximum_position(res)
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0 scipy took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), ma // shape[0] % shape[0], ma % shape[0]))
-            res = scipy.ndimage.interpolation.shift(res, (shape[0] // 2 - offset1[0], shape[1] // 2 - offset1[1]), mode="wrap", order=0)
+            self.DEBUG("EDPluginExecMeasureOffsetv1_0 scipy took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), offset1[0], offset1[1]))
+            res = shift(res, (shape[0] // 2 , shape[1] // 2))
 
         elif self.CONF_CONVOLUTION == "numpy":
             i1f = numpy.fft.fft2(self.npaIm1)
             i2f = numpy.fft.fft2(self.npaIm2)
             res = numpy.fft.ifft2(i1f * i2f.conjugate()).real
-            ma = res.argmax()
             offset1 = scipy.ndimage.measurements.maximum_position(res)
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0 numpy took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), ma // shape[0] % shape[0], ma % shape[0]))
-            res = scipy.ndimage.interpolation.shift(res, (shape[0] // 2 - offset1[0], shape[1] // 2 - offset1[1]), mode="wrap", order=0)
+            self.DEBUG("EDPluginExecMeasureOffsetv1_0 numpy took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), offset1[0], offset1[1]))
+            res = shift(res, (shape[0] // 2 , shape[1] // 2))
 
 
         else: #use fftpack: probably the best solution.
             i1f = scipy.fftpack.fft2(self.npaIm1)
             i2f = scipy.fftpack.fft2(self.npaIm2)
             res = scipy.fftpack.ifft2(i1f * i2f.conjugate()).real
-            ma = res.argmax()
             offset1 = scipy.ndimage.measurements.maximum_position(res)
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0 fftpack took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), ma // shape[0] % shape[0], ma % shape[0]))
-            res = scipy.ndimage.interpolation.shift(res, (shape[0] // 2 - offset1[0], shape[1] // 2 - offset1[1]), mode="wrap", order=0)
-
+            self.DEBUG("EDPluginExecMeasureOffsetv1_0 fftpack took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), offset1[0], offset1[1]))
+            res = shift(res, (shape[0] // 2 - offset1[0], shape[1] // 2 - offset1[1]))
 ################################################################################
 # stop convolutions
 ################################################################################
@@ -307,7 +322,9 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             f.write("CONVOLUTION.edf")
         com2 = scipy.ndimage.measurements.center_of_mass(new)
         self.DEBUG("EDPluginExecMeasureOffsetv1_0.process: fine result of the centered image: %s %s " % com2)
-        offset2 = (com2[0] - shape[0] // 2 + offset1[0], com2[1] - shape[1] // 2 + offset1[1])
+        offset2 = ((com2[0] - shape[0] // 2) % shape[0] , (com2[1] - shape[1] // 2) % shape[1])
+        if abs(offset2[0] - offset1[0]) > 2 or abs(offset2[1] - offset1[1]) > 2:
+            self.WARNING("EDPluginExecMeasureOffsetv1_0.process: Raw offset is %s and refined is %s. Please investigate !" % (offset1, offset2))
         listOffset = list(offset2)
         if listOffset[0] > shape[0] // 2:
             listOffset[0] -= shape[0]

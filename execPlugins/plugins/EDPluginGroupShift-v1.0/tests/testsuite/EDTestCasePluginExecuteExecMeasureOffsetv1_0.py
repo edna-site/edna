@@ -79,7 +79,7 @@ class EDTestCasePluginExecuteExecMeasureOffsetv1_0(EDTestCasePluginExecute):
         EDVerbose.DEBUG("Checking obtained result...")
         xsDataResultReference = XSDataResultMeasureOffset.parseString(strExpectedOutput)
         xsDataResultObtained = plugin.getDataOutput()
-        EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), _fRelError=0.0, _fAbsError=0.5, _strComment="XML out are the same")
+        EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), _fRelError=0.0, _fAbsError=5, _strComment="XML out are the same")
 
 
 

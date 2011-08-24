@@ -35,7 +35,7 @@ from EDUtilsArray       import EDUtilsArray
 from EDUtilsPlatform   import EDUtilsPlatform
 from XSDataShiftv1_0    import XSDataInputShiftImage
 from XSDataShiftv1_0    import XSDataResultShiftImage
-from XSDataCommon       import XSDataImage, XSDataString
+from XSDataCommon       import XSDataImageExt, XSDataString
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
@@ -126,8 +126,7 @@ class EDPluginExecShiftImagev1_0(EDPluginExec):
         else:
             image = edfimage(data=self.npaImage, header={"Offset_1":self.tOffset[0], "Offset_2":self.tOffset[1]})
             image.write(self.strOutputImage, force_type=self.npaImage.dtype)
-            xsdimg = XSDataImage()
-            xsdimg.setPath(XSDataString(self.strOutputImage))
+            xsdimg = XSDataImageExt(path=XSDataString(self.strOutputImage))
             xsDataResult.setOutputImage(xsdimg)
         self.setDataOutput(xsDataResult)
         gc.collect()
