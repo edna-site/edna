@@ -82,18 +82,18 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
 
     def preProcess(self, _edObject=None):
         EDPluginHDF5.preProcess(self)
-        EDVerbose.DEBUG("EDPluginHDF5MapOfSpectrav10.preProcess")
+        self.DEBUG("EDPluginHDF5MapOfSpectrav10.preProcess")
 
         for oneSpectrum in self.getDataInput().getInputSpectrumFile():
             if oneSpectrum.getPath() is not None:
                 strFileName = oneSpectrum.getPath().getValue()
-                EDVerbose.DEBUG("getInputSpectrumFile: %s" % strFileName)
+                self.DEBUG("getInputSpectrumFile: %s" % strFileName)
                 self.listSpectrumFilenames.append(strFileName)
             elif oneSpectrum.getArray() is not None:
-                EDVerbose.DEBUG("getInputArray: %s" % strFileName)
+                self.DEBUG("getInputArray: %s" % strFileName)
                 self.listArray.append(EDUtilsArray.xsDataToArray())
             else:
-                EDVerbose.ERROR("A spectrum should either contain an image file or an array.")
+                self.ERROR("A spectrum should either contain an image file or an array.")
                 self.setFailure()
                 raise
             if (oneSpectrum.getFastMotorPosition() is not None) and (oneSpectrum.getSlowMotorPosition() is not None):
@@ -103,14 +103,14 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
                 self.listSpectrumFileType.append(oneSpectrum.getFileType.getValue())
             if oneSpectrum.getMeshScan() is not None:
                 XSDMesh = oneSpectrum.getMeshScan()
-                EDVerbose.DEBUG(XSDMesh.marshal())
+#                self.DEBUG(XSDMesh.marshal())
                 self.meshScan["FastMotorSteps"] = XSDMesh.getFastMotorSteps().getValue()
                 self.meshScan["FastMotorStart"] = XSDMesh.getFastMotorStart().getValue()
                 self.meshScan["FastMotorStop" ] = XSDMesh.getFastMotorStop().getValue()
                 self.meshScan["SlowMotorSteps"] = XSDMesh.getSlowMotorSteps().getValue()
                 self.meshScan["SlowMotorStart"] = XSDMesh.getSlowMotorStart().getValue()
                 self.meshScan["SlowMotorStop" ] = XSDMesh.getSlowMotorStop().getValue()
-                EDVerbose.DEBUG("MeshScan= %s" % self.meshScan)
+                self.DEBUG("MeshScan= %s" % self.meshScan)
         if self.getDataInput().getDeleteInputSpectrum() is not None:
             if self.getDataInput().getDeleteInputSpectrum() in [True, "true", "True", 1, "1"]:
                 self.bDeleteSpectrum = True
@@ -123,7 +123,7 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
 
     def process(self, _edObject=None):
         EDPluginHDF5.process(self)
-        EDVerbose.DEBUG("EDPluginHDF5MapOfSpectrav10.process")
+        self.DEBUG("EDPluginHDF5MapOfSpectrav10.process")
         maxSize = (((self.meshScan["SlowMotorSteps" ]), (self.meshScan["FastMotorSteps" ])))
 
         for filename in self.listSpectrumFilenames:
@@ -145,7 +145,7 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
 
     def postProcess(self, _edObject=None):
         EDPluginHDF5.postProcess(self)
-        EDVerbose.DEBUG("EDPluginHDF5MapOfSpectrav10.postProcess")
+        self.DEBUG("EDPluginHDF5MapOfSpectrav10.postProcess")
         xsDataResult = XSDataResultHDF5MapSpectra()
         if os.path.isfile(self.strHDF5Filename):
             xsDataFile = XSDataFile()
@@ -177,7 +177,7 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
         @type maxSize: 2-tuple of integer
          
         """
-        EDVerbose.DEBUG("EDPluginHDF5MapOfSpectrav10.processOneImage: position %s with shape %s" % (position, maxSize))
+        self.DEBUG("EDPluginHDF5MapOfSpectrav10.processOneImage: position %s with shape %s" % (position, maxSize))
         listMaxSize = [0, 0, npaImage.shape[-1]]
         if maxSize is not None and isinstance(maxSize, (list, tuple)):
             listMaxSize[0] = max(maxSize[0], 1 + position[0])
@@ -193,11 +193,11 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
         for oneItem in self.hdf5group:
             if oneItem == self.HDF5_DATASET_DATA:
                 dataset = self.hdf5group[oneItem]
-                if isinstance(dataset, h5py.highlevel.Dataset):
+                if "HDF5 dataset" in str(dataset):
                     for i in range(3):
                         if dataset.shape[i] > listMaxSize[i]:
                             listMaxSize[i] = dataset.shape[i]
-                    EDVerbose.DEBUG("dataset exists and listMaxSize is " + str(listMaxSize))
+                    self.DEBUG("dataset exists and listMaxSize is " + str(listMaxSize))
 
 ################################################################################
 # Start of data treatement
@@ -205,16 +205,16 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
 
         if dataset is not None:
             if (dataset.shape[-1] == npaImage.shape[-1]) and (dataset.dtype == npaImage.dtype) :
-                EDVerbose.DEBUG("dataset exists and is good")
+                self.DEBUG("dataset exists and is good")
             else:
-                EDVerbose.DEBUG("dataset exists and is BAD %s %s, reseting" % (dataset.dtype, npaImage.dtype))
+                self.DEBUG("dataset exists and is BAD %s %s, reseting" % (dataset.dtype, npaImage.dtype))
                 dataset = None
                 del self.hdf5group[self.HDF5_DATASET_DATA]
         else:
             shape = ((listMaxSize[0] + 1), (listMaxSize[1] + 1), npaImage.shape[-1])
             maxshape = (None, None, npaImage.shape[-1])
             chunksize = (1, 1, max(1, npaImage.shape[-1] // self.iChunkSegmentation))
-            EDVerbose.DEBUG("dataset creation shape= %s maxshape=%s type=%s" % (shape, maxshape, npaImage.dtype))
+            self.DEBUG("dataset creation shape= %s maxshape=%s type=%s" % (shape, maxshape, npaImage.dtype))
             dataset = self.hdf5group.create_dataset(self.HDF5_DATASET_DATA,
                           shape=shape, dtype=npaImage.dtype, maxshape=maxshape,
                           compression=self.HDF5_Compression, chunks=chunksize)
@@ -239,7 +239,7 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
             del self.hdf5group[self.HDF5_DATASET_END_TIME]
         self.hdf5group[self.HDF5_DATASET_END_TIME] = self.getIsoTime()
 
-        EDVerbose.DEBUG("Test the sizes shape: %s \tlistMaxSize = %s" % (dataset.shape, listMaxSize))
+        self.DEBUG("Test the sizes shape: %s \tlistMaxSize = %s" % (dataset.shape, listMaxSize))
         reshape = False
         for i in xrange(2):
 
@@ -247,11 +247,11 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
                 reshape = True
 
         if reshape:
-            EDVerbose.DEBUG("Reshape of the dataset to " + str((listMaxSize[0]  , (listMaxSize[1]), +npaImage.shape[-1])))
+            self.DEBUG("Reshape of the dataset to " + str((listMaxSize[0]  , (listMaxSize[1]), +npaImage.shape[-1])))
             dataset.resize((listMaxSize[0] , listMaxSize[1] , npaImage.shape[-1]))
 
         dataset[position] = npaImage[-1]
-        EDVerbose.DEBUG("End of data treatment on position %s :" % listMaxSize)
+        self.DEBUG("End of data treatment on position %s :" % listMaxSize)
 ################################################################################
 # END of data teatement
 ################################################################################

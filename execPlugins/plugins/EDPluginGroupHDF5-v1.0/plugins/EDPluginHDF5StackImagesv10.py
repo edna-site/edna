@@ -181,26 +181,26 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
         for oneItem in self.hdf5group:
             if oneItem == self.HDF5_DATASET_DATA:
                 dataset = self.hdf5group[oneItem]
-                if isinstance(dataset, h5py.highlevel.Dataset):
+                if "HDF5 dataset" in str(dataset):
                     size = dataset.len()
                     dSizeOfDataSets[oneItem] = size
                     if (size > iMaxSize):
                         iMaxSize = size
             elif oneItem == self.HDF5_DATASET_IMAGE_FILENAMES:
                 dataset = self.hdf5group[oneItem]
-                if isinstance(dataset, h5py.highlevel.Dataset):
+                if "HDF5 dataset" in str(dataset):
                     size = dataset.len()
                     dSizeOfDataSets[oneItem] = size
                     if (size > iMaxSize):
                         iMaxSize = size
             elif oneItem == self.HDF5_GROUP_HEADERS:
                 subgroup = self.hdf5group[oneItem]
-                if isinstance(subgroup, h5py.highlevel.Group):
+                if "HDF5 group" in str(subgroup):
                     for oneHeader in self.hdf5group[oneItem]:
                         path = oneItem + "/" + oneHeader
-                        subgroup = self.hdf5group[path]
-                        if isinstance(subgroup, h5py.highlevel.Dataset):
-                            size = subgroup.len()
+                        subdataset = self.hdf5group[path]
+                        if "HDF5 dataset" in str(subdataset):
+                            size = subdataset.len()
                             dSizeOfDataSets[path] = size
                             if (size > iMaxSize):
                                 iMaxSize = size
@@ -212,7 +212,7 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
 # Treatement of the filenames
 ################################################################################
         if filename is not None:
-            if not dSizeOfDataSets.has_key(self.HDF5_DATASET_IMAGE_FILENAMES):
+            if self.HDF5_DATASET_IMAGE_FILENAMES not in dSizeOfDataSets:
                 filenames = self.hdf5group.create_dataset(self.HDF5_DATASET_IMAGE_FILENAMES,
                                                           (iMaxSize + 1,), h5py.special_dtype(vlen=str), maxshape=(None,))
             else:
