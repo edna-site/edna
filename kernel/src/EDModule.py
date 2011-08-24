@@ -46,7 +46,7 @@ class EDModule(EDLogging):
         self.__module = None
         self.__path = None
         self.__dictSubModules = {}
-        self.__version = ""
+        self.__version = None
 
 
     def preImport(self, _strPath=None, _strMethodVersion="version"):
@@ -79,24 +79,44 @@ class EDModule(EDLogging):
                     dictModulesPostImport.pop(module)
             self.__dictSubModules = dictModulesPostImport
             self.synchronizeOff()
-            if _strMethodVersion in dir(self.__module):
-                try:
-                    self.__version = eval(self.__module._strMethodVersion)
-                except:
-                    pass
-                if not isinstance(self.__version, (str, unicode)):
-                    try:
-                        self.__version = eval(self.__module._strMethodVersion())
-                    except:
-                        pass
-                if not isinstance(self.__version, (str, unicode)):
-                    self.__version = ""
+
+            self.retrieveVersion(_strMethodVersion)
+
             try:
                 self.__path = self.module.__file__
             except:
                 pass
         return self.__module
 
+
+    def retrieveVersion(self, _strMethodVersion="version"):
+        """
+        Try to retrieve the version of a module using an attribute or a method ...
+        @param _strMethodVersion: property or method to get the version number (should return a string)
+        @return: Version number
+        """
+        if _strMethodVersion.split(".")[0] in dir(self.__module):
+            module = self.__module
+            try:
+                objVersion = eval("module.%s" % _strMethodVersion)
+            except Exception:
+                self.ERROR("EDModule.retrieveVersion: Module %s has no attr/method %s" % (self.__name, _strMethodVersion))
+                objVersion = None
+            if "__call__" in dir(objVersion):
+                try:
+                    self.__version = objVersion()
+                except:
+                    pass
+            else:
+                try:
+                    self.__version = objVersion
+                except:
+                    pass
+            if not isinstance(self.__version, (str, unicode)):
+                self.__version = None
+        else:
+            self.DEBUG("EDModule.retrieveVersion: Module %s has no attr/method %s" % (self.__name, _strMethodVersion))
+        return self.version
 
     def unImport(self):
         """
@@ -118,8 +138,13 @@ class EDModule(EDLogging):
     name = property(getName)
 
     def getVersion(self):
-        return self.__version
-    version = property(getVersion)
+        return self.__version or ""
+    def setVersion(self, _version):
+        if self.__version is None:
+            self.__version = _version
+        else:
+            self.WARNING("Redefinition of version number for module %s (%s) is not allowed (%s)." % (self.name, self.__version, _version))
+    version = property(getVersion, setVersion)
 
     def getModule(self):
         return self.__module

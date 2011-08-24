@@ -1,3 +1,4 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
@@ -9,7 +10,7 @@
 #
 #    Principal authors: 
 #                       Olof Svensson (svensson@esrf.fr) 
-#                       Jerome Kieffer (kieffer@esrf.fr)
+#                       Jérôme Kieffer (jerome.kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -26,13 +27,15 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import with_statement
+
 """
 EDObject is the core of all EDNA objects, 
 it offers some simple but efficient synchronization scheme based on Semaphores 
 it offers timing facilities (uninitialized by default) 
 """
 
-__authors__ = ["Olof Svensson", "Jerome Kieffer"]
+__authors__ = ["Olof Svensson", "Jérôme Kieffer"]
 __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
@@ -46,22 +49,23 @@ class EDObject(object):
     It offers some synchronization and locking capabilities to make the code thread safe.
     """
     __semaphoreId = threading.Semaphore()
-    __iId = 0
+    __iId_class = 0
 
     def __init__(self):
         """
         Constructor of the main pure virtual class.
         This constructor implements:
         - the creation of the semaphore
-        - definition of timer object (unititialized as potentially not used)
+        - definition of timer object (uninitialized as potentially not used)
         """
-        EDObject.__semaphoreId.acquire()
-        EDObject.__iId = EDObject.__iId + 1
-        self.__iId = EDObject.__iId
-        EDObject.__semaphoreId.release()
+        object.__init__(self)
+        with self.__class__.__semaphoreId:
+            self.__class__.__iId_class += 1
+            self.__iId = self.__class__.__iId_class
         self.__semaphore = threading.Semaphore()
         self.__fTimeInit = None
         self.__fTimeEnd = None
+        self.__classname = None
 
 
     def getId(self):
@@ -74,7 +78,11 @@ class EDObject(object):
         @return: the name of the class 
         @rtype: string 
         """
-        return  str(self.__class__).replace("<class '", "").replace("'>", "").split(".")[-1]
+        if self.__classname is None:
+            with self.__semaphore:
+                if self.__classname is None:
+                    self.__classname = str(self.__class__).replace("<class '", "").replace("'>", "").split(".")[-1]
+        return self.__classname
 
 
     def synchronizeOn(self):
@@ -103,6 +111,9 @@ class EDObject(object):
         #EDVerbose.WARNING("DEBUG INFO: The value of semaphore for instance of class %s with hash %s is %i" % (self.getClassName(), hash(self), iValue))
         return iValue
 
+    def locked(self):
+        return self.__semaphore
+
 
     def setTimeInit(self):
         """
@@ -110,6 +121,8 @@ class EDObject(object):
         """
         if self.__fTimeInit is None:
             self.__fTimeInit = time.time()
+
+
 
 
     def getTimeInit(self):
