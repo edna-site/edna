@@ -31,9 +31,9 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import threading #, sys, os
-from EDFactoryPlugin import EDFactoryPlugin
-from EDUtilsPath import EDUtilsPath
-from EDVerbose import EDVerbose
+from EDFactoryPlugin    import EDFactoryPlugin
+from EDUtilsPath        import EDUtilsPath
+from EDVerbose          import EDVerbose
 
 
 class EDFactoryPluginStatic:
@@ -78,7 +78,7 @@ class EDFactoryPluginStatic:
         @param _strMethodVersion: property or method to get the version number (should return a string)
         @return: reference to the module loaded
         """
-        return EDFactoryPlugin.preImport(_strModuleName, _strPath, _strForceVersion)
+        return EDFactoryPlugin.preImport(_strModuleName, _strPath, _strForceVersion, _strMethodVersion)
 
 
     @staticmethod
