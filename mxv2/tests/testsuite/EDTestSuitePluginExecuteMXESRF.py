@@ -42,9 +42,11 @@ class EDTestSuitePluginExecuteMXESRF(EDTestSuite):
         # From mxPluginExec:
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXPluginExec")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteISPyBv1_3")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteSTACv2_0")
         # From mxv1:
         self.addTestSuiteFromName("EDTestSuitePluginControlPyarchThumbnailGeneratorv1_0")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXv1")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteControlCharacterisationv1_3")
         # From mxv2:
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXv2")
 
