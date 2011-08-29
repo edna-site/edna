@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
-<XSConfiguration> 
+<XSConfiguration>
 	<XSPluginList>
 		<XSPluginItem>
-			<name>EDPluginControlStrategyv10</name>  
+			<name>EDPluginControlStrategyv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
@@ -11,7 +11,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginControlStrategyv1_1</name>  
+			<name>EDPluginControlStrategyv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
@@ -20,7 +20,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginControlStrategyv1_2</name>  
+			<name>EDPluginControlStrategyv1_2</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
@@ -28,26 +28,38 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginControlIntegrationv10</name> 
-			<XSParamList>
-			    <XSParamItem>
-			        <name>maxRMSSpotDeviation</name>
-			        <value>0.8</value>
-			    </XSParamItem>
-			</XSParamList>
-		</XSPluginItem> 
-                <XSPluginItem>
-                        <name>EDPluginControlInterfacev1_2</name>
-                        <XSParamList>
-                                <XSParamItem>
-                                        <name>useISPyBPlugin</name>
-                                        <value>False</value>
-                                </XSParamItem>
-                        </XSParamList>
-                </XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginExecOutputHTMLv1_0</name>  
+			<name>EDPluginControlIntegrationv10</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>maxRMSSpotDeviation</name>
+					<value>0.8</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlInterfacev1_2</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>controlledPlugins</name>
+					<value>characterisationPlugin,ispybPlugin</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>characterisationPlugin</name>
+					<value>EDPluginControlCharacterisationv1_3</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>ispybPlugin</name>
+					<value>EDPluginControlISPyBv1_0</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>useISPyBPlugin</name>
+					<value>False</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecOutputHTMLv1_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>EDNA2html</name>
@@ -55,5 +67,5 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-	</XSPluginList> 
+	</XSPluginList>
 </XSConfiguration> 
