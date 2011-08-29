@@ -98,7 +98,7 @@
                 <XSParamList>
                         <XSParamItem>
                                 <name>EDNA2html</name>
-                                <value>/opt/pxsoft/EDNA2html/v0.0.9a/linux</value>
+                                <value>/opt/pxsoft/EDNA2html/v0.0.9b/linux</value>
                         </XSParamItem>
                 </XSParamList>
         </XSPluginItem>
