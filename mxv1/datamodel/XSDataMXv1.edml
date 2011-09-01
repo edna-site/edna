@@ -18,12 +18,13 @@ import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataSize
 import XSDataCommon.XSDataString
 import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataVectorDouble
 import XSDataCommon.XSDataWavelength
 package XSDataMXv1 {
 	package MXv1CharacterisationEtc {
 
 		complex type XSDataCharacterisation extends XSData {
-			"Deprecated - only used by EDPluginControlCharacterisationv10\n"
+			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
 			dataCollection : XSDataCollection
 			indexingResult : XSDataIndexingResult optional
 			integrationResult : XSDataIntegrationResult optional
@@ -215,6 +216,7 @@ package XSDataMXv1 {
 			rotationAxis : XSDataString
 			rotationAxisEnd : XSDataAngle
 			rotationAxisStart : XSDataAngle
+			samplePosition : XSDataVectorDouble optional
 		}
 
 		complex type XSDataSubWedge extends XSData {
@@ -503,9 +505,8 @@ package XSDataMXv1 {
 		}
 
 		complex type XSDataStrategyResult extends XSDataResult {
-			"Several collection plans could be present in case of multi-sweep strategy"
-			collectionPlan : XSDataCollectionPlan
-			[]
+			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
+			collectionPlan : XSDataCollectionPlan []
 		}
 
 		complex type XSDataStrategySummary extends XSData {
