@@ -65,7 +65,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.init( title="Characterisation Results", 
                    footer="Generated on %s" % time.asctime())
         self.page.div( align_="CENTER")
-        self.page.h1( "Characterisation Results" )
+        if self.xsDataResultCharacterisation is not None:
+            self.page.h1( "Characterisation Results" )
+        else:
+            self.page.h1( "No Characterisation Results!" )
         self.page.div.close()
         self.page.br()
 
@@ -73,12 +76,13 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     def process(self, _edPlugin=None):
         EDPluginExec.process(self, _edPlugin)
         self.DEBUG("EDPluginExecSimpleHTMLPagev1_0.process...")
-        self.page.hr()
-        self.strategyResults()
-        self.page.hr()
-        self.indexingResults()
-        self.page.hr()
-        self.imageQualityIndicatorResults()
+        if self.xsDataResultCharacterisation is not None:
+            self.page.hr()
+            self.strategyResults()
+            self.page.hr()
+            self.indexingResults()
+            self.page.hr()
+            self.imageQualityIndicatorResults()
         self.page.hr()
         self.addLinkToEDNALogFile()
         self.page.hr()
@@ -123,26 +127,34 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             listXSDataCollectionPlan = xsDataResultStrategy.getCollectionPlan()
             iNoSubWedges = len(listXSDataCollectionPlan)
             if iNoSubWedges != 1:
-                self.page.h2( "Suggested strategy contains %d data collections:" % iNoSubWedges)
+                self.page.h2( "Multi-wedge collection plan strategy")
             else:
-                self.page.h2( "Suggested strategy:" )
+                self.page.h2( "Collection plan strategy" )
             # Check if ranking resolution is higher than the suggested strategy resolution(s)
             bHigherResolutionDetected = False
+            fRankingResolution = None
+            fResolutionMax = None
             for xsDataCollectionPlan in listXSDataCollectionPlan:
                 xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
                 if xsDataSummaryStrategy.getRankingResolution():
-                    fResolutionMax = xsDataSummaryStrategy.getResolution().getValue()
+                    fResolution = xsDataSummaryStrategy.getResolution().getValue()
+                    if fResolutionMax is None:
+                        fResolutionMax = fResolution
+                    elif (fResolution < fResolutionMax) and (abs(fResolution-fResolutionMax) > 0.1):
+                        fResolutionMax = fResolution                        
                     fRankingResolution = xsDataSummaryStrategy.getRankingResolution().getValue()
-                    if fRankingResolution < fResolutionMax:
-                        if not bHigherResolutionDetected:
-                            self.page.i()
-                            self.page.h3("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
-                            self.page.br()
-                            self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
-                            self.page.br()
-                            self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to %.2f &Aring; and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
-                            self.page.i.close()
-                        bHigherResolutionDetected = True
+            
+            if fRankingResolution != None and fResolutionMax != None:
+                if fRankingResolution < fResolutionMax:
+                    if not bHigherResolutionDetected:
+                        self.page.i()
+                        self.page.h3("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
+                        self.page.br()
+                        self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
+                        self.page.br()
+                        self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to %.2f &Aring; and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
+                        self.page.i.close()
+                    bHigherResolutionDetected = True
                 
                 
             for xsDataCollectionPlan in listXSDataCollectionPlan:
