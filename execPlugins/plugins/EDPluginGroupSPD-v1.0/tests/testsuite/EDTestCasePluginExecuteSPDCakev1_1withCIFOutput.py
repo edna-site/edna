@@ -46,7 +46,7 @@ class EDTestCasePluginExecuteSPDCakev1_1withCIFOutput(EDTestCasePluginExecuteSPD
     def __init__(self):
         """
         """
-        EDTestCasePluginExecuteSPDCakev1_1.__init__(self, )
+        EDTestCasePluginExecuteSPDCakev1_1.__init__(self,)
 
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                       "XSDataInputSPDCake_withCIFOutput.xml"))
@@ -88,7 +88,7 @@ class EDTestCasePluginExecuteSPDCakev1_1withCIFOutput(EDTestCasePluginExecuteSPD
         strPathToChiOutput = xsDataResultsSPDCake.getCakedFile().getPath().getValue()
         strDataObtained = EDUtilsFile.readFile(strPathToChiOutput)
         strDataReference = EDUtilsFile.readFile(os.path.join(self.getTestsDataImagesHome(), "EDPluginSPDCakev1_1.cif"))
-        EDAssert.strAlmostEqual(strDataReference, strDataObtained, "Comparing PowderCIF output")
+        EDAssert.strAlmostEqual(strDataReference, strDataObtained, "Comparing PowderCIF output", _fAbsError=2e-3)
 
 
 
