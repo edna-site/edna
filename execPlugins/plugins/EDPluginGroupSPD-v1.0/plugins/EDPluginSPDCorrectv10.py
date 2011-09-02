@@ -27,13 +27,14 @@
 """ 
 SPD Execution plugin for EDNA for doing image correction (distortion / intensity correction)
 It implements parallelization, tries to keep track of former calculation to optimize the execution 
-by preventing SPD to re-clculate the look-up table
+by preventing SPD to re-calculate the look-up table
 """
 
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20110902"
 
 import os, tempfile, threading, shutil, time
 
@@ -49,7 +50,7 @@ from EDConfiguration            import  EDConfiguration
 from EDPluginExecProcess        import  EDPluginExecProcess
 from EDUtilsParallel            import  EDUtilsParallel
 from EDUtilsUnit                import  EDUtilsUnit
-from EDUtilsPlatform           import EDUtilsPlatform
+from EDUtilsPlatform            import EDUtilsPlatform
 from XSDataSPDv1_0              import  XSDataInputSPD
 from XSDataSPDv1_0              import  XSDataResultSPD
 from XSDataCommon               import XSPluginItem
@@ -64,15 +65,13 @@ imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
 
-EDFactoryPluginStatic.preImport("numpy", numpyPath)
-EDFactoryPluginStatic.preImport("scipy", scipyPath)
-EDFactoryPluginStatic.preImport("fabio", fabioPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+scipy = EDFactoryPluginStatic.preImport("scipy", scipyPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
-try:
-    import fabio
-except ImportError:
-    EDVerbose.ERROR("Error in loading Fabio\n\
+if (numpy and Image and fabio and scipy) is None:
+    EDVerbose.ERROR("Error in loading Numpy., Scipy, PIL or Fabio\n\
     Please re-run the test suite for EDTestSuiteSPD \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
 

@@ -54,17 +54,13 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", ar
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 
-EDFactoryPluginStatic.preImport("numpy", numpyPath)
-EDFactoryPluginStatic.preImport("fabio", fabioPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
-try:
-    import numpy
-except:
-    EDVerbose.ERROR("Error in loading numpy, Fabio,\n\
-    Please re-run the test suite for EDTestSuitePluginExecThumbnailv10 \
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
+if (numpy and Image and fabio) is None:
+    EDVerbose.ERROR("Error in loading numpy, PIL or Fabio,\n\
+    Please re-run the test suite for EDTestSuiteSPD \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
-
-from fabio.openimage import openimage
 
 class EDPluginSPDCakev1_1(EDPluginExecProcessScript):
     """
@@ -171,7 +167,7 @@ class EDPluginSPDCakev1_1(EDPluginExecProcessScript):
         ################################################################
         ####  Do some manipulation of the  output image  ##############
         ################################################################
-        EDFCakeFile = openimage(os.path.join(self.getWorkingDirectory(), PyStrCakeFilePrefix + ".azim.edf"))
+        EDFCakeFile = fabio.open(os.path.join(self.getWorkingDirectory(), PyStrCakeFilePrefix + ".azim.edf"))
         npaData = EDFCakeFile.data
         pydHeader = EDFCakeFile.header
 

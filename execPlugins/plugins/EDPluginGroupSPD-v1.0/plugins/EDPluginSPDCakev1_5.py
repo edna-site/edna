@@ -54,19 +54,13 @@ imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
 
-EDFactoryPluginStatic.preImport("numpy", numpyPath)
-EDFactoryPluginStatic.preImport("scipy", scipyPath)
-EDFactoryPluginStatic.preImport("fabio", fabioPath)
-EDFactoryPluginStatic.preImport("fabio.openimage", fabioPath)
-EDFactoryPluginStatic.preImport("fabio.edfimage", fabioPath)
-EDFactoryPluginStatic.preImport("fabio.fit2dmaskimage", fabioPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+scipy = EDFactoryPluginStatic.preImport("scipy", scipyPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
-try:
-    from fabio.openimage import openimage
-    import fabio.edfimage
-    import fabio.fit2dmaskimage
-except ImportError:
+
+if (numpy and Image and fabio and scipy) is None:
     EDVerbose.ERROR("Error in loading Fabio\n\
     Please re-run the test suite for EDTestSuiteSPD \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
@@ -284,7 +278,7 @@ class EDPluginSPDCakev1_5(EDPluginSPDCorrectv10):
 #        self.screen("%s: preCalc Mask file is in %s" % (self.getId(), self.dictGeometry["MaskFile"]))
         if (self.dictGeometry["MaskFile"] not in EDPluginSPDCakev1_5.__dictMask):
             strUnCorrectedEdfMask = self.dictGeometry["MaskFile"]
-            unCorrectedMask = openimage(strUnCorrectedEdfMask)
+            unCorrectedMask = fabio.open(strUnCorrectedEdfMask)
             basename = os.path.join(self.getSPDCommonDirectory(), os.path.splitext(os.path.basename(strUnCorrectedEdfMask))[0])
 
             if self.bCorrectTiltMask:
@@ -308,7 +302,7 @@ class EDPluginSPDCakev1_5(EDPluginSPDCorrectv10):
                     self.DEBUG("EDPluginSPDCakev1_5.correctMask %s: %s" % (oneLog, dictLog[oneLog]))
                 worker.kill(gentle=True)
                 worker = None
-                npaCorrected = -(openimage(basename + ".cor").data + 0.5).astype("int8")
+                npaCorrected = -(fabio.open(basename + ".cor").data + 0.5).astype("int8")
             else:
                 npaCorrected = -(unCorrectedMask.data).astype("int8")
             strCorrectedMask = basename + ".msk"
