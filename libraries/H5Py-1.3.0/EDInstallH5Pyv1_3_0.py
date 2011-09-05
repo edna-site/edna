@@ -50,7 +50,7 @@ from EDUtilsLibraryInstaller    import EDUtilsLibraryInstaller, installLibrary
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 moduleName = "h5py"
 modulePath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
-moduleVersion = "1.3.0"
+moduleVersion = "1.8"
 
 ###############################################################################
 # Import the right version of H5Py
@@ -59,20 +59,21 @@ moduleVersion = "1.3.0"
 if os.name == "posix":
     oModule = EDFactoryPluginStatic.preImport(moduleName)
     if not oModule:
-        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.version")
+        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.api_version")
         if oModule is None:
             installLibrary(modulePath)
-            oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.version")
+            oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, _strMethodVersion="version.api_version")
     try:
-        version = oModule.version.version
+        version = oModule.version.api_version
     except AttributeError:
         version = "0.0.0"
 
     if version.split(".") < moduleVersion.split("."):
         EDVerbose.screen("Wrong %s library:  %s " % (moduleName, version))
         EDFactoryPluginStatic.unImport(moduleName)
-        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion, _strMethodVersion="version.version")
+        oModule = EDFactoryPluginStatic.preImport(moduleName, modulePath, moduleVersion, _strMethodVersion="version.api_version")
     if oModule is None:
         EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
     else:
-        EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version.version, oModule.__file__))
+        EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version.api_version, oModule.__file__))
+
