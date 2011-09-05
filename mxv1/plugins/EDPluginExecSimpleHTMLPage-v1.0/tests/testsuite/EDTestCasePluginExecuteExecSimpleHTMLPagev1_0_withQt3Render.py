@@ -59,7 +59,7 @@ class EDTestCasePluginExecuteExecSimpleHTMLPagev1_0_withQt3Render(EDTestCasePlug
         xsDataResultSimpleHTMLPage = self.getPlugin().getDataOutput()
         app=QApplication([])
         mainwin=QMainWindow()
-        mainwin.setMinimumSize(800,1000)
+        mainwin.setMinimumSize(800,600)
         w = QTextBrowser(mainwin)
         mainwin.setCentralWidget(w)
         contents=open(xsDataResultSimpleHTMLPage.getPathToHTMLFile().getPath().getValue(),"r")
