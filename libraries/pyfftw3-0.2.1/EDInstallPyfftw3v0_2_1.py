@@ -68,5 +68,5 @@ if not oModule:
 if oModule is None:
     EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
 else:
-    EDVerbose.screen("Version of %s: %s from %s" % (moduleName, oModule.version.version, oModule.__file__))
+    EDVerbose.screen("Version of %s: %s from %s" % (moduleName, version, oModule.__file__))
 
