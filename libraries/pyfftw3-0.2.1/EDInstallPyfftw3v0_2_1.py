@@ -27,7 +27,7 @@
 #
 #
 
-"""EDNA installer for numpy version 1.4.1"""
+"""EDNA installer for fftw3 version 0.2.1"""
 
 __authors__ = ["Olof Svensson", "Jérôme Kieffer"]
 __contact__ = "jerome.kieffer@esrf.fr"
@@ -54,7 +54,7 @@ modulePath = os.path.join(os.environ["EDNA_HOME"], "libraries", "pyfftw3-0.2.1",
 moduleVersion = "0.2.1"
 
 ################################################################################
-# Import the right version of numpy 
+# Import the right (i.e ANY) version of  fftw3
 ################################################################################
 
 oModule = EDFactoryPluginStatic.preImport(moduleName)
@@ -68,5 +68,5 @@ if not oModule:
 if oModule is None:
     EDVerbose.ERROR("Unable to download, compile or install module %s" % moduleName)
 else:
-    EDVerbose.screen("Version of %s: %s from %s" % (moduleName, version, oModule.__file__))
+    EDVerbose.screen("Version of %s: from %s" % (moduleName, oModule.__file__))
 
