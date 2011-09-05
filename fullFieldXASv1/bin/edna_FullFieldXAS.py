@@ -1,16 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.6
 #-*- coding: utf8 -*-
 
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2011, European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20110905"
 
 import os, time, sys, threading, tempfile, string, shlex, socket
 
 # Append the EDNA kernel source directory to the python path
 if not os.environ.has_key("EDNA_HOME"):
-    pyStrProgramPath = os.path.abspath(sys.argv[0])
+    pyStrProgramPath = os.path.realpath(os.path.abspath(sys.argv[0]))
     pyLPath = pyStrProgramPath.split(os.sep)
     if len(pyLPath) > 3:
         pyStrEdnaHomePath = os.sep.join(pyLPath[:-3])
@@ -32,6 +33,12 @@ from EDParallelExecute      import EDParallelExecute
 from EDVerbose              import EDVerbose
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
+fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
+h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.api_version", _strForceVersion="1.8")
 from EDShare                import EDShare
 EDFactoryPluginStatic.loadModule('EDPluginHDF5StackImagesv10')
 EDFactoryPluginStatic.loadModule('EDPluginControlAlignStackv1_0')
@@ -40,23 +47,17 @@ from EDPluginControlFullFieldXASv1_0 import EDPluginControlFullFieldXASv1_0
 from EDPluginHDF5StackImagesv10 import EDPluginHDF5StackImagesv10
 from XSDataFullFieldXAS     import MeasureOffset, XSDataInputAlignStack, XSDataInputFullFieldXAS
 from XSDataCommon           import XSDataTime, XSDataFile, XSDataImageExt, XSDataString, XSDataInteger, XSDataBoolean, XSDataDouble
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
-fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
-h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
-h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.version")
 
 
 if socket.gethostname() == 'lintaillefer':
     EDShare.initialize("/mnt/data/EDShare")
 else:
     try:
-        dirnames = [i for i in os.listdir("/buffer") if i.strartswith(socket.gethostname())]
+        dirnames = [i for i in os.listdir("/buffer") if i.startswith(socket.gethostname())]
     except OSError:
         dirnames = []
     if dirnames != []:
-         EDShare.initialize(dirnames[0])
+         EDShare.initialize(os.path.join("/buffer",dirnames[0]))
 
 
 
