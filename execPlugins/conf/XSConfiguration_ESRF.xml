@@ -255,9 +255,14 @@
 			<name>EDPluginHDF5StackImagesv10</name>
 			<XSParamList>
                 <XSParamItem>
-                    <name>writeXMLInputOutput</name>
+                    <name>writeXMLInput</name>
                     <value>0</value>
 				</XSParamItem>
+                <XSParamItem>
+                    <name>writeXMLOutput</name>
+                    <value>1</value>
+				</XSParamItem>
+
 			 </XSParamList>	
 			  
 		</XSPluginItem>
@@ -267,7 +272,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>writeXMLInput</name>
-					<value>0</value>
+					<value>1</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>writeXMLOutput</name>
@@ -279,7 +284,7 @@
 				</XSParamItem>
                 <XSParamItem>
                     <name>convolution</name>
-                    <value>numpy</value>
+                    <value>fftw</value>
                 </XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

@@ -50,13 +50,15 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", ar
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
+fftw3Path = os.path.join(os.environ["EDNA_HOME"], "libraries", "pyfftw3-0.2.1", architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 EDFactoryPluginStatic.preImport("scipy.ndimage", scipyPath)
 EDFactoryPluginStatic.preImport("scipy.fftpack", scipyPath)
 EDFactoryPluginStatic.preImport("scipy.interpolate", scipyPath)
 EDFactoryPluginStatic.preImport("scipy.signal", scipyPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
+fftw3 = EDFactoryPluginStatic.preImport("fftw3", fftw3Path)
 
 try:
     import scipy.ndimage, scipy.fftpack, scipy.interpolate#, scipy.signal
@@ -66,10 +68,7 @@ except:
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
 
-try:
-    import fftw3
-except:
-    fftw3 = None
+
 
 def shift(input, shift):
     """

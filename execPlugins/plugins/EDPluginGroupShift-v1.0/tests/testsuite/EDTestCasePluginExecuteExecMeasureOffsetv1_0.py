@@ -39,7 +39,7 @@ from EDFactoryPluginStatic               import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
 EDFactoryPluginStatic.loadModule("EDInstallPILv1_1_7")
 EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
-
+EDFactoryPluginStatic.loadModule("EDInstallPyfftw3v0_2_1")
 
 class EDTestCasePluginExecuteExecMeasureOffsetv1_0(EDTestCasePluginExecute):
     """
