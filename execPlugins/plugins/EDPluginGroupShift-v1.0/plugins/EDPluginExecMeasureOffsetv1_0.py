@@ -27,7 +27,8 @@ from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
-__copyright__ = "2010, ESRF, Grenoble"
+__copyright__ = "2011, ESRF, Grenoble"
+__date__ = "20110905"
 
 import os, threading, time
 from EDVerbose              import EDVerbose
@@ -80,7 +81,7 @@ def shift(input, shift):
     re = numpy.zeros_like(input)
     s0, s1 = input.shape
     d0 = shift[0] % s0
-    d1 = shift[0] % s1
+    d1 = shift[1] % s1
     r0 = (-d0) % s0
     r1 = (-d1) % s1
     re[d0:, d1:] = input[:r0, :r1]
@@ -252,7 +253,6 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 ################################################################################
 # Start convolutions
 ################################################################################
-
         t0 = time.time()
         if self.CONF_CONVOLUTION[:4] == "fftw" and (fftw3 is not None):
             input = numpy.zeros(shape, dtype=complex)
@@ -267,7 +267,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             fft()
             output *= temp
             ifft()
-            res = input.astype("float32")
+            res = input.real/input.size
             offset1 = scipy.ndimage.measurements.maximum_position(res)
             self.DEBUG("EDPluginExecMeasureOffsetv1_0.fftw took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, offset1[0], offset1[1]))
             res = shift(res, (shape[0] // 2 , shape[1] // 2))
@@ -300,7 +300,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             res = shift(res, (shape[0] // 2 , shape[1] // 2))
 
 
-        else: #use fftpack: probably the best solution.
+        else: #use fftpack: probably the best solution. Nota: it is the same as numpy
             i1f = scipy.fftpack.fft2(self.npaIm1)
             i2f = scipy.fftpack.fft2(self.npaIm2)
             res = scipy.fftpack.ifft2(i1f * i2f.conjugate()).real
@@ -310,29 +310,35 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 ################################################################################
 # stop convolutions
 ################################################################################
-
-        mean = scipy.ndimage.measurements.mean(res)
-        maxi = scipy.ndimage.measurements.maximum(res)
-        std = scipy.ndimage.measurements.standard_deviation(res)
+#        fabio.edfimage.edfimage(data=res.astype("float32"),header={"offset_1":offset1[0],"offset_2":offset1[1]}).write("CONVOLUTION_nocut-%s.edf"%self.getId())
+        mean = res.mean(dtype="float64")
+        maxi = res.max()    
+        std =  res.std(dtype="float64") 
         SN = (maxi - mean) / std
         new = numpy.maximum(numpy.zeros(shape), res - numpy.ones(shape) * (mean + std * SN * 0.9))
         if self.isVerboseDebug(): #Dump the image to the disk
-            f = fabio.edfimage.edfimage(data=new, header={"offset_1":offset1[0], "offset_2":offset1[1]})
-            f.write("CONVOLUTION.edf")
+            f = fabio.edfimage.edfimage(data=new.astype("float32"), header={"offset_1":offset1[0], "offset_2":offset1[1]})
+            f.write("CONVOLUTION-%s.edf"%self.getId())
         com2 = scipy.ndimage.measurements.center_of_mass(new)
         self.DEBUG("EDPluginExecMeasureOffsetv1_0.process: fine result of the centered image: %s %s " % com2)
         offset2 = ((com2[0] - shape[0] // 2) % shape[0] , (com2[1] - shape[1] // 2) % shape[1])
-        if abs(offset2[0] - offset1[0]) > 2 or abs(offset2[1] - offset1[1]) > 2:
+        delta0 = (offset2[0] - offset1[0]) % shape[0] 
+        delta1 = (offset2[1] - offset1[1]) % shape[1]
+        if delta0 > shape[0]//2:
+            delta0 -=shape[0]
+        if delta1 > shape[1]//2:
+            delta1 -=shape[1]
+        if (abs(delta0) > 2) or (abs(delta1) > 2):
             self.WARNING("EDPluginExecMeasureOffsetv1_0.process: Raw offset is %s and refined is %s. Please investigate !" % (offset1, offset2))
         listOffset = list(offset2)
         if listOffset[0] > shape[0] // 2:
             listOffset[0] -= shape[0]
         if listOffset[1] > shape[1] // 2:
             listOffset[1] -= shape[1]
-
+            
         self.DEBUG("EDPluginExecMeasureOffsetv1_0.process: fine result: %s " % listOffset)
         self.tOffset = [XSDataDouble(f) for f in listOffset]
-
+    
 
     def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
