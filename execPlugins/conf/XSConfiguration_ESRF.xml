@@ -37,47 +37,47 @@
 		</XSPluginItem>
 		
 		<XSPluginItem>
-            <name>EDPluginSPDCorrectv10</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/scisoft/spd/v1.2/LINUX64/spd</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>maxNumberOfWorkers</name>
-                    <value>4</value>
-                </XSParamItem>
-                
-                <XSParamItem>
-                	<name>version</name>
-                	<value>spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171</value></XSParamItem>
-                <XSParamItem>
-                	<name>timeOut</name>
-                	<value>90</value>
+			<name>EDPluginSPDCorrectv10</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/scisoft/spd/v1.2/LINUX64/spd</value>
 				</XSParamItem>
-			</XSParamList>
-        </XSPluginItem>
-
-		<XSPluginItem>
-            <name>EDPluginSPDCakev1_5</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/scisoft/spd/v1.2/LINUX64/spd</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>maxNumberOfWorkers</name>
-                    <value>4</value>
-                </XSParamItem>
-                <XSParamItem>
+				<XSParamItem>
+					<name>maxNumberOfWorkers</name>
+					<value>4</value>
+				</XSParamItem>
+				
+				<XSParamItem>
 					<name>version</name>
 					<value>spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171</value></XSParamItem>
-                <XSParamItem>
+				<XSParamItem>
 					<name>timeOut</name>
 					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
-        </XSPluginItem>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginSPDCakev1_5</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/scisoft/spd/v1.2/LINUX64/spd</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>maxNumberOfWorkers</name>
+					<value>4</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>version</name>
+					<value>spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171</value></XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>90</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 
 		<XSPluginItem>
 			<name>EDPluginSPDCakev1_0</name>  
@@ -99,24 +99,24 @@
 		</XSPluginItem>
 
 		<XSPluginItem>
-            <name>EDPluginExecVideov10</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>/bin/bash</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/scisoft/bin/mencoder</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>timeOut</name>
-                    <value>6000</value>
-                </XSParamItem>
-            </XSParamList>
-        </XSPluginItem>
+			<name>EDPluginExecVideov10</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/scisoft/bin/mencoder</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>6000</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 
-        <XSPluginItem>
+		<XSPluginItem>
 			<name>EDPluginExecCommandLinev10</name>
 			<XSParamList>
 				<XSParamItem>
@@ -142,102 +142,102 @@
 		
 	 	<XSPluginItem>
 			<name>EDPluginExecSaxsAnglev1_0</name>
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/saxs/bin/saxs_angle</value>
-                </XSParamItem>
-            </XSParamList>			  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/saxs/bin/saxs_angle</value>
+				</XSParamItem>
+			</XSParamList>			  
 		</XSPluginItem>
 		
 	 	<XSPluginItem>
 			<name>EDPluginExecSaxsAddv1_0</name>
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>/bin/bash</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/saxs/bin/saxs_add</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>timeOut</name>
-                    <value>6000</value>
-                </XSParamItem>
-        	</XSParamList>			  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/saxs/bin/saxs_add</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>6000</value>
+				</XSParamItem>
+			</XSParamList>			  
 		</XSPluginItem>
 
 		<XSPluginItem>
 			<name>EDPluginExecSaxsCurvesv1_0</name>
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>/bin/bash</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/saxs/bin/saxs_curves</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>timeOut</name>
-                    <value>6000</value>
-                </XSParamItem>
-	        </XSParamList>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/saxs/bin/saxs_curves</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>6000</value>
+				</XSParamItem>
+			</XSParamList>
 		</XSPluginItem>
 
 		<XSPluginItem>
 			<name>EDPluginExecSaxsMacv1_0</name>
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>/bin/bash</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/saxs/bin/saxs_mac</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>timeOut</name>
-                    <value>6000</value>
-                </XSParamItem>
-            </XSParamList>			  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/saxs/bin/saxs_mac</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>6000</value>
+				</XSParamItem>
+			</XSParamList>			  
 		</XSPluginItem>
 
 		<XSPluginItem>
 			<name>EDPluginExecSaxsDelMetadatav1_0</name>
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>/bin/bash</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/saxs/bin/edfheaderdelkey</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>timeOut</name>
-                    <value>60</value>
-                </XSParamItem>
-            </XSParamList>			  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/saxs/bin/edfheaderdelkey</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>60</value>
+				</XSParamItem>
+			</XSParamList>			  
 		</XSPluginItem>
 
 		<XSPluginItem>
 			<name>EDPluginExecSaxsAddMetadatav1_0</name>
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>/bin/bash</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/sware/exp/saxs/bin/edfheaderaddkey</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>timeOut</name>
-                    <value>60</value>
-                </XSParamItem>
-            </XSParamList>			  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/exp/saxs/bin/edfheaderaddkey</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>60</value>
+				</XSParamItem>
+			</XSParamList>			  
 		</XSPluginItem>
 
 		<XSPluginItem>
@@ -254,13 +254,13 @@
 		<XSPluginItem>
 			<name>EDPluginHDF5StackImagesv10</name>
 			<XSParamList>
-                <XSParamItem>
-                    <name>writeXMLInput</name>
-                    <value>0</value>
+				<XSParamItem>
+					<name>writeXMLInput</name>
+					<value>0</value>
 				</XSParamItem>
-                <XSParamItem>
-                    <name>writeXMLOutput</name>
-                    <value>1</value>
+				<XSParamItem>
+					<name>writeXMLOutput</name>
+					<value>1</value>
 				</XSParamItem>
 
 			 </XSParamList>	
@@ -282,19 +282,23 @@
 					<name>timeOut</name>
 					<value>600</value>
 				</XSParamItem>
-                <XSParamItem>
-                    <name>convolution</name>
-                    <value>fftw</value>
-                </XSParamItem>
+				<XSParamItem>
+					<name>convolution</name>
+					<value>fftw3</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>dtype</name>
+					<value>float32</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		
 		<XSPluginItem>
 			<name>EDPluginExecShiftImagev1_0</name>
 			<XSParamList>
-                <XSParamItem>
-                    <name>writeXMLInputOutput</name>
-                    <value>0</value>
+				<XSParamItem>
+					<name>writeXMLInputOutput</name>
+					<value>0</value>
 				</XSParamItem>
 			 </XSParamList>	
 		</XSPluginItem>
@@ -319,15 +323,15 @@
 
 		<XSPluginItem>
 			<name>EDPluginExecEpydocv1_0</name>  
-        	<XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>python</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/usr/bin/epydoc</value>
-                </XSParamItem>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/epydoc</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
@@ -338,41 +342,41 @@
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecDatcmpv1_0</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>python</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/opt/pxsoft/bin/datcmp</value>
-                </XSParamItem>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/datcmp</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecDataverv1_0</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>python</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/opt/pxsoft/bin/dataver</value>
-                </XSParamItem>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/dataver</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecDatopv1_0</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>python</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/opt/pxsoft/bin/datop</value>
-                </XSParamItem>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/datop</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 

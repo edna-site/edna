@@ -27,7 +27,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF Grenoble"
-__date__ = "2011-07-26"
+__date__ = "2011-09-05"
 
 ###############################################################################
 # BIG FAT WARNING
@@ -49,7 +49,7 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", ar
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
-h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.version")
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.api_version",_strForceVersion="1.8")
 EDFactoryPluginStatic.preImport("Image", imagingPath, _strMethodVersion="VERSION")
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
 
@@ -71,7 +71,7 @@ class EDPluginHDF5(EDPluginExec):
     ENCODING = max("ASCII", locale.getdefaultlocale()[1])
 #    if ENCODING is None: ENCODING = "ASCII"
     HDF5_ROOT_ATTRIBUTES = {#"NeXus_version":"4.3.0",
-                            "HDF5_Version":h5py.version.hdf5_version,
+                            #"HDF5_Version":h5py.version.hdf5_version,
                             "HDF5_API_Version":h5py.version.api_version,
                             "encoding":ENCODING,
                             "source":os.environ["EDNA_SITE"],

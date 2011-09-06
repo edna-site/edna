@@ -85,6 +85,8 @@ class EDTestSuitePluginExecuteExecPlugins(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginExecuteFilterImage")
 #Atsas        
         self.addTestSuiteFromName("EDTestSuiteExecuteAtsas")
+#Shift
+        self.addTestSuiteFromName("EDTestSuitePluginExecExecuteShift")
 ##############################################################################
 if __name__ == '__main__':
 

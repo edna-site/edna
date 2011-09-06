@@ -55,6 +55,8 @@ class EDTestSuitePluginUnitExecPlugins(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginUnitFilterImage")
         #Atsas        
         self.addTestSuiteFromName("EDTestSuiteUnitAtsas")
+        # Shift & offset
+        self.addTestSuiteFromName("EDTestSuitePluginExecUnitShift")
 
 
 ##############################################################################
