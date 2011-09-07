@@ -394,8 +394,8 @@ class Spline:
         x = lambda i, j: j - center[0] - 0.5 #x and y are tilted in C/Fortran representation
         y = lambda i, j: i - center[1] - 0.5
 
-        iPos = numpy.fromfunction(x, (int(self.xmax - self.xmin + 1), int(self.ymax - self.ymin + 1)))
-        jPos = numpy.fromfunction(y, (int(self.xmax - self.xmin + 1), int(self.ymax - self.ymin + 1)))
+        iPos = numpy.fromfunction(x,( int(self.ymax - self.ymin + 1), int(self.xmax - self.xmin + 1)))
+        jPos = numpy.fromfunction(y,( int(self.ymax - self.ymin + 1), int(self.xmax - self.xmin + 1)))
 
         xPos = (iPos + self.xDispArray) * self.pixelSize[0]
         yPos = (jPos + self.yDispArray) * self.pixelSize[1]
