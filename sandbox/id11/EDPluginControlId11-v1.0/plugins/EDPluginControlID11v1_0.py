@@ -45,6 +45,8 @@ from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataLength
+from XSDataCommon import XSDataWavelength
+
 
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 from XSDataSPDv1_0 import XSDataInputSPDCake
@@ -205,7 +207,7 @@ class EDPluginControlID11v1_0(EDPluginControl):
             xsDataInputSPDCake.setSampleToDetectorDistance(xsDataDistance)
 
         if "WAVELENGTH" in self.__dictID11:
-            xsDataWaweLength = XSDataLength()
+            xsDataWaweLength = XSDataWavelength()
             xsDataWaweLength.setValue(float(self.__dictID11["WAVELENGTH"]))
             xsDataWaweLength.setUnit(XSDataString("A"))
             xsDataInputSPDCake.setWavelength(xsDataWaweLength)
