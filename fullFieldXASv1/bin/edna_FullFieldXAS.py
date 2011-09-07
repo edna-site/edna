@@ -353,9 +353,15 @@ class FullFieldXas(object):
                 value = float(header["exposure_time"])
             except:
                 value = None
+        elif "count_time" in header:
+            try:
+                value = float(header["count_time"])
+            except:
+                value = None
         else:
             EDVerbose.WARNING("No exposure time in file %s" % filename)
         return value
+
 
     def getEnergy(self, filename):
         header = self.getHeaders(filename)
