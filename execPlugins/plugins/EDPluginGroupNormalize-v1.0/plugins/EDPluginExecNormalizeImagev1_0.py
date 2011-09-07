@@ -135,7 +135,11 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                 if inputData.getPath() is not None:
                     strPath = inputData.getPath().getValue()
                     if os.path.isfile(strPath):
-                        self.listDataArray.append(fabio.open(strPath).data)
+                        img = fabio.open(strPath)
+                        self.listDataArray.append(img.data)
+                        for idx in range(1,img.nframes):
+                            self.listDataArray.append(getframe(idx).data)
+                            self.listDataExposure.append(self.listDataExposure[-1])
                     else:
                         strError = "The input file provided for DATA is not a valid file: %s" % strPath
                         self.ERROR(strError)
@@ -159,7 +163,11 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
             if inputFlat.getPath() is not None:
                 strPath = inputFlat.getPath().getValue()
                 if os.path.isfile(strPath):
-                    self.listFlatArray.append(fabio.open(strPath).data)
+                    img = fabio.open(strPath)
+                    self.listFlatArray.append(img.data)
+                    for idx in range(1,img.nframes):
+                        self.listFlatArray.append(getframe(idx).data)
+                        self.listFlatExposure.append(self.listFlatExposure[-1])
                 else:
                     strError = "The input file provided for FLAT is not a valid file: %s" % strPath
                     self.ERROR(strError)
@@ -185,7 +193,11 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                 if inputDark.getPath() is not None:
                     strPath = inputDark.getPath().getValue()
                     if os.path.isfile(strPath):
-                        self.listDarkArray.append(fabio.open(strPath).data)
+                        img = fabio.open(strPath)
+                        self.listDarkArray.append(img.data)
+                        for idx in range(1,img.nframes):
+                            self.listDarkArray.append(getframe(idx).data)
+                            self.listDarkExposure.append(self.listDarkExposure[-1])
                     else:
                         strError = "The input file provided for Dark is not a valid file: %s" % strPath
                         self.ERROR(strError)
