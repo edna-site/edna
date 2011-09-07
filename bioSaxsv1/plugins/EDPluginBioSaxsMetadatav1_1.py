@@ -151,14 +151,13 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
             header = self.fabioedf.header
             for key in EDUtilsBioSaxs.TRANSLATION:
                 if eval("self.%s is None" % key):
-                    if EDUtilsBioSaxs.TRANSLATION[key] in header:
+                   if EDUtilsBioSaxs.TRANSLATION[key] in header:
                         if key in EDUtilsBioSaxs.FLOAT_KEYS:
-                            exec("self.%s= float(header[EDUtilsBioSaxs.TRANSLATION[key]])" % key)
+                            setattr(self, key, float(header[EDUtilsBioSaxs.TRANSLATION[key]]))
                         else:
-                            exec("self.%s= header[EDUtilsBioSaxs.TRANSLATION[key]]" % key)
+                            setattr(self, key, header[EDUtilsBioSaxs.TRANSLATION[key]])
 
         if self.strOutputImage is not None:
-
             if os.path.abspath(self.strOutputImage) != os.path.abspath(self.strInputImage):
                 shutil.copy(self.strInputImage, self.strOutputImage)
             keyToUpgrade = []
