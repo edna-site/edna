@@ -230,14 +230,14 @@ class Spline:
          both are floats.
         """
         if  (self.xDispArray == None) :
-            if timing:
-                startTime = time.time()
-            self.xDispArray = scipy.interpolate.fitpack.bisplev(numpy.arange(self.ymin, self.ymax + 1), numpy.arange(self.xmin, self.xmax + 1), \
+            x_1d_array = numpy.arange(self.xmin, self.xmax + 1)
+            y_1d_array = numpy.arange(self.ymin, self.ymax + 1)
+            startTime = time.time()
+            self.xDispArray = scipy.interpolate.fitpack.bisplev(x_1d_array, y_1d_array,
                                                [self.xSplineKnotsX, self.xSplineKnotsY, self.xSplineCoeff, self.splineOrder, self.splineOrder ], \
                                                dx=0, dy=0).transpose()
-            if timing:
-                intermediateTime = time.time()
-            self.yDispArray = scipy.interpolate.fitpack.bisplev(numpy.arange(self.ymin, self.ymax + 1), numpy.arange(self.xmin, self.xmax + 1), \
+            intermediateTime = time.time()
+            self.yDispArray = scipy.interpolate.fitpack.bisplev(x_1d_array, y_1d_array,
                                                [self.ySplineKnotsX, self.ySplineKnotsY, self.ySplineCoeff, self.splineOrder, self.splineOrder ], \
                                                dx=0, dy=0).transpose()
             if timing:
