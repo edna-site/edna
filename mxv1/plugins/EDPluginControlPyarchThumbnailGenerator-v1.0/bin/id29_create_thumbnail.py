@@ -61,10 +61,12 @@ from XSDataPyarchThumbnailGeneratorv1_0 import XSDataInputPyarchThumbnailGenerat
 
 
 if __name__ == '__main__':
-    # Sleep a random time 0-2s in order to avoid problems if many instances started at the same time
-    time.sleep(random.random()*2.0)
-    # Popolate input data
     EDVerbose.setVerboseDebugOn()
+    # Sleep a random time 0-2s in order to avoid problems if many instances started at the same time
+    fSleepTime = random.random()*2.0
+    EDVerbose.DEBUG("Sleeping for %.2f s" % fSleepTime)
+    time.sleep(fSleepTime)
+    # Popolate input data
     EDVerbose.screen("Starting id29_create_thumbnail")
     # If no arguments stop
     if len(sys.argv) <= 2:
