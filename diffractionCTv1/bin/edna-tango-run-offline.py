@@ -37,7 +37,7 @@ __copyright__ = "ESRF"
 
 import os, time, sys
 
-os.environ[ "TANGO_HOST" ] = "mufid6:20000"
+os.environ[ "TANGO_HOST" ] = "mufid2:20000"
 print "TANGO_HOST= %s" % os.environ[ "TANGO_HOST" ]
 os.environ[ "EDNA_HOME" ] = os.path.split(os.path.split(os.path.abspath(sys.argv[0]))[0])[0]
 print  "EDNA_HOME= %s" % os.environ[ "EDNA_HOME" ]

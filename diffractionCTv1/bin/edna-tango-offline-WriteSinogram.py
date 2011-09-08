@@ -32,7 +32,7 @@ import time     as PyTime
 #import ctypes   as PyCtypes
 
 
-PyOs.environ[ "TANGO_HOST" ] = "mufid6:20000" 
+PyOs.environ[ "TANGO_HOST" ] = "mufid2:20000" 
 print "TANGO_HOST= %s"%PyOs.environ[ "TANGO_HOST" ]
 PyOs.environ[ "EDNA_HOME" ] = PyOs.path.split( PyOs.path.split( PyOs.path.split( PyOs.path.abspath(PySys.argv[0]) )[0] )[0] )[0]
 print  "EDNA_HOME= %s"%PyOs.environ[ "EDNA_HOME" ] 

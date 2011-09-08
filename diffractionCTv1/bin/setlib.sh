@@ -27,7 +27,6 @@
 #
 
 
-export TANGO_HOST=mufid6:20000
 
 PathToProg=$( readlink -fn $0 )
 export EDNA_HOME=$(dirname "${PathToProg}" | sed 's/\/diffractionCTv1\/bin$//')

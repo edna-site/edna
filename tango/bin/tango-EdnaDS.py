@@ -89,7 +89,7 @@ class EdnaDS(PyTango.Device_4Impl, EDObject):
         attr.set_value("")
 
     def getJobState(self, jobId):
-        return EDJob.getStatusFromId(jobId) or "unknown job"
+        return EDJob.getStatusFromID(jobId) or "unknown job"
 
     def abort(self, jobId):
         pass
