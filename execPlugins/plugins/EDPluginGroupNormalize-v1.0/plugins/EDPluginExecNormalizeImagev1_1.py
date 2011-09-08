@@ -52,7 +52,7 @@ imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 
 EDFactoryPluginStatic.preImport("Image", imagingPath)
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
 
@@ -212,9 +212,9 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
                 self.strOutputShared = sdi.output.shared.value
         # else export as array.
 
-        EDAssert.equal(len(self.listDataArray), len(self.listDataExposure) , _strComment="number of data images / exposure times ")
-        EDAssert.equal(len(self.listFlatArray), len(self.listFlatExposure) , _strComment="number of flat images / exposure times ")
-        EDAssert.equal(len(self.listDarkArray), len(self.listDarkExposure) , _strComment="number of dark images / exposure times ")
+        EDAssert.equal(len(self.listDataArray), len(self.listDataExposure), _strComment="number of data images / exposure times ")
+        EDAssert.equal(len(self.listFlatArray), len(self.listFlatExposure), _strComment="number of flat images / exposure times ")
+        EDAssert.equal(len(self.listDarkArray), len(self.listDarkExposure), _strComment="number of dark images / exposure times ")
 
 
     def process(self, _edObject=None):
@@ -252,10 +252,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         xsDataResult = XSDataResultNormalize()
         if self.strOutputFilename is not None:
             self.DEBUG("Writing file %s" % self.strOutputFilename)
-            print self.npaNormalized
-            print self.npaNormalized.dtype, self.npaNormalized.shape
             edf = fabio.edfimage.edfimage(data=self.npaNormalized, header={})
-            print self.strOutputFilename
             edf.write(self.strOutputFilename)
             xsdo = XSDataImageExt(path=XSDataString(self.strOutputFilename))
         elif self.strOutputShared is not None:

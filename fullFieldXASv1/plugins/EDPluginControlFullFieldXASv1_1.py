@@ -54,7 +54,7 @@ imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", architecture)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath)
 
@@ -191,10 +191,10 @@ class EDPluginControlFullFieldXASv1_1(EDPluginControl):
             self.xsdAlignStack = None
             return
 
-
         self.xsdAlignStack.index = [XSDataInteger(self.index)]
         self.xsdAlignStack.frameReference = XSDataInteger(self.reference)
         self.xsdAlignStack.HDF5File = self.dataInput.getHDF5File()
+        self.xsdAlignStack.internalHDF5Path = self.dataInput.getInternalHDF5Path()
 
         keyValuePair1 = XSDataKeyValuePair(key=XSDataString("axes"), value=XSDataString("energy"))
         keyValuePair2 = XSDataKeyValuePair(key=XSDataString("long_name"), value=XSDataString(self.TITLE))

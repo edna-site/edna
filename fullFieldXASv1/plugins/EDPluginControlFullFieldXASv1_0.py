@@ -22,11 +22,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF, Grenoble"
 __contact__ = "jerome.kieffer@esrf.eu"
+__date__ = "20110905"
 
 import threading, os, time
 from EDPluginControl        import EDPluginControl
@@ -97,24 +98,24 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginControlFullFieldXASv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getIndex(), "No index given for data input ")
-        self.checkMandatoryParameters(self.getDataInput().getHDF5File(), "No HDF5 file given for data input")
-        self.checkMandatoryParameters(self.getDataInput().getInternalHDF5Path(), "No HDF5 internal path given for data input")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.index, "No index given for data input ")
+        self.checkMandatoryParameters(self.dataInput.getHDF5File(), "No HDF5 file given for data input")
+        self.checkMandatoryParameters(self.dataInput.getInternalHDF5Path(), "No HDF5 internal path given for data input")
 
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlFullFieldXASv1_0.preProcess")
-        sdi = self.getDataInput()
-        self.index = sdi.getIndex().getValue()
+        sdi = self.dataInput
+        self.index = sdi.index.value
         self.HDF5filename = sdi.getHDF5File()
         self.internalHDF5Path = sdi.getInternalHDF5Path()
         self.xsdMeasureOffset = sdi.getMeasureOffset()
         if sdi.getEnergy() is not None:
-            self.energy = sdi.getEnergy().getValue()
+            self.energy = sdi.getEnergy().value
         if sdi.getReference() is not None:
-            self.reference = sdi.getReference().getValue()
+            self.reference = sdi.getReference().value
         self.xsdNormalizedFilename = sdi.getSaveNormalized()
 
 
@@ -127,7 +128,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         edPluginExecNormalize.connectSUCCESS(self.doSuccessExecNormalize)
         edPluginExecNormalize.connectFAILURE(self.doFailureExecNormalize)
         xsdInNorm = XSDataInputNormalize()
-        sdi = self.getDataInput()
+        sdi = self.dataInput
         xsdInNorm.setData(sdi.getData())
         xsdInNorm.setFlat(sdi.getFlat())
         xsdInNorm.setDark(sdi.getDark())
@@ -151,8 +152,8 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.synchronizePlugins()
         self.makeHDF5NeXus()
         xsDataResult = XSDataResultFullFieldXAS()
-        xsDataResult.setHDF5File(self.getDataInput().getHDF5File())
-        xsDataResult.setInternalHDF5Path(self.getDataInput().getInternalHDF5Path())
+        xsDataResult.setHDF5File(self.dataInput.getHDF5File())
+        xsDataResult.setInternalHDF5Path(self.dataInput.getInternalHDF5Path())
         self.setDataOutput(xsDataResult)
         self.emptyListOfLoadedPlugin()
         self.xsdMeasureOffset = None
@@ -170,10 +171,10 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.xsdAlignStack.images = [output]
         data = EDUtilsArray.getArray(output).flatten()
 
-        self.xsdAlignStack.setIndex([XSDataInteger(self.index)])
-        self.xsdAlignStack.setFrameReference(XSDataInteger(self.reference))
-        self.xsdAlignStack.setHDF5File(self.getDataInput().getHDF5File())
-        self.xsdAlignStack.setInternalHDF5Path(self.getDataInput().getInternalHDF5Path())
+        self.xsdAlignStack.index = [XSDataInteger(self.index)]
+        self.xsdAlignStack.frameReference = XSDataInteger(self.reference)
+        self.xsdAlignStack.HDF5File = self.dataInput.getHDF5File()
+        self.xsdAlignStack.internalHDF5Path = self.dataInput.getInternalHDF5Path()
 
         keyValuePair1 = XSDataKeyValuePair(key=XSDataString("axes"), value=XSDataString("energy"))
         keyValuePair2 = XSDataKeyValuePair(key=XSDataString("long_name"), value=XSDataString(self.TITLE))
@@ -220,54 +221,53 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
 
     def makeHDF5EnergyStructure(self):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5EnergyStructure")
-        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().getValue(), self.internalHDF5Path.getValue())
-        EDPluginControlFullFieldXASv1_0._semaphore.acquire()
-        if "energy" in h5Grp:
-            dataset = h5Grp["energy"]
-        else:
-            dataset = h5Grp.create_dataset("energy", shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
-            for key in  EDPluginControlFullFieldXASv1_0.energyAttr:
-                dataset.attrs.create(key, EDPluginControlFullFieldXASv1_0.energyAttr[key])
-        if self.index >= dataset.shape[0]:
-            dataset.resize((self.index + 1,))
-        dataset[self.index] = self.energy
-        EDPluginControlFullFieldXASv1_0._semaphore.release()
+        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
+        with self.__class__._semaphore:
+            if "energy" in h5Grp:
+                dataset = h5Grp["energy"]
+            else:
+                dataset = h5Grp.create_dataset("energy", shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
+                for key in  EDPluginControlFullFieldXASv1_0.energyAttr:
+                    dataset.attrs.create(key, EDPluginControlFullFieldXASv1_0.energyAttr[key])
+            if self.index >= dataset.shape[0]:
+                dataset.resize((self.index + 1,))
+            dataset[self.index] = self.energy
 
 
     def makeHDF5MaxIntStructure(self, _fMaxIntensity):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5MaxIntStructure")
-        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().getValue(), self.internalHDF5Path.getValue())
-        EDPluginControlFullFieldXASv1_0._semaphore.acquire()
-        if "maxInt" in h5Grp:
-            dataset = h5Grp["maxInt"]
-        else:
-            dataset = h5Grp.create_dataset("maxInt", shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
-            for key in  EDPluginControlFullFieldXASv1_0.maxIntAttr:
-                dataset.attrs.create(key, EDPluginControlFullFieldXASv1_0.maxIntAttr[key])
-        if self.index >= dataset.shape[0]:
-            dataset.resize((self.index + 1,))
-        dataset[self.index] = _fMaxIntensity
-        EDPluginControlFullFieldXASv1_0._semaphore.release()
+        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
+        with self.__class__._semaphore:
+            if "maxInt" in h5Grp:
+                dataset = h5Grp["maxInt"]
+            else:
+                dataset = h5Grp.create_dataset("maxInt", shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
+                for key in  EDPluginControlFullFieldXASv1_0.maxIntAttr:
+                    dataset.attrs.create(key, EDPluginControlFullFieldXASv1_0.maxIntAttr[key])
+            if self.index >= dataset.shape[0]:
+                dataset.resize((self.index + 1,))
+            dataset[self.index] = _fMaxIntensity
 
     def makeHDF5NeXus(self):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5NeXus")
-        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().getValue(), self.internalHDF5Path.getValue())
-        entry = h5Grp.parent
-        if not "title" in  entry:
-            entry.create_dataset("title", data=self.TITLE)
-        if not "program" in  entry:
-            entry.create_dataset("program", data="EDNA EDPluginControlFullFieldXASv1_0")
-        if not "start_time" in  entry:
-            entry.create_dataset("start_time", data=EDPluginHDF5.getIsoTime(self.start_time))
-        ########################################################################
-        # Huge hack: for scalar modification: use [()] to refer to the data !!!
-        ########################################################################
-        if "end_time" in  entry:
-            entry["end_time"][()] = EDPluginHDF5.getIsoTime()
-        else:
-            entry.create_dataset("end_time", data=EDPluginHDF5.getIsoTime(), dtype=h5py.special_dtype(vlen=str))
-        if "duration" in  entry:
-            entry["duration"][()] = data = time.time() - self.start_time
-        else:
-            entry.create_dataset("duration", data=time.time() - self.start_time, dtype="float")
+        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
+        with self.__class__._semaphore:
+            entry = h5Grp.parent
+            if not "title" in  entry:
+                entry.create_dataset("title", data=self.TITLE)
+            if not "program" in  entry:
+                entry.create_dataset("program", data="EDNA EDPluginControlFullFieldXASv1_0")
+            if not "start_time" in  entry:
+                entry.create_dataset("start_time", data=EDPluginHDF5.getIsoTime(self.start_time))
+            ########################################################################
+            # Huge hack: for scalar modification: use [()] to refer to the data !!!
+            ########################################################################
+            if "end_time" in  entry:
+                entry["end_time"][()] = EDPluginHDF5.getIsoTime()
+            else:
+                entry.create_dataset("end_time", data=EDPluginHDF5.getIsoTime(), dtype=h5py.special_dtype(vlen=str))
+            if "duration" in  entry:
+                entry["duration"][()] = data = time.time() - self.start_time
+            else:
+                entry.create_dataset("duration", data=time.time() - self.start_time, dtype="float")
 

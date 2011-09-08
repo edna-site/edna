@@ -1,6 +1,6 @@
 # coding: utf8
 #
-#    Project: PROJECT
+#    Project: Exec plugin: Normalization plugin
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
@@ -27,6 +27,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble, France"
 __contact__ = "Jerome.Kieffer@esrf.eu"
+__data__ = "08/09/2011"
 
 import os, threading
 from EDVerbose                  import EDVerbose
@@ -36,7 +37,7 @@ from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from EDUtilsArray               import EDUtilsArray
 from EDUtilsUnit                import EDUtilsUnit
 from EDConfiguration            import EDConfiguration
-EDFactoryPluginStatic.loadModule("XSDataNormalizeImage")
+#EDFactoryPluginStatic.loadModule("XSDataNormalizeImage")
 from XSDataCommon               import XSDataImageExt, XSDataString, XSPluginItem
 from XSDataNormalizeImage       import XSDataInputNormalize, XSDataResultNormalize
 from EDAssert                   import EDAssert
@@ -51,7 +52,7 @@ imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 
 EDFactoryPluginStatic.preImport("Image", imagingPath)
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
 
@@ -80,7 +81,6 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
         self.listDarkExposure = []
         self.listFlatArray = []
         self.listFlatExposure = []
-#        self.dictDark = {}
         self.npaNormalized = None
         self.strOutputFilename = None
         self.strOutputShared = None
@@ -127,13 +127,13 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
             raise RuntimeError(strError)
         else:
             for inputData in sdi.getData():
-                if inputData.getExposureTime() is None:
+                if inputData.exposureTime is None:
                     self.WARNING("You did not provide an exposure time for DATA... using default: 1")
                     self.listDataExposure.append(1.0)
                 else:
-                    self.listDataExposure.append(EDUtilsUnit.getSIValue(inputData.getExposureTime()))
-                if inputData.getPath() is not None:
-                    strPath = inputData.getPath().getValue()
+                    self.listDataExposure.append(EDUtilsUnit.getSIValue(inputData.exposureTime))
+                if inputData.path is not None:
+                    strPath = inputData.path.value
                     if os.path.isfile(strPath):
                         img = fabio.open(strPath)
                         self.listDataArray.append(img.data)
@@ -145,8 +145,8 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                         self.ERROR(strError)
                         self.setFailure()
                         raise RuntimeError(strError)
-                elif inputData.getArray() is not None:
-                    self.listDataArray.append(EDUtilsArray.xsDataToArray(inputData.getArray()))
+                elif inputData.array is not None:
+                    self.listDataArray.append(EDUtilsArray.xsDataToArray(inputData.array))
                 else:
                     strError = "You should either provide an input filename or an array for DATA, you provided: %s" % inputData.marshal()
                     self.ERROR(strError)
@@ -154,14 +154,14 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                     raise RuntimeError(strError)
 
         for inputFlat in sdi.getFlat():
-            if inputFlat.getExposureTime() is None:
+            if inputFlat.exposureTime is None:
                 self.WARNING("You did not provide an exposure time for FLAT... using default: 1")
                 expTime = 1.0
             else:
-                expTime = EDUtilsUnit.getSIValue(inputFlat.getExposureTime())
+                expTime = EDUtilsUnit.getSIValue(inputFlat.exposureTime)
             self.listFlatExposure.append(expTime)
-            if inputFlat.getPath() is not None:
-                strPath = inputFlat.getPath().getValue()
+            if inputFlat.path is not None:
+                strPath = inputFlat.path.value
                 if os.path.isfile(strPath):
                     img = fabio.open(strPath)
                     self.listFlatArray.append(img.data)
@@ -173,8 +173,8 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                     self.ERROR(strError)
                     self.setFailure()
                     raise RuntimeError(strError)
-            elif inputFlat.getArray() is not None:
-                self.listFlatArray.append(EDUtilsArray.xsDataToArray(inputFlat.getArray()))
+            elif inputFlat.array is not None:
+                self.listFlatArray.append(EDUtilsArray.xsDataToArray(inputFlat.array))
             else:
                 strError = "You should either provide an input filename or an array for FLAT, you provided: %s" % inputFlat.marshal()
                 self.ERROR(strError)
@@ -183,15 +183,15 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
 
         EDPluginExecNormalizeImagev1_0.semaphore.acquire()
         for inputDark in sdi.getDark():
-            if inputDark.getExposureTime() is None:
+            if inputDark.exposureTime is None:
                 self.WARNING("You did not provide an exposure time for Dark... using default: 1")
                 expTime = 1.0
             else:
-                expTime = EDUtilsUnit.getSIValue(inputDark.getExposureTime())
+                expTime = EDUtilsUnit.getSIValue(inputDark.exposureTime)
             if str(expTime) not in EDPluginExecNormalizeImagev1_0.dictDark:
                 self.listDarkExposure.append(expTime)
-                if inputDark.getPath() is not None:
-                    strPath = inputDark.getPath().getValue()
+                if inputDark.path is not None:
+                    strPath = inputDark.path.value
                     if os.path.isfile(strPath):
                         img = fabio.open(strPath)
                         self.listDarkArray.append(img.data)
@@ -203,8 +203,8 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                         self.ERROR(strError)
                         self.setFailure()
                         raise RuntimeError(strError)
-                elif inputDark.getArray() is not None:
-                    self.listDarkArray.append(EDUtilsArray.xsDataToArray(inputDark.getArray()))
+                elif inputDark.array is not None:
+                    self.listDarkArray.append(EDUtilsArray.xsDataToArray(inputDark.array))
                 else:
                     strError = "You should either provide an input filename or an array for Dark, you provided: %s" % inputDark.marshal()
                     self.ERROR(strError)
@@ -231,7 +231,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
         #numerator part: 
         fTotalDataTime = 0.0
         self.shape = self.listDataArray[0].shape
-        npaSummedData = numpy.zeros(self.shape, dtype=self.dtype)
+        npaSummedData = numpy.zeros(self.shape, dtype="float64")
 
         for i in range(len(self.listDataArray)):
             fTotalDataTime += self.listDataExposure[i]
@@ -240,15 +240,15 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
 
         #denominator part
         fTotalFlatTime = 0.0
-        npaSummedFlat = numpy.zeros(self.shape, dtype=self.dtype)
+        npaSummedFlat = numpy.zeros(self.shape, dtype="float64")
 
         for i in range(len(self.listFlatArray)):
             fTotalFlatTime += self.listFlatExposure[i]
             npaSummedFlat += numpy.maximum(self.listFlatArray[i] - self.getMeanDark(self.listFlatExposure[i]), 0)
 
-        npaNormalizedFlat = (npaSummedFlat / fTotalFlatTime).astype(self.dtype)
+        npaNormalizedFlat = (npaSummedFlat / fTotalFlatTime)#.astype("float64")
 
-        self.npaNormalized = npaNormalizedData / numpy.maximum(npaNormalizedFlat, numpy.ones_like(npaNormalizedFlat))
+        self.npaNormalized = npaNormalizedData / numpy.maximum(npaNormalizedFlat, 1.0)
         if self.npaNormalized.dtype != numpy.dtype(self.dtype):
             self.npaNormalized = self.npaNormalized.astype(self.dtype)
 
@@ -293,7 +293,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
         """
         EDPluginExecNormalizeImagev1_0.semaphore.acquire()
         if  str(_fExposureTime) not in EDPluginExecNormalizeImagev1_0.dictDark:
-            npaSumDark = numpy.zeros(self.shape, dtype=numpy.float32)
+            npaSumDark = numpy.zeros(self.shape, dtype="float64")
             count = 0
             for fExpTime, npaDark in zip(self.listDarkExposure, self.listDarkArray):
                 if abs(fExpTime - _fExposureTime) / _fExposureTime < 1e-4:

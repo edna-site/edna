@@ -22,7 +22,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jerome Kieffer"
+__author__ = "Jerome Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble, France"
 
@@ -32,12 +32,14 @@ class EDTestSuitePluginExecNormalizeImagev1_0(EDTestSuite):
     """
     This is the test suite for EDNA plugin NormalizeImagev1_0 
     It will run subsequently all unit tests and execution tests.     
-    """        
+    """
 
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitExecNormalizeImagev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_0")
-        
+#        Fix the tests 
+        #self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_0_file")
+        #self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_1")
 
 
 if __name__ == '__main__':

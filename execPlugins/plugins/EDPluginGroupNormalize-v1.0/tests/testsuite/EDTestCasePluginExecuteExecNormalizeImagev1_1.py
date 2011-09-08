@@ -49,7 +49,7 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_1(EDTestCasePluginExecute):
     def __init__(self, _strTestName=None):
         """
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginExecNormalizeImagev1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginExecNormalizeImagev1_1")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_NormalizeImage.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \

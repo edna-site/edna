@@ -41,7 +41,7 @@ EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
 
 
 
-class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecNormalizeImagev1_0_file(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin NormalizeImagev1_0
     """
@@ -112,5 +112,5 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    testNormalizeImagev1_0instance = EDTestCasePluginExecuteExecNormalizeImagev1_0("EDTestCasePluginExecuteExecNormalizeImagev1_0")
+    testNormalizeImagev1_0instance = EDTestCasePluginExecuteExecNormalizeImagev1__file("EDTestCasePluginExecuteExecNormalizeImagev1_0_file")
     testNormalizeImagev1_0instance.execute()
