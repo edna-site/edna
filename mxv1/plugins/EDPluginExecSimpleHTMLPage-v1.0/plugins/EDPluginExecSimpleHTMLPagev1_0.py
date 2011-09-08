@@ -168,14 +168,21 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             bHigherResolutionDetected = False
             fRankingResolution = None
             fResolutionMax = None
+            fDistanceMin = None
             for xsDataCollectionPlan in listXSDataCollectionPlan:
                 xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
+                xsDataCollectionStrategy = xsDataCollectionPlan.getCollectionStrategy()
                 if xsDataSummaryStrategy.getRankingResolution():
+                    # Retrieve the resolution...
                     fResolution = xsDataSummaryStrategy.getResolution().getValue()
+                    # Retrieve the detector distance...
+                    fDistance = xsDataCollectionStrategy.getSubWedge()[0].getExperimentalCondition().getDetector().getDistance().getValue()
                     if fResolutionMax is None:
                         fResolutionMax = fResolution
+                        fDistanceMin = fDistance
                     elif (fResolution < fResolutionMax) and (abs(fResolution-fResolutionMax) > 0.1):
                         fResolutionMax = fResolution                        
+                        fDistanceMin = fDistance
                     fRankingResolution = xsDataSummaryStrategy.getRankingResolution().getValue()
             
             if fRankingResolution != None and fResolutionMax != None:
@@ -184,7 +191,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                         self.page.i()
                         self.page.h3("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
                         self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
-                        self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to %.2f &Aring; and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
+                        self.page.strong("In order to calculate a strategy to %.2f &Aring; set the detector distance to %.2f mm (%.2f &Aring;) and re-launch the EDNA characterisation." % (fRankingResolution,fDistanceMin,fRankingResolution))
                         self.page.i.close()
                     bHigherResolutionDetected = True
                 
