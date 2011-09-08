@@ -28,7 +28,7 @@ __contact__ = "svensson@free.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, time, sys, threading, tempfile
+import os, time, sys, threading, tempfile, random
 
 # Append the EDNA kernel source directory to the python path
 if not os.environ.has_key("EDNA_HOME"):
@@ -61,13 +61,19 @@ from XSDataPyarchThumbnailGeneratorv1_0 import XSDataInputPyarchThumbnailGenerat
 
 
 if __name__ == '__main__':
+    # Sleep a random time 0-2s in order to avoid problems if many instances started at the same time
+    time.sleep(random.random()*2.0)
+    # Popolate input data
+    EDVerbose.setVerboseDebugOn()
+    EDVerbose.screen("Starting id29_create_thumbnail")
+    # If no arguments stop
+    if len(sys.argv) <= 2:
+        EDVerbose.screen("Usage: id29_create_thumbnail image_directory_path image1 [image2]" )
+        sys.exit(1)
+    EDVerbose.screen("Arguments: %r" % sys.argv)
     strPathToTempDir = tempfile.mkdtemp(prefix="id29_create_thumbnail_")
     os.chdir(strPathToTempDir)
-    EDVerbose.setVerboseDebugOn()
     EDVerbose.setLogFileName(os.path.join(strPathToTempDir, "id29_create_thumbnail.log"))
-    # Popolate input data
-    EDVerbose.screen("Starting id29_create_thumbnail")
-    EDVerbose.screen("Arguments: %r" % sys.argv)
     strImageDirectory = sys.argv[1]
     listImageName = sys.argv[2:]
     # Quick check if the two image names are the same. If they are launch the thumbnail generator only once
