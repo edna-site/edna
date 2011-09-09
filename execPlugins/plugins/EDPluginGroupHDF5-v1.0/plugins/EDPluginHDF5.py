@@ -49,9 +49,13 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", ar
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
-h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.api_version",_strForceVersion="1.8")
-EDFactoryPluginStatic.preImport("Image", imagingPath, _strMethodVersion="VERSION")
+h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.api_version", _strForceVersion="1.8")
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath, _strMethodVersion="VERSION")
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
+
+if h5py is None:
+    raise ImportError("EDPluginHDF5 cannot work without h5py !!!")
+
 
 if "EDNA_SITE" not in os.environ:
     os.environ["EDNA_SITE"] = "edna-site"
@@ -82,6 +86,7 @@ class EDPluginHDF5(EDPluginExec):
                              #"NX_class":"NXentry",
                              #"Class":"Spectra"
                              }
+    NX_GROUP_ATTRIBUTES = {"NX_class":"NXentry"}
     HDF5_DATASET_ATTRIBUTES = {"creator":"EDNA",
 #                               "NX_class":"NXdata",
                                #"interpretation": "spectrum", #Could be "scalar", "image" or "vertex"
@@ -268,6 +273,9 @@ class EDPluginHDF5(EDPluginExec):
                 for key in cls.HDF5_GROUP_ATTRIBUTES:
                     if key not in hdf5group.attrs:
                         hdf5group.attrs.create(key, cls.HDF5_GROUP_ATTRIBUTES[key])
+            for key in cls.NX_GROUP_ATTRIBUTES:
+                if key not in hdf5group.attrs:
+                    hdf5group.attrs.create(key, cls.NX_GROUP_ATTRIBUTES[key])
         return hdf5group
 
 
@@ -419,9 +427,14 @@ class EDPluginHDF5(EDPluginExec):
         @return: the current time as an ISO8601 string
         @rtype: string  
         """
-        if not forceTime:
+        if forceTime is None:
             forceTime = time.time()
-        return time.strftime("%Y-%m-%d %H:%M:%S %Z", time.localtime(forceTime))
+        localtime = time.localtime(forceTime)
+        gmtime = time.gmtime(forceTime)
+        tz_h = localtime.tm_hour - gmtime.tm_hour
+        tz_m = localtime.tm_min - gmtime.tm_min
+        return "%s%+03i:%02i" % (time.strftime("%Y-%m-%dT%H:%M:%S", localtime), tz_h, tz_m)
+
 
     def get_iChunkSegmentation(self):
         return self.__iChunkSegmentation
