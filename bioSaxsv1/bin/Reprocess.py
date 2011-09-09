@@ -300,7 +300,7 @@ class BioSaxsReprocess(EDLogging):
         existing2DImage = os .path.join(rootDir, "2d", basename + ".edf")
 
         if os.path.isfile(existing2DImage):
-            print existing2DImage
+#            print existing2DImage
             title = None
             for line in open(existing2DImage):
                 if len(line) > 512:
@@ -350,7 +350,7 @@ class BioSaxsReprocess(EDLogging):
                     if key:
                         key = key.strip()
                         value = value.strip()
-                        print key, value
+#                        print key, value
                         if key == "DiodeCurr":
                             try:
                                 self.experimentSetup.beamStopDiode = XSDataDouble(float(value))

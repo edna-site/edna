@@ -47,7 +47,7 @@ class EDTestCasePluginUnitBioSaxsAzimutIntv1_1(EDTestCasePluginUnit):
         xsDataInput.setNormalizedImageSize(XSDataInteger())
         xsDataInput.setIntegratedImage(XSDataImage())
         xsDataInput.setIntegratedCurve(XSDataFile())
-        xsDataInput.sample = XSDataBioSaxsSample
+        xsDataInput.sample = XSDataBioSaxsSample()
         xsDataInput.experimentSetup = XSDataBioSaxsExperimentSetup()
 
         edPluginExec = self.createPlugin()
