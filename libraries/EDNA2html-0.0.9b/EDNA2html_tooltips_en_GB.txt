@@ -1,0 +1,238 @@
+# Tool tip file for EDNA2html
+#
+# CVS ID: "$Id: EDNA2html_tooltips_en_GB.txt,v 1.24 2010/04/28 15:20:11 pjb93 Exp $"
+#
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU Lesser General Public License as published
+#   by the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU Lesser General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   and the GNU Lesser General Public License  along with this program.  
+#   If not, see <http://www.gnu.org/licenses/>.
+#
+# Contains the tool tip text for placeholders in EDNA2html.py
+# Blank lines and lines starting with # are ignored
+# Data lines have the format:
+#
+# placeholder_name: tool tip text
+#
+# Optionally the tool tip text can be enclosed in double quotes, which
+# will be stripped when this file is read.
+#
+# To remove tool tip text while keeping the placeholder, do:
+#
+# placeholder_name:
+#
+# i.e. without any trailing (non-whitespace) characters
+
+#######################################################################
+# Section titles
+#######################################################################
+#
+# Titles for indexing and spot prediction subsections
+indexing_summary: Summary of the indexing results from Mosflm
+prediction_summary: Spot predictions for each image from Mosflm
+#
+# Title for strategy summary section
+strategies_summary: Note that maximum resolution is limited by either the inscribed circle of the reference images, or by the data quality
+#
+# Image template in main heading
+image_template: Template name for the diffraction image files used by the EDNA characterisation
+
+#######################################################################
+# Indexing summary section
+#######################################################################
+#
+# Requested and selected spacegroups
+requested_spacegroup: Specific spacegroup requested on input
+selected_spacegroup: Spacegroup selected by Mosflm from indexing
+
+# Title for table of refined unit cell parameters
+refined_unit_cell: Unit cell for the selected indexing solution, after refinement
+
+#######################################################################
+# All possible indexing solutions
+#######################################################################
+#
+selected_indexing_solution: The indexing solution chosen by Mosflm from the list below
+#
+indexing_solution_number: Solution number from Mosflm indexing
+indexing_solution_penalty: Penalty score for this solution
+indexing_solution_lattice: Lattice for this solution
+indexing_solution_cell_a: Unrefined cell length a (Angstroms)
+indexing_solution_cell_b: Unrefined cell length b (Angstroms)
+indexing_solution_cell_c: Unrefined cell length c (Angstroms)
+indexing_solution_cell_alpha: Unrefined cell angle alpha (degrees)
+indexing_solution_cell_beta: Unrefined cell angle beta (degrees)
+indexing_solution_cell_gamma: Unrefined cell angle gamma (degrees)
+indexing_solution_unrefined_cell: Cell parameters for each solution before refinement
+#
+# Open/close controls
+show_indexing_solutions: Show all possible indexing solutions from Mosflm
+hide_indexing_solutions: Hide the table of possible indexing solutions
+
+#######################################################################
+# Additional indexing data table
+#######################################################################
+#
+# Table title
+additional_indexing_data: Additional data derived from indexing the images
+#
+# Table rows
+spot_deviation_positional: Spot deviation (positional)
+spot_deviation_angular: Spot deviation (angular)
+beam_shift_xy: Beam shift (X,Y)
+estimated_mosaicity: Estimated mosaicity
+number_of_spots_used: Number of spots used
+number_of_spots_total: Total number of spots
+#
+# Open/close controls
+show_additional_indexing_data: Show all the data from indexing
+hide_additional_indexing_data: Only show basic data from indexing
+
+#######################################################################
+# Spot prediction section
+#######################################################################
+#
+image_range_header: Range of images used for this prediction
+image_name: Name of the diffraction image file
+rms_spot_deviation: RMS spot deviation
+#
+# Thumbnail linking to spot prediction images
+spot_prediction_image: Click to see spot predictions
+#
+# Table of statistics from integration
+integration_statistics_table: Statistics from integration
+average_i_over_sigma_overall: Average I/sigma for all profile-fitted fully and partially recorded reflections
+average_i_over_sigma_highest_resoln: Average I/sigma in the highest resolution shell for profile-fitted fully and partially recorded reflections
+#
+# Table of reflection counts
+reflections_statistics_table: Numbers of reflections by type
+reflections_fully_recorded: Fully recorded reflections
+reflections_partials: Partially recorded reflections
+reflections_overlapped: Overlapped reflections
+reflections_negative: Negative reflections
+reflections_bad: Number of bad reflections
+#
+# Open/close controls
+show_integration_statistics: Click to view more integration statistics
+hide_integration_statistics: Click to hide the integration statistics
+
+#######################################################################
+# Summary of strategies table
+#######################################################################
+#
+run_number: Id number of the EDNA run and the resulting strategy
+ranking_resolution: Ranking resolution predicted for the strategy
+predicted_completeness: Predicted completeness for highest resolution sweep in the strategy
+predicted_i_over_sigma: Predicted I/sigma for highest resolution sweep in the strategy
+predicted_i_over_sigma_overall: Predicted overall I/sigma for highest resolution sweep in the strategy
+predicted_multiplicity: Predicted multiplicity for highest resolution sweep in the strategy
+total_number_of_images: Total number of images to be collected using the strategy
+total_exposure_time: Total exposure time of the sample using the strategy
+total_collection_time: Total data collection time using the strategy
+strategy_resolution: Maximum resolution predicted using the strategy
+strategy_description: Description of this strategy
+
+#######################################################################
+# Sortable summary of strategies table
+#######################################################################
+#
+sort_run_number: Click to sort on EDNA run id number
+sort_ranking_resolution: Click to sort on ranking resolution for the strategy
+sort_predicted_completeness: Click to sort on predicted completeness for highest resolution sweep
+sort_predicted_i_over_sigma: Click to sort on predicted I/sigma for highest resolution sweep
+sort_predicted_i_over_sigma_overall: Click to sort on predicted overall I/sigma for highest resolution sweep
+sort_predicted_multiplicity: Click to sort on predicted multiplicity for highest resolution sweep
+sort_total_number_of_images: Click to sort on total number of images
+sort_total_exposure_time: Click to sort on predicted total exposure time of the sample
+sort_strategy_resolution: Click to sort on the maximum predicted resolution
+sort_total_collection_time: Click to sort on total data collection time
+
+#######################################################################
+# Summary of EDNA inputs table
+#######################################################################
+#
+inputs_table_title: Summary of the key inputs to EDNA for generating this strategy
+target_resolution: Resolution limit that the strategy should ideally achieve
+target_multiplicity: Multiplicity that the strategy should ideally achieve in the outermost resolution shell
+target_i_over_sigma: I/sigma that the strategy should ideally achieve in the outermost resolution shell
+sample_composition: Assumptions used for predicting radiation damage
+radiation_susceptibility: Measure of how prone the sample is to radiation damage
+requested_strategy_complexity: The target complexity of the resulting data collection strategy
+
+#######################################################################
+# Data collection plan summary tables
+#######################################################################
+#
+sweep_number: A sweep is a contigious set of subwedges
+resolution_reasoning: Explanation for this sweep from BEST
+#
+subwedge_number: A subwedge is a contigious set of images
+data_collection_software_inputs: Key inputs to the data collection software in order to collect this sweep
+omega_start: Start angle for collecting the subwedge
+rotation_width: Oscillation width for each image
+number_of_images: Number of images to collect 
+exposure: Exposure time for each image
+maximum_resolution: Maximum resolution setting
+transmission: Degree to which the X-ray beam should be attenuated (relative to input value)
+#
+additional_details: Additional information about the sweep
+distance: Detector distance
+overlap: Whether or not images overlap with each other using this strategy
+
+#######################################################################
+# Strategy details table
+#######################################################################
+#
+strategy_total_rotation_range: Total oscillation range for each sweep
+strategy_total_number_of_images: Total number of images to be collected in the sweep
+strategy_total_exposure_time: Total time that the sample will be exposed to the beam time for each sweep 
+strategy_total_data_collection_time: Total time predicted for collecting the sweep
+strategy_ranking_resolution: The ranking resolution for the sweep
+strategy_completeness: Predicted completeness achieved from the sweep
+strategy_i_over_sigma: Predicted I/sigma achieved from the sweep
+strategy_multiplicity: Predicted multiplicity achieved from the sweep
+
+#######################################################################
+# Statistics as function of resolution
+#######################################################################
+#
+lower_resolution: Low resolution limit defining this resolution range
+upper_resolution: High resolution limit defining this resolution range
+completeness: Predicted completeness within this resolution range
+average_intensity: Predicted average intensity within this resolution range
+average_sigma: Predicted average sigma within this resolution range
+i_over_sigma: Predicted I/sigma within this resolution range
+rfactor: Predicted R-factor within this resolution range
+overload: Predicted percentage of overloads within this resolution range
+i_over_sigma_chi: Approximates I/sigma in the merged data after correcting for radiation damage
+chi_squared: Predicted chi**2 value for this resolution range
+#
+statistics_overall: Statistics calculated across the whole resolution range
+#
+# Open/close controls
+show_statistics_by_resolution: Click to see statistics as functions of resolution
+hide_statistics_by_resolution: Click to hide the statistics
+
+#######################################################################
+# Log and XML files
+#######################################################################
+#
+log_file: Log file from the EDNA run that produced this strategy
+xml_input_file: XML input file for this EDNA run
+xml_output_file: XML output file from this EDNA run
+#
+indexing_log: Log file from Mosflm indexing
+integration_log: Log file from Mosflm integration of a range of images
+raddose_log: Log file from Raddose radiation damage analysis
+best_log: Log file from BEST run
+best_plots: Plot file from BEST run (NB needs plotmtv program to view plots)
+#
+# End of file

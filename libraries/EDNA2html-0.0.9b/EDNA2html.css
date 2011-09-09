@@ -1,0 +1,367 @@
+/* EDNA2html.css
+   Stylesheet for output from EDNA2html
+   CVS_id $Id: EDNA2html.css,v 1.22 2010/04/28 11:04:44 pjb93 Exp $
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   and the GNU Lesser General Public License  along with this program.  
+   If not, see <http://www.gnu.org/licenses/>.
+
+   */
+
+/* Default style for document */
+body { font-family: Arial, sans-serif;
+       font-size: 12pt;
+       color: black;
+       background-color: white; }
+
+/* Styles for headings */
+h1 { font-family: Georgia, serif;
+     background-color: gray;
+     color: white;
+     padding: 5 10 5 10; }
+h2 { font-family: Georgia, serif;
+     display: inline;
+     color: white;
+     background-color: gray;
+     padding: 1 10 1 10;  }
+h3 { font-family: Georgia, serif;
+     background-color: lightblue;
+     display: inline;
+     padding: 1 15 1 15; }
+
+/* Default margins for paragraphs and tables */
+p,table { margin-left: 10px;
+          margin-right: 10px;
+          margin-top: 5px;
+          margin-bottom: 5px; }
+
+/* Specific styling for anonymous sections */
+div.anonymous { border-style: none;
+                padding-top: 0; }
+
+/* Default style for tables */
+table,td,th { border-style: none;
+	border-spacing: 0;
+	border-collapse: collapse;
+	padding: 2px;
+	font-size: 90%;
+	empty-cells: show; }
+td,th { border-style: solid;
+	border-width: 2px;
+	border-color: darkgray;
+	padding-left: 8px;
+	padding-right: 8px; }
+th { background-color: gray;
+	color: white;
+	font-weight: bold;
+	border-top-style: none;
+	border-bottom-style: none; }
+
+/* Styling for "fake" table headers */
+/* Replicate th styles from above */
+tr.table_header td {
+        background-color: gray;
+	color: white;
+	font-weight: bold;
+	border-top-style: none;
+	border-bottom-style: none;
+        border-color: darkgray;
+        text-align: center; }
+/* Extend rule above to add back the bottom border */
+tr.table_header1 td /* extends tr.table_header td */ {
+        border-bottom: solid 2px darkgray; }
+/* Alternative table header */
+tr.table_header_alt td /* extends tr.table_header td */ {
+	background-color: darkgray; }
+
+/* Styling for toggle folder */
+div.toggle_folder { 
+        margin-top: 5px;
+        margin-bottom: 5px; }
+
+div.toggle_folder span.control a img {
+        vertical-align: middle;
+        border-style: none; }
+
+/* Styling for the summary table */
+table.summary th { font-size: 90%;
+                   font-weight: normal;
+                   border-width: 1px;
+                   padding-left: 0px;
+                   padding-right: 0px;
+                   background-color: green;
+                   color: white; }
+table.summary td { font-size: 90%;
+                   border-width: 1px;
+                   padding: 2px; }
+table.summary a { color: white;
+                  text-decoration: none; }
+table.summary a:hover { text-decoration: underline; }
+
+table.summary tr.selected_row > td { background-color:  #fffddc;
+                                     color: blue;
+                                     text-decoration: underline;
+                                     cursor: pointer; }
+
+/* Styling for selected indexing solution */
+span.selected_spacegroup { font-weight: bold; }
+span.selected_spacegroup span.tool_tip:hover { background-color: #fffddc; }
+
+span.requested_spacegroup { font-style: italic; }
+span.requested_spacegroup span.tool_tip:hover { background-color: #fffddc; }
+
+p.selected_solution { 
+        font-weight: normal;
+        color: green; }
+
+table.selected_solution tr > td:first-child
+{
+  background-color: gray;
+  color: white;
+  font-weight: bold;
+  text-align: right; }
+
+tr.selected_solution td {
+	background-color: green;
+	color: white;
+	font-weight: bold; }
+
+
+/* Styling for the prediction summary section */
+div.prediction_summary div.image_range { margin-top: 5px;
+                                         font-weight: bold;
+                                         color: white; 
+                                         padding: 2px;
+                                         background-color: darkgrey; }
+
+div.prediction_summary th { background-color: darkgrey; }
+
+div.prediction_summary span.control { font-size: 80%; }
+
+/* Styling for "image boxes" in prediction section */
+div.imgbox { border: solid 1px grey;
+             margin: 5px;
+             padding: 5px;
+             clear: both; }
+
+div.imgbox div.lhs { float: left; }
+div.imgbox div.rhs { float: right; }
+
+div.imgbox span { font-size: 80%;
+                  line-height: 1.2; }
+div.imgbox span.tool_tip { font-size: 100%; }
+div.imgbox span.image_name { font-weight: bold;
+                             color: white;
+                             background-color: grey;
+                             padding: 2px; }
+
+div.imgbox img { margin: 2px; }
+
+div.prediction_data { clear: both; }
+
+/* Styling for analysis table in integration section */
+
+table.analysis_by_resoln tr > td:first-child {
+  background-color: gray;
+  color: white;
+  font-weight: bold;
+  text-align: right; }
+
+/* Styling for table of inputs in the strategy summary */
+
+table.inputs th { background-color: white;
+                  border: none;
+                  border-left: solid 2px darkgray;
+                  border-bottom: solid 2px darkgray;
+                  font-family: Georgia, serif;
+                  font-size: 12pt; }
+table.inputs th.first_child {
+	background-color: #ea5f29; }
+tr.inputs_table_header td {
+	background-color: #ea5f29;
+	color: white;
+	font-weight: bold; }
+
+div.strategy_summary ul { margin: 20px;
+                          background-color: #fffddc;
+                          border: solid 1px orange;
+                          font-size: 90%; }
+
+/* Styling for the strategy title */
+p.strategy_title { font-weight: bold;
+                   font-style: italic;
+                   background-color: lightblue; }
+
+/* Styling for collection plan table */
+table.collection_plan th { background-color: white;
+                           border: none;
+                           border-left: solid 2px darkgray;
+                           border-bottom: solid 2px darkgray;
+                           color: black;
+                           font-style: italic;
+                           text-align: left; }
+table.collection_plan th.first_child { 
+                           background-color: #377cb1;
+                           color: white;
+                           font-weight: bold;
+                           font-style: normal;
+                           font-family: Georgia, serif; 
+                           font-size: 12pt;
+                           text-align: center; }
+table.collection_plan td.first_child {
+      	background-color: green; }
+table.collection_plan td.GDA_inputs {
+      	background-color: green;
+        border-bottom: solid 2px darkgray; }
+table.collection_plan td.additional_info {
+	background-color: #377cb1;
+        border-bottom: solid 2px darkgray; }
+tr.subwedge td.first_child {
+      	background-color: white; }
+tr.subwedge td.GDA_inputs {
+	background-color: white; }
+tr.subwedge td.additional_info {
+	background-color: #addae6;
+        font-style: italic; }
+
+/* Table of log files */
+div.log_files { background-color: #fffddc; }
+table.log_files { background-color: #fffddc; }
+table.log_files td { border: solid 1px darkgray;
+                     border-top: none;
+                     border-left: none; }
+table.log_files td.first_child { border: solid 1px darkgray;
+                     border-top: none;
+                     border-right: none; }
+table.log_files th { background-color: white;
+                     border: none; }
+table.log_files th.first_child { background-color: #377cb1;
+                                 border-bottom: solid 2px darkgray;
+                                 font-family: Georgia, serif; }
+table.log_files tr.characterisation_stage{ background-color: #377cb1;
+                                           font-weight: bold;
+                                           color: white;
+                                           border: none; }
+
+
+/* Rules to float the table of log files to the right of the
+   table of details for each sweep in the strategy summary section */
+
+table.strategy_details { float: left; }
+table.log_files { float: right; }
+*.clear { clear: both; }
+
+/* Overall predicted stats for all resolution bins in a strategy */
+
+tr.overall_stats td { color: #ea5f29;
+                      font-weight: bold;
+                      font-style: italic; }
+
+
+/* Styling for info paragraphs */
+p.info { font-style: italic;
+         font-size: 80%; }
+p.info img { vertical-align: middle; }
+
+/* Tabbed folder styles */
+
+div.tabbed_folder { margin-left: 10px;
+                    margin-right: 10px;
+                    margin-bottom: 15px; }
+
+div.tabbed_folder_header { border-bottom: solid 3px white; }
+
+/* Default for deselected/hidden tabs */
+div.tab_header { float: left;
+                 color: white;
+                 font-family: Georgia, serif;
+                 background-color: lightgray;
+                 padding: 3px;
+                 margin-left: 2px; }
+div.tab_header a:link { color: white;
+                        text-decoration: none; }
+div.tab_header a:visited { color: white;
+                           text-decoration: none; }
+div.tab_body { border: solid 3px gray;
+               display: none;
+               clear: both; }
+
+/* Additional style rules for selected tabs
+   Note that these must appear after the defaults */
+div.tab_header_selected { background-color: gray; }
+div.tab_header_selected a { cursor: default; }
+div.tab_body_selected {  display: block; }
+
+
+/* Toggle table styles */
+/* Define rule for hiding the rows when not required */
+div.toggle_table tr.hide_me { display: none; }
+
+div.toggle_table table { margin: 0; }
+
+div.toggle_table { margin-left: 10px;
+                   margin-right: 10px;
+                   margin-top: 5px;
+                   margin-bottom: 5px;  }
+
+div.toggle_table span.control { font-size: 75%; }
+
+/* Floating sections for the indexing and prediction
+   summaries, to make them sit side-by-side */
+div.indexing_summary   { float: left;
+                         margin-left: 5px;
+                         margin-bottom: 10px;
+                         padding: 5px;
+                         width: 65%;
+                         background-color: white;
+                         border: solid 1px gray; }
+div.prediction_summary { float: right;
+                         margin-right: 5px;
+                         margin-bottom: 10px;
+                         padding: 5px;
+                         width: 30%;
+                         background-color: gray;
+                         border: solid 1px gray; }
+div.section_2 { clear: both; } /* Stop subsequent sections also flowing into
+                                  the indexing and prediction boxes */
+
+/* Failure diagnostic sections */
+div.failure_diagnostic { margin-bottom: 5px;
+                         padding: 5px;
+                         border: solid 2px lightblue; }
+
+/* Credits section */
+p.credits { background-color: #fffddc;
+            font-size: 75%;
+            padding: 10px; }
+
+/* Warnings and errors */
+.warning { background-color: #fffddc;
+           font-weight: bold;
+           font-style: italic;
+           padding: 10px;
+           width: 90%;
+           margin-left: auto;
+           margin-right: auto;
+           margin-top: 10px;
+           margin-bottom: 10px; }
+.error { background-color: red;
+           color: white;
+           font-size: 110%;
+           font-weight: bold;
+           padding: 10px;
+           width: 90%;
+           margin-left: auto;
+           margin-right: auto;
+           margin-top: 10px;
+           margin-bottom: 10px; }

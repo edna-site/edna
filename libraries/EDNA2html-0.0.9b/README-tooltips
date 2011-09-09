@@ -1,0 +1,27 @@
+How to edit tool tips in EDNA2html
+==================================
+
+The default text for the tool tips is stored in the file
+EDNA2html_tooltips_en_GB.txt.
+
+The file consists of placeholder/text pairs, with one pair per line
+(blank lines and lines starting with # are ignored). The placeholder/text
+pairs are separated by a colon character, for example:
+
+place_holder: This is some tool tip text
+
+Editing the tool tip text in the output HTML documents is a matter of
+locating the appropriate placeholder in the tool tips file. The --debug_help
+command line option for EDNA2html is intended to help with this.
+
+When --debug_help is specified on the command line, the name of the
+placeholder is displayed when the mouse moves over a tool-tipped element
+in the browser (instead of the normal tool tip text).
+
+Creating and using an alternative tool tip file
+===============================================
+
+An alternative tool tip file can be created by copying the default
+EDNA2html_tooltips_en_GB.txt file and editing it as required, then
+using the --help_file=... command line option for EDNA2html in order
+to specify that this new file be used instead.
