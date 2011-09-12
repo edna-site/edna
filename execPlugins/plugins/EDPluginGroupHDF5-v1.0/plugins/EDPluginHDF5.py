@@ -308,6 +308,19 @@ class EDPluginHDF5(EDPluginExec):
 
 
     @classmethod
+    def getFileLock(cls, filename):
+        """
+        return the semaphore for locking ....
+        """
+        if filename in cls.__dictLock:
+            return cls.__dictLock[filename]
+        else:
+            EDVerbose.WARNING("EDPluginHDF5.getFileSem: file not under supervision %s. Expect failure ! " % filename)
+
+
+
+
+    @classmethod
     def releaseFile(cls, filename):
         """
         release the semaphore for this specific file

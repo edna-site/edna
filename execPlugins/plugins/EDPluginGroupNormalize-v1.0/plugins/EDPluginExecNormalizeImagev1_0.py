@@ -138,7 +138,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                         img = fabio.open(strPath)
                         self.listDataArray.append(img.data)
                         for idx in range(1,img.nframes):
-                            self.listDataArray.append(getframe(idx).data)
+                            self.listDataArray.append(img.getframe(idx).data)
                             self.listDataExposure.append(self.listDataExposure[-1])
                     else:
                         strError = "The input file provided for DATA is not a valid file: %s" % strPath
@@ -166,7 +166,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                     img = fabio.open(strPath)
                     self.listFlatArray.append(img.data)
                     for idx in range(1,img.nframes):
-                        self.listFlatArray.append(getframe(idx).data)
+                        self.listFlatArray.append(img.getframe(idx).data)
                         self.listFlatExposure.append(self.listFlatExposure[-1])
                 else:
                     strError = "The input file provided for FLAT is not a valid file: %s" % strPath
@@ -196,7 +196,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                         img = fabio.open(strPath)
                         self.listDarkArray.append(img.data)
                         for idx in range(1,img.nframes):
-                            self.listDarkArray.append(getframe(idx).data)
+                            self.listDarkArray.append(img.getframe(idx).data)
                             self.listDarkExposure.append(self.listDarkExposure[-1])
                     else:
                         strError = "The input file provided for Dark is not a valid file: %s" % strPath

@@ -237,7 +237,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
     def makeHDF5MaxIntStructure(self, _fMaxIntensity):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5MaxIntStructure")
         h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
-        with self.__class__._semaphore:
+        with EDPluginHDF5.getFileLock(self.HDF5filename.path.value):
             if "maxInt" in h5Grp:
                 dataset = h5Grp["maxInt"]
             else:
@@ -250,8 +250,8 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
 
     def makeHDF5NeXus(self):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5NeXus")
-        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
-        with self.__class__._semaphore:
+        h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.path.value, self.internalHDF5Path.value)
+        with EDPluginHDF5.getFileLock(self.HDF5filename.path.value):
             entry = h5Grp.parent
             if not "title" in  entry:
                 entry.create_dataset("title", data=self.TITLE)
