@@ -42,11 +42,11 @@ h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="vers
 from EDShare                import EDShare
 EDFactoryPluginStatic.loadModule('EDPluginHDF5StackImagesv10')
 EDFactoryPluginStatic.loadModule('EDPluginControlAlignStackv1_0')
-from EDPluginControlAlignStackv1_0 import EDPluginControlAlignStackv1_0
-from EDPluginControlFullFieldXASv1_0 import EDPluginControlFullFieldXASv1_0
-from EDPluginHDF5StackImagesv10 import EDPluginHDF5StackImagesv10
-from XSDataFullFieldXAS     import MeasureOffset, XSDataInputAlignStack, XSDataInputFullFieldXAS
-from XSDataCommon           import XSDataTime, XSDataFile, XSDataImageExt, XSDataString, XSDataInteger, XSDataBoolean, XSDataDouble
+from EDPluginControlAlignStackv1_0      import EDPluginControlAlignStackv1_0
+from EDPluginControlFullFieldXASv1_0    import EDPluginControlFullFieldXASv1_0
+from EDPluginHDF5StackImagesv10         import EDPluginHDF5StackImagesv10
+from XSDataFullFieldXAS                 import MeasureOffset, XSDataInputAlignStack, XSDataInputFullFieldXAS
+from XSDataCommon                       import XSDataTime, XSDataFile, XSDataImageExt, XSDataString, XSDataInteger, XSDataBoolean, XSDataDouble
 
 
 if socket.gethostname() == 'lintaillefer':
@@ -57,7 +57,7 @@ else:
     except OSError:
         dirnames = []
     if dirnames != []:
-         EDShare.initialize(os.path.join("/buffer",dirnames[0]))
+         EDShare.initialize(os.path.join("/buffer", dirnames[0]))
 
 
 
@@ -87,7 +87,7 @@ class FullFieldXas(object):
         self.listInput = []
         self.bNewerOnly = False
         self.strMode = "OffLine"
-
+        self.dontAlign = None
 
     def load(self, filename):
         """
@@ -99,6 +99,8 @@ class FullFieldXas(object):
         self.xsdMeasureOffset = xsdi.getMeasureOffset()
         self.xsdReference = xsdi.getReference()
         self.xsdDarks = xsdi.getDark()
+        if xsdi.dontAlign is not None:
+            self.dontAlign = bool(xsdi.dontAlign.value)
 
 
     def save(self, filename):
@@ -187,12 +189,12 @@ class FullFieldXas(object):
 
     def readHDF5(self):
         if self.xsdHDF5 is not None:
-            tmpHDF5 = self.xsdHDF5.getPath().getValue()
+            tmpHDF5 = self.xsdHDF5.path.value
         else:
             common = "".join([i for  i, j in zip(self.prefix, self.flatPrefix) if i == j])
             if len(common) < 3:
                 common = "entry"
-            tmpHDF5 = common.strip("_") + "_0001/Aligned"
+            tmpHDF5 = common.strip("_") + ".h5"
         bOK = False
         while not bOK:
             strtmp = self.raw_input("What is the destination HDF5 file [%s]: " % tmpHDF5)
@@ -202,9 +204,11 @@ class FullFieldXas(object):
                 self.xsdHDF5 = XSDataFile(path=XSDataString(os.path.abspath(strtmp)))
                 bOK = True
         if self.xsdInternalHdf5 is not None:
-            tmpHDF5 = self.xsdInternalHdf5.getValue()
+            tmpHDF5 = self.xsdInternalHdf5.value
+        elif self.dontAlign:
+            tmpHDF5 = "unAligned"
         else:
-            tmpHDF5 = None
+            tmpHDF5 = "Aligned"
         bOK = False
         while not bOK:
             strtmp = self.raw_input("What is the internal HDF5 path  [%s]: " % tmpHDF5)
@@ -256,7 +260,7 @@ class FullFieldXas(object):
 
     def readReference(self):
         if self.xsdReference is not None:
-            tmpRef = self.xsdReference.getValue()
+            tmpRef = self.xsdReference.value
         else:
             tmpRef = None
         bOK = False
@@ -288,32 +292,39 @@ class FullFieldXas(object):
             strtmp = self.raw_input("Remove background for measuring offset [0|1]: ")
             if len(strtmp) > 0:
                 self.xsdMeasureOffset.setRemoveBackground(XSDataBoolean(int(strtmp)))
-            strtmp = self.raw_input("Crop borders befor measuring offset (1 or 2 integers): ")
+            strtmp = self.raw_input("Crop borders before measuring offset (0, 1 or 2 integers): ")
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
                 except:
                     print("error in reading integers from %s" % strtmp)
                 else:
-                    self.xsdMeasureOffset.setCropBorders([XSDataInteger(i) for i in ints])
-            strtmp = self.raw_input("Smooth borders before measuring offset (1 or 2 integers): ")
+                    if ints == [0]:
+                        self.xsdMeasureOffset.smoothBorders = []
+                    else:
+                        self.xsdMeasureOffset.setCropBorders([XSDataInteger(i) for i in ints])
+            strtmp = self.raw_input("Smooth borders before measuring offset (0, 1 or 2 integers): ")
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
                 except:
                     print("error in reading integers from %s" % strtmp)
                 else:
-                    self.xsdMeasureOffset.setSmoothBorders([XSDataInteger(i) for i in ints])
+                    if ints == [0]:
+                        self.xsdMeasureOffset.smoothBorders = []
+                    else:
+                        self.xsdMeasureOffset.smoothBorders([XSDataInteger(i) for i in ints])
             strtmp = self.raw_input("Use Sobel filter to enhance feature detections [0|1]: ")
             if len(strtmp) > 0:
-                self.xsdMeasureOffset.setSobelFilter(XSDataBoolean(int(strtmp)))
+                if strtmp != "0":
+                    self.xsdMeasureOffset.setSobelFilter(XSDataBoolean(int(strtmp)))
 
 
     def readDark(self):
         if len(self.xsdDarks) > 0:
             print("List of dark images with exposure times:")
             for oneXSDark in self.xsdDarks:
-                print("%s\t\t%s" % (oneXSDark.getPath().getValue(), oneXSDark.getExposureTime().getValue()))
+                print("%s\t\t%s" % (oneXSDark.path.value, oneXSDark.getExposureTime().value))
         else:
             print("No dark images are defined, you should define some !")
         strtmp = self.raw_input("Do you want to change anything [N|y]: ").lower()
@@ -399,7 +410,8 @@ class FullFieldXas(object):
             return
 
         xsd = XSDataInputFullFieldXAS()
-
+        if self.dontAlign:
+            xsd.dontAlign = XSDataBoolean(self.dontAlign)
         extendedPrefix = ""
         number = ""
         started = False
@@ -464,7 +476,7 @@ class FullFieldXas(object):
         @return: None     
         """
         xsd = XSDataInputFullFieldXAS.parseString(strXMLin)
-        filenames = [ i.getPath().getValue() for i in xsd.getData()]
+        filenames = [ i.path.value for i in xsd.getData()]
         EDVerbose.ERROR("Error in the processing of: \n %s" % "\n".join(filenames))
 
 
@@ -490,6 +502,7 @@ if __name__ == '__main__':
     newerOnly = True
     debug = False
     iNbCPU = None
+    dontAlign = None
     for i in sys.argv[1:]:
         if i.lower().find("-online") in [0, 1]:
             mode = "dirwatch"
@@ -500,19 +513,22 @@ if __name__ == '__main__':
             debug = True
         elif i.lower().find("-ncpu") in [0, 1]:
             iNbCPU = int(i.split("=", 1)[1])
+        elif i.lower().find("-dontalign") in [0, 1]:
+            dontAlign = True
         elif i.lower().find("-h") in [0, 1]:
             print "This is the DiffractionCTv1 application of EDNA %s, \nplease give a path to process offline or the option:\n\
             --online to process online incoming data in the given directory.\n\
             --all to process all existing files (unless they will be excluded)\n\
             --debug to turn on debugging mode in EDNA\n\
-            --nCPU=xxx to specify the number of CPUs to use. Usually EDNA autodetects the number of processors." % EDNAPluginName
+            --nCPU=xxx to specify the number of CPUs to use. Usually EDNA autodetects the number of processors.\n\
+            --dontAlign to allow the constitution an unaligned stack " % EDNAPluginName
             sys.exit()
         elif os.path.exists(i):
             paths.append(os.path.abspath(i))
 
 
     ffx = FullFieldXas()
-
+    ffx.dontAlign = dontAlign
     if os.path.isfile(".XSDataInputFullFieldXAS.xml"):
         ffx.load(".XSDataInputFullFieldXAS.xml")
 
