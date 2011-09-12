@@ -99,8 +99,8 @@ class FullFieldXas(object):
         self.xsdMeasureOffset = xsdi.getMeasureOffset()
         self.xsdReference = xsdi.getReference()
         self.xsdDarks = xsdi.getDark()
-        if xsdi.dontAlign is not None:
-            self.dontAlign = bool(xsdi.dontAlign.value)
+#        if xsdi.dontAlign is not None:
+#            self.dontAlign = bool(xsdi.dontAlign.value)
 
 
     def save(self, filename):
