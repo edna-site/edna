@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jul 22 12:31::06 2011 by EDGenerateDS.
+# Generated Mon Sep 12 12:01::43 2011 by EDGenerateDS.
 #
 
 import sys
@@ -381,7 +381,7 @@ class XSDataHDF5Attributes(XSData):
 # end class XSDataHDF5Attributes
 
 class XSDataInputAlignStack(XSDataInput):
-	def __init__(self, configuration=None, useSift=None, sobelFilterMO=None, smoothBordersMO=None, measureOffset=None, internalHDF5Path=None, index=None, images=None, frameReference=None, extraAttributes=None, cropBordersMO=None, backgroundSubtractionMO=None, alwaysMOvsRef=None, HDF5File=None):
+	def __init__(self, configuration=None, dontAlign=None, useSift=None, sobelFilterMO=None, smoothBordersMO=None, measureOffset=None, internalHDF5Path=None, index=None, images=None, frameReference=None, extraAttributes=None, cropBordersMO=None, backgroundSubtractionMO=None, alwaysMOvsRef=None, HDF5File=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputAlignStack", "Constructor of XSDataInputAlignStack", HDF5File, "XSDataFile")
 		self.__HDF5File = HDF5File
@@ -424,6 +424,8 @@ class XSDataInputAlignStack(XSDataInput):
 		self.__sobelFilterMO = sobelFilterMO
 		checkType("XSDataInputAlignStack", "Constructor of XSDataInputAlignStack", useSift, "XSDataBoolean")
 		self.__useSift = useSift
+		checkType("XSDataInputAlignStack", "Constructor of XSDataInputAlignStack", dontAlign, "XSDataBoolean")
+		self.__dontAlign = dontAlign
 	def getHDF5File(self): return self.__HDF5File
 	def setHDF5File(self, HDF5File):
 		checkType("XSDataInputAlignStack", "setHDF5File", HDF5File, "XSDataFile")
@@ -545,6 +547,13 @@ class XSDataInputAlignStack(XSDataInput):
 	def delUseSift(self): self.__useSift = None
 	# Properties
 	useSift = property(getUseSift, setUseSift, delUseSift, "Property for useSift")
+	def getDontAlign(self): return self.__dontAlign
+	def setDontAlign(self, dontAlign):
+		checkType("XSDataInputAlignStack", "setDontAlign", dontAlign, "XSDataBoolean")
+		self.__dontAlign = dontAlign
+	def delDontAlign(self): self.__dontAlign = None
+	# Properties
+	dontAlign = property(getDontAlign, setDontAlign, delDontAlign, "Property for dontAlign")
 	def export(self, outfile, level, name_='XSDataInputAlignStack'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -583,6 +592,8 @@ class XSDataInputAlignStack(XSDataInput):
 			self.sobelFilterMO.export(outfile, level, name_='sobelFilterMO')
 		if self.__useSift is not None:
 			self.useSift.export(outfile, level, name_='useSift')
+		if self.__dontAlign is not None:
+			self.dontAlign.export(outfile, level, name_='dontAlign')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -653,6 +664,11 @@ class XSDataInputAlignStack(XSDataInput):
 			obj_ = XSDataBoolean()
 			obj_.build(child_)
 			self.setUseSift(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dontAlign':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setDontAlign(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -698,7 +714,7 @@ class XSDataInputAlignStack(XSDataInput):
 # end class XSDataInputAlignStack
 
 class XSDataInputFullFieldXAS(XSDataInput):
-	def __init__(self, configuration=None, saveNormalized=None, reference=None, measureOffset=None, internalHDF5Path=None, index=None, flat=None, energy=None, data=None, dark=None, HDF5File=None):
+	def __init__(self, configuration=None, dontAlign=None, saveNormalized=None, reference=None, measureOffset=None, internalHDF5Path=None, index=None, flat=None, energy=None, data=None, dark=None, HDF5File=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", HDF5File, "XSDataFile")
 		self.__HDF5File = HDF5File
@@ -729,6 +745,8 @@ class XSDataInputFullFieldXAS(XSDataInput):
 		self.__reference = reference
 		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", saveNormalized, "XSDataFile")
 		self.__saveNormalized = saveNormalized
+		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", dontAlign, "XSDataBoolean")
+		self.__dontAlign = dontAlign
 	def getHDF5File(self): return self.__HDF5File
 	def setHDF5File(self, HDF5File):
 		checkType("XSDataInputFullFieldXAS", "setHDF5File", HDF5File, "XSDataFile")
@@ -817,6 +835,13 @@ class XSDataInputFullFieldXAS(XSDataInput):
 	def delSaveNormalized(self): self.__saveNormalized = None
 	# Properties
 	saveNormalized = property(getSaveNormalized, setSaveNormalized, delSaveNormalized, "Property for saveNormalized")
+	def getDontAlign(self): return self.__dontAlign
+	def setDontAlign(self, dontAlign):
+		checkType("XSDataInputFullFieldXAS", "setDontAlign", dontAlign, "XSDataBoolean")
+		self.__dontAlign = dontAlign
+	def delDontAlign(self): self.__dontAlign = None
+	# Properties
+	dontAlign = property(getDontAlign, setDontAlign, delDontAlign, "Property for dontAlign")
 	def export(self, outfile, level, name_='XSDataInputFullFieldXAS'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -853,6 +878,8 @@ class XSDataInputFullFieldXAS(XSDataInput):
 			self.reference.export(outfile, level, name_='reference')
 		if self.__saveNormalized is not None:
 			self.saveNormalized.export(outfile, level, name_='saveNormalized')
+		if self.__dontAlign is not None:
+			self.dontAlign.export(outfile, level, name_='dontAlign')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -908,6 +935,11 @@ class XSDataInputFullFieldXAS(XSDataInput):
 			obj_ = XSDataFile()
 			obj_.build(child_)
 			self.setSaveNormalized(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dontAlign':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setDontAlign(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

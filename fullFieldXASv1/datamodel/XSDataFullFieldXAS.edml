@@ -41,6 +41,7 @@ package XSDataFullFieldXAS {
 		smoothBordersMO : XSDataInteger [] optional
 		sobelFilterMO : XSDataBoolean optional
 		useSift : XSDataBoolean optional
+                dontAlign : XSDataBoolean optional
 	}
 
 	complex type XSDataHDF5Attributes extends XSData{
@@ -60,6 +61,7 @@ package XSDataFullFieldXAS {
 		measureOffset : MeasureOffset optional
 		reference : XSDataInteger optional
 		saveNormalized : XSDataFile optional
+                dontAlign : XSDataBoolean optional
 	}
 
 	complex type XSDataResultAlignStack extends XSDataResult {

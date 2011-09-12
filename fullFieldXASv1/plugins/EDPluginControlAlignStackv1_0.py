@@ -91,7 +91,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.xsdHDF5File = None
         self.xsdHDF5Internal = None
         self.bAlwaysMOvsRef = False
-
+        self.bDoAlign = True
         self.semAccumulator = threading.Semaphore()
         self.semMeasure = threading.Semaphore()
         self.semShift = threading.Semaphore()
@@ -120,6 +120,8 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.xsdHDF5File = sdi.getHDF5File()
         self.xsdHDF5Internal = sdi.getInternalHDF5Path()
         self.hdf5ExtraAttributes = sdi.extraAttributes
+        if  sdi.dontAlign is not None:
+            self.bDoAlign = not(bool(sdi.dontAlign.value))
 
         self.iFrames = [ xsd.getValue() for xsd in sdi.getIndex()]
 
@@ -175,7 +177,26 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             queryRaw.setRemoveItems(XSDataBoolean(False))
             queryShift.setRemoveItems(XSDataBoolean(False))
             xsdataAcc = XSDataInputAccumulator()
-            if EDPluginControlAlignStackv1_0.__iRefFrame < iFrame:
+            if  (EDPluginControlAlignStackv1_0.__iRefFrame == iFrame) or (self.bDoAlign==False) :
+
+                EDPluginControlAlignStackv1_0.__dictAbsShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
+                EDPluginControlAlignStackv1_0.__dictRelShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
+                xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
+                                                    forceDtype=XSDataString("float32"),
+                                                    extraAttributes=self.hdf5ExtraAttributes,
+                                                    internalHDF5Path=self.xsdHDF5Internal,
+                                                    HDF5File=self.xsdHDF5File,
+                                                    index=[XSDataInteger(iFrame)],
+                                                    inputImageFile=[self.getFrameRef(iFrame)])
+                edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
+                edPluginExecHDF5.setDataInput(xsdata)
+                edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
+                edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
+                edPluginExecHDF5.execute()
+                if (self.bDoAlign==False):
+                    return 
+
+            elif EDPluginControlAlignStackv1_0.__iRefFrame < iFrame:
                 if self.bAlwaysMOvsRef:
                     queryRaw.setItem([XSDataString("raw %04i" % (EDPluginControlAlignStackv1_0.__iRefFrame)), XSDataString("raw %04i" % iFrame)])
                     xsdataAcc.setQuery([queryRaw])
@@ -191,22 +212,8 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                     queryRaw.setItem([XSDataString("raw %04i" % (iFrame + 1)), XSDataString("raw %04i" % iFrame)])
                     queryShift.setItem([XSDataString("shift %04i" % i) for i in range(EDPluginControlAlignStackv1_0.__iRefFrame - 1, iFrame - 1, -1)])
                     xsdataAcc.setQuery([queryRaw, queryShift])
-            else:
-                #We are the frame reference !!!!
-                EDPluginControlAlignStackv1_0.__dictAbsShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
-                EDPluginControlAlignStackv1_0.__dictRelShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
-                xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
-                                                    forceDtype=XSDataString("float32"),
-                                                    extraAttributes=self.hdf5ExtraAttributes,
-                                                    internalHDF5Path=self.xsdHDF5Internal,
-                                                    HDF5File=self.xsdHDF5File,
-                                                    index=[XSDataInteger(iFrame)],
-                                                    inputImageFile=[self.getFrameRef(iFrame)])
-                edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
-                edPluginExecHDF5.setDataInput(xsdata)
-                edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
-                edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
-                edPluginExecHDF5.execute()
+#            else:
+#                #We are the frame reference !!!!
 
             xsdataAcc.setItem([XSDataString("raw %04i" % iFrame)])
             edPluginExecAccumulator.setDataInput(xsdataAcc)

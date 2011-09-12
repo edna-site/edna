@@ -92,7 +92,6 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.xsdNormalizedFilename = None
         self.xsdAlignStack = None
 
-
     def checkParameters(self):
         """
         Checks the mandatory parameters.
@@ -117,6 +116,9 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         if sdi.getReference() is not None:
             self.reference = sdi.getReference().value
         self.xsdNormalizedFilename = sdi.getSaveNormalized()
+        self.xsdAlignStack = XSDataInputAlignStack()
+        if sdi.dontAlign is not None:
+            self.xsdAlignStack.dontAlign = sdi.dontAlign 
 
 
     def process(self, _edObject=None):
@@ -165,7 +167,6 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.synchronizeOn()
         self.DEBUG("EDPluginControlFullFieldXASv1_0.doSuccessExecNormalize")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlFullFieldXASv1_0.doSuccessExecNormalize")
-        self.xsdAlignStack = XSDataInputAlignStack()
         self.xsdAlignStack.setMeasureOffset(self.xsdMeasureOffset)
         output = _edPlugin.dataOutput.output
         self.xsdAlignStack.images = [output]
