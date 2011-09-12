@@ -118,7 +118,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.xsdNormalizedFilename = sdi.getSaveNormalized()
         self.xsdAlignStack = XSDataInputAlignStack()
         if sdi.dontAlign is not None:
-            self.xsdAlignStack.dontAlign = sdi.dontAlign 
+            self.xsdAlignStack.dontAlign = sdi.dontAlign
 
 
     def process(self, _edObject=None):
@@ -223,7 +223,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
     def makeHDF5EnergyStructure(self):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5EnergyStructure")
         h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.getPath().value, self.internalHDF5Path.value)
-        with self.__class__._semaphore:
+        with EDPluginHDF5.getFileLock(self.HDF5filename.path.value):
             if "energy" in h5Grp:
                 dataset = h5Grp["energy"]
             else:
