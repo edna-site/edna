@@ -257,28 +257,29 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.h2( "Diffraction Plan" )
         self.page.table( class_='diffractionPlan', border_="1", cellpadding_="0")
         self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
-        self.page.th("Anomalous data")
-        self.page.th("Aimed multiplicity")
-        self.page.th("Aimed completeness")
-        self.page.th("Aimed I/sigma at highest res.")
-        self.page.th("Forced space group")
+        self.page.th("Anomalous<br>data")
+        self.page.th("Aimed<br>multiplicity")
+        self.page.th("Aimed<br>completeness")
+        self.page.th("Aimed I/sigma<br>at highest res.")
+        self.page.th("Aimed<br>resolution")
+        self.page.th("Forced<br>space group")
         self.page.tr.close()
         self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
         # Anomalous data
-        if xsDataDiffractionPlan.getAnomalousData() is None or xsDataDiffractionPlan.getAnomalousData().value() == False:
+        if xsDataDiffractionPlan.getAnomalousData() is None or xsDataDiffractionPlan.getAnomalousData().getValue() == False:
             strAnomalousData = "False"
         else:
             strAnomalousData = "True"
         self.page.th(strAnomalousData)
         # Aimed multiplicity
         if xsDataDiffractionPlan.getAimedMultiplicity() is None:
-            strAimedMultiplicity = "BEST Default"
+            strAimedMultiplicity = "Default<br>(optimized)"
         else:
             strAimedMultiplicity = "%.2f" % xsDataDiffractionPlan.getAimedMultiplicity().getValue()
         self.page.th(strAimedMultiplicity)
         # Aimed completeness
         if xsDataDiffractionPlan.getAimedCompleteness() is None:
-            strAimedCompleteness = "BEST Default"
+            strAimedCompleteness = "Default<br>(>= 0.99)"
         else:
             strAimedCompleteness = "%.2f" % xsDataDiffractionPlan.getAimedCompleteness().getValue()
         self.page.th(strAimedCompleteness)
@@ -288,6 +289,12 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         else:
             strAimedIOverSigmaAtHighestResolution = "%.2f" % xsDataDiffractionPlan.getAimedIOverSigmaAtHighestResolution().getValue()
         self.page.th(strAimedIOverSigmaAtHighestResolution)
+        # Aimed resolution              
+        if xsDataDiffractionPlan.getAimedResolution() is None:
+            strAimedResolution = "Default<br>(highest possible)"
+        else:
+            strAimedResolution = "%0.2f" % xsDataDiffractionPlan.getAimedResolution().getValue()
+        self.page.th(strAimedResolution)
         # Forced space group               
         if xsDataDiffractionPlan.getForcedSpaceGroup() is None:
             strForcedSpaceGroup = "None"

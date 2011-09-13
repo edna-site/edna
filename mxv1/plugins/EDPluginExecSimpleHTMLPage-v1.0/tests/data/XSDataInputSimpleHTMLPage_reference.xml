@@ -3,6 +3,24 @@
 	<characterisationResult>
     <dataCollection>
         <diffractionPlan>
+            <aimedIOverSigmaAtHighestResolution>
+                <value>3.000000e+00</value>
+            </aimedIOverSigmaAtHighestResolution>
+            <anomalousData>
+                <value>true</value>
+            </anomalousData>
+            <complexity>
+                <value>none</value>
+            </complexity>
+            <goniostatMaxOscillationSpeed>
+                <value>3.600000e+02</value>
+            </goniostatMaxOscillationSpeed>
+            <goniostatMinOscillationWidth>
+                <value>1.000000e-01</value>
+            </goniostatMinOscillationWidth>
+            <minExposureTimePerImage>
+                <value>1.000000e-01</value>
+            </minExposureTimePerImage>
             <maxExposureTimePerDataCollection>
                 <value>1.000000e+04</value>
             </maxExposureTimePerDataCollection>
