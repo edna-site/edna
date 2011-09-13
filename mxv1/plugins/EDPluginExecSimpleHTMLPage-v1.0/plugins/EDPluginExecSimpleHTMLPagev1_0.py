@@ -254,14 +254,20 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.h2( "Diffraction Plan" )
         self.page.table( class_='diffractionPlan', border_="1", cellpadding_="0")
         self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+        self.page.th("Forced<br>space group")
         self.page.th("Anomalous<br>data")
         self.page.th("Aimed<br>multiplicity")
         self.page.th("Aimed<br>completeness")
         self.page.th("Aimed I/sigma<br>at highest res.")
         self.page.th("Aimed<br>resolution")
-        self.page.th("Forced<br>space group")
         self.page.tr.close()
         self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
+        # Forced space group               
+        if xsDataDiffractionPlan.getForcedSpaceGroup() is None:
+            strForcedSpaceGroup = "None"
+        else:
+            strForcedSpaceGroup = xsDataDiffractionPlan.getForcedSpaceGroup().getValue()
+        self.page.th(strForcedSpaceGroup)
         # Anomalous data
         if xsDataDiffractionPlan.getAnomalousData() is None or xsDataDiffractionPlan.getAnomalousData().getValue() == False:
             strAnomalousData = "False"
@@ -292,12 +298,6 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         else:
             strAimedResolution = "%0.2f" % xsDataDiffractionPlan.getAimedResolution().getValue()
         self.page.th(strAimedResolution)
-        # Forced space group               
-        if xsDataDiffractionPlan.getForcedSpaceGroup() is None:
-            strForcedSpaceGroup = "None"
-        else:
-            strForcedSpaceGroup = xsDataDiffractionPlan.getForcedSpaceGroup().getValue()
-        self.page.th(strForcedSpaceGroup)
         # Close the table
         self.page.tr.close()
         self.page.table.close()     
