@@ -26,12 +26,13 @@
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__date__ = "20110913"
 
 import os, shutil
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
-from XSDataCommon       import XSDataString, XSDataInteger
+from XSDataCommon       import XSDataString, XSDataInteger, XSDataFile
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsAsciiExportv1_0, XSDataResultBioSaxsAsciiExportv1_0, XSDataInputBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 EDFactoryPluginStatic.loadModule("XSDataSaxsv1_0")
@@ -46,7 +47,7 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
     * export as 3-column ascii file (EDPluginSaxsCurvesv1_0)
     * rewrite metadata    
     """
-
+    TEMP_ASCII_DATA = "temp.dat"
 
     def __init__(self):
         """
@@ -101,8 +102,8 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
         self.__edPluginSaxsGetMetadata = self.loadPlugin(self.__strControlledPluginSaxsGetMetadata)
         self.__edPluginSaxsCurves = self.loadPlugin(self.__strControlledPluginSaxsCurves)
 
-        self.integratedImage = self.dataInput.getIntegratedImage().getPath().value
-        self.integratedCurve = self.dataInput.getIntegratedCurve().getPath().value
+        self.integratedImage = self.dataInput.getIntegratedImage().path.value
+        self.integratedCurve = self.dataInput.getIntegratedCurve().path.value
 
 
     def process(self, _edObject=None):
@@ -132,7 +133,7 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
         self.synchronizeOn()
         #remove the terminal carriage return
         if self.strProcessLog.endswith("\n"):
-           self.strProcessLog = self.strProcessLog[:-1]
+            self.strProcessLog = self.strProcessLog[:-1]
         # Create some output data
         self.xsdResult.setProcessLog(XSDataString(self.strProcessLog))
         self.setDataOutput(self.xsdResult)
@@ -185,10 +186,10 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
         if _edObject.getDataOutput().normalizationFactor is not None:
             self.normalizationFactor = _edObject.getDataOutput().normalizationFactor.value
         if _edObject.getDataOutput().maskFile is not None:
-            self.maskFile = _edObject.getDataOutput().maskFile.getPath().value
+            self.maskFile = _edObject.getDataOutput().maskFile.path.value
         xsdiSaxsCurves = XSDataInputSaxsCurvesv1_0()
-        xsdiSaxsCurves.setInputImage(self.dataInput.getIntegratedImage())
-        xsdiSaxsCurves.setOutputDataFile(self.dataInput.getIntegratedCurve())
+        xsdiSaxsCurves.inputImage = self.dataInput.getIntegratedImage()
+        xsdiSaxsCurves.outputDataFile = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.TEMP_ASCII_DATA)))
         xsdiSaxsCurves.setOptions(XSDataString('+pass -scf 2_pi  -spc \"  \" '))
         self.__edPluginSaxsCurves.setDataInput(xsdiSaxsCurves)
 
@@ -196,7 +197,7 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
     def doFailureGetMetadata(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_0.doFailureGetMetadata")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_0.doFailureGetMetadata")
-        self.strProcessLog += "Failure in GetMetadata retrieval from '%s'\n" % (self.normalizedImage)
+        self.strProcessLog += "Failure in GetMetadata retrieval from '%s'\n" % (self.integratedImage)
         self.setFailure()
 
 
@@ -215,9 +216,8 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
 
 
     def rewriteAsciiHeader(self):
-        if EDVerbose.isVerboseDebug():
-            shutil.copy(self.integratedCurve, self.integratedCurve + ".bak")
-        lines = open(self.integratedCurve, "rb").readlines()
+        #if EDVerbose.isVerboseDebug():
+        lines = open(os.path.join(self.getWorkingDirectory(), self.TEMP_ASCII_DATA), "rb").readlines()
         headerMarker = None
         headers = []
         firstData = None

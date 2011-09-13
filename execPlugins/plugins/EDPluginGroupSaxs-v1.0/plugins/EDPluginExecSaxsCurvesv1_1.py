@@ -22,7 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 
 """
 Execution plugin for Saxs Curves:
@@ -38,6 +38,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2011 - ESRF"
+__date__ = "20110913"
 
 import os
 from EDVerbose              import EDVerbose
@@ -52,15 +53,11 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", ar
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 
-EDFactoryPluginStatic.preImport("numpy", numpyPath)
-EDFactoryPluginStatic.preImport("fabio", fabioPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
-try:
-    import numpy, Image, fabio
-    from fabio.openimage import openimage
-    from  fabio.edfimage import edfimage, Frame
-except ImportError:
+if fabio is None:
     strErr = """Error in loading numpy, PIL, fabio ,
     Please re-run the test suite for EDTestSuiteSaxs
     to ensure that all modules are compiled for you computer as they don't seem to be installed"""
@@ -119,7 +116,7 @@ class EDPluginExecSaxsCurvesv1_1(EDPluginExec):
         The numpy part
         """
         EDPluginExec.process(self)
-        fabiofile = openimage(self.inputImage)
+        fabiofile = fabio.open(self.inputImage)
         npaSignal = fabiofile.data[0, :]
         npaStd = numpy.sqrt(fabiofile.next().data[0, :])
         fDistance = float(fabiofile.header["SampleDistance"])
@@ -175,7 +172,7 @@ class EDPluginExecSaxsCurvesv1_1(EDPluginExec):
                      self.headerMarker]
         #Append the headers is needed
         for oneLine in self.extraHeader:
-                lstStrOut.append(self.headerMarker + oneLine.strip())
+            lstStrOut.append(self.headerMarker + oneLine.strip())
 
         for key in fabiofile.header_keys:
             if key.upper() not in self.DO_NOT_PROPAGATE_EDF_KEYS:
@@ -190,7 +187,9 @@ class EDPluginExecSaxsCurvesv1_1(EDPluginExec):
         for q, I, std in zip(npaQ, npaSignal, npaStd):
             if abs(I - fDummy) > fDeltaDummy:
                 lstStrOut.append("%s  %s  %s" % (q, I, std))
-        open(self.outputDataFile, "wb").write(os.linesep.join(lstStrOut))
+        with open(self.outputDataFile, "wb") as f:
+            f.write(os.linesep.join(lstStrOut))
+            f.flush()
 
 
     def postProcess(self, _edObject=None):
