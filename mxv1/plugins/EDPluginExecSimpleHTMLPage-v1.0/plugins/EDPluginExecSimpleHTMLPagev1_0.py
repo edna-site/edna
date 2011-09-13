@@ -74,8 +74,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.DEBUG("EDPluginExecSimpleHTMLPagev1_0.process...")
         if self.xsDataResultCharacterisation is not None:
             # Create the simple characterisation result page
-            self.page = markupv1_7.page(mode='loose_html')
-            self.page.font(_size="-1")
+            self.page = markupv1_7.page()
             self.page.init( title="Characterisation Results", 
                        footer="Generated on %s" % time.asctime())
             self.page.div( align_="CENTER")
@@ -88,12 +87,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             strPathToLogFile = self.findEDNALogFile()
             if strPathToLogFile is not None:
                 strPageEDNALog = os.path.join(self.getWorkingDirectory(), "edna_log.html")
-                pageEDNALog = markupv1_7.page(mode='loose_html')
+                pageEDNALog = markupv1_7.page()
                 pageEDNALog.h1("EDNA Log")
                 pageEDNALog.a("Back to previous page", href_=self.strPath)
-                pageEDNALog.font(_size="-1")
                 pageEDNALog.pre(cgi.escape(EDUtilsFile.readFile(strPathToLogFile)), style_="font-size:8px")
-                pageEDNALog.font.close()
                 pageEDNALog.a("Back to previous page", href_=self.strPath)
                 EDUtilsFile.writeFile(strPageEDNALog, str(pageEDNALog))
                 self.page.a("(EDNA log file)", href=strPageEDNALog)
