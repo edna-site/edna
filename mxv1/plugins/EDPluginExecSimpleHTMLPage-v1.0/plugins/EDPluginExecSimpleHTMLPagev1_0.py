@@ -39,6 +39,10 @@ from XSDataCommon import XSDataFile
 from XSDataSimpleHTMLPagev1_0 import XSDataInputSimpleHTMLPage
 from XSDataSimpleHTMLPagev1_0 import XSDataResultSimpleHTMLPage
 
+EDFactoryPluginStatic.loadModule("XSDataMXv1")
+from XSDataMXv1 import XSDataDiffractionPlan
+
+
 class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     """
     This plugin launches the EDPluginExecOutputHTMLv1_0 for creating web pages for ISPyB
@@ -95,6 +99,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 self.page.a("(EDNA log file)", href=strPageEDNALog)
             self.page.h1.close()
             self.page.div.close()
+            self.diffractionPlan()
+            self.page.hr()
             self.strategyResults()
             self.page.hr()
             self.indexingResults()
@@ -242,6 +248,55 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         else:
             self.page.h2( "Strategy calculation failed" )
 
+
+    def diffractionPlan(self):
+        # Do we have a diffracionPlan?
+        xsDataDiffractionPlan = self.xsDataResultCharacterisation.getDataCollection().getDiffractionPlan()
+        if xsDataDiffractionPlan is None:
+            xsDataDiffractionPlan = XSDataDiffractionPlan()
+        self.page.h2( "Diffraction Plan" )
+        self.page.table( class_='diffractionPlan', border_="1", cellpadding_="0")
+        self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+        self.page.th("Anomalous data")
+        self.page.th("Aimed multiplicity")
+        self.page.th("Aimed completeness")
+        self.page.th("Aimed I/sigma at highest res.")
+        self.page.th("Forced space group")
+        self.page.tr.close()
+        self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
+        # Anomalous data
+        if xsDataDiffractionPlan.getAnomalousData() is None or xsDataDiffractionPlan.getAnomalousData().value() == False:
+            strAnomalousData = "False"
+        else:
+            strAnomalousData = "True"
+        self.page.th(strAnomalousData)
+        # Aimed multiplicity
+        if xsDataDiffractionPlan.getAimedMultiplicity() is None:
+            strAimedMultiplicity = "BEST Default"
+        else:
+            strAimedMultiplicity = "%.2f" % xsDataDiffractionPlan.getAimedMultiplicity().getValue()
+        self.page.th(strAimedMultiplicity)
+        # Aimed completeness
+        if xsDataDiffractionPlan.getAimedCompleteness() is None:
+            strAimedCompleteness = "BEST Default"
+        else:
+            strAimedCompleteness = "%.2f" % xsDataDiffractionPlan.getAimedCompleteness().getValue()
+        self.page.th(strAimedCompleteness)
+        # Aimed aimedIOverSigmaAtHighestResolution
+        if xsDataDiffractionPlan.getAimedIOverSigmaAtHighestResolution() is None:
+            strAimedIOverSigmaAtHighestResolution = "BEST Default"
+        else:
+            strAimedIOverSigmaAtHighestResolution = "%.2f" % xsDataDiffractionPlan.getAimedIOverSigmaAtHighestResolution().getValue()
+        self.page.th(strAimedIOverSigmaAtHighestResolution)
+        # Forced space group               
+        if xsDataDiffractionPlan.getForcedSpaceGroup() is None:
+            strForcedSpaceGroup = "None"
+        else:
+            strForcedSpaceGroup = xsDataDiffractionPlan.getForcedSpaceGroup().getValue()
+        self.page.th(strForcedSpaceGroup)
+        # Close the table
+        self.page.tr.close()
+        self.page.table.close()     
 
 
     def createLinkToBestLogFile(self):
