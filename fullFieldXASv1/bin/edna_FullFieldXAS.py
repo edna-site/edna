@@ -528,10 +528,14 @@ if __name__ == '__main__':
 
 
     ffx = FullFieldXas()
-    ffx.dontAlign = dontAlign
     if os.path.isfile(".XSDataInputFullFieldXAS.xml"):
         ffx.load(".XSDataInputFullFieldXAS.xml")
 
+    ffx.dontAlign = dontAlign
+    if  dontAlign:
+        print("*"*80)
+        print("*"+"Skipping image alignement part".center(78)+"*") 
+        print("*"*80)
     ffx.setup(_listInput=paths, _mode=mode)
 
     ffx.save(".XSDataInputFullFieldXAS.xml")
