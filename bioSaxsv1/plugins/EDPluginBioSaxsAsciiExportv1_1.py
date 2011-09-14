@@ -147,6 +147,23 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
 
         xsdiMetadata = XSDataInputBioSaxsMetadatav1_0()
         xsdiMetadata.setInputImage(self.dataInput.getIntegratedImage())
+        if self.dataInput.sample is not None:
+            xsdiMetadata.code = self.dataInput.sample.code
+            xsdiMetadata.concentration = self.dataInput.sample.concentration
+            xsdiMetadata.comments = self.dataInput.sample.comments
+        if self.dataInput.experimentSetup is not None:
+            xsdiMetadata.detector = self.dataInput.experimentSetup.detector
+            xsdiMetadata.detectorDistance = self.dataInput.experimentSetup.detectorDistance
+# this is deliberately taken out as pixels size are redefined during integration JK
+#            xsdiMetadata.pixelSize_1 = self.dataInput.experimentSetup.pixelSize_1
+#            xsdiMetadata.pixelSize_2 = self.dataInput.experimentSetup.pixelSize_2
+            xsdiMetadata.beamCenter_1 = self.dataInput.experimentSetup.beamCenter_1
+            xsdiMetadata.beamCenter_2 = self.dataInput.experimentSetup.beamCenter_2
+            xsdiMetadata.beamStopDiode = self.dataInput.experimentSetup.beamStopDiode
+            xsdiMetadata.wavelength = self.dataInput.experimentSetup.wavelength
+            xsdiMetadata.machineCurrent = self.dataInput.experimentSetup.machineCurrent
+            xsdiMetadata.maskFile = self.dataInput.experimentSetup.maskFile
+            xsdiMetadata.normalizationFactor = self.dataInput.experimentSetup.normalizationFactor
         self.__edPluginSaxsGetMetadata.setDataInput(xsdiMetadata)
 
 

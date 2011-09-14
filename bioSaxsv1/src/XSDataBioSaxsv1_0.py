@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun 30 04:58::30 2011 by EDGenerateDS.
+# Generated Wed Sep 14 02:02::42 2011 by EDGenerateDS.
 #
 
 import sys
@@ -558,12 +558,16 @@ class XSDataFileSeries(XSData):
 # end class XSDataFileSeries
 
 class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
-	def __init__(self, configuration=None, integratedCurve=None, integratedImage=None):
+	def __init__(self, configuration=None, experimentSetup=None, sample=None, integratedCurve=None, integratedImage=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputBioSaxsAsciiExportv1_0", "Constructor of XSDataInputBioSaxsAsciiExportv1_0", integratedImage, "XSDataImage")
 		self.__integratedImage = integratedImage
 		checkType("XSDataInputBioSaxsAsciiExportv1_0", "Constructor of XSDataInputBioSaxsAsciiExportv1_0", integratedCurve, "XSDataFile")
 		self.__integratedCurve = integratedCurve
+		checkType("XSDataInputBioSaxsAsciiExportv1_0", "Constructor of XSDataInputBioSaxsAsciiExportv1_0", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+		checkType("XSDataInputBioSaxsAsciiExportv1_0", "Constructor of XSDataInputBioSaxsAsciiExportv1_0", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
 	def getIntegratedImage(self): return self.__integratedImage
 	def setIntegratedImage(self, integratedImage):
 		checkType("XSDataInputBioSaxsAsciiExportv1_0", "setIntegratedImage", integratedImage, "XSDataImage")
@@ -578,6 +582,20 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 	def delIntegratedCurve(self): self.__integratedCurve = None
 	# Properties
 	integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataInputBioSaxsAsciiExportv1_0", "setSample", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getExperimentSetup(self): return self.__experimentSetup
+	def setExperimentSetup(self, experimentSetup):
+		checkType("XSDataInputBioSaxsAsciiExportv1_0", "setExperimentSetup", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
+	def delExperimentSetup(self): self.__experimentSetup = None
+	# Properties
+	experimentSetup = property(getExperimentSetup, setExperimentSetup, delExperimentSetup, "Property for experimentSetup")
 	def export(self, outfile, level, name_='XSDataInputBioSaxsAsciiExportv1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -594,6 +612,10 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 			self.integratedCurve.export(outfile, level, name_='integratedCurve')
 		else:
 			warnEmptyAttribute("integratedCurve", "XSDataFile")
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		if self.__experimentSetup is not None:
+			self.experimentSetup.export(outfile, level, name_='experimentSetup')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -609,6 +631,16 @@ class XSDataInputBioSaxsAsciiExportv1_0(XSDataInput):
 			obj_ = XSDataFile()
 			obj_.build(child_)
 			self.setIntegratedCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataBioSaxsSample()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentSetup':
+			obj_ = XSDataBioSaxsExperimentSetup()
+			obj_.build(child_)
+			self.setExperimentSetup(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

@@ -206,6 +206,8 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         xsdiAsciiExport = XSDataInputBioSaxsAsciiExportv1_0()
         xsdiAsciiExport.setIntegratedImage(self.dataInput.getIntegratedImage())
         xsdiAsciiExport.setIntegratedCurve(self.dataInput.getIntegratedCurve())
+        xsdiAsciiExport.sample = self.sample
+        xsdiAsciiExport.experimentSetup = self.experimentSetup
         self.__edPluginAsciiExport.setDataInput(xsdiAsciiExport)
 
 

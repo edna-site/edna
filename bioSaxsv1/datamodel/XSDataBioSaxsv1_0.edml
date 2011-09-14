@@ -98,7 +98,10 @@ complex type XSDataBioSaxsSample extends XSData {
 complex type XSDataInputBioSaxsAsciiExportv1_0 extends XSDataInput {
 	integratedImage : XSDataImage
 	integratedCurve : XSDataFile
+	sample: XSDataBioSaxsSample optional
+	experimentSetup: XSDataBioSaxsExperimentSetup optional
 }
+
 complex type XSDataResultBioSaxsAsciiExportv1_0 extends XSDataResult {
 	integratedCurve : XSDataFile
 	processLog : XSDataString
