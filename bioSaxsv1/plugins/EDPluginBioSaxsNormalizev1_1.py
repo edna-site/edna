@@ -22,16 +22,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import shutil, threading
+
+from __future__ import with_statement
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__date__ = "20110914"
 
-import shutil, os
+import os, threading
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
-from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataStatus
+from XSDataCommon           import XSDataTime, XSDataImage, XSDataString, XSDataStatus
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
@@ -48,15 +50,10 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", ar
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 
-EDFactoryPluginStatic.preImport("numpy", numpyPath)
-EDFactoryPluginStatic.preImport("fabio", fabioPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
-
-try:
-    import numpy, Image, fabio
-    from fabio.openimage import openimage
-    from  fabio.edfimage import edfimage, Frame
-except ImportError:
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
+if fabio is None:
     strErr = """Error in loading numpy, PIL, fabio ,
     Please re-run the test suite for EDTestSuitePluginBioSaxsNormalizev1_1
     to ensure that all modules are compiled for you computer as they don't seem to be installed"""
@@ -147,6 +144,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         xsdiWaitFile = XSDataInputWaitFile()
         xsdiWaitFile.setExpectedFile(self.xsdInput.getRawImage())
         xsdiWaitFile.setExpectedSize(self.xsdInput.getRawImageSize())
+        xsdiWaitFile.timeOut = XSDataTime(value=30)
         self.__edPluginExecWaitFile.setDataInput(xsdiWaitFile)
 
         self.__edPluginExecWaitFile.connectSUCCESS(self.doSuccessExecWaitFile)
@@ -154,7 +152,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.__edPluginExecWaitFile.executeSynchronous()
 
 #        Small Numpy processing:
-        fabIn = openimage(self.strRawImage)
+        fabIn = fabio.open(self.strRawImage)
         if "Mask" in self.dictOutputHeader:
             mask = self.getMask(self.dictOutputHeader["Mask"])
             npaMaskedData = numpy.ma.masked_array(fabIn.data.astype("float32"),
@@ -167,7 +165,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.dictOutputHeader["EDF_DataBlockID"] = "1.Image.Psd"
         header_keys = self.dictOutputHeader.keys()
         header_keys.sort()
-        fabioOut = edfimage(header=self.dictOutputHeader, header_keys=header_keys,
+        fabioOut = fabio.edfimage.edfimage(header=self.dictOutputHeader, header_keys=header_keys,
                              data=numpy.ma.filled(npaMaskedData * scale, float(self.dummy)))
         fabioOut.appendFrame(header={"Dummy": str(self.dummy), "DDummy":"0.1", "EDF_DataBlockID":"1.Image.Error"},
                               data=(numpy.ma.filled(npaMaskedData * (scale ** 2), float(self.dummy))))
@@ -191,8 +189,14 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
     def doSuccessExecWaitFile(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsNormalizev1_1.doSuccessExecWaitFile")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsNormalizev1_1.doSuccessExecWaitFile")
-
-        self.lstProcessLog.append("Normalizing EDF frame '%s' -> '%s'" % (self.strRawImage, self.strNormalizedImage))
+        xsdOut = _edPlugin.getDataOutput()
+        if (xsdOut.timedOut is not None) and (xsdOut.timedOut.value):
+            strErr = "Timeout in waiting for file %s" % self.strRawImage
+            self.ERROR(strErr)
+            self.setFailure()
+            raise RuntimeError(strErr)
+        else:
+            self.lstProcessLog.append("Normalizing EDF frame '%s' -> '%s'" % (self.strRawImage, self.strNormalizedImage))
 
 
     def doFailureExecWaitFile(self, _edPlugin=None):
@@ -221,7 +225,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
             self.addErrorWarningMessagesToExecutiveSummary(strMessage)
             self.dummy = -1
 
-
+    @classmethod
     def getMask(cls, _strFilename):
         """
         Retrieve the data from a file, featuring caching.
@@ -233,7 +237,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         """
         if _strFilename not in cls.__maskfiles:
             cls.__semaphore.acquire()
-            maskFile = openimage(_strFilename)
+            maskFile = fabio.open(_strFilename)
             cls.__maskfiles[_strFilename] = maskFile.data
             cls.__semaphore.release()
         return cls.__maskfiles[_strFilename]
