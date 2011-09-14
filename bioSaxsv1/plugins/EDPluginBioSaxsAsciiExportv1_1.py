@@ -157,37 +157,37 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
         self.setFailure()
 
 
-    def doSucessGetMetadata(self, _edObject=None):
+    def doSucessGetMetadata(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_1.doSucessGetMetadata")
-        if _edObject.getDataOutput().getDetector() is not None:
-            self.detector = _edObject.getDataOutput().getDetector().value
-        if _edObject.getDataOutput().detectorDistance is not None:
-            self.detectorDistance = _edObject.getDataOutput().detectorDistance.value
-        if _edObject.getDataOutput().beamCenter_1 is not None:
-            self.beamCenter_1 = _edObject.getDataOutput().beamCenter_1.value
-        if _edObject.getDataOutput().pixelSize_1 is not None:
-            self.pixelSize_1 = _edObject.getDataOutput().pixelSize_1.value
-        if _edObject.getDataOutput().beamCenter_2 is not None:
-            self.beamCenter_2 = _edObject.getDataOutput().beamCenter_2.value
-        if _edObject.getDataOutput().pixelSize_2 is not None:
-            self.pixelSize_2 = _edObject.getDataOutput().pixelSize_2.value
-        if _edObject.getDataOutput().beamStopDiode is not None:
-            self.beamStopDiode = _edObject.getDataOutput().beamStopDiode.value
-        if _edObject.getDataOutput().code is not None:
-            self.code = _edObject.getDataOutput().code.value
-        if _edObject.getDataOutput().comments is not None:
-            self.comments = _edObject.getDataOutput().comments.value
-        self.WARNING("Conc: %s" % _edObject.getDataOutput().concentration.marshal())
-        if _edObject.getDataOutput().concentration is not None:
-            self.concentration = _edObject.getDataOutput().concentration.value
-        if _edObject.getDataOutput().machineCurrent is not None:
-            self.machineCurrent = _edObject.getDataOutput().machineCurrent.value
-        if _edObject.getDataOutput().wavelength is not None:
-            self.wavelength = _edObject.getDataOutput().wavelength.value
-        if _edObject.getDataOutput().normalizationFactor is not None:
-            self.normalizationFactor = _edObject.getDataOutput().normalizationFactor.value
-        if _edObject.getDataOutput().maskFile is not None:
-            self.maskFile = _edObject.getDataOutput().maskFile.path.value
+        if _edPlugin.getDataOutput().getDetector() is not None:
+            self.detector = _edPlugin.getDataOutput().getDetector().value
+        if _edPlugin.getDataOutput().detectorDistance is not None:
+            self.detectorDistance = _edPlugin.getDataOutput().detectorDistance.value
+        if _edPlugin.getDataOutput().beamCenter_1 is not None:
+            self.beamCenter_1 = _edPlugin.getDataOutput().beamCenter_1.value
+        if _edPlugin.getDataOutput().pixelSize_1 is not None:
+            self.pixelSize_1 = _edPlugin.getDataOutput().pixelSize_1.value
+        if _edPlugin.getDataOutput().beamCenter_2 is not None:
+            self.beamCenter_2 = _edPlugin.getDataOutput().beamCenter_2.value
+        if _edPlugin.getDataOutput().pixelSize_2 is not None:
+            self.pixelSize_2 = _edPlugin.getDataOutput().pixelSize_2.value
+        if _edPlugin.getDataOutput().beamStopDiode is not None:
+            self.beamStopDiode = _edPlugin.getDataOutput().beamStopDiode.value
+        if _edPlugin.getDataOutput().code is not None:
+            self.code = _edPlugin.getDataOutput().code.value
+        if _edPlugin.getDataOutput().comments is not None:
+            self.comments = _edPlugin.getDataOutput().comments.value
+        self.WARNING("Conc: %s" % _edPlugin.getDataOutput().getConcentration().value)
+        if _edPlugin.getDataOutput().concentration is not None:
+            self.concentration = _edPlugin.getDataOutput().getConcentration().value
+        if _edPlugin.getDataOutput().machineCurrent is not None:
+            self.machineCurrent = _edPlugin.getDataOutput().machineCurrent.value
+        if _edPlugin.getDataOutput().wavelength is not None:
+            self.wavelength = _edPlugin.getDataOutput().wavelength.value
+        if _edPlugin.getDataOutput().normalizationFactor is not None:
+            self.normalizationFactor = _edPlugin.getDataOutput().normalizationFactor.value
+        if _edPlugin.getDataOutput().maskFile is not None:
+            self.maskFile = _edPlugin.getDataOutput().maskFile.path.value
         xsdiSaxsCurves = XSDataInputSaxsCurvesv1_0()
         xsdiSaxsCurves.inputImage = self.dataInput.getIntegratedImage()
         xsdiSaxsCurves.outputDataFile = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.TEMP_ASCII_DATA)))
