@@ -177,6 +177,7 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
             self.code = _edObject.getDataOutput().code.value
         if _edObject.getDataOutput().comments is not None:
             self.comments = _edObject.getDataOutput().comments.value
+        self.WARNING("Conc: %s" % _edObject.getDataOutput().concentration.marshal())
         if _edObject.getDataOutput().concentration is not None:
             self.concentration = _edObject.getDataOutput().concentration.value
         if _edObject.getDataOutput().machineCurrent is not None:

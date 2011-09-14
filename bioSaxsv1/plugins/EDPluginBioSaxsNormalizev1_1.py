@@ -150,7 +150,8 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.__edPluginExecWaitFile.connectSUCCESS(self.doSuccessExecWaitFile)
         self.__edPluginExecWaitFile.connectFAILURE(self.doFailureExecWaitFile)
         self.__edPluginExecWaitFile.executeSynchronous()
-
+        if self.isFailure():
+            return
 #        Small Numpy processing:
         fabIn = fabio.open(self.strRawImage)
         if "Mask" in self.dictOutputHeader:
@@ -191,10 +192,10 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsNormalizev1_1.doSuccessExecWaitFile")
         xsdOut = _edPlugin.getDataOutput()
         if (xsdOut.timedOut is not None) and (xsdOut.timedOut.value):
-            strErr = "Timeout in waiting for file %s" % self.strRawImage
+            strErr = "Timeout (%s s) in waiting for file %s" % (self.strRawImage, _edPlugin.getTimeOut())
             self.ERROR(strErr)
+            self.lstProcessLog.append(strErr)
             self.setFailure()
-            raise RuntimeError(strErr)
         else:
             self.lstProcessLog.append("Normalizing EDF frame '%s' -> '%s'" % (self.strRawImage, self.strNormalizedImage))
 
