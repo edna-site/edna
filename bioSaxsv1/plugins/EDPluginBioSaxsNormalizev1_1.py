@@ -192,7 +192,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsNormalizev1_1.doSuccessExecWaitFile")
         xsdOut = _edPlugin.getDataOutput()
         if (xsdOut.timedOut is not None) and (xsdOut.timedOut.value):
-            strErr = "Timeout (%s s) in waiting for file %s" % (self.strRawImage, _edPlugin.getTimeOut())
+            strErr = "Timeout (%s s) in waiting for file %s" % (_edPlugin.getTimeOut(), self.strRawImage)
             self.ERROR(strErr)
             self.lstProcessLog.append(strErr)
             self.setFailure()
