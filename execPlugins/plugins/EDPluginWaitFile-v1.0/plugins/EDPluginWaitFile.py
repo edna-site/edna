@@ -101,7 +101,7 @@ class EDPluginWaitFile(EDPlugin):
             xsDataFile = XSDataFile()
             xsDataFile.setPath(XSDataString(self.__filename))
             xsDataResult.setActualFile(xsDataFile)
-            xsDataResult.setActualSize(XSDataInteger(self.__filesize))
+            xsDataResult.setActualSize(XSDataInteger(os.path.getsize(self.__filename)))
         xsDataResult.setTimedOut(XSDataBoolean(self.getRunTime() >= self.__timeout))
         # Create some output data
         self.setDataOutput(xsDataResult)
