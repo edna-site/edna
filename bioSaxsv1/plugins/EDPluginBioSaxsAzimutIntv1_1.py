@@ -221,8 +221,8 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_1.doSuccessAsciiExport")
         self.xsdResult.setIntegratedCurve(self.dataInput.getIntegratedCurve())
         output = _edPlugin.getDataOutput()
-        if output is not None:
-            self.lstProcessLog.append(output.getProcessLog().value)
+        if (output is not None) and ("processLog" in dir(output)):
+            self.lstProcessLog.append(output.processLog.value)
 
 
 
