@@ -33,8 +33,6 @@ __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
 import os, sys, shutil
-
-
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDUtilsBioSaxs     import EDUtilsBioSaxs
@@ -48,12 +46,12 @@ from EDUtilsLibraryInstaller    import EDUtilsLibraryInstaller
 from EDUtilsPlatform   import EDUtilsPlatform
 
 architecture = EDUtilsPlatform.architecture
-
 edfFilePath = os.path.join(os.environ["EDNA_HOME"], "libraries", "EdfFile", architecture)
-if not edfFilePath in sys.path:
-    sys.path.insert(1, edfFilePath)
-from EdfFile import EdfFile
-
+EdfFileMod = EDFactoryPluginStatic.preImport("EdfFile", edfFilePath)
+if EdfFileMod is None:
+    EDVerbose.ERROR("Unable to import EdfFile: Please re-run the tests EDTestSuiteBioSaxs")
+else:
+    from EdfFile import EdfFile
 
 
 class EDPluginBioSaxsMetadatav1_0(EDPluginControl):

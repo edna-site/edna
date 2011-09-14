@@ -31,13 +31,13 @@ import os
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
-from XSDataCommon           import XSDataString, XSDataStatus
+from XSDataCommon           import XSDataString, XSDataStatus, XSDataTime, XSDataFile
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsAzimutIntv1_0, XSDataResultBioSaxsAzimutIntv1_0, \
                                XSDataInputBioSaxsAsciiExportv1_0, XSDataInputBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 EDFactoryPluginStatic.loadModule("XSDataSaxsv1_0")
 from XSDataWaitFilev1_0     import XSDataInputWaitFile
-from XSDataSaxsv1_0         import  XSDataInputSaxsAnglev1_0
+from XSDataSaxsv1_0         import XSDataInputSaxsAnglev1_0
 
 
 
@@ -116,9 +116,9 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_1.process")
-        xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.dataInput.normalizedImage)
-        xsdiWaitFile.setExpectedSize(self.dataInput.getNormalizedImageSize())
+        xsdiWaitFile = XSDataInputWaitFile(expectedFile=XSDataFile(self.dataInput.normalizedImage.path),
+                                           expectedSize=self.dataInput.normalizedImageSize,
+                                           timeOut=XSDataTime(30))
         self.__edPluginWaitFile.setDataInput(xsdiWaitFile)
         self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
         self.__edPluginWaitFile.connectFAILURE(self.doFailureWaitFile)

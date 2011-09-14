@@ -33,7 +33,7 @@ __date__ = "20110914"
 import os, threading
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
-from XSDataCommon           import XSDataTime, XSDataImage, XSDataString, XSDataStatus
+from XSDataCommon           import XSDataTime, XSDataImage, XSDataString, XSDataStatus, XSDataFile, XSDataTime
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
@@ -141,12 +141,10 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginBioSaxsNormalizev1_1.process")
-        xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.xsdInput.getRawImage())
-        xsdiWaitFile.setExpectedSize(self.xsdInput.getRawImageSize())
-        xsdiWaitFile.timeOut = XSDataTime(value=30)
+        xsdiWaitFile = XSDataInputWaitFile(expectedFile=XSDataFile(self.xsdInput.rawImage.path),
+                                           expectedSize=self.xsdInput.rawImageSize,
+                                           timeOut=XSDataTime(value=30))
         self.__edPluginExecWaitFile.setDataInput(xsdiWaitFile)
-
         self.__edPluginExecWaitFile.connectSUCCESS(self.doSuccessExecWaitFile)
         self.__edPluginExecWaitFile.connectFAILURE(self.doFailureExecWaitFile)
         self.__edPluginExecWaitFile.executeSynchronous()

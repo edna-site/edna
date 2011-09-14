@@ -48,16 +48,12 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", ar
 imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 
-EDFactoryPluginStatic.preImport("numpy", numpyPath)
-EDFactoryPluginStatic.preImport("fabio", fabioPath)
-EDFactoryPluginStatic.preImport("Image", imagingPath)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
+fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
-try:
-    import fabio
-except ImportError:
+if fabio is None:
     EDVerbose.ERROR("Unable to import Fabio: Please re-run the tests EDTestSuiteBioSaxs")
-else:
-    EDVerbose.log("EDPluginBioSaxsMetadatav1_1: imported fabio v%s" % fabio.version)
 
 
 class EDPluginBioSaxsMetadatav1_1(EDPluginExec):

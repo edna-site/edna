@@ -110,7 +110,7 @@ class EDPluginBioSaxsAsciiExportv1_1(EDPluginControl):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_1.process")
         xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.dataInput.getIntegratedImage())
+        xsdiWaitFile.setExpectedFile(XSDataFile(self.dataInput.integratedImage.path))
         xsdiWaitFile.setExpectedSize(XSDataInteger(8196)) #size of the header
         self.__edPluginWaitFile.setDataInput(xsdiWaitFile)
         self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)

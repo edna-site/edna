@@ -33,10 +33,10 @@ from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from XSDataCommon       import XSDataString, XSDataBoolean, XSDataImage, \
-    XSDataDouble, XSDataFile
+                            XSDataDouble, XSDataFile, XSDataTime
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsAveragev1_0, XSDataResultBioSaxsAveragev1_0, \
-                                XSDataInputBioSaxsAsciiExportv1_0, \
-                                XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
+                            XSDataInputBioSaxsAsciiExportv1_0, \
+                            XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 EDFactoryPluginStatic.loadModule("XSDataSaxsv1_0")
@@ -118,9 +118,9 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
         EDVerbose.DEBUG("EDPluginBioSaxsAveragev1_0.process")
 
 
-        xsdiWaitMultiFile = XSDataInputWaitMultiFile()
-        xsdiWaitMultiFile.setExpectedFile(self.dataInput.getIntegratedImage())
-        xsdiWaitMultiFile.setExpectedSize(self.dataInput.getIntegratedImageSize())
+        xsdiWaitMultiFile = XSDataInputWaitMultiFile(expectedFile=[XSDataFile(i.path) for i in self.dataInput.integratedImage],
+                                                     expectedSize=self.dataInput.integratedImageSize,
+                                                     timeOut=XSDataTime(30))
         self.__edPluginWaitMultiFile.setDataInput(xsdiWaitMultiFile)
         self.__edPluginWaitMultiFile.connectSUCCESS(self.doSuccessWaitMultiFile)
         self.__edPluginWaitMultiFile.connectFAILURE(self.doFailureWaitMultiFile)

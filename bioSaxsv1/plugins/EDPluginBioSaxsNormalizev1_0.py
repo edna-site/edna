@@ -32,8 +32,9 @@ __copyright__ = "ESRF"
 import shutil, os
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
-from XSDataCommon       import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataStatus
-from XSDataBioSaxsv1_0  import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0, XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
+from XSDataCommon       import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataStatus, XSDataTime
+from XSDataBioSaxsv1_0  import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0, \
+                                XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataWaitFilev1_0 import XSDataInputWaitFile
@@ -138,9 +139,9 @@ class EDPluginBioSaxsNormalizev1_0(EDPluginControl):
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginBioSaxsNormalizev1_0.process")
-        xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.xsdInput.getRawImage())
-        xsdiWaitFile.setExpectedSize(self.xsdInput.getRawImageSize())
+        xsdiWaitFile = XSDataInputWaitFile(expectedFile=XSDataFile(self.xsdInput.rawImage.path),
+                                           expectedSize=self.xsdInput.rawImageSize,
+                                           timeOut=XSDataTime(30))
         self.__edPluginExecWaitFile.setDataInput(xsdiWaitFile)
 
         self.__edPluginExecWaitFile.connectSUCCESS(self.doSuccessExecWaitFile)

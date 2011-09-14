@@ -30,7 +30,7 @@ __copyright__ = "ESRF"
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
-from XSDataCommon           import XSDataString, XSDataStatus
+from XSDataCommon           import XSDataString, XSDataStatus, XSDataFile
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsAzimutIntv1_0, XSDataResultBioSaxsAzimutIntv1_0, \
                                XSDataInputBioSaxsAsciiExportv1_0, XSDataResultBioSaxsAsciiExportv1_0, \
                                XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
@@ -121,9 +121,8 @@ class EDPluginBioSaxsAzimutIntv1_0(EDPluginControl):
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAzimutIntv1_0.process")
-        xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.dataInput.normalizedImage)
-        xsdiWaitFile.setExpectedSize(self.dataInput.getNormalizedImageSize())
+        xsdiWaitFile = XSDataInputWaitFile(expectedFile=XSDataFile(self.dataInput.normalizedImage.path),
+                                           expectedSize=self.dataInput.normalizedImageSize)
         self.__edPluginWaitFile.setDataInput(xsdiWaitFile)
         self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
         self.__edPluginWaitFile.connectFAILURE(self.doFailureWaitFile)

@@ -32,7 +32,7 @@ import os, shutil
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
-from XSDataCommon       import XSDataString, XSDataInteger
+from XSDataCommon       import XSDataString, XSDataInteger, XSDataFile
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsAsciiExportv1_0, XSDataResultBioSaxsAsciiExportv1_0, XSDataInputBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 EDFactoryPluginStatic.loadModule("XSDataSaxsv1_0")
@@ -110,7 +110,7 @@ class EDPluginBioSaxsAsciiExportv1_0(EDPluginControl):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginBioSaxsAsciiExportv1_0.process")
         xsdiWaitFile = XSDataInputWaitFile()
-        xsdiWaitFile.setExpectedFile(self.dataInput.getIntegratedImage())
+        xsdiWaitFile.setExpectedFile(XSDataFile(self.dataInput.integratedImage.path))
         xsdiWaitFile.setExpectedSize(XSDataInteger(8196)) #size of the header
         self.__edPluginWaitFile.setDataInput(xsdiWaitFile)
         self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
