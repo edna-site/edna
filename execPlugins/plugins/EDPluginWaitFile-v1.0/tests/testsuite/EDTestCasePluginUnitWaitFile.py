@@ -29,7 +29,8 @@ __copyright__ = "ESRF"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataWaitFilev1_0 import XSDataInputWaitFile, XSDataFile, XSDataString, XSDataInteger
+from XSDataWaitFilev1_0 import XSDataInputWaitFile
+from XSDataCommon import  XSDataFile, XSDataString, XSDataInteger
 
 class EDTestCasePluginUnitWaitFile(EDTestCasePluginUnit):
     """

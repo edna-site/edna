@@ -28,8 +28,8 @@ __copyright__ = "ESRF"
 
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
-
-from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile, XSDataFile, XSDataString, XSDataInteger
+from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
+from XSDataCommon import  XSDataFile, XSDataString, XSDataInteger
 
 class EDTestCasePluginUnitWaitMultiFile(EDTestCasePluginUnit):
     """
@@ -44,7 +44,7 @@ class EDTestCasePluginUnitWaitMultiFile(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         xsDataInput = XSDataInputWaitMultiFile()
-        xsDataInput.setExpectedFile(XSDataFile(XSDataString("toto")))
+        xsDataInput.setExpectedFile([XSDataFile(XSDataString("toto"))])
         xsDataInput.setExpectedSize(XSDataInteger(10))
         edPluginWaitMultiFile = self.createPlugin()
         edPluginWaitMultiFile.setDataInput(xsDataInput)

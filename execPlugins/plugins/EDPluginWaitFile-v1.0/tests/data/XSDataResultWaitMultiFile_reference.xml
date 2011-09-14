@@ -34,6 +34,6 @@
         <value>10</value>
     </actualMinSize>
     <timedOut>
-        <value>0</value>
+        <value>false</value>
     </timedOut>
 </XSDataResultWaitMultiFile>

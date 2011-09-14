@@ -34,8 +34,8 @@ import time, os
 from EDPlugin           import EDPlugin
 from EDConfiguration    import EDConfiguration
 from EDApplication      import EDApplication
-from XSDataWaitFilev1_0 import XSDataInputWaitFile, XSDataResultWaitFile, \
-            XSDataString, XSDataInteger, XSDataFile, XSPluginItem, XSDataBoolean
+from XSDataWaitFilev1_0 import XSDataInputWaitFile, XSDataResultWaitFile
+from XSDataCommon       import XSDataString, XSDataInteger, XSDataFile, XSPluginItem, XSDataBoolean
 
 
 class EDPluginWaitFile(EDPlugin):

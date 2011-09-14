@@ -1,5 +1,14 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataTime
+
+
+
 complex type XSDataInputWaitFile extends XSDataInput {
 	"XSDataSize is not applicable here it is the size of a file in Bytes, not the size of a physical object in meters."
 	expectedFile : XSDataFile
