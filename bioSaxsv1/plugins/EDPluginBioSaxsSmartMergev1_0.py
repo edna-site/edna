@@ -22,10 +22,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import with_statement
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
+__date__ = "20110914"
 
 import os, shutil
 from EDPluginControl import EDPluginControl
@@ -64,6 +66,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.relativeFidelity = None
         self.dictSimilarities = {} #key: 2-tuple of images, similarities
         self.lstSummary = []
+        self.lstStrInput = []
 
     def checkParameters(self):
         """
@@ -172,15 +175,15 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
     def doSuccessExecDatcmp(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecDatcmp")
-        self.synchronizeOn()
-        xsdIn = _edPlugin.dataInput
-        xsdOut = _edPlugin.getDataOutput()
-        file0 = xsdIn.inputCurve[0].path.value
-        file1 = xsdIn.inputCurve[1].path.value
-        fidelity = xsdOut.fidelity.value
-        self.dictSimilarities[(self.lstStrInput.index(file0), self.lstStrInput.index(file1))] = fidelity
-        self.lstSummary.append("Fidelity between %s and %s is %s" % (os.path.basename(file0), os.path.basename(file1), fidelity))
-        self.synchronizeOff()
+        with self.locked():
+            xsdIn = _edPlugin.dataInput
+            xsdOut = _edPlugin.getDataOutput()
+            file0 = xsdIn.inputCurve[0].path.value
+            file1 = xsdIn.inputCurve[1].path.value
+            fidelity = xsdOut.fidelity.value
+            self.dictSimilarities[(self.lstStrInput.index(file0), self.lstStrInput.index(file1))] = fidelity
+            self.lstSummary.append("Fidelity between %s and %s is %s" % (os.path.basename(file0), os.path.basename(file1), fidelity))
+
 
     def doFailureExecDatcmp(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecDatcmp")
