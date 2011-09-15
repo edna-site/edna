@@ -11,7 +11,14 @@ then
 	export EDNA_SITE=ESRF 
 fi
 
-if [ -d $1 ];
+if [ -z $1 ]
+then
+   echo "Usage: ednaid11 directoryname parameterfile"
+   exit 1
+fi
+
+
+if [ -d $1 ]
 then
    $PYTHON ${EDNA_HOME}/sandbox/id11/EDPluginControlId11-v1.0/bin/edna-id11.py \
   -p=$2 -o=$1_edna --online $1

@@ -25,7 +25,7 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-#OAR -l nodes=1/core=3,walltime=144:00:00 -p "mem>4000"
+#OAR -l nodes=1/core=4,walltime=144:00:00 
 #
 full_path=$( readlink -fn $0)
 export EDNA_HOME=`dirname "$full_path" | sed 's/\/sandbox\/.*\/bin$//'`
