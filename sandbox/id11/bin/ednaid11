@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+full_path=$( readlink -fn $0)
+export EDNA_HOME=`dirname "$full_path" | sed 's/\/sandbox\/.*\/bin$//'`
+export PATH=/bliss/users/blissadm/bin:$PATH
+export PYTHON=/bliss/users/blissadm/bin/python
+unset PYTHONPATH
+
+if [ -z $EDNA_SITE ]
+then
+	export EDNA_SITE=ESRF 
+fi
+
+if [ -d $1 ];
+then
+   $PYTHON ${EDNA_HOME}/sandbox/id11/EDPluginControlId11-v1.0/bin/edna-id11.py \
+  -p=$2 -o=$1_edna --online $1
+else
+   echo "Usage: ednaid11 directoryname parameterfile"
+fi

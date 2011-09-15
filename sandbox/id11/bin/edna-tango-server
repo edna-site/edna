@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#
+#    Project: ID11 EDNA stuff     
+#             http://www.edna-site.org
+#
+#    File: "$Id: $"
+#
+#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#                            Grenoble, France
+#
+#    Principal author: Jerome Kieffer (kieffer@esrf.fr)
+#					   
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    and the GNU Lesser General Public License  along with this program.  
+#    If not, see <http://www.gnu.org/licenses/>.
+#
+#OAR -l nodes=1/core=3,walltime=144:00:00 -p "mem>4000"
+#
+full_path=$( readlink -fn $0)
+export EDNA_HOME=`dirname "$full_path" | sed 's/\/sandbox\/.*\/bin$//'`
+export PATH=/bliss/users/blissadm/bin:$PATH
+export PYTHON=/bliss/users/blissadm/bin/python
+export TestSpace=/tmp/edna-$(date +"%Y%m%dT%H%M%S")
+export PYTHONPATH=${EDNA_HOME}/kernel/tests/src
+
+if [ -z $EDNA_SITE ]
+then
+	export EDNA_SITE=ESRF 
+fi
+
+if [ -z $TANGO_HOST ]
+then
+	export TANGO_HOST=lid112:20000
+fi
+
+
+if [ ! -d ${TestSpace} ] ;
+then
+	mkdir ${TestSpace}
+fi
+PythonProg=${EDNA_HOME}/tango/bin/tango-EdnaDS.py
+echo "Server Mode"
+cd $TestSpace
+$PYTHON -u $PythonProg DAU11 -v2
