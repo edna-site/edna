@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+<edfFile><path><value>${EDNA_TESTS_DATA_HOME}/images/LaB6_0022.azim</value></path></edfFile>
+<outputFile><path><value>${TMPDIR}/edna-${USER}/LaB6_0022.chi</value></path></outputFile>
+<outputFormat><value>chi</value></outputFormat>
+</XSDataInput>

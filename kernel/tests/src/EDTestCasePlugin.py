@@ -39,9 +39,9 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20110915"
 
-
-import sys, os, threading, urllib2, exceptions
+import sys, os, threading, urllib2, exceptions, tempfile
 
 from EDVerbose          import EDVerbose
 from EDUtilsPath        import EDUtilsPath
@@ -60,6 +60,7 @@ class EDTestCasePlugin(EDTestCase):
     This is the main test class to test a plugin (Unit and Execution)
     """
 
+
     def __init__(self, _strPluginName, _strPluginDir=None, _strTestName=None):
         """
         Initialize the test case by determining the paths to the plugin home and plugin test directories.
@@ -73,6 +74,12 @@ class EDTestCasePlugin(EDTestCase):
         self.__listRequiredConfigurationPluginNames = []
         self.__strConfigurationFile = None
         self.__dictConfigurations = {} #key=pluginName ; value=config
+        self.dictReplace = {"${EDNA_TESTS_DATA_HOME}": EDUtilsTest.getTestsDataHome(),
+                       "${EDNA_PLUGIN_TESTS_DATA_HOME}" : self.getPluginTestsDataHome(),
+                       "${EDNA_HOME}": EDUtilsPath.getEdnaHome(),
+                       "${USER}":  os.getenv("USER", "UndefindedUser"),
+                       "${TMPDIR}": os.getenv("TMPDIR", tempfile.gettempdir()),
+                        }
 
 
 
@@ -246,15 +253,15 @@ class EDTestCasePlugin(EDTestCase):
          - EDNA_PLUGIN_TESTS_DATA_HOME
          - EDNA_HOME
          - USER
+         - TMPDIR
+
+        All those key are defined in a class dictionary
+
         Returns the content of this file as a string
         """
         strXML = str(EDUtilsFile.readFileAndParseVariables (_strFileName))
-
-        strXML = strXML.replace("${EDNA_TESTS_DATA_HOME}" , EDUtilsTest.getTestsDataHome())
-        strXML = strXML.replace("${EDNA_PLUGIN_TESTS_DATA_HOME}" , self.getPluginTestsDataHome())
-        strXML = strXML.replace("${EDNA_HOME}" , EDUtilsPath.getEdnaHome())
-        strXML = strXML.replace("${USER}" , os.getenv("USER", "UndefindedUser"))
-
+        for key in self.dictReplace:
+            strXML = strXML.replace(key, self.dictReplace[key])
         return str(strXML)
 
 

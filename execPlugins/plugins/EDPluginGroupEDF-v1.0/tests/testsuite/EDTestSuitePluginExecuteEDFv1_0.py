@@ -43,6 +43,7 @@ class EDTestSuitePluginExecuteEDFv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteExportAsciiPowderEDF_array2array")
         self.addTestCaseFromName("EDTestCasePluginExecuteExportAsciiPowderEDF_edf2chiNbBins")
         self.addTestCaseFromName("EDTestCasePluginExecuteExportAsciiPowderEDF_edf2spr")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExportAsciiPowderEDF_edf2chi_mask")
 
 
 ##############################################################################

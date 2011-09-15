@@ -186,8 +186,11 @@ class EDPluginExportAsciiPowderv1_0(EDPluginExec):
         EDVerbose.DEBUG("EDPluginExportAsciiPowderv1_0.process")
         if len(self.inputArray.shape) == 2:
             iNbAzimBin, iLength = self.inputArray.shape
-            nonNull = ((abs(self.inputArray - self.fDummy) > self.fDeltaDummy)).astype("int").sum(axis=0)
-            nplInt = self.inputArray.sum(axis=0) / nonNull
+            if  iNbAzimBin == 1:
+                nplInt = self.inputArray[0, :]
+            else:
+                nonNull = ((abs(self.inputArray - self.fDummy) > self.fDeltaDummy)).astype("int").sum(axis=0)
+                nplInt = self.inputArray.sum(axis=0) / nonNull
         elif len(self.inputArray.shape) == 1:
             nplInt = self.inputArray
             iLength = len(nplInt)
