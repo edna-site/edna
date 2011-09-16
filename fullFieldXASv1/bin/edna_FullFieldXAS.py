@@ -38,6 +38,7 @@ if "EDNA_SITE" not in  os.environ:
 from EDParallelExecute      import EDParallelExecute
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDJob                  import EDJob
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
 fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
@@ -536,6 +537,7 @@ if __name__ == '__main__':
 
     edna = EDParallelExecute(ffx.pluginName, ffx.makeXML, _functXMLerr=ffx.error, _bVerbose=True, _bDebug=debug, _iNbThreads=iNbCPU)
     edna.runEDNA(ffx.listInput, ffx.strMode , ffx.bNewerOnly)
+    EDVerbose.WARNING("Back to main !")
     EDJob.synchronizeAll()
     EDPluginControlAlignStackv1_0.showData()
     if (ffx.iErrCount == 0) and (not EDVerbose.isVerboseDebug()):
