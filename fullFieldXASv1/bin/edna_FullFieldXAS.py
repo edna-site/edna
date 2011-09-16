@@ -1,16 +1,17 @@
 #!/usr/bin/env python2.6
 #-*- coding: utf8 -*-
+from __future__ import with_statement
 
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2011, European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110905"
+__date__ = "20110916"
 
 import os, time, sys, threading, tempfile, string, shlex, socket
 
 # Append the EDNA kernel source directory to the python path
-if not os.environ.has_key("EDNA_HOME"):
+if "EDNA_HOME" not in  os.environ:
     pyStrProgramPath = os.path.realpath(os.path.abspath(sys.argv[0]))
     pyLPath = pyStrProgramPath.split(os.sep)
     if len(pyLPath) > 3:
@@ -29,8 +30,12 @@ except ImportError:
     print("No socket opened for debuging -> please install rfoo")
 
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
-from EDParallelExecute      import EDParallelExecute
 from EDVerbose              import EDVerbose
+if "EDNA_SITE" not in  os.environ:
+    os.environ["EDNA_SITE"] = "ESRF"
+    EDVerbose.WARNING("EDNA_SITE not defined: Resetting to 'ESRF'")
+
+from EDParallelExecute      import EDParallelExecute
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
@@ -88,6 +93,7 @@ class FullFieldXas(object):
         self.bNewerOnly = False
         self.strMode = "OffLine"
         self.dontAlign = None
+        self.iErrCount = 0
 
     def load(self, filename):
         """
@@ -478,22 +484,10 @@ class FullFieldXas(object):
         xsd = XSDataInputFullFieldXAS.parseString(strXMLin)
         filenames = [ i.path.value for i in xsd.getData()]
         EDVerbose.ERROR("Error in the processing of: \n %s" % "\n".join(filenames))
+        self.iErrCount += 1
 
 
 
-
-
-def XMLerr(strXMLin):
-    """
-    This is an example of XMLerr function ... it prints only the name of the file created
-    @param srXMLin: The XML string used to launch the job
-    @type strXMLin: python string with the input XML
-    @rtype: None
-    @return: None     
-    """
-    print "Error in the processing of :"
-    print strXMLin
-    return None
 
 
 if __name__ == '__main__':
@@ -534,7 +528,7 @@ if __name__ == '__main__':
     ffx.dontAlign = dontAlign
     if  dontAlign:
         print("*"*80)
-        print("*"+"Skipping image alignement part".center(78)+"*") 
+        print("*" + "Skipping image alignement part".center(78) + "*")
         print("*"*80)
     ffx.setup(_listInput=paths, _mode=mode)
 
@@ -542,7 +536,10 @@ if __name__ == '__main__':
 
     edna = EDParallelExecute(ffx.pluginName, ffx.makeXML, _functXMLerr=ffx.error, _bVerbose=True, _bDebug=debug, _iNbThreads=iNbCPU)
     edna.runEDNA(ffx.listInput, ffx.strMode , ffx.bNewerOnly)
-    EDVerbose.screen("Back in main")
+    EDJob.synchronizeAll()
     EDPluginControlAlignStackv1_0.showData()
-
-#    EDPluginHDF5StackImagesv10.closeAll()
+    if (ffx.iErrCount == 0) and (not EDVerbose.isVerboseDebug()):
+        EDVerbose.WARNING("All processing finished successfully: Remove EDShare's big HDF5 file")
+        EDShare.close(remove=True)
+    else:
+        EDShare.close()
