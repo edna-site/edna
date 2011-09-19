@@ -26,9 +26,11 @@
 #
 
 __authors__ = ["Jerome Kieffer", "Olof Svensson"]
+__contact__ = "Jerome.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 __date__ = "2011-05-09"
+__status__ = "production"
 
 import time, os
 from EDPlugin           import EDPlugin
@@ -84,7 +86,11 @@ class EDPluginWaitFile(EDPlugin):
         self.DEBUG("EDPluginWaitFile.process")
         self.DEBUG("EDPluginWaitFile Plugin TimeOut is set to: %s, internal TimeOut is %s" % (self.getTimeOut(), self.__timeout))
         self.setTimeInit()
+        dirname = os.path.dirname(self.__filename)
         while self.getRunTime() < self.__timeout:
+            fd = os.open(dirname, os.O_RDONLY)
+            os.fstat(fd)
+            os.close(fd)
             if os.path.exists(self.__filename):
                 self.__filesize = os.path.getsize(self.__filename)
                 if self.__filesize >= self.__expectedSize:
