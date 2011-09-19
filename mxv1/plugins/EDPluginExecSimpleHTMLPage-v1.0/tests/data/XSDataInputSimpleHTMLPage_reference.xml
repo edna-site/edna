@@ -20100,6 +20100,11 @@ OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! OBS! 
                 <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/best.log</value>
             </path>
         </bestLogFile>
+        <raddoseLogFile>
+            <path>
+                <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/raddose.log</value>
+            </path>
+        </raddoseLogFile> 
         <collectionPlan>
             <collectionPlanNumber>
                 <value>1</value>

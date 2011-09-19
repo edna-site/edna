@@ -74,7 +74,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.DEBUG("EDPluginExecSimpleHTMLPagev1_0.process...")
         if self.xsDataResultCharacterisation is not None:
             # Create the simple characterisation result page
-            self.page = markupv1_7.page()
+            self.page = markupv1_7.page(mode='loose_html')
             self.page.init( title="Characterisation Results", 
                        footer="Generated on %s" % time.asctime())
             self.page.div( align_="CENTER")
@@ -86,14 +86,16 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             # Link to the EDNA log file
             strPathToLogFile = self.findEDNALogFile()
             if strPathToLogFile is not None:
+                self.page.strong("(")
                 strPageEDNALog = os.path.join(self.getWorkingDirectory(), "edna_log.html")
                 pageEDNALog = markupv1_7.page()
                 pageEDNALog.h1("EDNA Log")
                 pageEDNALog.a("Back to previous page", href_=self.strPath)
-                pageEDNALog.pre(cgi.escape(EDUtilsFile.readFile(strPathToLogFile)), style_="font-size:8px")
+                pageEDNALog.pre(cgi.escape(EDUtilsFile.readFile(strPathToLogFile)))
                 pageEDNALog.a("Back to previous page", href_=self.strPath)
                 EDUtilsFile.writeFile(strPageEDNALog, str(pageEDNALog))
-                self.page.a("(EDNA log file)", href=strPageEDNALog)
+                self.page.a("EDNA log file", href=strPageEDNALog)
+                self.page.strong(")")
             self.page.h1.close()
             self.page.div.close()
             self.diffractionPlan()
@@ -158,14 +160,29 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 pageBestLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToBestLogFile)))
                 pageBestLog.a("Back to previous page", href_=self.strPath)
                 EDUtilsFile.writeFile(strPageBestLog, str(pageBestLog))
+            # Add link to RADDOSE log file:
+            strPageRaddoseLog = None
+            if xsDataResultStrategy.getRaddoseLogFile():
+                strPathToRaddoseLogFile = xsDataResultStrategy.getRaddoseLogFile().getPath().getValue()
+                strPageRaddoseLog = os.path.join(self.getWorkingDirectory(), "raddose_log.html")
+                pageRaddoseLog = markupv1_7.page()
+                pageRaddoseLog.h1("RADDOSE Log")
+                pageRaddoseLog.a("Back to previous page", href_=self.strPath)
+                pageRaddoseLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToRaddoseLogFile)))
+                pageRaddoseLog.a("Back to previous page", href_=self.strPath)
+                EDUtilsFile.writeFile(strPageRaddoseLog, str(pageRaddoseLog))
             listXSDataCollectionPlan = xsDataResultStrategy.getCollectionPlan()
             iNoSubWedges = len(listXSDataCollectionPlan)
             self.page.h2()
             if iNoSubWedges != 1:
-                self.page.strong("Multi-wedge collection plan strategy ")
+                self.page.strong("Multi-wedge collection plan strategy (")
             else:
-                self.page.strong( "Collection plan strategy" )
-            self.page.a("(BEST log file)", href=strPageBestLog)
+                self.page.strong( "Collection plan strategy (" )
+            if strPageRaddoseLog is not None:
+                self.page.a("RADDOSE log file", href=strPageRaddoseLog)
+                self.page.strong(", ")
+            self.page.a("BEST log file", href=strPageBestLog)
+            self.page.strong(")")
             self.page.h2.close()
             # Check if ranking resolution is higher than the suggested strategy resolution(s)
             bHigherResolutionDetected = False
@@ -191,11 +208,15 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if fRankingResolution != None and fResolutionMax != None:
                 if fRankingResolution < fResolutionMax:
                     if not bHigherResolutionDetected:
+                        self.page.font(_color="red", size="+2")
                         self.page.i()
-                        self.page.h3("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
+                        self.page.h2("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
+                        self.page.i.close()
+                        self.page.font.close()
+                        self.page.font(_color="red", size="+1")
                         self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
                         self.page.strong("In order to calculate a strategy to %.2f &Aring; set the detector distance to %.2f mm (%.2f &Aring;) and re-launch the EDNA characterisation." % (fRankingResolution,fDistanceMin,fRankingResolution))
-                        self.page.i.close()
+                        self.page.font.close()
                     bHigherResolutionDetected = True
                 
                 
@@ -207,9 +228,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                     strResolutionReasoning = xsDataSummaryStrategy.getResolutionReasoning().getValue()
                 self.page.table( class_='indexResults', border_="1", cellpadding_="0")
                 self.page.tr( align_="CENTER" )
-                self.page.th(strResolutionReasoning, colspan_="8", bgcolor_=self.strTableColourTitle1)
+                self.page.th(strResolutionReasoning, colspan_="9", bgcolor_=self.strTableColourTitle1)
                 self.page.tr.close()
                 self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+                self.page.th("Wedge")
                 self.page.th("Subwedge")
                 self.page.th("Start (&deg;)")
                 self.page.th("Width (&deg;)")
@@ -222,6 +244,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 xsDataCollectionStrategy = xsDataCollectionPlan.getCollectionStrategy()
                 for xsDataSubWegde in xsDataCollectionStrategy.getSubWedge():
                     xsDataExperimentalCondition = xsDataSubWegde.getExperimentalCondition()
+                    iWedge = xsDataCollectionPlan.getCollectionPlanNumber().getValue()
                     iRunNumber = xsDataSubWegde.getSubWedgeNumber().getValue()
                     fRotationAxisStart = xsDataExperimentalCondition.getGoniostat().getRotationAxisStart().getValue()
                     fRotationAxisEnd = xsDataExperimentalCondition.getGoniostat().getRotationAxisEnd().getValue()
@@ -231,6 +254,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                     fTransmission = xsDataExperimentalCondition.getBeam().getTransmission().getValue()
                     fDistance = xsDataExperimentalCondition.getDetector().getDistance().getValue()
                     self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
+                    self.page.th(iWedge)
                     self.page.th(iRunNumber)
                     self.page.th("%.2f" % fRotationAxisStart)
                     self.page.th("%.2f" % fOscillationWidth)
@@ -259,7 +283,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.th("Aimed<br>multiplicity")
         self.page.th("Aimed<br>completeness")
         self.page.th("Aimed I/sigma<br>at highest res.")
-        self.page.th("Aimed<br>resolution")
+        self.page.th("Aimed<br>resolution (&Aring;)")
         self.page.tr.close()
         self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
         # Forced space group               
