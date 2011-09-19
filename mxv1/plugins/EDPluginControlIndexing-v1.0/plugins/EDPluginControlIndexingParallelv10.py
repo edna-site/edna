@@ -36,7 +36,7 @@ class EDPluginControlIndexingParallelv10(EDPluginControlIndexingv10):
     """
     This plugin can launch several control indexing plugins in parallel.
     
-    OBS! Although the parallel execution is functional, there's yet to
+    Although the parallel execution is functional, there's yet to
     implementation of a ranking of the indexing results, hence this plugin
     is not yet operational.
     """

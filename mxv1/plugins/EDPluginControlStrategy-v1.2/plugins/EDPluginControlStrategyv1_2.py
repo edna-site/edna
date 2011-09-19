@@ -42,6 +42,7 @@ from EDUtilsSymmetry                   import EDUtilsSymmetry
 
 from XSDataCommon                      import XSDataString
 from XSDataCommon                      import XSDataDouble
+from XSDataCommon                      import XSDataFile
 
 from XSDataMXv1                        import XSDataInputStrategy
 from XSDataMXv1                        import XSDataResultStrategy
@@ -87,6 +88,9 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
 
         # This varaible determines if Raddose should be executed or not
         self.__bEstimateRadiationDamage = None
+        
+        # Raddose log file
+        self.xsDataFileRaddoseLog = None
 
 
     def setSymopHome(self, _strSymopHome):
@@ -283,6 +287,8 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         else:
             xsDataResultStrategy = self.__edHandlerXSDataBest.getXSDataResultStrategy(xsDataResultBest, self.getDataInput().getExperimentalCondition(), self.__xsDataSampleCopy)
 
+        if self.xsDataFileRaddoseLog is not None:
+            xsDataResultStrategy.setRaddoseLogFile(self.xsDataFileRaddoseLog)
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
 
@@ -301,6 +307,9 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
 
         # update the strategy data with the data coming from Raddose
         self.__xsDataSampleCopy.setAbsorbedDoseRate(xsDataRaddoseOutput.getAbsorbedDoseRate())
+        if xsDataRaddoseOutput.getPathToLogFile() != None:
+            self.xsDataFileRaddoseLog = xsDataRaddoseOutput.getPathToLogFile()
+
 
         # Call the Best Translator layer
         from EDHandlerXSDataBestv1_2    import EDHandlerXSDataBestv1_2
@@ -604,13 +613,13 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         if fRankingResolution is not None:
             if (fRankingResolution < fResolutionMax) and (abs(fRankingResolution - fResolutionMax) > 0.1):
                 strStrategyShortSummary += "\n"
-                strStrategyShortSummary += "OBS! "*20 + "\n"
+                strStrategyShortSummary += "NOTE! "*20 + "\n"
                 strStrategyShortSummary += "\n"
                 strStrategyShortSummary += "BEST has calculated that it should be possible to collect data to %.2f A from this sample.\n" % fRankingResolution
                 strStrategyShortSummary += "If you want to calculate a new strategy for data collection to this resolution you\n"
                 strStrategyShortSummary += "must first recollect reference images at this resolution.\n"
                 strStrategyShortSummary += "\n"
-                strStrategyShortSummary += "OBS! "*20 + "\n"
+                strStrategyShortSummary += "NOTE! "*20 + "\n"
                 strStrategyShortSummary += "\n"
         
         self.setDataOutput(XSDataString(strStrategyShortSummary), "strategyShortSummary")
