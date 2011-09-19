@@ -36,6 +36,7 @@ from EDConfiguration import EDConfiguration
 
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInteger
+from XSDataCommon import XSDataTime
 
 from XSDataMXv1 import XSDataImageQualityIndicators
 from XSDataMXv1 import XSDataInputControlImageQualityIndicators
@@ -98,7 +99,7 @@ class EDPluginControlImageQualityIndicatorsv1_1(EDPluginControl):
         for xsDataImage in listXSDataImage:
             xsDataInputWaitMultiFile.addExpectedFile(XSDataFile(xsDataImage.getPath()))
         xsDataInputWaitMultiFile.setExpectedSize(XSDataInteger(100000))
-        xsDataInputWaitMultiFile.setTimeOut(XSDataInteger(self.fWaitFileTimeOut))
+        xsDataInputWaitMultiFile.setTimeOut(XSDataTime(self.fWaitFileTimeOut))
         self.DEBUG("Wait file timeOut set to %f" % self.fWaitFileTimeOut)
         self.edPluginWaitMultiFile.setDataInput(xsDataInputWaitMultiFile)
         self.xsDataResultControlImageQualityIndicators = XSDataResultControlImageQualityIndicators()
