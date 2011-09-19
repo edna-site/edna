@@ -40,6 +40,8 @@ from EDPluginExecProcessScript    import EDPluginExecProcessScript
 from XSDataCommon                 import XSDataAbsorbedDoseRate
 from XSDataCommon                 import XSDataDouble
 from XSDataCommon                 import XSDataTime
+from XSDataCommon                 import XSDataFile
+from XSDataCommon                 import XSDataString
 
 from XSDataRaddosev10             import XSDataRaddoseInput
 from XSDataRaddosev10             import XSDataRaddoseOutput
@@ -160,6 +162,7 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
         EDVerbose.DEBUG("EDPluginRaddosev10.preProcess")
+        self.setScriptLogFileName("raddose.log")
         # Fix for bug 432: if flux is close to zero or negative failure
         if (self.getDataInput().getBeamFlux().getValue() < 0.1):
             strErrorMessage = "EDPluginRaddosev10.preProcess ERROR: Input flux is negative or close to zero. Execution of characterisation aborted."
@@ -258,6 +261,9 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
         xsDataRaddosev10Output.setAbsorbedDose(xsDataAbsorbedDose)
         xsDataRaddosev10Output.setAbsorbedDoseRate(xsDataAbsorbedDoseRate)
         xsDataRaddosev10Output.setTimeToReachHendersonLimit(XSDataTime(self.__fTimeToReachHendersonLimit))
+
+        xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
+        xsDataRaddosev10Output.setPathToLogFile(xsDataFilePathToLog)
 
         self.setDataOutput(xsDataRaddosev10Output)
 

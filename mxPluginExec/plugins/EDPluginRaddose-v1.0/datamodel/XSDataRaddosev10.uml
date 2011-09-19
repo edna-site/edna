@@ -174,17 +174,21 @@
     <ownedAttribute xmi:id="_UButsUjVEeCYyYJyLDqBEQ" name="absorbedDose">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButskjVEeCYyYJyLDqBEQ" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButs0jVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButs0jVEeCYyYJyLDqBEQ"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_UButtEjVEeCYyYJyLDqBEQ" name="absorbedDoseRate">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_p1pMQOc1Ed-jKbXLtzGSgw"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButtUjVEeCYyYJyLDqBEQ" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButtkjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButtkjVEeCYyYJyLDqBEQ"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_UButt0jVEeCYyYJyLDqBEQ" name="timeToReachHendersonLimit">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UButuEjVEeCYyYJyLDqBEQ" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButuUjVEeCYyYJyLDqBEQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UButuUjVEeCYyYJyLDqBEQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_0XaIUODfEeCd-6qjaPMmiA" name="pathToLogFile" isUnique="false">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9je2UODfEeCd-6qjaPMmiA"/>
     </ownedAttribute>
   </packagedElement>
 </uml:Model>

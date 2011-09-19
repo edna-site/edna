@@ -6,6 +6,11 @@
     <absorbedDoseRate>
         <value>223000.000000</value>
     </absorbedDoseRate>
+    <pathToLogFile>
+        <path>
+            <value>${EDNA_WORKING_DIR}/raddose.log</value>
+        </path>
+    </pathToLogFile>
     <timeToReachHendersonLimit>
         <value>8.968610e+01</value>
     </timeToReachHendersonLimit>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 14 11:26::21 2011 by EDGenerateDS.
+# Generated Sat Sep 17 05:53::02 2011 by EDGenerateDS.
 #
 
 import sys
@@ -11,6 +11,7 @@ from xml.dom import Node
 from XSDataCommon import XSData
 from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataDouble
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
@@ -232,7 +233,7 @@ class XSDataAtomicComposition(XSData):
 		if atom is None:
 			self.__atom = []
 		else:
-			checkType("XSDataAtomicComposition", "Constructor of XSDataAtomicComposition", atom, "XSDataAtom")
+			checkType("XSDataAtomicComposition", "Constructor of XSDataAtomicComposition", atom, "list")
 			self.__atom = atom
 	def getAtom(self): return self.__atom
 	def setAtom(self, atom):
@@ -774,12 +775,14 @@ class XSDataRaddoseInput(XSDataInput):
 # end class XSDataRaddoseInput
 
 class XSDataRaddoseOutput(XSDataResult):
-	def __init__(self, status=None, timeToReachHendersonLimit=None, absorbedDoseRate=None, absorbedDose=None):
+	def __init__(self, status=None, timeToReachHendersonLimit=None, pathToLogFile=None, absorbedDoseRate=None, absorbedDose=None):
 		XSDataResult.__init__(self, status)
 		checkType("XSDataRaddoseOutput", "Constructor of XSDataRaddoseOutput", absorbedDose, "XSDataDouble")
 		self.__absorbedDose = absorbedDose
 		checkType("XSDataRaddoseOutput", "Constructor of XSDataRaddoseOutput", absorbedDoseRate, "XSDataAbsorbedDoseRate")
 		self.__absorbedDoseRate = absorbedDoseRate
+		checkType("XSDataRaddoseOutput", "Constructor of XSDataRaddoseOutput", pathToLogFile, "XSDataFile")
+		self.__pathToLogFile = pathToLogFile
 		checkType("XSDataRaddoseOutput", "Constructor of XSDataRaddoseOutput", timeToReachHendersonLimit, "XSDataTime")
 		self.__timeToReachHendersonLimit = timeToReachHendersonLimit
 	def getAbsorbedDose(self): return self.__absorbedDose
@@ -796,6 +799,13 @@ class XSDataRaddoseOutput(XSDataResult):
 	def delAbsorbedDoseRate(self): self.__absorbedDoseRate = None
 	# Properties
 	absorbedDoseRate = property(getAbsorbedDoseRate, setAbsorbedDoseRate, delAbsorbedDoseRate, "Property for absorbedDoseRate")
+	def getPathToLogFile(self): return self.__pathToLogFile
+	def setPathToLogFile(self, pathToLogFile):
+		checkType("XSDataRaddoseOutput", "setPathToLogFile", pathToLogFile, "XSDataFile")
+		self.__pathToLogFile = pathToLogFile
+	def delPathToLogFile(self): self.__pathToLogFile = None
+	# Properties
+	pathToLogFile = property(getPathToLogFile, setPathToLogFile, delPathToLogFile, "Property for pathToLogFile")
 	def getTimeToReachHendersonLimit(self): return self.__timeToReachHendersonLimit
 	def setTimeToReachHendersonLimit(self, timeToReachHendersonLimit):
 		checkType("XSDataRaddoseOutput", "setTimeToReachHendersonLimit", timeToReachHendersonLimit, "XSDataTime")
@@ -813,16 +823,12 @@ class XSDataRaddoseOutput(XSDataResult):
 		XSDataResult.exportChildren(self, outfile, level, name_)
 		if self.__absorbedDose is not None:
 			self.absorbedDose.export(outfile, level, name_='absorbedDose')
-		else:
-			warnEmptyAttribute("absorbedDose", "XSDataDouble")
 		if self.__absorbedDoseRate is not None:
 			self.absorbedDoseRate.export(outfile, level, name_='absorbedDoseRate')
-		else:
-			warnEmptyAttribute("absorbedDoseRate", "XSDataAbsorbedDoseRate")
+		if self.__pathToLogFile is not None:
+			self.pathToLogFile.export(outfile, level, name_='pathToLogFile')
 		if self.__timeToReachHendersonLimit is not None:
 			self.timeToReachHendersonLimit.export(outfile, level, name_='timeToReachHendersonLimit')
-		else:
-			warnEmptyAttribute("timeToReachHendersonLimit", "XSDataTime")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -838,6 +844,11 @@ class XSDataRaddoseOutput(XSDataResult):
 			obj_ = XSDataAbsorbedDoseRate()
 			obj_.build(child_)
 			self.setAbsorbedDoseRate(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pathToLogFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setPathToLogFile(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'timeToReachHendersonLimit':
 			obj_ = XSDataTime()

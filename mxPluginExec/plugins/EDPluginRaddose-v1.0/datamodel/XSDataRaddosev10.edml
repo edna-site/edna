@@ -4,6 +4,7 @@ import XSDataCommon.XSData
 import XSDataCommon.XSDataAbsorbedDoseRate
 import XSDataCommon.XSDataAngle
 import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataFile
 import XSDataCommon.XSDataFlux
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataInteger
@@ -50,7 +51,9 @@ complex type XSDataRaddoseInput extends XSDataInput {
 }
 
 complex type XSDataRaddoseOutput extends XSDataResult {
-	absorbedDose : XSDataDouble
-	absorbedDoseRate : XSDataAbsorbedDoseRate
-	timeToReachHendersonLimit : XSDataTime
+	absorbedDose : XSDataDouble optional
+	absorbedDoseRate : XSDataAbsorbedDoseRate optional
+	pathToLogFile : XSDataFile
+	optional
+	timeToReachHendersonLimit : XSDataTime optional
 }
