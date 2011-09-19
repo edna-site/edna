@@ -24,7 +24,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 """
 Tango device server launcher for EDNA server.
 """
@@ -33,8 +33,10 @@ __authors__ = [ "Matias GUIJARRO", "Jérôme Kieffer", "Cyril Guilloud" ]
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20110919"
+__satatus__ = "beta"
 
-import sys, os
+import sys, os, threading
 import PyTango
 
 # Append the EDNA kernel source directory to the python path
@@ -52,17 +54,20 @@ if not os.environ.has_key("EDNA_HOME"):
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
 from EDJob              import EDJob
-from EDObject           import EDObject
+from EDLogging          import EDLogging
 from EDVerbose          import EDVerbose
 from EDUtilsParallel    import EDUtilsParallel
 from EDStatus           import EDStatus
 
 class EdnaDS(PyTango.Device_4Impl, EDObject):
     def __init__(self, cl, name):
-        EDObject.__init__(self)
+        EDLogging.__init__(self)
         PyTango.Device_4Impl.__init__(self, cl, name)
-
         self.init_device()
+        self.__iNbThreads = EDUtilsParallel.detectNumberOfCPUs(_iNbThreads)
+        EDUtilsParallel.initializeNbThread(self.__iNbThreads)
+        self.__semaphoreNbThreads = threading.Semaphore(self.__iNbThreads)
+
 
     def delete_device(self):
         EDVerbose.DEBUG("[Device delete_device method] for device %s" % self.get_name())
@@ -100,30 +105,38 @@ class EdnaDS(PyTango.Device_4Impl, EDObject):
         sys.exit()
 
     def startJob(self, argin):
-        EDVerbose.DEBUG("In %s.startJob()" % self.get_name())
-        strPluginName = argin[0]
-        strXmlInput = str(argin[1])
-        edJob = EDJob(strPluginName)
+        """
+        @param argin: 2-list [ "EDPluginName", "<xml/><XSDataInputPluginName>...."]
+        @return: jobID which is a sting: Plugin-000001
+        """
+        self.DEBUG("In %s.startJob()" % self.get_name())
+        edJob = EDJob(argin[0])
+        jobId = edJob.getJobId()
+        myThread = threading.Thread(target=self.startThread, name=jobId, args=[edJob, argin[1]])
+        myThread.start()
+        return jobId
+
+    def startThread(self, edJob, strXmlIn):
+        """
+        Thread launching the job itself.
+        """
+        self.__semaphoreNbThreads.acquire()
         edJob.setDataInput(strXmlInput)
         edJob.connectSUCCESS(self.successJobExecution)
         edJob.connectFAILURE(self.failureJobExecution)
         edJob.execute()
-        return edJob.getJobId()
-
 
     def successJobExecution(self, jobId):
-        EDVerbose.DEBUG("In %s.successJobExecution(%s)" % (self.get_name(), jobId))
-        self.synchronizeOn()
-        self.push_change_event("jobSuccess", jobId)
-        self.synchronizeOff()
-
+        self.DEBUG("In %s.successJobExecution(%s)" % (self.get_name(), jobId))
+        with self.lock():
+            self.__semaphoreNbThreads.release()
+            self.push_change_event("jobSuccess", jobId)
 
     def failureJobExecution(self, jobId):
-        EDVerbose.DEBUG("In %s.failureJobExecution(%s)" % (self.get_name(), jobId))
-        self.synchronizeOn()
-        self.push_change_event("jobFailure", jobId)
-        self.synchronizeOff()
-
+        self.DEBUG("In %s.failureJobExecution(%s)" % (self.get_name(), jobId))
+        with self.lock():
+            self.__semaphoreNbThreads.release()
+            self.push_change_event("jobFailure", jobId)
 
     def getRunning(self):
         """
@@ -183,7 +196,7 @@ class EdnaDSClass(PyTango.DeviceClass):
     def __init__(self, name):
         PyTango.DeviceClass.__init__(self, name)
         self.set_type(name);
-        EDVerbose.DEBUG("In EdnaDSClass  constructor")
+        self.DEBUG("In EdnaDSClass  constructor")
 
 if __name__ == '__main__':
 
