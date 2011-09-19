@@ -59,14 +59,14 @@ from EDVerbose          import EDVerbose
 from EDUtilsParallel    import EDUtilsParallel
 from EDStatus           import EDStatus
 
-class EdnaDS(PyTango.Device_4Impl, EDObject):
+class EdnaDS(PyTango.Device_4Impl, EDLogging):
     def __init__(self, cl, name):
         EDLogging.__init__(self)
         PyTango.Device_4Impl.__init__(self, cl, name)
         self.init_device()
-        self.__iNbThreads = EDUtilsParallel.detectNumberOfCPUs(_iNbThreads)
-        EDUtilsParallel.initializeNbThread(self.__iNbThreads)
-        self.__semaphoreNbThreads = threading.Semaphore(self.__iNbThreads)
+        iNbThreads = EDUtilsParallel.detectNumberOfCPUs()
+        EDUtilsParallel.initializeNbThread(iNbThreads)
+        self.__semaphoreNbThreads = threading.Semaphore(iNbThreads)
 
 
     def delete_device(self):
@@ -116,9 +116,12 @@ class EdnaDS(PyTango.Device_4Impl, EDObject):
         myThread.start()
         return jobId
 
-    def startThread(self, edJob, strXmlIn):
+    def startThread(self, edJob, strXmlInput):
         """
         Thread launching the job itself.
+        @param edJob: EDJob instance 
+        @param strXmlInput: "<xml/><XSDataInputPluginName>...."
+        @return: None
         """
         self.__semaphoreNbThreads.acquire()
         edJob.setDataInput(strXmlInput)
@@ -128,13 +131,13 @@ class EdnaDS(PyTango.Device_4Impl, EDObject):
 
     def successJobExecution(self, jobId):
         self.DEBUG("In %s.successJobExecution(%s)" % (self.get_name(), jobId))
-        with self.lock():
+        with self.locked():
             self.__semaphoreNbThreads.release()
             self.push_change_event("jobSuccess", jobId)
 
     def failureJobExecution(self, jobId):
         self.DEBUG("In %s.failureJobExecution(%s)" % (self.get_name(), jobId))
-        with self.lock():
+        with self.locked():
             self.__semaphoreNbThreads.release()
             self.push_change_event("jobFailure", jobId)
 
@@ -196,7 +199,7 @@ class EdnaDSClass(PyTango.DeviceClass):
     def __init__(self, name):
         PyTango.DeviceClass.__init__(self, name)
         self.set_type(name);
-        self.DEBUG("In EdnaDSClass  constructor")
+        EDVerbose.DEBUG("In EdnaDSClass  constructor")
 
 if __name__ == '__main__':
 
