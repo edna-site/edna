@@ -7,8 +7,8 @@ __authors__ = [ "Jérôme Kieffer"]
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110919"
-__status__ = "development"
+__date__ = "20110920"
+__status__ = "beta"
 __doc__ = """Usage: 
 
 $ tango_client -xml=xml_file.xml  -d=DAU/edna/1 -p=EDPluginName *.edf
@@ -16,9 +16,8 @@ $ tango_client -xml=xml_file.xml  -d=DAU/edna/1 -p=EDPluginName *.edf
 
 """
 
-import sys, os, threading, time
+import sys, os, time
 
-import os
 if "TANGO_HOST" not in os.environ:
     raise RuntimeError("No TANGO_HOST defined")
 import PyTango
@@ -65,10 +64,14 @@ edna = PyTango.DeviceProxy(device)
 edna.initPlugin(plugin)
 t0 = time.time()
 t1 = t0
-for fn in filenames:
-    dirname, filename = os.path.split(fn)
-    basename, ext = os.path.splitext(filename)
-    myXML = xml.replace("${FULLNAME}", fn).replace("${FILENAME}", filename).replace("${DIRNAME}", dirname).replace("${BASENAME}", basename).replace("${EXT}", ext)
-    pid = edna.startJob([plugin, myXML])
-    print "%s | Total:\t%.3f\tLast:\t%.3f" % (pid, time.time() - t0, time.time() - t1)
-    t1 = time.time()
+if filenames:
+    for fn in filenames:
+        dirname, filename = os.path.split(fn)
+        basename, ext = os.path.splitext(filename)
+        myXML = xml.replace("${FULLNAME}", fn).replace("${FILENAME}", filename).replace("${DIRNAME}", dirname).replace("${BASENAME}", basename).replace("${EXT}", ext)
+        pid = edna.startJob([plugin, myXML])
+        print "%s | Total:\t%.3f\tLast:\t%.3f" % (pid, time.time() - t0, time.time() - t1)
+        t1 = time.time()
+else:
+    pid = edna.startJob([plugin, xml])
+        print "%s | Total:\t%.3f\tLast:\t%.3f" % (pid, time.time() - t0, time.time() - t1)

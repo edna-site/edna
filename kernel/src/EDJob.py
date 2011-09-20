@@ -28,12 +28,11 @@
 #
 from __future__ import with_statement
 
-
 __authors__ = ["Jérôme Kieffer", "Olof Svensson"]
 __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110919"
+__date__ = "20110920"
 __status__ = "production"
 
 import threading, time, os, sys, gc
@@ -101,8 +100,9 @@ class EDJob(EDLogging):
         self.__edSlotCallBack = EDSlot()
         self.__edSlotSUCCESS = EDSlot()
         self.__edSlotFAILURE = EDSlot()
-        self.__strXSDInput = None
-        self.__strXSDOutput = None
+        self.__pathXSDInput = None
+        self.__pathXSDOutput = None
+        self.__bXmlInputSet = False
         self.__status = None
         self.__name = None
         self.__edPlugin = EDJob.__edFactoryPlugin.loadPlugin(self.__strPluginName)
@@ -134,12 +134,13 @@ class EDJob(EDLogging):
         """
 
         if _oDataInput in ["", None]:
-            self.__strXSDInput = None
+            self.__bXmlInputSet = False
+            return
         else:
-            self.__strXSDInput = _oDataInput
             with self.locked():
                 if (self.__edPlugin is not None):
                     self.__edPlugin.setDataInput(_oDataInput, _strDataInputKey)
+                    self.__bXmlInputSet = True
                 else:
                     self.WARNING("Setting DataInput for uninstanciated plugin %s." % self.__strPluginName)
 
@@ -150,10 +151,13 @@ class EDJob(EDLogging):
         Returns the Plugin Input Data for a particular key.
         If the key is not provided a default key is used.
         """
-        if (self.__edPlugin is None):
-            return self.__strXSDInput
-        else:
+        if (self.__edPlugin is not None):
             return self.__edPlugin.getDataInput(_strDataInputKey)
+        elif (self.__pathXSDInput is not None):
+            return open(self.__pathXSDInput).read()
+        else:
+            self.WARNING("Getting DataInput for uninstanciated plugin %s." % self.__strPluginName)
+
 
 
     def getDataOutput(self, _strDataOutputKey=None, _bWait=True):
@@ -164,10 +168,12 @@ class EDJob(EDLogging):
         """
         if _bWait: #Wait for plugin to finish befor returning data output
             self.synchronize()
-        if (self.__edPlugin is None):
-            return self.__strXSDOutput
-        else:
+        if (self.__edPlugin is not None):
             return self.__edPlugin.getDataOutput(_strDataOutputKey)
+        elif self.__pathXSDOutput is not None:
+            return open(self.__pathXSDOutput).read()
+        else:
+            self.WARNING("Getting DataOutput for uninstanciated plugin %s." % self.__strPluginName)
 
 
     def execute(self):
@@ -176,7 +182,7 @@ class EDJob(EDLogging):
         @return: JobId
         @rtype: string
         """
-        if not self.__strXSDInput:
+        if not self.__bXmlInputSet:
             self.WARNING("Not executing job %s as input is empty" % self.__jobId)
 
         if (self.__edPlugin is not None):
@@ -209,13 +215,13 @@ class EDJob(EDLogging):
         """
         Wait for all jobs to finish.
         """
-        self.DEBUG("EDJob.synchronizeAll class method ")
+        EDVerbose.DEBUG("EDJob.synchronizeAll class method ")
         listJob = cls.__dictJobs.keys()
         for jobid in listJob:
             job = cls.__dictJobs[jobid]
             job.synchronize()
         if len(cls.__dictJobs) != len(listJob):
-            self.WARNING("EDJob.synchronizeAll: New jobs have been launched while synchronizing")
+            EDVerbose.WARNING("EDJob.synchronizeAll: New jobs have been launched while synchronizing")
 
 
     def successPluginExecution(self, _edObject=None):
@@ -388,7 +394,8 @@ class EDJob(EDLogging):
         self.synchronize()
         with self.locked():
             if self.__edPlugin is not None:
-                self.__strXSDOutput = self.__edPlugin.strPathDataOutput
+                self.__pathXSDOutput = self.__edPlugin.strPathDataOutput
+                self.__pathXSDInput = self.__edPlugin.strPathDataInput
                 self.__edPlugin = None
         gc.collect()
 
