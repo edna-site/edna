@@ -25,16 +25,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
-"""
-Tango device server launcher for EDNA server.
-"""
 
 __authors__ = [ "Matias GUIJARRO", "Jérôme Kieffer", "Cyril Guilloud" ]
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20110919"
-__satatus__ = "beta"
+__status__ = "beta"
 
 import sys, os, threading
 import PyTango
@@ -47,19 +44,23 @@ if not os.environ.has_key("EDNA_HOME"):
     if len(lPath) > 3:
         strEdnaHomePath = os.sep.join(lPath[:-3])
     else:
-        EDVerbose.ERROR("Problem in the EDNA_HOME path ... %s" % strEdnaHomePath)
+        raise RuntimeError("Problem in the EDNA_HOME path ... %s" % strEdnaHomePath)
         sys.exit()
     os.environ["EDNA_HOME"] = strEdnaHomePath
 
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
-from EDJob              import EDJob
-from EDLogging          import EDLogging
-from EDVerbose          import EDVerbose
-from EDUtilsParallel    import EDUtilsParallel
-from EDStatus           import EDStatus
+from EDJob                  import EDJob
+from EDLogging              import EDLogging
+from EDVerbose              import EDVerbose
+from EDUtilsParallel        import EDUtilsParallel
+from EDStatus               import EDStatus
+from EDFactoryPluginStatic import EDFactoryPluginStatic
 
 class EdnaDS(PyTango.Device_4Impl, EDLogging):
+    """
+    Tango device server launcher for EDNA server.
+    """
     def __init__(self, cl, name):
         EDLogging.__init__(self)
         PyTango.Device_4Impl.__init__(self, cl, name)
@@ -95,6 +96,12 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
 
     def getJobState(self, jobId):
         return EDJob.getStatusFromID(jobId) or "unknown job"
+
+    def cleanJob(self, jobId):
+        return EDJob.cleanJobFromID(jobId) or "unknown job"
+
+    def initPlugin(self, strPluginName):
+        EDFactoryPluginStatic.loadPlugin(strPluginName)
 
     def abort(self, jobId):
         pass
@@ -133,12 +140,14 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         self.DEBUG("In %s.successJobExecution(%s)" % (self.get_name(), jobId))
         with self.locked():
             self.__semaphoreNbThreads.release()
+            EDJob.cleanJobfromID(jobId)
             self.push_change_event("jobSuccess", jobId)
 
     def failureJobExecution(self, jobId):
         self.DEBUG("In %s.failureJobExecution(%s)" % (self.get_name(), jobId))
         with self.locked():
             self.__semaphoreNbThreads.release()
+            EDJob.cleanJobfromID(jobId)
             self.push_change_event("jobFailure", jobId)
 
     def getRunning(self):
@@ -181,6 +190,8 @@ class EdnaDSClass(PyTango.DeviceClass):
         'startJob': [[PyTango.DevVarStringArray, "[<EDNA plugin to execute>,<XML input>]"], [PyTango.DevString, "job id"]],
         'abort': [[PyTango.DevString, "job id"], [PyTango.DevBoolean, ""]],
         'getJobState': [[PyTango.DevString, "job id"], [PyTango.DevString, "job state"]],
+        "initPlugin": [[PyTango.DevString, "plugin name"], [PyTango.DevBoolean, ""]],
+        "cleanJob":[[PyTango.DevString, "job id"], [PyTango.DevBoolean, ""]], #Investigate whay it does not work
         }
 
 
@@ -228,8 +239,8 @@ if __name__ == '__main__':
         U.server_init()
         U.server_run()
     except PyTango.DevFailed, e:
-        EDVerbose.ERROR('PyTango --> Received a DevFailed exception:', e)
+        EDVerbose.ERROR('PyTango --> Received a DevFailed exception: %s' % e)
         sys.exit(-1)
     except Exception, e:
-        EDVerbose.ERROR('PyTango --> An unforeseen exception occurred....', e)
+        EDVerbose.ERROR('PyTango --> An unforeseen exception occurred....%s' % e)
         sys.exit(-1)

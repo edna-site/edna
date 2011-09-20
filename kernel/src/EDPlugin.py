@@ -61,7 +61,6 @@ class EDPlugin(EDAction):
         i.e. the plugins working directories has the control plugin working directory as parent.
     - defines the method that generates an executive summary (user-related output summary) that sub-classes should implement
     """
-
     CONF_BASE_DIR_LABEL = "baseDirectory"
     CONF_WORKING_DIR_LABEL = "workingDirectory"
     CONF_TIME_OUT = "timeOut"
@@ -93,6 +92,8 @@ class EDPlugin(EDAction):
         self.__bWriteDataXMLOutput = True
         self.__bWriteDataXMLInput = True
         self.__strPluginId = "%s-%08i" % (self.getClassName(), self.getId())
+        self.strPathDataInput = None
+        self.strPathDataOutput = None
 
 
     def preProcess(self, _edObject=None):
@@ -610,21 +611,17 @@ class EDPlugin(EDAction):
         Writes the input data object(s) into a working dir xml file 
         """
         self.DEBUG("EDPlugin.writeDataInput")
+        strBasename = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()))
         for strKey in self.__dictXSDataInput.keys():
-            if (strKey == self.__strDefaultInputDataKey):
-                # "Old" style
+            if (strKey == self.__strDefaultInputDataKey):                # "Old" style
                 xsDataInput = self.__dictXSDataInput[ self.__strDefaultInputDataKey ]
-                strPathDataInput = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()) + "_dataInput.xml")
-                EDUtilsFile.writeFile(strPathDataInput, xsDataInput.marshal())
-            else:
-                # We have a list of objects
+                self.strPathDataInput = strBasename + "_dataInput.xml"
+                EDUtilsFile.writeFile(self.strPathDataInput, xsDataInput.marshal())
+            else:                                                       # We have a list of objects
                 listXSDataInput = self.__dictXSDataInput[ strKey ]
-                iIndex = 0
-                for xsDataInput in listXSDataInput:
-                    strPathDataInput = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()) + "_" + strKey + "_%d_dataInput.xml" % iIndex)
+                for iIndex, xsDataInput in enumerate(listXSDataInput):
+                    strPathDataInput = "%s_%s_%d_dataInput.xml" % (strBasename, strKey, iIndex)
                     EDUtilsFile.writeFile(strPathDataInput, xsDataInput.marshal())
-                    iIndex += 1
-
 
 
     def writeDataOutput(self, _edObject=None):
@@ -633,20 +630,17 @@ class EDPlugin(EDAction):
         """
         self.DEBUG("EDPlugin.writeDataOutput")
         for strKey in self.__dictXSDataOutput.keys():
-            if (strKey == self.__strDefaultOutputDataKey):
-                # "Old" style
+            if (strKey == self.__strDefaultOutputDataKey):                # "Old" style
                 xsDataOutput = self.__dictXSDataOutput[ self.__strDefaultOutputDataKey ]
                 if (xsDataOutput is not None):
-                    strPathDataOutput = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()) + "_dataOutput.xml")
-                    EDUtilsFile.writeFile(strPathDataOutput, xsDataOutput.marshal())
+                    self.strPathDataOutput = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()) + "_dataOutput.xml")
+                    EDUtilsFile.writeFile(self.strPathDataOutput, xsDataOutput.marshal())
             else:
                 listXSDataOutput = self.__dictXSDataOutput[ strKey ]
-                iIndex = 0
-                for xsDataOutput in listXSDataOutput:
+                for iIndex, xsDataOutput in enumerate(listXSDataOutput):
                     if (xsDataOutput is not None):
                         strPathDataOutput = os.path.join(self.getWorkingDirectory(), self.compactPluginName(self.getPluginName()) + "_" + strKey + "_%d_dataOutput.xml" % iIndex)
                         EDUtilsFile.writeFile(strPathDataOutput, xsDataOutput.marshal())
-                        iIndex += 1
 
 
     def getBaseName(self):

@@ -26,9 +26,11 @@
 from __future__ import with_statement
 
 __author__ = "Jérôme Kieffer"
+__contact__ = "Jerome.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
-__date__ = "20110914"
+__date__ = "20110919"
+__status__ = "production"
 
 import os, threading
 from EDVerbose              import EDVerbose
@@ -116,6 +118,9 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
 #        self.strLogFile = self.xsdInput.getLogFile().path.value
         self.strRawImage = self.xsdInput.rawImage.path.value
         self.strNormalizedImage = self.xsdInput.normalizedImage.path.value
+        outDir = os.path.dirname(self.strNormalizedImage)
+        if not os.path.exists(outDir):
+            os.mkdir(outDir)
         self.strRawImageSize = self.xsdInput.getRawImageSize().value
         self.dictOutputHeader["DiodeCurr"] = self.experimentSetup.beamStopDiode.value
         self.dictOutputHeader["Normalization"] = self.experimentSetup.normalizationFactor.value

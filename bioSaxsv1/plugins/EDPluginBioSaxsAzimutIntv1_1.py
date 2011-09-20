@@ -109,8 +109,14 @@ class EDPluginBioSaxsAzimutIntv1_1(EDPluginControl):
         self.__edPluginSaxsGetMetadata = self.loadPlugin(self.__strControlledPluginSaxsGetMetadata)
 
         self.normalizedImage = self.dataInput.normalizedImage.path.value
-        self.integratedImage = self.dataInput.getIntegratedImage().path.value
-        self.integratedCurve = self.dataInput.getIntegratedCurve().path.value
+        self.integratedImage = self.dataInput.integratedImage.path.value
+        self.integratedCurve = self.dataInput.integratedCurve.path.value
+        curveDir = os.path.dirname(self.integratedCurve)
+        if not os.path.isdir(curveDir):
+            os.mkdir(curveDir)
+        integDir = os.path.dirname(self.integratedImage)
+        if not os.path.isdir(integDir):
+            os.mkdir(integDir)
 
 
     def process(self, _edObject=None):

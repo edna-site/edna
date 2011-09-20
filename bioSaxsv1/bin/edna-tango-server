@@ -33,4 +33,4 @@ then
 PythonProg=${EDNA_HOME}/tango/bin/tango-EdnaDS.py
 echo "Server Mode"
 cd $TestSpace
-$PYTHON -u $PythonProg DAU143 -v2
+$PYTHON  $PythonProg DAU143 -v2

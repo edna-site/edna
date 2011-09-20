@@ -37,6 +37,7 @@ from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsProcessOneFilev1_0, XSDataResultBioSaxsProcessOneFilev1_0, \
                             XSDataString, XSDataFile, XSDataImage, XSDataInteger, \
                             XSDataInputBioSaxsNormalizev1_0, XSDataInputBioSaxsAzimutIntv1_0
@@ -105,7 +106,6 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.__edPluginIntegrate.connectFAILURE(self.doFailureIntegrate)
         xsd = XSDataInputBioSaxsAzimutIntv1_0()
         xsd.normalizedImage = self.dataInput.normalizedImage
-
         xsd.normalizedImageSize = (self.rawImageSize)
         xsd.integratedImage = self.dataInput.integratedImage
         xsd.integratedCurve = self.dataInput.integratedCurve
