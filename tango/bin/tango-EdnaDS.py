@@ -244,6 +244,7 @@ if __name__ == '__main__':
     for oneArg in sys.argv[1:]:
         if oneArg.lower().find("-debug") > 0:
             EDVerbose.setVerboseOn()
+            EDVerbose.setVerboseDebugOn()
         elif oneArg.lower().find("-ncpu=") > 0:
             iNbCpu = int(oneArg.split("=")[1])
         else:
