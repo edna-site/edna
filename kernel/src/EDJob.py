@@ -105,6 +105,7 @@ class EDJob(EDLogging):
         self.__bXmlInputSet = False
         self.__status = None
         self.__name = None
+        self.__runtime = None
         self.__edPlugin = EDJob.__edFactoryPlugin.loadPlugin(self.__strPluginName)
         self.__jobId = "%s-%08i" % (self.__strPluginName, self.__edPlugin.getId())
         with self.__class__.__semaphore:
@@ -152,7 +153,7 @@ class EDJob(EDLogging):
         If the key is not provided a default key is used.
         """
         if (self.__edPlugin is not None):
-            return self.__edPlugin.getDataInput(_strDataInputKey)
+            return self.__edPlugin.getDataInput(_strDataInputKey).marshal()
         elif (self.__pathXSDInput is not None):
             return open(self.__pathXSDInput).read()
         else:
@@ -169,7 +170,7 @@ class EDJob(EDLogging):
         if _bWait: #Wait for plugin to finish befor returning data output
             self.synchronize()
         if (self.__edPlugin is not None):
-            return self.__edPlugin.getDataOutput(_strDataOutputKey)
+            return self.__edPlugin.getDataOutput(_strDataOutputKey).marshal()
         elif self.__pathXSDOutput is not None:
             return open(self.__pathXSDOutput).read()
         else:
@@ -358,9 +359,11 @@ class EDJob(EDLogging):
         @rtype: string 
         """
         if jobId in cls.__dictJobs:
-            return cls.__dictJobs[jobId].getStatus()
+            strRet = cls.__dictJobs[jobId].getStatus()
         else:
-            EDVerbose.WARNING("Unable to retrieve such EDJob: %s" % jobId)
+            strRet = "Unable to retrieve such job: %s" % jobId
+            EDVerbose.WARNING(strRet)
+        return strRet
     getStatusFromId = getStatusFromID
 
 
@@ -396,6 +399,7 @@ class EDJob(EDLogging):
             if self.__edPlugin is not None:
                 self.__pathXSDOutput = self.__edPlugin.strPathDataOutput
                 self.__pathXSDInput = self.__edPlugin.strPathDataInput
+                self.__runtime = self.__edPlugin.getRunTime()
                 self.__edPlugin = None
         gc.collect()
 
@@ -411,8 +415,11 @@ class EDJob(EDLogging):
         if jobId in cls.__dictJobs:
             job = cls.__dictJobs[jobId]
             job.cleanJob()
+            strRet = "Job %s cleaned" % jobId
         else:
-            EDVerbose.WARNING("Unable to retrieve such EDJob: %s" % jobId)
+            strRet = "Unable to retrieve such EDJob: %s" % jobId
+            EDVerbose.WARNING(strRet)
+        return strRet
     cleanJobfromID = cleanJobfromId
 
 
@@ -421,18 +428,23 @@ class EDJob(EDLogging):
         """
         Retrieve some statistics and print them
         """
+        lstStrOut = []
         output = []
         fExecTime = time.time() - cls.__fStartTime
         keys = cls.__dictJobs.keys()
         keys.sort()
         for num, key in enumerate(keys) :
             job = cls.__dictJobs[key]
-            output.append([num, key, job.getStatus(), job.getPlugin().getRunTime(), job.getMemSize()])
+            if job.getPlugin() is None:
+                runtime = job.__runtime
+            else:
+                runtime = job.getPlugin().getRunTime()
+            output.append([num, key, job.getStatus(), runtime, job.getMemSize()])
         output.sort()
         iNbJob = max(1, len(keys))
-        EDVerbose.screen("_" * 110)
-        EDVerbose.screen("%s\t|\t%s\t\t\t\t|\t%s\t|\t%s\t\t|\t%s" % ("nr", "EDPluginName-Id", "status", "runtime", "memory"))
-        EDVerbose.screen("_" * 110)
+        lstStrOut.append("_" * 110)
+        lstStrOut.append("%s\t|\t%s\t\t\t\t|\t%s\t|\t%s\t\t|\t%s" % ("nr", "EDPluginName-Id", "status", "runtime", "memory"))
+        lstStrOut.append("_" * 110)
         fWall = 0.0
         fSumProd = 0.0
         fSumX = 0.0
@@ -442,15 +454,18 @@ class EDJob(EDLogging):
             fSumX += oneJob[0]
             fSumX2 += oneJob[0] * oneJob[0]
             fSumProd += oneJob[0] * oneJob[3]
-            EDVerbose.screen("%s\t|\t%s\t|\t%s\t|\t%9.3f\t|\t%s" % tuple(oneJob))
-        EDVerbose.screen("_" * 110)
-        EDVerbose.screen("Total execution time (Wall): %.3fs, Execution time: %.3fs. SpeedUp: %.3f" % (fWall, fExecTime, fWall / fExecTime))
-        EDVerbose.screen("Average execution time (Wall/N): %.3fs, Average throughput: %.3fs" % (fWall / iNbJob, fExecTime / iNbJob))
+            lstStrOut.append("%s\t|\t%s\t|\t%s\t|\t%9.3f\t|\t%s" % tuple(oneJob))
+        lstStrOut.append("_" * 110)
+        lstStrOut.append("Total execution time (Wall): %.3fs, Execution time: %.3fs. SpeedUp: %.3f" % (fWall, fExecTime, fWall / fExecTime))
+        lstStrOut.append("Average execution time (Wall/N): %.3fs, Average throughput: %.3fs" % (fWall / iNbJob, fExecTime / iNbJob))
         if len(keys) > 1:
             fSlope = (iNbJob * fSumProd - fSumX * fWall) / (iNbJob * fSumX2 - fSumX * fSumX)
             fOrd = (fWall - fSlope * fSumX) / iNbJob
         else:
             fSlope = 0.0
             fOrd = fWall
-        EDVerbose.screen("Regression of execution time: ExecTime = %.3f + %f * NbJob" % (fOrd, fSlope))
+        lstStrOut.append("Regression of execution time: ExecTime = %.3f + %f * NbJob" % (fOrd, fSlope))
+        strOutput = os.linesep.join(lstStrOut)
+        EDVerbose.screen(strOutput)
+        return strOutput
 

@@ -67,8 +67,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         self.init_device()
         iNbThreads = EDUtilsParallel.detectNumberOfCPUs()
         EDUtilsParallel.initializeNbThread(iNbThreads)
-        self.__semaphoreNbThreads = threading.Semaphore(iNbThreads)
-
+        self.__semaphoreNbThreads = threading.Semaphore(max(1, iNbThreads - 1))
 
     def delete_device(self):
         EDVerbose.DEBUG("[Device delete_device method] for device %s" % self.get_name())
@@ -95,13 +94,17 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         attr.set_value("")
 
     def getJobState(self, jobId):
-        return EDJob.getStatusFromID(jobId) or "unknown job"
+        return EDJob.getStatusFromID(jobId)
 
     def cleanJob(self, jobId):
-        return EDJob.cleanJobFromID(jobId) or "unknown job"
+        return EDJob.cleanJobFromID(jobId)
 
     def initPlugin(self, strPluginName):
-        EDFactoryPluginStatic.loadPlugin(strPluginName)
+        plugin = EDFactoryPluginStatic.loadPlugin(strPluginName)
+        if plugin is None:
+            return "Plugin not found: %s" % strPluginName
+        else:
+            return "Plugin loaded: %s" % strPluginName
 
     def abort(self, jobId):
         pass
@@ -156,19 +159,24 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         """
         return EDStatus.getRunning()
 
-
     def getSuccess(self):
         """
         retrieve the list of plugins finished with success (with their plugin-Id)
         """
         return EDStatus.getSuccess()
 
-
     def getFailure(self):
         """
         retrieve the list of plugins finished with failure (with their plugin-Id)
         """
         return EDStatus.getFailure()
+
+    def statistics(self):
+        """
+        Retrieve some statistics on all EDNA-Jobs
+        @return: a page of information about EDNA-jobs
+        """
+        return EDJob.stats()
 
 
 class EdnaDSClass(PyTango.DeviceClass):
@@ -190,8 +198,9 @@ class EdnaDSClass(PyTango.DeviceClass):
         'startJob': [[PyTango.DevVarStringArray, "[<EDNA plugin to execute>,<XML input>]"], [PyTango.DevString, "job id"]],
         'abort': [[PyTango.DevString, "job id"], [PyTango.DevBoolean, ""]],
         'getJobState': [[PyTango.DevString, "job id"], [PyTango.DevString, "job state"]],
-        "initPlugin": [[PyTango.DevString, "plugin name"], [PyTango.DevBoolean, ""]],
-        "cleanJob":[[PyTango.DevString, "job id"], [PyTango.DevBoolean, ""]], #Investigate whay it does not work
+        "initPlugin": [[PyTango.DevString, "plugin name"], [PyTango.DevString, "Message"]],
+        "cleanJob":[[PyTango.DevString, "job id"], [PyTango.DevString, "Message"]],
+        "statistics":[[PyTango.DevVoid, "nothing needed"], [PyTango.DevString, "Reports some statistics about jobs within EDNA"]],
         }
 
 

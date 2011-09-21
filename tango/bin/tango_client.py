@@ -11,7 +11,7 @@ __date__ = "20110920"
 __status__ = "beta"
 __doc__ = """Usage: 
 
-$ tango_client -xml=xml_file.xml  -d=DAU/edna/1 -p=EDPluginName *.edf
+$ tango_client -xml=xml_file.xml  -device=DAU/edna/1 -plugin=EDPluginName -delay=0.1 *.edf
 
 
 """
@@ -40,6 +40,7 @@ device = None
 xml = None
 filenames = []
 plugin = None
+delay = 0
 if len(sys.argv) == 1:
         print __doc__
         sys.exit(1)
@@ -48,14 +49,16 @@ for arg in sys.argv[1:]:
     if arg.find("-h") in [0, 1]:
         print __doc__
         sys.exit(1)
-    elif arg.find("-d=") in [0, 1]:
+    elif arg.find("-device=") in [0, 1]:
         device = arg.split("=", 1)[1]
-    elif arg.find("-p=") in [0, 1]:
+    elif arg.find("-plugin=") in [0, 1]:
         plugin = arg.split("=", 1)[1]
     elif arg.find("-xml=") in [0, 1]:
         xmlfile = arg.split("=", 1)[1]
         if os.path.isfile(xmlfile):
             xml = open(xmlfile).read()
+    elif arg.find("-delay=") in [0, 1]:
+        delay = float(arg.split("=", 1)[1])
     elif os.path.isfile(arg):
         filenames.append(os.path.abspath(arg))
 
@@ -63,15 +66,28 @@ edna = PyTango.DeviceProxy(device)
 
 edna.initPlugin(plugin)
 t0 = time.time()
-t1 = t0
+totaltime = 0.0
+listjobs = []
 if filenames:
     for fn in filenames:
         dirname, filename = os.path.split(fn)
         basename, ext = os.path.splitext(filename)
         myXML = xml.replace("${FULLNAME}", fn).replace("${FILENAME}", filename).replace("${DIRNAME}", dirname).replace("${BASENAME}", basename).replace("${EXT}", ext)
-        pid = edna.startJob([plugin, myXML])
-        print "%s | Total:\t%.3f\tLast:\t%.3f" % (pid, time.time() - t0, time.time() - t1)
         t1 = time.time()
+        pid = edna.startJob([plugin, myXML])
+        deltat = time.time() - t1
+        totaltime += deltat
+        listjobs.append(pid)
+        print "%s | Total Time:\t%.3fs /Tango %.3fs\tLast Tango:\t%.3f" % (pid, time.time() - t0, totaltime, deltat)
+        time.sleep(delay)
 else:
     pid = edna.startJob([plugin, xml])
-        print "%s | Total:\t%.3f\tLast:\t%.3f" % (pid, time.time() - t0, time.time() - t1)
+    print "%s | Tango time: %.3fs" % (pid, time.time() - t0)
+    listjobs.append(pid)
+
+#for job in listjobs:
+#    print edna.getJobState(job)
+
+print edna.statistics()
+
+
