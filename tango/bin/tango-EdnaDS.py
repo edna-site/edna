@@ -35,7 +35,10 @@ __status__ = "beta"
 
 import sys, os, threading
 import PyTango
-
+if sys.version > (3, 0):
+    from queue import Queue
+else:
+    from Queue import Queue
 # Append the EDNA kernel source directory to the python path
 
 if not os.environ.has_key("EDNA_HOME"):
@@ -55,7 +58,8 @@ from EDLogging              import EDLogging
 from EDVerbose              import EDVerbose
 from EDUtilsParallel        import EDUtilsParallel
 from EDStatus               import EDStatus
-from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDFactoryPluginStatic  import EDFactoryPluginStatic
+
 
 class EdnaDS(PyTango.Device_4Impl, EDLogging):
     """
@@ -65,9 +69,13 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         EDLogging.__init__(self)
         PyTango.Device_4Impl.__init__(self, cl, name)
         self.init_device()
-        iNbThreads = EDUtilsParallel.detectNumberOfCPUs()
-        EDUtilsParallel.initializeNbThread(iNbThreads)
-        self.__semaphoreNbThreads = threading.Semaphore(max(1, iNbThreads - 1))
+        if isinstance(iNbCpu, int):
+            self.screen("Initializing tangoDS with max %i jobs in parallel." % iNbCpu)
+            self.__semaphoreNbThreads = threading.Semaphore(iNbCpu)
+        else:
+            self.__semaphoreNbThreads = threading.Semaphore(EDUtilsParallel.detectNumberOfCPUs())
+        self.jobQueue = Queue()
+        self.processingSem = threading.Semaphore()
 
     def delete_device(self):
         EDVerbose.DEBUG("[Device delete_device method] for device %s" % self.get_name())
@@ -120,24 +128,29 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         @return: jobID which is a sting: Plugin-000001
         """
         self.DEBUG("In %s.startJob()" % self.get_name())
-        edJob = EDJob(argin[0])
+        name, xsd = argin[:2]
+        if xsd.strip() == "":
+            return
+        edJob = EDJob(name)
         jobId = edJob.getJobId()
-        myThread = threading.Thread(target=self.startThread, name=jobId, args=[edJob, argin[1]])
-        myThread.start()
+        edJob.setDataInput(xsd)
+        self.jobQueue.put_nowait(edJob)
+        if self.processingSem._Semaphore__value > 0 :
+            t = threading.Thread(target=self.startProcessing)
+            t.start()
         return jobId
 
-    def startThread(self, edJob, strXmlInput):
+    def startProcessing(self):
         """
-        Thread launching the job itself.
-        @param edJob: EDJob instance 
-        @param strXmlInput: "<xml/><XSDataInputPluginName>...."
-        @return: None
+        Process all jobs in the queue.  
         """
-        self.__semaphoreNbThreads.acquire()
-        edJob.setDataInput(strXmlInput)
-        edJob.connectSUCCESS(self.successJobExecution)
-        edJob.connectFAILURE(self.failureJobExecution)
-        edJob.execute()
+        with self.processingSem:
+            while not self.jobQueue.empty():
+                self.__semaphoreNbThreads.acquire()
+                edJob = self.jobQueue.get()
+                edJob.connectSUCCESS(self.successJobExecution)
+                edJob.connectFAILURE(self.failureJobExecution)
+                edJob.execute()
 
     def successJobExecution(self, jobId):
         self.DEBUG("In %s.successJobExecution(%s)" % (self.get_name(), jobId))
@@ -233,18 +246,12 @@ if __name__ == '__main__':
             iNbCpu = int(oneArg.split("=")[1])
         else:
            ltangoParam.append(oneArg)
-    EDUtilsParallel.initializeNbThread(iNbCpu)
+    EDUtilsParallel.initializeNbThread()
     try:
         print ltangoParam
         py = PyTango.Util(ltangoParam)
         py.add_TgClass(EdnaDSClass, EdnaDS, 'EdnaDS')
         U = py.instance() #PyTango.Util.instance()
-#        for x in dir(U):
-#          try:
-#            xx = getattr(U, x)
-#            EDVerbose.screen( x, xx()
-#          except:
-#            continue
         U.server_init()
         U.server_run()
     except PyTango.DevFailed, e:

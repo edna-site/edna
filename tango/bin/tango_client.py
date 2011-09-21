@@ -85,6 +85,8 @@ else:
     print "%s | Tango time: %.3fs" % (pid, time.time() - t0)
     listjobs.append(pid)
 
+while edna.getJobState(listjobs[-1]) not in ["success", "failure"]:
+    time.sleep(1)
 #for job in listjobs:
 #    print edna.getJobState(job)
 
