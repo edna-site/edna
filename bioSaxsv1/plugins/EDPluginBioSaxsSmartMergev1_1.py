@@ -38,7 +38,7 @@ EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
 EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataCommon       import XSDataString, XSDataStatus, XSDataFile, XSDataTime, XSDataInteger
-from XSDataBioSaxsv1_0  import XSDataInputBioSaxsSmartMergev1_0
+from XSDataBioSaxsv1_0  import XSDataInputBioSaxsSmartMergev1_0, XSDataResultBioSaxsSmartMergev1_0
 from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver, XSDataInputAutoRg
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 
