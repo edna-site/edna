@@ -348,9 +348,9 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
         if (xsDataStringStrategyOption is not None):
             strStrategyOption = xsDataStringStrategyOption.getValue()
-            if (strStrategyOption == "-DamPar"):
+            if (strStrategyOption.find("-DamPar") != -1 ):
                 xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
-            elif (strStrategyOption == "-Bonly"):
+            elif (strStrategyOption.find("-Bonly") != -1 ):
                 xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
             else:
                 xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
