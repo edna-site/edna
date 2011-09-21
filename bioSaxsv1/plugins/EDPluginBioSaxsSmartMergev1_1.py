@@ -249,7 +249,10 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         xsdOut = _edPlugin.dataOutput
         if len(xsdOut.autoRgOut) > 0:
             res = _edPlugin.dataOutput.autoRgOut[0]
-            self.lstSummary.append("AutoRg: Rg   =   %.4f +/- %.2f ( %.1f%%)" % (res.rg.value, res.rgStdev.value, 100. * res.rgStdev.value / res.rg.value))
+            if res.rg.value < 1e-6:
+                self.lstSummary.append("AutoRg: Rg   =   %.4f +/- %.2f ( #####%)" % (res.rg.value, res.rgStdev.value))
+            else:
+                self.lstSummary.append("AutoRg: Rg   =   %.4f +/- %.2f ( %.1f%%)" % (res.rg.value, res.rgStdev.value, 100. * res.rgStdev.value / res.rg.value))
             self.lstSummary.append("AutoRg: I(0) =   %.2f +/- %.4f" % (res.i0.value, res.i0Stdev.value))
             self.lstSummary.append("AutoRg: Points   %i to %i ( %i total)" % (res.firstPointUsed.value, res.lastPointUsed.value , 1 + res.lastPointUsed.value - res.firstPointUsed.value))
             self.lstSummary.append("AutoRg: Quality: %.1f%%" % (res.quality.value * 100.0))
