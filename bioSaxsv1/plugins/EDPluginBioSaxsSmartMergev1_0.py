@@ -32,11 +32,12 @@ __date__ = "20110914"
 import os, shutil
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
-from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
-from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
+EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataCommon       import XSDataString, XSDataStatus, XSDataFile, XSDataTime, XSDataInteger
+from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
+from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
 from XSDataEdnaSaxs     import XSDataInputDatcmp
 from XSDataEdnaSaxs     import XSDataInputDataver
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile

@@ -132,6 +132,8 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         if xsd.strip() == "":
             return
         edJob = EDJob(name)
+        if edJob is None:
+            return "Error in load Plugin"
         jobId = edJob.getJobId()
         edJob.setDataInput(xsd)
         self.jobQueue.put_nowait(edJob)
