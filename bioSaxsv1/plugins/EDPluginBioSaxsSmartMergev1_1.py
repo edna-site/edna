@@ -29,7 +29,7 @@ __contact__ = "Jerome.kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
 __date__ = "20110921"
-__status__ = "production"
+__status__ = "Development"
 
 import os, shutil
 from EDPluginControl import EDPluginControl
@@ -41,19 +41,21 @@ from XSDataCommon       import XSDataString, XSDataStatus, XSDataFile, XSDataTim
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
 from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
 from XSDataEdnaSaxs     import XSDataInputDatcmp
-from XSDataEdnaSaxs     import XSDataInputDataver
+from XSDataEdnaSaxs     import XSDataInputDataver, XSDataInputAutoRg
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 
 
-class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
+class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
     """
     This plugin takes a set of input data files (1D SAXS) measure
     their differences (versus previous and versus first) and merge those which are equivalent
+    v1.1 adds information from AutoRg
     
     Controled plugins:
      - Execplugins/WaitMultifile
      - EdnaSaxs/Atsas/DatCmp
      - EdnaSaxs/Atsas/DatAver
+     - EdnaSaxs/Atsas/AutoRg
     """
 
 
@@ -64,9 +66,11 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.__strControlledPluginDataver = "EDPluginExecDataverv1_0"
         self.__strControlledPluginDatcmp = "EDPluginExecDatcmpv1_0"
         self.__strControlledPluginWaitFile = "EDPluginWaitMultiFile"
+        self.__strControlledPluginAutoRG = "EDPluginExecAutoRgv1_0"
         self.__edPluginExecDatcmp = None
         self.__edPluginExecDataver = None
         self.__edPluginExecWaitFile = None
+        self.__edPluginExecAutoRg = None
         self.setXSDataInputClass(XSDataInputBioSaxsSmartMergev1_0)
         self.__edPluginExecDatCmp = None
         self.lstInput = []
@@ -165,6 +169,15 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
             self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
             self.__edPluginExecDataver.executeSynchronous()
 
+            if self.isFailure():
+                retrun
+            self.__edPluginExecAutoRg = self.loadPlugin(self.__strControlledPluginAutoRG)
+            xsd = XSDataInputAutoRg(inputCurve=[self.dataInput.mergedCurve])
+            self.__edPluginExecAutoRg.setDataInput(xsd)
+            self.__edPluginExecAutoRg.connectSUCCESS(self.doSuccessExecAutoRg)
+            self.__edPluginExecAutoRg.connectFAILURE(self.doFailureExecAutoRg)
+            self.__edPluginExecAutoRg.executeSynchronous()
+
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
@@ -201,7 +214,6 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecDataver")
 
 
-
     def doFailureExecDataver(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecDataver")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doFailureExecDataver")
@@ -226,5 +238,25 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
     def doFailureExecDatcmp(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecDatcmp")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doFailureExecDatcmp")
+        self.setFailure()
+
+
+    def doSuccessExecAutoRg(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doSuccessExecAutoRg")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecAutoRg")
+        xsdOut = _edPlugin.dataOutput
+        if len(xsdOut.autoRgOut) > 0:
+            res = _edPlugin.dataOutput.autoRgOut[0]
+            self.lstSummary.append("AutoRg: Rg   =   %.4f +/- %.2f ( %.1f%%)" % (res.rg.value, res.rgStdev.value, 100. * res.rgStdev.value / res.rg.value))
+            self.lstSummary.append("AutoRg: I(0) =   %.2f +/- %.4f" % (res.i0.value, res.i0Stdev.value))
+            self.lstSummary.append("AutoRg: Points   %i to %i ( %i total)" % (res.firstPointUsed.value, res.lastPointUsed.value , 1 + res.lastPointUsed.value - res.firstPointUsed.value))
+            self.lstSummary.append("AutoRg: Quality: %.1f%%" % (res.quality.value * 100.0))
+            self.autoRg = res
+
+    def doFailureExecAutoRg(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doFailureExecAutoRg")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doFailureExecAutoRg")
+        strErr = "Error in Processing of Atsas 'AutoRg'"
+        self.ERROR(strErr)
         self.setFailure()
 

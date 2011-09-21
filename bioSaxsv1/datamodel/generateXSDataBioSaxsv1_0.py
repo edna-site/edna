@@ -49,7 +49,7 @@ xsdHomeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
 cmdLine = ["java", "-jar"]
 cmdLine.append(os.path.join(EDNA_HOME, "kernel", "datamodel", "EDGenerateDS.jar"))
 cmdLine.append("-includepaths")
-cmdLine.append(os.path.join(EDNA_HOME, "kernel", "datamodel"))
+cmdLine.append(",".join((os.path.join(EDNA_HOME, "kernel", "datamodel"),os.path.join(EDNA_HOME, "ednaSaxs", "datamodel"))))
 cmdLine.append("-sourceDir")
 cmdLine.append(xsdHomeDir)
 cmdLine.append("-sourceFile")

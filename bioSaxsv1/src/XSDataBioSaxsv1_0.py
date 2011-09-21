@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Sep 14 02:02::42 2011 by EDGenerateDS.
+# Generated Wed Sep 21 05:43::30 2011 by EDGenerateDS.
 #
 
 import sys
@@ -16,6 +16,7 @@ from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
+from XSDataEdnaSaxs import XSDataAutoRg
 from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataWavelength
@@ -2650,10 +2651,12 @@ class XSDataResultBioSaxsSingleSamplev1_0(XSDataResult):
 # end class XSDataResultBioSaxsSingleSamplev1_0
 
 class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
-	def __init__(self, status=None, mergedCurve=None):
+	def __init__(self, status=None, autoRg=None, mergedCurve=None):
 		XSDataResult.__init__(self, status)
 		checkType("XSDataResultBioSaxsSmartMergev1_0", "Constructor of XSDataResultBioSaxsSmartMergev1_0", mergedCurve, "XSDataFile")
 		self.__mergedCurve = mergedCurve
+		checkType("XSDataResultBioSaxsSmartMergev1_0", "Constructor of XSDataResultBioSaxsSmartMergev1_0", autoRg, "XSDataAutoRg")
+		self.__autoRg = autoRg
 	def getMergedCurve(self): return self.__mergedCurve
 	def setMergedCurve(self, mergedCurve):
 		checkType("XSDataResultBioSaxsSmartMergev1_0", "setMergedCurve", mergedCurve, "XSDataFile")
@@ -2661,6 +2664,13 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 	def delMergedCurve(self): self.__mergedCurve = None
 	# Properties
 	mergedCurve = property(getMergedCurve, setMergedCurve, delMergedCurve, "Property for mergedCurve")
+	def getAutoRg(self): return self.__autoRg
+	def setAutoRg(self, autoRg):
+		checkType("XSDataResultBioSaxsSmartMergev1_0", "setAutoRg", autoRg, "XSDataAutoRg")
+		self.__autoRg = autoRg
+	def delAutoRg(self): self.__autoRg = None
+	# Properties
+	autoRg = property(getAutoRg, setAutoRg, delAutoRg, "Property for autoRg")
 	def export(self, outfile, level, name_='XSDataResultBioSaxsSmartMergev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2673,6 +2683,8 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 			self.mergedCurve.export(outfile, level, name_='mergedCurve')
 		else:
 			warnEmptyAttribute("mergedCurve", "XSDataFile")
+		if self.__autoRg is not None:
+			self.autoRg.export(outfile, level, name_='autoRg')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -2683,6 +2695,11 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 			obj_ = XSDataFile()
 			obj_.build(child_)
 			self.setMergedCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoRg':
+			obj_ = XSDataAutoRg()
+			obj_.build(child_)
+			self.setAutoRg(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

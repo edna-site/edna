@@ -91,6 +91,7 @@ complex type XSDataAutoRg extends XSData{
 	quality: XSDataDouble "from 0 to 1"
 	isagregated: XSDataBoolean
 }
+
 complex type XSDataResultAutoRg extends XSDataResult{
 	autoRgOut: XSDataAutoRg[]
 }
