@@ -34,14 +34,13 @@ __status__ = "Development"
 import os, shutil
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
-EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
+EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataCommon       import XSDataString, XSDataStatus, XSDataFile, XSDataTime, XSDataInteger
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
 from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
-from XSDataEdnaSaxs     import XSDataInputDatcmp
-from XSDataEdnaSaxs     import XSDataInputDataver, XSDataInputAutoRg
+from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver, XSDataInputAutoRg
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 
 
