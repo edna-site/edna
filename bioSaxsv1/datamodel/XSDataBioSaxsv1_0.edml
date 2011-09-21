@@ -190,6 +190,7 @@ complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
 	inputCurves: XSDataFile []
 	absoluteFidelity: XSDataDouble optional 
 	relativeFidelity: XSDataDouble optional
+	sample: XSDataBioSaxsSample optional
 	mergedCurve: XSDataFile
 }
 

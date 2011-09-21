@@ -39,7 +39,7 @@ EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataCommon       import XSDataString, XSDataStatus, XSDataFile, XSDataTime, XSDataInteger
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsSmartMergev1_0
-from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver, XSDataInputAutoRg, XSDataSample
+from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver, XSDataInputAutoRg
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 
 
@@ -78,7 +78,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         self.dictSimilarities = {} #key: 2-tuple of images, similarities
         self.lstSummary = []
         self.lstStrInput = []
-        self.sample = XSDataSample()
+#        self.sample = XSDataSample()
         self.autoRg = None
 
     def checkParameters(self):
@@ -102,10 +102,6 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         self.lstInput = self.dataInput.inputCurves
         self.lstStrInput = [i.path.value for i in self.lstInput]
         self.__edPluginExecWaitFile = self.loadPlugin(self.__strControlledPluginWaitFile)
-        if self.dataInput.sample is not None:
-            self.sample = self.dataInput.sample
-            if not isinstance(self.sample, XSDataSample):
-                sample = XSDataSample(code=self.sample.code, comment=self.sample.comment)
 
 
     def process(self, _edObject=None):
@@ -176,8 +172,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
             if self.isFailure():
                 retrun
             self.__edPluginExecAutoRg = self.loadPlugin(self.__strControlledPluginAutoRG)
-            xsd = XSDataInputAutoRg(inputCurve=[self.dataInput.mergedCurve],
-                                    sample=self.sample)
+            xsd = XSDataInputAutoRg(inputCurve=[self.dataInput.mergedCurve])
             self.__edPluginExecAutoRg.setDataInput(xsd)
             self.__edPluginExecAutoRg.connectSUCCESS(self.doSuccessExecAutoRg)
             self.__edPluginExecAutoRg.connectFAILURE(self.doFailureExecAutoRg)

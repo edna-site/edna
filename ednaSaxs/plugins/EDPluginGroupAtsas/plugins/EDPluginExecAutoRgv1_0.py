@@ -56,7 +56,7 @@ class EDPluginExecAutoRgv1_0(EDPluginExecProcessScript):
         """
         self.DEBUG("EDPluginExecProcessScriptAutoRgv1_0.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
-        self.checkMandatoryParameters(self.dataInput.sample, "No sample provided")
+#        self.checkMandatoryParameters(self.dataInput.sample, "No sample provided")
         self.checkMandatoryParameters(self.dataInput.inputCurve, "No input curve  provided ")
 
 

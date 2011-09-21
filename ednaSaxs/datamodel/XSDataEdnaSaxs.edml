@@ -72,7 +72,7 @@ complex type XSDataResultDatop extends XSDataResult {
 }
 
 complex type XSDataInputAutoRg extends XSDataInput{
-	sample: XSDataSaxsSample
+	sample: XSDataSaxsSample optional
 //	runs: XSDataSaxsSeries[]
 	inputCurve: XSDataFile[]
 	minIntervalLength: XSDataInteger optional
