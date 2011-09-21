@@ -78,10 +78,10 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         self.processingSem = threading.Semaphore()
 
     def delete_device(self):
-        EDVerbose.DEBUG("[Device delete_device method] for device %s" % self.get_name())
+        self.DEBUG("[Device delete_device method] for device %s" % self.get_name())
 
     def init_device(self):
-        EDVerbose.DEBUG("In %s.init_device()" % self.get_name())
+        self.DEBUG("In %s.init_device()" % self.get_name())
 
         self.set_state(PyTango.DevState.ON)
         self.get_device_properties(self.get_device_class())
@@ -92,10 +92,10 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         pass
 
     def read_attr_hardware(self, data):
-        EDVerbose.DEBUG("In %s.read_attr_hardware()" % self.get_name())
+        self.DEBUG("In %s.read_attr_hardware()" % self.get_name())
 
     def read_jobSuccess(self, attr):
-        EDVerbose.DEBUG("In %s.read_jobSuccess()" % self.get_name())
+        self.DEBUG("In %s.read_jobSuccess()" % self.get_name())
         attr.set_value("")
 
     def read_jobFailure(self, attr):
@@ -118,8 +118,8 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         pass
 
     def quitEdna(self):
-        EDVerbose.DEBUG("In %s.quitEdna()" % self.get_name())
-        EDVerbose.screen("Quitting tango-EdnaDS")
+        self.DEBUG("In %s.quitEdna()" % self.get_name())
+        self.screen("Quitting tango-EdnaDS")
         sys.exit()
 
     def startJob(self, argin):
