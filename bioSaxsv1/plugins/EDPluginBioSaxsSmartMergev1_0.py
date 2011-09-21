@@ -111,14 +111,11 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.__edPluginExecWaitFile.executeSynchronous()
         if self.isFailure():
             return
-
         if len(self.lstInput) == 1:
             shutil.copyfile(self.lstInput[0].path.value, self.dataInput.mergedCurve.path.value)
         else:
             lstFile = []
-            if (self.absoluteFidelity is None) and (self.relativeFidelity is None):
-                lstFile = self.lstInput
-            else:
+            if (self.absoluteFidelity is not None) or  (self.relativeFidelity is not None):
                 if self.absoluteFidelity is not None :
                     for oneFile in self.lstInput[1:]:
                         edPluginExecAbsoluteFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
@@ -140,7 +137,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
             for idx, oneFile in enumerate(self.lstInput):
                 if idx == 0:
                     lstFile.append(oneFile)
-                elif (self.absoluteFidelity is not None) and (self.absoluteFidelity is not None):
+                elif (self.absoluteFidelity is not None) and (self.relativeFidelity is not None):
                     if (self.dictSimilarities[(0, idx)] >= self.absoluteFidelity) and (self.dictSimilarities[(idx - 1, idx)] >= self.relativeFidelity):
                         lstFile.append(oneFile)
                     else:
