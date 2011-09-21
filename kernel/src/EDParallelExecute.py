@@ -24,8 +24,8 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-
-"""
+from __future__ import with_statement
+__doc__ = """
 This is an example on how to make a multi-threaded application processing all 
 files in a set of directories, either online of offline, using an existing plugin.
 
@@ -35,11 +35,11 @@ This is done in 3 steps:
 with the datamodel (XSDataInput) of the plugin. Input and output path can be managed there 
 as well as options for the plugin.   
    
-2. Instenciate EDParallelExecute with the name of the plugin and the name of the function
+2. Instanciate EDParallelExecute with the name of the plugin and the name of the function
 
 3. Call the runEDNA method with the name of the directories and on/offline parameters 
   
-4 (optional) Call the cleanUp method for finishing some taskes
+4 (optional) Call the cleanUp method for finishing some tasks
    
 """
 
@@ -47,6 +47,8 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__status__ = "production"
+__date__ = "20110921"
 
 import os, sys, tempfile, signal, time, threading
 
@@ -64,11 +66,11 @@ if not os.environ.has_key("EDNA_HOME"):
 
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
-from EDObject           import EDObject
-from EDVerbose          import EDVerbose
-from EDUtilsParallel    import EDUtilsParallel
-from EDJob              import EDJob
-from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDLogging              import EDLogging
+from EDVerbose              import EDVerbose
+from EDUtilsParallel        import EDUtilsParallel
+from EDJob                  import EDJob
+from EDFactoryPluginStatic  import EDFactoryPluginStatic
 
 
 #As an example, you can define the plugin name here
@@ -141,7 +143,7 @@ def fnXMLerrExample(_strXMLin):
 
 
 
-class EDParallelExecute(EDObject):
+class EDParallelExecute(EDLogging):
     """ 
     A class helping to make a multi-threaded application from a plugin name and a list of files. 
     """
@@ -176,7 +178,7 @@ class EDParallelExecute(EDObject):
         @param _bDebug:  Do you want EDNA plugin execution debug output (OBS! very verbose) ?
         @type  _bDebug: boolean
         """
-        EDObject.__init__(self)
+        EDLogging.__init__(self)
         self.__iNbThreads = EDUtilsParallel.detectNumberOfCPUs(_iNbThreads)
         EDUtilsParallel.initializeNbThread(self.__iNbThreads)
 ################################################################################
@@ -193,14 +195,14 @@ class EDParallelExecute(EDObject):
         self.__dictCurrentlyRunning = {}
         if _bVerbose is not None:
             if _bVerbose:
-                EDVerbose.setVerboseDebugOn()
+                self.setVerboseDebugOn()
             else:
-                EDVerbose.setVerboseOff()
+                self.setVerboseOff()
         if _bDebug is not None:
             if _bDebug:
-                EDVerbose.setVerboseDebugOn()
+                self.setVerboseDebugOn()
             else:
-                EDVerbose.setVerboseDebugOff()
+                self.setVerboseDebugOff()
         self.__fDelay = _fDelay #default delay between two directory checks.
         self.__bQuit = False    # To check if we should quit the application
         self.__bIsFirstExecute = True
@@ -239,7 +241,7 @@ class EDParallelExecute(EDObject):
         """
         self.__strCurrWorkDir = os.getcwd()
         self.__strTempDir = tempfile.mkdtemp(suffix='.log', prefix='edna-')
-        EDVerbose.screen("The log directory of EDNA will be in " + self.__strTempDir)
+        self.screen("The log directory of EDNA will be in " + self.__strTempDir)
         os.chdir(self.__strTempDir)
 
 
@@ -258,7 +260,7 @@ class EDParallelExecute(EDObject):
             job.connectCallBack(self.unregisterJob)
             self.semaphoreNbThreadsAcquire()
             jobid = job.execute()
-            EDVerbose.DEBUG("Running Job id %s" % jobid)
+            self.DEBUG("Running Job id %s" % jobid)
             if jobid is None:
                 self.semaphoreNbThreadsRelease()
         return jobid
@@ -270,13 +272,12 @@ class EDParallelExecute(EDObject):
 
         @param  _jobId: string of type EDPluginName-number 
         """
-        EDVerbose.DEBUG("EDParallelExcecute.successJobExecution for %s" % _jobId)
+        self.DEBUG("EDParallelExcecute.successJobExecution for %s" % _jobId)
         self.semaphoreNbThreadsRelease()
-        self.synchronizeOn()
-        if self.__functXMLout is not None:
-            job = EDJob.getJobFromID(_jobId)
-            self.__functXMLout(job.getPlugin().getDataInput().marshal(), job.getPlugin().getDataOutput().marshal())
-        self.synchronizeOff()
+        with self.locked():
+            if self.__functXMLout is not None:
+                job = EDJob.getJobFromID(_jobId)
+                self.__functXMLout(job.getPlugin().getDataInput(), job.getPlugin().getDataOutput())
 
 
     def failureJobExecution(self, _jobId):
@@ -285,12 +286,11 @@ class EDParallelExecute(EDObject):
         
         @param  _jobId: string of type EDPluginName-number
         """
-        EDVerbose.DEBUG("EDParallelExcecute.failureJobExecution for %s" % _jobId)
+        self.DEBUG("EDParallelExcecute.failureJobExecution for %s" % _jobId)
         self.semaphoreNbThreadsRelease()
-        self.synchronizeOn()
-        if self.__functXMLerr is not None:
-            self.__functXMLerr(EDJob.getJobFromID(_jobId).getPlugin().getDataInput().marshal())
-        self.synchronizeOff()
+        with self.locked():
+            if self.__functXMLerr is not None:
+                self.__functXMLerr(EDJob.getJobFromID(_jobId).getPlugin().getDataInput())
 
 
     def unregisterJob(self, _jobid):
@@ -299,11 +299,10 @@ class EDParallelExecute(EDObject):
 
         @param  _jobId: string of type EDPluginName-number          
         """
-        self.synchronizeOn()
-        for oneKey in self.__dictCurrentlyRunning.copy().iterkeys():
-            if self.__dictCurrentlyRunning[oneKey] == _jobid:
-                self.__dictCurrentlyRunning.pop(oneKey)
-        self.synchronizeOff()
+        with self.locked():
+            for oneKey in self.__dictCurrentlyRunning.copy().iterkeys():
+                if self.__dictCurrentlyRunning[oneKey] == _jobid:
+                    self.__dictCurrentlyRunning.pop(oneKey)
 
 
     def runEdnaFunction(self, _listNewFiles, _bIncludeSubdirs=False):
@@ -338,24 +337,21 @@ class EDParallelExecute(EDObject):
         @type _strFilename: string
         """
         if _strFilename not in self.__dictCurrentlyRunning:
-            self.synchronizeOn()
-            self.__dictCurrentlyRunning[_strFilename] = self.__strPluginName
-            self.synchronizeOff()
+            with self.locked():
+                self.__dictCurrentlyRunning[_strFilename] = self.__strPluginName
             strXmlData = self.__functXMLin(_strFilename)
             if strXmlData in [None, ""]:
-                EDVerbose.screen ("No processing % s" % _strFilename)
-                self.synchronizeOn()
-                self.__dictCurrentlyRunning.pop(_strFilename)
-                self.synchronizeOff()
-            else:
-                EDVerbose.screen ("Processing % s" % _strFilename)
-                jobid = self.start(strXmlData)
-                self.synchronizeOn()
-                if jobid is None:
+                self.log("Not processing % s" % _strFilename)
+                with self.locked():
                     self.__dictCurrentlyRunning.pop(_strFilename)
-                else:
-                    self.__dictCurrentlyRunning[_strFilename] = jobid
-                self.synchronizeOff()
+            else:
+                self.screen("Processing % s" % _strFilename)
+                jobid = self.start(strXmlData)
+                with self.locked():
+                    if jobid is None:
+                        self.__dictCurrentlyRunning.pop(_strFilename)
+                    else:
+                        self.__dictCurrentlyRunning[_strFilename] = jobid
 
     def watch_directories (self, _bNewerOnly=False):
         """
@@ -466,7 +462,7 @@ class EDParallelExecute(EDObject):
         if (xml is None) or (xml == ""):
             bFinished = True
         else:
-            EDVerbose.screen ("Flushing data ...")
+            self.screen ("Flushing data ...")
             self.start(xml)
 
 
@@ -474,7 +470,7 @@ class EDParallelExecute(EDObject):
         """
         as it names says, this method waits for all plug-ins which are currently running to finish before returning.
         """
-        EDVerbose.screen("Waiting for launched jobs to finish .")
+        self.screen("Waiting for launched jobs to finish .")
         while (self.getNbRunning() > 0):
             time.sleep(1)
             sys.stderr.write(".")

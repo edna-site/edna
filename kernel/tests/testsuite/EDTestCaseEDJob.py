@@ -75,7 +75,7 @@ class EDTestCaseEDJob(EDTestCase):
         EDVerbose.DEBUG("EDTestCaseEDJob.unitTestSetGetData")
         edJob = EDJob(self.strPluginName)
         edJob.setDataInput(self.strXmlInput)
-        EDAssert.equal(self.strXmlInput, edJob.getDataInput().marshal().strip(), "Data Input is correctly set")
+        EDAssert.equal(self.strXmlInput, edJob.getDataInput().strip(), "Data Input is correctly set")
         EDAssert.equal("uninitialized", edJob.getStatus(), "Job %s is still ''uninitialized''" % edJob.getJobId())
 
     def unitTestExecute(self):
@@ -101,7 +101,7 @@ class EDTestCaseEDJob(EDTestCase):
             EDVerbose.WARNING("No Output data, still waiting for output data to arrive, %s" % edJob.getStatus())
             time.sleep(0.01)
             xsdOut = edJob.getDataOutput()
-        strOutput = xsdOut.marshal().strip()
+        strOutput = xsdOut.strip()
         strStatus = edJob.getStatus()
         while strStatus == "running":
             EDVerbose.WARNING("Job %s is still in state %s" % (strJobId, strStatus))
@@ -117,7 +117,7 @@ class EDTestCaseEDJob(EDTestCase):
         Example of Call Back function ... 
         """
         myJob = EDJob.getJobFromID(_strJobId)
-        strOutput = myJob.getDataOutput().marshal().strip()
+        strOutput = myJob.getDataOutput().strip()
         EDAssert.equal(strOutput, self.strXmlInput, "From Callback: Output is OK")
         EDAssert.equal("success", myJob.getStatus(), "From Callback: Job %s is finished with ''success''" % _strJobId)
 
