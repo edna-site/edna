@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<XSDataResultBioSaxsSmartMergev1_0>
+    <mergedCurve>
+        <path>
+            <value>/tmp/edna-kieffer/bioSaxsMerged.dat</value>
+        </path>
+    </mergedCurve>
+    <autoRg>
+        <filename>
+            <path>
+                <value>/tmp/edna-kieffer/bioSaxsMerged.dat</value>
+            </path>
+        </filename>
+        <rg>
+            <value>2.833260e+00</value>
+        </rg>
+        <rgStdev>
+            <value>1.164600e-02</value>
+        </rgStdev>
+        <i0>
+            <value>2.042580e+07</value>
+        </i0>
+        <i0Stdev>
+            <value>1.856530e+04</value>
+        </i0Stdev>
+        <firstPointUsed>
+            <value>47</value>
+        </firstPointUsed>
+        <lastPointUsed>
+            <value>81</value>
+        </lastPointUsed>
+        <quality>
+            <value>6.656260e-01</value>
+        </quality>
+        <isagregated>
+            <value>true</value>
+        </isagregated>
+    </autoRg>
+</XSDataResultBioSaxsSmartMergev1_0>

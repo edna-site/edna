@@ -30,6 +30,8 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
 from EDTestSuite           import EDTestSuite
 
 
@@ -46,6 +48,7 @@ class EDTestSuiteUnitBioSaxsv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsNormalizev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsNormalizev1_1")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSmartMergev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSmartMergev1_1")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsProcessOneFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsReduceFileSeriev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSingleSamplev1_0")

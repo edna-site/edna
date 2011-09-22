@@ -97,8 +97,12 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         # Load the execution plugin
         if self.dataInput.absoluteFidelity is not None:
             self.absoluteFidelity = self.dataInput.absoluteFidelity.value
+            if self.absoluteFidelity == 0.0:
+                self.absoluteFidelity = None
         if self.dataInput.relativeFidelity is not None:
             self.relativeFidelity = self.dataInput.relativeFidelity.value
+            if self.relativeFidelity == 0.0:
+                self.relativeFidelity = None
         self.lstInput = self.dataInput.inputCurves
         self.lstStrInput = [i.path.value for i in self.lstInput]
         self.__edPluginExecWaitFile = self.loadPlugin(self.__strControlledPluginWaitFile)
