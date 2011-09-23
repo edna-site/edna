@@ -273,6 +273,10 @@
                     <name>execProcessScriptExecutable</name>
                     <value>/usr/bin/epydoc</value>
                 </XSParamItem>
+                <XSParamItem>
+                	<name>timeOut</name>
+                	<value>2000</value>
+                </XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
