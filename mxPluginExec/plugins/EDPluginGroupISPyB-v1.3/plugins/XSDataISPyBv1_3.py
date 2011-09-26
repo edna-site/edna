@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Apr 20 02:45::46 2011 by EDGenerateDS.
+# Generated Fri Sep 23 10:59::31 2011 by EDGenerateDS.
 #
 
 import sys
@@ -42,10 +42,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -53,7 +53,7 @@ def warnEmptyAttribute(_strName, _strTypeName):
 	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
 	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
-class MixedContainer:
+class MixedContainer(object):
 	# Constants for category:
 	CategoryNone = 0
 	CategoryText = 1
@@ -105,14 +105,21 @@ class MixedContainer:
 #
 
 
-class AutoProc:
+class AutoProc(object):
 	def __init__(self, refinedCell_gamma=None, refinedCell_beta=None, refinedCell_alpha=None, refinedCell_c=None, refinedCell_b=None, refinedCell_a=None, spaceGroup=None):
+		checkType("AutoProc", "Constructor of AutoProc", spaceGroup, "string")
 		self.__spaceGroup = spaceGroup
+		checkType("AutoProc", "Constructor of AutoProc", refinedCell_a, "string")
 		self.__refinedCell_a = refinedCell_a
+		checkType("AutoProc", "Constructor of AutoProc", refinedCell_b, "string")
 		self.__refinedCell_b = refinedCell_b
+		checkType("AutoProc", "Constructor of AutoProc", refinedCell_c, "string")
 		self.__refinedCell_c = refinedCell_c
+		checkType("AutoProc", "Constructor of AutoProc", refinedCell_alpha, "string")
 		self.__refinedCell_alpha = refinedCell_alpha
+		checkType("AutoProc", "Constructor of AutoProc", refinedCell_beta, "string")
 		self.__refinedCell_beta = refinedCell_beta
+		checkType("AutoProc", "Constructor of AutoProc", refinedCell_gamma, "string")
 		self.__refinedCell_gamma = refinedCell_gamma
 	def getSpaceGroup(self): return self.__spaceGroup
 	def setSpaceGroup(self, spaceGroup):
@@ -269,11 +276,15 @@ class AutoProc:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='AutoProc' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProc is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return AutoProc.parseString(self.marshal())
@@ -299,129 +310,41 @@ class AutoProc:
 	parseFile = staticmethod( parseFile )
 # end class AutoProc
 
-class AutoProcContainer:
-	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
-		self.__AutoProc = AutoProc
-		self.__AutoProcScalingContainer = AutoProcScalingContainer
-		self.__AutoProcProgramContainer = AutoProcProgramContainer
-	def getAutoProc(self): return self.__AutoProc
-	def setAutoProc(self, AutoProc):
-		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
-		self.__AutoProc = AutoProc
-	def delAutoProc(self): self.__AutoProc = None
-	# Properties
-	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
-	def getAutoProcScalingContainer(self): return self.__AutoProcScalingContainer
-	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
-		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
-		self.__AutoProcScalingContainer = AutoProcScalingContainer
-	def delAutoProcScalingContainer(self): self.__AutoProcScalingContainer = None
-	# Properties
-	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
-	def getAutoProcProgramContainer(self): return self.__AutoProcProgramContainer
-	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
-		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
-		self.__AutoProcProgramContainer = AutoProcProgramContainer
-	def delAutoProcProgramContainer(self): self.__AutoProcProgramContainer = None
-	# Properties
-	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
-	def export(self, outfile, level, name_='AutoProcContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
-		pass
-		if self.__AutoProc is not None:
-			self.AutoProc.export(outfile, level, name_='AutoProc')
-		else:
-			warnEmptyAttribute("AutoProc", "AutoProc")
-		if self.__AutoProcScalingContainer is not None:
-			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
-		else:
-			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
-		if self.__AutoProcProgramContainer is not None:
-			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
-		else:
-			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProc':
-			obj_ = AutoProc()
-			obj_.build(child_)
-			self.setAutoProc(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScalingContainer':
-			obj_ = AutoProcScalingContainer()
-			obj_.build(child_)
-			self.setAutoProcScalingContainer(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcProgramContainer':
-			obj_ = AutoProcProgramContainer()
-			obj_.build(child_)
-			self.setAutoProcProgramContainer(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcContainer' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcContainer
-
-class AutoProcIntegration:
+class AutoProcIntegration(object):
 	def __init__(self, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, beamVectorZ=None, beamVectorY=None, beamVectorX=None, rotationAxisZ=None, rotationAxisY=None, rotationAxisX=None, refinedYbeam=None, refinedXbeam=None, refinedDetectorDistance=None, endImageNumber=None, startImageNumber=None):
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", startImageNumber, "integer")
 		self.__startImageNumber = startImageNumber
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", endImageNumber, "integer")
 		self.__endImageNumber = endImageNumber
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", refinedDetectorDistance, "float")
 		self.__refinedDetectorDistance = refinedDetectorDistance
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", refinedXbeam, "float")
 		self.__refinedXbeam = refinedXbeam
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", refinedYbeam, "float")
 		self.__refinedYbeam = refinedYbeam
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", rotationAxisX, "float")
 		self.__rotationAxisX = rotationAxisX
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", rotationAxisY, "float")
 		self.__rotationAxisY = rotationAxisY
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", rotationAxisZ, "float")
 		self.__rotationAxisZ = rotationAxisZ
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", beamVectorX, "float")
 		self.__beamVectorX = beamVectorX
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", beamVectorY, "float")
 		self.__beamVectorY = beamVectorY
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", beamVectorZ, "float")
 		self.__beamVectorZ = beamVectorZ
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", cell_a, "float")
 		self.__cell_a = cell_a
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", cell_b, "float")
 		self.__cell_b = cell_b
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", cell_c, "float")
 		self.__cell_c = cell_c
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", cell_alpha, "float")
 		self.__cell_alpha = cell_alpha
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", cell_beta, "float")
 		self.__cell_beta = cell_beta
+		checkType("AutoProcIntegration", "Constructor of AutoProcIntegration", cell_gamma, "float")
 		self.__cell_gamma = cell_gamma
 	def getStartImageNumber(self): return self.__startImageNumber
 	def setStartImageNumber(self, startImageNumber):
@@ -802,11 +725,15 @@ class AutoProcIntegration:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='AutoProcIntegration' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcIntegration is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return AutoProcIntegration.parseString(self.marshal())
@@ -832,102 +759,21 @@ class AutoProcIntegration:
 	parseFile = staticmethod( parseFile )
 # end class AutoProcIntegration
 
-class AutoProcIntegrationContainer:
-	def __init__(self, AutoProcIntegration=None, Image=None):
-		self.__Image = Image
-		self.__AutoProcIntegration = AutoProcIntegration
-	def getImage(self): return self.__Image
-	def setImage(self, Image):
-		checkType("AutoProcIntegrationContainer", "setImage", Image, "Image")
-		self.__Image = Image
-	def delImage(self): self.__Image = None
-	# Properties
-	Image = property(getImage, setImage, delImage, "Property for Image")
-	def getAutoProcIntegration(self): return self.__AutoProcIntegration
-	def setAutoProcIntegration(self, AutoProcIntegration):
-		checkType("AutoProcIntegrationContainer", "setAutoProcIntegration", AutoProcIntegration, "AutoProcIntegration")
-		self.__AutoProcIntegration = AutoProcIntegration
-	def delAutoProcIntegration(self): self.__AutoProcIntegration = None
-	# Properties
-	AutoProcIntegration = property(getAutoProcIntegration, setAutoProcIntegration, delAutoProcIntegration, "Property for AutoProcIntegration")
-	def export(self, outfile, level, name_='AutoProcIntegrationContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcIntegrationContainer'):
-		pass
-		if self.__Image is not None:
-			self.Image.export(outfile, level, name_='Image')
-		else:
-			warnEmptyAttribute("Image", "Image")
-		if self.__AutoProcIntegration is not None:
-			self.AutoProcIntegration.export(outfile, level, name_='AutoProcIntegration')
-		else:
-			warnEmptyAttribute("AutoProcIntegration", "AutoProcIntegration")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'Image':
-			obj_ = Image()
-			obj_.build(child_)
-			self.setImage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcIntegration':
-			obj_ = AutoProcIntegration()
-			obj_.build(child_)
-			self.setAutoProcIntegration(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcIntegrationContainer' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcIntegrationContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcIntegrationContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcIntegrationContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcIntegrationContainer
-
-class AutoProcProgram:
+class AutoProcProgram(object):
 	def __init__(self, processingEnvironment=None, processingEndTime=None, processingStartTime=None, processingMessage=None, processingStatus=None, processingPrograms=None, processingCommandLine=None):
+		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingCommandLine, "string")
 		self.__processingCommandLine = processingCommandLine
+		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingPrograms, "string")
 		self.__processingPrograms = processingPrograms
+		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingStatus, "boolean")
 		self.__processingStatus = processingStatus
+		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingMessage, "string")
 		self.__processingMessage = processingMessage
+		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingStartTime, "string")
 		self.__processingStartTime = processingStartTime
+		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingEndTime, "string")
 		self.__processingEndTime = processingEndTime
+		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingEnvironment, "string")
 		self.__processingEnvironment = processingEnvironment
 	def getProcessingCommandLine(self): return self.__processingCommandLine
 	def setProcessingCommandLine(self, processingCommandLine):
@@ -1091,11 +937,15 @@ class AutoProcProgram:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='AutoProcProgram' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcProgram is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return AutoProcProgram.parseString(self.marshal())
@@ -1121,126 +971,14 @@ class AutoProcProgram:
 	parseFile = staticmethod( parseFile )
 # end class AutoProcProgram
 
-class AutoProcProgramAttachment:
-	def __init__(self, filePath=None, fileName=None, fileType=None):
-		self.__fileType = fileType
-		self.__fileName = fileName
-		self.__filePath = filePath
-	def getFileType(self): return self.__fileType
-	def setFileType(self, fileType):
-		checkType("AutoProcProgramAttachment", "setFileType", fileType, "string")
-		self.__fileType = fileType
-	def delFileType(self): self.__fileType = None
-	# Properties
-	fileType = property(getFileType, setFileType, delFileType, "Property for fileType")
-	def getFileName(self): return self.__fileName
-	def setFileName(self, fileName):
-		checkType("AutoProcProgramAttachment", "setFileName", fileName, "string")
-		self.__fileName = fileName
-	def delFileName(self): self.__fileName = None
-	# Properties
-	fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
-	def getFilePath(self): return self.__filePath
-	def setFilePath(self, filePath):
-		checkType("AutoProcProgramAttachment", "setFilePath", filePath, "string")
-		self.__filePath = filePath
-	def delFilePath(self): self.__filePath = None
-	# Properties
-	filePath = property(getFilePath, setFilePath, delFilePath, "Property for filePath")
-	def export(self, outfile, level, name_='AutoProcProgramAttachment'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcProgramAttachment'):
-		pass
-		if self.__fileType is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<fileType>%s</fileType>\n' % self.__fileType))
-		else:
-			warnEmptyAttribute("fileType", "string")
-		if self.__fileName is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<fileName>%s</fileName>\n' % self.__fileName))
-		else:
-			warnEmptyAttribute("fileName", "string")
-		if self.__filePath is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<filePath>%s</filePath>\n' % self.__filePath))
-		else:
-			warnEmptyAttribute("filePath", "string")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'fileType':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self.__fileType = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'fileName':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self.__fileName = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'filePath':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self.__filePath = value_
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcProgramAttachment" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcProgramAttachment' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcProgramAttachment.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcProgramAttachment()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcProgramAttachment" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcProgramAttachment()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcProgramAttachment
-
-class AutoProcProgramContainer:
+class AutoProcProgramContainer(object):
 	def __init__(self, AutoProcProgramAttachment=None, AutoProcProgram=None):
+		checkType("AutoProcProgramContainer", "Constructor of AutoProcProgramContainer", AutoProcProgram, "AutoProcProgram")
 		self.__AutoProcProgram = AutoProcProgram
 		if AutoProcProgramAttachment is None:
 			self.__AutoProcProgramAttachment = []
 		else:
+			checkType("AutoProcProgramContainer", "Constructor of AutoProcProgramContainer", AutoProcProgramAttachment, "list")
 			self.__AutoProcProgramAttachment = AutoProcProgramAttachment
 	def getAutoProcProgram(self): return self.__AutoProcProgram
 	def setAutoProcProgram(self, AutoProcProgram):
@@ -1302,11 +1040,15 @@ class AutoProcProgramContainer:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='AutoProcProgramContainer' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcProgramContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return AutoProcProgramContainer.parseString(self.marshal())
@@ -1332,98 +1074,41 @@ class AutoProcProgramContainer:
 	parseFile = staticmethod( parseFile )
 # end class AutoProcProgramContainer
 
-class AutoProcScaling:
-	def __init__(self, recordTimeStamp=None):
-		self.__recordTimeStamp = recordTimeStamp
-	def getRecordTimeStamp(self): return self.__recordTimeStamp
-	def setRecordTimeStamp(self, recordTimeStamp):
-		checkType("AutoProcScaling", "setRecordTimeStamp", recordTimeStamp, "string")
-		self.__recordTimeStamp = recordTimeStamp
-	def delRecordTimeStamp(self): self.__recordTimeStamp = None
-	# Properties
-	recordTimeStamp = property(getRecordTimeStamp, setRecordTimeStamp, delRecordTimeStamp, "Property for recordTimeStamp")
-	def export(self, outfile, level, name_='AutoProcScaling'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcScaling'):
-		pass
-		if self.__recordTimeStamp is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<recordTimeStamp>%s</recordTimeStamp>\n' % self.__recordTimeStamp))
-		else:
-			warnEmptyAttribute("recordTimeStamp", "string")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'recordTimeStamp':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self.__recordTimeStamp = value_
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcScaling" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcScaling' )
-		outfile.close()
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcScaling.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcScaling()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcScaling" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcScaling()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcScaling
-
-class AutoProcScalingStatistics:
+class AutoProcScalingStatistics(object):
 	def __init__(self, anomalousMultiplicity=None, anomalousCompleteness=None, multiplicity=None, completeness=None, meanIOverSigI=None, ntotalUniqueObservations=None, nTotalObservations=None, fractionalPartialBias=None, rpimAllIplusIminus=None, rpimWithinIplusIminus=None, rmeasAllIplusIminus=None, rmeasWithinIplusIminus=None, rMerge=None, resolutionLimitHigh=None, resolutionLimitLow=None, comments=None, scalingStatisticsType=None):
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", scalingStatisticsType, "string")
 		self.__scalingStatisticsType = scalingStatisticsType
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", comments, "string")
 		self.__comments = comments
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", resolutionLimitLow, "float")
 		self.__resolutionLimitLow = resolutionLimitLow
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", resolutionLimitHigh, "float")
 		self.__resolutionLimitHigh = resolutionLimitHigh
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", rMerge, "float")
 		self.__rMerge = rMerge
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", rmeasWithinIplusIminus, "float")
 		self.__rmeasWithinIplusIminus = rmeasWithinIplusIminus
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", rmeasAllIplusIminus, "float")
 		self.__rmeasAllIplusIminus = rmeasAllIplusIminus
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", rpimWithinIplusIminus, "float")
 		self.__rpimWithinIplusIminus = rpimWithinIplusIminus
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", rpimAllIplusIminus, "float")
 		self.__rpimAllIplusIminus = rpimAllIplusIminus
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", fractionalPartialBias, "float")
 		self.__fractionalPartialBias = fractionalPartialBias
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", nTotalObservations, "float")
 		self.__nTotalObservations = nTotalObservations
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", ntotalUniqueObservations, "integer")
 		self.__ntotalUniqueObservations = ntotalUniqueObservations
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", meanIOverSigI, "float")
 		self.__meanIOverSigI = meanIOverSigI
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", completeness, "float")
 		self.__completeness = completeness
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", multiplicity, "float")
 		self.__multiplicity = multiplicity
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", anomalousCompleteness, "float")
 		self.__anomalousCompleteness = anomalousCompleteness
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", anomalousMultiplicity, "float")
 		self.__anomalousMultiplicity = anomalousMultiplicity
 	def getScalingStatisticsType(self): return self.__scalingStatisticsType
 	def setScalingStatisticsType(self, scalingStatisticsType):
@@ -1800,11 +1485,15 @@ class AutoProcScalingStatistics:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='AutoProcScalingStatistics' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcScalingStatistics is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return AutoProcScalingStatistics.parseString(self.marshal())
@@ -1830,13 +1519,16 @@ class AutoProcScalingStatistics:
 	parseFile = staticmethod( parseFile )
 # end class AutoProcScalingStatistics
 
-class AutoProcScalingContainer:
+class AutoProcScalingContainer(object):
 	def __init__(self, AutoProcIntegrationContainer=None, AutoProcScalingStatistics=None, AutoProcScaling=None):
+		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScaling, "AutoProcScaling")
 		self.__AutoProcScaling = AutoProcScaling
 		if AutoProcScalingStatistics is None:
 			self.__AutoProcScalingStatistics = []
 		else:
+			checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScalingStatistics, "list")
 			self.__AutoProcScalingStatistics = AutoProcScalingStatistics
+		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
 		self.__AutoProcIntegrationContainer = AutoProcIntegrationContainer
 	def getAutoProcScaling(self): return self.__AutoProcScaling
 	def setAutoProcScaling(self, AutoProcScaling):
@@ -1914,11 +1606,15 @@ class AutoProcScalingContainer:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='AutoProcScalingContainer' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcScalingContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return AutoProcScalingContainer.parseString(self.marshal())
@@ -1944,8 +1640,321 @@ class AutoProcScalingContainer:
 	parseFile = staticmethod( parseFile )
 # end class AutoProcScalingContainer
 
-class Image:
+class AutoProcContainer(object):
+	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProc, "AutoProc")
+		self.__AutoProc = AutoProc
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self.__AutoProcScalingContainer = AutoProcScalingContainer
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self.__AutoProcProgramContainer = AutoProcProgramContainer
+	def getAutoProc(self): return self.__AutoProc
+	def setAutoProc(self, AutoProc):
+		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
+		self.__AutoProc = AutoProc
+	def delAutoProc(self): self.__AutoProc = None
+	# Properties
+	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
+	def getAutoProcScalingContainer(self): return self.__AutoProcScalingContainer
+	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
+		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self.__AutoProcScalingContainer = AutoProcScalingContainer
+	def delAutoProcScalingContainer(self): self.__AutoProcScalingContainer = None
+	# Properties
+	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
+	def getAutoProcProgramContainer(self): return self.__AutoProcProgramContainer
+	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
+		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self.__AutoProcProgramContainer = AutoProcProgramContainer
+	def delAutoProcProgramContainer(self): self.__AutoProcProgramContainer = None
+	# Properties
+	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
+	def export(self, outfile, level, name_='AutoProcContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
+		pass
+		if self.__AutoProc is not None:
+			self.AutoProc.export(outfile, level, name_='AutoProc')
+		else:
+			warnEmptyAttribute("AutoProc", "AutoProc")
+		if self.__AutoProcScalingContainer is not None:
+			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
+		else:
+			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
+		if self.__AutoProcProgramContainer is not None:
+			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
+		else:
+			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProc':
+			obj_ = AutoProc()
+			obj_.build(child_)
+			self.setAutoProc(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScalingContainer':
+			obj_ = AutoProcScalingContainer()
+			obj_.build(child_)
+			self.setAutoProcScalingContainer(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcProgramContainer':
+			obj_ = AutoProcProgramContainer()
+			obj_.build(child_)
+			self.setAutoProcProgramContainer(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcContainer
+
+class AutoProcProgramAttachment(object):
+	def __init__(self, filePath=None, fileName=None, fileType=None):
+		checkType("AutoProcProgramAttachment", "Constructor of AutoProcProgramAttachment", fileType, "string")
+		self.__fileType = fileType
+		checkType("AutoProcProgramAttachment", "Constructor of AutoProcProgramAttachment", fileName, "string")
+		self.__fileName = fileName
+		checkType("AutoProcProgramAttachment", "Constructor of AutoProcProgramAttachment", filePath, "string")
+		self.__filePath = filePath
+	def getFileType(self): return self.__fileType
+	def setFileType(self, fileType):
+		checkType("AutoProcProgramAttachment", "setFileType", fileType, "string")
+		self.__fileType = fileType
+	def delFileType(self): self.__fileType = None
+	# Properties
+	fileType = property(getFileType, setFileType, delFileType, "Property for fileType")
+	def getFileName(self): return self.__fileName
+	def setFileName(self, fileName):
+		checkType("AutoProcProgramAttachment", "setFileName", fileName, "string")
+		self.__fileName = fileName
+	def delFileName(self): self.__fileName = None
+	# Properties
+	fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
+	def getFilePath(self): return self.__filePath
+	def setFilePath(self, filePath):
+		checkType("AutoProcProgramAttachment", "setFilePath", filePath, "string")
+		self.__filePath = filePath
+	def delFilePath(self): self.__filePath = None
+	# Properties
+	filePath = property(getFilePath, setFilePath, delFilePath, "Property for filePath")
+	def export(self, outfile, level, name_='AutoProcProgramAttachment'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcProgramAttachment'):
+		pass
+		if self.__fileType is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<fileType>%s</fileType>\n' % self.__fileType))
+		else:
+			warnEmptyAttribute("fileType", "string")
+		if self.__fileName is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<fileName>%s</fileName>\n' % self.__fileName))
+		else:
+			warnEmptyAttribute("fileName", "string")
+		if self.__filePath is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<filePath>%s</filePath>\n' % self.__filePath))
+		else:
+			warnEmptyAttribute("filePath", "string")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileType':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__fileType = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileName':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__fileName = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'filePath':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__filePath = value_
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcProgramAttachment" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcProgramAttachment' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcProgramAttachment is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcProgramAttachment.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcProgramAttachment()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcProgramAttachment" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcProgramAttachment()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcProgramAttachment
+
+class AutoProcScaling(object):
+	def __init__(self, recordTimeStamp=None):
+		checkType("AutoProcScaling", "Constructor of AutoProcScaling", recordTimeStamp, "string")
+		self.__recordTimeStamp = recordTimeStamp
+	def getRecordTimeStamp(self): return self.__recordTimeStamp
+	def setRecordTimeStamp(self, recordTimeStamp):
+		checkType("AutoProcScaling", "setRecordTimeStamp", recordTimeStamp, "string")
+		self.__recordTimeStamp = recordTimeStamp
+	def delRecordTimeStamp(self): self.__recordTimeStamp = None
+	# Properties
+	recordTimeStamp = property(getRecordTimeStamp, setRecordTimeStamp, delRecordTimeStamp, "Property for recordTimeStamp")
+	def export(self, outfile, level, name_='AutoProcScaling'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcScaling'):
+		pass
+		if self.__recordTimeStamp is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<recordTimeStamp>%s</recordTimeStamp>\n' % self.__recordTimeStamp))
+		else:
+			warnEmptyAttribute("recordTimeStamp", "string")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'recordTimeStamp':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__recordTimeStamp = value_
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcScaling" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcScaling' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcScaling is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcScaling.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcScaling()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcScaling" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcScaling()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcScaling
+
+class Image(object):
 	def __init__(self, dataCollectionId=None):
+		checkType("Image", "Constructor of Image", dataCollectionId, "integer")
 		self.__dataCollectionId = dataCollectionId
 	def getDataCollectionId(self): return self.__dataCollectionId
 	def setDataCollectionId(self, dataCollectionId):
@@ -1990,11 +1999,15 @@ class Image:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='Image' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class Image is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return Image.parseString(self.marshal())
@@ -2020,26 +2033,1336 @@ class Image:
 	parseFile = staticmethod( parseFile )
 # end class Image
 
+class AutoProcIntegrationContainer(object):
+	def __init__(self, AutoProcIntegration=None, Image=None):
+		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", Image, "Image")
+		self.__Image = Image
+		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", AutoProcIntegration, "AutoProcIntegration")
+		self.__AutoProcIntegration = AutoProcIntegration
+	def getImage(self): return self.__Image
+	def setImage(self, Image):
+		checkType("AutoProcIntegrationContainer", "setImage", Image, "Image")
+		self.__Image = Image
+	def delImage(self): self.__Image = None
+	# Properties
+	Image = property(getImage, setImage, delImage, "Property for Image")
+	def getAutoProcIntegration(self): return self.__AutoProcIntegration
+	def setAutoProcIntegration(self, AutoProcIntegration):
+		checkType("AutoProcIntegrationContainer", "setAutoProcIntegration", AutoProcIntegration, "AutoProcIntegration")
+		self.__AutoProcIntegration = AutoProcIntegration
+	def delAutoProcIntegration(self): self.__AutoProcIntegration = None
+	# Properties
+	AutoProcIntegration = property(getAutoProcIntegration, setAutoProcIntegration, delAutoProcIntegration, "Property for AutoProcIntegration")
+	def export(self, outfile, level, name_='AutoProcIntegrationContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcIntegrationContainer'):
+		pass
+		if self.__Image is not None:
+			self.Image.export(outfile, level, name_='Image')
+		else:
+			warnEmptyAttribute("Image", "Image")
+		if self.__AutoProcIntegration is not None:
+			self.AutoProcIntegration.export(outfile, level, name_='AutoProcIntegration')
+		else:
+			warnEmptyAttribute("AutoProcIntegration", "AutoProcIntegration")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'Image':
+			obj_ = Image()
+			obj_.build(child_)
+			self.setImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcIntegration':
+			obj_ = AutoProcIntegration()
+			obj_.build(child_)
+			self.setAutoProcIntegration(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcIntegrationContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcIntegrationContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcIntegrationContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcIntegrationContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcIntegrationContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcIntegrationContainer
+
+class UpdateOrStoreDataCollectionRequest(object):
+	def __init__(self, beamShape=None, xtalSnapshotFullPath4=None, xtalSnapshotFullPath3=None, xtalSnapshotFullPath2=None, xtalSnapshotFullPath1=None, printableForReport=None, comments=None, averageTemperature=None, centeringMethod=None, synchrotronMode=None, transmission=None, beamSizeAtSampleY=None, beamSizeAtSampleX=None, slitGapHorizontal=None, slitGapVertical=None, crystalClass=None, ybeam=None, xbeam=None, undulatorGap3=None, undulatorGap2=None, undulatorGap1=None, detectorMode=None, detector2theta=None, detectorDistance=None, resolutionAtCorner=None, resolution=None, wavelength=None, fileTemplate=None, imageSuffix=None, imagePrefix=None, imageDirectory=None, exposureTime=None, numberOfPasses=None, startImageNumber=None, numberOfImages=None, overlap=None, axisRange=None, axisEnd=None, axisStart=None, omegaStart=None, kappaStart=None, phiStart=None, rotationAxis=None, runStatus=None, endDate=None, startDate=None, dataCollectionNumber=None, experimentType=None, sessionId=None, blSampleId=None, dataCollectionId=None):
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", dataCollectionId, "integer")
+		self.__dataCollectionId = dataCollectionId
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", blSampleId, "integer")
+		self.__blSampleId = blSampleId
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", sessionId, "integer")
+		self.__sessionId = sessionId
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", experimentType, "string")
+		self.__experimentType = experimentType
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", dataCollectionNumber, "integer")
+		self.__dataCollectionNumber = dataCollectionNumber
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", startDate, "string")
+		self.__startDate = startDate
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", endDate, "string")
+		self.__endDate = endDate
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", runStatus, "string")
+		self.__runStatus = runStatus
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", rotationAxis, "string")
+		self.__rotationAxis = rotationAxis
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", phiStart, "float")
+		self.__phiStart = phiStart
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", kappaStart, "float")
+		self.__kappaStart = kappaStart
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", omegaStart, "float")
+		self.__omegaStart = omegaStart
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", axisStart, "float")
+		self.__axisStart = axisStart
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", axisEnd, "float")
+		self.__axisEnd = axisEnd
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", axisRange, "float")
+		self.__axisRange = axisRange
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", overlap, "float")
+		self.__overlap = overlap
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", numberOfImages, "integer")
+		self.__numberOfImages = numberOfImages
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", startImageNumber, "integer")
+		self.__startImageNumber = startImageNumber
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", numberOfPasses, "integer")
+		self.__numberOfPasses = numberOfPasses
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", exposureTime, "float")
+		self.__exposureTime = exposureTime
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", imageDirectory, "string")
+		self.__imageDirectory = imageDirectory
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", imagePrefix, "string")
+		self.__imagePrefix = imagePrefix
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", imageSuffix, "string")
+		self.__imageSuffix = imageSuffix
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", fileTemplate, "string")
+		self.__fileTemplate = fileTemplate
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", wavelength, "float")
+		self.__wavelength = wavelength
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", resolution, "float")
+		self.__resolution = resolution
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", resolutionAtCorner, "float")
+		self.__resolutionAtCorner = resolutionAtCorner
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", detectorDistance, "float")
+		self.__detectorDistance = detectorDistance
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", detector2theta, "float")
+		self.__detector2theta = detector2theta
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", detectorMode, "string")
+		self.__detectorMode = detectorMode
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", undulatorGap1, "float")
+		self.__undulatorGap1 = undulatorGap1
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", undulatorGap2, "float")
+		self.__undulatorGap2 = undulatorGap2
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", undulatorGap3, "float")
+		self.__undulatorGap3 = undulatorGap3
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xbeam, "float")
+		self.__xbeam = xbeam
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", ybeam, "float")
+		self.__ybeam = ybeam
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", crystalClass, "string")
+		self.__crystalClass = crystalClass
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", slitGapVertical, "float")
+		self.__slitGapVertical = slitGapVertical
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", slitGapHorizontal, "float")
+		self.__slitGapHorizontal = slitGapHorizontal
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", beamSizeAtSampleX, "float")
+		self.__beamSizeAtSampleX = beamSizeAtSampleX
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", beamSizeAtSampleY, "float")
+		self.__beamSizeAtSampleY = beamSizeAtSampleY
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", transmission, "float")
+		self.__transmission = transmission
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", synchrotronMode, "string")
+		self.__synchrotronMode = synchrotronMode
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", centeringMethod, "string")
+		self.__centeringMethod = centeringMethod
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", averageTemperature, "float")
+		self.__averageTemperature = averageTemperature
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", comments, "string")
+		self.__comments = comments
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", printableForReport, "boolean")
+		self.__printableForReport = printableForReport
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath1, "string")
+		self.__xtalSnapshotFullPath1 = xtalSnapshotFullPath1
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath2, "string")
+		self.__xtalSnapshotFullPath2 = xtalSnapshotFullPath2
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath3, "string")
+		self.__xtalSnapshotFullPath3 = xtalSnapshotFullPath3
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath4, "string")
+		self.__xtalSnapshotFullPath4 = xtalSnapshotFullPath4
+		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", beamShape, "string")
+		self.__beamShape = beamShape
+	def getDataCollectionId(self): return self.__dataCollectionId
+	def setDataCollectionId(self, dataCollectionId):
+		checkType("UpdateOrStoreDataCollectionRequest", "setDataCollectionId", dataCollectionId, "integer")
+		self.__dataCollectionId = dataCollectionId
+	def delDataCollectionId(self): self.__dataCollectionId = None
+	# Properties
+	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
+	def getBlSampleId(self): return self.__blSampleId
+	def setBlSampleId(self, blSampleId):
+		checkType("UpdateOrStoreDataCollectionRequest", "setBlSampleId", blSampleId, "integer")
+		self.__blSampleId = blSampleId
+	def delBlSampleId(self): self.__blSampleId = None
+	# Properties
+	blSampleId = property(getBlSampleId, setBlSampleId, delBlSampleId, "Property for blSampleId")
+	def getSessionId(self): return self.__sessionId
+	def setSessionId(self, sessionId):
+		checkType("UpdateOrStoreDataCollectionRequest", "setSessionId", sessionId, "integer")
+		self.__sessionId = sessionId
+	def delSessionId(self): self.__sessionId = None
+	# Properties
+	sessionId = property(getSessionId, setSessionId, delSessionId, "Property for sessionId")
+	def getExperimentType(self): return self.__experimentType
+	def setExperimentType(self, experimentType):
+		checkType("UpdateOrStoreDataCollectionRequest", "setExperimentType", experimentType, "string")
+		self.__experimentType = experimentType
+	def delExperimentType(self): self.__experimentType = None
+	# Properties
+	experimentType = property(getExperimentType, setExperimentType, delExperimentType, "Property for experimentType")
+	def getDataCollectionNumber(self): return self.__dataCollectionNumber
+	def setDataCollectionNumber(self, dataCollectionNumber):
+		checkType("UpdateOrStoreDataCollectionRequest", "setDataCollectionNumber", dataCollectionNumber, "integer")
+		self.__dataCollectionNumber = dataCollectionNumber
+	def delDataCollectionNumber(self): self.__dataCollectionNumber = None
+	# Properties
+	dataCollectionNumber = property(getDataCollectionNumber, setDataCollectionNumber, delDataCollectionNumber, "Property for dataCollectionNumber")
+	def getStartDate(self): return self.__startDate
+	def setStartDate(self, startDate):
+		checkType("UpdateOrStoreDataCollectionRequest", "setStartDate", startDate, "string")
+		self.__startDate = startDate
+	def delStartDate(self): self.__startDate = None
+	# Properties
+	startDate = property(getStartDate, setStartDate, delStartDate, "Property for startDate")
+	def getEndDate(self): return self.__endDate
+	def setEndDate(self, endDate):
+		checkType("UpdateOrStoreDataCollectionRequest", "setEndDate", endDate, "string")
+		self.__endDate = endDate
+	def delEndDate(self): self.__endDate = None
+	# Properties
+	endDate = property(getEndDate, setEndDate, delEndDate, "Property for endDate")
+	def getRunStatus(self): return self.__runStatus
+	def setRunStatus(self, runStatus):
+		checkType("UpdateOrStoreDataCollectionRequest", "setRunStatus", runStatus, "string")
+		self.__runStatus = runStatus
+	def delRunStatus(self): self.__runStatus = None
+	# Properties
+	runStatus = property(getRunStatus, setRunStatus, delRunStatus, "Property for runStatus")
+	def getRotationAxis(self): return self.__rotationAxis
+	def setRotationAxis(self, rotationAxis):
+		checkType("UpdateOrStoreDataCollectionRequest", "setRotationAxis", rotationAxis, "string")
+		self.__rotationAxis = rotationAxis
+	def delRotationAxis(self): self.__rotationAxis = None
+	# Properties
+	rotationAxis = property(getRotationAxis, setRotationAxis, delRotationAxis, "Property for rotationAxis")
+	def getPhiStart(self): return self.__phiStart
+	def setPhiStart(self, phiStart):
+		checkType("UpdateOrStoreDataCollectionRequest", "setPhiStart", phiStart, "float")
+		self.__phiStart = phiStart
+	def delPhiStart(self): self.__phiStart = None
+	# Properties
+	phiStart = property(getPhiStart, setPhiStart, delPhiStart, "Property for phiStart")
+	def getKappaStart(self): return self.__kappaStart
+	def setKappaStart(self, kappaStart):
+		checkType("UpdateOrStoreDataCollectionRequest", "setKappaStart", kappaStart, "float")
+		self.__kappaStart = kappaStart
+	def delKappaStart(self): self.__kappaStart = None
+	# Properties
+	kappaStart = property(getKappaStart, setKappaStart, delKappaStart, "Property for kappaStart")
+	def getOmegaStart(self): return self.__omegaStart
+	def setOmegaStart(self, omegaStart):
+		checkType("UpdateOrStoreDataCollectionRequest", "setOmegaStart", omegaStart, "float")
+		self.__omegaStart = omegaStart
+	def delOmegaStart(self): self.__omegaStart = None
+	# Properties
+	omegaStart = property(getOmegaStart, setOmegaStart, delOmegaStart, "Property for omegaStart")
+	def getAxisStart(self): return self.__axisStart
+	def setAxisStart(self, axisStart):
+		checkType("UpdateOrStoreDataCollectionRequest", "setAxisStart", axisStart, "float")
+		self.__axisStart = axisStart
+	def delAxisStart(self): self.__axisStart = None
+	# Properties
+	axisStart = property(getAxisStart, setAxisStart, delAxisStart, "Property for axisStart")
+	def getAxisEnd(self): return self.__axisEnd
+	def setAxisEnd(self, axisEnd):
+		checkType("UpdateOrStoreDataCollectionRequest", "setAxisEnd", axisEnd, "float")
+		self.__axisEnd = axisEnd
+	def delAxisEnd(self): self.__axisEnd = None
+	# Properties
+	axisEnd = property(getAxisEnd, setAxisEnd, delAxisEnd, "Property for axisEnd")
+	def getAxisRange(self): return self.__axisRange
+	def setAxisRange(self, axisRange):
+		checkType("UpdateOrStoreDataCollectionRequest", "setAxisRange", axisRange, "float")
+		self.__axisRange = axisRange
+	def delAxisRange(self): self.__axisRange = None
+	# Properties
+	axisRange = property(getAxisRange, setAxisRange, delAxisRange, "Property for axisRange")
+	def getOverlap(self): return self.__overlap
+	def setOverlap(self, overlap):
+		checkType("UpdateOrStoreDataCollectionRequest", "setOverlap", overlap, "float")
+		self.__overlap = overlap
+	def delOverlap(self): self.__overlap = None
+	# Properties
+	overlap = property(getOverlap, setOverlap, delOverlap, "Property for overlap")
+	def getNumberOfImages(self): return self.__numberOfImages
+	def setNumberOfImages(self, numberOfImages):
+		checkType("UpdateOrStoreDataCollectionRequest", "setNumberOfImages", numberOfImages, "integer")
+		self.__numberOfImages = numberOfImages
+	def delNumberOfImages(self): self.__numberOfImages = None
+	# Properties
+	numberOfImages = property(getNumberOfImages, setNumberOfImages, delNumberOfImages, "Property for numberOfImages")
+	def getStartImageNumber(self): return self.__startImageNumber
+	def setStartImageNumber(self, startImageNumber):
+		checkType("UpdateOrStoreDataCollectionRequest", "setStartImageNumber", startImageNumber, "integer")
+		self.__startImageNumber = startImageNumber
+	def delStartImageNumber(self): self.__startImageNumber = None
+	# Properties
+	startImageNumber = property(getStartImageNumber, setStartImageNumber, delStartImageNumber, "Property for startImageNumber")
+	def getNumberOfPasses(self): return self.__numberOfPasses
+	def setNumberOfPasses(self, numberOfPasses):
+		checkType("UpdateOrStoreDataCollectionRequest", "setNumberOfPasses", numberOfPasses, "integer")
+		self.__numberOfPasses = numberOfPasses
+	def delNumberOfPasses(self): self.__numberOfPasses = None
+	# Properties
+	numberOfPasses = property(getNumberOfPasses, setNumberOfPasses, delNumberOfPasses, "Property for numberOfPasses")
+	def getExposureTime(self): return self.__exposureTime
+	def setExposureTime(self, exposureTime):
+		checkType("UpdateOrStoreDataCollectionRequest", "setExposureTime", exposureTime, "float")
+		self.__exposureTime = exposureTime
+	def delExposureTime(self): self.__exposureTime = None
+	# Properties
+	exposureTime = property(getExposureTime, setExposureTime, delExposureTime, "Property for exposureTime")
+	def getImageDirectory(self): return self.__imageDirectory
+	def setImageDirectory(self, imageDirectory):
+		checkType("UpdateOrStoreDataCollectionRequest", "setImageDirectory", imageDirectory, "string")
+		self.__imageDirectory = imageDirectory
+	def delImageDirectory(self): self.__imageDirectory = None
+	# Properties
+	imageDirectory = property(getImageDirectory, setImageDirectory, delImageDirectory, "Property for imageDirectory")
+	def getImagePrefix(self): return self.__imagePrefix
+	def setImagePrefix(self, imagePrefix):
+		checkType("UpdateOrStoreDataCollectionRequest", "setImagePrefix", imagePrefix, "string")
+		self.__imagePrefix = imagePrefix
+	def delImagePrefix(self): self.__imagePrefix = None
+	# Properties
+	imagePrefix = property(getImagePrefix, setImagePrefix, delImagePrefix, "Property for imagePrefix")
+	def getImageSuffix(self): return self.__imageSuffix
+	def setImageSuffix(self, imageSuffix):
+		checkType("UpdateOrStoreDataCollectionRequest", "setImageSuffix", imageSuffix, "string")
+		self.__imageSuffix = imageSuffix
+	def delImageSuffix(self): self.__imageSuffix = None
+	# Properties
+	imageSuffix = property(getImageSuffix, setImageSuffix, delImageSuffix, "Property for imageSuffix")
+	def getFileTemplate(self): return self.__fileTemplate
+	def setFileTemplate(self, fileTemplate):
+		checkType("UpdateOrStoreDataCollectionRequest", "setFileTemplate", fileTemplate, "string")
+		self.__fileTemplate = fileTemplate
+	def delFileTemplate(self): self.__fileTemplate = None
+	# Properties
+	fileTemplate = property(getFileTemplate, setFileTemplate, delFileTemplate, "Property for fileTemplate")
+	def getWavelength(self): return self.__wavelength
+	def setWavelength(self, wavelength):
+		checkType("UpdateOrStoreDataCollectionRequest", "setWavelength", wavelength, "float")
+		self.__wavelength = wavelength
+	def delWavelength(self): self.__wavelength = None
+	# Properties
+	wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
+	def getResolution(self): return self.__resolution
+	def setResolution(self, resolution):
+		checkType("UpdateOrStoreDataCollectionRequest", "setResolution", resolution, "float")
+		self.__resolution = resolution
+	def delResolution(self): self.__resolution = None
+	# Properties
+	resolution = property(getResolution, setResolution, delResolution, "Property for resolution")
+	def getResolutionAtCorner(self): return self.__resolutionAtCorner
+	def setResolutionAtCorner(self, resolutionAtCorner):
+		checkType("UpdateOrStoreDataCollectionRequest", "setResolutionAtCorner", resolutionAtCorner, "float")
+		self.__resolutionAtCorner = resolutionAtCorner
+	def delResolutionAtCorner(self): self.__resolutionAtCorner = None
+	# Properties
+	resolutionAtCorner = property(getResolutionAtCorner, setResolutionAtCorner, delResolutionAtCorner, "Property for resolutionAtCorner")
+	def getDetectorDistance(self): return self.__detectorDistance
+	def setDetectorDistance(self, detectorDistance):
+		checkType("UpdateOrStoreDataCollectionRequest", "setDetectorDistance", detectorDistance, "float")
+		self.__detectorDistance = detectorDistance
+	def delDetectorDistance(self): self.__detectorDistance = None
+	# Properties
+	detectorDistance = property(getDetectorDistance, setDetectorDistance, delDetectorDistance, "Property for detectorDistance")
+	def getDetector2theta(self): return self.__detector2theta
+	def setDetector2theta(self, detector2theta):
+		checkType("UpdateOrStoreDataCollectionRequest", "setDetector2theta", detector2theta, "float")
+		self.__detector2theta = detector2theta
+	def delDetector2theta(self): self.__detector2theta = None
+	# Properties
+	detector2theta = property(getDetector2theta, setDetector2theta, delDetector2theta, "Property for detector2theta")
+	def getDetectorMode(self): return self.__detectorMode
+	def setDetectorMode(self, detectorMode):
+		checkType("UpdateOrStoreDataCollectionRequest", "setDetectorMode", detectorMode, "string")
+		self.__detectorMode = detectorMode
+	def delDetectorMode(self): self.__detectorMode = None
+	# Properties
+	detectorMode = property(getDetectorMode, setDetectorMode, delDetectorMode, "Property for detectorMode")
+	def getUndulatorGap1(self): return self.__undulatorGap1
+	def setUndulatorGap1(self, undulatorGap1):
+		checkType("UpdateOrStoreDataCollectionRequest", "setUndulatorGap1", undulatorGap1, "float")
+		self.__undulatorGap1 = undulatorGap1
+	def delUndulatorGap1(self): self.__undulatorGap1 = None
+	# Properties
+	undulatorGap1 = property(getUndulatorGap1, setUndulatorGap1, delUndulatorGap1, "Property for undulatorGap1")
+	def getUndulatorGap2(self): return self.__undulatorGap2
+	def setUndulatorGap2(self, undulatorGap2):
+		checkType("UpdateOrStoreDataCollectionRequest", "setUndulatorGap2", undulatorGap2, "float")
+		self.__undulatorGap2 = undulatorGap2
+	def delUndulatorGap2(self): self.__undulatorGap2 = None
+	# Properties
+	undulatorGap2 = property(getUndulatorGap2, setUndulatorGap2, delUndulatorGap2, "Property for undulatorGap2")
+	def getUndulatorGap3(self): return self.__undulatorGap3
+	def setUndulatorGap3(self, undulatorGap3):
+		checkType("UpdateOrStoreDataCollectionRequest", "setUndulatorGap3", undulatorGap3, "float")
+		self.__undulatorGap3 = undulatorGap3
+	def delUndulatorGap3(self): self.__undulatorGap3 = None
+	# Properties
+	undulatorGap3 = property(getUndulatorGap3, setUndulatorGap3, delUndulatorGap3, "Property for undulatorGap3")
+	def getXbeam(self): return self.__xbeam
+	def setXbeam(self, xbeam):
+		checkType("UpdateOrStoreDataCollectionRequest", "setXbeam", xbeam, "float")
+		self.__xbeam = xbeam
+	def delXbeam(self): self.__xbeam = None
+	# Properties
+	xbeam = property(getXbeam, setXbeam, delXbeam, "Property for xbeam")
+	def getYbeam(self): return self.__ybeam
+	def setYbeam(self, ybeam):
+		checkType("UpdateOrStoreDataCollectionRequest", "setYbeam", ybeam, "float")
+		self.__ybeam = ybeam
+	def delYbeam(self): self.__ybeam = None
+	# Properties
+	ybeam = property(getYbeam, setYbeam, delYbeam, "Property for ybeam")
+	def getCrystalClass(self): return self.__crystalClass
+	def setCrystalClass(self, crystalClass):
+		checkType("UpdateOrStoreDataCollectionRequest", "setCrystalClass", crystalClass, "string")
+		self.__crystalClass = crystalClass
+	def delCrystalClass(self): self.__crystalClass = None
+	# Properties
+	crystalClass = property(getCrystalClass, setCrystalClass, delCrystalClass, "Property for crystalClass")
+	def getSlitGapVertical(self): return self.__slitGapVertical
+	def setSlitGapVertical(self, slitGapVertical):
+		checkType("UpdateOrStoreDataCollectionRequest", "setSlitGapVertical", slitGapVertical, "float")
+		self.__slitGapVertical = slitGapVertical
+	def delSlitGapVertical(self): self.__slitGapVertical = None
+	# Properties
+	slitGapVertical = property(getSlitGapVertical, setSlitGapVertical, delSlitGapVertical, "Property for slitGapVertical")
+	def getSlitGapHorizontal(self): return self.__slitGapHorizontal
+	def setSlitGapHorizontal(self, slitGapHorizontal):
+		checkType("UpdateOrStoreDataCollectionRequest", "setSlitGapHorizontal", slitGapHorizontal, "float")
+		self.__slitGapHorizontal = slitGapHorizontal
+	def delSlitGapHorizontal(self): self.__slitGapHorizontal = None
+	# Properties
+	slitGapHorizontal = property(getSlitGapHorizontal, setSlitGapHorizontal, delSlitGapHorizontal, "Property for slitGapHorizontal")
+	def getBeamSizeAtSampleX(self): return self.__beamSizeAtSampleX
+	def setBeamSizeAtSampleX(self, beamSizeAtSampleX):
+		checkType("UpdateOrStoreDataCollectionRequest", "setBeamSizeAtSampleX", beamSizeAtSampleX, "float")
+		self.__beamSizeAtSampleX = beamSizeAtSampleX
+	def delBeamSizeAtSampleX(self): self.__beamSizeAtSampleX = None
+	# Properties
+	beamSizeAtSampleX = property(getBeamSizeAtSampleX, setBeamSizeAtSampleX, delBeamSizeAtSampleX, "Property for beamSizeAtSampleX")
+	def getBeamSizeAtSampleY(self): return self.__beamSizeAtSampleY
+	def setBeamSizeAtSampleY(self, beamSizeAtSampleY):
+		checkType("UpdateOrStoreDataCollectionRequest", "setBeamSizeAtSampleY", beamSizeAtSampleY, "float")
+		self.__beamSizeAtSampleY = beamSizeAtSampleY
+	def delBeamSizeAtSampleY(self): self.__beamSizeAtSampleY = None
+	# Properties
+	beamSizeAtSampleY = property(getBeamSizeAtSampleY, setBeamSizeAtSampleY, delBeamSizeAtSampleY, "Property for beamSizeAtSampleY")
+	def getTransmission(self): return self.__transmission
+	def setTransmission(self, transmission):
+		checkType("UpdateOrStoreDataCollectionRequest", "setTransmission", transmission, "float")
+		self.__transmission = transmission
+	def delTransmission(self): self.__transmission = None
+	# Properties
+	transmission = property(getTransmission, setTransmission, delTransmission, "Property for transmission")
+	def getSynchrotronMode(self): return self.__synchrotronMode
+	def setSynchrotronMode(self, synchrotronMode):
+		checkType("UpdateOrStoreDataCollectionRequest", "setSynchrotronMode", synchrotronMode, "string")
+		self.__synchrotronMode = synchrotronMode
+	def delSynchrotronMode(self): self.__synchrotronMode = None
+	# Properties
+	synchrotronMode = property(getSynchrotronMode, setSynchrotronMode, delSynchrotronMode, "Property for synchrotronMode")
+	def getCenteringMethod(self): return self.__centeringMethod
+	def setCenteringMethod(self, centeringMethod):
+		checkType("UpdateOrStoreDataCollectionRequest", "setCenteringMethod", centeringMethod, "string")
+		self.__centeringMethod = centeringMethod
+	def delCenteringMethod(self): self.__centeringMethod = None
+	# Properties
+	centeringMethod = property(getCenteringMethod, setCenteringMethod, delCenteringMethod, "Property for centeringMethod")
+	def getAverageTemperature(self): return self.__averageTemperature
+	def setAverageTemperature(self, averageTemperature):
+		checkType("UpdateOrStoreDataCollectionRequest", "setAverageTemperature", averageTemperature, "float")
+		self.__averageTemperature = averageTemperature
+	def delAverageTemperature(self): self.__averageTemperature = None
+	# Properties
+	averageTemperature = property(getAverageTemperature, setAverageTemperature, delAverageTemperature, "Property for averageTemperature")
+	def getComments(self): return self.__comments
+	def setComments(self, comments):
+		checkType("UpdateOrStoreDataCollectionRequest", "setComments", comments, "string")
+		self.__comments = comments
+	def delComments(self): self.__comments = None
+	# Properties
+	comments = property(getComments, setComments, delComments, "Property for comments")
+	def getPrintableForReport(self): return self.__printableForReport
+	def setPrintableForReport(self, printableForReport):
+		checkType("UpdateOrStoreDataCollectionRequest", "setPrintableForReport", printableForReport, "boolean")
+		self.__printableForReport = printableForReport
+	def delPrintableForReport(self): self.__printableForReport = None
+	# Properties
+	printableForReport = property(getPrintableForReport, setPrintableForReport, delPrintableForReport, "Property for printableForReport")
+	def getXtalSnapshotFullPath1(self): return self.__xtalSnapshotFullPath1
+	def setXtalSnapshotFullPath1(self, xtalSnapshotFullPath1):
+		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath1", xtalSnapshotFullPath1, "string")
+		self.__xtalSnapshotFullPath1 = xtalSnapshotFullPath1
+	def delXtalSnapshotFullPath1(self): self.__xtalSnapshotFullPath1 = None
+	# Properties
+	xtalSnapshotFullPath1 = property(getXtalSnapshotFullPath1, setXtalSnapshotFullPath1, delXtalSnapshotFullPath1, "Property for xtalSnapshotFullPath1")
+	def getXtalSnapshotFullPath2(self): return self.__xtalSnapshotFullPath2
+	def setXtalSnapshotFullPath2(self, xtalSnapshotFullPath2):
+		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath2", xtalSnapshotFullPath2, "string")
+		self.__xtalSnapshotFullPath2 = xtalSnapshotFullPath2
+	def delXtalSnapshotFullPath2(self): self.__xtalSnapshotFullPath2 = None
+	# Properties
+	xtalSnapshotFullPath2 = property(getXtalSnapshotFullPath2, setXtalSnapshotFullPath2, delXtalSnapshotFullPath2, "Property for xtalSnapshotFullPath2")
+	def getXtalSnapshotFullPath3(self): return self.__xtalSnapshotFullPath3
+	def setXtalSnapshotFullPath3(self, xtalSnapshotFullPath3):
+		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath3", xtalSnapshotFullPath3, "string")
+		self.__xtalSnapshotFullPath3 = xtalSnapshotFullPath3
+	def delXtalSnapshotFullPath3(self): self.__xtalSnapshotFullPath3 = None
+	# Properties
+	xtalSnapshotFullPath3 = property(getXtalSnapshotFullPath3, setXtalSnapshotFullPath3, delXtalSnapshotFullPath3, "Property for xtalSnapshotFullPath3")
+	def getXtalSnapshotFullPath4(self): return self.__xtalSnapshotFullPath4
+	def setXtalSnapshotFullPath4(self, xtalSnapshotFullPath4):
+		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath4", xtalSnapshotFullPath4, "string")
+		self.__xtalSnapshotFullPath4 = xtalSnapshotFullPath4
+	def delXtalSnapshotFullPath4(self): self.__xtalSnapshotFullPath4 = None
+	# Properties
+	xtalSnapshotFullPath4 = property(getXtalSnapshotFullPath4, setXtalSnapshotFullPath4, delXtalSnapshotFullPath4, "Property for xtalSnapshotFullPath4")
+	def getBeamShape(self): return self.__beamShape
+	def setBeamShape(self, beamShape):
+		checkType("UpdateOrStoreDataCollectionRequest", "setBeamShape", beamShape, "string")
+		self.__beamShape = beamShape
+	def delBeamShape(self): self.__beamShape = None
+	# Properties
+	beamShape = property(getBeamShape, setBeamShape, delBeamShape, "Property for beamShape")
+	def export(self, outfile, level, name_='UpdateOrStoreDataCollectionRequest'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='UpdateOrStoreDataCollectionRequest'):
+		pass
+		if self.__dataCollectionId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<dataCollectionId>%d</dataCollectionId>\n' % self.__dataCollectionId))
+		else:
+			warnEmptyAttribute("dataCollectionId", "integer")
+		if self.__blSampleId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<blSampleId>%d</blSampleId>\n' % self.__blSampleId))
+		else:
+			warnEmptyAttribute("blSampleId", "integer")
+		if self.__sessionId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<sessionId>%d</sessionId>\n' % self.__sessionId))
+		else:
+			warnEmptyAttribute("sessionId", "integer")
+		if self.__experimentType is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<experimentType>%s</experimentType>\n' % self.__experimentType))
+		else:
+			warnEmptyAttribute("experimentType", "string")
+		if self.__dataCollectionNumber is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<dataCollectionNumber>%d</dataCollectionNumber>\n' % self.__dataCollectionNumber))
+		else:
+			warnEmptyAttribute("dataCollectionNumber", "integer")
+		if self.__startDate is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<startDate>%s</startDate>\n' % self.__startDate))
+		else:
+			warnEmptyAttribute("startDate", "string")
+		if self.__endDate is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<endDate>%s</endDate>\n' % self.__endDate))
+		else:
+			warnEmptyAttribute("endDate", "string")
+		if self.__runStatus is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<runStatus>%s</runStatus>\n' % self.__runStatus))
+		else:
+			warnEmptyAttribute("runStatus", "string")
+		if self.__rotationAxis is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<rotationAxis>%s</rotationAxis>\n' % self.__rotationAxis))
+		else:
+			warnEmptyAttribute("rotationAxis", "string")
+		if self.__phiStart is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<phiStart>%e</phiStart>\n' % self.__phiStart))
+		else:
+			warnEmptyAttribute("phiStart", "float")
+		if self.__kappaStart is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<kappaStart>%e</kappaStart>\n' % self.__kappaStart))
+		else:
+			warnEmptyAttribute("kappaStart", "float")
+		if self.__omegaStart is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<omegaStart>%e</omegaStart>\n' % self.__omegaStart))
+		else:
+			warnEmptyAttribute("omegaStart", "float")
+		if self.__axisStart is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<axisStart>%e</axisStart>\n' % self.__axisStart))
+		else:
+			warnEmptyAttribute("axisStart", "float")
+		if self.__axisEnd is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<axisEnd>%e</axisEnd>\n' % self.__axisEnd))
+		else:
+			warnEmptyAttribute("axisEnd", "float")
+		if self.__axisRange is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<axisRange>%e</axisRange>\n' % self.__axisRange))
+		else:
+			warnEmptyAttribute("axisRange", "float")
+		if self.__overlap is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<overlap>%e</overlap>\n' % self.__overlap))
+		else:
+			warnEmptyAttribute("overlap", "float")
+		if self.__numberOfImages is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<numberOfImages>%d</numberOfImages>\n' % self.__numberOfImages))
+		else:
+			warnEmptyAttribute("numberOfImages", "integer")
+		if self.__startImageNumber is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<startImageNumber>%d</startImageNumber>\n' % self.__startImageNumber))
+		else:
+			warnEmptyAttribute("startImageNumber", "integer")
+		if self.__numberOfPasses is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<numberOfPasses>%d</numberOfPasses>\n' % self.__numberOfPasses))
+		else:
+			warnEmptyAttribute("numberOfPasses", "integer")
+		if self.__exposureTime is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<exposureTime>%e</exposureTime>\n' % self.__exposureTime))
+		else:
+			warnEmptyAttribute("exposureTime", "float")
+		if self.__imageDirectory is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<imageDirectory>%s</imageDirectory>\n' % self.__imageDirectory))
+		else:
+			warnEmptyAttribute("imageDirectory", "string")
+		if self.__imagePrefix is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<imagePrefix>%s</imagePrefix>\n' % self.__imagePrefix))
+		else:
+			warnEmptyAttribute("imagePrefix", "string")
+		if self.__imageSuffix is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<imageSuffix>%s</imageSuffix>\n' % self.__imageSuffix))
+		else:
+			warnEmptyAttribute("imageSuffix", "string")
+		if self.__fileTemplate is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<fileTemplate>%s</fileTemplate>\n' % self.__fileTemplate))
+		else:
+			warnEmptyAttribute("fileTemplate", "string")
+		if self.__wavelength is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<wavelength>%e</wavelength>\n' % self.__wavelength))
+		else:
+			warnEmptyAttribute("wavelength", "float")
+		if self.__resolution is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<resolution>%e</resolution>\n' % self.__resolution))
+		else:
+			warnEmptyAttribute("resolution", "float")
+		if self.__resolutionAtCorner is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<resolutionAtCorner>%e</resolutionAtCorner>\n' % self.__resolutionAtCorner))
+		else:
+			warnEmptyAttribute("resolutionAtCorner", "float")
+		if self.__detectorDistance is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<detectorDistance>%e</detectorDistance>\n' % self.__detectorDistance))
+		else:
+			warnEmptyAttribute("detectorDistance", "float")
+		if self.__detector2theta is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<detector2theta>%e</detector2theta>\n' % self.__detector2theta))
+		else:
+			warnEmptyAttribute("detector2theta", "float")
+		if self.__detectorMode is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<detectorMode>%s</detectorMode>\n' % self.__detectorMode))
+		else:
+			warnEmptyAttribute("detectorMode", "string")
+		if self.__undulatorGap1 is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<undulatorGap1>%e</undulatorGap1>\n' % self.__undulatorGap1))
+		else:
+			warnEmptyAttribute("undulatorGap1", "float")
+		if self.__undulatorGap2 is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<undulatorGap2>%e</undulatorGap2>\n' % self.__undulatorGap2))
+		else:
+			warnEmptyAttribute("undulatorGap2", "float")
+		if self.__undulatorGap3 is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<undulatorGap3>%e</undulatorGap3>\n' % self.__undulatorGap3))
+		else:
+			warnEmptyAttribute("undulatorGap3", "float")
+		if self.__xbeam is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<xbeam>%e</xbeam>\n' % self.__xbeam))
+		else:
+			warnEmptyAttribute("xbeam", "float")
+		if self.__ybeam is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<ybeam>%e</ybeam>\n' % self.__ybeam))
+		else:
+			warnEmptyAttribute("ybeam", "float")
+		if self.__crystalClass is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<crystalClass>%s</crystalClass>\n' % self.__crystalClass))
+		else:
+			warnEmptyAttribute("crystalClass", "string")
+		if self.__slitGapVertical is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<slitGapVertical>%e</slitGapVertical>\n' % self.__slitGapVertical))
+		else:
+			warnEmptyAttribute("slitGapVertical", "float")
+		if self.__slitGapHorizontal is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<slitGapHorizontal>%e</slitGapHorizontal>\n' % self.__slitGapHorizontal))
+		else:
+			warnEmptyAttribute("slitGapHorizontal", "float")
+		if self.__beamSizeAtSampleX is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<beamSizeAtSampleX>%e</beamSizeAtSampleX>\n' % self.__beamSizeAtSampleX))
+		else:
+			warnEmptyAttribute("beamSizeAtSampleX", "float")
+		if self.__beamSizeAtSampleY is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<beamSizeAtSampleY>%e</beamSizeAtSampleY>\n' % self.__beamSizeAtSampleY))
+		else:
+			warnEmptyAttribute("beamSizeAtSampleY", "float")
+		if self.__transmission is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<transmission>%e</transmission>\n' % self.__transmission))
+		else:
+			warnEmptyAttribute("transmission", "float")
+		if self.__synchrotronMode is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<synchrotronMode>%s</synchrotronMode>\n' % self.__synchrotronMode))
+		else:
+			warnEmptyAttribute("synchrotronMode", "string")
+		if self.__centeringMethod is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<centeringMethod>%s</centeringMethod>\n' % self.__centeringMethod))
+		else:
+			warnEmptyAttribute("centeringMethod", "string")
+		if self.__averageTemperature is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<averageTemperature>%e</averageTemperature>\n' % self.__averageTemperature))
+		else:
+			warnEmptyAttribute("averageTemperature", "float")
+		if self.__comments is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<comments>%s</comments>\n' % self.__comments))
+		else:
+			warnEmptyAttribute("comments", "string")
+		if self.__printableForReport is not None:
+			showIndent(outfile, level)
+			if self.__printableForReport:
+				outfile.write(unicode('<printableForReport>true</printableForReport>\n'))
+			else:
+				outfile.write(unicode('<printableForReport>false</printableForReport>\n'))
+		else:
+			warnEmptyAttribute("printableForReport", "boolean")
+		if self.__xtalSnapshotFullPath1 is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<xtalSnapshotFullPath1>%s</xtalSnapshotFullPath1>\n' % self.__xtalSnapshotFullPath1))
+		else:
+			warnEmptyAttribute("xtalSnapshotFullPath1", "string")
+		if self.__xtalSnapshotFullPath2 is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<xtalSnapshotFullPath2>%s</xtalSnapshotFullPath2>\n' % self.__xtalSnapshotFullPath2))
+		else:
+			warnEmptyAttribute("xtalSnapshotFullPath2", "string")
+		if self.__xtalSnapshotFullPath3 is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<xtalSnapshotFullPath3>%s</xtalSnapshotFullPath3>\n' % self.__xtalSnapshotFullPath3))
+		else:
+			warnEmptyAttribute("xtalSnapshotFullPath3", "string")
+		if self.__xtalSnapshotFullPath4 is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<xtalSnapshotFullPath4>%s</xtalSnapshotFullPath4>\n' % self.__xtalSnapshotFullPath4))
+		else:
+			warnEmptyAttribute("xtalSnapshotFullPath4", "string")
+		if self.__beamShape is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<beamShape>%s</beamShape>\n' % self.__beamShape))
+		else:
+			warnEmptyAttribute("beamShape", "string")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataCollectionId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__dataCollectionId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'blSampleId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__blSampleId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sessionId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__sessionId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentType':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__experimentType = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataCollectionNumber':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__dataCollectionNumber = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'startDate':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__startDate = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'endDate':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__endDate = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'runStatus':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__runStatus = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rotationAxis':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__rotationAxis = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'phiStart':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__phiStart = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'kappaStart':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__kappaStart = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'omegaStart':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__omegaStart = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'axisStart':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__axisStart = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'axisEnd':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__axisEnd = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'axisRange':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__axisRange = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'overlap':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__overlap = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfImages':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__numberOfImages = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'startImageNumber':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__startImageNumber = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfPasses':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__numberOfPasses = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'exposureTime':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__exposureTime = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'imageDirectory':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__imageDirectory = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'imagePrefix':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__imagePrefix = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'imageSuffix':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__imageSuffix = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileTemplate':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__fileTemplate = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'wavelength':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__wavelength = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'resolution':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__resolution = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'resolutionAtCorner':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__resolutionAtCorner = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detectorDistance':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__detectorDistance = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detector2theta':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__detector2theta = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detectorMode':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__detectorMode = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'undulatorGap1':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__undulatorGap1 = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'undulatorGap2':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__undulatorGap2 = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'undulatorGap3':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__undulatorGap3 = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'xbeam':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__xbeam = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'ybeam':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__ybeam = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'crystalClass':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__crystalClass = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'slitGapVertical':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__slitGapVertical = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'slitGapHorizontal':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__slitGapHorizontal = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamSizeAtSampleX':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__beamSizeAtSampleX = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamSizeAtSampleY':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__beamSizeAtSampleY = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'transmission':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__transmission = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'synchrotronMode':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__synchrotronMode = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'centeringMethod':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__centeringMethod = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'averageTemperature':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__averageTemperature = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'comments':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__comments = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'printableForReport':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				if sval_ in ('True', 'true', '1'):
+					ival_ = True
+				elif sval_ in ('False', 'false', '0'):
+					ival_ = False
+				else:
+					raise ValueError('requires boolean -- %s' % child_.toxml())
+				self.__printableForReport = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'xtalSnapshotFullPath1':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__xtalSnapshotFullPath1 = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'xtalSnapshotFullPath2':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__xtalSnapshotFullPath2 = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'xtalSnapshotFullPath3':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__xtalSnapshotFullPath3 = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'xtalSnapshotFullPath4':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__xtalSnapshotFullPath4 = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamShape':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self.__beamShape = value_
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="UpdateOrStoreDataCollectionRequest" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='UpdateOrStoreDataCollectionRequest' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class UpdateOrStoreDataCollectionRequest is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return UpdateOrStoreDataCollectionRequest.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = UpdateOrStoreDataCollectionRequest()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="UpdateOrStoreDataCollectionRequest" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = UpdateOrStoreDataCollectionRequest()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class UpdateOrStoreDataCollectionRequest
+
 class XSDataISPyBImageQualityIndicators(XSData):
 	def __init__(self, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
 		XSData.__init__(self, )
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", binPopCutOffMethod2Res, "XSDataDouble")
 		self.__binPopCutOffMethod2Res = binPopCutOffMethod2Res
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", goodBraggCandidates, "XSDataInteger")
 		self.__goodBraggCandidates = goodBraggCandidates
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", iceRings, "XSDataInteger")
 		self.__iceRings = iceRings
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", image, "XSDataImage")
 		self.__image = image
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", inResTotal, "XSDataInteger")
 		self.__inResTotal = inResTotal
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", inResolutionOvrlSpots, "XSDataInteger")
 		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", maxUnitCell, "XSDataDouble")
 		self.__maxUnitCell = maxUnitCell
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", method1Res, "XSDataDouble")
 		self.__method1Res = method1Res
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", method2Res, "XSDataDouble")
 		self.__method2Res = method2Res
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", pctSaturationTop50Peaks, "XSDataDouble")
 		self.__pctSaturationTop50Peaks = pctSaturationTop50Peaks
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", saturationRangeAverage, "XSDataDouble")
 		self.__saturationRangeAverage = saturationRangeAverage
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", saturationRangeMax, "XSDataDouble")
 		self.__saturationRangeMax = saturationRangeMax
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", saturationRangeMin, "XSDataDouble")
 		self.__saturationRangeMin = saturationRangeMin
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", signalRangeAverage, "XSDataDouble")
 		self.__signalRangeAverage = signalRangeAverage
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", signalRangeMax, "XSDataDouble")
 		self.__signalRangeMax = signalRangeMax
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", signalRangeMin, "XSDataDouble")
 		self.__signalRangeMin = signalRangeMin
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", spotTotal, "XSDataInteger")
 		self.__spotTotal = spotTotal
+		checkType("XSDataISPyBImageQualityIndicators", "Constructor of XSDataISPyBImageQualityIndicators", totalIntegratedSignal, "XSDataDouble")
 		self.__totalIntegratedSignal = totalIntegratedSignal
 	def getBinPopCutOffMethod2Res(self): return self.__binPopCutOffMethod2Res
 	def setBinPopCutOffMethod2Res(self, binPopCutOffMethod2Res):
@@ -2338,11 +3661,15 @@ class XSDataISPyBImageQualityIndicators(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataISPyBImageQualityIndicators' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataISPyBImageQualityIndicators is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataISPyBImageQualityIndicators.parseString(self.marshal())
@@ -2371,6 +3698,7 @@ class XSDataISPyBImageQualityIndicators(XSData):
 class XSDataInputStoreAutoProc(XSDataInput):
 	def __init__(self, configuration=None, AutoProcContainer=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputStoreAutoProc", "Constructor of XSDataInputStoreAutoProc", AutoProcContainer, "AutoProcContainer")
 		self.__AutoProcContainer = AutoProcContainer
 	def getAutoProcContainer(self): return self.__AutoProcContainer
 	def setAutoProcContainer(self, AutoProcContainer):
@@ -2411,11 +3739,15 @@ class XSDataInputStoreAutoProc(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputStoreAutoProc' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputStoreAutoProc is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputStoreAutoProc.parseString(self.marshal())
@@ -2444,6 +3776,7 @@ class XSDataInputStoreAutoProc(XSDataInput):
 class XSDataInputStoreImageQualityIndicators(XSDataInput):
 	def __init__(self, configuration=None, imageQualityIndicators=None):
 		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputStoreImageQualityIndicators", "Constructor of XSDataInputStoreImageQualityIndicators", imageQualityIndicators, "XSDataISPyBImageQualityIndicators")
 		self.__imageQualityIndicators = imageQualityIndicators
 	def getImageQualityIndicators(self): return self.__imageQualityIndicators
 	def setImageQualityIndicators(self, imageQualityIndicators):
@@ -2484,11 +3817,15 @@ class XSDataInputStoreImageQualityIndicators(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputStoreImageQualityIndicators' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputStoreImageQualityIndicators is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputStoreImageQualityIndicators.parseString(self.marshal())
@@ -2517,6 +3854,7 @@ class XSDataInputStoreImageQualityIndicators(XSDataInput):
 class XSDataResultStoreAutoProc(XSDataResult):
 	def __init__(self, status=None, autoProcId=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultStoreAutoProc", "Constructor of XSDataResultStoreAutoProc", autoProcId, "XSDataInteger")
 		self.__autoProcId = autoProcId
 	def getAutoProcId(self): return self.__autoProcId
 	def setAutoProcId(self, autoProcId):
@@ -2555,11 +3893,15 @@ class XSDataResultStoreAutoProc(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultStoreAutoProc' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultStoreAutoProc is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultStoreAutoProc.parseString(self.marshal())
@@ -2588,6 +3930,7 @@ class XSDataResultStoreAutoProc(XSDataResult):
 class XSDataResultStoreImageQualityIndicators(XSDataResult):
 	def __init__(self, status=None, imageQualityIndicatorsId=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultStoreImageQualityIndicators", "Constructor of XSDataResultStoreImageQualityIndicators", imageQualityIndicatorsId, "XSDataInteger")
 		self.__imageQualityIndicatorsId = imageQualityIndicatorsId
 	def getImageQualityIndicatorsId(self): return self.__imageQualityIndicatorsId
 	def setImageQualityIndicatorsId(self, imageQualityIndicatorsId):
@@ -2628,11 +3971,15 @@ class XSDataResultStoreImageQualityIndicators(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultStoreImageQualityIndicators' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultStoreImageQualityIndicators is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultStoreImageQualityIndicators.parseString(self.marshal())

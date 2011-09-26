@@ -141,3 +141,57 @@ complex type AutoProcContainer {
 	AutoProcScalingContainer : AutoProcScalingContainer
 	AutoProcProgramContainer : AutoProcProgramContainer
 }
+
+complex type UpdateOrStoreDataCollectionRequest {
+	dataCollectionId : integer
+	blSampleId : integer
+	sessionId : integer
+	experimentType : string
+	dataCollectionNumber : integer
+	startDate : string
+	endDate : string
+	runStatus : string
+	rotationAxis : string
+	phiStart : float
+	kappaStart : float
+	omegaStart : float
+	axisStart : float
+	axisEnd : float
+	axisRange : float
+	overlap : float
+	numberOfImages : integer
+	startImageNumber : integer
+	numberOfPasses : integer
+	exposureTime : float
+	imageDirectory : string
+	imagePrefix : string
+	imageSuffix : string
+	fileTemplate : string
+	wavelength : float
+	resolution : float
+	resolutionAtCorner : float
+	detectorDistance : float
+	detector2theta : float
+	detectorMode : string
+	undulatorGap1 : float
+	undulatorGap2 : float
+	undulatorGap3 : float
+	xbeam : float
+	ybeam : float
+	crystalClass : string
+	slitGapVertical : float
+	slitGapHorizontal : float
+	beamSizeAtSampleX : float
+	beamSizeAtSampleY : float
+	transmission : float
+	synchrotronMode : string
+	centeringMethod : string
+	averageTemperature : float
+	comments : string
+	printableForReport : boolean
+	xtalSnapshotFullPath1 : string
+	xtalSnapshotFullPath2 : string
+	xtalSnapshotFullPath3 : string
+	xtalSnapshotFullPath4 : string
+	beamShape : string
+}
