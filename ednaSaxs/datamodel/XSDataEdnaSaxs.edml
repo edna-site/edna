@@ -50,7 +50,7 @@ complex type XSDataResultDatcmp extends XSDataResult {
 complex type XSDataInputDataver extends XSDataInput {
 	"dataver averages two or more curves from files"
 	inputCurve: XSDataFile []
-	outputCurve: XSDataFile
+	outputCurve: XSDataFile optional
 	}
 
 complex type XSDataResultDataver extends XSDataResult {

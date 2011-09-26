@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Sep 21 06:27::31 2011 by EDGenerateDS.
+# Generated Mon Sep 26 10:10::58 2011 by EDGenerateDS.
 #
 
 import sys
@@ -1050,8 +1050,6 @@ class XSDataInputAutoRg(XSDataInput):
 		XSDataInput.exportChildren(self, outfile, level, name_)
 		if self.__sample is not None:
 			self.sample.export(outfile, level, name_='sample')
-		else:
-			warnEmptyAttribute("sample", "XSDataSaxsSample")
 		for inputCurve_ in self.getInputCurve():
 			inputCurve_.export(outfile, level, name_='inputCurve')
 		if self.getInputCurve() == []:
@@ -1181,8 +1179,6 @@ class XSDataInputDataver(XSDataInput):
 			warnEmptyAttribute("inputCurve", "XSDataFile")
 		if self.__outputCurve is not None:
 			self.outputCurve.export(outfile, level, name_='outputCurve')
-		else:
-			warnEmptyAttribute("outputCurve", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]

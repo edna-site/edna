@@ -24,20 +24,22 @@
 #
 
 __author__ = "Jérôme Kieffer"
+__contact__ = "Jérôme.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "2011 ESRF, Grenoble"
-__date__ = "2011-06-17"
+__date__ = "2011-09-26"
+__status__ = "Production"
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
-
-from XSDataEdnaSaxs import XSDataInputDataver, XSDataResultDataver, XSDataFile
-from XSDataCommon import XSDataString
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
+from XSDataEdnaSaxs import XSDataInputDataver, XSDataResultDataver
+from XSDataCommon import XSDataString, XSDataFile
 
 class EDPluginExecDataverv1_0(EDPluginExecProcessScript):
     """
     Execution plugin that does the (basic) data averaging 
     """
-
 
     def __init__(self):
         """
@@ -52,15 +54,16 @@ class EDPluginExecDataverv1_0(EDPluginExecProcessScript):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginExecDataverv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().inputCurve, "No input curve filenames provided")
-        self.checkMandatoryParameters(self.getDataInput().outputCurve, "No output curve filename provided")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.inputCurve, "No input curve filenames provided")
+#        self.checkMandatoryParameters(self.getDataInput().outputCurve, "No output curve filename provided")
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
         self.DEBUG("EDPluginExecDataverv1_0.preProcess")
-        self.lstInFiles = [i.path.value for i in  self.getDataInput().inputCurve]
-        self.strOutFile = self.getDataInput().outputCurve.path.value
+        self.lstInFiles = [i.path.value for i in  self.dataInput.inputCurve]
+        if self.dataInput.outputCurve is not None:
+            self.strOutFile = self.dataInput.outputCurve.path.value
         self.generateCommandLine()
 
     def postProcess(self, _edObject=None):
@@ -73,4 +76,8 @@ class EDPluginExecDataverv1_0(EDPluginExecProcessScript):
 
     def generateCommandLine(self):
         self.DEBUG("EDPluginExecDataverv1_0.generateCommandLine")
-        self.setScriptCommandline("--output=%s " % self.strOutFile + " ".join(self.lstInFiles))
+        if self.strOutFile is not None:
+            self.setScriptCommandline("--output=%s " % self.strOutFile + " ".join(self.lstInFiles))
+        else:
+            self.setScriptCommandline(" ".join(self.lstInFiles))
+            self.strOutFile = self.getScriptLogFileName()
