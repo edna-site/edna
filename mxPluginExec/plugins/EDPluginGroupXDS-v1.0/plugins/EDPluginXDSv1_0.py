@@ -43,7 +43,7 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
 
     def __init__(self):
         EDPluginExecProcessScript.__init__(self)
-        self.setRequriedToHaveConfiguration(True)
+        self.setRequiredToHaveConfiguration(True)
         self.__strXDSInput = None
         self.__listJob = None
         self.__strImageLinkSubDirectory = "img"

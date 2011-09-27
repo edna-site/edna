@@ -841,7 +841,7 @@ class EDPlugin(EDAction):
         return self.__strExecutiveSummarySeparator
 
 
-    def isReqiredToHaveConfiguration(self):
+    def isRequiredToHaveConfiguration(self):
         """
         If the return value from this method is true, the plugin 
         is required to have a configuration in order to be executed in a
@@ -852,7 +852,7 @@ class EDPlugin(EDAction):
         return self.__isRequiredToHaveConfiguration
 
 
-    def setRequriedToHaveConfiguration(self, _bValue=True):
+    def setRequiredToHaveConfiguration(self, _bValue=True):
         """
         Sets or unsets the plugin to be required to have a configuration
         for execution in a plugin execution test case.

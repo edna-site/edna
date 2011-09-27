@@ -62,7 +62,7 @@ class EDPluginExecProcess(EDPluginExec):
         Initializes process related attributes described above
         """
         EDPluginExec.__init__(self)
-        self.setRequriedToHaveConfiguration()
+        self.setRequiredToHaveConfiguration()
         self.__strConfigExecutable = "cat"
         self.__strConfigCommandline = ""
         self.__subprocess = None

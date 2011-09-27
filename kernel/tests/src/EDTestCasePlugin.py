@@ -92,7 +92,7 @@ class EDTestCasePlugin(EDTestCase):
             strErr = "Unable to create plugin %s: Check the corresponding module" % self.getPluginName()
             EDVerbose.ERROR(strErr)
             raise RuntimeError(strErr)
-        if edPlugin.isReqiredToHaveConfiguration():
+        if edPlugin.isRequiredToHaveConfiguration():
             self.__listRequiredConfigurationPluginNames.append(self.getPluginName())
         # Check if the required plugin parameters are available
         for strPluginName in self.__listRequiredConfigurationPluginNames:

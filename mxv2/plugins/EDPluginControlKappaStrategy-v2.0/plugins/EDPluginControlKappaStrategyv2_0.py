@@ -62,7 +62,7 @@ class EDPluginControlKappaStrategyv2_0(EDPluginControl):
         EDPluginControl.__init__(self)
         #self.setXSDataInputClass(EDList)
 
-        self.setRequriedToHaveConfiguration(True)
+        self.setRequiredToHaveConfiguration(True)
 
         self.strPluginRaddoseName = "EDPluginRaddosev10"
         self.edPluginRaddose = None
