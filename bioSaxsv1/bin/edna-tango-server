@@ -33,7 +33,13 @@ if [ "$testit" = "" ]; then
   sleep 3
 fi
 
-export TestSpace=/tmp/edna-$(date +"%Y%m%dT%H%M%S")
+if [ ! -d ${HOME}/log ];
+then
+    mkdir ${HOME}/log
+fi
+now=$(date +"%Y%m%dT%H%M%S")
+export TestSpace=/tmp/edna-$now
+export log=${HOME}/log/tango-edna-${now}
 if [ ! -d ${TestSpace} ] ;
 then
 	mkdir ${TestSpace}
@@ -41,4 +47,5 @@ then
 PythonProg=${EDNA_HOME}/tango/bin/tango-EdnaDS.py
 echo "Server Mode"
 cd $TestSpace
-$PYTHON $PythonProg DAU143 -v5
+nohup $PYTHON $PythonProg DAU143 -v2 2>&1 > log &
+echo "Launched Edna Tango DS. logs are in $log" 
