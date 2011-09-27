@@ -37,11 +37,12 @@ from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
 EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsProcessOneFilev1_0, XSDataResultBioSaxsProcessOneFilev1_0, \
-                            XSDataString, XSDataFile, XSDataImage, XSDataInteger, \
                             XSDataInputBioSaxsNormalizev1_0, XSDataInputBioSaxsAzimutIntv1_0
-from XSDataCommon           import XSDataStatus
+from XSDataCommon           import XSDataStatus, XSDataString, XSDataFile, XSDataImage, XSDataInteger
+
 
 class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
     """

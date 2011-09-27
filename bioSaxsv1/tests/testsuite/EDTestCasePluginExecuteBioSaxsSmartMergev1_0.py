@@ -32,6 +32,10 @@ import os, tempfile
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
+EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
+
 from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
 
 class EDTestCasePluginExecuteBioSaxsSmartMergev1_0(EDTestCasePluginExecute):

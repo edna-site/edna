@@ -30,6 +30,7 @@ __copyright__ = "2011 ESRF, Grenoble"
 __date__ = "2011-09-26"
 __status__ = "Production"
 
+import os
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
@@ -38,7 +39,7 @@ from XSDataCommon import XSDataString, XSDataFile
 
 class EDPluginExecDataverv1_0(EDPluginExecProcessScript):
     """
-    Execution plugin that does the (basic) data averaging 
+    Execution plugin that does the (basic) data averaging , part from Atsas package
     """
 
     def __init__(self):
@@ -56,7 +57,6 @@ class EDPluginExecDataverv1_0(EDPluginExecProcessScript):
         self.DEBUG("EDPluginExecDataverv1_0.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.inputCurve, "No input curve filenames provided")
-#        self.checkMandatoryParameters(self.getDataInput().outputCurve, "No output curve filename provided")
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
@@ -80,4 +80,4 @@ class EDPluginExecDataverv1_0(EDPluginExecProcessScript):
             self.setScriptCommandline("--output=%s " % self.strOutFile + " ".join(self.lstInFiles))
         else:
             self.setScriptCommandline(" ".join(self.lstInFiles))
-            self.strOutFile = self.getScriptLogFileName()
+            self.strOutFile = os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())

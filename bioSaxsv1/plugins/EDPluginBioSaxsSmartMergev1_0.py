@@ -34,14 +34,12 @@ __status__ = "production"
 import os, shutil
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
-EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
+EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataCommon       import XSDataString, XSDataStatus, XSDataFile, XSDataTime, XSDataInteger
-from XSDataBioSaxsv1_0 import XSDataInputBioSaxsSmartMergev1_0
-from XSDataBioSaxsv1_0 import XSDataResultBioSaxsSmartMergev1_0
-from XSDataEdnaSaxs     import XSDataInputDatcmp
-from XSDataEdnaSaxs     import XSDataInputDataver
+from XSDataBioSaxsv1_0  import XSDataInputBioSaxsSmartMergev1_0, XSDataResultBioSaxsSmartMergev1_0
+from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 
 
@@ -76,6 +74,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.dictSimilarities = {} #key: 2-tuple of images, similarities
         self.lstSummary = []
         self.lstStrInput = []
+        self.lstMerged = []
 
     def checkParameters(self):
         """
@@ -116,7 +115,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         if len(self.lstInput) == 1:
             shutil.copyfile(self.lstInput[0].path.value, self.dataInput.mergedCurve.path.value)
         else:
-            lstFile = []
+            self.lstMerged = []
             if (self.absoluteFidelity is not None) or (self.relativeFidelity is not None):
                 if self.absoluteFidelity is not None :
                     for oneFile in self.lstInput[1:]:
@@ -138,28 +137,28 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
 
             for idx, oneFile in enumerate(self.lstInput):
                 if idx == 0:
-                    lstFile.append(oneFile)
+                    self.lstMerged.append(oneFile)
                 elif (self.absoluteFidelity is not None) and (self.relativeFidelity is not None):
                     if (self.dictSimilarities[(0, idx)] >= self.absoluteFidelity) and (self.dictSimilarities[(idx - 1, idx)] >= self.relativeFidelity):
-                        lstFile.append(oneFile)
+                        self.lstMerged.append(oneFile)
                     else:
                         break
                 elif (self.absoluteFidelity is not None) :
                     if (self.dictSimilarities[(0, idx)] >= self.absoluteFidelity):
-                        lstFile.append(oneFile)
+                        self.lstMerged.append(oneFile)
                     else:
                         break
                 elif (self.relativeFidelity is not None) :
                     if (self.dictSimilarities[(idx - 1, idx)] >= self.relativeFidelity):
-                        lstFile.append(oneFile)
+                        self.lstMerged.append(oneFile)
                     else:
                         break
                 else:
-                    lstFile.append(oneFile)
-            self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in lstFile]))
+                    self.lstMerged.append(oneFile)
+            self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in self.lstMerged]))
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
             xsd = XSDataInputDataver(outputCurve=self.dataInput.mergedCurve,
-                                    inputCurve=lstFile)
+                                    inputCurve=self.lstMerged)
             self.__edPluginExecDataver.setDataInput(xsd)
             self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
             self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
@@ -176,6 +175,55 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         self.setDataOutput(xsDataResult)
         self.DEBUG(executiveSummary)
+
+
+    def rewriteHeader(self, infile=None):
+        """
+        Write the output file with the good header:
+
+# BSA sample
+#Sample c= 0.0 mg/ml
+#
+# Merged from: file1
+# Merged from: file2
+# Merged from: file4
+#
+# Sample Information:
+# Concentration: 0.0
+# Code: BSA
+
+        @param infile: path of the original data file where original data are taken from
+        @return: None
+        """
+        Code = None
+        Concentration = None
+        originalFile = self.lstMerged[0].path.value
+        headers = [line.strip() for line in open(originalFile) if line.startswith("#")]
+        Comments = headers[0][1:].strip()
+        for line in headers:
+            if "title =" in  line:
+                Comments = line.split("=", 1)[1].strip()
+            elif "Comments =" in line:
+                Comments = line.split("=", 1)[1].strip()
+            elif "Concentration:" in line:
+                Concentration = line.split(":", 1)[1].strip()
+            elif "Concentration =" in line:
+                Concentration = line.split("=", 1)[1].strip()
+            elif "Code =" in line:
+                Code = line.split("=", 1)[1].strip()
+            elif "Code:" in line:
+                Code = line.split(":", 1)[1].strip()
+        lstHeader = ["# %s" % Comments, "#Sample c= %s mg/ml" % Concentration, "#"]
+        lstHeader += ["# Merged from: %s" % i.path.value for i in self.lstMerged]
+        lstHeader += ["#", "# Sample Information:", "# Concentration: %s" % Concentration, "# Code: %s" % Code]
+        if infile is None:
+            infile = self.dataInput.mergedCurve.path.value
+        data = open(infile).read()
+        with open(self.dataInput.mergedCurve.path.value, "w") as outfile:
+            outfile.write(os.linesep.join(lstHeader))
+            if not data.startswith(os.linesep):
+                outfile.write(os.linesep)
+            outfile.write(data)
 
 
     def doSuccessExecWait(self, _edPlugin=None):
@@ -199,7 +247,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
     def doSuccessExecDataver(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_0.doSuccessExecDataver")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecDataver")
-
+        self.rewriteHeader(_edPlugin.dataOutput.outputCurve.path.value)
 
 
     def doFailureExecDataver(self, _edPlugin=None):
