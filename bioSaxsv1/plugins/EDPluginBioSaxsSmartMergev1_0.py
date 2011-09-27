@@ -213,7 +213,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
                 Code = line.split("=", 1)[1].strip()
             elif "Code:" in line:
                 Code = line.split(":", 1)[1].strip()
-        lstHeader = ["# %s" % Comments, "#Sample c= %s mg/ml" % Concentration, "#"]
+        lstHeader = ["# %s" % Comments, "# Sample c= %s mg/ml" % Concentration, "#"]
         lstHeader += ["# Merged from: %s" % i.path.value for i in self.lstMerged]
         lstHeader += ["#", "# Sample Information:", "# Concentration: %s" % Concentration, "# Code: %s" % Code]
         if infile is None:
