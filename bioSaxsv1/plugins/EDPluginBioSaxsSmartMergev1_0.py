@@ -157,8 +157,7 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
                     self.lstMerged.append(oneFile)
             self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in self.lstMerged]))
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
-            xsd = XSDataInputDataver(outputCurve=self.dataInput.mergedCurve,
-                                    inputCurve=self.lstMerged)
+            xsd = XSDataInputDataver(inputCurve=self.lstMerged)
             self.__edPluginExecDataver.setDataInput(xsd)
             self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
             self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
