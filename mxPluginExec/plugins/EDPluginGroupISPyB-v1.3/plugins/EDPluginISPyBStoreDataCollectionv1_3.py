@@ -39,7 +39,7 @@ from suds.client import Client
 from suds.transport.http import HttpAuthenticated
 from suds.sax.date import DateTime
 
-from XSDataISPyBv1_3 import UpdateOrStoreDataCollectionRequest
+from XSDataISPyBv1_3 import XSDataInputStoreDataCollection
 
 class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
     """
@@ -105,7 +105,7 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         self.setDataOutput(xsDataResultStoreDataCollection)
 
 
-    def getValue(self, _oValue, _oDefaultValue):
+    def getValue(self, _oValue, _oDefaultValue=None):
         if _oValue is None:
             oReturnValue = _oDefaultValue
         else:
@@ -124,65 +124,65 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         return oReturnValue
 
 
-    def storeDataCollectionProgram(self, _clientToolsForMXCubeWebService, _xsDataDataCollectionProgram):
+    def storeDataCollectionProgram(self, _clientToolsForMXCubeWebService, _xsDataInputStoreDataCollection):
         """Creates an entry in the ISPyB DataCollectionProgram table"""
         self.DEBUG("EDPluginISPyBStoreDataCollectionv1_3.storeDataCollectionProgram")
 
-        
+        updateOrStoreDataCollectionRequest = _xsDataInputStoreDataCollection.getUpdateOrStoreDataCollectionRequest()
 
-        dataCollectionId = self.getValue(_xsDataDataCollectionProgram.getDataCollectionId()) # integer
-	blSampleId = self.getValue(_xsDataDataCollectionProgram.getBlSampleId()) # integer
-	sessionId = self.getValue(_xsDataDataCollectionProgram.getSessionId()) # integer
-	experimentType = self.getValue(_xsDataDataCollectionProgram.getExperimentType()) # string
-	dataCollectionNumber = self.getValue(_xsDataDataCollectionProgram.getDataCollectionNumber()) # integer
-	startDate = self.getValue(_xsDataDataCollectionProgram.getStartDate()) # string
-	endDate = self.getValue(_xsDataDataCollectionProgram.getEndDate()) # string
-	runStatus = self.getValue(_xsDataDataCollectionProgram.getRunStatus()) # string
-	rotationAxis = self.getValue(_xsDataDataCollectionProgram.getRotationAxis()) # string
-	phiStart = self.getValue(_xsDataDataCollectionProgram.getPhiStart()) # float
-	kappaStart = self.getValue(_xsDataDataCollectionProgram.getKappaStart()) # float
-	omegaStart = self.getValue(_xsDataDataCollectionProgram.getOmegaStart()) # float
-	axisStart = self.getValue(_xsDataDataCollectionProgram.getAxisStart()) # float
-	axisEnd = self.getValue(_xsDataDataCollectionProgram.getAxisEnd()) # float
-	axisRange = self.getValue(_xsDataDataCollectionProgram.getAxisRange()) # float
-	overlap = self.getValue(_xsDataDataCollectionProgram.getOverlap()) # float
-	numberOfImages = self.getValue(_xsDataDataCollectionProgram.getNumberOfImages()) # integer
-	startImageNumber = self.getValue(_xsDataDataCollectionProgram.getStartImageNumber()) # integer
-	numberOfPasses = self.getValue(_xsDataDataCollectionProgram.getNumberOfPasses()) # integer
-	exposureTime = self.getValue(_xsDataDataCollectionProgram.getExposureTime()) # float
-	imageDirectory = self.getValue(_xsDataDataCollectionProgram.getImageDirectory()) # string
-	imagePrefix = self.getValue(_xsDataDataCollectionProgram.getImagePrefix()) # string
-	imageSuffix = self.getValue(_xsDataDataCollectionProgram.getImageSuffix()) # string
-	fileTemplate = self.getValue(_xsDataDataCollectionProgram.getFileTemplate()) # string
-	wavelength = self.getValue(_xsDataDataCollectionProgram.getWavelength()) # float
-	resolution = self.getValue(_xsDataDataCollectionProgram.getResolution()) # float
-	resolutionAtCorner = self.getValue(_xsDataDataCollectionProgram.getResolutionAtCorner()) # float
-	detectorDistance = self.getValue(_xsDataDataCollectionProgram.getDetectorDistance()) # float
-	detector2theta = self.getValue(_xsDataDataCollectionProgram.getDetector2theta()) # float
-	detectorMode = self.getValue(_xsDataDataCollectionProgram.getDetectorMode()) # string
-	undulatorGap1 = self.getValue(_xsDataDataCollectionProgram.getUndulatorGap1()) # float
-	undulatorGap2 = self.getValue(_xsDataDataCollectionProgram.getUndulatorGap2()) # float
-	undulatorGap3 = self.getValue(_xsDataDataCollectionProgram.getUndulatorGap3()) # float
-	xbeam = self.getValue(_xsDataDataCollectionProgram.getXbeam()) # float
-	ybeam = self.getValue(_xsDataDataCollectionProgram.getYbeam()) # float
-	crystalClass = self.getValue(_xsDataDataCollectionProgram.getCrystalClass()) # string
-	slitGapVertical = self.getValue(_xsDataDataCollectionProgram.getSlitGapVertical()) # float
-	slitGapHorizontal = self.getValue(_xsDataDataCollectionProgram.getSlitGapHorizontal()) # float
-	beamSizeAtSampleX = self.getValue(_xsDataDataCollectionProgram.getBeamSizeAtSampleX()) # float
-	beamSizeAtSampleY = self.getValue(_xsDataDataCollectionProgram.getBeamSizeAtSampleY()) # float
-	transmission = self.getValue(_xsDataDataCollectionProgram.getTransmission()) # float
-	synchrotronMode = self.getValue(_xsDataDataCollectionProgram.getSynchrotronMode()) # string
-	centeringMethod = self.getValue(_xsDataDataCollectionProgram.getCenteringMethod()) # string
-	averageTemperature = self.getValue(_xsDataDataCollectionProgram.getAverageTemperature()) # float
-	comments = self.getValue(_xsDataDataCollectionProgram.getComments()) # string
-	printableForReport = self.getValue(_xsDataDataCollectionProgram.getPrintableForReport()) # boolean
-	xtalSnapshotFullPath1 = self.getValue(_xsDataDataCollectionProgram.getXtalSnapshotFullPath1()) # string
-	xtalSnapshotFullPath2 = self.getValue(_xsDataDataCollectionProgram.getXtalSnapshotFullPath2()) # string
-	xtalSnapshotFullPath3 = self.getValue(_xsDataDataCollectionProgram.getXtalSnapshotFullPath3()) # string
-	xtalSnapshotFullPath4 = self.getValue(_xsDataDataCollectionProgram.getXtalSnapshotFullPath4()) # string
-        beamShape = self.getValue(_xsDataDataCollectionProgram.getBeamShape()) # string
+        dataCollectionId = self.getValue(updateOrStoreDataCollectionRequest.getDataCollectionId(), 0) # integer
+        blSampleId = self.getValue(updateOrStoreDataCollectionRequest.getBlSampleId(), 0) # integer
+        sessionId = self.getValue(updateOrStoreDataCollectionRequest.getSessionId()) # integer
+        experimentType = self.getValue(updateOrStoreDataCollectionRequest.getExperimentType()) # string
+        dataCollectionNumber = self.getValue(updateOrStoreDataCollectionRequest.getDataCollectionNumber()) # integer
+        startDate = self.getValue(updateOrStoreDataCollectionRequest.getStartDate()) # string
+        endDate = self.getValue(updateOrStoreDataCollectionRequest.getEndDate()) # string
+        runStatus = self.getValue(updateOrStoreDataCollectionRequest.getRunStatus()) # string
+        rotationAxis = self.getValue(updateOrStoreDataCollectionRequest.getRotationAxis()) # string
+        phiStart = self.getValue(updateOrStoreDataCollectionRequest.getPhiStart()) # float
+        kappaStart = self.getValue(updateOrStoreDataCollectionRequest.getKappaStart()) # float
+        omegaStart = self.getValue(updateOrStoreDataCollectionRequest.getOmegaStart()) # float
+        axisStart = self.getValue(updateOrStoreDataCollectionRequest.getAxisStart()) # float
+        axisEnd = self.getValue(updateOrStoreDataCollectionRequest.getAxisEnd()) # float
+        axisRange = self.getValue(updateOrStoreDataCollectionRequest.getAxisRange()) # float
+        overlap = self.getValue(updateOrStoreDataCollectionRequest.getOverlap()) # float
+        numberOfImages = self.getValue(updateOrStoreDataCollectionRequest.getNumberOfImages()) # integer
+        startImageNumber = self.getValue(updateOrStoreDataCollectionRequest.getStartImageNumber()) # integer
+        numberOfPasses = self.getValue(updateOrStoreDataCollectionRequest.getNumberOfPasses()) # integer
+        exposureTime = self.getValue(updateOrStoreDataCollectionRequest.getExposureTime()) # float
+        imageDirectory = self.getValue(updateOrStoreDataCollectionRequest.getImageDirectory()) # string
+        imagePrefix = self.getValue(updateOrStoreDataCollectionRequest.getImagePrefix()) # string
+        imageSuffix = self.getValue(updateOrStoreDataCollectionRequest.getImageSuffix()) # string
+        fileTemplate = self.getValue(updateOrStoreDataCollectionRequest.getFileTemplate()) # string
+        wavelength = self.getValue(updateOrStoreDataCollectionRequest.getWavelength()) # float
+        resolution = self.getValue(updateOrStoreDataCollectionRequest.getResolution()) # float
+        resolutionAtCorner = self.getValue(updateOrStoreDataCollectionRequest.getResolutionAtCorner()) # float
+        detectorDistance = self.getValue(updateOrStoreDataCollectionRequest.getDetectorDistance()) # float
+        detector2theta = self.getValue(updateOrStoreDataCollectionRequest.getDetector2theta()) # float
+        detectorMode = self.getValue(updateOrStoreDataCollectionRequest.getDetectorMode()) # string
+        undulatorGap1 = self.getValue(updateOrStoreDataCollectionRequest.getUndulatorGap1()) # float
+        undulatorGap2 = self.getValue(updateOrStoreDataCollectionRequest.getUndulatorGap2()) # float
+        undulatorGap3 = self.getValue(updateOrStoreDataCollectionRequest.getUndulatorGap3()) # float
+        xbeam = self.getValue(updateOrStoreDataCollectionRequest.getXbeam()) # float
+        ybeam = self.getValue(updateOrStoreDataCollectionRequest.getYbeam()) # float
+        crystalClass = self.getValue(updateOrStoreDataCollectionRequest.getCrystalClass()) # string
+        slitGapVertical = self.getValue(updateOrStoreDataCollectionRequest.getSlitGapVertical()) # float
+        slitGapHorizontal = self.getValue(updateOrStoreDataCollectionRequest.getSlitGapHorizontal()) # float
+        beamSizeAtSampleX = self.getValue(updateOrStoreDataCollectionRequest.getBeamSizeAtSampleX()) # float
+        beamSizeAtSampleY = self.getValue(updateOrStoreDataCollectionRequest.getBeamSizeAtSampleY()) # float
+        transmission = self.getValue(updateOrStoreDataCollectionRequest.getTransmission()) # float
+        synchrotronMode = self.getValue(updateOrStoreDataCollectionRequest.getSynchrotronMode()) # string
+        centeringMethod = self.getValue(updateOrStoreDataCollectionRequest.getCenteringMethod()) # string
+        averageTemperature = self.getValue(updateOrStoreDataCollectionRequest.getAverageTemperature()) # float
+        comments = self.getValue(updateOrStoreDataCollectionRequest.getComments()) # string
+        printableForReport = self.getValue(updateOrStoreDataCollectionRequest.getPrintableForReport()) # boolean
+        xtalSnapshotFullPath1 = self.getValue(updateOrStoreDataCollectionRequest.getXtalSnapshotFullPath1()) # string
+        xtalSnapshotFullPath2 = self.getValue(updateOrStoreDataCollectionRequest.getXtalSnapshotFullPath2()) # string
+        xtalSnapshotFullPath3 = self.getValue(updateOrStoreDataCollectionRequest.getXtalSnapshotFullPath3()) # string
+        xtalSnapshotFullPath4 = self.getValue(updateOrStoreDataCollectionRequest.getXtalSnapshotFullPath4()) # string
+        beamShape = self.getValue(updateOrStoreDataCollectionRequest.getBeamShape()) # string
 
-        _clientToolsForMXCubeWebService.service.storeDataCollectionProgram(dataCollectionId, blSampleId, sessionId,
+        iDataCollectionId = _clientToolsForMXCubeWebService.service.updateOrStoreDataCollectionRequest(dataCollectionId, blSampleId, sessionId,
                                                                            experimentType, dataCollectionNumber, startDate,
                                                                            endDate, runStatus, rotationAxis,
                                                                            phiStart, kappaStart, omegaStart,
@@ -206,13 +206,13 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
 
 
 
-#        strProcessingCommandLine = self.getValue(_xsDataDataCollectionProgram.getProcessingCommandLine(), "")
-#        strProcessingPrograms = self.getValue(_xsDataDataCollectionProgram.getProcessingPrograms(), "")
-#        bProcessingStatus = self.getValue(_xsDataDataCollectionProgram.getProcessingStatus(), True)
-#        strProcessingMessage = self.getValue(_xsDataDataCollectionProgram.getProcessingMessage(), "")
-#        processingStartTime = self.getDateValue(_xsDataDataCollectionProgram.getProcessingStartTime(), "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-#        processingEndTime = self.getDateValue(_xsDataDataCollectionProgram.getProcessingEndTime(), "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-#        strProcessingEnvironment = self.getValue(_xsDataDataCollectionProgram.getProcessingEnvironment(), "")
+#        strProcessingCommandLine = self.getValue(updateOrStoreDataCollectionRequest.getProcessingCommandLine(), "")
+#        strProcessingPrograms = self.getValue(updateOrStoreDataCollectionRequest.getProcessingPrograms(), "")
+#        bProcessingStatus = self.getValue(updateOrStoreDataCollectionRequest.getProcessingStatus(), True)
+#        strProcessingMessage = self.getValue(updateOrStoreDataCollectionRequest.getProcessingMessage(), "")
+#        processingStartTime = self.getDateValue(updateOrStoreDataCollectionRequest.getProcessingStartTime(), "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
+#        processingEndTime = self.getDateValue(updateOrStoreDataCollectionRequest.getProcessingEndTime(), "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
+#        strProcessingEnvironment = self.getValue(updateOrStoreDataCollectionRequest.getProcessingEnvironment(), "")
 #        recordTimeStamp = DateTime(datetime.datetime.now())
 #        iDataCollectionProgramId = _clientToolsForMXCubeWebService.service.storeDataCollectionProgram(
 #                in0=strProcessingCommandLine, \
@@ -227,168 +227,3 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         self.DEBUG("DataCollectionProgramId: %r" % iDataCollectionProgramId)
         return iDataCollectionProgramId
 
-
-    def storeDataCollectionProgramAttachment(self, _clientToolsForMXCubeWebService, _xsDataDataCollectionProgramAttachment):
-        """Creates an entry in the ISPyB DataCollectionProgramAttachment table"""
-        iDataCollectionProgramId = self.iDataCollectionProgramId
-        strFileType = self.getValue(_xsDataDataCollectionProgramAttachment.getFileType(), "")
-        strFileName = self.getValue(_xsDataDataCollectionProgramAttachment.getFileName(), "")
-        strFilePath = self.getValue(_xsDataDataCollectionProgramAttachment.getFilePath(), "")
-        recordTimeStamp = DateTime(datetime.datetime.now())
-        iDataCollectionProgramAttachmentId = _clientToolsForMXCubeWebService.service.storeDataCollectionProgramAttachment(
-                in0=strFileType, \
-                in1=strFileName, \
-                in2=strFilePath, \
-                in3=recordTimeStamp, \
-                in4=iDataCollectionProgramId
-                )
-        self.DEBUG("DataCollectionProgramAttachmentId: %r" % iDataCollectionProgramAttachmentId)
-        return iDataCollectionProgramAttachmentId
-
-
-    def storeDataCollectionIntegration(self, _clientToolsForMXCubeWebService, _xsDataDataCollectionIntegrationContainer):
-        """Creates an entry in the ISPyB DataCollectionIntegration table"""
-        xsDataProcIntegration = _xsDataDataCollectionIntegrationContainer.getDataCollectionIntegration()
-        iDataCollectionProgramId = self.iDataCollectionProgramId
-        iStartImageNumber = self.getValue(xsDataProcIntegration.getStartImageNumber(), 9999)
-        iEndImageNumber = self.getValue(xsDataProcIntegration.getEndImageNumber(), 9999)
-        fRefinedDetectorDistance = self.getValue(xsDataProcIntegration.getRefinedDetectorDistance(), -1.0)
-        fRefinedXbeam = self.getValue(xsDataProcIntegration.getRefinedXbeam(), -1.0)
-        fRefinedYbeam = self.getValue(xsDataProcIntegration.getRefinedYbeam(), -1.0)
-        fRotationAxisX = self.getValue(xsDataProcIntegration.getRotationAxisX(), -1.0)
-        fRotationAxisY = self.getValue(xsDataProcIntegration.getRotationAxisY(), -1.0)
-        fRotationAxisZ = self.getValue(xsDataProcIntegration.getRotationAxisZ(), -1.0)
-        fBeamVectorX = self.getValue(xsDataProcIntegration.getBeamVectorX(), -1.0)
-        fBeamVectorY = self.getValue(xsDataProcIntegration.getBeamVectorY(), -1.0)
-        fBeamVectorZ = self.getValue(xsDataProcIntegration.getBeamVectorZ(), -1.0)
-        fCellA = self.getValue(xsDataProcIntegration.getCell_a(), -1.0)
-        fCellB = self.getValue(xsDataProcIntegration.getCell_b(), -1.0)
-        fCellC = self.getValue(xsDataProcIntegration.getCell_c(), -1.0)
-        fCellAlpha = self.getValue(xsDataProcIntegration.getCell_alpha(), -1.0)
-        fCellBeta = self.getValue(xsDataProcIntegration.getCell_beta(), -1.0)
-        fCellGamma = self.getValue(xsDataProcIntegration.getCell_gamma(), -1.0)
-        iDataCollectionId = _xsDataDataCollectionIntegrationContainer.getImage().getDataCollectionId()
-        recordTimeStamp = DateTime(datetime.datetime.now())
-        iDataCollectionIntegrationId = _clientToolsForMXCubeWebService.service.storeDataCollectionIntegration(
-                in0=iDataCollectionProgramId, \
-                in1=iStartImageNumber, \
-                in2=iEndImageNumber, \
-                in3=fRefinedDetectorDistance, \
-                in4=fRefinedXbeam, \
-                in5=fRefinedYbeam, \
-                in6=fRotationAxisX, \
-                in7=fRotationAxisY, \
-                in8=fRotationAxisZ, \
-                in9=fBeamVectorX, \
-                in10=fBeamVectorY, \
-                in11=fBeamVectorZ, \
-                in12=fCellA, \
-                in13=fCellB, \
-                in14=fCellC, \
-                in15=fCellAlpha, \
-                in16=fCellBeta, \
-                in17=fCellGamma, \
-                in18=recordTimeStamp, \
-                in19=iDataCollectionId \
-                )
-        self.DEBUG("DataCollectionProgramIntegrationId: %r" % iDataCollectionIntegrationId)
-        return iDataCollectionIntegrationId
-
-
-    def storeDataCollection(self, _clientToolsForMXCubeWebService, _xsDataDataCollection):
-        """Creates an entry in the ISPyB DataCollection table"""
-        iDataCollectionProgramId = self.iDataCollectionProgramId
-        strSpaceGroup = self.getValue(_xsDataDataCollection.getSpaceGroup(), "")
-        fRefinedCellA = self.getValue(_xsDataDataCollection.getRefinedCell_a(), -1)
-        fRefinedCellB = self.getValue(_xsDataDataCollection.getRefinedCell_b(), -1)
-        fRefinedCellC = self.getValue(_xsDataDataCollection.getRefinedCell_c(), -1)
-        fRefinedCellAlpha = self.getValue(_xsDataDataCollection.getRefinedCell_alpha(), -1)
-        fRefinedCellBeta = self.getValue(_xsDataDataCollection.getRefinedCell_beta(), -1)
-        fRefinedCellGamma = self.getValue(_xsDataDataCollection.getRefinedCell_gamma(), -1)
-        recordTimeStamp = DateTime(datetime.datetime.now())
-        iDataCollectionId = _clientToolsForMXCubeWebService.service.storeDataCollection(
-                in0=iDataCollectionProgramId, \
-                in1=strSpaceGroup, \
-                in2=fRefinedCellA, \
-                in3=fRefinedCellB, \
-                in4=fRefinedCellC, \
-                in5=fRefinedCellAlpha, \
-                in6=fRefinedCellBeta, \
-                in7=fRefinedCellGamma, \
-                in8=recordTimeStamp \
-                )
-        self.DEBUG("DataCollectionId: %r" % iDataCollectionId)
-        return iDataCollectionId
-
-
-    def storeDataCollectionScaling(self, _clientToolsForMXCubeWebService, _xsDataDataCollectionScaling):
-        """Creates an entry in the ISPyB DataCollectionScaling table"""
-        iDataCollectionId = self.iDataCollectionId
-        recordTimeStamp = self.getDateValue(_xsDataDataCollectionScaling.getRecordTimeStamp(), "%Y-%m-%d %H:%M:%S", DateTime(datetime.datetime.now()))
-        iDataCollectionScalingId = _clientToolsForMXCubeWebService.service.storeDataCollectionScaling(
-                in0=iDataCollectionId, \
-                in1=recordTimeStamp \
-                )
-        self.DEBUG("DataCollectionScalingId: %r" % iDataCollectionScalingId)
-        return iDataCollectionScalingId
-
-
-
-    def storeDataCollectionScalingStatistics(self, _clientToolsForMXCubeWebService, _xsDataDataCollectionScalingStatistics):
-        """Creates an entry in the ISPyB DataCollectionScalingStatistics table"""
-        strScalingStatisticsType = _xsDataDataCollectionScalingStatistics.getScalingStatisticsType()
-        strComments = ""
-        fResolutionLimitLow = self.getValue(_xsDataDataCollectionScalingStatistics.getResolutionLimitLow(), -1.0)
-        fResolutionLimitHigh = self.getValue(_xsDataDataCollectionScalingStatistics.getResolutionLimitHigh(), -1.0)
-        fRmerge = self.getValue(_xsDataDataCollectionScalingStatistics.getRMerge(), -1.0)
-        fRmeasWithinIplusIminus = self.getValue(_xsDataDataCollectionScalingStatistics.getRmeasWithinIplusIminus(), -1.0)
-        fRmeasAllIplusIminus = self.getValue(_xsDataDataCollectionScalingStatistics.getRmeasAllIplusIminus(), -1.0)
-        fRpimWithinIplusIminus = self.getValue(_xsDataDataCollectionScalingStatistics.getRpimWithinIplusIminus(), -1.0)
-        fRpimAllIplusIminus = self.getValue(_xsDataDataCollectionScalingStatistics.getRpimAllIplusIminus(), -1.0)
-        fFractionalPartialBias = self.getValue(_xsDataDataCollectionScalingStatistics.getFractionalPartialBias(), -1.0)
-        iNtotalObservations = int(self.getValue(_xsDataDataCollectionScalingStatistics.getNTotalObservations(), 0))
-        iNtotalUniqueObservations = self.getValue(_xsDataDataCollectionScalingStatistics.getNtotalUniqueObservations(), 0)
-        fMeanIoverSigI = self.getValue(_xsDataDataCollectionScalingStatistics.getMeanIOverSigI(), -1.0)
-        fCompleteness = self.getValue(_xsDataDataCollectionScalingStatistics.getCompleteness(), -1.0)
-        fMultiplicity = self.getValue(_xsDataDataCollectionScalingStatistics.getMultiplicity(), -1.0)
-        fAnomalousCompleteness = self.getValue(_xsDataDataCollectionScalingStatistics.getAnomalousCompleteness(), -1.0)
-        fAnomalousMultiplicity = self.getValue(_xsDataDataCollectionScalingStatistics.getAnomalousMultiplicity(), -1.0)
-        recordTimeStamp = DateTime(datetime.datetime.now())
-        iDataCollectionScalingId = self.iDataCollectionScalingId
-        iDataCollectionScalingStatisticsId = _clientToolsForMXCubeWebService.service.storeDataCollectionScalingStatistic(
-                in0=strScalingStatisticsType, \
-                in1=strComments, \
-                in2=fResolutionLimitLow, \
-                in3=fResolutionLimitHigh, \
-                in4=fRmerge, \
-                in5=fRmeasWithinIplusIminus, \
-                in6=fRmeasAllIplusIminus, \
-                in7=fRpimWithinIplusIminus, \
-                in8=fRpimAllIplusIminus, \
-                in9=fFractionalPartialBias, \
-                in10=iNtotalObservations, \
-                in11=iNtotalUniqueObservations, \
-                in12=fMeanIoverSigI, \
-                in13=fCompleteness, \
-                in14=fMultiplicity, \
-                in15=fAnomalousCompleteness, \
-                in16=fAnomalousMultiplicity, \
-                in17=recordTimeStamp, \
-                in18=iDataCollectionScalingId \
-                )
-        self.DEBUG("DataCollectionScalingStatisticsId: %r" % iDataCollectionScalingStatisticsId)
-        return iDataCollectionScalingStatisticsId
-
-
-    def storeDataCollectionScaling_has_IntId(self, _clientToolsForMXCubeWebService):
-        """Creates an entry in the ISPyB storeDataCollectionScaling_has_IntId table"""
-        iDataCollectionIntegrationId = self.iDataCollectionIntegrationId
-        iDataCollectionScalingId = self.iDataCollectionScalingId
-        recordTimeStamp = DateTime(datetime.datetime.now())
-        iDataCollectionScaling_has_intId = _clientToolsForMXCubeWebService.service.storeDataCollectionScalingHasInt(
-                in0=iDataCollectionIntegrationId, \
-                in1=iDataCollectionScalingId, \
-                in2=recordTimeStamp \
-                )
-        self.DEBUG("DataCollectionScaling_has_IntId: %r" % iDataCollectionScaling_has_intId)
-        return iDataCollectionScaling_has_intId
