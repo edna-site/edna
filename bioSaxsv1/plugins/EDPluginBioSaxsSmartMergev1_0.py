@@ -68,12 +68,11 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputBioSaxsSmartMergev1_0)
         self.__edPluginExecDatCmp = None
         self.lstInput = []
-        self.lstXsdInput = []
+        self.lstStrInput = []
         self.absoluteFidelity = None
         self.relativeFidelity = None
         self.dictSimilarities = {} #key: 2-tuple of images, similarities
         self.lstSummary = []
-        self.lstStrInput = []
         self.lstMerged = []
 
     def checkParameters(self):
@@ -110,8 +109,9 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.__edPluginExecWaitFile.connectFAILURE(self.doFailureExecWait)
         self.__edPluginExecWaitFile.connectSUCCESS(self.doSuccessExecWait)
         self.__edPluginExecWaitFile.executeSynchronous()
-        if self.isFailure():
-            return
+#        if self.isFailure():
+#            return
+
         if len(self.lstInput) == 1:
             shutil.copyfile(self.lstInput[0].path.value, self.dataInput.mergedCurve.path.value)
         else:
@@ -230,9 +230,12 @@ class EDPluginBioSaxsSmartMergev1_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_0.doSuccessExecWait")
         xsdo = _edPlugin.dataOutput
         if (xsdo.timedOut is not None) and  bool(xsdo.timedOut.value):
-            strErr = "Error in waiting for all input files to arrive"
+            strErr = "Error in waiting for all input files to arrive, going on anyway (Please check your results)"
             self.ERROR(strErr)
-            self.setFailure()
+            self.lstSummary.append(strErr)
+            self.lstStrInput = [i for i in self.lstStrInput if os.path.isfile(i)]
+            self.lstInput = [XSDataFile(XSDataString(i)) for i in self.lstStrInput]
+#            self.setFailure()
 
 
     def doFailureExecWait(self, _edPlugin=None):
