@@ -182,48 +182,57 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         xtalSnapshotFullPath4 = self.getValue(updateOrStoreDataCollectionRequest.getXtalSnapshotFullPath4()) # string
         beamShape = self.getValue(updateOrStoreDataCollectionRequest.getBeamShape()) # string
 
-        iDataCollectionId = _clientToolsForMXCubeWebService.service.updateOrStoreDataCollectionRequest(dataCollectionId, blSampleId, sessionId,
-                                                                           experimentType, dataCollectionNumber, startDate,
-                                                                           endDate, runStatus, rotationAxis,
-                                                                           phiStart, kappaStart, omegaStart,
-                                                                           axisStart, axisEnd, axisRange,
-                                                                           overlap, numberOfImages, startImageNumber,
-                                                                           numberOfPasses, exposureTime, imageDirectory,
-                                                                           imagePrefix, imageSuffix, fileTemplate,
-                                                                           wavelength, resolution, resolutionAtCorner,
-                                                                           detectorDistance, detector2theta, detectorMode,
-                                                                           undulatorGap1, undulatorGap2, undulatorGap3,
-                                                                           xbeam, ybeam, crystalClass,
-                                                                           slitGapVertical, slitGapHorizontal, beamSizeAtSampleX,
-                                                                           beamSizeAtSampleY, transmission, synchrotronMode,
-                                                                           centeringMethod, averageTemperature, comments,
-                                                                           printableForReport, xtalSnapshotFullPath1, xtalSnapshotFullPath2,
-                                                                           xtalSnapshotFullPath3, xtalSnapshotFullPath4, beamShape)
-
-
-
-
-
-
-
-#        strProcessingCommandLine = self.getValue(updateOrStoreDataCollectionRequest.getProcessingCommandLine(), "")
-#        strProcessingPrograms = self.getValue(updateOrStoreDataCollectionRequest.getProcessingPrograms(), "")
-#        bProcessingStatus = self.getValue(updateOrStoreDataCollectionRequest.getProcessingStatus(), True)
-#        strProcessingMessage = self.getValue(updateOrStoreDataCollectionRequest.getProcessingMessage(), "")
-#        processingStartTime = self.getDateValue(updateOrStoreDataCollectionRequest.getProcessingStartTime(), "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-#        processingEndTime = self.getDateValue(updateOrStoreDataCollectionRequest.getProcessingEndTime(), "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-#        strProcessingEnvironment = self.getValue(updateOrStoreDataCollectionRequest.getProcessingEnvironment(), "")
-#        recordTimeStamp = DateTime(datetime.datetime.now())
-#        iDataCollectionProgramId = _clientToolsForMXCubeWebService.service.storeDataCollectionProgram(
-#                in0=strProcessingCommandLine, \
-#                in1=strProcessingPrograms, \
-#                in2=bProcessingStatus, \
-#                in3=strProcessingMessage, \
-#                in4=processingStartTime, \
-#                in5=processingEndTime, \
-#                in6=strProcessingEnvironment, \
-#                in7=recordTimeStamp
-#                )
-        self.DEBUG("DataCollectionProgramId: %r" % iDataCollectionProgramId)
-        return iDataCollectionProgramId
+        iDataCollectionId = _clientToolsForMXCubeWebService.service.updateOrStoreDataCollectionRequest(in1=dataCollectionId,
+                                                                                                       in2=blSampleId,
+                                                                                                       in3=sessionId,
+                                                                                                       in4=experimentType,
+                                                                                                       in5=dataCollectionNumber,
+                                                                                                       in6=startDate,
+                                                                                                       in7=endDate,
+                                                                                                       in8=runStatus,
+                                                                                                       in9=rotationAxis,
+                                                                                                       in10=phiStart,
+                                                                                                       in11=kappaStart,
+                                                                                                       in12=omegaStart,
+                                                                                                       in13=axisStart,
+                                                                                                       in14=axisEnd,
+                                                                                                       in15=axisRange,
+                                                                                                       in16=overlap,
+                                                                                                       in17=numberOfImages,
+                                                                                                       in18=startImageNumber,
+                                                                                                       in19=numberOfPasses,
+                                                                                                       in20=exposureTime,
+                                                                                                       in21=imageDirectory,
+                                                                                                       in22=imagePrefix,
+                                                                                                       in23=imageSuffix,
+                                                                                                       in24=fileTemplate,
+                                                                                                       in25=wavelength,
+                                                                                                       in26=resolution,
+                                                                                                       in27=resolutionAtCorner,
+                                                                                                       in28=detectorDistance,
+                                                                                                       in29=detector2theta,
+                                                                                                       in30=detectorMode,
+                                                                                                       in31=undulatorGap1,
+                                                                                                       in32=undulatorGap2,
+                                                                                                       in33=undulatorGap3,
+                                                                                                       in34=xbeam,
+                                                                                                       in35=ybeam,
+                                                                                                       in36=crystalClass,
+                                                                                                       in37=slitGapVertical,
+                                                                                                       in38=slitGapHorizontal,
+                                                                                                       in39=beamSizeAtSampleX,
+                                                                                                       in40=beamSizeAtSampleY,
+                                                                                                       in41=transmission,
+                                                                                                       in42=synchrotronMode,
+                                                                                                       in43=centeringMethod,
+                                                                                                       in44=averageTemperature,
+                                                                                                       in45=comments,
+                                                                                                       in46=printableForReport,
+                                                                                                       in47=xtalSnapshotFullPath1,
+                                                                                                       in48=xtalSnapshotFullPath2,
+                                                                                                       in49=xtalSnapshotFullPath3,
+                                                                                                       in50=xtalSnapshotFullPath4,
+                                                                                                       in51=beamShape)
+        self.DEBUG("DataCollectionProgramId: %r" % iDataCollectionId)
+        return iDataCollectionId
 
