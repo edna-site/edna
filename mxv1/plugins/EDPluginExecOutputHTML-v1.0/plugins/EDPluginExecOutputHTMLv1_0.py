@@ -83,7 +83,7 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
         self.strPath = None
         
         if not os.environ.has_key("EDNA2html"):
-            self.setRequriedToHaveConfiguration(True)
+            self.setRequiredToHaveConfiguration(True)
         if os.environ.has_key("PATH"):
             self.strPath = os.environ["PATH"]
         self.setXSDataInputClass(XSDataString, "title")
