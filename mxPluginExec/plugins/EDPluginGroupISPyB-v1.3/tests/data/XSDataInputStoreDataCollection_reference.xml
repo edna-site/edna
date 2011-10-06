@@ -1,13 +1,13 @@
 <?xml version="1.0" ?>
 <XSDataInputStoreDataCollection>
 	<updateOrStoreDataCollectionRequest>	
-		<dataCollectionId>12345</dataCollectionId>
+		<dataCollectionId>0</dataCollectionId>
 		<blSampleId>123</blSampleId>
 		<sessionId>123</sessionId>
-		<experimentType>test 123</experimentType>
+		<experimentType>OSC</experimentType>
 		<dataCollectionNumber>123</dataCollectionNumber>
-		<startDate>20110927</startDate>
-		<endDate>20110928</endDate>
+		<startDate>2011-10-03T14:46:30</startDate>
+		<endDate>2011-10-03T14:46:30</endDate>
 		<runStatus>test 123</runStatus>
 		<rotationAxis>test 123</rotationAxis>
 		<phiStart>3.14</phiStart>
