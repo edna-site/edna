@@ -39,7 +39,10 @@ from suds.client import Client
 from suds.transport.http import HttpAuthenticated
 from suds.sax.date import DateTime
 
+from XSDataCommon import XSDataInteger
+
 from XSDataISPyBv1_3 import XSDataInputStoreDataCollection
+from XSDataISPyBv1_3 import XSDataResultStoreDataCollection
 
 class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
     """

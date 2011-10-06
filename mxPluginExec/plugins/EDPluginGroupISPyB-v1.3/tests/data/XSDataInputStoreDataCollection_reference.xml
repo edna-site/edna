@@ -2,14 +2,14 @@
 <XSDataInputStoreDataCollection>
 	<updateOrStoreDataCollectionRequest>	
 		<dataCollectionId>0</dataCollectionId>
-		<blSampleId>123</blSampleId>
-		<sessionId>123</sessionId>
+		<blSampleId>6489</blSampleId>
+		<sessionId>4345</sessionId>
 		<experimentType>OSC</experimentType>
 		<dataCollectionNumber>123</dataCollectionNumber>
-		<startDate>2011-10-03T14:46:30</startDate>
-		<endDate>2011-10-03T14:46:30</endDate>
+		<startDate>2011-10-03 14:46:30</startDate>
+		<endDate>2011-10-03 14:46:30</endDate>
 		<runStatus>test 123</runStatus>
-		<rotationAxis>test 123</rotationAxis>
+		<rotationAxis>OMEGA</rotationAxis>
 		<phiStart>3.14</phiStart>
 		<kappaStart>3.14</kappaStart>
 		<omegaStart>3.14</omegaStart>
