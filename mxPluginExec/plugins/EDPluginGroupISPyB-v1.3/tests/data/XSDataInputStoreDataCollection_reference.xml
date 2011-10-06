@@ -6,8 +6,8 @@
 		<sessionId>4345</sessionId>
 		<experimentType>OSC</experimentType>
 		<dataCollectionNumber>123</dataCollectionNumber>
-		<startDate>2011-10-03 14:46:30</startDate>
-		<endDate>2011-10-03 14:46:30</endDate>
+		<startDate>2011-10-03T14:46:30</startDate>
+		<endDate>2011-10-03T14:46:30</endDate>
 		<runStatus>test 123</runStatus>
 		<rotationAxis>OMEGA</rotationAxis>
 		<phiStart>3.14</phiStart>
