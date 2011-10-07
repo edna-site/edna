@@ -8,10 +8,10 @@ import sys, os
 from xml.dom import minidom
 from xml.dom import Node
 
-location = {"XSDataCommon":"kernel/src",
-            "XSDataEdnaSaxs":"ednaSaxs/src",
+location = {"XSDataCommon":"kernel/datamodel",
+            "XSDataEdnaSaxs":"ednaSaxs/datamodel",
             }
-edna_home = os.environ.get("EDNA_HOME", "None")
+edna_home = os.environ.get("EDNA_HOME", None)
 
 try:
     from XSDataCommon import XSData
@@ -25,30 +25,28 @@ try:
     from XSDataCommon import XSDataImage
     from XSDataCommon import XSDataLength
     from XSDataCommon import XSDataWavelength
-except ImportError as error:
-    if (edna_home is not None) and  "XSDataCommon" in location:
-        sys.path.append(os.path.join(edna_home, location["XSDataCommon"]))
-    else:
-        raise error
-    from XSDataCommon import XSData
-    from XSDataCommon import XSDataBoolean
-    from XSDataCommon import XSDataDouble
-    from XSDataCommon import XSDataString
-    from XSDataCommon import XSDataFile
-    from XSDataCommon import XSDataInput
-    from XSDataCommon import XSDataInteger
-    from XSDataCommon import XSDataResult
-    from XSDataCommon import XSDataImage
-    from XSDataCommon import XSDataLength
-    from XSDataCommon import XSDataWavelength
-
-try:
     from XSDataEdnaSaxs import XSDataAutoRg
 except ImportError as error:
-    if (edna_home is not None) and  "XSDataEdnaSaxs" in location:
-        sys.path.append(os.path.join(edna_home, location["XSDataEdnaSaxs"]))
+    if (edna_home is not None):
+        for xsdName in location:
+            xsdModule = xsdName + ".py"
+            rootdir = os.path.dirname(os.path.abspath(os.path.join(edna_home, location[xsdName])))
+            for root, dirs, files in os.walk(rootdir):
+                if xsdModule in files:
+                    sys.path.append(root)
     else:
         raise error
+    from XSDataCommon import XSData
+    from XSDataCommon import XSDataBoolean
+    from XSDataCommon import XSDataDouble
+    from XSDataCommon import XSDataString
+    from XSDataCommon import XSDataFile
+    from XSDataCommon import XSDataInput
+    from XSDataCommon import XSDataInteger
+    from XSDataCommon import XSDataResult
+    from XSDataCommon import XSDataImage
+    from XSDataCommon import XSDataLength
+    from XSDataCommon import XSDataWavelength
     from XSDataEdnaSaxs import XSDataAutoRg
 
 
