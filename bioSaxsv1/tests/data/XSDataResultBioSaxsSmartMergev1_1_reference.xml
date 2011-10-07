@@ -2,13 +2,13 @@
 <XSDataResultBioSaxsSmartMergev1_0>
     <mergedCurve>
         <path>
-            <value>/tmp/edna-kieffer/bioSaxsMerged.dat</value>
+            <value>/tmp/edna-${USER}/bioSaxsMerged.dat</value>
         </path>
     </mergedCurve>
     <autoRg>
         <filename>
             <path>
-                <value>/tmp/edna-kieffer/bioSaxsMerged.dat</value>
+                <value>/tmp/edna-${USER}/bioSaxsMerged.dat</value>
             </path>
         </filename>
         <rg>
