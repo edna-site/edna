@@ -69,7 +69,7 @@ class EDTestCasePluginExecuteBioSaxsSmartMergev1_1(EDTestCasePluginExecute):
         xsdRef = XSDataResultBioSaxsSmartMergev1_0.parseString(self.readAndParseFile(self.getReferenceDataOutputFile()))
         xsdObt = plugin.getDataOutput()
         xsdObt.status = None #Executive summary is too complicated to test
-        EDAssert.equal(xsdRef.marshal(), xsdObt.marshal(), "XML output structures are the same")
+        EDAssert.strAlmostEqual(xsdRef.marshal(), xsdObt.marshal(), "XML output structures are the same", _fAbsError=0.1)
         ref = " ".join([" ".join(i.split()) for i in open(self.destFile)])
         obt = " ".join([" ".join(i.split()) for i in open(xsdObt.mergedCurve.path.value)])
         EDAssert.strAlmostEqual(ref, obt, "Files are the same", _fAbsError=0.1)
