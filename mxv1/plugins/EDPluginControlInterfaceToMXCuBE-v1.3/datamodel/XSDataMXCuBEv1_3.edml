@@ -1,5 +1,19 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDictionary
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataMXv1.XSDataInputCharacterisation
+import XSDataMXv1.XSDataDiffractionPlan
+import XSDataMXv1.XSDataExperimentalCondition
+import XSDataMXv1.XSDataSampleCrystalMM
+import XSDataMXv1.XSDataResultCharacterisation
+import XSDataMXv1.XSDataCollectionPlan
+
 complex type XSDataInputMXCuBE extends XSDataInput {
 	characterisationInput : XSDataInputCharacterisation
 	dataCollectionId : XSDataInteger optional
@@ -21,4 +35,8 @@ complex type XSDataResultMXCuBE extends XSDataResult {
 	listOfOutputFiles : XSDataString
 	outputFileDictionary : XSDataDictionary optional
 	htmlPage : XSDataFile optional
+}
+
+complex type XSDataMXCuBEParameters extends XSData {
+	
 }
