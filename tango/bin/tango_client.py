@@ -38,6 +38,7 @@ sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
 device = None
 xml = None
+listXml = []
 filenames = []
 plugin = None
 delay = 0
@@ -56,7 +57,11 @@ for arg in sys.argv[1:]:
     elif arg.find("-xml=") in [0, 1]:
         xmlfile = arg.split("=", 1)[1]
         if os.path.isfile(xmlfile):
-            xml = open(xmlfile).read()
+            if xml is None:
+                xml = open(xmlfile).read()
+                listXml.append(xml)
+            else:
+                listXml.append(open(xmlfile).read())
     elif arg.find("-delay=") in [0, 1]:
         delay = float(arg.split("=", 1)[1])
     elif os.path.isfile(arg):
@@ -81,9 +86,10 @@ if filenames:
         print "%s | Total Time:\t%.3fs /Tango %.3fs\tLast Tango:\t%.3f" % (pid, time.time() - t0, totaltime, deltat)
         time.sleep(delay)
 else:
-    pid = edna.startJob([plugin, xml])
-    print "%s | Tango time: %.3fs" % (pid, time.time() - t0)
-    listjobs.append(pid)
+    for xml in listXml:
+        pid = edna.startJob([plugin, xml])
+        print "%s | Tango time: %.3fs" % (pid, time.time() - t0)
+        listjobs.append(pid)
 
 while edna.getJobState(listjobs[-1]) not in ["success", "failure"]:
     time.sleep(1)
