@@ -43,7 +43,15 @@ complex type XSDataMXCuBETuple extends XSData {
 }
 
 complex type XSDataMXCuBEParameters extends XSData {
+	sessionId : integer
+	blSampleId : integer
 	exposure_time : integer
+	resolution : float
+	resolution_at_corner : float
+	x_beam : float
+	y_beam : float
+	beam_size_x : float
+	beam_size_y : float
 	mad_1_energy : XSDataMXCuBETuple
 	mad_2_energy : XSDataMXCuBETuple
 	mad_3_energy : XSDataMXCuBETuple

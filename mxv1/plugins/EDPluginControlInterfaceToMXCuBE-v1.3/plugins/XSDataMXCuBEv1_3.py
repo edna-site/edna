@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Oct 13 10:07::42 2011 by EDGenerateDS.
+# Generated Thu Oct 13 10:13::41 2011 by EDGenerateDS.
 #
 
 import sys
@@ -307,10 +307,26 @@ class XSDataMXCuBETuple(XSData):
 # end class XSDataMXCuBETuple
 
 class XSDataMXCuBEParameters(XSData):
-	def __init__(self, output_file=None, current_osc_start=None, current_energy=None, directory=None, number_passes=None, anomalous=None, phiStart=None, current_wavelength=None, run_number=None, residues=None, current_detdistance=None, number_images=None, inverse_beam=None, processing=None, kappaStart=None, template=None, first_image=None, osc_range=None, comments=None, mad_energies=None, detector_mode=None, sum_images=None, process_directory=None, osc_start=None, overlap=None, prefix=None, mad_4_energy=None, mad_3_energy=None, mad_2_energy=None, mad_1_energy=None, exposure_time=None):
+	def __init__(self, output_file=None, current_osc_start=None, current_energy=None, directory=None, number_passes=None, anomalous=None, phiStart=None, current_wavelength=None, run_number=None, residues=None, current_detdistance=None, number_images=None, inverse_beam=None, processing=None, kappaStart=None, template=None, first_image=None, osc_range=None, comments=None, mad_energies=None, detector_mode=None, sum_images=None, process_directory=None, osc_start=None, overlap=None, prefix=None, mad_4_energy=None, mad_3_energy=None, mad_2_energy=None, mad_1_energy=None, beam_size_y=None, beam_size_x=None, y_beam=None, x_beam=None, resolution_at_corner=None, resolution=None, exposure_time=None, blSampleId=None, sessionId=None):
 		XSData.__init__(self, )
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", sessionId, "integer")
+		self.__sessionId = sessionId
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", blSampleId, "integer")
+		self.__blSampleId = blSampleId
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", exposure_time, "integer")
 		self.__exposure_time = exposure_time
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", resolution, "float")
+		self.__resolution = resolution
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", resolution_at_corner, "float")
+		self.__resolution_at_corner = resolution_at_corner
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", x_beam, "float")
+		self.__x_beam = x_beam
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", y_beam, "float")
+		self.__y_beam = y_beam
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", beam_size_x, "float")
+		self.__beam_size_x = beam_size_x
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", beam_size_y, "float")
+		self.__beam_size_y = beam_size_y
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_1_energy, "XSDataMXCuBETuple")
 		self.__mad_1_energy = mad_1_energy
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_2_energy, "XSDataMXCuBETuple")
@@ -371,6 +387,20 @@ class XSDataMXCuBEParameters(XSData):
 		self.__current_osc_start = current_osc_start
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", output_file, "string")
 		self.__output_file = output_file
+	def getSessionId(self): return self.__sessionId
+	def setSessionId(self, sessionId):
+		checkType("XSDataMXCuBEParameters", "setSessionId", sessionId, "integer")
+		self.__sessionId = sessionId
+	def delSessionId(self): self.__sessionId = None
+	# Properties
+	sessionId = property(getSessionId, setSessionId, delSessionId, "Property for sessionId")
+	def getBlSampleId(self): return self.__blSampleId
+	def setBlSampleId(self, blSampleId):
+		checkType("XSDataMXCuBEParameters", "setBlSampleId", blSampleId, "integer")
+		self.__blSampleId = blSampleId
+	def delBlSampleId(self): self.__blSampleId = None
+	# Properties
+	blSampleId = property(getBlSampleId, setBlSampleId, delBlSampleId, "Property for blSampleId")
 	def getExposure_time(self): return self.__exposure_time
 	def setExposure_time(self, exposure_time):
 		checkType("XSDataMXCuBEParameters", "setExposure_time", exposure_time, "integer")
@@ -378,6 +408,48 @@ class XSDataMXCuBEParameters(XSData):
 	def delExposure_time(self): self.__exposure_time = None
 	# Properties
 	exposure_time = property(getExposure_time, setExposure_time, delExposure_time, "Property for exposure_time")
+	def getResolution(self): return self.__resolution
+	def setResolution(self, resolution):
+		checkType("XSDataMXCuBEParameters", "setResolution", resolution, "float")
+		self.__resolution = resolution
+	def delResolution(self): self.__resolution = None
+	# Properties
+	resolution = property(getResolution, setResolution, delResolution, "Property for resolution")
+	def getResolution_at_corner(self): return self.__resolution_at_corner
+	def setResolution_at_corner(self, resolution_at_corner):
+		checkType("XSDataMXCuBEParameters", "setResolution_at_corner", resolution_at_corner, "float")
+		self.__resolution_at_corner = resolution_at_corner
+	def delResolution_at_corner(self): self.__resolution_at_corner = None
+	# Properties
+	resolution_at_corner = property(getResolution_at_corner, setResolution_at_corner, delResolution_at_corner, "Property for resolution_at_corner")
+	def getX_beam(self): return self.__x_beam
+	def setX_beam(self, x_beam):
+		checkType("XSDataMXCuBEParameters", "setX_beam", x_beam, "float")
+		self.__x_beam = x_beam
+	def delX_beam(self): self.__x_beam = None
+	# Properties
+	x_beam = property(getX_beam, setX_beam, delX_beam, "Property for x_beam")
+	def getY_beam(self): return self.__y_beam
+	def setY_beam(self, y_beam):
+		checkType("XSDataMXCuBEParameters", "setY_beam", y_beam, "float")
+		self.__y_beam = y_beam
+	def delY_beam(self): self.__y_beam = None
+	# Properties
+	y_beam = property(getY_beam, setY_beam, delY_beam, "Property for y_beam")
+	def getBeam_size_x(self): return self.__beam_size_x
+	def setBeam_size_x(self, beam_size_x):
+		checkType("XSDataMXCuBEParameters", "setBeam_size_x", beam_size_x, "float")
+		self.__beam_size_x = beam_size_x
+	def delBeam_size_x(self): self.__beam_size_x = None
+	# Properties
+	beam_size_x = property(getBeam_size_x, setBeam_size_x, delBeam_size_x, "Property for beam_size_x")
+	def getBeam_size_y(self): return self.__beam_size_y
+	def setBeam_size_y(self, beam_size_y):
+		checkType("XSDataMXCuBEParameters", "setBeam_size_y", beam_size_y, "float")
+		self.__beam_size_y = beam_size_y
+	def delBeam_size_y(self): self.__beam_size_y = None
+	# Properties
+	beam_size_y = property(getBeam_size_y, setBeam_size_y, delBeam_size_y, "Property for beam_size_y")
 	def getMad_1_energy(self): return self.__mad_1_energy
 	def setMad_1_energy(self, mad_1_energy):
 		checkType("XSDataMXCuBEParameters", "setMad_1_energy", mad_1_energy, "XSDataMXCuBETuple")
@@ -596,11 +668,51 @@ class XSDataMXCuBEParameters(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMXCuBEParameters'):
 		XSData.exportChildren(self, outfile, level, name_)
+		if self.__sessionId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<sessionId>%d</sessionId>\n' % self.__sessionId))
+		else:
+			warnEmptyAttribute("sessionId", "integer")
+		if self.__blSampleId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<blSampleId>%d</blSampleId>\n' % self.__blSampleId))
+		else:
+			warnEmptyAttribute("blSampleId", "integer")
 		if self.__exposure_time is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<exposure_time>%d</exposure_time>\n' % self.__exposure_time))
 		else:
 			warnEmptyAttribute("exposure_time", "integer")
+		if self.__resolution is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<resolution>%e</resolution>\n' % self.__resolution))
+		else:
+			warnEmptyAttribute("resolution", "float")
+		if self.__resolution_at_corner is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<resolution_at_corner>%e</resolution_at_corner>\n' % self.__resolution_at_corner))
+		else:
+			warnEmptyAttribute("resolution_at_corner", "float")
+		if self.__x_beam is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<x_beam>%e</x_beam>\n' % self.__x_beam))
+		else:
+			warnEmptyAttribute("x_beam", "float")
+		if self.__y_beam is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<y_beam>%e</y_beam>\n' % self.__y_beam))
+		else:
+			warnEmptyAttribute("y_beam", "float")
+		if self.__beam_size_x is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<beam_size_x>%e</beam_size_x>\n' % self.__beam_size_x))
+		else:
+			warnEmptyAttribute("beam_size_x", "float")
+		if self.__beam_size_y is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<beam_size_y>%e</beam_size_y>\n' % self.__beam_size_y))
+		else:
+			warnEmptyAttribute("beam_size_y", "float")
 		if self.__mad_1_energy is not None:
 			self.mad_1_energy.export(outfile, level, name_='mad_1_energy')
 		else:
@@ -757,6 +869,24 @@ class XSDataMXCuBEParameters(XSData):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sessionId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__sessionId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'blSampleId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self.__blSampleId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'exposure_time':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
@@ -765,6 +895,60 @@ class XSDataMXCuBEParameters(XSData):
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
 				self.__exposure_time = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'resolution':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__resolution = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'resolution_at_corner':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__resolution_at_corner = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'x_beam':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__x_beam = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'y_beam':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__y_beam = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beam_size_x':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__beam_size_x = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beam_size_y':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__beam_size_y = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mad_1_energy':
 			obj_ = XSDataMXCuBETuple()
