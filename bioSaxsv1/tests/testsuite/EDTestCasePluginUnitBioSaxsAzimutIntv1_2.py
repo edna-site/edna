@@ -29,18 +29,18 @@ __copyright__ = "ESRF"
 
 
 from EDVerbose import EDVerbose
-from EDTestCasePluginUnit import EDTestCasePluginUnit
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
+from EDTestCasePluginUnit import EDTestCasePluginUnit
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsAzimutIntv1_0, XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
 from XSDataCommon import XSDataFile, XSDataInteger, XSDataDouble, XSDataString, \
     XSDataImage
 
-class EDTestCasePluginUnitBioSaxsAzimutIntv1_1(EDTestCasePluginUnit):
+class EDTestCasePluginUnitBioSaxsAzimutIntv1_2(EDTestCasePluginUnit):
 
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginBioSaxsAzimutIntv1_1")
+        EDTestCasePluginUnit.__init__(self, "EDPluginBioSaxsAzimutIntv1_2")
 
 
     def testCheckParameters(self):
@@ -66,5 +66,5 @@ class EDTestCasePluginUnitBioSaxsAzimutIntv1_1(EDTestCasePluginUnit):
 
 if __name__ == '__main__':
 
-    edTestCasePlugin = EDTestCasePluginUnitBioSaxsAzimutIntv1_1 ("EDTestCasePluginUnitBioSaxsAzimutIntv1_1")
+    edTestCasePlugin = EDTestCasePluginUnitBioSaxsAzimutIntv1_2 ("EDTestCasePluginUnitBioSaxsAzimutIntv1_2")
     edTestCasePlugin.execute()

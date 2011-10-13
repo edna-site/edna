@@ -1,53 +1,66 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Sep 21 05:43::30 2011 by EDGenerateDS.
+# Generated Thu Oct 13 06:18::11 2011 by EDGenerateDS.
 #
 
-import sys, os
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
-location = {"XSDataCommon":"kernel/datamodel",
-            "XSDataEdnaSaxs":"ednaSaxs/datamodel",
-            }
-edna_home = os.environ.get("EDNA_HOME", None)
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataEdnaSaxs": "ednaSaxs/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+}
 
 try:
-    from XSDataCommon import XSData
-    from XSDataCommon import XSDataBoolean
-    from XSDataCommon import XSDataDouble
-    from XSDataCommon import XSDataString
-    from XSDataCommon import XSDataFile
-    from XSDataCommon import XSDataInput
-    from XSDataCommon import XSDataInteger
-    from XSDataCommon import XSDataResult
-    from XSDataCommon import XSDataImage
-    from XSDataCommon import XSDataLength
-    from XSDataCommon import XSDataWavelength
-    from XSDataEdnaSaxs import XSDataAutoRg
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataString
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataResult
+	from XSDataEdnaSaxs import XSDataAutoRg
+	from XSDataCommon import XSDataImage
+	from XSDataCommon import XSDataLength
+	from XSDataCommon import XSDataWavelength
 except ImportError as error:
-    if (edna_home is not None):
-        for xsdName in location:
-            xsdModule = xsdName + ".py"
-            rootdir = os.path.dirname(os.path.abspath(os.path.join(edna_home, location[xsdName])))
-            for root, dirs, files in os.walk(rootdir):
-                if xsdModule in files:
-                    sys.path.append(root)
-    else:
-        raise error
-    from XSDataCommon import XSData
-    from XSDataCommon import XSDataBoolean
-    from XSDataCommon import XSDataDouble
-    from XSDataCommon import XSDataString
-    from XSDataCommon import XSDataFile
-    from XSDataCommon import XSDataInput
-    from XSDataCommon import XSDataInteger
-    from XSDataCommon import XSDataResult
-    from XSDataCommon import XSDataImage
-    from XSDataCommon import XSDataLength
-    from XSDataCommon import XSDataWavelength
-    from XSDataEdnaSaxs import XSDataAutoRg
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
+from XSDataCommon import XSData
+from XSDataCommon import XSDataBoolean
+from XSDataCommon import XSDataDouble
+from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
+from XSDataCommon import XSDataInput
+from XSDataCommon import XSDataInteger
+from XSDataCommon import XSDataResult
+from XSDataEdnaSaxs import XSDataAutoRg
+from XSDataCommon import XSDataImage
+from XSDataCommon import XSDataLength
+from XSDataCommon import XSDataWavelength
 
 
 
@@ -1600,7 +1613,7 @@ class XSDataInputBioSaxsSample(XSDataInput):
 # end class XSDataInputBioSaxsSample
 
 class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
-	def __init__(self, configuration=None, mergedCurve=None, relativeFidelity=None, absoluteFidelity=None, inputCurves=None):
+	def __init__(self, configuration=None, mergedCurve=None, sample=None, relativeFidelity=None, absoluteFidelity=None, inputCurves=None):
 		XSDataInput.__init__(self, configuration)
 		if inputCurves is None:
 			self.__inputCurves = []
@@ -1611,6 +1624,8 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 		self.__absoluteFidelity = absoluteFidelity
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", relativeFidelity, "XSDataDouble")
 		self.__relativeFidelity = relativeFidelity
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", mergedCurve, "XSDataFile")
 		self.__mergedCurve = mergedCurve
 	def getInputCurves(self): return self.__inputCurves
@@ -1640,6 +1655,13 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 	def delRelativeFidelity(self): self.__relativeFidelity = None
 	# Properties
 	relativeFidelity = property(getRelativeFidelity, setRelativeFidelity, delRelativeFidelity, "Property for relativeFidelity")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setSample", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
 	def getMergedCurve(self): return self.__mergedCurve
 	def setMergedCurve(self, mergedCurve):
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "setMergedCurve", mergedCurve, "XSDataFile")
@@ -1663,6 +1685,8 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			self.absoluteFidelity.export(outfile, level, name_='absoluteFidelity')
 		if self.__relativeFidelity is not None:
 			self.relativeFidelity.export(outfile, level, name_='relativeFidelity')
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
 		if self.__mergedCurve is not None:
 			self.mergedCurve.export(outfile, level, name_='mergedCurve')
 		else:
@@ -1687,6 +1711,11 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setRelativeFidelity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataBioSaxsSample()
+			obj_.build(child_)
+			self.setSample(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mergedCurve':
 			obj_ = XSDataFile()
