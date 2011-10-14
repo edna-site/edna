@@ -50,6 +50,7 @@ class EDTestSuiteExecuteBioSaxsv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsSmartMergev1_1")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsReduceFileSeriev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsProcessOneFilev1_1")
 
 ##############################################################################
 if __name__ == '__main__':

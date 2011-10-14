@@ -22,11 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-"""
-ReImplementation of the Reprocess script: Process one file  
-( by ricardo.fernandes@esrf.fr)
-"""
+from __future__ import with_statement
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
@@ -46,11 +42,11 @@ from XSDataBioSaxsv1_0      import XSDataInputBioSaxsProcessOneFilev1_0, XSDataR
 from XSDataCommon           import XSDataStatus, XSDataString, XSDataFile, XSDataImage, XSDataInteger
 
 
-class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
+class EDPluginBioSaxsProcessOneFilev1_1(EDPluginControl):
     """
     Control plugin that does subsequent execution of: 
     * EDPluginBioSaxsNormalizev1_1
-    * EDPluginBioSaxsAzimutIntv1_1
+    * EDPluginBioSaxsAzimutIntv1_2 #with better headers.
     """
 
     def __init__(self):
@@ -73,7 +69,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.checkParameters")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.rawImage, "No raw image provided")
         self.checkMandatoryParameters(self.dataInput.sample, "No sample information provided")
@@ -82,7 +78,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.preProcess")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.preProcess")
         # Load the execution plugin
         self.__edPluginNormalize = self.loadPlugin(self.__strControlledPluginNormalize)
         self.__edPluginIntegrate = self.loadPlugin(self.__strControlledPluginIntegrate)
@@ -91,7 +87,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.process")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.process")
         self.__edPluginNormalize.connectSUCCESS(self.doSuccessNormalize)
         self.__edPluginNormalize.connectFAILURE(self.doFailureNormalize)
         xsd = XSDataInputBioSaxsNormalizev1_0()
@@ -120,7 +116,7 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.postProcess")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsProcessOneFilev1_0()
 
@@ -132,15 +128,15 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
 
 
     def doSuccessNormalize(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.doSuccessNormalize")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_0.doSuccessNormalize")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.doSuccessNormalize")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_1.doSuccessNormalize")
         xsdOut = _edPlugin.dataOutput
         self.normalizedImage = xsdOut.normalizedImage
         self.lstExecutiveSummary.append(xsdOut.status.executiveSummary.value)
 
     def doFailureNormalize(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.doFailureNormalize")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_0.doFailureNormalize")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.doFailureNormalize")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_1.doFailureNormalize")
         try:
             xsdOut = _edPlugin.dataOutput
             self.lstExecutiveSummary.append(xsdOut.status.executiveSummary.value)
@@ -149,8 +145,8 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
         self.setFailure()
 
     def doSuccessIntegrate(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.doSuccessIntegrate")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_0.doSuccessIntegrate")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.doSuccessIntegrate")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_1.doSuccessIntegrate")
         xsdOut = _edPlugin.dataOutput
         self.integratedImage = xsdOut.integratedImage
         self.integratedCurve = xsdOut.integratedCurve
@@ -158,8 +154,8 @@ class EDPluginBioSaxsProcessOneFilev1_0(EDPluginControl):
 
 
     def doFailureIntegrate(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_0.doFailureIntegrate")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_0.doFailureIntegrate")
+        self.DEBUG("EDPluginBioSaxsProcessOneFilev1_1.doFailureIntegrate")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_1.doFailureIntegrate")
         try:
             xsdOut = _edPlugin.dataOutput
             self.strExecutiveSummary.append(xsdOut.status.executiveSummary.value)
