@@ -37,30 +37,26 @@ complex type XSDataResultMXCuBE extends XSDataResult {
 	htmlPage : XSDataFile optional
 }
 
-complex type XSDataMXCuBETuple extends XSData {
-	enabled : boolean
-	value : string
-}
 
 complex type XSDataMXCuBEParameters extends XSData {
 	sessionId : integer
 	blSampleId : integer
-	exposure_time : integer
+	exposure_time : float
 	resolution : float
 	resolution_at_corner : float
 	x_beam : float
 	y_beam : float
 	beam_size_x : float
 	beam_size_y : float
-	mad_1_energy : XSDataMXCuBETuple
-	mad_2_energy : XSDataMXCuBETuple
-	mad_3_energy : XSDataMXCuBETuple
-	mad_4_energy : XSDataMXCuBETuple
+	mad_1_energy : float
+	mad_2_energy : float
+	mad_3_energy : float
+	mad_4_energy : float
 	prefix : string
 	overlap : float
 	osc_start : float
 	process_directory : string
-	sum_images : XSDataMXCuBETuple
+	sum_images : float
 	detector_mode : string
 	mad_energies : string
 	comments : string
@@ -69,7 +65,7 @@ complex type XSDataMXCuBEParameters extends XSData {
 	template : string
 	kappaStart : float
 	processing : boolean
-	inverse_beam : XSDataMXCuBETuple
+	inverse_beam : float
 	number_images : integer
 	current_detdistance : float
 	residues : string

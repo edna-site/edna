@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Oct 13 10:13::41 2011 by EDGenerateDS.
+# Generated Thu Oct 13 03:58::45 2011 by EDGenerateDS.
 #
 
 import sys
@@ -197,115 +197,6 @@ class XSDataMXCuBEDataSet(object):
 	parseFile = staticmethod( parseFile )
 # end class XSDataMXCuBEDataSet
 
-class XSDataMXCuBETuple(XSData):
-	def __init__(self, value=None, enabled=None):
-		XSData.__init__(self, )
-		checkType("XSDataMXCuBETuple", "Constructor of XSDataMXCuBETuple", enabled, "boolean")
-		self.__enabled = enabled
-		checkType("XSDataMXCuBETuple", "Constructor of XSDataMXCuBETuple", value, "string")
-		self.__value = value
-	def getEnabled(self): return self.__enabled
-	def setEnabled(self, enabled):
-		checkType("XSDataMXCuBETuple", "setEnabled", enabled, "boolean")
-		self.__enabled = enabled
-	def delEnabled(self): self.__enabled = None
-	# Properties
-	enabled = property(getEnabled, setEnabled, delEnabled, "Property for enabled")
-	def getValue(self): return self.__value
-	def setValue(self, value):
-		checkType("XSDataMXCuBETuple", "setValue", value, "string")
-		self.__value = value
-	def delValue(self): self.__value = None
-	# Properties
-	value = property(getValue, setValue, delValue, "Property for value")
-	def export(self, outfile, level, name_='XSDataMXCuBETuple'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataMXCuBETuple'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__enabled is not None:
-			showIndent(outfile, level)
-			if self.__enabled:
-				outfile.write(unicode('<enabled>true</enabled>\n'))
-			else:
-				outfile.write(unicode('<enabled>false</enabled>\n'))
-		else:
-			warnEmptyAttribute("enabled", "boolean")
-		if self.__value is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<value>%s</value>\n' % self.__value))
-		else:
-			warnEmptyAttribute("value", "string")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'enabled':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				if sval_ in ('True', 'true', '1'):
-					ival_ = True
-				elif sval_ in ('False', 'false', '0'):
-					ival_ = False
-				else:
-					raise ValueError('requires boolean -- %s' % child_.toxml())
-				self.__enabled = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'value':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self.__value = value_
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataMXCuBETuple" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataMXCuBETuple' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataMXCuBETuple is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataMXCuBETuple.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataMXCuBETuple()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataMXCuBETuple" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataMXCuBETuple()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataMXCuBETuple
-
 class XSDataMXCuBEParameters(XSData):
 	def __init__(self, output_file=None, current_osc_start=None, current_energy=None, directory=None, number_passes=None, anomalous=None, phiStart=None, current_wavelength=None, run_number=None, residues=None, current_detdistance=None, number_images=None, inverse_beam=None, processing=None, kappaStart=None, template=None, first_image=None, osc_range=None, comments=None, mad_energies=None, detector_mode=None, sum_images=None, process_directory=None, osc_start=None, overlap=None, prefix=None, mad_4_energy=None, mad_3_energy=None, mad_2_energy=None, mad_1_energy=None, beam_size_y=None, beam_size_x=None, y_beam=None, x_beam=None, resolution_at_corner=None, resolution=None, exposure_time=None, blSampleId=None, sessionId=None):
 		XSData.__init__(self, )
@@ -313,7 +204,7 @@ class XSDataMXCuBEParameters(XSData):
 		self.__sessionId = sessionId
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", blSampleId, "integer")
 		self.__blSampleId = blSampleId
-		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", exposure_time, "integer")
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", exposure_time, "float")
 		self.__exposure_time = exposure_time
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", resolution, "float")
 		self.__resolution = resolution
@@ -327,13 +218,13 @@ class XSDataMXCuBEParameters(XSData):
 		self.__beam_size_x = beam_size_x
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", beam_size_y, "float")
 		self.__beam_size_y = beam_size_y
-		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_1_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_1_energy, "float")
 		self.__mad_1_energy = mad_1_energy
-		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_2_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_2_energy, "float")
 		self.__mad_2_energy = mad_2_energy
-		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_3_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_3_energy, "float")
 		self.__mad_3_energy = mad_3_energy
-		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_4_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", mad_4_energy, "float")
 		self.__mad_4_energy = mad_4_energy
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", prefix, "string")
 		self.__prefix = prefix
@@ -343,7 +234,7 @@ class XSDataMXCuBEParameters(XSData):
 		self.__osc_start = osc_start
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", process_directory, "string")
 		self.__process_directory = process_directory
-		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", sum_images, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", sum_images, "float")
 		self.__sum_images = sum_images
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", detector_mode, "string")
 		self.__detector_mode = detector_mode
@@ -361,7 +252,7 @@ class XSDataMXCuBEParameters(XSData):
 		self.__kappaStart = kappaStart
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", processing, "boolean")
 		self.__processing = processing
-		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", inverse_beam, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", inverse_beam, "float")
 		self.__inverse_beam = inverse_beam
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", number_images, "integer")
 		self.__number_images = number_images
@@ -403,7 +294,7 @@ class XSDataMXCuBEParameters(XSData):
 	blSampleId = property(getBlSampleId, setBlSampleId, delBlSampleId, "Property for blSampleId")
 	def getExposure_time(self): return self.__exposure_time
 	def setExposure_time(self, exposure_time):
-		checkType("XSDataMXCuBEParameters", "setExposure_time", exposure_time, "integer")
+		checkType("XSDataMXCuBEParameters", "setExposure_time", exposure_time, "float")
 		self.__exposure_time = exposure_time
 	def delExposure_time(self): self.__exposure_time = None
 	# Properties
@@ -452,28 +343,28 @@ class XSDataMXCuBEParameters(XSData):
 	beam_size_y = property(getBeam_size_y, setBeam_size_y, delBeam_size_y, "Property for beam_size_y")
 	def getMad_1_energy(self): return self.__mad_1_energy
 	def setMad_1_energy(self, mad_1_energy):
-		checkType("XSDataMXCuBEParameters", "setMad_1_energy", mad_1_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "setMad_1_energy", mad_1_energy, "float")
 		self.__mad_1_energy = mad_1_energy
 	def delMad_1_energy(self): self.__mad_1_energy = None
 	# Properties
 	mad_1_energy = property(getMad_1_energy, setMad_1_energy, delMad_1_energy, "Property for mad_1_energy")
 	def getMad_2_energy(self): return self.__mad_2_energy
 	def setMad_2_energy(self, mad_2_energy):
-		checkType("XSDataMXCuBEParameters", "setMad_2_energy", mad_2_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "setMad_2_energy", mad_2_energy, "float")
 		self.__mad_2_energy = mad_2_energy
 	def delMad_2_energy(self): self.__mad_2_energy = None
 	# Properties
 	mad_2_energy = property(getMad_2_energy, setMad_2_energy, delMad_2_energy, "Property for mad_2_energy")
 	def getMad_3_energy(self): return self.__mad_3_energy
 	def setMad_3_energy(self, mad_3_energy):
-		checkType("XSDataMXCuBEParameters", "setMad_3_energy", mad_3_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "setMad_3_energy", mad_3_energy, "float")
 		self.__mad_3_energy = mad_3_energy
 	def delMad_3_energy(self): self.__mad_3_energy = None
 	# Properties
 	mad_3_energy = property(getMad_3_energy, setMad_3_energy, delMad_3_energy, "Property for mad_3_energy")
 	def getMad_4_energy(self): return self.__mad_4_energy
 	def setMad_4_energy(self, mad_4_energy):
-		checkType("XSDataMXCuBEParameters", "setMad_4_energy", mad_4_energy, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "setMad_4_energy", mad_4_energy, "float")
 		self.__mad_4_energy = mad_4_energy
 	def delMad_4_energy(self): self.__mad_4_energy = None
 	# Properties
@@ -508,7 +399,7 @@ class XSDataMXCuBEParameters(XSData):
 	process_directory = property(getProcess_directory, setProcess_directory, delProcess_directory, "Property for process_directory")
 	def getSum_images(self): return self.__sum_images
 	def setSum_images(self, sum_images):
-		checkType("XSDataMXCuBEParameters", "setSum_images", sum_images, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "setSum_images", sum_images, "float")
 		self.__sum_images = sum_images
 	def delSum_images(self): self.__sum_images = None
 	# Properties
@@ -571,7 +462,7 @@ class XSDataMXCuBEParameters(XSData):
 	processing = property(getProcessing, setProcessing, delProcessing, "Property for processing")
 	def getInverse_beam(self): return self.__inverse_beam
 	def setInverse_beam(self, inverse_beam):
-		checkType("XSDataMXCuBEParameters", "setInverse_beam", inverse_beam, "XSDataMXCuBETuple")
+		checkType("XSDataMXCuBEParameters", "setInverse_beam", inverse_beam, "float")
 		self.__inverse_beam = inverse_beam
 	def delInverse_beam(self): self.__inverse_beam = None
 	# Properties
@@ -680,9 +571,9 @@ class XSDataMXCuBEParameters(XSData):
 			warnEmptyAttribute("blSampleId", "integer")
 		if self.__exposure_time is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<exposure_time>%d</exposure_time>\n' % self.__exposure_time))
+			outfile.write(unicode('<exposure_time>%e</exposure_time>\n' % self.__exposure_time))
 		else:
-			warnEmptyAttribute("exposure_time", "integer")
+			warnEmptyAttribute("exposure_time", "float")
 		if self.__resolution is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<resolution>%e</resolution>\n' % self.__resolution))
@@ -714,21 +605,25 @@ class XSDataMXCuBEParameters(XSData):
 		else:
 			warnEmptyAttribute("beam_size_y", "float")
 		if self.__mad_1_energy is not None:
-			self.mad_1_energy.export(outfile, level, name_='mad_1_energy')
+			showIndent(outfile, level)
+			outfile.write(unicode('<mad_1_energy>%e</mad_1_energy>\n' % self.__mad_1_energy))
 		else:
-			warnEmptyAttribute("mad_1_energy", "XSDataMXCuBETuple")
+			warnEmptyAttribute("mad_1_energy", "float")
 		if self.__mad_2_energy is not None:
-			self.mad_2_energy.export(outfile, level, name_='mad_2_energy')
+			showIndent(outfile, level)
+			outfile.write(unicode('<mad_2_energy>%e</mad_2_energy>\n' % self.__mad_2_energy))
 		else:
-			warnEmptyAttribute("mad_2_energy", "XSDataMXCuBETuple")
+			warnEmptyAttribute("mad_2_energy", "float")
 		if self.__mad_3_energy is not None:
-			self.mad_3_energy.export(outfile, level, name_='mad_3_energy')
+			showIndent(outfile, level)
+			outfile.write(unicode('<mad_3_energy>%e</mad_3_energy>\n' % self.__mad_3_energy))
 		else:
-			warnEmptyAttribute("mad_3_energy", "XSDataMXCuBETuple")
+			warnEmptyAttribute("mad_3_energy", "float")
 		if self.__mad_4_energy is not None:
-			self.mad_4_energy.export(outfile, level, name_='mad_4_energy')
+			showIndent(outfile, level)
+			outfile.write(unicode('<mad_4_energy>%e</mad_4_energy>\n' % self.__mad_4_energy))
 		else:
-			warnEmptyAttribute("mad_4_energy", "XSDataMXCuBETuple")
+			warnEmptyAttribute("mad_4_energy", "float")
 		if self.__prefix is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<prefix>%s</prefix>\n' % self.__prefix))
@@ -750,9 +645,10 @@ class XSDataMXCuBEParameters(XSData):
 		else:
 			warnEmptyAttribute("process_directory", "string")
 		if self.__sum_images is not None:
-			self.sum_images.export(outfile, level, name_='sum_images')
+			showIndent(outfile, level)
+			outfile.write(unicode('<sum_images>%e</sum_images>\n' % self.__sum_images))
 		else:
-			warnEmptyAttribute("sum_images", "XSDataMXCuBETuple")
+			warnEmptyAttribute("sum_images", "float")
 		if self.__detector_mode is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<detector_mode>%s</detector_mode>\n' % self.__detector_mode))
@@ -797,9 +693,10 @@ class XSDataMXCuBEParameters(XSData):
 		else:
 			warnEmptyAttribute("processing", "boolean")
 		if self.__inverse_beam is not None:
-			self.inverse_beam.export(outfile, level, name_='inverse_beam')
+			showIndent(outfile, level)
+			outfile.write(unicode('<inverse_beam>%e</inverse_beam>\n' % self.__inverse_beam))
 		else:
-			warnEmptyAttribute("inverse_beam", "XSDataMXCuBETuple")
+			warnEmptyAttribute("inverse_beam", "float")
 		if self.__number_images is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<number_images>%d</number_images>\n' % self.__number_images))
@@ -891,10 +788,10 @@ class XSDataMXCuBEParameters(XSData):
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
-					ival_ = int(sval_)
+					fval_ = float(sval_)
 				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self.__exposure_time = ival_
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__exposure_time = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'resolution':
 			if child_.firstChild:
@@ -951,24 +848,40 @@ class XSDataMXCuBEParameters(XSData):
 				self.__beam_size_y = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mad_1_energy':
-			obj_ = XSDataMXCuBETuple()
-			obj_.build(child_)
-			self.setMad_1_energy(obj_)
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__mad_1_energy = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mad_2_energy':
-			obj_ = XSDataMXCuBETuple()
-			obj_.build(child_)
-			self.setMad_2_energy(obj_)
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__mad_2_energy = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mad_3_energy':
-			obj_ = XSDataMXCuBETuple()
-			obj_.build(child_)
-			self.setMad_3_energy(obj_)
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__mad_3_energy = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'mad_4_energy':
-			obj_ = XSDataMXCuBETuple()
-			obj_.build(child_)
-			self.setMad_4_energy(obj_)
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__mad_4_energy = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'prefix':
 			value_ = ''
@@ -1003,9 +916,13 @@ class XSDataMXCuBEParameters(XSData):
 			self.__process_directory = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'sum_images':
-			obj_ = XSDataMXCuBETuple()
-			obj_.build(child_)
-			self.setSum_images(obj_)
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__sum_images = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'detector_mode':
 			value_ = ''
@@ -1074,9 +991,13 @@ class XSDataMXCuBEParameters(XSData):
 				self.__processing = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'inverse_beam':
-			obj_ = XSDataMXCuBETuple()
-			obj_.build(child_)
-			self.setInverse_beam(obj_)
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__inverse_beam = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'number_images':
 			if child_.firstChild:
