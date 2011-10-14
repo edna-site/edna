@@ -41,8 +41,7 @@ class EDTestSuiteExecuteBioSaxsv1_0(EDTestSuite):
         # Test as well the execPlugins
         self.addTestSuiteFromName("EDTestSuiteExecuteBioSaxsAsciiExportv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsAveragev1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsAzimutIntv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsAzimutIntv1_1")
+        self.addTestSuiteFromName("EDTestSuiteExecuteBioSaxsAzimutIntv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsMetadatav1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsMetadatav1_1")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsNormalizev1_0")

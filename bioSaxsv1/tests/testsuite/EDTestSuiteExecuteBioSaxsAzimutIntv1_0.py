@@ -38,6 +38,7 @@ class EDTestSuiteExecuteBioSaxsAzimutIntv1_0(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsAzimutIntv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsAzimutIntv1_1")
+        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsAzimutIntv1_2")
 
 
 

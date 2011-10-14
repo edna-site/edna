@@ -150,19 +150,19 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
                 self.fabioedf = fabio.edfimage.edfimage(data=self.fabioedf.data, header=self.fabioedf.header)
             header = self.fabioedf.header
             for key in EDUtilsBioSaxs.TRANSLATION:
-                if eval("self.%s is None" % key):
+                if self.__getattribute__(key) is None:
                    if EDUtilsBioSaxs.TRANSLATION[key] in header:
                         if key in EDUtilsBioSaxs.FLOAT_KEYS:
-                            setattr(self, key, float(header[EDUtilsBioSaxs.TRANSLATION[key]]))
+                            self.__setattr__(key, float(header[EDUtilsBioSaxs.TRANSLATION[key]]))
                         else:
-                            setattr(self, key, header[EDUtilsBioSaxs.TRANSLATION[key]])
+                            self.__setattr__(key, header[EDUtilsBioSaxs.TRANSLATION[key]])
 
         if self.strOutputImage is not None:
             if os.path.abspath(self.strOutputImage) != os.path.abspath(self.strInputImage):
                 shutil.copy(self.strInputImage, self.strOutputImage)
             keyToUpgrade = []
             for key in EDUtilsBioSaxs.TRANSLATION:
-                if eval("self.%s is not None" % key):
+                if self.__getattribute__(key) is not None:
                     if EDUtilsBioSaxs.TRANSLATION[key] not in header:
                         keyToUpgrade.append(key)
                     else:
@@ -171,14 +171,14 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
                             oneHeader = float(header[EDUtilsBioSaxs.TRANSLATION[key]])
                         else:
                             oneHeader = header[EDUtilsBioSaxs.TRANSLATION[key]]
-                        oneValue = eval("self.%s" % key)
-                        EDVerbose.DEBUG("key: %s value_header=%s(%s) value_extra=%s(%s)" % (key, oneHeader, oneHeader.__class__, eval("self.%s" % key), eval("self.%s" % key).__class__))
+                        oneValue = self.__getattribute__(key)
+                        EDVerbose.DEBUG("key: %s value_header=%s(%s) value_extra=%s(%s)" % (key, oneHeader, oneHeader.__class__, self.__getattribute__(key), self.__getattribute__(key).__class__))
                         if oneHeader != oneValue:
                             keyToUpgrade.append(key)
             if keyToUpgrade:
                 for key in keyToUpgrade:
                     self.fabioedf.header_keys.append(EDUtilsBioSaxs.TRANSLATION[key])
-                    self.fabioedf.header[EDUtilsBioSaxs.TRANSLATION[key]] = str(eval("self.%s" % key))
+                    self.fabioedf.header[EDUtilsBioSaxs.TRANSLATION[key]] = str(self.__getattribute__(key))
                 self.fabioedf.write(self.strOutputImage)
 
 

@@ -147,7 +147,7 @@ class EDPluginBioSaxsAzimutIntv1_2(EDPluginControl):
             self.__edPluginSaxsAngle.connectFAILURE(self.doFailureSaxsAngle)
             self.__edPluginSaxsAngle.executeSynchronous()
         if not self.isFailure():
-            self.write3ColumnAscii(self.integratedImage, self.integratedCurve, linesep="\r\n")
+            self.write3ColumnAscii(self.integratedImage, self.integratedCurve)
             self.lstProcessLog.append("Conversion to ascii: '%s' --> '%s'" % (self.integratedImage, self.integratedCurve))
             self.xsdResult.setIntegratedCurve(self.dataInput.integratedCurve)
 
@@ -198,21 +198,8 @@ class EDPluginBioSaxsAzimutIntv1_2(EDPluginControl):
         if _edPlugin is not None:
             self.xsdMetadata = _edPlugin.getDataOutput()
 
-            self.sample.concentration = self.xsdMetadata.sample
-            self.sample.comments = self.xsdMetadata.comments
-            self.sample.code = self.xsdMetadata.code
-
-            self.experimentSetup.detector = self.xsdMetadata.detector
-            self.experimentSetup.detectorDistance = self.xsdMetadata.detectorDistance
-            self.experimentSetup.pixelSize_1 = self.xsdMetadata.pixelSize_1
-            self.experimentSetup.pixelSize_2 = self.xsdMetadata.pixelSize_2
-            self.experimentSetup.beamCenter_1 = self.xsdMetadata.beamCenter_1
-            self.experimentSetup.beamCenter_2 = self.xsdMetadata.beamCenter_2
-            self.experimentSetup.wavelength = self.xsdMetadata.wavelength
-            self.experimentSetup.machineCurrent = self.xsdMetadata.machineCurrent
-            self.experimentSetup.maskFile = self.xsdMetadata.maskFile
-            self.experimentSetup.normalizationFactor = self.xsdMetadata.normalizationFactor
-            self.experimentSetup.beamStopDiode = self.xsdMetadata.beamStopDiode
+            self.sample = self.xsdMetadata.sample
+            self.experimentSetup = self.xsdMetadata.experimentSetup
 
             self.lstProcessLog.append("Azimuthal integration of Corrected+Masked EDF image '%s'." % (self.normalizedImage))
             xsdiSaxsAngle = XSDataInputSaxsAnglev1_0()
@@ -280,8 +267,6 @@ s-vector Intensity Error
 s-vector Intensity Error
 s-vector Intensity Error
 s-vector Intensity Error
-
-        
         """
         hdr = str(hdr)
         fabiofile = fabio.open(inputImage)
@@ -310,17 +295,19 @@ s-vector Intensity Error
             headers.append(hdr + " Detector = %s" % self.experimentSetup.detector.value)
         if self.experimentSetup.pixelSize_1 is not None:
             headers.append(hdr + " PixelSize_1 = %s" % self.experimentSetup.pixelSize_1.value)
+        else:
+            headers.append(hdr + " PixelSize_1 = %s" % fPixelSize)
         if self.experimentSetup.pixelSize_2 is not None:
             headers.append(hdr + " PixelSize_2 = %s" % self.experimentSetup.pixelSize_2.value)
         headers.append(hdr)
         if self.sample.comments is not None:
             headers.append(hdr + " title = %s" % self.sample.comments.value)
         if self.experimentSetup.detectorDistance is not None:
-            headers.append(hdr + " SampleDistance = %s" % self.experimentSetup.detectorDistance)
+            headers.append(hdr + " SampleDistance = %s" % fDistance)
         if self.experimentSetup.wavelength is not None:
-            headers.append(hdr + " WaveLength = %s" % self.experimentSetup.wavelength)
+            headers.append(hdr + " WaveLength = %s" % fWavelength)
         if self.experimentSetup.normalizationFactor is not None:
-            headers.append(hdr + " Normalization = %s" % self.experimentSetup.normalizationFactor)
+            headers.append(hdr + " Normalization = %s" % self.experimentSetup.normalizationFactor.value)
         history = [key for key in fabiofile.header if key.startswith("History")]
         history.sort()
         for key in  history:
@@ -355,5 +342,5 @@ s-vector Intensity Error
             f.write(linesep)
             for q, I, std in zip(npaQ, npaSignal, npaStd):
                 if abs(I - fDummy) > fDeltaDummy:
-                    f.write("%s  %s  %s%s" % (q, I, std, linesep))
+                    f.write("%14s  %14s  %14s%s" % (q, I, std, linesep))
             f.flush()

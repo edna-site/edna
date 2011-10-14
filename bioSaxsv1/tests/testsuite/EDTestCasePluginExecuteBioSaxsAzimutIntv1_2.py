@@ -63,7 +63,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_2(EDTestCasePluginExecute):
         and remove any existing output file 
         """
         EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage([ "bioSaxsMask.edf", "bioSaxsNormalized.edf", "bioSaxsIntegratedv1_1.dat", "bioSaxsIntegrated.edf", "bioSaxsCorrected.edf"])
+        self.loadTestImage([ "bioSaxsMask.edf", "bioSaxsNormalized.edf", "bioSaxsIntegratedv1_2.dat", "bioSaxsIntegrated.edf", "bioSaxsCorrected.edf"])
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsAzimutIntv1_0.parseString(strExpectedOutput)
@@ -113,7 +113,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_2(EDTestCasePluginExecute):
 ################################################################################
 
         outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read()
-        referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_1.dat"), "rb").read()
+        referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_2.dat"), "rb").read()
 
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")
 
