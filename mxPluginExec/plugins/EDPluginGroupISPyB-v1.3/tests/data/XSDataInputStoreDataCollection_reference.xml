@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <XSDataInputStoreDataCollection>
-	<updateOrStoreDataCollectionRequest>	
+	<dataCollection>	
 		<dataCollectionId>0</dataCollectionId>
 		<blSampleId>6489</blSampleId>
 		<sessionId>4345</sessionId>
@@ -52,5 +52,5 @@
 		<xtalSnapshotFullPath3>/tmp/test 123</xtalSnapshotFullPath3>
 		<xtalSnapshotFullPath4>/tmp/test 123</xtalSnapshotFullPath4>
 		<beamShape>test 123</beamShape>
-	</updateOrStoreDataCollectionRequest>
+	</dataCollection>
 </XSDataInputStoreDataCollection>

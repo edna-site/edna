@@ -143,14 +143,14 @@ complex type AutoProcContainer {
 }
 
 complex type XSDataInputStoreDataCollection extends XSDataInput {
-	updateOrStoreDataCollectionRequest : UpdateOrStoreDataCollectionRequest
+	dataCollection : XSDataISPyBDataCollection
 }
 
 complex type XSDataResultStoreDataCollection extends XSDataResult {
 	dataCollectionId : XSDataInteger optional
 }
 
-complex type UpdateOrStoreDataCollectionRequest {
+complex type XSDataISPyBDataCollection {
 	dataCollectionId : integer
 	blSampleId : integer
 	sessionId : integer

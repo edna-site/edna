@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Sep 27 04:01::40 2011 by EDGenerateDS.
+# Generated Fri Oct 14 10:01::17 2011 by EDGenerateDS.
 #
 
 import sys
@@ -870,100 +870,6 @@ class AutoProcIntegration(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class AutoProcIntegration
-
-class AutoProcIntegrationContainer(object):
-	def __init__(self, AutoProcIntegration=None, Image=None):
-		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", Image, "Image")
-		self.__Image = Image
-		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", AutoProcIntegration, "AutoProcIntegration")
-		self.__AutoProcIntegration = AutoProcIntegration
-	def getImage(self): return self.__Image
-	def setImage(self, Image):
-		checkType("AutoProcIntegrationContainer", "setImage", Image, "Image")
-		self.__Image = Image
-	def delImage(self): self.__Image = None
-	# Properties
-	Image = property(getImage, setImage, delImage, "Property for Image")
-	def getAutoProcIntegration(self): return self.__AutoProcIntegration
-	def setAutoProcIntegration(self, AutoProcIntegration):
-		checkType("AutoProcIntegrationContainer", "setAutoProcIntegration", AutoProcIntegration, "AutoProcIntegration")
-		self.__AutoProcIntegration = AutoProcIntegration
-	def delAutoProcIntegration(self): self.__AutoProcIntegration = None
-	# Properties
-	AutoProcIntegration = property(getAutoProcIntegration, setAutoProcIntegration, delAutoProcIntegration, "Property for AutoProcIntegration")
-	def export(self, outfile, level, name_='AutoProcIntegrationContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcIntegrationContainer'):
-		pass
-		if self.__Image is not None:
-			self.Image.export(outfile, level, name_='Image')
-		else:
-			warnEmptyAttribute("Image", "Image")
-		if self.__AutoProcIntegration is not None:
-			self.AutoProcIntegration.export(outfile, level, name_='AutoProcIntegration')
-		else:
-			warnEmptyAttribute("AutoProcIntegration", "AutoProcIntegration")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'Image':
-			obj_ = Image()
-			obj_.build(child_)
-			self.setImage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcIntegration':
-			obj_ = AutoProcIntegration()
-			obj_.build(child_)
-			self.setAutoProcIntegration(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcIntegrationContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class AutoProcIntegrationContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcIntegrationContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcIntegrationContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcIntegrationContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcIntegrationContainer
 
 class AutoProcProgram(object):
 	def __init__(self, processingEnvironment=None, processingEndTime=None, processingStartTime=None, processingMessage=None, processingStatus=None, processingPrograms=None, processingCommandLine=None):
@@ -2127,474 +2033,568 @@ class Image(object):
 	parseFile = staticmethod( parseFile )
 # end class Image
 
-class UpdateOrStoreDataCollectionRequest(object):
+class AutoProcIntegrationContainer(object):
+	def __init__(self, AutoProcIntegration=None, Image=None):
+		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", Image, "Image")
+		self.__Image = Image
+		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", AutoProcIntegration, "AutoProcIntegration")
+		self.__AutoProcIntegration = AutoProcIntegration
+	def getImage(self): return self.__Image
+	def setImage(self, Image):
+		checkType("AutoProcIntegrationContainer", "setImage", Image, "Image")
+		self.__Image = Image
+	def delImage(self): self.__Image = None
+	# Properties
+	Image = property(getImage, setImage, delImage, "Property for Image")
+	def getAutoProcIntegration(self): return self.__AutoProcIntegration
+	def setAutoProcIntegration(self, AutoProcIntegration):
+		checkType("AutoProcIntegrationContainer", "setAutoProcIntegration", AutoProcIntegration, "AutoProcIntegration")
+		self.__AutoProcIntegration = AutoProcIntegration
+	def delAutoProcIntegration(self): self.__AutoProcIntegration = None
+	# Properties
+	AutoProcIntegration = property(getAutoProcIntegration, setAutoProcIntegration, delAutoProcIntegration, "Property for AutoProcIntegration")
+	def export(self, outfile, level, name_='AutoProcIntegrationContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcIntegrationContainer'):
+		pass
+		if self.__Image is not None:
+			self.Image.export(outfile, level, name_='Image')
+		else:
+			warnEmptyAttribute("Image", "Image")
+		if self.__AutoProcIntegration is not None:
+			self.AutoProcIntegration.export(outfile, level, name_='AutoProcIntegration')
+		else:
+			warnEmptyAttribute("AutoProcIntegration", "AutoProcIntegration")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'Image':
+			obj_ = Image()
+			obj_.build(child_)
+			self.setImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcIntegration':
+			obj_ = AutoProcIntegration()
+			obj_.build(child_)
+			self.setAutoProcIntegration(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcIntegrationContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcIntegrationContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcIntegrationContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcIntegrationContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcIntegrationContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcIntegrationContainer
+
+class XSDataISPyBDataCollection(object):
 	def __init__(self, beamShape=None, xtalSnapshotFullPath4=None, xtalSnapshotFullPath3=None, xtalSnapshotFullPath2=None, xtalSnapshotFullPath1=None, printableForReport=None, comments=None, averageTemperature=None, centeringMethod=None, synchrotronMode=None, transmission=None, beamSizeAtSampleY=None, beamSizeAtSampleX=None, slitGapHorizontal=None, slitGapVertical=None, crystalClass=None, ybeam=None, xbeam=None, undulatorGap3=None, undulatorGap2=None, undulatorGap1=None, detectorMode=None, detector2theta=None, detectorDistance=None, resolutionAtCorner=None, resolution=None, wavelength=None, fileTemplate=None, imageSuffix=None, imagePrefix=None, imageDirectory=None, exposureTime=None, numberOfPasses=None, startImageNumber=None, numberOfImages=None, overlap=None, axisRange=None, axisEnd=None, axisStart=None, omegaStart=None, kappaStart=None, phiStart=None, rotationAxis=None, runStatus=None, endDate=None, startDate=None, dataCollectionNumber=None, experimentType=None, sessionId=None, blSampleId=None, dataCollectionId=None):
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", dataCollectionId, "integer")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", dataCollectionId, "integer")
 		self.__dataCollectionId = dataCollectionId
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", blSampleId, "integer")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", blSampleId, "integer")
 		self.__blSampleId = blSampleId
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", sessionId, "integer")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", sessionId, "integer")
 		self.__sessionId = sessionId
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", experimentType, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", experimentType, "string")
 		self.__experimentType = experimentType
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", dataCollectionNumber, "integer")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", dataCollectionNumber, "integer")
 		self.__dataCollectionNumber = dataCollectionNumber
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", startDate, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", startDate, "string")
 		self.__startDate = startDate
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", endDate, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", endDate, "string")
 		self.__endDate = endDate
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", runStatus, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", runStatus, "string")
 		self.__runStatus = runStatus
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", rotationAxis, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", rotationAxis, "string")
 		self.__rotationAxis = rotationAxis
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", phiStart, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", phiStart, "float")
 		self.__phiStart = phiStart
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", kappaStart, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", kappaStart, "float")
 		self.__kappaStart = kappaStart
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", omegaStart, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", omegaStart, "float")
 		self.__omegaStart = omegaStart
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", axisStart, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", axisStart, "float")
 		self.__axisStart = axisStart
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", axisEnd, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", axisEnd, "float")
 		self.__axisEnd = axisEnd
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", axisRange, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", axisRange, "float")
 		self.__axisRange = axisRange
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", overlap, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", overlap, "float")
 		self.__overlap = overlap
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", numberOfImages, "integer")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", numberOfImages, "integer")
 		self.__numberOfImages = numberOfImages
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", startImageNumber, "integer")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", startImageNumber, "integer")
 		self.__startImageNumber = startImageNumber
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", numberOfPasses, "integer")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", numberOfPasses, "integer")
 		self.__numberOfPasses = numberOfPasses
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", exposureTime, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", exposureTime, "float")
 		self.__exposureTime = exposureTime
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", imageDirectory, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", imageDirectory, "string")
 		self.__imageDirectory = imageDirectory
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", imagePrefix, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", imagePrefix, "string")
 		self.__imagePrefix = imagePrefix
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", imageSuffix, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", imageSuffix, "string")
 		self.__imageSuffix = imageSuffix
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", fileTemplate, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", fileTemplate, "string")
 		self.__fileTemplate = fileTemplate
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", wavelength, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", wavelength, "float")
 		self.__wavelength = wavelength
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", resolution, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", resolution, "float")
 		self.__resolution = resolution
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", resolutionAtCorner, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", resolutionAtCorner, "float")
 		self.__resolutionAtCorner = resolutionAtCorner
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", detectorDistance, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detectorDistance, "float")
 		self.__detectorDistance = detectorDistance
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", detector2theta, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detector2theta, "float")
 		self.__detector2theta = detector2theta
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", detectorMode, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detectorMode, "string")
 		self.__detectorMode = detectorMode
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", undulatorGap1, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", undulatorGap1, "float")
 		self.__undulatorGap1 = undulatorGap1
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", undulatorGap2, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", undulatorGap2, "float")
 		self.__undulatorGap2 = undulatorGap2
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", undulatorGap3, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", undulatorGap3, "float")
 		self.__undulatorGap3 = undulatorGap3
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xbeam, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xbeam, "float")
 		self.__xbeam = xbeam
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", ybeam, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", ybeam, "float")
 		self.__ybeam = ybeam
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", crystalClass, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", crystalClass, "string")
 		self.__crystalClass = crystalClass
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", slitGapVertical, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", slitGapVertical, "float")
 		self.__slitGapVertical = slitGapVertical
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", slitGapHorizontal, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", slitGapHorizontal, "float")
 		self.__slitGapHorizontal = slitGapHorizontal
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", beamSizeAtSampleX, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamSizeAtSampleX, "float")
 		self.__beamSizeAtSampleX = beamSizeAtSampleX
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", beamSizeAtSampleY, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamSizeAtSampleY, "float")
 		self.__beamSizeAtSampleY = beamSizeAtSampleY
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", transmission, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", transmission, "float")
 		self.__transmission = transmission
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", synchrotronMode, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", synchrotronMode, "string")
 		self.__synchrotronMode = synchrotronMode
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", centeringMethod, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", centeringMethod, "string")
 		self.__centeringMethod = centeringMethod
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", averageTemperature, "float")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", averageTemperature, "float")
 		self.__averageTemperature = averageTemperature
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", comments, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", comments, "string")
 		self.__comments = comments
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", printableForReport, "boolean")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", printableForReport, "boolean")
 		self.__printableForReport = printableForReport
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath1, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xtalSnapshotFullPath1, "string")
 		self.__xtalSnapshotFullPath1 = xtalSnapshotFullPath1
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath2, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xtalSnapshotFullPath2, "string")
 		self.__xtalSnapshotFullPath2 = xtalSnapshotFullPath2
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath3, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xtalSnapshotFullPath3, "string")
 		self.__xtalSnapshotFullPath3 = xtalSnapshotFullPath3
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", xtalSnapshotFullPath4, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xtalSnapshotFullPath4, "string")
 		self.__xtalSnapshotFullPath4 = xtalSnapshotFullPath4
-		checkType("UpdateOrStoreDataCollectionRequest", "Constructor of UpdateOrStoreDataCollectionRequest", beamShape, "string")
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamShape, "string")
 		self.__beamShape = beamShape
 	def getDataCollectionId(self): return self.__dataCollectionId
 	def setDataCollectionId(self, dataCollectionId):
-		checkType("UpdateOrStoreDataCollectionRequest", "setDataCollectionId", dataCollectionId, "integer")
+		checkType("XSDataISPyBDataCollection", "setDataCollectionId", dataCollectionId, "integer")
 		self.__dataCollectionId = dataCollectionId
 	def delDataCollectionId(self): self.__dataCollectionId = None
 	# Properties
 	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
 	def getBlSampleId(self): return self.__blSampleId
 	def setBlSampleId(self, blSampleId):
-		checkType("UpdateOrStoreDataCollectionRequest", "setBlSampleId", blSampleId, "integer")
+		checkType("XSDataISPyBDataCollection", "setBlSampleId", blSampleId, "integer")
 		self.__blSampleId = blSampleId
 	def delBlSampleId(self): self.__blSampleId = None
 	# Properties
 	blSampleId = property(getBlSampleId, setBlSampleId, delBlSampleId, "Property for blSampleId")
 	def getSessionId(self): return self.__sessionId
 	def setSessionId(self, sessionId):
-		checkType("UpdateOrStoreDataCollectionRequest", "setSessionId", sessionId, "integer")
+		checkType("XSDataISPyBDataCollection", "setSessionId", sessionId, "integer")
 		self.__sessionId = sessionId
 	def delSessionId(self): self.__sessionId = None
 	# Properties
 	sessionId = property(getSessionId, setSessionId, delSessionId, "Property for sessionId")
 	def getExperimentType(self): return self.__experimentType
 	def setExperimentType(self, experimentType):
-		checkType("UpdateOrStoreDataCollectionRequest", "setExperimentType", experimentType, "string")
+		checkType("XSDataISPyBDataCollection", "setExperimentType", experimentType, "string")
 		self.__experimentType = experimentType
 	def delExperimentType(self): self.__experimentType = None
 	# Properties
 	experimentType = property(getExperimentType, setExperimentType, delExperimentType, "Property for experimentType")
 	def getDataCollectionNumber(self): return self.__dataCollectionNumber
 	def setDataCollectionNumber(self, dataCollectionNumber):
-		checkType("UpdateOrStoreDataCollectionRequest", "setDataCollectionNumber", dataCollectionNumber, "integer")
+		checkType("XSDataISPyBDataCollection", "setDataCollectionNumber", dataCollectionNumber, "integer")
 		self.__dataCollectionNumber = dataCollectionNumber
 	def delDataCollectionNumber(self): self.__dataCollectionNumber = None
 	# Properties
 	dataCollectionNumber = property(getDataCollectionNumber, setDataCollectionNumber, delDataCollectionNumber, "Property for dataCollectionNumber")
 	def getStartDate(self): return self.__startDate
 	def setStartDate(self, startDate):
-		checkType("UpdateOrStoreDataCollectionRequest", "setStartDate", startDate, "string")
+		checkType("XSDataISPyBDataCollection", "setStartDate", startDate, "string")
 		self.__startDate = startDate
 	def delStartDate(self): self.__startDate = None
 	# Properties
 	startDate = property(getStartDate, setStartDate, delStartDate, "Property for startDate")
 	def getEndDate(self): return self.__endDate
 	def setEndDate(self, endDate):
-		checkType("UpdateOrStoreDataCollectionRequest", "setEndDate", endDate, "string")
+		checkType("XSDataISPyBDataCollection", "setEndDate", endDate, "string")
 		self.__endDate = endDate
 	def delEndDate(self): self.__endDate = None
 	# Properties
 	endDate = property(getEndDate, setEndDate, delEndDate, "Property for endDate")
 	def getRunStatus(self): return self.__runStatus
 	def setRunStatus(self, runStatus):
-		checkType("UpdateOrStoreDataCollectionRequest", "setRunStatus", runStatus, "string")
+		checkType("XSDataISPyBDataCollection", "setRunStatus", runStatus, "string")
 		self.__runStatus = runStatus
 	def delRunStatus(self): self.__runStatus = None
 	# Properties
 	runStatus = property(getRunStatus, setRunStatus, delRunStatus, "Property for runStatus")
 	def getRotationAxis(self): return self.__rotationAxis
 	def setRotationAxis(self, rotationAxis):
-		checkType("UpdateOrStoreDataCollectionRequest", "setRotationAxis", rotationAxis, "string")
+		checkType("XSDataISPyBDataCollection", "setRotationAxis", rotationAxis, "string")
 		self.__rotationAxis = rotationAxis
 	def delRotationAxis(self): self.__rotationAxis = None
 	# Properties
 	rotationAxis = property(getRotationAxis, setRotationAxis, delRotationAxis, "Property for rotationAxis")
 	def getPhiStart(self): return self.__phiStart
 	def setPhiStart(self, phiStart):
-		checkType("UpdateOrStoreDataCollectionRequest", "setPhiStart", phiStart, "float")
+		checkType("XSDataISPyBDataCollection", "setPhiStart", phiStart, "float")
 		self.__phiStart = phiStart
 	def delPhiStart(self): self.__phiStart = None
 	# Properties
 	phiStart = property(getPhiStart, setPhiStart, delPhiStart, "Property for phiStart")
 	def getKappaStart(self): return self.__kappaStart
 	def setKappaStart(self, kappaStart):
-		checkType("UpdateOrStoreDataCollectionRequest", "setKappaStart", kappaStart, "float")
+		checkType("XSDataISPyBDataCollection", "setKappaStart", kappaStart, "float")
 		self.__kappaStart = kappaStart
 	def delKappaStart(self): self.__kappaStart = None
 	# Properties
 	kappaStart = property(getKappaStart, setKappaStart, delKappaStart, "Property for kappaStart")
 	def getOmegaStart(self): return self.__omegaStart
 	def setOmegaStart(self, omegaStart):
-		checkType("UpdateOrStoreDataCollectionRequest", "setOmegaStart", omegaStart, "float")
+		checkType("XSDataISPyBDataCollection", "setOmegaStart", omegaStart, "float")
 		self.__omegaStart = omegaStart
 	def delOmegaStart(self): self.__omegaStart = None
 	# Properties
 	omegaStart = property(getOmegaStart, setOmegaStart, delOmegaStart, "Property for omegaStart")
 	def getAxisStart(self): return self.__axisStart
 	def setAxisStart(self, axisStart):
-		checkType("UpdateOrStoreDataCollectionRequest", "setAxisStart", axisStart, "float")
+		checkType("XSDataISPyBDataCollection", "setAxisStart", axisStart, "float")
 		self.__axisStart = axisStart
 	def delAxisStart(self): self.__axisStart = None
 	# Properties
 	axisStart = property(getAxisStart, setAxisStart, delAxisStart, "Property for axisStart")
 	def getAxisEnd(self): return self.__axisEnd
 	def setAxisEnd(self, axisEnd):
-		checkType("UpdateOrStoreDataCollectionRequest", "setAxisEnd", axisEnd, "float")
+		checkType("XSDataISPyBDataCollection", "setAxisEnd", axisEnd, "float")
 		self.__axisEnd = axisEnd
 	def delAxisEnd(self): self.__axisEnd = None
 	# Properties
 	axisEnd = property(getAxisEnd, setAxisEnd, delAxisEnd, "Property for axisEnd")
 	def getAxisRange(self): return self.__axisRange
 	def setAxisRange(self, axisRange):
-		checkType("UpdateOrStoreDataCollectionRequest", "setAxisRange", axisRange, "float")
+		checkType("XSDataISPyBDataCollection", "setAxisRange", axisRange, "float")
 		self.__axisRange = axisRange
 	def delAxisRange(self): self.__axisRange = None
 	# Properties
 	axisRange = property(getAxisRange, setAxisRange, delAxisRange, "Property for axisRange")
 	def getOverlap(self): return self.__overlap
 	def setOverlap(self, overlap):
-		checkType("UpdateOrStoreDataCollectionRequest", "setOverlap", overlap, "float")
+		checkType("XSDataISPyBDataCollection", "setOverlap", overlap, "float")
 		self.__overlap = overlap
 	def delOverlap(self): self.__overlap = None
 	# Properties
 	overlap = property(getOverlap, setOverlap, delOverlap, "Property for overlap")
 	def getNumberOfImages(self): return self.__numberOfImages
 	def setNumberOfImages(self, numberOfImages):
-		checkType("UpdateOrStoreDataCollectionRequest", "setNumberOfImages", numberOfImages, "integer")
+		checkType("XSDataISPyBDataCollection", "setNumberOfImages", numberOfImages, "integer")
 		self.__numberOfImages = numberOfImages
 	def delNumberOfImages(self): self.__numberOfImages = None
 	# Properties
 	numberOfImages = property(getNumberOfImages, setNumberOfImages, delNumberOfImages, "Property for numberOfImages")
 	def getStartImageNumber(self): return self.__startImageNumber
 	def setStartImageNumber(self, startImageNumber):
-		checkType("UpdateOrStoreDataCollectionRequest", "setStartImageNumber", startImageNumber, "integer")
+		checkType("XSDataISPyBDataCollection", "setStartImageNumber", startImageNumber, "integer")
 		self.__startImageNumber = startImageNumber
 	def delStartImageNumber(self): self.__startImageNumber = None
 	# Properties
 	startImageNumber = property(getStartImageNumber, setStartImageNumber, delStartImageNumber, "Property for startImageNumber")
 	def getNumberOfPasses(self): return self.__numberOfPasses
 	def setNumberOfPasses(self, numberOfPasses):
-		checkType("UpdateOrStoreDataCollectionRequest", "setNumberOfPasses", numberOfPasses, "integer")
+		checkType("XSDataISPyBDataCollection", "setNumberOfPasses", numberOfPasses, "integer")
 		self.__numberOfPasses = numberOfPasses
 	def delNumberOfPasses(self): self.__numberOfPasses = None
 	# Properties
 	numberOfPasses = property(getNumberOfPasses, setNumberOfPasses, delNumberOfPasses, "Property for numberOfPasses")
 	def getExposureTime(self): return self.__exposureTime
 	def setExposureTime(self, exposureTime):
-		checkType("UpdateOrStoreDataCollectionRequest", "setExposureTime", exposureTime, "float")
+		checkType("XSDataISPyBDataCollection", "setExposureTime", exposureTime, "float")
 		self.__exposureTime = exposureTime
 	def delExposureTime(self): self.__exposureTime = None
 	# Properties
 	exposureTime = property(getExposureTime, setExposureTime, delExposureTime, "Property for exposureTime")
 	def getImageDirectory(self): return self.__imageDirectory
 	def setImageDirectory(self, imageDirectory):
-		checkType("UpdateOrStoreDataCollectionRequest", "setImageDirectory", imageDirectory, "string")
+		checkType("XSDataISPyBDataCollection", "setImageDirectory", imageDirectory, "string")
 		self.__imageDirectory = imageDirectory
 	def delImageDirectory(self): self.__imageDirectory = None
 	# Properties
 	imageDirectory = property(getImageDirectory, setImageDirectory, delImageDirectory, "Property for imageDirectory")
 	def getImagePrefix(self): return self.__imagePrefix
 	def setImagePrefix(self, imagePrefix):
-		checkType("UpdateOrStoreDataCollectionRequest", "setImagePrefix", imagePrefix, "string")
+		checkType("XSDataISPyBDataCollection", "setImagePrefix", imagePrefix, "string")
 		self.__imagePrefix = imagePrefix
 	def delImagePrefix(self): self.__imagePrefix = None
 	# Properties
 	imagePrefix = property(getImagePrefix, setImagePrefix, delImagePrefix, "Property for imagePrefix")
 	def getImageSuffix(self): return self.__imageSuffix
 	def setImageSuffix(self, imageSuffix):
-		checkType("UpdateOrStoreDataCollectionRequest", "setImageSuffix", imageSuffix, "string")
+		checkType("XSDataISPyBDataCollection", "setImageSuffix", imageSuffix, "string")
 		self.__imageSuffix = imageSuffix
 	def delImageSuffix(self): self.__imageSuffix = None
 	# Properties
 	imageSuffix = property(getImageSuffix, setImageSuffix, delImageSuffix, "Property for imageSuffix")
 	def getFileTemplate(self): return self.__fileTemplate
 	def setFileTemplate(self, fileTemplate):
-		checkType("UpdateOrStoreDataCollectionRequest", "setFileTemplate", fileTemplate, "string")
+		checkType("XSDataISPyBDataCollection", "setFileTemplate", fileTemplate, "string")
 		self.__fileTemplate = fileTemplate
 	def delFileTemplate(self): self.__fileTemplate = None
 	# Properties
 	fileTemplate = property(getFileTemplate, setFileTemplate, delFileTemplate, "Property for fileTemplate")
 	def getWavelength(self): return self.__wavelength
 	def setWavelength(self, wavelength):
-		checkType("UpdateOrStoreDataCollectionRequest", "setWavelength", wavelength, "float")
+		checkType("XSDataISPyBDataCollection", "setWavelength", wavelength, "float")
 		self.__wavelength = wavelength
 	def delWavelength(self): self.__wavelength = None
 	# Properties
 	wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
 	def getResolution(self): return self.__resolution
 	def setResolution(self, resolution):
-		checkType("UpdateOrStoreDataCollectionRequest", "setResolution", resolution, "float")
+		checkType("XSDataISPyBDataCollection", "setResolution", resolution, "float")
 		self.__resolution = resolution
 	def delResolution(self): self.__resolution = None
 	# Properties
 	resolution = property(getResolution, setResolution, delResolution, "Property for resolution")
 	def getResolutionAtCorner(self): return self.__resolutionAtCorner
 	def setResolutionAtCorner(self, resolutionAtCorner):
-		checkType("UpdateOrStoreDataCollectionRequest", "setResolutionAtCorner", resolutionAtCorner, "float")
+		checkType("XSDataISPyBDataCollection", "setResolutionAtCorner", resolutionAtCorner, "float")
 		self.__resolutionAtCorner = resolutionAtCorner
 	def delResolutionAtCorner(self): self.__resolutionAtCorner = None
 	# Properties
 	resolutionAtCorner = property(getResolutionAtCorner, setResolutionAtCorner, delResolutionAtCorner, "Property for resolutionAtCorner")
 	def getDetectorDistance(self): return self.__detectorDistance
 	def setDetectorDistance(self, detectorDistance):
-		checkType("UpdateOrStoreDataCollectionRequest", "setDetectorDistance", detectorDistance, "float")
+		checkType("XSDataISPyBDataCollection", "setDetectorDistance", detectorDistance, "float")
 		self.__detectorDistance = detectorDistance
 	def delDetectorDistance(self): self.__detectorDistance = None
 	# Properties
 	detectorDistance = property(getDetectorDistance, setDetectorDistance, delDetectorDistance, "Property for detectorDistance")
 	def getDetector2theta(self): return self.__detector2theta
 	def setDetector2theta(self, detector2theta):
-		checkType("UpdateOrStoreDataCollectionRequest", "setDetector2theta", detector2theta, "float")
+		checkType("XSDataISPyBDataCollection", "setDetector2theta", detector2theta, "float")
 		self.__detector2theta = detector2theta
 	def delDetector2theta(self): self.__detector2theta = None
 	# Properties
 	detector2theta = property(getDetector2theta, setDetector2theta, delDetector2theta, "Property for detector2theta")
 	def getDetectorMode(self): return self.__detectorMode
 	def setDetectorMode(self, detectorMode):
-		checkType("UpdateOrStoreDataCollectionRequest", "setDetectorMode", detectorMode, "string")
+		checkType("XSDataISPyBDataCollection", "setDetectorMode", detectorMode, "string")
 		self.__detectorMode = detectorMode
 	def delDetectorMode(self): self.__detectorMode = None
 	# Properties
 	detectorMode = property(getDetectorMode, setDetectorMode, delDetectorMode, "Property for detectorMode")
 	def getUndulatorGap1(self): return self.__undulatorGap1
 	def setUndulatorGap1(self, undulatorGap1):
-		checkType("UpdateOrStoreDataCollectionRequest", "setUndulatorGap1", undulatorGap1, "float")
+		checkType("XSDataISPyBDataCollection", "setUndulatorGap1", undulatorGap1, "float")
 		self.__undulatorGap1 = undulatorGap1
 	def delUndulatorGap1(self): self.__undulatorGap1 = None
 	# Properties
 	undulatorGap1 = property(getUndulatorGap1, setUndulatorGap1, delUndulatorGap1, "Property for undulatorGap1")
 	def getUndulatorGap2(self): return self.__undulatorGap2
 	def setUndulatorGap2(self, undulatorGap2):
-		checkType("UpdateOrStoreDataCollectionRequest", "setUndulatorGap2", undulatorGap2, "float")
+		checkType("XSDataISPyBDataCollection", "setUndulatorGap2", undulatorGap2, "float")
 		self.__undulatorGap2 = undulatorGap2
 	def delUndulatorGap2(self): self.__undulatorGap2 = None
 	# Properties
 	undulatorGap2 = property(getUndulatorGap2, setUndulatorGap2, delUndulatorGap2, "Property for undulatorGap2")
 	def getUndulatorGap3(self): return self.__undulatorGap3
 	def setUndulatorGap3(self, undulatorGap3):
-		checkType("UpdateOrStoreDataCollectionRequest", "setUndulatorGap3", undulatorGap3, "float")
+		checkType("XSDataISPyBDataCollection", "setUndulatorGap3", undulatorGap3, "float")
 		self.__undulatorGap3 = undulatorGap3
 	def delUndulatorGap3(self): self.__undulatorGap3 = None
 	# Properties
 	undulatorGap3 = property(getUndulatorGap3, setUndulatorGap3, delUndulatorGap3, "Property for undulatorGap3")
 	def getXbeam(self): return self.__xbeam
 	def setXbeam(self, xbeam):
-		checkType("UpdateOrStoreDataCollectionRequest", "setXbeam", xbeam, "float")
+		checkType("XSDataISPyBDataCollection", "setXbeam", xbeam, "float")
 		self.__xbeam = xbeam
 	def delXbeam(self): self.__xbeam = None
 	# Properties
 	xbeam = property(getXbeam, setXbeam, delXbeam, "Property for xbeam")
 	def getYbeam(self): return self.__ybeam
 	def setYbeam(self, ybeam):
-		checkType("UpdateOrStoreDataCollectionRequest", "setYbeam", ybeam, "float")
+		checkType("XSDataISPyBDataCollection", "setYbeam", ybeam, "float")
 		self.__ybeam = ybeam
 	def delYbeam(self): self.__ybeam = None
 	# Properties
 	ybeam = property(getYbeam, setYbeam, delYbeam, "Property for ybeam")
 	def getCrystalClass(self): return self.__crystalClass
 	def setCrystalClass(self, crystalClass):
-		checkType("UpdateOrStoreDataCollectionRequest", "setCrystalClass", crystalClass, "string")
+		checkType("XSDataISPyBDataCollection", "setCrystalClass", crystalClass, "string")
 		self.__crystalClass = crystalClass
 	def delCrystalClass(self): self.__crystalClass = None
 	# Properties
 	crystalClass = property(getCrystalClass, setCrystalClass, delCrystalClass, "Property for crystalClass")
 	def getSlitGapVertical(self): return self.__slitGapVertical
 	def setSlitGapVertical(self, slitGapVertical):
-		checkType("UpdateOrStoreDataCollectionRequest", "setSlitGapVertical", slitGapVertical, "float")
+		checkType("XSDataISPyBDataCollection", "setSlitGapVertical", slitGapVertical, "float")
 		self.__slitGapVertical = slitGapVertical
 	def delSlitGapVertical(self): self.__slitGapVertical = None
 	# Properties
 	slitGapVertical = property(getSlitGapVertical, setSlitGapVertical, delSlitGapVertical, "Property for slitGapVertical")
 	def getSlitGapHorizontal(self): return self.__slitGapHorizontal
 	def setSlitGapHorizontal(self, slitGapHorizontal):
-		checkType("UpdateOrStoreDataCollectionRequest", "setSlitGapHorizontal", slitGapHorizontal, "float")
+		checkType("XSDataISPyBDataCollection", "setSlitGapHorizontal", slitGapHorizontal, "float")
 		self.__slitGapHorizontal = slitGapHorizontal
 	def delSlitGapHorizontal(self): self.__slitGapHorizontal = None
 	# Properties
 	slitGapHorizontal = property(getSlitGapHorizontal, setSlitGapHorizontal, delSlitGapHorizontal, "Property for slitGapHorizontal")
 	def getBeamSizeAtSampleX(self): return self.__beamSizeAtSampleX
 	def setBeamSizeAtSampleX(self, beamSizeAtSampleX):
-		checkType("UpdateOrStoreDataCollectionRequest", "setBeamSizeAtSampleX", beamSizeAtSampleX, "float")
+		checkType("XSDataISPyBDataCollection", "setBeamSizeAtSampleX", beamSizeAtSampleX, "float")
 		self.__beamSizeAtSampleX = beamSizeAtSampleX
 	def delBeamSizeAtSampleX(self): self.__beamSizeAtSampleX = None
 	# Properties
 	beamSizeAtSampleX = property(getBeamSizeAtSampleX, setBeamSizeAtSampleX, delBeamSizeAtSampleX, "Property for beamSizeAtSampleX")
 	def getBeamSizeAtSampleY(self): return self.__beamSizeAtSampleY
 	def setBeamSizeAtSampleY(self, beamSizeAtSampleY):
-		checkType("UpdateOrStoreDataCollectionRequest", "setBeamSizeAtSampleY", beamSizeAtSampleY, "float")
+		checkType("XSDataISPyBDataCollection", "setBeamSizeAtSampleY", beamSizeAtSampleY, "float")
 		self.__beamSizeAtSampleY = beamSizeAtSampleY
 	def delBeamSizeAtSampleY(self): self.__beamSizeAtSampleY = None
 	# Properties
 	beamSizeAtSampleY = property(getBeamSizeAtSampleY, setBeamSizeAtSampleY, delBeamSizeAtSampleY, "Property for beamSizeAtSampleY")
 	def getTransmission(self): return self.__transmission
 	def setTransmission(self, transmission):
-		checkType("UpdateOrStoreDataCollectionRequest", "setTransmission", transmission, "float")
+		checkType("XSDataISPyBDataCollection", "setTransmission", transmission, "float")
 		self.__transmission = transmission
 	def delTransmission(self): self.__transmission = None
 	# Properties
 	transmission = property(getTransmission, setTransmission, delTransmission, "Property for transmission")
 	def getSynchrotronMode(self): return self.__synchrotronMode
 	def setSynchrotronMode(self, synchrotronMode):
-		checkType("UpdateOrStoreDataCollectionRequest", "setSynchrotronMode", synchrotronMode, "string")
+		checkType("XSDataISPyBDataCollection", "setSynchrotronMode", synchrotronMode, "string")
 		self.__synchrotronMode = synchrotronMode
 	def delSynchrotronMode(self): self.__synchrotronMode = None
 	# Properties
 	synchrotronMode = property(getSynchrotronMode, setSynchrotronMode, delSynchrotronMode, "Property for synchrotronMode")
 	def getCenteringMethod(self): return self.__centeringMethod
 	def setCenteringMethod(self, centeringMethod):
-		checkType("UpdateOrStoreDataCollectionRequest", "setCenteringMethod", centeringMethod, "string")
+		checkType("XSDataISPyBDataCollection", "setCenteringMethod", centeringMethod, "string")
 		self.__centeringMethod = centeringMethod
 	def delCenteringMethod(self): self.__centeringMethod = None
 	# Properties
 	centeringMethod = property(getCenteringMethod, setCenteringMethod, delCenteringMethod, "Property for centeringMethod")
 	def getAverageTemperature(self): return self.__averageTemperature
 	def setAverageTemperature(self, averageTemperature):
-		checkType("UpdateOrStoreDataCollectionRequest", "setAverageTemperature", averageTemperature, "float")
+		checkType("XSDataISPyBDataCollection", "setAverageTemperature", averageTemperature, "float")
 		self.__averageTemperature = averageTemperature
 	def delAverageTemperature(self): self.__averageTemperature = None
 	# Properties
 	averageTemperature = property(getAverageTemperature, setAverageTemperature, delAverageTemperature, "Property for averageTemperature")
 	def getComments(self): return self.__comments
 	def setComments(self, comments):
-		checkType("UpdateOrStoreDataCollectionRequest", "setComments", comments, "string")
+		checkType("XSDataISPyBDataCollection", "setComments", comments, "string")
 		self.__comments = comments
 	def delComments(self): self.__comments = None
 	# Properties
 	comments = property(getComments, setComments, delComments, "Property for comments")
 	def getPrintableForReport(self): return self.__printableForReport
 	def setPrintableForReport(self, printableForReport):
-		checkType("UpdateOrStoreDataCollectionRequest", "setPrintableForReport", printableForReport, "boolean")
+		checkType("XSDataISPyBDataCollection", "setPrintableForReport", printableForReport, "boolean")
 		self.__printableForReport = printableForReport
 	def delPrintableForReport(self): self.__printableForReport = None
 	# Properties
 	printableForReport = property(getPrintableForReport, setPrintableForReport, delPrintableForReport, "Property for printableForReport")
 	def getXtalSnapshotFullPath1(self): return self.__xtalSnapshotFullPath1
 	def setXtalSnapshotFullPath1(self, xtalSnapshotFullPath1):
-		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath1", xtalSnapshotFullPath1, "string")
+		checkType("XSDataISPyBDataCollection", "setXtalSnapshotFullPath1", xtalSnapshotFullPath1, "string")
 		self.__xtalSnapshotFullPath1 = xtalSnapshotFullPath1
 	def delXtalSnapshotFullPath1(self): self.__xtalSnapshotFullPath1 = None
 	# Properties
 	xtalSnapshotFullPath1 = property(getXtalSnapshotFullPath1, setXtalSnapshotFullPath1, delXtalSnapshotFullPath1, "Property for xtalSnapshotFullPath1")
 	def getXtalSnapshotFullPath2(self): return self.__xtalSnapshotFullPath2
 	def setXtalSnapshotFullPath2(self, xtalSnapshotFullPath2):
-		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath2", xtalSnapshotFullPath2, "string")
+		checkType("XSDataISPyBDataCollection", "setXtalSnapshotFullPath2", xtalSnapshotFullPath2, "string")
 		self.__xtalSnapshotFullPath2 = xtalSnapshotFullPath2
 	def delXtalSnapshotFullPath2(self): self.__xtalSnapshotFullPath2 = None
 	# Properties
 	xtalSnapshotFullPath2 = property(getXtalSnapshotFullPath2, setXtalSnapshotFullPath2, delXtalSnapshotFullPath2, "Property for xtalSnapshotFullPath2")
 	def getXtalSnapshotFullPath3(self): return self.__xtalSnapshotFullPath3
 	def setXtalSnapshotFullPath3(self, xtalSnapshotFullPath3):
-		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath3", xtalSnapshotFullPath3, "string")
+		checkType("XSDataISPyBDataCollection", "setXtalSnapshotFullPath3", xtalSnapshotFullPath3, "string")
 		self.__xtalSnapshotFullPath3 = xtalSnapshotFullPath3
 	def delXtalSnapshotFullPath3(self): self.__xtalSnapshotFullPath3 = None
 	# Properties
 	xtalSnapshotFullPath3 = property(getXtalSnapshotFullPath3, setXtalSnapshotFullPath3, delXtalSnapshotFullPath3, "Property for xtalSnapshotFullPath3")
 	def getXtalSnapshotFullPath4(self): return self.__xtalSnapshotFullPath4
 	def setXtalSnapshotFullPath4(self, xtalSnapshotFullPath4):
-		checkType("UpdateOrStoreDataCollectionRequest", "setXtalSnapshotFullPath4", xtalSnapshotFullPath4, "string")
+		checkType("XSDataISPyBDataCollection", "setXtalSnapshotFullPath4", xtalSnapshotFullPath4, "string")
 		self.__xtalSnapshotFullPath4 = xtalSnapshotFullPath4
 	def delXtalSnapshotFullPath4(self): self.__xtalSnapshotFullPath4 = None
 	# Properties
 	xtalSnapshotFullPath4 = property(getXtalSnapshotFullPath4, setXtalSnapshotFullPath4, delXtalSnapshotFullPath4, "Property for xtalSnapshotFullPath4")
 	def getBeamShape(self): return self.__beamShape
 	def setBeamShape(self, beamShape):
-		checkType("UpdateOrStoreDataCollectionRequest", "setBeamShape", beamShape, "string")
+		checkType("XSDataISPyBDataCollection", "setBeamShape", beamShape, "string")
 		self.__beamShape = beamShape
 	def delBeamShape(self): self.__beamShape = None
 	# Properties
 	beamShape = property(getBeamShape, setBeamShape, delBeamShape, "Property for beamShape")
-	def export(self, outfile, level, name_='UpdateOrStoreDataCollectionRequest'):
+	def export(self, outfile, level, name_='XSDataISPyBDataCollection'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='UpdateOrStoreDataCollectionRequest'):
+	def exportChildren(self, outfile, level, name_='XSDataISPyBDataCollection'):
 		pass
 		if self.__dataCollectionId is not None:
 			showIndent(outfile, level)
@@ -3286,7 +3286,7 @@ class UpdateOrStoreDataCollectionRequest(object):
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="UpdateOrStoreDataCollectionRequest" )
+		self.export( oStreamString, 0, name_="XSDataISPyBDataCollection" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -3294,24 +3294,24 @@ class UpdateOrStoreDataCollectionRequest(object):
 	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='UpdateOrStoreDataCollectionRequest' )
+		self.export( outfile, 0, name_='XSDataISPyBDataCollection' )
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class UpdateOrStoreDataCollectionRequest is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class XSDataISPyBDataCollection is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return UpdateOrStoreDataCollectionRequest.parseString(self.marshal())
+		return XSDataISPyBDataCollection.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = UpdateOrStoreDataCollectionRequest()
+		rootObj = XSDataISPyBDataCollection()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="UpdateOrStoreDataCollectionRequest" )
+		rootObj.export( oStreamString, 0, name_="XSDataISPyBDataCollection" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -3319,11 +3319,11 @@ class UpdateOrStoreDataCollectionRequest(object):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = UpdateOrStoreDataCollectionRequest()
+		rootObj = XSDataISPyBDataCollection()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class UpdateOrStoreDataCollectionRequest
+# end class XSDataISPyBDataCollection
 
 class XSDataISPyBImageQualityIndicators(XSData):
 	def __init__(self, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
@@ -3774,17 +3774,17 @@ class XSDataInputStoreAutoProc(XSDataInput):
 # end class XSDataInputStoreAutoProc
 
 class XSDataInputStoreDataCollection(XSDataInput):
-	def __init__(self, configuration=None, updateOrStoreDataCollectionRequest=None):
+	def __init__(self, configuration=None, dataCollection=None):
 		XSDataInput.__init__(self, configuration)
-		checkType("XSDataInputStoreDataCollection", "Constructor of XSDataInputStoreDataCollection", updateOrStoreDataCollectionRequest, "UpdateOrStoreDataCollectionRequest")
-		self.__updateOrStoreDataCollectionRequest = updateOrStoreDataCollectionRequest
-	def getUpdateOrStoreDataCollectionRequest(self): return self.__updateOrStoreDataCollectionRequest
-	def setUpdateOrStoreDataCollectionRequest(self, updateOrStoreDataCollectionRequest):
-		checkType("XSDataInputStoreDataCollection", "setUpdateOrStoreDataCollectionRequest", updateOrStoreDataCollectionRequest, "UpdateOrStoreDataCollectionRequest")
-		self.__updateOrStoreDataCollectionRequest = updateOrStoreDataCollectionRequest
-	def delUpdateOrStoreDataCollectionRequest(self): self.__updateOrStoreDataCollectionRequest = None
+		checkType("XSDataInputStoreDataCollection", "Constructor of XSDataInputStoreDataCollection", dataCollection, "XSDataISPyBDataCollection")
+		self.__dataCollection = dataCollection
+	def getDataCollection(self): return self.__dataCollection
+	def setDataCollection(self, dataCollection):
+		checkType("XSDataInputStoreDataCollection", "setDataCollection", dataCollection, "XSDataISPyBDataCollection")
+		self.__dataCollection = dataCollection
+	def delDataCollection(self): self.__dataCollection = None
 	# Properties
-	updateOrStoreDataCollectionRequest = property(getUpdateOrStoreDataCollectionRequest, setUpdateOrStoreDataCollectionRequest, delUpdateOrStoreDataCollectionRequest, "Property for updateOrStoreDataCollectionRequest")
+	dataCollection = property(getDataCollection, setDataCollection, delDataCollection, "Property for dataCollection")
 	def export(self, outfile, level, name_='XSDataInputStoreDataCollection'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -3793,20 +3793,20 @@ class XSDataInputStoreDataCollection(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputStoreDataCollection'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__updateOrStoreDataCollectionRequest is not None:
-			self.updateOrStoreDataCollectionRequest.export(outfile, level, name_='updateOrStoreDataCollectionRequest')
+		if self.__dataCollection is not None:
+			self.dataCollection.export(outfile, level, name_='dataCollection')
 		else:
-			warnEmptyAttribute("updateOrStoreDataCollectionRequest", "UpdateOrStoreDataCollectionRequest")
+			warnEmptyAttribute("dataCollection", "XSDataISPyBDataCollection")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'updateOrStoreDataCollectionRequest':
-			obj_ = UpdateOrStoreDataCollectionRequest()
+			nodeName_ == 'dataCollection':
+			obj_ = XSDataISPyBDataCollection()
 			obj_.build(child_)
-			self.setUpdateOrStoreDataCollectionRequest(obj_)
+			self.setDataCollection(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
