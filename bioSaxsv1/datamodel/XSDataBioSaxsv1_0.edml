@@ -148,7 +148,7 @@ complex type XSDataInputBioSaxsMetadatav1_0 extends XSDataInputBioSaxsSampleExpe
 
 complex type XSDataResultBioSaxsMetadatav1_0 extends XSDataResultBioSaxsSampleExperiment{
 	sample : XSDataBioSaxsSample optional
-	experimentSetup: XSDataBioSaxsExperimentSetup
+	experimentSetup: XSDataBioSaxsExperimentSetup  optional
 	outputImage : XSDataImage optional
 }
 

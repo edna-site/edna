@@ -31,6 +31,8 @@ Retrieves and update metadata taken from EDF files, and optionally save them
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__date__ = "20111014"
+__status__ = "deprecated"
 
 import os, sys, shutil
 from EDVerbose          import EDVerbose

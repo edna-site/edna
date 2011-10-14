@@ -52,7 +52,7 @@ class EDTestCasePluginExecuteBioSaxsMetadatav1_1(EDTestCasePluginExecute):
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputBioSaxsMetadata_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultBioSaxsMetadata_reference.xml"))
+                                                     "XSDataResultBioSaxsMetadata_referencev1_1.xml"))
 
         self.outputImage = None
 

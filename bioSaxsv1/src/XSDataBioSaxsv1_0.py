@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Oct 13 06:18::11 2011 by EDGenerateDS.
+# Generated Fri Oct 14 10:42::04 2011 by EDGenerateDS.
 #
 
 import os, sys
@@ -3714,10 +3714,28 @@ class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 # end class XSDataInputBioSaxsSingleSamplev1_0
 
 class XSDataResultBioSaxsMetadatav1_0(XSDataResultBioSaxsSampleExperiment):
-	def __init__(self, status=None, sampleTemperature=None, code=None, comments=None, concentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, outputImage=None):
+	def __init__(self, status=None, sampleTemperature=None, code=None, comments=None, concentration=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, outputImage=None, experimentSetup=None, sample=None):
 		XSDataResultBioSaxsSampleExperiment.__init__(self, status, sampleTemperature, code, comments, concentration, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
+		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
 		checkType("XSDataResultBioSaxsMetadatav1_0", "Constructor of XSDataResultBioSaxsMetadatav1_0", outputImage, "XSDataImage")
 		self.__outputImage = outputImage
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataResultBioSaxsMetadatav1_0", "setSample", sample, "XSDataBioSaxsSample")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getExperimentSetup(self): return self.__experimentSetup
+	def setExperimentSetup(self, experimentSetup):
+		checkType("XSDataResultBioSaxsMetadatav1_0", "setExperimentSetup", experimentSetup, "XSDataBioSaxsExperimentSetup")
+		self.__experimentSetup = experimentSetup
+	def delExperimentSetup(self): self.__experimentSetup = None
+	# Properties
+	experimentSetup = property(getExperimentSetup, setExperimentSetup, delExperimentSetup, "Property for experimentSetup")
 	def getOutputImage(self): return self.__outputImage
 	def setOutputImage(self, outputImage):
 		checkType("XSDataResultBioSaxsMetadatav1_0", "setOutputImage", outputImage, "XSDataImage")
@@ -3733,6 +3751,10 @@ class XSDataResultBioSaxsMetadatav1_0(XSDataResultBioSaxsSampleExperiment):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsMetadatav1_0'):
 		XSDataResultBioSaxsSampleExperiment.exportChildren(self, outfile, level, name_)
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		if self.__experimentSetup is not None:
+			self.experimentSetup.export(outfile, level, name_='experimentSetup')
 		if self.__outputImage is not None:
 			self.outputImage.export(outfile, level, name_='outputImage')
 	def build(self, node_):
@@ -3741,6 +3763,16 @@ class XSDataResultBioSaxsMetadatav1_0(XSDataResultBioSaxsSampleExperiment):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataBioSaxsSample()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentSetup':
+			obj_ = XSDataBioSaxsExperimentSetup()
+			obj_.build(child_)
+			self.setExperimentSetup(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'outputImage':
 			obj_ = XSDataImage()
 			obj_.build(child_)

@@ -30,6 +30,8 @@ Retrieves and update metadata taken from EDF files, and optionally save them
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__date__ = "20111014"
+__status = "production"
 
 import os, shutil
 
@@ -40,7 +42,9 @@ from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from XSDataCommon               import XSDataString, XSDataImage, \
                          XSDataDouble, XSDataLength, XSDataWavelength
 from XSDataBioSaxsv1_0          import XSDataInputBioSaxsMetadatav1_0, \
-                                     XSDataResultBioSaxsMetadatav1_0
+                                     XSDataResultBioSaxsMetadatav1_0, \
+                                     XSDataBioSaxsExperimentSetup, \
+                                     XSDataBioSaxsSample
 from EDUtilsPlatform            import EDUtilsPlatform
 
 architecture = EDUtilsPlatform.architecture
@@ -179,45 +183,71 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
 
 
     def postProcess(self, _edObject=None):
+        """
+complex type XSDataBioSaxsExperimentSetup extends XSData{
+    detector : XSDataString optional
+    detectorDistance : XSDataLength optional
+    pixelSize_1 : XSDataLength optional
+    pixelSize_2 : XSDataLength optional
+    beamCenter_1 : XSDataDouble optional
+    beamCenter_2 : XSDataDouble optional
+    beamStopDiode : XSDataDouble optional
+    wavelength : XSDataWavelength optional
+    machineCurrent : XSDataDouble optional
+    maskFile : XSDataImage optional
+    normalizationFactor : XSDataDouble optional
+}
+
+complex type XSDataBioSaxsSample extends XSData {
+    concentration : XSDataDouble optional
+    comments : XSDataString optional
+    code : XSDataString optional
+    temperature: XSDataDouble optional
+"""
+
         EDPluginExec.postProcess(self)
         EDVerbose.DEBUG("EDPluginBioSaxsMetadatav1_1.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsMetadatav1_0()
+        xsdSample = XSDataBioSaxsSample()
+        xsdExperiment = XSDataBioSaxsExperimentSetup()
         if self.strOutputImage is not None:
             xsdImage = XSDataImage()
             xsdImage.setPath(XSDataString(self.strOutputImage))
             xsDataResult.setOutputImage(xsdImage)
         if self.detector is not None:
-            xsDataResult.setDetector(XSDataString(self.detector))
+            xsdExperiment.detector = xsDataResult.detector = XSDataString(self.detector)
         if self.detectorDistance is not None:
-            xsDataResult.setDetectorDistance(XSDataLength(self.detectorDistance))
+            xsdExperiment.detectorDistance = xsDataResult.detectorDistance = XSDataLength(self.detectorDistance)
         if self.pixelSize_1 is not None:
-            xsDataResult.setPixelSize_1(XSDataLength(self.pixelSize_1))
+            xsDataResult.pixelSize_1 = XSDataLength(self.pixelSize_1)
         if self.pixelSize_2 is not None:
-            xsDataResult.setPixelSize_2(XSDataLength(self.pixelSize_2))
+            xsDataResult.pixelSize_2 = XSDataLength(self.pixelSize_2)
         if self.beamCenter_1 is not None:
-            xsDataResult.setBeamCenter_1(XSDataDouble(self.beamCenter_1))
+            xsDataResult.beamCenter_1 = XSDataDouble(self.beamCenter_1)
         if self.beamCenter_2 is not None:
-            xsDataResult.setBeamCenter_2(XSDataDouble(self.beamCenter_2))
+            xsDataResult.beamCenter_2 = XSDataDouble(self.beamCenter_2)
         if self.beamStopDiode is not None:
-            xsDataResult.setBeamStopDiode(XSDataDouble(self.beamStopDiode))
+            xsdExperiment.beamStopDiode = xsDataResult.beamStopDiode = XSDataDouble(self.beamStopDiode)
         if self.wavelength is not None:
-            xsDataResult.setWavelength(XSDataWavelength(self.wavelength))
+            xsdExperiment.wavelength = xsDataResult.wavelength = XSDataWavelength(self.wavelength)
         if self.maskFile is not None:
             xsdFile = XSDataImage()
             xsdFile.setPath(XSDataString(self.maskFile))
-            xsDataResult.setMaskFile(xsdFile)
+            xsdExperiment.maskFile = xsDataResult.maskFile = xsdFile
         if self.normalizationFactor is not None:
-            xsDataResult.setNormalizationFactor(XSDataDouble(self.normalizationFactor))
+            xsdExperiment.normalizationFactor = xsDataResult.normalizationFactor = XSDataDouble(self.normalizationFactor)
         if self.machineCurrent is not None:
-            xsDataResult.setMachineCurrent(XSDataDouble(self.machineCurrent))
+            xsdExperiment.machineCurrent = xsDataResult.machineCurrent = XSDataDouble(self.machineCurrent)
         if self.code is not None:
-            xsDataResult.setCode(XSDataString(self.code))
+            xsdSample.code = xsDataResult.code = XSDataString(self.code)
         if self.comments is not None:
-            xsDataResult.setComments(XSDataString(self.comments))
+            xsdSample.comments = xsDataResult.comments = XSDataString(self.comments)
         if self.concentration is not None:
-            xsDataResult.setConcentration(XSDataDouble(self.concentration))
-        EDVerbose.DEBUG("xsDataResult=%s" % xsDataResult.marshal())
+            xsdSample.concentration = xsDataResult.concentration = XSDataDouble(self.concentration)
+
+        xsDataResult.sample = xsdSample
+        xsDataResult.experimentSetup = xsdExperiment
         self.setDataOutput(xsDataResult)
 
 
