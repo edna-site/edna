@@ -39,6 +39,8 @@ class EDTestSuitePluginBioSaxsProcessOneFilev1_0(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsProcessOneFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsProcessOneFilev1_1")
+
 
 
 
