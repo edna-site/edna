@@ -150,15 +150,24 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                         edPluginExecAbsoluteFidelity.connectFAILURE(self.doFailureExecDatcmp)
                         edPluginExecAbsoluteFidelity.connectSUCCESS(self.doSuccessExecDatcmp)
                         edPluginExecAbsoluteFidelity.execute()
-                if (self.relativeFidelity is not None) and (len(self.lstInput) > 2):
-                    for idx, oneFile in enumerate(self.lstInput[2:]):
-                        self.WARNING("Calculating similarity of %s and %s" % (idx, idx + 1))
-                        edPluginExecRelativeFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
-                        xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[idx + 1], oneFile])
-                        edPluginExecRelativeFidelity.setDataInput(xsd)
-                        edPluginExecRelativeFidelity.connectFAILURE(self.doFailureExecDatcmp)
-                        edPluginExecRelativeFidelity.connectSUCCESS(self.doSuccessExecDatcmp)
-                        edPluginExecRelativeFidelity.execute()
+                if (self.relativeFidelity is not None):
+                    if (self.absoluteFidelity is  None):
+                        self.WARNING("Calculating similarity of 0 and 1")
+                        edPluginExecAbsoluteFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
+                        xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[0], self.lstInput[1] ])
+                        edPluginExecAbsoluteFidelity.setDataInput(xsd)
+                        edPluginExecAbsoluteFidelity.connectFAILURE(self.doFailureExecDatcmp)
+                        edPluginExecAbsoluteFidelity.connectSUCCESS(self.doSuccessExecDatcmp)
+                        edPluginExecAbsoluteFidelity.execute()
+                    if (len(self.lstInput) > 2):
+                        for idx, oneFile in enumerate(self.lstInput[2:]):
+                            self.WARNING("Calculating similarity of %s and %s" % (idx, idx + 1))
+                            edPluginExecRelativeFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
+                            xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[idx + 1], oneFile])
+                            edPluginExecRelativeFidelity.setDataInput(xsd)
+                            edPluginExecRelativeFidelity.connectFAILURE(self.doFailureExecDatcmp)
+                            edPluginExecRelativeFidelity.connectSUCCESS(self.doSuccessExecDatcmp)
+                            edPluginExecRelativeFidelity.execute()
             self.synchronizePlugins()
 
             for idx, oneFile in enumerate(self.lstInput):
