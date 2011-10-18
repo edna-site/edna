@@ -55,7 +55,7 @@ class EDPluginBioSaxsProcessOneFilev1_1(EDPluginControl):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsProcessOneFilev1_0)
         self.__strControlledPluginNormalize = "EDPluginBioSaxsNormalizev1_1"
-        self.__strControlledPluginIntegrate = "EDPluginBioSaxsAzimutIntv1_1"
+        self.__strControlledPluginIntegrate = "EDPluginBioSaxsAzimutIntv1_2"
         self.__edPluginNormalize = None
         self.__edPluginIntegrate = None
 

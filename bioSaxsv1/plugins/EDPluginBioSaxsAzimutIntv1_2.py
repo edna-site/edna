@@ -238,6 +238,7 @@ class EDPluginBioSaxsAzimutIntv1_2(EDPluginControl):
         
          
 Adam Round explicitelly asked for (email from Date: Tue, 04 Oct 2011 15:22:29 +0200) :
+Modification from: 
         
 # BSA buffer 
 # Sample c= 0.0 mg/ml (these two lines are required for current DOS pipeline and can be cleaned up once we use EDNA to get to ab-initio models)
@@ -248,6 +249,8 @@ Adam Round explicitelly asked for (email from Date: Tue, 04 Oct 2011 15:22:29 +0
 # PixelSize_2 = 6.283185 (I think it could avoid confusion if we give teh actual pixel size as 0.000172 for X and Y and not to give the integrated sizes. Also could there also be a modification for PixelSize_1 as on the diagonal wont it be the hypotenuse (0.000243)? and thus will be on average a bit bigger than 0.000172)
 #
 # title = BSA buffer 
+# Frame 7 of 10
+# Time per frame (s) = 10
 # SampleDistance = 2.43 
 # WaveLength = 9.31e-11 
 # Normalization = 0.0004885 
@@ -261,6 +264,8 @@ Adam Round explicitelly asked for (email from Date: Tue, 04 Oct 2011 15:22:29 +0
 # L q*nm  I_BSA buffer  stddev 
 # 
 # Sample Information:
+# Storage Temperature (degrees C): 4
+# Measurement Temperature (degrees C): 10
 # Concentration: 0.0
 # Code: BSA
 s-vector Intensity Error
@@ -302,6 +307,11 @@ s-vector Intensity Error
         headers.append(hdr)
         if self.sample.comments is not None:
             headers.append(hdr + " title = %s" % self.sample.comments.value)
+        if (self.experimentSetup.frameNumber is not None) and\
+           (self.experimentSetup.frameMax is not None):
+            headers.append(hdr + " Frame %s of %s" % (self.experimentSetup.frameNumber.value, self.experimentSetup.frameMax.value))
+        if self.experimentSetup.exposureTime is not None:
+            headers.append(hdr + " Time per frame (s) = %s" % self.experimentSetup.exposureTime.value)
         if self.experimentSetup.detectorDistance is not None:
             headers.append(hdr + " SampleDistance = %s" % fDistance)
         if self.experimentSetup.wavelength is not None:
@@ -313,7 +323,7 @@ s-vector Intensity Error
         for key in  history:
             headers.append(hdr + " " + key + " = " + fabiofile.header[key])
         if self.experimentSetup.beamStopDiode is not None:
-           headers.append(hdr + " DiodeCurr = %s" % self.experimentSetup.beamStopDiode.value)
+            headers.append(hdr + " DiodeCurr = %s" % self.experimentSetup.beamStopDiode.value)
         if self.experimentSetup.machineCurrent is not None:
             headers.append(hdr + " MachCurr = %s" % self.experimentSetup.machineCurrent.value)
         if self.experimentSetup.maskFile is not None:
@@ -328,6 +338,11 @@ s-vector Intensity Error
             headers.append(hdr + " L q*nm  I_  stddev")
         headers.append(hdr)
         headers.append(hdr + " Sample Information:")
+        if self.experimentSetup.storageTemperature is not None:
+            headers.append(hdr + " Storage Temperature (degrees C): %s" % self.experimentSetup.storageTemperature.value)
+        if self.experimentSetup.exposureTemperature is not None:
+            headers.append(hdr + " Measurement Temperature (degrees C): %s" % self.experimentSetup.exposureTemperature.value)
+
         if self.sample.concentration is not None:
             headers.append(hdr + " Concentration: %s" % self.sample.concentration.value)
         else:

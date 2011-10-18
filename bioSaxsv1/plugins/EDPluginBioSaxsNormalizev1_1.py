@@ -132,10 +132,23 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
         self.dictOutputHeader["PSize_2"] = self.experimentSetup.pixelSize_2.value
         self.dictOutputHeader["Center_1"] = self.experimentSetup.beamCenter_1.value
         self.dictOutputHeader["Center_2"] = self.experimentSetup.beamCenter_2.value
+        if self.experimentSetup.storageTemperature is not None:
+            self.dictOutputHeader["storageTemperature"] = self.experimentSetup.storageTemperature.value
+        if self.experimentSetup.exposureTemperature is not None:
+            self.dictOutputHeader["exposureTemperature"] = self.experimentSetup.exposureTemperature.value
+        if self.experimentSetup.exposureTime is not None:
+            self.dictOutputHeader["exposureTime"] = self.experimentSetup.exposureTime.value
+        if self.experimentSetup.frameNumber is not None:
+            self.dictOutputHeader["frameNumber"] = self.experimentSetup.frameNumber.value
+        if self.experimentSetup.frameMax is not None:
+            self.dictOutputHeader["frameMax"] = self.experimentSetup.frameMax.value
 
         if self.sample.comments is not None:
             self.dictOutputHeader["Comments"] = str(self.sample.comments.value)
             self.dictOutputHeader["title"] = str(self.sample.comments.value)
+
+        if self.sample.concentration is not None:
+            self.dictOutputHeader["Concentration"] = str(self.sample.concentration.value)
         if self.sample.code is not None:
             self.dictOutputHeader["Code"] = str(self.sample.code.value)
 
