@@ -326,6 +326,10 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_8khCAOc8Ed-jKbXLtzGSgw"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tqzQ8NSrEeC5HOde0nkBCA"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_4WzwwPmDEeCVLdCH0Sh5cA" name="overlap" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9B2jkPmDEeCVLdCH0Sh5cA"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_JAv-8AdXEeCXiolDxKlXig" name="A_&lt;xSDataExperimentalCondition>_&lt;xSDataGoniostat>" memberEnd="_JAv-8QdXEeCXiolDxKlXig _JAv-9AdXEeCXiolDxKlXig" navigableOwnedEnd="_JAv-9AdXEeCXiolDxKlXig">
         <ownedEnd xmi:id="_JAv-8QdXEeCXiolDxKlXig" name="" type="_haUQkOf3Ed-TcNOGyxZYYg" isUnique="false" association="_JAv-8AdXEeCXiolDxKlXig">

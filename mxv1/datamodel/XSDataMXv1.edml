@@ -24,7 +24,7 @@ package XSDataMXv1 {
 	package MXv1CharacterisationEtc {
 
 		complex type XSDataCharacterisation extends XSData {
-			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
+			"Deprecated - only used by EDPluginControlCharacterisationv10\n"
 			dataCollection : XSDataCollection
 			indexingResult : XSDataIndexingResult optional
 			integrationResult : XSDataIntegrationResult optional
@@ -213,6 +213,7 @@ package XSDataMXv1 {
 			maxOscillationSpeed : XSDataAngularSpeed
 			minOscillationWidth : XSDataAngle
 			oscillationWidth : XSDataAngle
+			overlap : XSDataAngle optional
 			rotationAxis : XSDataString
 			rotationAxisEnd : XSDataAngle
 			rotationAxisStart : XSDataAngle
