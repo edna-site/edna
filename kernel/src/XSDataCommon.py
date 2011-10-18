@@ -3117,6 +3117,121 @@ class XSDataRotation(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataRotation
 
+class XSDataSize(XSData):
+	"""These objects use the simple objects described above to create useful structures for the rest for the data model."""
+	def __init__(self, z=None, y=None, x=None):
+		XSData.__init__(self, )
+		checkType("XSDataSize", "Constructor of XSDataSize", x, "XSDataLength")
+		self.__x = x
+		checkType("XSDataSize", "Constructor of XSDataSize", y, "XSDataLength")
+		self.__y = y
+		checkType("XSDataSize", "Constructor of XSDataSize", z, "XSDataLength")
+		self.__z = z
+	def getX(self): return self.__x
+	def setX(self, x):
+		checkType("XSDataSize", "setX", x, "XSDataLength")
+		self.__x = x
+	def delX(self): self.__x = None
+	# Properties
+	x = property(getX, setX, delX, "Property for x")
+	def getY(self): return self.__y
+	def setY(self, y):
+		checkType("XSDataSize", "setY", y, "XSDataLength")
+		self.__y = y
+	def delY(self): self.__y = None
+	# Properties
+	y = property(getY, setY, delY, "Property for y")
+	def getZ(self): return self.__z
+	def setZ(self, z):
+		checkType("XSDataSize", "setZ", z, "XSDataLength")
+		self.__z = z
+	def delZ(self): self.__z = None
+	# Properties
+	z = property(getZ, setZ, delZ, "Property for z")
+	def export(self, outfile, level, name_='XSDataSize'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataSize'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__x is not None:
+			self.x.export(outfile, level, name_='x')
+		else:
+			warnEmptyAttribute("x", "XSDataLength")
+		if self.__y is not None:
+			self.y.export(outfile, level, name_='y')
+		else:
+			warnEmptyAttribute("y", "XSDataLength")
+		if self.__z is not None:
+			self.z.export(outfile, level, name_='z')
+		else:
+			warnEmptyAttribute("z", "XSDataLength")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'x':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setX(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'y':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setY(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'z':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setZ(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataSize" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataSize' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataSize is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataSize.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataSize()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataSize" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataSize()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataSize
+
 class XSDataString(XSData):
 	"""These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."""
 	def __init__(self, value=None):

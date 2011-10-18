@@ -390,9 +390,11 @@ class EDJob(EDLogging):
             return asizeof.asizesof(cls.__dictJobs)
 
 
-    def cleanJob(self):
+    def cleanJob(self, forceGC=True):
         """
         Frees the memory associated with the top level plugin
+        @param forceGC: Force garbage collection after clean-up
+        @type forceGC: boolean
         """
         self.synchronize()
         with self.locked():
@@ -401,26 +403,61 @@ class EDJob(EDLogging):
                 self.__pathXSDInput = self.__edPlugin.strPathDataInput
                 self.__runtime = self.__edPlugin.getRunTime()
                 self.__edPlugin = None
-        gc.collect()
+        if forceGC:
+            gc.collect()
 
 
     @classmethod
-    def cleanJobfromId(cls, jobId):
+    def cleanJobfromId(cls, jobId, forceGC=True):
         """
         Frees the memory associated with the top level plugin
         
         @param jobId: the Job identification number
         @type jobId: string
+        @param forceGC: Force garbage collection after clean-up
+        @type forceGC: boolean
         """
         if jobId in cls.__dictJobs:
             job = cls.__dictJobs[jobId]
-            job.cleanJob()
+            job.cleanJob(forceGC)
             strRet = "Job %s cleaned" % jobId
         else:
             strRet = "Unable to retrieve such EDJob: %s" % jobId
             EDVerbose.WARNING(strRet)
         return strRet
     cleanJobfromID = cleanJobfromId
+
+
+    @classmethod
+    def getDataOutputFromId(cls, jobId):
+        """
+        Returns the Plugin Output Data
+        @param jobId: job idenfier 
+        @type jobId: string
+        @return: edJob.DataOutput XML string
+        """
+        output = None
+        job = cls.getJobFromId(jobId)
+        if job is not None:
+            output = job.getDataOutput()
+        return output or ""
+    getDataOutputFromID = getDataOutputFromId
+
+
+    @classmethod
+    def getDataInputFromId(cls, jobId):
+        """
+        Returns the Plugin Input Data
+        @param jobId: job idenfier 
+        @type jobId: string
+        @return: edJob.DataInput XML string
+        """
+        output = None
+        job = cls.getJobFromId(jobId)
+        if job is not None:
+            output = job.getDataInput()
+        return output or ""
+    getDataInputFromID = getDataInputFromId
 
 
     @classmethod
