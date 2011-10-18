@@ -28,8 +28,8 @@ from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
-__date__ = "20111013"
-__status__ = "beta"
+__date__ = "20111018"
+__status__ = "production"
 
 
 import os
@@ -357,5 +357,5 @@ s-vector Intensity Error
             f.write(linesep)
             for q, I, std in zip(npaQ, npaSignal, npaStd):
                 if abs(I - fDummy) > fDeltaDummy:
-                    f.write("%14s  %14s  %14s%s" % (q, I, std, linesep))
+                    f.write("%14.6e %14.6e %14.6e%s" % (q, I, std, linesep))
             f.flush()

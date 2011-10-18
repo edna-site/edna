@@ -257,8 +257,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         @param infile: path of the original data file where original data are taken from
         @return: None
         """
-        Code = None
-        Concentration = None
+        Code = Concentration = None
         frameMax = exposureTime = measurementTemperature = storageTemperature = None
         originalFile = self.lstMerged[0].path.value
         headers = [line.strip() for line in open(originalFile) if line.startswith("#")]
@@ -291,7 +290,9 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         if exposureTime is not None:
             lstHeader.append(hdr + " Exposure time per frame: %s" % exposureTime)
 
-        if self.strRadiationDamage is not None:
+        if self.strRadiationDamage is None:
+            lstHeader.append("%s No significant radiation damage detected, merging %i files" % (hdr, len(self.lstMerged)))
+        else:
             lstHeader.append("%s WARNING: %s" % (hdr, self.strRadiationDamage))
         lstHeader += [hdr + " Merged from: %s" % i.path.value for i in self.lstMerged]
         lstHeader += [hdr, hdr + " Sample Information:"]

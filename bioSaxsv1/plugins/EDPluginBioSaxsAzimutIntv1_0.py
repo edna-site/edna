@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 __date__ = "20111013"
-__status__ = "production"
+__status__ = "deprecated"
 
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
