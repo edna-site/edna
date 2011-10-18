@@ -42,6 +42,19 @@ from XSDataBioSaxsv1_0  import XSDataInputBioSaxsSmartMergev1_0, XSDataResultBio
 from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver, XSDataInputAutoRg
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 
+def cmp(a, b):
+    """
+    Helper function to sort XSDataFile object
+    """
+    strA = a.path.value
+    strB = a.path.value
+    if strA > strB:
+        return 1
+    elif strA < strB:
+        return - 1
+    else:
+        return 0
+
 
 class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
     """
@@ -165,11 +178,11 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                         break
                 else:
                     self.lstMerged.append(oneFile)
-            self.lstMerged.sort()
+            self.lstMerged.sort(cmp)
             self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in self.lstMerged]))
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
             xsd = XSDataInputDataver(inputCurve=self.lstMerged)
-                                     #outputCurve=self.dataInput.mergedCurve,
+            #outputCurve=self.dataInput.mergedCurve,
             self.__edPluginExecDataver.setDataInput(xsd)
             self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
             self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
