@@ -53,7 +53,7 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_1(EDTestCasePluginExecute):
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputBioSaxsProcessOneFile_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultBioSaxsProcessOneFile_reference_v1_0.xml"))
+                                                     "XSDataResultBioSaxsProcessOneFile_reference_v1_1.xml"))
 
     def preProcess(self):
         """
@@ -63,7 +63,7 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_1(EDTestCasePluginExecute):
         EDTestCasePluginExecute.preProcess(self)
         self.loadTestImage(["bioSaxsRaw.edf", "bioSaxsMask.edf",
                             "bioSaxsCorrected.edf", "bioSaxsProcessNormalized.edf",
-                            "bioSaxsProcessIntegrated.edf", "bioSaxsProcessIntegrated.dat"])
+                            "bioSaxsProcessIntegrated.edf", "bioSaxsProcessIntegrated1_1.dat"])
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsProcessOneFilev1_0.parseString(strExpectedOutput)
@@ -134,7 +134,7 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_1(EDTestCasePluginExecute):
 # Compare Ascii files
 ################################################################################
         asciiObt = open(xsDataResultObtained.integratedCurve.path.value).read()
-        asciiRef = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.dat")).read()
+        asciiRef = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated1_1.dat")).read()
         EDAssert.strAlmostEqual(asciiRef, asciiObt, _strComment="3 column ascii files are the same", _fRelError=0.1, _strExcluded=os.environ["USER"])
 
     def process(self):
