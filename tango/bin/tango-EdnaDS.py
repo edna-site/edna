@@ -209,7 +209,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         @param jobId: name of the job
         @return: xml input from a job        
         """
-        return EDJob.getDataOutputFromId(jobId)
+        return EDJob.getDataInputFromId(jobId)
 
 class EdnaDSClass(PyTango.DeviceClass):
     #    Class Properties
