@@ -94,6 +94,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         self.lstStrInput = []
 #        self.sample = XSDataSample()
         self.autoRg = None
+        self.strRadiationDamage = None
 
     def checkParameters(self):
         """
@@ -162,6 +163,8 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                 if idx == 0:
                     self.lstMerged.append(oneFile)
                 elif (self.absoluteFidelity is not None) and (self.relativeFidelity is not None):
+                    if (idx - 1, idx) not in self.dictSimilarities:
+                        self.ERROR("dict: \n" + "\n".join([ "%s: %s" % (key, self.dictSimilarities[key]) for key in self.dictSimilarities]))
                     if (self.dictSimilarities[(0, idx)] >= self.absoluteFidelity) and (self.dictSimilarities[(idx - 1, idx)] >= self.relativeFidelity):
                         self.lstMerged.append(oneFile)
                     else:
@@ -179,6 +182,10 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                 else:
                     self.lstMerged.append(oneFile)
             self.lstMerged.sort(cmp)
+            if len(self.lstMerged) != len(self.lstInput):
+                self.strRadiationDamage = "Radiation damage detected, merged %i curves" % len(self.lstMerged)
+                self.WARNING(self.strRadiationDamage)
+                self.lstSummary.append("WARNING: " + self.strRadiationDamage)
             self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in self.lstMerged]))
             self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
             xsd = XSDataInputDataver(inputCurve=self.lstMerged)
@@ -212,7 +219,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         self.DEBUG(executiveSummary)
 
 
-    def rewriteHeader(self, infile=None):
+    def rewriteHeader(self, infile=None, hdr="#"):
         """
         Write the output file with the good header.
 
@@ -232,6 +239,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
         """
         Code = None
         Concentration = None
+        frameMax = exposureTime = measurementTemperature = storageTemperature = None
         originalFile = self.lstMerged[0].path.value
         headers = [line.strip() for line in open(originalFile) if line.startswith("#")]
         Comments = headers[0][1:].strip()
@@ -248,9 +256,31 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                 Code = line.split("=", 1)[1].strip()
             elif "Code:" in line:
                 Code = line.split(":", 1)[1].strip()
-        lstHeader = ["# %s" % Comments, "# Sample c= %s mg/ml" % Concentration, "#"]
-        lstHeader += ["# Merged from: %s" % i.path.value for i in self.lstMerged]
-        lstHeader += ["#", "# Sample Information:", "# Concentration: %s" % Concentration, "# Code: %s" % Code]
+            elif "Storage Temperature" in line:
+                storageTemperature = line.split(":", 1)[1].strip()
+            elif "Measurement Temperature" in line:
+                measurementTemperature = line.split(":", 1)[1].strip()
+            elif "Time per frame" in line:
+                exposureTime = line.split("=", 1)[1].strip()
+            elif "Frame" in line:
+                frameMax = line.split[-1]
+
+        lstHeader = ["%s %s" % (hdr, Comments), "%s Sample c= %s mg/ml" % (hdr, Concentration), hdr]
+        if frameMax is not None:
+            lstHeader.append(hdr + " Number of frames collected: %s" % frameMax)
+        if exposureTime is not None:
+            lstHeader.append(hdr + " Exposure time per frame: %s" % exposureTime)
+
+        if self.strRadiationDamage is not None:
+            lstHeader.append("%s WARNING: %s" % (hdr, self.strRadiationDamage))
+        lstHeader += [hdr + " Merged from: %s" % i.path.value for i in self.lstMerged]
+        lstHeader += [hdr, hdr + " Sample Information:"]
+        if storageTemperature is not None:
+            lstHeader.append(hdr + " Storage Temperature (degrees C): %s" % storageTemperature)
+        if measurementTemperature is not None:
+            lstHeader.append(hdr + " Measurement Temperature (degrees C): %s" % measurementTemperature)
+
+        lstHeader += [hdr + " Concentration: %s" % Concentration, "# Code: %s" % Code]
         if infile is None:
             infile = self.dataInput.mergedCurve.path.value
         data = open(infile).read()
@@ -302,7 +332,11 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
             file0 = xsdIn.inputCurve[0].path.value
             file1 = xsdIn.inputCurve[1].path.value
             fidelity = xsdOut.fidelity.value
-            self.dictSimilarities[(self.lstStrInput.index(file0), self.lstStrInput.index(file1))] = fidelity
+            lstIdx = [self.lstStrInput.index(file0), self.lstStrInput.index(file1)]
+            lstIdx.sort()
+            self.dictSimilarities[tuple(lstIdx)] = fidelity
+            lstIdx.reverse()
+            self.dictSimilarities[tuple(lstIdx)] = fidelity
             self.lstSummary.append("Fidelity between %s and %s is %s" % (os.path.basename(file0), os.path.basename(file1), fidelity))
 
 
