@@ -215,7 +215,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                         self.page.font.close()
                         self.page.font(_color="red", size="+1")
                         self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
-                        self.page.strong("In order to calculate a strategy to %.2f &Aring; set the detector distance to %.2f mm (%.2f &Aring;) and re-launch the EDNA characterisation." % (fRankingResolution,fDistanceMin,fRankingResolution))
+                        #self.page.strong("In order to calculate a strategy to %.2f &Aring; set the detector distance to %.2f mm (%.2f &Aring;) and re-launch the EDNA characterisation." % (fRankingResolution,fDistanceMin,fRankingResolution))
+                        self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to collect %.2f &Aring; data and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
                         self.page.font.close()
                     bHigherResolutionDetected = True
                 

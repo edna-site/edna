@@ -1,0 +1,65 @@
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<html> <!-- CCP4 HTML LOGFILE -->
+<hr>
+<!--SUMMARY_END--></FONT></B>
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<pre>
+
+
+
+
+1###############################################################
+ ###############################################################
+ ###############################################################
+ ### CCP4 4.2: RADDOSE            version 4.2       :         ##
+ ###############################################################
+ User: incardon  Run date: 17/ 3/08  Run time:16:05:32
+
+
+ Please reference: Collaborative Computational Project, Number 4. 1994.
+ "The CCP4 Suite: Programs for Protein Crystallography". Acta Cryst. D50, 760-763.
+
+ as well as any specific reference in the program write-up.
+
+
+<!--SUMMARY_END--></FONT></B>
+ Data line--- BEAM 0.1 0.1
+ Data line--- PHOSEC 1e+12
+ Data line--- WAVELENGTH 2.41
+ Data line--- CRYSTAL 0.1 0.1 0.1
+ Data line--- NRES 295.0
+ Data line--- NMON 8.0
+ Data line--- PATM S 4.0 Se 4.0
+ Data line--- CELL 78.9 95.162 104.087 90.0 90.0 90.0
+ Data line--- EXPOSURE 1.0
+ Data line--- IMAGES 1
+ Data line--- END
+Energy (keV)  5.1444
+Radiation Dose Limit (Henderson) 0.2E+08
+Beam non-uniformity intensity correction    1.000
+Protein Monomer Concentration (mM)        17.0
+Crystal Density (g/cm^3)          1.15
+Solvent Content (%)               59.2
+No. Water Molecules /cell        15311
+Dose in Grays                 0.22E+06
+Dose per image                0.22E+06
+Attenuation Coefficient (mm^01)   3.792
+Absorption Coefficient (mm^01)   3.723
+Absorption by the crystal (%)   31.08
+Time to reach Henderson limit (s)    89.79
+Fraction of Beam Seen by the Crystal 100%
+Fraction of Crystal Seen by the Beam  99%
+Unit Cell Volume (A^3)    781515.
+Absorbed photons per unit cell per dataset  0.24
+Absorbed photons per unit cell for Henderson Limit 21.81
+t_sys System temperature time constant (s)    0.03
+Delta T  (K)               13.34
+  
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+ RADDOSE:  Normal termination
+ Times: User:       0.0s System:    0.0s Elapsed:    0:00
+</pre>
+<!--SUMMARY_END--></FONT></B>
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+</html>
+<!--SUMMARY_END--></FONT></B>
