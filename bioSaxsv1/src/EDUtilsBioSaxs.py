@@ -64,8 +64,18 @@ class EDUtilsBioSaxs(EDObject):
                    "detectorDistance":"SampleDistance",
                    "wavelength":"WaveLength",
                    "detector":"Detector",
+                   "storageTemperature":"storageTemperature",
+                   "exposureTemperature":"exposureTemperature",
+                   "exposureTime":"exposureTime",
+                   "frameNumber":"frameNumber",
+                   "frameMax":"frameMax",
                    }
-    FLOAT_KEYS = ["beamStopDiode", "machineCurrent", "concentration", "normalizationFactor", "beamCenter_1", "beamCenter_2", "pixelSize_1", "pixelSize_2", "detectorDistance", "wavelength"]
+    FLOAT_KEYS = ["beamStopDiode", "machineCurrent", "concentration", "normalizationFactor",
+                  "beamCenter_1", "beamCenter_2", "pixelSize_1", "pixelSize_2",
+                  "detectorDistance", "wavelength",
+                  "storageTemperature", "exposureTemperature", "exposureTime"]
+    INT_KEYS = [ "frameNumber", "frameMax"]
+
 
     __strSpecVersion = None
     __strSpecStatus = None

@@ -82,6 +82,12 @@ class EDPluginBioSaxsMetadatav1_0(EDPluginControl):
         self.maskFile = None
         self.normalizationFactor = None
         self.machineCurrent = None
+        self.storageTemperature = None
+        self.exposureTemperature = None
+        self.exposureTime = None
+        self.frameNumber = None
+        self.frameMax = None
+
 
         self.code = None
         self.comments = None

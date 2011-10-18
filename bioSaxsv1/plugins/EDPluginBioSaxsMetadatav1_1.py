@@ -40,7 +40,8 @@ from EDPluginExec               import EDPluginExec
 from EDUtilsBioSaxs             import EDUtilsBioSaxs
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from XSDataCommon               import XSDataString, XSDataImage, \
-                         XSDataDouble, XSDataLength, XSDataWavelength
+                         XSDataDouble, XSDataLength, XSDataWavelength, \
+                         XSDataTime, XSDataInteger
 from XSDataBioSaxsv1_0          import XSDataInputBioSaxsMetadatav1_0, \
                                      XSDataResultBioSaxsMetadatav1_0, \
                                      XSDataBioSaxsExperimentSetup, \
@@ -84,6 +85,12 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
         self.maskFile = None
         self.normalizationFactor = None
         self.machineCurrent = None
+        self.storageTemperature = None
+        self.exposureTemperature = None
+        self.exposureTime = None
+        self.frameNumber = None
+        self.frameMax = None
+        #
         self.code = None
         self.comments = None
         self.concentration = None
@@ -120,6 +127,16 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
             self.pixelSize_2 = self.xsdInputData.pixelSize_2.value
         if self.xsdInputData.beamStopDiode is not None:
             self.beamStopDiode = self.xsdInputData.beamStopDiode.value
+        if self.xsdInputData.storageTemperature is not None:
+            self.storageTemperature = self.xsdInputData.storageTemperature.value
+        if    self.xsdInputData.exposureTemperature is not None:
+            self.exposureTemperature = self.xsdInputData.exposureTemperature.value
+        if    self.xsdInputData.exposureTime is not None:
+            self.exposureTime = self.xsdInputData.exposureTemperature.value
+        if    self.xsdInputData.frameNumber is not None:
+            self.frameNumber = self.xsdInputData.exposureTemperature.value
+        if    self.xsdInputData.frameMax is not None:
+            self.frameMax = self.xsdInputData.exposureTemperature.value
         if self.xsdInputData.code is not None:
             self.code = self.xsdInputData.code.value
         if self.xsdInputData.comments is not None:
@@ -151,9 +168,11 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
             header = self.fabioedf.header
             for key in EDUtilsBioSaxs.TRANSLATION:
                 if self.__getattribute__(key) is None:
-                   if EDUtilsBioSaxs.TRANSLATION[key] in header:
+                    if EDUtilsBioSaxs.TRANSLATION[key] in header:
                         if key in EDUtilsBioSaxs.FLOAT_KEYS:
                             self.__setattr__(key, float(header[EDUtilsBioSaxs.TRANSLATION[key]]))
+                        elif key in EDUtilsBioSaxs.INT_KEYS:
+                            self.__setattr__(key, int(header[EDUtilsBioSaxs.TRANSLATION[key]]))
                         else:
                             self.__setattr__(key, header[EDUtilsBioSaxs.TRANSLATION[key]])
 
@@ -166,9 +185,10 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
                     if EDUtilsBioSaxs.TRANSLATION[key] not in header:
                         keyToUpgrade.append(key)
                     else:
-
                         if key in EDUtilsBioSaxs.FLOAT_KEYS:
                             oneHeader = float(header[EDUtilsBioSaxs.TRANSLATION[key]])
+                        elif key in EDUtilsBioSaxs.INT_KEYS:
+                            oneHeader = int(header[EDUtilsBioSaxs.TRANSLATION[key]])
                         else:
                             oneHeader = header[EDUtilsBioSaxs.TRANSLATION[key]]
                         oneValue = self.__getattribute__(key)
@@ -196,6 +216,11 @@ complex type XSDataBioSaxsExperimentSetup extends XSData{
     machineCurrent : XSDataDouble optional
     maskFile : XSDataImage optional
     normalizationFactor : XSDataDouble optional
+    storageTemperature: XSDataDouble optional
+    exposureTemperature: XSDataDouble optional
+    exposureTime: XSDataTime optional
+    frameNumber: XSDataInteger optional
+    frameMax: XSDataInteger optional
 }
 
 complex type XSDataBioSaxsSample extends XSData {
@@ -239,6 +264,16 @@ complex type XSDataBioSaxsSample extends XSData {
             xsdExperiment.normalizationFactor = xsDataResult.normalizationFactor = XSDataDouble(self.normalizationFactor)
         if self.machineCurrent is not None:
             xsdExperiment.machineCurrent = xsDataResult.machineCurrent = XSDataDouble(self.machineCurrent)
+        if self.storageTemperature is not None:
+            xsdExperiment.storageTemperature = xsDataResult.storageTemperature = XSDataDouble(self.storageTemperature)
+        if self.exposureTemperature is not None:
+            xsdExperiment.exposureTemperature = xsDataResult.exposureTemperature = XSDataDouble(self.exposureTemperature)
+        if self.exposureTime is not None:
+            xsdExperiment.exposureTime = xsDataResult.exposureTime = XSDataTime(self.exposureTime)
+        if self.frameNumber is not None:
+            xsdExperiment.frameNumber = xsDataResult.frameNumber = XSDataInteger(self.frameNumber)
+        if self.frameMax is not None:
+            xsdExperiment.frameMax = xsDataResult.frameMax = XSDataInteger(self.frameMax)
         if self.code is not None:
             xsdSample.code = xsDataResult.code = XSDataString(self.code)
         if self.comments is not None:
