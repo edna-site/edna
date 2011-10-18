@@ -33,7 +33,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20110919"
 __status__ = "beta"
 
-import sys, os, threading
+import sys, os, threading, gc
 import PyTango
 if sys.version > (3, 0):
     from queue import Queue
@@ -158,15 +158,17 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         self.DEBUG("In %s.successJobExecution(%s)" % (self.get_name(), jobId))
         with self.locked():
             self.__semaphoreNbThreads.release()
-            EDJob.cleanJobfromID(jobId)
+            EDJob.cleanJobfromID(jobId, False)
             self.push_change_event("jobSuccess", jobId)
+            gc.collect()
 
     def failureJobExecution(self, jobId):
         self.DEBUG("In %s.failureJobExecution(%s)" % (self.get_name(), jobId))
         with self.locked():
             self.__semaphoreNbThreads.release()
-            EDJob.cleanJobfromID(jobId)
+            EDJob.cleanJobfromID(jobId, False)
             self.push_change_event("jobFailure", jobId)
+            gc.collect()
 
     def getRunning(self):
         """
@@ -193,6 +195,21 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         """
         return EDJob.stats()
 
+    def getJobOutput(self, jobId):
+        """
+        Retrieve XML output form a job
+        @param jobId: name of the job
+        @return: output from a job        
+        """
+        return EDJob.getDataOutputFromId(jobId)
+
+    def getJobInput(self, jobId):
+        """
+        Retrieve XML input from a job
+        @param jobId: name of the job
+        @return: xml input from a job        
+        """
+        return EDJob.getDataOutputFromId(jobId)
 
 class EdnaDSClass(PyTango.DeviceClass):
     #    Class Properties
@@ -216,6 +233,8 @@ class EdnaDSClass(PyTango.DeviceClass):
         "initPlugin": [[PyTango.DevString, "plugin name"], [PyTango.DevString, "Message"]],
         "cleanJob":[[PyTango.DevString, "job id"], [PyTango.DevString, "Message"]],
         "statistics":[[PyTango.DevVoid, "nothing needed"], [PyTango.DevString, "Reports some statistics about jobs within EDNA"]],
+        'getJobOutput': [[PyTango.DevString, "job id"], [PyTango.DevString, "job output XML"]],
+        'getJobInput': [[PyTango.DevString, "job id"], [PyTango.DevString, "job input XML"]],
         }
 
 
