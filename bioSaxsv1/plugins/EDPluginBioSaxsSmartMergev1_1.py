@@ -142,7 +142,8 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
             self.lstMerged = []
             if (self.absoluteFidelity is not None) or (self.relativeFidelity is not None):
                 if self.absoluteFidelity is not None :
-                    for oneFile in self.lstInput[1:]:
+                    for idx, oneFile in enumerate(self.lstInput[1:]):
+                        self.WARNING("Calculating similarity of 0 and %s" % idx)
                         edPluginExecAbsoluteFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
                         xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[0], oneFile])
                         edPluginExecAbsoluteFidelity.setDataInput(xsd)
@@ -151,6 +152,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                         edPluginExecAbsoluteFidelity.execute()
                 if (self.relativeFidelity is not None) and (len(self.lstInput) > 2):
                     for idx, oneFile in enumerate(self.lstInput[2:]):
+                        self.WARNING("Calculating similarity of %s and %s" % (idx, idx + 1))
                         edPluginExecRelativeFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
                         xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[idx + 1], oneFile])
                         edPluginExecRelativeFidelity.setDataInput(xsd)
@@ -170,11 +172,18 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                     else:
                         break
                 elif (self.absoluteFidelity is not None) :
+                    if (0, idx) not in self.dictSimilarities:
+                        self.ERROR("dict: \n" + "\n".join([ "%s: %s" % (key, self.dictSimilarities[key]) for key in self.dictSimilarities]))
                     if (self.dictSimilarities[(0, idx)] >= self.absoluteFidelity):
                         self.lstMerged.append(oneFile)
                     else:
                         break
                 elif (self.relativeFidelity is not None) :
+                    if (0, idx) not in self.dictSimilarities:
+                        self.ERROR("dict: \n" + "\n".join([ "%s: %s" % (key, self.dictSimilarities[key]) for key in self.dictSimilarities]))
+                    if (idx - 1, idx) not in self.dictSimilarities:
+                        self.ERROR("dict: \n" + "\n".join([ "%s: %s" % (key, self.dictSimilarities[key]) for key in self.dictSimilarities]))
+
                     if (self.dictSimilarities[(idx - 1, idx)] >= self.relativeFidelity):
                         self.lstMerged.append(oneFile)
                     else:
