@@ -13,6 +13,7 @@ import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataImage
 import XSDataCommon.XSDataLength
 import XSDataCommon.XSDataWavelength
+import XSDataCommon.XSDataTime
 import XSDataEdnaSaxs.XSDataAutoRg
 
 /*******************************************
@@ -43,6 +44,11 @@ complex type XSDataInputBioSaxsSampleExperiment extends XSDataInputBioSaxsSample
 	machineCurrent : XSDataDouble optional
 	maskFile : XSDataImage optional
 	normalizationFactor : XSDataDouble optional
+	storageTemperature: XSDataDouble optional
+	exposureTemperature: XSDataDouble optional
+	exposureTime: XSDataTime optional
+	frameNumber: XSDataInteger optional
+	frameMax: XSDataInteger optional
 	}
 
 complex type XSDataResultBioSaxsSample extends XSDataResult{
@@ -50,9 +56,7 @@ complex type XSDataResultBioSaxsSample extends XSDataResult{
 	concentration : XSDataDouble optional
 	comments : XSDataString optional
 	code : XSDataString optional
-	sampleTemperature: XSDataDouble optional
-	
-}
+	}
 
 complex type XSDataResultBioSaxsSampleExperiment extends XSDataResultBioSaxsSample{
 	"temporary class for multiple inhertitance emulation"
@@ -67,6 +71,11 @@ complex type XSDataResultBioSaxsSampleExperiment extends XSDataResultBioSaxsSamp
 	machineCurrent : XSDataDouble optional
 	maskFile : XSDataImage optional
 	normalizationFactor : XSDataDouble optional
+	storageTemperature: XSDataDouble optional
+	exposureTemperature: XSDataDouble optional
+	exposureTime: XSDataTime optional
+	frameNumber: XSDataInteger optional
+	frameMax: XSDataInteger optional
 	}
 
 
@@ -82,13 +91,17 @@ complex type XSDataBioSaxsExperimentSetup extends XSData{
 	machineCurrent : XSDataDouble optional
 	maskFile : XSDataImage optional
 	normalizationFactor : XSDataDouble optional
+	storageTemperature: XSDataDouble optional
+	exposureTemperature: XSDataDouble optional
+	exposureTime: XSDataTime optional
+	frameNumber: XSDataInteger optional
+	frameMax: XSDataInteger optional
 }
 
 complex type XSDataBioSaxsSample extends XSData {
 	concentration : XSDataDouble optional
 	comments : XSDataString optional
 	code : XSDataString optional
-	temperature: XSDataDouble optional
 }
 
 
