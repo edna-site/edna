@@ -282,7 +282,7 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
             elif "Time per frame" in line:
                 exposureTime = line.split("=", 1)[1].strip()
             elif "Frame" in line:
-                frameMax = line.split[-1]
+                frameMax = line.split()[-1]
 
         lstHeader = ["%s %s" % (hdr, Comments), "%s Sample c= %s mg/ml" % (hdr, Concentration), hdr]
         if frameMax is not None:
