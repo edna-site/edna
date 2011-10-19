@@ -407,5 +407,22 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem> 
+		<XSPluginItem> 
+			<name>EDPluginISPyBStoreDataCollectionv1_3</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForMXCubeWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForMXCubeWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>	
 	</XSPluginList> 
 </XSConfiguration> 
