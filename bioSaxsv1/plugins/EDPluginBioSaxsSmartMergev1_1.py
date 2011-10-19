@@ -207,13 +207,16 @@ class EDPluginBioSaxsSmartMergev1_1(EDPluginControl):
                 self.WARNING(self.strRadiationDamage)
                 self.lstSummary.append("WARNING: " + self.strRadiationDamage)
             self.lstSummary.append("Merging files: " + " ".join([os.path.basename(i.path.value) for i in self.lstMerged]))
-            self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
-            xsd = XSDataInputDataver(inputCurve=self.lstMerged)
-            #outputCurve=self.dataInput.mergedCurve,
-            self.__edPluginExecDataver.setDataInput(xsd)
-            self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
-            self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
-            self.__edPluginExecDataver.executeSynchronous()
+            if len(self.lstMerged) == 1:
+                shutil.copyfile(self.lstMerged[0].path.value, self.dataInput.mergedCurve.path.value)
+            else:
+                self.__edPluginExecDataver = self.loadPlugin(self.__strControlledPluginDataver)
+                xsd = XSDataInputDataver(inputCurve=self.lstMerged)
+                #outputCurve=self.dataInput.mergedCurve,
+                self.__edPluginExecDataver.setDataInput(xsd)
+                self.__edPluginExecDataver.connectSUCCESS(self.doSuccessExecDataver)
+                self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
+                self.__edPluginExecDataver.executeSynchronous()
 
             if self.isFailure():
                 return
