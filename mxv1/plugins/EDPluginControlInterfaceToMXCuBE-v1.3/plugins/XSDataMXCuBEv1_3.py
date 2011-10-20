@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Oct 13 03:58::45 2011 by EDGenerateDS.
+# Generated Thu Oct 20 10:56::32 2011 by EDGenerateDS.
 #
 
 import sys
@@ -198,7 +198,7 @@ class XSDataMXCuBEDataSet(object):
 # end class XSDataMXCuBEDataSet
 
 class XSDataMXCuBEParameters(XSData):
-	def __init__(self, output_file=None, current_osc_start=None, current_energy=None, directory=None, number_passes=None, anomalous=None, phiStart=None, current_wavelength=None, run_number=None, residues=None, current_detdistance=None, number_images=None, inverse_beam=None, processing=None, kappaStart=None, template=None, first_image=None, osc_range=None, comments=None, mad_energies=None, detector_mode=None, sum_images=None, process_directory=None, osc_start=None, overlap=None, prefix=None, mad_4_energy=None, mad_3_energy=None, mad_2_energy=None, mad_1_energy=None, beam_size_y=None, beam_size_x=None, y_beam=None, x_beam=None, resolution_at_corner=None, resolution=None, exposure_time=None, blSampleId=None, sessionId=None):
+	def __init__(self, transmission=None, output_file=None, current_osc_start=None, current_energy=None, directory=None, number_passes=None, anomalous=None, phiStart=None, current_wavelength=None, run_number=None, residues=None, current_detdistance=None, number_images=None, inverse_beam=None, processing=None, kappaStart=None, template=None, first_image=None, osc_range=None, comments=None, mad_energies=None, detector_mode=None, sum_images=None, process_directory=None, osc_start=None, overlap=None, prefix=None, mad_4_energy=None, mad_3_energy=None, mad_2_energy=None, mad_1_energy=None, beam_size_y=None, beam_size_x=None, y_beam=None, x_beam=None, resolution_at_corner=None, resolution=None, exposure_time=None, blSampleId=None, sessionId=None):
 		XSData.__init__(self, )
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", sessionId, "integer")
 		self.__sessionId = sessionId
@@ -278,6 +278,8 @@ class XSDataMXCuBEParameters(XSData):
 		self.__current_osc_start = current_osc_start
 		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", output_file, "string")
 		self.__output_file = output_file
+		checkType("XSDataMXCuBEParameters", "Constructor of XSDataMXCuBEParameters", transmission, "float")
+		self.__transmission = transmission
 	def getSessionId(self): return self.__sessionId
 	def setSessionId(self, sessionId):
 		checkType("XSDataMXCuBEParameters", "setSessionId", sessionId, "integer")
@@ -551,6 +553,13 @@ class XSDataMXCuBEParameters(XSData):
 	def delOutput_file(self): self.__output_file = None
 	# Properties
 	output_file = property(getOutput_file, setOutput_file, delOutput_file, "Property for output_file")
+	def getTransmission(self): return self.__transmission
+	def setTransmission(self, transmission):
+		checkType("XSDataMXCuBEParameters", "setTransmission", transmission, "float")
+		self.__transmission = transmission
+	def delTransmission(self): self.__transmission = None
+	# Properties
+	transmission = property(getTransmission, setTransmission, delTransmission, "Property for transmission")
 	def export(self, outfile, level, name_='XSDataMXCuBEParameters'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -760,6 +769,11 @@ class XSDataMXCuBEParameters(XSData):
 			outfile.write(unicode('<output_file>%s</output_file>\n' % self.__output_file))
 		else:
 			warnEmptyAttribute("output_file", "string")
+		if self.__transmission is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<transmission>%e</transmission>\n' % self.__transmission))
+		else:
+			warnEmptyAttribute("transmission", "float")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1102,6 +1116,15 @@ class XSDataMXCuBEParameters(XSData):
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
 			self.__output_file = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'transmission':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self.__transmission = fval_
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

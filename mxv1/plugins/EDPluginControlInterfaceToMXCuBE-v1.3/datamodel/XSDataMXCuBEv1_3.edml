@@ -78,4 +78,5 @@ complex type XSDataMXCuBEParameters extends XSData {
 	current_energy : float
 	current_osc_start : float
 	output_file : string
+	transmission : float
 }
