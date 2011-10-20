@@ -40,7 +40,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>useISPyBPlugin</name>
-					<value>False</value>
+					<value>True</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
