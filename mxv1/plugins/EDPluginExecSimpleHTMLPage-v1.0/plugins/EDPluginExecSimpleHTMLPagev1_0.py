@@ -60,6 +60,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.strTableColourTitle1 = "#F5F5FF"
         self.strTableColourTitle2 = "#F0F0FF" 
         self.strTableColourRows   = "#FFFFA0"
+        self.strPageEDNALog = None
 
 
     def preProcess(self, _edPlugin=None):
@@ -87,14 +88,14 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             strPathToLogFile = self.findEDNALogFile()
             if strPathToLogFile is not None:
                 self.page.strong("(")
-                strPageEDNALog = os.path.join(self.getWorkingDirectory(), "edna_log.html")
+                self.strPageEDNALog = os.path.join(self.getWorkingDirectory(), "edna_log.html")
                 pageEDNALog = markupv1_7.page()
                 pageEDNALog.h1("EDNA Log")
                 pageEDNALog.a("Back to previous page", href_=self.strPath)
                 pageEDNALog.pre(cgi.escape(EDUtilsFile.readFile(strPathToLogFile)))
                 pageEDNALog.a("Back to previous page", href_=self.strPath)
-                EDUtilsFile.writeFile(strPageEDNALog, str(pageEDNALog))
-                self.page.a("EDNA log file", href=strPageEDNALog)
+                EDUtilsFile.writeFile(self.strPageEDNALog, str(pageEDNALog))
+                self.page.a("EDNA log file", href=self.strPageEDNALog)
                 self.page.strong(")")
             self.page.h1.close()
             self.page.div.close()
@@ -103,7 +104,6 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.strategyResults()
             self.page.hr()
             self.indexingResults()
-            self.page.hr()
             self.imageQualityIndicatorResults()
         
 
@@ -129,6 +129,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup is not None:
                 strForcedSpaceGroup = self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup.value
         if xsDataResultIndexing:
+            self.page.hr()
             # Table containg indexing results and thumbnail images
             self.page.table( class_='indexResultsAndThumbnails', border_="0", cellpadding_="0")
             self.page.tr( align_="CENTER" )
@@ -142,14 +143,35 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.td.close()
             self.page.tr.close()
             self.page.table.close()
-        else:
-            self.page.h2( "Indexing failed" )
 
     
     def strategyResults(self):
         # Was the strategy successful?
         xsDataResultStrategy = self.xsDataResultCharacterisation.getStrategyResult()
-        if xsDataResultStrategy:
+        self.page.hr()
+        if xsDataResultStrategy is None:
+            # Check if indexing and integration results
+            xsDataResultIntegration = self.xsDataResultCharacterisation.getIntegrationResult()
+            xsDataResultIndexing = self.xsDataResultCharacterisation.getIndexingResult()
+            if xsDataResultIndexing is None:
+                self.page.h2()
+                self.page.strong("Strategy calculation not performed due to indexing failure, see the " )  
+                self.page.a("EDNA log file", href=self.strPageEDNALog)
+                self.page.strong(" for more details" )  
+                self.page.h2.close()
+            elif xsDataResultIntegration is None:
+                self.page.h2()
+                self.page.strong("Strategy calculation not performed due to integration failure, see the " )  
+                self.page.a("EDNA log file", href=self.strPageEDNALog)
+                self.page.strong(" for more details" )  
+                self.page.h2.close()
+            else:
+                self.page.h2()
+                self.page.strong( "Strategy calculation failed, see the " )
+                self.page.a("EDNA log file", href=self.strPageEDNALog)
+                self.page.strong(" for more details" )  
+                self.page.h2.close()
+        else:
             # Add link to BEST log file:
             if xsDataResultStrategy.getBestLogFile():
                 strPathToBestLogFile = xsDataResultStrategy.getBestLogFile().getPath().getValue()
@@ -266,9 +288,6 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                     self.page.th("%.2f" % fDistance)
                     self.page.tr.close()
                 self.page.table.close()
-                    
-        else:
-            self.page.h2( "Strategy calculation failed" )
 
 
     def diffractionPlan(self):
