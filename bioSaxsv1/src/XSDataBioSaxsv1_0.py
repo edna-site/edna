@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Oct 18 11:46::29 2011 by EDGenerateDS.
+# Generated Mon Oct 24 12:16::03 2011 by EDGenerateDS.
 #
 
 import os, sys
@@ -20,11 +20,11 @@ dictLocation = { \
  "XSDataCommon": "kernel/datamodel", \
  "XSDataCommon": "kernel/datamodel", \
  "XSDataCommon": "kernel/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
  "XSDataEdnaSaxs": "ednaSaxs/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
 }
 
 try:
@@ -1680,7 +1680,7 @@ class XSDataInputBioSaxsSample(XSDataInput):
 # end class XSDataInputBioSaxsSample
 
 class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
-	def __init__(self, configuration=None, mergedCurve=None, sample=None, relativeFidelity=None, absoluteFidelity=None, inputCurves=None):
+	def __init__(self, configuration=None, subtractedCurve=None, mergedCurve=None, sample=None, relativeFidelity=None, absoluteFidelity=None, inputCurves=None):
 		XSDataInput.__init__(self, configuration)
 		if inputCurves is None:
 			self.__inputCurves = []
@@ -1695,6 +1695,8 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 		self.__sample = sample
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", mergedCurve, "XSDataFile")
 		self.__mergedCurve = mergedCurve
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
 	def getInputCurves(self): return self.__inputCurves
 	def setInputCurves(self, inputCurves):
 		checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputCurves", inputCurves, "list")
@@ -1736,6 +1738,13 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 	def delMergedCurve(self): self.__mergedCurve = None
 	# Properties
 	mergedCurve = property(getMergedCurve, setMergedCurve, delMergedCurve, "Property for mergedCurve")
+	def getSubtractedCurve(self): return self.__subtractedCurve
+	def setSubtractedCurve(self, subtractedCurve):
+		checkType("XSDataInputBioSaxsSmartMergev1_0", "setSubtractedCurve", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
+	def delSubtractedCurve(self): self.__subtractedCurve = None
+	# Properties
+	subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
 	def export(self, outfile, level, name_='XSDataInputBioSaxsSmartMergev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1758,6 +1767,8 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			self.mergedCurve.export(outfile, level, name_='mergedCurve')
 		else:
 			warnEmptyAttribute("mergedCurve", "XSDataFile")
+		if self.__subtractedCurve is not None:
+			self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1788,6 +1799,11 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 			obj_ = XSDataFile()
 			obj_.build(child_)
 			self.setMergedCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subtractedCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSubtractedCurve(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -2759,12 +2775,14 @@ class XSDataResultBioSaxsSingleSamplev1_0(XSDataResult):
 # end class XSDataResultBioSaxsSingleSamplev1_0
 
 class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
-	def __init__(self, status=None, autoRg=None, mergedCurve=None):
+	def __init__(self, status=None, subtractedCurve=None, autoRg=None, mergedCurve=None):
 		XSDataResult.__init__(self, status)
 		checkType("XSDataResultBioSaxsSmartMergev1_0", "Constructor of XSDataResultBioSaxsSmartMergev1_0", mergedCurve, "XSDataFile")
 		self.__mergedCurve = mergedCurve
 		checkType("XSDataResultBioSaxsSmartMergev1_0", "Constructor of XSDataResultBioSaxsSmartMergev1_0", autoRg, "XSDataAutoRg")
 		self.__autoRg = autoRg
+		checkType("XSDataResultBioSaxsSmartMergev1_0", "Constructor of XSDataResultBioSaxsSmartMergev1_0", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
 	def getMergedCurve(self): return self.__mergedCurve
 	def setMergedCurve(self, mergedCurve):
 		checkType("XSDataResultBioSaxsSmartMergev1_0", "setMergedCurve", mergedCurve, "XSDataFile")
@@ -2779,6 +2797,13 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 	def delAutoRg(self): self.__autoRg = None
 	# Properties
 	autoRg = property(getAutoRg, setAutoRg, delAutoRg, "Property for autoRg")
+	def getSubtractedCurve(self): return self.__subtractedCurve
+	def setSubtractedCurve(self, subtractedCurve):
+		checkType("XSDataResultBioSaxsSmartMergev1_0", "setSubtractedCurve", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
+	def delSubtractedCurve(self): self.__subtractedCurve = None
+	# Properties
+	subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
 	def export(self, outfile, level, name_='XSDataResultBioSaxsSmartMergev1_0'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2793,6 +2818,8 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 			warnEmptyAttribute("mergedCurve", "XSDataFile")
 		if self.__autoRg is not None:
 			self.autoRg.export(outfile, level, name_='autoRg')
+		if self.__subtractedCurve is not None:
+			self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -2808,6 +2835,11 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 			obj_ = XSDataAutoRg()
 			obj_.build(child_)
 			self.setAutoRg(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subtractedCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSubtractedCurve(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

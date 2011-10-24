@@ -207,11 +207,13 @@ complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
 	relativeFidelity: XSDataDouble optional
 	sample: XSDataBioSaxsSample optional
 	mergedCurve: XSDataFile
+	subtractedCurve: XSDataFile optional
 }
 
 complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
 	mergedCurve : XSDataFile
 	autoRg: XSDataAutoRg optional
+	subtractedCurve: XSDataFile optional
 }
 
 complex type XSDataInputBioSaxsReduceFileSeriev1_0 extends XSDataInput{
