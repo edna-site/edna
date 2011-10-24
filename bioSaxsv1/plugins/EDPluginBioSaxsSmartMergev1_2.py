@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
-__date__ = "20110927"
+__date__ = "20110924"
 __status__ = "Development"
 
 import os, shutil
@@ -154,7 +154,7 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
             if (self.absoluteFidelity is not None) or (self.relativeFidelity is not None):
                 if self.absoluteFidelity is not None :
                     for idx, oneFile in enumerate(self.lstInput[1:]):
-                        self.WARNING("Calculating similarity of 0 and %s" % idx)
+                        self.DEBUG("Calculating similarity of 0 and %s" % idx)
                         edPluginExecAbsoluteFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
                         xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[0], oneFile])
                         edPluginExecAbsoluteFidelity.setDataInput(xsd)
@@ -163,7 +163,7 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
                         edPluginExecAbsoluteFidelity.execute()
                 if (self.relativeFidelity is not None):
                     if (self.absoluteFidelity is  None):
-                        self.WARNING("Calculating similarity of 0 and 1")
+                        self.DEBUG("Calculating similarity of 0 and 1")
                         edPluginExecAbsoluteFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
                         xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[0], self.lstInput[1] ])
                         edPluginExecAbsoluteFidelity.setDataInput(xsd)
@@ -172,7 +172,7 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
                         edPluginExecAbsoluteFidelity.execute()
                     if (len(self.lstInput) > 2):
                         for idx, oneFile in enumerate(self.lstInput[2:]):
-                            self.WARNING("Calculating similarity of %s and %s" % (idx, idx + 1))
+                            self.DEBUG("Calculating similarity of %s and %s" % (idx, idx + 1))
                             edPluginExecRelativeFidelity = self.loadPlugin(self.__strControlledPluginDatcmp)
                             xsd = XSDataInputDatcmp(inputCurve=[self.lstInput[idx + 1], oneFile])
                             edPluginExecRelativeFidelity.setDataInput(xsd)
@@ -362,12 +362,12 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
             infile = self.strMergedFile
         if output is None:
             output = self.strMergedFile
-        data = [ i.strip() for i in open(infile) if not i.startswith(hdr)]
+        data = linesep.join([ i.strip() for i in open(infile) if not i.startswith(hdr)])
         with open(output, "w") as outfile:
             outfile.write(linesep.join(lstHeader))
             if not data.startswith(linesep):
                 outfile.write(linesep)
-            outfile.write(linesep.join(data))
+            outfile.write(data)
 
 
     def doSuccessExecWait(self, _edPlugin=None):

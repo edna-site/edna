@@ -49,6 +49,7 @@ class EDTestSuiteUnitBioSaxsv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsNormalizev1_1")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSmartMergev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSmartMergev1_1")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSmartMergev1_2")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsProcessOneFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsReduceFileSeriev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSingleSamplev1_0")
