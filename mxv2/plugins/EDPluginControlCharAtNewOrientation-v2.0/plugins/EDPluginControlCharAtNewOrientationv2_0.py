@@ -168,8 +168,8 @@ class EDPluginControlCharAtNewOrientationv2_0(EDPluginControl):
 #                    for i in range(1, Orients.__len__()):
 #                        if (math.fabs(float(Orients[i].getKappa())-float(kappa))<tol and math.fabs(float(Orients[i].getPhi())-float(phi))<tol):
 #                            self.newpossibleOrientations.addPossible_orientation(Orients[i])
-                    self.suggestedStrategy=EDHandlerXSDataMXv1v1_0.mergeStrategyToNewOrientation(self.mxv1ResultCharacterisation_Reference.getStrategyResult(),self.mxv1InputCharacterisation.getDataCollection(),'%.2f'%omega.getValue(),'%.2f'%kappa.getValue(),'%.2f'%phi.getValue())
-                    self.newpossibleOrientations=EDHandlerXSDataSTACv2_0.removeOrientation(self.possibleOrientations,'%.2f'%kappa.getValue(),'%.2f'%phi.getValue())
+                    self.suggestedStrategy=EDHandlerXSDataMXv1v1_0.mergeStrategyToNewOrientation(self.mxv1ResultCharacterisation_Reference.getStrategyResult(),self.mxv1InputCharacterisation.getDataCollection(),omega,kappa,phi)
+                    self.newpossibleOrientations=EDHandlerXSDataSTACv2_0.removeOrientation(self.possibleOrientations,kappa,phi)
                 else:
 #                    #otherwise suggest to go back to the initial orientation and follow the reference DC
 #                    self.suggestedStrategy=XSDataMXv1.XSDataResultStrategy.parseString(self.getDataInput("mxv1ResultCharacterisation_Reference")[0].getStrategyResult().marshal())
