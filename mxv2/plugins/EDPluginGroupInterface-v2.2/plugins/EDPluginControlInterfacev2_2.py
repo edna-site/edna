@@ -523,15 +523,16 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                 self.setDataOutput(self.edPluginControlISPyB.getDataOutput(), "ISPyB")
         xsDataResultInterface = XSDataResultInterfacev2_2()
         if self.edPluginControlCharacterisationv2:
-            xsDataResultInterface.setMxv1ResultCharacterisation(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
-            xsDataResultInterface.setMxv1ResultCharacterisation_Reference(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation_Reference())
-            xsDataResultInterface.setMxv2DataCollection(self.mxv2DataCollection)
-            if self.mxv2DataCollection_Reference:
-                xsDataResultInterface.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
-            else:
-                xsDataResultInterface.setMxv2DataCollection_Reference(self.mxv2DataCollection)
-            xsDataResultInterface.setSuggestedStrategy(self.edPluginControlCharacterisationv2.getDataOutput().getSuggestedStrategy())
-            xsDataResultInterface.setPossibleOrientations(self.edPluginControlCharacterisationv2.getDataOutput().getPossibleOrientations())
+            if self.edPluginControlCharacterisationv2.getDataOutput():
+                xsDataResultInterface.setMxv1ResultCharacterisation(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
+                xsDataResultInterface.setMxv1ResultCharacterisation_Reference(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation_Reference())
+                xsDataResultInterface.setMxv2DataCollection(self.mxv2DataCollection)
+                if self.mxv2DataCollection_Reference:
+                    xsDataResultInterface.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
+                else:
+                    xsDataResultInterface.setMxv2DataCollection_Reference(self.mxv2DataCollection)
+                xsDataResultInterface.setSuggestedStrategy(self.edPluginControlCharacterisationv2.getDataOutput().getSuggestedStrategy())
+                xsDataResultInterface.setPossibleOrientations(self.edPluginControlCharacterisationv2.getDataOutput().getPossibleOrientations())
         if self.edPluginControlISPyB:
             xsDataResultInterface.setResultControlISPyB(self.edPluginControlISPyB.getDataOutput())
         self.setDataOutput(xsDataResultInterface)
