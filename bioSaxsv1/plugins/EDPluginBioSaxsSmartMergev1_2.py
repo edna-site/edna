@@ -133,6 +133,9 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
 
         if self.dataInput.subtractedCurve is not None:
             self.strSubFile = self.dataInput.subtractedCurve.path.value
+            dirname = os.path.dirname(self.strSubFile)
+            if not os.path.isdir(dirname):
+                os.mkdir(dirname)
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
