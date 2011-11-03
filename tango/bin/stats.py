@@ -69,7 +69,7 @@ def parseLogFile(filename):
 
 if __name__ == "__main__":
     logFile = None
-    if len(sys.argv == 2):
+    if len(sys.argv) == 2:
         logFile = sys.argv[1]
         if not os.path.isfile(logFile):
             logFile = None
