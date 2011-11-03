@@ -1,13 +1,52 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Sep 26 10:10::58 2011 by EDGenerateDS.
+# Generated Thu Nov 3 01:20::04 2011 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataString
+	from XSDataCommon import XSDataImage
+	from XSDataCommon import XSDataLength
+	from XSDataCommon import XSDataWavelength
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
@@ -1134,6 +1173,137 @@ class XSDataInputAutoRg(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputAutoRg
 
+class XSDataInputAutoSub(XSDataInput):
+	"""datop makes an operation on curves"""
+	def __init__(self, configuration=None, workingDirectory=None, sampleData=None, bufferAfter=None, bufferBefore=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", bufferBefore, "XSDataFile")
+		self.__bufferBefore = bufferBefore
+		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", bufferAfter, "XSDataFile")
+		self.__bufferAfter = bufferAfter
+		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", sampleData, "XSDataFile")
+		self.__sampleData = sampleData
+		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", workingDirectory, "XSDataFile")
+		self.__workingDirectory = workingDirectory
+	def getBufferBefore(self): return self.__bufferBefore
+	def setBufferBefore(self, bufferBefore):
+		checkType("XSDataInputAutoSub", "setBufferBefore", bufferBefore, "XSDataFile")
+		self.__bufferBefore = bufferBefore
+	def delBufferBefore(self): self.__bufferBefore = None
+	# Properties
+	bufferBefore = property(getBufferBefore, setBufferBefore, delBufferBefore, "Property for bufferBefore")
+	def getBufferAfter(self): return self.__bufferAfter
+	def setBufferAfter(self, bufferAfter):
+		checkType("XSDataInputAutoSub", "setBufferAfter", bufferAfter, "XSDataFile")
+		self.__bufferAfter = bufferAfter
+	def delBufferAfter(self): self.__bufferAfter = None
+	# Properties
+	bufferAfter = property(getBufferAfter, setBufferAfter, delBufferAfter, "Property for bufferAfter")
+	def getSampleData(self): return self.__sampleData
+	def setSampleData(self, sampleData):
+		checkType("XSDataInputAutoSub", "setSampleData", sampleData, "XSDataFile")
+		self.__sampleData = sampleData
+	def delSampleData(self): self.__sampleData = None
+	# Properties
+	sampleData = property(getSampleData, setSampleData, delSampleData, "Property for sampleData")
+	def getWorkingDirectory(self): return self.__workingDirectory
+	def setWorkingDirectory(self, workingDirectory):
+		checkType("XSDataInputAutoSub", "setWorkingDirectory", workingDirectory, "XSDataFile")
+		self.__workingDirectory = workingDirectory
+	def delWorkingDirectory(self): self.__workingDirectory = None
+	# Properties
+	workingDirectory = property(getWorkingDirectory, setWorkingDirectory, delWorkingDirectory, "Property for workingDirectory")
+	def export(self, outfile, level, name_='XSDataInputAutoSub'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputAutoSub'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__bufferBefore is not None:
+			self.bufferBefore.export(outfile, level, name_='bufferBefore')
+		else:
+			warnEmptyAttribute("bufferBefore", "XSDataFile")
+		if self.__bufferAfter is not None:
+			self.bufferAfter.export(outfile, level, name_='bufferAfter')
+		else:
+			warnEmptyAttribute("bufferAfter", "XSDataFile")
+		if self.__sampleData is not None:
+			self.sampleData.export(outfile, level, name_='sampleData')
+		else:
+			warnEmptyAttribute("sampleData", "XSDataFile")
+		if self.__workingDirectory is not None:
+			self.workingDirectory.export(outfile, level, name_='workingDirectory')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bufferBefore':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setBufferBefore(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bufferAfter':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setBufferAfter(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sampleData':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSampleData(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'workingDirectory':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setWorkingDirectory(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputAutoSub" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputAutoSub' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputAutoSub is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputAutoSub.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputAutoSub()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputAutoSub" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputAutoSub()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputAutoSub
+
 class XSDataInputDataver(XSDataInput):
 	"""dataver averages two or more curves from files"""
 	def __init__(self, configuration=None, outputCurve=None, inputCurve=None):
@@ -1786,6 +1956,157 @@ class XSDataResultAutoRg(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultAutoRg
+
+class XSDataResultAutoSub(XSDataResult):
+	"""Result of AutoSub (EDNA implementation) 	"""
+	def __init__(self, status=None, autoRg=None, bestCurve=None, subMerged=None, subAfter=None, subBefore=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", subBefore, "XSDataFile")
+		self.__subBefore = subBefore
+		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", subAfter, "XSDataFile")
+		self.__subAfter = subAfter
+		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", subMerged, "XSDataFile")
+		self.__subMerged = subMerged
+		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", bestCurve, "XSDataFile")
+		self.__bestCurve = bestCurve
+		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", autoRg, "XSDataAutoRg")
+		self.__autoRg = autoRg
+	def getSubBefore(self): return self.__subBefore
+	def setSubBefore(self, subBefore):
+		checkType("XSDataResultAutoSub", "setSubBefore", subBefore, "XSDataFile")
+		self.__subBefore = subBefore
+	def delSubBefore(self): self.__subBefore = None
+	# Properties
+	subBefore = property(getSubBefore, setSubBefore, delSubBefore, "Property for subBefore")
+	def getSubAfter(self): return self.__subAfter
+	def setSubAfter(self, subAfter):
+		checkType("XSDataResultAutoSub", "setSubAfter", subAfter, "XSDataFile")
+		self.__subAfter = subAfter
+	def delSubAfter(self): self.__subAfter = None
+	# Properties
+	subAfter = property(getSubAfter, setSubAfter, delSubAfter, "Property for subAfter")
+	def getSubMerged(self): return self.__subMerged
+	def setSubMerged(self, subMerged):
+		checkType("XSDataResultAutoSub", "setSubMerged", subMerged, "XSDataFile")
+		self.__subMerged = subMerged
+	def delSubMerged(self): self.__subMerged = None
+	# Properties
+	subMerged = property(getSubMerged, setSubMerged, delSubMerged, "Property for subMerged")
+	def getBestCurve(self): return self.__bestCurve
+	def setBestCurve(self, bestCurve):
+		checkType("XSDataResultAutoSub", "setBestCurve", bestCurve, "XSDataFile")
+		self.__bestCurve = bestCurve
+	def delBestCurve(self): self.__bestCurve = None
+	# Properties
+	bestCurve = property(getBestCurve, setBestCurve, delBestCurve, "Property for bestCurve")
+	def getAutoRg(self): return self.__autoRg
+	def setAutoRg(self, autoRg):
+		checkType("XSDataResultAutoSub", "setAutoRg", autoRg, "XSDataAutoRg")
+		self.__autoRg = autoRg
+	def delAutoRg(self): self.__autoRg = None
+	# Properties
+	autoRg = property(getAutoRg, setAutoRg, delAutoRg, "Property for autoRg")
+	def export(self, outfile, level, name_='XSDataResultAutoSub'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultAutoSub'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__subBefore is not None:
+			self.subBefore.export(outfile, level, name_='subBefore')
+		else:
+			warnEmptyAttribute("subBefore", "XSDataFile")
+		if self.__subAfter is not None:
+			self.subAfter.export(outfile, level, name_='subAfter')
+		else:
+			warnEmptyAttribute("subAfter", "XSDataFile")
+		if self.__subMerged is not None:
+			self.subMerged.export(outfile, level, name_='subMerged')
+		else:
+			warnEmptyAttribute("subMerged", "XSDataFile")
+		if self.__bestCurve is not None:
+			self.bestCurve.export(outfile, level, name_='bestCurve')
+		else:
+			warnEmptyAttribute("bestCurve", "XSDataFile")
+		if self.__autoRg is not None:
+			self.autoRg.export(outfile, level, name_='autoRg')
+		else:
+			warnEmptyAttribute("autoRg", "XSDataAutoRg")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subBefore':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSubBefore(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subAfter':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSubAfter(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subMerged':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSubMerged(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bestCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setBestCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoRg':
+			obj_ = XSDataAutoRg()
+			obj_.build(child_)
+			self.setAutoRg(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultAutoSub" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultAutoSub' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultAutoSub is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultAutoSub.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultAutoSub()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultAutoSub" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultAutoSub()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultAutoSub
 
 class XSDataResultDataver(XSDataResult):
 	"""Result of Dataver 	"""

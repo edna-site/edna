@@ -71,6 +71,23 @@ complex type XSDataResultDatop extends XSDataResult {
 	outputCurve: XSDataFile
 }
 
+complex type XSDataInputAutoSub extends XSDataInput {
+	"Autosub works by default in sampleData directory "
+	bufferBefore: XSDataFile
+	bufferAfter: XSDataFile 
+	sampleData: XSDataFile
+	workingDirectory: XSDataFile  optional
+}
+
+complex type XSDataResultAutoSub extends XSDataResult {
+	"Result of AutoSub (EDNA implementation) 	"
+	subBefore: XSDataFile
+	subAfter: XSDataFile
+	subMerged: XSDataFile
+	bestCurve: XSDataFile
+	autoRg: XSDataAutoRg
+}
+
 complex type XSDataInputAutoRg extends XSDataInput{
 	sample: XSDataSaxsSample optional
 //	runs: XSDataSaxsSeries[]
