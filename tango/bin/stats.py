@@ -83,4 +83,4 @@ if __name__ == "__main__":
             id.sort()
             for i in id:
                 f.write("%s\t%s%s" % (i, data[fn][i], os.linesep))
-
+        logger.info("Written file for %s" % fn)
