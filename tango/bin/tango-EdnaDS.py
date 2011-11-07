@@ -33,7 +33,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20110919"
 __status__ = "beta"
 
-import sys, os, threading, gc
+import sys, os, threading, gc, time
 import PyTango
 if sys.version > (3, 0):
     from queue import Queue
@@ -76,6 +76,10 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
             self.__semaphoreNbThreads = threading.Semaphore(EDUtilsParallel.detectNumberOfCPUs())
         self.jobQueue = Queue()
         self.processingSem = threading.Semaphore()
+        self.lastStatistics = "No statistics collected yet, please use the 'collectStatistics' method first"
+        self.statLock = threading.Lock()
+        self.lastFailure = None
+        self.lastSuccess = None
 
     def delete_device(self):
         self.DEBUG("[Device delete_device method] for device %s" % self.get_name())
@@ -96,10 +100,20 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
 
     def read_jobSuccess(self, attr):
         self.DEBUG("In %s.read_jobSuccess()" % self.get_name())
-        attr.set_value("")
+        if self.lastSuccess is None:
+            attr.set_value("No job succeeded (yet)")
+        else:
+            attr.set_value("Last success job: %s%s%s" % (self.lastSuccess, os.linesep, EDJob.getDataOutputFromId(self.lastSuccess)))
 
     def read_jobFailure(self, attr):
-        attr.set_value("")
+        self.DEBUG("In %s.read_jobFailure()" % self.get_name())
+        if self.lastFailure is None:
+            attr.set_value("No job Failed (yet)")
+        else:
+            attr.set_value("Last failed job: %s%s%s" % (self.lastFailure, os.linesep, EDJob.getDataOutputFromId(self.lastFailure)))
+
+    def read_statisticsCollected(self, attr):
+        attr.set_value(self.lastStatistics)
 
     def getJobState(self, jobId):
         return EDJob.getStatusFromID(jobId)
@@ -159,6 +173,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         with self.locked():
             self.__semaphoreNbThreads.release()
             EDJob.cleanJobfromID(jobId, False)
+            self.lastSuccess = jobId
             self.push_change_event("jobSuccess", jobId)
             gc.collect()
 
@@ -167,6 +182,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         with self.locked():
             self.__semaphoreNbThreads.release()
             EDJob.cleanJobfromID(jobId, False)
+            self.lastFailure = jobId
             self.push_change_event("jobFailure", jobId)
             gc.collect()
 
@@ -188,12 +204,31 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         """
         return EDStatus.getFailure()
 
-    def statistics(self):
+    def collectStatistics(self):
         """
         Retrieve some statistics on all EDNA-Jobs
         @return: a page of information about EDNA-jobs
         """
-        return EDJob.stats()
+        t = threading.Thread(target=self.statistics)
+        t.start()
+
+
+    def statistics(self):
+        """
+        retrieve some statistics about past jobs.
+        """
+        with self.statLock:
+            fStartStat = time.time()
+            self.lastStatistics = EDJob.stats()
+            self.lastStatistics += os.linesep + "Statistics collected on %s, the collect took: %.3fs" % (time.asctime(), time.time() - fStartStat)
+            self.push_change_event("statisticsCollected", self.lastStatistics)
+
+
+    def getStatistics(self):
+        """
+        just return statistics previously calculated 
+        """
+        return  self.lastStatistics
 
     def getJobOutput(self, jobId):
         """
@@ -232,7 +267,8 @@ class EdnaDSClass(PyTango.DeviceClass):
         'getJobState': [[PyTango.DevString, "job id"], [PyTango.DevString, "job state"]],
         "initPlugin": [[PyTango.DevString, "plugin name"], [PyTango.DevString, "Message"]],
         "cleanJob":[[PyTango.DevString, "job id"], [PyTango.DevString, "Message"]],
-        "statistics":[[PyTango.DevVoid, "nothing needed"], [PyTango.DevString, "Reports some statistics about jobs within EDNA"]],
+        "collectStatistics":[[PyTango.DevVoid, "nothing needed"], [PyTango.DevVoid, "Collect some statistics about jobs within EDNA"]],
+        "getStatistics":[[PyTango.DevVoid, "nothing needed"], [PyTango.DevString, "Retrieve statistics about EDNA-jobs"]],
         'getJobOutput': [[PyTango.DevString, "job id"], [PyTango.DevString, "job output XML"]],
         'getJobInput': [[PyTango.DevString, "job id"], [PyTango.DevString, "job input XML"]],
         }
@@ -245,6 +281,10 @@ class EdnaDSClass(PyTango.DeviceClass):
             PyTango.SCALAR,
             PyTango.READ]],
         'jobFailure':
+            [[PyTango.DevString,
+            PyTango.SCALAR,
+            PyTango.READ]],
+        "statisticsCollected":
             [[PyTango.DevString,
             PyTango.SCALAR,
             PyTango.READ]],
