@@ -28,8 +28,8 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
-__date__ = "20110924"
-__status__ = "Production"
+__date__ = "20111108"
+__status__ = "Development"
 
 import os, shutil
 from EDPluginControl import EDPluginControl
@@ -39,7 +39,7 @@ EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataCommon       import XSDataString, XSDataStatus, XSDataFile, XSDataTime, XSDataInteger
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsSmartMergev1_0, XSDataResultBioSaxsSmartMergev1_0
-from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver, XSDataInputAutoRg, XSDataInputDatop
+from XSDataEdnaSaxs     import XSDataInputDatcmp, XSDataInputDataver, XSDataInputAutoSub, XSDataInputDatop
 from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
 
 def cmp(a, b):
@@ -56,19 +56,21 @@ def cmp(a, b):
         return 0
 
 
-class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
+class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
     """
     This plugin takes a set of input data files (1D SAXS) measure
     their differences (versus previous and versus first) and merge those which are equivalent
-    v1.1 adds information from AutoRg
+    v1.1 adds information from AutoSub
     
     Controlled plugins:
      - Execplugins/WaitMultifile
      - EdnaSaxs/Atsas/DatCmp
      - EdnaSaxs/Atsas/DatAver
-     - EdnaSaxs/Atsas/AutoRg
+     - EdnaSaxs/Atsas/AutoSub
     """
-    dictAve = {} #key=?; value=path to average file
+    #dictAve = {} #key=?; value=path to average file
+    lastBuffer = None
+    lastSample = None
 
     def __init__(self):
         """
@@ -77,12 +79,13 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
         self.__strControlledPluginDataver = "EDPluginExecDataverv1_0"
         self.__strControlledPluginDatcmp = "EDPluginExecDatcmpv1_0"
         self.__strControlledPluginWaitFile = "EDPluginWaitMultiFile"
-        self.__strControlledPluginAutoRG = "EDPluginExecAutoRgv1_0"
-        self.__strControlledPluginDatop = "EDPluginExecDatopv1_0"
+        self.__strControlledPluginAutoSub = "EDPluginExecAutoSubv1_0"
+#        self.__strControlledPluginDatop = "EDPluginExecDatopv1_0"
+
         self.__edPluginExecDatcmp = None
         self.__edPluginExecDataver = None
         self.__edPluginExecWaitFile = None
-        self.__edPluginExecAutoRg = None
+        self.__edPluginExecAutoSub = None
         self.__edPluginExecDataop = None
         self.setXSDataInputClass(XSDataInputBioSaxsSmartMergev1_0)
         self.__edPluginExecDatCmp = None
@@ -98,15 +101,16 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
         self.autoRg = None
         self.strRadiationDamage = None
         self.strMergedFile = None
-        self.tKey = (None,)
+#        self.tKey = (None,)
         self.lstSub = []
         self.strSubFile = None
+        self.fConcentration = None
 
     def checkParameters(self):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.checkParameters")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.inputCurves, "Input curve list is empty")
         self.checkMandatoryParameters(self.dataInput.mergedCurve, "Output curve filename  is empty")
@@ -114,7 +118,7 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.preProcess")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.preProcess")
         # Load the execution plugin
         if self.dataInput.absoluteFidelity is not None:
             self.absoluteFidelity = self.dataInput.absoluteFidelity.value
@@ -139,7 +143,7 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.process")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.process")
 
         xsdwf = XSDataInputWaitMultiFile(timeOut=XSDataTime(30),
                                         expectedSize=XSDataInteger(10000),
@@ -232,49 +236,26 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
                 self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
                 self.__edPluginExecDataver.executeSynchronous()
 
-            self.dictAve[self.tKey] = self.dataInput.mergedCurve
-            if len(self.tKey) == 3 and (self.tKey[0], self.tKey[1], 0.0) in self.dictAve:
-                #try to subtract buffer automatically
-                bufferKey = (self.tKey[0], self.tKey[1], 0.0)
-                bufferPath = self.dictAve[bufferKey]
-                if self.strSubFile is None:
-                    self.strSubFile = self.strMergedFile.replace("_ave.dat", "_sub.dat")
-                    if self.strMergedFile == self.strSubFile:
-                        self.strSubFile = None
-                        return
-                xsdSubFile = XSDataFile(XSDataString(self.strSubFile))
-                xsdSub = XSDataInputDatop(inputCurve=[self.dataInput.mergedCurve, bufferPath],
-                                          outputCurve=xsdSubFile,
-                                          operation=XSDataString("SUB"))
-                self.lstSub.append("Merged data from : %s" % self.dataInput.mergedCurve.path.value)
-                self.lstSub.append("Subtracted buffer: %s" % bufferPath.path.value)
-                self.__edPluginExecDataop = self.loadPlugin(self.__strControlledPluginDatop)
-                self.__edPluginExecDataop.setDataInput(xsdSub)
-                self.__edPluginExecDataop.connectSUCCESS(self.doSuccessExecDatOp)
-                self.__edPluginExecDataop.connectFAILURE(self.doFailureExecDatOp)
-                self.__edPluginExecDataop.executeSynchronous()
-                if self.isFailure():
-                    return
-                elif self.strSubFile is not None:
-                    self.__edPluginExecAutoRg = self.loadPlugin(self.__strControlledPluginAutoRG)
-                    xsd = XSDataInputAutoRg(inputCurve=[xsdSubFile])
-                    self.__edPluginExecAutoRg.setDataInput(xsd)
-                    self.__edPluginExecAutoRg.connectSUCCESS(self.doSuccessExecAutoRg)
-                    self.__edPluginExecAutoRg.connectFAILURE(self.doFailureExecAutoRg)
-                    self.__edPluginExecAutoRg.executeSynchronous()
-                    self.rewriteHeader(self.strSubFile, self.strSubFile)
+            if self.fConcentration == 0:
+                if (self.__class__.lastBuffer is not None) and (self.__class__.lastSample is not None):
+                    self.__edPluginExecAutoSub = self.loadPlugin(self.__strControlledPluginAutoSub)
+                    xsd = XSDataInputAutoSub(sampleCurve=self.__class__.lastSample,
+                                             buffers=[self.__class__.lastBuffer, self.dataInput.mergedCurve],
+                                             subtractedCurve=self.dataInput.subtractedCurve
+                                             )
+                    self.__edPluginExecAutoSub.setDataInput(xsd)
+                    self.__edPluginExecAutoSub.connectSUCCESS(self.doSuccessExecAutoSub)
+                    self.__edPluginExecAutoSub.connectFAILURE(self.doFailureExecAutoSub)
+                    self.__edPluginExecAutoSub.executeSynchronous()
+                self.__class__.lastBuffer = self.dataInput.mergedCurve
+                self.__class__.lastSample = None
             else:
-                self.__edPluginExecAutoRg = self.loadPlugin(self.__strControlledPluginAutoRG)
-                xsd = XSDataInputAutoRg(inputCurve=[self.dataInput.mergedCurve])
-                self.__edPluginExecAutoRg.setDataInput(xsd)
-                self.__edPluginExecAutoRg.connectSUCCESS(self.doSuccessExecAutoRg)
-                self.__edPluginExecAutoRg.connectFAILURE(self.doFailureExecAutoRg)
-                self.__edPluginExecAutoRg.executeSynchronous()
+                self.__class__.lastSample = self.dataInput.mergedCurve
 
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.postProcess")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.postProcess")
         # Create some output data
         xsDataResult = XSDataResultBioSaxsSmartMergev1_0()
         xsDataResult.mergedCurve = self.dataInput.mergedCurve
@@ -339,7 +320,7 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
             c = float(Concentration)
         except:
             c = -1.0
-        self.tKey = (Code, Comments, c)
+        self.fConcentration = c
         lstHeader = ["%s %s" % (hdr, Comments), "%s Sample c= %s mg/ml" % (hdr, Concentration), hdr]
         if frameMax is not None:
             lstHeader.append(hdr + " Number of frames collected: %s" % frameMax)
@@ -374,8 +355,8 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
 
 
     def doSuccessExecWait(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doSuccessExecWait")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doSuccessExecWait")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doSuccessExecWait")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doSuccessExecWait")
         xsdo = _edPlugin.dataOutput
         if (xsdo.timedOut is not None) and  bool(xsdo.timedOut.value):
             strErr = "Error in waiting for all input files to arrive"
@@ -384,30 +365,32 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
 
 
     def doFailureExecWait(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doFailureExecWait")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doFailureExecWait")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doFailureExecWait")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doFailureExecWait")
         strErr = "Error in waiting for all input files to arrive"
         self.ERROR(strErr)
+        self.lstSummary.append(self.ERROR)
         self.setFailure()
 
 
     def doSuccessExecDataver(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doSuccessExecDataver")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doSuccessExecDataver")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doSuccessExecDataver")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doSuccessExecDataver")
         self.rewriteHeader(_edPlugin.dataOutput.outputCurve.path.value, output=self.strMergedFile)
 
 
     def doFailureExecDataver(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doFailureExecDataver")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doFailureExecDataver")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doFailureExecDataver")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doFailureExecDataver")
         strErr = "Error in Processing of Atsas 'dataver'"
+        self.lstSummary.append(strErr)
         self.ERROR(strErr)
         self.setFailure()
 
 
     def doSuccessExecDatcmp(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doSuccessExecDatcmp")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doSuccessExecDatcmp")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doSuccessExecDatcmp")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doSuccessExecDatcmp")
         with self.locked():
             xsdIn = _edPlugin.dataInput
             xsdOut = _edPlugin.getDataOutput()
@@ -423,48 +406,24 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
 
 
     def doFailureExecDatcmp(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doFailureExecDatcmp")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doFailureExecDatcmp")
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doFailureExecDatcmp")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doFailureExecDatcmp")
+        self.lstSummary.append("Failure in Processing of Atsas 'datcmp'")
         self.setFailure()
 
 
-    def doSuccessExecAutoRg(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doSuccessExecAutoRg")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doSuccessExecAutoRg")
-        xsdOut = _edPlugin.dataOutput
-        lstRg = []
-        if len(xsdOut.autoRgOut) > 0:
-            res = _edPlugin.dataOutput.autoRgOut[0]
-            if res.rg.value < 1e-6:
-                lstRg.append("AutoRg: Rg   =   %.4f +/- %.2f" % (res.rg.value, res.rgStdev.value))
-            else:
-                lstRg.append("AutoRg: Rg   =   %.4f +/- %.2f ( %.1f%%)" % (res.rg.value, res.rgStdev.value, 100. * res.rgStdev.value / res.rg.value))
-            lstRg.append("AutoRg: I(0) =   %.2f +/- %.4f" % (res.i0.value, res.i0Stdev.value))
-            lstRg.append("AutoRg: Points   %i to %i ( %i total)" % (res.firstPointUsed.value, res.lastPointUsed.value , 1 + res.lastPointUsed.value - res.firstPointUsed.value))
-            lstRg.append("AutoRg: Quality: %.1f%%" % (res.quality.value * 100.0))
-            self.autoRg = res
-            self.lstSummary += lstRg
-            if self.lstSub:
-                self.lstSub += lstRg
+    def doSuccessExecAutoSub(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doSuccessExecAutoSub")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doSuccessExecAutoSub")
+        self.autoRg = _edPlugin.dataOutput.autoRg
+        self.lstSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
 
 
-    def doFailureExecAutoRg(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doFailureExecAutoRg")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doFailureExecAutoRg")
-        strErr = "Error in Processing of Atsas 'AutoRg'"
+    def doFailureExecAutoSub(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doFailureExecAutoSub")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doFailureExecAutoSub")
+        strErr = "Error in Processing of EDNA 'AutoSub'"
         self.ERROR(strErr)
-        self.setFailure()
-
-    def doSuccessExecDatop(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doSuccessExecDatop")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doSuccessExecDatop")
-        self.strSubFile = _edPlugin.dataOutput.outputCurve.path.value
-
-
-    def doFailureExecDatop(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsSmartMergev1_2.doFailureExecDatop")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_2.doFailureExecDatop")
-        strErr = "Error in Processing of Atsas 'dataop'"
-        self.ERROR(strErr)
+        self.lstSummary.append(strErr)
         self.setFailure()
 
