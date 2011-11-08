@@ -250,8 +250,8 @@ class EDPluginBioSaxsSmartMergev1_2(EDPluginControl):
                 self.lstSub.append("Subtracted buffer: %s" % bufferPath.path.value)
                 self.__edPluginExecDataop = self.loadPlugin(self.__strControlledPluginDatop)
                 self.__edPluginExecDataop.setDataInput(xsdSub)
-                self.__edPluginExecDataop.connectSUCCESS(self.doSuccessExecDatOp)
-                self.__edPluginExecDataop.connectFAILURE(self.doFailureExecDatOp)
+                self.__edPluginExecDataop.connectSUCCESS(self.doSuccessExecDatop)
+                self.__edPluginExecDataop.connectFAILURE(self.doFailureExecDatop)
                 self.__edPluginExecDataop.executeSynchronous()
                 if self.isFailure():
                     return
