@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Nov 3 01:20::04 2011 by EDGenerateDS.
+# Generated Tue Nov 8 12:01::52 2011 by EDGenerateDS.
 #
 
 import os, sys
@@ -1174,45 +1174,45 @@ class XSDataInputAutoRg(XSDataInput):
 # end class XSDataInputAutoRg
 
 class XSDataInputAutoSub(XSDataInput):
-	"""datop makes an operation on curves"""
-	def __init__(self, configuration=None, workingDirectory=None, sampleData=None, bufferAfter=None, bufferBefore=None):
+	"""Autosub works by default in sampleCurve directory """
+	def __init__(self, configuration=None, subtractedCurve=None, sampleCurve=None, buffers=None):
 		XSDataInput.__init__(self, configuration)
-		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", bufferBefore, "XSDataFile")
-		self.__bufferBefore = bufferBefore
-		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", bufferAfter, "XSDataFile")
-		self.__bufferAfter = bufferAfter
-		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", sampleData, "XSDataFile")
-		self.__sampleData = sampleData
-		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", workingDirectory, "XSDataFile")
-		self.__workingDirectory = workingDirectory
-	def getBufferBefore(self): return self.__bufferBefore
-	def setBufferBefore(self, bufferBefore):
-		checkType("XSDataInputAutoSub", "setBufferBefore", bufferBefore, "XSDataFile")
-		self.__bufferBefore = bufferBefore
-	def delBufferBefore(self): self.__bufferBefore = None
+		if buffers is None:
+			self.__buffers = []
+		else:
+			checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", buffers, "list")
+			self.__buffers = buffers
+		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", sampleCurve, "XSDataFile")
+		self.__sampleCurve = sampleCurve
+		checkType("XSDataInputAutoSub", "Constructor of XSDataInputAutoSub", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
+	def getBuffers(self): return self.__buffers
+	def setBuffers(self, buffers):
+		checkType("XSDataInputAutoSub", "setBuffers", buffers, "list")
+		self.__buffers = buffers
+	def delBuffers(self): self.__buffers = None
 	# Properties
-	bufferBefore = property(getBufferBefore, setBufferBefore, delBufferBefore, "Property for bufferBefore")
-	def getBufferAfter(self): return self.__bufferAfter
-	def setBufferAfter(self, bufferAfter):
-		checkType("XSDataInputAutoSub", "setBufferAfter", bufferAfter, "XSDataFile")
-		self.__bufferAfter = bufferAfter
-	def delBufferAfter(self): self.__bufferAfter = None
+	buffers = property(getBuffers, setBuffers, delBuffers, "Property for buffers")
+	def addBuffers(self, value):
+		checkType("XSDataInputAutoSub", "setBuffers", value, "XSDataFile")
+		self.__buffers.append(value)
+	def insertBuffers(self, index, value):
+		checkType("XSDataInputAutoSub", "setBuffers", value, "XSDataFile")
+		self.__buffers[index] = value
+	def getSampleCurve(self): return self.__sampleCurve
+	def setSampleCurve(self, sampleCurve):
+		checkType("XSDataInputAutoSub", "setSampleCurve", sampleCurve, "XSDataFile")
+		self.__sampleCurve = sampleCurve
+	def delSampleCurve(self): self.__sampleCurve = None
 	# Properties
-	bufferAfter = property(getBufferAfter, setBufferAfter, delBufferAfter, "Property for bufferAfter")
-	def getSampleData(self): return self.__sampleData
-	def setSampleData(self, sampleData):
-		checkType("XSDataInputAutoSub", "setSampleData", sampleData, "XSDataFile")
-		self.__sampleData = sampleData
-	def delSampleData(self): self.__sampleData = None
+	sampleCurve = property(getSampleCurve, setSampleCurve, delSampleCurve, "Property for sampleCurve")
+	def getSubtractedCurve(self): return self.__subtractedCurve
+	def setSubtractedCurve(self, subtractedCurve):
+		checkType("XSDataInputAutoSub", "setSubtractedCurve", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
+	def delSubtractedCurve(self): self.__subtractedCurve = None
 	# Properties
-	sampleData = property(getSampleData, setSampleData, delSampleData, "Property for sampleData")
-	def getWorkingDirectory(self): return self.__workingDirectory
-	def setWorkingDirectory(self, workingDirectory):
-		checkType("XSDataInputAutoSub", "setWorkingDirectory", workingDirectory, "XSDataFile")
-		self.__workingDirectory = workingDirectory
-	def delWorkingDirectory(self): self.__workingDirectory = None
-	# Properties
-	workingDirectory = property(getWorkingDirectory, setWorkingDirectory, delWorkingDirectory, "Property for workingDirectory")
+	subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
 	def export(self, outfile, level, name_='XSDataInputAutoSub'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1221,45 +1221,36 @@ class XSDataInputAutoSub(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputAutoSub'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__bufferBefore is not None:
-			self.bufferBefore.export(outfile, level, name_='bufferBefore')
+		for buffers_ in self.getBuffers():
+			buffers_.export(outfile, level, name_='buffers')
+		if self.getBuffers() == []:
+			warnEmptyAttribute("buffers", "XSDataFile")
+		if self.__sampleCurve is not None:
+			self.sampleCurve.export(outfile, level, name_='sampleCurve')
 		else:
-			warnEmptyAttribute("bufferBefore", "XSDataFile")
-		if self.__bufferAfter is not None:
-			self.bufferAfter.export(outfile, level, name_='bufferAfter')
-		else:
-			warnEmptyAttribute("bufferAfter", "XSDataFile")
-		if self.__sampleData is not None:
-			self.sampleData.export(outfile, level, name_='sampleData')
-		else:
-			warnEmptyAttribute("sampleData", "XSDataFile")
-		if self.__workingDirectory is not None:
-			self.workingDirectory.export(outfile, level, name_='workingDirectory')
+			warnEmptyAttribute("sampleCurve", "XSDataFile")
+		if self.__subtractedCurve is not None:
+			self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'bufferBefore':
+			nodeName_ == 'buffers':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setBufferBefore(obj_)
+			self.buffers.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'bufferAfter':
+			nodeName_ == 'sampleCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setBufferAfter(obj_)
+			self.setSampleCurve(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'sampleData':
+			nodeName_ == 'subtractedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setSampleData(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'workingDirectory':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setWorkingDirectory(obj_)
+			self.setSubtractedCurve(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -1959,46 +1950,19 @@ class XSDataResultAutoRg(XSDataResult):
 
 class XSDataResultAutoSub(XSDataResult):
 	"""Result of AutoSub (EDNA implementation) 	"""
-	def __init__(self, status=None, autoRg=None, bestCurve=None, subMerged=None, subAfter=None, subBefore=None):
+	def __init__(self, status=None, autoRg=None, subtractedCurve=None):
 		XSDataResult.__init__(self, status)
-		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", subBefore, "XSDataFile")
-		self.__subBefore = subBefore
-		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", subAfter, "XSDataFile")
-		self.__subAfter = subAfter
-		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", subMerged, "XSDataFile")
-		self.__subMerged = subMerged
-		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", bestCurve, "XSDataFile")
-		self.__bestCurve = bestCurve
+		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
 		checkType("XSDataResultAutoSub", "Constructor of XSDataResultAutoSub", autoRg, "XSDataAutoRg")
 		self.__autoRg = autoRg
-	def getSubBefore(self): return self.__subBefore
-	def setSubBefore(self, subBefore):
-		checkType("XSDataResultAutoSub", "setSubBefore", subBefore, "XSDataFile")
-		self.__subBefore = subBefore
-	def delSubBefore(self): self.__subBefore = None
+	def getSubtractedCurve(self): return self.__subtractedCurve
+	def setSubtractedCurve(self, subtractedCurve):
+		checkType("XSDataResultAutoSub", "setSubtractedCurve", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
+	def delSubtractedCurve(self): self.__subtractedCurve = None
 	# Properties
-	subBefore = property(getSubBefore, setSubBefore, delSubBefore, "Property for subBefore")
-	def getSubAfter(self): return self.__subAfter
-	def setSubAfter(self, subAfter):
-		checkType("XSDataResultAutoSub", "setSubAfter", subAfter, "XSDataFile")
-		self.__subAfter = subAfter
-	def delSubAfter(self): self.__subAfter = None
-	# Properties
-	subAfter = property(getSubAfter, setSubAfter, delSubAfter, "Property for subAfter")
-	def getSubMerged(self): return self.__subMerged
-	def setSubMerged(self, subMerged):
-		checkType("XSDataResultAutoSub", "setSubMerged", subMerged, "XSDataFile")
-		self.__subMerged = subMerged
-	def delSubMerged(self): self.__subMerged = None
-	# Properties
-	subMerged = property(getSubMerged, setSubMerged, delSubMerged, "Property for subMerged")
-	def getBestCurve(self): return self.__bestCurve
-	def setBestCurve(self, bestCurve):
-		checkType("XSDataResultAutoSub", "setBestCurve", bestCurve, "XSDataFile")
-		self.__bestCurve = bestCurve
-	def delBestCurve(self): self.__bestCurve = None
-	# Properties
-	bestCurve = property(getBestCurve, setBestCurve, delBestCurve, "Property for bestCurve")
+	subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
 	def getAutoRg(self): return self.__autoRg
 	def setAutoRg(self, autoRg):
 		checkType("XSDataResultAutoSub", "setAutoRg", autoRg, "XSDataAutoRg")
@@ -2014,22 +1978,10 @@ class XSDataResultAutoSub(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultAutoSub'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__subBefore is not None:
-			self.subBefore.export(outfile, level, name_='subBefore')
+		if self.__subtractedCurve is not None:
+			self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
 		else:
-			warnEmptyAttribute("subBefore", "XSDataFile")
-		if self.__subAfter is not None:
-			self.subAfter.export(outfile, level, name_='subAfter')
-		else:
-			warnEmptyAttribute("subAfter", "XSDataFile")
-		if self.__subMerged is not None:
-			self.subMerged.export(outfile, level, name_='subMerged')
-		else:
-			warnEmptyAttribute("subMerged", "XSDataFile")
-		if self.__bestCurve is not None:
-			self.bestCurve.export(outfile, level, name_='bestCurve')
-		else:
-			warnEmptyAttribute("bestCurve", "XSDataFile")
+			warnEmptyAttribute("subtractedCurve", "XSDataFile")
 		if self.__autoRg is not None:
 			self.autoRg.export(outfile, level, name_='autoRg')
 		else:
@@ -2040,25 +1992,10 @@ class XSDataResultAutoSub(XSDataResult):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'subBefore':
+			nodeName_ == 'subtractedCurve':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setSubBefore(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'subAfter':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setSubAfter(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'subMerged':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setSubMerged(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'bestCurve':
-			obj_ = XSDataFile()
-			obj_.build(child_)
-			self.setBestCurve(obj_)
+			self.setSubtractedCurve(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'autoRg':
 			obj_ = XSDataAutoRg()

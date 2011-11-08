@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<XSDataInputAutoSub>
+    <buffers>
+    	<path>
+    		<value>${EDNA_TESTS_DATA_HOME}/images/buffer_before.dat</value>
+    	</path>
+    </buffers>
+    <buffers>
+    	<path>
+    		<value>${EDNA_TESTS_DATA_HOME}/images/buffer_after.dat</value>
+    	</path>
+    </buffers>
+    <sampleCurve>
+    	<path>
+    		<value>${EDNA_TESTS_DATA_HOME}/images/proteine.dat</value>
+    	</path>
+    </sampleCurve>
+    <subtractedCurve>
+		<path>
+			<value>/tmp/edna-${USER}/autosubtracted.dat</value>
+		</path>
+	</subtractedCurve>
+    
+</XSDataInputAutoSub>

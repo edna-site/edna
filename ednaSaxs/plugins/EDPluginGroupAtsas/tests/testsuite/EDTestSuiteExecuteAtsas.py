@@ -40,6 +40,7 @@ class EDTestSuiteExecuteAtsas(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDataverv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDatopv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecAutoRgv1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteAutoSubv1_0")
 
 
 
