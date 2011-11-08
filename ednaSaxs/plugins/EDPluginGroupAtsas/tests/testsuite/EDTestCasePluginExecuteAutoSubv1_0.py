@@ -27,7 +27,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011  ESRF"
 
-import os
+import os, tempfile
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
@@ -44,6 +44,19 @@ class EDTestCasePluginExecuteAutoSubv1_0(EDTestCasePluginExecute):
                                            "XSDataInputAutoSubv1_0_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(),
                                                      "XSDataResultAutoSubv1_0_reference.xml"))
+        self.destFile = os.path.join(tempfile.gettempdir(), "edna-%s" % os.environ["USER"], "autosubtracted.dat")
+
+    def preProcess(self):
+        """
+        Download reference 1D curves
+        """
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([  "buffer_after.dat", "buffer_before.dat", "proteine.dat", "autosubtracted.dat"])
+
+        if not os.path.isdir(os.path.dirname(self.destFile)):
+            os.makedirs(os.path.dirname(self.destFile))
+        if os.path.isfile(self.destFile):
+            os.remove(self.destFile)
 
 
     def testExecute(self):
