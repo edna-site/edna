@@ -79,7 +79,7 @@ class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
         self.__strControlledPluginDataver = "EDPluginExecDataverv1_0"
         self.__strControlledPluginDatcmp = "EDPluginExecDatcmpv1_0"
         self.__strControlledPluginWaitFile = "EDPluginWaitMultiFile"
-        self.__strControlledPluginAutoSub = "EDPluginExecAutoSubv1_0"
+        self.__strControlledPluginAutoSub = "EDPluginAutoSubv1_0"
 #        self.__strControlledPluginDatop = "EDPluginExecDatopv1_0"
 
         self.__edPluginExecDatcmp = None
@@ -239,9 +239,12 @@ class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
             if self.fConcentration == 0:
                 if (self.__class__.lastBuffer is not None) and (self.__class__.lastSample is not None):
                     self.__edPluginExecAutoSub = self.loadPlugin(self.__strControlledPluginAutoSub)
+                    base = "_".join(os.path.basename(self.__class__.lastSample.path.value).split("_")[:-1])
+                    suff = os.path.basename(self.strSubFile).split("_")[-1] 
+                    sub = os.path.join(os.path.dirname(self.strSubFile),base+"_"+suff)
                     xsd = XSDataInputAutoSub(sampleCurve=self.__class__.lastSample,
                                              buffers=[self.__class__.lastBuffer, self.dataInput.mergedCurve],
-                                             subtractedCurve=self.dataInput.subtractedCurve
+                                             subtractedCurve=XSDataFile(XSDataString(sub))
                                              )
                     self.__edPluginExecAutoSub.setDataInput(xsd)
                     self.__edPluginExecAutoSub.connectSUCCESS(self.doSuccessExecAutoSub)
@@ -263,7 +266,7 @@ class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
         xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         if self.autoRg is not None:
             xsDataResult.autoRg = self.autoRg
-        if self.strSubFile is not None:
+        if self.strSubFile is not None and os.path.isfile(self.strSubFile):
             xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.strSubFile))
         self.setDataOutput(xsDataResult)
 #        self.DEBUG(executiveSummary)
