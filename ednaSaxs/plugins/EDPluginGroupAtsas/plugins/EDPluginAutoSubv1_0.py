@@ -83,7 +83,8 @@ class EDPluginAutoSubv1_0(EDPluginControl):
         self.fidelity = None
         self.lstProcessLog = []
         self.dictRg = {} #key: filename, value = (Rg,I0) 
-
+        self.fConcentration = -1
+        self.headers = {}
 
     def checkParameters(self):
         """
@@ -167,7 +168,7 @@ class EDPluginAutoSubv1_0(EDPluginControl):
 
         if self.isFailure() or not os.path.exists(self.subtractedCurve):
             return
-
+        self.headers = self.parseHeaders(self.sampleCurve)
         edpluginRg = self.loadPlugin(self.__strPluginAutoRg)
         edpluginRg.dataInput = XSDataInputAutoRg(inputCurve=[XSDataFile(XSDataString(self.subtractedCurve))])
         edpluginRg.connectSUCCESS(self.doSuccessExecAutoRg)
@@ -229,7 +230,7 @@ class EDPluginAutoSubv1_0(EDPluginControl):
 
             self.rewriteHeader(output=self.subtractedCurve,
                                infile=self.sampleCurve,
-                               extraHeaders=["Buffer subtracted file",
+                               extraHeaders=["Buffer subtracted data file:",
                                              "Protein DatFile = %s" % self.sampleCurve,
                                              "Buffer DatFile = %s" % self.actualBestBuffer,
                                              ""] + lstRg,
@@ -258,6 +259,46 @@ class EDPluginAutoSubv1_0(EDPluginControl):
         self.lstProcessLog.append("Failure in datcmp (comparison of 2 buffers)")
         self.setFailure()
 
+    def parseHeaders(self, infile=None, hdr="#"):
+        """
+        Read the headers 
+        @param infile: filename of the data file 
+        @param hdr: header marker: # 
+        @return: headers as a dictionary 
+        """
+        headers = {}
+        Code = Concentration = None
+        frameMax = exposureTime = measurementTemperature = storageTemperature = None
+
+        headLines = [line.strip() for line in open(infile) if line.startswith(hdr)]
+        headers["Comments"] = headLines[0][1:].strip()
+        for line in headLines:
+            if "title =" in  line:
+                headers["Comments"] = line.split("=", 1)[1].strip()
+            elif "Comments =" in line:
+                headers["Comments"] = line.split("=", 1)[1].strip()
+            elif "Concentration:" in line:
+                headers["Concentration"] = line.split(":", 1)[1].strip()
+            elif "Concentration =" in line:
+                headers["Concentration"] = line.split("=", 1)[1].strip()
+            elif "Code =" in line:
+                headers["Code"] = line.split("=", 1)[1].strip()
+            elif "Code:" in line:
+                headers["Code"] = line.split(":", 1)[1].strip()
+            elif "Storage Temperature" in line:
+                headers["storageTemperature"] = line.split(":", 1)[1].strip()
+            elif "Measurement Temperature" in line:
+                headers["measurementTemperature"] = line.split(":", 1)[1].strip()
+            elif "Time per frame" in line:
+                headers["exposureTime"] = line.split("=", 1)[1].strip()
+#            elif "Frame" in line:
+#                frameMax = line.split()[-1]
+        try:
+            self.fConcentration = float(headers["Concentration"])
+        except:
+            self.fConcentration = -1
+        return headers
+
 
     def rewriteHeader(self, infile=None, output=None, hdr="#", linesep=os.linesep, extraHeaders=None, scale=False):
         """
@@ -284,60 +325,27 @@ class EDPluginAutoSubv1_0(EDPluginControl):
         """
         if extraHeaders is None:
             extraHeaders = []
-        Code = Concentration = None
-        frameMax = exposureTime = measurementTemperature = storageTemperature = None
-        originalFile = infile
-        headers = [line.strip() for line in open(originalFile) if line.startswith("#")]
-        Comments = headers[0][1:].strip()
-        for line in headers:
-            if "title =" in  line:
-                Comments = line.split("=", 1)[1].strip()
-            elif "Comments =" in line:
-                Comments = line.split("=", 1)[1].strip()
-            elif "Concentration:" in line:
-                Concentration = line.split(":", 1)[1].strip()
-            elif "Concentration =" in line:
-                Concentration = line.split("=", 1)[1].strip()
-            elif "Code =" in line:
-                Code = line.split("=", 1)[1].strip()
-            elif "Code:" in line:
-                Code = line.split(":", 1)[1].strip()
-            elif "Storage Temperature" in line:
-                storageTemperature = line.split(":", 1)[1].strip()
-            elif "Measurement Temperature" in line:
-                measurementTemperature = line.split(":", 1)[1].strip()
-            elif "Time per frame" in line:
-                exposureTime = line.split("=", 1)[1].strip()
-#            elif "Frame" in line:
-#                frameMax = line.split()[-1]
-        try:
-            c = float(Concentration)
-        except:
-            c = -1.0
-        self.tKey = (Code, Comments, c)
-        lstHeader = ["%s %s" % (hdr, Comments), "%s Sample c= %s mg/ml" % (hdr, Concentration), hdr]
-#        if frameMax is not None:
-#            lstHeader.append(hdr + " Number of frames collected: %s" % frameMax)
-        if exposureTime is not None:
-            lstHeader.append(hdr + " Exposure time per frame: %s" % exposureTime)
 
-        for i in extraHeaders:
-            lstHeader.append(hdr + " " + i)
-
-        lstHeader += [hdr, hdr + " Sample Information:"]
-        if storageTemperature is not None:
-            lstHeader.append(hdr + " Storage Temperature (degrees C): %s" % storageTemperature)
-        if measurementTemperature is not None:
-            lstHeader.append(hdr + " Measurement Temperature (degrees C): %s" % measurementTemperature)
-        lstHeader += [hdr + " Concentration: %s" % Concentration, "# Code: %s" % Code]
-        if scale and c != 0:
+        lstHeader = [self.headers.get("Comments", "No Comment!"), "Sample c= %s mg/ml" % self.headers.get("Concentration", -1)]
+        if scale and self.fConcentration != 0:
+            lstHeader.append("Intensity scaled by concentration")
             df = [i.split() for i in open(output) if not i.startswith(hdr)]
-            data = linesep.join(["%14s %14.6e %14.6e" % (w[0], float(w[1]) / c, float(w[2]) / c) for w in df if len(w) >= 3])
-            lstHeader.insert(2, hdr + " Scaled by concentration")
+            data = linesep.join(["%14s %14.6e %14.6e" % (w[0], float(w[1]) / self.fConcentration , float(w[2]) / self.fConcentration)
+                                 for w in df if len(w) >= 3])
         else:
             data = linesep.join([i.strip() for i in open(output) if not i.startswith(hdr)])
+
+        lstHeader += extraHeaders
+        lstHeader.append("")
+        if "exposureTime" in self.headers:
+            lstHeader.append("Exposure time per frame: %s" % self.headers["exposureTime"])
+        lstHeader += ["", "Sample Information:"]
+        if "storageTemperature" in self.headers:
+            lstHeader.append("Storage Temperature (degrees C): %s" % self.headers["storageTemperature"])
+        if "measurementTemperature" in self.headers:
+            lstHeader.append("Measurement Temperature (degrees C): %s" % self.headers["measurementTemperature"])
+        lstHeader += ["Concentration: %s" % self.headers.get("Concentration", "-1"), "Code: %s" % self.headers.get("Code", "None")]
         with open(output, "w") as outfile:
-            outfile.write(linesep.join(lstHeader))
-            if not data.startswith(linesep):
-                outfile.write(linesep)
+            outfile.write(linesep.join([hdr + " " + i for i in lstHeader]))
+            outfile.write(linesep)
             outfile.write(data)
