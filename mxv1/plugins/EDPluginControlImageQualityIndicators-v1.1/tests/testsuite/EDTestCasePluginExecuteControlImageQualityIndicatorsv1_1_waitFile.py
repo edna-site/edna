@@ -41,16 +41,16 @@ class EDTestCasePluginExecuteControlImageQualityIndicatorsv1_1_waitFile(EDTestCa
 
     def __init__(self, _edStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlImageQualityIndicatorsv1_1")
-        strTmpDir = tempfile.mkdtemp(prefix="EDPluginControlImageQualityIndicatorsv1_1_")
-        os.environ["EDNA_TMP_DIR"] = strTmpDir
+        self.strTmpDir = tempfile.mkdtemp(prefix="EDPluginControlImageQualityIndicatorsv1_1_")
+        os.environ["EDNA_TMP_DIR"] = self.strTmpDir
         self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputControlImageQualityIndicators_waitFile.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultControlImageQualityIndicators_reference.xml"))
         self.strInputDataFile1 = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img")
-        self.strInputDataFileNew1 = os.path.join(strTmpDir, "ref-testscale_1_001.img")
+        self.strInputDataFileNew1 = os.path.join(self.strTmpDir, "ref-testscale_1_001.img")
         self.strInputDataFile2 = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_002.img")
-        self.strInputDataFileNew2 = os.path.join(strTmpDir, "ref-testscale_1_002.img")
+        self.strInputDataFileNew2 = os.path.join(self.strTmpDir, "ref-testscale_1_002.img")
 
 
 
@@ -75,6 +75,9 @@ class EDTestCasePluginExecuteControlImageQualityIndicatorsv1_1_waitFile(EDTestCa
     def process(self):
         self.addTestMethod(self.testExecute)
 
+    def postProcess(self):
+        EDTestCasePluginExecute.postProcess(self)
+        shutil.rmtree(self.strTmpDir)
 
 
 if __name__ == '__main__':

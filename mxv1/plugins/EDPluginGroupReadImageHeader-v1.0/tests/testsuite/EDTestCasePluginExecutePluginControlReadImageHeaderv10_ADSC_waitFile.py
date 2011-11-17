@@ -42,13 +42,13 @@ class EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC_waitFile(EDTes
 
     def __init__(self, _strTestName="EDPluginControlReadImageHeaderv10"):
         EDTestCasePluginExecutePluginControlReadImageHeaderv10.__init__(self, _strTestName)
-        strTmpDir = tempfile.mkdtemp(prefix="EDPluginControlReadImageHeaderv10_")
-        os.environ["EDNA_TMP_DIR"] = strTmpDir
+        self.strTmpDir = tempfile.mkdtemp(prefix="EDPluginControlReadImageHeaderv10_")
+        os.environ["EDNA_TMP_DIR"] = self.strTmpDir
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputReadImageHeader_ADSC_waitFile.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultReadImageHeader_ADSC_reference.xml"))
         self.strInputDataFile = os.path.join(self.getTestsDataImagesHome(), "ref-testscale_1_001.img")
-        self.strInputDataFileNew = os.path.join(strTmpDir, "ref-testscale_1_001.img")
+        self.strInputDataFileNew = os.path.join(self.strTmpDir, "ref-testscale_1_001.img")
 
 
     def preProcess(self):
@@ -71,6 +71,9 @@ class EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC_waitFile(EDTes
     def process(self):
         self.addTestMethod(self.testExecute)
 
+    def postProcess(self):
+        EDTestCasePluginExecutePluginControlReadImageHeaderv10.postProcess(self)
+        shutil.rmtree(self.strTmpDir)
 
 
 
