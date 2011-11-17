@@ -30,6 +30,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os
 
+from EDVerbose import EDVerbose
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
 
@@ -63,7 +64,15 @@ class EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3(EDTestCasePluginExecut
     def process(self):
         self.addTestMethod(self.testExecute)
 
-
+    def postProcess(self):
+        # try to remove any created directories in /tmp
+        listFilesTmp = os.listdir("/tmp")
+        for strFile in listFilesTmp:
+            if strFile.startswith("EDNA2html.log"):
+                try:
+                    os.remove(os.path.join("/tmp", strFile))
+                except:
+                    EDVerbose.unitTest("Couldn't delete temporary file: %s" % strFile)
 
 
 if __name__ == '__main__':

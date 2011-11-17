@@ -64,6 +64,7 @@ class EDTestCasePluginUnitPluginControlReadImageHeaderv10(EDTestCasePluginUnit):
         shutil.copyfile(strImage2, strImage3)
         strType3 = edPluginControlReadImageHeaderv10.determineImageType(strImage3)
         EDAssert.equal(strType3, "MARCCD")
+        os.remove(strImage3)
         # Test 4 : Pilatus 6M CBF image
         self.loadTestImage([ "FAE_1_1_00001.cbf" ])
         strImage1 = os.path.join(self.getTestsDataImagesHome(), "FAE_1_1_00001.cbf")
@@ -74,6 +75,7 @@ class EDTestCasePluginUnitPluginControlReadImageHeaderv10(EDTestCasePluginUnit):
         EDUtilsFile.writeFile(strImage4, "Dummy text string for EDTestCasePluginUnitPluginControlReadImageHeaderv10.testDetermineImageType")
         strType4 = edPluginControlReadImageHeaderv10.determineImageType(strImage4)
         EDAssert.equal(True, edPluginControlReadImageHeaderv10.isFailure())
+        os.remove(strImage4)
 
 
     def testDetermineExecReadImageHeaderPluginName(self):
