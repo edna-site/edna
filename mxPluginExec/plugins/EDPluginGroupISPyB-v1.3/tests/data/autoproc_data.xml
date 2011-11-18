@@ -23,6 +23,7 @@
 			<resolutionLimitHigh>2.03</resolutionLimitHigh>
 			<nTotalObservations>29138</nTotalObservations>
 			<rMerge>13.2</rMerge>
+			<anomalous>1</anomalous>
 		</AutoProcScalingStatistics>
 
 		<AutoProcScalingStatistics>
@@ -34,6 +35,7 @@
 			<resolutionLimitHigh>6.06</resolutionLimitHigh>
 			<nTotalObservations>1236</nTotalObservations>
 			<rMerge>3.6</rMerge>
+			<anomalous>1</anomalous>
 		</AutoProcScalingStatistics>
 
 		<AutoProcScalingStatistics>
@@ -45,6 +47,7 @@
 			<resolutionLimitHigh>2.03</resolutionLimitHigh>
 			<nTotalObservations>3197</nTotalObservations>
 			<rMerge>74.8</rMerge>
+			<anomalous>1</anomalous>
 		</AutoProcScalingStatistics>
  
  		<AutoProcIntegrationContainer>

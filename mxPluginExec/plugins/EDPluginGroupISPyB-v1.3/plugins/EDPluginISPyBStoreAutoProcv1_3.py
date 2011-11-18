@@ -330,6 +330,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         fAnomalousCompleteness = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalousCompleteness(), -1.0)
         fAnomalousMultiplicity = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalousMultiplicity(), -1.0)
         recordTimeStamp = DateTime(datetime.datetime.now())
+        bAnomalous = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalous(), False)
         iAutoProcScalingId = self.iAutoProcScalingId
         iAutoProcScalingStatisticsId = _clientToolsForMXCubeWebService.service.storeAutoProcScalingStatistic(
                 in0 = strScalingStatisticsType, \
@@ -350,7 +351,8 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
                 in15 = fAnomalousCompleteness, \
                 in16 = fAnomalousMultiplicity, \
                 in17 = recordTimeStamp, \
-                in18 = iAutoProcScalingId \
+                in18 = bAnomalous, \
+                in19 = iAutoProcScalingId \
                 )
         self.DEBUG("AutoProcScalingStatisticsId: %r" % iAutoProcScalingStatisticsId)
         return iAutoProcScalingStatisticsId

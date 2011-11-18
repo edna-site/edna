@@ -84,6 +84,7 @@ complex type AutoProcScalingStatistics {
 	multiplicity : float
 	anomalousCompleteness : float
 	anomalousMultiplicity : float
+	anomalous : boolean
 }
 
 complex type Image {

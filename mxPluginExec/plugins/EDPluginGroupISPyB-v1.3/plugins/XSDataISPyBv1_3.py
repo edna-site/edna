@@ -1,13 +1,42 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Oct 14 10:01::17 2011 by EDGenerateDS.
+# Generated Fri Nov 18 08:45::01 2011 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataImage
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataInput
@@ -871,6 +900,100 @@ class AutoProcIntegration(object):
 	parseFile = staticmethod( parseFile )
 # end class AutoProcIntegration
 
+class AutoProcIntegrationContainer(object):
+	def __init__(self, AutoProcIntegration=None, Image=None):
+		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", Image, "Image")
+		self.__Image = Image
+		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", AutoProcIntegration, "AutoProcIntegration")
+		self.__AutoProcIntegration = AutoProcIntegration
+	def getImage(self): return self.__Image
+	def setImage(self, Image):
+		checkType("AutoProcIntegrationContainer", "setImage", Image, "Image")
+		self.__Image = Image
+	def delImage(self): self.__Image = None
+	# Properties
+	Image = property(getImage, setImage, delImage, "Property for Image")
+	def getAutoProcIntegration(self): return self.__AutoProcIntegration
+	def setAutoProcIntegration(self, AutoProcIntegration):
+		checkType("AutoProcIntegrationContainer", "setAutoProcIntegration", AutoProcIntegration, "AutoProcIntegration")
+		self.__AutoProcIntegration = AutoProcIntegration
+	def delAutoProcIntegration(self): self.__AutoProcIntegration = None
+	# Properties
+	AutoProcIntegration = property(getAutoProcIntegration, setAutoProcIntegration, delAutoProcIntegration, "Property for AutoProcIntegration")
+	def export(self, outfile, level, name_='AutoProcIntegrationContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcIntegrationContainer'):
+		pass
+		if self.__Image is not None:
+			self.Image.export(outfile, level, name_='Image')
+		else:
+			warnEmptyAttribute("Image", "Image")
+		if self.__AutoProcIntegration is not None:
+			self.AutoProcIntegration.export(outfile, level, name_='AutoProcIntegration')
+		else:
+			warnEmptyAttribute("AutoProcIntegration", "AutoProcIntegration")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'Image':
+			obj_ = Image()
+			obj_.build(child_)
+			self.setImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcIntegration':
+			obj_ = AutoProcIntegration()
+			obj_.build(child_)
+			self.setAutoProcIntegration(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcIntegrationContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcIntegrationContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcIntegrationContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcIntegrationContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcIntegrationContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcIntegrationContainer
+
 class AutoProcProgram(object):
 	def __init__(self, processingEnvironment=None, processingEndTime=None, processingStartTime=None, processingMessage=None, processingStatus=None, processingPrograms=None, processingCommandLine=None):
 		checkType("AutoProcProgram", "Constructor of AutoProcProgram", processingCommandLine, "string")
@@ -1387,7 +1510,7 @@ class AutoProcScaling(object):
 # end class AutoProcScaling
 
 class AutoProcScalingStatistics(object):
-	def __init__(self, anomalousMultiplicity=None, anomalousCompleteness=None, multiplicity=None, completeness=None, meanIOverSigI=None, ntotalUniqueObservations=None, nTotalObservations=None, fractionalPartialBias=None, rpimAllIplusIminus=None, rpimWithinIplusIminus=None, rmeasAllIplusIminus=None, rmeasWithinIplusIminus=None, rMerge=None, resolutionLimitHigh=None, resolutionLimitLow=None, comments=None, scalingStatisticsType=None):
+	def __init__(self, anomalous=None, anomalousMultiplicity=None, anomalousCompleteness=None, multiplicity=None, completeness=None, meanIOverSigI=None, ntotalUniqueObservations=None, nTotalObservations=None, fractionalPartialBias=None, rpimAllIplusIminus=None, rpimWithinIplusIminus=None, rmeasAllIplusIminus=None, rmeasWithinIplusIminus=None, rMerge=None, resolutionLimitHigh=None, resolutionLimitLow=None, comments=None, scalingStatisticsType=None):
 		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", scalingStatisticsType, "string")
 		self.__scalingStatisticsType = scalingStatisticsType
 		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", comments, "string")
@@ -1422,6 +1545,8 @@ class AutoProcScalingStatistics(object):
 		self.__anomalousCompleteness = anomalousCompleteness
 		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", anomalousMultiplicity, "float")
 		self.__anomalousMultiplicity = anomalousMultiplicity
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", anomalous, "boolean")
+		self.__anomalous = anomalous
 	def getScalingStatisticsType(self): return self.__scalingStatisticsType
 	def setScalingStatisticsType(self, scalingStatisticsType):
 		checkType("AutoProcScalingStatistics", "setScalingStatisticsType", scalingStatisticsType, "string")
@@ -1541,6 +1666,13 @@ class AutoProcScalingStatistics(object):
 	def delAnomalousMultiplicity(self): self.__anomalousMultiplicity = None
 	# Properties
 	anomalousMultiplicity = property(getAnomalousMultiplicity, setAnomalousMultiplicity, delAnomalousMultiplicity, "Property for anomalousMultiplicity")
+	def getAnomalous(self): return self.__anomalous
+	def setAnomalous(self, anomalous):
+		checkType("AutoProcScalingStatistics", "setAnomalous", anomalous, "boolean")
+		self.__anomalous = anomalous
+	def delAnomalous(self): self.__anomalous = None
+	# Properties
+	anomalous = property(getAnomalous, setAnomalous, delAnomalous, "Property for anomalous")
 	def export(self, outfile, level, name_='AutoProcScalingStatistics'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1634,6 +1766,14 @@ class AutoProcScalingStatistics(object):
 			outfile.write(unicode('<anomalousMultiplicity>%e</anomalousMultiplicity>\n' % self.__anomalousMultiplicity))
 		else:
 			warnEmptyAttribute("anomalousMultiplicity", "float")
+		if self.__anomalous is not None:
+			showIndent(outfile, level)
+			if self.__anomalous:
+				outfile.write(unicode('<anomalous>true</anomalous>\n'))
+			else:
+				outfile.write(unicode('<anomalous>false</anomalous>\n'))
+		else:
+			warnEmptyAttribute("anomalous", "boolean")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1788,6 +1928,17 @@ class AutoProcScalingStatistics(object):
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
 				self.__anomalousMultiplicity = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'anomalous':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				if sval_ in ('True', 'true', '1'):
+					ival_ = True
+				elif sval_ in ('False', 'false', '0'):
+					ival_ = False
+				else:
+					raise ValueError('requires boolean -- %s' % child_.toxml())
+				self.__anomalous = ival_
 	#Method for marshalling an object
 	def marshal( self ):
 		oStreamString = StringIO()
@@ -2032,100 +2183,6 @@ class Image(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class Image
-
-class AutoProcIntegrationContainer(object):
-	def __init__(self, AutoProcIntegration=None, Image=None):
-		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", Image, "Image")
-		self.__Image = Image
-		checkType("AutoProcIntegrationContainer", "Constructor of AutoProcIntegrationContainer", AutoProcIntegration, "AutoProcIntegration")
-		self.__AutoProcIntegration = AutoProcIntegration
-	def getImage(self): return self.__Image
-	def setImage(self, Image):
-		checkType("AutoProcIntegrationContainer", "setImage", Image, "Image")
-		self.__Image = Image
-	def delImage(self): self.__Image = None
-	# Properties
-	Image = property(getImage, setImage, delImage, "Property for Image")
-	def getAutoProcIntegration(self): return self.__AutoProcIntegration
-	def setAutoProcIntegration(self, AutoProcIntegration):
-		checkType("AutoProcIntegrationContainer", "setAutoProcIntegration", AutoProcIntegration, "AutoProcIntegration")
-		self.__AutoProcIntegration = AutoProcIntegration
-	def delAutoProcIntegration(self): self.__AutoProcIntegration = None
-	# Properties
-	AutoProcIntegration = property(getAutoProcIntegration, setAutoProcIntegration, delAutoProcIntegration, "Property for AutoProcIntegration")
-	def export(self, outfile, level, name_='AutoProcIntegrationContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcIntegrationContainer'):
-		pass
-		if self.__Image is not None:
-			self.Image.export(outfile, level, name_='Image')
-		else:
-			warnEmptyAttribute("Image", "Image")
-		if self.__AutoProcIntegration is not None:
-			self.AutoProcIntegration.export(outfile, level, name_='AutoProcIntegration')
-		else:
-			warnEmptyAttribute("AutoProcIntegration", "AutoProcIntegration")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'Image':
-			obj_ = Image()
-			obj_.build(child_)
-			self.setImage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcIntegration':
-			obj_ = AutoProcIntegration()
-			obj_.build(child_)
-			self.setAutoProcIntegration(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcIntegrationContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class AutoProcIntegrationContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcIntegrationContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcIntegrationContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcIntegrationContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcIntegrationContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcIntegrationContainer
 
 class XSDataISPyBDataCollection(object):
 	def __init__(self, beamShape=None, xtalSnapshotFullPath4=None, xtalSnapshotFullPath3=None, xtalSnapshotFullPath2=None, xtalSnapshotFullPath1=None, printableForReport=None, comments=None, averageTemperature=None, centeringMethod=None, synchrotronMode=None, transmission=None, beamSizeAtSampleY=None, beamSizeAtSampleX=None, slitGapHorizontal=None, slitGapVertical=None, crystalClass=None, ybeam=None, xbeam=None, undulatorGap3=None, undulatorGap2=None, undulatorGap1=None, detectorMode=None, detector2theta=None, detectorDistance=None, resolutionAtCorner=None, resolution=None, wavelength=None, fileTemplate=None, imageSuffix=None, imagePrefix=None, imageDirectory=None, exposureTime=None, numberOfPasses=None, startImageNumber=None, numberOfImages=None, overlap=None, axisRange=None, axisEnd=None, axisStart=None, omegaStart=None, kappaStart=None, phiStart=None, rotationAxis=None, runStatus=None, endDate=None, startDate=None, dataCollectionNumber=None, experimentType=None, sessionId=None, blSampleId=None, dataCollectionId=None):
