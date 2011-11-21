@@ -44,6 +44,7 @@ from XSDataCommon import XSDataFile
 
 from XSDataISPyBv1_3 import XSDataInputRetrieveDataCollection
 from XSDataISPyBv1_3 import XSDataResultRetrieveDataCollection
+from XSDataISPyBv1_3 import XSDataISPyBDataCollection
 
 class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
     """
@@ -59,7 +60,6 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         self.strUserName = None
         self.strPassWord = None
         self.strToolsForMXCubeWebServiceWsdl = None
-        self.bContinue = True
 
     def configure(self):
         """
@@ -92,17 +92,27 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         infilename = os.path.basename(inpath)
         httpAuthenticatedToolsForMXCubeWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
         clientToolsForMXCubeWebService = Client(self.strToolsForMXCubeWebServiceWsdl, transport=httpAuthenticatedToolsForMXCubeWebService)
+        self.collectParameters = None
 
         # DataCollectionProgram
-        print [indir, infilename]
-        self.collectParameters = clientToolsForMXCubeWebService.service.findDataCollectionFromFileLocationAndFileName(\
-                                in0 = indir, \
-                                in1 = infilename )
-        print [self.collectParameters]
-        if self.collectParameters is None:
+        collect_params = clientToolsForMXCubeWebService.service.findDataCollectionFromFileLocationAndFileName(
+                         in0=indir,
+                         in1=infilename)
+        if collect_params is None:
             self.ERROR("Couldn't find collect for file %s in ISPyB!" % inpath)
             self.setFailure()
-            self.bContinue = False
+        else:
+            # the result is a suds.sudsobject.Object, we need to convert it
+            res = XSDataISPyBDataCollection()
+            try:
+                for k, v in collect_params:
+                    setattr(res, k, v)
+            except:
+                self.ERROR('something went wrong converting the result to a XSDataResultRetrieveDataCollection')
+                self.setFailure()
+            else:
+                self.collectParameters = XSDataResultRetrieveDataCollection()
+                self.collectParameters.dataCollection = res
 
 
     def postProcess(self, _edObject=None):
@@ -110,7 +120,7 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         """
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginISPyBRetrieveDataCollectionv1_3.postProcess")
-        self.setDataOutput(XSDataResultRetrieveDataCollection())
+        self.setDataOutput(self.collectParameters)
 
 
     def getValue(self, _oValue, _oDefaultValue=None):

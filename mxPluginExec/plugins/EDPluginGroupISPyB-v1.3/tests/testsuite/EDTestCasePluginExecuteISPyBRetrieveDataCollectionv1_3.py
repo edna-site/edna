@@ -45,7 +45,7 @@ class EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_3(EDTestCasePluginExe
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBRetrieveDataCollectionv1_3")
 
-        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
+        #self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputRetrieveDataCollection_reference.xml"))
 
 
@@ -54,7 +54,7 @@ class EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_3(EDTestCasePluginExe
         Runs the plugin and then compares expected output with obtained output to verify that it executed correctly. 
         """
         self.run()
-        
+
         # Check that the id extists in the results
         edPlugin = self.getPlugin()
         xsDataResult = edPlugin.getDataOutput()
