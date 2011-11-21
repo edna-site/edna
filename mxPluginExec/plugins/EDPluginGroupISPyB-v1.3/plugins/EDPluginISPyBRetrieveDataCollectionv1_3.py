@@ -42,8 +42,8 @@ from suds.sax.date import DateTime
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataFile
 
-from XSDataISPyBv1_3 import XSDataInputStoreDataCollection
-from XSDataISPyBv1_3 import XSDataResultStoreDataCollection
+from XSDataISPyBv1_3 import XSDataInputRetrieveDataCollection
+from XSDataISPyBv1_3 import XSDataResultRetrieveDataCollection
 
 class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
     """
@@ -55,7 +55,7 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         Sets default values for dbserver parameters 
         """
         EDPluginExec.__init__(self)
-        self.setXSDataInputClass(XSDataFile)
+        self.setXSDataInputClass(XSDataInputRetrieveDataCollection)
         self.strUserName = None
         self.strPassWord = None
         self.strToolsForMXCubeWebServiceWsdl = None
@@ -87,14 +87,18 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginISPyBRetrieveDataCollectionv1_3.process")
         infile = self.getDataInput()
-        inpath = infile.getPath()
+        inpath = infile.getImage().getPath().getValue()
         indir = os.path.dirname(inpath)
         infilename = os.path.basename(inpath)
         httpAuthenticatedToolsForMXCubeWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
         clientToolsForMXCubeWebService = Client(self.strToolsForMXCubeWebServiceWsdl, transport=httpAuthenticatedToolsForMXCubeWebService)
 
         # DataCollectionProgram
-        self.collectParameters = clientToolsForMXCubeWebService.findDataCollectionFromFileLocationAndFileName(indir, infilename)
+        print [indir, infilename]
+        self.collectParameters = clientToolsForMXCubeWebService.service.findDataCollectionFromFileLocationAndFileName(\
+                                in0 = indir, \
+                                in1 = infilename )
+        print [self.collectParameters]
         if self.collectParameters is None:
             self.ERROR("Couldn't find collect for file %s in ISPyB!" % inpath)
             self.setFailure()
@@ -106,7 +110,7 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         """
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginISPyBRetrieveDataCollectionv1_3.postProcess")
-        self.setDataOutput(self.collectParameters)
+        self.setDataOutput(XSDataResultRetrieveDataCollection())
 
 
     def getValue(self, _oValue, _oDefaultValue=None):

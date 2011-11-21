@@ -151,6 +151,14 @@ complex type XSDataResultStoreDataCollection extends XSDataResult {
 	dataCollectionId : XSDataInteger optional
 }
 
+complex type XSDataInputRetrieveDataCollection extends XSDataInput {
+	image : XSDataImage
+}
+
+complex type XSDataResultRetrieveDataCollection extends XSDataResult {
+	dataCollection : XSDataISPyBDataCollection
+}
+
 complex type XSDataISPyBDataCollection {
 	dataCollectionId : integer
 	blSampleId : integer
