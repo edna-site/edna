@@ -88,13 +88,14 @@ class EDPluginWaitFile(EDPlugin):
         self.setTimeInit()
         dirname = os.path.dirname(self.__filename)
         while self.getRunTime() < self.__timeout:
-            fd = os.open(dirname, os.O_RDONLY)
-            os.fstat(fd)
-            os.close(fd)
-            if os.path.exists(self.__filename):
-                self.__filesize = os.path.getsize(self.__filename)
-                if self.__filesize >= self.__expectedSize:
-                    break
+            if os.path.isdir(dirname):
+                fd = os.open(dirname, os.O_RDONLY)
+                os.fstat(fd)
+                os.close(fd)
+                if os.path.exists(self.__filename):
+                    self.__filesize = os.path.getsize(self.__filename)
+                    if self.__filesize >= self.__expectedSize:
+                        break
             time.sleep(EDPluginWaitFile.DELTA_TIME)
         self.setTimeEnd()
 
