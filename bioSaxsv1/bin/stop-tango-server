@@ -1,5 +1,5 @@
 #!/bin/bash
-testit=`ps -edf | grep DAU143 | grep -v grep | awk '{print $2}'`
+testit=`ps aux |grep tango-EdnaDS | grep DAU | grep -v grep | awk '{print $2}'`
 if [ "$testit" = "" ];then
   echo "edna is already stopped" 
 else 
