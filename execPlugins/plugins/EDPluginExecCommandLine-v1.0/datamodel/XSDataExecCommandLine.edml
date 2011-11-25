@@ -19,3 +19,13 @@ complex type XSDataInputExecCommandLine extends XSDataInput {
 complex type XSDataResultExecCommandLine extends XSDataResult {
 	outputFilename : XSDataFile optional
 }
+
+complex type XSDataInputRsync extends XSDataInput {
+	options : XSDataString optional
+	source : XSDataFile
+	destination: XSDataFile
+}
+
+complex type XSDataResultExecCommandLine extends XSDataResult {
+	log: XSDataString
+}

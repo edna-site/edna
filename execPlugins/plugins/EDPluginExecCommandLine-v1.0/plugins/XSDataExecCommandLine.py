@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Nov 25 01:46::23 2011 by EDGenerateDS.
+# Generated Fri Nov 25 05:38::50 2011 by EDGenerateDS.
 #
 
 import os, sys
@@ -11,8 +11,13 @@ from xml.dom import Node
 
 strEdnaHome = os.environ.get("EDNA_HOME", None)
 
-dictLocation = {
- "XSDataCommon": "kernel/datamodel"}
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+}
 
 try:
 	from XSDataCommon import XSDataBoolean
@@ -260,47 +265,175 @@ class XSDataInputExecCommandLine(XSDataInput):
 			self.setOutputPath(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal(self):
+	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export(oStreamString, 0, name_="XSDataInputExecCommandLine")
+		self.export( oStreamString, 0, name_="XSDataInputExecCommandLine" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile(self, _outfileName):
-		outfile = open(_outfileName, "w")
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export(outfile, 0, name_='XSDataInputExecCommandLine')
+		self.export( outfile, 0, name_='XSDataInputExecCommandLine' )
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile(self, _outfileName):
+	def outputFile( self, _outfileName ):
 		print("WARNING: Method outputFile in class XSDataInputExecCommandLine is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy(self):
+	def copy( self ):
 		return XSDataInputExecCommandLine.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString(_inString):
+	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputExecCommandLine()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export(oStreamString, 0, name_="XSDataInputExecCommandLine")
+		rootObj.export( oStreamString, 0, name_="XSDataInputExecCommandLine" )
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod(parseString)
+	parseString = staticmethod( parseString )
 	#Static method for parsing a file
-	def parseFile(_inFilePath):
+	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputExecCommandLine()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod(parseFile)
+	parseFile = staticmethod( parseFile )
 # end class XSDataInputExecCommandLine
+
+class XSDataInputRsync(XSDataInput):
+	def __init__(self, configuration=None, fireAndForget=None, destination=None, source=None, options=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", options, "XSDataString")
+		self.__options = options
+		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", source, "XSDataString")
+		self.__source = source
+		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", destination, "XSDataString")
+		self.__destination = destination
+		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", fireAndForget, "XSDataBoolean")
+		self.__fireAndForget = fireAndForget
+	def getOptions(self): return self.__options
+	def setOptions(self, options):
+		checkType("XSDataInputRsync", "setOptions", options, "XSDataString")
+		self.__options = options
+	def delOptions(self): self.__options = None
+	# Properties
+	options = property(getOptions, setOptions, delOptions, "Property for options")
+	def getSource(self): return self.__source
+	def setSource(self, source):
+		checkType("XSDataInputRsync", "setSource", source, "XSDataString")
+		self.__source = source
+	def delSource(self): self.__source = None
+	# Properties
+	source = property(getSource, setSource, delSource, "Property for source")
+	def getDestination(self): return self.__destination
+	def setDestination(self, destination):
+		checkType("XSDataInputRsync", "setDestination", destination, "XSDataString")
+		self.__destination = destination
+	def delDestination(self): self.__destination = None
+	# Properties
+	destination = property(getDestination, setDestination, delDestination, "Property for destination")
+	def getFireAndForget(self): return self.__fireAndForget
+	def setFireAndForget(self, fireAndForget):
+		checkType("XSDataInputRsync", "setFireAndForget", fireAndForget, "XSDataBoolean")
+		self.__fireAndForget = fireAndForget
+	def delFireAndForget(self): self.__fireAndForget = None
+	# Properties
+	fireAndForget = property(getFireAndForget, setFireAndForget, delFireAndForget, "Property for fireAndForget")
+	def export(self, outfile, level, name_='XSDataInputRsync'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputRsync'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__options is not None:
+			self.options.export(outfile, level, name_='options')
+		if self.__source is not None:
+			self.source.export(outfile, level, name_='source')
+		else:
+			warnEmptyAttribute("source", "XSDataString")
+		if self.__destination is not None:
+			self.destination.export(outfile, level, name_='destination')
+		else:
+			warnEmptyAttribute("destination", "XSDataString")
+		if self.__fireAndForget is not None:
+			self.fireAndForget.export(outfile, level, name_='fireAndForget')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'options':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setOptions(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'source':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setSource(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'destination':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setDestination(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fireAndForget':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setFireAndForget(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputRsync" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputRsync' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputRsync is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputRsync.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputRsync()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputRsync" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputRsync()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputRsync
 
 class XSDataResultExecCommandLine(XSDataResult):
 	def __init__(self, status=None, outputFilename=None):
@@ -336,46 +469,124 @@ class XSDataResultExecCommandLine(XSDataResult):
 			self.setOutputFilename(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal(self):
+	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export(oStreamString, 0, name_="XSDataResultExecCommandLine")
+		self.export( oStreamString, 0, name_="XSDataResultExecCommandLine" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile(self, _outfileName):
-		outfile = open(_outfileName, "w")
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export(outfile, 0, name_='XSDataResultExecCommandLine')
+		self.export( outfile, 0, name_='XSDataResultExecCommandLine' )
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile(self, _outfileName):
+	def outputFile( self, _outfileName ):
 		print("WARNING: Method outputFile in class XSDataResultExecCommandLine is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy(self):
+	def copy( self ):
 		return XSDataResultExecCommandLine.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString(_inString):
+	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultExecCommandLine()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export(oStreamString, 0, name_="XSDataResultExecCommandLine")
+		rootObj.export( oStreamString, 0, name_="XSDataResultExecCommandLine" )
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod(parseString)
+	parseString = staticmethod( parseString )
 	#Static method for parsing a file
-	def parseFile(_inFilePath):
+	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultExecCommandLine()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod(parseFile)
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultExecCommandLine
+
+class XSDataResultExecCommandLine(XSDataResult):
+	def __init__(self, status=None, log=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataResultExecCommandLine", "Constructor of XSDataResultExecCommandLine", log, "XSDataString")
+		self.__log = log
+	def getLog(self): return self.__log
+	def setLog(self, log):
+		checkType("XSDataResultExecCommandLine", "setLog", log, "XSDataString")
+		self.__log = log
+	def delLog(self): self.__log = None
+	# Properties
+	log = property(getLog, setLog, delLog, "Property for log")
+	def export(self, outfile, level, name_='XSDataResultExecCommandLine'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultExecCommandLine'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__log is not None:
+			self.log.export(outfile, level, name_='log')
+		else:
+			warnEmptyAttribute("log", "XSDataString")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'log':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setLog(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultExecCommandLine" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultExecCommandLine' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultExecCommandLine is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultExecCommandLine.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultExecCommandLine()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultExecCommandLine" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultExecCommandLine()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
 # end class XSDataResultExecCommandLine
 
 

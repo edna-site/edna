@@ -135,7 +135,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>20</value>
+					<value>30</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -379,6 +379,18 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-
+		<XSPluginItem>
+			<name>EDPluginExecRsync</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/sh</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/rsync</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 	</XSPluginList> 
 </XSConfiguration>
