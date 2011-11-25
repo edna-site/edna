@@ -391,7 +391,7 @@
     	<xs:complexContent>
     		<xs:extension base="XSDataResult">
     			<xs:sequence>
-    				<xs:element name="outputFile" type="XSDataFile"
+    				<xs:element name="outputFilename" type="XSDataFile"
     					minOccurs="1" maxOccurs="1">
     				</xs:element>
     				<xs:element name="rot" type="XSDataRotation"

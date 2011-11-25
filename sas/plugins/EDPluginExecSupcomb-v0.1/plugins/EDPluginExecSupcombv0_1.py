@@ -53,7 +53,7 @@ class EDPluginExecSupcombv0_1(EDPluginExecProcessScript):
 
         self.__bEnantiomorphs = True
         self.__bBackbone = False
-        
+
         self.__strOutputFileNameRaw = 'result_raw.pdb'
         self.__strOutputFileName = 'result.pdb'
         self.__fNSD = None
@@ -103,14 +103,14 @@ class EDPluginExecSupcombv0_1(EDPluginExecProcessScript):
     def postProcess(self, _edObject=None):
         EDPluginExecProcessScript.postProcess(self)
         EDVerbose.DEBUG("EDPluginExecSupcombv0_1.postProcess")
-        
+
         self.setDataOutput(self.parseSupcombOutputFile())
 
     def generateSupcombScript(self):
         EDVerbose.DEBUG("*** EDPluginExecSupcombv0_1.generateSupcombScript")
 
         self.setScriptCommandline("")
-        
+
         _tmpTemplateFileName = self.getDataInput().getTemplateFile().getPath().getValue()
         _tmpSuperimposeFileName = self.getDataInput().getSuperimposeFile().getPath().getValue()
         if self.__bBackbone:
@@ -132,30 +132,30 @@ class EDPluginExecSupcombv0_1(EDPluginExecProcessScript):
 
 
     def returnRotation(self, logLines):
-        
-        _psi = pi*float(logLines[0].split()[-1])/180.0
-        _theta = pi*float(logLines[1].split()[-1])/180.0
-        _phi = pi*float(logLines[2].split()[-1])/180.0
-            
-        q = [cos(_phi/2)*cos(_theta/2)*cos(_psi/2) +  sin(_phi/2)*sin(_theta/2)*sin(_psi/2), \
-             sin(_phi/2)*cos(_theta/2)*cos(_psi/2) -  cos(_phi/2)*sin(_theta/2)*sin(_psi/2), \
-             cos(_phi/2)*sin(_theta/2)*cos(_psi/2) +  sin(_phi/2)*cos(_theta/2)*sin(_psi/2), \
-             cos(_phi/2)*cos(_theta/2)*sin(_psi/2) -  sin(_phi/2)*sin(_theta/2)*cos(_psi/2)]
-            
-        return XSDataRotation(q[0],q[1],q[2],q[3])
-    
-    
+
+        _psi = pi * float(logLines[0].split()[-1]) / 180.0
+        _theta = pi * float(logLines[1].split()[-1]) / 180.0
+        _phi = pi * float(logLines[2].split()[-1]) / 180.0
+
+        q = [cos(_phi / 2) * cos(_theta / 2) * cos(_psi / 2) + sin(_phi / 2) * sin(_theta / 2) * sin(_psi / 2), \
+             sin(_phi / 2) * cos(_theta / 2) * cos(_psi / 2) - cos(_phi / 2) * sin(_theta / 2) * sin(_psi / 2), \
+             cos(_phi / 2) * sin(_theta / 2) * cos(_psi / 2) + sin(_phi / 2) * cos(_theta / 2) * sin(_psi / 2), \
+             cos(_phi / 2) * cos(_theta / 2) * sin(_psi / 2) - sin(_phi / 2) * sin(_theta / 2) * cos(_psi / 2)]
+
+        return XSDataRotation(q[0], q[1], q[2], q[3])
+
+
     def returnTranslation(self, logLines):
-        
+
         _vecTmp = []
         for line in logLines:
             _vecTmp.append(float(line.split()[-1]))
-            
-        return XSDataVectorDouble(_vecTmp[0],_vecTmp[1],_vecTmp[2])
-    
-    
+
+        return XSDataVectorDouble(_vecTmp[0], _vecTmp[1], _vecTmp[2])
+
+
     def parseSupcombOutputFile(self):
-        
+
         logFile = self.readProcessLogFile()
         logLines = logFile.splitlines()
 
@@ -167,15 +167,15 @@ class EDPluginExecSupcombv0_1(EDPluginExecProcessScript):
         xsDataResult.setNSD(xsNSD)
         xsDataResult.setRot(xsRot)
         xsDataResult.setTrns(xsTrns)
-        
+
         _pdbFilter = EDPDBFilter()
         _pdbFilter.filterPDBFile(os.path.join(self.getWorkingDirectory(), self.__strOutputFileNameRaw), \
-                                 os.path.join(self.getWorkingDirectory(),self.__strOutputFileName))
-        
+                                 os.path.join(self.getWorkingDirectory(), self.__strOutputFileName))
+
         pathOutputFile = XSDataString(os.path.join(self.getWorkingDirectory(), self.__strOutputFileName))
-        xsDataResult.setOutputFile(XSDataFile(pathOutputFile))
+        xsDataResult.setOutputFilename(XSDataFile(pathOutputFile))
 
         return xsDataResult
-    
-    def generateExecutiveSummary(self,__edPlugin=None):
+
+    def generateExecutiveSummary(self, __edPlugin=None):
             self.addExecutiveSummaryLine(self.readProcessLogFile())

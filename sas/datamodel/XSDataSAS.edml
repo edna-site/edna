@@ -19,18 +19,15 @@ complex type XSDataConfigGnom extends XSData {
 	input2 : XSDataFile optional
 	nskip1 : XSDataInteger optional
 	nskip2 : XSDataInteger optional
-	output : XSDataFile
-	optional
+	output : XSDataFile optional
 	iscale : XSDataInteger optional
 	plonp : XSDataBoolean
 	plores : XSDataBoolean
-	evaerr : XSDataBoolean
-	optional
+	evaerr : XSDataBoolean optional
 	ploerr : XSDataBoolean
 	lkern : XSDataBoolean optional
 	jobtyp : XSDataInteger optional
-	rmin : XSDataFloat
-	optional
+	rmin : XSDataFloat optional
 	rmax : XSDataFloat optional
 	lzrmin : XSDataBoolean optional
 	lzrmax : XSDataBoolean optional
@@ -73,8 +70,7 @@ complex type XSDataInputDammif extends XSDataInput {
 	symmetry : XSDataString
 	mode : XSDataString optional
 	chained : XSDataBoolean optional
-	constant : XSDataFloat
-	optional
+	constant : XSDataFloat optional
 }
 
 complex type XSDataInputDammin extends XSDataInput {
@@ -102,11 +98,9 @@ complex type XSDataInputGnom extends XSDataInput {
 complex type XSDataInputSolutionScattering extends XSDataInput {
 	title : XSDataString optional
 	experimentalDataQ : XSDataFloat [] optional
-	experimentalDataValues : XSDataFloat []
-	optional
+	experimentalDataValues : XSDataFloat [] optional
 	experimentalDataStdDev : XSDataFloat [] optional
-	rMaxSearchSettings : XSDataSolutionScatteringSettings
-	optional
+	rMaxSearchSettings : XSDataSolutionScatteringSettings optional
 	angularUnits : XSDataInteger optional
 	symmetry : XSDataString optional
 	mode : XSDataString optional
@@ -162,8 +156,7 @@ complex type XSDataResultGnom extends XSDataResult {
 	scatteringFitQ : XSDataFloat [] optional
 	scatteringFitValues : XSDataFloat [] optional
 	distributionR : XSDataFloat [] optional
-	distributionPr : XSDataFloat
-	[] optional
+	distributionPr : XSDataFloat [] optional
 	distributionErr : XSDataFloat [] optional
 	radiusOfCrossSection : XSDataFloat
 	radiusOfGyration : XSDataFloat
@@ -176,16 +169,14 @@ complex type XSDataResultSolutionScattering extends XSDataResult {
 	logFile : XSDataFile
 	pdbMoleculeFile : XSDataFile
 	pdbSolventFile : XSDataFile
-	scatteringFitQ : XSDataFloat []
-	optional
+	scatteringFitQ : XSDataFloat [] optional
 	scatteringFitValues : XSDataFloat [] optional
 	meanNSD : XSDataFloat optional
-	variationNSD : XSDataFloat
-	optional
+	variationNSD : XSDataFloat optional
 }
 
 complex type XSDataResultSupcomb extends XSDataResult {
-	outputFile : XSDataFile
+	outputFilename : XSDataFile
 	rot : XSDataRotation
 	trns : XSDataVectorDouble
 	NSD : XSDataFloat
