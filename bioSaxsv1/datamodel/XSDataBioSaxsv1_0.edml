@@ -216,6 +216,20 @@ complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
 	subtractedCurve: XSDataFile optional
 }
 
+complex type XSDataInputBioSaxsToSASv1_0 extends XSDataInput  {
+	"This is just a wrapper for the SAS downstream pipeline"
+	subtractedCurve: XSDataFile
+	firstPoint: XSDataInteger optional
+	lastPoint: XSDataInteger optional
+	qMax: XSDataDouble optional
+}
+
+complex type XSDataResultBioSaxsToSASv1_0 extends XSDataResult {
+	mergedCurve : XSDataFile
+	autoRg: XSDataAutoRg optional
+	subtractedCurve: XSDataFile optional
+}
+
 complex type XSDataInputBioSaxsReduceFileSeriev1_0 extends XSDataInput{
 	"Run ProcessOneFile on each file of a time time serie  "	
 	fileSerie: XSDataFileSeries

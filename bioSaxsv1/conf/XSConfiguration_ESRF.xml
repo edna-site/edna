@@ -34,15 +34,40 @@
 			<name>EDPluginBioSaxsReprocessv1_0</name>  
 		</XSPluginItem>
 
-	<XSPluginItem>
+		<XSPluginItem>
 			<name>EDPluginBioSaxsSmartMergev1_0</name>  
-		</XSPluginItem><XSPluginItem>
+		</XSPluginItem>
+		
+		<XSPluginItem>
 			<name>EDPluginBioSaxsSmartMergev1_0</name>  
-		</XSPluginItem><XSPluginItem>
+		</XSPluginItem>
+		
+		<XSPluginItem>
 			<name>EDPluginBioSaxsSmartMergev1_0</name>  
-		</XSPluginItem><XSPluginItem>
+		</XSPluginItem>
+		
+		<XSPluginItem>
 			<name>EDPluginBioSaxsSmartMergev1_0</name>  
-		</XSPluginItem><XSPluginItem>
-			<name>EDPluginControlSingleSamplev1_0</name>  
-		</XSPluginItem></XSPluginList> 
+		</XSPluginItem>
+		
+		<XSPluginItem>
+			<name>EDPluginBioSaxsToSASv1_0</name>
+            <XSParamList>
+                <XSParamItem>
+                    <name>maxThreads</name>
+                    <value>5</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>fileSize</name>
+                    <value>1000</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>timeOut</name>
+                    <value>1000</value>
+                </XSParamItem>
+
+            </XSParamList>
+		</XSPluginItem>
+	
+	</XSPluginList> 
 </XSConfiguration>

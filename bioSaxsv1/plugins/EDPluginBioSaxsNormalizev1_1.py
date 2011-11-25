@@ -213,6 +213,7 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
             self.lstProcessLog.append(strErr)
             self.setFailure()
         else:
+            self.log("EDPluginBioSaxsNormalizev1_1.WaitFile took %.3fs" % self.getRunTime())
             self.lstProcessLog.append("Normalizing EDF frame '%s' -> '%s'" % (self.strRawImage, self.strNormalizedImage))
 
 
