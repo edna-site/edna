@@ -1,0 +1,21 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+
+complex type XSDataInputExecCommandLine extends XSDataInput {
+	commandLineOptions : XSDataString optional
+	commandLineProgram : XSDataFile
+	fireAndForget : XSDataBoolean optional
+	inputFileName : XSDataFile
+	inputFileType : XSDataString optional
+	outfileFromStdout : XSDataBoolean optional
+	outputPath : XSDataFile optional
+}
+
+complex type XSDataResultExecCommandLine extends XSDataResult {
+	outputFilename : XSDataFile optional
+}

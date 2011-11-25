@@ -54,10 +54,10 @@ class EDPluginExecCommandLinev10(EDPluginExecProcessScript):
         """
         Checks the mandatory parameters like the name of the program and the input filename
         """
-        EDVerbose.DEBUG("EDPluginExecCommandLinev10.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getCommandLineProgram(), "No command line program provided")
-        self.checkMandatoryParameters(self.getDataInput().getInputFileName(), "No input filename provided")
+        self.DEBUG("EDPluginExecCommandLinev10.checkParameters")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.commandLineProgram, "No command line program provided")
+        self.checkMandatoryParameters(self.dataInput.inputFileName, "No input filename provided")
 
 
 
@@ -66,7 +66,7 @@ class EDPluginExecCommandLinev10(EDPluginExecProcessScript):
         Pre-Process: Generate the script 
         """
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginExecCommandLinev10.preProcess")
+        self.DEBUG("EDPluginExecCommandLinev10.preProcess")
         self.generateScript()
 
     def postProcess(self, _edObject=None):
@@ -74,27 +74,26 @@ class EDPluginExecCommandLinev10(EDPluginExecProcessScript):
         Post-Process: set the output of the plugin
         """
         EDPluginExecProcessScript.postProcess(self)
-        EDVerbose.DEBUG("EDPluginExecCommandLinev10.postProcess")
+        self.DEBUG("EDPluginExecCommandLinev10.postProcess")
 
         # Create some output data
         xsDataResult = XSDataResultExecCommandLine()
-        if self.getDataInput().getFireAndForget() is not None:
-            if self.getDataInput().getFireAndForget().getValue() is True:
+        if self.dataInput.getFireAndForget() is not None:
+            if self.dataInput.getFireAndForget().value is True:
                 self.setDataOutput(xsDataResult)
                 return
-        if self.getDataInput().getOutfileFromStdout() is not None:
-            #EDVerbose.DEBUG("*** getOutfileFromStdout = %s" % self.getDataInput().getOutfileFromStdout().getValue())
-            if self.getDataInput().getOutfileFromStdout().getValue() : # this is not clean ... should be 1 or True ... or whatever
-                if self.getDataInput().getOutputPath() is not None:
-                    outputPath = self.getDataInput().getOutputPath().getPath().getValue()
+        if self.dataInput.getOutfileFromStdout() is not None:
+            #self.DEBUG("*** getOutfileFromStdout = %s" % self.dataInput.getOutfileFromStdout().value)
+            if self.dataInput.getOutfileFromStdout().value : # this is not clean ... should be 1 or True ... or whatever
+                if self.dataInput.getOutputPath() is not None:
+                    outputPath = self.dataInput.getOutputPath().path.value
                     stdout = os.path.join(self.getWorkingDirectory() , self.getScriptLogFileName())
 
                     self.synchronizeOn()
                     if os.path.isdir(outputPath):
-                        outfile = os.path.join(outputPath, os.path.split(self.getDataInput().getInputFileName().getPath().getValue())[1])
+                        outfile = os.path.join(outputPath, os.path.split(self.dataInput.inputFileName.path.value)[1])
                     else:
                         outfile = outputPath
-#                        outpath = os.path.dirname(outfile)
                     if os.path.isfile(outfile):
                             takenNames = []
                             [mydir, myname] = os.path.split(outfile)
@@ -124,18 +123,18 @@ class EDPluginExecCommandLinev10(EDPluginExecProcessScript):
         The configure method modifies also the stdout from .log to .out ... if we are re-using stdout for the result  
 
         """
-        EDVerbose.DEBUG("EDPluginExecCommandLinev10.configure")
-        self.setScriptExecutable(self.getDataInput().getCommandLineProgram().getPath().getValue())
-        if self.getDataInput().getCommandLineOptions() :
-            strOptions = self.getDataInput().getCommandLineOptions().getValue() + " " + self.getDataInput().getInputFileName().getPath().getValue()
+        self.DEBUG("EDPluginExecCommandLinev10.configure")
+        self.setScriptExecutable(self.dataInput.commandLineProgram.path.value)
+        if self.dataInput.getCommandLineOptions() :
+            strOptions = self.dataInput.getCommandLineOptions().value + " " + self.dataInput.inputFileName.path.value
         else:
-            strOptions = self.getDataInput().getInputFileName().getPath()
+            strOptions = self.dataInput.inputFileName.path
         self.setScriptCommandline(strOptions)
         xsPluginItem = XSPluginItem()
         self.setConfiguration(xsPluginItem)
 
-        if self.getDataInput().getOutfileFromStdout() is not None:
-            if self.getDataInput().getOutfileFromStdout().getValue() :
+        if self.dataInput.getOutfileFromStdout() is not None:
+            if self.dataInput.getOutfileFromStdout().value :
                 if (self.getScriptBaseName() == None):
                     self.setScriptBaseName(self.getBaseName())
                 if (self.getScriptLogFileName() == None):
@@ -147,22 +146,24 @@ class EDPluginExecCommandLinev10(EDPluginExecProcessScript):
         """
         Returns a string containing the script to be excuted, either by a shell or by a a cluster management tool.
         """
-        EDVerbose.DEBUG("EDPluginExecCommandLine.generateScript")
-
-        strScript = "#!" + self.getScriptShell() + "\ncd " + self.getWorkingDirectory() + "\n"
+        self.DEBUG("EDPluginExecCommandLine.generateScript")
+        lstScript = ["#!%s" % self.getScriptShell()]
+        lstScript.append("cd %s" % self.getWorkingDirectory())
         # Execution
-        strScript += self.getScriptExecutable() + " " + self.getScriptCommandline() + " > " + self.getScriptLogFileName() + " 2> " + self.getScriptErrorLogFileName()
-        strScript += "&\nednaJobPid=$!\n"
-        strScript += "ednaJobHostName=$(hostname)\n"
-        strScript += "echo \"$ednaJobHostName $ednaJobPid\" > %s\n" % self.getPathToHostNamePidFile()
-        strScript += "wait $ednaJobPid\n"
-        # Add post-execution commands - if any
-        if (len(self.getListCommandPostExecution()) > 0):
-            for strCommandPostExecution in self.getListCommandPostExecution():
-                strScript += strCommandPostExecution + "\n"
-        return strScript
+        lstScript.append("%s %s > %s 2> %s &" % (self.getScriptExecutable(),
+                                           self.getScriptCommandline(),
+                                           self.getScriptLogFileName(),
+                                           self.getScriptErrorLogFileName()))
 
-        return strScript
+        lstScript.append("ednaJobPid=$! ")
+        lstScript.append("ednaJobHostName=$(hostname)")
+        lstScript.append("echo ${ednaJobHostName} ${ednaJobPid} > %s" % self.getPathToHostNamePidFile())
+        lstScript.append("wait $ednaJobPid")
+
+        # Add post-execution commands - if any
+        lstScript += self.getListCommandPostExecution()
+        return os.linesep.join(lstScript)
+
 
 
 
