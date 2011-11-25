@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Nov 25 05:38::50 2011 by EDGenerateDS.
+# Generated Fri Nov 25 06:29::24 2011 by EDGenerateDS.
 #
 
 import os, sys
@@ -308,16 +308,14 @@ class XSDataInputExecCommandLine(XSDataInput):
 # end class XSDataInputExecCommandLine
 
 class XSDataInputRsync(XSDataInput):
-	def __init__(self, configuration=None, fireAndForget=None, destination=None, source=None, options=None):
+	def __init__(self, configuration=None, destination=None, source=None, options=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", options, "XSDataString")
 		self.__options = options
-		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", source, "XSDataString")
+		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", source, "XSDataFile")
 		self.__source = source
-		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", destination, "XSDataString")
+		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", destination, "XSDataFile")
 		self.__destination = destination
-		checkType("XSDataInputRsync", "Constructor of XSDataInputRsync", fireAndForget, "XSDataBoolean")
-		self.__fireAndForget = fireAndForget
 	def getOptions(self): return self.__options
 	def setOptions(self, options):
 		checkType("XSDataInputRsync", "setOptions", options, "XSDataString")
@@ -327,25 +325,18 @@ class XSDataInputRsync(XSDataInput):
 	options = property(getOptions, setOptions, delOptions, "Property for options")
 	def getSource(self): return self.__source
 	def setSource(self, source):
-		checkType("XSDataInputRsync", "setSource", source, "XSDataString")
+		checkType("XSDataInputRsync", "setSource", source, "XSDataFile")
 		self.__source = source
 	def delSource(self): self.__source = None
 	# Properties
 	source = property(getSource, setSource, delSource, "Property for source")
 	def getDestination(self): return self.__destination
 	def setDestination(self, destination):
-		checkType("XSDataInputRsync", "setDestination", destination, "XSDataString")
+		checkType("XSDataInputRsync", "setDestination", destination, "XSDataFile")
 		self.__destination = destination
 	def delDestination(self): self.__destination = None
 	# Properties
 	destination = property(getDestination, setDestination, delDestination, "Property for destination")
-	def getFireAndForget(self): return self.__fireAndForget
-	def setFireAndForget(self, fireAndForget):
-		checkType("XSDataInputRsync", "setFireAndForget", fireAndForget, "XSDataBoolean")
-		self.__fireAndForget = fireAndForget
-	def delFireAndForget(self): self.__fireAndForget = None
-	# Properties
-	fireAndForget = property(getFireAndForget, setFireAndForget, delFireAndForget, "Property for fireAndForget")
 	def export(self, outfile, level, name_='XSDataInputRsync'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -359,13 +350,11 @@ class XSDataInputRsync(XSDataInput):
 		if self.__source is not None:
 			self.source.export(outfile, level, name_='source')
 		else:
-			warnEmptyAttribute("source", "XSDataString")
+			warnEmptyAttribute("source", "XSDataFile")
 		if self.__destination is not None:
 			self.destination.export(outfile, level, name_='destination')
 		else:
-			warnEmptyAttribute("destination", "XSDataString")
-		if self.__fireAndForget is not None:
-			self.fireAndForget.export(outfile, level, name_='fireAndForget')
+			warnEmptyAttribute("destination", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -378,19 +367,14 @@ class XSDataInputRsync(XSDataInput):
 			self.setOptions(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'source':
-			obj_ = XSDataString()
+			obj_ = XSDataFile()
 			obj_.build(child_)
 			self.setSource(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'destination':
-			obj_ = XSDataString()
+			obj_ = XSDataFile()
 			obj_.build(child_)
 			self.setDestination(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'fireAndForget':
-			obj_ = XSDataBoolean()
-			obj_.build(child_)
-			self.setFireAndForget(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -511,25 +495,25 @@ class XSDataResultExecCommandLine(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultExecCommandLine
 
-class XSDataResultExecCommandLine(XSDataResult):
+class XSDataResultExecRsync(XSDataResult):
 	def __init__(self, status=None, log=None):
 		XSDataResult.__init__(self, status)
-		checkType("XSDataResultExecCommandLine", "Constructor of XSDataResultExecCommandLine", log, "XSDataString")
+		checkType("XSDataResultExecRsync", "Constructor of XSDataResultExecRsync", log, "XSDataString")
 		self.__log = log
 	def getLog(self): return self.__log
 	def setLog(self, log):
-		checkType("XSDataResultExecCommandLine", "setLog", log, "XSDataString")
+		checkType("XSDataResultExecRsync", "setLog", log, "XSDataString")
 		self.__log = log
 	def delLog(self): self.__log = None
 	# Properties
 	log = property(getLog, setLog, delLog, "Property for log")
-	def export(self, outfile, level, name_='XSDataResultExecCommandLine'):
+	def export(self, outfile, level, name_='XSDataResultExecRsync'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataResultExecCommandLine'):
+	def exportChildren(self, outfile, level, name_='XSDataResultExecRsync'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
 		if self.__log is not None:
 			self.log.export(outfile, level, name_='log')
@@ -550,7 +534,7 @@ class XSDataResultExecCommandLine(XSDataResult):
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultExecCommandLine" )
+		self.export( oStreamString, 0, name_="XSDataResultExecRsync" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -558,24 +542,24 @@ class XSDataResultExecCommandLine(XSDataResult):
 	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultExecCommandLine' )
+		self.export( outfile, 0, name_='XSDataResultExecRsync' )
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultExecCommandLine is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class XSDataResultExecRsync is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return XSDataResultExecCommandLine.parseString(self.marshal())
+		return XSDataResultExecRsync.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultExecCommandLine()
+		rootObj = XSDataResultExecRsync()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultExecCommandLine" )
+		rootObj.export( oStreamString, 0, name_="XSDataResultExecRsync" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -583,11 +567,11 @@ class XSDataResultExecCommandLine(XSDataResult):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultExecCommandLine()
+		rootObj = XSDataResultExecRsync()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class XSDataResultExecCommandLine
+# end class XSDataResultExecRsync
 
 
 
