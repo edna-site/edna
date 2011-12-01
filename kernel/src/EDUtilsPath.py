@@ -26,6 +26,7 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import with_statement
 
 __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer" ]
 __contact__ = "svensson@esrf.fr"
@@ -35,6 +36,14 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, glob, threading
 from EDVerbose import EDVerbose
+from os.path import dirname, abspath, exists
+
+class classproperty(property):
+    def __get__(self, obj, type_):
+        return self.fget.__get__(None, type_)()
+    def __set__(self, obj, value):
+        cls = type(obj)
+        return self.fset.__get__(None, cls)(value)
 
 
 class EDUtilsPath:
@@ -42,134 +51,116 @@ class EDUtilsPath:
     This is a static utility class for handling of paths.
     """
 
-    __EDNA_HOME = None
-    __EDNA_SITE = None
+    EDNA_HOME = dirname(dirname(dirname(abspath(__file__))))
+    _EDNA_SITE = None
     __semaphore = threading.Semaphore()
 
 
-    @staticmethod
-    def appendListOfPaths(_strPath, _listOfPaths):
+    @classmethod
+    def appendListOfPaths(cls, _strPath, _listOfPaths):
         """
         Appends a list of paths to a path, for example [ "..", "..", "..", "..", "src" ],
         and returns the absolute path.
         """
-        strNewPath = _strPath
-        for strPath in _listOfPaths:
-            strNewPath = os.path.join(strNewPath, strPath)
-        return os.path.abspath(strNewPath)
+
+        return abspath(os.path.join(_strPath, * _listOfPaths))
 
 
-    @staticmethod
-    def mergePath(_strPath1, _strPath2):
+    @classmethod
+    def mergePath(cls, _strPath1, _strPath2):
         """
         Merges two paths and returns the absolute path.
         Deprecated: please use 'os.path.join' instead
         """
-        EDVerbose.DEBUG("EDUtilsPath.mergePath is deprecated, please use 'os.path.join' instead")
+        EDVerbose.log("EDUtilsPath.mergePath is deprecated, please use 'os.path.join' instead")
         strNewPath = os.path.join(_strPath1, _strPath2)
-        return os.path.abspath(strNewPath)
+        return abspath(strNewPath)
 
 
-    @staticmethod
-    def getAbsolutePath(_strPath):
+    @classmethod
+    def getAbsolutePath(cls, _strPath):
         """
         Returns the absolute path.
         Deprecated: please use 'os.path.abspath' instead
         """
-        EDVerbose.DEBUG("EDUtilsPath.getAbsolutePath is deprecated, please use 'os.path.abspath' instead")
-        return os.path.abspath(_strPath)
+        EDVerbose.log("EDUtilsPath.getAbsolutePath is deprecated, please use 'os.path.abspath' instead")
+        return abspath(_strPath)
 
 
-    @staticmethod
-    def existPath(_strPath):
+    @classmethod
+    def existPath(cls, _strPath):
         """
         Checks if a folder exists.
         Deprecated: please use 'os.path.exists' instead
         """
-        EDVerbose.DEBUG("EDUtilsPath.existPath is deprecated, please use 'os.path.exists' instead")
-        return os.path.exists(_strPath)
+        EDVerbose.log("EDUtilsPath.existPath is deprecated, please use 'os.path.exists' instead")
+        return exists(_strPath)
 
 
-    @staticmethod
-    def getEdnaHome():
+    @classmethod
+    def getEdnaHome(cls):
         """
         Returns the EDNA_HOME variable from environment if not already defined
         """
-        # EDNA Home
-        if EDUtilsPath.__EDNA_HOME == None:
-            strEdnaHome = os.environ.get("EDNA_HOME")
-            if(strEdnaHome is None):
-                EDVerbose.error(" *** EDNA_HOME environment variable not defined.")
-            else:
-                EDUtilsPath.__EDNA_HOME = os.path.abspath(strEdnaHome)
-                EDVerbose.DEBUG("EDUtilsPath.getEdnaHome: EDNA_HOME: " + EDUtilsPath.__EDNA_HOME)
-                if not os.path.exists(EDUtilsPath.__EDNA_HOME):
-                    EDVerbose.error("EDNA_HOME directory not found : %s" % EDUtilsPath.__EDNA_HOME)
-        # Raise an error exception in case EDNA_HOME is not defined - normally this should never happen
-        if (EDUtilsPath.__EDNA_HOME is None):
-            strErrorMessage = "FATAL ERROR: EDNA_HOME is not defined."
-            EDVerbose.error(strErrorMessage)
-            raise RuntimeError, strErrorMessage
-        return EDUtilsPath.__EDNA_HOME
+        return cls.EDNA_HOME
 
 
-    @staticmethod
-    def setEdnaHome(_strEdnaHome):
+    @classmethod
+    def setEdnaHome(cls, _strEdnaHome):
         """
         Sets EDNA_HOME home
         """
-        EDUtilsPath.__EDNA_HOME = _strEdnaHome
+        cls.EDNA_HOME = _strEdnaHome
 
 
-    @staticmethod
-    def getEdnaSite():
+    @classmethod
+    def getEdnaSite(cls):
         """
         Returns the EDNA_SITE variable from environment
         """
         # EDNA Site
-        if(EDUtilsPath.__EDNA_SITE == None):
-            EDUtilsPath.__EDNA_SITE = os.environ.get("EDNA_SITE")
-            if(EDUtilsPath.__EDNA_SITE is None):
+        if(cls._EDNA_SITE == None):
+            cls._EDNA_SITE = os.environ.get("EDNA_SITE")
+            if(cls._EDNA_SITE is None):
                 EDVerbose.warning("EDUtilsPath.getEdnaSite: EDNA_SITE not set, using EDNA_SITE='default'")
-                EDUtilsPath.__EDNA_SITE = "default"
+                cls._EDNA_SITE = "default"
             else:
-                EDVerbose.DEBUG("EDUtilsPath.getEdnaSite: EDNA_SITE is set: " + EDUtilsPath.__EDNA_SITE)
-        return EDUtilsPath.__EDNA_SITE
+                EDVerbose.DEBUG("EDUtilsPath.getEdnaSite: EDNA_SITE is set: %s" % cls._EDNA_SITE)
+        return cls._EDNA_SITE
 
 
-    @staticmethod
-    def setEdnaSite(_strEdnaSite):
+    @classmethod
+    def setEdnaSite(cls, _strEdnaSite):
         """
         Sets EDNA_SITE
         """
-        EDUtilsPath.__EDNA_SITE = _strEdnaSite
+        cls._EDNA_SITE = _strEdnaSite
+    EDNA_SITE = classproperty(getEdnaSite, setEdnaSite)
 
-
-    @staticmethod
-    def getCwd():
+    @classmethod
+    def getCwd(cls):
         """
         Returns the current directory.
         Deprecated: please use 'os.getcwd' instead
         """
-        EDVerbose.DEBUG("EDUtilsPath.getCwd is deprecated, please use 'os.getcwd' instead")
+        EDVerbose.log("EDUtilsPath.getCwd is deprecated, please use 'os.getcwd' instead")
         return os.getcwd()
 
 
-    @staticmethod
-    def createFolder(_strFolderName):
+    @classmethod
+    def createFolder(cls, _strFolderName):
         """
         Creates a folder (directory) if it doesn't already exists.
         This used to be deprecated but IS neverthless thread safe (see bug#681)
         """
-        EDVerbose.DEBUG("EDUtilsPath.createFolder: %s" % _strFolderName)
-        EDUtilsPath.__semaphore.acquire()
-        if (not os.path.exists(_strFolderName)):
-            os.makedirs(_strFolderName)
-        EDUtilsPath.__semaphore.release()
+        EDVerbose.log("EDUtilsPath.createFolder: %s" % _strFolderName)
+        with cls.__semaphore:
+            if (not exists(_strFolderName)):
+                os.makedirs(_strFolderName)
 
 
-    @staticmethod
-    def getFileList(_strPath="./", _strMask="*"):
+    @classmethod
+    def getFileList(cls, _strPath="./", _strMask="*"):
         """
         Returns a list of file and directory names given a path to a directory.
         """
@@ -185,13 +176,12 @@ class EDUtilsPath:
         return listFile
 
 
-    @staticmethod
-    def getFolderName(_str):
+    @classmethod
+    def getFolderName(cls, _str):
         """
         Returns the name of a folder (directory) for a given path.
         Deprecated: please use 'os.path.dirname' instead
         """
-        #EDVerbose.DEBUG( "EDUtilsPath.getFolderName is deprecated, please use 'os.path.dirname' instead" )
-        return os.path.dirname(_str)
+        return dirname(_str)
 
 
