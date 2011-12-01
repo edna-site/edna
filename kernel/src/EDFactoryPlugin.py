@@ -28,6 +28,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
+
 __authors__ = ["Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
@@ -103,12 +104,12 @@ class EDFactoryPlugin(EDLogging):
 
     def __init__(self):
         EDLogging.__init__(self)
-        strEdnaHome = EDUtilsPath.getEdnaHome()
+        strEdnaHome = EDUtilsPath.EDNA_HOME
         # Default plugin root directory: $EDNA_HOME
         self.__listPluginRootDirectory = [ strEdnaHome ]
         self.__dictModuleLocation = None
         self.__strCacheFileName = ".XSDataDictionaryModule.xml"
-        self.__strPathToModuleCache = os.path.abspath(os.path.join(EDUtilsPath.getEdnaHome(), self.__strCacheFileName))
+        self.__strPathToModuleCache = os.path.abspath(os.path.join(EDUtilsPath.EDNA_HOME, self.__strCacheFileName))
 
 
 
@@ -136,7 +137,7 @@ class EDFactoryPlugin(EDLogging):
         @type _strPath: python string
         """
         xsDataDictionaryPlugin = XSDataDictionary()
-        strEdnaHome = EDUtilsPath.getEdnaHome()
+        strEdnaHome = EDUtilsPath.EDNA_HOME
         for strModule in self.__dictModuleLocation:
             xsDataKeyValuePair = XSDataKeyValuePair()
             xsDataKeyValuePair.setKey(XSDataString(strModule))
@@ -161,7 +162,7 @@ class EDFactoryPlugin(EDLogging):
         @type _strPath: python string
         """
         #strPath = None
-        strEdnaHome = EDUtilsPath.getEdnaHome()
+        strEdnaHome = EDUtilsPath.EDNA_HOME
         self.__dictModuleLocation = {}
         try:
             xsDataDictionaryPlugin = XSDataDictionary.parseFile(_strPath)
@@ -212,9 +213,9 @@ class EDFactoryPlugin(EDLogging):
                 if (_strModuleName in self.__dictModuleLocation.keys()):
                     strModuleLocation = self.__dictModuleLocation[ _strModuleName ]
                     # Fix for bug #395 - update the saved cache
-                    EDVerbose.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % self.__strPathToModuleCache)
+                    self.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % self.__strPathToModuleCache)
                 else:
-                    EDVerbose.DEBUG("EDFactoryPlugin.loadModule: module %s not found after forced reload of all modules." % _strModuleName)
+                    self.DEBUG("EDFactoryPlugin.loadModule: module %s not found after forced reload of all modules." % _strModuleName)
         return strModuleLocation
 
 
@@ -230,7 +231,7 @@ class EDFactoryPlugin(EDLogging):
             # Move up a directory
             strPreviousDirectory = strCurrentDirectory
             strCurrentDirectory = os.path.abspath(os.path.join(strCurrentDirectory, ".."))
-            if strCurrentDirectory == EDUtilsPath.getEdnaHome() or strCurrentDirectory == strPreviousDirectory:
+            if strCurrentDirectory == EDUtilsPath.EDNA_HOME or strCurrentDirectory == strPreviousDirectory:
                 bContinueSearching = False
         return strDirectoryIgnored
 
@@ -276,17 +277,19 @@ class EDFactoryPlugin(EDLogging):
             self.__dictModuleLocation = {}
         strDirectoryIgnored = self.checkDirectoriesForIgnoreFile(_strDirectoryVisit)
         if strDirectoryIgnored:
-            EDVerbose.DEBUG("Directory %s ignored because directory %s contains %s" % (_strDirectoryVisit, strDirectoryIgnored, EDFactoryPlugin.IGNORE_FILE))
+            self.DEBUG("Directory %s ignored because directory %s contains %s" % (_strDirectoryVisit, strDirectoryIgnored, EDFactoryPlugin.IGNORE_FILE))
         else:
             for strFileName in _listDirectory:
                 if strFileName.endswith(".py"):
                     # Strip off the ".py" exctension
                     strPluginName = strFileName[:-3]
                     if (strPluginName in self.__dictModuleLocation.keys() and self.isPlugin(strFileName)):
-                        EDVerbose.error("EDFactoryPlugin: Found multiple plugins/modules with the same name!")
-                        EDVerbose.error("EDFactoryPlugin: Plugin/module already loaded:" + strPluginName + ", location: " + self.__dictModuleLocation[ strPluginName ])
-                        EDVerbose.error("EDFactoryPlugin: Duplicate plugin/module definition in :" + _strDirectoryVisit)
-                        raise RuntimeError
+                        lstError = ["EDFactoryPlugin: Found multiple plugins/modules with the same name!",
+                                    "Plugin/module already loaded: %s, location: %s" % (strPluginName, self.__dictModuleLocation[ strPluginName ]),
+                                    "Duplicate plugin/module definition in : %s" % _strDirectoryVisit]
+                        strError = os.linesep.join(lstError)
+                        self.error(strError)
+                        raise RuntimeError(strError)
                     else:
                         self.__dictModuleLocation[ strPluginName ] = _strDirectoryVisit
 
@@ -328,9 +331,9 @@ class EDFactoryPlugin(EDLogging):
             if oModule:
                 edPlugin = oModule.__dict__[ _strPluginName ]()
             else:
-                EDVerbose.error("Plugin %s couldn't be loaded from %s" % (_strPluginName, strModuleLocation))
+                self.error("Plugin %s couldn't be loaded from %s" % (_strPluginName, strModuleLocation))
         else:
-            EDVerbose.error("Plugin not found: " + _strPluginName)
+            self.error("Plugin not found: " + _strPluginName)
         return edPlugin
 
 
@@ -408,7 +411,7 @@ class EDFactoryPlugin(EDLogging):
         strProjectRootDirectory = self.getProjectRootDirectory(_strModuleName)
         with self.locked():
             if (strProjectRootDirectory is not None):
-                strProjectName = EDUtilsFile.getBaseName(strProjectRootDirectory)
+                strProjectName = os.path.basename(strProjectRootDirectory)
         return strProjectName
 
 
@@ -433,17 +436,17 @@ class EDFactoryPlugin(EDLogging):
                 strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.getEdnaSite()
                 strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
                                                                                 strConfigurationFileName))
-                EDVerbose.DEBUG("Looking for configuration file for %s in %s" %
+                self.DEBUG("Looking for configuration file for %s in %s" %
                                 (_strModuleName, strPathToProjectConfigurationFile))
                 bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
-                if strCurrentDirectory in (EDUtilsPath.getEdnaHome(), strPreviousDirectory):
+                if strCurrentDirectory in (EDUtilsPath.EDNA_HOME, strPreviousDirectory):
                     strPathToProjectConfigurationFile = None
                     break
         return strPathToProjectConfigurationFile
 
 
     @classmethod
-    def preImport(cls, _strModuleName, _strPath=None, _strForceVersion=None, _strMethodVersion="version"):
+    def preImport(cls, _strModuleName, _strPath=None, _strForceVersion=None, _strMethodVersion=None):
         """
         Static method that import locally with a lock and keeps track of already imported module.
         @param _strModuleName: Name of the module to import
@@ -493,4 +496,4 @@ class EDFactoryPlugin(EDLogging):
         else:
             EDVerbose.WARNING("EDFactoryPlugin.unImport: Module %s is not loaded. " % _strModuleName)
 
-
+edFactoryPlugin = EDFactoryPlugin()
