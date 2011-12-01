@@ -42,7 +42,7 @@ This class is taking care of the workflow preProcess - process - postProcess.
 """
 
 
-import time, gc
+import time, gc, os
 from threading   import Thread
 from EDSlot      import EDSlot
 from EDVerbose   import EDVerbose
@@ -83,7 +83,7 @@ class EDAction(EDLogging, Thread):
         # Reference to the object which calls execute or executeSynchronous
         self.__edObject = None
         self.__lExtraTime = [] # list of extra allowed time for execution (in second)
-
+        self.__bLogTiming = False
 
     def executeKernel(self):
         dictTimeStamps = { "init": time.time() }
@@ -91,122 +91,113 @@ class EDAction(EDLogging, Thread):
         try:
 
             if (not self.isFailure()):
-                EDVerbose.DEBUG("EDAction.executeKernel preProcess " + self.getClassName())
+                self.DEBUG("EDAction.executeKernel preProcess " + self.getClassName())
                 self.preProcess()
-                if EDVerbose.isVerboseDebug():
+                if self.__bLogTiming:
                     dictTimeStamps["preProcess"] = time.time()
 
             if (not self.isFailure()):
-                EDVerbose.DEBUG("EDAction.executeKernel slotPreProcess " + self.getClassName())
+                self.DEBUG("EDAction.executeKernel slotPreProcess " + self.getClassName())
                 self.__edSlotPreProcess.call(self)
-                if EDVerbose.isVerboseDebug():
+                if self.__bLogTiming:
                     dictTimeStamps["slotPreProcess"] = time.time()
 
             if (not self.isFailure()):
-                EDVerbose.DEBUG("EDAction.executeKernel process " + self.getClassName())
+                self.DEBUG("EDAction.executeKernel process " + self.getClassName())
                 self.process()
-                if EDVerbose.isVerboseDebug():
+                if self.__bLogTiming:
                     dictTimeStamps["process"] = time.time()
 
             if (not self.isFailure()):
-                EDVerbose.DEBUG("EDAction.executeKernel slotProcess " + self.getClassName())
+                self.DEBUG("EDAction.executeKernel slotProcess " + self.getClassName())
                 self.__edSlotProcess.call(self)
-                if EDVerbose.isVerboseDebug():
+                if self.__bLogTiming:
                     dictTimeStamps["slotProcess"] = time.time()
 
             if (not self.isFailure()):
-                EDVerbose.DEBUG("EDAction.executeKernel postProcess " + self.getClassName())
+                self.DEBUG("EDAction.executeKernel postProcess " + self.getClassName())
                 self.postProcess()
-                if EDVerbose.isVerboseDebug():
+                if self.__bLogTiming:
                     dictTimeStamps["postProcess"] = time.time()
 
             if (not self.isFailure()):
-                EDVerbose.DEBUG("EDAction.executeKernel slotPostProcess " + self.getClassName())
+                self.DEBUG("EDAction.executeKernel slotPostProcess " + self.getClassName())
                 self.__edSlotPostProcess.call(self)
-                if EDVerbose.isVerboseDebug():
+                if self.__bLogTiming:
                     dictTimeStamps["slotPostProcess"] = time.time()
 
         except:
 
-            EDVerbose.writeErrorTrace()
+            self.writeErrorTrace()
             self.setFailure()
 
         # Execute finally process even in case of failure
-        EDVerbose.DEBUG("EDAction.executeKernel finallyProcess" + self.getClassName())
+        self.DEBUG("EDAction.executeKernel finallyProcess" + self.getClassName())
         try:
             self.finallyProcess()
-            if EDVerbose.isVerboseDebug():
+            if  self.__bLogTiming:
                 dictTimeStamps["finallyProcess"] = time.time()
         except:
-            EDVerbose.DEBUG("EDAction.executeKernel: ERROR in finallyProcess!")
-            EDVerbose.writeErrorTrace()
+            self.DEBUG("EDAction.executeKernel: ERROR in finallyProcess!")
+            self.writeErrorTrace()
             self.setFailure()
         try:
             self.__edSlotFinallyProcess.call(self)
         except:
-            EDVerbose.DEBUG("EDAction.executeKernel: ERROR in slotFinallyProcess!")
-            EDVerbose.writeErrorTrace()
+            self.DEBUG("EDAction.executeKernel: ERROR in slotFinallyProcess!")
+            self.writeErrorTrace()
             self.setFailure()
 
         if (not self.isFailure()):
-            EDVerbose.DEBUG("EDAction.executeKernel slotSUCCESS")
+            self.DEBUG("EDAction.executeKernel slotSUCCESS")
             # Check that something doesn't go wrong in the success method!
             try:
                 self.__edSlotSUCCESS.call(self)
-                if EDVerbose.isVerboseDebug():
+                if  self.__bLogTiming:
                     dictTimeStamps["slotSUCCESS"] = time.time()
 
             except:
-                EDVerbose.DEBUG("EDAction.executeKernel: ERROR in slotSUCCESS!")
-                EDVerbose.writeErrorTrace()
+                self.DEBUG("EDAction.executeKernel: ERROR in slotSUCCESS!")
+                self.writeErrorTrace()
                 self.setFailure()
 
         if (self.isFailure()):
-            EDVerbose.DEBUG("EDAction.executeKernel slotFAILURE")
+            self.DEBUG("EDAction.executeKernel slotFAILURE")
             # Check that something doesn't go wrong in the success method!
             try:
                 self.__edSlotFAILURE.call(self)
-                if EDVerbose.isVerboseDebug():
+                if  self.__bLogTiming:
                     dictTimeStamps["slotFAILURE"] = time.time()
             except:
-                EDVerbose.DEBUG("EDAction.executeKernel: ERROR in slotFAILURE!")
-                EDVerbose.writeErrorTrace()
+                self.DEBUG("EDAction.executeKernel: ERROR in slotFAILURE!")
+                self.writeErrorTrace()
 
         self.setTimeEnd()
-        if EDVerbose.isVerboseDebug():
+        if self.__bLogTiming:
+            lstTimings = []
+
             dictTimeStamps["end"] = time.time()
-            EDVerbose.DEBUG("EDAction.executeKernel %s       total time duration = %.3f s" % (self.getClassName(), dictTimeStamps["end"] - dictTimeStamps["init"]))
+            lstTimings.append("EDAction.executeKernel: profiling of %s %i \t total time duration = %.3f s" % (self.getClassName(), self.getId(), dictTimeStamps["end"] - dictTimeStamps["init"]))
             fTimeForFailureCalculation = dictTimeStamps["init"]
-            if dictTimeStamps.has_key("preProcess"):
-                EDVerbose.DEBUG("Profiling %s preProcess \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["preProcess"] - dictTimeStamps["init"]))
+            if "preProcess" in  dictTimeStamps:
+                lstTimings.append("\t preProcess \t\t time duration = %.3f s" % (dictTimeStamps["preProcess"] - dictTimeStamps["init"]))
                 fTimeForFailureCalculation = dictTimeStamps["preProcess"]
-            if dictTimeStamps.has_key("slotPreProcess"):
-#                EDVerbose.DEBUG("Profiling %s slotPreProcess \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["slotPreProcess"] - dictTimeStamps["preProcess"]))
-                fTimeForFailureCalculation = dictTimeStamps["slotPreProcess"]
-            if dictTimeStamps.has_key("process"):
-                EDVerbose.DEBUG("Profiling %s process \t\t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["process"] - dictTimeStamps["slotPreProcess"]))
+
+            if "process" in dictTimeStamps:
+                lstTimings.append("\t process \t\t time duration = %.3f s" % (dictTimeStamps["process"] - dictTimeStamps["slotPreProcess"]))
                 fTimeForFailureCalculation = dictTimeStamps["process"]
-            if dictTimeStamps.has_key("slotProcess"):
-#                EDVerbose.DEBUG("Profiling %s slotProcess \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["slotProcess"] - dictTimeStamps["process"]))
-                fTimeForFailureCalculation = dictTimeStamps["slotProcess"]
-            if dictTimeStamps.has_key("postProcess"):
-                EDVerbose.DEBUG("Profiling %s postProcess \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["postProcess"] - dictTimeStamps["slotProcess"]))
+            if "postProcess" in dictTimeStamps:
+                lstTimings.append("\t postProcess \t\t time duration = %.3f s" % (dictTimeStamps["postProcess"] - dictTimeStamps["slotProcess"]))
                 fTimeForFailureCalculation = dictTimeStamps["postProcess"]
-            if dictTimeStamps.has_key("slotPostProcess"):
-#                EDVerbose.DEBUG("Profiling %s slotPostProcess \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["slotPostProcess"] - dictTimeStamps["postProcess"]))
-                fTimeForFailureCalculation = dictTimeStamps["slotPostProcess"]
-            if dictTimeStamps.has_key("slotSUCCESS") and dictTimeStamps.has_key("slotFAILURE"):
-                EDVerbose.DEBUG("Profiling %s slotSUCCESS \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["slotSUCCESS"] - dictTimeStamps["slotPostProcess"]))
-                EDVerbose.DEBUG("Profiling %s slotFAILURE \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["slotFAILURE"] - dictTimeStamps["slotSUCCESS"]))
-                fTimeForFinallyCalculation = dictTimeStamps["slotFAILURE"]
-            elif dictTimeStamps.has_key("slotSUCCESS"):
-                EDVerbose.DEBUG("Profiling %s slotSUCCESS \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["slotSUCCESS"] - dictTimeStamps["slotPostProcess"]))
-                fTimeForFinallyCalculation = dictTimeStamps["slotSUCCESS"]
-            else:
-                EDVerbose.DEBUG("Profiling %s slotFAILURE \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["slotFAILURE"] - fTimeForFailureCalculation))
-                fTimeForFinallyCalculation = dictTimeStamps["slotFAILURE"]
+            fTimeForFinallyCalculation = fTimeForFailureCalculation
+            if "slotSUCCESS" in dictTimeStamps:
+                lstTimings.append("\t slotSUCCESS \t\t time duration = %.3f s" % (dictTimeStamps["slotSUCCESS"] - dictTimeStamps["slotPostProcess"]))
+                fTimeForFailureCalculation = dictTimeStamps["slotSUCCESS"]
+            if "slotFAILURE" in dictTimeStamps:
+                lstTimings.append("\t slotFAILURE \t\t time duration = %.3f s" % (dictTimeStamps["slotFAILURE"] - fTimeForFailureCalculation))
             if dictTimeStamps.has_key("finallyProcess"):
-                EDVerbose.DEBUG("Profiling %s FinallyProcess \t time duration = %.3f s" % (self.getClassName(), dictTimeStamps["finallyProcess"] - fTimeForFinallyCalculation))
+                lstTimings.append("\t finallyProcess \t time duration = %.3f s" % (dictTimeStamps["finallyProcess"] - fTimeForFinallyCalculation))
+            self.log(os.linesep.join(lstTimings))
 
     def synchronize(self):
         """
@@ -394,9 +385,9 @@ class EDAction(EDLogging, Thread):
 
 
     def finallyProcess(self, _edObject=None):
-        gc.collect()
+        pass
 
-    
+
     def execute(self, _edObject=None):
         self.__bIsStarted = True
         self.__edObject = _edObject
@@ -406,3 +397,14 @@ class EDAction(EDLogging, Thread):
     def executeSynchronous(self, _edObject=None):
         self.execute(_edObject)
         self.synchronize()
+
+
+    def setLogTiming(self, _bValue):
+        """
+        Force this action to log it's timing to file 
+        """
+        self.__bLogTiming = bool(_bValue)
+
+    def getLogTiming(self):
+        return self.__bLogTiming
+    logTiming = property(getLogTiming, setLogTiming)
