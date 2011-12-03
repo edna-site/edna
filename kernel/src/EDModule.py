@@ -95,6 +95,8 @@ class EDModule(EDLogging):
         @param _strMethodVersion: property or method to get the version number (should return a string)
         @return: Version number
         """
+        if _strMethodVersion is None:
+            return self.__version
         if _strMethodVersion.split(".")[0] in dir(self.__module):
             module = self.__module
             try:
@@ -116,7 +118,7 @@ class EDModule(EDLogging):
                 self.__version = None
         else:
             self.DEBUG("EDModule.retrieveVersion: Module %s has no attr/method %s" % (self.__name, _strMethodVersion))
-        return self.version
+        return self.__version
 
     def unImport(self):
         """
