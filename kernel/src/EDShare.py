@@ -37,12 +37,12 @@ from EDLogging              import EDLogging
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDSession              import EDSession
-
+from EDUtilsPath            import EDUtilsPath
 
 TEMPDIR = tempfile.gettempdir()
 
 if os.name in ["posix", "nt"]:
-    h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
+    h5pyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
     h5py = EDFactoryPluginStatic.preImport("h5py", _strPath=h5pyPath, _strForceVersion="1.8", _strMethodVersion="version.api_version")
 #    h5py = None
     if h5py is None:
