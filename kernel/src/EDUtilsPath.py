@@ -52,6 +52,7 @@ class EDUtilsPath:
     """
 
     EDNA_HOME = dirname(dirname(dirname(abspath(__file__))))
+    os.environ["EDNA_HOME"] = EDNA_HOME
     _EDNA_SITE = None
     __semaphore = threading.Semaphore()
 
