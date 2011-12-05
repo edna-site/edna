@@ -55,7 +55,8 @@ Image = EDFactoryPluginStatic.preImport("Image", imagingPath, _strMethodVersion=
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
 
 if h5py is None:
-    raise ImportError("EDPluginHDF5 cannot work without h5py !!!")
+    #raise ImportError("EDPluginHDF5 cannot work without h5py !!!")
+    import h5py
 
 
 if "EDNA_SITE" not in os.environ:
