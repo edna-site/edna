@@ -30,7 +30,9 @@ import os, time
 
 from EDVerbose                      import EDVerbose
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
-from EDPluginHDF5                   import EDPluginHDF5
+from EDFactoryPluginStatic          import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("EDPluginHDF5")
+#from EDPluginHDF5                   import EDPluginHDF5
 from EDAssert                       import EDAssert
 
 class EDTestCasePluginUnitHDF5(EDTestCasePluginUnit):
@@ -44,9 +46,12 @@ class EDTestCasePluginUnitHDF5(EDTestCasePluginUnit):
         """
         EDTestCasePluginUnit.__init__(self, "EDPluginHDF5")
 
+    def preProcess(self,):
+        self.edluginHDF5 = EDFactoryPluginStatic.loadPlugin("EDPluginHDF5")
+
 
     def testGetIsoTime(self):
-        isotime = EDPluginHDF5.getIsoTime()
+        isotime = self.edluginHDF5.getIsoTime()
         EDVerbose.screen("testGetIsoTime: %s" % (isotime))
         #EDAssert.equal(len(isotime.split(("T", "+"))), 3, "Check of Iso Time")
 
@@ -58,21 +63,21 @@ class EDTestCasePluginUnitHDF5(EDTestCasePluginUnit):
 
         testfile = "/tmp/edna-%s/test-empty.h5" % name
         struct = "/toto/titi/tata"
-        h5grp = EDPluginHDF5.createStructure(testfile, struct, {struct:{"foo":"bar"}, "/toto/titi":{"spam":"eggs"}, "/toto":{"tintin":"milou"}})
+        h5grp = self.edluginHDF5.createStructure(testfile, struct, {struct:{"foo":"bar"}, "/toto/titi":{"spam":"eggs"}, "/toto":{"tintin":"milou"}})
         EDAssert.equal(h5grp.name, struct, "Check the internal HDF5 path")
         EDAssert.equal(h5grp.file.filename, testfile, "Check the name of the HDF5 File")
-        EDPluginHDF5.flush(testfile)
+        self.edluginHDF5.flush(testfile)
         ds = h5grp.require_dataset("fake", (10, 10), "i")
         ds[2] = range(10)
-        EDPluginHDF5.flushAll()
-        EDAssert.equal(EDPluginHDF5.getDataChunk(testfile, struct + "/fake", "[2,6]"), 6, "Check the shape of the dataset written on the disk")
-        hdf = EDPluginHDF5.getHDF5File(testfile)
+        self.edluginHDF5.flushAll()
+        EDAssert.equal(self.edluginHDF5.getDataChunk(testfile, struct + "/fake", "[2,6]"), 6, "Check the shape of the dataset written on the disk")
+        hdf = self.edluginHDF5.getHDF5File(testfile)
         if "foo" in hdf[struct].attrs:
             EDAssert.equal(hdf[struct].attrs["foo"], "bar", "attributes are OK")
         else:
             raise RuntimeError("HDF5 attributes are not set correctly")
-        EDPluginHDF5.close(testfile)
-        EDPluginHDF5.closeAll()
+        self.edluginHDF5.close(testfile)
+        self.edluginHDF5.closeAll()
         EDAssert.isFile(testfile, "Check the existance of the destination HDF5 file")
 
     def process(self):

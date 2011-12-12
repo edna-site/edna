@@ -30,6 +30,8 @@ import os, time
 
 from EDVerbose                      import EDVerbose
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("EDPluginHDF5MapOfSpectrav10")
 from EDPluginHDF5MapOfSpectrav10    import EDPluginHDF5MapOfSpectrav10
 from EDAssert                       import EDAssert
 
