@@ -68,6 +68,7 @@
 					<RefinedDetectorDistance>399.763550</RefinedDetectorDistance>
 					<RefinedXbeam>1542.950195</RefinedXbeam>
 					<RefinedYbeam>1504.663696</RefinedYbeam>
+					<anomalous>1</anomalous>
 				</AutoProcIntegration>
 			</AutoProcIntegrationContainer>
 		</AutoProcScalingContainer>

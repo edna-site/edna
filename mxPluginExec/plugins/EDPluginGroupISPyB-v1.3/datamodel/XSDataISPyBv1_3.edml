@@ -109,6 +109,7 @@ complex type AutoProcIntegration {
 	cell_alpha : float
 	cell_beta : float
 	cell_gamma : float
+	anomalous : boolean
 }
 
 complex type AutoProcIntegrationContainer {

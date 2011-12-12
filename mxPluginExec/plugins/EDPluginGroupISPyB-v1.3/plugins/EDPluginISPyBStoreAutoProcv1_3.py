@@ -243,6 +243,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         fCellAlpha         = self.getValue(xsDataProcIntegration.getCell_alpha(), -1.0)
         fCellBeta          = self.getValue(xsDataProcIntegration.getCell_beta(), -1.0)
         fCellGamma         = self.getValue(xsDataProcIntegration.getCell_gamma(), -1.0)
+        bAnomalous         = self.getValue(xsDataProcIntegration.getAnomalous(), False)
         iDataCollectionId = _xsDataAutoProcIntegrationContainer.getImage().getDataCollectionId()        
         recordTimeStamp          = DateTime(datetime.datetime.now())
         iAutoProcIntegrationId = _clientToolsForMXCubeWebService.service.storeAutoProcIntegration(
@@ -265,7 +266,8 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
                 in16 = fCellBeta, \
                 in17 = fCellGamma, \
                 in18 = recordTimeStamp, \
-                in19 = iDataCollectionId \
+                in19 = iDataCollectionId, \
+                in20 = bAnomalous \
                 )
         self.DEBUG("AutoProcProgramIntegrationId: %r" % iAutoProcIntegrationId)
         return iAutoProcIntegrationId
