@@ -39,7 +39,7 @@ class EDModule(EDLogging):
     This class is a container for a module, it contains its name, it's path and the dict of modules
     """
 
-    def __init__(self, _strModuleName):
+    def __init__(self, _strModuleName, _strMethodVersion=None):
         EDLogging.__init__(self)
         self.DEBUG("EDModule.__init__ on %s" % _strModuleName)
         self.__name = _strModuleName
@@ -47,9 +47,10 @@ class EDModule(EDLogging):
         self.__path = None
         self.__dictSubModules = {}
         self.__version = None
+        self.__strMethodVersion = _strMethodVersion
 
 
-    def preImport(self, _strPath=None, _strMethodVersion="version"):
+    def preImport(self, _strPath=None, _strMethodVersion=None):
         """
         Load the module in memory
         @param _strPath: Path to the module to import
@@ -57,7 +58,7 @@ class EDModule(EDLogging):
         @return: reference to the module loaded
         """
         self.DEBUG("EDModule.preImport on %s from %s" % (self.__name, _strPath))
-
+        self.__strMethodVersion = _strMethodVersion
         if (self.__module is None):
             if _strPath and os.path.isdir(_strPath):
                 self.__path = _strPath
@@ -73,6 +74,16 @@ class EDModule(EDLogging):
                 self.__module = None
                 self.ERROR("Import error while preImporting %s from %s" % (self.__name, _strPath))
                 self.writeErrorTrace()
+                self.ERROR("Revert fragments of imported stuff from %s" % (self.__name))
+                #Solution from http://lucumr.pocoo.org/2011/9/21/python-import-blackbox/
+                exc_type, exc_value, tb_root = sys.exc_info()
+                tb = tb_root
+                while tb is not None:
+                    if tb.tb_frame.f_globals.get('__name__') == self.__name:
+                        raise exc_type, exc_value, tb_root
+                    tb = tb.tb_next
+                    self.__module = None
+
             dictModulesPostImport = sys.modules.copy()
             for module in dictModulesPreImport:
                 if module in dictModulesPostImport:
@@ -80,7 +91,7 @@ class EDModule(EDLogging):
             self.__dictSubModules = dictModulesPostImport
             self.synchronizeOff()
 
-            self.retrieveVersion(_strMethodVersion)
+            self.retrieveVersion(self.__strMethodVersion)
 
             try:
                 self.__path = self.module.__file__
@@ -88,37 +99,38 @@ class EDModule(EDLogging):
                 pass
         return self.__module
 
-
-    def retrieveVersion(self, _strMethodVersion="version"):
+    def retrieveVersion(self, _strMethodVersion=None):
         """
         Try to retrieve the version of a module using an attribute or a method ...
         @param _strMethodVersion: property or method to get the version number (should return a string)
         @return: Version number
         """
-        if _strMethodVersion is None:
+        self.__strMethodVersion = _strMethodVersion
+        if self.__strMethodVersion is None:
             return self.__version
-        if _strMethodVersion.split(".")[0] in dir(self.__module):
-            module = self.__module
-            try:
-                objVersion = eval("module.%s" % _strMethodVersion)
-            except Exception:
-                self.ERROR("EDModule.retrieveVersion: Module %s has no attr/method %s" % (self.__name, _strMethodVersion))
-                objVersion = None
-            if "__call__" in dir(objVersion):
-                try:
-                    self.__version = objVersion()
-                except:
-                    pass
+
+        objVersion = self.__module
+        for submod in self.__strMethodVersion.split("."):
+            if submod in dir(objVersion):
+                objVersion = getattr(objVersion, submod)
             else:
-                try:
-                    self.__version = objVersion
-                except:
-                    pass
-            if not isinstance(self.__version, (str, unicode)):
-                self.__version = None
+                self.ERROR("EDModule.retrieveVersion: Module %s has no attr/method %s in %s." % (self.__name, self.__strMethodVersion, submod))
+                objVersion = None
+                break
+        if "__call__" in dir(objVersion):
+            try:
+                self.__version = objVersion()
+            except:
+                pass
         else:
-            self.DEBUG("EDModule.retrieveVersion: Module %s has no attr/method %s" % (self.__name, _strMethodVersion))
+            try:
+                self.__version = objVersion
+            except:
+                pass
+#        if not isinstance(self.__version, (str, unicode)):
+#            self.__version = str(self.__version)
         return self.__version
+
 
     def unImport(self):
         """

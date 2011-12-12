@@ -334,6 +334,7 @@ class EDFactoryPlugin(EDLogging):
                 self.error("Plugin %s couldn't be loaded from %s" % (_strPluginName, strModuleLocation))
         else:
             self.error("Plugin not found: " + _strPluginName)
+#        self.warning('In EDFactoryPlugin: edPlugin is %s type %s' % (edPlugin, type(edPlugin)))
         return edPlugin
 
 
@@ -346,7 +347,7 @@ class EDFactoryPlugin(EDLogging):
         """
         strModuleLocation = self.getModuleLocation(_strModuleName)
         if (strModuleLocation is not None):
-            EDFactoryPlugin.preImport(_strModuleName, strModuleLocation)
+            return EDFactoryPlugin.preImport(_strModuleName, strModuleLocation)
 
 
 
@@ -474,6 +475,7 @@ class EDFactoryPlugin(EDLogging):
                 EDVerbose.WARNING("EDFactoryPlugin.preimport wrong module version: %s is %s not %s" % (_strModuleName, cls.__dictLoadedModules[_strModuleName].version, _strForceVersion))
                 cls.unImport(_strModuleName)
                 cls.preImport(_strModuleName, _strPath, _strForceVersion, _strMethodVersion)
+            oModule = cls.__dictLoadedModules[_strModuleName].module
         elif (cls.__dictLoadedModules[_strModuleName].version == ""):
             cls.__dictLoadedModules[_strModuleName].retrieveVersion(_strMethodVersion)
             oModule = cls.__dictLoadedModules[_strModuleName].module
