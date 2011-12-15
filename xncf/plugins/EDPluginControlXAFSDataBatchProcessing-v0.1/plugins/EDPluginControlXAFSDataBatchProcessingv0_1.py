@@ -26,7 +26,7 @@ __author__ = "irakli"
 __license__ = "GPLv3+"
 __copyright__ = "DLS"
 
-import os, h5py
+import os, h5py, re
 
 from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
@@ -117,7 +117,7 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
         if xsDataInputXAFSDataBatchProcessing.getFftfDataInput() is not None:
             self.setFftfParameters(xsDataInputXAFSDataBatchProcessing)
                        
-        self.__dictXAFSExperimentalData = dict([(dataset.getLabel().getValue(), dataset) for dataset in xsDataInputXAFSDataBatchProcessing.getXafsExperimentData()])    
+        self.__dictXAFSExperimentalData = dict([(self.__getDatasetLabel(dataset), dataset) for dataset in xsDataInputXAFSDataBatchProcessing.getXafsExperimentData()])    
 
 
     def setPreEdgeParameters(self, xsDataInputXAFSDataBatchProcessing):
@@ -196,7 +196,7 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
         _normDatasets = {1 : 'lni0it', 2 : 'pre', 3 : 'norm', 4 : 'bkg'}
         self.parseIfeffitFiles(f, self.__strIfeffitResultNormName, _normDatasets, 'norm', 'energy')
         
-        _chiDatasets = {1 : 'chi', 2 : 'win'}
+        _chiDatasets = {1 : 'chi_kw', 2 : 'win'}
         self.parseIfeffitFiles(f, self.__strIfeffitResultChiName, _chiDatasets, 'chi', 'K')
         
         _fftfDatasets = {1 : 'chir_mag', 2 : 'chir_pha', 3 : 'chir_re', 4 : 'chir_im'}
@@ -238,7 +238,8 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
                 tmpExperimentalDataEnergy.append(XSDataFloat(_tmpEnergy))
                 tmpExperimentalDataLnI0It.append(XSDataFloat(_tmpLnI0It))
                 
-            xsDataXAFSExperiment.setLabel(XSDataString(''.join(os.path.split(_fileName)[1].split('.')[:-1])))
+            _label = self.__getStringLabel(''.join(os.path.split(_fileName)[1].split('.')[:-1]))
+            xsDataXAFSExperiment.setLabel(XSDataString(_label))
             #xsDataXAFSExperiment.setLabel(XSDataString(nxsScanIndex))
             xsDataXAFSExperiment.setExperimentalDataEnergy(tmpExperimentalDataEnergy)
             xsDataXAFSExperiment.setExperimentalDataLnI0It(tmpExperimentalDataLnI0It)
@@ -251,15 +252,33 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
         return ''.join(['results_', str(self.getId()), '.nxs'])
 
     
+    def __getStringLabel(self, label):       
+        _label = re.sub(r'[^a-zA-Z0-9\&\?\:_]+', '_', label)
+        match = re.search(r'[^0-9]', _label)
+        if match:
+            _label = '_' + _label
+            
+        _lenLabel = len(_label) 
+        if _lenLabel > 64:
+            _label = _label[:30] + "_&_" + _label[(_lenLabel-30):]
+            
+        return _label
+    
+    
+    def __getDatasetLabel(self, dataset):
+        _label = self.__getStringLabel(dataset.getLabel().getValue())
+        return _label
+
+        
     def __generateIfeffitInputFile(self, dataset):
         _xsExperimentalDataEnergy = dataset.getExperimentalDataEnergy()
         _xsExperimentalDataLnI0It = dataset.getExperimentalDataLnI0It()
-        _label = dataset.getLabel()
+        _label = self.__getDatasetLabel(dataset)
 
         strLines = '# energy    ln(I0/It)\n'
         for i, dataEnergy in enumerate(_xsExperimentalDataEnergy):
             strLines += ' '.join([str(dataEnergy.getValue()), str(_xsExperimentalDataLnI0It[i].getValue())]) + '\n'
-        tmpInputFileName = os.path.join(self.getWorkingDirectory(), _label.getValue()+self.__strIfeffitDataName)
+        tmpInputFileName = os.path.join(self.getWorkingDirectory(), _label + self.__strIfeffitDataName)
         EDUtilsFile.writeFile(tmpInputFileName, strLines)
         return tmpInputFileName
     
@@ -283,6 +302,7 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
             tmpStr.append('kwindow=%s' % self.__splKwindow)
         
         tmpCommand = 'spline(%s)' % ','.join(tmpStr)
+        tmpCommand += '\n'
         return tmpCommand
 
     
@@ -306,21 +326,23 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
 
     
     def __generateIfeffitScript(self, dataset):
-        _label = dataset.getLabel().getValue()
+        _label = self.__getDatasetLabel(dataset)
         
         strLines = ["read_data(file='%(file)s', group = '%(group)s', label='energy lni0it')" % \
-                    {'file':os.path.join(self.getWorkingDirectory(), _label+self.__strIfeffitDataName), 'group':_label}]
+                    {'file':os.path.join(self.getWorkingDirectory(), _label + self.__strIfeffitDataName), 'group':_label}]
         strLines.append(self.__generateSplineCommand(_label))
         strLines.append(self.__generateFFTFCommand(_label))
-        strLines.extend(["write_data(file=%(file)s, %(group)s.energy, %(group)s.lni0it, %(group)s.pre, %(group)s.norm, %(group)s.bkg)" % \
+        strLines.extend(["%(group)s.chi_kw = %(group)s.chi * %(group)s.k^%(val)2.3f" % \
+                            {'group':_label, 'val':self.__fftfKweight}, \
+                         "write_data(file=%(file)s, %(group)s.energy, %(group)s.lni0it, %(group)s.pre, %(group)s.norm, %(group)s.bkg)" % \
                             {'file':(_label+self.__strIfeffitResultNormName), 'group':_label}, \
-                         "write_data(file=%(file)s, %(group)s.k, %(group)s.chi, %(group)s.win)" % \
+                         "write_data(file=%(file)s, %(group)s.k, %(group)s.chi_kw, %(group)s.win)" % \
                             {'file':(_label+self.__strIfeffitResultChiName), 'group':_label}, \
                          "write_data(file=%(file)s, %(group)s.r, %(group)s.chir_mag, %(group)s.chir_pha, %(group)s.chir_re, %(group)s.chir_im)" % \
                             {'file':(_label+self.__strIfeffitResultFftfName), 'group':_label}, \
                          "save(%s)" % (_label+self.__strIfeffitSessionName)])
         
-        tmpInputFileName = os.path.join(self.getWorkingDirectory(), _label+self.__strIfeffitScriptName)
+        tmpInputFileName = os.path.join(self.getWorkingDirectory(), _label + self.__strIfeffitScriptName)
         EDUtilsFile.writeFile(tmpInputFileName, '\n'.join(strLines))
         return tmpInputFileName
         
@@ -332,7 +354,7 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
             dataLabels.append(label)
             yResults.append({})
             logLines = EDUtilsFile.readFile(os.path.join(self.__xsIfeffitPlugin[label].getWorkingDirectory(), \
-                                                         label+strIfeffitResultName)).split('\n')[4:]
+                                                         label + strIfeffitResultName)).split('\n')[4:]
             xResults.append([float(dataLine.split()[0]) for dataLine in logLines if dataLine])
             for (col, param) in dictDatasets.iteritems():
                 yResults[idx][param] = [float(dataLine.split()[col]) for dataLine in logLines if dataLine]
@@ -371,7 +393,7 @@ class EDPluginControlXAFSDataBatchProcessingv0_1(EDPluginControl):
             dTmp = dProcessing.create_dataset(tmpName, (len(dataLabels),_lenData), '=f8')
             dTmp.attrs["target"] = "/".join(['','entry1',_groupLabel,tmpName])
             dTmp.attrs["signal"] = 1
-            dTmp.attrs["axes"] = ':'.join([_xLabel,"dataLabels"])
+            dTmp.attrs["axes"] = ':'.join(["scanID", _xLabel])
             
 
             for idxDataLabel in  range(len(dataLabels)):
