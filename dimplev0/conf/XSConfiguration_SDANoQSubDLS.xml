@@ -16,7 +16,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -39,7 +39,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -61,7 +61,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -83,7 +83,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -105,7 +105,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -123,7 +123,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -145,7 +145,7 @@
       <value/>
       </XSParamItem>
       <XSParamItem>
-      <name>execProcessTimeOut</name>
+      <name>timeOut</name>
       <value>20000</value>
       </XSParamItem>
       </XSParamList>
@@ -167,7 +167,7 @@
          <value/>
          </XSParamItem>
          <XSParamItem>
-         <name>execProcessTimeOut</name>
+         <name>timeOut</name>
          <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -189,7 +189,7 @@
          <value/>
          </XSParamItem>
          <XSParamItem>
-         <name>execProcessTimeOut</name>
+         <name>timeOut</name>
          <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -211,7 +211,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -233,7 +233,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -255,7 +255,7 @@
          <value/>
          </XSParamItem>
          <XSParamItem>
-         <name>execProcessTimeOut</name>
+         <name>timeOut</name>
          <value>20000</value>
          </XSParamItem>pdbdump
       </XSParamList>
@@ -277,7 +277,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
       </XSParamList>
@@ -314,7 +314,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
     </XSPluginItem>
@@ -334,7 +334,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
     </XSPluginItem>
@@ -355,7 +355,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
          </XSParamList> 
@@ -377,7 +377,7 @@
             <value/>
          </XSParamItem>
          <XSParamItem>
-            <name>execProcessTimeOut</name>
+            <name>timeOut</name>
             <value>20000</value>
          </XSParamItem>
          </XSParamList> 
@@ -387,6 +387,23 @@
 	<name>EDPluginControlDIMPLESv10</name>  
     </XSPluginItem>
 
+    <XSPluginItem>
+      <name>EDPluginExecDIMPLEGetMTZColumnHeadersv1_0</name>
+      <XSParamList>
+         <XSParamItem>
+            <name>execProcessScriptExecutable</name>
+            <value>${CCTBX_ROOT}/bin/cctbx.python</value>
+         </XSParamItem>
+         <XSParamItem>
+            <name>execProcessScriptVersionString</name>
+            <value/>
+         </XSParamItem>
+         <XSParamItem>
+            <name>timeOut</name>
+            <value>100</value>
+         </XSParamItem>
+      </XSParamList>
+    </XSPluginItem>
 
 </XSPluginList>
 

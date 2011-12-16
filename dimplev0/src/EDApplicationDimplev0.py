@@ -178,6 +178,9 @@ class EDApplicationDimplev0(EDApplication):
     def getDataOutput(self):
         return self.xsDataOutput
 
+    def getPathToLogFile(self):
+        return self._EDApplication__strPathToLogFile
+
     def readAndProcessCommandLine(self):
         """
         Reads and processes the command line
@@ -321,11 +324,13 @@ class EDApplicationDimplev0(EDApplication):
 
     def doSuccessActionPlugin(self, _edPlugin=None):
         """
-        retrieve the potential warning messages
+        retrieve the potential warning messages and set the output
         """
         EDApplication.doSuccessActionPlugin(self, _edPlugin)
 
         EDVerbose.DEBUG("EDApplicationDimplev0.doSuccessActionPlugin")
+
+        xsDataOutput = _edPlugin.getDataOutput()
 
         if (_edPlugin.getListOfErrorMessages() != []):
             self.doFailureActionPlugin(_edPlugin)
