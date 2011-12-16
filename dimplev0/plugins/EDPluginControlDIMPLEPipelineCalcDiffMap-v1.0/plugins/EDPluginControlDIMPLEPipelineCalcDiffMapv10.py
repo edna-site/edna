@@ -258,7 +258,7 @@ class EDPluginControlDIMPLEPipelineCalcDiffMapv10(EDPluginControl):
             XYZIN = XYZ(xyzin),
             HKLIN = HKL(hklin),
             XYZOUT = XYZ(xyzout),
-            ColLabels = self._prepare_mtz_plugin.getDataOutput().getColLabels()))
+            ColLabels = self._prepare_mtz_plugin.getDataInput().getColLabels()))
             
             
         self._rigigbody_phaser_plugin.connectSUCCESS(self._generic_success)
@@ -276,7 +276,7 @@ class EDPluginControlDIMPLEPipelineCalcDiffMapv10(EDPluginControl):
             HKLIN = HKL(hklin),
             XYZOUT = XYZ(self._xyzout),
             HKLOUT = HKL(self._hklout),            
-            ColLabels = self._prepare_mtz_plugin.getDataOutput().getColLabels()))
+            ColLabels = self._prepare_mtz_plugin.getDataInput().getColLabels()))
             
         self._restrained_plugin.connectSUCCESS(self._generic_success)
         self._restrained_plugin.connectFAILURE(self._generic_failure)

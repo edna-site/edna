@@ -127,7 +127,8 @@ class EDPluginExecDIMPLETRUNCATEv10(EDPluginExecProcessScript):
         self.addListCommandExecution(
             'labin IMEAN=%s SIGIMEAN=%s' % (self._ColLabels_IMEAN, self._ColLabels_SIGIMEAN))
         self.addListCommandExecution('labout F=F SIGF=SIGF')
-        self.addListCommandExecution('nres %d' % self._nres)
+        if self._nres:
+            self.addListCommandExecution('nres %d' % self._nres)
       
         self._ColLabels.setF(XSDataString("F"))
         self._ColLabels.setSIGF(XSDataString("SIGF"))
