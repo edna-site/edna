@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Nov 25 06:29::24 2011 by EDGenerateDS.
+# Generated Thu Jan 5 04:08::46 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -495,25 +495,25 @@ class XSDataResultExecCommandLine(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultExecCommandLine
 
-class XSDataResultExecRsync(XSDataResult):
+class XSDataResultRsync(XSDataResult):
 	def __init__(self, status=None, log=None):
 		XSDataResult.__init__(self, status)
-		checkType("XSDataResultExecRsync", "Constructor of XSDataResultExecRsync", log, "XSDataString")
+		checkType("XSDataResultRsync", "Constructor of XSDataResultRsync", log, "XSDataString")
 		self.__log = log
 	def getLog(self): return self.__log
 	def setLog(self, log):
-		checkType("XSDataResultExecRsync", "setLog", log, "XSDataString")
+		checkType("XSDataResultRsync", "setLog", log, "XSDataString")
 		self.__log = log
 	def delLog(self): self.__log = None
 	# Properties
 	log = property(getLog, setLog, delLog, "Property for log")
-	def export(self, outfile, level, name_='XSDataResultExecRsync'):
+	def export(self, outfile, level, name_='XSDataResultRsync'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataResultExecRsync'):
+	def exportChildren(self, outfile, level, name_='XSDataResultRsync'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
 		if self.__log is not None:
 			self.log.export(outfile, level, name_='log')
@@ -534,7 +534,7 @@ class XSDataResultExecRsync(XSDataResult):
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultExecRsync" )
+		self.export( oStreamString, 0, name_="XSDataResultRsync" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -542,24 +542,24 @@ class XSDataResultExecRsync(XSDataResult):
 	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultExecRsync' )
+		self.export( outfile, 0, name_='XSDataResultRsync' )
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultExecRsync is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class XSDataResultRsync is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return XSDataResultExecRsync.parseString(self.marshal())
+		return XSDataResultRsync.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultExecRsync()
+		rootObj = XSDataResultRsync()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultExecRsync" )
+		rootObj.export( oStreamString, 0, name_="XSDataResultRsync" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -567,11 +567,11 @@ class XSDataResultExecRsync(XSDataResult):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = XSDataResultExecRsync()
+		rootObj = XSDataResultRsync()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class XSDataResultExecRsync
+# end class XSDataResultRsync
 
 
 

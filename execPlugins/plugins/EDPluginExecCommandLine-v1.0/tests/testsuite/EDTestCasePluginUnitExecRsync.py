@@ -5,7 +5,7 @@
 #    File: "$Id$"
 #
 #    Copyright (C) European Synchrotron Radiation Facility, Grenoble, France
-#
+
 #    Principal author:       Jerome Kieffer (Jerome.Kieffer@ESRF.eu)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,34 +21,44 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
 __author__ = "Jerome Kieffer (Jerome.Kieffer@ESRF.eu)"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
+from EDVerbose              import EDVerbose
+from EDTestCasePluginUnit   import EDTestCasePluginUnit
+from XSDataExecCommandLine  import XSDataInputRsync, XSDataResultRsync, XSDataFile, XSDataString
 
-from EDTestSuite  import EDTestSuite
+class EDTestCasePluginUnitExecRsync(EDTestCasePluginUnit):
+    """
+    Those are all units tests for the EDNA Exec plugin Rsync
+    """
 
-class EDTestSuitePluginExecCommandLinev10(EDTestSuite):
-    """
-    This is the test suite for EDNA plugin CommandLinev10 
-    It will run subsequently all unit tests and execution tests. 
-    
-    """
+    def __init__(self, _edStringTestName=None):
+        """
+        """
+        EDTestCasePluginUnit.__init__(self, "EDPluginExecRsync")
+
+    def testCheckParameters(self):
+        xsd = XSDataInputRsync(destination=XSDataFile(), source=XSDataFile(), options=XSDataString())
+        edPluginExecCommandLine = self.createPlugin()
+        edPluginExecCommandLine.setDataInput(xsd)
+        edPluginExecCommandLine.checkParameters()
+
+
+
 
     def process(self):
-        """
-        """
-        self.addTestCaseFromName("EDTestCasePluginUnitExecCommandLinev10")
-        self.addTestCaseFromName("EDTestCasePluginUnitExecRsync")
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecCommandLinev10")
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecCommandLinev10_fireAndForget")
+        self.addTestMethod(self.testCheckParameters)
 
 
 
 ##############################################################################
+
+
 if __name__ == '__main__':
 
-    edTestSuitePluginExecCommandLinev10 = EDTestSuitePluginExecCommandLinev10("EDTestSuitePluginExecCommandLinev10")
-    edTestSuitePluginExecCommandLinev10.execute()
-
-##############################################################################
+    edTestCasePluginUnitExecRsync = EDTestCasePluginUnitExecRsync("EDTestCasePluginUnitExecRsync")
+    edTestCasePluginUnitExecRsync.execute()

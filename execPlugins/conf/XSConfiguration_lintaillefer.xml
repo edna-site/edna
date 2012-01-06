@@ -476,6 +476,19 @@
                 </XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecRsync</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/sh</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/rsync</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 	
 	</XSPluginList> 
 </XSConfiguration>

@@ -26,6 +26,6 @@ complex type XSDataInputRsync extends XSDataInput {
 	destination: XSDataFile
 }
 
-complex type XSDataResultExecRsync extends XSDataResult {
+complex type XSDataResultRsync extends XSDataResult {
 	log: XSDataString
 }
