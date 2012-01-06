@@ -28,7 +28,7 @@
             <XSParamList>
                 <XSParamItem>
                     <name>maxThreads</name>
-                    <value>5</value>
+                    <value>8</value>
                 </XSParamItem>
                 <XSParamItem>
                     <name>fileSize</name>

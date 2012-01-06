@@ -28,8 +28,8 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
-__date__ = "20111108"
-__status__ = "Development"
+__date__ = "20120105"
+__status__ = "Production"
 
 import os, shutil
 from EDPluginControl import EDPluginControl
@@ -236,12 +236,12 @@ class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
                 self.__edPluginExecDataver.connectFAILURE(self.doFailureExecDataver)
                 self.__edPluginExecDataver.executeSynchronous()
 
-            if self.fConcentration == 0:
+            if (self.fConcentration == 0) and (self.strSubFile is not None):
                 if (self.__class__.lastBuffer is not None) and (self.__class__.lastSample is not None):
                     self.__edPluginExecAutoSub = self.loadPlugin(self.__strControlledPluginAutoSub)
                     base = "_".join(os.path.basename(self.__class__.lastSample.path.value).split("_")[:-1])
-                    suff = os.path.basename(self.strSubFile).split("_")[-1] 
-                    sub = os.path.join(os.path.dirname(self.strSubFile),base+"_"+suff)
+                    suff = os.path.basename(self.strSubFile).split("_")[-1]
+                    sub = os.path.join(os.path.dirname(self.strSubFile), base + "_" + suff)
                     xsd = XSDataInputAutoSub(sampleCurve=self.__class__.lastSample,
                                              buffers=[self.__class__.lastBuffer, self.dataInput.mergedCurve],
                                              subtractedCurve=XSDataFile(XSDataString(sub))

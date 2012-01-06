@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Oct 24 12:16::03 2011 by EDGenerateDS.
+# Generated Thu Jan 5 02:00::16 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -1848,6 +1848,149 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputBioSaxsSmartMergev1_0
 
+class XSDataInputBioSaxsToSASv1_0(XSDataInput):
+	"""This is just a wrapper for the SAS downstream pipeline"""
+	def __init__(self, configuration=None, destinationDirectory=None, qMax=None, lastPoint=None, firstPoint=None, subtractedCurve=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputBioSaxsToSASv1_0", "Constructor of XSDataInputBioSaxsToSASv1_0", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
+		checkType("XSDataInputBioSaxsToSASv1_0", "Constructor of XSDataInputBioSaxsToSASv1_0", firstPoint, "XSDataInteger")
+		self.__firstPoint = firstPoint
+		checkType("XSDataInputBioSaxsToSASv1_0", "Constructor of XSDataInputBioSaxsToSASv1_0", lastPoint, "XSDataInteger")
+		self.__lastPoint = lastPoint
+		checkType("XSDataInputBioSaxsToSASv1_0", "Constructor of XSDataInputBioSaxsToSASv1_0", qMax, "XSDataDouble")
+		self.__qMax = qMax
+		checkType("XSDataInputBioSaxsToSASv1_0", "Constructor of XSDataInputBioSaxsToSASv1_0", destinationDirectory, "XSDataFile")
+		self.__destinationDirectory = destinationDirectory
+	def getSubtractedCurve(self): return self.__subtractedCurve
+	def setSubtractedCurve(self, subtractedCurve):
+		checkType("XSDataInputBioSaxsToSASv1_0", "setSubtractedCurve", subtractedCurve, "XSDataFile")
+		self.__subtractedCurve = subtractedCurve
+	def delSubtractedCurve(self): self.__subtractedCurve = None
+	# Properties
+	subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
+	def getFirstPoint(self): return self.__firstPoint
+	def setFirstPoint(self, firstPoint):
+		checkType("XSDataInputBioSaxsToSASv1_0", "setFirstPoint", firstPoint, "XSDataInteger")
+		self.__firstPoint = firstPoint
+	def delFirstPoint(self): self.__firstPoint = None
+	# Properties
+	firstPoint = property(getFirstPoint, setFirstPoint, delFirstPoint, "Property for firstPoint")
+	def getLastPoint(self): return self.__lastPoint
+	def setLastPoint(self, lastPoint):
+		checkType("XSDataInputBioSaxsToSASv1_0", "setLastPoint", lastPoint, "XSDataInteger")
+		self.__lastPoint = lastPoint
+	def delLastPoint(self): self.__lastPoint = None
+	# Properties
+	lastPoint = property(getLastPoint, setLastPoint, delLastPoint, "Property for lastPoint")
+	def getQMax(self): return self.__qMax
+	def setQMax(self, qMax):
+		checkType("XSDataInputBioSaxsToSASv1_0", "setQMax", qMax, "XSDataDouble")
+		self.__qMax = qMax
+	def delQMax(self): self.__qMax = None
+	# Properties
+	qMax = property(getQMax, setQMax, delQMax, "Property for qMax")
+	def getDestinationDirectory(self): return self.__destinationDirectory
+	def setDestinationDirectory(self, destinationDirectory):
+		checkType("XSDataInputBioSaxsToSASv1_0", "setDestinationDirectory", destinationDirectory, "XSDataFile")
+		self.__destinationDirectory = destinationDirectory
+	def delDestinationDirectory(self): self.__destinationDirectory = None
+	# Properties
+	destinationDirectory = property(getDestinationDirectory, setDestinationDirectory, delDestinationDirectory, "Property for destinationDirectory")
+	def export(self, outfile, level, name_='XSDataInputBioSaxsToSASv1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputBioSaxsToSASv1_0'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__subtractedCurve is not None:
+			self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
+		else:
+			warnEmptyAttribute("subtractedCurve", "XSDataFile")
+		if self.__firstPoint is not None:
+			self.firstPoint.export(outfile, level, name_='firstPoint')
+		if self.__lastPoint is not None:
+			self.lastPoint.export(outfile, level, name_='lastPoint')
+		if self.__qMax is not None:
+			self.qMax.export(outfile, level, name_='qMax')
+		if self.__destinationDirectory is not None:
+			self.destinationDirectory.export(outfile, level, name_='destinationDirectory')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subtractedCurve':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setSubtractedCurve(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'firstPoint':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setFirstPoint(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'lastPoint':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setLastPoint(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'qMax':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setQMax(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'destinationDirectory':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setDestinationDirectory(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputBioSaxsToSASv1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputBioSaxsToSASv1_0' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputBioSaxsToSASv1_0 is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputBioSaxsToSASv1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsToSASv1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputBioSaxsToSASv1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputBioSaxsToSASv1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputBioSaxsToSASv1_0
+
 class XSDataResultBioSaxsAsciiExportv1_0(XSDataResult):
 	def __init__(self, status=None, processLog=None, integratedCurve=None):
 		XSDataResult.__init__(self, status)
@@ -2883,6 +3026,84 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultBioSaxsSmartMergev1_0
+
+class XSDataResultBioSaxsToSASv1_0(XSDataResult):
+	def __init__(self, status=None, htmlPage=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataResultBioSaxsToSASv1_0", "Constructor of XSDataResultBioSaxsToSASv1_0", htmlPage, "XSDataFile")
+		self.__htmlPage = htmlPage
+	def getHtmlPage(self): return self.__htmlPage
+	def setHtmlPage(self, htmlPage):
+		checkType("XSDataResultBioSaxsToSASv1_0", "setHtmlPage", htmlPage, "XSDataFile")
+		self.__htmlPage = htmlPage
+	def delHtmlPage(self): self.__htmlPage = None
+	# Properties
+	htmlPage = property(getHtmlPage, setHtmlPage, delHtmlPage, "Property for htmlPage")
+	def export(self, outfile, level, name_='XSDataResultBioSaxsToSASv1_0'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsToSASv1_0'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__htmlPage is not None:
+			self.htmlPage.export(outfile, level, name_='htmlPage')
+		else:
+			warnEmptyAttribute("htmlPage", "XSDataFile")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'htmlPage':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setHtmlPage(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultBioSaxsToSASv1_0" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultBioSaxsToSASv1_0' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultBioSaxsToSASv1_0 is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultBioSaxsToSASv1_0.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultBioSaxsToSASv1_0()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsToSASv1_0" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultBioSaxsToSASv1_0()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultBioSaxsToSASv1_0
 
 class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
 	"""temporary class for multiple inhertitance emulation"""

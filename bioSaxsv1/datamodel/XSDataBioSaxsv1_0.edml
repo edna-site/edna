@@ -222,12 +222,11 @@ complex type XSDataInputBioSaxsToSASv1_0 extends XSDataInput  {
 	firstPoint: XSDataInteger optional
 	lastPoint: XSDataInteger optional
 	qMax: XSDataDouble optional
+	destinationDirectory: XSDataFile optional
 }
 
 complex type XSDataResultBioSaxsToSASv1_0 extends XSDataResult {
-	mergedCurve : XSDataFile
-	autoRg: XSDataAutoRg optional
-	subtractedCurve: XSDataFile optional
+	htmlPage: XSDataFile
 }
 
 complex type XSDataInputBioSaxsReduceFileSeriev1_0 extends XSDataInput{
@@ -279,6 +278,8 @@ complex type XSDataResultBioSaxsSingleSamplev1_0 extends XSDataResult{
 	directory1D : XSDataFile
 	directory2D : XSDataFile
 }
+
+
 /**************************************
  *Start of a deprecated classes zone  * 
  **************************************/
