@@ -40,6 +40,13 @@ if sys.version > (3, 0):
 else:
     from Queue import Queue
 # Append the EDNA kernel source directory to the python path
+try:
+    from rfoo.utils import rconsole
+    rconsole.spawn_server()
+except ImportError:
+    print("No socket opened for debugging -> please install rfoo if you want to debug online")
+else:
+    print("rfoo installed, you can debug online with rconsole")
 
 if not os.environ.has_key("EDNA_HOME"):
     strProgramPath = os.path.abspath(sys.argv[0])
@@ -184,6 +191,8 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
             EDJob.cleanJobfromID(jobId, False)
             self.lastFailure = jobId
             self.push_change_event("jobFailure", jobId)
+            sys.stdout.flush()
+            sys.stderr.flush()
             gc.collect()
 
     def getRunning(self):

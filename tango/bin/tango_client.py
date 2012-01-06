@@ -43,12 +43,12 @@ filenames = []
 plugin = None
 delay = 0
 if len(sys.argv) == 1:
-        print __doc__
+        print(__doc__)
         sys.exit(1)
 
 for arg in sys.argv[1:]:
     if arg.find("-h") in [0, 1]:
-        print __doc__
+        print(__doc__)
         sys.exit(1)
     elif arg.find("-device=") in [0, 1]:
         device = arg.split("=", 1)[1]
@@ -69,6 +69,9 @@ for arg in sys.argv[1:]:
 
 edna = PyTango.DeviceProxy(device)
 
+if plugin is None:
+    raise RuntimeError("You must provide a plugin name !")
+
 edna.initPlugin(plugin)
 t0 = time.time()
 totaltime = 0.0
@@ -83,19 +86,19 @@ if filenames:
         deltat = time.time() - t1
         totaltime += deltat
         listjobs.append(pid)
-        print "%s | Total Time:\t%.3fs /Tango %.3fs\tLast Tango:\t%.3f" % (pid, time.time() - t0, totaltime, deltat)
+        print("%s | Total Time:\t%.3fs /Tango %.3fs\tLast Tango:\t%.3f" % (pid, time.time() - t0, totaltime, deltat))
         time.sleep(delay)
 else:
     for xml in listXml:
         pid = edna.startJob([plugin, xml])
-        print "%s | Tango time: %.3fs" % (pid, time.time() - t0)
+        print("%s | Tango time: %.3fs" % (pid, time.time() - t0))
         listjobs.append(pid)
 
 while edna.getJobState(listjobs[-1]) not in ["success", "failure"]:
     time.sleep(1)
-#for job in listjobs:
-#    print edna.getJobState(job)
 
-print edna.statistics()
+edna.collectStatistics()
+time.sleep(1)
+print(edna.getStatistics())
 
 
