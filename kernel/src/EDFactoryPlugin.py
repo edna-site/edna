@@ -101,6 +101,7 @@ class EDFactoryPlugin(EDLogging):
     IGNORE_FILE = ".ednaignore"
     __dictLoadedModules = {}
     __semaphoreStatic = threading.Semaphore()
+    __edFactoryPlugin = None
 
     def __init__(self):
         EDLogging.__init__(self)
@@ -497,5 +498,17 @@ class EDFactoryPlugin(EDLogging):
                 module.unImport()
         else:
             EDVerbose.WARNING("EDFactoryPlugin.unImport: Module %s is not loaded. " % _strModuleName)
+
+    @classmethod
+    def getFactoryPlugin(cls):
+        """
+        This is a class method to provide compatibility with EDFactoryPluginStatic
+        @return: the static version of the factory plugin.
+        """
+        if cls.__edFactoryPlugin is None:
+            with cls.__semaphoreStatic:
+                if (cls.__edFactoryPlugin is None):
+                    cls.__edFactoryPlugin = EDFactoryPlugin()
+        return cls.__edFactoryPlugin
 
 edFactoryPlugin = EDFactoryPlugin()

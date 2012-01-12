@@ -24,6 +24,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
+import EDLogging
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
@@ -62,34 +63,20 @@ fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 fftw3 = EDFactoryPluginStatic.preImport("fftw3", fftw3Path)
 
 try:
-    import scipy.ndimage, scipy.fftpack, scipy.interpolate#, scipy.signal
-    from scipy.ndimage import sobel
+    import scipy.ndimage, scipy.interpolate
 except:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
 
-
-
-def shift(input, shift):
-    """
-    Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order=0) but faster
-    @param in: 2d numpy array
-    @param d: 2-tuple of integers 
-    @return: shifted image
-    """
-    re = numpy.zeros_like(input)
-    s0, s1 = input.shape
-    d0 = shift[0] % s0
-    d1 = shift[1] % s1
-    r0 = (-d0) % s0
-    r1 = (-d1) % s1
-    re[d0:, d1:] = input[:r0, :r1]
-    re[:d0, d1:] = input[r0:, :r1]
-    re[d0:, :d1] = input[:r0, r1:]
-    re[:d0, :d1] = input[r0:, r1:]
-    return re
-
+srcDir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+try:
+    import imp
+    MeasureOffset = imp.load_module(*(("MeasureOffset",) + imp.find_module("MeasureOffset", [srcDir])))
+except ImportError, error:
+    strErr = "Unable to load the MeasureOffset module from %s; %s" % (srcDir, error)
+    EDLogging.ERROR(strErr)
+    raise ImportError(strErr)
 
 class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     """
@@ -247,98 +234,17 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             self.npaIm2 *= EDPluginExecMeasureOffsetv1_0.getMask(shape, self.tSmooth)
 
         if self.sobel:
-            self.npaIm1 = sobel(self.npaIm1)
-            self.npaIm2 = sobel(self.npaIm2)
+            self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
+            self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
 
-################################################################################
-# Start convolutions
-################################################################################
-        t0 = time.time()
-        if self.CONF_CONVOLUTION[:4] == "fftw" and (fftw3 is not None):
-            input = numpy.zeros(shape, dtype=complex)
-            output = numpy.zeros(shape, dtype=complex)
-            with self.__class__.__sem:
-                    fft = fftw3.Plan(input, output, direction='forward', flags=['measure'])
-                    ifft = fftw3.Plan(output, input, direction='backward', flags=['measure'])
-            input[:, :] = self.npaIm2.astype(complex)
-            fft()
-            temp = output.conjugate()
-            input[:, :] = self.npaIm1.astype(complex)
-            fft()
-            output *= temp
-            ifft()
-            res = input.real/input.size
-            offset1 = scipy.ndimage.measurements.maximum_position(res)
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0.fftw took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, offset1[0], offset1[1]))
-            res = shift(res, (shape[0] // 2 , shape[1] // 2))
-
-            ####################################################################
-            # Signal does not give the right answer
-            ####################################################################
-#        elif self.CONF_CONVOLUTION == "signal":
-##            offset1 = (0, 0) #tuple([i // 2 for i in  self.npaIm1.shape])
-#            res = scipy.signal.fftconvolve(self.npaIm1, self.npaIm2, mode="same")
-#            ma = res.argmax()
-#            self.DEBUG("EDPluginExecMeasureOffsetv1_0. signal took %.3f: Coarse result =  %s %s" % ((time.time()) - t0, ma // shape[0] % shape[0], ma % shape[0]))
-#            self.DEBUG("%s %s" % offset1)
-
-        elif self.CONF_CONVOLUTION == "scipy":
-            i1f = scipy.fft((self.npaIm1).flatten())
-            i2f = scipy.fft((self.npaIm2).flatten())
-            res = scipy.ifft(i1f * i2f.conjugate()).real
-            res = res.reshape(shape)
-            offset1 = scipy.ndimage.measurements.maximum_position(res)
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0 scipy took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), offset1[0], offset1[1]))
-            res = shift(res, (shape[0] // 2 , shape[1] // 2))
-
-        elif self.CONF_CONVOLUTION == "numpy":
-            i1f = numpy.fft.fft2(self.npaIm1)
-            i2f = numpy.fft.fft2(self.npaIm2)
-            res = numpy.fft.ifft2(i1f * i2f.conjugate()).real
-            offset1 = scipy.ndimage.measurements.maximum_position(res)
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0 numpy took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), offset1[0], offset1[1]))
-            res = shift(res, (shape[0] // 2 , shape[1] // 2))
-
-
-        else: #use fftpack: probably the best solution. Nota: it is the same as numpy
-            i1f = scipy.fftpack.fft2(self.npaIm1)
-            i2f = scipy.fftpack.fft2(self.npaIm2)
-            res = scipy.fftpack.ifft2(i1f * i2f.conjugate()).real
-            offset1 = scipy.ndimage.measurements.maximum_position(res)
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0 fftpack took %.3fs: Coarse result =  %s %s" % ((time.time() - t0), offset1[0], offset1[1]))
-            res = shift(res, (shape[0] // 2 - offset1[0], shape[1] // 2 - offset1[1]))
-################################################################################
-# stop convolutions
-################################################################################
-#        fabio.edfimage.edfimage(data=res.astype("float32"),header={"offset_1":offset1[0],"offset_2":offset1[1]}).write("CONVOLUTION_nocut-%s.edf"%self.getId())
-        mean = res.mean(dtype="float64")
-        maxi = res.max()    
-        std =  res.std(dtype="float64") 
-        SN = (maxi - mean) / std
-        new = numpy.maximum(numpy.zeros(shape), res - numpy.ones(shape) * (mean + std * SN * 0.9))
-        if self.isVerboseDebug(): #Dump the image to the disk
-            f = fabio.edfimage.edfimage(data=new.astype("float32"), header={"offset_1":offset1[0], "offset_2":offset1[1]})
-            f.write("CONVOLUTION-%s.edf"%self.getId())
-        com2 = scipy.ndimage.measurements.center_of_mass(new)
-        self.DEBUG("EDPluginExecMeasureOffsetv1_0.process: fine result of the centered image: %s %s " % com2)
-        offset2 = ((com2[0] - shape[0] // 2) % shape[0] , (com2[1] - shape[1] // 2) % shape[1])
-        delta0 = (offset2[0] - offset1[0]) % shape[0] 
-        delta1 = (offset2[1] - offset1[1]) % shape[1]
-        if delta0 > shape[0]//2:
-            delta0 -=shape[0]
-        if delta1 > shape[1]//2:
-            delta1 -=shape[1]
-        if (abs(delta0) > 2) or (abs(delta1) > 2):
-            self.WARNING("EDPluginExecMeasureOffsetv1_0.process: Raw offset is %s and refined is %s. Please investigate !" % (offset1, offset2))
-        listOffset = list(offset2)
-        if listOffset[0] > shape[0] // 2:
-            listOffset[0] -= shape[0]
-        if listOffset[1] > shape[1] // 2:
-            listOffset[1] -= shape[1]
-            
-        self.DEBUG("EDPluginExecMeasureOffsetv1_0.process: fine result: %s " % listOffset)
-        self.tOffset = [XSDataDouble(f) for f in listOffset]
-    
+        offset, logs = MeasureOffset.measure_offset(self.npaIm1, self.npaIm2,
+                                                    method=self.CONF_CONVOLUTION, withLog=True)
+        self.tOffset = [XSDataDouble(f) for f in offset]
+        logs.insert(0, "")
+        if len(logs) <= 4:
+            self.DEBUG(os.linesep.join(logs))
+        else:
+            self.WARNING(os.linesep.join(logs))
 
     def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)

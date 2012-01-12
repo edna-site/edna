@@ -1,6 +1,6 @@
 # coding: utf8
 #
-#    Project: PROJECT
+#    Project: <projectName>
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
@@ -50,7 +50,7 @@ class EDPluginExec<pluginName>(EDPluginExec ):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginExec<pluginName>.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(),"Data Input is None")
+        self.checkMandatoryParameters(self.dataInput,"Data Input is None")
 
     
     def preProcess(self, _edObject = None):

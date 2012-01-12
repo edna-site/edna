@@ -40,7 +40,4 @@ xsdHomeDir=${EDNA_HOME}/execPlugins/plugins/${xsDataBaseDir}/datamodel
 pyHomeDir=${EDNA_HOME}/execPlugins/plugins/${xsDataBaseDir}/plugins
 includeXSDFilePath=${EDNA_HOME}/kernel/datamodel
 
-java -jar ${EDNA_HOME}/kernel/datamodel/EDGenerateDS.jar
-echo java -jar ${EDNA_HOME}/kernel/datamodel/EDGenerateDS.jar -includepaths ${includeXSDFilePath},${xsdHomeDir} -source ${xsdHomeDir}/${xsDataBaseName}  -targetdir ${pyHomeDir}
-
 java -jar ${EDNA_HOME}/kernel/datamodel/EDGenerateDS.jar -includepaths ${includeXSDFilePath},${xsdHomeDir} -source ${xsdHomeDir}/${xsDataBaseName}  -targetdir ${pyHomeDir}
