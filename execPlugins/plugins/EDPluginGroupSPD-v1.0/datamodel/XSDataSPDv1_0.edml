@@ -19,25 +19,21 @@ import XSDataCommon.XSDataAngle
 complex type XSDataInputSPD extends XSDataInput {
 	angleOfTilt : XSDataAngle optional
 	beamCentreInPixelsX : XSDataDouble optional
-	beamCentreInPixelsY : XSDataDouble
-	optional
+	beamCentreInPixelsY : XSDataDouble 	optional
 	bufferSizeX : XSDataInteger optional
 	bufferSizeY : XSDataInteger optional
 	darkCurrentImageFile : XSDataFile optional
 	distortionFileX : XSDataFile optional
-	distortionFileY : XSDataFile
-	optional
+	distortionFileY : XSDataFile 	optional
 	flatFieldImageFile : XSDataFile optional
 	inputFile : XSDataFile
 	outputFileType : XSDataString optional
 	pixelSizeX : XSDataLength optional
 	pixelSizeY : XSDataLength optional
-	sampleToDetectorDistance : XSDataLength
-	optional
+	sampleToDetectorDistance : XSDataLength	optional
 	spatialDistortionFile : XSDataFile optional
 	tiltRotation : XSDataAngle
-	wavelength : XSDataWavelength
-	optional
+	wavelength : XSDataWavelength 	optional
 	outputDir : XSDataFile optional
 }
 
