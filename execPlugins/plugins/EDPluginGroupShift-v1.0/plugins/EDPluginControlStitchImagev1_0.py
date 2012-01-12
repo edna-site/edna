@@ -30,7 +30,7 @@ import os
 from EDPluginControl import EDPluginControl
 from XSDataShiftv1_0 import XSDataInputStitchImage, XSDataInteger, \
     XSDataResultStitchImage, XSDataFile, XSDataString, XSDataBoolean, XSDataInputMeasureOffset, \
-    XSDataInputStitchOffsetedImage, OffsetedImage, XSDataDouble, XSDataImage, XSDataArray
+    XSDataInputStitchOffsetedImage, OffsetedImage, XSDataDouble, XSDataImageExt, XSDataArray
 
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
@@ -96,7 +96,7 @@ class EDPluginControlStitchImagev1_0(EDPluginControl):
             for idx2, im2 in enumerate(self.lInputFiles[idx1 + 1:]):
                 plugin = self.loadPlugin(self.__strControlledPluginMeasure)
                 xsd = XSDataInputMeasureOffset()
-                xsd.setImage([XSDataImage(XSDataString(im1)), XSDataImage(XSDataString(im2))])
+                xsd.setImage([XSDataImageExt(XSDataString(im1)), XSDataImageExt(XSDataString(im2))])
                 xsd.setIndex([XSDataInteger(idx1), XSDataInteger(idx2 + idx1 + 1)])
                 xsd.setCenter(self.xCenter)
                 xsd.setWidth(self.xWidth)
@@ -120,7 +120,7 @@ class EDPluginControlStitchImagev1_0(EDPluginControl):
         for idx, img in  enumerate(self.lInputFiles):
             offsetedImg = OffsetedImage(dummyValue=self.xDummy, deltaDummy=self.xDeltaDummy)
             offsetedImg.setOffset([XSDataDouble(self.ndaDistance[ref, idx, 0]), XSDataDouble(self.ndaDistance[ref, idx, 1])])
-            offsetedImg.setFile(file=XSDataImage(path=XSDataString(value=img)))
+            offsetedImg.setFile(file=XSDataImageExt(path=XSDataString(value=img)))
 
             xsdImgs.append(offsetedImg)
         xsdIn.setInputImages(xsdImgs)
@@ -135,7 +135,7 @@ class EDPluginControlStitchImagev1_0(EDPluginControl):
         self.DEBUG("EDPluginControlStitchImagev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultStitchImage()
-        if isinstance(self.result, (XSDataFile, XSDataImage)):
+        if isinstance(self.result, (XSDataFile, XSDataImageExt)):
             xsDataResult.setOutputImage(self.result)
         elif isinstance(self.result, XSDataArray):
             xsDataResult.setOutputArray(self.result)
