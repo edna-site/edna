@@ -30,7 +30,7 @@ __contact__ = "jerome.kieffer@esrf.fr"
 __date__ = "20120113"
 __status__ = "production"
 
-import os, sys, threading, time
+import os, threading
 from EDVerbose                  import EDVerbose
 from EDPluginControl            import EDPluginControl
 from EDUtilsArray               import EDUtilsArray
@@ -38,6 +38,7 @@ from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDUtilsParallel            import EDUtilsParallel
 from EDShare                    import EDShare
+from EDUtilsPath                import EDUtilsPath
 from XSDataCommon               import XSDataString, XSDataBoolean, XSDataDouble, XSDataInteger, \
     XSDataImageExt
 EDFactoryPluginStatic.loadModule("XSDataFullFieldXAS")
@@ -60,9 +61,9 @@ from EDPluginAccumulatorv1_0 import EDPluginAccumulatorv1_0
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
@@ -178,7 +179,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             queryRaw.setRemoveItems(XSDataBoolean(False))
             queryShift.setRemoveItems(XSDataBoolean(False))
             xsdataAcc = XSDataInputAccumulator()
-            if  (EDPluginControlAlignStackv1_0.__iRefFrame == iFrame) or (self.bDoAlign==False) :
+            if  (EDPluginControlAlignStackv1_0.__iRefFrame == iFrame) or (self.bDoAlign == False) :
 
                 EDPluginControlAlignStackv1_0.__dictAbsShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
                 EDPluginControlAlignStackv1_0.__dictRelShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
@@ -194,8 +195,8 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
                 edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
                 edPluginExecHDF5.execute()
-                if (self.bDoAlign==False):
-                    return 
+                if (self.bDoAlign == False):
+                    return
 
             elif EDPluginControlAlignStackv1_0.__iRefFrame < iFrame:
                 if self.bAlwaysMOvsRef:
