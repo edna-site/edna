@@ -34,12 +34,11 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, sys, threading
+import os, sys, threading, hashlib
 
 from EDLogging   import EDLogging
 from EDVerbose   import EDVerbose
 from EDUtilsPath import EDUtilsPath
-from EDUtilsFile import EDUtilsFile
 from EDModule    import EDModule
 
 from XSDataCommon import XSDataDictionary
@@ -109,9 +108,19 @@ class EDFactoryPlugin(EDLogging):
         # Default plugin root directory: $EDNA_HOME
         self.__listPluginRootDirectory = [ strEdnaHome ]
         self.__dictModuleLocation = None
-        self.__strCacheFileName = ".XSDataDictionaryModule.xml"
-        self.__strPathToModuleCache = os.path.abspath(os.path.join(EDUtilsPath.EDNA_HOME, self.__strCacheFileName))
+        self.__strPathToModuleCache = None
 
+
+    def __initPluginCachePath(self):
+        """This private method initialises the path to the plugin cache file"""
+        if os.environ.has_key("EDNA_PLUGINCACHE"):
+            self.__strPathToModuleCache = os.environ["EDNA_PLUGINCACHE"]
+        else:
+            strTempFileDir = EDUtilsPath.getEdnaUserTempFolder()
+            # We create a hash of the path in order to be able to reference several different EDNA_HOME 
+            # caches in the same directory
+            strCacheFileName = hashlib.sha1(os.getenv('EDNA_HOME')).hexdigest()+".xml"
+            self.__strPathToModuleCache = os.path.abspath(os.path.join(strTempFileDir, strCacheFileName))
 
 
     def __initModuleDictionary(self):
@@ -121,6 +130,8 @@ class EDFactoryPlugin(EDLogging):
         the plugin root directories are searched and the dictionary is
         written to the cache file.
         """
+        if self.__strPathToModuleCache is None:
+            self.__initPluginCachePath()
         if (os.path.exists(self.__strPathToModuleCache)):
             self.loadModuleDictionaryFromDisk(self.__strPathToModuleCache)
         else:
@@ -191,6 +202,8 @@ class EDFactoryPlugin(EDLogging):
         @return: Path to the module location
         @type: python string
         """
+        if self.__strPathToModuleCache is None:
+            self.__initPluginCachePath()
         strModuleLocation = None
         if (self.__dictModuleLocation is None):
             with self.locked():
