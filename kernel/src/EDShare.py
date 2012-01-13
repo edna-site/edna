@@ -31,10 +31,9 @@ __authors__ = [ "Jérôme Kieffer" ]
 __contact__ = "jerome.kieffer@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "27/05/2011"
+__date__ = "20120113"
 
 import os, tempfile
-
 from EDLogging              import EDLogging
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
@@ -71,6 +70,7 @@ class EDShare(EDLogging, EDSession):
         self._filename = None
         self._storage = None
         self._listKeys = []
+        self._dictAttrs = {} #attr are metadata associated to an entry. The values are always cached
 
 
     def __call__(self):
@@ -109,23 +109,49 @@ class EDShare(EDLogging, EDSession):
         @type key: string
         @type value: int, float, or string ; one or many in lists or arrays (without mixing types)  
         """
-        if self.isInitialized():
-            self.synchronizeOn()
+        if not self.isInitialized():
+            self.WARNING("EDShare is uninitialized: initializing")
+            self.initialize()
+        with self.locked():
             if key in self._listKeys:
                 self.ERROR("EDShare: Redefinition of elements is forbidden ")
             else:
                 self._listKeys.append(key)
                 self._storage[key] = value
-            self.synchronizeOff()
-        else:
-            self.WARNING("EDShare is uninitialized: initializing")
-            self.initialize()
+                self._dictAttrs[key] = {}
     set = __setitem__
 
 
     def __contains__(self, key):
         return (key in self._listKeys)
     has_key = __contains__
+
+
+    def set_metadata(self, key, attr_key, attr_value):
+        """
+        Sets a metadata to an element
+        """
+        if key in self._listKeys:
+            with self.locked():
+                self._dictAttrs[key][attr_key] = attr_value
+                if self._backend == "hdf5":
+                    self._storage[key].attrs[attr_key] = attr_value
+        else:
+            self.ERROR("EDShare: No such element")
+
+    def get_metadata(self, key, attr_key):
+        """
+        Gets a metadata of an element
+        """
+        if key in self._listKeys:
+            if attr_key in self._dictAttrs[key]:
+                return self._dictAttrs[key][attr_key]
+            elif (self._backend == "hdf5") and attr_key in self._storage[key].attrs:
+                return self._storage[key].attrs[attr_key]
+            else:
+                self.ERROR("EDShare: No such Metadata %s in %s" % (key, attr_key))
+        else:
+            self.ERROR("EDShare: No such element: %s" % key)
 
 
     def isInitialized(self):
