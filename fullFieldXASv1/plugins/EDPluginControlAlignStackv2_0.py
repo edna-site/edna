@@ -26,7 +26,7 @@
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble"
-
+__status__="probably broken ... do not use"
 import os, sys, threading, time
 from EDVerbose                  import EDVerbose
 from EDPluginControl            import EDPluginControl

@@ -25,9 +25,10 @@
 from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
-__copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble"
+__copyright__ = "2010-, European Synchrotron Radiation Facility, Grenoble"
 __contact__ = "jerome.kieffer@esrf.fr"
-__data__ = "20110726"
+__date__ = "20120113"
+__status__ = "production"
 
 import os, sys, threading, time
 from EDVerbose                  import EDVerbose
