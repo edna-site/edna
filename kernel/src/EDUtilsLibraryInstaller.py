@@ -62,7 +62,7 @@ class EDUtilsLibraryInstaller:
         self.__strSourceDir = _strSourceDir
         self.__strDestinationDirectory = None
         if os.environ.has_key("EDNA_HOME"):
-            self.__libraryPath = os.path.join(os.environ["EDNA_HOME"], "libraries", self.__strLibraryDirectory)
+            self.__libraryPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", self.__strLibraryDirectory)
         else:
             self.__libraryPath = os.path.dirname(os.path.abspath(sys.argv[0]))
 
