@@ -57,23 +57,25 @@ def shift(input, shift):
     re[:d0, :d1] = input[r0:, r1:]
     return re
 
-
-def shiftFFT(input, shift):
+def shiftFFT(inp, shift):
     """
     Do shift using FFTs
     Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order="infinity") but faster
     @param input: 2d numpy array
     @param shift: 2-tuple of float 
     @return: shifted image
+    
+    TODO: check indexes due to matlab copy/paste
     """
-    d0, d1 = input.shape
+    d0, d1 = inp.shape
     v0, v1 = shift
-    m0, m1 = np.ogrid[:d0, :d1]
-    e0 = np.exp(-2j * pi * v[0] * m0 / d0)
-    e1 = np.exp(-2j * pi * v[1] * m1 / d1)
+    f0 = np.fft.ifftshift(np.arange(-d0 // 2, int(np.ceil(d0 / 2.0))))
+    f1 = np.fft.ifftshift(np.arange(-d1 // 2, int(np.ceil(d1 / 2.0))))
+    m0, m1 = np.meshgrid(f0, f1)
+    e0 = np.exp(-2j * pi * v0 * m0 / float(d0))
+    e1 = np.exp(-2j * pi * v1 * m1 / float(d1))
     e = e0 * e1
-    return abs(np.fft.ifft2(np.fft.fft2(input) * e))
-
+    return abs(np.fft.ifft2(np.fft.fft2(inp) * e))
 
 def maximum_position(img):
     """
