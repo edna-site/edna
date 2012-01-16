@@ -148,8 +148,8 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         res = input.real / input.size
 
     else:#use numpy fftpack
-        i1f = numpy.fft.fft2(self.npaIm1)
-        i2f = numpy.fft.fft2(self.npaIm2)
+        i1f = numpy.fft.fft2(img1)
+        i2f = numpy.fft.fft2(img2)
         res = numpy.fft.ifft2(i1f * i2f.conjugate()).real
     t1 = time.time()
     ################################################################################
