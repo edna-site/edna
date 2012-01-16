@@ -57,10 +57,10 @@ from EDPluginAccumulatorv1_0 import EDPluginAccumulatorv1_0
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "Fabio-r5080", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
-scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "Fabio-r5080", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
+scipyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090711-SciPy-0.7.1", architecture)
 
 
 if  os.path.isdir(numpyPath) and (numpyPath not in sys.path):

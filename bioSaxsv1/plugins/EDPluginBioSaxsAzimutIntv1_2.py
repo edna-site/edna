@@ -33,21 +33,21 @@ __status__ = "production"
 
 
 import os
-from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
+from EDUtilsPath            import EDUtilsPath
 from XSDataCommon           import XSDataString, XSDataStatus, XSDataTime, XSDataFile
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsAzimutIntv1_0, XSDataResultBioSaxsAzimutIntv1_0, \
-                               XSDataInputBioSaxsAsciiExportv1_0, XSDataInputBioSaxsMetadatav1_0
+                                XSDataInputBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 EDFactoryPluginStatic.loadModule("XSDataSaxsv1_0")
 from XSDataWaitFilev1_0     import XSDataInputWaitFile
 from XSDataSaxsv1_0         import XSDataInputSaxsAnglev1_0
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
