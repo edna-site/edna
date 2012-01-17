@@ -200,22 +200,6 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             if (self.edPluginExecOutputHTML is not None) and bRunExecOutputHTML:
                 self.edPluginExecOutputHTML.setDataInput(XSDataFile(XSDataString(strPathToDNAFileDirectory)), "dnaFileDirectory")
                 self.edPluginExecOutputHTML.execute()
-#                if not self.edPluginExecOutputHTML.isFailure() and self.edPluginExecOutputHTML.hasDataOutput("htmlFile"):
-#                    strPathToHTMLFile = self.edPluginExecOutputHTML.getDataOutput("htmlFile")[0].getPath().getValue()
-#                    strPathToHTMLDir = self.edPluginExecOutputHTML.getDataOutput("htmlDir")[0].getPath().getValue()
-#                    strPathToDNAIndexDirectory = os.path.join(strPathToDNAFileDirectory, "index")
-#                    if os.path.exists(strPathToHTMLFile):
-#                        try:
-#                            os.mkdir(strPathToDNAIndexDirectory)
-#                            shutil.copy(strPathToHTMLFile, os.path.join(strPathToDNAIndexDirectory, "index.html"))
-#                            shutil.copytree(strPathToHTMLDir, os.path.join(strPathToDNAIndexDirectory, os.path.basename(strPathToHTMLDir)))
-#                            if strPyArchPathToDNAFileDirectory is not None:
-#                                strPathToPyArchIndexDirectory = os.path.join(strPyArchPathToDNAFileDirectory, "index")
-#                                os.mkdir(strPathToPyArchIndexDirectory)
-#                                shutil.copy(strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
-#                                shutil.copytree(strPathToHTMLDir, os.path.join(strPathToPyArchIndexDirectory, os.path.basename(strPathToHTMLDir)))
-#                        except Exception, e:
-#                            self.DEBUG("Exception caught: %r" % e)
             # Fix for bug MXSUP-251: Put the BEST .par file in the EDNA characterisation root directory
             xsDataIntegrationResult = xsDataResultCharacterisation.getIntegrationResult()
             if xsDataIntegrationResult:
