@@ -1,6 +1,20 @@
 #     EDNA2html.py: report output from EDNA MX Characterisation runs
 #     Copyright (C) Diamond 2010 Peter Briggs
 #
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    and the GNU Lesser General Public License  along with this program.  
+#    If not, see <http://www.gnu.org/licenses/>.
+#
 ########################################################################
 #
 # EDNA2html.py
@@ -30,11 +44,11 @@ import Jackdaw
 #######################################################################
 
 # EDNA2html error codes
-NO_ERROR                       = 0
-RUN_BASENAME_DIR_NOT_FOUND     = 1
+NO_ERROR = 0
+RUN_BASENAME_DIR_NOT_FOUND = 1
 CHARACTERISATION_DIR_NOT_FOUND = 2
-UNDETERMINED_XML_PREFIX        = 3
-INCOMPLETE_EDNA_RUN_DATA       = 4
+UNDETERMINED_XML_PREFIX = 3
+INCOMPLETE_EDNA_RUN_DATA = 4
 
 # Rotation axis display name
 ROTATION_AXIS_NAME = "omega"
@@ -59,29 +73,29 @@ class Help:
     identifying which placeholders are used in the output document.
 
     The tool tip text is read from the external 'tool_tip_file'."""
-    def __init__(self,tool_tip_file,show_names=False):
+    def __init__(self, tool_tip_file, show_names=False):
         self.__show_names = show_names
         self.__value = dict()
         self.__load_from_file(tool_tip_file)
 
-    def __getattr__(self,attr):
+    def __getattr__(self, attr):
         """Internal: return value of an undefined attribute"""
         if self.__show_names:
             if self.__value.has_key(attr):
-                return "Placeholder name: "+str(attr)
+                return "Placeholder name: " + str(attr)
             else:
-                return "Undefined name: "+str(attr)
+                return "Undefined name: " + str(attr)
         else:
             try:
                 return self.__value[attr]
             except KeyError:
-                return "Undefined name: "+str(attr)
+                return "Undefined name: " + str(attr)
 
-    def __load_from_file(self,tool_tip_file):
+    def __load_from_file(self, tool_tip_file):
         """Read and store tool tip data from external file"""
         if not tool_tip_file: return
-        print "Reading tool tip text from "+str(tool_tip_file)+".."
-        f = open(tool_tip_file,'r')
+        print "Reading tool tip text from " + str(tool_tip_file) + ".."
+        f = open(tool_tip_file, 'r')
         for line in f:
             line = line.strip()
             # Skip comment lines
@@ -96,11 +110,11 @@ class Help:
             try:
                 i = line.index(':')
                 key = line[:i].strip()
-                value = line[i+1:].strip().strip("\"")
+                value = line[i + 1:].strip().strip("\"")
                 # Store the extracted key/value pair
                 self.__value[key] = value
             except IndexError:
-                print "Bad line: "+line
+                print "Bad line: " + line
                 print "Skipped"
                 continue
         f.close
@@ -127,7 +141,7 @@ class SimpleXMLNode:
 
     new_node = tree.addNode('new_node')"""
 
-    def __init__(self,name=None):
+    def __init__(self, name=None):
         """Create a new SimpleXMLNode
 
         Optional parameter 'name' specifies an associated name
@@ -154,7 +168,7 @@ class SimpleXMLNode:
         if self.__hasValue:
             return str(self.__value)
         else:
-            return "<SimpleXMLNode instance: "+str(self.__name)+">"
+            return "<SimpleXMLNode instance: " + str(self.__name) + ">"
 
     def __float__(self):
         """Return node value as a float
@@ -168,7 +182,7 @@ class SimpleXMLNode:
         if self.__hasValue:
             return float(self.__value)
         else:
-            raise ValueError,"No value attached to '"+str(self.__name)+"'"
+            raise ValueError, "No value attached to '" + str(self.__name) + "'"
 
     def __int__(self):
         """Return node value as an integer
@@ -185,7 +199,7 @@ class SimpleXMLNode:
         if self.__hasValue:
             return int(self.__float__())
         else:
-            raise ValueError,"No value attached to '"+str(self.__name)+"'"
+            raise ValueError, "No value attached to '" + str(self.__name) + "'"
 
     def __iter__(self):
         """Return an iterator object for this node
@@ -209,7 +223,7 @@ class SimpleXMLNode:
         SimpleXMLNode objects)."""
         return iter([self])
 
-    def __getattr__(self,attr):
+    def __getattr__(self, attr):
         """Return child nodes called 'attr'
 
         This implements the functionality:
@@ -231,22 +245,22 @@ class SimpleXMLNode:
                 children.append(child)
         if len(children) == 0:
             raise AttributeError, \
-                "No children called '"+ \
-                str(attr)+ \
-                "' for node '"+ \
-                str(self.__name)+"'"
+                "No children called '" + \
+                str(attr) + \
+                "' for node '" + \
+                str(self.__name) + "'"
         elif len(children) == 1:
             return children[0]
         else:
             return children
 
-    def addNode(self,name):
+    def addNode(self, name):
         """Create a new subnode for this node
 
         Create and return a SimpleXMLNode object called 'name'
         which is also a subnode of this node object."""
         if not name:
-            raise ValueError,"addNode: invalid 'name'"
+            raise ValueError, "addNode: invalid 'name'"
         node = SimpleXMLNode(name)
         self.__children.append(node)
         return node
@@ -255,7 +269,7 @@ class SimpleXMLNode:
         """Return the name associated with this node object"""
         return self.__name
 
-    def setValue(self,value):
+    def setValue(self, value):
         """Set the value associated with the node object"""
         self.__hasValue = True
         self.__value = value
@@ -275,7 +289,7 @@ class SimpleXMLNode:
         """Return the list of the SimpleXMLNode child objects"""
         return self.__children
 
-    def findNode(self,name):
+    def findNode(self, name):
         """Retrieve the child node called 'name'
 
         Search the child nodes for the first node which matches
@@ -307,7 +321,7 @@ class EDNAXMLHandler(xml.sax.ContentHandler):
         self.__characters = []
         return
 
-    def startElement(self,tag,attrs):
+    def startElement(self, tag, attrs):
         # Deal with context
         last_node = self.__context[-1]
         self.__context.append(last_node.addNode(tag))
@@ -316,7 +330,7 @@ class EDNAXMLHandler(xml.sax.ContentHandler):
             self.__characters = []
         return
 
-    def endElement(self,tag):
+    def endElement(self, tag):
         current_node = self.__context[-1]
         # Set the value
         if tag == "value":
@@ -327,7 +341,7 @@ class EDNAXMLHandler(xml.sax.ContentHandler):
             self.__context = self.__context[0:-1]
         return
 
-    def characters(self,data):
+    def characters(self, data):
         self.__characters.append(data)
         return
 
@@ -349,7 +363,7 @@ class EDNALogData:
     Further data can be extracted by requesting the Magpie.Data
     objects from each of the processors."""
 
-    def __init__(self,log_file):
+    def __init__(self, log_file):
         """Create a new EDNALogData object
 
         'log_file' is the name and path to the log file of interest."""
@@ -361,23 +375,23 @@ class EDNALogData:
         self.integration = self.__parseIntegration()
         self.strategy = self.__parseStrategy()
         self.errors = self.__parseError()
-        
-    def __parseLog(self,log_file):
+
+    def __parseLog(self, log_file):
         """Parse an EDNA log file using Magpie"""
         log = Magpie.Magpie(verbose=self.__verbose)
         # Add patterns to capture the different sections
         #
         # 'integration' pattern: matches all lines starting with
         # "Integration : MOSFLM :"
-        log.addPattern('integration',"Integration : MOSFLM :(.*)",['line'])
+        log.addPattern('integration', "Integration : MOSFLM :(.*)", ['line'])
         #
         # 'strategy_best' pattern: matches all lines starting with
         # "Strategy : Best :"
-        log.addPattern('strategy_best',"Strategy : Best :(.*)",['line'])
+        log.addPattern('strategy_best', "Strategy : Best :(.*)", ['line'])
         #
         # 'error' pattern: matches all lines starting e.g.
         # "20100422-193826  [ERROR]:"
-        log.addPattern('error',"[0-9]+-[0-9]+[ \t]+\[ERROR\]:(.*)",['message'])
+        log.addPattern('error', "[0-9]+-[0-9]+[ \t]+\[ERROR\]:(.*)", ['message'])
         # Process the log file
         log.processFile(log_file)
         # Return populated Magpie processor
@@ -424,7 +438,7 @@ class EDNALogData:
         # " <I/sigma>   76.4   88.5   50.1   29.7   17.3    7.5    5.7    2.2"
         integration.defineBlock('analysis_fully_recorded',
                                 "Profile fitted fully recorded",
-                                "I/sigma",include_flag=Magpie.EXCLUDE_START)
+                                "I/sigma", include_flag=Magpie.EXCLUDE_START)
         #
         # 'analysis_partials' block: matches block of text starting e.g.
         # "Profile fitted partials:"
@@ -432,7 +446,7 @@ class EDNALogData:
         # " <I/sigma>   76.4   88.5   50.1   29.7   17.3    7.5    5.7    2.2"
         integration.defineBlock('analysis_partials',
                                 "Profile fitted partials",
-                                "I/sigma",include_flag=Magpie.EXCLUDE_START)
+                                "I/sigma", include_flag=Magpie.EXCLUDE_START)
         # Reprocess
         integration.processText(self.__reassembleLogText('integration'))
         return integration
@@ -461,7 +475,7 @@ class EDNALogData:
         # and ending with a blank line
         # (It captures the information on the subwedges in the strategy)
         strategy.defineBlock('subwedges',
-                             "  N | ","",
+                             "  N | ", "",
                              include_flag=Magpie.EXCLUDE)
         #
         # 'collection_plan' block: matches block of text starting e.g.
@@ -470,28 +484,28 @@ class EDNALogData:
         # "Ranking resolution            :   2.56 [A]"
         # (It captures the details of the collection plan)
         strategy.defineBlock('collection_plan',
-                             "Attenuation","Ranking resolution")
+                             "Attenuation", "Ranking resolution")
         #
         # Alternatively: match block of text starting e.g.
         # "Transmission                  : 23.947"
         # and ending with e.g.
         # "Ranking resolution            :   1.41 [A]"
         strategy.defineBlock('collection_plan',
-                             "Transmission","Ranking resolution")
+                             "Transmission", "Ranking resolution")
         # 'predicted_stats' block: matches block of text starting e.g.
         # "Predicted statistics:"
         # and ending with e.g.
         # "Multiplicity                  :    3.1"
         # (It captures the basic predicted statistics for the strategy)
         strategy.defineBlock('predicted_stats',
-                             "Predicted statistics:","Multiplicity",
+                             "Predicted statistics:", "Multiplicity",
                              include_flag=Magpie.EXCLUDE_START)
         # 'statistics' block: matches block of text starting e.g.
         # "Statistics according to the plan:"
         # and ending with a blank line
         # (It captures the predicted statistics by resolution bin)
         strategy.defineBlock('statistics',
-                             "Statistics according to the plan:","",
+                             "Statistics according to the plan:", "",
                              include_flag=Magpie.EXCLUDE)
         # Reprocess
         strategy.processText(self.__reassembleLogText('strategy_best'))
@@ -505,7 +519,7 @@ class EDNALogData:
             errors.append(error['message'])
         return errors
 
-    def __reassembleLogText(self,section):
+    def __reassembleLogText(self, section):
         """Reassemble the lines for a section of EDNA log file
 
         This is a utility function that reassembles individual lines
@@ -540,7 +554,7 @@ class EDNARunBuilder:
         self.__log_file = None
         return
 
-    def setRunBasename(self,run_basename):
+    def setRunBasename(self, run_basename):
         """Set the run basename for an EDNA run
 
         The run basename is the name of the top-level EDNA
@@ -553,7 +567,7 @@ class EDNARunBuilder:
         # Check that the basename refers to a real directory
         if not os.path.isdir(self.__run_basename):
             print "*** ERROR ***"
-            print "Directory "+str(run_basename)+" not found"
+            print "Directory " + str(run_basename) + " not found"
             self.__edna_run.error_code = RUN_BASENAME_DIR_NOT_FOUND
             self.__run_basename = None
             return self
@@ -571,25 +585,25 @@ class EDNARunBuilder:
             self.__edna_run.error_code = UNDETERMINED_XML_PREFIX
             return self
         else:
-            print "EDNA XML file prefix: "+str(edna_xml_prefix)
+            print "EDNA XML file prefix: " + str(edna_xml_prefix)
         # Set the data file names
         characterisation_dir = self.getCharacterisationDir()
         self.setInputXML(os.path.join(characterisation_dir,
-                                      edna_xml_prefix+"dataInput.xml"))
+                                      edna_xml_prefix + "dataInput.xml"))
         self.setOutputXML(os.path.join(characterisation_dir,
-                                       edna_xml_prefix+"dataOutput.xml"))
+                                       edna_xml_prefix + "dataOutput.xml"))
         self.setLogFile(self.__run_basename + ".log")
         return self
 
-    def setInputXML(self,input_xml_file):
+    def setInputXML(self, input_xml_file):
         self.__input_xml_file = input_xml_file
         return self
 
-    def setOutputXML(self,output_xml_file):
+    def setOutputXML(self, output_xml_file):
         self.__output_xml_file = output_xml_file
         return self
 
-    def setLogFile(self,log_file):
+    def setLogFile(self, log_file):
         self.__log_file = log_file
         return self
 
@@ -607,15 +621,22 @@ class EDNARunBuilder:
         tested."""
         # Can't operate without a run basename
         if not self.__run_basename: return None
-        # Loop over possible subdir names
-        for subdir in ("EDPluginControlCCP4iv1_1",
-                       "ControlCCP4iv1_1",
-                       "ControlInterfacev1_2"):
-            characterisation_dir = os.path.join(self.__run_basename,
-                                                subdir,
-                                                "Characterisation")
-            if os.path.isdir(characterisation_dir):
-                return characterisation_dir
+        # Loop over all subdurectories
+        for root, dirs, files in os.walk(self.__run_basename):
+            if os.path.basename(root) == "Characterisation":
+                characterisation_dir = root
+                break
+        if os.path.isdir(characterisation_dir):
+            return characterisation_dir
+#         Loop over possible subdir names
+#        for subdir in ("EDPluginControlCCP4iv1_1",
+#                       "ControlCCP4iv1_1",
+#                       "ControlInterfacev1_2"):
+#            characterisation_dir = os.path.join(self.__run_basename,
+#                                                subdir,
+#                                                "Characterisation")
+#            if os.path.isdir(characterisation_dir):
+#                return characterisation_dir
         # Didn't find a match
         return None
 
@@ -635,9 +656,12 @@ class EDNARunBuilder:
         if not characterisation_dir: return None
         # Loop over possible prefixes
         for prefix in ("EDPluginControlCharacterisationv1_1_",
-                       "ControlCharacterisationv1_1_"):
+                       "ControlCharacterisationv1_1_",
+                       "ControlCharacterisationv12_",
+                       "ControlCharacterisationv1_2_",
+                       "ControlCharacterisationv1_3_"):
             if os.path.isfile(os.path.join(characterisation_dir,
-                                           prefix+"dataInput.xml")):
+                                           prefix + "dataInput.xml")):
                 return prefix
         # Didn't find a match
         return None
@@ -649,6 +673,7 @@ class EDNARunBuilder:
         names for additional files (mostly log files) in the EDNARun
         object."""
         # Acquire characterisation directory
+        characterisation_dir = self.getCharacterisationDir()
         print "*** Collecting additional log files"
         characterisation_dir = self.getCharacterisationDir()
         if not characterisation_dir:
@@ -656,7 +681,36 @@ class EDNARunBuilder:
             print "*** WARNING no characterisation directory found"
             print "    Cannot acquire additional log files"
             return
-        print "    Characterisation directory: "+str(characterisation_dir)
+        print "    Characterisation directory: " + str(characterisation_dir)
+        #
+        # Labelit distl logs
+        #
+        # Note that there can be multiple logs, so we need
+        # to list the Labelit.distl directory, look for matching
+        # names and then extract a trailing "index" in order
+        # to build the full path for each of the files
+        labelit_distl_dir = os.path.join(characterisation_dir,
+                                       "Indexing", "ControlImageQualityIndicatorsv1_0")
+        if os.path.isdir(labelit_distl_dir):
+            for dirn in os.listdir(labelit_distl_dir):
+                for integration_prefix in ("LabelitDistlv1_1-",):
+                    if str(os.path.basename(dirn)).\
+                           startswith(integration_prefix):
+                        index = str(os.path.basename(dirn)).split('-')[1]
+                        labelit_distl_log = os.path.join(labelit_distl_dir,
+                                                              dirn,
+                                                              integration_prefix + \
+                                                              index + ".log")
+                        if os.path.isfile(labelit_distl_log):
+                            print "    Labelit.distl log: " + \
+                                  str(labelit_distl_log)
+                            self.__edna_run.labelit_distl_logs.append(
+                                labelit_distl_log)
+            # Finally: sort the list of Labelit.distl logs into order
+            if len(self.__edna_run.labelit_distl_logs):
+                self.__edna_run.labelit_distl_logs.sort()
+            else:
+                print "    *** NO LABELIT DISTL LOGS FOUND ***"
         # Mosflm indexing log
         mosflm_indexing_log = None
         for log in (os.path.join(characterisation_dir,
@@ -668,14 +722,30 @@ class EDNARunBuilder:
                                  "Indexing",
                                  "ControlIndexingMOSFLMv10",
                                  "MOSFLMIndexingv10",
+                                 "MOSFLMIndexingv10.log"),
+                    os.path.join(characterisation_dir,
+                                 "Indexing",
+                                 "MOSFLMIndexingv10",
                                  "MOSFLMIndexingv10.log")):
             if os.path.isfile(log):
                 mosflm_indexing_log = log
-                print "    Mosflm indexing log: "+str(mosflm_indexing_log)
+                print "    Mosflm indexing log: " + str(mosflm_indexing_log)
                 self.__edna_run.mosflm_indexing_log = mosflm_indexing_log
                 break
         if not mosflm_indexing_log:
             print "    Mosflm indexing log: *** NOT FOUND ***"
+        # Labelit indexing log
+        labelit_indexing_log = None
+        log = os.path.join(characterisation_dir,
+                                 "IndexingLabelit",
+                                 "LabelitIndexingv1_1",
+                                 "LabelitIndexingv1_1.log")
+        if os.path.isfile(log):
+            labelit_indexing_log = log
+            print "    Labelit indexing log: " + str(labelit_indexing_log)
+            self.__edna_run.labelit_indexing_log = labelit_indexing_log
+        if not labelit_indexing_log:
+            print "    Labelit indexing log: *** NOT FOUND ***"
         #
         # Mosflm integration logs
         #
@@ -693,10 +763,10 @@ class EDNARunBuilder:
                     index = str(os.path.basename(dirn)).split('-')[1]
                     mosflm_integration_log = os.path.join(integration_dir,
                                                           dirn,
-                                                          integration_prefix+\
-                                                          index+".log")
+                                                          integration_prefix + \
+                                                          index + ".log")
                     if os.path.isfile(mosflm_integration_log):
-                        print "    Mosflm integration log: "+\
+                        print "    Mosflm integration log: " + \
                               str(mosflm_integration_log)
                         self.__edna_run.mosflm_integration_logs.append(
                             mosflm_integration_log)
@@ -718,7 +788,7 @@ class EDNARunBuilder:
                                  "Raddosev10.log")):
             if os.path.isfile(log):
                 raddose_log = log
-                print "    Raddose log: "+str(raddose_log)
+                print "    Raddose log: " + str(raddose_log)
                 self.__edna_run.raddose_log = raddose_log
                 break
         if not raddose_log:
@@ -736,7 +806,7 @@ class EDNARunBuilder:
                                  "best.log")):
             if os.path.isfile(log):
                 best_log = log
-                print "    Best log: "+str(best_log)
+                print "    Best log: " + str(best_log)
                 self.__edna_run.best_log = best_log
                 break
         if not best_log:
@@ -752,7 +822,7 @@ class EDNARunBuilder:
                                       "Bestv1_2_plots.mtv")):
             if os.path.isfile(plotfile):
                 best_plots = plotfile
-                print "    Best plots: "+str(best_plots)
+                print "    Best plots: " + str(best_plots)
                 self.__edna_run.best_plots = best_plots
                 break
         if not best_plots:
@@ -772,21 +842,21 @@ class EDNARunBuilder:
         output_xml = None
         output_log = None
         if self.__input_xml_file:
-            print "Input XML : "+str(self.__input_xml_file)
+            print "Input XML : " + str(self.__input_xml_file)
             if os.path.isfile(self.__input_xml_file):
                 self.__edna_run.data_input_xml = self.__input_xml_file
                 input_xml = parseEDNAXML(self.__input_xml_file)
             else:
                 print "*** WARNING input XML file not found"
         if self.__output_xml_file:
-            print "Output XML: "+str(self.__output_xml_file)
+            print "Output XML: " + str(self.__output_xml_file)
             if os.path.isfile(self.__output_xml_file):
                 self.__edna_run.data_output_xml = self.__output_xml_file
                 output_xml = parseEDNAXML(self.__output_xml_file)
             else:
                 print "*** WARNING output XML file not found"
         if self.__log_file:
-            print "Log file  : "+str(self.__log_file)
+            print "Log file  : " + str(self.__log_file)
             if os.path.isfile(self.__log_file):
                 self.__edna_run.log_file = self.__log_file
                 output_log = EDNALogData(self.__log_file)
@@ -820,7 +890,11 @@ class EDNARunBuilder:
             except:
                 # Some error extracting data from output XML
                 print "*** WARNING exception raised when processing output XML"
-                print "    Some data may be missing"
+                print "    Some data may be missing:"
+                print "Data collection: ", self.__edna_run.has_data_collection
+                print "Indexing results: ", self.__edna_run.has_indexing_result
+                print "Prediction results: ", self.__edna_run.has_prediction_result
+                print "Strategy results: ", self.__edna_run.has_strategy_result 
         # Get missing information from log file, if possible
         if output_log:
             try:
@@ -846,7 +920,7 @@ class EDNARunBuilder:
         print "====== Finished extracting information ======="
         return self.__edna_run
 
-    def setDiffractionPlan(self,xml_data):
+    def setDiffractionPlan(self, xml_data):
         """Set diffraction plan parameters retrieved from XML data
 
         'input_data_xml' is a SimpleXMLNode tree derived from the
@@ -900,14 +974,21 @@ class EDNARunBuilder:
                 pass
             # Anomalous strategy
             try:
-                if int(diffractionPlan.anomalousData.value):
-                    self.__edna_run.diffraction_plan.anomalous_data = True
+                if type(diffractionPlan.anomalousData.value) == int:
+                    if int(diffractionPlan.anomalousData.value):
+                        self.__edna_run.diffraction_plan.anomalous_data = True
+                    else:
+                        self.__edna_run.diffraction_plan.anomalous_data = False
                 else:
-                    self.__edna_run.diffraction_plan.anomalous_data = False
+                    if diffractionPlan.anomalousData.value.lower() == "true":
+                        self.__edna_run.diffraction_plan.anomalous_data = True
+                    else:
+                        self.__edna_run.diffraction_plan.anomalous_data = False
+                    
             except AttributeError:
                 pass
 
-    def setSample(self,xml_data):
+    def setSample(self, xml_data):
         """Set the sample information retrieved from the input XML data"""
         sample = xml_data.findNode("sample")
         if sample:
@@ -931,9 +1012,9 @@ class EDNARunBuilder:
             for image in subwedge.images:
                 image_names.append(image.name)
         self.__edna_run.image_template = makeTemplateFromImageNames(image_names)
-        print "=> Template: "+str(self.__edna_run.image_template)
+        print "=> Template: " + str(self.__edna_run.image_template)
 
-    def setIndexingResultFromXML(self,xml_data):
+    def setIndexingResultFromXML(self, xml_data):
         # Image template
         self.__edna_run.image_template = "[missing from XML]"
         # Find the appropriate XML node
@@ -948,6 +1029,12 @@ class EDNARunBuilder:
         # Loop over all the solutions and store each one
         for soln in indexingResult.solution:
             crystal = soln.crystal
+            # Dirty fix for labelit indexing...
+            penalty_value = None
+            try:
+                penalty_value = int(soln.penalty.value)
+            except:
+                penalty_value = -1
             self.__edna_run.indexing_results.addSolution(
                 int(soln.number.value),
                 int(soln.penalty.value),
@@ -981,6 +1068,12 @@ class EDNARunBuilder:
             int(statistics.spotsTotal.value)
         self.__edna_run.indexing_results.spot_deviation_positional = \
             float(statistics.spotDeviationPositional.value)
+        # Dirty fix for labelit indexing...
+        spot_deviation_angular = None
+        try:
+            spot_deviation_angular = float(statistics.spotDeviationAngular.value)
+        except:
+            spot_deviation_angular = -1.0
         self.__edna_run.indexing_results.spot_deviation_angular = \
             float(statistics.spotDeviationAngular.value)
         self.__edna_run.indexing_results.beam_shift_x = \
@@ -991,7 +1084,7 @@ class EDNARunBuilder:
         self.__edna_run.indexing_results.estimated_mosaicity = \
             float(selectedSolution.crystal.mosaicity.value)
 
-    def setPredictionImages(self,xml_data):
+    def setPredictionImages(self, xml_data):
         """Find and store the diffraction image data from the EDNA XML"""
         # Find the relevant nodes in the XML
         predictionResult = xml_data.findNode("predictionResult")
@@ -1019,20 +1112,20 @@ class EDNARunBuilder:
                     break
             # Store data as part of an integration range also
             image_name = os.path.basename(path)
-            print "Assigning "+image_name+" to an integration range..."
+            print "Assigning " + image_name + " to an integration range..."
             for integration_range in self.__edna_run.integration_ranges:
                 for image in integration_range.images:
                     if image_name == image.name:
-                        print "Image belongs to range "+\
-                            str(integration_range.image_start)+\
-                            "-"+\
+                        print "Image belongs to range " + \
+                            str(integration_range.image_start) + \
+                            "-" + \
                             str(integration_range.image_end)
                         image.jpeg = jpeg
                         break
         # Finished
         return
 
-    def setIntegrationResults(self,xml_data):
+    def setIntegrationResults(self, xml_data):
         # Create integrations/subwedges by looping over the
         # subwedges defined in the "dataCollection" block
         print "Fetching integration results from XML"
@@ -1055,12 +1148,12 @@ class EDNARunBuilder:
                 integration_range.subwedge_number = int(subWedge.
                                                         subWedgeNumber.
                                                         value)
-        print "Found "+str(len(subwedge_nodes))+" subwedges"
+        print "Found " + str(len(subwedge_nodes)) + " subwedges"
         # Populate the integration ranges
         for subWedge in subwedge_nodes:
             # Populate the integration range
             subwedge_number = int(subWedge.subWedgeNumber.value)
-            print "*** Populating integration range for subwedge "+\
+            print "*** Populating integration range for subwedge " + \
                   str(subwedge_number)
             # Look up the integration range
             for int_range in self.__edna_run.integration_ranges:
@@ -1071,10 +1164,10 @@ class EDNARunBuilder:
             # Locate details for this range
             goniostat = subWedge.experimentalCondition.goniostat
             rotation_axis_start = float(goniostat.rotationAxisStart.value)
-            rotation_axis_end   = float(goniostat.rotationAxisEnd.value)
-            print "    Rotation range: "+\
-                  str(rotation_axis_start)+\
-                  "-"+\
+            rotation_axis_end = float(goniostat.rotationAxisEnd.value)
+            print "    Rotation range: " + \
+                  str(rotation_axis_start) + \
+                  "-" + \
                   str(rotation_axis_end)
             integration.rotation_axis_start = rotation_axis_start
             integration.rotation_axis_end = rotation_axis_end
@@ -1084,12 +1177,12 @@ class EDNARunBuilder:
                     image_number = int(image.number.value)
                     image_path = str(image.path.value)
                     image_name = os.path.basename(image_path)
-                    print "    Image "+\
-                          str(image_number)+\
-                          ": "+\
-                          image_name+\
-                          " ("+\
-                          image_path+\
+                    print "    Image " + \
+                          str(image_number) + \
+                          ": " + \
+                          image_name + \
+                          " (" + \
+                          image_path + \
                           ")"
                     # Add to the integration range
                     integration.addImage(image_name,
@@ -1100,7 +1193,7 @@ class EDNARunBuilder:
             # NB images might not be in order so we need to check
             # all image numbers and look for min and max
             image_start = integration.images[0].number
-            image_end   = integration.images[0].number
+            image_end = integration.images[0].number
             for image in integration.images:
                 image_number = image.number
                 if image_number < image_start:
@@ -1108,11 +1201,11 @@ class EDNARunBuilder:
                 elif image_number > image_end:
                     image_end = image_number
             integration.image_start = image_start
-            integration.image_end   = image_end
-            print "    (Image range "+\
-                  str(image_start)+\
-                  " to "+\
-                  str(image_end)+\
+            integration.image_end = image_end
+            print "    (Image range " + \
+                  str(image_start) + \
+                  " to " + \
+                  str(image_end) + \
                   ")"
             # Derive the image template
             image_names = []
@@ -1120,7 +1213,7 @@ class EDNARunBuilder:
                 image_names.append(image.name)
             integration.image_template = \
                                        makeTemplateFromImageNames(image_names)
-            print "    Derived template: "+integration.image_template
+            print "    Derived template: " + integration.image_template
         # Get the statistics for each subwedge/range
         # Loop over the subwedges defined under "integrationResult"
         # and assign RMS spot deviations in turn
@@ -1140,7 +1233,7 @@ class EDNARunBuilder:
                 # Subwedge number
                 try:
                     subwedge_number = int(subWedgeResult.subWedgeNumber.value)
-                    print "*** Collecting statistics for subwedge "+\
+                    print "*** Collecting statistics for subwedge " + \
                           str(subwedge_number)
                     # Look up the matching integration range
                     for int_range in self.__edna_run.integration_ranges:
@@ -1153,11 +1246,11 @@ class EDNARunBuilder:
                     subwedge_number = self.__edna_run.\
                                       integration_ranges[i].\
                                       subwedge_number
-                    print "*** Collecting statistics for assumed subwedge "+\
-                          str(subwedge_number)+\
-                          " ("+str(i)+"'th subwedge)"
+                    print "*** Collecting statistics for assumed subwedge " + \
+                          str(subwedge_number) + \
+                          " (" + str(i) + "'th subwedge)"
                     print "    (no explicit subwedge number found in XML)"
-                integration = self.__edna_run.integration_ranges[i-1]
+                integration = self.__edna_run.integration_ranges[i - 1]
                 # Numbers of reflections
                 # Note these might not be present in older XML files
                 statistics = subWedgeResult.statistics
@@ -1181,14 +1274,14 @@ class EDNARunBuilder:
                     integration.partially_recorded_reflns = int(statistics.
                                          numberOfPartialReflections.
                                          value)
-                    integration.bad_reflns =  int(statistics.
+                    integration.bad_reflns = int(statistics.
                                          numberOfBadReflections.
                                          value)
                 except AttributeError:
                     # Older XML doesn't have these defined
                     # Print a warning but otherwise ignore
                     print "    *** WARNING cannot find number of reflection statistics from XML"
-                    
+
                 # RMS spot deviation
                 integration.rms_spot_deviation = float(statistics.
                                                        RMSSpotDeviation.
@@ -1254,16 +1347,16 @@ class EDNARunBuilder:
                                             rbin.i_over_sigma_partials
                     # Overall I/sigma
                     i_over_sigma_overall_fulls += rbin. \
-                                                  i_over_sigma_fully_recorded*\
+                                                  i_over_sigma_fully_recorded * \
                                                   rbin.n_fully_recorded
                     n_reflns_fulls += rbin.n_fully_recorded
                     i_over_sigma_overall_partials += rbin. \
-                                                     i_over_sigma_partials*\
+                                                     i_over_sigma_partials * \
                                                      rbin.n_partials
                     n_reflns_partials += rbin.n_partials
                 # Calculate means
                 try:
-                    i_over_sigma_overall_fulls = i_over_sigma_overall_fulls/ \
+                    i_over_sigma_overall_fulls = i_over_sigma_overall_fulls / \
                                                  n_reflns_fulls
                 except ZeroDivisionError:
                     print "*** WARNING unable to calculate I/sigma overall"
@@ -1272,7 +1365,7 @@ class EDNARunBuilder:
                     i_over_sigma_overall_fulls = None
                 try:
                     i_over_sigma_overall_partials = \
-                                               i_over_sigma_overall_partials/ \
+                                               i_over_sigma_overall_partials / \
                                                n_reflns_partials
                 except ZeroDivisionError:
                     print "*** WARNING unable to calculate I/sigma overall"
@@ -1280,13 +1373,13 @@ class EDNARunBuilder:
                     print "    No partially recorded reflections?"
                     i_over_sigma_overall_partials = None
                 # Print the values for diagnostics
-                print "    I/sigma (highest resolution): "+\
-                      str(i_over_sigma_highest_resoln_fulls)+\
-                      "\t"+\
+                print "    I/sigma (highest resolution): " + \
+                      str(i_over_sigma_highest_resoln_fulls) + \
+                      "\t" + \
                       str(i_over_sigma_highest_resoln_partials)
-                print "    I/sigma (overall)           : "+\
-                      str(i_over_sigma_overall_fulls)+\
-                      "\t"+\
+                print "    I/sigma (overall)           : " + \
+                      str(i_over_sigma_overall_fulls) + \
+                      "\t" + \
                       str(i_over_sigma_overall_partials)
                 # Store the derived statistics
                 integration.i_over_sigma_overall_fulls = \
@@ -1298,7 +1391,7 @@ class EDNARunBuilder:
                 integration.i_over_sigma_highest_resoln_partials = \
                                           i_over_sigma_highest_resoln_partials
 
-    def setIntegrationStatsFromLog(self,log_data):
+    def setIntegrationStatsFromLog(self, log_data):
         # Attempt to extract data from the log file for statistics
         # that might be missing from older versions of the EDNA XML
         #
@@ -1323,14 +1416,14 @@ class EDNARunBuilder:
         # Determine the number of blocks
         print "*** WARNING: fetching missing integration stats from log file"
         n_ranges = len(log_data.integration['image_range'])
-        for i in range(0,n_ranges):
-            print "=> Deriving statistics for range "+str(i+1)
+        for i in range(0, n_ranges):
+            print "=> Deriving statistics for range " + str(i + 1)
             integration = self.__edna_run.integration_ranges[i]
             # Extract and store data
             #
             # Number of reflections
             data = Magpie.Tabulator(str(
-                    log_data.integration['statistics'][i]),':')
+                    log_data.integration['statistics'][i]), ':')
             if not integration.fully_recorded_reflns:
                 integration.fully_recorded_reflns = \
                 int(data['Number of fully recorded reflections'][1])
@@ -1349,7 +1442,7 @@ class EDNARunBuilder:
             #
             # I/sigma data etc
             data = Magpie.Tabulator(str(
-                    log_data.integration['i_over_sigma'][i]),':')
+                    log_data.integration['i_over_sigma'][i]), ':')
             if not integration.i_over_sigma_overall:
                 integration.i_over_sigma_overall = \
                 float(data['Average I/sigma overall'][1])
@@ -1366,10 +1459,10 @@ class EDNARunBuilder:
                     integration.addAnalysisResolnBin(resoln)
                 # Data for fully recorded spots
                 fulls_data = Magpie.Tabulator(str(
-                    log_data.integration['analysis_fully_recorded'][i]),None)
+                    log_data.integration['analysis_fully_recorded'][i]), None)
                 # Data for partially recorded spots
                 partials_data = Magpie.Tabulator(str(
-                    log_data.integration['analysis_partials'][i]),None)
+                    log_data.integration['analysis_partials'][i]), None)
                 # Store all the data
                 j = 0
                 for bin in integration.analysis_by_resoln:
@@ -1383,7 +1476,7 @@ class EDNARunBuilder:
         # Finished with log file
         return
 
-    def setStrategySweeps(self,xml_data):
+    def setStrategySweeps(self, xml_data):
         """Find and store the sweeps from the EDNA output XML"""
         # Each sweep corresponds to a collection plan
         print "Fetching collection plan from XML"
@@ -1399,13 +1492,13 @@ class EDNARunBuilder:
             if plan.getNodeName() == "collectionPlan":
                 sweep = self.__edna_run.strategy.addSweep()
                 sweep.number = int(plan.collectionPlanNumber.value)
-                print "*** Adding sweep "+str(sweep.number)+".."
+                print "*** Adding sweep " + str(sweep.number) + ".."
                 # Add subwedges
                 for subWedge in plan.collectionStrategy.childNodes():
                     if subWedge.getNodeName() == "subWedge":
                         subwedge = sweep.addSubwedge()
                         subwedge.number = int(subWedge.subWedgeNumber.value)
-                        print "*** Adding subwedge "+str(subwedge.number)+".."
+                        print "*** Adding subwedge " + str(subwedge.number) + ".."
                         # Over-ride value in the XML file
                         subwedge.rotation_axis = ROTATION_AXIS_NAME
                         # Get data for this subwedge
@@ -1429,15 +1522,15 @@ class EDNARunBuilder:
                         print "    Deriving # of images for subwedge"
                         subwedge.number_of_images = \
                             int((subwedge.rotation_end - \
-                                     subwedge.rotation_start)/ \
+                                     subwedge.rotation_start) / \
                                     subwedge.rotation_width)
                 # Do a check - should have at least one subwedge
                 if not len(sweep.subwedges):
-                    print "    *** ERROR in setStrategySweeps: no subwedges"+\
+                    print "    *** ERROR in setStrategySweeps: no subwedges" + \
                           " found for sweep ***"
                 else:
                     # Calculate total rotation range for the sweep
-                    print "    Calculating total rotation range "+\
+                    print "    Calculating total rotation range " + \
                           "and number of images for sweep"
                     sweep.total_number_of_images = 0
                     sweep_rotation_start = sweep.subwedges[0].rotation_start
@@ -1455,39 +1548,39 @@ class EDNARunBuilder:
         if not len(self.__edna_run.strategy.sweeps):
             print "*** ERROR in setStrategySweeps: no sweeps found ***"
 
-    def getLogErrors(self,log_data):
+    def getLogErrors(self, log_data):
         """Check for error messages from the log"""
         print "Checking for errors in the log"
         if not log_data.errors:
             print "No errors found"
         else:
             for error in log_data.errors:
-                print "*** ERROR: "+str(error)
+                print "*** ERROR: " + str(error)
         return log_data.errors
 
-    def setSubwedgeOverlapFromLog(self,log_data):
+    def setSubwedgeOverlapFromLog(self, log_data):
         """Find and store the subwedge strategy data from the EDNA log"""
         print "Adding overlap data to subwedges using log data"
-        for i in range(0,len(self.__edna_run.strategy.sweeps)):
+        for i in range(0, len(self.__edna_run.strategy.sweeps)):
             # Locate the sweep
             for sweep in self.__edna_run.strategy.sweeps:
-                if sweep.number == i+1: break
-            print "=> Sweep "+str(sweep.number)+".."
+                if sweep.number == i + 1: break
+            print "=> Sweep " + str(sweep.number) + ".."
             # Use a Tabulator to split up the "subwedges" data extracted
             # from the log file
             subwedge_data = Magpie.Tabulator(
-                str(log_data.strategy['subwedges'][i]),'|')
+                str(log_data.strategy['subwedges'][i]), '|')
             # Each row of tabulated data is a subwedge
             for data in subwedge_data:
                 j = int(data[0])
-                print "   Subwedge "+str(j)
+                print "   Subwedge " + str(j)
                 # Locate the subwedge
                 for subwedge in sweep.subwedges:
                     if subwedge.number == j: break
                 subwedge.overlap = data[6]
         return
 
-    def setStrategyStatistics(self,xml_data):
+    def setStrategyStatistics(self, xml_data):
         print "Fetching detailed statistics for each sweep from XML"
         nsweeps = len(self.__edna_run.strategy.sweeps)
         if not self.__edna_run.has_strategy_result:
@@ -1500,9 +1593,9 @@ class EDNARunBuilder:
             collection_plans = [strategy_result.collectionPlan]
         else:
             collection_plans = strategy_result.collectionPlan
-        for i in range(0,nsweeps):
+        for i in range(0, nsweeps):
             # Each collection plan corresponds to a sweep
-            print "=> Sweep "+str(i+1)+".."
+            print "=> Sweep " + str(i + 1) + ".."
             sweep = self.__edna_run.strategy.sweeps[i]
             plan = collection_plans[i]
             # Strategy summary
@@ -1510,7 +1603,7 @@ class EDNARunBuilder:
             # Resolution reasoning
             sweep.resolution_reasoning = \
                 str(strategy_summary.resolutionReasoning.value)
-            print "   "+sweep.resolution_reasoning
+            print "   " + sweep.resolution_reasoning
             # Resolution
             sweep.resolution = float(strategy_summary.resolution.value)
             sweep.ranking_resolution = \
@@ -1522,7 +1615,7 @@ class EDNARunBuilder:
                 float(strategy_summary.totalDataCollectionTime.value)
             # Predicted statistics
             sweep.predicted_stats.completeness = \
-                float(strategy_summary.completeness.value)*100.0
+                float(strategy_summary.completeness.value) * 100.0
             sweep.predicted_stats.i_over_sigma = \
                 float(strategy_summary.iSigma.value)
             sweep.predicted_stats.multiplicity = \
@@ -1534,7 +1627,7 @@ class EDNARunBuilder:
                 bin = stats.addData()
                 bin.max_resolution = float(resoln_bin.maxResolution.value)
                 bin.min_resolution = float(resoln_bin.minResolution.value)
-                bin.completeness = float(resoln_bin.completeness.value)*100.0
+                bin.completeness = float(resoln_bin.completeness.value) * 100.0
                 bin.intensity = float(resoln_bin.averageIntensity.value)
                 bin.sigma = float(resoln_bin.averageSigma.value)
                 bin.i_over_sigma = float(resoln_bin.IOverSigma.value)
@@ -1619,7 +1712,9 @@ class EDNARun:
         # Log files for each stage
         self.log_file = None
         self.mosflm_indexing_log = None
+	self.labelit_indexing_log = None
         self.mosflm_integration_logs = []
+        self.labelit_distl_logs = []
         self.raddose_log = None
         self.best_log = None
         self.best_plots = None
@@ -1671,7 +1766,7 @@ class Sample:
 #
 class Image:
     """Class representing an image used in an EDNA MX characterisation"""
-    def __init__(self,name,number,path,jpeg):
+    def __init__(self, name, number, path, jpeg):
         self.name = name
         self.number = number
         self.path = path
@@ -1705,12 +1800,12 @@ class IntegrationRange:
         self.images = []
         self.analysis_by_resoln = []
 
-    def addImage(self,name,number,path,jpeg):
-        image = Image(name,number,path,jpeg)
+    def addImage(self, name, number, path, jpeg):
+        image = Image(name, number, path, jpeg)
         self.images.append(image)
         return image
 
-    def addAnalysisResolnBin(self,resoln):
+    def addAnalysisResolnBin(self, resoln):
         new_bin = IntegrationAnalysisResolnBin()
         new_bin.resolution = resoln
         self.analysis_by_resoln.append(new_bin)
@@ -1739,7 +1834,7 @@ class IndexingResults:
         self.cell_b = None
         self.cell_c = None
         self.cell_alpha = None
-        self.cell_beta  = None
+        self.cell_beta = None
         self.cell_gamma = None
         self.number_of_spots_used = None
         self.number_of_spots_total = None
@@ -1748,26 +1843,26 @@ class IndexingResults:
         self.beam_shift_x_y = None
         self.beam_shift_x = None
         self.beam_shift_y = None
-        self.estimated_mosaicity = None 
-    def addSolution(self,index,penalty,lattice,a,b,c,alpha,beta,gamma):
-        soln = IndexingSolution(index,penalty,lattice,a,b,c,alpha,beta,gamma)
+        self.estimated_mosaicity = None
+    def addSolution(self, index, penalty, lattice, a, b, c, alpha, beta, gamma):
+        soln = IndexingSolution(index, penalty, lattice, a, b, c, alpha, beta, gamma)
         self.solutions.append(soln)
         return soln
-    def setSelectedSolution(self,index,spacegroup,a,b,c,alpha,beta,gamma):
+    def setSelectedSolution(self, index, spacegroup, a, b, c, alpha, beta, gamma):
         self.selected_solution_number = index
         self.spacegroup = spacegroup
         self.cell_a = a
         self.cell_b = b
         self.cell_c = c
         self.cell_alpha = alpha
-        self.cell_beta  = beta
+        self.cell_beta = beta
         self.cell_gamma = gamma
 
 # IndexingSolution class
 #
 class IndexingSolution:
     """Class representing an individual indexing solution"""
-    def __init__(self,index,penalty,lattice,a,b,c,alpha,beta,gamma):
+    def __init__(self, index, penalty, lattice, a, b, c, alpha, beta, gamma):
         self.index = index
         self.penalty = penalty
         self.lattice = lattice
@@ -1871,17 +1966,17 @@ class ErrorReporter:
     strategy output is available from any of the EDNA runs supplied to
     it."""
 
-    def __init__(self,edna2htmldir,edna_html_dir,edna_runs):
+    def __init__(self, edna2htmldir, edna_html_dir, edna_runs):
         """Create a new ErrorReporter instance
 
         'edna2htmldir' is the path to the EDNA2html home directory,
         'edna_runs' is the list of populated EDNARun objects."""
         # Generate a document reporting the errors
         self.__doc = Canary.Document("EDNA2html: failure report")
-        self.__doc.addStyle(os.path.join(edna2htmldir,"EDNA2html.css"),
+        self.__doc.addStyle(os.path.join(edna2htmldir, "EDNA2html.css"),
                             Canary.INLINE)
         self.__doc.addPara(Canary.MakeImg(os.path.join(edna_html_dir,
-                                                       "warning.png"))+\
+                                                       "warning.png")) + \
                            " EDNA2html failed to complete successfully",
                            css_class="error")
         if len(edna_runs) == 0:
@@ -1889,8 +1984,8 @@ class ErrorReporter:
             self.__doc.addPara("No runs were supplied")
         else:
             # Failure mode: No runs could be processed
-            self.__doc.addPara(str(len(edna_runs))+
-                               " run(s) were supplied but none "+\
+            self.__doc.addPara(str(len(edna_runs)) + 
+                               " run(s) were supplied but none " + \
                                "could be processed:")
             run_list = self.__doc.addList()
             # Loop over runs and write diagnostics
@@ -1901,10 +1996,10 @@ class ErrorReporter:
         addFooter(self.__doc)
         # Copy the warning icon
         CopyIcons(['warning.png'],
-                  os.path.join(edna2htmldir,"icons"),
+                  os.path.join(edna2htmldir, "icons"),
                   edna_html_dir)
 
-    def addFailureDiagnostics(self,edna_run):
+    def addFailureDiagnostics(self, edna_run):
         """Add diagnostic section for a failed EDNA run
 
         'edna_run' is a populated EDNARun object from which the
@@ -1912,17 +2007,17 @@ class ErrorReporter:
         title = os.path.basename(str(edna_run.run_basename))
         diag = self.__doc.addSection(title)
         diag.addCSSClass("failure_diagnostic")
-        addEDNAFailureSummary(diag,edna_run,Help(None))
+        addEDNAFailureSummary(diag, edna_run, Help(None))
         return diag
-        
-    def renderFile(self,html_file):
+
+    def renderFile(self, html_file):
         """Write the HTML error document to file"""
         self.__doc.renderFile(html_file)
 
 #######################################################################
 # Module Functions
 #######################################################################
-    
+
 def version():
     """Return the version of the EDNA2html module"""
     return __version__
@@ -1933,30 +2028,30 @@ def parseEDNAXML(xml_file):
     Use a SAX parser with an EDNAXMLHandler object to create and
     return a SimpleXMLNode tree representing the XML file contents."""
     handler = EDNAXMLHandler()
-    xml.sax.parse(open(xml_file),handler)
+    xml.sax.parse(open(xml_file), handler)
     return handler.getSimpleXMLNodeTree()
 
-def makePortableFileCopy(source_file,target_dir):
+def makePortableFileCopy(source_file, target_dir):
     if not source_file: return source_file
-    target_file = os.path.join(target_dir,os.path.basename(source_file))
-    CopyFile(source_file,target_file)
+    target_file = os.path.join(target_dir, os.path.basename(source_file))
+    CopyFile(source_file, target_file)
     return target_file
 
-def makeResizedImage(image_file_in,image_file_out,height,width):
+def makeResizedImage(image_file_in, image_file_out, height, width):
     # Make a resized version of the supplied image file
     # using ImageMagick "convert"
-    print "Making resized copy of .../"+os.path.basename(image_file_in)
+    print "Making resized copy of .../" + os.path.basename(image_file_in)
     p = subprocess.Popen(["convert",
                           str(image_file_in),
                           "-resize",
-                          str(width)+"x"+str(height),
+                          str(width) + "x" + str(height),
                           str(image_file_out)])
     return p.wait()
 
 def getImageDimensions(image):
     # Get the image height and width using ImageMagick "identify"
     # Returns a list with width and height
-    print "Getting dimenions of .../"+os.path.basename(image)
+    print "Getting dimenions of .../" + os.path.basename(image)
     p = subprocess.Popen(["identify",
                           "-format",
                           "%wx%h",
@@ -1971,18 +2066,18 @@ def convertTimeToMinutes(t):
 
     't' is a number of seconds; this function will return a string
     showing t as minutes and seconds in the format min:sec."""
-    mins = int(t/60.0)
-    secs = t%60.0
-    return "%d:%04.1f" % (mins,secs)
-    
+    mins = int(t / 60.0)
+    secs = t % 60.0
+    return "%d:%04.1f" % (mins, secs)
 
-def CopyFile(source,target):
+
+def CopyFile(source, target):
     # Copy file 'source' to 'target'
     try:
-        shutil.copy(source,target)
+        shutil.copy(source, target)
     except:
-        print "CopyFile: copy operation "+\
-            str(source)+" -> "+str(target)+" failed"
+        print "CopyFile: copy operation " + \
+            str(source) + " -> " + str(target) + " failed"
 
 def makeTemplateFromImageNames(image_names):
     # 'image_names' is an iterable which gives a list
@@ -1993,7 +2088,7 @@ def makeTemplateFromImageNames(image_names):
     template = image_names[0]
     for image in image_names[1:]:
         new_template = ''
-        for i in range(0,len(template)):
+        for i in range(0, len(template)):
             if image[i] == template[i]:
                 new_template += template[i]
             else:
@@ -2021,15 +2116,15 @@ def populateStrategySummaryTable(doc,
         # JAVASCRIPT CODE SWITCH STATEMENT FOR THE SORTABLE TABLE
         # TO FUNCTION - THE TEXT MUST MATCH EXACTLY
         js_cmd = "return sortTable(this);"
-        summary_header = [Jackdaw.JavascriptLink("Run #",js_cmd),
+        summary_header = [Jackdaw.JavascriptLink("Run #", js_cmd),
                           Jackdaw.JavascriptLink("Predicted completeness (%)",
                                                  js_cmd),
-                          Jackdaw.JavascriptLink("Predicted I/sigma",js_cmd),
+                          Jackdaw.JavascriptLink("Predicted I/sigma", js_cmd),
                           Jackdaw.JavascriptLink("Predicted I/sigma (overall)",
                                                  js_cmd),
                           Jackdaw.JavascriptLink("Predicted multiplicity",
                                                  js_cmd),
-                          Jackdaw.JavascriptLink("# of images",js_cmd),
+                          Jackdaw.JavascriptLink("# of images", js_cmd),
                           Jackdaw.JavascriptLink("Total exposure time (min:sec)",
                                                  js_cmd),
                           Jackdaw.JavascriptLink("Total collection time (min:sec)",
@@ -2038,8 +2133,8 @@ def populateStrategySummaryTable(doc,
                                                  js_cmd)]
         if ranking_mode:
             # Also display the ranking resolution
-            summary_header.insert(1,Jackdaw.JavascriptLink(
-                "Ranking resolution (A)",js_cmd))
+            summary_header.insert(1, Jackdaw.JavascriptLink(
+                "Ranking resolution (A)", js_cmd))
     else:
         # Only one run so build the framework without links
         # (i.e. non-sortable table)
@@ -2054,7 +2149,7 @@ def populateStrategySummaryTable(doc,
                           "Maximum resolution (A)"]
         if ranking_mode:
             # Also display the ranking resolution
-            summary_header.insert(1,"Ranking resolution (A)")
+            summary_header.insert(1, "Ranking resolution (A)")
     # Also need description column?
     for edna_run in edna_runs:
         if edna_run.title:
@@ -2074,7 +2169,7 @@ def populateStrategySummaryTable(doc,
                         help.sort_strategy_resolution,
                         help.strategy_description]
         if ranking_mode:
-            summary_help.insert(1,help.sort_ranking_resolution)
+            summary_help.insert(1, help.sort_ranking_resolution)
     else:
         summary_help = [help.run_number,
                         help.predicted_completeness,
@@ -2087,15 +2182,15 @@ def populateStrategySummaryTable(doc,
                         help.strategy_resolution,
                         help.strategy_description]
         if ranking_mode:
-            summary_help.insert(1,help.ranking_resolution)
+            summary_help.insert(1, help.ranking_resolution)
     summary_table.addHelpToHeader(summary_help)
     # Add an id to the table body element
     # (used in Javascript to reference the table)
     summary_table.setTBodyId("strategyData")
-    
+
     # Make a Javascript file with the data for the strategies
-    strategy_js_file = os.path.join(edna_html_dir,"strategy.js")
-    strategy_js = open(strategy_js_file,"w")
+    strategy_js_file = os.path.join(edna_html_dir, "strategy.js")
+    strategy_js = open(strategy_js_file, "w")
     # Write name of tabbed folder
     strategy_js.write("setTabbedFolderId('%s');\n" % strategy_folder_id)
     # Write data for each strategy
@@ -2120,14 +2215,14 @@ def populateStrategySummaryTable(doc,
                                this_strategy.total_data_collection_time,
                                this_strategy.strategy_resolution,
                                multi_sweep,
-                               "'"+str(edna_run.title)+"'",
-                               tab_ids[irun-1]))
+                               "'" + str(edna_run.title) + "'",
+                               tab_ids[irun - 1]))
         except:
             print "*** Failed to add summary info to the sortable table"
             strategy_js.write("addFailedStrategy(%d,%s);\n" % \
-                              (irun,tab_ids[irun-1]))
+                              (irun, tab_ids[irun - 1]))
     # Help for elements in each row
-    strategy_js.write("setHelp('%s','%s');\n" % ('run',help.run_number))
+    strategy_js.write("setHelp('%s','%s');\n" % ('run', help.run_number))
     strategy_js.write("setHelp('%s','%s');\n" % ('ranking_resolution',
                                                  help.ranking_resolution))
     strategy_js.write("setHelp('%s','%s');\n" % ('completeness',
@@ -2150,49 +2245,49 @@ def populateStrategySummaryTable(doc,
                                                  help.strategy_description))
     strategy_js.close()
     # Include this file in the final document
-    doc.addScript(strategy_js_file,Canary.INLINE)
+    doc.addScript(strategy_js_file, Canary.INLINE)
 
-def addStrategySummary(section,edna_run,ranking_mode,edna_html_dir,help):
+def addStrategySummary(section, edna_run, ranking_mode, edna_html_dir, help):
     # Title
     if edna_run.title: section.addPara(edna_run.title,
                                        css_class="strategy_title")
     # Check if it was complete
     if not edna_run.isComplete():
         section.addPara(Canary.MakeImg(os.path.join(edna_html_dir,
-                                                    "warning.png"))+\
-                        " There was an error processing this run - "+\
-                        "some data may be missing",css_class="error")
-        addEDNAFailureSummary(section,edna_run,help)
+                                                    "warning.png")) + \
+                        " There was an error processing this run - " + \
+                        "some data may be missing", css_class="error")
+        addEDNAFailureSummary(section, edna_run, help)
         return
 
     # Details of inputs
-    addEDNAInputsTable(section,edna_run,help)
+    addEDNAInputsTable(section, edna_run, help)
 
     # Collection plan
-    addStrategyCollectionPlan(section,edna_run,help)
+    addStrategyCollectionPlan(section, edna_run, help)
 
     # Strategy details (i.e. predicted overall multiplicity etc)
-    addStrategyDetails(section,edna_run,help)
+    addStrategyDetails(section, edna_run, help)
 
     # Log files
-    addEDNAOutputFilesTable(section,edna_run,help)
+    addEDNAOutputFilesTable(section, edna_run, help)
 
     # Predicted statistics
-    addStrategyPredictedStats(section,edna_run,help)
-    
+    addStrategyPredictedStats(section, edna_run, help)
+
     # Optional indexing and spot prediction results
     if ranking_mode:
         # Add indexing and spot prediction specifically for this run
         indexing_and_prediction = section.addSubsection()
-        addIndexingSummary(edna_run,indexing_and_prediction,edna_html_dir,
+        addIndexingSummary(edna_run, indexing_and_prediction, edna_html_dir,
                            help)
-        addPredictionSummary(edna_run,indexing_and_prediction,edna_html_dir,
+        addPredictionSummary(edna_run, indexing_and_prediction, edna_html_dir,
                              help)
-        
-    # Links to the master log and XML files
-    addStrategyFileList(edna_run,section,help)
 
-def addEDNAFailureSummary(section,edna_run,help):
+    # Links to the master log and XML files
+    addStrategyFileList(edna_run, section, help)
+
+def addEDNAFailureSummary(section, edna_run, help):
     """Write diagnostics for a failed EDNA run
 
     'edna_run' is a populated EDNARun object from which the
@@ -2203,18 +2298,18 @@ def addEDNAFailureSummary(section,edna_run,help):
             section.addPara("Unable to process input XML file",
                             css_class="warning")
         if not edna_run.data_output_xml:
-            section.addPara("No output XML file found: EDNA MXv1 "+\
+            section.addPara("No output XML file found: EDNA MXv1 " + \
                             "characterisation failed to finish?",
                             css_class="warning")
         elif not edna_run.output_xml_ok:
-            section.addPara("Unable to process output XML file: EDNA MxV1 "+\
+            section.addPara("Unable to process output XML file: EDNA MxV1 " + \
                             "characterisation failed to produce a strategy?",
                             css_class="warning")
     else:
-        section.addPara("No input XML file found",css_class="warning")
+        section.addPara("No input XML file found", css_class="warning")
     # Error code from the run processing?
     errmsg = lookupErrorCode(edna_run.error_code)
-    if errmsg: section.addPara(errmsg,css_class="warning")
+    if errmsg: section.addPara(errmsg, css_class="warning")
     # Any error messages from log file?
     if edna_run.log_errors:
         section.addPara("Error messages detected in master log file:")
@@ -2223,20 +2318,20 @@ def addEDNAFailureSummary(section,edna_run,help):
             errors.addItem(err_msg)
     # Run basename
     if edna_run.run_basename:
-        section.addPara("Base directory for this run: "+
+        section.addPara("Base directory for this run: " +
                         Canary.MakeLink(edna_run.run_basename))
     # Input files
     section.addPara("The following files were used as input:")
-    addStrategyFileList(edna_run,section,help)
+    addStrategyFileList(edna_run, section, help)
     # Table indicating which sections weren't processed
     section.addPara("The table indicates which data from the run were found:")
-    err_tbl = section.addTable(["Data","Status","Log file"])
+    err_tbl = section.addTable(["Data", "Status", "Log file"])
     # Data collection
     err_tbl.addRow(["Data collection",
                     str(edna_run.has_data_collection),
                     "n/a"])
     # Indexing
-    row = ["Indexing result",str(edna_run.has_indexing_result)]
+    row = ["Indexing result", str(edna_run.has_indexing_result)]
     if edna_run.mosflm_indexing_log:
         row.append(Canary.MakeLink(edna_run.mosflm_indexing_log,
                                    "Mosflm indexing log"))
@@ -2248,7 +2343,7 @@ def addEDNAFailureSummary(section,edna_run,help):
                     str(edna_run.has_prediction_result),
                     "n/a"])
     # Integration
-    row = ["Integration result",str(edna_run.has_integration_result)]
+    row = ["Integration result", str(edna_run.has_integration_result)]
     integration_logs = []
     for log_file in edna_run.mosflm_integration_logs:
         integration_logs.append(Canary.MakeLink(log_file,
@@ -2259,7 +2354,7 @@ def addEDNAFailureSummary(section,edna_run,help):
         row.append("Mosflm integration log: not found")
     err_tbl.addRow(row)
     # Strategy
-    row = ["Strategy result",str(edna_run.has_strategy_result)]
+    row = ["Strategy result", str(edna_run.has_strategy_result)]
     if edna_run.best_log:
         row.append(Canary.MakeLink(edna_run.best_log,
                                    "Best log"))
@@ -2269,7 +2364,7 @@ def addEDNAFailureSummary(section,edna_run,help):
     # Return the section
     return section
 
-def addEDNAInputsTable(section,edna_run,help):
+def addEDNAInputsTable(section, edna_run, help):
     """Add a summary of the inputs to EDNA to a document section
 
     Creates a table in the Canary document section supplied as
@@ -2279,7 +2374,7 @@ def addEDNAInputsTable(section,edna_run,help):
     Use the data in the Help object 'help' to populate the table
     tool-tips."""
     # Details of inputs
-    inputs = section.addTable(["Inputs to EDNA",None,""])
+    inputs = section.addTable(["Inputs to EDNA", None, ""])
     inputs.addRow(['Target resolution',
                    'Target multiplicity',
                    'Target I/&sigma;',
@@ -2289,7 +2384,7 @@ def addEDNAInputsTable(section,edna_run,help):
                    'Anomalous data'],
                   css_classes="inputs_table_header")
     inputs.addClass("inputs")
-    inputs.addClassToColumn(0,"first_child")
+    inputs.addClassToColumn(0, "first_child")
     row = [str(edna_run.diffraction_plan.resolution),
            str(edna_run.diffraction_plan.multiplicity),
            str(edna_run.diffraction_plan.i_over_sigma),
@@ -2307,7 +2402,7 @@ def addEDNAInputsTable(section,edna_run,help):
     if edna_run.sample.description == "Specified protein":
         # Add a link to Raddose log, if found
         if edna_run.raddose_log:
-            row[3] += " "+Canary.MakeLink(edna_run.raddose_log,
+            row[3] += " " + Canary.MakeLink(edna_run.raddose_log,
                                           "(see Raddose log)")
     # Report anomalous data
     # NOTE THAT IF THE ORDER OR NUMBER OF COLUMNS IN THE INPUTS
@@ -2320,17 +2415,17 @@ def addEDNAInputsTable(section,edna_run,help):
     inputs.addRow(row)
     # Add tool tips to the inputs table
     inputs.addTitle(help.inputs_table_title)
-    inputs.addHelpToColumn(0,help.target_resolution,Canary.ALL_ROWS)
-    inputs.addHelpToColumn(1,help.target_multiplicity,Canary.ALL_ROWS)
-    inputs.addHelpToColumn(2,help.target_i_over_sigma,Canary.ALL_ROWS)
-    inputs.addHelpToColumn(3,help.sample_composition,Canary.ALL_ROWS)
-    inputs.addHelpToColumn(4,help.radiation_susceptibility,Canary.ALL_ROWS)
-    inputs.addHelpToColumn(5,help.requested_strategy_complexity,
+    inputs.addHelpToColumn(0, help.target_resolution, Canary.ALL_ROWS)
+    inputs.addHelpToColumn(1, help.target_multiplicity, Canary.ALL_ROWS)
+    inputs.addHelpToColumn(2, help.target_i_over_sigma, Canary.ALL_ROWS)
+    inputs.addHelpToColumn(3, help.sample_composition, Canary.ALL_ROWS)
+    inputs.addHelpToColumn(4, help.radiation_susceptibility, Canary.ALL_ROWS)
+    inputs.addHelpToColumn(5, help.requested_strategy_complexity,
                            Canary.ALL_ROWS)
     # Return the table
     return inputs
 
-def addStrategyCollectionPlan(section,edna_run,help):
+def addStrategyCollectionPlan(section, edna_run, help):
     """Write table(s) summarising the collection plan for a strategy
 
     Adds one or more tables (one table per sweep) to the Canary
@@ -2349,7 +2444,7 @@ def addStrategyCollectionPlan(section,edna_run,help):
         plan.addClass("collection_plan")
         if nsweeps > 1:
             # Write header for sweep if there are multiple sweeps
-            plan.setHeader(["Sweep "+str(sweep.number)])
+            plan.setHeader(["Sweep " + str(sweep.number)])
         # Subwedges
         plan.addRow([None,
                      "Inputs for data collection software",
@@ -2362,7 +2457,7 @@ def addStrategyCollectionPlan(section,edna_run,help):
                      None],
                     css_classes="table_header")
         plan.addRow(["Subwedge",
-                     axis.title()+" start (&deg;)",
+                     axis.title() + " start (&deg;)",
                      "Rotation width (&deg;)",
                      "Number of images",
                      "Exposure (s)",
@@ -2383,29 +2478,29 @@ def addStrategyCollectionPlan(section,edna_run,help):
                          subwedge.overlap],
                         css_classes="subwedge")
         # Add initial CSS classes to columns for styling later
-        plan.addClassToColumn(0,"first_child")
-        for col in range(1,7): plan.addClassToColumn(col,"GDA_inputs")
-        for col in range(7,9): plan.addClassToColumn(col,"additional_info")
+        plan.addClassToColumn(0, "first_child")
+        for col in range(1, 7): plan.addClassToColumn(col, "GDA_inputs")
+        for col in range(7, 9): plan.addClassToColumn(col, "additional_info")
         # Add tool tip help to the table
         # The order is a little convoulted but is necessary to assure
         # that the correct text is assigned to each cell
         plan.addHelpToHeader([help.sweep_number,
                               None,
                               help.resolution_reasoning])
-        plan.addHelpToColumn(0,help.subwedge_number,Canary.ALL_ROWS)
-        plan.addHelpToColumn(1,help.omega_start,Canary.ALL_ROWS)
-        plan.addHelpToColumn(2,help.rotation_width,Canary.ALL_ROWS)
-        plan.addHelpToColumn(3,help.number_of_images,Canary.ALL_ROWS)
-        plan.addHelpToColumn(4,help.exposure,Canary.ALL_ROWS)
-        plan.addHelpToColumn(5,help.maximum_resolution,Canary.ALL_ROWS)
-        plan.addHelpToColumn(6,help.transmission,Canary.ALL_ROWS)
-        plan.addHelpToColumn(7,help.distance,Canary.ALL_ROWS)
-        plan.addHelpToColumn(8,help.overlap,Canary.ALL_ROWS)
-        plan.addHelpToRow(0,help.additional_details,Canary.ALL_COLUMNS)
-        plan.addHelpToRow(0,[help.subwedge_number,
+        plan.addHelpToColumn(0, help.subwedge_number, Canary.ALL_ROWS)
+        plan.addHelpToColumn(1, help.omega_start, Canary.ALL_ROWS)
+        plan.addHelpToColumn(2, help.rotation_width, Canary.ALL_ROWS)
+        plan.addHelpToColumn(3, help.number_of_images, Canary.ALL_ROWS)
+        plan.addHelpToColumn(4, help.exposure, Canary.ALL_ROWS)
+        plan.addHelpToColumn(5, help.maximum_resolution, Canary.ALL_ROWS)
+        plan.addHelpToColumn(6, help.transmission, Canary.ALL_ROWS)
+        plan.addHelpToColumn(7, help.distance, Canary.ALL_ROWS)
+        plan.addHelpToColumn(8, help.overlap, Canary.ALL_ROWS)
+        plan.addHelpToRow(0, help.additional_details, Canary.ALL_COLUMNS)
+        plan.addHelpToRow(0, [help.subwedge_number,
                              help.data_collection_software_inputs])
-        
-def addStrategyDetails(section,edna_run,help):
+
+def addStrategyDetails(section, edna_run, help):
     """Write table summarising the predicted details for a strategy
 
     Adds a table to the Canary document section 'section', summarising
@@ -2428,7 +2523,7 @@ def addStrategyDetails(section,edna_run,help):
                                 'I/sigma (highest resolution)',
                                 'Multiplicity'],
                                header='Strategy details')
-    strategy_details.addClassToRow(5,"table_header")
+    strategy_details.addClassToRow(5, "table_header")
     nsweeps = len(edna_run.strategy.sweeps)
     i = 0
     column_header = None
@@ -2436,7 +2531,7 @@ def addStrategyDetails(section,edna_run,help):
         i += 1
         predicted_stats = sweep.predicted_stats
         if nsweeps > 1:
-            column_header = "Sweep "+str(i)
+            column_header = "Sweep " + str(i)
         # Convert times to min:sec format for display
         exposure_time = convertTimeToMinutes(sweep.total_exposure_time)
         collection_time = convertTimeToMinutes(sweep.total_data_collection_time)
@@ -2451,25 +2546,25 @@ def addStrategyDetails(section,edna_run,help):
                                     '%.1f' % predicted_stats.multiplicity],
                                    header=column_header)
         # Add tool tips
-        strategy_details.addHelpToRow(0,help.strategy_total_rotation_range,
+        strategy_details.addHelpToRow(0, help.strategy_total_rotation_range,
                                       Canary.ALL_COLUMNS)
-        strategy_details.addHelpToRow(1,help.strategy_total_number_of_images,
+        strategy_details.addHelpToRow(1, help.strategy_total_number_of_images,
                                       Canary.ALL_COLUMNS)
-        strategy_details.addHelpToRow(2,help.strategy_total_exposure_time,
+        strategy_details.addHelpToRow(2, help.strategy_total_exposure_time,
                                       Canary.ALL_COLUMNS)
         strategy_details.addHelpToRow(3,
                                       help.strategy_total_data_collection_time,
                                       Canary.ALL_COLUMNS)
-        strategy_details.addHelpToRow(4,help.strategy_ranking_resolution,
+        strategy_details.addHelpToRow(4, help.strategy_ranking_resolution,
                                       Canary.ALL_COLUMNS)
-        strategy_details.addHelpToRow(6,help.strategy_completeness,
+        strategy_details.addHelpToRow(6, help.strategy_completeness,
                                       Canary.ALL_COLUMNS)
-        strategy_details.addHelpToRow(7,help.strategy_i_over_sigma,
+        strategy_details.addHelpToRow(7, help.strategy_i_over_sigma,
                                       Canary.ALL_COLUMNS)
-        strategy_details.addHelpToRow(8,help.strategy_multiplicity,
+        strategy_details.addHelpToRow(8, help.strategy_multiplicity,
                                       Canary.ALL_COLUMNS)
 
-def addStrategyPredictedStats(section,edna_run,help):
+def addStrategyPredictedStats(section, edna_run, help):
     """Write tables summarising the predicted statistics for a strategy
 
     Adds tables (one per sweep) inside ToggleFolders to the Canary
@@ -2498,7 +2593,7 @@ def addStrategyPredictedStats(section,edna_run,help):
                                None,
                                "I/Sigma",
                                "R-factor",
-                               "Overload"],css_classes="table_header")
+                               "Overload"], css_classes="table_header")
         strategy_stats.addRow(["Lower",
                                "Upper",
                                "%",
@@ -2506,7 +2601,7 @@ def addStrategyPredictedStats(section,edna_run,help):
                                "Sigma",
                                "",
                                "%",
-                               "%"],css_classes="table_header")
+                               "%"], css_classes="table_header")
         for resoln_bin in sweep.predicted_stats.resolution_bins:
             strategy_stats.addRow([resoln_bin.min_resolution,
                                    resoln_bin.max_resolution,
@@ -2518,18 +2613,18 @@ def addStrategyPredictedStats(section,edna_run,help):
                                    resoln_bin.overload])
         # Add a class to the final row (overall stats)
         nrows = strategy_stats.nRows()
-        strategy_stats.addClassToRow(nrows-1,"overall_stats")
+        strategy_stats.addClassToRow(nrows - 1, "overall_stats")
         # Add tool tip help
-        strategy_stats.addHelpToColumn(0,help.lower_resolution,Canary.ALL_ROWS)
-        strategy_stats.addHelpToColumn(1,help.upper_resolution,Canary.ALL_ROWS)
-        strategy_stats.addHelpToColumn(2,help.completeness,Canary.ALL_ROWS)
-        strategy_stats.addHelpToColumn(3,help.average_intensity,
+        strategy_stats.addHelpToColumn(0, help.lower_resolution, Canary.ALL_ROWS)
+        strategy_stats.addHelpToColumn(1, help.upper_resolution, Canary.ALL_ROWS)
+        strategy_stats.addHelpToColumn(2, help.completeness, Canary.ALL_ROWS)
+        strategy_stats.addHelpToColumn(3, help.average_intensity,
                                        Canary.ALL_ROWS)
-        strategy_stats.addHelpToColumn(4,help.average_sigma,Canary.ALL_ROWS)
-        strategy_stats.addHelpToColumn(5,help.i_over_sigma,Canary.ALL_ROWS)
-        strategy_stats.addHelpToColumn(6,help.rfactor,Canary.ALL_ROWS)
-        strategy_stats.addHelpToColumn(7,help.overload,Canary.ALL_ROWS)
-        strategy_stats.addHelpToRow(nrows-1,[help.statistics_overall])
+        strategy_stats.addHelpToColumn(4, help.average_sigma, Canary.ALL_ROWS)
+        strategy_stats.addHelpToColumn(5, help.i_over_sigma, Canary.ALL_ROWS)
+        strategy_stats.addHelpToColumn(6, help.rfactor, Canary.ALL_ROWS)
+        strategy_stats.addHelpToColumn(7, help.overload, Canary.ALL_ROWS)
+        strategy_stats.addHelpToRow(nrows - 1, [help.statistics_overall])
         # Configure the folder status and controls
         if nsweeps == 1:
             # Single sweep
@@ -2537,19 +2632,19 @@ def addStrategyPredictedStats(section,edna_run,help):
             close_link_text = "Hide detailed statistics.."
         else:
             # Multiple sweeps
-            open_link_text = "Show detailed statistics by resolution bin "+\
-                "for sweep "+str(i)+".."
-            close_link_text = "Hide detailed statistics "+\
-                "for sweep "+str(i)+".."
+            open_link_text = "Show detailed statistics by resolution bin " + \
+                "for sweep " + str(i) + ".."
+            close_link_text = "Hide detailed statistics " + \
+                "for sweep " + str(i) + ".."
         folder.addOpenLinkText(Canary.MakeImg(
-                os.path.join(edna_html_dir,"closed.png"))+" "+open_link_text,
+                os.path.join(edna_html_dir, "closed.png")) + " " + open_link_text,
                                help_text=help.show_statistics_by_resolution)
         folder.addCloseLinkText(Canary.MakeImg(
-                os.path.join(edna_html_dir,"open.png"))+" "+close_link_text,
+                os.path.join(edna_html_dir, "open.png")) + " " + close_link_text,
                                help_text=help.hide_statistics_by_resolution)
         folder.closedByDefault()
 
-def addEDNAOutputFilesTable(section,edna_run,help):
+def addEDNAOutputFilesTable(section, edna_run, help):
     """Write table summarising the output files from an EDNA run
 
     Adds a table to the Canary document section 'section' summarising
@@ -2559,10 +2654,19 @@ def addEDNAOutputFilesTable(section,edna_run,help):
     The Help object 'help' is used to populate the tool-tip help for
     the tables."""
     file_tbl = section.addTable()
-    
+
     # Populate table of external files
     file_tbl.addClass("log_files")
-    file_tbl.setHeader(["Associated files",""])
+    file_tbl.setHeader(["Associated files", ""])
+    # Labelit.distl logs
+    if edna_run.labelit_distl_logs:
+        file_tbl.addRow(["Image quality indicators"],
+                        css_classes="characterisation_stage")
+        for filn in edna_run.labelit_distl_logs:
+            file_tbl.addRow(["Labelit.distl log",
+                             Canary.MakeLink(filn, os.path.basename(filn))])
+            file_tbl.addHelpToRow(file_tbl.nRows() - 1,
+                                  help.integration_log, Canary.ALL_COLUMNS)
     # Mosflm indexing log
     if edna_run.mosflm_indexing_log:
         file_tbl.addRow(["Indexing"],
@@ -2571,17 +2675,25 @@ def addEDNAOutputFilesTable(section,edna_run,help):
                          Canary.MakeLink(edna_run.mosflm_indexing_log,
                                          os.path.basename(
                                              edna_run.mosflm_indexing_log))])
-        file_tbl.addHelpToRow(file_tbl.nRows()-1,
-                              help.indexing_log,Canary.ALL_COLUMNS)
+        file_tbl.addHelpToRow(file_tbl.nRows() - 1,
+                              help.indexing_log, Canary.ALL_COLUMNS)
+    # Labelit indexing log
+    if edna_run.labelit_indexing_log:
+        file_tbl.addRow(["Labelit indexing log",
+                         Canary.MakeLink(edna_run.labelit_indexing_log,
+                                         os.path.basename(
+                                             edna_run.labelit_indexing_log))])
+        file_tbl.addHelpToRow(file_tbl.nRows() - 1,
+                              help.indexing_log, Canary.ALL_COLUMNS)
     # Mosflm integration logs
     if edna_run.mosflm_integration_logs:
         file_tbl.addRow(["Integration"],
                         css_classes="characterisation_stage")
         for filn in edna_run.mosflm_integration_logs:
             file_tbl.addRow(["Mosflm integration log",
-                             Canary.MakeLink(filn,os.path.basename(filn))])
-            file_tbl.addHelpToRow(file_tbl.nRows()-1,
-                                  help.integration_log,Canary.ALL_COLUMNS)
+                             Canary.MakeLink(filn, os.path.basename(filn))])
+            file_tbl.addHelpToRow(file_tbl.nRows() - 1,
+                                  help.integration_log, Canary.ALL_COLUMNS)
     # Raddose
     if edna_run.raddose_log:
         file_tbl.addRow(["Radiation damage"],
@@ -2590,8 +2702,8 @@ def addEDNAOutputFilesTable(section,edna_run,help):
                          Canary.MakeLink(edna_run.raddose_log,
                                          os.path.basename(
                                              edna_run.raddose_log))])
-        file_tbl.addHelpToRow(file_tbl.nRows()-1,
-                              help.raddose_log,Canary.ALL_COLUMNS)
+        file_tbl.addHelpToRow(file_tbl.nRows() - 1,
+                              help.raddose_log, Canary.ALL_COLUMNS)
     # Best
     if edna_run.best_log:
         file_tbl.addRow(["Strategy generation"],
@@ -2599,20 +2711,20 @@ def addEDNAOutputFilesTable(section,edna_run,help):
         file_tbl.addRow(["Best log",
                          Canary.MakeLink(edna_run.best_log,
                                          os.path.basename(edna_run.best_log))])
-        file_tbl.addHelpToRow(file_tbl.nRows()-1,
-                              help.best_log,Canary.ALL_COLUMNS)
+        file_tbl.addHelpToRow(file_tbl.nRows() - 1,
+                              help.best_log, Canary.ALL_COLUMNS)
         file_tbl.addRow(["Best plot file",
                          Canary.MakeLink(edna_run.best_plots,
                                          os.path.basename(
                                              edna_run.best_plots))])
-        file_tbl.addHelpToRow(file_tbl.nRows()-1,
-                              help.best_plots,Canary.ALL_COLUMNS)
+        file_tbl.addHelpToRow(file_tbl.nRows() - 1,
+                              help.best_plots, Canary.ALL_COLUMNS)
     # Make the first column special
-    file_tbl.addClassToColumn(0,"first_child")
+    file_tbl.addClassToColumn(0, "first_child")
     # Return the file table
     return file_tbl
 
-def addIndexingSummary(edna_run,section,edna_html_dir,help):
+def addIndexingSummary(edna_run, section, edna_html_dir, help):
     # Write out a summary of the indexing results from the
     # supplied EDNA run into a subsection of the specified
     # document section
@@ -2626,21 +2738,21 @@ def addIndexingSummary(edna_run,section,edna_html_dir,help):
     indexing_summary.addHelp(help.indexing_summary)
     indexing_summary.addCSSClass("indexing_summary")
     # Selected and requested spacegroup
-    indexing_summary.addPara("<span class='selected_spacegroup'>"+
-                             "Selected spacegroup: "+
+    indexing_summary.addPara("<span class='selected_spacegroup'>" +
+                             "Selected spacegroup: " +
                              Canary.makeToolTip(indexing_results.spacegroup,
-                                                help.selected_spacegroup)+
-                             "</span> "+
-                             "<span class='requested_spacegroup'>("+
-                             "Requested spacegroup: "+
+                                                help.selected_spacegroup) +
+                             "</span> " +
+                             "<span class='requested_spacegroup'>(" +
+                             "Requested spacegroup: " +
                              Canary.makeToolTip(
             edna_run.diffraction_plan.forced_spacegroup,
-            help.requested_spacegroup)+
+            help.requested_spacegroup) +
                              ")</span>")
     # Refined cell
     solution_cell_tbl = indexing_summary.addTable(
         ["Refined unit cell parameters (&Aring;/degrees)"])
-    solution_cell_tbl.addRow(["a","b","c","&alpha","&beta","&gamma"],
+    solution_cell_tbl.addRow(["a", "b", "c", "&alpha", "&beta", "&gamma"],
                              css_classes="table_header")
     solution_cell_tbl.addRow(['%.2f' % indexing_results.cell_a,
                               '%.2f' % indexing_results.cell_b,
@@ -2654,18 +2766,18 @@ def addIndexingSummary(edna_run,section,edna_html_dir,help):
     # togglable so that the user can view it if they like
     folder = indexing_summary.addContent(Jackdaw.ToggleFolder(doc))
     folder.addOpenLinkText(Canary.MakeImg(
-            os.path.join(edna_html_dir,"closed.png"))+
+            os.path.join(edna_html_dir, "closed.png")) +
                            " Show all possible indexing solutions..",
                             help_text=help.show_indexing_solutions)
     folder.addCloseLinkText(Canary.MakeImg(
-            os.path.join(edna_html_dir,"open.png"))+
+            os.path.join(edna_html_dir, "open.png")) +
                             " Hide indexing solutions..",
                             help_text=help.hide_indexing_solutions)
     folder.closedByDefault()
     folder.addContent(Canary.Para(
                Canary.makeToolTip(
-        "The selected solution ("+
-        str(indexing_results.selected_solution_number)+
+        "The selected solution (" +
+        str(indexing_results.selected_solution_number) +
         ") is highlighted in green",
             help.selected_indexing_solution),
         css_class="selected_solution"))
@@ -2697,33 +2809,33 @@ def addIndexingSummary(edna_run,section,edna_html_dir,help):
                '%.2f' % soln.beta,
                '%.2f' % soln.gamma]
         if soln.index == indexing_results.selected_solution_number:
-            indexing_tbl.addRow(row,css_classes="selected_solution")
+            indexing_tbl.addRow(row, css_classes="selected_solution")
         else:
             indexing_tbl.addRow(row)
     # Add tool tip help to the table
-    indexing_tbl.addHelpToColumn(0,help.indexing_solution_number,
+    indexing_tbl.addHelpToColumn(0, help.indexing_solution_number,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(1,help.indexing_solution_penalty,
+    indexing_tbl.addHelpToColumn(1, help.indexing_solution_penalty,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(2,help.indexing_solution_lattice,
+    indexing_tbl.addHelpToColumn(2, help.indexing_solution_lattice,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(3,help.indexing_solution_cell_a,
+    indexing_tbl.addHelpToColumn(3, help.indexing_solution_cell_a,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(4,help.indexing_solution_cell_b,
+    indexing_tbl.addHelpToColumn(4, help.indexing_solution_cell_b,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(5,help.indexing_solution_cell_c,
+    indexing_tbl.addHelpToColumn(5, help.indexing_solution_cell_c,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(6,help.indexing_solution_cell_alpha,
+    indexing_tbl.addHelpToColumn(6, help.indexing_solution_cell_alpha,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(7,help.indexing_solution_cell_beta,
+    indexing_tbl.addHelpToColumn(7, help.indexing_solution_cell_beta,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToColumn(8,help.indexing_solution_cell_gamma,
+    indexing_tbl.addHelpToColumn(8, help.indexing_solution_cell_gamma,
                                  Canary.ALL_ROWS)
-    indexing_tbl.addHelpToRow(0,[None,
+    indexing_tbl.addHelpToRow(0, [None,
                                  None,
                                  None,
                                  help.indexing_solution_unrefined_cell])
-    
+
     # Table of additional indexing data items with togglable rows
     indexing_data = indexing_summary.addContent(Jackdaw.ToggleTable(doc))
     indexing_data.addColumn(["Spot deviation (positional)",
@@ -2745,7 +2857,7 @@ def addIndexingSummary(edna_run,section,edna_html_dir,help):
                              indexing_results.number_of_spots_total])
     indexing_data.setHeader(['Additional indexing data'])
     # Make some rows togglable
-    indexing_data.setToggleRow(4,5)
+    indexing_data.setToggleRow(4, 5)
     # Customise the controls
     indexing_data.addOpenLinkText("See all additional indexing data..",
                                   help_text=help.show_additional_indexing_data)
@@ -2753,17 +2865,17 @@ def addIndexingSummary(edna_run,section,edna_html_dir,help):
                                    help_text=help.hide_additional_indexing_data)
     # Add the help for the table and the row
     indexing_data.addTitle(help.additional_indexing_data)
-    indexing_data.addHelpToRow(0,help.spot_deviation_positional,
+    indexing_data.addHelpToRow(0, help.spot_deviation_positional,
                                Canary.ALL_COLUMNS)
-    indexing_data.addHelpToRow(1,help.spot_deviation_angular,
+    indexing_data.addHelpToRow(1, help.spot_deviation_angular,
                                Canary.ALL_COLUMNS)
-    indexing_data.addHelpToRow(2,help.beam_shift_xy,Canary.ALL_COLUMNS)
-    indexing_data.addHelpToRow(3,help.estimated_mosaicity,Canary.ALL_COLUMNS)
-    indexing_data.addHelpToRow(4,help.number_of_spots_used,Canary.ALL_COLUMNS)
-    indexing_data.addHelpToRow(4,help.number_of_spots_used,Canary.ALL_COLUMNS)
-    indexing_data.addHelpToRow(5,help.number_of_spots_total,Canary.ALL_COLUMNS)
+    indexing_data.addHelpToRow(2, help.beam_shift_xy, Canary.ALL_COLUMNS)
+    indexing_data.addHelpToRow(3, help.estimated_mosaicity, Canary.ALL_COLUMNS)
+    indexing_data.addHelpToRow(4, help.number_of_spots_used, Canary.ALL_COLUMNS)
+    indexing_data.addHelpToRow(4, help.number_of_spots_used, Canary.ALL_COLUMNS)
+    indexing_data.addHelpToRow(5, help.number_of_spots_total, Canary.ALL_COLUMNS)
 
-def addPredictionSummary(edna_run,section,edna_html_dir,help):
+def addPredictionSummary(edna_run, section, edna_html_dir, help):
     # Write out a summary of the spot prediction results from the
     # supplied EDNA run into a subsection of the specified
     # document section
@@ -2773,18 +2885,18 @@ def addPredictionSummary(edna_run,section,edna_html_dir,help):
     content = ''
     for integration in edna_run.integration_ranges:
         content += "<div class='image_range'><span"
-        content += " title='"+help.image_range_header+"'>"
+        content += " title='" + help.image_range_header + "'>"
         if integration.image_start == integration.image_end:
-            content += "Image "+str(integration.image_start)
+            content += "Image " + str(integration.image_start)
         else:
-            content += "Images "+\
-            str(integration.image_start)+\
-            "-"+\
+            content += "Images " + \
+            str(integration.image_start) + \
+            "-" + \
             str(integration.image_end)
-        content += " ("+str(integration.rotation_axis)+" "+\
-            '%.2f' % integration.rotation_axis_start+\
-            "-"+\
-            '%.2f' % integration.rotation_axis_end+\
+        content += " (" + str(integration.rotation_axis) + " " + \
+            '%.2f' % integration.rotation_axis_start + \
+            "-" + \
+            '%.2f' % integration.rotation_axis_end + \
             "&deg;)</span></div>"
         # Deal with the the images
         for image in integration.images:
@@ -2792,46 +2904,46 @@ def addPredictionSummary(edna_run,section,edna_html_dir,help):
             image_basename = os.path.basename(image.jpeg)
             image_rootname = os.path.splitext(image_basename)[0]
             # Copy full sized image to the edna html directory
-            image_jpeg = os.path.join(edna_html_dir,image_basename)
-            CopyFile(image.jpeg,image_jpeg)
+            image_jpeg = os.path.join(edna_html_dir, image_basename)
+            CopyFile(image.jpeg, image_jpeg)
             image.jpeg = image_jpeg
             # Make a thumbnail version
-            thumbnail = image_rootname+"_thumbnail.jpg"
-            thumbnail = os.path.join(edna_html_dir,thumbnail)
-            makeResizedImage(image.jpeg,thumbnail,40,40)
+            thumbnail = image_rootname + "_thumbnail.jpg"
+            thumbnail = os.path.join(edna_html_dir, thumbnail)
+            makeResizedImage(image.jpeg, thumbnail, 40, 40)
             # Create an "image box" for each image
-            imgbox = "<div class='imgbox'>"+\
-                "<div class='lhs'>"+Canary.MakeLink(
-                image_jpeg,Canary.MakeImg(str(thumbnail),
+            imgbox = "<div class='imgbox'>" + \
+                "<div class='lhs'>" + Canary.MakeLink(
+                image_jpeg, Canary.MakeImg(str(thumbnail),
                                           title=help.spot_prediction_image,
                                           width=40),
-                new_window=True)+\
-                "</div>"+\
-                "<div class='rhs'><span class='image_name'"+\
-                "title='"+help.image_name+"'>"+\
-                image.name+"</span><br />"+"<span>"+\
+                new_window=True) + \
+                "</div>" + \
+                "<div class='rhs'><span class='image_name'" + \
+                "title='" + help.image_name + "'>" + \
+                image.name + "</span><br />" + "<span>" + \
                 Canary.MakeLink(image_jpeg,
                                 "See spot predictions",
                                 help.spot_prediction_image,
-                                new_window=True)+\
-                "</span><br />"+\
-                "<span>RMS spot deviation: "+\
+                                new_window=True) + \
+                "</span><br />" + \
+                "<span>RMS spot deviation: " + \
                 Canary.makeToolTip(
-                ("%.3f" % integration.rms_spot_deviation)+" [mm]",
-                help.rms_spot_deviation)+\
-                "</span></div>"+\
+                ("%.3f" % integration.rms_spot_deviation) + " [mm]",
+                help.rms_spot_deviation) + \
+                "</span></div>" + \
                 "</div>"
-            content += imgbox+"\n"
-            
+            content += imgbox + "\n"
+
         # Create a table with data inside a toggle folder for each range
         folder = Jackdaw.ToggleFolder(doc)
         folder.addCSSClass("prediction_data")
         folder.addOpenLinkText(Canary.MakeImg(
-            os.path.join(edna_html_dir,"closed.png"))+
+            os.path.join(edna_html_dir, "closed.png")) +
                                " See more data..",
                                help_text=help.show_integration_statistics)
         folder.addCloseLinkText(Canary.MakeImg(
-            os.path.join(edna_html_dir,"open.png"))+
+            os.path.join(edna_html_dir, "open.png")) +
                                 " Hide tables..",
                                 help_text=help.hide_integration_statistics)
         folder.closedByDefault()
@@ -2843,14 +2955,14 @@ def addPredictionSummary(edna_run,section,edna_html_dir,help):
                                    "Highest resolution"],
                                   header="Statistics for this range")
         # I/sigma for fully recorded reflections
-        column_fulls = ["%.3f [mm]"%integration.rms_spot_deviation,
+        column_fulls = ["%.3f [mm]" % integration.rms_spot_deviation,
                         "Fulls"]
         if integration.i_over_sigma_overall_fulls:
-            column_fulls.append("%.1f"%integration.i_over_sigma_overall_fulls)
+            column_fulls.append("%.1f" % integration.i_over_sigma_overall_fulls)
         else:
             column_fulls.append("n/a")
         if integration.i_over_sigma_highest_resoln_fulls:
-            column_fulls.append("%.1f"%
+            column_fulls.append("%.1f" %
                                 integration.i_over_sigma_highest_resoln_fulls)
         else:
             column_fulls.append("n/a")
@@ -2858,12 +2970,12 @@ def addPredictionSummary(edna_run,section,edna_html_dir,help):
         column_partials = [None,
                            "Partials"]
         if integration.i_over_sigma_overall_partials:
-            column_partials.append("%.1f"%
+            column_partials.append("%.1f" %
                                    integration.i_over_sigma_overall_partials)
         else:
             column_partials.append("n/a")
         if integration.i_over_sigma_highest_resoln_partials:
-            column_partials.append("%.1f"%
+            column_partials.append("%.1f" %
                              integration.i_over_sigma_highest_resoln_partials)
         else:
             column_partials.append("n/a")
@@ -2871,12 +2983,12 @@ def addPredictionSummary(edna_run,section,edna_html_dir,help):
         integration_tbl.addColumn(column_fulls)
         integration_tbl.addColumn(column_partials)
         # Add extra styles, title etc
-        integration_tbl.addClassToRow(1,"table_header table_header_alt")
+        integration_tbl.addClassToRow(1, "table_header table_header_alt")
         integration_tbl.addTitle(help.integration_statistics_table)
         # Add help
-        integration_tbl.addHelpToRow(0,help.rms_spot_deviation,
+        integration_tbl.addHelpToRow(0, help.rms_spot_deviation,
                                      Canary.ALL_COLUMNS)
-        integration_tbl.addHelpToRow(2,help.average_i_over_sigma_overall,
+        integration_tbl.addHelpToRow(2, help.average_i_over_sigma_overall,
                                      Canary.ALL_COLUMNS)
         integration_tbl.addHelpToRow(3,
                                      help.average_i_over_sigma_highest_resoln,
@@ -2895,27 +3007,27 @@ def addPredictionSummary(edna_run,section,edna_html_dir,help):
                                    integration.negative_reflns,
                                    integration.bad_reflns])
         reflections_tbl.addTitle(help.reflections_statistics_table)
-        reflections_tbl.addHelpToRow(0,help.reflections_fully_recorded,
+        reflections_tbl.addHelpToRow(0, help.reflections_fully_recorded,
                                      Canary.ALL_COLUMNS)
-        reflections_tbl.addHelpToRow(1,help.reflections_partials,
+        reflections_tbl.addHelpToRow(1, help.reflections_partials,
                                      Canary.ALL_COLUMNS)
-        reflections_tbl.addHelpToRow(2,help.reflections_overlapped,
+        reflections_tbl.addHelpToRow(2, help.reflections_overlapped,
                                      Canary.ALL_COLUMNS)
-        reflections_tbl.addHelpToRow(3,help.reflections_negative,
+        reflections_tbl.addHelpToRow(3, help.reflections_negative,
                                      Canary.ALL_COLUMNS)
-        reflections_tbl.addHelpToRow(4,help.reflections_bad,
+        reflections_tbl.addHelpToRow(4, help.reflections_bad,
                                      Canary.ALL_COLUMNS)
         content += folder.render()
     # Add all the info to the document
     prediction_summary.addContent(content)
 
-def addStrategyFileList(edna_run,section,help):
+def addStrategyFileList(edna_run, section, help):
     # Write out a list of the master log file and the input and output
     # XML files from edna_run
     filelist = section.addList()
     filelist.addClass("clear")
     if edna_run.log_file:
-        filelist.addItem("Log file: "+
+        filelist.addItem("Log file: " +
                          str(Canary.MakeLink(edna_run.log_file,
                                              os.path.basename(edna_run.
                                                               log_file),
@@ -2923,7 +3035,7 @@ def addStrategyFileList(edna_run,section,help):
     else:
         filelist.addItem("Log file: [not supplied]")
     if edna_run.data_input_xml:
-        filelist.addItem("XML input: "+
+        filelist.addItem("XML input: " +
                          str(Canary.MakeLink(edna_run.data_input_xml,
                                              os.path.basename(edna_run.
                                                               data_input_xml),
@@ -2931,7 +3043,7 @@ def addStrategyFileList(edna_run,section,help):
     else:
         filelist.addItem("XML input: [not supplied]")
     if edna_run.data_output_xml:
-        filelist.addItem("XML output: "+
+        filelist.addItem("XML output: " +
                          str(Canary.MakeLink(edna_run.data_output_xml,
                                              os.path.basename(edna_run.
                                                              data_output_xml),
@@ -2952,31 +3064,31 @@ def addFooter(doc):
                 css_class='credits')
     return
 
-def CopyIcons(icon_list,source_icon_dir,target_icon_dir):
+def CopyIcons(icon_list, source_icon_dir, target_icon_dir):
     """Copy the named icons in icon_list from the source to the target dir"""
     for icon in icon_list:
-        CopyFile(os.path.join(source_icon_dir,icon),
-                 os.path.join(target_icon_dir,icon))
+        CopyFile(os.path.join(source_icon_dir, icon),
+                 os.path.join(target_icon_dir, icon))
 
 def lookupErrorCode(error_code):
     """Return error message given an EDNA run error code"""
     if error_code == NO_ERROR:
         errmsg = None
     elif error_code == INCOMPLETE_EDNA_RUN_DATA:
-        errmsg = "This may be because EDNA MXv1 failed to complete, "+\
+        errmsg = "This may be because EDNA MXv1 failed to complete, " + \
                  " or because of an error in EDNA2html."
     elif error_code == RUN_BASENAME_DIR_NOT_FOUND:
-        errmsg = "The supplied output directory for the EDNA run doesn't "+\
+        errmsg = "The supplied output directory for the EDNA run doesn't " + \
                  "exist"
     elif error_code == CHARACTERISATION_DIR_NOT_FOUND:
-        errmsg = "EDNA2html was unable to locate the 'Characterisation' "+\
+        errmsg = "EDNA2html was unable to locate the 'Characterisation' " + \
                  "subdirectory of the EDNA run output directory"
     elif error_code == UNDETERMINED_XML_PREFIX:
-        errmsg = "EDNA2html was unable to determine the prefix for the "+\
-                 "...dataInput.xml file in the 'Characterisation' "+\
+        errmsg = "EDNA2html was unable to determine the prefix for the " + \
+                 "...dataInput.xml file in the 'Characterisation' " + \
                  "subdirectory of the EDNA run output directory"
     else:
-        errmsg = "Unknown error (code = "+str(error_code)+")"
+        errmsg = "Unknown error (code = " + str(error_code) + ")"
     return errmsg
 
 #######################################################################
@@ -2986,8 +3098,8 @@ def lookupErrorCode(error_code):
 if __name__ == "__main__":
 
     print "EDNA2html: started"
-    print "Version "+str(version())
-    print "Start time: "+str(time.asctime())
+    print "Version " + str(version())
+    print "Start time: " + str(time.asctime())
 
     # Collect the EDNA2HTMLDIR environment variable
     try:
@@ -3017,56 +3129,56 @@ if __name__ == "__main__":
 
     # No command line arguments?
     if not len(sys.argv[1:]):
-        print "Usage: "+str(usage)
+        print "Usage: " + str(usage)
         sys.exit(0)
 
     # Process the command line and collect file names
     for arg in sys.argv[1:]:
         if str(arg).startswith("--output_xml="):
             # Explicitly specify name of the dataOutput.xml file
-            output_xml = arg[arg.index("=")+1:]
-            print "Output XML file: "+output_xml
+            output_xml = arg[arg.index("=") + 1:]
+            print "Output XML file: " + output_xml
         elif str(arg).startswith("--input_xml="):
             # Explicitly specify name of the dataInput.xml file
-            input_xml = arg[arg.index("=")+1:]
-            print "Input XML file: "+input_xml
+            input_xml = arg[arg.index("=") + 1:]
+            print "Input XML file: " + input_xml
         elif str(arg).startswith("--output_log="):
             # Explicitly specify name of the log file
-            output_log = arg[arg.index("=")+1:]
-            print "Output log file: "+output_log
+            output_log = arg[arg.index("=") + 1:]
+            print "Output log file: " + output_log
         elif str(arg).startswith("--basename="):
             # Specify name to use for the output html file and
             # directory
-            basename = arg[arg.index("=")+1:]
+            basename = arg[arg.index("=") + 1:]
             # Divide into leading directory and base file name
             basedirn = os.path.dirname(basename)
             basename = os.path.basename(basename)
             # Move to the base directory
             if basedirn:
-                print "Moving to directory "+str(basedirn)
+                print "Moving to directory " + str(basedirn)
                 os.chdir(basedirn)
-            print "Basename: "+basename
+            print "Basename: " + basename
         elif str(arg).startswith("--run_basename="):
             # Specify a basename for the run that will be used
             # to construct the names for input and output XML and
             # log files
-            run_basename = arg[arg.index("=")+1:]
-            print "Run basename: "+run_basename
+            run_basename = arg[arg.index("=") + 1:]
+            print "Run basename: " + run_basename
             print "Adding an EDNA run..."
             edna_run = EDNARunBuilder().setRunBasename(run_basename).EDNARun()
         elif str(arg).startswith("--title="):
             # Specify a title string to be associated with a run
-            title = arg[arg.index("=")+1:]
-            print "Title: "+title+" (will be assigned to next run)"
+            title = arg[arg.index("=") + 1:]
+            print "Title: " + title + " (will be assigned to next run)"
         elif str(arg).startswith("--ranking"):
             # Turn on "ranking" mode
-            print "Ranking mode: strategies will be assumed to be from "+\
+            print "Ranking mode: strategies will be assumed to be from " + \
                   "different crystals"
             ranking_mode = True
         elif str(arg).startswith("--help_file="):
             # Specify a title string to be associated with a run
-            tool_tip_file = arg[arg.index("=")+1:]
-            print "Help file: "+tool_tip_file
+            tool_tip_file = arg[arg.index("=") + 1:]
+            print "Help file: " + tool_tip_file
         elif str(arg) == "--debug_help":
             # Display placeholder names rather than tool tips
             print "Debug help: display placeholders rather than tool tips"
@@ -3077,7 +3189,7 @@ if __name__ == "__main__":
             portable_output = True
         else:
             # Unrecognised option
-            print "Unrecognised option: '"+str(arg)+"'"
+            print "Unrecognised option: '" + str(arg) + "'"
             invalid_input = True
         if input_xml and output_xml and output_log:
             # We have a complete set of files
@@ -3107,7 +3219,7 @@ if __name__ == "__main__":
             edna_run = None
     if invalid_input:
         # Incorrect arguments
-        print "Usage: "+str(usage)
+        print "Usage: " + str(usage)
         sys.exit(1)
 
     #####################################################
@@ -3118,7 +3230,7 @@ if __name__ == "__main__":
     edna_html_file = basename + ".html"
     edna_html_dir = basename + "_html"
     if not os.path.isdir(edna_html_dir):
-        print "Making directory '"+edna_html_dir+"'"
+        print "Making directory '" + edna_html_dir + "'"
         os.mkdir(edna_html_dir)
 
     #####################################################
@@ -3156,22 +3268,22 @@ if __name__ == "__main__":
                       edna_runs).renderFile(edna_html_file)
         print "Stopped."
         sys.exit(1)
-        
+
     #####################################################
     # Set up tool tips from external file
     #####################################################
 
     # Find the file
     if not os.path.isfile(tool_tip_file):
-        tool_tip_file = os.path.join(edna2htmldir,tool_tip_file)
+        tool_tip_file = os.path.join(edna2htmldir, tool_tip_file)
 
     # Initialise Help object for tool tip help
     # If show_names is True then the tool tips will be
     # replaced by the names of the placeholders that the
     # text is taken from (provided to help with updating
     # tool tips)
-    help = Help(tool_tip_file,show_names=debug_help)
-        
+    help = Help(tool_tip_file, show_names=debug_help)
+
     #####################################################
     # Deal with "portable" output
     #####################################################
@@ -3184,41 +3296,46 @@ if __name__ == "__main__":
         for edna_run in edna_runs:
             i += 1
             # Make a directory for this strategy
-            strategy_dir = os.path.join(edna_html_dir,"strategy_"+str(i))
+            strategy_dir = os.path.join(edna_html_dir, "strategy_" + str(i))
             if not os.path.isdir(strategy_dir):
                 os.mkdir(strategy_dir)
             # Copy input XML and log
             edna_run.data_input_xml = makePortableFileCopy(\
-                edna_run.data_input_xml,strategy_dir)
+                edna_run.data_input_xml, strategy_dir)
             edna_run.data_output_xml = makePortableFileCopy(\
-                edna_run.data_output_xml,strategy_dir)
+                edna_run.data_output_xml, strategy_dir)
             edna_run.log_file = makePortableFileCopy(edna_run.log_file,
                                                      strategy_dir)
             # Copy log files to this directory
+            for j in range(0, len(edna_run.labelit_distl_logs)):
+                edna_run.labelit_distl_logs[j] = makePortableFileCopy(\
+                    edna_run.labelit_distl_logs[j], strategy_dir)
             edna_run.mosflm_indexing_log = makePortableFileCopy(\
-                edna_run.mosflm_indexing_log,strategy_dir)
-            for j in range(0,len(edna_run.mosflm_integration_logs)):
+                edna_run.mosflm_indexing_log, strategy_dir)
+            edna_run.labelit_indexing_log = makePortableFileCopy(\
+                edna_run.labelit_indexing_log, strategy_dir)
+            for j in range(0, len(edna_run.mosflm_integration_logs)):
                 edna_run.mosflm_integration_logs[j] = makePortableFileCopy(\
-                    edna_run.mosflm_integration_logs[j],strategy_dir)
+                    edna_run.mosflm_integration_logs[j], strategy_dir)
             edna_run.raddose_log = makePortableFileCopy(edna_run.raddose_log,
                                                         strategy_dir)
             edna_run.best_log = makePortableFileCopy(edna_run.best_log,
                                                      strategy_dir)
             edna_run.best_plots = makePortableFileCopy(edna_run.best_plots,
                                                        strategy_dir)
-    
+
     #####################################################
     # Make a HTML document
     #####################################################
 
-    doc = Canary.Document("Strategy for image template "+
+    doc = Canary.Document("Strategy for image template " +
                           Canary.makeToolTip(completed_edna_run.image_template,
                                              help.image_template))
-    doc.addStyle(os.path.join(edna2htmldir,"EDNA2html.css"),Canary.INLINE)
-    doc.addScript(os.path.join(edna2htmldir,"EDNA2html.js"),Canary.INLINE)
-    doc.addScript(os.path.join(edna2htmldir,"TabbedFolder.js"),Canary.INLINE)
-    doc.addScript(os.path.join(edna2htmldir,"ToggleTable.js"),Canary.INLINE)
-    doc.addScript(os.path.join(edna2htmldir,"EDNA2html_sortable_table.js"),
+    doc.addStyle(os.path.join(edna2htmldir, "EDNA2html.css"), Canary.INLINE)
+    doc.addScript(os.path.join(edna2htmldir, "EDNA2html.js"), Canary.INLINE)
+    doc.addScript(os.path.join(edna2htmldir, "TabbedFolder.js"), Canary.INLINE)
+    doc.addScript(os.path.join(edna2htmldir, "ToggleTable.js"), Canary.INLINE)
+    doc.addScript(os.path.join(edna2htmldir, "EDNA2html_sortable_table.js"),
                   Canary.INLINE)
 
     # Make document skeleton
@@ -3244,18 +3361,18 @@ if __name__ == "__main__":
             multi_sweep = True
             break
     if multi_sweep:
-        strategies_summary.addPara(Canary.MakeImg(os.path.join(edna_html_dir,"info.png"))+" Note that '*' indicates that this is the value from the highest resolution sweep in the strategy",
+        strategies_summary.addPara(Canary.MakeImg(os.path.join(edna_html_dir, "info.png")) + " Note that '*' indicates that this is the value from the highest resolution sweep in the strategy",
                                    css_class="info")
-        
+
     # Indexing and spot prediction results section
     if not ranking_mode:
         # In this mode assume that all the runs used the same images
         # Write a single summary using data from the first run
         addIndexingSummary(completed_edna_run,
-                           indexing_and_integration,edna_html_dir,
+                           indexing_and_integration, edna_html_dir,
                            help)
         addPredictionSummary(completed_edna_run,
-                             indexing_and_integration,edna_html_dir,
+                             indexing_and_integration, edna_html_dir,
                              help)
 
     # Each strategy summary in its own tab
@@ -3265,14 +3382,14 @@ if __name__ == "__main__":
     tab_list = []
     for edna_run in edna_runs:
         i += 1
-        tab = strategy_tab.addTab("Strategy "+str(i))
+        tab = strategy_tab.addTab("Strategy " + str(i))
         if edna_run.title:
             tab.addHelp(edna_run.title)
         else:
-            tab.addHelp("Strategy from run "+str(i))
-        strategy = tab.addContent(Canary.Section(None,1,doc))
+            tab.addHelp("Strategy from run " + str(i))
+        strategy = tab.addContent(Canary.Section(None, 1, doc))
         try:
-            addStrategySummary(strategy,edna_run,ranking_mode,edna_html_dir,
+            addStrategySummary(strategy, edna_run, ranking_mode, edna_html_dir,
                                help)
         except:
             print "*** Failed to add strategy summary ***"
@@ -3301,21 +3418,21 @@ if __name__ == "__main__":
     else:
         show_ranking_resolution = Canary.JS_FALSE
     # Set up the sortable table
-    onload_script = "initTable('strategyData',"+\
-                    show_descriptions+","+\
-                    show_ranking_resolution+");"
+    onload_script = "initTable('strategyData'," + \
+                    show_descriptions + "," + \
+                    show_ranking_resolution + ");"
     doc.addOnload(onload_script)
 
     # References section
     references = doc.addSection("References")
     references_list = references.addList()
-    references_list.addItem("<b>EDNA</b>: "+Canary.MakeLink(\
+    references_list.addItem("<b>EDNA</b>: " + Canary.MakeLink(\
         "http://journals.iucr.org/s/issues/2009/06/00/wa5014/index.html",
         "M.-F. Incardona, G. P. Bourenkov, K. Levik, R. A. Pieritz, A. N. Popov and O. Svensson, J. Synchrotron Rad. (2009), 16, 872-879"))
     references_list.addItem("<b>MOSFLM</b>: Leslie, A.G.W., (1992), Joint CCP4 + ESF-EAMCB Newsletter on Protein Crystallography, No. 26.")
     references_list.addItem("<b>Raddose</b>: Paithankar, K.S., Owen, R.L and Garman, E.F, J. Syn. Rad. (2009), 16, 152-162")
     references_list.addItem("<b>Raddose</b>: Murray, J.W., Garman, E.F., and Ravelli, R.B.G, J. Appl. Cryst. (2004) 37, 513-522")
-    references_list.addItem("<b>BEST</b>: "+Canary.MakeLink(\
+    references_list.addItem("<b>BEST</b>: " + Canary.MakeLink(\
         "http://journals.iucr.org/d/issues/2010/04/00/ba5145/index.html",
         "Bourenkov, Gleb P. &amp; Popov, Alexander N. (2010) Acta Crystallographica Section D 66, 409--419"))
 
@@ -3323,11 +3440,11 @@ if __name__ == "__main__":
     addFooter(doc)
 
     # Create the final document
-    print "Generating ouput HTML file: "+str(edna_html_file)
+    print "Generating ouput HTML file: " + str(edna_html_file)
     doc.renderFile(edna_html_file)
     # Copy icons
-    CopyIcons(['open.png','closed.png','info.png','warning.png'],
-              os.path.join(edna2htmldir,"icons"),
+    CopyIcons(['open.png', 'closed.png', 'info.png', 'warning.png'],
+              os.path.join(edna2htmldir, "icons"),
               edna_html_dir)
     # Finished
     print "Done"
