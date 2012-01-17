@@ -24,7 +24,7 @@
 """EDNA2html: report output from EDNA MX Characterisation runs"""
 
 __cvs_id__ = "$Id: EDNA2html.py,v 1.130 2010/04/29 16:16:47 pjb93 Exp $"
-__version__ = "0.0.10"
+__version__ = "0.0.10a"
 
 #######################################################################
 # Import modules that this module depends on
