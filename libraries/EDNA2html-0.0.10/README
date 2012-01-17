@@ -1,0 +1,117 @@
+EDNA2html: HTML from EDNA MXv1 Characterisation output
+======================================================
+
+Setup:
+======
+
+Set the EDNA2HTMLDIR environment variable to the location of
+the EDNA2html.py file in the EDNA2html shell script.
+
+To run:
+=======
+
+EDNA2html requires the XML input and output files and the log file
+from one or more EDNA MXv1 characterisation runs.
+
+To run EDNA2html for a single EDNA run, do e.g.
+
+EDNA2html --input_xml=EDPluginControlCCP4iv10_dataInput_7259.xml \
+          --output_xml=EDPluginControlCharacterisationv10_dataOutput.xml \
+          --output_log=8_edna-mxv1-characterisation.log
+
+To run EDNA2html for multiple EDNA runs, repeat the --input_xml=,
+--output_xml= and --output_log= options to specify the data for each
+run. For example, for two runs:
+
+EDNA2html --input_xml=EDPluginControlCCP4iv10_dataInput_7259.xml \
+          --output_xml=EDPluginControlCharacterisationv10_dataOutput.xml \
+          --output_log=8_edna-mxv1-char
+          --input_xml=EDPluginControlCCP4iv10_dataInput_7259.xml \
+          --output_xml=EDPluginControlCharacterisationv10_dataOutput.xml \
+          --output_log=8_edna-mxv1-characterisation.log
+
+Note that the files for each run must be grouped together on the command
+line. Files can be specified with relative or absolute names.
+
+By default EDNA2html will produce an output HTML file "edna.html" and a
+subdirectory "edna_html", both in the current directory. To specify a
+different name for the output, use the --basename= option.
+
+For example:
+
+EDNA2html --input_xml=EDPluginControlCCP4iv10_dataInput_7259.xml \
+          --output_xml=EDPluginControlCharacterisationv10_dataOutput.xml \
+          --output_log=8_edna-mxv1-characterisation.log \
+          --basename=my_example
+
+will produce output file "my_example.html" and a subdirectory
+"my_example_html".
+
+Updates after using EDNA from SVN
+=================================
+
+As an alternative to the command line options outlined above for explicitly
+specifying the XML and log file names, alternatively the --run_basename can
+be used to provide a "template" name for the EDNA output from which these
+file names are generated automatically.
+
+For example:
+
+EDNA2html --run_basename=EDApplication_20100304-112616
+
+will try to locate XML files in subdirectories of the
+"EDApplication_20100304-112616" directory, and will also assume that the
+log file name is "EDApplication_20100304-112616.log".
+
+(Note that this has only been tested with the verison of EDNA from SVN
+1st March 2010) and may not work for output from earlier versions.
+
+Run title
+=========
+
+A title for each run can be specified using the --title option.
+
+For example:
+
+EDNA2html --title="Latest example" --run_basename=EDApplication_20100304-112616
+
+will attach the title "Latest example" to the next run that is defined.
+Note that --title must come before the run definition that it is to be
+associated with.
+
+If there are multiple runs then each run definition can be preceeded by
+its own --title argument.
+
+Also, --title can be used in conjunction with --output_xml=... etc.
+
+Ranking mode
+============
+
+Specify the --ranking option to force EDNA2html to run in "ranking mode".
+
+In this mode each strategy is assumed to be for a different crystal, so
+the ranking resolution will be displayed in the summary of strategies
+table, and indexing and spot predictions will be shown per strategy.
+
+Help file
+=========
+
+The tool tips used in EDNA2html are read from an external file which can
+be specified on the command line using the --help_file=... argument, e.g.
+
+--help_file=EDNA2html_tooltips_en_GB.txt
+
+(This is the default help file.)
+
+If the tool tip file is in the EDNA2HTML directory then only the file name
+is needed, otherwise the full path must be supplied.
+
+"Portable" output
+=================
+
+By default EDNA2html will reference XML and log files in their original
+locations, which means that links to these files won't work if the HTML
+file produced by EDNA2html is moved.
+
+To get around this use the --portable command line option, which copies
+the referenced files to the ..._html directory.
