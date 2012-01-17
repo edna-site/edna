@@ -26,7 +26,7 @@ __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os
-import tarfile
+import tarfile, tempfile
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
@@ -41,4 +41,16 @@ class EDTestCasePluginExecuteExecOutputHTMLv1_0_withDnafiles(EDTestCasePluginExe
     def __init__(self, _strTestName=None):
         EDTestCasePluginExecuteExecOutputHTMLv1_0.__init__(self, "EDPluginExecOutputHTMLv1_0")
         # This plugin is somewhat peculiar - a tgz file as input:
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataFileDnaFiles.xml"), "dnaFiles")
+
+
+    def preProcess(self, _edObject = None):
+        EDTestCasePluginExecuteExecOutputHTMLv1_0.preProcess(self)
+        self.strTestDnaFileDirectory = tempfile.mkdtemp(prefix = "EDTestCasePluginExecuteExecOutputHTMLv1_0_withDnafiles_")
+        os.environ["EDNA_DNA_FILE_DIRECTORY"] = self.strTestDnaFileDirectory
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataFileDnaWorkingDirectory.xml"), "dnaFileDirectory")
+        
+    def postProcess(self, _edObject = None):
+        EDTestCasePluginExecuteExecOutputHTMLv1_0.postProcess(self)
+        os.removedirs(self.strTestDnaFileDirectory)
+        
+
