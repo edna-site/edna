@@ -3,9 +3,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -34,7 +32,7 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import os, glob, threading
+import os, glob, threading, tempfile, getpass
 from EDVerbose import EDVerbose
 from os.path import dirname, abspath, exists
 
@@ -186,3 +184,39 @@ class EDUtilsPath:
         return dirname(_str)
 
 
+    @classmethod
+    def getEdnaUserTempFolder(cls):
+        """
+        Returns the name of a temporary folder that is unique for a given user.
+        """
+        if os.environ.has_key("EDNA_USERTEMPFOLDER"):
+            strUserTmpDir = os.environ["EDNA_USERTEMPFOLDER"]
+        else:
+            strEdnaTempFileDir = tempfile.gettempdir()
+            try:
+                # Working on Windows and Linux:
+                strUserName = getpass.getuser()
+            except:
+                # Working on MacOS:
+                strUserName = os.getlogin()
+            bIsOk = False
+            # Check that we have write access to this directory:
+            if os.access(strEdnaTempFileDir, os.W_OK) and os.access(strEdnaTempFileDir, os.X_OK):
+                strUserTmpDir = os.path.join(strEdnaTempFileDir, "edna-%s" % strUserName)
+                # Check that we have write access to this directory:
+                if not os.path.exists(strUserTmpDir):
+                    try:
+                        os.mkdir(strUserTmpDir)
+                    except:
+                        EDVerbose.WARNING("Error when trying to create the directory %s" % strUserTmpDir)
+                if os.access(strUserTmpDir, os.W_OK) and os.access(strUserTmpDir, os.X_OK):
+                    bIsOk = True
+            if not bIsOk:
+                # We cannot use the edna-<user name> folder... 
+                EDVerbose.WARNING("EDUtilsFile.getEdnaUserTempFolder: cannot access user temporary directory %s" % strUserTmpDir)
+                # Create temporary directory
+                strUserTmpDir = tempfile.mkdtemp(prefix="edna-")
+                EDVerbose.WARNING("Created temporary directory for this session: %s" % strUserTmpDir)
+                EDVerbose.WARNING("If you would like to continue to use this directory for future sessions")
+                EDVerbose.WARNING("please set then environment variable EDNA_USERTEMPFOLDER to %s" % strUserTmpDir)
+        return strUserTmpDir

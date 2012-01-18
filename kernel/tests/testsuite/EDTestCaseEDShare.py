@@ -26,7 +26,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = ["Jérôme Kieffer"]
+__authors__ = ["Jérôme Kieffer", "Olof Svensson"]
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
@@ -40,6 +40,7 @@ from EDTestCase                          import EDTestCase
 from EDAssert                            import EDAssert
 from EDShare                             import EDShare
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
+from EDUtilsPath                         import EDUtilsPath
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
 EDFactoryPluginStatic.loadModule("EDInstallH5Pyv1_3_0")
 if "USER" not in os.environ:
@@ -57,7 +58,8 @@ class EDTestCaseEDShare(EDTestCase):
         Check the initialization of the share:
         """
         EDAssert.equal(False, EDShare.isInitialized(), "Check that EDShare is uninitialized")
-        EDShare.initialize(os.path.join(tempfile.gettempdir(), "edna-%s" % os.environ["USER"]))
+        strEdnaUserTempFolder = EDUtilsPath.getEdnaUserTempFolder()
+        EDShare.initialize(strEdnaUserTempFolder)
         EDShare["test1"] = range(10)
         EDVerbose.screen("Backend used is %s" % EDShare.backend)
         EDAssert.equal(1, len(EDShare.items()))
@@ -65,7 +67,7 @@ class EDTestCaseEDShare(EDTestCase):
         for i, j in zip(range(10), EDShare["test1"]):
             EDAssert.equal(i, j, "elements are the same")
         EDShare.close()
-        EDShare.initialize(os.path.join(tempfile.gettempdir(), "edna-%s" % os.environ["USER"]))
+        EDShare.initialize(strEdnaUserTempFolder)
         EDAssert.equal(True, "test1" in EDShare, "list is still present")
         for i, j in zip(range(10), EDShare["test1"]):
             EDAssert.equal(i, j, "elements are still the same")
