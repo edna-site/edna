@@ -108,19 +108,6 @@ class EDFactoryPlugin(EDLogging):
         # Default plugin root directory: $EDNA_HOME
         self.__listPluginRootDirectory = [ strEdnaHome ]
         self.__dictModuleLocation = None
-        self.__strPathToModuleCache = None
-
-
-    def __initPluginCachePath(self):
-        """This private method initialises the path to the plugin cache file"""
-        if os.environ.has_key("EDNA_PLUGINCACHE"):
-            self.__strPathToModuleCache = os.environ["EDNA_PLUGINCACHE"]
-        else:
-            strTempFileDir = EDUtilsPath.getEdnaUserTempFolder()
-            # We create a hash of the path in order to be able to reference several different EDNA_HOME 
-            # caches in the same directory
-            strCacheFileName = hashlib.sha1(os.getenv('EDNA_HOME')).hexdigest()+".xml"
-            self.__strPathToModuleCache = os.path.abspath(os.path.join(strTempFileDir, strCacheFileName))
 
 
     def __initModuleDictionary(self):
@@ -130,13 +117,11 @@ class EDFactoryPlugin(EDLogging):
         the plugin root directories are searched and the dictionary is
         written to the cache file.
         """
-        if self.__strPathToModuleCache is None:
-            self.__initPluginCachePath()
-        if (os.path.exists(self.__strPathToModuleCache)):
-            self.loadModuleDictionaryFromDisk(self.__strPathToModuleCache)
+        if (os.path.exists(EDUtilsPath.getEdnaPluginCachePath())):
+            self.loadModuleDictionaryFromDisk(EDUtilsPath.getEdnaPluginCachePath())
         else:
             self.__searchRootDirectories()
-            self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+            self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
 
 
 
@@ -202,8 +187,6 @@ class EDFactoryPlugin(EDLogging):
         @return: Path to the module location
         @type: python string
         """
-        if self.__strPathToModuleCache is None:
-            self.__initPluginCachePath()
         strModuleLocation = None
         if (self.__dictModuleLocation is None):
             with self.locked():
@@ -215,7 +198,7 @@ class EDFactoryPlugin(EDLogging):
             if strDirectoryIgnored:
                 self.warning("Module location %s ignored because directory %s contains %s" % (strModuleLocation, strDirectoryIgnored, EDFactoryPlugin.IGNORE_FILE))
                 self.__searchRootDirectories()
-                self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+                self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
                 strModuleLocation = None
         else:
             with self.locked():
@@ -223,11 +206,11 @@ class EDFactoryPlugin(EDLogging):
                 self.warning("Module %s not found, forcing reloading of all modules..." % _strModuleName)
                 self.__searchRootDirectories()
                 # Save the new dictionary in any case - even if the plugin might not be found.
-                self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+                self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
                 if (_strModuleName in self.__dictModuleLocation.keys()):
                     strModuleLocation = self.__dictModuleLocation[ _strModuleName ]
                     # Fix for bug #395 - update the saved cache
-                    self.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % self.__strPathToModuleCache)
+                    self.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % EDUtilsPath.getEdnaPluginCachePath())
                 else:
                     self.DEBUG("EDFactoryPlugin.loadModule: module %s not found after forced reload of all modules." % _strModuleName)
         return strModuleLocation
