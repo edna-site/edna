@@ -25,6 +25,12 @@
 
 echo "Running EDNA2html with the arguments: ${1+"$@"}" 
 
+if [ -z $PYTHON ];
+then
+    export PYTHON=$(which python)
+    echo "\$PYTHON = $PYTHON" 
+fi
+
 full_path=$(readlink -fn ${0})
 export EDNA2HTMLDIR=$(dirname $full_path)
 
@@ -33,6 +39,7 @@ export EDNA2HTMLDIR=$(dirname $full_path)
 
 # Run the EDNA2html.py script
 logFile=$(mktemp -t EDNA2html.log_XXXXXXXXXX)
-echo "EDNA2html log file : $logFile"
-/opt/pxsoft/tools/python/v2.5.4/redhate4-i686/bin/python ${EDNA2HTMLDIR}/EDNA2html.py ${1+"$@"} 2>&1 > $logFile 
+echo $EDNA2HTMLDIR
+#echo "EDNA2html log file : $logFile"
+${PYTHON} ${EDNA2HTMLDIR}/EDNA2html.py ${1+"$@"} 2>&1 > $logFile 
 
