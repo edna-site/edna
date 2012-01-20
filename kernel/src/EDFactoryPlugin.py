@@ -34,12 +34,11 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, sys, threading
+import os, sys, threading, hashlib
 
 from EDLogging   import EDLogging
 from EDVerbose   import EDVerbose
 from EDUtilsPath import EDUtilsPath
-from EDUtilsFile import EDUtilsFile
 from EDModule    import EDModule
 
 from XSDataCommon import XSDataDictionary
@@ -109,9 +108,6 @@ class EDFactoryPlugin(EDLogging):
         # Default plugin root directory: $EDNA_HOME
         self.__listPluginRootDirectory = [ strEdnaHome ]
         self.__dictModuleLocation = None
-        self.__strCacheFileName = ".XSDataDictionaryModule.xml"
-        self.__strPathToModuleCache = os.path.abspath(os.path.join(EDUtilsPath.EDNA_HOME, self.__strCacheFileName))
-
 
 
     def __initModuleDictionary(self):
@@ -121,11 +117,11 @@ class EDFactoryPlugin(EDLogging):
         the plugin root directories are searched and the dictionary is
         written to the cache file.
         """
-        if (os.path.exists(self.__strPathToModuleCache)):
-            self.loadModuleDictionaryFromDisk(self.__strPathToModuleCache)
+        if (os.path.exists(EDUtilsPath.getEdnaPluginCachePath())):
+            self.loadModuleDictionaryFromDisk(EDUtilsPath.getEdnaPluginCachePath())
         else:
             self.__searchRootDirectories()
-            self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+            self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
 
 
 
@@ -202,7 +198,7 @@ class EDFactoryPlugin(EDLogging):
             if strDirectoryIgnored:
                 self.warning("Module location %s ignored because directory %s contains %s" % (strModuleLocation, strDirectoryIgnored, EDFactoryPlugin.IGNORE_FILE))
                 self.__searchRootDirectories()
-                self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+                self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
                 strModuleLocation = None
         else:
             with self.locked():
@@ -210,11 +206,11 @@ class EDFactoryPlugin(EDLogging):
                 self.warning("Module %s not found, forcing reloading of all modules..." % _strModuleName)
                 self.__searchRootDirectories()
                 # Save the new dictionary in any case - even if the plugin might not be found.
-                self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+                self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
                 if (_strModuleName in self.__dictModuleLocation.keys()):
                     strModuleLocation = self.__dictModuleLocation[ _strModuleName ]
                     # Fix for bug #395 - update the saved cache
-                    self.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % self.__strPathToModuleCache)
+                    self.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % EDUtilsPath.getEdnaPluginCachePath())
                 else:
                     self.DEBUG("EDFactoryPlugin.loadModule: module %s not found after forced reload of all modules." % _strModuleName)
         return strModuleLocation
