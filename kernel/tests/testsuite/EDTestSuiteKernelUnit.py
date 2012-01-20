@@ -43,6 +43,7 @@ class EDTestSuiteKernelUnit(EDTestSuite):
         self.addTestCaseFromName("EDTestCaseEDPlugin")
         self.addTestCaseFromName("EDTestCaseEDPluginExecProcessScript")
         self.addTestCaseFromName("EDTestCaseEDUtilsFile")
+        self.addTestCaseFromName("EDTestCaseEDUtilsPath")
         self.addTestCaseFromName("EDTestCaseEDUtilsImage")
         self.addTestCaseFromName("EDTestCaseEDUtilsTable")
         self.addTestCaseFromName("EDTestCaseEDUtilsSymmetry")
