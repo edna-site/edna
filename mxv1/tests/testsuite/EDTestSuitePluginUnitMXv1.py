@@ -45,6 +45,7 @@ class EDTestSuitePluginUnitMXv1(EDTestSuite):
         self.addTestCaseFromName("EDTestCaseEDHandlerLabelitv10")
         self.addTestCaseFromName("EDTestCaseEDHandlerRaddosev10")
         self.addTestCaseFromName("EDTestCaseEDHandlerBestv1_2")
+        self.addTestCaseFromName("EDTestCaseEDHandlerESRFPyarchv1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitControlIndexingIndicatorsv10")
         self.addTestSuiteFromName("EDTestSuitePluginUnitControlIndexingv10")
         self.addTestSuiteFromName("EDTestSuitePluginUnitControlIntegrationv10")
