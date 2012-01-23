@@ -44,8 +44,8 @@ class EDTestCasePluginExecuteExecOutputHTMLv1_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginExecOutputHTMLv1_0")
         # This plugin is somewhat peculiar - a tgz file as input:
         self.__strPathToTgzFile = os.path.join(self.getPluginTestsDataHome(), \
-        #                                       "EDApplicationMXv1Characterisation_20100604-121926.tgz")
-            "EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_20110827.tgz")
+            "ControlInterfaceToMXCuBEv1_3.tgz")
+
 
     def testExecute(self):
         # Untar the tgz file in the plugin working directory
