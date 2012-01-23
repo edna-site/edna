@@ -49,30 +49,9 @@ class EDTestCasePluginUnitControlPyarchThumbnailGeneratorv1_0(EDTestCasePluginUn
         edPluginExecPyarchThumbnailGenerator.checkParameters()
 
 
-    def testCreatePyarchFilePath(self):
-        edPluginControlPyarchThumbnailGenerator = self.createPlugin()
-        EDAssert.equal(None, edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/"))
-        EDAssert.equal(None, edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data"))
-        EDAssert.equal(None, edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/visitor"))
-        EDAssert.equal("/data/pyarch/id14eh2/mx415", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/visitor/mx415/id14eh2"))
-        EDAssert.equal("/data/pyarch/id14eh2/mx415/20100212", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/visitor/mx415/id14eh2/20100212"))
-        EDAssert.equal("/data/pyarch/id14eh2/mx415/20100212/1", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/visitor/mx415/id14eh2/20100212/1"))
-        EDAssert.equal("/data/pyarch/id14eh2/mx415/20100212/1/2", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/visitor/mx415/id14eh2/20100212/1/2"))
-        # Test with inhouse account...
-        EDAssert.equal(None, edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/"))
-        EDAssert.equal(None, edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data"))
-        EDAssert.equal(None, edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/id23eh2"))
-        EDAssert.equal(None, edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/id23eh2/inhouse"))
-        EDAssert.equal("/data/pyarch/id23eh2/opid232", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/id23eh2/inhouse/opid232"))
-        EDAssert.equal("/data/pyarch/id23eh2/opid232/20100525", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/id23eh2/inhouse/opid232/20100525"))
-        EDAssert.equal("/data/pyarch/id23eh2/opid232/20100525/1", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/id23eh2/inhouse/opid232/20100525/1"))
-        EDAssert.equal("/data/pyarch/id23eh2/opid232/20100525/1/2", edPluginControlPyarchThumbnailGenerator.createPyarchFilePath("/data/id23eh2/inhouse/opid232/20100525/1/2"))
-
-
 
     def process(self):
         self.addTestMethod(self.testCheckParameters)
-        self.addTestMethod(self.testCreatePyarchFilePath)
 
 
 
