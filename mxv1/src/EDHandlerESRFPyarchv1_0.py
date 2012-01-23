@@ -66,3 +66,19 @@ class EDHandlerESRFPyarchv1_0:
             EDVerbose.WARNING("EDPluginControlPyarchThumbnailGeneratorv1_0.createPyArchFilePath: path not converted for pyarch: %s " % _strESRFPath)
         return strPyarchDNAFilePath
 
+    @staticmethod
+    def copyHTMLFiles(_strPathToHTMLFile, _strPathToHTMLDir):
+        strPathToDNAIndexDirectory = os.path.join(strPathToDNAFileDirectory, "index")
+        if os.path.exists(_strPathToHTMLFile):
+            try:
+                os.mkdir(strPathToDNAIndexDirectory)
+                shutil.copy(_strPathToHTMLFile, os.path.join(strPathToDNAIndexDirectory, "index.html"))
+                shutil.copytree(_strPathToHTMLDir, os.path.join(strPathToDNAIndexDirectory, os.path.basename(_strPathToHTMLDir)))
+                if strPyArchPathToDNAFileDirectory is not None:
+                    strPathToPyArchIndexDirectory = os.path.join(strPyArchPathToDNAFileDirectory, "index")
+                    os.mkdir(strPathToPyArchIndexDirectory)
+                    shutil.copy(_strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
+                    shutil.copytree(_strPathToHTMLDir, os.path.join(strPathToPyArchIndexDirectory, os.path.basename(_strPathToHTMLDir)))
+            except Exception, e:
+                self.DEBUG("Exception caught: %r" % e)
+
