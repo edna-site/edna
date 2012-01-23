@@ -23,8 +23,8 @@
 
 """EDNA2html: report output from EDNA MX Characterisation runs"""
 
-__cvs_id__ = "$Id: EDNA2html.py,v 1.126 2010/04/28 15:21:53 pjb93 Exp $"
-__version__ = "0.0.9b"
+__cvs_id__ = "$Id: EDNA2html.py,v 1.130 2010/04/29 16:16:47 pjb93 Exp $"
+__version__ = "0.0.10a"
 
 #######################################################################
 # Import modules that this module depends on
@@ -675,6 +675,12 @@ class EDNARunBuilder:
         # Acquire characterisation directory
         characterisation_dir = self.getCharacterisationDir()
         print "*** Collecting additional log files"
+        characterisation_dir = self.getCharacterisationDir()
+        if not characterisation_dir:
+            # Warn and bail out
+            print "*** WARNING no characterisation directory found"
+            print "    Cannot acquire additional log files"
+            return
         print "    Characterisation directory: " + str(characterisation_dir)
         #
         # Labelit distl logs
@@ -863,7 +869,6 @@ class EDNARunBuilder:
                 self.setSample(input_xml)
                 self.__edna_run.input_xml_ok = True
             except:
-                raise
                 # Some error extracting data from input XML
                 print "*** WARNING exception raised when processing input XML"
                 print "    Some data may be missing"
@@ -883,7 +888,6 @@ class EDNARunBuilder:
                        self.__edna_run.has_strategy_result:
                     self.__edna_run.output_xml_ok = True
             except:
-                raise
                 # Some error extracting data from output XML
                 print "*** WARNING exception raised when processing output XML"
                 print "    Some data may be missing:"
@@ -1033,7 +1037,7 @@ class EDNARunBuilder:
                 penalty_value = -1
             self.__edna_run.indexing_results.addSolution(
                 int(soln.number.value),
-                penalty_value,
+                int(soln.penalty.value),
                 str(crystal.spaceGroup.name.value),
                 float(crystal.cell.length_a.value),
                 float(crystal.cell.length_b.value),
@@ -1071,7 +1075,7 @@ class EDNARunBuilder:
         except:
             spot_deviation_angular = -1.0
         self.__edna_run.indexing_results.spot_deviation_angular = \
-            spot_deviation_angular
+            float(statistics.spotDeviationAngular.value)
         self.__edna_run.indexing_results.beam_shift_x = \
             float(statistics.beamPositionShiftX.value)
         self.__edna_run.indexing_results.beam_shift_y = \
@@ -1962,7 +1966,7 @@ class ErrorReporter:
     strategy output is available from any of the EDNA runs supplied to
     it."""
 
-    def __init__(self, edna2htmldir, edna_runs):
+    def __init__(self, edna2htmldir, edna_html_dir, edna_runs):
         """Create a new ErrorReporter instance
 
         'edna2htmldir' is the path to the EDNA2html home directory,
@@ -1971,14 +1975,16 @@ class ErrorReporter:
         self.__doc = Canary.Document("EDNA2html: failure report")
         self.__doc.addStyle(os.path.join(edna2htmldir, "EDNA2html.css"),
                             Canary.INLINE)
-        self.__doc.addPara("EDNA2html failed to complete successfully",
+        self.__doc.addPara(Canary.MakeImg(os.path.join(edna_html_dir,
+                                                       "warning.png")) + \
+                           " EDNA2html failed to complete successfully",
                            css_class="error")
         if len(edna_runs) == 0:
             # Failure mode: No runs supplied
             self.__doc.addPara("No runs were supplied")
         else:
             # Failure mode: No runs could be processed
-            self.__doc.addPara(str(len(edna_runs)) +
+            self.__doc.addPara(str(len(edna_runs)) + 
                                " run(s) were supplied but none " + \
                                "could be processed:")
             run_list = self.__doc.addList()
@@ -1986,6 +1992,12 @@ class ErrorReporter:
             for edna_run in edna_runs:
                 diag = self.addFailureDiagnostics(edna_run)
                 run_list.addItem(Canary.MakeLink(diag))
+        # Add the footer (time, version numbers etc)
+        addFooter(self.__doc)
+        # Copy the warning icon
+        CopyIcons(['warning.png'],
+                  os.path.join(edna2htmldir, "icons"),
+                  edna_html_dir)
 
     def addFailureDiagnostics(self, edna_run):
         """Add diagnostic section for a failed EDNA run
@@ -3039,6 +3051,24 @@ def addStrategyFileList(edna_run, section, help):
     else:
         filelist.addItem("XML output: [not supplied]")
 
+def addFooter(doc):
+    """Add the footer text to the HTML document
+
+    The footer gives details of time, date and version numbers for
+    each component."""
+    doc.addPara("This file was generated for you from EDNA mxv1 output by EDNA2html %s on %s<br />Powered by Magpie %s and Canary %s<br />&copy; Diamond 2010" \
+                % (version(),
+                   time.asctime(),
+                   Magpie.version(),
+                   Canary.version()),
+                css_class='credits')
+    return
+
+def CopyIcons(icon_list, source_icon_dir, target_icon_dir):
+    """Copy the named icons in icon_list from the source to the target dir"""
+    for icon in icon_list:
+        CopyFile(os.path.join(source_icon_dir, icon),
+                 os.path.join(target_icon_dir, icon))
 
 def lookupErrorCode(error_code):
     """Return error message given an EDNA run error code"""
@@ -3168,9 +3198,8 @@ if __name__ == "__main__":
             edna_run = EDNARunBuilder().\
                        setInputXML(input_xml).\
                        setOutputXML(output_xml).\
-                       setLogFile(output_log). \
+                       setOutputLog(output_log). \
                        EDNARun()
-#                       setOutputLog(output_log). \
             # Reset the variables for the files
             input_xml = None
             output_xml = None
@@ -3200,7 +3229,6 @@ if __name__ == "__main__":
     # Basename used as name of html file and directory
     edna_html_file = basename + ".html"
     edna_html_dir = basename + "_html"
-    #edna_html_dir = "."
     if not os.path.isdir(edna_html_dir):
         print "Making directory '" + edna_html_dir + "'"
         os.mkdir(edna_html_dir)
@@ -3213,7 +3241,9 @@ if __name__ == "__main__":
     if not len(edna_runs):
         print "*** ERROR ***"
         print "No EDNA runs supplied!"
-        ErrorReporter(edna2htmldir, edna_runs).renderFile(edna_html_file)
+        ErrorReporter(edna2htmldir,
+                      edna_html_dir,
+                      edna_runs).renderFile(edna_html_file)
         print "Stopped."
         sys.exit(1)
 
@@ -3233,7 +3263,9 @@ if __name__ == "__main__":
     if not completed_edna_run:
         print "*** ERROR ***"
         print "Wasn't able to process complete data from any supplied run"
-        ErrorReporter(edna2htmldir, edna_runs).renderFile(edna_html_file)
+        ErrorReporter(edna2htmldir,
+                      edna_html_dir,
+                      edna_runs).renderFile(edna_html_file)
         print "Stopped."
         sys.exit(1)
 
@@ -3405,19 +3437,14 @@ if __name__ == "__main__":
         "Bourenkov, Gleb P. &amp; Popov, Alexander N. (2010) Acta Crystallographica Section D 66, 409--419"))
 
     # Acknowledgements/credits
-    doc.addPara("This file was generated for you from EDNA mxv1 output by EDNA2html %s on %s<br />Powered by Magpie %s and Canary %s<br />&copy; Diamond 2009" \
-                % (__version__,
-                   time.asctime(),
-                   Magpie.version(),
-                   Canary.version()),
-                css_class='credits')
+    addFooter(doc)
 
     # Create the final document
     print "Generating ouput HTML file: " + str(edna_html_file)
     doc.renderFile(edna_html_file)
     # Copy icons
-    for icon in ('open.png', 'closed.png', 'info.png', 'warning.png'):
-        CopyFile(os.path.join(edna2htmldir, "icons", icon),
-                 os.path.join(edna_html_dir, icon))
+    CopyIcons(['open.png', 'closed.png', 'info.png', 'warning.png'],
+              os.path.join(edna2htmldir, "icons"),
+              edna_html_dir)
     # Finished
     print "Done"
