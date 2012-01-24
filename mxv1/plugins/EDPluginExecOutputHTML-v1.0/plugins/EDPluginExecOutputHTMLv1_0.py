@@ -197,23 +197,5 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
                 self.setDataOutput(xsDataFileHTMLDir, "htmlDir")
             else:
                 EDVerbose.ERROR("EDPluginExecOutputHTMLv1_0.postProcess: file doesn't exist: " + strHTMLFilePath)
-            # Copy files if requested to DNA file directory
-            if self.hasDataInput("dnaFileDirectory"):
-                strPathToDNAFileDirectory = self.getDataInput("dnaFileDirectory")[0].getPath().getValue()
-                strPathToHTMLFile = strHTMLFilePath
-                strPathToHTMLDir = strHTMLDirPath
-                strPathToDNAIndexDirectory = os.path.join(strPathToDNAFileDirectory, "index")
-                if os.path.exists(strPathToHTMLFile):
-                    try:
-                        os.mkdir(strPathToDNAIndexDirectory)
-                        shutil.copy(strPathToHTMLFile, os.path.join(strPathToDNAIndexDirectory, "index.html"))
-                        shutil.copytree(strPathToHTMLDir, os.path.join(strPathToDNAIndexDirectory, os.path.basename(strPathToHTMLDir)))
-                        if strPyArchPathToDNAFileDirectory is not None:
-                            strPathToPyArchIndexDirectory = os.path.join(strPyArchPathToDNAFileDirectory, "index")
-                            os.mkdir(strPathToPyArchIndexDirectory)
-                            shutil.copy(strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
-                            shutil.copytree(strPathToHTMLDir, os.path.join(strPathToPyArchIndexDirectory, os.path.basename(strPathToHTMLDir)))
-                    except Exception, e:
-                        self.DEBUG("Exception caught: %r" % e)
 
 

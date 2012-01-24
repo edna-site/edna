@@ -29,6 +29,7 @@ import os, shutil, time, cgi
 from EDPluginExec import EDPluginExec
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from EDUtilsFile import EDUtilsFile
+from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
 
 EDFactoryPluginStatic.loadModule("markupv1_7")
 import markupv1_7
@@ -118,6 +119,11 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         xsDataResultSimpleHTMLPage.setPathToHTMLFile(XSDataFile(XSDataString(self.strPath)))
         xsDataResultSimpleHTMLPage.setPathToHTMLDirectory(XSDataFile(XSDataString(os.path.dirname(self.strPath))))
         self.setDataOutput(xsDataResultSimpleHTMLPage)
+        # Store in Pyarch
+        strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
+        if strPyarchPath is None:
+            strPyarchPath = "/tmp/edna-svensson"
+        EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir(strPyarchPath, self.strPath, os.path.dirname(self.strPath))
 
 
     def indexingResults(self):
