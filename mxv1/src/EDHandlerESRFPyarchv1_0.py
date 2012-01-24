@@ -27,7 +27,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os
+import os, shutil
 
 from EDVerbose import EDVerbose    
     
@@ -63,22 +63,63 @@ class EDHandlerESRFPyarchv1_0:
                 for strDirectory in listOfDirectories[ 5: ]:
                     strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, strDirectory)
         if (strPyarchDNAFilePath is None):
-            EDVerbose.WARNING("EDPluginControlPyarchThumbnailGeneratorv1_0.createPyArchFilePath: path not converted for pyarch: %s " % _strESRFPath)
+            EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.createPyArchFilePath: path not converted for pyarch: %s " % _strESRFPath)
         return strPyarchDNAFilePath
 
-    @staticmethod
-    def copyHTMLFiles(_strPathToHTMLFile, _strPathToHTMLDir):
-        strPathToDNAIndexDirectory = os.path.join(strPathToDNAFileDirectory, "index")
-        if os.path.exists(_strPathToHTMLFile):
+
+    def createPyarchHtmlDirectoryPath(self, _xsDataResultCharacterisation):
+        """
+        This method creates a directory path for pyarch: in the same directory were the 
+        images are located a new directory is created with the following convention:
+        
+          edna_html_prefix_runNumber
+        
+        """
+        # First extract all reference image directory paths and names
+        xsDataCollection = _xsDataResultCharacterisation.getDataCollection()
+        listImageDirectoryPath = []
+        listImagePrefix = []
+        for xsDataSubWedge in xsDataCollection.getSubWedge():
+            for xsDataImage in xsDataSubWedge.getImage():
+                strImagePath = xsDataImage.getPath().getValue()
+                listImageDirectoryPath.append(os.path.dirname(strImagePath))
+                listImagePrefix.append(EDUtilsImage.getPrefix(strImagePath))
+        # TODO: Check that all paths and prefixes are the same
+        strImageDirectory = listImageDirectoryPath[0]
+        strPrefix = listImagePrefix[0]
+        # Remove any "ref-" or "postref-" from the prefix in order to make it fully
+        # compatitble with DNA standards:
+        if (strPrefix is not None):
+            if (strPrefix.startswith("ref-")):
+                strPrefix = strPrefix[4:]
+            elif (strPrefix.startswith("postref-")):
+                strPrefix = strPrefix[8:]
+        strHtmlDirectoryPath = os.path.join(strImageDirectory, "edna_html_%s" % strPrefix)
+        strPyarchHtmlDirectoryPath = EDHandlerESRFPyarchv1_0.createPyarchFilePath(strHtmlDirectoryPath)
+        if not os.path.exists(strPyarchHtmlDirectoryPath):
             try:
-                os.mkdir(strPathToDNAIndexDirectory)
-                shutil.copy(_strPathToHTMLFile, os.path.join(strPathToDNAIndexDirectory, "index.html"))
-                shutil.copytree(_strPathToHTMLDir, os.path.join(strPathToDNAIndexDirectory, os.path.basename(_strPathToHTMLDir)))
-                if strPyArchPathToDNAFileDirectory is not None:
-                    strPathToPyArchIndexDirectory = os.path.join(strPyArchPathToDNAFileDirectory, "index")
+                os.mkdir(strPyarchHtmlDirectoryPath)
+            except:
+                EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath: cannot create pyarch html directory %s" % strPyarchHtmlDirectoryPath)
+                strPyarchHtmlDirectoryPath = None
+        return strPyarchHtmlDirectoryPath
+    
+
+    @staticmethod
+    def copyHTMLFilesAndDir(_strPathToPyarchDirectory, _strPathToHTMLFile, _strPathToHTMLDir):
+        if not os.path.exists(_strPathToHTMLFile):
+            EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to pyarch directory does not exist: %s" % _strPathToPyarchDirectory)
+        elif not os.path.exists(_strPathToHTMLFile):
+            EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to html file does not exist: %s" % _strPathToHTMLFile)
+        elif not os.path.exists(_strPathToHTMLDir):
+            EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to html directory does not exist: %s" % _strPathToHTMLDir)            
+        else:
+            try:
+                strPathToPyArchHtmlDirectory = os.path.join(_strPathToPyarchDirectory, "html")
+                if not os.path.exists(strPathToPyArchHtmlDirectory):
                     os.mkdir(strPathToPyArchIndexDirectory)
-                    shutil.copy(_strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
-                    shutil.copytree(_strPathToHTMLDir, os.path.join(strPathToPyArchIndexDirectory, os.path.basename(_strPathToHTMLDir)))
+                shutil.copy(_strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
+                shutil.copytree(_strPathToHTMLDir, strPathToPyArchHtmlDirectory)
             except Exception, e:
-                self.DEBUG("Exception caught: %r" % e)
+                EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: Exception caught: %r" % e)
 

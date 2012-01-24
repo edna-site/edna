@@ -31,6 +31,8 @@ from EDAssert import EDAssert
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
+from EDUtilsPath import EDUtilsPath
+from EDUtilsFile import EDUtilsFile
 
 from XSDataCommon import XSDataInput
 
@@ -60,9 +62,28 @@ class EDTestCaseEDHandlerESRFPyarchv1_0(EDTestCasePluginUnit):
         EDAssert.equal("/data/pyarch/id23eh2/opid232/20100525/1/2", EDHandlerESRFPyarchv1_0.createPyarchFilePath("/data/id23eh2/inhouse/opid232/20100525/1/2"))
 
 
+    def testCopyHTMLFilesAndDir(self):
+        if not os.path.exists(EDUtilsPath.getEdnaUserTempFolder()):
+            os.mkdir(EDUtilsPath.getEdnaUserTempFolder())
+        strTestFromDir = os.path.join(EDUtilsPath.getEdnaUserTempFolder(), "TestFromDir")
+        if not os.path.exists(strTestFromDir):
+            os.mkdir(strTestFromDir)
+        strTestHtmlFilePath = os.path.join(strTestFromDir, "index.html")
+        strTestHtmlDirPath = os.path.join(strTestFromDir, "html")
+        strTestToDir = os.path.join(EDUtilsPath.getEdnaUserTempFolder(), "TestToDir")
+        EDUtilsFile.writeFile(strTestHtmlFilePath, "Test content")
+        if not os.path.exists(strTestHtmlDirPath):
+            os.mkdir(strTestHtmlDirPath)
+        strTestHtmlDirFilePath = os.path.join(strTestHtmlDirPath, "test.txt")
+        EDUtilsFile.writeFile(strTestHtmlDirFilePath, "Test content")
+        #
+        EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir(strTestFromDir, strTestHtmlFilePath, strTestHtmlDirPath)
+
+
 
     def process(self):
         self.addTestMethod(self.testCreatePyarchFilePath)
+        self.addTestMethod(self.testCopyHTMLFilesAndDir)
 
 
 
