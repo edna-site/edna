@@ -25,7 +25,7 @@ __author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "Copyrigth (c) 2010 ESRF"
 
-import os
+import os, shutil
 
 from EDAssert import EDAssert
 from EDVerbose import EDVerbose
@@ -35,6 +35,7 @@ from EDUtilsPath import EDUtilsPath
 from EDUtilsFile import EDUtilsFile
 
 from XSDataCommon import XSDataInput
+from XSDataMXv1 import XSDataCollection
 
 class EDTestCaseEDHandlerESRFPyarchv1_0(EDTestCasePluginUnit):
 
@@ -62,6 +63,19 @@ class EDTestCaseEDHandlerESRFPyarchv1_0(EDTestCasePluginUnit):
         EDAssert.equal("/data/pyarch/id23eh2/opid232/20100525/1/2", EDHandlerESRFPyarchv1_0.createPyarchFilePath("/data/id23eh2/inhouse/opid232/20100525/1/2"))
 
 
+
+    def testCreatePyarchHtmlDirectoryPath(self):
+        strTestDataDir = self.getPluginTestsDataHome()
+        strTestFile = os.path.join(strTestDataDir, "EDHandlerESRFPyarchv1_0", "XSDataCollection_reference.xml")
+        strXml = self.readAndParseFile(strTestFile)
+        xsDataCollection = XSDataCollection.parseString(strXml)
+        strPyarchHtmlDirectoryPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(xsDataCollection)
+        #print strPyarchHtmlDirectoryPath
+        strReferencePath = "/data/pyarch/id23eh1/Pasha/data/visitor/mx1199/id29/20111205/RAW_DATA/4ESR372D11/4ESR372D11_1_dnafiles"
+        EDAssert.equal(strReferencePath, strPyarchHtmlDirectoryPath, "Correct pyarch path")
+        
+
+
     def testCopyHTMLFilesAndDir(self):
         if not os.path.exists(EDUtilsPath.getEdnaUserTempFolder()):
             os.mkdir(EDUtilsPath.getEdnaUserTempFolder())
@@ -69,7 +83,7 @@ class EDTestCaseEDHandlerESRFPyarchv1_0(EDTestCasePluginUnit):
         if not os.path.exists(strTestFromDir):
             os.mkdir(strTestFromDir)
         strTestHtmlFilePath = os.path.join(strTestFromDir, "index.html")
-        strTestHtmlDirPath = os.path.join(strTestFromDir, "html")
+        strTestHtmlDirPath = os.path.join(strTestFromDir, "index")
         strTestToDir = os.path.join(EDUtilsPath.getEdnaUserTempFolder(), "TestToDir")
         EDUtilsFile.writeFile(strTestHtmlFilePath, "Test content")
         if not os.path.exists(strTestHtmlDirPath):
@@ -77,12 +91,20 @@ class EDTestCaseEDHandlerESRFPyarchv1_0(EDTestCasePluginUnit):
         strTestHtmlDirFilePath = os.path.join(strTestHtmlDirPath, "test.txt")
         EDUtilsFile.writeFile(strTestHtmlDirFilePath, "Test content")
         #
-        EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir(strTestFromDir, strTestHtmlFilePath, strTestHtmlDirPath)
+        EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir(strTestToDir, strTestHtmlFilePath, strTestHtmlDirPath)
+        #
+        # Check that files exist in strTestToDir:
+        EDAssert.isFile(os.path.join(strTestToDir, "index", "index.html"))
+        EDAssert.isFile(os.path.join(strTestToDir, "index", "html", "test.txt"))
+        #
+        shutil.rmtree(strTestFromDir, ignore_errors=True)
+        shutil.rmtree(strTestToDir, ignore_errors=True)
 
 
 
     def process(self):
         self.addTestMethod(self.testCreatePyarchFilePath)
+        self.addTestMethod(self.testCreatePyarchHtmlDirectoryPath)
         self.addTestMethod(self.testCopyHTMLFilesAndDir)
 
 

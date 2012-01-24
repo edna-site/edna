@@ -29,7 +29,8 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, shutil
 
-from EDVerbose import EDVerbose    
+from EDVerbose import EDVerbose 
+from EDUtilsImage import EDUtilsImage   
     
 class EDHandlerESRFPyarchv1_0:
 
@@ -67,7 +68,8 @@ class EDHandlerESRFPyarchv1_0:
         return strPyarchDNAFilePath
 
 
-    def createPyarchHtmlDirectoryPath(self, _xsDataResultCharacterisation):
+    @staticmethod
+    def createPyarchHtmlDirectoryPath(_xsDataCollection):
         """
         This method creates a directory path for pyarch: in the same directory were the 
         images are located a new directory is created with the following convention:
@@ -76,10 +78,9 @@ class EDHandlerESRFPyarchv1_0:
         
         """
         # First extract all reference image directory paths and names
-        xsDataCollection = _xsDataResultCharacterisation.getDataCollection()
         listImageDirectoryPath = []
         listImagePrefix = []
-        for xsDataSubWedge in xsDataCollection.getSubWedge():
+        for xsDataSubWedge in _xsDataCollection.getSubWedge():
             for xsDataImage in xsDataSubWedge.getImage():
                 strImagePath = xsDataImage.getPath().getValue()
                 listImageDirectoryPath.append(os.path.dirname(strImagePath))
@@ -94,19 +95,19 @@ class EDHandlerESRFPyarchv1_0:
                 strPrefix = strPrefix[4:]
             elif (strPrefix.startswith("postref-")):
                 strPrefix = strPrefix[8:]
-        strHtmlDirectoryPath = os.path.join(strImageDirectory, "edna_html_%s" % strPrefix)
+        strHtmlDirectoryPath = os.path.join(strImageDirectory, "%s_dnafiles" % strPrefix)
         strPyarchHtmlDirectoryPath = EDHandlerESRFPyarchv1_0.createPyarchFilePath(strHtmlDirectoryPath)
-        if not os.path.exists(strPyarchHtmlDirectoryPath):
-            try:
-                os.mkdir(strPyarchHtmlDirectoryPath)
-            except:
-                EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath: cannot create pyarch html directory %s" % strPyarchHtmlDirectoryPath)
-                strPyarchHtmlDirectoryPath = None
         return strPyarchHtmlDirectoryPath
     
 
     @staticmethod
     def copyHTMLFilesAndDir(_strPathToPyarchDirectory, _strPathToHTMLFile, _strPathToHTMLDir):
+        if not os.path.exists(_strPathToPyarchDirectory):
+            try:
+                os.mkdir(_strPathToPyarchDirectory)
+            except:
+                EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: cannot create pyarch html directory %s" % strPyarchHtmlDirectoryPath)
+                return
         if not os.path.exists(_strPathToHTMLFile):
             EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to pyarch directory does not exist: %s" % _strPathToPyarchDirectory)
         elif not os.path.exists(_strPathToHTMLFile):
@@ -115,11 +116,12 @@ class EDHandlerESRFPyarchv1_0:
             EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to html directory does not exist: %s" % _strPathToHTMLDir)            
         else:
             try:
-                strPathToPyArchHtmlDirectory = os.path.join(_strPathToPyarchDirectory, "html")
-                if not os.path.exists(strPathToPyArchHtmlDirectory):
-                    os.mkdir(strPathToPyArchIndexDirectory)
-                shutil.copy(_strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
-                shutil.copytree(_strPathToHTMLDir, strPathToPyArchHtmlDirectory)
+                strPathToPyArchHtmlDirectory = os.path.join(_strPathToPyarchDirectory, "index")
+                if os.path.exists(strPathToPyArchHtmlDirectory):
+                    shutil.rmtree(strPathToPyArchHtmlDirectory, ignore_errors=True)
+                shutil.copytree(_strPathToHTMLDir, os.path.join(strPathToPyArchHtmlDirectory, "html"))
+                shutil.copy(_strPathToHTMLFile, os.path.join(strPathToPyArchHtmlDirectory, "index.html"))
             except Exception, e:
+                raise
                 EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: Exception caught: %r" % e)
 
