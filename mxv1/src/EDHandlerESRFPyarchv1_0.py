@@ -101,17 +101,13 @@ class EDHandlerESRFPyarchv1_0:
     
 
     @staticmethod
-    def copyHTMLFilesAndDir(_strPathToPyarchDirectory, _strPathToHTMLFile, _strPathToHTMLDir):
+    def copyHTMLDir( _strPathToHTMLDir, _strPathToPyarchDirectory):
         if not os.path.exists(_strPathToPyarchDirectory):
             try:
                 os.mkdir(_strPathToPyarchDirectory)
             except:
                 EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: cannot create pyarch html directory %s" % strPyarchHtmlDirectoryPath)
                 return
-        if not os.path.exists(_strPathToHTMLFile):
-            EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to pyarch directory does not exist: %s" % _strPathToPyarchDirectory)
-        elif not os.path.exists(_strPathToHTMLFile):
-            EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to html file does not exist: %s" % _strPathToHTMLFile)
         elif not os.path.exists(_strPathToHTMLDir):
             EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to html directory does not exist: %s" % _strPathToHTMLDir)            
         else:
@@ -119,9 +115,7 @@ class EDHandlerESRFPyarchv1_0:
                 strPathToPyArchHtmlDirectory = os.path.join(_strPathToPyarchDirectory, "index")
                 if os.path.exists(strPathToPyArchHtmlDirectory):
                     shutil.rmtree(strPathToPyArchHtmlDirectory, ignore_errors=True)
-                shutil.copytree(_strPathToHTMLDir, os.path.join(strPathToPyArchHtmlDirectory, "html"))
-                shutil.copy(_strPathToHTMLFile, os.path.join(strPathToPyArchHtmlDirectory, "index.html"))
+                shutil.copytree(_strPathToHTMLDir, strPathToPyArchHtmlDirectory)
             except Exception, e:
-                raise
                 EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: Exception caught: %r" % e)
 

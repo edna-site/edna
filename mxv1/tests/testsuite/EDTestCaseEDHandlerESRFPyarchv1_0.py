@@ -91,11 +91,11 @@ class EDTestCaseEDHandlerESRFPyarchv1_0(EDTestCasePluginUnit):
         strTestHtmlDirFilePath = os.path.join(strTestHtmlDirPath, "test.txt")
         EDUtilsFile.writeFile(strTestHtmlDirFilePath, "Test content")
         #
-        EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir(strTestToDir, strTestHtmlFilePath, strTestHtmlDirPath)
+        EDHandlerESRFPyarchv1_0.copyHTMLDir(strTestFromDir, strTestToDir)
         #
         # Check that files exist in strTestToDir:
         EDAssert.isFile(os.path.join(strTestToDir, "index", "index.html"))
-        EDAssert.isFile(os.path.join(strTestToDir, "index", "html", "test.txt"))
+        EDAssert.isFile(os.path.join(strTestToDir, "index", "index", "test.txt"))
         #
         shutil.rmtree(strTestFromDir, ignore_errors=True)
         shutil.rmtree(strTestToDir, ignore_errors=True)
