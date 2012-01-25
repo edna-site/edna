@@ -30,6 +30,7 @@ from EDPluginExec import EDPluginExec
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from EDUtilsFile import EDUtilsFile
 from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
+from EDUtilsPath import EDUtilsPath
 
 EDFactoryPluginStatic.loadModule("markupv1_7")
 import markupv1_7
@@ -68,7 +69,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         EDPluginExec.preProcess(self, _edPlugin)
         self.DEBUG("EDPluginExecSimpleHTMLPagev1_0.preProcess...")
         self.xsDataResultCharacterisation = self.getDataInput().getCharacterisationResult()
-        self.strPath = os.path.join(self.getWorkingDirectory(), "simple.html")
+        self.strHtmlFileName = "index.html"
+        self.strPath = os.path.join(self.getWorkingDirectory(), self.strHtmlFileName)
 
 
     def process(self, _edPlugin=None):
@@ -92,11 +94,11 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 self.strPageEDNALog = os.path.join(self.getWorkingDirectory(), "edna_log.html")
                 pageEDNALog = markupv1_7.page()
                 pageEDNALog.h1("EDNA Log")
-                pageEDNALog.a("Back to previous page", href_=self.strPath)
+                pageEDNALog.a("Back to previous page", href_=self.strHtmlFileName)
                 pageEDNALog.pre(cgi.escape(EDUtilsFile.readFile(strPathToLogFile)))
-                pageEDNALog.a("Back to previous page", href_=self.strPath)
+                pageEDNALog.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(self.strPageEDNALog, str(pageEDNALog))
-                self.page.a("EDNA log file", href=self.strPageEDNALog)
+                self.page.a("EDNA log file", href_="edna_log.html")
                 self.page.strong(")")
             self.page.h1.close()
             self.page.div.close()
@@ -122,8 +124,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         # Store in Pyarch
         strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
         if strPyarchPath is None:
-            strPyarchPath = "/tmp/edna-svensson"
-        EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir(strPyarchPath, self.strPath, os.path.dirname(self.strPath))
+            # For debugging purposes
+            strPyarchPath = EDUtilsPath.getEdnaUserTempFolder()
+        EDHandlerESRFPyarchv1_0.copyHTMLDir(_strPathToHTMLDir=os.path.dirname(self.strPath), _strPathToPyarchDirectory=strPyarchPath)
 
 
     def indexingResults(self):
@@ -184,9 +187,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 strPageBestLog = os.path.join(self.getWorkingDirectory(), "best_log.html")
                 pageBestLog = markupv1_7.page()
                 pageBestLog.h1("BEST Log")
-                pageBestLog.a("Back to previous page", href_=self.strPath)
+                pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
                 pageBestLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToBestLogFile)))
-                pageBestLog.a("Back to previous page", href_=self.strPath)
+                pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageBestLog, str(pageBestLog))
             # Add link to RADDOSE log file:
             strPageRaddoseLog = None
@@ -195,9 +198,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 strPageRaddoseLog = os.path.join(self.getWorkingDirectory(), "raddose_log.html")
                 pageRaddoseLog = markupv1_7.page()
                 pageRaddoseLog.h1("RADDOSE Log")
-                pageRaddoseLog.a("Back to previous page", href_=self.strPath)
+                pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
                 pageRaddoseLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToRaddoseLogFile)))
-                pageRaddoseLog.a("Back to previous page", href_=self.strPath)
+                pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageRaddoseLog, str(pageRaddoseLog))
             listXSDataCollectionPlan = xsDataResultStrategy.getCollectionPlan()
             iNoSubWedges = len(listXSDataCollectionPlan)
@@ -207,9 +210,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             else:
                 self.page.strong( "Collection plan strategy (" )
             if strPageRaddoseLog is not None:
-                self.page.a("RADDOSE log file", href=strPageRaddoseLog)
+                self.page.a("RADDOSE log file", href="raddose_log.html")
                 self.page.strong(", ")
-            self.page.a("BEST log file", href=strPageBestLog)
+            self.page.a("BEST log file", href="best_log.html")
             self.page.strong(")")
             self.page.h2.close()
             # Check if ranking resolution is higher than the suggested strategy resolution(s)
@@ -381,15 +384,15 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.table( class_='image' )
             self.page.tr( align_="CENTER" )
             self.page.td()
-            strPageReferenceImage = os.path.join(self.getWorkingDirectory(), os.path.splitext(strFileName)[0]+".html")
+            strPageReferenceImage = os.path.splitext(strFileName)[0]+".html"
             pageReferenceImage = markupv1_7.page()
             pageReferenceImage.init( title=strReferenceFileName, 
                    footer="Generated on %s" % time.asctime())
             pageReferenceImage.h1(strReferenceFileName)
-            pageReferenceImage.a("Back to previous page", href_=self.strPath)
+            pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
             pageReferenceImage.img(src=strLocalPath, title=strReferenceFileName)
-            pageReferenceImage.a("Back to previous page", href_=self.strPath)
-            EDUtilsFile.writeFile(strPageReferenceImage, str(pageReferenceImage))
+            pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
+            EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(),strPageReferenceImage), str(pageReferenceImage))
             self.page.a( href=strPageReferenceImage)
             self.page.img( src=strLocalPath,width=128, height=128, title=strFileName )
             self.page.a.close()
