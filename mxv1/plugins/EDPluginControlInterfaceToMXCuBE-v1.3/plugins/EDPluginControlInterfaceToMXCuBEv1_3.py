@@ -190,7 +190,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                 strMessage += xsDataResultCharacterisation.getShortSummary().getValue()
             self.sendEmail(strSubject, strMessage)
             # Fix for bug EDNA-55 : If burning strategy EDNA2html shouldn't be run
-            bRunExecOutputHTML = True
+            bRunExecOutputHTML = False
             xsDataInputMXCuBE = self.getDataInput()
             xsDataDiffractionPlan = xsDataInputMXCuBE.getDiffractionPlan()
             if xsDataDiffractionPlan.getStrategyOption() is not None:
