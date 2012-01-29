@@ -104,3 +104,9 @@ class EDTestLauncher(EDApplication):
             EDVerbose.DEBUG("EDTestLauncher.process: launching test : %s" % self.__edTestCase.getTestName())
             self.__edTestCase.execute()
 
+
+    def isFailure(self):
+        bValue = None
+        if (self.__edTestCase is not None):
+            bValue = self.__edTestCase.getNumberTestCaseFailure() != 0 or self.__edTestCase.getNumberTestMethodFailure() != 0
+        return bValue
