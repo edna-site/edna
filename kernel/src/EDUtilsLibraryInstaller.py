@@ -35,7 +35,8 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, shutil, sys, zipfile, tarfile, urllib2, threading
 from   EDVerbose        import  EDVerbose
-from EDUtilsPlatform   import EDUtilsPlatform
+from EDUtilsPlatform    import EDUtilsPlatform
+from EDUtilsPath        import EDUtilsPath
 
 for strOneArg in sys.argv:
     if strOneArg.lower() in ["-d", "--debug"]:
