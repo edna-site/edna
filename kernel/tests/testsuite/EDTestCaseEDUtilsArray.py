@@ -38,11 +38,38 @@ from EDAssert                            import EDAssert
 from EDUtilsArray                        import EDUtilsArray
 from XSDataCommon                        import XSDataArray
 from EDUtilsLibraryInstaller             import EDUtilsLibraryInstaller
+from EDFactoryPluginStatic               import EDFactoryPluginStatic
+from EDUtilsPlatform                     import EDUtilsPlatform
 
-try:
-    import numpy
-except ImportError:
-    EDVerbose.WARNING("Numpy is not directly available, I will run all tests without Numpy")
+#EDVerbose.screen("Check Install Numpy")
+EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
+numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
+numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
+if numpy is None:
+    EDVerbose.WARNING("Numpy is not directly available, I will run all tests without it")
+
+#EDVerbose.screen("Check Install PIL")
+EDFactoryPluginStatic.loadModule("EDInstallPILv1_1_7")
+#ImagePath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", EDUtilsPlatform.architecture)
+#Image = EDFactoryPluginStatic.preImport("Image", ImagePath, _strMethodVersion="VERSION")
+#if Image is None:
+#    EDVerbose.WARNING("Image is not directly available, I will run all tests without it")
+
+
+#EDVerbose.screen("Check Install Fabio")
+EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
+#fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
+#fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath, _strMethodVersion="version")
+#if fabio is None:
+#    EDVerbose.WARNING("FabIO is not directly available, I will run all tests without it")
+
+#EDVerbose.screen("Check Install H5Py")
+EDFactoryPluginStatic.loadModule("EDInstallH5Pyv1_3_0")
+#h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", EDUtilsPlatform.architecture)
+#h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.version")
+#if h5py is None:
+#    EDVerbose.WARNING("H5Py is not directly available, I will run all tests without it")
+
 
 
 class EDTestCaseEDUtilsArray(EDTestCase):
@@ -84,7 +111,7 @@ class EDTestCaseEDUtilsArray(EDTestCase):
  [70, 71, 72, 73, 74, 75, 76, 77, 78, 79],
  [80, 81, 82, 83, 84, 85, 86, 87, 88, 89],
  [90, 91, 92, 93, 94, 95, 96, 97, 98, 99]]
-        if "numpy" in globals():
+        if numpy is not None:
             self.arrayNumpy = numpy.arange(100, dtype="uint8").reshape((10, 10))
         else:
             self.arrayNumpy = self.arrayNoNumpy
@@ -94,7 +121,7 @@ class EDTestCaseEDUtilsArray(EDTestCase):
         test the execution of xsDataToArray static method
         """
         EDVerbose.DEBUG("EDTestCaseEDUtilsArray.unitTestXsdToArray")
-        if "numpy" in globals():
+        if numpy is not None:
             EDAssert.arraySimilar(self.arrayNumpy,
                                   EDUtilsArray.xsDataToArray(self.xsDataArrayNumpy, _bForceNoNumpy=False),
                                   _strComment="Array are the same (Numpy used)")
@@ -118,7 +145,7 @@ class EDTestCaseEDUtilsArray(EDTestCase):
         test the execution of xsDataToArray static method
         """
         EDVerbose.DEBUG("EDTestCaseEDUtilsArray.unitTestArraytoXsd")
-        if "numpy" in globals():
+        if numpy is not None:
             EDAssert.strAlmostEqual(XSDataArray.parseString(self.strXSDataArrayNumpy).marshal(),
                                     EDUtilsArray.arrayToXSData(self.arrayNumpy).marshal(),
                                     _strComment="XSDataArray from (numpyArray) are the same")

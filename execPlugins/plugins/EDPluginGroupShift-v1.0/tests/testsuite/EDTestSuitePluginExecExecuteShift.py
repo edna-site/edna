@@ -39,6 +39,7 @@ class EDTestSuitePluginExecExecuteShift(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecMeasureOffsetv1_0_crop")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecMeasureOffsetv1_0_array")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecShiftImagev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecShiftImagev1_1")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecStitchOffsetedImagev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlStitchImagev1_0")
 

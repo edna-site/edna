@@ -39,6 +39,7 @@ from EDVerbose                  import EDVerbose
 from EDPluginExec               import EDPluginExec
 from EDUtilsBioSaxs             import EDUtilsBioSaxs
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
+from EDUtilsPath                import EDUtilsPath
 from XSDataCommon               import XSDataString, XSDataImage, \
                          XSDataDouble, XSDataLength, XSDataWavelength, \
                          XSDataTime, XSDataInteger
@@ -49,9 +50,9 @@ from XSDataBioSaxsv1_0          import XSDataInputBioSaxsMetadatav1_0, \
 from EDUtilsPlatform            import EDUtilsPlatform
 
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)

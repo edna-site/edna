@@ -24,12 +24,13 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import with_statement
 
 __authors__ = ["Olof Svensson", "Jérôme Kieffer"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
+__date__ = "2011-07-29"
 
 import os, sys, threading, traceback
 from EDLogFile import EDLogFile
@@ -41,6 +42,7 @@ class EDLoggingVerbose(object):
     """
 
     def __init__(self):
+        object.__init__(self)
         self.__pySemaphoreWrite = threading.Semaphore()
         self.__bIsVerbose = True
         self.__bIsVerboseDebug = False
@@ -113,11 +115,10 @@ class EDLoggingVerbose(object):
         @param _strMessage: The string to be written to standard output
         @type _strMessage: python string
         """
-        self.__pySemaphoreWrite.acquire()
-        if (self.__bIsVerbose or self.__bIsVerboseDebug):
-            sys.stdout.write(_strMessage)
-        self.__edLogFile.write(_strMessage)
-        self.__pySemaphoreWrite.release()
+        with self.__pySemaphoreWrite:
+            if (self.__bIsVerbose or self.__bIsVerboseDebug):
+                sys.stdout.write(_strMessage)
+            self.__edLogFile.write(_strMessage)
 
 
     def __writeStderr(self, _strMessage=""):
@@ -127,11 +128,10 @@ class EDLoggingVerbose(object):
         @param _strMessage: The string to be written to standard error
         @type _strMessage: python string
         """
-        self.__pySemaphoreWrite.acquire()
-        if (self.__bIsVerbose or self.__bIsVerboseDebug):
-            sys.stderr.write(_strMessage)
-        self.__edLogFile.write(_strMessage)
-        self.__pySemaphoreWrite.release()
+        with self.__pySemaphoreWrite:
+            if (self.__bIsVerbose or self.__bIsVerboseDebug):
+                sys.stderr.write(_strMessage)
+            self.__edLogFile.write(_strMessage)
 
 
     def log(self, _strMessage=""):
@@ -141,9 +141,8 @@ class EDLoggingVerbose(object):
         @param _strMessage: The string to be written to the log file
         @type _strMessage: python string
         """
-        self.__pySemaphoreWrite.acquire()
-        self.__edLogFile.write("  " + _strMessage + os.linesep)
-        self.__pySemaphoreWrite.release()
+        with self.__pySemaphoreWrite:
+            self.__edLogFile.write("  %s%s" % (_strMessage, os.linesep))
 
 
     def screen(self, _strMessage=""):
@@ -153,7 +152,7 @@ class EDLoggingVerbose(object):
         @param _strMessage: The string to be written to the log file
         @type _strMessage: python string
         """
-        self.__writeStdout("  " + _strMessage + os.linesep)
+        self.__writeStdout("  %s%s" % (_strMessage, os.linesep))
 
 
     def DEBUG(self, _strDebugMessage=""):
@@ -165,7 +164,7 @@ class EDLoggingVerbose(object):
         @type _strDebugMessage: python string
         """
         if (self.__bIsVerboseDebug):
-            self.__writeStdout("  [DEBUG]: " + _strDebugMessage + os.linesep)
+            self.__writeStdout("  [DEBUG]: %s%s" % (_strDebugMessage, os.linesep))
 
 
     def unitTest(self, _strMessage=""):
@@ -176,7 +175,7 @@ class EDLoggingVerbose(object):
         @param _strMessage: The message to be written to standard output and log file
         @type _strMessage: python string
         """
-        self.__writeStdout("  [UnitTest]: " + _strMessage + os.linesep)
+        self.__writeStdout("  [UnitTest]: %s%s" % (_strMessage, os.linesep))
 
 
     def ERROR(self, _strMessage=""):
@@ -186,7 +185,7 @@ class EDLoggingVerbose(object):
         @param _strMessage: The error message to be written to standard output and log file
         @type _strMessage: python string
         """
-        self.__writeStderr("  [ERROR]: " + _strMessage + os.linesep)
+        self.__writeStderr("  [ERROR]: %s%s" % (_strMessage, os.linesep))
 
 
     def error(self, _strMessage=""):
@@ -206,7 +205,7 @@ class EDLoggingVerbose(object):
         @param _strMessage: The error message to be written to standard output and log file
         @type _strMessage: python string
         """
-        self.__writeStdout("  [Warning]: " + _strMessage + os.linesep)
+        self.__writeStdout("  [Warning]: %s%s" % (_strMessage, os.linesep))
 
 
     def warning(self, _strMessage=""):
@@ -227,9 +226,9 @@ class EDLoggingVerbose(object):
         @type _strMessage: python string
         """
         if self.__bIsTest:
-            self.screen("[ASSERT]:   " + _strMessage)
+            self.screen("[ASSERT]:   %s" % _strMessage)
         else:
-            self.log("[ASSERT]:   " + _strMessage)
+            self.log("[ASSERT]:   %s" % _strMessage)
 
 
     def writeErrorTrace(self, _strPrefix="  "):

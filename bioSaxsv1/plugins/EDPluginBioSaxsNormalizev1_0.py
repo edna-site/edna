@@ -29,12 +29,11 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-import shutil, os
-from EDVerbose          import EDVerbose
+import os
 from EDPluginControl    import EDPluginControl
-from XSDataCommon       import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataStatus, XSDataTime
+from XSDataCommon       import XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataStatus, XSDataTime
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0, \
-                                XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
+                                XSDataInputBioSaxsMetadatav1_0
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataWaitFilev1_0 import XSDataInputWaitFile

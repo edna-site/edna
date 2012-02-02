@@ -87,6 +87,8 @@ class EDTestSuitePluginExecuteExecPlugins(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuiteExecuteAtsas")
 #Shift
         self.addTestSuiteFromName("EDTestSuitePluginExecExecuteShift")
+#documentation
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecEpydocv1_0")
 ##############################################################################
 if __name__ == '__main__':
 

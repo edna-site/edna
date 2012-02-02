@@ -24,19 +24,22 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import with_statement
 
-"""
-this static class keeps track of plugins under execution and which have succeeded or failed
-"""
 __authors__ = ["Jérôme Kieffer"]
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20110919"
+__status__ = "Stable"
 
 from EDVerbose import EDVerbose
 from threading import Semaphore
 
 class EDStatus(object):
+    """
+    This static class keeps track of plugins under execution and which have succeeded or failed
+    """
     __listRunning = []
     __listSuccess = []
     __listFailure = []
@@ -64,9 +67,8 @@ class EDStatus(object):
         Tell the strPluginId has started.
         @param strPluginId:  concatenation of the plugin-name and plugin-Id
         """
-        cls.__sem.acquire()
-        cls.__listRunning.append(strPluginId)
-        cls.__sem.release()
+        with cls.__sem:
+            cls.__listRunning.append(strPluginId)
 
 
     @classmethod
@@ -75,14 +77,13 @@ class EDStatus(object):
         Tell the strPluginId has finished with success.
         @param strPluginId: concatenation of the plugin-name and plugin-Id
         """
-        cls.__sem.acquire()
-        try:
-            cls.__listRunning.remove(strPluginId)
-        except ValueError:
-            EDVerbose.ERROR("Unable to remove %s from running plugins' list" % strPluginId)
-        else:
-            cls.__listSuccess.append(strPluginId)
-        cls.__sem.release()
+        with cls.__sem:
+            try:
+                cls.__listRunning.remove(strPluginId)
+            except ValueError:
+                EDVerbose.ERROR("Unable to remove %s from running plugins' list" % strPluginId)
+            else:
+                cls.__listSuccess.append(strPluginId)
 
 
     @classmethod
@@ -91,11 +92,10 @@ class EDStatus(object):
         Tell the strPluginId has finished with failure.
         @param strPluginId: concatenation of the plugin-name and plugin-Id
         """
-        cls.__sem.acquire()
-        try:
-            cls.__listRunning.remove(strPluginId)
-        except ValueError:
-            EDVerbose.ERROR("Unable to remove %s from running plugins' list" % strPluginId)
-        else:
-            cls.__listFailure.append(strPluginId)
-        cls.__sem.release()
+        with cls.__sem:
+            try:
+                cls.__listRunning.remove(strPluginId)
+            except ValueError:
+                EDVerbose.ERROR("Unable to remove %s from running plugins' list" % strPluginId)
+            else:
+                cls.__listFailure.append(strPluginId)

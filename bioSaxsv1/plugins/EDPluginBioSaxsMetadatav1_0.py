@@ -34,21 +34,21 @@ __copyright__ = "ESRF"
 __date__ = "20111014"
 __status__ = "deprecated"
 
-import os, sys, shutil
+import os, shutil
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
 from EDUtilsBioSaxs     import EDUtilsBioSaxs
+from EDUtilsPath        import EDUtilsPath
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from XSDataCommon       import XSDataString, XSDataImage, XSDataDouble, XSDataLength, \
     XSDataWavelength
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsMetadatav1_0, XSDataResultBioSaxsMetadatav1_0
 EDFactoryPluginStatic.loadModule("XSDataSaxsv1_0")
 from XSDataSaxsv1_0             import XSDataInputSaxsAddMetadatav1_0
-from EDUtilsLibraryInstaller    import EDUtilsLibraryInstaller
 from EDUtilsPlatform   import EDUtilsPlatform
 
 architecture = EDUtilsPlatform.architecture
-edfFilePath = os.path.join(os.environ["EDNA_HOME"], "libraries", "EdfFile", architecture)
+edfFilePath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "EdfFile", architecture)
 EdfFileMod = EDFactoryPluginStatic.preImport("EdfFile", edfFilePath)
 if EdfFileMod is None:
     EDVerbose.ERROR("Unable to import EdfFile: Please re-run the tests EDTestSuiteBioSaxs")

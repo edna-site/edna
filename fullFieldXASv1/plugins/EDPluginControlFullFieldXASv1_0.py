@@ -31,6 +31,7 @@ __date__ = "20110905"
 
 import threading, os, time
 from EDPluginControl        import EDPluginControl
+from EDUtilsPath            import EDUtilsPath
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("XSDataFullFieldXAS")
 EDFactoryPluginStatic.loadModule("EDPluginHDF5")
@@ -41,7 +42,7 @@ from EDUtilsArray           import EDUtilsArray
 from XSDataFullFieldXAS     import XSDataInputFullFieldXAS, XSDataResultFullFieldXAS, \
                                 XSDataInputAlignStack, XSDataHDF5Attributes
 from XSDataNormalizeImage   import XSDataInputNormalize
-from XSDataCommon           import XSDataFile, XSDataString, XSDataInteger, \
+from XSDataCommon           import XSDataString, XSDataInteger, \
                                 XSDataDictionary, XSDataKeyValuePair, XSDataImageExt
 
 
@@ -49,10 +50,10 @@ from XSDataCommon           import XSDataFile, XSDataString, XSDataInteger, \
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
-h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
+h5pyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "H5Py-1.3.0", architecture)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
@@ -268,7 +269,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
             else:
                 entry.create_dataset("end_time", data=EDPluginHDF5.getIsoTime(), dtype=h5py.special_dtype(vlen=str))
             if "duration" in  entry:
-                entry["duration"][()] = data = time.time() - self.start_time
+                entry["duration"][()] = time.time() - self.start_time
             else:
                 entry.create_dataset("duration", data=time.time() - self.start_time, dtype="float")
 

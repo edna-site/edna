@@ -25,14 +25,15 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
+
+from __future__ import with_statement
 __authors__ = [ "Jérôme Kieffer" ]
 __contact__ = "jerome.kieffer@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "27/05/2011"
+__date__ = "20120113"
 
 import os, tempfile
-
 from EDLogging              import EDLogging
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
@@ -69,6 +70,7 @@ class EDShare(EDLogging, EDSession):
         self._filename = None
         self._storage = None
         self._listKeys = []
+        self._dictAttrs = {} #attr are metadata associated to an entry. The values are always cached
 
 
     def __call__(self):
@@ -107,23 +109,49 @@ class EDShare(EDLogging, EDSession):
         @type key: string
         @type value: int, float, or string ; one or many in lists or arrays (without mixing types)  
         """
-        if self.isInitialized():
-            self.synchronizeOn()
+        if not self.isInitialized():
+            self.WARNING("EDShare is uninitialized: initializing")
+            self.initialize()
+        with self.locked():
             if key in self._listKeys:
                 self.ERROR("EDShare: Redefinition of elements is forbidden ")
             else:
                 self._listKeys.append(key)
                 self._storage[key] = value
-            self.synchronizeOff()
-        else:
-            self.WARNING("EDShare is uninitialized: initializing")
-            self.initialize()
+                self._dictAttrs[key] = {}
     set = __setitem__
 
 
     def __contains__(self, key):
         return (key in self._listKeys)
     has_key = __contains__
+
+
+    def set_metadata(self, key, attr_key, attr_value):
+        """
+        Sets a metadata to an element
+        """
+        if key in self._listKeys:
+            with self.locked():
+                self._dictAttrs[key][attr_key] = attr_value
+                if self._backend == "hdf5":
+                    self._storage[key].attrs[attr_key] = attr_value
+        else:
+            self.ERROR("EDShare: No such element")
+
+    def get_metadata(self, key, attr_key):
+        """
+        Gets a metadata of an element
+        """
+        if key in self._listKeys:
+            if attr_key in self._dictAttrs[key]:
+                return self._dictAttrs[key][attr_key]
+            elif (self._backend == "hdf5") and attr_key in self._storage[key].attrs:
+                return self._storage[key].attrs[attr_key]
+            else:
+                self.ERROR("EDShare: No such Metadata %s in %s" % (key, attr_key))
+        else:
+            self.ERROR("EDShare: No such element: %s" % key)
 
 
     def isInitialized(self):
@@ -134,57 +162,55 @@ class EDShare(EDLogging, EDSession):
         """
         Initialize  EDShare to use this 
         """
-        self.synchronizeOn()
-        if filename is None:
-            if self._backend == "hdf5":
-                filename = "EDShare-%s.h5" % self.sessionId
-            if self._backend == "dict":
-                filename = "EDShare-%s.pickle" % self.sessionId
-        absFilename = os.path.abspath(os.path.join(directory, filename))
+        with self.locked():
+            if filename is None:
+                if self._backend == "hdf5":
+                    filename = "EDShare-%s.h5" % self.sessionId
+                if self._backend == "dict":
+                    filename = "EDShare-%s.pickle" % self.sessionId
+            absFilename = os.path.abspath(os.path.join(directory, filename))
 
-        if not self.isInitialized():
-            self._filename = absFilename
-            if not os.path.isdir(directory):
-                os.makedirs(directory)
-            if (self._backend == "dict"):
-                if os.path.isfile(self._filename):
-                    self._storage = pickle.load(open(self._filename))
-                    self._listKeys = self._storage.keys()
-                    if not isinstance(self._storage, dict):
-                        self.ERROR("I did not load a dictionary ... resetting")
+            if not self.isInitialized():
+                self._filename = absFilename
+                if not os.path.isdir(directory):
+                    os.makedirs(directory)
+                if (self._backend == "dict"):
+                    if os.path.isfile(self._filename):
+                        self._storage = pickle.load(open(self._filename))
+                        self._listKeys = self._storage.keys()
+                        if not isinstance(self._storage, dict):
+                            self.ERROR("I did not load a dictionary ... resetting")
+                            self._storage = {}
+                            self._listKeys = []
+                    else:
                         self._storage = {}
                         self._listKeys = []
+                elif (self._backend == "hdf5"):
+                    self._storage = h5py.File(self._filename)
+                    self._storage.visititems(self._analyseHDF5)
                 else:
-                    self._storage = {}
-                    self._listKeys = []
-            elif (self._backend == "hdf5"):
-                self._storage = h5py.File(self._filename)
-                self._storage.visititems(self._analyseHDF5)
+                    self.ERROR("unrecognized backend !!!")
             else:
-                self.ERROR("unrecognized backend !!!")
-        else:
-            if  (absFilename != self._filename):
-                self.ERROR("EDShare was already initialized with backend %s on %s" % (self._backend, self._storage))
-        self.synchronizeOff()
+                if  (absFilename != self._filename):
+                    self.ERROR("EDShare was already initialized with backend %s on %s" % (self._backend, self._storage))
 
 
     def flush(self):
         """
         Write the content of the cache on the disk
         """
-        self.synchronizeOn()
-        if self.isInitialized():
-            if self._backend == "hdf5":
-                self._storage.flush()
-            elif (self._backend == "dict"):
-                fileOut = open(self._filename, "w")
-                self._storage = pickle.dump(self._storage, fileOut)
-                fileOut.close()
+        with self.locked():
+            if self.isInitialized():
+                if self._backend == "hdf5":
+                    self._storage.flush()
+                elif (self._backend == "dict"):
+                    fileOut = open(self._filename, "w")
+                    self._storage = pickle.dump(self._storage, fileOut)
+                    fileOut.close()
+                else:
+                    self.ERROR("EDShare: unrecognized backend !!!")
             else:
-                self.ERROR("EDShare: unrecognized backend !!!")
-        else:
-                self.ERROR("EDShare: Uninitialized !!!")
-        self.synchronizeOff()
+                    self.ERROR("EDShare: Uninitialized !!!")
 
 
     def close(self, remove=False):
@@ -195,18 +221,17 @@ class EDShare(EDLogging, EDSession):
         Useful for testing mainly
         """
         self.flush()
-        self.synchronizeOn()
-        if self.isInitialized():
-            if self._backend == "hdf5":
-                self._storage.close()
-            self._listKeys = []
-            self._storage = None
-            if remove:
-                os.unlink(self._filename)
-            self._filename = None
-        else:
-            self.ERROR("Closing a file that is uninitialized !!!")
-        self.synchronizeOff()
+        with self.locked():
+            if self.isInitialized():
+                if self._backend == "hdf5":
+                    self._storage.close()
+                self._listKeys = []
+                self._storage = None
+                if remove:
+                    os.unlink(self._filename)
+                self._filename = None
+            else:
+                self.ERROR("Closing a file that is uninitialized !!!")
 
 
     def _analyseHDF5(self, name, obj):
@@ -238,5 +263,7 @@ class EDShare(EDLogging, EDSession):
         return self._filename
     filename = property(get_filename)
 
+
+#Make EDShare a singleton
 EDShare = EDShare()
 

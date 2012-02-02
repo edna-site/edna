@@ -35,10 +35,11 @@ __status__ = "production"
 import os, threading
 from EDVerbose              import EDVerbose
 from EDPluginControl        import EDPluginControl
-from XSDataCommon           import XSDataTime, XSDataImage, XSDataString, XSDataStatus, XSDataFile, XSDataTime
+from XSDataCommon           import XSDataImage, XSDataString, XSDataStatus, XSDataFile, XSDataTime
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDUtilsPath            import EDUtilsPath
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataWaitFilev1_0     import XSDataInputWaitFile
 from XSDataCommon           import XSPluginItem
@@ -48,9 +49,9 @@ from EDConfiguration        import EDConfiguration
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)

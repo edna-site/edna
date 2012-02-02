@@ -35,7 +35,8 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, shutil, sys, zipfile, tarfile, urllib2, threading
 from   EDVerbose        import  EDVerbose
-from EDUtilsPlatform   import EDUtilsPlatform
+from EDUtilsPlatform    import EDUtilsPlatform
+from EDUtilsPath        import EDUtilsPath
 
 for strOneArg in sys.argv:
     if strOneArg.lower() in ["-d", "--debug"]:
@@ -62,7 +63,7 @@ class EDUtilsLibraryInstaller:
         self.__strSourceDir = _strSourceDir
         self.__strDestinationDirectory = None
         if os.environ.has_key("EDNA_HOME"):
-            self.__libraryPath = os.path.join(os.environ["EDNA_HOME"], "libraries", self.__strLibraryDirectory)
+            self.__libraryPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", self.__strLibraryDirectory)
         else:
             self.__libraryPath = os.path.dirname(os.path.abspath(sys.argv[0]))
 

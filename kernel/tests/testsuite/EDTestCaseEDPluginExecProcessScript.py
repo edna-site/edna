@@ -41,6 +41,7 @@ from EDAssert import EDAssert
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDTestCase import EDTestCase
 from EDUtilsPlatform import EDUtilsPlatform
+from EDUtilsPath import EDUtilsPath
 
 class EDTestCaseEDPluginExecProcessScript(EDTestCase):
 
@@ -123,7 +124,7 @@ class EDTestCaseEDPluginExecProcessScript(EDTestCase):
         edPluginExecProcessScript.setRequireCCP4(False)
 
         edPluginExecProcessScript.setScriptExecutable("%s %s" % (sys.executable,
-                                                      os.path.join(os.environ["EDNA_HOME"], "kernel", "bin", "cat.py")))
+                                                      os.path.join(EDUtilsPath.EDNA_HOME, "kernel", "bin", "cat.py")))
         edPluginExecProcessScript.setTimeOut(15.0)
         edPluginExecProcessScript.setScriptShell("python")
         from XSDataCommon import XSData

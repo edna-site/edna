@@ -25,7 +25,7 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jerome Kieffer" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
@@ -33,16 +33,16 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, sys, threading, time
 
-from EDCommandLine      import EDCommandLine
-from EDVerbose          import EDVerbose
-from EDConfiguration    import EDConfiguration
-from EDMessage          import EDMessage
-from EDUtilsPath        import EDUtilsPath
-from EDUtilsFile        import EDUtilsFile
-from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDCommandLine          import EDCommandLine
+from EDVerbose              import EDVerbose
+from EDConfiguration        import EDConfiguration
+from EDMessage              import EDMessage
+from EDUtilsPath            import EDUtilsPath
+from EDUtilsFile            import EDUtilsFile
+from EDFactoryPluginStatic  import EDFactoryPluginStatic
 
 
-class EDApplication:
+class EDApplication(object):
     """
     This is the main EDNA application class. This class can be sub-classed for any specific application need.
     An EDNA application is able to launch an entry point plugin. It accepts the following parameter:
@@ -74,7 +74,7 @@ class EDApplication:
 
     __edConfiguration = None
     __edFactoryPlugin = None
-    __semaphore = None
+    __semaphore = threading.Semaphore()
 
 
     def __init__(self, _strName="EDApplication", \
@@ -333,129 +333,129 @@ class EDApplication:
         os.chdir(self.__strCurrentWorkingDirectory)
 
 
-    def usage():
+    @classmethod
+    def usage(cls):
         """
         Print usage...
         """
         EDVerbose.screen("")
         EDVerbose.screen("Usage: ")
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : Name of the plugin to be executed" % (EDApplication.PLUGIN_PARAM_LABEL))
+        EDVerbose.screen("%35s : Name of the plugin to be executed" % (cls.PLUGIN_PARAM_LABEL))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : Path to the XML input file" % (EDApplication.DATASET_PARAM_LABEL))
+        EDVerbose.screen("%35s : Path to the XML input file" % (cls.DATASET_PARAM_LABEL))
         EDVerbose.screen("")
         EDVerbose.screen("-----------------------------------------------------------------------------------------------------------")
         EDVerbose.screen("")
         EDVerbose.screen(" Additional options available:")
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : Path to the file wich will contain the XML output" % (EDApplication.OUTPUT_PARAM_LABEL))
+        EDVerbose.screen("%35s : Path to the file wich will contain the XML output" % (cls.OUTPUT_PARAM_LABEL))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : Base directory, i.e. working directory for the application" % (EDApplication.DATASET_BASE_DIRECTORY))
+        EDVerbose.screen("%35s : Base directory, i.e. working directory for the application" % (cls.DATASET_BASE_DIRECTORY))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : Verbose mode" % (EDApplication.VERBOSE_MODE_LABEL))
+        EDVerbose.screen("%35s : Verbose mode" % (cls.VERBOSE_MODE_LABEL))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : XSConfiguration file" % (EDApplication.CONFIGURATION_PARAM_LABEL))
+        EDVerbose.screen("%35s : XSConfiguration file" % (cls.CONFIGURATION_PARAM_LABEL))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : Executable version info" % (EDApplication.VERSION_PARAM_LABEL_1 + " or " + EDApplication.VERSION_PARAM_LABEL_2))
+        EDVerbose.screen("%35s : Executable version info" % (cls.VERSION_PARAM_LABEL_1 + " or " + cls.VERSION_PARAM_LABEL_2))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : DEBUG log traces" % (EDApplication.DEBUG_PARAM_LABEL_1 + " or " + EDApplication.DEBUG_PARAM_LABEL_2))
+        EDVerbose.screen("%35s : DEBUG log traces" % (cls.DEBUG_PARAM_LABEL_1 + " or " + cls.DEBUG_PARAM_LABEL_2))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : No log file" % (EDApplication.NO_LOG_LABEL))
+        EDVerbose.screen("%35s : No log file" % (cls.NO_LOG_LABEL))
         EDVerbose.screen("")
-        EDVerbose.screen("%35s : This help message" % (EDApplication.HELP_LABEL_1 + " or " + EDApplication.HELP_LABEL_2))
+        EDVerbose.screen("%35s : This help message" % (cls.HELP_LABEL_1 + " or " + cls.HELP_LABEL_2))
         EDVerbose.screen("")
-    usage = staticmethod(usage)
 
 
-    def getFactoryPlugin():
-        EDVerbose.WARNING("The use of EDApplication.getFactoryPlugin is deprecated. Please use EDFactoryPluginStatic.getFactoryPlugin instead.")
+    @classmethod
+    def getFactoryPlugin(cls):
+        EDVerbose.WARNING("the use of EDclsetFactoryPlugin is deprecated. Please use EDFactoryPluginStatic.getFactoryPlugin instead.")
         return EDFactoryPluginStatic.getFactoryPlugin
-    getFactoryPlugin = staticmethod(getFactoryPlugin)
 
 
-    def loadPlugin(_strPluginName):
+    @classmethod
+    def loadPlugin(cls, _strPluginName):
         EDVerbose.WARNING("The use of EDApplication.loadPlugin is deprecated. Please use EDFactoryPluginStatic.getFactoryPlugin instead.")
         return EDFactoryPluginStatic.loadPlugin(_strPluginName)
-    loadPlugin = staticmethod(loadPlugin)
 
 
-    def loadModule(_strModuleName):
+    @classmethod
+    def loadModule(cls, _strModuleName):
         EDVerbose.WARNING("The use of EDApplication.loadModule is deprecated. Please use EDFactoryPluginStatic.getFactoryPlugin instead.")
         EDFactoryPluginStatic.loadModule(_strModuleName)
-    loadModule = staticmethod(loadModule)
 
 
-    def setConfiguration(_edConfiguration):
+    @classmethod
+    def setConfiguration(cls, _edConfiguration):
         """
         """
         EDVerbose.DEBUG("EDApplication.setConfiguration")
-        EDApplication.synchronizeOn()
-        if (_edConfiguration == None):
-            EDVerbose.warning("EDApplication.setConfiguration: Configuration is None!")
-        else:
-            EDApplication.__edConfiguration = _edConfiguration
-        EDApplication.synchronizeOff()
+        with cls.__semaphore:
+            if (_edConfiguration == None):
+                EDVerbose.warning("EDApplication.setConfiguration: Configuration is None!")
+            else:
+                cls.__edConfiguration = _edConfiguration
     setConfiguration = staticmethod(setConfiguration)
 
-    def getApplicationPluginConfiguration(_pluginName):
+
+    @classmethod
+    def getApplicationPluginConfiguration(cls, _pluginName):
         """
         """
         EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration")
-        EDApplication.synchronizeOn()
-        pluginConfiguration = None
-        if (EDApplication.__edConfiguration != None):
-            pluginConfiguration = EDApplication.__edConfiguration.getPluginItem(_pluginName)
-        if (pluginConfiguration is None):
-            EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: No application configuration found for %s " % _pluginName)
-        else:
-            EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: Reading %s configuration from %s" % (\
-                             _pluginName, \
-                             EDApplication.__edConfiguration.getXmlFileName()))
-        EDApplication.synchronizeOff()
+        with cls.__semaphore:
+            pluginConfiguration = None
+            if (cls.__edConfiguration != None):
+                pluginConfiguration = EDApplication.__edConfiguration.getPluginItem(_pluginName)
+            if (pluginConfiguration is None):
+                EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: No application configuration found for %s " % _pluginName)
+            else:
+                EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: Reading %s configuration from %s" % (\
+                                 _pluginName, \
+                                 cls.__edConfiguration.getXmlFileName()))
         return pluginConfiguration
-    getApplicationPluginConfiguration = staticmethod(getApplicationPluginConfiguration)
 
 
-    def getProjectPluginConfiguration(_pluginName):
+    @classmethod
+    def getProjectPluginConfiguration(cls, _pluginName):
         """
         """
         EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration")
         pluginConfiguration = None
         strPathToProjectConfigurationFile = EDFactoryPluginStatic.getPathToProjectConfigurationFile(_pluginName)
-        EDApplication.synchronizeOn()
-        if (strPathToProjectConfigurationFile is not None):
-            edConfigurationProject = EDConfiguration(strPathToProjectConfigurationFile)
-            edConfigurationProject.load()
-            if (edConfigurationProject is not None):
-                pluginConfiguration = edConfigurationProject.getPluginItem(_pluginName)
-        if (pluginConfiguration is None):
-            EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: No project configuration found for %s " % _pluginName)
-        else:
-            EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: Reading %s configuration from %s" % (\
-                             _pluginName, \
-                             strPathToProjectConfigurationFile))
-        EDApplication.synchronizeOff()
+        with cls.__semaphore:
+            if (strPathToProjectConfigurationFile is not None):
+                edConfigurationProject = EDConfiguration(strPathToProjectConfigurationFile)
+                edConfigurationProject.load()
+                if (edConfigurationProject is not None):
+                    pluginConfiguration = edConfigurationProject.getPluginItem(_pluginName)
+            if (pluginConfiguration is None):
+                EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: No project configuration found for %s " % _pluginName)
+            else:
+                EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: Reading %s configuration from %s" % (\
+                                 _pluginName, \
+                                 strPathToProjectConfigurationFile))
         return pluginConfiguration
-    getProjectPluginConfiguration = staticmethod(getProjectPluginConfiguration)
 
 
-    def loadConfiguration():
+    @classmethod
+    def loadConfiguration(cls):
         """
         Loads the configuration file if not already loaded
         """
-        if((EDApplication.__edConfiguration != None) & (EDApplication.__edConfiguration.isLoaded() == False)):
+        if((cls.__edConfiguration != None) & (cls.__edConfiguration.isLoaded() == False)):
             EDVerbose.DEBUG("EDApplication.loadConfiguration: Loading Configuration File...")
-            EDApplication.__edConfiguration.load()
-    loadConfiguration = staticmethod(loadConfiguration)
+            cls.__edConfiguration.load()
 
-    def getConfigurationHome(_strPluginName):
+
+    @classmethod
+    def getConfigurationHome(cls, _strPluginName):
         """
         Returns the configuration directory path for a given test module
         """
         strModuleLocation = EDFactoryPluginStatic.getFactoryPlugin().getModuleLocation(_strPluginName)
         strConfigurationHome = EDUtilsPath.appendListOfPaths(strModuleLocation, [ "..", "..", "..", "conf" ])
         return strConfigurationHome
-    getConfigurationHome = staticmethod(getConfigurationHome)
 
 
     def getDataInputFilePath(self):
@@ -589,36 +589,29 @@ class EDApplication:
 
 
     def getCommandLineArguments(self):
-        EDApplication.synchronizeOn()
-        edCommandLine = self.__edCommandLine.getCommandLine()
-        EDApplication.synchronizeOff()
+        with self.__class__.__semaphore:
+            edCommandLine = self.__edCommandLine.getCommandLine()
         return edCommandLine
 
     def getCommandLineArgument(self, _strKey):
-        EDApplication.synchronizeOn()
-        strCommandLineArgument = self.__edCommandLine.getArgument(_strKey)
-        EDApplication.synchronizeOff()
+        with self.__class__.__semaphore:
+            strCommandLineArgument = self.__edCommandLine.getArgument(_strKey)
         return strCommandLineArgument
 
-
-    def synchronizeOn():
+    @classmethod
+    def synchronizeOn(cls):
         """
         Lock the whole class
         """
-        if (EDApplication.__semaphore is None):
-            EDApplication.__semaphore = threading.Semaphore()
-        EDApplication.__semaphore.acquire()
-    synchronizeOn = staticmethod(synchronizeOn)
+        cls.__semaphore.acquire()
 
 
-    def synchronizeOff():
+    @classmethod
+    def synchronizeOff(cls):
         """
         Unlock the whole class
         """
-        if (EDApplication.__semaphore is None):
-            EDApplication.__semaphore = threading.Semaphore()
-        EDApplication.__semaphore.release()
-    synchronizeOff = staticmethod(synchronizeOff)
+        cls.__semaphore.release()
 
 
     def getApplicationName(self):

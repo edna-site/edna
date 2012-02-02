@@ -1,4 +1,12 @@
 targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataArray
+
 complex type XSDataInputEpydoc extends XSDataInput {
 	"docType can be pdf ot html (default)
 	verbosity is the one for epydoc, from -1 (-q) to +2 (-vv)

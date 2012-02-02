@@ -52,7 +52,7 @@ class EDSession(EDObject):
     def getSessionId(cls):
         """getter for session ID"""
         if cls._sessionId is None:
-            cls._sessionId = time.strftime("%Y%m%d%H%M%S")
+            cls._sessionId = time.strftime("%Y%m%d-%H%M%S")
         return cls._sessionId
 
     @classmethod
@@ -63,4 +63,3 @@ class EDSession(EDObject):
         else:
             EDVerbose.ERROR("You are not allowed to change the session ID !!!!")
     sessionId = classproperty(getSessionId, setSessionId)
-#    def get
