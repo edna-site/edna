@@ -36,6 +36,7 @@ try:
 except ImportError:
     fftw3 = None
 import numpy
+from math import ceil, floor
 sem = threading.Semaphore()
 
 def shift(input, shift):
@@ -209,3 +210,41 @@ def merge3(a, b, c, ROI=None):
     out += ndimage.shift(c, shac, order=1, cval=c.mean(dtype=float))
     print(shab, shac)
     return out / 3.0
+
+def patch(*arrays):
+    """
+    Will try to merge n-ndarray's representing images.
+    @param arrays: list of 2D images
+    @return: one image (ndarray)
+    """
+    n = len(arrays)
+    assert n > 0
+    #ensure all arrays have the same size
+    shape = arrays[0].shape
+    for i in arrays:
+        assert i.shape == shape
+    deltas = numpy.zeros((n, 2))
+    for i in range(1, n):
+         deltas[i] = measure_offset(arrays[0], arrays[i])
+    d0min = int(floor(deltas[:, 0].min()))
+    d1min = int(floor(deltas[:, 1].min()))
+    d0max = int(ceil(deltas[:, 0].max()))
+    d1max = int(ceil(deltas[:, 1].max()))
+    big_shape = (shape[0] + d0max - d0min, shape[1] + d1max - d1min)
+    print shape, big_shape
+    idx = numpy.zeros(big_shape, dtype=int)
+    patched = numpy.zeros(big_shape, dtype="float64")
+    print deltas
+    for i in range(n):
+        data = numpy.zeros(big_shape, dtype="float64")
+        pos = data.copy()
+        data[:shape[0], :shape[1]] = arrays[i]
+        pos[:shape[0], :shape[1]] = 1.0
+        patched += shiftFFT(data, deltas[i] - [d0min, d1min])
+        idx += shiftFFT(pos, deltas[i] - [d0min, d1min]).round().astype(int)
+    out = patched / idx.clip(1, n)
+    out[idx == 0] = 0
+    return out
+
+
+
