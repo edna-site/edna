@@ -57,7 +57,8 @@ class EDTestSuitePluginUnitExecPlugins(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuiteUnitAtsas")
         # Shift & offset
         self.addTestSuiteFromName("EDTestSuitePluginExecUnitShift")
-
+        #documentation
+        self.addTestCaseFromName("EDTestCasePluginUnitExecEpydocv1_0")
 
 ##############################################################################
 if __name__ == '__main__':
