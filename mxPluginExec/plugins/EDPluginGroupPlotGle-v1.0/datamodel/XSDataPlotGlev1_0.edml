@@ -8,32 +8,37 @@ import XSDataCommon.XSDataDouble
 import XSDataCommon.XSDataInteger
 import XSDataCommon.XSDataFile
 
+
+complex type XSDataPlotSet extends XSData {
+	plot : XSDataPlot []	
+}
+
 complex type XSDataPlot extends XSData {
-	plotType : XSDataString
-	topLabel : XSDataString
-	subTitle : XSDataString
-	xMin : XSDataDouble optional
-	ymin : XSDataDouble optional
-	xMax : XSDataDouble optional
-	yMax : XSDataDouble optional
-	xLabel : XSDataString
-	yLabel : XSDataString
+	plotType : string
+	topLabel : string
+	subTitle : string
+	xMin : double optional
+	yMin : double optional
+	xMax : double optional
+	yMax : double optional
+	xLabel : string
+	yLabel : string
 	graph : XSDataGraph []
 }
 
 complex type XSDataGraph extends XSData {
-	lineType : XSDataString
-	lineWidth : XSDataInteger
-	lineColor : XSDataString
-	lineLabel : XSDataString
-	markerType : XSDataInteger
-	markerColor : XSDataString
-	xData : XSDataDouble[]
-	yData : XSDataDouble[] 
+	lineType : string
+	lineWidth : integer
+	lineColor : string
+	lineLabel : string
+	markerType : integer
+	markerColor : string
+	xData : double []
+	yData : double [] 
 }
 
 complex type XSDataInputPlotGle extends XSDataInput {
-	plot : XSDataPlot [] optional
+	plotSet : XSDataPlotSet optional
 	filePlotMtv : XSDataFile optional
 }
 

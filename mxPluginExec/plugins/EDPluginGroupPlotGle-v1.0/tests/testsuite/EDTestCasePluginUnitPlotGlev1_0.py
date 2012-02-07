@@ -27,12 +27,15 @@ __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
+import os
+
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
+from EDUtilsFile import EDUtilsFile
 
 from XSDataPlotGlev1_0 import XSDataInputPlotGle
 
-class EDTestCasePluginUnitPlotGle(EDTestCasePluginUnit):
+class EDTestCasePluginUnitPlotGlev1_0(EDTestCasePluginUnit):
     """
     Those are all units tests for the EDNA Exec plugin PlotGle
     """
@@ -40,7 +43,7 @@ class EDTestCasePluginUnitPlotGle(EDTestCasePluginUnit):
     def __init__(self, _strTestName = None):
         """
         """
-        EDTestCasePluginUnit.__init__(self, "EDPluginExecPlotGle")
+        EDTestCasePluginUnit.__init__(self, "EDPluginExecPlotGlev1_0")
               
 
     def testCheckParameters(self):
@@ -49,10 +52,19 @@ class EDTestCasePluginUnitPlotGle(EDTestCasePluginUnit):
         edPluginExecPlotGle.setDataInput(xsDataInput)
         edPluginExecPlotGle.checkParameters()
         
+        
+    def testReadPlotMtv(self):
+        strPathTestFile = os.path.join(self.getPluginTestsDataHome(), \
+                                       "best_plots.mtv")
+        strXml = EDUtilsFile.readFile(strPathTestFile)
+        edPluginExecPlotGle = self.createPlugin()
+        xsDataplotSet = edPluginExecPlotGle.readPlotMtv(strXml)
+        print xsDataplotSet.marshal()
     
     
     def process(self):
         self.addTestMethod(self.testCheckParameters)
+        self.addTestMethod(self.testReadPlotMtv)
 
     
 

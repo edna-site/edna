@@ -29,20 +29,20 @@ __copyright__ = "ESRF"
 
 from EDTestSuite  import EDTestSuite
 
-class EDTestSuitePluginPlotGle(EDTestSuite):
+class EDTestSuitePluginPlotGlev1_0(EDTestSuite):
     """
     This is the test suite for EDNA plugin PlotGle 
     It will run subsequently all unit tests and execution tests.     
     """        
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitPlotGle")
-        self.addTestCaseFromName("EDTestCasePluginExecutePlotGle")
+        self.addTestCaseFromName("EDTestCasePluginUnitPlotGlev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecutePlotGlev1_0")
         
 
 
 if __name__ == '__main__':
 
-    edTestSuitePluginExecPlotGle = EDTestSuitePluginExecPlotGle("EDTestSuitePluginExecPlotGle")
-    edTestSuitePluginExecPlotGle.execute()
+    edTestSuitePluginExecPlotGlev1_0 = EDTestSuitePluginExecPlotGlev1_0("EDTestSuitePluginExecPlotGlev1_0")
+    edTestSuitePluginExecPlotGlev1_0.execute()
 
