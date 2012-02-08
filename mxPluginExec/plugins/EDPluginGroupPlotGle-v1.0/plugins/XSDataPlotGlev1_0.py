@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Feb 7 04:21::13 2012 by EDGenerateDS.
+# Generated Wed Feb 8 08:39::43 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -12,14 +12,16 @@ from xml.dom import Node
 strEdnaHome = os.environ.get("EDNA_HOME", None)
 
 dictLocation = { \
- "XSDataCommon": "kernel/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "datamodel", \
+ "XSDataCommon": "datamodel", \
+ "XSDataCommon": "datamodel", \
+ "XSDataCommon": "datamodel", \
+ "XSDataCommon": "datamodel", \
 }
 
 try:
 	from XSDataCommon import XSData
+	from XSDataCommon import XSDataArray
 	from XSDataCommon import XSDataFile
 	from XSDataCommon import XSDataInput
 	from XSDataCommon import XSDataResult
@@ -34,6 +36,7 @@ except ImportError as error:
 	else:
 		raise error
 from XSDataCommon import XSData
+from XSDataCommon import XSDataArray
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataResult
@@ -72,8 +75,9 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
-	if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
-		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
+	pass
+	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
 class MixedContainer(object):
 	# Constants for category:
@@ -128,100 +132,71 @@ class MixedContainer(object):
 
 
 class XSDataGraph(XSData):
-	def __init__(self, yData=None, xData=None, markerColor=None, markerType=None, lineLabel=None, lineColor=None, lineWidth=None, lineType=None):
+	def __init__(self, data=None, markerColor=None, markerType=None, lineLabel=None, lineColor=None, lineWidth=None, lineType=None):
 		XSData.__init__(self, )
-	
-	
 		checkType("XSDataGraph", "Constructor of XSDataGraph", lineType, "string")
-		self._lineType = lineType
+		self.__lineType = lineType
 		checkType("XSDataGraph", "Constructor of XSDataGraph", lineWidth, "integer")
-		self._lineWidth = lineWidth
+		self.__lineWidth = lineWidth
 		checkType("XSDataGraph", "Constructor of XSDataGraph", lineColor, "string")
-		self._lineColor = lineColor
+		self.__lineColor = lineColor
 		checkType("XSDataGraph", "Constructor of XSDataGraph", lineLabel, "string")
-		self._lineLabel = lineLabel
+		self.__lineLabel = lineLabel
 		checkType("XSDataGraph", "Constructor of XSDataGraph", markerType, "integer")
-		self._markerType = markerType
+		self.__markerType = markerType
 		checkType("XSDataGraph", "Constructor of XSDataGraph", markerColor, "string")
-		self._markerColor = markerColor
-		if xData is None:
-			self._xData = []
-		else:
-			checkType("XSDataGraph", "Constructor of XSDataGraph", xData, "list")
-			self._xData = xData
-		if yData is None:
-			self._yData = []
-		else:
-			checkType("XSDataGraph", "Constructor of XSDataGraph", yData, "list")
-			self._yData = yData
-	def getLineType(self): return self._lineType
+		self.__markerColor = markerColor
+		checkType("XSDataGraph", "Constructor of XSDataGraph", data, "XSDataArray")
+		self.__data = data
+	def getLineType(self): return self.__lineType
 	def setLineType(self, lineType):
 		checkType("XSDataGraph", "setLineType", lineType, "string")
-		self._lineType = lineType
-	def delLineType(self): self._lineType = None
+		self.__lineType = lineType
+	def delLineType(self): self.__lineType = None
 	# Properties
 	lineType = property(getLineType, setLineType, delLineType, "Property for lineType")
-	def getLineWidth(self): return self._lineWidth
+	def getLineWidth(self): return self.__lineWidth
 	def setLineWidth(self, lineWidth):
 		checkType("XSDataGraph", "setLineWidth", lineWidth, "integer")
-		self._lineWidth = lineWidth
-	def delLineWidth(self): self._lineWidth = None
+		self.__lineWidth = lineWidth
+	def delLineWidth(self): self.__lineWidth = None
 	# Properties
 	lineWidth = property(getLineWidth, setLineWidth, delLineWidth, "Property for lineWidth")
-	def getLineColor(self): return self._lineColor
+	def getLineColor(self): return self.__lineColor
 	def setLineColor(self, lineColor):
 		checkType("XSDataGraph", "setLineColor", lineColor, "string")
-		self._lineColor = lineColor
-	def delLineColor(self): self._lineColor = None
+		self.__lineColor = lineColor
+	def delLineColor(self): self.__lineColor = None
 	# Properties
 	lineColor = property(getLineColor, setLineColor, delLineColor, "Property for lineColor")
-	def getLineLabel(self): return self._lineLabel
+	def getLineLabel(self): return self.__lineLabel
 	def setLineLabel(self, lineLabel):
 		checkType("XSDataGraph", "setLineLabel", lineLabel, "string")
-		self._lineLabel = lineLabel
-	def delLineLabel(self): self._lineLabel = None
+		self.__lineLabel = lineLabel
+	def delLineLabel(self): self.__lineLabel = None
 	# Properties
 	lineLabel = property(getLineLabel, setLineLabel, delLineLabel, "Property for lineLabel")
-	def getMarkerType(self): return self._markerType
+	def getMarkerType(self): return self.__markerType
 	def setMarkerType(self, markerType):
 		checkType("XSDataGraph", "setMarkerType", markerType, "integer")
-		self._markerType = markerType
-	def delMarkerType(self): self._markerType = None
+		self.__markerType = markerType
+	def delMarkerType(self): self.__markerType = None
 	# Properties
 	markerType = property(getMarkerType, setMarkerType, delMarkerType, "Property for markerType")
-	def getMarkerColor(self): return self._markerColor
+	def getMarkerColor(self): return self.__markerColor
 	def setMarkerColor(self, markerColor):
 		checkType("XSDataGraph", "setMarkerColor", markerColor, "string")
-		self._markerColor = markerColor
-	def delMarkerColor(self): self._markerColor = None
+		self.__markerColor = markerColor
+	def delMarkerColor(self): self.__markerColor = None
 	# Properties
 	markerColor = property(getMarkerColor, setMarkerColor, delMarkerColor, "Property for markerColor")
-	def getXData(self): return self._xData
-	def setXData(self, xData):
-		checkType("XSDataGraph", "setXData", xData, "list")
-		self._xData = xData
-	def delXData(self): self._xData = None
+	def getData(self): return self.__data
+	def setData(self, data):
+		checkType("XSDataGraph", "setData", data, "XSDataArray")
+		self.__data = data
+	def delData(self): self.__data = None
 	# Properties
-	xData = property(getXData, setXData, delXData, "Property for xData")
-	def addXData(self, value):
-		checkType("XSDataGraph", "setXData", value, "double")
-		self._xData.append(value)
-	def insertXData(self, index, value):
-		checkType("XSDataGraph", "setXData", value, "double")
-		self._xData[index] = value
-	def getYData(self): return self._yData
-	def setYData(self, yData):
-		checkType("XSDataGraph", "setYData", yData, "list")
-		self._yData = yData
-	def delYData(self): self._yData = None
-	# Properties
-	yData = property(getYData, setYData, delYData, "Property for yData")
-	def addYData(self, value):
-		checkType("XSDataGraph", "setYData", value, "double")
-		self._yData.append(value)
-	def insertYData(self, index, value):
-		checkType("XSDataGraph", "setYData", value, "double")
-		self._yData[index] = value
+	data = property(getData, setData, delData, "Property for data")
 	def export(self, outfile, level, name_='XSDataGraph'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -230,46 +205,40 @@ class XSDataGraph(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataGraph'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self._lineType is not None:
+		if self.__lineType is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<lineType>%s</lineType>\n' % self._lineType))
+			outfile.write(unicode('<lineType>%s</lineType>\n' % self.__lineType))
 		else:
 			warnEmptyAttribute("lineType", "string")
-		if self._lineWidth is not None:
+		if self.__lineWidth is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<lineWidth>%d</lineWidth>\n' % self._lineWidth))
+			outfile.write(unicode('<lineWidth>%d</lineWidth>\n' % self.__lineWidth))
 		else:
 			warnEmptyAttribute("lineWidth", "integer")
-		if self._lineColor is not None:
+		if self.__lineColor is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<lineColor>%s</lineColor>\n' % self._lineColor))
+			outfile.write(unicode('<lineColor>%s</lineColor>\n' % self.__lineColor))
 		else:
 			warnEmptyAttribute("lineColor", "string")
-		if self._lineLabel is not None:
+		if self.__lineLabel is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<lineLabel>%s</lineLabel>\n' % self._lineLabel))
+			outfile.write(unicode('<lineLabel>%s</lineLabel>\n' % self.__lineLabel))
 		else:
 			warnEmptyAttribute("lineLabel", "string")
-		if self._markerType is not None:
+		if self.__markerType is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<markerType>%d</markerType>\n' % self._markerType))
+			outfile.write(unicode('<markerType>%d</markerType>\n' % self.__markerType))
 		else:
 			warnEmptyAttribute("markerType", "integer")
-		if self._markerColor is not None:
+		if self.__markerColor is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<markerColor>%s</markerColor>\n' % self._markerColor))
+			outfile.write(unicode('<markerColor>%s</markerColor>\n' % self.__markerColor))
 		else:
 			warnEmptyAttribute("markerColor", "string")
-		for xData_ in self.getXData():
-			showIndent(outfile, level)
-			outfile.write(unicode('<xData>%e</xData>\n' % xData_))
-		if self.getXData() == []:
-			warnEmptyAttribute("xData", "double")
-		for yData_ in self.getYData():
-			showIndent(outfile, level)
-			outfile.write(unicode('<yData>%e</yData>\n' % yData_))
-		if self.getYData() == []:
-			warnEmptyAttribute("yData", "double")
+		if self.__data is not None:
+			self.data.export(outfile, level, name_='data')
+		else:
+			warnEmptyAttribute("data", "XSDataArray")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -281,7 +250,7 @@ class XSDataGraph(XSData):
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._lineType = value_
+			self.__lineType = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'lineWidth':
 			if child_.firstChild:
@@ -290,21 +259,21 @@ class XSDataGraph(XSData):
 					ival_ = int(sval_)
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._lineWidth = ival_
+				self.__lineWidth = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'lineColor':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._lineColor = value_
+			self.__lineColor = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'lineLabel':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._lineLabel = value_
+			self.__lineLabel = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'markerType':
 			if child_.firstChild:
@@ -313,32 +282,19 @@ class XSDataGraph(XSData):
 					ival_ = int(sval_)
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._markerType = ival_
+				self.__markerType = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'markerColor':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._markerColor = value_
+			self.__markerColor = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'xData':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._xData.append(fval_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'yData':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._yData.append(fval_)
+			nodeName_ == 'data':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setData(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -386,107 +342,105 @@ class XSDataGraph(XSData):
 class XSDataPlot(XSData):
 	def __init__(self, graph=None, yLabel=None, xLabel=None, yMax=None, xMax=None, yMin=None, xMin=None, subTitle=None, topLabel=None, plotType=None):
 		XSData.__init__(self, )
-	
-	
 		checkType("XSDataPlot", "Constructor of XSDataPlot", plotType, "string")
-		self._plotType = plotType
+		self.__plotType = plotType
 		checkType("XSDataPlot", "Constructor of XSDataPlot", topLabel, "string")
-		self._topLabel = topLabel
+		self.__topLabel = topLabel
 		checkType("XSDataPlot", "Constructor of XSDataPlot", subTitle, "string")
-		self._subTitle = subTitle
+		self.__subTitle = subTitle
 		checkType("XSDataPlot", "Constructor of XSDataPlot", xMin, "double")
-		self._xMin = xMin
+		self.__xMin = xMin
 		checkType("XSDataPlot", "Constructor of XSDataPlot", yMin, "double")
-		self._yMin = yMin
+		self.__yMin = yMin
 		checkType("XSDataPlot", "Constructor of XSDataPlot", xMax, "double")
-		self._xMax = xMax
+		self.__xMax = xMax
 		checkType("XSDataPlot", "Constructor of XSDataPlot", yMax, "double")
-		self._yMax = yMax
+		self.__yMax = yMax
 		checkType("XSDataPlot", "Constructor of XSDataPlot", xLabel, "string")
-		self._xLabel = xLabel
+		self.__xLabel = xLabel
 		checkType("XSDataPlot", "Constructor of XSDataPlot", yLabel, "string")
-		self._yLabel = yLabel
+		self.__yLabel = yLabel
 		if graph is None:
-			self._graph = []
+			self.__graph = []
 		else:
 			checkType("XSDataPlot", "Constructor of XSDataPlot", graph, "list")
-			self._graph = graph
-	def getPlotType(self): return self._plotType
+			self.__graph = graph
+	def getPlotType(self): return self.__plotType
 	def setPlotType(self, plotType):
 		checkType("XSDataPlot", "setPlotType", plotType, "string")
-		self._plotType = plotType
-	def delPlotType(self): self._plotType = None
+		self.__plotType = plotType
+	def delPlotType(self): self.__plotType = None
 	# Properties
 	plotType = property(getPlotType, setPlotType, delPlotType, "Property for plotType")
-	def getTopLabel(self): return self._topLabel
+	def getTopLabel(self): return self.__topLabel
 	def setTopLabel(self, topLabel):
 		checkType("XSDataPlot", "setTopLabel", topLabel, "string")
-		self._topLabel = topLabel
-	def delTopLabel(self): self._topLabel = None
+		self.__topLabel = topLabel
+	def delTopLabel(self): self.__topLabel = None
 	# Properties
 	topLabel = property(getTopLabel, setTopLabel, delTopLabel, "Property for topLabel")
-	def getSubTitle(self): return self._subTitle
+	def getSubTitle(self): return self.__subTitle
 	def setSubTitle(self, subTitle):
 		checkType("XSDataPlot", "setSubTitle", subTitle, "string")
-		self._subTitle = subTitle
-	def delSubTitle(self): self._subTitle = None
+		self.__subTitle = subTitle
+	def delSubTitle(self): self.__subTitle = None
 	# Properties
 	subTitle = property(getSubTitle, setSubTitle, delSubTitle, "Property for subTitle")
-	def getXMin(self): return self._xMin
+	def getXMin(self): return self.__xMin
 	def setXMin(self, xMin):
 		checkType("XSDataPlot", "setXMin", xMin, "double")
-		self._xMin = xMin
-	def delXMin(self): self._xMin = None
+		self.__xMin = xMin
+	def delXMin(self): self.__xMin = None
 	# Properties
 	xMin = property(getXMin, setXMin, delXMin, "Property for xMin")
-	def getYMin(self): return self._yMin
+	def getYMin(self): return self.__yMin
 	def setYMin(self, yMin):
 		checkType("XSDataPlot", "setYMin", yMin, "double")
-		self._yMin = yMin
-	def delYMin(self): self._yMin = None
+		self.__yMin = yMin
+	def delYMin(self): self.__yMin = None
 	# Properties
 	yMin = property(getYMin, setYMin, delYMin, "Property for yMin")
-	def getXMax(self): return self._xMax
+	def getXMax(self): return self.__xMax
 	def setXMax(self, xMax):
 		checkType("XSDataPlot", "setXMax", xMax, "double")
-		self._xMax = xMax
-	def delXMax(self): self._xMax = None
+		self.__xMax = xMax
+	def delXMax(self): self.__xMax = None
 	# Properties
 	xMax = property(getXMax, setXMax, delXMax, "Property for xMax")
-	def getYMax(self): return self._yMax
+	def getYMax(self): return self.__yMax
 	def setYMax(self, yMax):
 		checkType("XSDataPlot", "setYMax", yMax, "double")
-		self._yMax = yMax
-	def delYMax(self): self._yMax = None
+		self.__yMax = yMax
+	def delYMax(self): self.__yMax = None
 	# Properties
 	yMax = property(getYMax, setYMax, delYMax, "Property for yMax")
-	def getXLabel(self): return self._xLabel
+	def getXLabel(self): return self.__xLabel
 	def setXLabel(self, xLabel):
 		checkType("XSDataPlot", "setXLabel", xLabel, "string")
-		self._xLabel = xLabel
-	def delXLabel(self): self._xLabel = None
+		self.__xLabel = xLabel
+	def delXLabel(self): self.__xLabel = None
 	# Properties
 	xLabel = property(getXLabel, setXLabel, delXLabel, "Property for xLabel")
-	def getYLabel(self): return self._yLabel
+	def getYLabel(self): return self.__yLabel
 	def setYLabel(self, yLabel):
 		checkType("XSDataPlot", "setYLabel", yLabel, "string")
-		self._yLabel = yLabel
-	def delYLabel(self): self._yLabel = None
+		self.__yLabel = yLabel
+	def delYLabel(self): self.__yLabel = None
 	# Properties
 	yLabel = property(getYLabel, setYLabel, delYLabel, "Property for yLabel")
-	def getGraph(self): return self._graph
+	def getGraph(self): return self.__graph
 	def setGraph(self, graph):
 		checkType("XSDataPlot", "setGraph", graph, "list")
-		self._graph = graph
-	def delGraph(self): self._graph = None
+		self.__graph = graph
+	def delGraph(self): self.__graph = None
 	# Properties
 	graph = property(getGraph, setGraph, delGraph, "Property for graph")
 	def addGraph(self, value):
 		checkType("XSDataPlot", "setGraph", value, "XSDataGraph")
-		self._graph.append(value)
+		self.__graph.append(value)
 	def insertGraph(self, index, value):
 		checkType("XSDataPlot", "setGraph", value, "XSDataGraph")
-		self._graph[index] = value
+		self.__graph[index] = value
 	def export(self, outfile, level, name_='XSDataPlot'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -495,41 +449,41 @@ class XSDataPlot(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataPlot'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self._plotType is not None:
+		if self.__plotType is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<plotType>%s</plotType>\n' % self._plotType))
+			outfile.write(unicode('<plotType>%s</plotType>\n' % self.__plotType))
 		else:
 			warnEmptyAttribute("plotType", "string")
-		if self._topLabel is not None:
+		if self.__topLabel is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<topLabel>%s</topLabel>\n' % self._topLabel))
+			outfile.write(unicode('<topLabel>%s</topLabel>\n' % self.__topLabel))
 		else:
 			warnEmptyAttribute("topLabel", "string")
-		if self._subTitle is not None:
+		if self.__subTitle is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<subTitle>%s</subTitle>\n' % self._subTitle))
+			outfile.write(unicode('<subTitle>%s</subTitle>\n' % self.__subTitle))
 		else:
 			warnEmptyAttribute("subTitle", "string")
-		if self._xMin is not None:
+		if self.__xMin is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<xMin>%e</xMin>\n' % self._xMin))
-		if self._yMin is not None:
+			outfile.write(unicode('<xMin>%e</xMin>\n' % self.__xMin))
+		if self.__yMin is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<yMin>%e</yMin>\n' % self._yMin))
-		if self._xMax is not None:
+			outfile.write(unicode('<yMin>%e</yMin>\n' % self.__yMin))
+		if self.__xMax is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<xMax>%e</xMax>\n' % self._xMax))
-		if self._yMax is not None:
+			outfile.write(unicode('<xMax>%e</xMax>\n' % self.__xMax))
+		if self.__yMax is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<yMax>%e</yMax>\n' % self._yMax))
-		if self._xLabel is not None:
+			outfile.write(unicode('<yMax>%e</yMax>\n' % self.__yMax))
+		if self.__xLabel is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<xLabel>%s</xLabel>\n' % self._xLabel))
+			outfile.write(unicode('<xLabel>%s</xLabel>\n' % self.__xLabel))
 		else:
 			warnEmptyAttribute("xLabel", "string")
-		if self._yLabel is not None:
+		if self.__yLabel is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<yLabel>%s</yLabel>\n' % self._yLabel))
+			outfile.write(unicode('<yLabel>%s</yLabel>\n' % self.__yLabel))
 		else:
 			warnEmptyAttribute("yLabel", "string")
 		for graph_ in self.getGraph():
@@ -547,21 +501,21 @@ class XSDataPlot(XSData):
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._plotType = value_
+			self.__plotType = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'topLabel':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._topLabel = value_
+			self.__topLabel = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'subTitle':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._subTitle = value_
+			self.__subTitle = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'xMin':
 			if child_.firstChild:
@@ -570,7 +524,7 @@ class XSDataPlot(XSData):
 					fval_ = float(sval_)
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._xMin = fval_
+				self.__xMin = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'yMin':
 			if child_.firstChild:
@@ -579,7 +533,7 @@ class XSDataPlot(XSData):
 					fval_ = float(sval_)
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._yMin = fval_
+				self.__yMin = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'xMax':
 			if child_.firstChild:
@@ -588,7 +542,7 @@ class XSDataPlot(XSData):
 					fval_ = float(sval_)
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._xMax = fval_
+				self.__xMax = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'yMax':
 			if child_.firstChild:
@@ -597,21 +551,21 @@ class XSDataPlot(XSData):
 					fval_ = float(sval_)
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._yMax = fval_
+				self.__yMax = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'xLabel':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._xLabel = value_
+			self.__xLabel = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'yLabel':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._yLabel = value_
+			self.__yLabel = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'graph':
 			obj_ = XSDataGraph()
@@ -664,26 +618,24 @@ class XSDataPlot(XSData):
 class XSDataPlotSet(XSData):
 	def __init__(self, plot=None):
 		XSData.__init__(self, )
-	
-	
 		if plot is None:
-			self._plot = []
+			self.__plot = []
 		else:
 			checkType("XSDataPlotSet", "Constructor of XSDataPlotSet", plot, "list")
-			self._plot = plot
-	def getPlot(self): return self._plot
+			self.__plot = plot
+	def getPlot(self): return self.__plot
 	def setPlot(self, plot):
 		checkType("XSDataPlotSet", "setPlot", plot, "list")
-		self._plot = plot
-	def delPlot(self): self._plot = None
+		self.__plot = plot
+	def delPlot(self): self.__plot = None
 	# Properties
 	plot = property(getPlot, setPlot, delPlot, "Property for plot")
 	def addPlot(self, value):
 		checkType("XSDataPlotSet", "setPlot", value, "XSDataPlot")
-		self._plot.append(value)
+		self.__plot.append(value)
 	def insertPlot(self, index, value):
 		checkType("XSDataPlotSet", "setPlot", value, "XSDataPlot")
-		self._plot[index] = value
+		self.__plot[index] = value
 	def export(self, outfile, level, name_='XSDataPlotSet'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -753,24 +705,22 @@ class XSDataPlotSet(XSData):
 class XSDataInputPlotGle(XSDataInput):
 	def __init__(self, configuration=None, filePlotMtv=None, plotSet=None):
 		XSDataInput.__init__(self, configuration)
-	
-	
 		checkType("XSDataInputPlotGle", "Constructor of XSDataInputPlotGle", plotSet, "XSDataPlotSet")
-		self._plotSet = plotSet
+		self.__plotSet = plotSet
 		checkType("XSDataInputPlotGle", "Constructor of XSDataInputPlotGle", filePlotMtv, "XSDataFile")
-		self._filePlotMtv = filePlotMtv
-	def getPlotSet(self): return self._plotSet
+		self.__filePlotMtv = filePlotMtv
+	def getPlotSet(self): return self.__plotSet
 	def setPlotSet(self, plotSet):
 		checkType("XSDataInputPlotGle", "setPlotSet", plotSet, "XSDataPlotSet")
-		self._plotSet = plotSet
-	def delPlotSet(self): self._plotSet = None
+		self.__plotSet = plotSet
+	def delPlotSet(self): self.__plotSet = None
 	# Properties
 	plotSet = property(getPlotSet, setPlotSet, delPlotSet, "Property for plotSet")
-	def getFilePlotMtv(self): return self._filePlotMtv
+	def getFilePlotMtv(self): return self.__filePlotMtv
 	def setFilePlotMtv(self, filePlotMtv):
 		checkType("XSDataInputPlotGle", "setFilePlotMtv", filePlotMtv, "XSDataFile")
-		self._filePlotMtv = filePlotMtv
-	def delFilePlotMtv(self): self._filePlotMtv = None
+		self.__filePlotMtv = filePlotMtv
+	def delFilePlotMtv(self): self.__filePlotMtv = None
 	# Properties
 	filePlotMtv = property(getFilePlotMtv, setFilePlotMtv, delFilePlotMtv, "Property for filePlotMtv")
 	def export(self, outfile, level, name_='XSDataInputPlotGle'):
@@ -781,9 +731,9 @@ class XSDataInputPlotGle(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputPlotGle'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self._plotSet is not None:
+		if self.__plotSet is not None:
 			self.plotSet.export(outfile, level, name_='plotSet')
-		if self._filePlotMtv is not None:
+		if self.__filePlotMtv is not None:
 			self.filePlotMtv.export(outfile, level, name_='filePlotMtv')
 	def build(self, node_):
 		for child_ in node_.childNodes:
@@ -847,8 +797,6 @@ class XSDataInputPlotGle(XSDataInput):
 class XSDataResultPlotGle(XSDataResult):
 	def __init__(self, status=None):
 		XSDataResult.__init__(self, status)
-	
-	
 	def export(self, outfile, level, name_='XSDataResultPlotGle'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))

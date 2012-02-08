@@ -7,7 +7,7 @@ import XSDataCommon.XSDataString
 import XSDataCommon.XSDataDouble
 import XSDataCommon.XSDataInteger
 import XSDataCommon.XSDataFile
-
+import XSDataCommon.XSDataArray
 
 complex type XSDataPlotSet extends XSData {
 	plot : XSDataPlot []	
@@ -33,8 +33,7 @@ complex type XSDataGraph extends XSData {
 	lineLabel : string
 	markerType : integer
 	markerColor : string
-	xData : double []
-	yData : double [] 
+	data : XSDataArray
 }
 
 complex type XSDataInputPlotGle extends XSDataInput {
