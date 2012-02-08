@@ -42,7 +42,7 @@ class EDTestCasePluginExecutePlotGlev1_0(EDTestCasePluginExecute):
     def __init__(self, _strTestName = None):
         """
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginExecPlotGle")
+        EDTestCasePluginExecute.__init__(self, "EDPluginExecPlotGlev1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_PlotGle.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \

@@ -59,7 +59,8 @@ class EDTestCasePluginUnitPlotGlev1_0(EDTestCasePluginUnit):
         strXml = EDUtilsFile.readFile(strPathTestFile)
         edPluginExecPlotGle = self.createPlugin()
         xsDataplotSet = edPluginExecPlotGle.readPlotMtv(strXml)
-        print xsDataplotSet.marshal()
+        xsDataplotSet.exportToFile(os.path.join(self.getPluginTestsDataHome(), \
+                                       "XSDataPlotSet_reference.xml"))
     
     
     def process(self):

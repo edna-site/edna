@@ -15,23 +15,23 @@ complex type XSDataPlotSet extends XSData {
 
 complex type XSDataPlot extends XSData {
 	plotType : string
-	topLabel : string
+	title : string
 	subTitle : string
-	xMin : double optional
-	yMin : double optional
-	xMax : double optional
-	yMax : double optional
-	xLabel : string
-	yLabel : string
+	xmin : double optional
+	ymin : double optional
+	xmax : double optional
+	ymax : double optional
+	xtitle : string
+	ytitle : string
 	graph : XSDataGraph []
 }
 
 complex type XSDataGraph extends XSData {
-	lineType : string
-	lineWidth : integer
+	lineStyle : string
+	lineWidth : double
 	lineColor : string
-	lineLabel : string
-	markerType : integer
+	label : string
+	markerType : string
 	markerColor : string
 	data : XSDataArray
 }

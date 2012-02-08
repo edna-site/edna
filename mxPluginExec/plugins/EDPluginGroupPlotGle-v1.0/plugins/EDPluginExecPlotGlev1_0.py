@@ -27,6 +27,8 @@ __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
+import os, tempfile, numpy
+
 from EDPluginExec import EDPluginExec
 from EDUtilsFile import EDUtilsFile
 from EDUtilsArray import EDUtilsArray
@@ -50,6 +52,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         """
         EDPluginExec.__init__(self )
         self.setXSDataInputClass(XSDataInputPlotGle)
+        self.listPlot = []
 
 
     def checkParameters(self):
@@ -69,7 +72,15 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             strPlotMtv = EDUtilsFile.readFile(xsDataInput.filePlotMtv.path.value)
             xsDataPlotSet = self.readPlotMtv(strPlotMtv)
         else:
-            xsDataPlot = xsDataInput.plotSet
+            xsDataPlotSet = xsDataInput.plotSet
+        # Prepare input script
+        iIndex = 1
+        for xsDataPlot in xsDataPlotSet.plot:
+            strPlotFile = os.path.join(self.getWorkingDirectory(), "plot%d.gle" % iIndex)
+            strGle = self.prepareGleGraph(xsDataPlot)
+            EDUtilsFile.writeFile(strPlotFile, strGle)
+            self.listPlot.append(strPlotFile)
+            iIndex += 1
         
     def process(self, _edObject = None):
         EDPluginExec.process(self)
@@ -83,6 +94,54 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         xsDataResult = XSDataResultPlotGle()
         self.setDataOutput(xsDataResult)
     
+
+
+    def prepareGleGraph(self, _xsDataPlot):
+        strGraph = "begin graph\n"
+        strGraph += "  title \"%s\"\n" % _xsDataPlot.title
+        strGraph += "  xtitle \"%s\"\n" % _xsDataPlot.xtitle
+        strGraph += "  ytitle \"%s\"\n" % _xsDataPlot.ytitle
+        if _xsDataPlot.xmin != None or _xsDataPlot.xmax != None:
+            strGraph += "  xaxis "
+            if _xsDataPlot.xmin != None:
+                strGraph += "min %f " % _xsDataPlot.xmin
+            if _xsDataPlot.xmax != None:
+                strGraph += "max %f " % _xsDataPlot.xmax
+            strGraph += "\n"
+        if _xsDataPlot.ymin != None or _xsDataPlot.ymax != None:
+            strGraph += "  yaxis "
+            if _xsDataPlot.ymin != None:
+                strGraph += "min %f " % _xsDataPlot.ymin
+            if _xsDataPlot.ymax != None:
+                strGraph += "max %f " % _xsDataPlot.ymax
+            strGraph += "\n"
+        strGraph += "  key pos tl hei 0.25\n"
+        iIndex = 1
+        for xsDataGraph in _xsDataPlot.graph:
+            strTmpDataPath = tempfile.mkstemp(prefix="data_", suffix=".dat", \
+                                              dir=self.getWorkingDirectory(), text=True)[1]
+            numpyData = EDUtilsArray.xsDataToArray(xsDataGraph.data, _bForceNoNumpy=True)
+            numpy.savetxt(strTmpDataPath, numpyData, delimiter=" ")
+            #EDUtilsFile.writeFile(strTmpDataPath, strData)
+            strGraph += "  data %s\n" % strTmpDataPath
+            strGraph += "  d%d line " % iIndex
+            if xsDataGraph.lineColor != None:
+                strGraph += " color %s " % xsDataGraph.lineColor
+            if xsDataGraph.lineStyle != None:
+                strGraph += " lstyle %d " % xsDataGraph.lineStyle
+            if xsDataGraph.lineWidth != None:
+                strGraph += " lwidth %f " % xsDataGraph.lineWidth
+            if xsDataGraph.markerType != None:
+                strGraph += " marker %s " % xsDataGraph.markerType
+            if xsDataGraph.markerColor != None:
+                strGraph += " color %s " % xsDataGraph.markerColor
+            if xsDataGraph.label != None:
+                strGraph += " key \"%s\" " % xsDataGraph.label
+            strGraph += "\n"
+            iIndex+=1
+        strGraph += "end graph\n"
+        return strGraph
+
 
     def readPlotMtv(self, _strPlotMtv):
         xsDataPlotSet = XSDataPlotSet()
@@ -99,31 +158,31 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                 xsDataPlotSet.addPlot(xsDataPlot)
             elif strLine.find("toplabel") != -1:
                 strTopLabel = strLine.split("'")[1]
-                xsDataPlot.topLabel = strTopLabel
+                xsDataPlot.title = strTopLabel
             elif strLine.find("subtitle") != -1:
                 strSubTitle = strLine.split("'")[1]
                 xsDataPlot.subTitle = strSubTitle
             elif strLine.find("xmin") != -1:
                 strXMin = strLine.split("=")[1]
-                xsDataPlot.xMin = float(strXMin) 
+                xsDataPlot.xmin = float(strXMin) 
             elif strLine.find("ymin") != -1:
                 strYMin = strLine.split("=")[1]
-                xsDataPlot.yMin = float(strYMin) 
+                xsDataPlot.ymin = float(strYMin) 
             elif strLine.find("xmax") != -1:
                 strXMax = strLine.split("=")[1]
-                xsDataPlot.xMax = float(strXMax) 
+                xsDataPlot.xmax = float(strXMax) 
             elif strLine.find("ymax") != -1:
                 strYMax = strLine.split("=")[1]
-                xsDataPlot.yMax = float(strYMax) 
+                xsDataPlot.ymax = float(strYMax) 
             elif strLine.find("xlabel") != -1:
                 strXLabel = strLine.split("'")[1]
-                xsDataPlot.xLabel = strXLabel 
+                xsDataPlot.xtitle = strXLabel 
             elif strLine.find("ylabel") != -1:
                 if strLine.find("'") != -1:
                     strYLabel = strLine.split("'")[1]
                 else:
                     strYLabel = strLine.split("=")[1]
-                xsDataPlot.yLabel = strYLabel
+                xsDataPlot.ytitle = strYLabel
             elif strLine.startswith("# Curve"):
                 if xsDataGraph is not None:
                     xsDataGraph.data = EDUtilsArray.arrayToXSData(listData,_bForceNoNumpy=True)
@@ -132,19 +191,19 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                 listData = []
             elif strLine.find("linetype") != -1:
                 strLineType = strLine.split("=")[1]
-                xsDataGraph.lineType = int(strLineType) 
+                xsDataGraph.lineStyle = self.lineTypePlotMtv(int(strLineType)) 
             elif strLine.find("linewidth") != -1:
                 strLineWidth = strLine.split("=")[1]
-                xsDataGraph.lineWidth = int(strLineWidth) 
+                xsDataGraph.lineWidth = float(strLineWidth)*0.02 
             elif strLine.find("linecolor") != -1:
                 iLineColorCode = int(strLine.split("=")[1])
                 xsDataGraph.lineColor = self.colorPlotMtv(iLineColorCode)
             elif strLine.find("linelabel") != -1:
                 strLineLabel = strLine.split("'")[1]
-                xsDataGraph.lineLabel = strLineLabel 
+                xsDataGraph.label = strLineLabel 
             elif strLine.find("markertype") != -1:
                 strMarkerType = strLine.split("=")[1]
-                xsDataGraph.markerType = int(strMarkerType) 
+                xsDataGraph.markerType = self.markerTypePlotMtv(int(strMarkerType)) 
             elif strLine.find("markercolor") != -1:
                 iMarkerColor = int(strLine.split("=")[1])
                 xsDataGraph.markerColor = self.colorPlotMtv(iMarkerColor) 
@@ -199,4 +258,27 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         # 8=Sparse Dot-Dash
         # 9=Triple-Dot
         #10=Dot-Dot-Dash
-        return None
+        iLineTypeGle = _iLineType
+        if iLineTypeGle > 9:
+            iLineTypeGle = 1
+        return iLineTypeGle
+    
+    def markerTypePlotMtv(self, _iMarkerType):
+        #0=None
+        #1=Dot
+        #2=Cross
+        #3=X
+        #4=White Square
+        #5=Black Square
+        #6=White Diamond
+        #7=Black Diamond
+        #8=White Triangle
+        #9=Black Triangle
+        #10=White Inverted Triangle
+        #11=Black Inverted Triangle
+        #12=White Circle
+        #13=Black Circle
+        strGleMarker = None
+        if _iMarkerType == 10:
+            strGleMarker = "triangle"
+        return strGleMarker
