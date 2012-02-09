@@ -57,23 +57,38 @@ def shift(input, shift):
     re[:d0, :d1] = input[r0:, r1:]
     return re
 
-
-def shiftFFT(input, shift):
+def shiftFFT(inp, shift, method="fftw"):
     """
     Do shift using FFTs
     Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order="infinity") but faster
     @param input: 2d numpy array
     @param shift: 2-tuple of float 
     @return: shifted image
+    
     """
-    d0, d1 = input.shape
+    d0, d1 = inp.shape
     v0, v1 = shift
-    m0, m1 = np.ogrid[:d0, :d1]
-    e0 = np.exp(-2j * pi * v[0] * m0 / d0)
-    e1 = np.exp(-2j * pi * v[1] * m1 / d1)
+    f0 = np.fft.ifftshift(np.arange(-d0 // 2, d0 // 2))
+    f1 = np.fft.ifftshift(np.arange(-d1 // 2, d1 // 2))
+    m1, m0 = numpy.meshgrid(f1, f0)
+    e0 = np.exp(-2j * pi * v0 * m0 / float(d0))
+    e1 = np.exp(-2j * pi * v1 * m1 / float(d1))
     e = e0 * e1
-    return abs(np.fft.ifft2(np.fft.fft2(input) * e))
+    if method.startswith("fftw") and (fftw3 is not None):
 
+        input = numpy.zeros((d0, d1), dtype=complex)
+        output = numpy.zeros((d0, d1), dtype=complex)
+        with sem:
+                fft = fftw3.Plan(input, output, direction='forward', flags=['estimate'])
+                ifft = fftw3.Plan(output, input, direction='backward', flags=['estimate'])
+        input[:, :] = inp.astype(complex)
+        fft()
+        output *= e
+        ifft()
+        out = input / input.size
+    else:
+        out = np.fft.ifft2(np.fft.fft2(inp) * e)
+    return abs(out)
 
 def maximum_position(img):
     """
@@ -133,8 +148,8 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         res = input.real / input.size
 
     else:#use numpy fftpack
-        i1f = numpy.fft.fft2(self.npaIm1)
-        i2f = numpy.fft.fft2(self.npaIm2)
+        i1f = numpy.fft.fft2(img1)
+        i2f = numpy.fft.fft2(img2)
         res = numpy.fft.ifft2(i1f * i2f.conjugate()).real
     t1 = time.time()
     ################################################################################
@@ -172,3 +187,21 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
     else:
         return offset
 
+def merge3(a, b, c, ROI=None):
+    from scipy import ndimage
+    out = np.zeros(a.shape, dtype="float32")
+    out += a
+    if ROI is not None:
+        ac = a[ROI]
+        bc = b[ROI]
+        cc = c[ROI]
+    else:
+        ac = a
+        bc = b
+        cc = c
+    shab = measure_offset(ac, bc)
+    out += ndimage.shift(b, shab, order=1, cval=b.mean(dtype=float), output_type="float32")
+    shac = measure_offset(ac, cc)
+    out += ndimage.shift(c, shac, order=1, cval=c.mean(dtype=float), output_type="float32")
+    print shab, shac
+    return out / 3.0

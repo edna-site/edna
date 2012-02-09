@@ -39,7 +39,7 @@ import os, shutil, exceptions
 from EDVerbose import EDVerbose
 
 
-class EDUtilsFile:
+class EDUtilsFile(object):
     """
     """
 

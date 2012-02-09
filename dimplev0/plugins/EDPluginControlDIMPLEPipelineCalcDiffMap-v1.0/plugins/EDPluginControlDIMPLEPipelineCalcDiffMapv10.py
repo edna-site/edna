@@ -411,7 +411,7 @@ class EDPluginControlDIMPLEPipelineCalcDiffMapv10(EDPluginControl):
         for record in open(self._xyzin):
 
             if 'ATOM  ' in record[:6] or 'HETATM' in record[:6]:
-                residue = record[17:20]
+                residue = record[17:20].strip()
 
                 if not residue in known_monomers:
                     unknown.append(residue)

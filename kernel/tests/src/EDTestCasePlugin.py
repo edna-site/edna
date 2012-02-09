@@ -39,7 +39,7 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110915"
+__date__ = "20120131"
 
 import sys, os, threading, urllib2, exceptions, tempfile
 
@@ -210,11 +210,12 @@ class EDTestCasePlugin(EDTestCase):
         in the $EDNA_HOME/tests/data/images directory. If one image is not present
         this method tries to download it from http://www.edna-site.org/data/tests/images
         """
+        if not os.path.isdir(self.getTestsDataImagesHome()):
+            os.makedirs(self.getTestsDataImagesHome())
         for strImageName in _listImageFileName:
             strImagePath = os.path.join(self.getTestsDataImagesHome(), strImageName)
             if(not os.path.exists(strImagePath)):
                 EDVerbose.unitTest("Trying to download image %s, timeout set to %d s" % (strImagePath, iMAX_DOWNLOAD_TIME))
-                strDestination = os.path.join(self.getTestsDataImagesHome(), strImageName)
                 if os.environ.has_key("http_proxy"):
                     dictProxies = {'http': os.environ["http_proxy"]}
                     proxy_handler = urllib2.ProxyHandler(dictProxies)
@@ -232,9 +233,9 @@ class EDTestCasePlugin(EDTestCase):
                 timer.cancel()
 
                 try:
-                    open(strDestination, "wb").write(data)
+                    open(strImagePath, "wb").write(data)
                 except IOError:
-                    raise IOError, "unable to write downloaded data to disk at " + strDestination
+                    raise IOError, "unable to write downloaded data to disk at %s" % strImagePath
 
                 if os.path.exists(strImagePath):
                     EDVerbose.unitTest("Image %s successfully downloaded." % strImagePath)
