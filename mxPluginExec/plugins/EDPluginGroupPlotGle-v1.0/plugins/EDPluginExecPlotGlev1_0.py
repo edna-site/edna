@@ -103,7 +103,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.process")
         for strPath in self.listPlot:
-            strCommand = "gle -r 200 -d jpg %s.gle" % strPath
+            strCommand = "gle -r 150 -d jpg %s.gle" % strPath
             # Copied from EDPluginExecProcess
             EDVerbose.screen(self.getBaseName() + ": Processing")
             timer = threading.Timer(float(self.getTimeOut()), self.kill)
@@ -131,7 +131,6 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         xsDataResult = XSDataResultPlotGle()
         for strPath in self.listPlot:
             strPathJpg = strPath + ".jpg"
-            print strPathJpg
             if os.path.exists(strPathJpg):
                 xsDataResult.addFileGraph(XSDataFile(XSDataString(strPathJpg)))
         self.setDataOutput(xsDataResult)

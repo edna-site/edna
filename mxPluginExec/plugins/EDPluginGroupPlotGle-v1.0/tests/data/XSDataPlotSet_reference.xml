@@ -7,8 +7,10 @@
         <xtitle> PHI </xtitle>
         <ytitle>Rel. Error</ytitle>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>red</lineColor>
+            <label>Rel.Error</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -24,8 +26,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>darkblue</lineColor>
+            <label>Rel.Intensity</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -48,8 +52,10 @@
         <xtitle>1/ Resolution**2</xtitle>
         <ytitle> Intensity</ytitle>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>Theory</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -65,8 +71,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>Pred.low errors</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -82,8 +90,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>Pred.high errors</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -99,9 +109,11 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>red</lineColor>
-            <markerType>10</markerType>
+            <label>Experiment</label>
+            <markerType>triangle</markerType>
             <markerColor>red</markerColor>
             <data>
                 <coding>
@@ -128,8 +140,10 @@
         <xtitle>Phi</xtitle>
         <ytitle>Phi step</ytitle>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>resol.  4.23  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -145,8 +159,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>red</lineColor>
+            <label>resol.  3.09  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -162,8 +178,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>darkblue</lineColor>
+            <label>resol.  2.55  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -179,8 +197,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>orange</lineColor>
+            <label>resol.  2.22  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -196,8 +216,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>pink</lineColor>
+            <label>resol.  1.99  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -222,8 +244,10 @@
         <xtitle>Phi start</xtitle>
         <ytitle>Phi Range</ytitle>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>compl -99.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -239,8 +263,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>brown</lineColor>
+            <label>compl -95.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -256,8 +282,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>cyan</lineColor>
+            <label>compl -90.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -273,8 +301,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>lightpink</lineColor>
+            <label>compl -80.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -290,8 +320,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>pink</lineColor>
+            <label>compl -70.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -307,8 +339,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>orange</lineColor>
+            <label>compl -60.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -324,8 +358,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>darkblue</lineColor>
+            <label>compl -50.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -341,8 +377,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>1.000000e+00</lineWidth>
+            <lineStyle>4</lineStyle>
+            <lineWidth>2.000000e-02</lineWidth>
             <lineColor>red</lineColor>
+            <label>compl -40.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -358,8 +396,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>1.000000e+00</lineWidth>
+            <lineStyle>4</lineStyle>
+            <lineWidth>2.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>compl -30.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -375,8 +415,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>1.000000e+00</lineWidth>
+            <lineStyle>4</lineStyle>
+            <lineWidth>2.000000e-02</lineWidth>
             <lineColor>blue</lineColor>
+            <label>compl -20.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -392,8 +434,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>1.000000e+00</lineWidth>
+            <lineStyle>4</lineStyle>
+            <lineWidth>2.000000e-02</lineWidth>
             <lineColor>yellow</lineColor>
+            <label>compl -10.%</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -417,8 +461,10 @@
         <xtitle>1/ Resolution**2</xtitle>
         <ytitle>Time, sec</ytitle>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>Expon.trend</label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -434,9 +480,11 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>red</lineColor>
-            <markerType>10</markerType>
+            <label>Predictions</label>
+            <markerType>triangle</markerType>
             <markerColor>red</markerColor>
             <data>
                 <coding>
@@ -461,9 +509,11 @@
         <xtitle>1/ Resolution**2</xtitle>
         <ytitle>Intensity</ytitle>
         <graph>
-            <lineWidth>2.000000e+00</lineWidth>
+            <lineStyle>5</lineStyle>
+            <lineWidth>4.000000e-02</lineWidth>
             <lineColor>red</lineColor>
-            <markerType>10</markerType>
+            <label>Background</label>
+            <markerType>triangle</markerType>
             <markerColor>red</markerColor>
             <data>
                 <coding>
@@ -487,8 +537,10 @@
         <xtitle>Cumulative exposure time, sec</xtitle>
         <ytitle>Rel.Intensity</ytitle>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>resol.  5.64  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -504,8 +556,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>red</lineColor>
+            <label>resol.  4.23  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -521,8 +575,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>darkblue</lineColor>
+            <label>resol.  3.53  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -538,8 +594,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>orange</lineColor>
+            <label>resol.  3.09  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -555,8 +613,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>pink</lineColor>
+            <label>resol.  2.78  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -572,8 +632,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>lightpink</lineColor>
+            <label>resol.  2.55  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -589,8 +651,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>cyan</lineColor>
+            <label>resol.  2.37  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -606,8 +670,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>brown</lineColor>
+            <label>resol.  2.22  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -623,7 +689,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
+            <lineColor>yellow</lineColor>
+            <label>resol.  2.10  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -639,7 +708,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
+            <lineColor>blue</lineColor>
+            <label>resol.  1.99  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -662,8 +734,10 @@
         <xtitle>Cumulative exposure time, sec</xtitle>
         <ytitle>R-factor</ytitle>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>green</lineColor>
+            <label>resol.  5.64  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -679,8 +753,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>red</lineColor>
+            <label>resol.  4.23  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -696,8 +772,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>darkblue</lineColor>
+            <label>resol.  3.53  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -713,8 +791,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>orange</lineColor>
+            <label>resol.  3.09  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -730,8 +810,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>pink</lineColor>
+            <label>resol.  2.78  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -747,8 +829,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>lightpink</lineColor>
+            <label>resol.  2.55  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -764,8 +848,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>cyan</lineColor>
+            <label>resol.  2.37  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -781,8 +867,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
             <lineColor>brown</lineColor>
+            <label>resol.  2.22  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -798,7 +886,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
+            <lineColor>yellow</lineColor>
+            <label>resol.  2.10  </label>
             <data>
                 <coding>
                     <value>base64</value>
@@ -814,7 +905,10 @@
             </data>
         </graph>
         <graph>
-            <lineWidth>3.000000e+00</lineWidth>
+            <lineStyle>1</lineStyle>
+            <lineWidth>6.000000e-02</lineWidth>
+            <lineColor>blue</lineColor>
+            <label>resol.  1.99  </label>
             <data>
                 <coding>
                     <value>base64</value>
