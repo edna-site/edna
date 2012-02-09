@@ -40,6 +40,7 @@ from EDVerbose import EDVerbose
 from EDCommandLine import EDCommandLine
 from EDUtilsTest import EDUtilsTest
 from EDApplication import EDApplication
+from EDTestSuite import EDTestSuite
 
 
 
@@ -108,5 +109,7 @@ class EDTestLauncher(EDApplication):
     def isFailure(self):
         bValue = None
         if (self.__edTestCase is not None):
-            bValue = self.__edTestCase.getNumberTestCaseFailure() != 0 or self.__edTestCase.getNumberTestMethodFailure() != 0
+            bValue = self.__edTestCase.getNumberTestMethodFailure() != 0
+            if isinstance(self.__edTestCase, EDTestSuite):
+                bValue = bValue or (self.__edTestCase.getNumberTestCaseFailure() != 0)
         return bValue
