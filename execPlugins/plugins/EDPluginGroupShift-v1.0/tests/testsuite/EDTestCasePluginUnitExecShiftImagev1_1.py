@@ -5,7 +5,7 @@
 #    File: "$Id$"
 #
 #    Copyright (C) 2010, ESRF, Grenoble
-#
+
 #    Principal author:       Jerome Kieffer
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,25 +26,36 @@ __author__ = "Jerome Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010, ESRF, Grenoble"
 
-from EDTestSuite  import EDTestSuite
+from EDVerbose import EDVerbose
+from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-class EDTestSuitePluginExecUnitShift(EDTestSuite):
+from XSDataShiftv1_0 import XSDataInputShiftImage
+
+class EDTestCasePluginUnitExecShiftImagev1_1(EDTestCasePluginUnit):
     """
-    This is the test suite for EDNA plugin ShiftImagev1_0 
-    It will run subsequently all unit tests and execution tests.     
+    Those are all units tests for the EDNA Exec plugin ShiftImagev1_1
     """
+
+    def __init__(self, _strTestName=None):
+        """
+        """
+        EDTestCasePluginUnit.__init__(self, "EDPluginExecShiftImagev1_1")
+
+
+    def testCheckParameters(self):
+        xsDataInput = XSDataInputShiftImage()
+        edPluginExecShiftImage = self.createPlugin()
+        edPluginExecShiftImage.setDataInput(xsDataInput)
+        edPluginExecShiftImage.checkParameters()
+
+
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitExecMeasureOffsetv1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitExecShiftImagev1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitExecStitchOffsetedImagev1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitControlStitchImagev1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitExecShiftImagev1_1")
+        self.addTestMethod(self.testCheckParameters)
 
 
 
 if __name__ == '__main__':
 
-    edTestSuitePluginExecShiftImagev1_0 = EDTestSuitePluginExecUnitShift("EDTestSuitePluginExecUnitShift")
-    edTestSuitePluginExecShiftImagev1_0.execute()
-
+    edTestCasePluginUnitExecShiftImagev1_1 = EDTestCasePluginUnitExecShiftImagev1_1("EDTestCasePluginUnitExecShiftImagev1_1")
+    edTestCasePluginUnitExecShiftImagev1_1.execute()

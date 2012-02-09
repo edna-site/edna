@@ -22,7 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011 ESRF"
@@ -33,6 +33,7 @@ import os, threading
 from EDPluginControl        import EDPluginControl
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDConfiguration        import EDConfiguration
+from EDUtilsPath            import EDUtilsPath
 from EDUtilsPlatform        import EDUtilsPlatform
 EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
 EDFactoryPluginStatic.loadModule("XSDataSAS")
@@ -42,9 +43,9 @@ from XSDataBioSaxsv1_0      import XSDataInputBioSaxsToSASv1_0, XSDataResultBioS
 from XSDataSAS              import XSDataInputSolutionScattering
 from XSDataWaitFilev1_0     import XSDataInputWaitFile
 from XSDataExecCommandLine  import XSDataInputRsync
-from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataString, XSDataFile
+from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataString, XSDataFile, XSPluginItem
 architecture = EDUtilsPlatform.architecture
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 
 

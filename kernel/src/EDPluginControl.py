@@ -100,6 +100,11 @@ class EDPluginControl(EDPlugin):
         self.__listOfLoadedPlugins = []
         gc.collect()
 
+    def getListOfLoadedPlugin(self):
+        """
+        """
+        return self.__listOfLoadedPlugins
+
 
     def removeLoadedPlugin(self, _plugin):
         """
