@@ -41,15 +41,15 @@ EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
 EDFactoryPluginStatic.loadModule("EDInstallScipyv0_7_1")
 
 
-class EDTestCasePluginExecuteExecShiftImagev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecShiftImagev1_1(EDTestCasePluginExecute):
     """
-    Those are all execution tests for the EDNA Exec plugin ShiftImagev1_0
+    Those are all execution tests for the EDNA Exec plugin ShiftImagev1_1
     """
 
     def __init__(self, _strTestName=None):
         """
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginExecShiftImagev1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginExecShiftImagev1_1")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_ShiftImage.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
@@ -94,5 +94,5 @@ class EDTestCasePluginExecuteExecShiftImagev1_0(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    testShiftImagev1_0instance = EDTestCasePluginExecuteControlShiftImagev1_0("EDTestCasePluginExecuteExecShiftImagev1_0")
-    testShiftImagev1_0instance.execute()
+    testShiftImagev1_1instance = EDTestCasePluginExecuteControlShiftImagev1_1("EDTestCasePluginExecuteExecShiftImagev1_1")
+    testShiftImagev1_1instance.execute()

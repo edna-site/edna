@@ -30,13 +30,12 @@ __authors__ = [ "Jérôme Kieffer" ]
 __contact__ = "jerome.kieffer@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110721"
+__date__ = "20111205"
 
 import base64, hashlib, sys, struct, threading, os
 
 from EDVerbose              import EDVerbose
-from EDObject               import EDObject
-from XSDataCommon           import XSDataArray, XSDataString, XSDataImageExt, XSDataFile
+from XSDataCommon           import XSDataArray, XSDataString
 from EDAssert               import EDAssert
 from EDShare                import EDShare
 from EDUtilsPlatform        import EDUtilsPlatform
@@ -55,14 +54,25 @@ if (numpy is not None) and ("floating" in dir(numpy)):
     bHaveNumpy = True
     floatType = (float, numpy.floating)
 else:
-    bHaveNumpy = False
-    floatType = float
+    try:
+        numpy = __import__("numpy")
+    except ImportError, error:
+        EDVerbose.ERROR("Import numpy failed with error %s" % error)
+        bHaveNumpy = False
+    else:
+        bHaveNumpy = True
+        floatType = (float, numpy.floating)
 
 if  fabio is not None:
     bHaveFabio = True
 else:
-    bHaveFabio = False
-
+    try:
+        fabio = __import__("fabio")
+    except ImportError, error:
+        EDVerbose.ERROR("Import fabio failed with error %s" % error)
+        bHaveFabio = False
+    else:
+        bHaveFabio = True
 
 class EDUtilsArray(object):
     """
@@ -264,35 +274,21 @@ class EDUtilsArray(object):
         @param _inputObject: XSDataArray or XSDataImageExt or XSDataFile
         @return: numpy ndarray
         """
-        if True:
-#        with cls.semGetArray:
-            npaOutput = None
-            bError = False
-            if isinstance(_inputObject, XSDataArray):
-                npaOutput = cls.xsDataToArray(_inputObject)
-            elif isinstance(_inputObject, XSDataImageExt):
-                    if _inputObject.array is not None:
-                        npaOutput = cls.xsDataToArray(_inputObject.array)
-                    elif _inputObject.shared is not None:
-                        npaOutput = EDShare[_inputObject.shared.value]
-                    elif (_inputObject.path is not None) and os.path.isfile(_inputObject.path.value):
-                        if bHaveFabio is True:
-                            try:
-                                npaOutput = fabio.open(_inputObject.path.value).data
-                            except:
-                                bError = True
-                        else:
-                            bError = True
-            elif isinstance(_inputObject, XSDataFile) and \
-                (_inputObject.path is not None) and \
-                os.path.isfile(_inputObject.path.value):
-                        if bHaveFabio is True:
-                            try:
-                                npaOutput = fabio.open(_inputObject.path.value).data
-                            except:
-                                bError = True
-                        else:
-                            bError = True
-            if bError is True:
-                EDVerbose.ERROR("EDUtilsArray.getArray works better on platform with numpy & fabio ... No solution found for you, sorry.%s%s " % (os.linesep, _inputObject.marshal()))
+        npaOutput = None
+        bError = False
+        lstAttrObj = dir(_inputObject)
+        if "array" in lstAttrObj and _inputObject.array is not None:
+            npaOutput = cls.xsDataToArray(_inputObject.array)
+        elif "shared" in lstAttrObj and _inputObject.shared is not None:
+            npaOutput = EDShare[_inputObject.shared.value]
+        elif "path" in lstAttrObj and(_inputObject.path is not None) and os.path.isfile(_inputObject.path.value):
+            if bHaveFabio is True:
+                try:
+                    npaOutput = fabio.open(_inputObject.path.value).data
+                except:
+                    bError = True
+            else:
+                bError = True
+        if bError is True:
+            EDVerbose.ERROR("EDUtilsArray.getArray works better on platform with numpy & fabio ... No solution found for you, sorry.%s%s " % (os.linesep, _inputObject.marshal()))
         return npaOutput
