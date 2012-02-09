@@ -27,13 +27,16 @@ __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-import os, tempfile, numpy
+import os, tempfile, numpy, threading, shlex
 
 from EDPluginExec import EDPluginExec
 from EDUtilsFile import EDUtilsFile
 from EDUtilsArray import EDUtilsArray
+from EDUtilsPlatform import EDUtilsPlatform
+from EDVerbose import EDVerbose
 
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 
 from XSDataPlotGlev1_0 import XSDataGraph
 from XSDataPlotGlev1_0 import XSDataPlot
@@ -76,15 +79,49 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         # Prepare input script
         iIndex = 1
         for xsDataPlot in xsDataPlotSet.plot:
-            strPlotFile = os.path.join(self.getWorkingDirectory(), "plot%d.gle" % iIndex)
+            if xsDataPlot.xsize is None:
+                xsDataPlot.xsize = 10
+            if xsDataPlot.ysize is None:
+                xsDataPlot.ysize = 10
+            if iIndex in [1,5,8]:
+                xsDataPlot.keypos = "tl"
+            elif iIndex in [2,4,6]:
+                xsDataPlot.keypos = "tr"
+            elif iIndex in [3]:
+                xsDataPlot.keypos = "br"
+            elif iIndex in [7]:
+                xsDataPlot.keypos = "bl"
+            if iIndex == 4:
+                xsDataPlot.xmax = 500
+            strPlotFile = os.path.join(self.getWorkingDirectory(), "plot%d" % iIndex)
             strGle = self.prepareGleGraph(xsDataPlot)
-            EDUtilsFile.writeFile(strPlotFile, strGle)
+            EDUtilsFile.writeFile(strPlotFile+".gle", strGle)
             self.listPlot.append(strPlotFile)
             iIndex += 1
         
     def process(self, _edObject = None):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.process")
+        for strPath in self.listPlot:
+            strCommand = "gle -r 200 -d jpg %s.gle" % strPath
+            # Copied from EDPluginExecProcess
+            EDVerbose.screen(self.getBaseName() + ": Processing")
+            timer = threading.Timer(float(self.getTimeOut()), self.kill)
+            timer.start()
+            self.__subprocess = EDUtilsPlatform.Popen(shlex.split(str(EDUtilsPlatform.escape(strCommand))),
+                                                   cwd=self.getWorkingDirectory())
+            self.__iPID = self.__subprocess.pid
+            self.__strExecutionStatus = str(self.__subprocess.wait())
+            timer.cancel()            
+
+    def kill(self):
+        EDVerbose.WARNING("I will kill subprocess %s pid= %s" % (self.__subprocess, self.__iPID))
+        EDUtilsPlatform.kill(self.__iPID)
+        EDVerbose.DEBUG("EDPluginExecProcess.process ========================================= ERROR! ================")
+        errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginExecProcess.process', self.getClassName(), "Timeout ")
+        EDVerbose.error(errorMessage)
+        self.addErrorMessage(errorMessage)
+        raise RuntimeError, errorMessage
 
         
     def postProcess(self, _edObject = None):
@@ -92,12 +129,20 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         self.DEBUG("EDPluginExecPlotGlev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultPlotGle()
+        for strPath in self.listPlot:
+            strPathJpg = strPath + ".jpg"
+            print strPathJpg
+            if os.path.exists(strPathJpg):
+                xsDataResult.addFileGraph(XSDataFile(XSDataString(strPathJpg)))
         self.setDataOutput(xsDataResult)
     
 
 
     def prepareGleGraph(self, _xsDataPlot):
-        strGraph = "begin graph\n"
+        strGraph = ""
+        if _xsDataPlot.xsize != None and _xsDataPlot.ysize != None:
+            strGraph += "size %f %f\n" % (_xsDataPlot.xsize, _xsDataPlot.ysize)
+        strGraph += "begin graph\n"
         strGraph += "  title \"%s\"\n" % _xsDataPlot.title
         strGraph += "  xtitle \"%s\"\n" % _xsDataPlot.xtitle
         strGraph += "  ytitle \"%s\"\n" % _xsDataPlot.ytitle
@@ -115,7 +160,10 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             if _xsDataPlot.ymax != None:
                 strGraph += "max %f " % _xsDataPlot.ymax
             strGraph += "\n"
-        strGraph += "  key pos tl hei 0.25\n"
+        if _xsDataPlot.keypos is None:
+            strGraph += "  key pos tl hei 0.25\n"
+        else:
+            strGraph += "  key pos %s hei 0.25\n" % _xsDataPlot.keypos
         iIndex = 1
         for xsDataGraph in _xsDataPlot.graph:
             strTmpDataPath = tempfile.mkstemp(prefix="data_", suffix=".dat", \
@@ -223,26 +271,29 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
 
 
     def colorPlotMtv(self, _iColor):
+        iColor = _iColor
+        if iColor > 10:
+           iColor -= 10 
         strLineColor = None
-        if _iColor == 1:
+        if iColor == 1:
             strLineColor = "yellow"
-        if _iColor == 2:
+        if iColor == 2:
             strLineColor = "blue"
-        if _iColor == 3:
+        if iColor == 3:
             strLineColor = "green"
-        elif _iColor == 4:
+        elif iColor == 4:
             strLineColor = "red"
-        elif _iColor == 5:
+        elif iColor == 5:
             strLineColor = "darkblue"
-        elif _iColor == 6:
+        elif iColor == 6:
             strLineColor = "orange"
-        elif _iColor == 7:
+        elif iColor == 7:
             strLineColor = "pink"
-        elif _iColor == 8:
+        elif iColor == 8:
             strLineColor = "lightpink"
-        elif _iColor == 9:
+        elif iColor == 9:
             strLineColor = "cyan"
-        elif _iColor == 10:
+        elif iColor == 10:
             strLineColor = "brown"
         return strLineColor
     

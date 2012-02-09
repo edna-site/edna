@@ -17,10 +17,13 @@ complex type XSDataPlot extends XSData {
 	plotType : string
 	title : string
 	subTitle : string
+	xsize : double optional
+	ysize : double optional
 	xmin : double optional
 	ymin : double optional
 	xmax : double optional
 	ymax : double optional
+	keypos : string optional
 	xtitle : string
 	ytitle : string
 	graph : XSDataGraph []
@@ -42,5 +45,5 @@ complex type XSDataInputPlotGle extends XSDataInput {
 }
 
 complex type XSDataResultPlotGle extends XSDataResult {
-	
+	fileGraph : XSDataFile []
 }
