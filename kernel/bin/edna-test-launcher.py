@@ -81,3 +81,6 @@ if profiling == True:
     cProfile.run('edTestLauncher.execute()', filename=os.path.join(cwd, 'profile.log'))
 else:
     edTestLauncher.execute()
+    
+if edTestLauncher.isFailure():
+    sys.exit(1)
