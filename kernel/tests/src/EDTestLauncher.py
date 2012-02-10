@@ -107,6 +107,11 @@ class EDTestLauncher(EDApplication):
 
 
     def isFailure(self):
+        """
+        Returns True if the number of failures (test methods and test cases) is 0.
+        Returns False if the number of failures (test methods and test cases) is different than 0.
+        Returns None if there's no test case or test suite defined.
+        """
         bValue = None
         if (self.__edTestCase is not None):
             bValue = self.__edTestCase.getNumberTestMethodFailure() != 0
