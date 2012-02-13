@@ -753,7 +753,7 @@ class EDPlugin(EDAction):
         Checks that a mandatory parameter exists in the data
         If not, an error message is added in the list and the plugin fails
         """
-        if (_xsData in [ None, list(), tuple(), dict()]):
+        if _xsData is None or (hasattr(_xsData, '__len__') and len(_xsData) == 0):
             strErrorMessage = "%s: input parameter is missing: %s" % (self.getPluginName(), _strParamName)
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
