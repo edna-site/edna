@@ -30,26 +30,25 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120213"
-_strDeprecate = "Deprecation by Monday 7th June 2010 of EDUtilsTest, called "
 
 import os
 
-from EDVerbose import EDVerbose
-from EDUtilsPath import EDUtilsPath
-from EDUtilsFile import EDUtilsFile
-from EDFactoryPluginTest import EDFactoryPluginTest
+from EDVerbose              import EDVerbose
+from EDUtilsPath            import EDUtilsPath
+from EDUtilsFile            import EDUtilsFile
+from EDFactoryPluginTest    import EDFactoryPluginTest
+from EDDecorator            import deprecated
 
 
 class EDUtilsTest:
 
     __edFactoryPluginTest = None
 
-
-    @staticmethod
-    def getFactoryPluginTest():
-        if (EDUtilsTest.__edFactoryPluginTest is None):
-            EDUtilsTest.__edFactoryPluginTest = EDFactoryPluginTest()
-        return EDUtilsTest.__edFactoryPluginTest
+    @classmethod
+    def getFactoryPluginTest(cls):
+        if (cls.__edFactoryPluginTest is None):
+            cls.__edFactoryPluginTest = EDFactoryPluginTest()
+        return cls.__edFactoryPluginTest
 
 
     @staticmethod
@@ -59,20 +58,16 @@ class EDUtilsTest:
          - EDNA_TESTS_DATA_HOME
         Returns the content of this file as a string
         """
-        EDVerbose.WARNING(_strDeprecate + "readAndParseFile")
-        strParsedFile = EDUtilsFile.readFile (_strFileName)
-        if strParsedFile.find("${EDNA_TESTS_DATA_HOME}") != -1:
-            strParsedFile = strParsedFile.replace("${EDNA_TESTS_DATA_HOME}" , EDUtilsTest.getTestsDataHome())
-        return strParsedFile
+        return EDUtilsFile.readFileAndParseVariables(_strFileName, EDUtilsPath.getDictOfPaths())
 
 
     @staticmethod
+    @deprecated
     def readFileAndParseVariable(_strFileName, _strKey, _strValue):
         """
         Reads a file and parses potential existing environment variables such as:
         Returns the content of this file as a string
         """
-        EDVerbose.WARNING(_strDeprecate + "readAndParseFile")
         strParsedFile = EDUtilsFile.readFile (_strFileName)
         if(strParsedFile.contains(_strKey)):
             strParsedFile = strParsedFile.replace(_strKey , _strValue)
@@ -80,58 +75,53 @@ class EDUtilsTest:
 
 
     @staticmethod
+    @deprecated
     def readFileAndParseVariables(_strFileName, _dictReplacements):
         """
         Returns the content of this file as a string
         """
-        EDVerbose.WARNING(_strDeprecate + "readAndParseFile")
-        strParsedFile = EDUtilsFile.readFile (_strFileName)
-        for key in _dictReplacements.keys():
-            if strParsedFile.contains(key):
-                strParsedFile = strParsedFile.replace(key, _dictReplacements[key])
-        return strParsedFile
+        return EDUtilsFile.readFileAndParseVariables(_strFileName, _dictReplacements)
 
 
     @staticmethod
+    @deprecated
     def readFile(_strFileName):
         """
         Reads a file
         Returns its content as a string
         """
-        EDVerbose.WARNING(_strDeprecate + "readFile")
-        strFileContents = EDUtilsFile.readFile(_strFileName)
-        return strFileContents
-
+        return EDUtilsFile.readFile(_strFileName)
 
     @staticmethod
+    @deprecated
     def writeFile(_strFileName, _strContent):
         """
         Writes a string into a file
         """
-        EDVerbose.WARNING(_strDeprecate + "readFile")
         EDUtilsFile.writeFile(_strFileName, _strContent)
 
 
 
     @staticmethod
+    @deprecated
     def getTestsHome():
         """
         Returns the tests home directory path <EDNA_HOME>/tests
         """
-        strTestsHome = os.path.join(EDUtilsPath.getEdnaHome(), "tests")
-        return strTestsHome
+        return  EDUtilsPath.EDNA_TESTS
 
 
     @staticmethod
+    @deprecated
     def getTestsDataHome():
         """
         Returns the tests data directory path <EDNA_HOME>/tests/data
         """
-        strTestsDataHome = os.path.join(EDUtilsTest.getTestsHome(), "data")
-        return strTestsDataHome
+        return EDUtilsPath.EDNA_TESTDATA
 
 
     @staticmethod
+    @deprecated
     def getTestsDataImagesHome():
         """
         Returns the tests data image directory path <EDNA_HOME>/tests/data/images or what is relevant
@@ -139,22 +129,22 @@ class EDUtilsTest:
         return EDUtilsPath.EDNA_TESTIMAGES
 
 
-    @staticmethod
-    def getPluginTestDataDirectory(_strPluginTestName):
+    @classmethod
+    def getPluginTestDataDirectory(cls, _strPluginTestName):
         """
         Given a test case name, returns the corresponding test data directory.
         """
-        strModuleLocation = EDUtilsTest.getFactoryPluginTest().getModuleLocation(_strPluginTestName)
+        strModuleLocation = cls.getFactoryPluginTest().getModuleLocation(_strPluginTestName)
         strPluginTestDataDirectory = EDUtilsPath.appendListOfPaths(strModuleLocation, [ "..", "data" ])
         return strPluginTestDataDirectory
 
 
-    @staticmethod
-    def getConfigurationHome(_strPluginTestName):
+    @classmethod
+    def getConfigurationHome(cls, _strPluginTestName):
         """
         Returns the configuration directory path for a given test module
         """
-        strModuleLocation = EDUtilsTest.getFactoryPluginTest().getModuleLocation(_strPluginTestName)
+        strModuleLocation = cls.getFactoryPluginTest().getModuleLocation(_strPluginTestName)
         strConfigurationHome = EDUtilsPath.appendListOfPaths(strModuleLocation, [ "..", "..", "..", "..", "conf" ])
         return strConfigurationHome
 
