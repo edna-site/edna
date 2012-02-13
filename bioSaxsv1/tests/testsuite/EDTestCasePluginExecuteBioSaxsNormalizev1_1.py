@@ -107,7 +107,7 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_1(EDTestCasePluginExecute):
         keysObt.sort()
 #        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dict")
         for key in keysRef:
-            if not (key.startswith("History") or key in [ "Compression", "DDummy", "Dummy", "EDF_HeaderSize", "HeaderID", "Image", "filename"]):
+            if not (key.startswith("History") or key in [ "Compression", "DDummy", "Dummy", "EDF_HeaderSize", "HeaderID", "Image", "filename", "RasterOrientation"]):
                 EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value %s are the same" % key, _strExcluded="bioSaxs")
 
 ################################################################################
