@@ -3,9 +3,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -186,29 +184,33 @@ class EDPlugin(EDAction):
           - Otherwise if a product-wide (e.g. "mxPluginExec") configuration value exists it will be used.         
         """
         self.DEBUG("EDPlugin.getConfigurationParameterValue")
-        strParameteValue = None
+        strParameterValue = None
         xsPluginItem = self.getConfiguration()
         bFoundConfigurationParameter = False
         if xsPluginItem:
-            strParameteValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName).getValue()
-            if strParameteValue:
-                bFoundConfigurationParameter = True
+            xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
+            if xsDataValue:
+                strParameterValue = xsDataValue.getValue() 
+                if strParameterValue:
+                    bFoundConfigurationParameter = True
 
         if not bFoundConfigurationParameter:
             xsPluginItem = EDApplication.getApplicationPluginConfiguration(self.getPluginName())
             if xsPluginItem:
-                strParameteValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName).getValue()
-                if strParameteValue:
-                    bFoundConfigurationParameter = True
+                xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
+                if xsDataValue:
+                    strParameterValue = xsDataValue.getValue()
+                    if strParameterValue:
+                        bFoundConfigurationParameter = True
 
         if not bFoundConfigurationParameter:
             xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
             if xsPluginItem:
-                strParameteValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName).getValue()
-                if strParameteValue:
-                    bFoundConfigurationParameter = True
+                xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
+                if xsDataValue:
+                    strParameterValue = xsDataValue.getValue()
 
-        return strParameteValue
+        return strParameterValue
 
 
     def getDoubleConfigurationParameterValue(self, _strConfigurationParameterName):
@@ -523,7 +525,7 @@ class EDPlugin(EDAction):
         if (strDataOutputKey in self.__dictXSDataOutput.keys()):
             self.__dictXSDataOutput[ strDataOutputKey ] = None
         else:
-            strErrorMessage = self.getPluginName() + ".delDataOutput, no output data defined for key: " + strDataInputKey
+            strErrorMessage = self.getPluginName() + ".delDataOutput, no output data defined for key: " + _strDataOutputKey
             self.warning(strErrorMessage)
             self.addWarningMessage(strErrorMessage)
 
