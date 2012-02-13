@@ -2,7 +2,7 @@
 <XSDataInputExecThumbnail>
     <inputImagePath>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/pilatus2M.cbf</value>
+            <value>${EDNA_TESTIMAGES}/pilatus2M.cbf</value>
         </path>
     </inputImagePath>
     <outputPath>

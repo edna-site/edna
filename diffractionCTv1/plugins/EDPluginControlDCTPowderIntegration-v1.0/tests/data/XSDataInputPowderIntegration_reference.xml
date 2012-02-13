@@ -2,7 +2,7 @@
 <XSDataInputPowderDiffraction>
 	<imageFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>			
+			<value>${EDNA_TESTIMAGES}/diff6105.edf</value>			
 		</path>
 	</imageFile>
 	<imageParameters>
@@ -26,17 +26,17 @@
 		</_pd_instr_special_details_tilt_rotation>
 		<_file_correction_image_dark_current>
 			<path>
-				<value>${EDNA_TESTS_DATA_HOME}/images/darks0001.edf</value>
+				<value>${EDNA_TESTIMAGES}/darks0001.edf</value>
 			</path>			
 		</_file_correction_image_dark_current>
 		<_file_correction_image_flat_field>
 			<path>
-				<value>${EDNA_TESTS_DATA_HOME}/images/flats0001.edf</value>			
+				<value>${EDNA_TESTIMAGES}/flats0001.edf</value>			
 			</path>			
 		</_file_correction_image_flat_field>
 		<_file_correction_spline_spatial_distortion>
 			<path>
-				<value>${EDNA_TESTS_DATA_HOME}/images/frelon_spline_file_to_correct_SPD.spline</value>			
+				<value>${EDNA_TESTIMAGES}/frelon_spline_file_to_correct_SPD.spline</value>			
 			</path>			
 		</_file_correction_spline_spatial_distortion>
 	</imageParameters>

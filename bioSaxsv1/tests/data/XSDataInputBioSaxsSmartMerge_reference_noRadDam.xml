@@ -2,52 +2,52 @@
 <XSDataInput>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated01.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated01.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated02.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated02.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated03.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated03.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated04.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated04.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated05.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated05.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated06.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated06.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated07.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated07.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated08.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated08.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated09.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated09.dat</value>
     	</path>
     </inputCurves>
     <inputCurves>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated10.dat</value>
+    		<value>${EDNA_TESTIMAGES}/bioSaxsIntegrated10.dat</value>
     	</path>
     </inputCurves>
 	<absoluteFidelity>

@@ -74,7 +74,7 @@ class EDTestCasePlugin(EDTestCase):
         self.__listRequiredConfigurationPluginNames = []
         self.__strConfigurationFile = None
         self.__dictConfigurations = {} #key=pluginName ; value=config
-        self.dictReplace = {"${EDNA_TESTS_DATA_HOME}": EDUtilsTest.getTestsDataHome(),
+        self.dictReplace = {"${EDNA_TESTIMAGES}": EDUtilsPath.EDNA_TESTIMAGES,
                        "${EDNA_PLUGIN_TESTS_DATA_HOME}" : self.getPluginTestsDataHome(),
                        "${EDNA_HOME}": EDUtilsPath.getEdnaHome(),
                        "${USER}":  os.getenv("USER", "UndefindedUser"),

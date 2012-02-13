@@ -3,23 +3,23 @@
 	<HDF5File><path><value>/tmp/edna-${USER}/stack.h5</value></path></HDF5File>
 	<internalHDF5Path><value>RawStackManyFilesForced</value></internalHDF5Path>
 	<inputImageFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0040.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/test_region1_dark_1_0040.edf</value></path>
 		<number><value>0</value></number>	
 	</inputImageFile>
 	<inputImageFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0044.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/test_region1_dark_1_0044.edf</value></path>
 		<number><value>4</value></number>
 	</inputImageFile>
 	<inputImageFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0042.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/test_region1_dark_1_0042.edf</value></path>
 		<number><value>2</value></number>
 	</inputImageFile>
 	<inputImageFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0043.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/test_region1_dark_1_0043.edf</value></path>
 	<number><value>3</value></number>
 	</inputImageFile>
 	<inputImageFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0041.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/test_region1_dark_1_0041.edf</value></path>
 		<number><value>1</value></number>
 	</inputImageFile>
 </XSDataInputStackOfImagesHDF5Writer>

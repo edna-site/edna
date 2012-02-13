@@ -2,7 +2,7 @@
 <XSDataInputReadHeader>
 	<inputFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/test_completed.edf</value>
+			<value>${EDNA_TESTIMAGES}/test_completed.edf</value>
 		</path>
 	</inputFile>
 </XSDataInputReadHeader>

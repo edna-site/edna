@@ -2,7 +2,7 @@
 <XSDataInputGridScreening>
 	<imageFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/indexingError_2_001.img</value>
+            <value>${EDNA_TESTIMAGES}/indexingError_2_001.img</value>
         </path>
 	</imageFile>
 </XSDataInputGridScreening>

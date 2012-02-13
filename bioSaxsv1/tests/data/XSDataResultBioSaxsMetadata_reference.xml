@@ -8,7 +8,7 @@
 <beamCenter_2><value>105.0</value></beamCenter_2>
 <beamStopDiode><value>2.03737e-05</value></beamStopDiode>
 <machineCurrent><value>85.5755</value></machineCurrent>
-<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
+<maskFile><path><value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value></path></maskFile>
 <concentration><value>5.77</value></concentration>
 <comments><value>bsa2</value></comments>
 <code><value>BSA</value></code>
