@@ -53,7 +53,10 @@ class EDUtilsPath:
     os.environ["EDNA_HOME"] = EDNA_HOME
     _EDNA_SITE = None
     _EDNA_USERTEMPFOLDER = None
+    _EDNA_TESTIMAGES = None
+    _EDNA_PROJECTS = {} # key: project name. Value: path to the project root
     _EDNA_PLUGINCACHE = None
+
     __semaphore = threading.Semaphore()
 
     @classmethod
@@ -232,14 +235,14 @@ class EDUtilsPath:
 
     @classmethod
     def getEdnaPluginCachePath(cls):
-        """This private method initialises the path to the plugin cache file"""
+        """This private method initializes the path to the plugin cache file"""
         if cls._EDNA_PLUGINCACHE is None:
             if "EDNA_PLUGINCACHE" in os.environ.keys():
                 cls._EDNA_PLUGINCACHE = os.environ["EDNA_PLUGINCACHE"]
                 strDirName = os.path.dirname(cls._EDNA_PLUGINCACHE)
                 if os.path.exists(cls._EDNA_PLUGINCACHE) and (not os.access(cls._EDNA_PLUGINCACHE, os.W_OK)):
                     EDVerbose.warning("EDNA_PLUGINCACHE environment variable is set to %s but the file is not writeable!" % cls._EDNA_PLUGINCACHE)
-                    cls._EDNA_PLUGINCACHE = None                    
+                    cls._EDNA_PLUGINCACHE = None
                 elif not os.path.exists(strDirName):
                     EDVerbose.warning("EDNA_PLUGINCACHE environment variable is set to %s put the parent directory does not exist!" % cls._EDNA_PLUGINCACHE)
                     cls._EDNA_PLUGINCACHE = None
@@ -250,7 +253,38 @@ class EDUtilsPath:
                 strTempFileDir = EDUtilsPath.getEdnaUserTempFolder()
                 # We create a hash of the path in order to be able to reference several different EDNA_HOME 
                 # caches in the same directory
-                strCacheFileName = hashlib.sha1(os.getenv('EDNA_HOME')).hexdigest()+".xml"
+                strCacheFileName = hashlib.sha1(os.getenv('EDNA_HOME')).hexdigest() + ".xml"
                 cls._EDNA_PLUGINCACHE = os.path.abspath(os.path.join(strTempFileDir, strCacheFileName))
             EDVerbose.DEBUG("EDFactoryPlugin: Path to plugin cache: %s" % cls._EDNA_PLUGINCACHE)
-        return cls._EDNA_PLUGINCACHE 
+        return cls._EDNA_PLUGINCACHE
+
+
+    @classmethod
+    def getEdnaTestDataImagesPath(cls):
+        """
+        This class method initializes the path to the test images downloaded from internet
+        """
+        if cls._EDNA_TESTIMAGES is None:
+            if "EDNA_TESTIMAGES" in os.environ.keys():
+                cls.setEdnaTestDataImagesPath(os.environ["EDNA_TESTIMAGES"])
+            if cls._EDNA_TESTIMAGES is None:
+                cls._EDNA_TESTIMAGES = os.path.join(cls.EDNA_HOME, "tests", "data", "images")
+            EDVerbose.DEBUG("EDFactoryPlugin: Path to Temporary Images directory : %s" % cls._EDNA_TESTIMAGES)
+        return cls._EDNA_TESTIMAGES
+
+    @classmethod
+    def setEdnaTestDataImagesPath(cls, value):
+        """
+        This class method initializes the path to the test images downloaded from internet
+        """
+        cls._EDNA_TESTIMAGES = os.path.abspath(value)
+        if os.path.exists(cls._EDNA_TESTIMAGES) and (not os.access(cls._EDNA_TESTIMAGES, os.W_OK)):
+            EDVerbose.warning("EDNA_TESTIMAGES environment variable is set to %s but the file is not writeable!" % cls._EDNA_TESTIMAGES)
+            cls._EDNA_TESTIMAGES = None
+        elif not os.path.exists(cls._EDNA_TESTIMAGES):
+            EDVerbose.warning("EDNA_TESTIMAGES environment variable is set to %s put the parent directory does not exist!" % cls._EDNA_TESTIMAGES)
+            cls._EDNA_TESTIMAGES = None
+        elif not os.access(cls._EDNA_TESTIMAGES, os.W_OK):
+            EDVerbose.warning("EDNA_TESTIMAGES environment variable is set to %s put the parent directory cannot be accessed!" % cls._EDNA_TESTIMAGES)
+            cls._EDNA_TESTIMAGES = None
+    EDNA_TESTIMAGES = classproperty(getEdnaTestDataImagesPath, setEdnaTestDataImagesPath)

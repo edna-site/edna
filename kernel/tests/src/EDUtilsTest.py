@@ -1,3 +1,4 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
@@ -24,11 +25,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
+__authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Jérôme Kieffer" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
+__date__ = "20120213"
 _strDeprecate = "Deprecation by Monday 7th June 2010 of EDUtilsTest, called "
 
 import os
@@ -133,10 +134,9 @@ class EDUtilsTest:
     @staticmethod
     def getTestsDataImagesHome():
         """
-        Returns the tests data image directory path <EDNA_HOME>/tests/data/images
+        Returns the tests data image directory path <EDNA_HOME>/tests/data/images or what is relevant
         """
-        strTestsDataImagesHome = os.path.join(EDUtilsTest.getTestsDataHome(), "images")
-        return strTestsDataImagesHome
+        return EDUtilsPath.EDNA_TESTIMAGES
 
 
     @staticmethod
