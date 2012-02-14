@@ -112,8 +112,8 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_1(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read()
-        referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_1.dat"), "rb").read()
+        outputData = os.linesep.join([i.strip() for i in open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb") if "RasterOrientation" not in i])
+        referenceData = os.linesep.join([i.strip() for i in open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_1.dat"), "rb") if "RasterOrientation" not in i])
 
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")
 
