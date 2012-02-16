@@ -31,10 +31,10 @@ __copyright__ = "2011 DLS, 2012 ESRF"
 
 import os
 
-from EDTestCasePluginExecute             import EDTestCasePluginExecute
-from EDUtilsFile                         import EDUtilsFile
-from XSDataSAS                           import XSDataDouble
-from EDDecorator import timeit
+from EDTestCasePluginExecute    import EDTestCasePluginExecute
+from EDUtilsFile                import EDUtilsFile
+from XSDataSAS                  import XSDataDouble
+from EDDecorator                import timeit
 class EDTestCasePluginExecuteExecGnomv0_2_list(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin Gnomv0_2
@@ -50,7 +50,7 @@ class EDTestCasePluginExecuteExecGnomv0_2_list(EDTestCasePluginExecute):
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultGnom_reference.xml"))
 
-#    @timeit
+    @timeit
     def testExecute(self):
         """
         """

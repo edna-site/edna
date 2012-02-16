@@ -31,10 +31,10 @@ __copyright__ = "2011 DLS, 2012 ESRF"
 
 import os
 
-from EDTestCasePluginExecute             import EDTestCasePluginExecute
-from EDUtilsFile                         import EDUtilsFile
-
-from XSDataSAS import XSDataDouble
+from EDTestCasePluginExecute        import EDTestCasePluginExecute
+from EDUtilsFile                    import EDUtilsFile
+from EDDecorator                    import timeit
+from XSDataSAS                      import XSDataDouble
 
 
 class EDTestCasePluginExecuteExecGnomv0_2(EDTestCasePluginExecute):
@@ -52,26 +52,25 @@ class EDTestCasePluginExecuteExecGnomv0_2(EDTestCasePluginExecute):
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultGnom_reference.xml"))
 
-
+    @timeit
     def testExecute(self):
         """
         """
         self.run()
 
 
-
-
     def process(self):
         """
         """
         self.readGnomDataFile(os.path.join(self.getPluginTestsDataHome(), "lyzexp.dat"))
-
         self.addTestMethod(self.testExecute)
+
 
     def postProcess(self):
         """
         """
         self.plugin.plotFittingResults()
+
 
     def readGnomDataFile(self, fileName):
         tmpExperimentalDataQ = []
@@ -79,19 +78,14 @@ class EDTestCasePluginExecuteExecGnomv0_2(EDTestCasePluginExecute):
 
         dataLines = EDUtilsFile.readFile(fileName).splitlines()[1:]
         for line in dataLines:
-            tmpValue = XSDataDouble()
-            tmpQ = XSDataDouble()
             lineList = line.split()
-            tmpQ.setValue(float(lineList[0]))
-            tmpValue.setValue(float(lineList[1]))
-            tmpExperimentalDataQ.append(tmpQ)
-            tmpExperimentalDataValues.append(tmpValue)
+            if len(lineList) > 0:
+                tmpExperimentalDataQ.append(XSDataDouble(float(lineList[0])))
+                tmpExperimentalDataValues.append(XSDataDouble(float(lineList[1])))
         dataInput = self.plugin.dataInput
         dataInput.setExperimentalDataQ(tmpExperimentalDataQ)
         dataInput.setExperimentalDataValues(tmpExperimentalDataValues)
         dataInput.exportToFile("XSDataInputGnom_reference_list.xml")
-
-
 
 
 if __name__ == '__main__':

@@ -24,7 +24,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from EDVerbose import EDVerbose
 
 __authors__ = ["irakli", "Jérôme Kieffer"]
 __license__ = "GPLv3+"
@@ -32,10 +31,12 @@ __copyright__ = "2011 DLS, 2012 ESRF"
 
 import os
 
-from EDTestCasePluginExecute             import EDTestCasePluginExecute
-from EDUtilsFile                         import EDUtilsFile
-from XSDataSAS                           import XSDataDouble
-#from EDDecorator import timeit
+from EDTestCasePluginExecute            import EDTestCasePluginExecute
+from EDUtilsFile                        import EDUtilsFile
+from XSDataSAS                          import XSDataDouble
+from EDDecorator                        import timeit
+from EDVerbose                          import EDVerbose
+
 class EDTestCasePluginExecuteExecGnomv0_2_file(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin Gnomv0_2
@@ -51,13 +52,11 @@ class EDTestCasePluginExecuteExecGnomv0_2_file(EDTestCasePluginExecute):
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultGnom_reference.xml"))
 
-#    @timeit
+    @timeit
     def testExecute(self):
         """
         """
         self.run()
-
-
 
     def process(self):
         """

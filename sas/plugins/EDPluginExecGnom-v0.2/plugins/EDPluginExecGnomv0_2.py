@@ -119,6 +119,7 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
             self.npaIexp = EDUtilsArray.getArray(dataInput.experimentalDataStdDevArray)
 
         if inputFile:
+            data = None
             if not os.path.isfile(inputFile):
                 strErrorMessage = "EDPluginExecGnomv0_2: experimentalDataFile: %s does not exist" % inputFile
                 self.error(strErrorMessage)
@@ -131,15 +132,15 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
                     pass
                 else:
                     break
-            if not data:
+            if data is None:
                 strErrorMessage = "EDPluginExecGnomv0_2: Unable to parse %s with numpy.loadtxt" % inputFile
                 self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
-            if data.shape[1] == 3:
-                self.npaQexp, self.npaIexp, self.npaSexp = data.Y
+            elif data.shape[1] == 3:
+                self.npaQexp, self.npaIexp, self.npaSexp = data.T
             elif data.shape[1] == 2:
-                self.npaQexp, self.npaIexp = data.Y
+                self.npaQexp, self.npaIexp = data.T
             else:
                 strErrorMessage = "EDPluginExecGnomv0_2: %s contains an numpy object of shape %s" % (inputFile, data.shape)
                 self.error(strErrorMessage)
@@ -185,7 +186,7 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
 
 
     def generateGnomInputFile(self):
-        if self.npaSexp:
+        if self.npaSexp is not None:
             data = numpy.vstack((self.npaQexp, self.npaIexp, self.npaSexp)).T
         else:
             data = numpy.vstack((self.npaQexp, self.npaIexp)).T

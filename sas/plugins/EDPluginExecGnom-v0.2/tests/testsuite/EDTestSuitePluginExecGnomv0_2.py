@@ -40,6 +40,8 @@ class EDTestSuitePluginExecGnomv0_2(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitExecGnomv0_2")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecGnomv0_2")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecGnomv0_2_list")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecGnomv0_2_file")
 
 
 
