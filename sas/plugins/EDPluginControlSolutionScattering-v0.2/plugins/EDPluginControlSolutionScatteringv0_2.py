@@ -43,7 +43,7 @@ from XSDataSAS import XSDataInputGnom
 from XSDataSAS import XSDataInputDammif
 from XSDataSAS import XSDataInputDamaver
 
-from XSDataSAS import XSDataFloat, XSDataInteger, XSDataString
+from XSDataSAS import XSDataDouble, XSDataInteger, XSDataString
 
 
 def try_float(tmpStr):
@@ -213,9 +213,9 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
         while self.__absErr > self.__absTol:
             
             if (not self.__rMaxDivide):
-                xsDataRMax = [XSDataFloat(self.__rMaxStart)]
+                xsDataRMax = [XSDataDouble(self.__rMaxStart)]
             else:    
-                xsDataRMax = itertools.imap(lambda idx: XSDataFloat(self.__rMaxStart + idx * (self.__rMaxStop - self.__rMaxStart) / self.__rMaxDivide), range(self.__rMaxDivide + 1))
+                xsDataRMax = itertools.imap(lambda idx: XSDataDouble(self.__rMaxStart + idx * (self.__rMaxStop - self.__rMaxStart) / self.__rMaxDivide), range(self.__rMaxDivide + 1))
                 
             dictDataInputGnom = {}
             for idx, rMax in enumerate(xsDataRMax):
@@ -342,8 +342,8 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
     #    
     #    dataLines = EDUtilsFile.readFile(fileName).splitlines()[1:]
     #    for line in dataLines:
-    #        tmpValue = XSDataFloat()
-    #        tmpQ = XSDataFloat()
+    #        tmpValue = XSDataDouble()
+    #        tmpQ = XSDataDouble()
     #        lineList = line.split()
     #        tmpQ.setValue(float(lineList[0]))
     #        tmpValue.setValue(float(lineList[1]))
@@ -381,15 +381,15 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
                 if self.getDataInput().getAngularUnits() is not None:
                     units = self.getDataInput().getAngularUnits().getValue()
                 if units in [2,4]:
-                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
+                    tmpExperimentalDataQ.append(XSDataDouble(_tmpQ/10.0))
                 else:
-                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                    tmpExperimentalDataQ.append(XSDataDouble(_tmpQ))
                     
                 _tmpValue = mean(nxsExperimentalValues[:_iNbColumns,idx])                  
-                tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
+                tmpExperimentalDataValues.append(XSDataDouble(_tmpValue))
                 if (_iNbColumns > 1):
                     _tmpStdDev = std(nxsExperimentalValues[:_iNbColumns,idx])
-                    tmpExperimentalDataStdDev.append(XSDataFloat(_tmpStdDev))
+                    tmpExperimentalDataStdDev.append(XSDataDouble(_tmpStdDev))
              
         self.getDataInput().setExperimentalDataQ(tmpExperimentalDataQ)
         self.getDataInput().setExperimentalDataValues(tmpExperimentalDataValues)
@@ -420,15 +420,15 @@ class EDPluginControlSolutionScatteringv0_2(EDPluginControl):
                     if self.getDataInput().getAngularUnits() is not None:
                         units = self.getDataInput().getAngularUnits().getValue()
                     if units in [2,4]:
-                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ/10.0))
+                        tmpExperimentalDataQ.append(XSDataDouble(_tmpQ/10.0))
                     else:
-                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                        tmpExperimentalDataQ.append(XSDataDouble(_tmpQ))
                         
                     _tmpValue = mean(map(float, lineList[1:_iNbColumns+1]))                  
-                    tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
+                    tmpExperimentalDataValues.append(XSDataDouble(_tmpValue))
                     if (_iNbColumns > 1):
                         _tmpStdDev = std(map(float, lineList[1:_iNbColumns+1]))
-                        tmpExperimentalDataStdDev.append(XSDataFloat(_tmpStdDev))
+                        tmpExperimentalDataStdDev.append(XSDataDouble(_tmpStdDev))
                         
         self.getDataInput().setExperimentalDataQ(tmpExperimentalDataQ)
         self.getDataInput().setExperimentalDataValues(tmpExperimentalDataValues)

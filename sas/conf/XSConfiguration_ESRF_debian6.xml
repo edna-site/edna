@@ -17,6 +17,23 @@
 					<name>timeOut</name>
 					<value>60</value></XSParamItem></XSParamList>
 		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecGnomv0_2</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value></XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/gnom</value></XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptVersionString</name>
+					<value></value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>60</value></XSParamItem></XSParamList>
+		</XSPluginItem>
 	<XSPluginItem>
 			<name>EDPluginExecDamminv0_1</name>
 			<XSParamList>
@@ -146,5 +163,19 @@
 				</XSParamItem>
 			</XSParamList>
 	</XSPluginItem>
+	<XSPluginItem>
+			<name>EDPluginControlSolutionScatteringv0_4</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>1800</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>jMol</name>
+					<value>/usr/bin/jmol</value>
+				</XSParamItem>
+			</XSParamList>
+	</XSPluginItem>
+
 </XSPluginList> 
 </XSConfiguration>

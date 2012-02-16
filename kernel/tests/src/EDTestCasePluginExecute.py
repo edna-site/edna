@@ -5,7 +5,7 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -30,7 +30,7 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
+__date__ = "20120216"
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
@@ -56,7 +56,6 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         """
         EDTestCasePlugin.__init__(self, _strPluginName, _strPluginDir, _strTestName)
         self.__edPlugin = None
-        self.__strEdnaSite = EDUtilsPath.getEdnaSite()
         self.__strRefConfigFile = None
         self.__dictStrDataInputFiles = {}
         self.__strDefaultInputDataKey = "defaultInputData"
@@ -75,7 +74,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         Initialize the plugin to be launched
         """
         EDTestCasePlugin.preProcess(self)
-        if(self.__strEdnaSite == None):
+        if(EDUtilsPath.EDNA_SITE == None):
             raise RuntimeError, "EDNA_SITE must be set"
         # Load the plugin that should be executed
         self.__edPlugin = EDFactoryPluginStatic.loadPlugin(self.getPluginName())
@@ -115,13 +114,14 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         Returns the plugin instance
         """
         return self.__edPlugin
-
+    plugin = property(getPlugin, doc="read-only only property")
 
     def getErrorMessages(self):
         """
         Returns the error messages for the plugin launcher
         """
         return self.__edPlugin.getErrorMessages()
+    errorMessages = property(getErrorMessages, doc="read-only only property")
 
 
     def getWarningMessages(self):
@@ -129,9 +129,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         Returns the warning messages for the plugin launcher
         """
         return self.__edPlugin.getWarningMessages()
-
-
-
+    warningMessages = property(getWarningMessages, doc="read-only only property")
 
 
     def getRefConfigFile(self):
@@ -212,7 +210,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         """
         Returns the EDNA_SITE environment variable
         """
-        return self.__strEdnaSite
+        return EDUtilsPath.EDNA_SITE
 
 
     def run(self):
@@ -272,16 +270,16 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
 
 
 
-    def readAndParseFile(self, _strFileName):
-        """
-        Reads a file and parses potential existing environment variables such as:
-        - EDNA_WORKING_DIR
-        Returns the content of this file as a string
-        """
-        strXML = EDTestCasePlugin.readAndParseFile(self, _strFileName)
-        if (self.__edPlugin.getWorkingDirectory() is not None):
-            strXML = strXML.replace("${EDNA_WORKING_DIR}" , self.__edPlugin.getWorkingDirectory())
-        return strXML
+#    def readAndParseFile(self, _strFileName):
+#        """
+#        Reads a file and parses potential existing environment variables such as:
+#        - EDNA_WORKING_DIR
+#        Returns the content of this file as a string
+#        """
+#        strXML = EDTestCasePlugin.readAndParseFile(self, _strFileName)
+#        if (self.__edPlugin.getWorkingDirectory() is not None):
+#            strXML = strXML.replace("${EDNA_WORKING_DIR}" , self.__edPlugin.getWorkingDirectory())
+#        return strXML
 
 
     def setNoExpectedWarningMessages(self, _iNoExpectedWarningMessages):

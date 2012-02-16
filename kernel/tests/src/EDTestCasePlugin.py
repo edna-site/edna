@@ -67,21 +67,11 @@ class EDTestCasePlugin(EDTestCase):
         """
         EDTestCase.__init__(self, _strTestName)
         self.__strPluginName = _strPluginName
-        self.__strTestsDataDir = None
-        self.__strPluginTestsDataDir = None
         self.__strPluginHome = EDUtilsTest.getFactoryPluginTest().getModuleLocation(_strPluginName)
         self.__strPluginTestsDataHome = EDUtilsTest.getPluginTestDataDirectory(self.getClassName())
         self.__listRequiredConfigurationPluginNames = []
         self.__strConfigurationFile = None
         self.__dictConfigurations = {} #key=pluginName ; value=config
-        self.dictReplace = {"${EDNA_TESTIMAGES}": EDUtilsPath.EDNA_TESTIMAGES,
-                       "${EDNA_PLUGIN_TESTS_DATA_HOME}" : self.getPluginTestsDataHome(),
-                       "${EDNA_HOME}": EDUtilsPath.getEdnaHome(),
-                       "${USER}":  os.getenv("USER", "UndefindedUser"),
-                       "${TMPDIR}": os.getenv("TMPDIR", tempfile.gettempdir()),
-                        }
-
-
 
 
     def preProcess(self):
@@ -174,6 +164,7 @@ class EDTestCasePlugin(EDTestCase):
         Returns the plugin name
         """
         return self.__strPluginName
+    pluginName = property(getPluginName, doc="read-only property")
 
 
     def getPluginHome(self):
@@ -181,13 +172,7 @@ class EDTestCasePlugin(EDTestCase):
         Returns the plugin home directory
         """
         return self.__strPluginHome
-
-
-    def setPluginTestsDataDir(self, _strPluginDataDir):
-        """
-        Sets the plugin test data directory
-        """
-        self.__strPluginTestsDataDir = _strPluginDataDir
+    pluginHome = property(getPluginHome, doc="read-only property")
 
 
     def getPluginTestsDataHome(self):
@@ -202,6 +187,7 @@ class EDTestCasePlugin(EDTestCase):
         Sets the plugin test data home directory
         """
         self.__strPluginTestsDataHome = _strPluginTestsDataHome
+    pluginTestDataHome = property(getPluginTestsDataHome, setPluginTestsDataHome, "pluginTestDataHome is the data directory in the plugin's tests")
 
 
     def loadTestImage(self, _listImageFileName):
@@ -245,7 +231,13 @@ class EDTestCasePlugin(EDTestCase):
                                          Otherwise please try to download the images manually from \n \
                                          http://www.edna-site.org/data/tests/images" % _listImageFileName
 
-
+    def getDictReplace(self):
+        dictReplace = EDUtilsPath.getDictOfPaths()
+        dictReplace["${EDNA_PLUGIN_TESTS_DATA_HOME}"] = self.__strPluginTestsDataHome
+        if self.plugin is not None:
+            dictReplace["${EDNA_WORKING_DIR}"] = self.plugin.getWorkingDirectory()
+        return dictReplace
+    dictReplace = property(getDictReplace, "Read-only property")
 
     def readAndParseFile(self, _strFileName):
         """
@@ -260,10 +252,8 @@ class EDTestCasePlugin(EDTestCase):
 
         Returns the content of this file as a string
         """
-        strXML = str(EDUtilsFile.readFileAndParseVariables (_strFileName))
-        for key in self.dictReplace:
-            strXML = strXML.replace(key, self.dictReplace[key])
-        return str(strXML)
+        return  str(EDUtilsFile.readFileAndParseVariables(_strFileName, self.dictReplace))
+
 
 
 def timeoutDuringDownload():

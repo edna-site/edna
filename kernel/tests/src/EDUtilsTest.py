@@ -68,10 +68,8 @@ class EDUtilsTest:
         Reads a file and parses potential existing environment variables such as:
         Returns the content of this file as a string
         """
-        strParsedFile = EDUtilsFile.readFile (_strFileName)
-        if(strParsedFile.contains(_strKey)):
-            strParsedFile = strParsedFile.replace(_strKey , _strValue)
-        return str
+
+        returnEDUtilsFile.readFileAndParseVariables(_strFileName, {_strKey:_strValue})
 
 
     @staticmethod

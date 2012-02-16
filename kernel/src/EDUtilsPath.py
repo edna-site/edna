@@ -353,4 +353,6 @@ class EDUtilsPath:
         res["EDNA_TESTS"] = cls.EDNA_TESTS
         res["EDNA_TESTDATA"] = cls.EDNA_TESTDATA
         res["EDNA_TESTIMAGES"] = cls.EDNA_TESTIMAGES
+        res["${USER}"] = os.getenv("USER", "UndefindedUser"),
+        res["${TMPDIR}"] = os.getenv("TMPDIR", tempfile.gettempdir()),
         return res
