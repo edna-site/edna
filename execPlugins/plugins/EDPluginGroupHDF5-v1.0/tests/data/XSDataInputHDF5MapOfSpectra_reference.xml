@@ -3,7 +3,7 @@
 	<HDF5File><path><value>/tmp/edna-${USER}/MapSpectra.h5</value></path></HDF5File>
 	<internalHDF5Path><value>Map</value></internalHDF5Path>
 	<inputSpectrumFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5077.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/projections5077.edf</value></path>
 		<slowMotorPosition><value>1</value></slowMotorPosition>
 		<fastMotorPosition><value>1</value></fastMotorPosition>
 		<meshScan>
@@ -16,7 +16,7 @@
 		</meshScan>
 	</inputSpectrumFile>
 	<inputSpectrumFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5078.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/projections5078.edf</value></path>
 		<slowMotorPosition><value>1</value></slowMotorPosition>
 		<fastMotorPosition><value>2</value></fastMotorPosition>
 		<meshScan>
@@ -29,7 +29,7 @@
 		</meshScan>
 	</inputSpectrumFile>
 	<inputSpectrumFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5204.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/projections5204.edf</value></path>
 		<slowMotorPosition><value>2</value></slowMotorPosition>
 		<fastMotorPosition><value>1</value></fastMotorPosition>
 		<meshScan>
@@ -42,7 +42,7 @@
 		</meshScan>
 	</inputSpectrumFile>
 	<inputSpectrumFile>
-		<path><value>${EDNA_TESTS_DATA_HOME}/images/projections5203.edf</value></path>
+		<path><value>${EDNA_TESTIMAGES}/projections5203.edf</value></path>
 		<slowMotorPosition><value>2</value></slowMotorPosition>
 		<fastMotorPosition><value>2</value></fastMotorPosition>
 		<meshScan>

@@ -22,27 +22,27 @@
 	</pixelSizeY>
 	<inputFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/CeO2_id11.edf</value>
+			<value>${EDNA_TESTIMAGES}/CeO2_id11.edf</value>
 		</path>
 	</inputFile>
 	<darkCurrentImageFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/dark_id11.edf</value>
+			<value>${EDNA_TESTIMAGES}/dark_id11.edf</value>
 		</path>
 	</darkCurrentImageFile>
 	<flatFieldImageFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/flat_id11.edf</value>
+			<value>${EDNA_TESTIMAGES}/flat_id11.edf</value>
 		</path>
 	</flatFieldImageFile>
 	<spatialDistortionFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/Frelon2K_id11.spline</value>
+			<value>${EDNA_TESTIMAGES}/Frelon2K_id11.spline</value>
 		</path>
 	</spatialDistortionFile>
     <maskFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/uncorrected_id11.msk</value>
+            <value>${EDNA_TESTIMAGES}/uncorrected_id11.msk</value>
         </path>
     </maskFile>
 	<sampleToDetectorDistance>

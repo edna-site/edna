@@ -357,7 +357,7 @@
         <predictionResult>
             <predictionImage>
                 <path>
-                    <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_001_pred.jpg</value>
+                    <value>${EDNA_TESTIMAGES}/ref-testscale_1_001_pred.jpg</value>
                 </path>
                 <number>
                     <value>1</value>
@@ -365,7 +365,7 @@
             </predictionImage>
             <predictionImage>
                 <path>
-                    <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_002_pred.jpg</value>
+                    <value>${EDNA_TESTIMAGES}/ref-testscale_1_002_pred.jpg</value>
                 </path>
                 <number>
                     <value>2</value>

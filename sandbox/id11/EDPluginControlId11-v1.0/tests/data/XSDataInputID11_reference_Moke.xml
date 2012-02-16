@@ -7,7 +7,7 @@
   </parameterFile>
   <dataFile>
     <path>
-      <value>${EDNA_TESTS_DATA_HOME}/images/moke.edf</value>
+      <value>${EDNA_TESTIMAGES}/moke.edf</value>
     </path>
   </dataFile>
 </XSDataInputID11>

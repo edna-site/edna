@@ -41,6 +41,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 from EDTest            import EDTest
 from EDVerbose         import EDVerbose
 from EDUtilsTest       import EDUtilsTest
+from EDUtilsPath       import EDUtilsPath
 
 
 class EDTestCase(EDTest):
@@ -200,9 +201,7 @@ class EDTestCase(EDTest):
         @return: TestsHome
         @rtype: string
         """
-        if (self.__strTestsHome is None):
-            self.__strTestsHome = EDUtilsTest.getTestsHome()
-        return self.__strTestsHome
+        return EDUtilsPath.EDNA_TESTS
 
 
     def getTestsDataHome(self):
@@ -211,9 +210,7 @@ class EDTestCase(EDTest):
         @return: TestsDataHome
         @rtype: string
         """
-        if (self.__strTestsDataHome is None):
-            self.__strTestsDataHome = EDUtilsTest.getTestsDataHome()
-        return self.__strTestsDataHome
+        return EDUtilsPath.EDNA_TESTDATA
 
 
     def getTestsDataImagesHome(self):
@@ -222,9 +219,8 @@ class EDTestCase(EDTest):
         @return: TestsDataImagesHome
         @rtype: string
         """
-        if (self.__strTestsDataImagesHome is None):
-            self.__strTestsDataImagesHome = EDUtilsTest.getTestsDataImagesHome()
-        return self.__strTestsDataImagesHome
+        return EDUtilsPath.EDNA_TESTIMAGES
+
 
 
     def getNumberTestMethodSuccess(self):

@@ -5,7 +5,7 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2008-2009 ESRF
+#    Copyright (C) 2008-2012 ESRF
 #
 #    Principal author:       Jérôme Kieffer (kieffer@esrf.fr)
 #
@@ -28,11 +28,13 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120213"
 
 import os, sys
 from EDVerbose                  import EDVerbose
 from EDTestCasePluginUnit       import EDTestCasePluginUnit
-from EDUtilsTest                import EDUtilsTest
+from EDUtilsFile                import EDUtilsFile
+from EDUtilsPath                import EDUtilsPath
 from EDAssert                   import EDAssert
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 
@@ -62,7 +64,7 @@ class EDTestCasePluginUnitSPDCorrectv10(EDTestCasePluginUnit):
 
     def testCheckParameters(self):
         edPluginSPD = self.createPlugin()
-        strXMLInput = EDUtilsTest.readAndParseFile(self.strReferenceInputFileName)
+        strXMLInput = EDUtilsFile.readFileAndParseVariables(self.strReferenceInputFileName, {"${EDNA_TESTIMAGES}":"toto"})
         xsDataInputSPDCake = XSDataInputSPDCake.parseString(strXMLInput)
         edPluginSPD.setDataInput(xsDataInputSPDCake)
         edPluginSPD.checkParameters()
@@ -70,7 +72,7 @@ class EDTestCasePluginUnitSPDCorrectv10(EDTestCasePluginUnit):
 
     def testKillAllWorkers(self):
         edPluginSPD = self.createPlugin()
-        strXMLInput = EDUtilsTest.readAndParseFile(self.strReferenceInputFileName)
+        strXMLInput = EDUtilsFile.readFileAndParseVariables(self.strReferenceInputFileName)
         xsDataInputSPDCake = XSDataInputSPDCake.parseString(strXMLInput)
         edPluginSPD.setDataInput(xsDataInputSPDCake)
         edPluginSPD.killAllWorkers()
@@ -80,7 +82,7 @@ class EDTestCasePluginUnitSPDCorrectv10(EDTestCasePluginUnit):
         strRefY = "spline-3-18y.edf"
         self.loadTestImage([strRefX, strRefY])
         edPluginSPD = self.createPlugin()
-        strXMLInput = EDUtilsTest.readAndParseFile(self.strReferenceInputFileName)
+        strXMLInput = EDUtilsFile.readFileAndParseVariables(self.strReferenceInputFileName)
         xsDataInputSPDCake = XSDataInputSPDCake.parseString(strXMLInput)
         edPluginSPD.setDataInput(xsDataInputSPDCake)
         edPluginSPD.configure()
@@ -88,7 +90,7 @@ class EDTestCasePluginUnitSPDCorrectv10(EDTestCasePluginUnit):
         ########################################################################
         # Enforce some values
         ########################################################################
-        edPluginSPD.dictGeometry["SpatialDistortionFile"] = os.path.join(self.getPluginTestsDataHome(), "frelon_spline_file_to_correct_SPD.spline")
+        edPluginSPD.dictGeometry["SpatialDistortionFile"] = os.path.join(self.getTestsDataImagesHome(), "frelon_spline_file_to_correct_SPD.spline")
         edPluginSPD.dictGeometry["TiltRotation"] = 18
         edPluginSPD.dictGeometry["AngleOfTilt"] = 3
         spline = Spline()
@@ -108,7 +110,7 @@ class EDTestCasePluginUnitSPDCorrectv10(EDTestCasePluginUnit):
 
     def testCleanDispMat(self):
         edPluginSPD = self.createPlugin()
-        strXMLInput = EDUtilsTest.readAndParseFile(self.strReferenceInputFileName)
+        strXMLInput = EDUtilsFile.readFileAndParseVariables(self.strReferenceInputFileName, EDUtilsPath.getDictOfPaths())
         xsDataInputSPDCake = XSDataInputSPDCake.parseString(strXMLInput)
         edPluginSPD.setDataInput(xsDataInputSPDCake)
         if EDVerbose.isVerboseDebug():
@@ -119,7 +121,7 @@ class EDTestCasePluginUnitSPDCorrectv10(EDTestCasePluginUnit):
 
     def testGenerateSPDCommand(self):
         edPluginSPD = self.createPlugin()
-        strXMLInput = EDUtilsTest.readAndParseFile(self.strReferenceInputFileName)
+        strXMLInput = EDUtilsFile.readFileAndParseVariables(self.strReferenceInputFileName, EDUtilsPath.getDictOfPaths())
         xsDataInputSPDCake = XSDataInputSPDCake.parseString(strXMLInput)
         edPluginSPD.setDataInput(xsDataInputSPDCake)
         edPluginSPD.configure()

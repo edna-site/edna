@@ -22,17 +22,17 @@
 	</pixelSizeY>
 	<inputFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+			<value>${EDNA_TESTIMAGES}/diff6105.edf</value>
 		</path>
 	</inputFile>
 	<darkCurrentImageFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/darks0001.edf</value>
+			<value>${EDNA_TESTIMAGES}/darks0001.edf</value>
 		</path>
 	</darkCurrentImageFile>
 	<flatFieldImageFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/flats0001.edf</value>
+			<value>${EDNA_TESTIMAGES}/flats0001.edf</value>
 		</path>
 	</flatFieldImageFile>
 	<sampleToDetectorDistance>
