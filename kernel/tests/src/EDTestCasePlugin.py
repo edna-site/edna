@@ -41,7 +41,7 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120131"
 
-import sys, os, threading, urllib2, exceptions, tempfile
+import sys, os, threading, urllib2, exceptions
 
 from EDVerbose          import EDVerbose
 from EDUtilsPath        import EDUtilsPath
@@ -75,7 +75,6 @@ class EDTestCasePlugin(EDTestCase):
 
 
     def preProcess(self):
-        EDTestCase.preProcess(self)
         # Check if the plugin to be tested requires configuration
         edPlugin = self.createPlugin()
         if edPlugin is None:
