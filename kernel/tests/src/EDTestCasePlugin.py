@@ -235,9 +235,11 @@ class EDTestCasePlugin(EDTestCase):
         dictReplace = EDUtilsPath.getDictOfPaths()
         dictReplace["${EDNA_PLUGIN_TESTS_DATA_HOME}"] = self.__strPluginTestsDataHome
         if self.plugin is not None:
-            dictReplace["${EDNA_WORKING_DIR}"] = self.plugin.getWorkingDirectory()
+            workDir = self.plugin.getWorkingDirectory()
+            if workDir is not None:
+                dictReplace["${EDNA_WORKING_DIR}"] = workDir
         return dictReplace
-    dictReplace = property(getDictReplace, "Read-only property")
+    dictReplace = property(getDictReplace, doc="Read-only property")
 
     def readAndParseFile(self, _strFileName):
         """

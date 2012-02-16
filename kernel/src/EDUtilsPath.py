@@ -30,6 +30,7 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120216"
 
 
 import os, glob, threading, tempfile, getpass, hashlib
@@ -347,12 +348,12 @@ class EDUtilsPath:
         """
         Return an os.environ like dict enriched with internal path 
         """
-        res = os.environ.copy()
-        res["EDNA_HOME"] = cls.EDNA_HOME
-        res["EDNA_SITE"] = cls.EDNA_SITE
-        res["EDNA_TESTS"] = cls.EDNA_TESTS
-        res["EDNA_TESTDATA"] = cls.EDNA_TESTDATA
-        res["EDNA_TESTIMAGES"] = cls.EDNA_TESTIMAGES
-        res["${USER}"] = os.getenv("USER", "UndefindedUser"),
-        res["${TMPDIR}"] = os.getenv("TMPDIR", tempfile.gettempdir()),
+        res = {"${EDNA_HOME}": cls.EDNA_HOME,
+               "${EDNA_SITE}": cls.EDNA_SITE,
+               "${EDNA_TESTS}": cls.EDNA_TESTS,
+               "${EDNA_TESTDATA}": cls.EDNA_TESTDATA,
+               "${EDNA_TESTIMAGES}": cls.EDNA_TESTIMAGES,
+               "${USER}": os.getenv("USER", "UndefindedUser"),
+               "${TMPDIR}": os.getenv("TMPDIR", tempfile.gettempdir())
+               }
         return res

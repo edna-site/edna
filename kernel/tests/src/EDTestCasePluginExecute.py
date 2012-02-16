@@ -38,7 +38,6 @@ from EDUtilsPath                         import EDUtilsPath
 from EDTestCasePlugin                    import EDTestCasePlugin
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
 from EDUtilsFile                         import EDUtilsFile
-from EDConfiguration                     import EDConfiguration
 from EDUtilsParallel                     import EDUtilsParallel
 
 class EDTestCasePluginExecute(EDTestCasePlugin):
@@ -265,21 +264,6 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
                     if (self.m_edObtainedOutputDataFile is None):
                         self.m_edObtainedOutputDataFile = self.getPluginName() + "_output.xml"
                     EDUtilsFile.writeFile(self.m_edObtainedOutputDataFile, self.__edPlugin.getDataOutput().marshal())
-
-
-
-
-
-#    def readAndParseFile(self, _strFileName):
-#        """
-#        Reads a file and parses potential existing environment variables such as:
-#        - EDNA_WORKING_DIR
-#        Returns the content of this file as a string
-#        """
-#        strXML = EDTestCasePlugin.readAndParseFile(self, _strFileName)
-#        if (self.__edPlugin.getWorkingDirectory() is not None):
-#            strXML = strXML.replace("${EDNA_WORKING_DIR}" , self.__edPlugin.getWorkingDirectory())
-#        return strXML
 
 
     def setNoExpectedWarningMessages(self, _iNoExpectedWarningMessages):
