@@ -53,8 +53,15 @@ class EDUtilsPath:
     os.environ["EDNA_HOME"] = EDNA_HOME
     _EDNA_SITE = None
     _EDNA_USERTEMPFOLDER = None
+    _EDNA_TESTIMAGES = None
+    _EDNA_TESTS = None
+    _EDNA_TESTDATA = None
+
+    _EDNA_PROJECTS = {} # key: project name. Value: path to the project root
     _EDNA_PLUGINCACHE = None
+
     __semaphore = threading.Semaphore()
+
 
     @classmethod
     def appendListOfPaths(cls, _strPath, _listOfPaths):
@@ -232,14 +239,14 @@ class EDUtilsPath:
 
     @classmethod
     def getEdnaPluginCachePath(cls):
-        """This private method initialises the path to the plugin cache file"""
+        """This private method initializes the path to the plugin cache file"""
         if cls._EDNA_PLUGINCACHE is None:
             if "EDNA_PLUGINCACHE" in os.environ.keys():
                 cls._EDNA_PLUGINCACHE = os.environ["EDNA_PLUGINCACHE"]
                 strDirName = os.path.dirname(cls._EDNA_PLUGINCACHE)
                 if os.path.exists(cls._EDNA_PLUGINCACHE) and (not os.access(cls._EDNA_PLUGINCACHE, os.W_OK)):
                     EDVerbose.warning("EDNA_PLUGINCACHE environment variable is set to %s but the file is not writeable!" % cls._EDNA_PLUGINCACHE)
-                    cls._EDNA_PLUGINCACHE = None                    
+                    cls._EDNA_PLUGINCACHE = None
                 elif not os.path.exists(strDirName):
                     EDVerbose.warning("EDNA_PLUGINCACHE environment variable is set to %s put the parent directory does not exist!" % cls._EDNA_PLUGINCACHE)
                     cls._EDNA_PLUGINCACHE = None
@@ -250,7 +257,100 @@ class EDUtilsPath:
                 strTempFileDir = EDUtilsPath.getEdnaUserTempFolder()
                 # We create a hash of the path in order to be able to reference several different EDNA_HOME 
                 # caches in the same directory
-                strCacheFileName = hashlib.sha1(os.getenv('EDNA_HOME')).hexdigest()+".xml"
+                strCacheFileName = hashlib.sha1(os.getenv('EDNA_HOME')).hexdigest() + ".xml"
                 cls._EDNA_PLUGINCACHE = os.path.abspath(os.path.join(strTempFileDir, strCacheFileName))
             EDVerbose.DEBUG("EDFactoryPlugin: Path to plugin cache: %s" % cls._EDNA_PLUGINCACHE)
-        return cls._EDNA_PLUGINCACHE 
+        return cls._EDNA_PLUGINCACHE
+
+    @classmethod
+    def getEdnaTestPath(cls):
+        """
+        This class method initializes the path to the test path (probably unused)
+        """
+        if cls._EDNA_TESTS is None:
+            if "EDNA_TESTS" in os.environ.keys():
+                cls.setEdnaTestDataPath(os.environ["EDNA_TESTS"])
+            if cls._EDNA_TESTS is None:
+                cls._EDNA_TESTS = os.path.join(cls.EDNA_HOME, "tests",)
+            EDVerbose.DEBUG("EDFactoryPlugin: Path to Test Data directory : %s" % cls._EDNA_TESTS)
+        return cls._EDNA_TESTS
+
+    @classmethod
+    def setEdnaTestPath(cls, value):
+        """
+        This class method initializes the path to the test data (probably unused)
+        """
+        cls._EDNA_TESTS = os.path.abspath(value)
+        if not os.path.isdir(cls._EDNA_TESTS):
+            EDVerbose.warning("EDNA_TESTS environment variable is set to %s put the directory does not exist!" % cls._EDNA_TESTS)
+            cls._EDNA_TESTS = None
+    EDNA_TESTS = classproperty(getEdnaTestPath, setEdnaTestPath)
+
+
+    @classmethod
+    def getEdnaTestDataPath(cls):
+        """
+        This class method initializes the path to the test data (probably unused)
+        """
+        if cls._EDNA_TESTDATA is None:
+            if "EDNA_TESTDATA" in os.environ.keys():
+                cls.setEdnaTestDataPath(os.environ["EDNA_TESTDATA"])
+            if cls._EDNA_TESTDATA is None:
+                cls._EDNA_TESTDATA = os.path.join(cls.EDNA_HOME, "tests", "data")
+            EDVerbose.DEBUG("EDFactoryPlugin: Path to Test Data directory : %s" % cls._EDNA_TESTDATA)
+        return cls._EDNA_TESTDATA
+
+    @classmethod
+    def setEdnaTestDataPath(cls, value):
+        """
+        This class method initializes the path to the test data (probably unused)
+        """
+        cls._EDNA_TESTDATA = os.path.abspath(value)
+        if not os.path.isdir(cls._EDNA_TESTDATA):
+            EDVerbose.warning("EDNA_TESTDATA environment variable is set to %s put the directory does not exist!" % cls._EDNA_TESTDATA)
+            cls._EDNA_TESTDATA = None
+    EDNA_TESTDATA = classproperty(getEdnaTestDataPath, setEdnaTestDataPath)
+
+
+    @classmethod
+    def getEdnaTestDataImagesPath(cls):
+        """
+        This class method initializes the path to the test images downloaded from internet
+        """
+        if cls._EDNA_TESTIMAGES is None:
+            if "EDNA_TESTIMAGES" in os.environ.keys():
+                cls.setEdnaTestDataImagesPath(os.environ["EDNA_TESTIMAGES"])
+            if cls._EDNA_TESTIMAGES is None:
+                cls._EDNA_TESTIMAGES = os.path.join(cls.EDNA_HOME, "tests", "data", "images")
+            EDVerbose.DEBUG("EDFactoryPlugin: Path to Temporary Images directory : %s" % cls._EDNA_TESTIMAGES)
+        return cls._EDNA_TESTIMAGES
+
+    @classmethod
+    def setEdnaTestDataImagesPath(cls, value):
+        """
+        This class method initializes the path to the test images downloaded from internet
+        """
+        cls._EDNA_TESTIMAGES = os.path.abspath(value)
+        if os.path.exists(cls._EDNA_TESTIMAGES) and (not os.access(cls._EDNA_TESTIMAGES, os.W_OK)):
+            EDVerbose.warning("EDNA_TESTIMAGES environment variable is set to %s but the file is not writeable!" % cls._EDNA_TESTIMAGES)
+            cls._EDNA_TESTIMAGES = None
+        elif not os.path.exists(cls._EDNA_TESTIMAGES):
+            EDVerbose.warning("EDNA_TESTIMAGES environment variable is set to %s put the directory does not exist!" % cls._EDNA_TESTIMAGES)
+            cls._EDNA_TESTIMAGES = None
+        elif not os.access(cls._EDNA_TESTIMAGES, os.W_OK):
+            EDVerbose.warning("EDNA_TESTIMAGES environment variable is set to %s put the directory cannot be accessed!" % cls._EDNA_TESTIMAGES)
+            cls._EDNA_TESTIMAGES = None
+    EDNA_TESTIMAGES = classproperty(getEdnaTestDataImagesPath, setEdnaTestDataImagesPath)
+
+    @classmethod
+    def getDictOfPaths(cls):
+        """
+        Return an os.environ like dict enriched with internal path 
+        """
+        res = os.environ.copy()
+        res["EDNA_HOME"] = cls.EDNA_HOME
+        res["EDNA_SITE"] = cls.EDNA_SITE
+        res["EDNA_TESTS"] = cls.EDNA_TESTS
+        res["EDNA_TESTDATA"] = cls.EDNA_TESTDATA
+        res["EDNA_TESTIMAGES"] = cls.EDNA_TESTIMAGES
+        return res

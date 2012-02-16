@@ -8,7 +8,7 @@
   <dataSet>
   	<imageFile>
       <path>
-        <value>${EDNA_TESTS_DATA_HOME}/images/fewSpots_1_001.img</value>
+        <value>${EDNA_TESTIMAGES}/fewSpots_1_001.img</value>
       </path>
     </imageFile>
   </dataSet>

@@ -8,7 +8,7 @@
 	</commandLineOptions>
 	<inputFileName>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/test_region1_dark_1_0041.edf</value>
+			<value>${EDNA_TESTIMAGES}/test_region1_dark_1_0041.edf</value>
 		</path>
 	</inputFileName>
 	<outputPath>

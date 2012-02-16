@@ -2,17 +2,17 @@
 <XSDataInputAutoSub>
     <buffers>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/buffer_before.dat</value>
+    		<value>${EDNA_TESTIMAGES}/buffer_before.dat</value>
     	</path>
     </buffers>
     <buffers>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/buffer_after.dat</value>
+    		<value>${EDNA_TESTIMAGES}/buffer_after.dat</value>
     	</path>
     </buffers>
     <sampleCurve>
     	<path>
-    		<value>${EDNA_TESTS_DATA_HOME}/images/proteine.dat</value>
+    		<value>${EDNA_TESTIMAGES}/proteine.dat</value>
     	</path>
     </sampleCurve>
     <subtractedCurve>

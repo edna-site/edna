@@ -36,12 +36,12 @@
     </bufferSizeY>
     <darkCurrentImageFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/ID11-Dark.edf</value>
+            <value>${EDNA_TESTIMAGES}/ID11-Dark.edf</value>
         </path>
     </darkCurrentImageFile>
     <flatFieldImageFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/ID11-Flat.edf</value>
+            <value>${EDNA_TESTIMAGES}/ID11-Flat.edf</value>
         </path>
     </flatFieldImageFile>
     <outputFileType>
@@ -53,7 +53,7 @@
     </sampleToDetectorDistance>
     <spatialDistortionFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/ID11-Frelon.spline</value>
+            <value>${EDNA_TESTIMAGES}/ID11-Frelon.spline</value>
         </path>
     </spatialDistortionFile>
     <outputDir>

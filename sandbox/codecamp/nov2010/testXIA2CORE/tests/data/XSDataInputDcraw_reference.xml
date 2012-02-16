@@ -2,7 +2,7 @@
 <XSDataInput>
 	<rawImagePath>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/dcraw.dng</value>
+			<value>${EDNA_TESTIMAGES}/dcraw.dng</value>
 		</path>
 	</rawImagePath>
 	<outputPath>

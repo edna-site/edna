@@ -7,7 +7,7 @@
 			<value>/tmp/edna-${USER}/bioSaxsAveraged.log</value>
 		</path>
 	</logFile>
-	<processLog><value>Retrieve metadata from file ${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated01.edf
-Averaging images '${EDNA_TESTS_DATA_HOME}/images/bioSaxsIntegrated%%.edf,1,10' to /tmp/edna-${USER}/bioSaxsAveraged.edf
+	<processLog><value>Retrieve metadata from file ${EDNA_TESTIMAGES}/bioSaxsIntegrated01.edf
+Averaging images '${EDNA_TESTIMAGES}/bioSaxsIntegrated%%.edf,1,10' to /tmp/edna-${USER}/bioSaxsAveraged.edf
 Conversion to 3-column ascii file: '/tmp/edna-${USER}/bioSaxsAveraged.dat'</value></processLog>
 </XSDataResult>

@@ -7,7 +7,7 @@
     </destinationDirectory>
     <image>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March.edf</value>
+            <value>${EDNA_TESTIMAGES}/DCT2011March.edf</value>
         </path>
     </image>
     <sinogramFileNamePrefix>
@@ -36,17 +36,17 @@
         </_diffrn_detector_element_center_1>
         <_file_correction_image_dark_current>
 	        <path>
-	            <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March_dark.edf</value>
+	            <value>${EDNA_TESTIMAGES}/DCT2011March_dark.edf</value>
 	        </path>
 	    </_file_correction_image_dark_current>
 	    <_file_correction_image_flat_field>
 	        <path>
-	            <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March_flat.edf</value>
+	            <value>${EDNA_TESTIMAGES}/DCT2011March_flat.edf</value>
 	        </path>
 	    </_file_correction_image_flat_field>
         <_file_correction_spline_spatial_distortion>
 		    <path>
-		       <value>${EDNA_TESTS_DATA_HOME}/images/DCT2011March.spline</value>
+		       <value>${EDNA_TESTIMAGES}/DCT2011March.spline</value>
 		    </path>
 		</_file_correction_spline_spatial_distortion>
     </overrideImageParam>

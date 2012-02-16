@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
 <XSDataInput>
-<descriptorFile><path><value>${EDNA_TESTS_DATA_HOME}/images/FullFieldXAS_00.jpg.key.gz</value></path></descriptorFile>
-<descriptorFile><path><value>${EDNA_TESTS_DATA_HOME}/images/FullFieldXAS_01.jpg.key.gz</value></path></descriptorFile>
+<descriptorFile><path><value>${EDNA_TESTIMAGES}/FullFieldXAS_00.jpg.key.gz</value></path></descriptorFile>
+<descriptorFile><path><value>${EDNA_TESTIMAGES}/FullFieldXAS_01.jpg.key.gz</value></path></descriptorFile>
 </XSDataInput>

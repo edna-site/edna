@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <XSDataInput>
-	<rawImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsRaw.edf</value></path></rawImage>
+	<rawImage><path><value>${EDNA_TESTIMAGES}/bioSaxsRaw.edf</value></path></rawImage>
 	<logFile><path><value>/tmp/edna-${USER}/bioSaxsNormalized.log</value></path></logFile>
 	<normalizedImage><path><value>/tmp/edna-${USER}/bioSaxsProcessNormalized.edf</value></path></normalizedImage>
 	<integratedImage><path><value>/tmp/edna-${USER}/bioSaxsProcessIntegrated.edf</value></path></integratedImage>
@@ -15,7 +15,7 @@
 		<beamCenter_2><value>105.0</value></beamCenter_2>
 		<beamStopDiode><value>2.03737e-05</value></beamStopDiode>
 		<machineCurrent><value>85.5755</value></machineCurrent>
-		<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
+		<maskFile><path><value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value></path></maskFile>
 		<wavelength><value>9.31e-11</value><unit>m</unit></wavelength>
 		<normalizationFactor><value>1.0</value></normalizationFactor>
 	</experimentSetup>

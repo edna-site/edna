@@ -7,6 +7,6 @@
        <value>2</value>
    </number>
    <path>
-     <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_002.img</value>
+     <value>${EDNA_TESTIMAGES}/ref-testscale_1_002.img</value>
    </path>
 </XSDataImage>

@@ -2,12 +2,12 @@
 <XSDataInput>
 	<inputCurve>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/noise1.dat</value>
+			<value>${EDNA_TESTIMAGES}/noise1.dat</value>
 		</path>
 	</inputCurve>
 	<inputCurve>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/noise2.dat</value>
+			<value>${EDNA_TESTIMAGES}/noise2.dat</value>
 		</path>
 	</inputCurve>
 	<operation>

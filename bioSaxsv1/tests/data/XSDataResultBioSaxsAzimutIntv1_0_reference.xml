@@ -3,8 +3,8 @@
 <correctedImage><path><value>/tmp/edna-${USER}/bioSaxsCorrected.edf</value></path></correctedImage>
 <integratedImage><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.edf</value></path></integratedImage>
 <integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
-<status><executiveSummary>><value>Retrieve metadata from file ${EDNA_TESTS_DATA_HOME}/images/bioSaxsNormalized.edf
-Correcting EDF image '${EDNA_TESTS_DATA_HOME}/images/bioSaxsNormalized.edf' with mask file
+<status><executiveSummary>><value>Retrieve metadata from file ${EDNA_TESTIMAGES}/bioSaxsNormalized.edf
+Correcting EDF image '${EDNA_TESTIMAGES}/bioSaxsNormalized.edf' with mask file
 Appending metadata to Corrected EDF image '/tmp/edna-${USER}/bioSaxsCorrected.edf'.
 Azimuthal integration of Corrected EDF image '/tmp/edna-${USER}/bioSaxsCorrected.edf'.
 Conversion to spec-like file of '/tmp/edna-${USER}/bioSaxsIntegrated.edf'

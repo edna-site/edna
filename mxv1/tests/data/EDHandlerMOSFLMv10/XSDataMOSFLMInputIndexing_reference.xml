@@ -48,7 +48,7 @@
         </type>
     </detector>
     <directory>
-        <value>${EDNA_TESTS_DATA_HOME}/images</value>
+        <value>${EDNA_TESTIMAGES}</value>
     </directory>
     <distance>
         <value>198.441000</value>

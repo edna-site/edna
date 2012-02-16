@@ -3,7 +3,7 @@
 
 	<inputDataFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/Moke-2th10-tilt0-rot0.edf</value>
+			<value>${EDNA_TESTIMAGES}/Moke-2th10-tilt0-rot0.edf</value>
 		</path>
 </inputDataFile>
 	<regroupedDataFile>

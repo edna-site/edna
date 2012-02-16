@@ -12,7 +12,7 @@
 	</logFile>
 	<status>
 	<executiveSummary>
-		<value>Normalizing EDF frame '${EDNA_TESTS_DATA_HOME}/images/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsNormalized.edf'</value>
+		<value>Normalizing EDF frame '${EDNA_TESTIMAGES}/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsNormalized.edf'</value>
 	</executiveSummary>	
 	</status>
 </XSDataResult>

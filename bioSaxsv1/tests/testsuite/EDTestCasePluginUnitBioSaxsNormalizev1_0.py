@@ -33,8 +33,8 @@ from EDVerbose              import EDVerbose
 from EDTestCasePluginUnit   import EDTestCasePluginUnit
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsNormalizev1_0, XSDataBioSaxsSample, XSDataBioSaxsExperimentSetup
 from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataImage, XSDataFile, XSDataString, \
-    XSDataLength, XSDataWavelength
-from EDFactoryPluginStatic               import EDFactoryPluginStatic
+                                    XSDataLength, XSDataWavelength
+from EDFactoryPluginStatic  import EDFactoryPluginStatic
 
 
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")

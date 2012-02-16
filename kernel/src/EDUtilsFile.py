@@ -1,3 +1,4 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
@@ -25,12 +26,14 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = [ "Marie-Francoise Incardona", "Olof Svensson" ]
+from __future__ import with_statement
+
+__authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
-"""
+__date__ = "20120213"
+__doc__ = """
 This is a static utility class for handling of files.
 """
 
@@ -42,7 +45,7 @@ from EDVerbose import EDVerbose
 class EDUtilsFile(object):
     """
     """
-
+    @staticmethod
     def readFile(_strFileName):
         """
         """
@@ -50,42 +53,43 @@ class EDUtilsFile(object):
         try:
             strContent = open(_strFileName, "rb").read()
         except exceptions.Exception, e:
-            EDVerbose.ERROR("EDUtilsFile.readFile: Reading %s: %s" % (_strFileName, str(e)))
-            raise
+            strError = "EDUtilsFile.readFile: Reading %s: %s" % (_strFileName, str(e))
+            EDVerbose.ERROR(strError)
+            raise exceptions.IOError(strError)
         return strContent
-    readFile = staticmethod(readFile)
 
 
+    @staticmethod
     def writeFile(_strFileName, _strContent):
         """
         """
         try:
-            myFile = open(_strFileName, "wb")
-            myFile.write(_strContent)
-            myFile.flush()
-            myFile.close()
+            with open(_strFileName, "wb") as myFile:
+                myFile.write(_strContent)
+                myFile.flush()
+
         except exceptions.Exception, e:
-            EDVerbose.ERROR("EDUtilsFile.writeFile: Writing %s: %s" % (_strFileName, str(e)))
-            raise
-    writeFile = staticmethod(writeFile)
+            strError = "EDUtilsFile.writeFile: Writing %s: %s" % (_strFileName, str(e))
+            EDVerbose.ERROR(strError)
+            raise exceptions.IOError(strError)
 
 
-    def readFileAndParseVariables(_strFileName, _dict=None):
+    @classmethod
+    def readFileAndParseVariables(cls, _strFileName, _dict=None):
         """
         Returns the content of this file as a string.
         Any environment variables present in the file are substituted, as well as
         any occurrences of strings in the optional dictionary.
         """
-        strContent = EDUtilsFile.readFile(_strFileName)
+        strContent = cls.readFile(_strFileName)
         # Substitute environment variables 
         strContent = os.path.expandvars(strContent)
         if (_dict is not None):
             for key in _dict.keys():
                 strContent = strContent.replace(key , _dict[ key ])
         return strContent
-    readFileAndParseVariables = staticmethod(readFileAndParseVariables)
 
-
+    @staticmethod
     def getFileExtension(_strFileName):
         """
         Returns the file extension, e.g. "img" for "testscale_1_001.img"
@@ -98,22 +102,18 @@ class EDUtilsFile(object):
                 # Remove the separator
                 strFileExtension = strExtensionWithSeparator[1:]
         return strFileExtension
-    getFileExtension = staticmethod(getFileExtension)
 
-
+    @staticmethod
     def getBaseName(_strFileName):
         return os.path.basename(_strFileName)
-    getBaseName = staticmethod(getBaseName)
 
-
+    @staticmethod
     def copyFile(_strSource, _strDestination):
         shutil.copyfile(_strSource, _strDestination)
-    copyFile = staticmethod(copyFile)
 
-
+    @staticmethod
     def deleteFile(_strFileName):
         if (_strFileName is not None):
             if (os.path.exists(_strFileName)):
                 os.remove(_strFileName)
-    deleteFile = staticmethod(deleteFile)
 

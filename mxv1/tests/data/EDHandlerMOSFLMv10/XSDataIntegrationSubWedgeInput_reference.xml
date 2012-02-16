@@ -90,7 +90,7 @@
 	        <value>0.000000</value>
 	    </oscillationStart>
 	    <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_001.img</value>
+                <value>${EDNA_TESTIMAGES}/ref-testscale_1_001.img</value>
             </path>
 	</image>
 </XSDataIntegrationSubWedgeInput>

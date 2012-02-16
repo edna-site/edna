@@ -83,7 +83,7 @@
                 <value>1</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_001.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_001.img</value>
             </path>
         </image>
         <image>
@@ -94,7 +94,7 @@
                 <value>2</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_002.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_002.img</value>
             </path>
         </image>
         <image>
@@ -105,7 +105,7 @@
                 <value>3</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_003.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_003.img</value>
             </path>
         </image>
         <image>
@@ -116,7 +116,7 @@
                 <value>4</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_004.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_004.img</value>
             </path>
         </image>
         <image>
@@ -127,7 +127,7 @@
                 <value>5</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_005.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_005.img</value>
             </path>
         </image>
         <image>
@@ -138,7 +138,7 @@
                 <value>6</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_006.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_006.img</value>
             </path>
         </image>
         <image>
@@ -149,7 +149,7 @@
                 <value>7</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_007.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_007.img</value>
             </path>
         </image>
         <image>
@@ -160,7 +160,7 @@
                 <value>8</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_008.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_008.img</value>
             </path>
         </image>
         <image>
@@ -171,7 +171,7 @@
                 <value>9</value>
             </number>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/testscale_1_009.img</value>
+                <value>${EDNA_TESTIMAGES}/testscale_1_009.img</value>
             </path>
         </image>
     </subWedge>

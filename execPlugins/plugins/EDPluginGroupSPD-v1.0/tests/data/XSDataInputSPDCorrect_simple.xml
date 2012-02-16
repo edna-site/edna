@@ -22,7 +22,7 @@
 			<value>mm</value></unit></pixelSizeY>
 	<inputFile>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/MokeImage-2th21-tilt3-rot30.edf</value>
+			<value>${EDNA_TESTIMAGES}/MokeImage-2th21-tilt3-rot30.edf</value>
 		</path>
 	</inputFile>
 	<sampleToDetectorDistance>

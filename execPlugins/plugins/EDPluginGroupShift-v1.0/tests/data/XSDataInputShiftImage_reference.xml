@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <XSDataInput>
-<inputImage><path><value>${EDNA_TESTS_DATA_HOME}/images/rhodo_f1_datanorm_0000.edf</value></path></inputImage>
+<inputImage><path><value>${EDNA_TESTIMAGES}/rhodo_f1_datanorm_0000.edf</value></path></inputImage>
 <offset><value>1.477</value></offset>
 <offset><value>0.740</value></offset>
 <outputImage><path><value>/tmp/edna-${USER}/shift.edf</value></path></outputImage>

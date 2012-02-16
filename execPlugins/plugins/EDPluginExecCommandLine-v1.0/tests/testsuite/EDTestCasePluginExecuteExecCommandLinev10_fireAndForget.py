@@ -63,7 +63,7 @@ class EDTestCasePluginExecuteExecCommandLinev10_fireAndForget(EDTestCasePluginEx
         if not(os.path.isdir(os.path.dirname(strInputFile))):
             os.makedirs(os.path.dirname(strInputFile), int("777", 8))
         EDVerbose.DEBUG("temporary filename is :" + strInputFile)
-        shutil.copy(os.path.join(EDUtilsTest.getTestsDataHome(), "images", "test_region1_dark_1_0040.edf"), strInputFile)
+        shutil.copy(os.path.join(EDUtilsTest.getTestsDataImagesHome(), "test_region1_dark_1_0040.edf"), strInputFile)
         strInputXML = self.readAndParseFile (self.getDataInputFile())
         xsDataInputReference = XSDataInputExecCommandLine.parseString(strInputXML)
         outputFileName = xsDataInputReference.getInputFileName().getPath().getValue() + ".gz"

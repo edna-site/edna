@@ -1187,7 +1187,7 @@ BEAM            102.521  104.797
     </goniostatMinRotationWidth>
     <xdsBackgroundImage>
         <path>
-          <value>${EDNA_TESTS_DATA_HOME}/images/BKGINIT4Bestv1_2.cbf</value>
+          <value>${EDNA_TESTIMAGES}/BKGINIT4Bestv1_2.cbf</value>
         </path>
     </xdsBackgroundImage>
 </XSDataInputBest>

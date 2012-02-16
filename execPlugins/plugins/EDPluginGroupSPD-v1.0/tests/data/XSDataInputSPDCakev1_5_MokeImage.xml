@@ -22,12 +22,12 @@
     </pixelSizeY>
     <inputFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/MokeImage-2th21-tilt3-rot30.edf</value>
+            <value>${EDNA_TESTIMAGES}/MokeImage-2th21-tilt3-rot30.edf</value>
         </path>
     </inputFile>
     <spatialDistortionFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/frelon_spline_file_to_correct_SPD.spline</value>
+            <value>${EDNA_TESTIMAGES}/frelon_spline_file_to_correct_SPD.spline</value>
         </path>
     </spatialDistortionFile>
     <sampleToDetectorDistance>

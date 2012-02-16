@@ -1,16 +1,16 @@
 <?xml version="1.0" ?>
 <XSDataInput>	
 	<fileSerie>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_01.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_02.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_03.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_04.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_05.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_06.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_07.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_08.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_09.edf</value></path></files>
-		<files><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxs_bsa_013_10.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_01.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_02.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_03.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_04.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_05.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_06.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_07.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_08.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_09.edf</value></path></files>
+		<files><path><value>${EDNA_TESTIMAGES}/bioSaxs_bsa_013_10.edf</value></path></files>
 	</fileSerie>
 	<sample>
 		<concentration><value>5.77</value></concentration>
@@ -26,7 +26,7 @@
 		<beamCenter_2><value>105.0</value></beamCenter_2>
 		<beamStopDiode><value>2.03737e-05</value></beamStopDiode>
 		<machineCurrent><value>85.5755</value></machineCurrent>
-		<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
+		<maskFile><path><value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value></path></maskFile>
 		<wavelength><value>9.31e-11</value><unit>m</unit></wavelength>
 		<normalizationFactor><value>1.0</value></normalizationFactor>
 	</experimentSetup>

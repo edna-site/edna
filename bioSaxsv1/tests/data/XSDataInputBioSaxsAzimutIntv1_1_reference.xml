@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <XSDataInput>
-<normalizedImage><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsCorrected.edf</value></path></normalizedImage>
+<normalizedImage><path><value>${EDNA_TESTIMAGES}/bioSaxsCorrected.edf</value></path></normalizedImage>
 <normalizedImageSize><value>4100000</value></normalizedImageSize>
 <integratedImage><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.edf</value></path></integratedImage>
 <integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
 <experimentSetup>
-<maskFile><path><value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value></path></maskFile>
+<maskFile><path><value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value></path></maskFile>
 <normalizationFactor><value>1.0</value></normalizationFactor>
 </experimentSetup>
 <sample>

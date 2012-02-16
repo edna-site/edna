@@ -112,8 +112,8 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_1(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read()
-        referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_1.dat"), "rb").read()
+        outputData = os.linesep.join([i.strip() for i in open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb") if "RasterOrientation" not in i])
+        referenceData = os.linesep.join([i.strip() for i in open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_1.dat"), "rb") if "RasterOrientation" not in i])
 
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")
 
@@ -148,6 +148,9 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_1(EDTestCasePluginExecute):
         keysObt = headerObt.keys()
         keysRef.sort()
         keysObt.sort()
+        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation" ]:
+            if key in keysObt: keysObt.remove(key)
+            if key in keysRef: keysRef.remove(key)
         EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary for Integrated Images")
         for key in keysRef:
             EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value in Integrated %s are the same" % key, _strExcluded="bioSaxs")

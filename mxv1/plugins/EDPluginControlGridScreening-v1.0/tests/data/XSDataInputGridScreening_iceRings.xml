@@ -2,7 +2,7 @@
 <XSDataInputGridScreening>
 	<imageFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/iceRings_1_001.img</value>
+            <value>${EDNA_TESTIMAGES}/iceRings_1_001.img</value>
         </path>
 	</imageFile>
 </XSDataInputGridScreening>

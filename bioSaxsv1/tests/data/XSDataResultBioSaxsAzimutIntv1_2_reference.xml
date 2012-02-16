@@ -4,7 +4,7 @@
 <integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
 <status>
 	<executiveSummary>
-	<value>Retrieve metadata from file ${EDNA_TESTS_DATA_HOME}/images/bioSaxsCorrected.edf
+	<value>Retrieve metadata from file ${EDNA_TESTIMAGES}/bioSaxsCorrected.edf
 Azimuthal integration of Corrected+Masked EDF image '/tmp/edna-${USER}/bioSaxsCorrected.edf'.
 Conversion to ascii: '/tmp/edna-${USER}/bioSaxsIntegrated.edf' --> '/tmp/edna-${USER}/bioSaxsIntegrated.dat'
 </value>

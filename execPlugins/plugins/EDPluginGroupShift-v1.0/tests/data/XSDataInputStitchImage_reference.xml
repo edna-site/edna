@@ -2,13 +2,13 @@
 <XSDataInput>
 <outputImage><path><value>/tmp/edna-${USER}/stitched-simple.edf</value></path></outputImage>
 <inputImages>
-	<path><value>${EDNA_TESTS_DATA_HOME}/images/AlignImg1.tif</value></path>
+	<path><value>${EDNA_TESTIMAGES}/AlignImg1.tif</value></path>
 </inputImages>
 <inputImages>
-	<path><value>${EDNA_TESTS_DATA_HOME}/images/AlignImg2.tif</value></path>
+	<path><value>${EDNA_TESTIMAGES}/AlignImg2.tif</value></path>
 </inputImages>
 <inputImages>
-	<path><value>${EDNA_TESTS_DATA_HOME}/images/AlignImg3.tif</value></path>
+	<path><value>${EDNA_TESTIMAGES}/AlignImg3.tif</value></path>
 </inputImages>
 <dummyValue><value>255</value></dummyValue>
 
