@@ -39,7 +39,7 @@ class EDTestSuitePluginExecuteControlGridScreeningv1_0(EDTestSuite):
         #self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_bestBFactorFailed")
         #self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_iceRings")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_indexingError")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_integrationError")
+        #self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_integrationError")
         #self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_meshImage")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlGridScreeningv1_0_onlyImageQualityIndicators")
 
