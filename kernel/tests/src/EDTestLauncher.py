@@ -40,6 +40,7 @@ from EDVerbose import EDVerbose
 from EDCommandLine import EDCommandLine
 from EDUtilsTest import EDUtilsTest
 from EDApplication import EDApplication
+from EDTestSuite import EDTestSuite
 
 
 
@@ -104,3 +105,16 @@ class EDTestLauncher(EDApplication):
             EDVerbose.DEBUG("EDTestLauncher.process: launching test : %s" % self.__edTestCase.getTestName())
             self.__edTestCase.execute()
 
+
+    def isFailure(self):
+        """
+        Returns True if the number of failures (test methods and test cases) is 0.
+        Returns False if the number of failures (test methods and test cases) is different than 0.
+        Returns None if there's no test case or test suite defined.
+        """
+        bValue = None
+        if (self.__edTestCase is not None):
+            bValue = self.__edTestCase.getNumberTestMethodFailure() != 0
+            if isinstance(self.__edTestCase, EDTestSuite):
+                bValue = bValue or (self.__edTestCase.getNumberTestCaseFailure() != 0)
+        return bValue

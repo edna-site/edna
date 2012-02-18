@@ -25,15 +25,16 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
+
+from __future__ import with_statement
 __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os
-
-from EDAssert import EDAssert
-from EDPlugin import EDPlugin
+from EDAssert   import EDAssert
+from EDPlugin   import EDPlugin
 from EDTestCase import EDTestCase
 
 from XSDataCommon import XSDataString
@@ -212,8 +213,8 @@ class EDTestCaseEDPlugin(EDTestCase):
         xsDataStringTest = XSDataString("Test1")
         edPlugin.dataOutput = xsDataStringTest
         EDAssert.equal(xsDataStringTest.marshal(), edPlugin.dataOutput.marshal(), "Test dataOutput property with XSDataObject")
-        
-        
+
+
     def testWarningIfNoOutputData(self):
         # Test warning in case of no output data
         edPlugin = EDPlugin()
@@ -227,13 +228,13 @@ class EDTestCaseEDPlugin(EDTestCase):
         edPlugin = EDPlugin()
         edPlugin.configure()
         xsDataStringTest = XSDataString("Test1")
-        edPlugin.setDataOutput(xsDataStringTest, "test") 
+        edPlugin.setDataOutput(xsDataStringTest, "test")
         edPlugin.executeSynchronous()
         xsDataResultReference = XSDataResult()
         listOfWarningMessages = edPlugin.getListOfWarningMessages()
         EDAssert.equal(0, len(listOfWarningMessages), "Test warning in case of named output data, no warning messages = 0")
-        
-        
+
+
     def testCreateBaseName(self):
         # Test 1 : naming of working directory
         edPlugin = EDPlugin()
@@ -241,8 +242,13 @@ class EDTestCaseEDPlugin(EDTestCase):
         edPlugin.configure()
         strWorkingDir = edPlugin.getWorkingDirectory()
         EDAssert.equal(True, os.path.exists(strWorkingDir), "Test 1 : naming of working directory")
-        
-        
+
+
+    def testWithSingleThread(self):
+        edPlugin = EDPlugin()
+        with edPlugin.locked():
+            edPlugin.screen("test of with singleThread")
+
 
     def process(self):
         """
@@ -254,7 +260,7 @@ class EDTestCaseEDPlugin(EDTestCase):
         self.addTestMethod(self.testDataInputOutputProperties)
         self.addTestMethod(self.testWarningIfNoOutputData)
         self.addTestMethod(self.testCreateBaseName)
-        
+        self.addTestMethod(self.testWithSingleThread)
 
 
 

@@ -39,7 +39,7 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110915"
+__date__ = "20120131"
 
 import sys, os, threading, urllib2, exceptions, tempfile
 
@@ -59,7 +59,7 @@ class EDTestCasePlugin(EDTestCase):
     """
     This is the main test class to test a plugin (Unit and Execution)
     """
-
+    URL_EDNA_SITE = "http://www.edna-site.org/data/tests/images"
 
     def __init__(self, _strPluginName, _strPluginDir=None, _strTestName=None):
         """
@@ -74,7 +74,7 @@ class EDTestCasePlugin(EDTestCase):
         self.__listRequiredConfigurationPluginNames = []
         self.__strConfigurationFile = None
         self.__dictConfigurations = {} #key=pluginName ; value=config
-        self.dictReplace = {"${EDNA_TESTS_DATA_HOME}": EDUtilsTest.getTestsDataHome(),
+        self.dictReplace = {"${EDNA_TESTIMAGES}": EDUtilsPath.EDNA_TESTIMAGES,
                        "${EDNA_PLUGIN_TESTS_DATA_HOME}" : self.getPluginTestsDataHome(),
                        "${EDNA_HOME}": EDUtilsPath.getEdnaHome(),
                        "${USER}":  os.getenv("USER", "UndefindedUser"),
@@ -210,11 +210,12 @@ class EDTestCasePlugin(EDTestCase):
         in the $EDNA_HOME/tests/data/images directory. If one image is not present
         this method tries to download it from http://www.edna-site.org/data/tests/images
         """
+        if not os.path.isdir(EDUtilsPath.EDNA_TESTIMAGES):
+            os.makedirs(EDUtilsPath.EDNA_TESTIMAGES)
         for strImageName in _listImageFileName:
-            strImagePath = os.path.join(self.getTestsDataImagesHome(), strImageName)
+            strImagePath = os.path.join(EDUtilsPath.EDNA_TESTIMAGES, strImageName)
             if(not os.path.exists(strImagePath)):
                 EDVerbose.unitTest("Trying to download image %s, timeout set to %d s" % (strImagePath, iMAX_DOWNLOAD_TIME))
-                strDestination = os.path.join(self.getTestsDataImagesHome(), strImageName)
                 if os.environ.has_key("http_proxy"):
                     dictProxies = {'http': os.environ["http_proxy"]}
                     proxy_handler = urllib2.ProxyHandler(dictProxies)
@@ -226,15 +227,15 @@ class EDTestCasePlugin(EDTestCase):
                 timer = threading.Timer(iMAX_DOWNLOAD_TIME + 1, timeoutDuringDownload)
                 timer.start()
                 if sys.version > (2, 6):
-                    data = opener("http://www.edna-site.org/data/tests/images/%s" % strImageName, data=None, timeout=iMAX_DOWNLOAD_TIME).read()
+                    data = opener("%s/%s" % (self.URL_EDNA_SITE, strImageName), data=None, timeout=iMAX_DOWNLOAD_TIME).read()
                 else:
-                    data = opener("http://www.edna-site.org/data/tests/images/%s" % strImageName, data=None).read()
+                    data = opener("%s/%s" % (self.URL_EDNA_SITE, strImageName), data=None).read()
                 timer.cancel()
 
                 try:
-                    open(strDestination, "wb").write(data)
+                    open(strImagePath, "wb").write(data)
                 except IOError:
-                    raise IOError, "unable to write downloaded data to disk at " + strDestination
+                    raise IOError, "unable to write downloaded data to disk at %s" % strImagePath
 
                 if os.path.exists(strImagePath):
                     EDVerbose.unitTest("Image %s successfully downloaded." % strImagePath)

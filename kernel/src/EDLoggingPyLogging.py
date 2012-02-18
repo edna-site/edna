@@ -24,7 +24,7 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 """
 EDLogging uses the standard python logging facility for providing
 convenient methods for logging for all EDNA classes.
@@ -59,26 +59,22 @@ class EDLoggingPyLogging(EDObject):
 
     def __init__(self, _strName=None):
         EDObject.__init__(self)
-        strName = None
         if _strName is None:
-            strName = self.getClassName()
+            self.__loggingId = self.getClassName()
         else:
-            strName = _strName
-        iId = self.getId()
-        self.__loggingId = strName
-        EDLoggingPyLogging.__semaphoreLogging.acquire()
-        if not EDLoggingPyLogging.__bInitisalised:
-            logging.basicConfig(level=EDLoggingPyLogging.__logLevel, stream=sys.stdout)
-            logging.addLevelName(EDLoggingPyLogging.UNIT_TEST_LEVEL, EDLoggingPyLogging.UNIT_TEST_NAME)
-            logging.addLevelName(EDLoggingPyLogging.ASSERT_LEVEL, EDLoggingPyLogging.ASSERT_NAME)
-            EDLoggingPyLogging.__bInitisalised = True
-        if not self.__loggingId in EDLoggingPyLogging.__dictLoggers.keys():
-            self.logger = logging.getLogger(self.__loggingId)
-            self.logger.setLevel(EDLoggingPyLogging.__logLevel)
-            EDLoggingPyLogging.__dictLoggers[self.__loggingId] = self.logger
-        else:
-            self.logger = EDLoggingPyLogging.__dictLoggers[self.__loggingId]
-        EDLoggingPyLogging.__semaphoreLogging.release()
+            self.__loggingId = _strName
+        with EDLoggingPyLogging.__semaphoreLogging:
+            if not EDLoggingPyLogging.__bInitisalised:
+                logging.basicConfig(level=EDLoggingPyLogging.__logLevel, stream=sys.stdout)
+                logging.addLevelName(EDLoggingPyLogging.UNIT_TEST_LEVEL, EDLoggingPyLogging.UNIT_TEST_NAME)
+                logging.addLevelName(EDLoggingPyLogging.ASSERT_LEVEL, EDLoggingPyLogging.ASSERT_NAME)
+                EDLoggingPyLogging.__bInitisalised = True
+            if not self.__loggingId in EDLoggingPyLogging.__dictLoggers:
+                self.logger = logging.getLogger(self.__loggingId)
+                self.logger.setLevel(EDLoggingPyLogging.__logLevel)
+                EDLoggingPyLogging.__dictLoggers[self.__loggingId] = self.logger
+            else:
+                self.logger = EDLoggingPyLogging.__dictLoggers[self.__loggingId]
         self.__bIsTest = False
         self.__bIsVerboseDebug = False
         self.__strLogFileName = None
@@ -90,11 +86,10 @@ class EDLoggingPyLogging(EDObject):
 
 
     def setAllLogLevels(self, _logLevel):
-        EDLoggingPyLogging.__semaphoreLogging.acquire()
-        EDLoggingPyLogging.__logLevel = _logLevel
-        for logger in EDLoggingPyLogging.__dictLoggers.values():
-            logger.setLevel(_logLevel)
-        EDLoggingPyLogging.__semaphoreLogging.release()
+        with EDLoggingPyLogging.__semaphoreLogging:
+            EDLoggingPyLogging.__logLevel = _logLevel
+            for logger in EDLoggingPyLogging.__dictLoggers.values():
+                logger.setLevel(_logLevel)
 
 
     def setTestOn(self):
@@ -122,7 +117,7 @@ class EDLoggingPyLogging(EDObject):
         """
         This method turns off verbose logging to standard output (stdout)
         """
-        self.setAllLogLevels(60)
+        self.setAllLogLevels(max([i for i in logging._levelNames if isinstance(i, int)]) + 1)
 
 
     def setVerboseDebugOn(self):
