@@ -2,7 +2,7 @@
 <XSDataInputReadImageHeader>
 	<image>
 		<path>
-	            <value>${EDNA_TESTS_DATA_HOME}/images/image_which_does_not_exist_1_001.img</value>
+	            <value>${EDNA_TESTIMAGES}/image_which_does_not_exist_1_001.img</value>
 	    </path>
 	</image>
 </XSDataInputReadImageHeader>

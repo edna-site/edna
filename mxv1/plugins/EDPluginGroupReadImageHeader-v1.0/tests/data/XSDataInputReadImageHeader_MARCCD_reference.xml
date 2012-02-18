@@ -2,7 +2,7 @@
 <XSDataInputReadImageHeader>
 	<image>
 		<path>
-	            <value>${EDNA_TESTS_DATA_HOME}/images/ref-screentest-crystal1_1_001.mccd</value>
+	            <value>${EDNA_TESTIMAGES}/ref-screentest-crystal1_1_001.mccd</value>
 	    </path>
 	</image>
 </XSDataInputReadImageHeader>

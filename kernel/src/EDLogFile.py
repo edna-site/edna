@@ -38,12 +38,12 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 import time, threading, sys
 
 
-class EDLogFile:
+class EDLogFile(object):
     """
     This file takes care of creating a log file and writes messages to the log file.
     """
 
-    def __init__( self, _pyStrLogFileName=None ):
+    def __init__(self, _pyStrLogFileName=None):
         """
         @param _pyStrLogFileName: Optional path to or name of the log file.
         @type _pyStrLogFileName: python string 
@@ -55,20 +55,20 @@ class EDLogFile:
         self.__bIsLogFileOn = True
 
 
-    def __createLogFile( self ):
+    def __createLogFile(self):
         """
         This private method creates the log file. If the log file name or path is not set
         a name of the type "EDNA_YYMMDD-HHMM.log" is used.
         """
-        if ( self.__bIsLogFileOn ):
-            if ( self.__pyStrLogFileName is None ):
-                self.__pyStrLogFileName = "EDNA_%s.log" % time.strftime( "%Y%m%d-%H%M%S", time.localtime( time.time() ) )
-            self.__pyFileLog = file( self.__pyStrLogFileName, "w" )
+        if (self.__bIsLogFileOn):
+            if (self.__pyStrLogFileName is None):
+                self.__pyStrLogFileName = "EDNA_%s.log" % time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))
+            self.__pyFileLog = file(self.__pyStrLogFileName, "w")
             for pyStrLogMessage in self.__pyListLogCache:
-                self.write( pyStrLogMessage )
+                self.write(pyStrLogMessage)
 
 
-    def write( self, _pyStrLogMessage ):
+    def write(self, _pyStrLogMessage):
         """
         This method writes a message to the log file. If the log file name is not set
         messages are cached up to the limit __iMaxLogCache defined in the constructor.
@@ -83,17 +83,17 @@ class EDLogFile:
         @param _pyStrLogMessage: a log message
         @type _pyStrLogMessage: python string
         """
-        if ( self.__bIsLogFileOn ):
-            if ( self.__pyFileLog is None ):
-                self.__pyListLogCache.append( _pyStrLogMessage )
-                if ( len( self.__pyListLogCache ) > self.__iMaxLogCache ):
+        if (self.__bIsLogFileOn):
+            if (self.__pyFileLog is None):
+                self.__pyListLogCache.append(_pyStrLogMessage)
+                if (len(self.__pyListLogCache) > self.__iMaxLogCache):
                     self.__createLogFile()
             else:
-                self.__pyFileLog.write( time.strftime( "%Y%m%d-%H%M%S", time.localtime( time.time() ) ) + _pyStrLogMessage )
+                self.__pyFileLog.write(time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time())) + _pyStrLogMessage)
                 self.__pyFileLog.flush()
 
 
-    def setLogFileName( self, _pyStrLogFilePath ):
+    def setLogFileName(self, _pyStrLogFilePath):
         """        
         @param _pyStrLogFilePath: The name or path of the log file
         @type _pyStrLogMessage: python string
@@ -102,7 +102,7 @@ class EDLogFile:
         self.__createLogFile()
 
 
-    def setLogFileOff( self ):
+    def setLogFileOff(self):
         """        
         This method turns off logging to a file. 
         """

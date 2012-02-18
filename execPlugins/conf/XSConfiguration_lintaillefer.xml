@@ -489,6 +489,18 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-	
+		<XSPluginItem>
+			<name>EDPluginExecShiftImagev1_1</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>fill</name>
+					<value>min</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>maxOffset</name>
+					<value>10</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>	
 	</XSPluginList> 
 </XSConfiguration>

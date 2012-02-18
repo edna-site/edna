@@ -36,6 +36,7 @@ try:
 except ImportError:
     fftw3 = None
 import numpy
+from math import ceil, floor
 sem = threading.Semaphore()
 
 def shift(input, shift):
@@ -57,23 +58,38 @@ def shift(input, shift):
     re[:d0, :d1] = input[r0:, r1:]
     return re
 
-
-def shiftFFT(input, shift):
+def shiftFFT(inp, shift, method="fftw"):
     """
     Do shift using FFTs
     Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order="infinity") but faster
     @param input: 2d numpy array
     @param shift: 2-tuple of float 
     @return: shifted image
+    
     """
-    d0, d1 = input.shape
+    d0, d1 = inp.shape
     v0, v1 = shift
-    m0, m1 = np.ogrid[:d0, :d1]
-    e0 = np.exp(-2j * pi * v[0] * m0 / d0)
-    e1 = np.exp(-2j * pi * v[1] * m1 / d1)
+    f0 = numpy.fft.ifftshift(numpy.arange(-d0 // 2, d0 // 2))
+    f1 = numpy.fft.ifftshift(numpy.arange(-d1 // 2, d1 // 2))
+    m1, m0 = numpy.meshgrid(f1, f0)
+    e0 = numpy.exp(-2j * numpy.pi * v0 * m0 / float(d0))
+    e1 = numpy.exp(-2j * numpy.pi * v1 * m1 / float(d1))
     e = e0 * e1
-    return abs(np.fft.ifft2(np.fft.fft2(input) * e))
+    if method.startswith("fftw") and (fftw3 is not None):
 
+        input = numpy.zeros((d0, d1), dtype=complex)
+        output = numpy.zeros((d0, d1), dtype=complex)
+        with sem:
+                fft = fftw3.Plan(input, output, direction='forward', flags=['estimate'])
+                ifft = fftw3.Plan(output, input, direction='backward', flags=['estimate'])
+        input[:, :] = inp.astype(complex)
+        fft()
+        output *= e
+        ifft()
+        out = input / input.size
+    else:
+        out = numpy.fft.ifft2(numpy.fft.fft2(inp) * e)
+    return abs(out)
 
 def maximum_position(img):
     """
@@ -133,8 +149,8 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         res = input.real / input.size
 
     else:#use numpy fftpack
-        i1f = numpy.fft.fft2(self.npaIm1)
-        i2f = numpy.fft.fft2(self.npaIm2)
+        i1f = numpy.fft.fft2(img1)
+        i2f = numpy.fft.fft2(img2)
         res = numpy.fft.ifft2(i1f * i2f.conjugate()).real
     t1 = time.time()
     ################################################################################
@@ -171,4 +187,64 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         return offset, logs
     else:
         return offset
+
+def merge3(a, b, c, ROI=None):
+    """
+    @param: a, b, c: 3 2D-datasets
+    @param ROI: tuple of slices, i.e. (slice(1,513),slice(700,700+512))
+    """
+    from scipy import ndimage
+    out = numpy.zeros(a.shape, dtype="float32")
+    out += a
+    if ROI is not None:
+        ac = a[ROI]
+        bc = b[ROI]
+        cc = c[ROI]
+    else:
+        ac = a
+        bc = b
+        cc = c
+    shab = measure_offset(ac, bc)
+    out += ndimage.shift(b, shab, order=1, cval=b.mean(dtype=float))
+    shac = measure_offset(ac, cc)
+    out += ndimage.shift(c, shac, order=1, cval=c.mean(dtype=float))
+    print(shab, shac)
+    return out / 3.0
+
+def patch(*arrays):
+    """
+    Will try to merge n-ndarray's representing images.
+    @param arrays: list of 2D images
+    @return: one image (ndarray)
+    """
+    n = len(arrays)
+    assert n > 0
+    #ensure all arrays have the same size
+    shape = arrays[0].shape
+    for i in arrays:
+        assert i.shape == shape
+    deltas = numpy.zeros((n, 2))
+    for i in range(1, n):
+         deltas[i] = measure_offset(arrays[0], arrays[i])
+    d0min = int(floor(deltas[:, 0].min()))
+    d1min = int(floor(deltas[:, 1].min()))
+    d0max = int(ceil(deltas[:, 0].max()))
+    d1max = int(ceil(deltas[:, 1].max()))
+    big_shape = (shape[0] + d0max - d0min, shape[1] + d1max - d1min)
+    print shape, big_shape
+    idx = numpy.zeros(big_shape, dtype=int)
+    patched = numpy.zeros(big_shape, dtype="float64")
+    print deltas
+    for i in range(n):
+        data = numpy.zeros(big_shape, dtype="float64")
+        pos = data.copy()
+        data[:shape[0], :shape[1]] = arrays[i]
+        pos[:shape[0], :shape[1]] = 1.0
+        patched += shiftFFT(data, deltas[i] - [d0min, d1min])
+        idx += shiftFFT(pos, deltas[i] - [d0min, d1min]).round().astype(int)
+    out = patched / idx.clip(1, n)
+    out[idx == 0] = 0
+    return out
+
+
 

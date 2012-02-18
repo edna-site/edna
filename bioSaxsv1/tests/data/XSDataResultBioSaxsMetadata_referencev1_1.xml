@@ -38,7 +38,7 @@
     </machineCurrent>
     <maskFile>
         <path>
-            <value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value>
+            <value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value>
         </path>
     </maskFile>
     <normalizationFactor>
@@ -73,7 +73,7 @@
         </machineCurrent>
         <maskFile>
             <path>
-                <value>${EDNA_TESTS_DATA_HOME}/images/bioSaxsMask.edf</value>
+                <value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value>
             </path>
         </maskFile>
         <normalizationFactor>

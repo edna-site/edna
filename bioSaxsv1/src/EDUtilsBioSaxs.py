@@ -33,9 +33,10 @@ __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
 import sys, os
-from EDUtilsPlatform import EDUtilsPlatform
+from EDUtilsPlatform    import EDUtilsPlatform
+from EDUtilsPath        import EDUtilsPath
 architecture = EDUtilsPlatform.architecture
-specClientPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "SpecClient", architecture)
+specClientPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "SpecClient", architecture)
 if  os.path.isdir(specClientPath) and (specClientPath not in sys.path):
     sys.path.insert(1, specClientPath)
 

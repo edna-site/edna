@@ -6,15 +6,15 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/labelit_1.1.6/labelit_build/setpaths.sh</value>
+					<value>/opt/phenix-1.7.3-928/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/labelit_1.1.6/labelit_build/bin/labelit.screen</value>
+					<value>/opt/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -39,7 +39,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -64,11 +64,11 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/phenix-1.7-650/build/intel-linux-2.6-x86_64/bin/distl.signal_strength</value>
+					<value>/opt/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/distl.signal_strength</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -81,15 +81,15 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/phenix-1.7-650/build/intel-linux-2.6-x86_64/bin/distl.thin_client</value>
+					<value>/opt/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/distl.thin_client</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>pathToDistlServer</name>
-					<value>/opt/phenix-1.7-650/build/intel-linux-2.6-x86_64/bin/distl.mp_spotfinder_server_read_file</value>
+					<value>/opt/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/distl.mp_spotfinder_server_read_file</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>distlServerHost</name>
@@ -110,15 +110,15 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/labelit_1.1.6/labelit_build/setpaths.sh</value>
+					<value>/opt/phenix-1.7.3-928/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/labelit_1.1.6/labelit_build/bin/labelit.distl</value>
+					<value>/opt/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.distl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -139,7 +139,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -165,7 +165,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -191,7 +191,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -217,7 +217,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -246,7 +246,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -271,7 +271,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -297,7 +297,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
@@ -322,7 +322,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
-					<value>python</value>
+					<value>bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>

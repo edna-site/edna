@@ -3,7 +3,7 @@
 
 	<inputImage>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/Moke-2th%%-tilt0-rot0.edf,4,12</value>
+			<value>${EDNA_TESTIMAGES}/Moke-2th%%-tilt0-rot0.edf,4,12</value>
 		</path>
 	</inputImage>
 	<outputImage>
