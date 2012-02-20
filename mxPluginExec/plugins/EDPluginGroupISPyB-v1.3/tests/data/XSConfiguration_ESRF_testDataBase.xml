@@ -38,8 +38,8 @@
 					<value>${ISPyB_pass}</value>
 				</XSParamItem>
 				<XSParamItem>
-					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>http://pytest.esrf.fr:8080/jboss-net/services/ToolsForCollectionWebService?wsdl</value>
+					<name>toolsForAutoprocessingWebServiceWsdl</name>
+					<value>http://pytest.esrf.fr:8080/jboss-net/services/ToolsForAutoprocessingWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
