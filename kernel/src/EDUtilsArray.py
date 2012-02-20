@@ -287,6 +287,8 @@ class EDUtilsArray(object):
                     bError = True
             else:
                 bError = True
+        elif "XSDataArray" in str(type(_inputObject)):
+            npaOutput = cls.xsDataToArray(_inputObject)
         if bError is True:
             EDVerbose.ERROR("EDUtilsArray.getArray works better on platform with numpy & fabio ... No solution found for you, sorry.%s%s " % (os.linesep, _inputObject.marshal()))
         return npaOutput
