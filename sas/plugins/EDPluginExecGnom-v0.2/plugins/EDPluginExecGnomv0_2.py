@@ -61,11 +61,11 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
         EDPluginExecProcessScript.__init__(self)
         self.setXSDataInputClass(XSDataInputGnom)
         self.fAngularScale = 1
-        self.npaQexp = None
-        self.npaIexp = None
-        self.npaSexp = None
-        self.npaQfit = None
-        self.npaIfit = None
+        self.npaExperimentalDataQ = None
+        self.npaExperimentalDataI = None
+        self.npaExperimentalDataStdDev = None
+        self.npaFitDataQ = None
+        self.npaFitDataI = None
         self.npaR = None
         self.npaPR = None
         self.npaPRerr = None
@@ -78,7 +78,7 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginExecGnomv0_2.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
 
 
     def preProcess(self, _edObject=None):
@@ -90,9 +90,9 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
 
         inputFile = None
         if len(dataInput.experimentalDataQ) > 0:
-            self.npaQexp = numpy.array([i.value for i in dataInput.experimentalDataQ])
+            self.npaExperimentalDataQ = numpy.array([i.value for i in dataInput.experimentalDataQ])
         elif dataInput.experimentalDataQArray is not None:
-            self.npaQexp = EDUtilsArray.getArray(dataInput.experimentalDataQArray)
+            self.npaExperimentalDataQ = EDUtilsArray.xsDataToArray(dataInput.experimentalDataQArray)
         elif dataInput.experimentalDataFile is not None:
             inputFile = dataInput.experimentalDataFile.path.value
         else:
@@ -102,50 +102,25 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
             raise RuntimeError, strErrorMessage
 
         if len(dataInput.experimentalDataValues) > 0:
-            self.npaIexp = numpy.array([i.value for i in dataInput.experimentalDataValues])
-        elif dataInput.experimentalDataValueArray is not None:
-            self.npaIexp = EDUtilsArray.getArray(dataInput.experimentalDataValueArray)
+            self.npaExperimentalDataI = numpy.array([i.value for i in dataInput.experimentalDataValues])
+        elif dataInput.experimentalDataIArray is not None:
+            self.npaExperimentalDataI = EDUtilsArray.xsDataToArray(dataInput.experimentalDataIArray)
         elif dataInput.experimentalDataFile is not None:
             inputFile = dataInput.experimentalDataFile.path.value
         else:
-            strErrorMessage = "EDPluginExecGnomv0_2: input parameter is missing: experimentalDataValues or experimentalDataValueArray or experimentalDataFile"
+            strErrorMessage = "EDPluginExecGnomv0_2: input parameter is missing: experimentalDataValues or experimentalDataIArray or experimentalDataFile"
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             raise RuntimeError, strErrorMessage
 
         if len(dataInput.experimentalDataStdDev) > 0:
-            self.npaIexp = numpy.array([i.value for i in dataInput.experimentalDataStdDev])
-        elif dataInput.experimentalDataStdDevArray is not None:
-            self.npaIexp = EDUtilsArray.getArray(dataInput.experimentalDataStdDevArray)
+            self.npaExperimentalDataStdDev = numpy.array([i.value for i in dataInput.experimentalDataStdDev])
+        elif dataInput.experimentalDataStdArray is not None:
+            self.npaExperimentalDataStdDev = EDUtilsArray.getArray(dataInput.experimentalDataStdArray)
 
         if inputFile:
-            data = None
-            if not os.path.isfile(inputFile):
-                strErrorMessage = "EDPluginExecGnomv0_2: experimentalDataFile: %s does not exist" % inputFile
-                self.error(strErrorMessage)
-                self.addErrorMessage(strErrorMessage)
-                raise RuntimeError, strErrorMessage
-            for i in range(5):
-                try:
-                    data = numpy.loadtxt(inputFile, skiprows=i)
-                except:
-                    pass
-                else:
-                    break
-            if data is None:
-                strErrorMessage = "EDPluginExecGnomv0_2: Unable to parse %s with numpy.loadtxt" % inputFile
-                self.error(strErrorMessage)
-                self.addErrorMessage(strErrorMessage)
-                raise RuntimeError, strErrorMessage
-            elif data.shape[1] == 3:
-                self.npaQexp, self.npaIexp, self.npaSexp = data.T
-            elif data.shape[1] == 2:
-                self.npaQexp, self.npaIexp = data.T
-            else:
-                strErrorMessage = "EDPluginExecGnomv0_2: %s contains an numpy object of shape %s" % (inputFile, data.shape)
-                self.error(strErrorMessage)
-                self.addErrorMessage(strErrorMessage)
-                raise RuntimeError, strErrorMessage
+            self.loadDataFile(inputFile)
+
         self.generateGnomConfigFile()
         self.generateGnomScript()
 
@@ -161,16 +136,13 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
         # Create some output data
         self.parseGnomOutputFile()
         xsDataResult = XSDataResultGnom(radiusOfGyration=XSDataDouble(self.fRadiusOfGir),
-                                        distributionErr=[XSDataDouble(i) for i in self.npaPRerr],
-                                        distributionPr=[XSDataDouble(i) for i in self.npaPR],
-                                        distributionR=[XSDataDouble(i) for i in self.npaR],
-                                        scatteringFitValues=[XSDataDouble(i) for i in self.npaIfit],
-                                        scatteringFitQ=[XSDataDouble(i) for i in self.npaQfit],
+                                        arrayErr=EDUtilsArray.arrayToXSData(self.npaPRerr),
+                                        arrayPr=EDUtilsArray.arrayToXSData(self.npaPR),
+                                        arrayR=EDUtilsArray.arrayToXSData(self.npaR),
+                                        scatteringFitIArray=EDUtilsArray.arrayToXSData(self.npaFitDataI),
+                                        scatteringFitQArray=EDUtilsArray.arrayToXSData(self.npaFitDataQ),
                                         output=XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), "gnom.out"))),
                                         fitQuality=XSDataDouble(self.fFitQuality))
-
-
-
         self.dataOutput = xsDataResult
 
 
@@ -186,10 +158,10 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
 
 
     def generateGnomInputFile(self):
-        if self.npaSexp is not None:
-            data = numpy.vstack((self.npaQexp, self.npaIexp, self.npaSexp)).T
+        if self.npaExperimentalDataStdDev is not None:
+            data = numpy.vstack((self.npaExperimentalDataQ, self.npaExperimentalDataI, self.npaExperimentalDataStdDev)).T
         else:
-            data = numpy.vstack((self.npaQexp, self.npaIexp)).T
+            data = numpy.vstack((self.npaExperimentalDataQ, self.npaExperimentalDataI)).T
         tmpInputFileName = os.path.join(self.getWorkingDirectory(), "gnom_tmp.dat")
         with open(tmpInputFileName, "w") as datFile:
             datFile.write('Gnom data file' + os.linesep)
@@ -269,20 +241,20 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
         self.fRadiusOfGir = float(line.split()[4])
         reg.seek(0)
         pr.seek(0)
-        self.npaQfit, self.npaIfit = numpy.loadtxt(reg, unpack=True)
-        self.npaR, self.npaPR, self.npaPRerr = numpy.loadtxt(pr, unpack=True)
+        self.npaFitDataQ, self.npaFitDataI = numpy.loadtxt(reg, unpack=True, dtype="float32")
+        self.npaR, self.npaPR, self.npaPRerr = numpy.loadtxt(pr, unpack=True, dtype="float32")
 
     def plotFittingResults(self):
         """
         Plot results of Rmax optimization procedure and best fit of the experimental data
         """
-        if self.npaQfit is None:
+        if self.npaFitDataQ is None:
             self.WARNING("Please execute the plugin before plotting data")
             return
         fig = matplotlib.pyplot.figure()
         ax = fig.add_subplot(1, 1, 1)
-        ax.semilogy(self.npaQexp, self.npaIexp, linestyle='None', marker='o', markersize=5, label="Experimental Data")
-        ax.semilogy(self.npaQfit, self.npaIfit, label="Fitting curve")
+        ax.semilogy(self.npaExperimentalDataQ, self.npaExperimentalDataI, linestyle='None', marker='o', markersize=5, label="Experimental Data")
+        ax.semilogy(self.npaFitDataQ, self.npaFitDataI, label="Fitting curve")
         ax.set_xlabel('q')
         ax.set_ylabel('I(q)')
         fig.suptitle("RMax : %3.2f. Fit quality : %1.3f" % (self.dataInput.rMax.value, self.dataOutput.fitQuality.value))
@@ -296,9 +268,9 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
         self.addExecutiveSummarySeparator()
         self.addExecutiveSummaryLine("Results of GNOM run:")
         self.addExecutiveSummarySeparator()
-        self.addExecutiveSummaryLine("Input value for RMax = %3.2f" % self.getDataInput().getRMax().getValue())
-        self.addExecutiveSummaryLine("Estimated Rg = %3.2f" % self.getDataOutput().getRadiusOfGyration().getValue())
-        self.addExecutiveSummaryLine("Output fit quality : %1.3f" % self.getDataOutput().getFitQuality().getValue())
+        self.addExecutiveSummaryLine("Input value for RMax = %3.2f" % self.dataInput.getRMax().getValue())
+        self.addExecutiveSummaryLine("Estimated Rg = %3.2f" % self.dataOutput.getRadiusOfGyration().getValue())
+        self.addExecutiveSummaryLine("Output fit quality : %1.3f" % self.dataOutput.getFitQuality().getValue())
         self.addExecutiveSummaryLine("GNOM output file : %s" % os.path.join(self.getWorkingDirectory(), "gnom.out"))
         self.addExecutiveSummarySeparator()
 
@@ -308,5 +280,36 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
 
 
 
+    def loadDataFile(self, fileName):
+        """
+        load a Q/I(/std) ascii file
+        """
+        data = None
+        if not os.path.isfile(fileName):
+            strErrorMessage = "EDPluginExecGnomv0_2: experimentalDataFile: %s does not exist" % fileName
+            self.error(strErrorMessage)
+            self.addErrorMessage(strErrorMessage)
+            raise RuntimeError, strErrorMessage
+        for i in range(5):
+            try:
+                data = numpy.loadtxt(fileName, skiprows=i)
+            except:
+                pass
+            else:
+                break
+        if data is None:
+            strErrorMessage = "EDPluginExecGnomv0_2: Unable to parse %s with numpy.loadtxt" % fileName
+            self.error(strErrorMessage)
+            self.addErrorMessage(strErrorMessage)
+            raise RuntimeError, strErrorMessage
+        elif data.shape[1] == 3:
+            self.npaExperimentalDataQ, self.npaExperimentalDataI, self.npaExperimentalDataStdDev = data.T
+        elif data.shape[1] == 2:
+            self.npaExperimentalDataQ, self.npaExperimentalDataI = data.T
+        else:
+            strErrorMessage = "EDPluginExecGnomv0_2: %s contains an numpy object of shape %s" % (fileName, data.shape)
+            self.error(strErrorMessage)
+            self.addErrorMessage(strErrorMessage)
+            raise RuntimeError, strErrorMessage
 
 

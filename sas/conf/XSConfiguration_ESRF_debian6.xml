@@ -15,7 +15,9 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>60</value></XSParamItem></XSParamList>
+					<value>60</value>
+				</XSParamItem>
+			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecGnomv0_2</name>
@@ -32,7 +34,9 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>60</value></XSParamItem></XSParamList>
+					<value>60</value>
+				</XSParamItem>
+			</XSParamList>
 		</XSPluginItem>
 	<XSPluginItem>
 			<name>EDPluginExecDamminv0_1</name>

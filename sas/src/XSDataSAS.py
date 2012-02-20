@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Feb 16 05:04::29 2012 by EDGenerateDS.
+# Generated Mon Feb 20 05:53::51 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -11,9 +11,7 @@ from xml.dom import Node
 
 strEdnaHome = os.environ.get("EDNA_HOME", None)
 
-dictLocation = { \
- "XSDataCommon": "kernel/datamodel"
-}
+dictLocation = { "XSDataCommon": "workspace/edna/kernel/datamodel"}
 
 try:
 	from XSDataCommon import XSData
@@ -1598,8 +1596,8 @@ class XSDataInputDamstart(XSDataInput):
 # end class XSDataInputDamstart
 
 class XSDataInputGnom(XSDataInput):
-	"""Input data can be provided either as an """
-	def __init__(self, configuration=None, mode=None, angularScale=None, experimentalDataFile=None, experimentalDataStdDevArray=None, experimentalDataStdDev=None, experimentalDataValueArray=None, experimentalDataValues=None, experimentalDataQArray=None, experimentalDataQ=None, rMax=None):
+	"""Input data can be provided either as a list of doubles, as Arrays or as a filename"""
+	def __init__(self, configuration=None, mode=None, angularScale=None, experimentalDataFile=None, experimentalDataStdArray=None, experimentalDataStdDev=None, experimentalDataIArray=None, experimentalDataValues=None, experimentalDataQArray=None, experimentalDataQ=None, rMax=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", rMax, "XSDataDouble")
 		self.__rMax = rMax
@@ -1615,15 +1613,15 @@ class XSDataInputGnom(XSDataInput):
 		else:
 			checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", experimentalDataValues, "list")
 			self.__experimentalDataValues = experimentalDataValues
-		checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", experimentalDataValueArray, "XSDataArray")
-		self.__experimentalDataValueArray = experimentalDataValueArray
+		checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", experimentalDataIArray, "XSDataArray")
+		self.__experimentalDataIArray = experimentalDataIArray
 		if experimentalDataStdDev is None:
 			self.__experimentalDataStdDev = []
 		else:
 			checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", experimentalDataStdDev, "list")
 			self.__experimentalDataStdDev = experimentalDataStdDev
-		checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", experimentalDataStdDevArray, "XSDataArray")
-		self.__experimentalDataStdDevArray = experimentalDataStdDevArray
+		checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", experimentalDataStdArray, "XSDataArray")
+		self.__experimentalDataStdArray = experimentalDataStdArray
 		checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", experimentalDataFile, "XSDataFile")
 		self.__experimentalDataFile = experimentalDataFile
 		checkType("XSDataInputGnom", "Constructor of XSDataInputGnom", angularScale, "XSDataInteger")
@@ -1670,13 +1668,13 @@ class XSDataInputGnom(XSDataInput):
 	def insertExperimentalDataValues(self, index, value):
 		checkType("XSDataInputGnom", "setExperimentalDataValues", value, "XSDataDouble")
 		self.__experimentalDataValues[index] = value
-	def getExperimentalDataValueArray(self): return self.__experimentalDataValueArray
-	def setExperimentalDataValueArray(self, experimentalDataValueArray):
-		checkType("XSDataInputGnom", "setExperimentalDataValueArray", experimentalDataValueArray, "XSDataArray")
-		self.__experimentalDataValueArray = experimentalDataValueArray
-	def delExperimentalDataValueArray(self): self.__experimentalDataValueArray = None
+	def getExperimentalDataIArray(self): return self.__experimentalDataIArray
+	def setExperimentalDataIArray(self, experimentalDataIArray):
+		checkType("XSDataInputGnom", "setExperimentalDataIArray", experimentalDataIArray, "XSDataArray")
+		self.__experimentalDataIArray = experimentalDataIArray
+	def delExperimentalDataIArray(self): self.__experimentalDataIArray = None
 	# Properties
-	experimentalDataValueArray = property(getExperimentalDataValueArray, setExperimentalDataValueArray, delExperimentalDataValueArray, "Property for experimentalDataValueArray")
+	experimentalDataIArray = property(getExperimentalDataIArray, setExperimentalDataIArray, delExperimentalDataIArray, "Property for experimentalDataIArray")
 	def getExperimentalDataStdDev(self): return self.__experimentalDataStdDev
 	def setExperimentalDataStdDev(self, experimentalDataStdDev):
 		checkType("XSDataInputGnom", "setExperimentalDataStdDev", experimentalDataStdDev, "list")
@@ -1690,13 +1688,13 @@ class XSDataInputGnom(XSDataInput):
 	def insertExperimentalDataStdDev(self, index, value):
 		checkType("XSDataInputGnom", "setExperimentalDataStdDev", value, "XSDataDouble")
 		self.__experimentalDataStdDev[index] = value
-	def getExperimentalDataStdDevArray(self): return self.__experimentalDataStdDevArray
-	def setExperimentalDataStdDevArray(self, experimentalDataStdDevArray):
-		checkType("XSDataInputGnom", "setExperimentalDataStdDevArray", experimentalDataStdDevArray, "XSDataArray")
-		self.__experimentalDataStdDevArray = experimentalDataStdDevArray
-	def delExperimentalDataStdDevArray(self): self.__experimentalDataStdDevArray = None
+	def getExperimentalDataStdArray(self): return self.__experimentalDataStdArray
+	def setExperimentalDataStdArray(self, experimentalDataStdArray):
+		checkType("XSDataInputGnom", "setExperimentalDataStdArray", experimentalDataStdArray, "XSDataArray")
+		self.__experimentalDataStdArray = experimentalDataStdArray
+	def delExperimentalDataStdArray(self): self.__experimentalDataStdArray = None
 	# Properties
-	experimentalDataStdDevArray = property(getExperimentalDataStdDevArray, setExperimentalDataStdDevArray, delExperimentalDataStdDevArray, "Property for experimentalDataStdDevArray")
+	experimentalDataStdArray = property(getExperimentalDataStdArray, setExperimentalDataStdArray, delExperimentalDataStdArray, "Property for experimentalDataStdArray")
 	def getExperimentalDataFile(self): return self.__experimentalDataFile
 	def setExperimentalDataFile(self, experimentalDataFile):
 		checkType("XSDataInputGnom", "setExperimentalDataFile", experimentalDataFile, "XSDataFile")
@@ -1736,12 +1734,12 @@ class XSDataInputGnom(XSDataInput):
 			self.experimentalDataQArray.export(outfile, level, name_='experimentalDataQArray')
 		for experimentalDataValues_ in self.getExperimentalDataValues():
 			experimentalDataValues_.export(outfile, level, name_='experimentalDataValues')
-		if self.__experimentalDataValueArray is not None:
-			self.experimentalDataValueArray.export(outfile, level, name_='experimentalDataValueArray')
+		if self.__experimentalDataIArray is not None:
+			self.experimentalDataIArray.export(outfile, level, name_='experimentalDataIArray')
 		for experimentalDataStdDev_ in self.getExperimentalDataStdDev():
 			experimentalDataStdDev_.export(outfile, level, name_='experimentalDataStdDev')
-		if self.__experimentalDataStdDevArray is not None:
-			self.experimentalDataStdDevArray.export(outfile, level, name_='experimentalDataStdDevArray')
+		if self.__experimentalDataStdArray is not None:
+			self.experimentalDataStdArray.export(outfile, level, name_='experimentalDataStdArray')
 		if self.__experimentalDataFile is not None:
 			self.experimentalDataFile.export(outfile, level, name_='experimentalDataFile')
 		if self.__angularScale is not None:
@@ -1774,20 +1772,20 @@ class XSDataInputGnom(XSDataInput):
 			obj_.build(child_)
 			self.experimentalDataValues.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'experimentalDataValueArray':
+			nodeName_ == 'experimentalDataIArray':
 			obj_ = XSDataArray()
 			obj_.build(child_)
-			self.setExperimentalDataValueArray(obj_)
+			self.setExperimentalDataIArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'experimentalDataStdDev':
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.experimentalDataStdDev.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'experimentalDataStdDevArray':
+			nodeName_ == 'experimentalDataStdArray':
 			obj_ = XSDataArray()
 			obj_.build(child_)
-			self.setExperimentalDataStdDevArray(obj_)
+			self.setExperimentalDataStdArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'experimentalDataFile':
 			obj_ = XSDataFile()
@@ -1848,7 +1846,7 @@ class XSDataInputGnom(XSDataInput):
 # end class XSDataInputGnom
 
 class XSDataInputSolutionScattering(XSDataInput):
-	def __init__(self, configuration=None, plotFit=None, onlyGnom=None, iNbThreads=None, mode=None, symmetry=None, angularUnits=None, rMaxSearchSettings=None, experimentalDataStdDev=None, experimentalDataValues=None, experimentalDataQ=None, title=None):
+	def __init__(self, configuration=None, qMax=None, qMin=None, plotFit=None, onlyGnom=None, iNbThreads=None, mode=None, symmetry=None, angularUnits=None, rMaxSearchSettings=None, experimentalDataFile=None, experimentalDataStdArray=None, experimentalDataStdDev=None, experimentalDataIArray=None, experimentalDataValues=None, experimentalDataQArray=None, experimentalDataQ=None, title=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", title, "XSDataString")
 		self.__title = title
@@ -1857,16 +1855,24 @@ class XSDataInputSolutionScattering(XSDataInput):
 		else:
 			checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", experimentalDataQ, "list")
 			self.__experimentalDataQ = experimentalDataQ
+		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", experimentalDataQArray, "XSDataArray")
+		self.__experimentalDataQArray = experimentalDataQArray
 		if experimentalDataValues is None:
 			self.__experimentalDataValues = []
 		else:
 			checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", experimentalDataValues, "list")
 			self.__experimentalDataValues = experimentalDataValues
+		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", experimentalDataIArray, "XSDataArray")
+		self.__experimentalDataIArray = experimentalDataIArray
 		if experimentalDataStdDev is None:
 			self.__experimentalDataStdDev = []
 		else:
 			checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", experimentalDataStdDev, "list")
 			self.__experimentalDataStdDev = experimentalDataStdDev
+		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", experimentalDataStdArray, "XSDataArray")
+		self.__experimentalDataStdArray = experimentalDataStdArray
+		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", experimentalDataFile, "XSDataFile")
+		self.__experimentalDataFile = experimentalDataFile
 		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", rMaxSearchSettings, "XSDataSolutionScatteringSettings")
 		self.__rMaxSearchSettings = rMaxSearchSettings
 		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", angularUnits, "XSDataInteger")
@@ -1881,6 +1887,10 @@ class XSDataInputSolutionScattering(XSDataInput):
 		self.__onlyGnom = onlyGnom
 		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", plotFit, "XSDataBoolean")
 		self.__plotFit = plotFit
+		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", qMin, "XSDataDouble")
+		self.__qMin = qMin
+		checkType("XSDataInputSolutionScattering", "Constructor of XSDataInputSolutionScattering", qMax, "XSDataDouble")
+		self.__qMax = qMax
 	def getTitle(self): return self.__title
 	def setTitle(self, title):
 		checkType("XSDataInputSolutionScattering", "setTitle", title, "XSDataString")
@@ -1901,6 +1911,13 @@ class XSDataInputSolutionScattering(XSDataInput):
 	def insertExperimentalDataQ(self, index, value):
 		checkType("XSDataInputSolutionScattering", "setExperimentalDataQ", value, "XSDataDouble")
 		self.__experimentalDataQ[index] = value
+	def getExperimentalDataQArray(self): return self.__experimentalDataQArray
+	def setExperimentalDataQArray(self, experimentalDataQArray):
+		checkType("XSDataInputSolutionScattering", "setExperimentalDataQArray", experimentalDataQArray, "XSDataArray")
+		self.__experimentalDataQArray = experimentalDataQArray
+	def delExperimentalDataQArray(self): self.__experimentalDataQArray = None
+	# Properties
+	experimentalDataQArray = property(getExperimentalDataQArray, setExperimentalDataQArray, delExperimentalDataQArray, "Property for experimentalDataQArray")
 	def getExperimentalDataValues(self): return self.__experimentalDataValues
 	def setExperimentalDataValues(self, experimentalDataValues):
 		checkType("XSDataInputSolutionScattering", "setExperimentalDataValues", experimentalDataValues, "list")
@@ -1914,6 +1931,13 @@ class XSDataInputSolutionScattering(XSDataInput):
 	def insertExperimentalDataValues(self, index, value):
 		checkType("XSDataInputSolutionScattering", "setExperimentalDataValues", value, "XSDataDouble")
 		self.__experimentalDataValues[index] = value
+	def getExperimentalDataIArray(self): return self.__experimentalDataIArray
+	def setExperimentalDataIArray(self, experimentalDataIArray):
+		checkType("XSDataInputSolutionScattering", "setExperimentalDataIArray", experimentalDataIArray, "XSDataArray")
+		self.__experimentalDataIArray = experimentalDataIArray
+	def delExperimentalDataIArray(self): self.__experimentalDataIArray = None
+	# Properties
+	experimentalDataIArray = property(getExperimentalDataIArray, setExperimentalDataIArray, delExperimentalDataIArray, "Property for experimentalDataIArray")
 	def getExperimentalDataStdDev(self): return self.__experimentalDataStdDev
 	def setExperimentalDataStdDev(self, experimentalDataStdDev):
 		checkType("XSDataInputSolutionScattering", "setExperimentalDataStdDev", experimentalDataStdDev, "list")
@@ -1927,6 +1951,20 @@ class XSDataInputSolutionScattering(XSDataInput):
 	def insertExperimentalDataStdDev(self, index, value):
 		checkType("XSDataInputSolutionScattering", "setExperimentalDataStdDev", value, "XSDataDouble")
 		self.__experimentalDataStdDev[index] = value
+	def getExperimentalDataStdArray(self): return self.__experimentalDataStdArray
+	def setExperimentalDataStdArray(self, experimentalDataStdArray):
+		checkType("XSDataInputSolutionScattering", "setExperimentalDataStdArray", experimentalDataStdArray, "XSDataArray")
+		self.__experimentalDataStdArray = experimentalDataStdArray
+	def delExperimentalDataStdArray(self): self.__experimentalDataStdArray = None
+	# Properties
+	experimentalDataStdArray = property(getExperimentalDataStdArray, setExperimentalDataStdArray, delExperimentalDataStdArray, "Property for experimentalDataStdArray")
+	def getExperimentalDataFile(self): return self.__experimentalDataFile
+	def setExperimentalDataFile(self, experimentalDataFile):
+		checkType("XSDataInputSolutionScattering", "setExperimentalDataFile", experimentalDataFile, "XSDataFile")
+		self.__experimentalDataFile = experimentalDataFile
+	def delExperimentalDataFile(self): self.__experimentalDataFile = None
+	# Properties
+	experimentalDataFile = property(getExperimentalDataFile, setExperimentalDataFile, delExperimentalDataFile, "Property for experimentalDataFile")
 	def getRMaxSearchSettings(self): return self.__rMaxSearchSettings
 	def setRMaxSearchSettings(self, rMaxSearchSettings):
 		checkType("XSDataInputSolutionScattering", "setRMaxSearchSettings", rMaxSearchSettings, "XSDataSolutionScatteringSettings")
@@ -1976,6 +2014,20 @@ class XSDataInputSolutionScattering(XSDataInput):
 	def delPlotFit(self): self.__plotFit = None
 	# Properties
 	plotFit = property(getPlotFit, setPlotFit, delPlotFit, "Property for plotFit")
+	def getQMin(self): return self.__qMin
+	def setQMin(self, qMin):
+		checkType("XSDataInputSolutionScattering", "setQMin", qMin, "XSDataDouble")
+		self.__qMin = qMin
+	def delQMin(self): self.__qMin = None
+	# Properties
+	qMin = property(getQMin, setQMin, delQMin, "Property for qMin")
+	def getQMax(self): return self.__qMax
+	def setQMax(self, qMax):
+		checkType("XSDataInputSolutionScattering", "setQMax", qMax, "XSDataDouble")
+		self.__qMax = qMax
+	def delQMax(self): self.__qMax = None
+	# Properties
+	qMax = property(getQMax, setQMax, delQMax, "Property for qMax")
 	def export(self, outfile, level, name_='XSDataInputSolutionScattering'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1988,10 +2040,18 @@ class XSDataInputSolutionScattering(XSDataInput):
 			self.title.export(outfile, level, name_='title')
 		for experimentalDataQ_ in self.getExperimentalDataQ():
 			experimentalDataQ_.export(outfile, level, name_='experimentalDataQ')
+		if self.__experimentalDataQArray is not None:
+			self.experimentalDataQArray.export(outfile, level, name_='experimentalDataQArray')
 		for experimentalDataValues_ in self.getExperimentalDataValues():
 			experimentalDataValues_.export(outfile, level, name_='experimentalDataValues')
+		if self.__experimentalDataIArray is not None:
+			self.experimentalDataIArray.export(outfile, level, name_='experimentalDataIArray')
 		for experimentalDataStdDev_ in self.getExperimentalDataStdDev():
 			experimentalDataStdDev_.export(outfile, level, name_='experimentalDataStdDev')
+		if self.__experimentalDataStdArray is not None:
+			self.experimentalDataStdArray.export(outfile, level, name_='experimentalDataStdArray')
+		if self.__experimentalDataFile is not None:
+			self.experimentalDataFile.export(outfile, level, name_='experimentalDataFile')
 		if self.__rMaxSearchSettings is not None:
 			self.rMaxSearchSettings.export(outfile, level, name_='rMaxSearchSettings')
 		if self.__angularUnits is not None:
@@ -2006,6 +2066,10 @@ class XSDataInputSolutionScattering(XSDataInput):
 			self.onlyGnom.export(outfile, level, name_='onlyGnom')
 		if self.__plotFit is not None:
 			self.plotFit.export(outfile, level, name_='plotFit')
+		if self.__qMin is not None:
+			self.qMin.export(outfile, level, name_='qMin')
+		if self.__qMax is not None:
+			self.qMax.export(outfile, level, name_='qMax')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -2022,15 +2086,35 @@ class XSDataInputSolutionScattering(XSDataInput):
 			obj_.build(child_)
 			self.experimentalDataQ.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentalDataQArray':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setExperimentalDataQArray(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'experimentalDataValues':
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.experimentalDataValues.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentalDataIArray':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setExperimentalDataIArray(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'experimentalDataStdDev':
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.experimentalDataStdDev.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentalDataStdArray':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setExperimentalDataStdArray(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'experimentalDataFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setExperimentalDataFile(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'rMaxSearchSettings':
 			obj_ = XSDataSolutionScatteringSettings()
@@ -2066,6 +2150,16 @@ class XSDataInputSolutionScattering(XSDataInput):
 			obj_ = XSDataBoolean()
 			obj_.build(child_)
 			self.setPlotFit(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'qMin':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setQMin(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'qMax':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setQMax(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal(self):
@@ -2859,7 +2953,7 @@ class XSDataResultDamstart(XSDataResult):
 # end class XSDataResultDamstart
 
 class XSDataResultGnom(XSDataResult):
-	def __init__(self, status=None, radiusOfGyration=None, radiusOfCrossSection=None, distributionErr=None, distributionPr=None, distributionR=None, scatteringFitValuesArray=None, scatteringFitQArray=None, scatteringFitValues=None, scatteringFitQ=None, output=None, fitQuality=None):
+	def __init__(self, status=None, radiusOfGyration=None, radiusOfCrossSection=None, arrayErr=None, arrayPr=None, arrayR=None, distributionErr=None, distributionPr=None, distributionR=None, scatteringFitIArray=None, scatteringFitQArray=None, scatteringFitValues=None, scatteringFitQ=None, output=None, fitQuality=None):
 		XSDataResult.__init__(self, status)
 		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", fitQuality, "XSDataDouble")
 		self.__fitQuality = fitQuality
@@ -2877,8 +2971,8 @@ class XSDataResultGnom(XSDataResult):
 			self.__scatteringFitValues = scatteringFitValues
 		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", scatteringFitQArray, "XSDataArray")
 		self.__scatteringFitQArray = scatteringFitQArray
-		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", scatteringFitValuesArray, "XSDataArray")
-		self.__scatteringFitValuesArray = scatteringFitValuesArray
+		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", scatteringFitIArray, "XSDataArray")
+		self.__scatteringFitIArray = scatteringFitIArray
 		if distributionR is None:
 			self.__distributionR = []
 		else:
@@ -2894,6 +2988,12 @@ class XSDataResultGnom(XSDataResult):
 		else:
 			checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", distributionErr, "list")
 			self.__distributionErr = distributionErr
+		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", arrayR, "XSDataArray")
+		self.__arrayR = arrayR
+		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", arrayPr, "XSDataArray")
+		self.__arrayPr = arrayPr
+		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", arrayErr, "XSDataArray")
+		self.__arrayErr = arrayErr
 		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", radiusOfCrossSection, "XSDataDouble")
 		self.__radiusOfCrossSection = radiusOfCrossSection
 		checkType("XSDataResultGnom", "Constructor of XSDataResultGnom", radiusOfGyration, "XSDataDouble")
@@ -2945,13 +3045,13 @@ class XSDataResultGnom(XSDataResult):
 	def delScatteringFitQArray(self): self.__scatteringFitQArray = None
 	# Properties
 	scatteringFitQArray = property(getScatteringFitQArray, setScatteringFitQArray, delScatteringFitQArray, "Property for scatteringFitQArray")
-	def getScatteringFitValuesArray(self): return self.__scatteringFitValuesArray
-	def setScatteringFitValuesArray(self, scatteringFitValuesArray):
-		checkType("XSDataResultGnom", "setScatteringFitValuesArray", scatteringFitValuesArray, "XSDataArray")
-		self.__scatteringFitValuesArray = scatteringFitValuesArray
-	def delScatteringFitValuesArray(self): self.__scatteringFitValuesArray = None
+	def getScatteringFitIArray(self): return self.__scatteringFitIArray
+	def setScatteringFitIArray(self, scatteringFitIArray):
+		checkType("XSDataResultGnom", "setScatteringFitIArray", scatteringFitIArray, "XSDataArray")
+		self.__scatteringFitIArray = scatteringFitIArray
+	def delScatteringFitIArray(self): self.__scatteringFitIArray = None
 	# Properties
-	scatteringFitValuesArray = property(getScatteringFitValuesArray, setScatteringFitValuesArray, delScatteringFitValuesArray, "Property for scatteringFitValuesArray")
+	scatteringFitIArray = property(getScatteringFitIArray, setScatteringFitIArray, delScatteringFitIArray, "Property for scatteringFitIArray")
 	def getDistributionR(self): return self.__distributionR
 	def setDistributionR(self, distributionR):
 		checkType("XSDataResultGnom", "setDistributionR", distributionR, "list")
@@ -2991,6 +3091,27 @@ class XSDataResultGnom(XSDataResult):
 	def insertDistributionErr(self, index, value):
 		checkType("XSDataResultGnom", "setDistributionErr", value, "XSDataDouble")
 		self.__distributionErr[index] = value
+	def getArrayR(self): return self.__arrayR
+	def setArrayR(self, arrayR):
+		checkType("XSDataResultGnom", "setArrayR", arrayR, "XSDataArray")
+		self.__arrayR = arrayR
+	def delArrayR(self): self.__arrayR = None
+	# Properties
+	arrayR = property(getArrayR, setArrayR, delArrayR, "Property for arrayR")
+	def getArrayPr(self): return self.__arrayPr
+	def setArrayPr(self, arrayPr):
+		checkType("XSDataResultGnom", "setArrayPr", arrayPr, "XSDataArray")
+		self.__arrayPr = arrayPr
+	def delArrayPr(self): self.__arrayPr = None
+	# Properties
+	arrayPr = property(getArrayPr, setArrayPr, delArrayPr, "Property for arrayPr")
+	def getArrayErr(self): return self.__arrayErr
+	def setArrayErr(self, arrayErr):
+		checkType("XSDataResultGnom", "setArrayErr", arrayErr, "XSDataArray")
+		self.__arrayErr = arrayErr
+	def delArrayErr(self): self.__arrayErr = None
+	# Properties
+	arrayErr = property(getArrayErr, setArrayErr, delArrayErr, "Property for arrayErr")
 	def getRadiusOfCrossSection(self): return self.__radiusOfCrossSection
 	def setRadiusOfCrossSection(self, radiusOfCrossSection):
 		checkType("XSDataResultGnom", "setRadiusOfCrossSection", radiusOfCrossSection, "XSDataDouble")
@@ -3027,14 +3148,20 @@ class XSDataResultGnom(XSDataResult):
 			scatteringFitValues_.export(outfile, level, name_='scatteringFitValues')
 		if self.__scatteringFitQArray is not None:
 			self.scatteringFitQArray.export(outfile, level, name_='scatteringFitQArray')
-		if self.__scatteringFitValuesArray is not None:
-			self.scatteringFitValuesArray.export(outfile, level, name_='scatteringFitValuesArray')
+		if self.__scatteringFitIArray is not None:
+			self.scatteringFitIArray.export(outfile, level, name_='scatteringFitIArray')
 		for distributionR_ in self.getDistributionR():
 			distributionR_.export(outfile, level, name_='distributionR')
 		for distributionPr_ in self.getDistributionPr():
 			distributionPr_.export(outfile, level, name_='distributionPr')
 		for distributionErr_ in self.getDistributionErr():
 			distributionErr_.export(outfile, level, name_='distributionErr')
+		if self.__arrayR is not None:
+			self.arrayR.export(outfile, level, name_='arrayR')
+		if self.__arrayPr is not None:
+			self.arrayPr.export(outfile, level, name_='arrayPr')
+		if self.__arrayErr is not None:
+			self.arrayErr.export(outfile, level, name_='arrayErr')
 		if self.__radiusOfCrossSection is not None:
 			self.radiusOfCrossSection.export(outfile, level, name_='radiusOfCrossSection')
 		else:
@@ -3074,10 +3201,10 @@ class XSDataResultGnom(XSDataResult):
 			obj_.build(child_)
 			self.setScatteringFitQArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'scatteringFitValuesArray':
+			nodeName_ == 'scatteringFitIArray':
 			obj_ = XSDataArray()
 			obj_.build(child_)
-			self.setScatteringFitValuesArray(obj_)
+			self.setScatteringFitIArray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'distributionR':
 			obj_ = XSDataDouble()
@@ -3093,6 +3220,21 @@ class XSDataResultGnom(XSDataResult):
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.distributionErr.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'arrayR':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setArrayR(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'arrayPr':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setArrayPr(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'arrayErr':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setArrayErr(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'radiusOfCrossSection':
 			obj_ = XSDataDouble()
@@ -3148,7 +3290,7 @@ class XSDataResultGnom(XSDataResult):
 # end class XSDataResultGnom
 
 class XSDataResultSolutionScattering(XSDataResult):
-	def __init__(self, status=None, variationNSD=None, meanNSD=None, scatteringFitValues=None, scatteringFitQ=None, pdbSolventFile=None, pdbMoleculeFile=None, logFile=None, lineProfileFitQuality=None, fitFile=None, corelationFitValues=None):
+	def __init__(self, status=None, variationNSD=None, meanNSD=None, scatteringFitIarray=None, scatteringFitQArray=None, scatteringFitValues=None, scatteringFitQ=None, pdbSolventFile=None, pdbMoleculeFile=None, logFile=None, lineProfileFitQuality=None, fitFile=None, corelationFitValues=None):
 		XSDataResult.__init__(self, status)
 		if corelationFitValues is None:
 			self.__corelationFitValues = []
@@ -3175,6 +3317,10 @@ class XSDataResultSolutionScattering(XSDataResult):
 		else:
 			checkType("XSDataResultSolutionScattering", "Constructor of XSDataResultSolutionScattering", scatteringFitValues, "list")
 			self.__scatteringFitValues = scatteringFitValues
+		checkType("XSDataResultSolutionScattering", "Constructor of XSDataResultSolutionScattering", scatteringFitQArray, "XSDataArray")
+		self.__scatteringFitQArray = scatteringFitQArray
+		checkType("XSDataResultSolutionScattering", "Constructor of XSDataResultSolutionScattering", scatteringFitIarray, "XSDataArray")
+		self.__scatteringFitIarray = scatteringFitIarray
 		checkType("XSDataResultSolutionScattering", "Constructor of XSDataResultSolutionScattering", meanNSD, "XSDataDouble")
 		self.__meanNSD = meanNSD
 		checkType("XSDataResultSolutionScattering", "Constructor of XSDataResultSolutionScattering", variationNSD, "XSDataDouble")
@@ -3253,6 +3399,20 @@ class XSDataResultSolutionScattering(XSDataResult):
 	def insertScatteringFitValues(self, index, value):
 		checkType("XSDataResultSolutionScattering", "setScatteringFitValues", value, "XSDataDouble")
 		self.__scatteringFitValues[index] = value
+	def getScatteringFitQArray(self): return self.__scatteringFitQArray
+	def setScatteringFitQArray(self, scatteringFitQArray):
+		checkType("XSDataResultSolutionScattering", "setScatteringFitQArray", scatteringFitQArray, "XSDataArray")
+		self.__scatteringFitQArray = scatteringFitQArray
+	def delScatteringFitQArray(self): self.__scatteringFitQArray = None
+	# Properties
+	scatteringFitQArray = property(getScatteringFitQArray, setScatteringFitQArray, delScatteringFitQArray, "Property for scatteringFitQArray")
+	def getScatteringFitIarray(self): return self.__scatteringFitIarray
+	def setScatteringFitIarray(self, scatteringFitIarray):
+		checkType("XSDataResultSolutionScattering", "setScatteringFitIarray", scatteringFitIarray, "XSDataArray")
+		self.__scatteringFitIarray = scatteringFitIarray
+	def delScatteringFitIarray(self): self.__scatteringFitIarray = None
+	# Properties
+	scatteringFitIarray = property(getScatteringFitIarray, setScatteringFitIarray, delScatteringFitIarray, "Property for scatteringFitIarray")
 	def getMeanNSD(self): return self.__meanNSD
 	def setMeanNSD(self, meanNSD):
 		checkType("XSDataResultSolutionScattering", "setMeanNSD", meanNSD, "XSDataDouble")
@@ -3301,6 +3461,10 @@ class XSDataResultSolutionScattering(XSDataResult):
 			scatteringFitQ_.export(outfile, level, name_='scatteringFitQ')
 		for scatteringFitValues_ in self.getScatteringFitValues():
 			scatteringFitValues_.export(outfile, level, name_='scatteringFitValues')
+		if self.__scatteringFitQArray is not None:
+			self.scatteringFitQArray.export(outfile, level, name_='scatteringFitQArray')
+		if self.__scatteringFitIarray is not None:
+			self.scatteringFitIarray.export(outfile, level, name_='scatteringFitIarray')
 		if self.__meanNSD is not None:
 			self.meanNSD.export(outfile, level, name_='meanNSD')
 		if self.__variationNSD is not None:
@@ -3350,6 +3514,16 @@ class XSDataResultSolutionScattering(XSDataResult):
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.scatteringFitValues.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'scatteringFitQArray':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setScatteringFitQArray(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'scatteringFitIarray':
+			obj_ = XSDataArray()
+			obj_.build(child_)
+			self.setScatteringFitIarray(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'meanNSD':
 			obj_ = XSDataDouble()

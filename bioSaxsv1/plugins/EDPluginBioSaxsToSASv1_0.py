@@ -31,14 +31,15 @@ __date__ = "20120105"
 
 import os, threading
 from EDPluginControl        import EDPluginControl
-from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDFactoryPlugin        import edFactoryPlugin
 from EDConfiguration        import EDConfiguration
 from EDUtilsPath            import EDUtilsPath
 from EDUtilsPlatform        import EDUtilsPlatform
-EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
-EDFactoryPluginStatic.loadModule("XSDataSAS")
-EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
-EDFactoryPluginStatic.loadModule("XSDataExecCommandLine")
+from EDUtilsArray           import EDUtilsArray
+edFactoryPlugin.loadModule("XSDataBioSaxsv1_0")
+edFactoryPlugin.loadModule("XSDataSAS")
+edFactoryPlugin.loadModule("XSDataWaitFilev1_0")
+edFactoryPlugin.loadModule("XSDataExecCommandLine")
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsToSASv1_0, XSDataResultBioSaxsToSASv1_0
 from XSDataSAS              import XSDataInputSolutionScattering
 from XSDataWaitFilev1_0     import XSDataInputWaitFile
@@ -46,7 +47,7 @@ from XSDataExecCommandLine  import XSDataInputRsync
 from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataString, XSDataFile, XSPluginItem
 architecture = EDUtilsPlatform.architecture
 numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+numpy = edFactoryPlugin.preImport("numpy", numpyPath)
 
 
 
@@ -173,15 +174,17 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
         s = datapoint[:, 2]
         if self.dataInput.qMax is not None:
             mask = (q < self.dataInput.qMax.value)
-        else:
-            mask = numpy.ones(q.shape, dtype=bool)
+            q = q[mask]
+            I = I[mask]
+            s = s[mask]
         xsd = XSDataInputSolutionScattering(iNbThreads=XSDataInteger(self.__class__.maxThreads),
-                                            angularUnits=None,
                                             rMaxSearchSettings=None,
-                                            experimentalDataStdDev=[XSDataDouble(i) for i in s[mask]],
-                                            experimentalDataValues=[XSDataDouble(i) for i in I[mask]],
-                                            experimentalDataQ=[XSDataDouble(i / 10.0) for i in q[mask]], #convert from nm-1 to A-1 
-                                            title=XSDataString(title.strip()))
+                                            experimentalDataStdArray=EDUtilsArray.arrayToXSData(s),
+                                            experimentalDataIArray=EDUtilsArray.arrayToXSData(I),
+                                            experimentalDataQArray=EDUtilsArray.arrayToXSData(q),
+                                            title=XSDataString(title.strip()),
+                                            angularUnits=XSDataInteger(2))#nm-1 not A-1
+
         self.__edPluginExecSAS = self.loadPlugin(self.__strControlledPluginSAS)
         self.__edPluginExecSAS.dataInput = xsd
         self.__edPluginExecSAS.connectSUCCESS(self.doSuccessExecSAS)
