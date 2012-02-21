@@ -24,7 +24,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
-from EDUtilsArray import EDUtilsArray
 
 __authors__ = ["irakli", "Jérôme Kieffer"]
 __license__ = "GPLv3+"
@@ -45,7 +44,7 @@ from EDActionCluster import EDActionCluster
 from EDUtilsFile import EDUtilsFile
 from EDConfiguration import EDConfiguration
 from EDParallelJobLauncher import EDParallelJobLauncher
-
+from EDUtilsArray import EDUtilsArray
 from EDPDBFilter import EDPDBFilter
 
 from XSDataSAS import XSDataInputSolutionScattering, XSDataResultSolutionScattering, XSDataInputGnom, \
@@ -231,8 +230,8 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
         if xsDataInputSolutionScattering.experimentalDataValues:
             self.npaExperimentalDataI = numpy.array([i.value for i in xsDataInputSolutionScattering.experimentalDataValues], dtype="float32")
-        elif xsDataInputSolutionScattering.experimentalDataValues:
-            self.npaExperimentalDataI = EDUtilsArray.xsDataToArray(xsDataInputSolutionScattering.experimentalDataValues).astype("float32")
+        elif xsDataInputSolutionScattering.experimentalDataIArray:
+            self.npaExperimentalDataI = EDUtilsArray.xsDataToArray(xsDataInputSolutionScattering.experimentalDataIArray).astype("float32")
         elif self.strExperimentalDataFile is None:
             strError = "Missing mandatory parameter: experimentalDataValues or experimentalDataValues or experimentalDataFile"
             self.ERROR(strError)
@@ -297,6 +296,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
                 xsDataRMax = [XSDataDouble(self.__rMaxStart)]
             else:
                 xsDataRMax = itertools.imap(lambda idx: XSDataDouble(self.__rMaxStart + idx * (self.__rMaxStop - self.__rMaxStart) / self.__rMaxDivide), range(self.__rMaxDivide + 1))
+
 
             dictDataInputGnom = {}
             for idx, rMax in enumerate(xsDataRMax):
@@ -382,7 +382,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
         self.__xsDammifPlugin.update(self.__xsDammifJobs.getPluginJobs())
 
-        self.__xsDataResultSolutionScattering.lineProfileFitQuality(self.__edPluginExecGnom.dataOutput.getFitQuality())
+        self.__xsDataResultSolutionScattering.lineProfileFitQuality = self.__edPluginExecGnom.dataOutput.getFitQuality()
         self.__xsDataResultSolutionScattering.scatteringFitQ = self.__edPluginExecGnom.dataOutput.scatteringFitQ
         self.__xsDataResultSolutionScattering.scatteringFitValues = self.__edPluginExecGnom.dataOutput.scatteringFitValues
         self.__xsDataResultSolutionScattering.scatteringFitQArray = self.__edPluginExecGnom.dataOutput.scatteringFitQArray
