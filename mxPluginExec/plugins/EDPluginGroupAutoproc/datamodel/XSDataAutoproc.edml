@@ -1,0 +1,29 @@
+targetNamespace "http://www.edna-site.org"
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+
+complex type XSDataMatthewsCoeffIn extends XSDataInput {
+	a : XSDataDouble
+	b : XSDataDouble
+	c : XSDataDouble
+	alpha : XSDataDouble
+	beta : XSDataDouble
+	gamma : XSDataDouble
+	symm : XSDataString
+}
+
+complex type XSDataMatthewsCoeffOut extends XSDataResult {
+	best_p : XSDataDouble
+	best_sol : XSDataString
+}
+
+complex type XSDataRBinsIn extends XSDataInput {
+	low : XSDataDouble
+	high : XSDataDouble
+}
+
+complex type XSDataRBinsOut extends XSDataResult {
+	bins : XSDataDouble[]
+}
