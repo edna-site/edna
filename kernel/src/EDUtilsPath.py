@@ -57,6 +57,8 @@ class EDUtilsPath:
     _EDNA_TESTIMAGES = None
     _EDNA_TESTS = None
     _EDNA_TESTDATA = None
+    _USER = os.getenv("USER", "UndefindedUser")
+    _TMPDIR = os.getenv("TMPDIR", tempfile.gettempdir())
 
     _EDNA_PROJECTS = {} # key: project name. Value: path to the project root
     _EDNA_PLUGINCACHE = None
@@ -353,7 +355,7 @@ class EDUtilsPath:
                "${EDNA_TESTS}": cls.EDNA_TESTS,
                "${EDNA_TESTDATA}": cls.EDNA_TESTDATA,
                "${EDNA_TESTIMAGES}": cls.EDNA_TESTIMAGES,
-               "${USER}": os.getenv("USER", "UndefindedUser"),
-               "${TMPDIR}": os.getenv("TMPDIR", tempfile.gettempdir())
+               "${USER}": cls._USER,
+               "${TMPDIR}": cls._TMPDIR
                }
         return res
