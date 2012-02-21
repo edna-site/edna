@@ -38,8 +38,8 @@ class EDTestSuitePluginExecuteControlCharacterisationv1_3(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_withForcedSpaceGroup")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3With2Sweep")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_fewSpots")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_bestBFactorFailed")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_iceRings")
+#        self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_bestBFactorFailed")
+#        self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_iceRings")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_indexingError")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlCharacterisationv1_3_integrationError")
 

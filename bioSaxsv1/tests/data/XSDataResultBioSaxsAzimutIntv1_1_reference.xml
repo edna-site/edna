@@ -4,7 +4,7 @@
 <integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
 <status>
 	<executiveSummary>
-	<value>Retrieve metadata from file ${EDNA_TESTS_DATA_HOME}/images/bioSaxsCorrected.edf
+	<value>Retrieve metadata from file ${EDNA_TESTIMAGES}/bioSaxsCorrected.edf
 Azimuthal integration of Corrected+Masked EDF image '/tmp/edna-${USER}/bioSaxsCorrected.edf'.
 Conversion to spec-like file of '/tmp/edna-${USER}/bioSaxsIntegrated.edf'
 Successful production of an ASCII 3-column spectrum in '/tmp/edna-${USER}/bioSaxsIntegrated.dat'</value>

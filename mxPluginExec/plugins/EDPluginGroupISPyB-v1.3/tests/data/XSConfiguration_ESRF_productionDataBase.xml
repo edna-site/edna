@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem> 
+			<name>EDPluginISPyBStoreImageQualityIndicatorsv1_3</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForAutoprocessingWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForAutoprocessingWebService?wsdl</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>imageServiceWdsl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ImageService?wsdl</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>autoProcProgramId</name>
+					<value>1</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem> 
+			<name>EDPluginISPyBStoreAutoProcv1_3</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForAutoprocessingWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForAutoprocessingWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

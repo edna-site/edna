@@ -2,12 +2,12 @@
 <XSDataInput>
 	<inputImage>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/bsa_014_07.edf</value>
+			<value>${EDNA_TESTIMAGES}/bsa_014_07.edf</value>
 		</path>
 	</inputImage>
 	<inputImage>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/Pcon_01Apr_msk.edf</value>
+			<value>${EDNA_TESTIMAGES}/Pcon_01Apr_msk.edf</value>
 		</path>
 	</inputImage>
 

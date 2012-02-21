@@ -33,6 +33,7 @@ __authors__ = ["Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer" 
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120213"
 
 import os, sys, threading, hashlib
 
@@ -104,9 +105,11 @@ class EDFactoryPlugin(EDLogging):
 
     def __init__(self):
         EDLogging.__init__(self)
-        strEdnaHome = EDUtilsPath.EDNA_HOME
         # Default plugin root directory: $EDNA_HOME
-        self.__listPluginRootDirectory = [ strEdnaHome ]
+        self.__listPluginRootDirectory = [EDUtilsPath.EDNA_HOME]
+        for oneProjectDir in EDUtilsPath._EDNA_PROJECTS.values():
+            if os.path.isdir(oneProjectDir):
+                self.__listPluginRootDirectory.append(os.path.abspath(oneProjectDir))
         self.__dictModuleLocation = None
 
 
