@@ -2,8 +2,6 @@
 #    Project: EDNA MXv2
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteControlCharacterisationv2_0.py 1939 2010-08-23 10:07:58Z svensson $"
-#
 #    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
@@ -76,8 +74,8 @@ class EDTestCasePluginExecuteControlCharForReorientationv2_0_noKAPPA_(EDTestCase
 
         #further outputs
         EDAssert.equal(True, plugin.getDataOutput() is not None)
-        EDAssert.equal(True, plugin.getDataOutput("SuggestedStrategy") is not None)
-        EDAssert.equal(True, plugin.getDataOutput("possibleOrientations") is not None)
+        EDAssert.equal(True, plugin.getDataOutput("SuggestedStrategy") is None, "Suggested strategy")
+        EDAssert.equal(True, plugin.getDataOutput("possibleOrientations") is None, "Possible orientations")
 
 
 
