@@ -395,7 +395,6 @@ class EDApplication(object):
                 EDVerbose.warning("EDApplication.setConfiguration: Configuration is None!")
             else:
                 cls.__edConfiguration = _edConfiguration
-    setConfiguration = staticmethod(setConfiguration)
 
 
     @classmethod
