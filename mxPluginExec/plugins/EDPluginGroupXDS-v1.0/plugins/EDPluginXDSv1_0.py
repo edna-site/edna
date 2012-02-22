@@ -7,7 +7,7 @@
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
 #    Principal authors: Sandor Brockhauser (brockhauser@embl-grenoble.fr)
-#                       Olof Svensson (svensson@esrf.fr) 
+#                       Olof Svensson (svensson@esrf.fr)
 #                       Pierre Legrand (pierre.legrand@synchrotron-soleil.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #    GNU Lesser General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    and the GNU Lesser General Public License  along with this program.  
+#    and the GNU Lesser General Public License  along with this program.
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
@@ -35,6 +35,7 @@ from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDUtilsPath import EDUtilsPath
 
 from XSDataXDSv1_0 import XSDataInputXDS
+from XSDataXDSv1_0 import XSDataResultXDS
 
 import os as PyOs
 
@@ -73,6 +74,10 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
         if (self.getPluginName() == "EDPluginXDSv1_0"):
              raise ExectuteAbstractPluginError
 
+
+    def postProcess(self, _oedObject=None):
+        EDPluginExecProcessScript.postProcess(self, _oedObject)
+        self.dataOutput = XSDataResultXDS()
 
     def checkParameters(self):
         """
@@ -278,4 +283,3 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
             pyStrTarget = xsDataXDSImageLink.getTarget().getValue()
             pyStrTargetPath = PyOs.path.join(self.__strImageLinkSubDirectory, pyStrTarget)
             self.addListCommandPreExecution("ln -s %s %s" % (pyStrSourcePath, pyStrTargetPath))
-
