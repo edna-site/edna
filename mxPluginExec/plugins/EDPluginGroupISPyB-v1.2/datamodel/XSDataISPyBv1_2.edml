@@ -1,5 +1,13 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+
 complex type XSDataISPyBDataCollection extends XSData {
 	blSampleId : XSDataInteger
 	dataCollectionId : XSDataInteger
