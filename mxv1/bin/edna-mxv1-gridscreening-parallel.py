@@ -136,11 +136,11 @@ def functionXMLout(_strXMLin, _strXMLout):
     @type _strXMLout: python string with the output XML    
     @return: None     
     """
-    xsDataInputGridScreening = XSDataInputGridScreening.parseString(_strXMLin)
+    xsDataInputGridScreening = _strXMLin
     strImagePath = xsDataInputGridScreening.getImageFile().getPath().getValue()
     EDVerbose.screen("Successful processing of image %s" % strImagePath)
     strResultText = "%40s  " % os.path.basename(strImagePath)
-    xsDataResultGridScreening = XSDataResultGridScreening.parseString(_strXMLout)
+    xsDataResultGridScreening = _strXMLout
     fileNameParameters = xsDataResultGridScreening.getFileNameParameters()
     if fileNameParameters is None:
         strResultText += "%6s%10s%10s%6s" % ("NA", "NA", "NA","NA")

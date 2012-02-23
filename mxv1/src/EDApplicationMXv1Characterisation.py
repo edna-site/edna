@@ -290,8 +290,13 @@ class EDApplicationMXv1Characterisation(EDApplication):
             elif (not self.__strGeneratedTemplateFile is None):
                 bCommandLineIsOk = True
             else:
-                self.usage()
-                bCommandLineIsOk = False
+                # Check for -v or --v which has already been processed by EDApplciation
+                if not ((EDApplication.VERSION_PARAM_LABEL_1 in listCommandLine) or \
+                        (EDApplication.VERSION_PARAM_LABEL_2 in listCommandLine) or \
+                        (EDApplication.HELP_LABEL_1 in listCommandLine) or \
+                        (EDApplication.HELP_LABEL_2 in listCommandLine)):
+                    self.usage()
+                    bCommandLineIsOk = False
         return bCommandLineIsOk
 
 
