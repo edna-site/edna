@@ -4,6 +4,8 @@ import XSDataCommon.XSDataDouble
 import XSDataCommon.XSDataInteger
 import XSDataCommon.XSDataImage
 import XSDataCommon.XSData
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataString
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
 
@@ -213,3 +215,234 @@ complex type XSDataISPyBDataCollection {
 	xtalSnapshotFullPath4 : string
 	beamShape : string
 }
+
+
+complex type XSDataISPyBScreening extends XSData {
+	screeningId : integer optional
+	dataCollectionId : integer
+	timeStamp : string
+	programVersion : string optional
+	comments : string optional
+	shortComments : string optional
+}
+
+complex type XSDataISPyBScreeningFile extends XSData {
+	screeningFileId : integer optional
+	screeningId : integer
+	fileType : string optional
+	fileName : string
+	filePath : string
+	description : string optional
+	timeStamp : string
+}
+
+complex type XSDataISPyBScreeningRank extends XSData {
+	screeningRankId : integer optional
+	screeningRankSetId : integer
+	screeningId : integer
+	rankValue : double
+	rankInformation : string
+}
+
+complex type XSDataISPyBScreeningRankSet extends XSData {
+	screeningRankSetId : integer
+	rankEngine : string
+	rankingProjectFileName : string
+	rankingSummaryFileName : string
+}
+
+
+complex type XSDataISPyBScreeningOutput extends XSData {
+	screeningOutputId : integer optional
+	screeningId : integer
+	statusDescription : string optional
+	rejectedReflections : integer optional
+	resolutionObtained : double optional
+	spotDeviationR : double optional
+	spotDeviationTheta : double optional
+	beamShiftX : double optional
+	beamShiftY : double optional
+	numSpotsFound : integer optional
+	numSpotsUsed : integer optional
+	numSpotsRejected : integer optional
+	mosaicity : double optional
+	iOverSigma : double optional
+	diffractionRings : boolean optional
+	screeningSuccess : boolean
+	mosaicityEstimated : boolean optional
+}
+
+complex type XSDataISPyBScreeningOutputLattice extends XSData {
+	screeningOutputLatticeId : integer optional
+	screeningOutputId : integer
+	spaceGroup : string
+	pointGroup : string
+	bravaisLattice : string
+	rawOrientationMatrix_a_x : double
+	rawOrientationMatrix_a_y : double
+	rawOrientationMatrix_a_z : double
+	rawOrientationMatrix_b_x : double
+	rawOrientationMatrix_b_y : double
+	rawOrientationMatrix_b_z : double
+	rawOrientationMatrix_c_x : double
+	rawOrientationMatrix_c_y : double
+	rawOrientationMatrix_c_z : double
+	unitCell_a : double
+	unitCell_alpha : double
+	unitCell_b : double
+	unitCell_beta : double
+	unitCell_c : double
+	unitCell_gamma : double
+	timeStamp : string
+}
+
+complex type XSDataISPyBScreeningStrategy extends XSData {
+	screeningStrategyId : integer optional
+	screeningOutputId : integer
+	phiStart : double
+	phiEnd : double
+	rotation : double
+	exposureTime : double
+	resolution : double
+	completeness : double
+	multiplicity : double
+	anomalous : boolean
+	program : string
+	rankingResolution : double
+	transmission : double
+}
+
+
+complex type XSDataISPyBScreeningStrategyWedge extends XSData {
+	screeningStrategyWedgeId : integer optional
+	screeningStrategyId : integer
+	wedgeNumber : integer
+	resolution : double
+	completeness : double
+	multiplicity : double
+	doseTotal : double
+	numberOfImages : integer
+	phi : double
+	kappa : double
+}
+
+
+complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
+	screeningStrategySubWedgeId : integer optional
+	screeningStrategyWedgeId : integer
+	subWedgeNumber : integer
+	rotationAxis : string
+	axisStart : double
+	axisEnd : double
+	exposureTime : double
+	transmission : double
+	oscillationRange : double
+	completeness : double
+	multiplicity : double
+	resolution : double
+	doseTotal : double
+	numberOfImages : integer
+}
+
+
+complex type XSDataISPyBScreeningInput extends XSData {
+	screeningInputId : integer optional
+	screeningId : integer
+	diffractionPlanId: integer
+	beamX : double
+	beamY : double
+	rmsErrorLimits : double
+	minimumFractionIndexed : double
+	maximumFractionRejected : double
+	minimumSignalToNoise : double
+	xmlSampleInformation : string
+}
+
+complex type XSDataISPyBScreeningInputContainer extends XSData {
+	screeningInput : XSDataISPyBScreeningInput
+}
+
+
+complex type XSDataISPyBScreeningOutputContainer extends XSData {
+	screeningOutput : XSDataISPyBScreeningOutput
+	screeningOutputLattice : XSDataISPyBScreeningOutputLattice [] optional
+	screeningStrategyContainer : XSDataISPyBScreeningStrategyContainer [] optional
+}
+
+
+
+
+complex type XSDataISPyBScreeningStrategyContainer extends XSData {
+	screeningStrategy : XSDataISPyBScreeningStrategy
+	screeningStrategyWedgeContainer : XSDataISPyBScreeningStrategyWedgeContainer [] optional
+}
+
+
+
+complex type XSDataISPyBScreeningStrategyWedgeContainer extends XSData {
+	screeningStrategySubWedge : XSDataISPyBScreeningStrategySubWedge [] optional
+	screeningStrategyWedge : XSDataISPyBScreeningStrategyWedge
+}
+
+complex type XSDataResultStatus extends XSData {
+	code : string
+	id : integer
+	message : string
+}
+
+complex type XSDatadbstatus extends XSData {
+	code : string
+	dataCollectionId : integer
+	message : string
+	screeningFileId : integer
+	screeningId : integer
+	screeningInputId : integer
+	screeningOutputId : integer
+	screeningOutputLatticeId : integer
+	screeningRankId : integer
+	screeningRankSetId : integer
+	screeningStrategyId : integer
+	screeningStrategySubWedgeId : integer
+	screeningStrategyWedgeId : integer
+}
+
+
+complex type XSDataISPyBImage extends XSData {
+	comments : string
+	cumulativeIntensity : double
+	fileLocation : string
+	fileName : string
+	imageId : integer
+	imageNumber : integer
+	jpegFileFullPath : string
+	jpegThumbnailFileFullPath : string
+	machineMessage : string
+	measuredIntensity : double
+	synchrotronCurrent : double
+	temperature : double
+}
+
+complex type XSDataInputISPyBScreening extends XSDataInput {
+	file : XSDataISPyBScreeningFile [] optional
+	image : XSDataISPyBImage optional
+	screening : XSDataISPyBScreening optional
+	screeningInput : XSDataISPyBScreeningInput [] optional
+	screeningOutputContainer : XSDataISPyBScreeningOutputContainer [] optional
+	screeningRank : XSDataISPyBScreeningRank [] optional
+	screeningRankSet : XSDataISPyBScreeningRankSet optional
+}
+
+complex type XSDataResultISPyB extends XSDataResult {
+	dataCollectionId : integer optional
+	screeningFileStatus : XSDataResultStatus [] optional
+	screeningInputStatus : XSDataResultStatus [] optional
+	screeningOutputLatticeStatus : XSDataResultStatus [] optional
+	screeningOutputStatus : XSDataResultStatus [] optional
+	screeningRankSetStatus : XSDataResultStatus optional
+	screeningRankStatus : XSDataResultStatus [] optional
+	screeningStatus : XSDataResultStatus optional
+	screeningStrategyStatus : XSDataResultStatus [] optional
+	screeningStrategySubWedgeStatus : XSDataResultStatus [] optional
+	screeningStrategyWedgeStatus : XSDataResultStatus [] optional
+}
+
