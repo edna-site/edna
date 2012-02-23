@@ -57,7 +57,7 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         self.setXSDataInputClass(XSDataInputStoreDataCollection)
         self.strUserName = None
         self.strPassWord = None
-        self.strToolsForMXCubeWebServiceWsdl = None
+        self.strToolsForCollectionWebServiceWsdl = None
         self.bContinue = True
 
     def configure(self):
@@ -73,9 +73,9 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         if self.strPassWord is None:
             self.ERROR("EDPluginISPyBStoreDataCollectionv1_3.configure: No pass word found in configuration!")
             self.setFailure()
-        self.strToolsForMXCubeWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForMXCubeWebServiceWsdl")
-        if self.strToolsForMXCubeWebServiceWsdl is None:
-            self.ERROR("EDPluginISPyBStoreDataCollectionv1_3.configure: No toolsForMXCubeWebServiceWsdl found in configuration!")
+        self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
+        if self.strToolsForCollectionWebServiceWsdl is None:
+            self.ERROR("EDPluginISPyBStoreDataCollectionv1_3.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
             self.setFailure()
 
 
@@ -86,11 +86,11 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginISPyBStoreDataCollectionv1_3.process")
         xsDataInputStoreDataCollection = self.getDataInput()
-        httpAuthenticatedToolsForMXCubeWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
-        clientToolsForMXCubeWebService = Client(self.strToolsForMXCubeWebServiceWsdl, transport=httpAuthenticatedToolsForMXCubeWebService)
+        httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+        clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
 
         # DataCollectionProgram
-        self.iDataCollectionId = self.storeDataCollectionProgram(clientToolsForMXCubeWebService, xsDataInputStoreDataCollection)
+        self.iDataCollectionId = self.storeDataCollectionProgram(clientToolsForCollectionWebService, xsDataInputStoreDataCollection)
         if self.iDataCollectionId is None:
             self.ERROR("Couldn't create entry for DataCollectionId in ISPyB!")
             self.setFailure()
@@ -127,7 +127,7 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         return oReturnValue
 
 
-    def storeDataCollectionProgram(self, _clientToolsForMXCubeWebService, _xsDataInputStoreDataCollection):
+    def storeDataCollectionProgram(self, _clientToolsForCollectionWebService, _xsDataInputStoreDataCollection):
         """Creates an entry in the ISPyB DataCollectionProgram table"""
         self.DEBUG("EDPluginISPyBStoreDataCollectionv1_3.storeDataCollectionProgram")
 
@@ -243,10 +243,10 @@ class EDPluginISPyBStoreDataCollectionv1_3(EDPluginExec):
         
         ks = dcargs.keys()
         ks.sort()
-        for k in ks:
-            print '%s=%s (type %s)'%(k,dcargs[k], type(dcargs[k]))
+#        for k in ks:
+#            print '%s=%s (type %s)'%(k,dcargs[k], type(dcargs[k]))
 
-        iDataCollectionId = _clientToolsForMXCubeWebService.service.updateOrStoreDataCollection(in0=dataCollectionId,
+        iDataCollectionId = _clientToolsForCollectionWebService.service.storeOrUpdateDataCollection(in0=dataCollectionId,
                                                                                                 in1=blSampleId,
                                                                                                 in2=sessionId,
                                                                                                 in3=experimentType,

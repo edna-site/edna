@@ -1,0 +1,177 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+
+complex type XSDataISPyBDataCollection extends XSData {
+	dataCollectionId : XSDataInteger
+	blSampleId : XSDataInteger
+	sessionId : XSDataInteger
+	experimentType : XSDataString
+	dataCollectionNumber : XSDataInteger
+	imageDirectory : XSDataString
+	imagePrefix : XSDataString
+}
+
+complex type XSDataISPyBImage extends XSData {
+	imageId : XSDataInteger
+	imageNumber : XSDataInteger
+	fileName : XSDataString
+	fileLocation : XSDataString
+	measuredIntensity : XSDataDouble
+	jpegFileFullPath : XSDataString
+	jpegThumbnailFileFullPath : XSDataString
+	temperature : XSDataDouble
+	cumulativeIntensity : XSDataDouble
+	synchrotronCurrent : XSDataDouble
+	comments : XSDataString
+	machineMessage : XSDataString
+}
+
+complex type XSDataISPyBScreening extends XSData {
+	screeningId : XSDataInteger
+	dataCollectionId : XSDataInteger
+	timeStamp : XSDataString
+	programVersion : XSDataString
+}
+
+complex type XSDataISPyBScreeningInput extends XSData {
+	screeningInputId : XSDataInteger
+	screeningId : XSDataInteger
+	beamX : XSDataDouble
+	beamY : XSDataDouble
+	rmsErrorLimits : XSDataDouble
+	minimumFractionIndexed : XSDataDouble
+	maximumFractionRejected : XSDataDouble
+	minimumSignalToNoise : XSDataDouble
+}
+
+complex type XSDataISPyBScreeningInputContainer extends XSData {
+	screeningInput : XSDataISPyBScreeningInput
+}
+
+complex type XSDataISPyBScreeningOutput extends XSData {
+	screeningOutputId : XSDataInteger
+	screeningId : XSDataInteger
+	statusDescription : XSDataString
+	rejectedReflections : XSDataInteger
+	resolutionObtained : XSDataDouble
+	spotDeviationR : XSDataDouble
+	spotDeviationTheta : XSDataDouble
+	beamShiftX : XSDataDouble
+	beamShiftY : XSDataDouble
+	numSpotsFound : XSDataInteger
+	numSpotsUsed : XSDataInteger
+	numSpotsRejected : XSDataInteger
+	mosaicity : XSDataDouble
+	iOverSigma : XSDataDouble
+	diffractionRings : XSDataBoolean
+	screeningSuccess : XSDataBoolean
+	mosaicityEstimated : XSDataBoolean
+}
+
+complex type XSDataISPyBScreeningOutputContainer extends XSData {
+	screeningOutput : XSDataISPyBScreeningOutput
+	screeningOutputLattice : XSDataISPyBScreeningOutputLattice [] optional
+	screeningStrategy : XSDataISPyBScreeningStrategy [] optional
+}
+
+complex type XSDataISPyBScreeningOutputLattice extends XSData {
+	screeningOutputLatticeId : XSDataInteger
+	screeningOutputId : XSDataInteger
+	spaceGroup : XSDataString
+	pointGroup : XSDataString
+	bravaisLattice : XSDataString
+	rawOrientationMatrix_a_x : XSDataDouble
+	rawOrientationMatrix_a_y : XSDataDouble
+	rawOrientationMatrix_a_z : XSDataDouble
+	rawOrientationMatrix_b_x : XSDataDouble
+	rawOrientationMatrix_b_y : XSDataDouble
+	rawOrientationMatrix_b_z : XSDataDouble
+	rawOrientationMatrix_c_x : XSDataDouble
+	rawOrientationMatrix_c_y : XSDataDouble
+	rawOrientationMatrix_c_z : XSDataDouble
+	unitCell_a : XSDataDouble
+	unitCell_b : XSDataDouble
+	unitCell_c : XSDataDouble
+	unitCell_alpha : XSDataDouble
+	unitCell_beta : XSDataDouble
+	unitCell_gamma : XSDataDouble
+	timeStamp : XSDataDouble
+}
+
+complex type XSDataISPyBScreeningRank extends XSData {
+	screeningRankId : XSDataInteger
+	screeningRankSetId : XSDataInteger
+	screeningId : XSDataInteger
+	rankValue : XSDataDouble
+	rankInformation : XSDataString
+}
+
+complex type XSDataISPyBScreeningRankSet extends XSData {
+	screeningRankSetId : XSDataInteger
+	rankEngine : XSDataString
+	rankingProjectFileName : XSDataString
+	rankingSummaryFileName : XSDataString
+}
+
+complex type XSDataISPyBScreeningStrategy extends XSData {
+	screeningStrategyId : XSDataInteger
+	screeningOutputId : XSDataInteger
+	phiStart : XSDataDouble
+	phiEnd : XSDataDouble
+	rotation : XSDataDouble
+	exposureTime : XSDataDouble
+	resolution : XSDataDouble
+	completeness : XSDataDouble
+	multiplicity : XSDataDouble
+	anomalous : XSDataBoolean
+	program : XSDataString
+	rankingResolution : XSDataDouble
+	transmission : XSDataDouble
+}
+
+complex type XSDataInputISPyB extends XSDataInput {
+	screening : XSDataISPyBScreening optional
+	screeningInput : XSDataISPyBScreeningInput [] optional
+	screeningOutputContainer : XSDataISPyBScreeningOutputContainer [] optional
+	screeningRank : XSDataISPyBScreeningRank
+	[] optional
+	screeningRankSet : XSDataISPyBScreeningRankSet optional
+	image : XSDataISPyBImage optional
+}
+
+complex type XSDataResultISPyB extends XSDataResult {
+	dataCollectionId : XSDataInteger optional
+	screeningStatus : XSDataResultStatus optional
+	screeningInputStatus : XSDataResultStatus [] optional
+	screeningOutputStatus : XSDataResultStatus [] optional
+	screeningOutputLatticeStatus : XSDataResultStatus [] optional
+	screeningRankStatus : XSDataResultStatus [] optional
+	screeningRankSetStatus : XSDataResultStatus optional
+	screeningStrategyStatus : XSDataResultStatus [] optional
+}
+
+complex type XSDataResultStatus extends XSData {
+	id : XSDataInteger
+	code : XSDataString
+	message : XSDataString
+}
+
+complex type XSDatadbstatus extends XSData {
+	screeningId : integer
+	screeningInputId : integer
+	screeningOutputId : integer
+	screeningOutputLatticeId : integer
+	screeningStrategyId : integer
+	screeningRankId : integer
+	screeningRankSetId : integer
+	dataCollectionId : integer
+	code : string
+	message : string
+}
