@@ -217,6 +217,37 @@ complex type XSDataISPyBDataCollection {
 }
 
 
+complex type XSDataISPyBDiffractionPlan {
+	diffractionPlanId : integer optional
+	xmlDocumentId : integer optional
+	experimentKind : string optional
+	observedResolution : double optional
+	minimalResolution : double optional
+	exposureTime : double optional
+	oscillationRange : double optional
+	maximalResolution : double optional
+	screeningResolution : double optional
+	radiationSensitivity : double optional
+	anomalousScatterer : string optional
+	preferredBeamSizeX : double optional
+	preferredBeamSizeY : double optional
+	comments : string optional
+	aimedCompleteness : double optional
+	aimedIOverSigmaAtHighestResolution : double optional
+	aimedMultiplicity : double optional
+	aimedResolution : double optional
+	anomalousData : boolean optional
+	complexity : string optional
+	estimateRadiationDamage : boolean optional
+	forcedSpaceGroup : string optional
+	requiredCompleteness : double optional
+	requiredMultiplicity : double optional
+	requiredResolution : double optional
+	strategyOption : string optional
+	kappaStrategyOption : string optional
+	numberOfPositions : integer optional
+}
+
 complex type XSDataISPyBScreening extends XSData {
 	screeningId : integer optional
 	dataCollectionId : integer
@@ -423,6 +454,7 @@ complex type XSDataISPyBImage extends XSData {
 }
 
 complex type XSDataInputISPyBScreening extends XSDataInput {
+	diffractionPlan : XSDataISPyBDiffractionPlan optional
 	file : XSDataISPyBScreeningFile [] optional
 	image : XSDataISPyBImage optional
 	screening : XSDataISPyBScreening optional
