@@ -1,5 +1,8 @@
 <?xml version="1.0" ?>
 <XSDataInputControlIPSyB>
+	<dataCollectionId>
+		<value>123456</value>
+	</dataCollectionId>
 	<characterisationResult>
 	    <dataCollection>
 	        <diffractionPlan>
