@@ -140,9 +140,6 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
             oReturnValue = _oDefaultValue
         else:
             oReturnValue = _xsData.value
-        if oReturnValue.__class__.__name__ == 'unicode':
-            oReturnValue = str(oReturnValue)
-        print oReturnValue.__class__.__name__
         return oReturnValue
 
     
@@ -160,7 +157,6 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
     def storeOrUpdateDiffractionPlan(self, _clientToolsForBLSampleWebServiceWsdl, _xsDataISPyBDiffractionPlan):
         """Creates an entry in the ISPyB AutoProcProgram table"""
         self.DEBUG("EDPluginISPyBStoreScreeningv1_3.storeOrUpdateDiffractionPlan")
-        print _xsDataISPyBDiffractionPlan.marshal()
         iDiffractionPlanId = self.getXSValue(_xsDataISPyBDiffractionPlan.diffractionPlanId, 0)
         iXmlDocumentId     = self.getXSValue(_xsDataISPyBDiffractionPlan.xmlDocumentId, 0)
         strExperimentKind  = self.getXSValue(_xsDataISPyBDiffractionPlan.experimentKind, "OSC")
@@ -189,7 +185,7 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         strStrategyOption = self.getXSValue(_xsDataISPyBDiffractionPlan.strategyOption, "")
         strKappaStrategyOption = self.getXSValue(_xsDataISPyBDiffractionPlan.kappaStrategyOption, "")
         iNumberOfPositions = self.getXSValue(_xsDataISPyBDiffractionPlan.numberOfPositions, 1)
-        iDifftactionPlanId = _clientToolsForBLSampleWebServiceWsdl.service.storeOrUpdateDiffractionPlan(
+        iDiffractionPlanId = _clientToolsForBLSampleWebServiceWsdl.service.storeOrUpdateDiffractionPlan(
                 in0 = iDiffractionPlanId, \
                 in1 = iXmlDocumentId, \
                 in2 = strExperimentKind, \
@@ -219,8 +215,8 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
                 in26 = strKappaStrategyOption, \
                 in27 = iNumberOfPositions                
                 )
-        self.DEBUG("iDiffractionPlanId: %r" % iDifftactionPlanId)
-        return iDifftactionPlanId
+        self.DEBUG("iDiffractionPlanId: %r" % iDiffractionPlanId)
+        return iDiffractionPlanId
 
     def storeOrUpdateScreeningRequest(self, _clientToolsForScreeningEDNAWebServiceWsdl, _xsDataISPyBScreening):
         """Creates an entry in the ISPyB Screening table"""
