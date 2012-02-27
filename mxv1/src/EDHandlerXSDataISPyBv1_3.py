@@ -323,6 +323,7 @@ class EDHandlerXSDataISPyBv1_3:
             if listXSDataCollectionPlan != []:
                 xsDataISPyBScreeningStrategyWedgeContainer = XSDataISPyBScreeningStrategyWedgeContainer()
                 for xsDataCollectionPlan in listXSDataCollectionPlan:
+                    numberOfImagesWedge = None
                     xsDataISPyBScreeningStrategyWedge = XSDataISPyBScreeningStrategyWedge()
                     xsDataISPyBScreeningStrategyWedge.wedgeNumber = xsDataCollectionPlan.collectionPlanNumber
                     strCollectionPlanComment = None
@@ -337,14 +338,29 @@ class EDHandlerXSDataISPyBv1_3:
                     xsDataCollectionStrategy = xsDataCollectionPlan.collectionStrategy
                     if xsDataCollectionStrategy is not None:
                         for xsDataSubWedge in xsDataCollectionStrategy.subWedge:
+                            numberOfImagesSubWedge = None
                             xsDataISPyBScreeningStrategySubWedge = XSDataISPyBScreeningStrategySubWedge()
                             xsDataISPyBScreeningStrategySubWedge.subWedgeNumber = xsDataSubWedge.subWedgeNumber
                             xsDataISPyBScreeningStrategySubWedge.axisStart = xsDataSubWedge.experimentalCondition.goniostat.rotationAxisStart
                             xsDataISPyBScreeningStrategySubWedge.axisEnd = xsDataSubWedge.experimentalCondition.goniostat.rotationAxisEnd
                             xsDataISPyBScreeningStrategySubWedge.oscillationRange = xsDataSubWedge.experimentalCondition.goniostat.oscillationWidth
+                            # Number of images
+                            if  (xsDataSubWedge.experimentalCondition.goniostat.rotationAxisStart is not None) and \
+                                (xsDataSubWedge.experimentalCondition.goniostat.rotationAxisEnd is not None) and \
+                                (xsDataSubWedge.experimentalCondition.goniostat.oscillationWidth is not None):
+                                numberOfImagesSubWedge = int( (xsDataSubWedge.experimentalCondition.goniostat.rotationAxisEnd.value - \
+                                                 xsDataSubWedge.experimentalCondition.goniostat.rotationAxisStart.value) / \
+                                                 xsDataSubWedge.experimentalCondition.goniostat.oscillationWidth.value + 0.5) 
+                                xsDataISPyBScreeningStrategySubWedge.numberOfImages = XSDataInteger(numberOfImagesSubWedge)
+                                if numberOfImagesWedge is None:
+                                    numberOfImagesWedge = numberOfImagesSubWedge
+                                else:
+                                    numberOfImagesWedge += numberOfImagesSubWedge
                             xsDataISPyBScreeningStrategySubWedge.exposureTime = xsDataSubWedge.experimentalCondition.beam.exposureTime
                             xsDataISPyBScreeningStrategySubWedge.transmission = xsDataSubWedge.experimentalCondition.beam.transmission
                         xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
+                    if numberOfImagesWedge is not None:
+                        xsDataISPyBScreeningStrategyWedge.numberOfImages = XSDataInteger(numberOfImagesWedge)
                     xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge = xsDataISPyBScreeningStrategyWedge
                 xsDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer(xsDataISPyBScreeningStrategyWedgeContainer)   
             xsDataISPyBScreeningStrategyContainer.screeningStrategy = xsDataISPyBScreeningStrategy
