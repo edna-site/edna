@@ -12,6 +12,9 @@
 	            <maxExposureTimePerDataCollection>
 	                <value>1.000000e+03</value>
 	            </maxExposureTimePerDataCollection>
+	            <anomalousData>
+	            	<value>true</value>
+	            </anomalousData>
 	        </diffractionPlan>
 	        <sample>
 	            <chemicalComposition>

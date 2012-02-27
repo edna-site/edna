@@ -4,6 +4,9 @@
         <complexity>
             <value>full</value>
         </complexity>
+        <anomalousData>
+        	<value>true</value>
+        </anomalousData>
     </diffractionPlan>
     <screening>
         <dataCollectionId>

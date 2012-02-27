@@ -140,6 +140,9 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
             oReturnValue = _oDefaultValue
         else:
             oReturnValue = _xsData.value
+        if oReturnValue.__class__.__name__ == 'unicode':
+            oReturnValue = str(oReturnValue)
+        print oReturnValue.__class__.__name__
         return oReturnValue
 
     
@@ -157,72 +160,64 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
     def storeOrUpdateDiffractionPlan(self, _clientToolsForBLSampleWebServiceWsdl, _xsDataISPyBDiffractionPlan):
         """Creates an entry in the ISPyB AutoProcProgram table"""
         self.DEBUG("EDPluginISPyBStoreScreeningv1_3.storeOrUpdateDiffractionPlan")
+        print _xsDataISPyBDiffractionPlan.marshal()
         iDiffractionPlanId = self.getXSValue(_xsDataISPyBDiffractionPlan.diffractionPlanId, 0)
         iXmlDocumentId     = self.getXSValue(_xsDataISPyBDiffractionPlan.xmlDocumentId, 0)
-        strExperimentKind  = self.getXSValue(_xsDataISPyBDiffractionPlan.experimentKind, "Test")
-        fObservedResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.observedResolution, 9999.0)
-        fMinimalResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.minimalResolution, 9999.0)
-#        exposureTime : XSDataDouble optional
-#        oscillationRange : XSDataDouble optional
-#        maximalResolution : XSDataDouble optional
-#        screeningResolution : XSDataDouble optional
-#        radiationSensitivity : XSDataDouble optional
-#        anomalousScatterer : XSDataString optional
-#        preferredBeamSizeX : XSDataDouble optional
-#        preferredBeamSizeY : XSDataDouble optional
-#        comments : XSDataString optional
-#        aimedCompleteness : XSDataDouble optional
-#        aimedIOverSigmaAtHighestResolution : XSDataDouble optional
-#        aimedMultiplicity : XSDataDouble optional
-#        aimedResolution : XSDataDouble optional
-#        anomalousData : XSDataBoolean optional
-#        complexity : XSDataString optional
-#        estimateRadiationDamage : XSDataBoolean optional
-#        forcedSpaceGroup : XSDataString optional
-#        requiredCompleteness : XSDataDouble optional
-#        requiredMultiplicity : XSDataDouble optional
-#        requiredResolution : XSDataDouble optional
-#        strategyOption : XSDataString optional
-#        kappaStrategyOption : XSDataString optional
-#        numberOfPositions : XSDataInteger optional
-#        
-#        strProcessingCommandLine = self.getValue(_xsDataAutoProcProgram.getProcessingCommandLine(), "")
-#        strProcessingPrograms    = self.getValue(_xsDataAutoProcProgram.getProcessingPrograms(), "")
-#        bProcessingStatus        = self.getValue(_xsDataAutoProcProgram.getProcessingStatus(), True)
-#        strProcessingMessage     = self.getValue(_xsDataAutoProcProgram.getProcessingMessage(), "")
-#        processingStartTime      = self.getDateValue(_xsDataAutoProcProgram.getProcessingStartTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-#        processingEndTime        = self.getDateValue(_xsDataAutoProcProgram.getProcessingEndTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-#        strProcessingEnvironment = self.getValue(_xsDataAutoProcProgram.getProcessingEnvironment(), "")
-#        recordTimeStamp          = DateTime(datetime.datetime.now())
+        strExperimentKind  = self.getXSValue(_xsDataISPyBDiffractionPlan.experimentKind, "OSC")
+        fObservedResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.observedResolution, -1.0)
+        fMinimalResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.minimalResolution, -1.0)
+        fExposureTime = self.getXSValue(_xsDataISPyBDiffractionPlan.exposureTime, -1.0)
+        fOscillationRange = self.getXSValue(_xsDataISPyBDiffractionPlan.oscillationRange, -1.0)
+        fMaximalResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.maximalResolution, -1.0)
+        fScreeningResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.screeningResolution, -1.0)
+        fRadiationSensitivity = self.getXSValue(_xsDataISPyBDiffractionPlan.radiationSensitivity, -1.0)
+        strAnomalousScatterer = self.getXSValue(_xsDataISPyBDiffractionPlan.anomalousScatterer, "")
+        fPreferredBeamSizeX = self.getXSValue(_xsDataISPyBDiffractionPlan.preferredBeamSizeX, -1.0)
+        fPreferredBeamSizeY = self.getXSValue(_xsDataISPyBDiffractionPlan.preferredBeamSizeY, -1.0)
+        strComments = self.getXSValue(_xsDataISPyBDiffractionPlan.comments, "")
+        fAimedCompleteness = self.getXSValue(_xsDataISPyBDiffractionPlan.aimedCompleteness, -1.0)
+        fAimedIOverSigmaAtHighestResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.aimedIOverSigmaAtHighestResolution, -1.0)
+        fAimedMultiplicity = self.getXSValue(_xsDataISPyBDiffractionPlan.aimedMultiplicity, -1.0)
+        fAimedResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.aimedResolution, -1.0)
+        bAnomalousData = self.getXSValue(_xsDataISPyBDiffractionPlan.anomalousData, False)
+        strComplexity = self.getXSValue(_xsDataISPyBDiffractionPlan.complexity, "")
+        bEstimateRadiationDamage = self.getXSValue(_xsDataISPyBDiffractionPlan.estimateRadiationDamage, False)
+        strForcedSpaceGroup = self.getXSValue(_xsDataISPyBDiffractionPlan.forcedSpaceGroup, "")
+        fRequiredCompleteness = self.getXSValue(_xsDataISPyBDiffractionPlan.requiredCompleteness, -1.0)
+        fRequiredMultiplicity = self.getXSValue(_xsDataISPyBDiffractionPlan.requiredMultiplicity, -1.0)
+        fRequiredResolution = self.getXSValue(_xsDataISPyBDiffractionPlan.requiredResolution, -1.0)
+        strStrategyOption = self.getXSValue(_xsDataISPyBDiffractionPlan.strategyOption, "")
+        strKappaStrategyOption = self.getXSValue(_xsDataISPyBDiffractionPlan.kappaStrategyOption, "")
+        iNumberOfPositions = self.getXSValue(_xsDataISPyBDiffractionPlan.numberOfPositions, 1)
         iDifftactionPlanId = _clientToolsForBLSampleWebServiceWsdl.service.storeOrUpdateDiffractionPlan(
                 in0 = iDiffractionPlanId, \
                 in1 = iXmlDocumentId, \
-                in2 = None, \
-                in3 = None, \
-                in4 = None, \
-                in5 = None, \
-                in6 = None, \
-                in7 = None, \
-                in8 = None, \
-                in9 = None, \
-                in10 = None, \
-                in11 = None, \
-                in12 = None, \
-                in13 = None, \
-                in14 = None, \
-                in15 = None, \
-                in16 = None, \
-                in17 = None, \
-                in18 = None, \
-                in19 = None, \
-                in20 = None, \
-                in21 = None, \
-                in22 = None, \
-                in23 = None, \
-                in24 = None, \
-                in25 = None, \
-                in26 = None, \
-                in27 = None                
+                in2 = strExperimentKind, \
+                in3 = fObservedResolution, \
+                in4 = fMinimalResolution, \
+                in5 = fExposureTime, \
+                in6 = fOscillationRange, \
+                in7 = fMaximalResolution, \
+                in8 = fScreeningResolution, \
+                in9 = fRadiationSensitivity, \
+                in10 = strAnomalousScatterer, \
+                in11 = fPreferredBeamSizeX, \
+                in12 = fPreferredBeamSizeY, \
+                in13 = strComments, \
+                in14 = fAimedCompleteness, \
+                in15 = fAimedIOverSigmaAtHighestResolution, \
+                in16 = fAimedMultiplicity, \
+                in17 = fAimedResolution, \
+                in18 = bAnomalousData, \
+                in19 = strComplexity, \
+                in20 = bEstimateRadiationDamage, \
+                in21 = strForcedSpaceGroup, \
+                in22 = fRequiredCompleteness, \
+                in23 = fRequiredMultiplicity, \
+                in24 = fRequiredResolution, \
+                in25 = strStrategyOption, \
+                in26 = strKappaStrategyOption, \
+                in27 = iNumberOfPositions                
                 )
         self.DEBUG("iDiffractionPlanId: %r" % iDifftactionPlanId)
         return iDifftactionPlanId
