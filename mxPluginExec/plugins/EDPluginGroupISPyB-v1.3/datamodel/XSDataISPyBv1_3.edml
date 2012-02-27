@@ -454,7 +454,7 @@ complex type XSDataISPyBImage extends XSData {
 	temperature : XSDataDouble
 }
 
-complex type XSDataInputISPyBScreening extends XSDataInput {
+complex type XSDataInputISPyBStoreScreening extends XSDataInput {
 	diffractionPlan : XSDataISPyBDiffractionPlan optional
 	file : XSDataISPyBScreeningFile [] optional
 	image : XSDataISPyBImage optional
@@ -465,17 +465,13 @@ complex type XSDataInputISPyBScreening extends XSDataInput {
 	screeningRankSet : XSDataISPyBScreeningRankSet optional
 }
 
-complex type XSDataResultISPyB extends XSDataResult {
-	dataCollectionId : XSDataInteger optional
-	screeningFileStatus : XSDataResultStatus [] optional
-	screeningInputStatus : XSDataResultStatus [] optional
-	screeningOutputLatticeStatus : XSDataResultStatus [] optional
-	screeningOutputStatus : XSDataResultStatus [] optional
-	screeningRankSetStatus : XSDataResultStatus optional
-	screeningRankStatus : XSDataResultStatus [] optional
-	screeningStatus : XSDataResultStatus optional
-	screeningStrategyStatus : XSDataResultStatus [] optional
-	screeningStrategySubWedgeStatus : XSDataResultStatus [] optional
-	screeningStrategyWedgeStatus : XSDataResultStatus [] optional
+complex type XSDataResultISPyBStoreScreening extends XSDataResult {
+	diffractionPlanId : XSDataInteger optional
+	screeningId : XSDataInteger optional
+	screeningFileStatusId : XSDataInteger optional
+	screeningInputStatusId : XSDataInteger optional
+	screeningOutputLatticeStatusId : XSDataInteger optional
+	screeningOutputStatusId : XSDataInteger optional
+	screeningStatusId : XSDataInteger optional
 }
 

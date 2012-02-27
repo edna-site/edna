@@ -42,7 +42,6 @@ from EDFactoryPluginStatic               import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("EDHandlerXSDataISPyBv1_3")
 from EDHandlerXSDataISPyBv1_3 import EDHandlerXSDataISPyBv1_3
 
-from XSDataISPyBv1_3 import XSDataInputISPyBScreening
 from XSDataMXv1 import XSDataInputControlISPyB
 
 class EDTestCaseEDHandlerISPyBv1_3(EDTestCase):

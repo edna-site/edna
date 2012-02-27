@@ -42,8 +42,7 @@ import time
 
 EDFactoryPluginStatic.loadModule("XSDataISPyBv1_3")
 
-from XSDataISPyBv1_3 import XSDataInputISPyBScreening,\
-    XSDataISPyBScreeningStrategyContainer
+from XSDataISPyBv1_3 import XSDataInputISPyBStoreScreening
 from XSDataISPyBv1_3 import XSDataISPyBDiffractionPlan
 from XSDataISPyBv1_3 import XSDataISPyBScreening
 from XSDataISPyBv1_3 import XSDataISPyBScreeningInput
@@ -54,6 +53,7 @@ from XSDataISPyBv1_3 import XSDatadbstatus
 from XSDataISPyBv1_3 import XSDataISPyBScreeningOutputContainer
 from XSDataISPyBv1_3 import XSDataISPyBScreeningOutputLattice
 from XSDataISPyBv1_3 import XSDataISPyBScreeningStrategy
+from XSDataISPyBv1_3 import XSDataISPyBScreeningStrategyContainer
 from XSDataISPyBv1_3 import XSDataISPyBScreeningStrategyWedgeContainer
 from XSDataISPyBv1_3 import XSDataISPyBScreeningStrategyWedge
 from XSDataISPyBv1_3 import XSDataISPyBScreeningStrategySubWedge
@@ -70,7 +70,7 @@ class EDHandlerXSDataISPyBv1_3:
         """
         EDFactoryPluginStatic.loadModule("XSDataISPyBv1_3")
 
-        xsDataInputISPyBScreening = XSDataInputISPyBScreening()
+        xsDataInputISPyBStoreScreening = XSDataInputISPyBStoreScreening()
 
         xsDataResultCharacterisation = _xsDataInputControlISPyB.getCharacterisationResult()
         xsDataIntegerDataCollectionId = _xsDataInputControlISPyB.getDataCollectionId()
@@ -89,12 +89,12 @@ class EDHandlerXSDataISPyBv1_3:
 
         # Assemble the input
         xsDataISPyBScreening.dataCollectionId = xsDataIntegerDataCollectionId
-        xsDataInputISPyBScreening.diffractionPlan = xsDataISPyBDiffractionPlan
-        xsDataInputISPyBScreening.screening = xsDataISPyBScreening
-        xsDataInputISPyBScreening.screeningInput = xsDataISPyBScreeningInput
-        xsDataInputISPyBScreening.addScreeningOutputContainer(xsDataISPyBScreeningOutputContainer)
+        xsDataInputISPyBStoreScreening.diffractionPlan = xsDataISPyBDiffractionPlan
+        xsDataInputISPyBStoreScreening.screening = xsDataISPyBScreening
+        xsDataInputISPyBStoreScreening.screeningInput = xsDataISPyBScreeningInput
+        xsDataInputISPyBStoreScreening.addScreeningOutputContainer(xsDataISPyBScreeningOutputContainer)
 
-        return xsDataInputISPyBScreening
+        return xsDataInputISPyBStoreScreening
 
 #        # Data collection information
 #        bAnomalousData = None
@@ -128,7 +128,7 @@ class EDHandlerXSDataISPyBv1_3:
 #                strDirectoryName = EDUtilsPath.getFolderName(strPathToFirstImage)
 #                xsDataISPyBImage.setFileName(XSDataString(strImageBaseName))
 #                xsDataISPyBImage.setFileLocation(XSDataString(strDirectoryName))
-#                xsDataInputISPyBScreening.setImage(xsDataISPyBImage)
+#                xsDataInputISPyBStoreScreening.setImage(xsDataISPyBImage)
 #
 #        # Indexing information
 #        bSuccessfulIndexing = False

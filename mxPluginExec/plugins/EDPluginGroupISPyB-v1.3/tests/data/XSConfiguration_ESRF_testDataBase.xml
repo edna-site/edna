@@ -77,5 +77,26 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>	
+		<XSPluginItem> 
+			<name>EDPluginISPyBStoreScreeningv1_3</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForBLSampleWebServiceWsdl</name>
+					<value>http://pytest.esrf.fr:8080/jboss-net/services/ToolsForBLSampleWebService?wsdl</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForScreeningEDNAWebServiceWsdl</name>
+					<value>http://pytest.esrf.fr:8080/jboss-net/services/ToolsForScreeningEDNAWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>	
 	</XSPluginList> 
 </XSConfiguration> 
