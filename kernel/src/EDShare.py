@@ -31,7 +31,7 @@ __authors__ = [ "Jérôme Kieffer" ]
 __contact__ = "jerome.kieffer@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20120113"
+__date__ = "20120228"
 
 import os, tempfile
 from EDLogging              import EDLogging
@@ -84,17 +84,16 @@ class EDShare(EDLogging, EDSession):
         getter for a key:
         """
         if self.isInitialized():
-            self.synchronizeOn()
-            if key in self._listKeys:
-                try:
-                    value = self._storage[key]
-                except:
+            with self.locked():
+                if key in self._listKeys:
+                    try:
+                        value = self._storage[key]
+                    except:
+                        value = None
+                        self.ERROR("EDShare (exception):  no such key %s" % key)
+                else:
                     value = None
-                    self.ERROR("EDShare (exception):  no such key %s" % key)
-            else:
-                value = None
-                self.ERROR("EDShare: no such key %s" % key)
-            self.synchronizeOff()
+                    self.ERROR("EDShare: no such key %s" % key)
         else:
             self.WARNING("EDShare is uninitialized: initializing")
             self.initialize()
@@ -202,7 +201,12 @@ class EDShare(EDLogging, EDSession):
         with self.locked():
             if self.isInitialized():
                 if self._backend == "hdf5":
-                    self._storage.flush()
+                    if h5py.version.api_version_tuple < (1, 10):
+                        # This is a work arround because "flush" does not lean a file readable from outside. 
+                        self._storage.close()
+                        self._storage = h5py.File(self._filename)
+                    else:
+                        self._storage.flush()
                 elif (self._backend == "dict"):
                     fileOut = open(self._filename, "w")
                     self._storage = pickle.dump(self._storage, fileOut)
@@ -220,11 +224,12 @@ class EDShare(EDLogging, EDSession):
         
         Useful for testing mainly
         """
-        self.flush()
         with self.locked():
             if self.isInitialized():
                 if self._backend == "hdf5":
                     self._storage.close()
+                else:
+                    self._storage.flush()
                 self._listKeys = []
                 self._storage = None
                 if remove:
