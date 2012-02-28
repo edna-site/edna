@@ -237,3 +237,98 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         self.DEBUG("ScreeningId: %r" % iScreeningId)
         return iScreeningId
 
+    def storeOrUpdateScreeningInputRequest(self, _clientToolsForScreeningEDNAWebServiceWsdl, _xsDataISPyBScreeningInput):
+        """Creates an entry in the ISPyB Screening Input table"""
+        self.DEBUG("EDPluginISPyBStoreScreeningv1_3.storestoreOrUpdateScreeningRequest")
+        screeningInputId = self.getXSValue(_xsDataISPyBScreeningInput.screeningInputId, 0)
+        screeningId = self.getXSValue(_xsDataISPyBScreeningInput.screeningId, 0)
+        diffractionPlanId = self.getXSValue(_xsDataISPyBScreeningInput.diffractionPlanId, 0)
+        beamX = self.getXSValue(_xsDataISPyBScreeningInput.beamX, 0)
+        beamY = self.getXSValue(_xsDataISPyBScreeningInput.beamY, 0)
+        rmsErrorLimits = self.getXSValue(_xsDataISPyBScreeningInput.rmsErrorLimits, 0)
+        minimumFractionIndexed = self.getXSValue(_xsDataISPyBScreeningInput.minimumFractionIndexed, 0)
+        maximumFractionRejected = self.getXSValue(_xsDataISPyBScreeningInput.maximumFractionRejected, 0)
+        minimumSignalToNoise = self.getXSValue(_xsDataISPyBScreeningInput.minimumSignalToNoise, 0)
+        xmlSampleInformation = self.getXSValue(_xsDataISPyBScreeningInput.xmlSampleInformation, 0)
+        iScreeningInputId      = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningInput(
+                in0 = screeningInputId, \
+                in1 = screeningId, \
+                in2 = diffractionPlanId, \
+                in3 = beamX, \
+                in4 = beamY, \
+                in5 = rmsErrorLimits, \
+                in6 = minimumFractionIndexed, \
+                in7 = maximumFractionRejected, \
+                in8 = minimumSignalToNoise, \
+                in9 = xmlSampleInformation, \
+                )
+        self.DEBUG("ScreeningId: %r" % iScreeningInputId)
+        return iScreeningInputId
+
+    def storeOrUpdateScreeningOutputRequest(self, _clientToolsForScreeningEDNAWebServiceWsdl, _xsDataISPyBScreeningOutput):
+        """Creates an entry in the ISPyB Screening Output table"""
+        self.DEBUG("EDPluginISPyBStoreScreeningv1_3.storeOrUpdateScreeningOutputRequest")
+        screeningOutputId = self.getXSValue(_xsDataISPyBScreeningOutput.screeningOutputId, 0)
+        screeningId = self.getXSValue(_xsDataISPyBScreeningOutput.screeningId, 0)
+        statusDescription = self.getXSValue(_xsDataISPyBScreeningOutput.statusDescription, 0)
+        rejectedReflections = self.getXSValue(_xsDataISPyBScreeningOutput.rejectedReflections, 0)
+        resolutionObtained = self.getXSValue(_xsDataISPyBScreeningOutput.resolutionObtained, 0)
+        spotDeviationR = self.getXSValue(_xsDataISPyBScreeningOutput.spotDeviationR, 0)
+        spotDeviationTheta = self.getXSValue(_xsDataISPyBScreeningOutput.spotDeviationTheta, 0)
+        beamShiftX = self.getXSValue(_xsDataISPyBScreeningOutput.beamShiftX, 0)
+        beamShiftY = self.getXSValue(_xsDataISPyBScreeningOutput.beamShiftY, 0)
+        numSpotsFound = self.getXSValue(_xsDataISPyBScreeningOutput.numSpotsFound, 0)
+        numSpotsUsed = self.getXSValue(_xsDataISPyBScreeningOutput.numSpotsUsed, 0)
+        numSpotsRejected = self.getXSValue(_xsDataISPyBScreeningOutput.numSpotsRejected, 0)
+        mosaicity = self.getXSValue(_xsDataISPyBScreeningOutput.mosaicity, 0)
+        iOverSigma = self.getXSValue(_xsDataISPyBScreeningOutput.iOverSigma, 0)
+        diffractionRings = self.getXSValue(_xsDataISPyBScreeningOutput.diffractionRings, 0)
+        screeningSuccess = self.getXSValue(_xsDataISPyBScreeningOutput.screeningSuccess, 0)
+        mosaicityEstimated = self.getXSValue(_xsDataISPyBScreeningOutput.mosaicityEstimated, 0)
+        iScreeningOutputId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutput(
+                in0 = screeningOutputId, \
+                in1 = screeningId, \
+                in2 = statusDescription, \
+                in3 = rejectedReflections, \
+                in4 = resolutionObtained, \
+                in5 = spotDeviationR, \
+                in6 = spotDeviationTheta, \
+                in7 = beamShiftX, \
+                in8 = beamShiftY, \
+                in9 = numSpotsFound, \
+                in10 = numSpotsUsed, \
+                in11 = numSpotsRejected, \
+                in12 = mosaicity, \
+                in13 = iOverSigma, \
+                in14 = diffractionRings, \
+                in15 = screeningSuccess, \
+                in16 = mosaicityEstimated, \
+                )
+        self.DEBUG("ScreeningOutputId: %r" % iScreeningOutputId)
+        return iScreeningOutputId
+        
+    def storeOrUpdateScreeningOutputLatticeRequest(self, _clientToolsForScreeningEDNAWebServiceWsdl, _xsDataISPyBScreeningOutputLattice):
+        """Creates an entry in the ISPyB Screening Output Lattice table"""
+        self.DEBUG("EDPluginISPyBStoreScreeningv1_3.storeOrUpdateScreeningOutputLatticeRequest")
+        screeningOutputLatticeId = self.getXSValue(_xsDataISPyBScreeningOutputLattice.screeningOutputLatticeId, 0)
+        screeningOutputId = self.getXSValue(_xsDataISPyBScreeningOutputLattice.screeningOutputId, 0)
+        spaceGroup = self.getXSValue(_xsDataISPyBScreeningOutputLattice.spaceGroup, 0)
+        pointGroup = self.getXSValue(_xsDataISPyBScreeningOutputLattice.pointGroup, 0)
+        bravaisLattice = self.getXSValue(_xsDataISPyBScreeningOutputLattice.bravaisLattice, 0)
+        rawOrientationMatrix_a_x = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_a_x, 0)
+        rawOrientationMatrix_a_y = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_a_y, 0)
+        rawOrientationMatrix_a_z = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_a_z, 0)
+        rawOrientationMatrix_b_x = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_b_x, 0)
+        rawOrientationMatrix_b_y = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_b_y, 0)
+        rawOrientationMatrix_b_z = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_b_z, 0)
+        rawOrientationMatrix_c_x = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_c_x, 0)
+        rawOrientationMatrix_c_y = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_c_y, 0)
+        rawOrientationMatrix_c_z = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_c_z, 0)
+        unitCell_a = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_a, 0)
+        unitCell_alpha = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_alpha, 0)
+        unitCell_b = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_b, 0)
+        unitCell_beta = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_beta, 0)
+        unitCell_c = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_c, 0)
+        unitCell_gamma = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_gamma, 0)
+        #timeStamp = self.getXSValue(_xsDataISPyBScreeningOutputLattice.screeningId, 0)
+            
