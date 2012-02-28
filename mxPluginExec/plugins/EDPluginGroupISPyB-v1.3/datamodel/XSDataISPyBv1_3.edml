@@ -218,7 +218,7 @@ complex type XSDataISPyBDataCollection {
 }
 
 
-complex type XSDataISPyBDiffractionPlan {
+complex type XSDataISPyBDiffractionPlan extends XSData {
 	diffractionPlanId : XSDataInteger optional
 	xmlDocumentId : XSDataInteger optional
 	experimentKind : XSDataString optional
@@ -380,7 +380,7 @@ complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
 complex type XSDataISPyBScreeningInput extends XSData {
 	screeningInputId : XSDataInteger optional
 	screeningId : XSDataInteger
-	diffractionPlanId: XSDataInteger
+	diffractionPlanId : XSDataInteger
 	beamX : XSDataLength
 	beamY : XSDataLength
 	rmsErrorLimits : XSDataDouble
