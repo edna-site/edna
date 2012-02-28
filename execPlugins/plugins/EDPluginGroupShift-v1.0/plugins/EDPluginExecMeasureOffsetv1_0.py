@@ -24,7 +24,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
-import EDLogging
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
@@ -42,6 +41,7 @@ from XSDataShiftv1_0        import XSDataResultMeasureOffset
 from EDAssert               import EDAssert
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
+
 
 
 ################################################################################
@@ -75,7 +75,7 @@ try:
     MeasureOffset = imp.load_module(*(("MeasureOffset",) + imp.find_module("MeasureOffset", [srcDir])))
 except ImportError, error:
     strErr = "Unable to load the MeasureOffset module from %s; %s" % (srcDir, error)
-    EDLogging.ERROR(strErr)
+    EDVerbose.ERROR(strErr)
     raise ImportError(strErr)
 
 class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
@@ -121,20 +121,20 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         """
         EDPluginExec.configure(self)
         if self.CONF_CONVOLUTION is None:
-            self.synchronizeOn()
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0.configure")
-            xsPluginItem = self.getConfiguration()
-            if (xsPluginItem == None):
-                self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No plugin item defined.")
-                xsPluginItem = XSPluginItem()
-            strCONVOLUTION = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_CONVOLUTION_KEY)
-            if(strCONVOLUTION == None):
-                self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
-                            % (self.CONF_CONVOLUTION_KEY, self.CONF_CONVOLUTION_DEFAULT, xsPluginItem.marshal()))
-                self.CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
-            else:
-                self.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
-            self.synchronizeOff()
+            with self.__class__.__sem:
+                self.DEBUG("EDPluginExecMeasureOffsetv1_0.configure")
+                xsPluginItem = self.getConfiguration()
+                if (xsPluginItem == None):
+                    self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No plugin item defined.")
+                    xsPluginItem = XSPluginItem()
+                strCONVOLUTION = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_CONVOLUTION_KEY)
+                if(strCONVOLUTION == None):
+                    self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
+                                % (self.CONF_CONVOLUTION_KEY, self.CONF_CONVOLUTION_DEFAULT, xsPluginItem.marshal()))
+                    self.CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
+                else:
+                    self.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
+
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
