@@ -66,7 +66,8 @@ class EDTestCasePluginUnitHDF5(EDTestCasePluginUnit):
         h5grp = self.edluginHDF5.createStructure(testfile, struct, {struct:{"foo":"bar"}, "/toto/titi":{"spam":"eggs"}, "/toto":{"tintin":"milou"}})
         EDAssert.equal(h5grp.name, struct, "Check the internal HDF5 path")
         EDAssert.equal(h5grp.file.filename, testfile, "Check the name of the HDF5 File")
-        self.edluginHDF5.flush(testfile)
+        self.edluginHDF5.flushFile(testfile)
+        h5grp = self.edluginHDF5.getHDF5File(testfile)[struct]
         ds = h5grp.require_dataset("fake", (10, 10), "i")
         ds[2] = range(10)
         self.edluginHDF5.flushAll()

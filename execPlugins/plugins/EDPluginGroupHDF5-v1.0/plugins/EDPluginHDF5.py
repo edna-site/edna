@@ -112,6 +112,21 @@ class EDPluginHDF5(EDPluginExec):
         self.dictExtraAttributes = {} #key= h5path, value dict of attributes
         self.__iChunkSegmentation = 1
 
+    def get(self, h5Path, default):
+        try:
+            self.__getitem__(h5Path)
+        except KeyError:
+            return default
+
+    def __getitem__(self, item):
+        """
+        implements a getter a la dictionnary but compatible with  
+        """
+        if self.strHDF5Filename in self.__dictLock:
+            return  self.__dictHDF5[item]
+        else:
+            raise KeyError("HDF5 file %s not under control of EDPluginHDF5" % self.strHDF5Filename)
+
 
     def checkParameters(self):
         """
@@ -282,19 +297,33 @@ class EDPluginHDF5(EDPluginExec):
         return hdf5group
 
 
+    def flush(self, filename=None):
+        """
+        method to flush (optionaly another) hdf5 file
+        """
+        if filename:
+            self.flushFile(filename)
+        else:
+            self.flushFile(self.strHDF5Filename)
+
     @classmethod
-    def flush(cls, filename):
+    def flushFile(cls, filename):
         """
         Write down to the disk the HDF5 file.
         
         @param filename: path of the file to be created
         @type filename: string
         """
-        if cls.__dictHDF5.has_key(filename):
+        if filename in cls.__dictHDF5:
             EDVerbose.log("Flushing HDF5 buffer for " + filename)
             with cls.__dictLock[filename]:
                 cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
-                cls.__dictHDF5[filename].flush()
+
+                if h5py.version.api_version_tuple < (1, 10):
+                    cls.__dictHDF5[filename].close()
+                    cls.__dictHDF5[filename] = h5py.File(filename)
+                else:
+                    cls.__dictHDF5[filename].flush()
         else:
             EDVerbose.WARNING("HDF5 Flush: %s, no such file under control" % filename)
 
@@ -341,10 +370,11 @@ class EDPluginHDF5(EDPluginExec):
         """
         with cls.__semCls:
             for filename in cls.__dictHDF5:
-                EDVerbose.log("Flushing HDF5 buffer for " + filename)
-                with cls.__dictLock[filename]:
-                    cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
-                    cls.__dictHDF5[filename].flush()
+                cls.flushFile(filename)
+#                EDVerbose.log("Flushing HDF5 buffer for " + filename)
+#                with cls.__dictLock[filename]:
+#                    cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
+#                    cls.__dictHDF5[filename].flush()
 
 
     @classmethod
