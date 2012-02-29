@@ -390,53 +390,6 @@ complex type XSDataISPyBScreeningInput extends XSData {
 	xmlSampleInformation : XSDataString
 }
 
-complex type XSDataISPyBScreeningInputContainer extends XSData {
-	screeningInput : XSDataISPyBScreeningInput
-}
-
-
-complex type XSDataISPyBScreeningOutputContainer extends XSData {
-	screeningOutput : XSDataISPyBScreeningOutput
-	screeningOutputLattice : XSDataISPyBScreeningOutputLattice [] optional
-	screeningStrategyContainer : XSDataISPyBScreeningStrategyContainer [] optional
-}
-
-
-
-
-complex type XSDataISPyBScreeningStrategyContainer extends XSData {
-	screeningStrategy : XSDataISPyBScreeningStrategy
-	screeningStrategyWedgeContainer : XSDataISPyBScreeningStrategyWedgeContainer [] optional
-}
-
-
-
-complex type XSDataISPyBScreeningStrategyWedgeContainer extends XSData {
-	screeningStrategySubWedge : XSDataISPyBScreeningStrategySubWedge [] optional
-	screeningStrategyWedge : XSDataISPyBScreeningStrategyWedge
-}
-
-complex type XSDataResultStatus extends XSData {
-	code : XSDataString
-	id : XSDataInteger
-	message : XSDataString
-}
-
-complex type XSDatadbstatus extends XSData {
-	code : XSDataString
-	dataCollectionId : XSDataInteger
-	message : XSDataString
-	screeningFileId : XSDataInteger
-	screeningId : XSDataInteger
-	screeningInputId : XSDataInteger
-	screeningOutputId : XSDataInteger
-	screeningOutputLatticeId : XSDataInteger
-	screeningRankId : XSDataInteger
-	screeningRankSetId : XSDataInteger
-	screeningStrategyId : XSDataInteger
-	screeningStrategySubWedgeId : XSDataInteger
-	screeningStrategyWedgeId : XSDataInteger
-}
 
 
 complex type XSDataISPyBImage extends XSData {
@@ -454,6 +407,29 @@ complex type XSDataISPyBImage extends XSData {
 	temperature : XSDataDouble
 }
 
+complex type XSDataISPyBScreeningInputContainer extends XSData {
+	screeningInput : XSDataISPyBScreeningInput
+}
+
+
+complex type XSDataISPyBScreeningOutputContainer extends XSData {
+	screeningOutput : XSDataISPyBScreeningOutput
+	screeningOutputLattice : XSDataISPyBScreeningOutputLattice [] optional
+	screeningStrategyContainer : XSDataISPyBScreeningStrategyContainer [] optional
+}
+
+
+complex type XSDataISPyBScreeningStrategyContainer extends XSData {
+	screeningStrategy : XSDataISPyBScreeningStrategy
+	screeningStrategyWedgeContainer : XSDataISPyBScreeningStrategyWedgeContainer [] optional
+}
+
+
+complex type XSDataISPyBScreeningStrategyWedgeContainer extends XSData {
+	screeningStrategySubWedge : XSDataISPyBScreeningStrategySubWedge [] optional
+	screeningStrategyWedge : XSDataISPyBScreeningStrategyWedge
+}
+
 complex type XSDataInputISPyBStoreScreening extends XSDataInput {
 	diffractionPlan : XSDataISPyBDiffractionPlan optional
 	file : XSDataISPyBScreeningFile [] optional
@@ -465,13 +441,8 @@ complex type XSDataInputISPyBStoreScreening extends XSDataInput {
 	screeningRankSet : XSDataISPyBScreeningRankSet optional
 }
 
+
 complex type XSDataResultISPyBStoreScreening extends XSDataResult {
-	diffractionPlanId : XSDataInteger optional
 	screeningId : XSDataInteger optional
-	screeningFileStatusId : XSDataInteger optional
-	screeningInputStatusId : XSDataInteger optional
-	screeningOutputLatticeStatusId : XSDataInteger optional
-	screeningOutputStatusId : XSDataInteger optional
-	screeningStatusId : XSDataInteger optional
 }
 
