@@ -7,6 +7,8 @@ import XSDataCommon.XSData
 import XSDataCommon.XSDataBoolean
 import XSDataCommon.XSDataString
 import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataAngle
+import XSDataCommon.XSDataTime
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
 
@@ -290,10 +292,10 @@ complex type XSDataISPyBScreeningOutput extends XSData {
 	statusDescription : XSDataString optional
 	rejectedReflections : XSDataInteger optional
 	resolutionObtained : XSDataDouble optional
-	spotDeviationR : XSDataDouble optional
-	spotDeviationTheta : XSDataDouble optional
-	beamShiftX : XSDataDouble optional
-	beamShiftY : XSDataDouble optional
+	spotDeviationR : XSDataLength optional
+	spotDeviationTheta : XSDataAngle optional
+	beamShiftX : XSDataLength optional
+	beamShiftY : XSDataLength optional
 	numSpotsFound : XSDataInteger optional
 	numSpotsUsed : XSDataInteger optional
 	numSpotsRejected : XSDataInteger optional
@@ -319,13 +321,13 @@ complex type XSDataISPyBScreeningOutputLattice extends XSData {
 	rawOrientationMatrix_c_x : XSDataDouble
 	rawOrientationMatrix_c_y : XSDataDouble
 	rawOrientationMatrix_c_z : XSDataDouble
-	unitCell_a : XSDataDouble
-	unitCell_alpha : XSDataDouble
-	unitCell_b : XSDataDouble
-	unitCell_beta : XSDataDouble
-	unitCell_c : XSDataDouble
-	unitCell_gamma : XSDataDouble
-	timeStamp : XSDataString
+	unitCell_a : XSDataLength
+	unitCell_alpha : XSDataAngle
+	unitCell_b : XSDataLength
+	unitCell_beta : XSDataAngle
+	unitCell_c : XSDataLength
+	unitCell_gamma : XSDataAngle
+	timeStamp : XSDataLength
 }
 
 complex type XSDataISPyBScreeningStrategy extends XSData {
@@ -364,11 +366,11 @@ complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
 	screeningStrategyWedgeId : XSDataInteger
 	subWedgeNumber : XSDataInteger
 	rotationAxis : XSDataString
-	axisStart : XSDataDouble
-	axisEnd : XSDataDouble
-	exposureTime : XSDataDouble
+	axisStart : XSDataAngle
+	axisEnd : XSDataAngle
+	exposureTime : XSDataTime
 	transmission : XSDataDouble
-	oscillationRange : XSDataDouble
+	oscillationRange : XSDataAngle
 	completeness : XSDataDouble
 	multiplicity : XSDataDouble
 	resolution : XSDataDouble

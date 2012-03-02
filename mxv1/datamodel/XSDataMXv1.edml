@@ -100,7 +100,7 @@ package XSDataMXv1 {
 		}
 
 		complex type XSDataResultControlISPyB extends XSDataResult {
-			"No attributes - the return value is XSDataStatus provided by XSDataResult"
+			screeningdId : XSDataInteger optional
 		}
 
 		complex type XSDataResultControlImageQualityIndicators extends XSDataResult {

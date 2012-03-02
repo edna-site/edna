@@ -29,10 +29,11 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 from EDVerbose          import EDVerbose
 from EDPluginControl    import EDPluginControl
-from EDMessage          import EDMessage
 from XSDataMXv1         import XSDataInputControlISPyB
 from XSDataMXv1         import XSDataResultControlISPyB
 from XSDataCommon       import XSDataString
+
+from EDHandlerXSDataISPyBv1_3 import EDHandlerXSDataISPyBv1_3
 
 class EDPluginControlISPyBv1_3(EDPluginControl):
     """
@@ -45,11 +46,11 @@ class EDPluginControlISPyBv1_3(EDPluginControl):
         self.setXSDataInputClass(XSDataString, "shortComments")
         self.setXSDataInputClass(XSDataString, "comments")
         self.setXSDataInputClass(XSDataString, "statusMessage")
-        self.m_edStringPluginExecISPyBName = "EDPluginISPyBScreeningv1_3"
-        self.m_edPluginExecISPyB = None
-        self.__strShortComments = None
-        self.__strComments = None
-        self.__strStatusMessage = None
+        self.edStringPluginExecISPyBName = "EDPluginISPyBStoreScreeningv1_3"
+        self.edPluginExecISPyB = None
+        self.strShortComments = None
+        self.strComments = None
+        self.strStatusMessage = None
 
 
     def checkParameters(self):
@@ -69,35 +70,25 @@ class EDPluginControlISPyBv1_3(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlISPyBv1_3.preProcess...")
 
         if (self.hasDataInput("shortComments")):
-            self.__strShortComments = self.getDataInput("shortComments")[0].getValue()
+            self.strShortComments = self.getDataInput("shortComments")[0].getValue()
         if (self.hasDataInput("comments")):
-            self.__strComments = self.getDataInput("comments")[0].getValue()
+            self.strComments = self.getDataInput("comments")[0].getValue()
         if (self.hasDataInput("statusMessage")):
-            self.__strStatusMessage = self.getDataInput("statusMessage")[0].getValue()
+            self.strStatusMessage = self.getDataInput("statusMessage")[0].getValue()
 
-        self.m_edPluginExecISPyB = self.loadPlugin(self.m_edStringPluginExecISPyBName)
-        from EDHandlerXSDataISPyBv1_2 import EDHandlerXSDataISPyBv1_2
-        xsDataInputISPyB = None
-        xsDataISPyBImage = None
+        self.edPluginExecISPyB = self.loadPlugin(self.edStringPluginExecISPyBName)
         try:
-            xsDataISPyBScreening = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreening(self.getDataInput(), self.__strShortComments, self.__strComments)
-            xsDataISPyBScreeningInput = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreeningInput(self.getDataInput())
-            xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreeningOutputContainer(self.getDataInput(), self.__strStatusMessage)
-            if (xsDataISPyBScreening.getDataCollectionId() is None):
-                xsDataISPyBImage = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBImage(self.getDataInput())
-
+            xsDataInputISPyBStoreScreening = EDHandlerXSDataISPyBv1_3.generateXSDataInputISPyBStoreScreening(self.getDataInput(), 
+                                                                                                             self.strStatusMessage, \
+                                                                                                             self.strShortComments, \
+                                                                                                             self.strComments)
         except Exception, error:
             # This exception handling needs to be rethought, see bug #43.
-            errorMessage = EDMessage.ERROR_DATA_HANDLER_02 % ("EDPluginControlISPyBv1_3.preProcess: Unexpected error in ISPyB handler: ", error)
+            errorMessage = "EDPluginControlISPyBv1_3.preProcess: Unexpected error in ISPyB handler: %r" % error
             EDVerbose.error(errorMessage)
             self.addErrorMessage(errorMessage)
             raise RuntimeError, errorMessage
-
-        self.m_edPluginExecISPyB.setDataInput(xsDataISPyBScreening, "screening")
-        self.m_edPluginExecISPyB.setDataInput(xsDataISPyBScreeningInput, "screeningInput")
-        self.m_edPluginExecISPyB.setDataInput(xsDataISPyBScreeningOutputContainer, "screeningOutputContainer")
-        if (xsDataISPyBScreening.getDataCollectionId() is None):
-            self.m_edPluginExecISPyB.setDataInput(xsDataISPyBImage, "image")
+        self.edPluginExecISPyB.setDataInput(xsDataInputISPyBStoreScreening)
 
 
     def process(self, _edObject=None):
@@ -106,15 +97,15 @@ class EDPluginControlISPyBv1_3(EDPluginControl):
         """
         EDPluginControl.process(self, _edObject)
         EDVerbose.DEBUG("EDPluginControlISPyBv1_3.process")
-        if (self.m_edPluginExecISPyB is not None):
-            self.m_edPluginExecISPyB.connectSUCCESS(self.doSuccessGeneratePrediction)
-            self.m_edPluginExecISPyB.connectFAILURE(self.doFailureGeneratePrediction)
-            self.m_edPluginExecISPyB.executeSynchronous()
+        if (self.edPluginExecISPyB is not None):
+            self.edPluginExecISPyB.connectSUCCESS(self.doSuccessGeneratePrediction)
+            self.edPluginExecISPyB.connectFAILURE(self.doFailureGeneratePrediction)
+            self.edPluginExecISPyB.executeSynchronous()
 
 
     def doSuccessGeneratePrediction(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlISPyBv1_3.doSuccessGeneratePrediction")
-        self.retrieveSuccessMessages(self.m_edPluginExecISPyB, "EDPluginControlISPyBv1_3.doSuccessGeneratePrediction")
+        self.retrieveSuccessMessages(self.edPluginExecISPyB, "EDPluginControlISPyBv1_3.doSuccessGeneratePrediction")
 
 
     def doFailureGeneratePrediction(self, _edPlugin=None):
@@ -126,6 +117,8 @@ class EDPluginControlISPyBv1_3(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlISPyBv1_3.postProcess")
         # For the moment just an empty result object
         xsDataResultControlISPyB = XSDataResultControlISPyB()
+        if self.edPluginExecISPyB.hasDataOutput():
+            xsDataResultControlISPyB.screeningId = self.edPluginExecISPyB.dataOutput.screeningId
         self.setDataOutput(xsDataResultControlISPyB)
 
 

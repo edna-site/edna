@@ -1,13 +1,70 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Oct 18 02:24::54 2011 by EDGenerateDS.
+# Generated Fri Mar 2 09:41::37 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataAngle
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataFloat
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataMatrixDouble
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataSize
+	from XSDataCommon import XSDataString
+	from XSDataCommon import XSDataVectorDouble
+	from XSDataCommon import XSDataImage
+	from XSDataCommon import XSDataAbsorbedDoseRate
+	from XSDataCommon import XSDataAngularSpeed
+	from XSDataCommon import XSDataFlux
+	from XSDataCommon import XSDataLength
+	from XSDataCommon import XSDataTime
+	from XSDataCommon import XSDataWavelength
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataBoolean
@@ -914,223 +971,6 @@ class XSDataChain(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataChain
 
-class XSDataChemicalCompositionMM(XSData):
-	"""This is the composition of a crystal sample of a Macro Molecule (MM stand for Macro Molecule)"""
-	def __init__(self, structure=None, solvent=None):
-		XSData.__init__(self, )
-		checkType("XSDataChemicalCompositionMM", "Constructor of XSDataChemicalCompositionMM", solvent, "XSDataSolvent")
-		self.__solvent = solvent
-		checkType("XSDataChemicalCompositionMM", "Constructor of XSDataChemicalCompositionMM", structure, "XSDataStructure")
-		self.__structure = structure
-	def getSolvent(self): return self.__solvent
-	def setSolvent(self, solvent):
-		checkType("XSDataChemicalCompositionMM", "setSolvent", solvent, "XSDataSolvent")
-		self.__solvent = solvent
-	def delSolvent(self): self.__solvent = None
-	# Properties
-	solvent = property(getSolvent, setSolvent, delSolvent, "Property for solvent")
-	def getStructure(self): return self.__structure
-	def setStructure(self, structure):
-		checkType("XSDataChemicalCompositionMM", "setStructure", structure, "XSDataStructure")
-		self.__structure = structure
-	def delStructure(self): self.__structure = None
-	# Properties
-	structure = property(getStructure, setStructure, delStructure, "Property for structure")
-	def export(self, outfile, level, name_='XSDataChemicalCompositionMM'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataChemicalCompositionMM'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__solvent is not None:
-			self.solvent.export(outfile, level, name_='solvent')
-		else:
-			warnEmptyAttribute("solvent", "XSDataSolvent")
-		if self.__structure is not None:
-			self.structure.export(outfile, level, name_='structure')
-		else:
-			warnEmptyAttribute("structure", "XSDataStructure")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'solvent':
-			obj_ = XSDataSolvent()
-			obj_.build(child_)
-			self.setSolvent(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'structure':
-			obj_ = XSDataStructure()
-			obj_.build(child_)
-			self.setStructure(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataChemicalCompositionMM" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataChemicalCompositionMM' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataChemicalCompositionMM is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataChemicalCompositionMM.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataChemicalCompositionMM()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataChemicalCompositionMM" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataChemicalCompositionMM()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataChemicalCompositionMM
-
-class XSDataCollection(XSData):
-	"""The data collection carried out or to be carried out with a particular sample with specific user inputs defined by the diffraction plan."""
-	def __init__(self, subWedge=None, sample=None, diffractionPlan=None):
-		XSData.__init__(self, )
-		checkType("XSDataCollection", "Constructor of XSDataCollection", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-		checkType("XSDataCollection", "Constructor of XSDataCollection", sample, "XSDataSampleCrystalMM")
-		self.__sample = sample
-		if subWedge is None:
-			self.__subWedge = []
-		else:
-			checkType("XSDataCollection", "Constructor of XSDataCollection", subWedge, "list")
-			self.__subWedge = subWedge
-	def getDiffractionPlan(self): return self.__diffractionPlan
-	def setDiffractionPlan(self, diffractionPlan):
-		checkType("XSDataCollection", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-	def delDiffractionPlan(self): self.__diffractionPlan = None
-	# Properties
-	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
-	def getSample(self): return self.__sample
-	def setSample(self, sample):
-		checkType("XSDataCollection", "setSample", sample, "XSDataSampleCrystalMM")
-		self.__sample = sample
-	def delSample(self): self.__sample = None
-	# Properties
-	sample = property(getSample, setSample, delSample, "Property for sample")
-	def getSubWedge(self): return self.__subWedge
-	def setSubWedge(self, subWedge):
-		checkType("XSDataCollection", "setSubWedge", subWedge, "list")
-		self.__subWedge = subWedge
-	def delSubWedge(self): self.__subWedge = None
-	# Properties
-	subWedge = property(getSubWedge, setSubWedge, delSubWedge, "Property for subWedge")
-	def addSubWedge(self, value):
-		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
-		self.__subWedge.append(value)
-	def insertSubWedge(self, index, value):
-		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
-		self.__subWedge[index] = value
-	def export(self, outfile, level, name_='XSDataCollection'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataCollection'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__diffractionPlan is not None:
-			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
-		if self.__sample is not None:
-			self.sample.export(outfile, level, name_='sample')
-		for subWedge_ in self.getSubWedge():
-			subWedge_.export(outfile, level, name_='subWedge')
-		if self.getSubWedge() == []:
-			warnEmptyAttribute("subWedge", "XSDataSubWedge")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'diffractionPlan':
-			obj_ = XSDataDiffractionPlan()
-			obj_.build(child_)
-			self.setDiffractionPlan(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'sample':
-			obj_ = XSDataSampleCrystalMM()
-			obj_.build(child_)
-			self.setSample(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'subWedge':
-			obj_ = XSDataSubWedge()
-			obj_.build(child_)
-			self.subWedge.append(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataCollection" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataCollection' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataCollection is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataCollection.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataCollection()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataCollection" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataCollection()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataCollection
-
 class XSDataCharacterisation(XSData):
 	"""Deprecated - only used by EDPluginControlCharacterisationv10
 """
@@ -1258,6 +1098,103 @@ class XSDataCharacterisation(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataCharacterisation
+
+class XSDataChemicalCompositionMM(XSData):
+	"""This is the composition of a crystal sample of a Macro Molecule (MM stand for Macro Molecule)"""
+	def __init__(self, structure=None, solvent=None):
+		XSData.__init__(self, )
+		checkType("XSDataChemicalCompositionMM", "Constructor of XSDataChemicalCompositionMM", solvent, "XSDataSolvent")
+		self.__solvent = solvent
+		checkType("XSDataChemicalCompositionMM", "Constructor of XSDataChemicalCompositionMM", structure, "XSDataStructure")
+		self.__structure = structure
+	def getSolvent(self): return self.__solvent
+	def setSolvent(self, solvent):
+		checkType("XSDataChemicalCompositionMM", "setSolvent", solvent, "XSDataSolvent")
+		self.__solvent = solvent
+	def delSolvent(self): self.__solvent = None
+	# Properties
+	solvent = property(getSolvent, setSolvent, delSolvent, "Property for solvent")
+	def getStructure(self): return self.__structure
+	def setStructure(self, structure):
+		checkType("XSDataChemicalCompositionMM", "setStructure", structure, "XSDataStructure")
+		self.__structure = structure
+	def delStructure(self): self.__structure = None
+	# Properties
+	structure = property(getStructure, setStructure, delStructure, "Property for structure")
+	def export(self, outfile, level, name_='XSDataChemicalCompositionMM'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataChemicalCompositionMM'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__solvent is not None:
+			self.solvent.export(outfile, level, name_='solvent')
+		else:
+			warnEmptyAttribute("solvent", "XSDataSolvent")
+		if self.__structure is not None:
+			self.structure.export(outfile, level, name_='structure')
+		else:
+			warnEmptyAttribute("structure", "XSDataStructure")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'solvent':
+			obj_ = XSDataSolvent()
+			obj_.build(child_)
+			self.setSolvent(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'structure':
+			obj_ = XSDataStructure()
+			obj_.build(child_)
+			self.setStructure(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataChemicalCompositionMM" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataChemicalCompositionMM' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataChemicalCompositionMM is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataChemicalCompositionMM.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataChemicalCompositionMM()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataChemicalCompositionMM" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataChemicalCompositionMM()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataChemicalCompositionMM
 
 class XSDataCollectionPlan(XSData):
 	"""The comment can be used for describing exotic data collections, for example without collecting any images."""
@@ -1524,373 +1461,6 @@ class XSDataCrystal(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataCrystal
-
-class XSDataDetector(XSData):
-	"""The properties of a detector. """
-	def __init__(self, type=None, twoTheta=None, serialNumber=None, pixelSizeY=None, pixelSizeX=None, numberPixelY=None, numberPixelX=None, numberBytesInHeader=None, name=None, imageSaturation=None, gain=None, distance=None, dataType=None, byteOrder=None, bin=None, beamPositionY=None, beamPositionX=None):
-		XSData.__init__(self, )
-		checkType("XSDataDetector", "Constructor of XSDataDetector", beamPositionX, "XSDataLength")
-		self.__beamPositionX = beamPositionX
-		checkType("XSDataDetector", "Constructor of XSDataDetector", beamPositionY, "XSDataLength")
-		self.__beamPositionY = beamPositionY
-		checkType("XSDataDetector", "Constructor of XSDataDetector", bin, "XSDataString")
-		self.__bin = bin
-		checkType("XSDataDetector", "Constructor of XSDataDetector", byteOrder, "XSDataString")
-		self.__byteOrder = byteOrder
-		checkType("XSDataDetector", "Constructor of XSDataDetector", dataType, "XSDataString")
-		self.__dataType = dataType
-		checkType("XSDataDetector", "Constructor of XSDataDetector", distance, "XSDataLength")
-		self.__distance = distance
-		checkType("XSDataDetector", "Constructor of XSDataDetector", gain, "XSDataFloat")
-		self.__gain = gain
-		checkType("XSDataDetector", "Constructor of XSDataDetector", imageSaturation, "XSDataInteger")
-		self.__imageSaturation = imageSaturation
-		checkType("XSDataDetector", "Constructor of XSDataDetector", name, "XSDataString")
-		self.__name = name
-		checkType("XSDataDetector", "Constructor of XSDataDetector", numberBytesInHeader, "XSDataInteger")
-		self.__numberBytesInHeader = numberBytesInHeader
-		checkType("XSDataDetector", "Constructor of XSDataDetector", numberPixelX, "XSDataInteger")
-		self.__numberPixelX = numberPixelX
-		checkType("XSDataDetector", "Constructor of XSDataDetector", numberPixelY, "XSDataInteger")
-		self.__numberPixelY = numberPixelY
-		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeX, "XSDataLength")
-		self.__pixelSizeX = pixelSizeX
-		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeY, "XSDataLength")
-		self.__pixelSizeY = pixelSizeY
-		checkType("XSDataDetector", "Constructor of XSDataDetector", serialNumber, "XSDataString")
-		self.__serialNumber = serialNumber
-		checkType("XSDataDetector", "Constructor of XSDataDetector", twoTheta, "XSDataAngle")
-		self.__twoTheta = twoTheta
-		checkType("XSDataDetector", "Constructor of XSDataDetector", type, "XSDataString")
-		self.__type = type
-	def getBeamPositionX(self): return self.__beamPositionX
-	def setBeamPositionX(self, beamPositionX):
-		checkType("XSDataDetector", "setBeamPositionX", beamPositionX, "XSDataLength")
-		self.__beamPositionX = beamPositionX
-	def delBeamPositionX(self): self.__beamPositionX = None
-	# Properties
-	beamPositionX = property(getBeamPositionX, setBeamPositionX, delBeamPositionX, "Property for beamPositionX")
-	def getBeamPositionY(self): return self.__beamPositionY
-	def setBeamPositionY(self, beamPositionY):
-		checkType("XSDataDetector", "setBeamPositionY", beamPositionY, "XSDataLength")
-		self.__beamPositionY = beamPositionY
-	def delBeamPositionY(self): self.__beamPositionY = None
-	# Properties
-	beamPositionY = property(getBeamPositionY, setBeamPositionY, delBeamPositionY, "Property for beamPositionY")
-	def getBin(self): return self.__bin
-	def setBin(self, bin):
-		checkType("XSDataDetector", "setBin", bin, "XSDataString")
-		self.__bin = bin
-	def delBin(self): self.__bin = None
-	# Properties
-	bin = property(getBin, setBin, delBin, "Property for bin")
-	def getByteOrder(self): return self.__byteOrder
-	def setByteOrder(self, byteOrder):
-		checkType("XSDataDetector", "setByteOrder", byteOrder, "XSDataString")
-		self.__byteOrder = byteOrder
-	def delByteOrder(self): self.__byteOrder = None
-	# Properties
-	byteOrder = property(getByteOrder, setByteOrder, delByteOrder, "Property for byteOrder")
-	def getDataType(self): return self.__dataType
-	def setDataType(self, dataType):
-		checkType("XSDataDetector", "setDataType", dataType, "XSDataString")
-		self.__dataType = dataType
-	def delDataType(self): self.__dataType = None
-	# Properties
-	dataType = property(getDataType, setDataType, delDataType, "Property for dataType")
-	def getDistance(self): return self.__distance
-	def setDistance(self, distance):
-		checkType("XSDataDetector", "setDistance", distance, "XSDataLength")
-		self.__distance = distance
-	def delDistance(self): self.__distance = None
-	# Properties
-	distance = property(getDistance, setDistance, delDistance, "Property for distance")
-	def getGain(self): return self.__gain
-	def setGain(self, gain):
-		checkType("XSDataDetector", "setGain", gain, "XSDataFloat")
-		self.__gain = gain
-	def delGain(self): self.__gain = None
-	# Properties
-	gain = property(getGain, setGain, delGain, "Property for gain")
-	def getImageSaturation(self): return self.__imageSaturation
-	def setImageSaturation(self, imageSaturation):
-		checkType("XSDataDetector", "setImageSaturation", imageSaturation, "XSDataInteger")
-		self.__imageSaturation = imageSaturation
-	def delImageSaturation(self): self.__imageSaturation = None
-	# Properties
-	imageSaturation = property(getImageSaturation, setImageSaturation, delImageSaturation, "Property for imageSaturation")
-	def getName(self): return self.__name
-	def setName(self, name):
-		checkType("XSDataDetector", "setName", name, "XSDataString")
-		self.__name = name
-	def delName(self): self.__name = None
-	# Properties
-	name = property(getName, setName, delName, "Property for name")
-	def getNumberBytesInHeader(self): return self.__numberBytesInHeader
-	def setNumberBytesInHeader(self, numberBytesInHeader):
-		checkType("XSDataDetector", "setNumberBytesInHeader", numberBytesInHeader, "XSDataInteger")
-		self.__numberBytesInHeader = numberBytesInHeader
-	def delNumberBytesInHeader(self): self.__numberBytesInHeader = None
-	# Properties
-	numberBytesInHeader = property(getNumberBytesInHeader, setNumberBytesInHeader, delNumberBytesInHeader, "Property for numberBytesInHeader")
-	def getNumberPixelX(self): return self.__numberPixelX
-	def setNumberPixelX(self, numberPixelX):
-		checkType("XSDataDetector", "setNumberPixelX", numberPixelX, "XSDataInteger")
-		self.__numberPixelX = numberPixelX
-	def delNumberPixelX(self): self.__numberPixelX = None
-	# Properties
-	numberPixelX = property(getNumberPixelX, setNumberPixelX, delNumberPixelX, "Property for numberPixelX")
-	def getNumberPixelY(self): return self.__numberPixelY
-	def setNumberPixelY(self, numberPixelY):
-		checkType("XSDataDetector", "setNumberPixelY", numberPixelY, "XSDataInteger")
-		self.__numberPixelY = numberPixelY
-	def delNumberPixelY(self): self.__numberPixelY = None
-	# Properties
-	numberPixelY = property(getNumberPixelY, setNumberPixelY, delNumberPixelY, "Property for numberPixelY")
-	def getPixelSizeX(self): return self.__pixelSizeX
-	def setPixelSizeX(self, pixelSizeX):
-		checkType("XSDataDetector", "setPixelSizeX", pixelSizeX, "XSDataLength")
-		self.__pixelSizeX = pixelSizeX
-	def delPixelSizeX(self): self.__pixelSizeX = None
-	# Properties
-	pixelSizeX = property(getPixelSizeX, setPixelSizeX, delPixelSizeX, "Property for pixelSizeX")
-	def getPixelSizeY(self): return self.__pixelSizeY
-	def setPixelSizeY(self, pixelSizeY):
-		checkType("XSDataDetector", "setPixelSizeY", pixelSizeY, "XSDataLength")
-		self.__pixelSizeY = pixelSizeY
-	def delPixelSizeY(self): self.__pixelSizeY = None
-	# Properties
-	pixelSizeY = property(getPixelSizeY, setPixelSizeY, delPixelSizeY, "Property for pixelSizeY")
-	def getSerialNumber(self): return self.__serialNumber
-	def setSerialNumber(self, serialNumber):
-		checkType("XSDataDetector", "setSerialNumber", serialNumber, "XSDataString")
-		self.__serialNumber = serialNumber
-	def delSerialNumber(self): self.__serialNumber = None
-	# Properties
-	serialNumber = property(getSerialNumber, setSerialNumber, delSerialNumber, "Property for serialNumber")
-	def getTwoTheta(self): return self.__twoTheta
-	def setTwoTheta(self, twoTheta):
-		checkType("XSDataDetector", "setTwoTheta", twoTheta, "XSDataAngle")
-		self.__twoTheta = twoTheta
-	def delTwoTheta(self): self.__twoTheta = None
-	# Properties
-	twoTheta = property(getTwoTheta, setTwoTheta, delTwoTheta, "Property for twoTheta")
-	def getType(self): return self.__type
-	def setType(self, type):
-		checkType("XSDataDetector", "setType", type, "XSDataString")
-		self.__type = type
-	def delType(self): self.__type = None
-	# Properties
-	type = property(getType, setType, delType, "Property for type")
-	def export(self, outfile, level, name_='XSDataDetector'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataDetector'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__beamPositionX is not None:
-			self.beamPositionX.export(outfile, level, name_='beamPositionX')
-		else:
-			warnEmptyAttribute("beamPositionX", "XSDataLength")
-		if self.__beamPositionY is not None:
-			self.beamPositionY.export(outfile, level, name_='beamPositionY')
-		else:
-			warnEmptyAttribute("beamPositionY", "XSDataLength")
-		if self.__bin is not None:
-			self.bin.export(outfile, level, name_='bin')
-		else:
-			warnEmptyAttribute("bin", "XSDataString")
-		if self.__byteOrder is not None:
-			self.byteOrder.export(outfile, level, name_='byteOrder')
-		else:
-			warnEmptyAttribute("byteOrder", "XSDataString")
-		if self.__dataType is not None:
-			self.dataType.export(outfile, level, name_='dataType')
-		else:
-			warnEmptyAttribute("dataType", "XSDataString")
-		if self.__distance is not None:
-			self.distance.export(outfile, level, name_='distance')
-		else:
-			warnEmptyAttribute("distance", "XSDataLength")
-		if self.__gain is not None:
-			self.gain.export(outfile, level, name_='gain')
-		else:
-			warnEmptyAttribute("gain", "XSDataFloat")
-		if self.__imageSaturation is not None:
-			self.imageSaturation.export(outfile, level, name_='imageSaturation')
-		else:
-			warnEmptyAttribute("imageSaturation", "XSDataInteger")
-		if self.__name is not None:
-			self.name.export(outfile, level, name_='name')
-		else:
-			warnEmptyAttribute("name", "XSDataString")
-		if self.__numberBytesInHeader is not None:
-			self.numberBytesInHeader.export(outfile, level, name_='numberBytesInHeader')
-		else:
-			warnEmptyAttribute("numberBytesInHeader", "XSDataInteger")
-		if self.__numberPixelX is not None:
-			self.numberPixelX.export(outfile, level, name_='numberPixelX')
-		else:
-			warnEmptyAttribute("numberPixelX", "XSDataInteger")
-		if self.__numberPixelY is not None:
-			self.numberPixelY.export(outfile, level, name_='numberPixelY')
-		else:
-			warnEmptyAttribute("numberPixelY", "XSDataInteger")
-		if self.__pixelSizeX is not None:
-			self.pixelSizeX.export(outfile, level, name_='pixelSizeX')
-		else:
-			warnEmptyAttribute("pixelSizeX", "XSDataLength")
-		if self.__pixelSizeY is not None:
-			self.pixelSizeY.export(outfile, level, name_='pixelSizeY')
-		else:
-			warnEmptyAttribute("pixelSizeY", "XSDataLength")
-		if self.__serialNumber is not None:
-			self.serialNumber.export(outfile, level, name_='serialNumber')
-		else:
-			warnEmptyAttribute("serialNumber", "XSDataString")
-		if self.__twoTheta is not None:
-			self.twoTheta.export(outfile, level, name_='twoTheta')
-		else:
-			warnEmptyAttribute("twoTheta", "XSDataAngle")
-		if self.__type is not None:
-			self.type.export(outfile, level, name_='type')
-		else:
-			warnEmptyAttribute("type", "XSDataString")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'beamPositionX':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setBeamPositionX(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'beamPositionY':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setBeamPositionY(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'bin':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setBin(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'byteOrder':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setByteOrder(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'dataType':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setDataType(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'distance':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setDistance(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'gain':
-			obj_ = XSDataFloat()
-			obj_.build(child_)
-			self.setGain(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'imageSaturation':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setImageSaturation(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'name':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setName(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberBytesInHeader':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberBytesInHeader(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberPixelX':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberPixelX(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberPixelY':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberPixelY(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'pixelSizeX':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setPixelSizeX(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'pixelSizeY':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setPixelSizeY(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'serialNumber':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setSerialNumber(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'twoTheta':
-			obj_ = XSDataAngle()
-			obj_.build(child_)
-			self.setTwoTheta(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'type':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setType(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataDetector" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataDetector' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataDetector is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataDetector.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataDetector()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataDetector" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataDetector()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataDetector
 
 class XSDataDiffractionPlan(XSData):
 	"""This object contains the main properties a user can parameterize for a crystal characterisation:
@@ -2310,6 +1880,493 @@ class XSDataDiffractionPlan(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataDiffractionPlan
+
+class XSDataCollection(XSData):
+	"""The data collection carried out or to be carried out with a particular sample with specific user inputs defined by the diffraction plan."""
+	def __init__(self, subWedge=None, sample=None, diffractionPlan=None):
+		XSData.__init__(self, )
+		checkType("XSDataCollection", "Constructor of XSDataCollection", diffractionPlan, "XSDataDiffractionPlan")
+		self.__diffractionPlan = diffractionPlan
+		checkType("XSDataCollection", "Constructor of XSDataCollection", sample, "XSDataSampleCrystalMM")
+		self.__sample = sample
+		if subWedge is None:
+			self.__subWedge = []
+		else:
+			checkType("XSDataCollection", "Constructor of XSDataCollection", subWedge, "list")
+			self.__subWedge = subWedge
+	def getDiffractionPlan(self): return self.__diffractionPlan
+	def setDiffractionPlan(self, diffractionPlan):
+		checkType("XSDataCollection", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
+		self.__diffractionPlan = diffractionPlan
+	def delDiffractionPlan(self): self.__diffractionPlan = None
+	# Properties
+	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataCollection", "setSample", sample, "XSDataSampleCrystalMM")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getSubWedge(self): return self.__subWedge
+	def setSubWedge(self, subWedge):
+		checkType("XSDataCollection", "setSubWedge", subWedge, "list")
+		self.__subWedge = subWedge
+	def delSubWedge(self): self.__subWedge = None
+	# Properties
+	subWedge = property(getSubWedge, setSubWedge, delSubWedge, "Property for subWedge")
+	def addSubWedge(self, value):
+		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
+		self.__subWedge.append(value)
+	def insertSubWedge(self, index, value):
+		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
+		self.__subWedge[index] = value
+	def export(self, outfile, level, name_='XSDataCollection'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataCollection'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__diffractionPlan is not None:
+			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		for subWedge_ in self.getSubWedge():
+			subWedge_.export(outfile, level, name_='subWedge')
+		if self.getSubWedge() == []:
+			warnEmptyAttribute("subWedge", "XSDataSubWedge")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'diffractionPlan':
+			obj_ = XSDataDiffractionPlan()
+			obj_.build(child_)
+			self.setDiffractionPlan(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataSampleCrystalMM()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subWedge':
+			obj_ = XSDataSubWedge()
+			obj_.build(child_)
+			self.subWedge.append(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataCollection" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataCollection' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCollection is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataCollection.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataCollection()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataCollection" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataCollection()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataCollection
+
+class XSDataDetector(XSData):
+	"""The properties of a detector. """
+	def __init__(self, type=None, twoTheta=None, serialNumber=None, pixelSizeY=None, pixelSizeX=None, numberPixelY=None, numberPixelX=None, numberBytesInHeader=None, name=None, imageSaturation=None, gain=None, distance=None, dataType=None, byteOrder=None, bin=None, beamPositionY=None, beamPositionX=None):
+		XSData.__init__(self, )
+		checkType("XSDataDetector", "Constructor of XSDataDetector", beamPositionX, "XSDataLength")
+		self.__beamPositionX = beamPositionX
+		checkType("XSDataDetector", "Constructor of XSDataDetector", beamPositionY, "XSDataLength")
+		self.__beamPositionY = beamPositionY
+		checkType("XSDataDetector", "Constructor of XSDataDetector", bin, "XSDataString")
+		self.__bin = bin
+		checkType("XSDataDetector", "Constructor of XSDataDetector", byteOrder, "XSDataString")
+		self.__byteOrder = byteOrder
+		checkType("XSDataDetector", "Constructor of XSDataDetector", dataType, "XSDataString")
+		self.__dataType = dataType
+		checkType("XSDataDetector", "Constructor of XSDataDetector", distance, "XSDataLength")
+		self.__distance = distance
+		checkType("XSDataDetector", "Constructor of XSDataDetector", gain, "XSDataFloat")
+		self.__gain = gain
+		checkType("XSDataDetector", "Constructor of XSDataDetector", imageSaturation, "XSDataInteger")
+		self.__imageSaturation = imageSaturation
+		checkType("XSDataDetector", "Constructor of XSDataDetector", name, "XSDataString")
+		self.__name = name
+		checkType("XSDataDetector", "Constructor of XSDataDetector", numberBytesInHeader, "XSDataInteger")
+		self.__numberBytesInHeader = numberBytesInHeader
+		checkType("XSDataDetector", "Constructor of XSDataDetector", numberPixelX, "XSDataInteger")
+		self.__numberPixelX = numberPixelX
+		checkType("XSDataDetector", "Constructor of XSDataDetector", numberPixelY, "XSDataInteger")
+		self.__numberPixelY = numberPixelY
+		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeX, "XSDataLength")
+		self.__pixelSizeX = pixelSizeX
+		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeY, "XSDataLength")
+		self.__pixelSizeY = pixelSizeY
+		checkType("XSDataDetector", "Constructor of XSDataDetector", serialNumber, "XSDataString")
+		self.__serialNumber = serialNumber
+		checkType("XSDataDetector", "Constructor of XSDataDetector", twoTheta, "XSDataAngle")
+		self.__twoTheta = twoTheta
+		checkType("XSDataDetector", "Constructor of XSDataDetector", type, "XSDataString")
+		self.__type = type
+	def getBeamPositionX(self): return self.__beamPositionX
+	def setBeamPositionX(self, beamPositionX):
+		checkType("XSDataDetector", "setBeamPositionX", beamPositionX, "XSDataLength")
+		self.__beamPositionX = beamPositionX
+	def delBeamPositionX(self): self.__beamPositionX = None
+	# Properties
+	beamPositionX = property(getBeamPositionX, setBeamPositionX, delBeamPositionX, "Property for beamPositionX")
+	def getBeamPositionY(self): return self.__beamPositionY
+	def setBeamPositionY(self, beamPositionY):
+		checkType("XSDataDetector", "setBeamPositionY", beamPositionY, "XSDataLength")
+		self.__beamPositionY = beamPositionY
+	def delBeamPositionY(self): self.__beamPositionY = None
+	# Properties
+	beamPositionY = property(getBeamPositionY, setBeamPositionY, delBeamPositionY, "Property for beamPositionY")
+	def getBin(self): return self.__bin
+	def setBin(self, bin):
+		checkType("XSDataDetector", "setBin", bin, "XSDataString")
+		self.__bin = bin
+	def delBin(self): self.__bin = None
+	# Properties
+	bin = property(getBin, setBin, delBin, "Property for bin")
+	def getByteOrder(self): return self.__byteOrder
+	def setByteOrder(self, byteOrder):
+		checkType("XSDataDetector", "setByteOrder", byteOrder, "XSDataString")
+		self.__byteOrder = byteOrder
+	def delByteOrder(self): self.__byteOrder = None
+	# Properties
+	byteOrder = property(getByteOrder, setByteOrder, delByteOrder, "Property for byteOrder")
+	def getDataType(self): return self.__dataType
+	def setDataType(self, dataType):
+		checkType("XSDataDetector", "setDataType", dataType, "XSDataString")
+		self.__dataType = dataType
+	def delDataType(self): self.__dataType = None
+	# Properties
+	dataType = property(getDataType, setDataType, delDataType, "Property for dataType")
+	def getDistance(self): return self.__distance
+	def setDistance(self, distance):
+		checkType("XSDataDetector", "setDistance", distance, "XSDataLength")
+		self.__distance = distance
+	def delDistance(self): self.__distance = None
+	# Properties
+	distance = property(getDistance, setDistance, delDistance, "Property for distance")
+	def getGain(self): return self.__gain
+	def setGain(self, gain):
+		checkType("XSDataDetector", "setGain", gain, "XSDataFloat")
+		self.__gain = gain
+	def delGain(self): self.__gain = None
+	# Properties
+	gain = property(getGain, setGain, delGain, "Property for gain")
+	def getImageSaturation(self): return self.__imageSaturation
+	def setImageSaturation(self, imageSaturation):
+		checkType("XSDataDetector", "setImageSaturation", imageSaturation, "XSDataInteger")
+		self.__imageSaturation = imageSaturation
+	def delImageSaturation(self): self.__imageSaturation = None
+	# Properties
+	imageSaturation = property(getImageSaturation, setImageSaturation, delImageSaturation, "Property for imageSaturation")
+	def getName(self): return self.__name
+	def setName(self, name):
+		checkType("XSDataDetector", "setName", name, "XSDataString")
+		self.__name = name
+	def delName(self): self.__name = None
+	# Properties
+	name = property(getName, setName, delName, "Property for name")
+	def getNumberBytesInHeader(self): return self.__numberBytesInHeader
+	def setNumberBytesInHeader(self, numberBytesInHeader):
+		checkType("XSDataDetector", "setNumberBytesInHeader", numberBytesInHeader, "XSDataInteger")
+		self.__numberBytesInHeader = numberBytesInHeader
+	def delNumberBytesInHeader(self): self.__numberBytesInHeader = None
+	# Properties
+	numberBytesInHeader = property(getNumberBytesInHeader, setNumberBytesInHeader, delNumberBytesInHeader, "Property for numberBytesInHeader")
+	def getNumberPixelX(self): return self.__numberPixelX
+	def setNumberPixelX(self, numberPixelX):
+		checkType("XSDataDetector", "setNumberPixelX", numberPixelX, "XSDataInteger")
+		self.__numberPixelX = numberPixelX
+	def delNumberPixelX(self): self.__numberPixelX = None
+	# Properties
+	numberPixelX = property(getNumberPixelX, setNumberPixelX, delNumberPixelX, "Property for numberPixelX")
+	def getNumberPixelY(self): return self.__numberPixelY
+	def setNumberPixelY(self, numberPixelY):
+		checkType("XSDataDetector", "setNumberPixelY", numberPixelY, "XSDataInteger")
+		self.__numberPixelY = numberPixelY
+	def delNumberPixelY(self): self.__numberPixelY = None
+	# Properties
+	numberPixelY = property(getNumberPixelY, setNumberPixelY, delNumberPixelY, "Property for numberPixelY")
+	def getPixelSizeX(self): return self.__pixelSizeX
+	def setPixelSizeX(self, pixelSizeX):
+		checkType("XSDataDetector", "setPixelSizeX", pixelSizeX, "XSDataLength")
+		self.__pixelSizeX = pixelSizeX
+	def delPixelSizeX(self): self.__pixelSizeX = None
+	# Properties
+	pixelSizeX = property(getPixelSizeX, setPixelSizeX, delPixelSizeX, "Property for pixelSizeX")
+	def getPixelSizeY(self): return self.__pixelSizeY
+	def setPixelSizeY(self, pixelSizeY):
+		checkType("XSDataDetector", "setPixelSizeY", pixelSizeY, "XSDataLength")
+		self.__pixelSizeY = pixelSizeY
+	def delPixelSizeY(self): self.__pixelSizeY = None
+	# Properties
+	pixelSizeY = property(getPixelSizeY, setPixelSizeY, delPixelSizeY, "Property for pixelSizeY")
+	def getSerialNumber(self): return self.__serialNumber
+	def setSerialNumber(self, serialNumber):
+		checkType("XSDataDetector", "setSerialNumber", serialNumber, "XSDataString")
+		self.__serialNumber = serialNumber
+	def delSerialNumber(self): self.__serialNumber = None
+	# Properties
+	serialNumber = property(getSerialNumber, setSerialNumber, delSerialNumber, "Property for serialNumber")
+	def getTwoTheta(self): return self.__twoTheta
+	def setTwoTheta(self, twoTheta):
+		checkType("XSDataDetector", "setTwoTheta", twoTheta, "XSDataAngle")
+		self.__twoTheta = twoTheta
+	def delTwoTheta(self): self.__twoTheta = None
+	# Properties
+	twoTheta = property(getTwoTheta, setTwoTheta, delTwoTheta, "Property for twoTheta")
+	def getType(self): return self.__type
+	def setType(self, type):
+		checkType("XSDataDetector", "setType", type, "XSDataString")
+		self.__type = type
+	def delType(self): self.__type = None
+	# Properties
+	type = property(getType, setType, delType, "Property for type")
+	def export(self, outfile, level, name_='XSDataDetector'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataDetector'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__beamPositionX is not None:
+			self.beamPositionX.export(outfile, level, name_='beamPositionX')
+		else:
+			warnEmptyAttribute("beamPositionX", "XSDataLength")
+		if self.__beamPositionY is not None:
+			self.beamPositionY.export(outfile, level, name_='beamPositionY')
+		else:
+			warnEmptyAttribute("beamPositionY", "XSDataLength")
+		if self.__bin is not None:
+			self.bin.export(outfile, level, name_='bin')
+		else:
+			warnEmptyAttribute("bin", "XSDataString")
+		if self.__byteOrder is not None:
+			self.byteOrder.export(outfile, level, name_='byteOrder')
+		else:
+			warnEmptyAttribute("byteOrder", "XSDataString")
+		if self.__dataType is not None:
+			self.dataType.export(outfile, level, name_='dataType')
+		else:
+			warnEmptyAttribute("dataType", "XSDataString")
+		if self.__distance is not None:
+			self.distance.export(outfile, level, name_='distance')
+		else:
+			warnEmptyAttribute("distance", "XSDataLength")
+		if self.__gain is not None:
+			self.gain.export(outfile, level, name_='gain')
+		else:
+			warnEmptyAttribute("gain", "XSDataFloat")
+		if self.__imageSaturation is not None:
+			self.imageSaturation.export(outfile, level, name_='imageSaturation')
+		else:
+			warnEmptyAttribute("imageSaturation", "XSDataInteger")
+		if self.__name is not None:
+			self.name.export(outfile, level, name_='name')
+		else:
+			warnEmptyAttribute("name", "XSDataString")
+		if self.__numberBytesInHeader is not None:
+			self.numberBytesInHeader.export(outfile, level, name_='numberBytesInHeader')
+		else:
+			warnEmptyAttribute("numberBytesInHeader", "XSDataInteger")
+		if self.__numberPixelX is not None:
+			self.numberPixelX.export(outfile, level, name_='numberPixelX')
+		else:
+			warnEmptyAttribute("numberPixelX", "XSDataInteger")
+		if self.__numberPixelY is not None:
+			self.numberPixelY.export(outfile, level, name_='numberPixelY')
+		else:
+			warnEmptyAttribute("numberPixelY", "XSDataInteger")
+		if self.__pixelSizeX is not None:
+			self.pixelSizeX.export(outfile, level, name_='pixelSizeX')
+		else:
+			warnEmptyAttribute("pixelSizeX", "XSDataLength")
+		if self.__pixelSizeY is not None:
+			self.pixelSizeY.export(outfile, level, name_='pixelSizeY')
+		else:
+			warnEmptyAttribute("pixelSizeY", "XSDataLength")
+		if self.__serialNumber is not None:
+			self.serialNumber.export(outfile, level, name_='serialNumber')
+		else:
+			warnEmptyAttribute("serialNumber", "XSDataString")
+		if self.__twoTheta is not None:
+			self.twoTheta.export(outfile, level, name_='twoTheta')
+		else:
+			warnEmptyAttribute("twoTheta", "XSDataAngle")
+		if self.__type is not None:
+			self.type.export(outfile, level, name_='type')
+		else:
+			warnEmptyAttribute("type", "XSDataString")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamPositionX':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setBeamPositionX(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamPositionY':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setBeamPositionY(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bin':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setBin(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'byteOrder':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setByteOrder(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataType':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setDataType(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'distance':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setDistance(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'gain':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setGain(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'imageSaturation':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setImageSaturation(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'name':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setName(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberBytesInHeader':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberBytesInHeader(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberPixelX':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberPixelX(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberPixelY':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberPixelY(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pixelSizeX':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setPixelSizeX(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pixelSizeY':
+			obj_ = XSDataLength()
+			obj_.build(child_)
+			self.setPixelSizeY(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'serialNumber':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setSerialNumber(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'twoTheta':
+			obj_ = XSDataAngle()
+			obj_.build(child_)
+			self.setTwoTheta(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'type':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setType(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataDetector" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataDetector' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataDetector is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataDetector.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataDetector()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataDetector" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataDetector()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataDetector
 
 class XSDataGoniostat(XSData):
 	"""The properties of a goniostat:
@@ -7102,9 +7159,17 @@ class XSDataResultCharacterisation(XSDataResult):
 # end class XSDataResultCharacterisation
 
 class XSDataResultControlISPyB(XSDataResult):
-	"""No attributes - the return value is XSDataStatus provided by XSDataResult"""
-	def __init__(self, status=None):
+	def __init__(self, status=None, screeningdId=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultControlISPyB", "Constructor of XSDataResultControlISPyB", screeningdId, "XSDataInteger")
+		self.__screeningdId = screeningdId
+	def getScreeningdId(self): return self.__screeningdId
+	def setScreeningdId(self, screeningdId):
+		checkType("XSDataResultControlISPyB", "setScreeningdId", screeningdId, "XSDataInteger")
+		self.__screeningdId = screeningdId
+	def delScreeningdId(self): self.__screeningdId = None
+	# Properties
+	screeningdId = property(getScreeningdId, setScreeningdId, delScreeningdId, "Property for screeningdId")
 	def export(self, outfile, level, name_='XSDataResultControlISPyB'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -7113,12 +7178,18 @@ class XSDataResultControlISPyB(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultControlISPyB'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__screeningdId is not None:
+			self.screeningdId.export(outfile, level, name_='screeningdId')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
-		pass
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'screeningdId':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setScreeningdId(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
