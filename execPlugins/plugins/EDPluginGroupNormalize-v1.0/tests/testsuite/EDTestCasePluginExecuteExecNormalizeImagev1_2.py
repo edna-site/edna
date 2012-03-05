@@ -41,7 +41,7 @@ EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
 
 
 
-class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecNormalizeImagev1_2(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin NormalizeImagev1_0
     """
@@ -49,7 +49,7 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
     def __init__(self, _strTestName=None):
         """
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginExecNormalizeImagev1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginExecNormalizeImagev1_2")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_NormalizeImage.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
@@ -88,8 +88,8 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
 
         #EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "Result XML are the same")
 
-        npaReference = EDUtilsArray.getArray(xsDataResultReference.output.array)
-        npaObtained = EDUtilsArray.getArray(xsDataResultObtained.output.array)
+        npaReference = EDUtilsArray.getArray(xsDataResultReference.output)
+        npaObtained = EDUtilsArray.getArray(xsDataResultObtained.output)
         EDAssert.arraySimilar(npaReference, npaObtained, "Arrays are the same", _fAbsMaxDelta=1e-6)
         EDAssert.equal(npaReference.dtype, npaObtained.dtype, "Datatypes are the same")
 #        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
@@ -112,5 +112,5 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    testNormalizeImagev1_0instance = EDTestCasePluginExecuteExecNormalizeImagev1_0("EDTestCasePluginExecuteExecNormalizeImagev1_0")
+    testNormalizeImagev1_0instance = EDTestCasePluginExecuteExecNormalizeImagev1_2("EDTestCasePluginExecuteExecNormalizeImagev1_2")
     testNormalizeImagev1_0instance.execute()

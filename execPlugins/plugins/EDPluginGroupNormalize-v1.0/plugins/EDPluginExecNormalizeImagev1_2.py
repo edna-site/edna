@@ -23,11 +23,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
+
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
-__copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble, France"
+__copyright__ = "2010-2012, European Synchrotron Radiation Facility, Grenoble, France"
 __contact__ = "Jerome.Kieffer@esrf.eu"
-__data__ = "08/07/2011"
+__date__ = "05/03/2012"
+__status__ = "production"
 
 import os, threading
 from EDVerbose                  import EDVerbose
@@ -57,15 +59,14 @@ numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="v
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 
 
-class EDPluginExecNormalizeImagev1_1(EDPluginExec):
+class EDPluginExecNormalizeImagev1_2(EDPluginExec):
     """
     Plugin that normalizes an image (subtract dark current and divide by flat-field image, taking into account the exposure time)
     
-    v1.1 is compatible with EDShare -> lower memory footprint 
+    v1.1 is compatible with EDShare -> lower memory footprint
+    v1.2 allows the scaling of images with a scale-factor
     """
     dictDark = {} #Nota: the key is a string: str(exposutTime)
-#    listDarkExposure = []
-#    listDarkArray = []
     semaphore = threading.Semaphore()
     dtype = None #
     CONF_DTYPE_KEY = "dtype"
@@ -88,12 +89,15 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         self.strOutputFilename = None
         self.strOutputShared = None
         self.shape = None
+        self.scaleData = 1.0
+        self.scaleDark = 1.0
+        self.scaleFlat = 1.0
 
     def checkParameters(self):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginExecNormalizeImagev1_1.checkParameters")
+        self.DEBUG("EDPluginExecNormalizeImagev1_2.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
 
 
@@ -118,91 +122,52 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
                     self.__class__.dtype = str(strDtype.strip().lower())
 
 
+
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
-        self.DEBUG("EDPluginExecNormalizeImagev1_1.preProcess")
+        self.DEBUG("EDPluginExecNormalizeImagev1_2.preProcess")
         sdi = self.getDataInput()
-        if sdi.getData() == []:
+        if sdi.dataScaleFactor is not None:
+            self.scaleData = sdi.dataScaleFactor.value
+        if sdi.darkScaleFactor is not None:
+            self.scaleDark = sdi.darkScaleFactor.value
+        if sdi.flatScaleFactor is not None:
+            self.scaleFlat = sdi.flatScaleFactor.value
+        if sdi.data == []:
             strError = "You should either provide at least ONE input filename or an array, you provided: %s" % sdi.marshal()
             self.ERROR(strError)
             self.setFailure()
             raise RuntimeError(strError)
         else:
-            for inputData in sdi.getData():
+            for inputData in sdi.data:
                 if inputData.exposureTime is None:
                     self.WARNING("You did not provide an exposure time for DATA... using default: 1")
                     self.listDataExposure.append(1.0)
                 else:
                     self.listDataExposure.append(EDUtilsUnit.getSIValue(inputData.exposureTime))
-                if inputData.path is not None:
-                    strPath = inputData.path.value
-                    if os.path.isfile(strPath):
-                        self.listDataArray.append(fabio.open(strPath).data)
-                    else:
-                        strError = "The input file provided for DATA is not a valid file: %s" % strPath
-                        self.ERROR(strError)
-                        self.setFailure()
-                        raise RuntimeError(strError)
-                elif inputData.array is not None:
-                    self.listDataArray.append(EDUtilsArray.xsDataToArray(inputData.array))
-                else:
-                    strError = "You should either provide an input filename or an array for DATA, you provided: %s" % inputData.marshal()
-                    self.ERROR(strError)
-                    self.setFailure()
-                    raise RuntimeError(strError)
+                self.listDataArray.append(EDUtilsArray.getArray(inputData) / self.scaleData)
 
-        for inputFlat in sdi.getFlat():
+        for inputFlat in sdi.flat:
             if inputFlat.exposureTime is None:
                 self.WARNING("You did not provide an exposure time for FLAT... using default: 1")
                 expTime = 1.0
             else:
                 expTime = EDUtilsUnit.getSIValue(inputFlat.exposureTime)
             self.listFlatExposure.append(expTime)
-            if inputFlat.path is not None:
-                strPath = inputFlat.path.value
-                if os.path.isfile(strPath):
-                    self.listFlatArray.append(fabio.open(strPath).data)
-                else:
-                    strError = "The input file provided for FLAT is not a valid file: %s" % strPath
-                    self.ERROR(strError)
-                    self.setFailure()
-                    raise RuntimeError(strError)
-            elif inputFlat.array is not None:
-                self.listFlatArray.append(EDUtilsArray.xsDataToArray(inputFlat.array))
-            else:
-                strError = "You should either provide an input filename or an array for FLAT, you provided: %s" % inputFlat.marshal()
-                self.ERROR(strError)
-                self.setFailure()
-                raise RuntimeError(strError)
 
-        with EDPluginExecNormalizeImagev1_1.semaphore:
-            for inputDark in sdi.getDark():
+            self.listFlatArray.append(EDUtilsArray.getArray(inputFlat) / self.scaleFlat)
+
+        with self.__class__.semaphore:
+            for inputDark in sdi.dark:
                 if inputDark.exposureTime is None:
                     self.WARNING("You did not provide an exposure time for Dark... using default: 1")
                     expTime = 1.0
                 else:
                     expTime = EDUtilsUnit.getSIValue(inputDark.exposureTime)
-                strMeanDarkKey = "/".join((self.getClassName(), "MeanDark%6.3f" % expTime))
-                if strMeanDarkKey not in EDShare:
+#                strMeanDarkKey = "/".join((self.getClassName(), "MeanDark%6.3f" % expTime))
+                if str(expTime) not in self.__class__.dictDark:
                     self.listDarkExposure.append(expTime)
-                    if inputDark.path is not None:
-                        strPath = inputDark.path.value
-                        if os.path.isfile(strPath):
-                            self.listDarkArray.append(fabio.open(strPath).data)
-                        else:
-                            strError = "The input file provided for Dark is not a valid file: %s" % strPath
-                            self.ERROR(strError)
-                            self.setFailure()
-                            raise RuntimeError(strError)
-                    elif inputDark.array is not None:
-                        self.listDarkArray.append(EDUtilsArray.xsDataToArray(inputDark.array))
-                    elif inputDark.shared is not None:
-                        self.listDarkArray.append(EDShare[inputDark.shared.value])
-                    else:
-                        strError = "You should either provide an input filename or an array for Dark, you provided: %s" % inputDark.marshal()
-                        self.ERROR(strError)
-                        self.setFailure()
-                        raise RuntimeError(strError)
+                    self.listDarkArray.append(EDUtilsArray.getArray(inputDark) / self.scaleDark)
 
         if sdi.output is not None:
             if (sdi.output.path is not None):
@@ -218,7 +183,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
 
     def process(self, _edObject=None):
         EDPluginExec.process(self)
-        self.DEBUG("EDPluginExecNormalizeImagev1_1.process")
+        self.DEBUG("EDPluginExecNormalizeImagev1_2.process")
 
         #numerator part: 
         fTotalDataTime = 0.0
@@ -247,7 +212,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
 
     def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginExecNormalizeImagev1_1.postProcess")
+        self.DEBUG("EDPluginExecNormalizeImagev1_2.postProcess")
         xsDataResult = XSDataResultNormalize()
         if self.strOutputFilename is not None:
             self.DEBUG("Writing file %s" % self.strOutputFilename)
@@ -264,13 +229,12 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         # Create some output data
         self.setDataOutput(xsDataResult)
 
-
     def finallyProcess(self, _edObject=None):
         """
         after processing of the plugin:
         remove reference to large objects to save memory
         """
-        self.DEBUG("EDPluginExecNormalizeImagev1_1.finallyProcess")
+        self.DEBUG("EDPluginExecNormalizeImagev1_2.finallyProcess")
         EDPluginExec.finallyProcess(self, _edObject)
         self.listDataArray = None
         self.listDataExposure = None
