@@ -50,7 +50,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __status__ = "production"
 __date__ = "20110921"
 
-import os, sys, tempfile, signal, time, threading
+import os, sys, tempfile, signal, time
 
 # Append the EDNA kernel source directory to the python path
 
@@ -71,6 +71,7 @@ from EDVerbose              import EDVerbose
 from EDUtilsParallel        import EDUtilsParallel
 from EDJob                  import EDJob
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDThreading            import Semaphore
 
 
 #As an example, you can define the plugin name here
@@ -184,7 +185,7 @@ class EDParallelExecute(EDLogging):
 ################################################################################
 # #We are not using the one from EDUtilsParallel to leave it to control the number of  execPlugins.
 ################################################################################
-        self.__semaphoreNbThreads = threading.Semaphore(self.__iNbThreads)
+        self.__semaphoreNbThreads = Semaphore(self.__iNbThreads)
         self.__strPluginName = _strPluginName
         self.__functXMLin = _functXMLin
         self.__functXMLout = _functXMLout
@@ -300,7 +301,7 @@ class EDParallelExecute(EDLogging):
         @param  _jobId: string of type EDPluginName-number          
         """
         with self.locked():
-            for oneKey in self.__dictCurrentlyRunning.copy().iterkeys():
+            for oneKey in self.__dictCurrentlyRunning.copy():
                 if self.__dictCurrentlyRunning[oneKey] == _jobid:
                     self.__dictCurrentlyRunning.pop(oneKey)
 

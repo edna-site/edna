@@ -39,9 +39,9 @@ import threading, time, os, sys, gc
 from EDVerbose              import EDVerbose
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDFactoryPlugin        import EDFactoryPlugin
-from EDLogging               import EDLogging
+from EDLogging              import EDLogging
 from EDSlot                 import EDSlot
-
+from EDThreading import Semaphore
 #asizeof does not work with Jython not with PyPy
 if  (os.name == "java") or ("PyPy" in sys.version):
     asizeof = None
@@ -84,7 +84,7 @@ class EDJob(EDLogging):
 
     __edFactoryPlugin = EDFactoryPlugin()
     __dictJobs = {}
-    __semaphore = threading.Semaphore()
+    __semaphore = Semaphore()
     __fStartTime = time.time()
 
     def __init__(self, _strPluginName):

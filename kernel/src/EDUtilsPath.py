@@ -33,7 +33,8 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120216"
 
 
-import os, glob, threading, tempfile, getpass, hashlib
+import os, glob, tempfile, getpass, hashlib
+from EDThreading import Semaphore
 from EDVerbose import EDVerbose
 from os.path import dirname, abspath, exists
 
@@ -63,7 +64,7 @@ class EDUtilsPath:
     _EDNA_PROJECTS = {} # key: project name. Value: path to the project root
     _EDNA_PLUGINCACHE = None
 
-    __semaphore = threading.Semaphore()
+    __semaphore = Semaphore()
 
 
     @classmethod

@@ -32,7 +32,7 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120220"
 
-import base64, hashlib, sys, struct, threading, os
+import base64, hashlib, sys, struct, os
 
 from EDVerbose              import EDVerbose
 from XSDataCommon           import XSDataArray, XSDataString
@@ -40,6 +40,7 @@ from EDAssert               import EDAssert
 from EDShare                import EDShare
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDThreading import Semaphore
 
 architecture = EDUtilsPlatform.architecture
 fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
@@ -100,9 +101,9 @@ class EDUtilsArray(object):
                  "uint8": "B",
                  "float32": "f",
                  "float64": "d"}
-    semArrayToXSData = threading.Semaphore()
-    semXsDataToArray = threading.Semaphore()
-    semGetArray = threading.Semaphore()
+    semArrayToXSData = Semaphore()
+    semXsDataToArray = Semaphore()
+    semGetArray = Semaphore()
 
 
     @classmethod
