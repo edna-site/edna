@@ -140,7 +140,7 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
 
         if self.isFailure():
             return
-
+        Rg = None
         title = open(self.strInFile).readline()
         if title.startswith("#"):
             title = title[1:]
@@ -157,21 +157,29 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
                         firstPoint = 0
                     else:
                         break
-                if line.startswith("# AutoRg: Quality:"):
+                elif line.startswith("# AutoRg: Quality:"):
                     quality = float(line[18:].split("%")[0])
                     if quality < 1:
                         self.warning("The quality of this dataset is very low (%.1f%%): garbage in garbage out !")
+                elif line.startswith("# AutoRg: Rg   ="):
+                    Rg = float(line[16:].split()[0])
         if self.dataInput.lastPoint is not None:
             lastPoint = self.dataInput.lastPoint.value
         else:
             lastPoint = None
+        if self.dataInput.qMax is not None:
+            qMax = self.dataInput.qMax.value
+        elif Rg is not None:
+            qMax = 7.0 / Rg
+        else:
+            qMax = None
         datapoint = numpy.loadtxt(self.strInFile)[firstPoint:lastPoint]
 
         q = datapoint[:, 0]
         I = datapoint[:, 1]
         s = datapoint[:, 2]
-        if self.dataInput.qMax is not None:
-            mask = (q < self.dataInput.qMax.value)
+        if qMax is not None:
+            mask = (q < qMax)
             q = q[mask]
             I = I[mask]
             s = s[mask]

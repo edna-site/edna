@@ -23,38 +23,42 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
+
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010-, European Synchrotron Radiation Facility, Grenoble"
 __contact__ = "jerome.kieffer@esrf.fr"
-__date__ = "20120113"
+__date__ = "20120301"
 __status__ = "production"
 
-import os, threading
+import os
 from EDVerbose                  import EDVerbose
 from EDPluginControl            import EDPluginControl
 from EDUtilsArray               import EDUtilsArray
-from EDFactoryPluginStatic      import EDFactoryPluginStatic
+from EDFactoryPlugin            import edFactoryPlugin as EDFactoryPluginStatic
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDUtilsParallel            import EDUtilsParallel
 from EDShare                    import EDShare
+from EDThreading                import Semaphore
 from EDUtilsPath                import EDUtilsPath
+EDFactoryPluginStatic.loadModule("XSDataFullFieldXAS")
+EDFactoryPluginStatic.loadModule("EDPluginAccumulatorv1_0")
+from EDPluginAccumulatorv1_0    import EDPluginAccumulatorv1_0
 from XSDataCommon               import XSDataString, XSDataBoolean, XSDataDouble, XSDataInteger, \
     XSDataImageExt
 EDFactoryPluginStatic.loadModule("XSDataFullFieldXAS")
 from XSDataFullFieldXAS         import XSDataInputAlignStack
 from XSDataFullFieldXAS         import XSDataResultAlignStack
 EDFactoryPluginStatic.loadModule("XSDataHDF5v1_0")
-from XSDataHDF5v1_0 import XSDataInputHDF5StackImages
+from XSDataHDF5v1_0             import XSDataInputHDF5StackImages
 EDFactoryPluginStatic.loadModule("XSDataShiftv1_0")
-from XSDataShiftv1_0 import XSDataInputShiftImage, XSDataInputMeasureOffset
+from XSDataShiftv1_0            import XSDataInputShiftImage, XSDataInputMeasureOffset
 EDFactoryPluginStatic.loadModule("XSDataAccumulatorv1_0")
-from XSDataAccumulatorv1_0 import XSDataQuery, XSDataInputAccumulator
+from XSDataAccumulatorv1_0      import XSDataQuery, XSDataInputAccumulator
 EDFactoryPluginStatic.loadModule("EDPluginAccumulatorv1_0")
 EDFactoryPluginStatic.loadModule("EDPluginExecMeasureOffsetv1_0")
 EDFactoryPluginStatic.loadModule("EDPluginExecShiftImagev1_0")
 EDFactoryPluginStatic.loadModule("EDPluginHDF5StackImagesv10")
-from EDPluginAccumulatorv1_0 import EDPluginAccumulatorv1_0
 
 
 ################################################################################
@@ -78,8 +82,8 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
     __iRefFrame = None
     __dictRelShift = {}#key=frame number N, value= 2-tuple of shift relative to frame N-1
     __dictAbsShift = {}#key=frame number N, value= 2-tuple of shift relative to frame iRefFrame
-    __semaphore = threading.Semaphore()
-
+    __semaphore = Semaphore()
+    MaxOffset = None
 
     def __init__(self):
         """
@@ -94,13 +98,14 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.xsdHDF5Internal = None
         self.bAlwaysMOvsRef = False
         self.bDoAlign = True
-        self.semAccumulator = threading.Semaphore()
-        self.semMeasure = threading.Semaphore()
-        self.semShift = threading.Semaphore()
+        self.semAccumulator = Semaphore()
+        self.semMeasure = Semaphore()
+        self.semShift = Semaphore()
 
         self.__strControlledPluginAccumulator = "EDPluginAccumulatorv1_0"
-        self.__strControlledPluginMeasure = "EDPluginExecMeasureOffsetv1_0"
-        self.__strControlledPluginShift = "EDPluginExecShiftImagev1_0"
+        self.__strControlledPluginMeasureFFT = "EDPluginExecMeasureOffsetv1_0"
+        self.__strControlledPluginMeasureSIFT = "EDPluginExecMeasureOffsetv2_0"
+        self.__strControlledPluginShift = "EDPluginExecShiftImagev1_1"
         self.__strControlledPluginHDF5 = "EDPluginHDF5StackImagesv10"
 
     def checkParameters(self):
@@ -125,7 +130,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         if  sdi.dontAlign is not None:
             self.bDoAlign = not(bool(sdi.dontAlign.value))
 
-        self.iFrames = [ xsd.getValue() for xsd in sdi.getIndex()]
+        self.iFrames = [ xsd.getValue() for xsd in sdi.index]
 
         for idx, oneXSDFile in enumerate(sdi.getImages()):
             self.npArrays.append(EDUtilsArray.getArray(oneXSDFile))
@@ -180,9 +185,16 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             queryShift.setRemoveItems(XSDataBoolean(False))
             xsdataAcc = XSDataInputAccumulator()
             if  (EDPluginControlAlignStackv1_0.__iRefFrame == iFrame) or (self.bDoAlign == False) :
-
+                edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
                 EDPluginControlAlignStackv1_0.__dictAbsShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
                 EDPluginControlAlignStackv1_0.__dictRelShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
+                with edPluginExecHDF5.getFileLock(self.xsdHDF5File.path.value):
+                    grp = edPluginExecHDF5.getHDF5File(self.xsdHDF5File.path.value)[self.xsdHDF5Internal.value]
+                    ds = grp["Offsets"]
+                    if self.MaxOffset:
+                        if "MaxOffset" not in ds.attrs:
+                            ds.attrs["MaxOffset"] = self.MaxOffset
+                    ds[iFrame] = (0.0, 0.0)
                 xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
                                                     forceDtype=XSDataString("float32"),
                                                     extraAttributes=self.hdf5ExtraAttributes,
@@ -190,7 +202,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                                                     HDF5File=self.xsdHDF5File,
                                                     index=[XSDataInteger(iFrame)],
                                                     inputImageFile=[self.getFrameRef(iFrame)])
-                edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
+
                 edPluginExecHDF5.setDataInput(xsdata)
                 edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
                 edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
@@ -240,7 +252,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         with self.semMeasure:
             self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecMeasureOffset")
             self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecMeasureOffset")
-            listIndex = [ i.getValue() for i in _edPlugin.dataInput.getIndex()]
+            listIndex = [ i.getValue() for i in _edPlugin.dataInput.index]
             listIndex.sort()
             if self.bAlwaysMOvsRef:
                 if min(listIndex) < EDPluginControlAlignStackv1_0.__iRefFrame:
@@ -294,7 +306,17 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         with self.semShift:
             self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
             self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
-            xsdIdx = _edPlugin.dataInput.getIndex()
+            xsdIdx = _edPlugin.dataInput.index
+            self.__class__.MaxOffset = _edPlugin.MAX_OFFSET_VALUE
+            edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
+            with edPluginExecHDF5.getFileLock(self.xsdHDF5File.path.value):
+                grp = edPluginExecHDF5.getHDF5File(self.xsdHDF5File.path.value)[self.xsdHDF5Internal.value]
+                ds = grp["Offsets"]
+                if self.MaxOffset:
+                    if "MaxOffset" not in ds.attrs:
+                        ds.attrs["MaxOffset"] = self.MaxOffset
+                ds[xsdIdx.value, :] = [i.value for i in _edPlugin.dataInput.offset]
+
             xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
                                                 forceDtype=XSDataString("float32"),
                                                 extraAttributes=self.hdf5ExtraAttributes,
@@ -302,7 +324,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                                                 HDF5File=self.xsdHDF5File,
                                                 index=[xsdIdx],
                                                 inputArray=[_edPlugin.getDataOutput().getOutputArray()])
-            edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
+
             edPluginExecHDF5.setDataInput(xsdata)
             edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
             edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
@@ -344,18 +366,25 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                     #this is a hack to prevent thousands of threads to be launched at once.
                     EDUtilsParallel.semaphoreNbThreadsAcquire()
                     EDUtilsParallel.semaphoreNbThreadsRelease()
-                    edPluginExecMeasure = self.loadPlugin(self.__strControlledPluginMeasure)
+
                     xsdata = XSDataInputMeasureOffset()
                     xsdata.setImage(listFrame)
+                    doSIFT = False
                     if self.xsdMeasureOffset is not None:
                         xsdata.setCropBorders(self.xsdMeasureOffset.getCropBorders())
                         xsdata.setSmoothBorders(self.xsdMeasureOffset.getSmoothBorders())
                         xsdata.setBackgroundSubtraction(self.xsdMeasureOffset.getRemoveBackground())
+                        if self.xsdMeasureOffset.useSift is not None:
+                            doSIFT = self.xsdMeasureOffset.useSift.value
                     if max(listInt) > EDPluginControlAlignStackv1_0.__iRefFrame:
                         listInt.sort()
                     else:
                         listInt.sort(reverse=True)
                     xsdata.setIndex([XSDataInteger(i) for i in listInt ])
+                    if doSIFT:
+                        edPluginExecMeasure = self.loadPlugin(self.__strControlledPluginMeasureSIFT)
+                    else:
+                        edPluginExecMeasure = self.loadPlugin(self.__strControlledPluginMeasureFFT)
                     edPluginExecMeasure.setDataInput(xsdata)
                     edPluginExecMeasure.connectSUCCESS(self.doSuccessExecMeasureOffset)
                     edPluginExecMeasure.connectFAILURE(self.doFailureExecMeasureOffset)
@@ -449,3 +478,11 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         """
         EDShare.flush()
 
+    def hdf5_offset(self):
+        with edPluginExecHDF5.getFileLock(self.xsdHDF5File.path.value):
+            grp = edPluginExecHDF5.getHDF5File(self.xsdHDF5File.path.value)[self.xsdHDF5Internal.value]
+            ds = grp["Offsets"]
+            if self.MaxOffset:
+                if "MaxOffset" not in ds.attrs:
+                    ds.attrs["MaxOffset"] = self.MaxOffset
+            ds[xsdIdx.value, :] = [i.value for i in _edPlugin.dataInput.offset]

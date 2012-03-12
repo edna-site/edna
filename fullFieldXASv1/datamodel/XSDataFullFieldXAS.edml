@@ -61,7 +61,10 @@ package XSDataFullFieldXAS {
 		measureOffset : MeasureOffset optional
 		reference : XSDataInteger optional
 		saveNormalized : XSDataFile optional
-                dontAlign : XSDataBoolean optional
+        dontAlign : XSDataBoolean optional
+        dataScaleFactor: XSDataDouble  optional
+		darkScaleFactor: XSDataDouble  optional
+		flatScaleFactor: XSDataDouble  optional
 	}
 
 	complex type XSDataResultAlignStack extends XSDataResult {

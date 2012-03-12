@@ -36,17 +36,19 @@ from EDPluginExec       import EDPluginExec
 from EDUtilsArray       import EDUtilsArray
 from EDUtilsPlatform    import EDUtilsPlatform
 from EDConfiguration    import EDConfiguration
+from EDFactoryPlugin    import edFactoryPlugin as  EDFactoryPluginStatic
+from EDUtilsPath        import EDUtilsPath
+from EDThreading import Semaphore
 from XSDataShiftv1_0    import XSDataInputShiftImage, XSDataResultShiftImage
 from XSDataCommon       import XSDataImageExt, XSDataString
-from EDFactoryPluginStatic import EDFactoryPluginStatic
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
-scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
+scipyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090711-SciPy-0.7.1", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 scipy = EDFactoryPluginStatic.preImport("scipy", scipyPath)
@@ -74,7 +76,7 @@ class EDPluginExecShiftImagev1_1(EDPluginExec):
     MAX_OFFSET_VALUE = 0
     FILL_VALUE = 0 #can be "min", "max", "mean"
     CONFIGURED = False
-    _clsLock = threading.Semaphore()
+    _clsLock = Semaphore()
 
     def __init__(self):
         """
@@ -194,7 +196,7 @@ class EDPluginExecShiftImagev1_1(EDPluginExec):
             #ArrayOutput
             xsDataResult.setOutputArray(EDUtilsArray.arrayToXSData(self.npaImage))
         else:
-            image = edfimage(data=self.npaImage, header={"Offset_1":self.tOffset[0], "Offset_2":self.tOffset[1]})
+            image = edfimage(data=self.npaImage, header={"Offset_1":self.tOffset[0], "Offset_2":self.tOffset[1], "Max_Offset":self.MAX_OFFSET_VALUE})
             image.write(self.strOutputImage, force_type=self.npaImage.dtype)
             xsdimg = XSDataImageExt(path=XSDataString(self.strOutputImage))
             xsDataResult.setOutputImage(xsdimg)

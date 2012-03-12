@@ -41,6 +41,7 @@ from XSDataShiftv1_0        import XSDataResultMeasureOffset
 from EDAssert               import EDAssert
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
+from EDThreading import Semaphore
 
 
 
@@ -66,7 +67,7 @@ class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
     """
     An exec plugin that taked two images and measures the offset between the two using the SIFT algorithm. 
     """
-    __sem = threading.Semaphore()
+    __sem = Semaphore()
     __npaMask = None
 
 
@@ -197,8 +198,9 @@ class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
             self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
 
-        out = feature.sift(self.npaIm1, self.npaIm2, verbose=self.isVerboseDebug())
-        data = out[(0, 1)]
+        out = feature.sift2(self.npaIm1, self.npaIm2, verbose=self.isVerboseDebug())
+#        data = out[(0, 1)]
+        data = out
         v0 = data[:, 0] - data[:, 2]
         v1 = data[:, 1] - data[:, 3]
         self.tOffset = [XSDataDouble(numpy.median(v0)), XSDataDouble(numpy.median(v1))]

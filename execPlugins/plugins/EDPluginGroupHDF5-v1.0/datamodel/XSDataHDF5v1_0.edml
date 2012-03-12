@@ -26,7 +26,7 @@ complex type XSDataInputHDF5Writer extends XSDataInput {
     chunkSegmentation: XSDataInteger optional
 }
 
-complex type XSDataHDF5Attributes extends XSData{
+complex type XSDataHDF5Attributes extends XSData {
 	"Allows the fine definition of the metadata for group/datasets"
 	h5path : XSDataString
 	metadata : XSDataDictionary
@@ -50,10 +50,10 @@ complex type XSDataResultHDF5Writer extends XSDataResult {
 }
 
 
-complex type XSDataResultHDF5MapSpectra extends XSDataResultHDF5Writer{
+complex type XSDataResultHDF5MapSpectra extends XSDataResultHDF5Writer {
 }
 
-complex type XSDataResultHDF5StackImages extends XSDataResultHDF5Writer{
+complex type XSDataResultHDF5StackImages extends XSDataResultHDF5Writer {
 }
 
 

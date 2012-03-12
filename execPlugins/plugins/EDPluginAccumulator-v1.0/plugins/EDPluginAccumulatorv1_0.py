@@ -43,7 +43,7 @@ __copyright__ = "ESRF"
 __data__ = "2011-06-07"
 
 
-import threading
+import EDThreading
 from EDPlugin               import EDPlugin
 
 from XSDataCommon           import XSDataBoolean, XSDataString
@@ -66,7 +66,7 @@ class EDPluginAccumulatorv1_0(EDPlugin):
     EDPluginAccumulatorv1_0 is an execution plugin because it is not a control plugin (as it controls nothing) 
 
     """
-    __semaphore = threading.Semaphore()
+    __semaphore = EDThreading.Semaphore()
     __queries = {} #queries are stored as keys of a dictionary (as sorted tuple) where the value is the flag "Remove Item"
     __items = []
 

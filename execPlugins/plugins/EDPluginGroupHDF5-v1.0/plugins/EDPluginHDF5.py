@@ -34,7 +34,8 @@ __date__ = "2011-09-05"
 # HDF5 does not like unicode string and crashes with cryptic error messages
 ###############################################################################
 
-import os, threading, time, locale
+import os, time, locale
+
 from EDVerbose                  import EDVerbose
 from EDPluginExec               import EDPluginExec
 from EDAssert                   import EDAssert
@@ -42,7 +43,9 @@ from EDUtilsPlatform            import EDUtilsPlatform
 from EDConfiguration            import EDConfiguration
 from EDModule                   import EDModule
 from XSDataHDF5v1_0             import XSDataInputHDF5Writer
-from EDFactoryPluginStatic      import EDFactoryPluginStatic
+from EDFactoryPlugin      import edFactoryPlugin  as EDFactoryPluginStatic
+from EDDecorator                import deprecated
+from EDThreading import Semaphore
 architecture = EDUtilsPlatform.architecture
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
 h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", architecture)
@@ -68,7 +71,7 @@ class EDPluginHDF5(EDPluginExec):
     """
     This is a common part for all EDNA plugin writing HDF5. most methods are class methods 
     """
-    __semCls = threading.Semaphore()
+    __semCls = Semaphore()
     __dictHDF5 = {} #key: filename, value: hdf5 h5py objects
     __dictLock = {} #key: filename, value:semaphores for writing
     __bConfigured = False
@@ -260,7 +263,7 @@ class EDPluginHDF5(EDPluginExec):
                             raise
                         cls.__dictHDF5[filename] = h5py.File(filename)
             if not filename in cls.__dictLock:
-                cls.__dictLock[filename] = threading.Semaphore()
+                cls.__dictLock[filename] = Semaphore()
             filelock = cls.__dictLock[filename]
         with filelock:
             hdf5 = cls.__dictHDF5[filename]
@@ -319,7 +322,7 @@ class EDPluginHDF5(EDPluginExec):
             with cls.__dictLock[filename]:
                 cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
 
-                if h5py.version.api_version_tuple < (1, 10):
+                if 0:#h5py.version.api_version_tuple < (1, 10):
                     cls.__dictHDF5[filename].close()
                     cls.__dictHDF5[filename] = h5py.File(filename)
                 else:
@@ -328,7 +331,9 @@ class EDPluginHDF5(EDPluginExec):
             EDVerbose.WARNING("HDF5 Flush: %s, no such file under control" % filename)
 
 
+
     @classmethod
+    @deprecated
     def lockFile(cls, filename):
         """
         acquire the semaphore for this specific file
@@ -337,20 +342,6 @@ class EDPluginHDF5(EDPluginExec):
             cls.__dictLock[filename].acquire()
         else:
             EDVerbose.WARNING("EDPluginHDF5.lockFile: file not under supervision %s " % filename)
-
-
-    @classmethod
-    def getFileLock(cls, filename):
-        """
-        return the semaphore for locking ....
-        """
-        if filename in cls.__dictLock:
-            return cls.__dictLock[filename]
-        else:
-            EDVerbose.WARNING("EDPluginHDF5.getFileSem: file not under supervision %s. Expect failure ! " % filename)
-
-
-
 
     @classmethod
     def releaseFile(cls, filename):
@@ -362,6 +353,15 @@ class EDPluginHDF5(EDPluginExec):
         else:
             EDVerbose.WARNING("EDPluginHDF5.releaseFile: file not under supervision %s " % filename)
 
+    @classmethod
+    def getFileLock(cls, filename):
+        """
+        return the semaphore for locking ....
+        """
+        if filename in cls.__dictLock:
+            return cls.__dictLock[filename]
+        else:
+            EDVerbose.WARNING("EDPluginHDF5.getFileSem: file not under supervision %s. Expect failure ! " % filename)
 
     @classmethod
     def flushAll(cls):
@@ -371,10 +371,6 @@ class EDPluginHDF5(EDPluginExec):
         with cls.__semCls:
             for filename in cls.__dictHDF5:
                 cls.flushFile(filename)
-#                EDVerbose.log("Flushing HDF5 buffer for " + filename)
-#                with cls.__dictLock[filename]:
-#                    cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
-#                    cls.__dictHDF5[filename].flush()
 
 
     @classmethod

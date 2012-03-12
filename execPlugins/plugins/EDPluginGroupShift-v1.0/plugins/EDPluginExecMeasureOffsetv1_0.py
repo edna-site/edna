@@ -41,6 +41,7 @@ from XSDataShiftv1_0        import XSDataResultMeasureOffset
 from EDAssert               import EDAssert
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
+from EDThreading import Semaphore
 
 
 
@@ -82,7 +83,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     """
     An exec plugin that taked two images and measures the offset between the two.
     """
-    __sem = threading.Semaphore()
+    __sem = Semaphore()
     __npaMask = None
 
     CONF_CONVOLUTION = None
@@ -238,7 +239,8 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
 
         offset, logs = MeasureOffset.measure_offset(self.npaIm1, self.npaIm2,
-                                                    method=self.CONF_CONVOLUTION, withLog=True)
+                                                    self.CONF_CONVOLUTION, withLog=True)
+
         self.tOffset = [XSDataDouble(f) for f in offset]
         logs.insert(0, "")
         if len(logs) <= 4:

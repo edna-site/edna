@@ -43,6 +43,7 @@ from EDAssert                   import EDAssert
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDShare                    import EDShare
 from EDUtilsPath                import EDUtilsPath
+from EDThreading import Semaphore
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
@@ -63,7 +64,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
     dictDark = {} #Nota: the key is a string: str(exposutTime)
 #    listDarkExposure = []
 #    listDarkArray = []
-    semaphore = threading.Semaphore()
+    semaphore = Semaphore()
     dtype = None #
     CONF_DTYPE_KEY = "dtype"
     CONF_DTYPE_DEFAULT = "float32"
@@ -263,7 +264,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
             edf.write(self.strOutputFilename)
             xsdo = XSDataImageExt(path=XSDataString(self.strOutputFilename))
         elif self.strOutputShared is not None:
-            self.DEBUG("EDShare --> %" % self.strOutputShared)
+            self.DEBUG("EDShare --> %s" % self.strOutputShared)
             EDShare[ self.strOutputShared] = self.npaNormalized
             xsdo = XSDataImageExt(shared=XSDataString(self.strOutputShared))
         else:

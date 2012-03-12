@@ -284,7 +284,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>convolution</name>
-					<value>fftw3</value>
+					<value>numpy</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>dtype</name>
@@ -297,7 +297,17 @@
 			<name>EDPluginExecShiftImagev1_0</name>
 			<XSParamList>
 				<XSParamItem>
-					<name>writeXMLInputOutput</name>
+					<name>writeXMLOutput</name>
+					<value>0</value>
+				</XSParamItem>
+			 </XSParamList>	
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecShiftImagev1_1</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>writeXMLOutput</name>
 					<value>0</value>
 				</XSParamItem>
 			 </XSParamList>	
