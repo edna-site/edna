@@ -202,7 +202,7 @@ class EDShare(EDLogging, EDSession):
         with self.locked():
             if self.isInitialized():
                 if self._backend == "hdf5":
-                    if 0:#h5py.version.api_version_tuple < (1, 10):
+                    if h5py.version.api_version_tuple < (1, 10):
                         # This is a work arround because "flush" does not lean a file readable from outside. 
                         self._storage.close()
                         self._storage = h5py.File(self._filename)

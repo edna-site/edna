@@ -302,16 +302,23 @@
 				</XSParamItem>
 			 </XSParamList>	
 		</XSPluginItem>
-
 		<XSPluginItem>
 			<name>EDPluginExecShiftImagev1_1</name>
 			<XSParamList>
+				<XSParamItem>
+					<name>fill</name>
+					<value>mean</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>maxOffset</name>
+					<value>10</value>
+				</XSParamItem>
 				<XSParamItem>
 					<name>writeXMLOutput</name>
 					<value>0</value>
 				</XSParamItem>
 			 </XSParamList>	
-		</XSPluginItem>
+		</XSPluginItem>				
 		
 		<XSPluginItem>
 			<name>EDPluginExecNormalizeImagev1_0</name>
@@ -389,20 +396,6 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginExecShiftImagev1_1</name>
-			<XSParamList>
-				<XSParamItem>
-					<name>fill</name>
-					<value>mean</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>maxOffset</name>
-					<value>10</value>
-				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>	
-				
 		
 		<XSPluginItem>
 			<name>EDPluginExecRsync</name>  

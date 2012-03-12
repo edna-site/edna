@@ -57,6 +57,8 @@ from XSDataCommon                       import XSDataTime, XSDataFile, XSDataIma
 
 if socket.gethostname() == 'lintaillefer':
     EDShare.initialize("/mnt/data/EDShare")
+if socket.gethostname() == 'tabor':
+    EDShare.initialize("/mnt/EDShare")
 else:
     try:
         dirnames = [i for i in os.listdir("/buffer") if i.startswith(socket.gethostname())]

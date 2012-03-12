@@ -30,7 +30,7 @@ __copyright__ = "2010-2012, ESRF, Grenoble"
 __status__ = "development"
 __date__ = "20120113"
 
-import os, threading
+import os
 from EDVerbose          import EDVerbose
 from EDPluginExec       import EDPluginExec
 from EDUtilsArray       import EDUtilsArray

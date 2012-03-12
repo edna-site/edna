@@ -27,7 +27,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF Grenoble"
-__date__ = "2011-09-05"
+__date__ = "2012-03-12"
 
 ###############################################################################
 # BIG FAT WARNING
@@ -38,19 +38,17 @@ import os, time, locale
 
 from EDVerbose                  import EDVerbose
 from EDPluginExec               import EDPluginExec
-from EDAssert                   import EDAssert
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDConfiguration            import EDConfiguration
-from EDModule                   import EDModule
-from XSDataHDF5v1_0             import XSDataInputHDF5Writer
-from EDFactoryPlugin      import edFactoryPlugin  as EDFactoryPluginStatic
+from EDFactoryPlugin            import edFactoryPlugin  as EDFactoryPluginStatic
 from EDDecorator                import deprecated
-from EDThreading import Semaphore
+from EDThreading                import Semaphore
+from EDUtilsPath                import EDUtilsPath
 architecture = EDUtilsPlatform.architecture
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
-h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", architecture)
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
+h5pyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "H5Py-1.3.0", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
 h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.api_version", _strForceVersion="1.8")
@@ -175,11 +173,11 @@ class EDPluginHDF5(EDPluginExec):
         if self.dataInput.forceDtype is not None:
             self.dtype = self.dataInput.forceDtype.value
         for extraAttr in self.dataInput.extraAttributes:
-             attr = {}
-             h5path = extraAttr.h5path.value
-             for meta in extraAttr.metadata.keyValuePair:
-                 attr[meta.key.value] = meta.value.value
-             self.dictExtraAttributes[h5path] = attr
+            attr = {}
+            h5path = extraAttr.h5path.value
+            for meta in extraAttr.metadata.keyValuePair:
+                attr[meta.key.value] = meta.value.value
+            self.dictExtraAttributes[h5path] = attr
         if self.dataInput.chunkSegmentation is not None:
             self._iChunkSegmentation = self.dataInput.chunkSegmentation.value
 
@@ -322,7 +320,7 @@ class EDPluginHDF5(EDPluginExec):
             with cls.__dictLock[filename]:
                 cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
 
-                if 0:#h5py.version.api_version_tuple < (1, 10):
+                if h5py.version.api_version_tuple < (1, 10):
                     cls.__dictHDF5[filename].close()
                     cls.__dictHDF5[filename] = h5py.File(filename)
                 else:

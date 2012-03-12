@@ -42,7 +42,7 @@ This class is taking care of the workflow preProcess - process - postProcess.
 """
 
 
-import time, gc, os
+import time, os
 from threading   import Thread
 from EDSlot      import EDSlot
 from EDVerbose   import EDVerbose
