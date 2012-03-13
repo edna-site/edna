@@ -23,6 +23,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import with_statement
 
 __authors__ = ["irakli", "Jérôme Kieffer"]
 __license__ = "GPLv3+"
@@ -31,6 +32,7 @@ __date__ = "20120214"
 
 import os, operator, itertools, matplotlib, distutils.dir_util
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from matplotlib.colors import colorConverter
 
 from numpy import mean, std, var, arange, resize
@@ -77,7 +79,7 @@ def rejectDataLine(_tmpLine, _numColumns):
     else:
         return False
 
-class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
+class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
     """
     Solution scattering control plugin for running GNOM->DAMMIF->DAMAVER pipeline
     Step 1: Running GNOM jobs in parallel to idenfity the optimal value for rMax input parameter
@@ -630,66 +632,72 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
         Plot results of Rmax optimization procedure and best fit of the experimental data
         """
         cm = matplotlib.cm.get_cmap('cool')
-        #pylab.rcParams['figure.figsize'] = 6, 5
+
+        fig1 = plt.figure(self.__iNbGnomSeries + 1, figsize=(6, 5))
+        ax1 = fig1.add_subplot(1, 1, 1)
+
         for itr in range(self.__iNbGnomSeries):
             rMaxList = []
             fitQualityList = []
             for idx in range(self.__rMaxDivide + 1):
                 rMaxList.append(self.__xsGnomPlugin[(itr, idx)].getDataInput().getRMax().getValue())
                 fitQualityList.append(self.__xsGnomPlugin[(itr, idx)].getDataOutput().getFitQuality().getValue())
+            ax1.plot(rMaxList, fitQualityList, linestyle='None', marker='o', color=cm(1.0 * (itr + 1) / self.__iNbGnomSeries), markersize=5, label="Iteration # %d" % (itr + 1))
+            fign = plt.figure(itr + 1, figsize=(6, 5))
+            axn = fign.add_subplot(1, 1, 1)
+            axn.plot(rMaxList, fitQualityList, linestyle='-', marker='o', markersize=5, label="Iteration # %d" % (itr + 1))
+            axn.set_xlabel(u"Rmax / \u00c5")
+            axn.set_ylabel('Fit quality')
+            axn.legend(*axn.get_legend_handles_labels(), **{"loc":4})
+            fign.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults-%d.png" % (itr + 1)))
+            fign.clf()
+            del axn, fign
 
-            #pylab.plot(fitQualityList, marker='o', color=cm(1.0*itr/(self.__iNbGnomSeries-1)), markersize=5,  label="Iteration # %d" % (itr+1))
-            pylab.figure(self.__iNbGnomSeries + 1, figsize=(6, 5))
-            pylab.plot(rMaxList, fitQualityList, linestyle='None', marker='o', color=cm(1.0 * (itr + 1) / self.__iNbGnomSeries), markersize=5, label="Iteration # %d" % (itr + 1))
-            pylab.figure(itr + 1, figsize=(6, 5))
-            pylab.plot(rMaxList, fitQualityList, linestyle='-', marker='o', markersize=5, label="Iteration # %d" % (itr + 1))
-            pylab.xlabel(u"Rmax / \u00c5")
-            pylab.ylabel('Fit quality')
-            pylab.legend(loc=4)
-            pylab.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults-%d.png" % (itr + 1)))
-
-        pylab.figure(self.__iNbGnomSeries + 1, figsize=(6, 5))
-        pylab.xlabel(u"Rmax / \u00c5")
-        pylab.ylabel('Fit quality')
-        pylab.suptitle("Optimized value of RMax : %3.2f   Maximal fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
-        pylab.legend(loc=4)
-        pylab.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults.png"))
-        pylab.clf()
+        ax1.set_xlabel(u"Rmax / \u00c5")
+        ax1.set_ylabel('Fit quality')
+        fig1.suptitle("Optimized value of RMax : %3.2f   Maximal fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
+        ax1.legend(*ax1.get_legend_handles_labels(), **{"loc":4})
+        fig1.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults.png"))
+        fig1.clf()
+        del ax1, fig1
 
 
-        _listFitQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getScatteringFitQ()]
-        _listFitValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getScatteringFitValues()]
-        _listExpQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataInput().getExperimentalDataQ()]
-        _listExpValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataInput().getExperimentalDataValues()]
+        _listFitQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataOutput.getScatteringFitQ()]
+        _listFitValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataOutput.getScatteringFitValues()]
+        _listExpQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataInput.getExperimentalDataQ()]
+        _listExpValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataInput.getExperimentalDataValues()]
         _listDammifFitQ = []
         _listDammifFitValues = []
         _listDammifExpQ = []
         _listDammifExpValues = []
 
         self.__parceDammifFit(_listDammifExpQ, _listDammifExpValues, _listDammifFitQ, _listDammifFitValues)
-
-        pylab.semilogy(_listExpQ, _listExpValues, linestyle='None', marker='o', markersize=5, label="Experimental Data")
-        pylab.semilogy(_listFitQ, _listFitValues, label="GNOM fitting curve")
-        #pylab.semilogy(_listDammifExpQ, _listDammifExpValues, linestyle='None', marker='x', markersize=5,  label="Dammif experimental Data")
-        pylab.semilogy(_listDammifFitQ, _listDammifFitValues, color='y', label="DAMMIF ab-initio model")
-        pylab.xlabel(u"q / \u00c5$^{-1}$")
-        pylab.ylabel('I(q)')
-        pylab.suptitle("RMax : %3.2f   Fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
-        pylab.legend()
-        pylab.savefig(os.path.join(self.getWorkingDirectory(), "gnomFittingResults.png"))
-        pylab.clf()
+        figFit = plt.figure(figsize=(6, 5))
+        axFit = figFit.add_subplot(1, 1, 1)
+        axFit.semilogy(_listExpQ, _listExpValues, linestyle='None', marker='o', markersize=5, label="Experimental Data")
+        axFit.semilogy(_listFitQ, _listFitValues, label="GNOM fitting curve")
+        axFit.semilogy(_listDammifFitQ, _listDammifFitValues, color='y', label="DAMMIF ab-initio model")
+        axFit.set_xlabel(u"q / \u00c5$^{-1}$")
+        axFit.set_ylabel('I(q)')
+        figFit.suptitle("RMax : %3.2f   Fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
+        axFit.legend(*axFit.get_legend_handles_labels())
+        figFit.savefig(os.path.join(self.getWorkingDirectory(), "gnomFittingResults.png"))
+        figFit.clf()
+        del axFit, figFit
 
         _listDistributionR = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionR()]
         _listDistributionPr = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionPr()]
         _listDistributionErr = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionErr()]
 
-
-        pylab.errorbar(_listDistributionR, _listDistributionPr, yerr=_listDistributionErr)
-        pylab.xlabel(u"R / \u00c5")
-        pylab.ylabel('P(R)')
-        pylab.suptitle("Distance distribution function")
-        pylab.savefig(os.path.join(self.getWorkingDirectory(), "distributionPR.png"))
-        pylab.clf()
+        figDist = plt.figure(figsize=(6, 5))
+        axDist = figDist.add_subplot(1, 1, 1)
+        axDist.errorbar(_listDistributionR, _listDistributionPr, yerr=_listDistributionErr)
+        axDist.set_xlabel(u"R / \u00c5")
+        axDist.set_ylabel('P(R)')
+        figDist.suptitle("Distance distribution function")
+        figDist.savefig(os.path.join(self.getWorkingDirectory(), "distributionPR.png"))
+        figDist.clf()
+        del axDist, figDist
 
         if self.__bPlotFit:
             for gnomJob in self.__xsGnomPlugin.itervalues():
@@ -705,10 +713,10 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
         _width = 0.5 / (self.__iNbDammifJobs - 1)
         _ind = [tmp * (1 - _width) + 0.25 for tmp in arange(self.__iNbDammifJobs)]
         _indLabels = []
-
-        pylab.figure(0, figsize=(10, 8))
-        pylab.figure(30, figsize=(10, 5))
-
+        fig0 = plt.figure(figsize=(10, 8))
+        ax0 = fig0.add_subplot(1, 1, 1)
+        fig30 = plt.figure(figsize=(10, 8))
+        ax30 = fig30.add_subplot(1, 1, 1)
         for ref in self.__xsDammifPlugin.iterkeys():
 
             _tmpNSD = []
@@ -725,33 +733,33 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
             _tmpLegendPos = 0.8 - 0.4 * ref / self.__iNbDammifJobs
             _tmpLabel = os.path.relpath(self.__xsDammifPlugin[ref].getWorkingDirectory(), self.getWorkingDirectory())
             _indLabels.append(_tmpLabel)
-            pylab.figure(0)
-            pylab.bar(_tmpInd, _tmpNSD, _width, color=_tmpColor, label=_tmpLabel)
-            pylab.figtext(0.75, _tmpLegendPos, _tmpLabel, backgroundcolor=_tmpColor, \
-                          color='white', weight='roman', size='medium')
-            pylab.figure(30)
-            pylab.barh([self.__iNbDammifJobs - ref], self.__dammifRefNSD[ref], 0.8, color=_tmpColor)
+            ax0.bar(_tmpInd, _tmpNSD, _width, color=_tmpColor, label=_tmpLabel)
+            fig0.text(0.75, _tmpLegendPos, _tmpLabel, backgroundcolor=_tmpColor, \
+                          color='white', weight='roman', size='medium')#, transform=ax0.transAxes)
+            ax30.barh([self.__iNbDammifJobs - ref], self.__dammifRefNSD[ref], 0.8, color=_tmpColor)
 
-        pylab.figure(0)
-        #pylab.subplots_adjust(left=0.1, right=0.7, top=0.9, bottom=0.3)
-        pylab.subplots_adjust(right=0.7, bottom=0.3)
-        pylab.ylabel('Normalised Spatial Discrepancy (NSD)')
-        pylab.xlabel('DAMMIF Model')
-        pylab.title('DAMAVER model alignment results')
-        pylab.xticks(_ind, _indLabels, rotation=65)
-        pylab.savefig(os.path.join(self.getWorkingDirectory(), "dammifNSDResults.png"))
-        pylab.clf()
-        pylab.figure(30)
-        pylab.axvspan(self.__meanNSD - 2 * self.__varNSD, self.__meanNSD + 2 * self.__varNSD, facecolor='g', alpha=0.3)
-        pylab.subplots_adjust(left=0.3, right=0.8)
-        pylab.xlabel('Average NSD')
-        pylab.ylabel('DAMMIF Model')
-        pylab.text(self.__meanNSD, self.__iNbDammifJobs + 1.5, "Model acceptance interval", ha="center", va="bottom", \
+        fig0.subplots_adjust(right=0.7, bottom=0.3)
+        ax0.set_ylabel('Normalised Spatial Discrepancy (NSD)')
+        ax0.set_xlabel('DAMMIF Model')
+        ax0.set_title('DAMAVER model alignment results')
+        ax0.set_xticks(_ind)
+        ax0.set_xticklabels(_indLabels, rotation=65)
+        fig0.savefig(os.path.join(self.getWorkingDirectory(), "dammifNSDResults.png"))
+        fig0.clf()
+        del ax0, fig0
+        ax30.axvspan(self.__meanNSD - 2 * self.__varNSD, self.__meanNSD + 2 * self.__varNSD, facecolor='g', alpha=0.3)
+#        fig30.subplots_adjust(left=0.3, right=0.8)
+        ax30.set_xlabel('Average NSD')
+        ax30.set_ylabel('DAMMIF Model')
+        ax30.text(self.__meanNSD, self.__iNbDammifJobs + 1.5, "Model acceptance interval", ha="center", va="bottom", \
                    bbox=dict(boxstyle="round", ec='g', fc='g', alpha=0.3))
-        pylab.ylim(0.5, self.__iNbDammifJobs + 1.2)
-        pylab.yticks(self.__iNbDammifJobs + 0.4 - arange(self.__iNbDammifJobs), _indLabels)
-        pylab.savefig(os.path.join(self.getWorkingDirectory(), "dammifAverageNSD.png"))
-        pylab.clf()
+        ax30.set_ylim(0.5, self.__iNbDammifJobs + 1.2)
+        ax30.set_yticks(self.__iNbDammifJobs + 0.4 - arange(self.__iNbDammifJobs))
+        ax30.set_yticklabels(_indLabels)
+        fig30.savefig(os.path.join(self.getWorkingDirectory(), "dammifAverageNSD.png"))
+        fig30.clf()
+        del ax30, fig30
+
 
 
     def __outputHTMLSummaryTable(self):
