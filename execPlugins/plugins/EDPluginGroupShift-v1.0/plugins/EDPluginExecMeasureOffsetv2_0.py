@@ -6,7 +6,7 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2010, ESRF, Grenoble
+#    Copyright (C) 2010-2012, ESRF, Grenoble
 #
 #    Principal author:       Jérôme Kieffer
 #
@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2012, ESRF, Grenoble"
-__date__ = "2010228"
+__date__ = "20120313"
 
 import os, threading, time
 from EDVerbose              import EDVerbose
@@ -41,23 +41,22 @@ from XSDataShiftv1_0        import XSDataResultMeasureOffset
 from EDAssert               import EDAssert
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
-from EDThreading import Semaphore
-
-
+from EDThreading            import Semaphore
+from EDUtilsPath            import EDUtilsPath
 
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
-try:
-    import feature
-except:
+feature = EDFactoryPluginStatic.preImport("feature")
+#
+if feature is None:
     strErr = "Error in loading feature from https://github.com/kif/imageAlignment"
     EDVerbose.ERROR(strErr)
     raise ImportError(strErr)
@@ -197,7 +196,8 @@ class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
         if self.sobel:
             self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
-
+        print self.npaIm1
+        print self.npaIm2
         out = feature.sift2(self.npaIm1, self.npaIm2, verbose=self.isVerboseDebug())
 #        data = out[(0, 1)]
         data = out
