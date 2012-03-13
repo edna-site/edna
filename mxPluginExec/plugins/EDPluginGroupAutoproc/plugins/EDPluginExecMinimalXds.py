@@ -59,15 +59,15 @@ class EDPluginExecMinimalXds(EDPluginExecProcess):
         self.checkMandatoryParameters(self.dataInput.input_file, "No XDS input file given")
 
         # really look into the mandatory arg
-        xds_input = os.path.abspath(self.dataInput.input_file)
+        xds_input = os.path.abspath(self.dataInput.input_file.value)
         if not (os.path.exists(xds_input) and os.path.isfile(xds_input)):
             self.setFailure()
 
 
     def preProcess(self, _edObject = None):
-        EDPluginExec.preProcess(self)
+        EDPluginExecProcess.preProcess(self)
         self.DEBUG("EDPluginMinimalXDS.preProcess")
-        xds_input = os.path.abspath(self.dataInput.input_file)
+        xds_input = os.path.abspath(self.dataInput.input_file.value)
         shutil.copy(xds_input, self.getWorkingDirectory())
 
         # our new xds file
@@ -88,11 +88,11 @@ class EDPluginExecMinimalXds(EDPluginExecProcess):
                 parsed["MAXIMUM_NUMBER_OF_PROCESSORS="] = maxproc
             if maxjobs is not None:
                 parsed["MAXIMUM_NUMBER_OF_JOBS="] = maxjobs
-            dump_xds_file(parsed, xds_file)
+            dump_xds_file(xds_file, parsed)
 
 
     def process(self, _edObject = None):
-        EDPluginExec.process(self)
+        EDPluginExecProcess.process(self)
         self.DEBUG("EDPluginMinimalXds.process")
 
 
