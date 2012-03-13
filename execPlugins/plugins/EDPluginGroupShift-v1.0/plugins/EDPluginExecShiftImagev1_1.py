@@ -23,12 +23,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
+from EDShare import EDShare
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2010-2012, ESRF, Grenoble"
 __status__ = "development"
-__date__ = "20120113"
+__date__ = "20120313"
 
 import os
 from EDVerbose          import EDVerbose
@@ -87,7 +88,7 @@ class EDPluginExecShiftImagev1_1(EDPluginExec):
         self.npaImage = None
         self.tOffset = (0., 0.)
         self.strOutputImage = None
-
+        self.strOutputType = None
 
     def checkParameters(self):
         """
@@ -154,14 +155,22 @@ class EDPluginExecShiftImagev1_1(EDPluginExec):
             self.setFailure()
             raise RuntimeError
 
-        offset = sdi.getOffset()
+        offset = sdi.offset
         if len(offset) == 2:
-            self.tOffset = (offset[0].getValue(), offset[1].getValue())
+            self.tOffset = (offset[0].value, offset[1].value)
         elif len(offset) == 1:
-            self.tOffset = (offset[0].getValue(), offset[0].getValue())
+            self.tOffset = (offset[0].value, offset[0].value)
 
-        if sdi.getOutputImage() is not None:
-            self.strOutputImage = sdi.getOutputImage().getPath().getValue()
+        if sdi.outputImage is not None:
+            if sdi.outputImage.path is not None:
+                self.strOutputType = "file"
+                self.strOutputImage = sdi.outputImage.path.value
+            if sdi.outputImage.shared is not None:
+                self.strOutputType = "shared"
+                self.strOutputImage = sdi.outputImage.shared.value
+            if sdi.outputImage.array is not None:
+                self.strOutputType = "array"
+
 
 
     def process(self, _edObject=None):
@@ -192,14 +201,21 @@ class EDPluginExecShiftImagev1_1(EDPluginExec):
         self.DEBUG("EDPluginExecShiftImagev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultShiftImage()
-        if self.strOutputImage is None:
-            #ArrayOutput
+        if self.strOutputType is None:
             xsDataResult.setOutputArray(EDUtilsArray.arrayToXSData(self.npaImage))
-        else:
+        elif self.strOutputType == "file":
             image = edfimage(data=self.npaImage, header={"Offset_1":self.tOffset[0], "Offset_2":self.tOffset[1], "Max_Offset":self.MAX_OFFSET_VALUE})
             image.write(self.strOutputImage, force_type=self.npaImage.dtype)
             xsdimg = XSDataImageExt(path=XSDataString(self.strOutputImage))
-            xsDataResult.setOutputImage(xsdimg)
+            xsDataResult.outputImage = xsdimg
+        elif self.strOutputType == "shared":
+            EDShare[self.strOutputImage] = self.npaImage
+            xsdimg = XSDataImageExt(shared=XSDataString(self.strOutputImage))
+            xsDataResult.outputImage = xsdimg
+        elif self.strOutputType == "array":
+            xsdimg = XSDataImageExt(array=EDUtilsArray.arrayToXSData(self.npaImage))
+            xsDataResult.outputImage = xsdimg
+
         self.setDataOutput(xsDataResult)
         self.npaImage = None
 
