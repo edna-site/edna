@@ -284,7 +284,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>convolution</name>
-					<value>numpy</value>
+					<value>fftw</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>dtype</name>
@@ -330,6 +330,23 @@
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>600</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>dtype</name>
+					<value>float32</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecNormalizeImagev1_1</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>writeXMLOutput</name>
+					<value>1</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>60</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>dtype</name>
