@@ -6,9 +6,9 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2011, European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110916"
+__date__ = "20120313"
 
-import os, time, sys, threading, tempfile, string, shlex, socket
+import os, time, sys, tempfile, string, shlex, socket
 
 # Append the EDNA kernel source directory to the python path
 if "EDNA_HOME" not in  os.environ:
@@ -539,7 +539,10 @@ class FullFieldXas(object):
         @rtype: None
         @return: None     
         """
-        xsd = XSDataInputFullFieldXAS.parseString(strXMLin)
+        if isinstance(strXMLin, (str, unicode)):
+            xsd = XSDataInputFullFieldXAS.parseString(strXMLin)
+        else:
+            xsd = strXMLin
         filenames = [ i.path.value for i in xsd.getData()]
         EDVerbose.ERROR("Error in the processing of: \n %s" % "\n".join(filenames))
         self.iErrCount += 1

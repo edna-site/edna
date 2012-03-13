@@ -191,13 +191,14 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             xsdataAcc = XSDataInputAccumulator()
             if  (EDPluginControlAlignStackv1_0.__iRefFrame == iFrame) or (self.bDoAlign == False) :
 #                edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
-                EDPluginControlAlignStackv1_0.__dictAbsShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
-                EDPluginControlAlignStackv1_0.__dictRelShift[EDPluginControlAlignStackv1_0.__iRefFrame] = (0.0, 0.0)
+                EDPluginControlAlignStackv1_0.__dictAbsShift[iFrame] = (0.0, 0.0)
+                EDPluginControlAlignStackv1_0.__dictRelShift[iFrame] = (0.0, 0.0)
                 self.hdf5_offset(index=iFrame, offset=[0.0, 0.0])
                 edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
                 xsdata = XSDataInputShiftImage(index=XSDataInteger(iFrame),
                                                offset=[XSDataDouble(i) for i in EDPluginControlAlignStackv1_0.__dictAbsShift[iFrame]],
-                                               inputImage=self.getFrameRef(iFrame))
+                                               inputImage=self.getFrameRef(iFrame),
+                                               outputImage=XSDataImageExt(shared=XSDataString("Shifted-%06i" % iFrame)))
                 edPluginExecShift.setDataInput(xsdata)
                 edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
                 edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
@@ -281,7 +282,8 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
                 xsdata = XSDataInputShiftImage(index=XSDataInteger(iToShift),
                                                offset=[XSDataDouble(i) for i in EDPluginControlAlignStackv1_0.__dictAbsShift[iToShift]],
-                                               inputImage=self.getFrameRef(iToShift))
+                                               inputImage=self.getFrameRef(iToShift),
+                                               outputImage=XSDataImageExt(shared=XSDataString("Shifted-%06i" % iToShift)))
                 edPluginExecShift.setDataInput(xsdata)
                 edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
                 edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
@@ -323,21 +325,14 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             xsdIdx = _edPlugin.dataInput.index
             self.__class__.MaxOffset = _edPlugin.MAX_OFFSET_VALUE
             self.hdf5_offset(index=xsdIdx.value, offset=[i.value for i in _edPlugin.dataInput.offset])
-#            with edPluginExecHDF5.getFileLock(self.xsdHDF5File.path.value):
-#                grp = edPluginExecHDF5.getHDF5File(self.xsdHDF5File.path.value)[self.xsdHDF5Internal.value]
-#                ds = grp["Offsets"]
-#                if self.MaxOffset:
-#                    if "MaxOffset" not in ds.attrs:
-#                        ds.attrs["MaxOffset"] = self.MaxOffset
-#                ds[xsdIdx.value, :] = [i.value for i in _edPlugin.dataInput.offset]
-
             xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
                                                 forceDtype=XSDataString("float32"),
                                                 extraAttributes=self.hdf5ExtraAttributes,
                                                 internalHDF5Path=self.xsdHDF5Internal,
                                                 HDF5File=self.xsdHDF5File,
                                                 index=[xsdIdx],
-                                                inputArray=[_edPlugin.dataOutput.outputArray])
+                                                inputImageFile=[_edPlugin.dataOutput.outputImage])
+#                                                inputArray=[_edPlugin.dataOutput.outputArray])
             edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
             edPluginExecHDF5.setDataInput(xsdata)
             edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
