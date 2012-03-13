@@ -458,7 +458,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-		  <name>EDPluginMinimalXds</name>
+		  <name>EDPluginExecMinimalXds</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
