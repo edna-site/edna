@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPlugineExecTemplatev10</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlTemplatev10</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 
