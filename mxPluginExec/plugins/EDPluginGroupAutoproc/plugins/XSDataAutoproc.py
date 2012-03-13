@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Feb 16 11:34::27 2012 by EDGenerateDS.
+# Generated Tue Feb 28 09:58::29 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -16,11 +16,15 @@ dictLocation = { \
  "XSDataCommon": "Code/repos/edna/kernel/datamodel", \
  "XSDataCommon": "Code/repos/edna/kernel/datamodel", \
  "XSDataCommon": "Code/repos/edna/kernel/datamodel", \
+ "XSDataCommon": "Code/repos/edna/kernel/datamodel", \
+ "XSDataCommon": "Code/repos/edna/kernel/datamodel", \
 }
 
 try:
+	from XSDataCommon import XSDataBoolean
 	from XSDataCommon import XSDataDouble
 	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
 	from XSDataCommon import XSDataResult
 	from XSDataCommon import XSDataString
 except ImportError as error:
@@ -33,8 +37,10 @@ except ImportError as error:
 					sys.path.append(strRoot)
 	else:
 		raise error
+from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataInput
+from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
 
@@ -409,6 +415,210 @@ class XSDataMatthewsCoeffOut(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataMatthewsCoeffOut
+
+class XSDataMinimalXDSIn(XSDataInput):
+	def __init__(self, configuration=None, maxjobs=None, maxproc=None, job=None, input_file=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataMinimalXDSIn", "Constructor of XSDataMinimalXDSIn", input_file, "XSDataString")
+		self.__input_file = input_file
+		checkType("XSDataMinimalXDSIn", "Constructor of XSDataMinimalXDSIn", job, "XSDataString")
+		self.__job = job
+		checkType("XSDataMinimalXDSIn", "Constructor of XSDataMinimalXDSIn", maxproc, "XSDataInteger")
+		self.__maxproc = maxproc
+		checkType("XSDataMinimalXDSIn", "Constructor of XSDataMinimalXDSIn", maxjobs, "XSDataInteger")
+		self.__maxjobs = maxjobs
+	def getInput_file(self): return self.__input_file
+	def setInput_file(self, input_file):
+		checkType("XSDataMinimalXDSIn", "setInput_file", input_file, "XSDataString")
+		self.__input_file = input_file
+	def delInput_file(self): self.__input_file = None
+	# Properties
+	input_file = property(getInput_file, setInput_file, delInput_file, "Property for input_file")
+	def getJob(self): return self.__job
+	def setJob(self, job):
+		checkType("XSDataMinimalXDSIn", "setJob", job, "XSDataString")
+		self.__job = job
+	def delJob(self): self.__job = None
+	# Properties
+	job = property(getJob, setJob, delJob, "Property for job")
+	def getMaxproc(self): return self.__maxproc
+	def setMaxproc(self, maxproc):
+		checkType("XSDataMinimalXDSIn", "setMaxproc", maxproc, "XSDataInteger")
+		self.__maxproc = maxproc
+	def delMaxproc(self): self.__maxproc = None
+	# Properties
+	maxproc = property(getMaxproc, setMaxproc, delMaxproc, "Property for maxproc")
+	def getMaxjobs(self): return self.__maxjobs
+	def setMaxjobs(self, maxjobs):
+		checkType("XSDataMinimalXDSIn", "setMaxjobs", maxjobs, "XSDataInteger")
+		self.__maxjobs = maxjobs
+	def delMaxjobs(self): self.__maxjobs = None
+	# Properties
+	maxjobs = property(getMaxjobs, setMaxjobs, delMaxjobs, "Property for maxjobs")
+	def export(self, outfile, level, name_='XSDataMinimalXDSIn'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataMinimalXDSIn'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__input_file is not None:
+			self.input_file.export(outfile, level, name_='input_file')
+		else:
+			warnEmptyAttribute("input_file", "XSDataString")
+		if self.__job is not None:
+			self.job.export(outfile, level, name_='job')
+		if self.__maxproc is not None:
+			self.maxproc.export(outfile, level, name_='maxproc')
+		if self.__maxjobs is not None:
+			self.maxjobs.export(outfile, level, name_='maxjobs')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'input_file':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setInput_file(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'job':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setJob(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'maxproc':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setMaxproc(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'maxjobs':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setMaxjobs(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataMinimalXDSIn" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataMinimalXDSIn' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataMinimalXDSIn is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataMinimalXDSIn.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataMinimalXDSIn()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataMinimalXDSIn" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataMinimalXDSIn()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataMinimalXDSIn
+
+class XSDataMinimalXDSOut(XSDataResult):
+	def __init__(self, status=None, succeeded=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataMinimalXDSOut", "Constructor of XSDataMinimalXDSOut", succeeded, "XSDataBoolean")
+		self.__succeeded = succeeded
+	def getSucceeded(self): return self.__succeeded
+	def setSucceeded(self, succeeded):
+		checkType("XSDataMinimalXDSOut", "setSucceeded", succeeded, "XSDataBoolean")
+		self.__succeeded = succeeded
+	def delSucceeded(self): self.__succeeded = None
+	# Properties
+	succeeded = property(getSucceeded, setSucceeded, delSucceeded, "Property for succeeded")
+	def export(self, outfile, level, name_='XSDataMinimalXDSOut'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataMinimalXDSOut'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__succeeded is not None:
+			self.succeeded.export(outfile, level, name_='succeeded')
+		else:
+			warnEmptyAttribute("succeeded", "XSDataBoolean")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'succeeded':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setSucceeded(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataMinimalXDSOut" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataMinimalXDSOut' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataMinimalXDSOut is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataMinimalXDSOut.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataMinimalXDSOut()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataMinimalXDSOut" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataMinimalXDSOut()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataMinimalXDSOut
 
 class XSDataRBinsIn(XSDataInput):
 	def __init__(self, configuration=None, high=None, low=None):
