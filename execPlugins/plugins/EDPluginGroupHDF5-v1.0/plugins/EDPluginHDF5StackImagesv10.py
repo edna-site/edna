@@ -87,7 +87,7 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
                 self.listForcedPositions.append(onefile.number.value)
             self.listArray.append(EDUtilsArray.getArray(onefile))
 
-        for oneArray in self.dataInput.getInputArray():
+        for oneArray in self.dataInput.inputArray:
             self.listArray.append(EDUtilsArray.xsDataToArray(oneArray))
 
         if self.dataInput.index != []:

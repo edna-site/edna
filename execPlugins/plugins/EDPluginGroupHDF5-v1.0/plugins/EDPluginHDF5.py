@@ -37,7 +37,7 @@ __date__ = "2012-03-12"
 import os, time, locale
 
 from EDVerbose                  import EDVerbose
-from EDPluginExec               import EDPluginExec
+from EDPlugin                   import EDPlugin
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDConfiguration            import EDConfiguration
 from EDFactoryPlugin            import edFactoryPlugin  as EDFactoryPluginStatic
@@ -65,7 +65,7 @@ if "EDNA_SITE" not in os.environ:
     os.environ["EDNA_SITE"] = "edna-site"
 
 
-class EDPluginHDF5(EDPluginExec):
+class EDPluginHDF5(EDPlugin):
     """
     This is a common part for all EDNA plugin writing HDF5. most methods are class methods 
     """
@@ -106,7 +106,7 @@ class EDPluginHDF5(EDPluginExec):
         """
         Constructor of EDPluginHDF5
         """
-        EDPluginExec.__init__(self)
+        super(EDPluginHDF5, self).__init__()
         self.strHDF5Filename = None
         self.strHDF5Path = None
         self.dtype = None
@@ -133,7 +133,7 @@ class EDPluginHDF5(EDPluginExec):
         """
         Checks the mandatory parameters.
         """
-        EDPluginExec.checkParameters(self)
+        super(EDPluginHDF5, self).checkParameters()
         self.DEBUG("EDPluginHDF5.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.HDF5File, "No HDF5 file provided")
@@ -144,7 +144,7 @@ class EDPluginHDF5(EDPluginExec):
         """
         Configure the HDF5 compression scheme
         """
-        EDPluginExec.configure(self)
+        super(EDPluginHDF5, self).configure()
         self.DEBUG("EDPluginHDF5.configure")
         if not EDPluginHDF5.__bConfigured:
             xsPluginItem = self.getConfiguration()
@@ -159,7 +159,7 @@ class EDPluginHDF5(EDPluginExec):
 
 
     def preProcess(self, _edObject=None):
-        EDPluginExec.preProcess(self)
+        super(EDPluginHDF5, self).preProcess()
         self.DEBUG("EDPluginHDF.preProcess")
         self.strHDF5Filename = self.dataInput.HDF5File.path.value
         self.strHDF5Path = self.dataInput.internalHDF5Path.value
@@ -183,7 +183,7 @@ class EDPluginHDF5(EDPluginExec):
 
     def postProcess(self, _edObject=None):
         self.DEBUG("EDPluginHDF5.postProcess")
-        EDPluginExec.postProcess(self)
+        super(EDPluginHDF5, self).postProcess()
         if self.isVerboseDebug():
             self.flush(self.strHDF5Filename)
 
