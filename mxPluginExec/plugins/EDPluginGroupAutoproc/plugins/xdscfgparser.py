@@ -59,7 +59,7 @@ def parse_xds_file(path):
             continue
         parser = CONFIGURATION_PARSERS[kw]
 
-        #print 'parsing', args, 'with', parser, 'for kw', kw
+        print 'parsing', args, 'with', parser, 'for kw', kw
 
         # XXX maybe catch exc and log them
         parsedargs = parser(args)
