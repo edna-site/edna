@@ -196,8 +196,6 @@ class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
         if self.sobel:
             self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
-        print self.npaIm1
-        print self.npaIm2
         out = feature.sift2(self.npaIm1, self.npaIm2, verbose=self.isVerboseDebug())
 #        data = out[(0, 1)]
         data = out
