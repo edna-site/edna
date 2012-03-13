@@ -332,7 +332,13 @@ class FullFieldXas(object):
             strtmp = self.raw_input("Use SIFT instead of FFT correlation [0|1]: ")
             if len(strtmp) > 0:
                 if strtmp[0] not in ["0", "n", "N"]:
-                    self.xsdMeasureOffset.setUseSift(XSDataBoolean(True))
+                    try:
+                        import feature
+                    except:
+                        print("Unable to import feature: fall back on FFT")
+                        self.xsdMeasureOffset.setUseSift(XSDataBoolean(False))
+                    else:
+                        self.xsdMeasureOffset.setUseSift(XSDataBoolean(True))
                 else:
                     self.xsdMeasureOffset.setUseSift(XSDataBoolean(False))
 
