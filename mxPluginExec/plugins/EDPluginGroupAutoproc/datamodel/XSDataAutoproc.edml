@@ -1,8 +1,10 @@
 targetNamespace "http://www.edna-site.org"
 import XSDataCommon.XSDataDouble
 import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInteger
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataBoolean
 
 complex type XSDataMatthewsCoeffIn extends XSDataInput {
 	a : XSDataDouble
@@ -26,4 +28,15 @@ complex type XSDataRBinsIn extends XSDataInput {
 
 complex type XSDataRBinsOut extends XSDataResult {
 	bins : XSDataDouble[]
+}
+
+complex type XSDataMinimalXDSIn extends XSDataInput {
+	input_file : XSDataString
+	job : XSDataString optional
+	maxproc : XSDataInteger optional
+	maxjobs : XSDataInteger optional
+}
+
+complex type XSDataMinimalXDSOut extends XSDataResult {
+	succeeded : XSDataBoolean
 }
