@@ -45,7 +45,8 @@ class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3(EDTestCasePlug
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreImageQualityIndicatorsv1_3")
 
-        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
+        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
+#        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreImageQualityIndicators_test.xml"))
 
 
