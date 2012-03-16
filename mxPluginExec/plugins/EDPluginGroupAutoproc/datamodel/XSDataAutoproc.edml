@@ -2,9 +2,12 @@ targetNamespace "http://www.edna-site.org"
 import XSDataCommon.XSDataDouble
 import XSDataCommon.XSDataString
 import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataVectorDouble
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
 
 complex type XSDataMatthewsCoeffIn extends XSDataInput {
 	a : XSDataDouble
@@ -39,4 +42,40 @@ complex type XSDataMinimalXDSIn extends XSDataInput {
 
 complex type XSDataMinimalXDSOut extends XSDataResult {
 	succeeded : XSDataBoolean
+}
+
+complex type XSDataXdsOutputFile extends XSDataInput {
+	correct_lp : XSDataFile
+	compl : XSDataBoolean
+	rover : XSDataFloat
+}
+
+complex type XSDataXdsCompletenessEntry {
+	outer_res : XDSDataFloat
+	outer_complete : XSDataFloat
+	outer_rfactor : XSDataFloat
+	outer_sig : XSDataFloat
+}
+
+complex type XSData2DCoordinates {
+	x : XSDataFloat
+	y : XSDataFloat
+}
+
+complex type XSDataXdsOutput extends XSDataResult {
+	completeness_entries : XSDataXdsCompletenessEntry []
+	crystal_mosaicity : XSdataFloat
+	direct_beam_coordinates : XSDataVectorDouble
+	direct_beam_detector_coordinates : XSData2DCoordinates
+	detector_origin : XSData2DCoordinates
+	crystal_to_detector_distance : XSDataFloat
+	coordinates_of_unit_cell_a_axis : XSDataVectorDouble
+	coordinates_of_unit_cell_b_axis : XSDataVectorDouble
+	coordinates_of_unit_cell_c_axis : XSDataVectorDouble
+	cell_a : XSDataFloat
+	cell_b : XSDataFloat
+	cell_c : XSDataFloat
+	cell_alpha : XSDataFloat
+	cell_beta : XSDataFloat
+	cell_gamma : XSDataFloat
 }
