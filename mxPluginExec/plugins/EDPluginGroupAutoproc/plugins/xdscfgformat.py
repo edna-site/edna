@@ -42,10 +42,11 @@ class Enumeration(object):
     def __init__(self, possible_values, transform=lambda x: x, default=None):
         self.possible_values = possible_values
         self.transform = transform
+        self.default = default
     def __call__(self, chunks):
         if len(chunks) == 0:
-            if default is not None:
-                return default
+            if self.default is not None:
+                return self.default
         vals = [self.transform(elem) for elem in chunks]
         for val in vals:
             if val not in self.possible_values:
