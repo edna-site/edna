@@ -31,14 +31,15 @@ __copyright__ = "<copyright>"
 import os.path
 import shutil
 
-from EDPluginExecProcess import EDPluginExecProcess
+from EDPluginExecProcessScript import EDPluginExecProcessScript
 
+from XSDataCommon import XSDataBoolean
 from XSDataAutoproc import XSDataMinimalXDSIn, XSDataMinimalXDSOut
 from xdscfgparser import parse_xds_file, dump_xds_file
 
 
 
-class EDPluginExecMinimalXds(EDPluginExecProcess):
+class EDPluginExecMinimalXds(EDPluginExecProcessScript):
     """
     """
 
@@ -46,7 +47,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcess):
     def __init__(self ):
         """
         """
-        EDPluginExecProcess.__init__(self )
+        EDPluginExecProcessScript.__init__(self )
         self.setXSDataInputClass(XSDataMinimalXDSIn)
 
 
@@ -65,7 +66,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcess):
 
 
     def preProcess(self, _edObject = None):
-        EDPluginExecProcess.preProcess(self)
+        EDPluginExecProcessScript.preProcess(self)
         self.DEBUG("EDPluginMinimalXDS.preProcess")
         xds_input = os.path.abspath(self.dataInput.input_file.value)
         shutil.copy(xds_input, self.getWorkingDirectory())
@@ -83,21 +84,21 @@ class EDPluginExecMinimalXds(EDPluginExecProcess):
         if any([x is not None for x in [job, maxproc, maxjobs]]):
             parsed = parse_xds_file(xds_file)
             if job is not None:
-                parsed["JOB="] = job
+                parsed["JOB="] = job.value
             if maxproc is not None:
-                parsed["MAXIMUM_NUMBER_OF_PROCESSORS="] = maxproc
+                parsed["MAXIMUM_NUMBER_OF_PROCESSORS="] = maxproc.value
             if maxjobs is not None:
-                parsed["MAXIMUM_NUMBER_OF_JOBS="] = maxjobs
+                parsed["MAXIMUM_NUMBER_OF_JOBS="] = maxjobs.value
             dump_xds_file(xds_file, parsed)
 
 
     def process(self, _edObject = None):
-        EDPluginExecProcess.process(self)
+        EDPluginExecProcessScript.process(self)
         self.DEBUG("EDPluginMinimalXds.process")
 
 
     def postProcess(self, _edObject = None):
-        EDPluginExec.postProcess(self)
+        EDPluginExecProcessScript.postProcess(self)
         self.DEBUG("EDPluginMinimalXds.postProcess")
         # Create some output data
         xsDataResult = XSDataMinimalXDSOut()
@@ -106,8 +107,8 @@ class EDPluginExecMinimalXds(EDPluginExecProcess):
         # XDS is considered to have succeeded iff CORRECT.LP has been created
         outfile = os.path.join(self.getWorkingDirectory(), 'CORRECT.LP')
         if not os.path.isfile(outfile):
-            xsDataResult.succeeded = False
+            xsDataResult.succeeded = XSDataBoolean(False)
             self.setFailure()
         else:
-            xsDataResult.succeeded = True
+            xsDataResult.succeeded = XSDataBoolean(True)
         self.setDataOutput(xsDataResult)
