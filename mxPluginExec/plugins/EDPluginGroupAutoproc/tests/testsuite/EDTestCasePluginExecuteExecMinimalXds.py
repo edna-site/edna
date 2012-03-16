@@ -32,6 +32,7 @@ import os
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from XSDataAutoproc import XSDataMinimalXDSOut
 
 
 class EDTestCasePluginExecuteExecMinimalXds(EDTestCasePluginExecute):
@@ -53,6 +54,14 @@ class EDTestCasePluginExecuteExecMinimalXds(EDTestCasePluginExecute):
         """
         """
         self.run()
+
+        plugin = self.getPlugin()
+        output = plugin.dataOutput
+        reference = XSDataMinimalXDSOut.parseFile(self.getReferenceDataOutputFile())
+
+        EDAssert.equal(output.succeeded.value,
+                       reference.succeeded.value,
+                       "'succeeded' values match")
 
 
     def process(self):
