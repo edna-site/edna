@@ -468,6 +468,10 @@
 					<name>execProcessScriptExecutable</name>
 					<value>/opt/pxsoft/xds/vdefault/redhate4-x86_64/xds</value>
 				</XSParamItem>
+				<XSParamItem>
+				  <name>timeOut</name>
+				  <value>1200</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 	</XSPluginList>
