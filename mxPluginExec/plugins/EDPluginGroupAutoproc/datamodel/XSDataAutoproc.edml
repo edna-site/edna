@@ -51,7 +51,7 @@ complex type XSDataXdsOutputFile extends XSDataInput {
 }
 
 complex type XSDataXdsCompletenessEntry {
-	outer_res : XDSDataFloat
+	outer_res : XSDataFloat
 	outer_complete : XSDataFloat
 	outer_rfactor : XSDataFloat
 	outer_sig : XSDataFloat
@@ -64,7 +64,8 @@ complex type XSData2DCoordinates {
 
 complex type XSDataXdsOutput extends XSDataResult {
 	completeness_entries : XSDataXdsCompletenessEntry []
-	crystal_mosaicity : XSdataFloat
+	total_completeness : XSDataXdsCompletenessEntry
+	crystal_mosaicity : XSDataFloat
 	direct_beam_coordinates : XSDataVectorDouble
 	direct_beam_detector_coordinates : XSData2DCoordinates
 	detector_origin : XSData2DCoordinates
