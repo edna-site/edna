@@ -52,8 +52,6 @@ class EDTestCasePluginParseXdsOutput(EDTestCasePluginExecute):
         """
         """
 
-        print self.getPlugin().dataInput
-
         self.run()
 
         plugin = self.getPlugin()

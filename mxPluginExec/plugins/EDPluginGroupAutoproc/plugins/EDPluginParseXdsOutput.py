@@ -97,8 +97,6 @@ class EDPluginParseXdsOutput(EDPlugin):
         self.DEBUG("EDPluginParseXdsOutput.checkParameters")
         self.checkMandatoryParameters(self.dataInput.correct_lp, "No XDS input file given")
 
-        print '**********', self.dataInput.correct_lp.path
-
         # now really check it
         path = self.dataInput.correct_lp.path.value
         if not os.path.isfile(path):
@@ -150,7 +148,6 @@ class EDPluginParseXdsOutput(EDPlugin):
         for line_no, line in enumerate(lines):
             if line.find('REFLECTIONS OF TYPE H,0,0  0,K,0  0,0,L OR EXPECTED TO BE ABSENT (*)') != -1:
                 # the table will start shortly after
-                print 'STARTED IS NOW TRUE at line', line_no
                 started = True
                 continue
             if started:
@@ -158,20 +155,15 @@ class EDPluginParseXdsOutput(EDPlugin):
                 if line.find('LIMIT     OBSERVED  UNIQUE  POSSIBLE     OF DATA   observed  expected') != -1:
                     # there's an empty line after the header
                     info_begin = line_no + 2
-                    print 'WE FOUND THE TABLE START AT', info_begin
                 if info_begin is not None and line.find('total') != -1:
                     # we're at the last table line
                     info_end = line_no
-                    print 'WE FOUND THE TABLE END AT', info_end
         if info_begin is None or info_end is None:
             EDVerbose.ERROR('could not find the completeness table')
             self.setFailure()
             return
 
         _extract_completeness_entries(lines[info_begin:info_end], output)
-
-        print '**********'
-        print output.marshal()
 
     def postProcess(self, _edObject = None):
         EDPlugin.postProcess(self)
@@ -244,14 +236,12 @@ def _extract_infos(lines, output):
         output.cell_alpha, output.cell_beta, output.cell_gamma = parsed['UNIT_CELL_CONSTANTS=']
 
     except KeyError, ke:
-        print ke
         EDVerbose.ERROR('Some parameters could not be found!')
         EDVerbose.DEBUG('Those found were: %s' % parsed)
         raise ValueError('Some parameters missing')
 
 def _extract_completeness_entries(lines, output):
     for line in lines:
-        print 'looking for completeness thingies in', line
         if line.find('total') != -1:
             # special case for the last table line which contains the
             # totals
