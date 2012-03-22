@@ -46,6 +46,8 @@ class EDTestCasePluginParseXdsOutput(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginParseXdsOutput")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(),
                                            "XSDataXdsOutputFile_reference.xml"))
+        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(),
+                                                     "XSDataXdsOutput_reference.xml"))
 
 
     def testExecute(self):
@@ -56,9 +58,10 @@ class EDTestCasePluginParseXdsOutput(EDTestCasePluginExecute):
 
         plugin = self.getPlugin()
         output = plugin.dataOutput
-        #EDAssert.equal(output.succeeded.value,
-        #               reference.succeeded.value,
-        #               "'succeeded' values match")
+        reference = XSDataXdsOutput.parseFile(self.getReferenceDataOutputFile())
+        EDAssert.strAlmostEqual(output.marshal(),
+                                reference.marshal(),
+                                "output looks good")
 
 
     def process(self):

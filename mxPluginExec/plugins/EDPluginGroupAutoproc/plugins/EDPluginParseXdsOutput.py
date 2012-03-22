@@ -165,6 +165,8 @@ class EDPluginParseXdsOutput(EDPlugin):
 
         _extract_completeness_entries(lines[info_begin:info_end], output)
 
+        self.dataOutput = output
+
     def postProcess(self, _edObject = None):
         EDPlugin.postProcess(self)
         self.DEBUG("EDPluginParseXdsOutput.postProcess")
