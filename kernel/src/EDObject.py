@@ -79,11 +79,7 @@ class EDObject(object):
         @return: the name of the class 
         @rtype: string 
         """
-        if self.__classname is None:
-            with self.__semaphore:
-                if self.__classname is None:
-                    self.__classname = str(self.__class__).replace("<class '", "").replace("'>", "").split(".")[-1]
-        return self.__classname
+        return self.__class__.__name__
 
 
     def synchronizeOn(self):
