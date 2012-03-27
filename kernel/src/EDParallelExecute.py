@@ -491,7 +491,7 @@ class EDParallelExecute(EDLogging):
             try:
                 print "calling edPlugin.%s" % strOneMethod
                 exec "edPlugin.%s" % strOneMethod
-            except:
+            except Exception:
                 print "error in processing %s" % strOneMethod
 
 

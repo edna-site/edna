@@ -236,7 +236,7 @@ class EDUtilsArray(object):
             EDVerbose.DEBUG("EDUtilsArray.xsDataToArray with numpy")
             try:
                 matIn = numpy.fromstring(decData, dtype=_xsdata.getDtype())
-            except:
+            except Exception:
                 matIn = numpy.fromstring(decData, dtype=numpy.dtype(str(_xsdata.getDtype())))
             arrayOut = matIn.reshape(shape)
             # Enforce little Endianness
@@ -284,7 +284,7 @@ class EDUtilsArray(object):
             if bHaveFabio is True:
                 try:
                     npaOutput = fabio.open(_inputObject.path.value).data
-                except:
+                except Exception:
                     bError = True
             else:
                 bError = True

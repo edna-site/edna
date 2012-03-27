@@ -215,7 +215,7 @@ class EDUtilsPath:
                 try:
                     # Working on Windows and Linux:
                     strUserName = getpass.getuser()
-                except:
+                except Exception:
                     # Working on MacOS:
                     strUserName = os.getlogin()
                 bIsOk = False
@@ -226,7 +226,7 @@ class EDUtilsPath:
                     if not os.path.exists(cls._EDNA_USERTEMPFOLDER):
                         try:
                             os.mkdir(cls._EDNA_USERTEMPFOLDER)
-                        except:
+                        except Exception:
                             EDVerbose.WARNING("Error when trying to create the directory %s" % cls._EDNA_USERTEMPFOLDER)
                     if os.access(cls._EDNA_USERTEMPFOLDER, os.W_OK) and os.access(cls._EDNA_USERTEMPFOLDER, os.X_OK):
                         bIsOk = True

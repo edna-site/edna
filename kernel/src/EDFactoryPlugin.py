@@ -151,7 +151,7 @@ class EDFactoryPlugin(EDLogging):
             xsDataDictionaryPlugin.addKeyValuePair(xsDataKeyValuePair)
         try:
             xsDataDictionaryPlugin.exportToFile(_strPath)
-        except:
+        except Exception:
             self.warning("The module cache could not be written to disk.")
 
 

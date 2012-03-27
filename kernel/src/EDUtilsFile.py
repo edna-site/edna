@@ -88,7 +88,7 @@ class EDUtilsFile(object):
             for key in _dict.keys():
                 try:
                     strContent = strContent.replace(key , _dict[ key ])
-                except:
+                except Exception:
                     EDVerbose.ERROR("%s: %s" % (key , _dict[ key ]))
         return strContent
 

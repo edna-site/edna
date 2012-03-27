@@ -88,7 +88,7 @@ class EDShare(EDLogging, EDSession):
                 if key in self._listKeys:
                     try:
                         value = self._storage[key]
-                    except:
+                    except Exception:
                         value = None
                         self.ERROR("EDShare (exception):  no such key %s" % key)
                 else:

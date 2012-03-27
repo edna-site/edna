@@ -53,7 +53,7 @@ if os.environ.get("EDNA_LOCK", False):
             if self.blocked:
                 try:
                     uid = self.blocked.pop()
-                except:
+                except Exception:
                     pass
                 else:
                     sys.stderr.write("Released sem %s %s" % (uid, os.linesep))

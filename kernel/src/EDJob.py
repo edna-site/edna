@@ -158,7 +158,7 @@ class EDJob(EDLogging):
             return open(self.__pathXSDInput).read()
         else:
             self.WARNING("Getting DataInput for uninstanciated plugin %s." % self.__strPluginName)
-
+    dataInput = property(getDataInput, setDataInput)
 
 
     def getDataOutput(self, _strDataOutputKey=None, _bWait=True):
@@ -175,7 +175,7 @@ class EDJob(EDLogging):
             return open(self.__pathXSDOutput).read()
         else:
             self.WARNING("Getting DataOutput for uninstanciated plugin %s." % self.__strPluginName)
-
+    dataOutput = property(getDataOutput)
 
     def execute(self):
         """
@@ -234,12 +234,12 @@ class EDJob(EDLogging):
             self.screen("Plugin %s: success after %.3fs" % (self.__jobId, _edObject.getRunTime()))
         try:
             self.__edSlotSUCCESS.call(self.__jobId)
-        except:
+        except Exception:
             self.ERROR("Error in execution of Success call-back for %s" % self.__jobId)
             self.writeErrorTrace()
         try:
             self.__edSlotCallBack.call(self.__jobId)
-        except:
+        except Exception:
             self.ERROR("Error in execution of Common call-back (after success) for %s" % self.__jobId)
             self.writeErrorTrace()
 
@@ -253,12 +253,12 @@ class EDJob(EDLogging):
             self.screen("Plugin %s: failure after %.3fs" % (self.__jobId, _edObject.getRunTime()))
         try:
             self.__edSlotFAILURE.call(self.__jobId)
-        except:
+        except Exception:
             self.ERROR("Error in execution of Failure call-back for %s" % self.__jobId)
             self.writeErrorTrace()
         try:
             self.__edSlotCallBack.call(self.__jobId)
-        except:
+        except Exception:
             self.ERROR("Error in execution of Common call-back (after failure) for %s" % self.__jobId)
             self.writeErrorTrace()
 

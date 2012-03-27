@@ -278,7 +278,7 @@ class EDAssert:
         try:
             refShape = _npaRef.shape
             valShape = _npaValue.shape
-        except:
+        except Exception:
             bAlmostEqual = False
             ERROR_ASSERT_MESSAGE = "Objects passed have no shape attribute"
 
