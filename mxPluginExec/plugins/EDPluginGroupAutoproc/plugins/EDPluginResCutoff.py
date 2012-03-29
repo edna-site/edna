@@ -135,16 +135,16 @@ Stopping""")
         if res_override is not None:
             res = res_override.value
         # remove last bin (see why w/ max)
-        retbins = bins[:-1]
+        retbins = [XSDataFloat(x) for x in bins[:-1]]
 
 
-        data_output = XSDataResolutionCutoffResult()
-        data_output.res = res
+        data_output = XSDataResCutoffResult()
+        data_output.res = XSDataFloat(res)
         data_output.bins = retbins
         totals = self.dataInput.total_completeness
-        data_output.total_complete = totals.outer_complete.value
-        data_output.total_rfactor = totals.outer_rfactor.value
-        data_output.total_isig = totals.outer_sig.value
+        data_output.total_complete = totals.outer_complete
+        data_output.total_rfactor = totals.outer_rfactor
+        data_output.total_isig = totals.outer_isig
 
         self.dataOutput = data_output
 
