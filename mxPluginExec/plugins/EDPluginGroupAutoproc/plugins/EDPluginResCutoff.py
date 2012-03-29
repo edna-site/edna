@@ -38,8 +38,9 @@ import os.path
 import shutil
 
 from EDPlugin import EDPlugin
+from EDVerbose import EDVerbose
 from XSDataCommon import XSDataBoolean, XSDataFloat, XSDataVectorDouble
-from XSDataAutoproc import , XSDataXdsOutput
+from XSDataAutoproc import XSDataResCutoff, XSDataResCutoffResult
 from XSDataAutoproc import XSData2DCoordinates, XSDataXdsCompletenessEntry
 
 
@@ -52,7 +53,7 @@ class EDPluginResCutoff(EDPlugin):
         """
         """
         EDPlugin.__init__(self )
-        self.setXSDataInputClass(XSDataResolutionCutoff)
+        self.setXSDataInputClass(XSDataResCutoff)
 
     def checkParameters(self):
         """
