@@ -54,7 +54,7 @@ complex type XSDataXdsCompletenessEntry {
 	outer_res : XSDataFloat
 	outer_complete : XSDataFloat
 	outer_rfactor : XSDataFloat
-	outer_sig : XSDataFloat
+	outer_isig : XSDataFloat
 }
 
 complex type XSData2DCoordinates {

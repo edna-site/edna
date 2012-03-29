@@ -250,7 +250,7 @@ def _extract_completeness_entries(lines, output):
             infos = [float(x.replace('%', '')) for x in line.split()[1:]]
             output.total_completeness.outer_complete = XSDataFloat(infos[3])
             output.total_completeness.outer_rfactor = XSDataFloat(infos[4])
-            output.total_completeness.outer_sig = XSDataFloat(infos[7])
+            output.total_completeness.outer_isig = XSDataFloat(infos[7])
         else:
             # regular line, do not strip the first elem and bump the
             # indices by 1
@@ -259,5 +259,5 @@ def _extract_completeness_entries(lines, output):
             res.outer_res = XSDataFloat(infos[0])
             res.outer_complete = XSDataFloat(infos[4])
             res.outer_rfactor = XSDataFloat(infos[5])
-            res.outer_sig = XSDataFloat(infos[8])
+            res.outer_isig = XSDataFloat(infos[8])
             output.completeness_entries.append(res)
