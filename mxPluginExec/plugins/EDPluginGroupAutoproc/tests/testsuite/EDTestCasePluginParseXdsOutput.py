@@ -73,5 +73,5 @@ class EDTestCasePluginParseXdsOutput(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    testMinimalXdsinstance = EDTestCasePluginExecuteControlMinimalXds("EDTestCasePluginExecuteExecMinimalXds")
-    testMinimalXdsinstance.execute()
+    t = EDTestCasePluginParseXdsOutput("EDTestCasePluginParseXdsOutput")
+    t.execute()
