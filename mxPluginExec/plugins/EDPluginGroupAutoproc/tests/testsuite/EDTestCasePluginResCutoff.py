@@ -58,7 +58,8 @@ class EDTestCasePluginResCutoff(EDTestCasePluginExecute):
 
         plugin = self.getPlugin()
         output = plugin.dataOutput
-        reference = XSDataResCutoff.parseFile(self.getReferenceDataOutputFile())
+        reference = XSDataResCutoffResult.parseFile(self.getReferenceDataOutputFile())
+
         EDAssert.strAlmostEqual(output.marshal(),
                                 reference.marshal(),
                                 "output looks good")
