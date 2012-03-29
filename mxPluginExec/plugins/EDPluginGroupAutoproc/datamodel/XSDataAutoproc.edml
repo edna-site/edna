@@ -81,13 +81,13 @@ complex type XSDataXdsOutput extends XSDataResult {
 	cell_gamma : XSDataFloat
 }
 
-complex type XSDataResolutionCutoff extends XSDataXdsOutput {
 	completeness_cutoff : XSDataFloat
 	res_override : XSDataFloat
 	isig_cutoff : XSDataFloat
+complex type XSDataResCutoff extends XSDataXdsOutput {
 }
 
-complex type XSDataResolutionCutoffResult extends XSDataResult {
+complex type XSDataResCutoffResult extends XSDataResult {
 	res : XSDataFloat
 	bins : XSDataFloat []
 	total_complete : XSDataFloat
