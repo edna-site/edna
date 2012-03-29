@@ -43,7 +43,7 @@ class EDTestCasePluginResCutoff(EDTestCasePluginExecute):
     def __init__(self, _strTestName = None):
         """
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginReCutoff")
+        EDTestCasePluginExecute.__init__(self, "EDPluginResCutoff")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(),
                                            "XSDataResCutoff_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(),
