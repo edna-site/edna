@@ -2,7 +2,7 @@
 <XSDataInput>
   <correct_lp>
     <path>
-      <value>/home/tboeglin/Code/repos/edna/mxPluginExec/plugins/EDPluginGroupAutoproc/tests/data/CORRECT.LP</value>
+      <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/CORRECT.LP</value>
     </path>
   </correct_lp>
   <compl>
