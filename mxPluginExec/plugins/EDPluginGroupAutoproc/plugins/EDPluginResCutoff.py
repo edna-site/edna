@@ -102,9 +102,9 @@ class EDPluginResCutoff(EDPlugin):
             outer_res = entry.outer_res.value
             outer_complete = entry.outer_complete.value
             outer_rfactor = entry.outer_rfactor.value
-            outer_sig = entry.outer_sig.value
+            outer_isig = entry.outer_isig.value
 
-            if outer_complete < local_completeness_cutoff or outer_sig < isig_cutoff or \
+            if outer_complete < local_completeness_cutoff or outer_isig < isig_cutoff or \
                     (res_override is not None and outer_res < res_override.value):
                 if outer_complete < completeness_cutoff:
                     EDVerbose.DEBUG('incomplete data (%s) in this shell' % outer_complete)
@@ -119,7 +119,7 @@ class EDPluginResCutoff(EDPlugin):
                 break
             else:
                 bins.append(outer_res)
-            prev_res, prev_isig = outer_res, outer_sig
+            prev_res, prev_isig = outer_res, outer_isig
 
         # Now the implementation of what max does when he encouters
         # the total values, which are conveniently already parsed in
