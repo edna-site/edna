@@ -10,9 +10,9 @@
         <outer_rfactor>
             <value>3.100000e+00</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>4.896000e+01</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -24,9 +24,9 @@
         <outer_rfactor>
             <value>3.300000e+00</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>4.852000e+01</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -38,9 +38,9 @@
         <outer_rfactor>
             <value>3.900000e+00</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>3.959000e+01</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -52,9 +52,9 @@
         <outer_rfactor>
             <value>4.800000e+00</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>3.250000e+01</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -66,9 +66,9 @@
         <outer_rfactor>
             <value>6.100000e+00</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>2.407000e+01</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -80,9 +80,9 @@
         <outer_rfactor>
             <value>8.200000e+00</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>1.497000e+01</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -94,9 +94,9 @@
         <outer_rfactor>
             <value>1.090000e+01</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>7.430000e+00</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -108,9 +108,9 @@
         <outer_rfactor>
             <value>1.510000e+01</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>4.000000e+00</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
     <completeness_entries>
         <outer_res>
@@ -122,10 +122,21 @@
         <outer_rfactor>
             <value>2.190000e+01</value>
         </outer_rfactor>
-        <outer_sig>
+        <outer_isig>
             <value>2.360000e+00</value>
-        </outer_sig>
+        </outer_isig>
     </completeness_entries>
+    <total_completeness>
+        <outer_complete>
+            <value>7.960000e+01</value>
+        </outer_complete>
+        <outer_rfactor>
+            <value>4.000000e+00</value>
+        </outer_rfactor>
+        <outer_isig>
+            <value>2.307000e+01</value>
+        </outer_isig>
+    </total_completeness>
     <crystal_mosaicity>
         <value>1.750000e-01</value>
     </crystal_mosaicity>

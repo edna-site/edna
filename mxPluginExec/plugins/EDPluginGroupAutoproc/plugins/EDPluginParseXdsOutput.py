@@ -163,7 +163,7 @@ class EDPluginParseXdsOutput(EDPlugin):
             self.setFailure()
             return
 
-        _extract_completeness_entries(lines[info_begin:info_end], output)
+        _extract_completeness_entries(lines[info_begin:info_end+1], output)
 
         self.dataOutput = output
 
@@ -248,6 +248,7 @@ def _extract_completeness_entries(lines, output):
             # special case for the last table line which contains the
             # totals
             infos = [float(x.replace('%', '')) for x in line.split()[1:]]
+            output.total_completeness = XSDataXdsCompletenessEntry()
             output.total_completeness.outer_complete = XSDataFloat(infos[3])
             output.total_completeness.outer_rfactor = XSDataFloat(infos[4])
             output.total_completeness.outer_isig = XSDataFloat(infos[7])
