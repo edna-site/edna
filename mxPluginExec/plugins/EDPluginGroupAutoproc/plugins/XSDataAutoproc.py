@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Mar 21 04:51::14 2012 by EDGenerateDS.
+# Generated Thu Mar 29 09:51::44 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -238,15 +238,15 @@ class XSData2DCoordinates(object):
 # end class XSData2DCoordinates
 
 class XSDataXdsCompletenessEntry(object):
-	def __init__(self, outer_sig=None, outer_rfactor=None, outer_complete=None, outer_res=None):
+	def __init__(self, outer_isig=None, outer_rfactor=None, outer_complete=None, outer_res=None):
 		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_res, "XSDataFloat")
 		self.__outer_res = outer_res
 		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_complete, "XSDataFloat")
 		self.__outer_complete = outer_complete
 		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_rfactor, "XSDataFloat")
 		self.__outer_rfactor = outer_rfactor
-		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_sig, "XSDataFloat")
-		self.__outer_sig = outer_sig
+		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_isig, "XSDataFloat")
+		self.__outer_isig = outer_isig
 	def getOuter_res(self): return self.__outer_res
 	def setOuter_res(self, outer_res):
 		checkType("XSDataXdsCompletenessEntry", "setOuter_res", outer_res, "XSDataFloat")
@@ -268,13 +268,13 @@ class XSDataXdsCompletenessEntry(object):
 	def delOuter_rfactor(self): self.__outer_rfactor = None
 	# Properties
 	outer_rfactor = property(getOuter_rfactor, setOuter_rfactor, delOuter_rfactor, "Property for outer_rfactor")
-	def getOuter_sig(self): return self.__outer_sig
-	def setOuter_sig(self, outer_sig):
-		checkType("XSDataXdsCompletenessEntry", "setOuter_sig", outer_sig, "XSDataFloat")
-		self.__outer_sig = outer_sig
-	def delOuter_sig(self): self.__outer_sig = None
+	def getOuter_isig(self): return self.__outer_isig
+	def setOuter_isig(self, outer_isig):
+		checkType("XSDataXdsCompletenessEntry", "setOuter_isig", outer_isig, "XSDataFloat")
+		self.__outer_isig = outer_isig
+	def delOuter_isig(self): self.__outer_isig = None
 	# Properties
-	outer_sig = property(getOuter_sig, setOuter_sig, delOuter_sig, "Property for outer_sig")
+	outer_isig = property(getOuter_isig, setOuter_isig, delOuter_isig, "Property for outer_isig")
 	def export(self, outfile, level, name_='XSDataXdsCompletenessEntry'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -295,10 +295,10 @@ class XSDataXdsCompletenessEntry(object):
 			self.outer_rfactor.export(outfile, level, name_='outer_rfactor')
 		else:
 			warnEmptyAttribute("outer_rfactor", "XSDataFloat")
-		if self.__outer_sig is not None:
-			self.outer_sig.export(outfile, level, name_='outer_sig')
+		if self.__outer_isig is not None:
+			self.outer_isig.export(outfile, level, name_='outer_isig')
 		else:
-			warnEmptyAttribute("outer_sig", "XSDataFloat")
+			warnEmptyAttribute("outer_isig", "XSDataFloat")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -320,10 +320,10 @@ class XSDataXdsCompletenessEntry(object):
 			obj_.build(child_)
 			self.setOuter_rfactor(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'outer_sig':
+			nodeName_ == 'outer_isig':
 			obj_ = XSDataFloat()
 			obj_.build(child_)
-			self.setOuter_sig(obj_)
+			self.setOuter_isig(obj_)
 	#Method for marshalling an object
 	def marshal( self ):
 		oStreamString = StringIO()
@@ -1036,6 +1036,165 @@ class XSDataRBinsOut(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataRBinsOut
 
+class XSDataResCutoffResult(XSDataResult):
+	def __init__(self, status=None, total_isig=None, total_rfactor=None, total_complete=None, bins=None, res=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataResCutoffResult", "Constructor of XSDataResCutoffResult", res, "XSDataFloat")
+		self.__res = res
+		if bins is None:
+			self.__bins = []
+		else:
+			checkType("XSDataResCutoffResult", "Constructor of XSDataResCutoffResult", bins, "list")
+			self.__bins = bins
+		checkType("XSDataResCutoffResult", "Constructor of XSDataResCutoffResult", total_complete, "XSDataFloat")
+		self.__total_complete = total_complete
+		checkType("XSDataResCutoffResult", "Constructor of XSDataResCutoffResult", total_rfactor, "XSDataFloat")
+		self.__total_rfactor = total_rfactor
+		checkType("XSDataResCutoffResult", "Constructor of XSDataResCutoffResult", total_isig, "XSDataFloat")
+		self.__total_isig = total_isig
+	def getRes(self): return self.__res
+	def setRes(self, res):
+		checkType("XSDataResCutoffResult", "setRes", res, "XSDataFloat")
+		self.__res = res
+	def delRes(self): self.__res = None
+	# Properties
+	res = property(getRes, setRes, delRes, "Property for res")
+	def getBins(self): return self.__bins
+	def setBins(self, bins):
+		checkType("XSDataResCutoffResult", "setBins", bins, "list")
+		self.__bins = bins
+	def delBins(self): self.__bins = None
+	# Properties
+	bins = property(getBins, setBins, delBins, "Property for bins")
+	def addBins(self, value):
+		checkType("XSDataResCutoffResult", "setBins", value, "XSDataFloat")
+		self.__bins.append(value)
+	def insertBins(self, index, value):
+		checkType("XSDataResCutoffResult", "setBins", value, "XSDataFloat")
+		self.__bins[index] = value
+	def getTotal_complete(self): return self.__total_complete
+	def setTotal_complete(self, total_complete):
+		checkType("XSDataResCutoffResult", "setTotal_complete", total_complete, "XSDataFloat")
+		self.__total_complete = total_complete
+	def delTotal_complete(self): self.__total_complete = None
+	# Properties
+	total_complete = property(getTotal_complete, setTotal_complete, delTotal_complete, "Property for total_complete")
+	def getTotal_rfactor(self): return self.__total_rfactor
+	def setTotal_rfactor(self, total_rfactor):
+		checkType("XSDataResCutoffResult", "setTotal_rfactor", total_rfactor, "XSDataFloat")
+		self.__total_rfactor = total_rfactor
+	def delTotal_rfactor(self): self.__total_rfactor = None
+	# Properties
+	total_rfactor = property(getTotal_rfactor, setTotal_rfactor, delTotal_rfactor, "Property for total_rfactor")
+	def getTotal_isig(self): return self.__total_isig
+	def setTotal_isig(self, total_isig):
+		checkType("XSDataResCutoffResult", "setTotal_isig", total_isig, "XSDataFloat")
+		self.__total_isig = total_isig
+	def delTotal_isig(self): self.__total_isig = None
+	# Properties
+	total_isig = property(getTotal_isig, setTotal_isig, delTotal_isig, "Property for total_isig")
+	def export(self, outfile, level, name_='XSDataResCutoffResult'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResCutoffResult'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__res is not None:
+			self.res.export(outfile, level, name_='res')
+		else:
+			warnEmptyAttribute("res", "XSDataFloat")
+		for bins_ in self.getBins():
+			bins_.export(outfile, level, name_='bins')
+		if self.getBins() == []:
+			warnEmptyAttribute("bins", "XSDataFloat")
+		if self.__total_complete is not None:
+			self.total_complete.export(outfile, level, name_='total_complete')
+		else:
+			warnEmptyAttribute("total_complete", "XSDataFloat")
+		if self.__total_rfactor is not None:
+			self.total_rfactor.export(outfile, level, name_='total_rfactor')
+		else:
+			warnEmptyAttribute("total_rfactor", "XSDataFloat")
+		if self.__total_isig is not None:
+			self.total_isig.export(outfile, level, name_='total_isig')
+		else:
+			warnEmptyAttribute("total_isig", "XSDataFloat")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'res':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setRes(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bins':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.bins.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'total_complete':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setTotal_complete(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'total_rfactor':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setTotal_rfactor(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'total_isig':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setTotal_isig(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResCutoffResult" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResCutoffResult' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResCutoffResult is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResCutoffResult.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResCutoffResult()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResCutoffResult" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResCutoffResult()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResCutoffResult
+
 class XSDataXdsOutput(XSDataResult):
 	def __init__(self, status=None, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, coordinates_of_unit_cell_c_axis=None, coordinates_of_unit_cell_b_axis=None, coordinates_of_unit_cell_a_axis=None, crystal_to_detector_distance=None, detector_origin=None, direct_beam_detector_coordinates=None, direct_beam_coordinates=None, crystal_mosaicity=None, total_completeness=None, completeness_entries=None):
 		XSDataResult.__init__(self, status)
@@ -1506,6 +1665,114 @@ class XSDataXdsOutputFile(XSDataInput):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataXdsOutputFile
+
+class XSDataResCutoff(XSDataXdsOutput):
+	def __init__(self, status=None, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, coordinates_of_unit_cell_c_axis=None, coordinates_of_unit_cell_b_axis=None, coordinates_of_unit_cell_a_axis=None, crystal_to_detector_distance=None, detector_origin=None, direct_beam_detector_coordinates=None, direct_beam_coordinates=None, crystal_mosaicity=None, total_completeness=None, completeness_entries=None, isig_cutoff=None, res_override=None, completeness_cutoff=None):
+		XSDataXdsOutput.__init__(self, status, cell_gamma, cell_beta, cell_alpha, cell_c, cell_b, cell_a, coordinates_of_unit_cell_c_axis, coordinates_of_unit_cell_b_axis, coordinates_of_unit_cell_a_axis, crystal_to_detector_distance, detector_origin, direct_beam_detector_coordinates, direct_beam_coordinates, crystal_mosaicity, total_completeness, completeness_entries)
+		checkType("XSDataResCutoff", "Constructor of XSDataResCutoff", completeness_cutoff, "XSDataFloat")
+		self.__completeness_cutoff = completeness_cutoff
+		checkType("XSDataResCutoff", "Constructor of XSDataResCutoff", res_override, "XSDataFloat")
+		self.__res_override = res_override
+		checkType("XSDataResCutoff", "Constructor of XSDataResCutoff", isig_cutoff, "XSDataFloat")
+		self.__isig_cutoff = isig_cutoff
+	def getCompleteness_cutoff(self): return self.__completeness_cutoff
+	def setCompleteness_cutoff(self, completeness_cutoff):
+		checkType("XSDataResCutoff", "setCompleteness_cutoff", completeness_cutoff, "XSDataFloat")
+		self.__completeness_cutoff = completeness_cutoff
+	def delCompleteness_cutoff(self): self.__completeness_cutoff = None
+	# Properties
+	completeness_cutoff = property(getCompleteness_cutoff, setCompleteness_cutoff, delCompleteness_cutoff, "Property for completeness_cutoff")
+	def getRes_override(self): return self.__res_override
+	def setRes_override(self, res_override):
+		checkType("XSDataResCutoff", "setRes_override", res_override, "XSDataFloat")
+		self.__res_override = res_override
+	def delRes_override(self): self.__res_override = None
+	# Properties
+	res_override = property(getRes_override, setRes_override, delRes_override, "Property for res_override")
+	def getIsig_cutoff(self): return self.__isig_cutoff
+	def setIsig_cutoff(self, isig_cutoff):
+		checkType("XSDataResCutoff", "setIsig_cutoff", isig_cutoff, "XSDataFloat")
+		self.__isig_cutoff = isig_cutoff
+	def delIsig_cutoff(self): self.__isig_cutoff = None
+	# Properties
+	isig_cutoff = property(getIsig_cutoff, setIsig_cutoff, delIsig_cutoff, "Property for isig_cutoff")
+	def export(self, outfile, level, name_='XSDataResCutoff'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResCutoff'):
+		XSDataXdsOutput.exportChildren(self, outfile, level, name_)
+		if self.__completeness_cutoff is not None:
+			self.completeness_cutoff.export(outfile, level, name_='completeness_cutoff')
+		if self.__res_override is not None:
+			self.res_override.export(outfile, level, name_='res_override')
+		if self.__isig_cutoff is not None:
+			self.isig_cutoff.export(outfile, level, name_='isig_cutoff')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'completeness_cutoff':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setCompleteness_cutoff(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'res_override':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setRes_override(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'isig_cutoff':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setIsig_cutoff(obj_)
+		XSDataXdsOutput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResCutoff" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResCutoff' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResCutoff is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResCutoff.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResCutoff()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResCutoff" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResCutoff()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResCutoff
 
 
 
