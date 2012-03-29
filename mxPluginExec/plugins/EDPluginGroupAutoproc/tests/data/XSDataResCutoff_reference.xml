@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<XSDataResolutionCutoff>
+<XSDataResCutoff>
     <completeness_entries>
         <outer_res>
             <value>4.230000e+00</value>
@@ -197,4 +197,4 @@
     <cell_gamma>
         <value>1.200000e+02</value>
     </cell_gamma>
-</XSDataResolutionCutoff>
+</XSDataResCutoff>
