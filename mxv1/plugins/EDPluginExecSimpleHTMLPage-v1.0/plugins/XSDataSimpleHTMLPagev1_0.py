@@ -1,17 +1,42 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon May 30 10:21::17 2011 by EDGenerateDS.
+# Generated Thu Feb 9 12:30::11 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
-from XSDataMXv1 import XSDataResultCharacterisation
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataResult
+	from XSDataMXv1 import XSDataResultCharacterisation
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataResult
+from XSDataMXv1 import XSDataResultCharacterisation
 
 
 
@@ -104,10 +129,15 @@ class MixedContainer(object):
 
 
 class XSDataInputSimpleHTMLPage(XSDataInput):
-	def __init__(self, configuration=None, characterisationResult=None):
+	def __init__(self, configuration=None, fileGraph=None, characterisationResult=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputSimpleHTMLPage", "Constructor of XSDataInputSimpleHTMLPage", characterisationResult, "XSDataResultCharacterisation")
 		self.__characterisationResult = characterisationResult
+		if fileGraph is None:
+			self.__fileGraph = []
+		else:
+			checkType("XSDataInputSimpleHTMLPage", "Constructor of XSDataInputSimpleHTMLPage", fileGraph, "list")
+			self.__fileGraph = fileGraph
 	def getCharacterisationResult(self): return self.__characterisationResult
 	def setCharacterisationResult(self, characterisationResult):
 		checkType("XSDataInputSimpleHTMLPage", "setCharacterisationResult", characterisationResult, "XSDataResultCharacterisation")
@@ -115,6 +145,19 @@ class XSDataInputSimpleHTMLPage(XSDataInput):
 	def delCharacterisationResult(self): self.__characterisationResult = None
 	# Properties
 	characterisationResult = property(getCharacterisationResult, setCharacterisationResult, delCharacterisationResult, "Property for characterisationResult")
+	def getFileGraph(self): return self.__fileGraph
+	def setFileGraph(self, fileGraph):
+		checkType("XSDataInputSimpleHTMLPage", "setFileGraph", fileGraph, "list")
+		self.__fileGraph = fileGraph
+	def delFileGraph(self): self.__fileGraph = None
+	# Properties
+	fileGraph = property(getFileGraph, setFileGraph, delFileGraph, "Property for fileGraph")
+	def addFileGraph(self, value):
+		checkType("XSDataInputSimpleHTMLPage", "setFileGraph", value, "XSDataFile")
+		self.__fileGraph.append(value)
+	def insertFileGraph(self, index, value):
+		checkType("XSDataInputSimpleHTMLPage", "setFileGraph", value, "XSDataFile")
+		self.__fileGraph[index] = value
 	def export(self, outfile, level, name_='XSDataInputSimpleHTMLPage'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -127,6 +170,8 @@ class XSDataInputSimpleHTMLPage(XSDataInput):
 			self.characterisationResult.export(outfile, level, name_='characterisationResult')
 		else:
 			warnEmptyAttribute("characterisationResult", "XSDataResultCharacterisation")
+		for fileGraph_ in self.getFileGraph():
+			fileGraph_.export(outfile, level, name_='fileGraph')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -137,6 +182,11 @@ class XSDataInputSimpleHTMLPage(XSDataInput):
 			obj_ = XSDataResultCharacterisation()
 			obj_.build(child_)
 			self.setCharacterisationResult(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileGraph':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.fileGraph.append(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):

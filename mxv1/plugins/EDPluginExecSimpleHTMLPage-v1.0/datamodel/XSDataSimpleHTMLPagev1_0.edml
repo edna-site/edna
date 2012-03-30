@@ -7,6 +7,7 @@ import XSDataMXv1.XSDataResultCharacterisation
 
 complex type XSDataInputSimpleHTMLPage extends XSDataInput {
 	characterisationResult : XSDataResultCharacterisation
+	fileGraph : XSDataFile [] optional
 }
 
 complex type XSDataResultSimpleHTMLPage extends XSDataResult {
