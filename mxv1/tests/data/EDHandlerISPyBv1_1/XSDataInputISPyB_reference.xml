@@ -113,7 +113,7 @@
             <value>ref-testscale_1_001.img</value>
         </fileName>
         <fileLocation>
-            <value>${EDNA_TESTS_DATA_HOME}/images</value>
+            <value>${EDNA_TESTIMAGES}</value>
         </fileLocation>
     </image>
 </XSDataInputISPyB>
