@@ -1,5 +1,13 @@
 <?xml version="1.0" ?>
 <XSDataInputSimpleHTMLPage>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot1.jpg</value></path></fileGraph>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot2.jpg</value></path></fileGraph>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot3.jpg</value></path></fileGraph>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot4.jpg</value></path></fileGraph>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot5.jpg</value></path></fileGraph>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot6.jpg</value></path></fileGraph>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot7.jpg</value></path></fileGraph>
+    <fileGraph><path><value>${EDNA_PLUGIN_TESTS_DATA_HOME}/plot8.jpg</value></path></fileGraph>
 	<characterisationResult>
     <dataCollection>
         <diffractionPlan>
