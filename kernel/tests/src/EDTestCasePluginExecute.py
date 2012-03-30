@@ -32,6 +32,8 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
+import types
+
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDUtilsPath                         import EDUtilsPath
@@ -81,7 +83,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         self.__edPlugin = EDFactoryPluginStatic.loadPlugin(self.getPluginName())
         if(self.__edPlugin is not None):
             for strInputDataKey in self.__dictStrDataInputFiles.keys():
-                if (type(self.__dictStrDataInputFiles[ strInputDataKey ]) == type([])):
+                if (type(self.__dictStrDataInputFiles[ strInputDataKey ]) == types.ListType):
                     for strDataInputFile in self.__dictStrDataInputFiles[ strInputDataKey ]:
                         strXMLData = self.readAndParseFile(strDataInputFile)
                         if (strInputDataKey == self.__strDefaultInputDataKey):
@@ -237,7 +239,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
             if (strReferenceOutputDataKey in listOfDataOutputKeys):
                 EDVerbose.unitTest("Testing data output for %s" % strReferenceOutputDataKey)
                 listReferenceFile = self.__dictStrReferenceDataOutputFiles[ strReferenceOutputDataKey ]
-                if (type(listReferenceFile) != type([])):
+                if (type(listReferenceFile) != types.ListType):
                     listReferenceFile = [ listReferenceFile ]
                 listReferenceOutput = []
                 for strReferenceFile in listReferenceFile:
@@ -246,7 +248,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
                 listObtainedOutputXML = []
                 pyObjectObtainedDataOutput = self.__edPlugin.getDataOutput(strReferenceOutputDataKey)
                 listObtainedOutput = None
-                if (type(pyObjectObtainedDataOutput) == type([])):
+                if (type(pyObjectObtainedDataOutput) == types.ListType):
                     listObtainedOutput = pyObjectObtainedDataOutput
                 else:
                     listObtainedOutput = [ pyObjectObtainedDataOutput ]

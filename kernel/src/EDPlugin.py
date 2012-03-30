@@ -30,7 +30,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, tempfile, stat
+import os, tempfile, stat, types
 
 from EDSlot             import EDSlot
 from EDApplication      import EDApplication
@@ -479,7 +479,7 @@ class EDPlugin(EDAction):
             self.__dictXSDataOutput[ strDataOutputKey ] = _xsDataOutput
         else:
             # Check if the _xsDataoutput object is already a list
-            if (type(_xsDataOutput) == type ([])):
+            if (type(_xsDataOutput) == types.ListType):
                 self.__dictXSDataOutput[ strDataOutputKey ] = _xsDataOutput
             else:
                 # Check if the stored object contains already a list
