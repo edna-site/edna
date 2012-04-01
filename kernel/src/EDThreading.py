@@ -27,7 +27,8 @@
 #
 
 """
-Set an environment variable "EDNA_LOCK" to help debugging any locking inside EDNA 
+Set an environment variable "EDNA_LOCK" to help debugging 
+any dead-locks- inside EDNA 
 """
 
 __authors__ = [ "Jérôme Kieffer" ]
@@ -41,6 +42,9 @@ _Semaphore = threading._Semaphore
 
 if os.environ.get("EDNA_LOCK", False):
     class Semaphore(_Semaphore):
+        """
+        threading.Semaphore like class with helper for fighting dead-locks
+        """
         def __init__(self, *arg, **kwarg):
             _Semaphore.__init__(self, *arg, **kwarg)
             self.blocked = []
@@ -49,7 +53,9 @@ if os.environ.get("EDNA_LOCK", False):
             if self._Semaphore__value == 0:
                 uid = uuid.uuid4()
                 self.blocked.append(uid)
-                sys.stderr.write("Blocking sem %s" % os.linesep.join([str(uid)] + traceback.format_stack()[:-1] + [""]))
+                sys.stderr.write("Blocking sem %s" %
+                                 os.linesep.join([str(uid)] + \
+                                        traceback.format_stack()[:-1] + [""]))
             return _Semaphore.acquire(self, *arg, **kwarg)
 
         def release(self, *arg, **kwarg):
