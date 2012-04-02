@@ -22,5 +22,18 @@
 		<XSPluginItem>
 			<name>EDPluginBioSaxsNormalizev1_0</name>  
 		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBioSaxsToSASv1_0</name>
+            <XSParamList>
+                <XSParamItem>
+                    <name>fileSize</name>
+                    <value>1000</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>timeOut</name>
+                    <value>1000</value>
+                </XSParamItem>
+            </XSParamList>
+		</XSPluginItem>
 	</XSPluginList> 
 </XSConfiguration>

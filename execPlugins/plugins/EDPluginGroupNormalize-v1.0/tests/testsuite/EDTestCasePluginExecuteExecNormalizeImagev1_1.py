@@ -53,9 +53,9 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_1(EDTestCasePluginExecute):
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_NormalizeImage.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputNormalizeImage_reference.xml"))
+                                           "XSDataInputNormalizeImage_reference_array.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultNormalizeImage_Array.xml"))
+                                                     "XSDataResultNormalizeImage_array.xml"))
 
     def preProcess(self):
         """
@@ -88,8 +88,8 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_1(EDTestCasePluginExecute):
 
         #EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "Result XML are the same")
 
-        npaReference = EDUtilsArray.xsDataToArray(xsDataResultReference.getNormalizedArray())
-        npaObtained = EDUtilsArray.xsDataToArray(xsDataResultObtained.getNormalizedArray())
+        npaReference = EDUtilsArray.getArray(xsDataResultReference.output)
+        npaObtained = EDUtilsArray.getArray(xsDataResultObtained.output)
         EDAssert.arraySimilar(npaReference, npaObtained, "Arrays are the same", _fAbsMaxDelta=1e-6)
         EDAssert.equal(npaReference.dtype, npaObtained.dtype, "Datatypes are the same")
 #        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())

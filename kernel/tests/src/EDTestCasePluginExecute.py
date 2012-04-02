@@ -5,11 +5,12 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
 #                       Olof Svensson (svensson@esrf.fr) 
+#                       Jérôme Kieffer (jerome.kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -30,7 +31,9 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120216"
 
+import types
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
@@ -38,7 +41,6 @@ from EDUtilsPath                         import EDUtilsPath
 from EDTestCasePlugin                    import EDTestCasePlugin
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
 from EDUtilsFile                         import EDUtilsFile
-from EDConfiguration                     import EDConfiguration
 from EDUtilsParallel                     import EDUtilsParallel
 
 class EDTestCasePluginExecute(EDTestCasePlugin):
@@ -56,7 +58,6 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         """
         EDTestCasePlugin.__init__(self, _strPluginName, _strPluginDir, _strTestName)
         self.__edPlugin = None
-        self.__strEdnaSite = EDUtilsPath.getEdnaSite()
         self.__strRefConfigFile = None
         self.__dictStrDataInputFiles = {}
         self.__strDefaultInputDataKey = "defaultInputData"
@@ -75,13 +76,13 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         Initialize the plugin to be launched
         """
         EDTestCasePlugin.preProcess(self)
-        if(self.__strEdnaSite == None):
+        if(EDUtilsPath.EDNA_SITE == None):
             raise RuntimeError, "EDNA_SITE must be set"
         # Load the plugin that should be executed
         self.__edPlugin = EDFactoryPluginStatic.loadPlugin(self.getPluginName())
         if(self.__edPlugin is not None):
             for strInputDataKey in self.__dictStrDataInputFiles.keys():
-                if (type(self.__dictStrDataInputFiles[ strInputDataKey ]) == type([])):
+                if (type(self.__dictStrDataInputFiles[ strInputDataKey ]) == types.ListType):
                     for strDataInputFile in self.__dictStrDataInputFiles[ strInputDataKey ]:
                         strXMLData = self.readAndParseFile(strDataInputFile)
                         if (strInputDataKey == self.__strDefaultInputDataKey):
@@ -115,13 +116,14 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         Returns the plugin instance
         """
         return self.__edPlugin
-
+    plugin = property(getPlugin, doc="read-only only property")
 
     def getErrorMessages(self):
         """
         Returns the error messages for the plugin launcher
         """
         return self.__edPlugin.getErrorMessages()
+    errorMessages = property(getErrorMessages, doc="read-only only property")
 
 
     def getWarningMessages(self):
@@ -129,9 +131,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         Returns the warning messages for the plugin launcher
         """
         return self.__edPlugin.getWarningMessages()
-
-
-
+    warningMessages = property(getWarningMessages, doc="read-only only property")
 
 
     def getRefConfigFile(self):
@@ -212,7 +212,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         """
         Returns the EDNA_SITE environment variable
         """
-        return self.__strEdnaSite
+        return EDUtilsPath.EDNA_SITE
 
 
     def run(self):
@@ -237,7 +237,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
             if (strReferenceOutputDataKey in listOfDataOutputKeys):
                 EDVerbose.unitTest("Testing data output for %s" % strReferenceOutputDataKey)
                 listReferenceFile = self.__dictStrReferenceDataOutputFiles[ strReferenceOutputDataKey ]
-                if (type(listReferenceFile) != type([])):
+                if (type(listReferenceFile) != types.ListType):
                     listReferenceFile = [ listReferenceFile ]
                 listReferenceOutput = []
                 for strReferenceFile in listReferenceFile:
@@ -246,7 +246,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
                 listObtainedOutputXML = []
                 pyObjectObtainedDataOutput = self.__edPlugin.getDataOutput(strReferenceOutputDataKey)
                 listObtainedOutput = None
-                if (type(pyObjectObtainedDataOutput) == type([])):
+                if (type(pyObjectObtainedDataOutput) == types.ListType):
                     listObtainedOutput = pyObjectObtainedDataOutput
                 else:
                     listObtainedOutput = [ pyObjectObtainedDataOutput ]
@@ -267,21 +267,6 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
                     if (self.m_edObtainedOutputDataFile is None):
                         self.m_edObtainedOutputDataFile = self.getPluginName() + "_output.xml"
                     EDUtilsFile.writeFile(self.m_edObtainedOutputDataFile, self.__edPlugin.getDataOutput().marshal())
-
-
-
-
-
-    def readAndParseFile(self, _strFileName):
-        """
-        Reads a file and parses potential existing environment variables such as:
-        - EDNA_WORKING_DIR
-        Returns the content of this file as a string
-        """
-        strXML = EDTestCasePlugin.readAndParseFile(self, _strFileName)
-        if (self.__edPlugin.getWorkingDirectory() is not None):
-            strXML = strXML.replace("${EDNA_WORKING_DIR}" , self.__edPlugin.getWorkingDirectory())
-        return strXML
 
 
     def setNoExpectedWarningMessages(self, _iNoExpectedWarningMessages):

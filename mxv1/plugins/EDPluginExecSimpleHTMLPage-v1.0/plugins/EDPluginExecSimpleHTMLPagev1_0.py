@@ -102,6 +102,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.diffractionPlan()
             self.page.hr()
             self.strategyResults()
+            self.graphs()
             self.page.hr()
             self.indexingResults()
             self.imageQualityIndicatorResults()
@@ -497,3 +498,35 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         return strPathToLogFile
 
 
+    def graphs(self):
+        self.page.table( class_='bestGraphs', border_="0", cellpadding_="0")
+        listXSDataFile = self.getDataInput().fileGraph
+        self.page.tr( align_="CENTER" )
+        iIndex = 1
+        for xsDataFile in listXSDataFile:
+            strFileName = os.path.basename(xsDataFile.path.value)
+            print strFileName
+            shutil.copy(xsDataFile.path.value, os.path.join(self.getWorkingDirectory(), strFileName))
+            self.page.td()
+            strPageGraph = os.path.join(self.getWorkingDirectory(), os.path.splitext(strFileName)[0]+".html")
+            pageGraph = markupv1_7.page()
+            pageGraph.init( title=strFileName, 
+                   footer="Generated on %s" % time.asctime())
+            pageGraph.h1(strFileName)
+            pageGraph.a("Back to previous page", href_=self.strPath)
+            pageGraph.br()
+            pageGraph.img(src=xsDataFile.path.value, title=strFileName)
+            pageGraph.a("Back to previous page", href_=self.strPath)
+            EDUtilsFile.writeFile(strPageGraph, str(pageGraph))
+            self.page.a( href=strPageGraph)
+            self.page.img( src=xsDataFile.path.value,width=175, height=175, title=strFileName )
+            self.page.a.close()
+            self.page.td.close()
+            iIndex += 1
+            if iIndex > 4:
+                iIndex = 1
+                self.page.tr.close()
+                self.page.tr( align_="CENTER" )
+        self.page.tr.close()
+        self.page.table.close()
+            

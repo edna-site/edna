@@ -1,13 +1,39 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Sep 12 12:01::43 2011 by EDGenerateDS.
+# Generated Mon Mar 5 05:38::21 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = {  "XSDataCommon": "kernel/datamodel"}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataDictionary
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataString
+	from XSDataCommon import XSDataImageExt
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataDictionary
 from XSDataCommon import XSDataBoolean
@@ -111,7 +137,7 @@ class MixedContainer(object):
 
 class MeasureOffset(XSData):
 	def __init__(self, useSift=None, sobelFilter=None, smoothBorders=None, removeBackground=None, cropBorders=None, alwaysVersusRef=None):
-		XSData.__init__(self, )
+		XSData.__init__(self,)
 		checkType("MeasureOffset", "Constructor of MeasureOffset", alwaysVersusRef, "XSDataBoolean")
 		self.__alwaysVersusRef = alwaysVersusRef
 		if cropBorders is None:
@@ -241,52 +267,52 @@ class MeasureOffset(XSData):
 			self.setUseSift(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="MeasureOffset" )
+		self.export(oStreamString, 0, name_="MeasureOffset")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='MeasureOffset' )
+		self.export(outfile, 0, name_='MeasureOffset')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class MeasureOffset is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return MeasureOffset.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = MeasureOffset()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="MeasureOffset" )
+		rootObj.export(oStreamString, 0, name_="MeasureOffset")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = MeasureOffset()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class MeasureOffset
 
 class XSDataHDF5Attributes(XSData):
 	"""Allows the fine definition of the metadata for group/datasets"""
 	def __init__(self, metadata=None, h5path=None):
-		XSData.__init__(self, )
+		XSData.__init__(self,)
 		checkType("XSDataHDF5Attributes", "Constructor of XSDataHDF5Attributes", h5path, "XSDataString")
 		self.__h5path = h5path
 		checkType("XSDataHDF5Attributes", "Constructor of XSDataHDF5Attributes", metadata, "XSDataDictionary")
@@ -338,46 +364,46 @@ class XSDataHDF5Attributes(XSData):
 			self.setMetadata(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataHDF5Attributes" )
+		self.export(oStreamString, 0, name_="XSDataHDF5Attributes")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataHDF5Attributes' )
+		self.export(outfile, 0, name_='XSDataHDF5Attributes')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class XSDataHDF5Attributes is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return XSDataHDF5Attributes.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataHDF5Attributes()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataHDF5Attributes" )
+		rootObj.export(oStreamString, 0, name_="XSDataHDF5Attributes")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataHDF5Attributes()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class XSDataHDF5Attributes
 
 class XSDataInputAlignStack(XSDataInput):
@@ -671,50 +697,50 @@ class XSDataInputAlignStack(XSDataInput):
 			self.setDontAlign(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputAlignStack" )
+		self.export(oStreamString, 0, name_="XSDataInputAlignStack")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputAlignStack' )
+		self.export(outfile, 0, name_='XSDataInputAlignStack')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class XSDataInputAlignStack is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return XSDataInputAlignStack.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputAlignStack()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputAlignStack" )
+		rootObj.export(oStreamString, 0, name_="XSDataInputAlignStack")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputAlignStack()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class XSDataInputAlignStack
 
 class XSDataInputFullFieldXAS(XSDataInput):
-	def __init__(self, configuration=None, dontAlign=None, saveNormalized=None, reference=None, measureOffset=None, internalHDF5Path=None, index=None, flat=None, energy=None, data=None, dark=None, HDF5File=None):
+	def __init__(self, configuration=None, flatScaleFactor=None, darkScaleFactor=None, dataScaleFactor=None, dontAlign=None, saveNormalized=None, reference=None, measureOffset=None, internalHDF5Path=None, index=None, flat=None, energy=None, data=None, dark=None, HDF5File=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", HDF5File, "XSDataFile")
 		self.__HDF5File = HDF5File
@@ -747,6 +773,12 @@ class XSDataInputFullFieldXAS(XSDataInput):
 		self.__saveNormalized = saveNormalized
 		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", dontAlign, "XSDataBoolean")
 		self.__dontAlign = dontAlign
+		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", dataScaleFactor, "XSDataDouble")
+		self.__dataScaleFactor = dataScaleFactor
+		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", darkScaleFactor, "XSDataDouble")
+		self.__darkScaleFactor = darkScaleFactor
+		checkType("XSDataInputFullFieldXAS", "Constructor of XSDataInputFullFieldXAS", flatScaleFactor, "XSDataDouble")
+		self.__flatScaleFactor = flatScaleFactor
 	def getHDF5File(self): return self.__HDF5File
 	def setHDF5File(self, HDF5File):
 		checkType("XSDataInputFullFieldXAS", "setHDF5File", HDF5File, "XSDataFile")
@@ -842,6 +874,27 @@ class XSDataInputFullFieldXAS(XSDataInput):
 	def delDontAlign(self): self.__dontAlign = None
 	# Properties
 	dontAlign = property(getDontAlign, setDontAlign, delDontAlign, "Property for dontAlign")
+	def getDataScaleFactor(self): return self.__dataScaleFactor
+	def setDataScaleFactor(self, dataScaleFactor):
+		checkType("XSDataInputFullFieldXAS", "setDataScaleFactor", dataScaleFactor, "XSDataDouble")
+		self.__dataScaleFactor = dataScaleFactor
+	def delDataScaleFactor(self): self.__dataScaleFactor = None
+	# Properties
+	dataScaleFactor = property(getDataScaleFactor, setDataScaleFactor, delDataScaleFactor, "Property for dataScaleFactor")
+	def getDarkScaleFactor(self): return self.__darkScaleFactor
+	def setDarkScaleFactor(self, darkScaleFactor):
+		checkType("XSDataInputFullFieldXAS", "setDarkScaleFactor", darkScaleFactor, "XSDataDouble")
+		self.__darkScaleFactor = darkScaleFactor
+	def delDarkScaleFactor(self): self.__darkScaleFactor = None
+	# Properties
+	darkScaleFactor = property(getDarkScaleFactor, setDarkScaleFactor, delDarkScaleFactor, "Property for darkScaleFactor")
+	def getFlatScaleFactor(self): return self.__flatScaleFactor
+	def setFlatScaleFactor(self, flatScaleFactor):
+		checkType("XSDataInputFullFieldXAS", "setFlatScaleFactor", flatScaleFactor, "XSDataDouble")
+		self.__flatScaleFactor = flatScaleFactor
+	def delFlatScaleFactor(self): self.__flatScaleFactor = None
+	# Properties
+	flatScaleFactor = property(getFlatScaleFactor, setFlatScaleFactor, delFlatScaleFactor, "Property for flatScaleFactor")
 	def export(self, outfile, level, name_='XSDataInputFullFieldXAS'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -880,6 +933,12 @@ class XSDataInputFullFieldXAS(XSDataInput):
 			self.saveNormalized.export(outfile, level, name_='saveNormalized')
 		if self.__dontAlign is not None:
 			self.dontAlign.export(outfile, level, name_='dontAlign')
+		if self.__dataScaleFactor is not None:
+			self.dataScaleFactor.export(outfile, level, name_='dataScaleFactor')
+		if self.__darkScaleFactor is not None:
+			self.darkScaleFactor.export(outfile, level, name_='darkScaleFactor')
+		if self.__flatScaleFactor is not None:
+			self.flatScaleFactor.export(outfile, level, name_='flatScaleFactor')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -940,48 +999,63 @@ class XSDataInputFullFieldXAS(XSDataInput):
 			obj_ = XSDataBoolean()
 			obj_.build(child_)
 			self.setDontAlign(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataScaleFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDataScaleFactor(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'darkScaleFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDarkScaleFactor(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'flatScaleFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setFlatScaleFactor(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputFullFieldXAS" )
+		self.export(oStreamString, 0, name_="XSDataInputFullFieldXAS")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputFullFieldXAS' )
+		self.export(outfile, 0, name_='XSDataInputFullFieldXAS')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class XSDataInputFullFieldXAS is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return XSDataInputFullFieldXAS.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputFullFieldXAS()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputFullFieldXAS" )
+		rootObj.export(oStreamString, 0, name_="XSDataInputFullFieldXAS")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputFullFieldXAS()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class XSDataInputFullFieldXAS
 
 class XSDataResultAlignStack(XSDataResult):
@@ -1038,46 +1112,46 @@ class XSDataResultAlignStack(XSDataResult):
 			self.setInternalHDF5Path(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultAlignStack" )
+		self.export(oStreamString, 0, name_="XSDataResultAlignStack")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultAlignStack' )
+		self.export(outfile, 0, name_='XSDataResultAlignStack')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class XSDataResultAlignStack is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return XSDataResultAlignStack.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultAlignStack()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultAlignStack" )
+		rootObj.export(oStreamString, 0, name_="XSDataResultAlignStack")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultAlignStack()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class XSDataResultAlignStack
 
 class XSDataResultFullFieldXAS(XSDataResult):
@@ -1134,46 +1208,46 @@ class XSDataResultFullFieldXAS(XSDataResult):
 			self.setInternalHDF5Path(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultFullFieldXAS" )
+		self.export(oStreamString, 0, name_="XSDataResultFullFieldXAS")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultFullFieldXAS' )
+		self.export(outfile, 0, name_='XSDataResultFullFieldXAS')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class XSDataResultFullFieldXAS is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return XSDataResultFullFieldXAS.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultFullFieldXAS()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultFullFieldXAS" )
+		rootObj.export(oStreamString, 0, name_="XSDataResultFullFieldXAS")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultFullFieldXAS()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class XSDataResultFullFieldXAS
 
 

@@ -25,9 +25,36 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import os, sys
+from __future__ import with_statement
+import os, sys, subprocess, tempfile
 
 xsDataName = "XSDataAccumulatorv1_0.edml"
+xsdHomeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
+destDir = os.path.join(os.path.dirname(xsdHomeDir), "plugins")
+outputModule = os.path.join(destDir, os.path.splitext(xsDataName)[0] + ".py")
+
+
+def patchFile(filename):
+    """
+    correct "XSDataCommon": "workspace/edna/kernel/datamodel", \
+    in      "XSDataCommon": "kernel/datamodel", \
+    """
+    print("patching file %s" % filename)
+    outfile = []
+    last = None
+    edna_idx = None
+    for i in open(filename):
+        if i.lstrip().startswith('"XSData') and (":" in i):
+            mod, loc = i.split(":", 1)
+            if edna_idx is None:
+                edna_idx = loc.find("kernel")
+            if len(loc) > edna_idx:
+                i = mod + ': "' + loc[edna_idx:]
+        if i != last:
+            outfile.append(i)
+        last = i
+    with  open(filename, "w") as f:
+        f.writelines(outfile)
 
 if "EDNA_HOME" not in os.environ:
     full_path = os.path.abspath(sys.argv[0])
@@ -44,11 +71,16 @@ if "EDNA_HOME" not in os.environ:
 else:
     EDNA_HOME = os.environ["EDNA_HOME"]
 
-xsdHomeDir = os.path.dirname(os.path.abspath(sys.argv[0]))
-xsdFilePath = os.path.join(xsdHomeDir, xsDataName)
-pyHomeDir = os.path.join(os.path.dirname(xsdHomeDir), "plugins")
-includeXSDFilePath = os.path.join(EDNA_HOME, "kernel", "datamodel")
-jar = os.path.join(includeXSDFilePath, "EDGenerateDS.jar")
-cmd = "java -jar %s -includepaths %s,%s -sourceDir %s -sourceFile %s -targetdir %s" % (jar, includeXSDFilePath, xsdHomeDir, xsdHomeDir, xsDataName , pyHomeDir)
-print cmd
-os.system (cmd)
+cmdLine = ["java", "-jar"]
+cmdLine.append(os.path.join(EDNA_HOME, "kernel", "datamodel", "EDGenerateDS.jar"))
+cmdLine.append("-includepaths")
+cmdLine.append(os.path.join(EDNA_HOME, "kernel", "datamodel"))
+cmdLine.append("-sourceDir")
+cmdLine.append(xsdHomeDir)
+cmdLine.append("-sourceFile")
+cmdLine.append(xsDataName)
+cmdLine.append("-targetdir")
+cmdLine.append(os.path.join(os.path.dirname(xsdHomeDir), "plugins"))
+sub = subprocess.Popen(cmdLine, cwd=tempfile.gettempdir())
+print("Java code for data-binding finished with exit code %s" % sub.wait())
+patchFile(outputModule)

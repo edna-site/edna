@@ -22,7 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble, France"
@@ -43,13 +43,16 @@ from XSDataNormalizeImage       import XSDataInputNormalize, XSDataResultNormali
 from EDAssert                   import EDAssert
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDShare                    import EDShare
+from EDUtilsPath                import EDUtilsPath
+from EDThreading import Semaphore
+
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 
 EDFactoryPluginStatic.preImport("Image", imagingPath)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
@@ -65,7 +68,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
     dictDark = {} #Nota: the key is a string: str(exposutTime)
 #    listDarkExposure = []
 #    listDarkArray = []
-    semaphore = threading.Semaphore()
+    semaphore = Semaphore()
     dtype = None #
     CONF_DTYPE_KEY = "dtype"
     CONF_DTYPE_DEFAULT = "float32"
@@ -102,20 +105,19 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         """
         EDPluginExec.configure(self)
         self.DEBUG("EDPluginExecNormalizeImagev1_1.configure")
-        if self.dtype is None:
-            self.synchronizeOn()
-            xsPluginItem = self.getConfiguration()
-            if (xsPluginItem == None):
-                self.WARNING("EDPluginExecNormalizeImagev1_1.configure: No plugin item defined.")
-                xsPluginItem = XSPluginItem()
-            strDtype = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_DTYPE_KEY)
-            if(strDtype == None):
-                self.WARNING("EDPluginExecNormalizeImagev1_1.configure: No configuration parameter found for: %s using default value: %s\n%s"\
-                            % (self.CONF_DTYPE_KEY, self.CONF_DTYPE_DEFAULT, xsPluginItem.marshal()))
-                self.dtype = self.CONF_DTYPE_DEFAULT
-            else:
-                self.dtype = str(strDtype.strip().lower())
-            self.synchronizeOff()
+        if self.__class__.dtype is None:
+            with self.__class__.semaphore:
+                xsPluginItem = self.getConfiguration()
+                if (xsPluginItem == None):
+                    self.WARNING("EDPluginExecNormalizeImagev1_1.configure: No plugin item defined.")
+                    xsPluginItem = XSPluginItem()
+                strDtype = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_DTYPE_KEY)
+                if(strDtype == None):
+                    self.WARNING("EDPluginExecNormalizeImagev1_1.configure: No configuration parameter found for: %s using default value: %s\n%s"\
+                                % (self.CONF_DTYPE_KEY, self.CONF_DTYPE_DEFAULT, xsPluginItem.marshal()))
+                    self.__class__.dtype = self.CONF_DTYPE_DEFAULT
+                else:
+                    self.__class__.dtype = str(strDtype.strip().lower())
 
 
     def preProcess(self, _edObject=None):
@@ -175,35 +177,34 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
                 self.setFailure()
                 raise RuntimeError(strError)
 
-        EDPluginExecNormalizeImagev1_1.semaphore.acquire()
-        for inputDark in sdi.getDark():
-            if inputDark.exposureTime is None:
-                self.WARNING("You did not provide an exposure time for Dark... using default: 1")
-                expTime = 1.0
-            else:
-                expTime = EDUtilsUnit.getSIValue(inputDark.exposureTime)
-            strMeanDarkKey = "/".join(self.getClassName(), "MeanDark%6.3f" % expTime)
-            if strMeanDarkKey not in EDShare:
-                self.listDarkExposure.append(expTime)
-                if inputDark.path is not None:
-                    strPath = inputDark.path.value
-                    if os.path.isfile(strPath):
-                        self.listDarkArray.append(fabio.open(strPath).data)
+        with EDPluginExecNormalizeImagev1_1.semaphore:
+            for inputDark in sdi.getDark():
+                if inputDark.exposureTime is None:
+                    self.WARNING("You did not provide an exposure time for Dark... using default: 1")
+                    expTime = 1.0
+                else:
+                    expTime = EDUtilsUnit.getSIValue(inputDark.exposureTime)
+                strMeanDarkKey = "/".join((self.getClassName(), "MeanDark%6.3f" % expTime))
+                if strMeanDarkKey not in EDShare:
+                    self.listDarkExposure.append(expTime)
+                    if inputDark.path is not None:
+                        strPath = inputDark.path.value
+                        if os.path.isfile(strPath):
+                            self.listDarkArray.append(fabio.open(strPath).data)
+                        else:
+                            strError = "The input file provided for Dark is not a valid file: %s" % strPath
+                            self.ERROR(strError)
+                            self.setFailure()
+                            raise RuntimeError(strError)
+                    elif inputDark.array is not None:
+                        self.listDarkArray.append(EDUtilsArray.xsDataToArray(inputDark.array))
+                    elif inputDark.shared is not None:
+                        self.listDarkArray.append(EDShare[inputDark.shared.value])
                     else:
-                        strError = "The input file provided for Dark is not a valid file: %s" % strPath
+                        strError = "You should either provide an input filename or an array for Dark, you provided: %s" % inputDark.marshal()
                         self.ERROR(strError)
                         self.setFailure()
                         raise RuntimeError(strError)
-                elif inputDark.array is not None:
-                    self.listDarkArray.append(EDUtilsArray.xsDataToArray(inputDark.array))
-                elif inputDark.shared is not None:
-                    self.listDarkArray.append(EDShare[inputDark.shared.value])
-                else:
-                    strError = "You should either provide an input filename or an array for Dark, you provided: %s" % inputDark.marshal()
-                    self.ERROR(strError)
-                    self.setFailure()
-                    raise RuntimeError(strError)
-        EDPluginExecNormalizeImagev1_1.semaphore.release()
 
         if sdi.output is not None:
             if (sdi.output.path is not None):
@@ -256,7 +257,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
             edf.write(self.strOutputFilename)
             xsdo = XSDataImageExt(path=XSDataString(self.strOutputFilename))
         elif self.strOutputShared is not None:
-            self.DEBUG("EDShare --> %" % self.strOutputShared)
+            self.DEBUG("EDShare --> %s" % self.strOutputShared)
             EDShare[ self.strOutputShared] = self.npaNormalized
             xsdo = XSDataImageExt(shared=XSDataString(self.strOutputShared))
         else:
@@ -264,6 +265,7 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         xsDataResult.output = xsdo
         # Create some output data
         self.setDataOutput(xsDataResult)
+
 
     def finallyProcess(self, _edObject=None):
         """
@@ -284,20 +286,18 @@ class EDPluginExecNormalizeImagev1_1(EDPluginExec):
         @param _fExposureTime: exposure time 
         @return: mean of darks with this exposure time
         """
-        strMeanDarkKey = "/".join(self.getClassName(), "MeanDark%6.3f" % _fExposureTime)
-        EDPluginExecNormalizeImagev1_1.semaphore.acquire()
-        if  strMeanDarkKey not in EDShare:
-            npaSumDark = numpy.zeros(self.shape, self.dtype)
-            count = 0
-            for fExpTime, npaDark in zip(self.listDarkExposure, self.listDarkArray):
-                if abs(fExpTime - _fExposureTime) / _fExposureTime < 1e-4:
-                    npaSumDark += npaDark
-                    count += 1
-            if count == 0:
-                self.WARNING("No Dark image with Exposure time = %.3f, no dark subtraction" % _fExposureTime)
-                EDPluginExecNormalizeImagev1_1.dictDark[str(_fExposureTime) ] = npaSumDark
-            else:
-                EDPluginExecNormalizeImagev1_1.dictDark[str(_fExposureTime) ] = npaSumDark / float(count)
-        EDPluginExecNormalizeImagev1_1.semaphore.release()
-        return  EDShare[strMeanDarkKey]
+        with self.__class__.semaphore:
+            if  str(_fExposureTime) not in self.__class__.dictDark:
+                npaSumDark = numpy.zeros(self.shape, dtype="float64")
+                count = 0
+                for fExpTime, npaDark in zip(self.listDarkExposure, self.listDarkArray):
+                    if abs(fExpTime - _fExposureTime) / _fExposureTime < 1e-4:
+                        npaSumDark += npaDark
+                        count += 1
+                if count == 0:
+                    self.WARNING("No Dark image with Exposure time = %.3f, no dark subtraction" % _fExposureTime)
+                    self.__class__.dictDark[str(_fExposureTime) ] = npaSumDark
+                else:
+                    self.__class__.dictDark[str(_fExposureTime) ] = npaSumDark / float(count)
+        return  self.__class__.dictDark[str(_fExposureTime)]
 
