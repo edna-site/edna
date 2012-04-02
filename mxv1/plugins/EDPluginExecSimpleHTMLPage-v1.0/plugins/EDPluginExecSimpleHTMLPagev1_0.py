@@ -480,6 +480,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     def findEDNALogFile(self):
         """Trying to locate the EDNA plugin launcher log file..."""
         strBaseDir = self.getWorkingDirectory()
+        strPathToLogFile = None
         for iLevels in range(4):
             strBaseDir = os.path.dirname(strBaseDir)
             self.DEBUG("Searching in strBaseDir: " + strBaseDir)
