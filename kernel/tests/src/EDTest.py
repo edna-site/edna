@@ -1,3 +1,4 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
@@ -7,7 +8,8 @@
 #    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
-#    Principal authors: Olof Svensson (svensson@esrf.fr) 
+#    Principal authors: Olof Svensson (svensson@esrf.fr)
+#                       Jérôme Kieffer (jerome.kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -38,6 +40,7 @@ __authors__ = "Olof Svensson, Jerome Kieffer"
 __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120212"
 
 from EDObject          import  EDObject
 from EDVerbose         import  EDVerbose

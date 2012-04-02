@@ -369,7 +369,7 @@ class EdnaPlugin(object):
             for line in self.moduleDoc:
                 try:
                     dec = line.decode(coding)
-                except:
+                except Exception:
                     dec = line
                     print("Unable to decode %s with %s" % (line, coding))
                 else:
@@ -378,7 +378,7 @@ class EdnaPlugin(object):
             for line in self.classDoc:
                 try:
                     dec = line.decode(coding)
-                except:
+                except Exception:
                     dec = line
                     print("Unable to decode %s with %s" % (line, coding))
                 else:

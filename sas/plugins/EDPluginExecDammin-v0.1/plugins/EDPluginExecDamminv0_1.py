@@ -34,7 +34,7 @@ from EDPluginExecProcessScript import EDPluginExecProcessScript
 from XSDataSAS import XSDataInputDammin
 from XSDataSAS import XSDataResultDammin
 
-from XSDataSAS import XSDataString, XSDataFile, XSDataFloat
+from XSDataSAS import XSDataString, XSDataFile, XSDataDouble
 
 
 class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
@@ -216,7 +216,7 @@ class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
 
     def returnDamminChiSqrt(self):
         logFile = open(os.path.join(self.getWorkingDirectory(), "dammin.fir"))
-        return XSDataFloat(float(logFile.readline().split(' ')[-1]))
+        return XSDataDouble(float(logFile.readline().split(' ')[-1]))
 
     def returnDamminRFactor(self):
         logFile = open(os.path.join(self.getWorkingDirectory(), "dammin.log"))
@@ -228,4 +228,4 @@ class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
             if wordsLine[0] == "Rf:":
                 tmpRfactor = float(wordsLine[1])
 
-        return XSDataFloat(tmpRfactor)
+        return XSDataDouble(tmpRfactor)
