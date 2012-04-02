@@ -40,7 +40,7 @@ class EDTestCasePluginExecuteControlSolutionScatteringv0_4(EDTestCasePluginExecu
 
 
     def __init__(self, _strTestName=None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlSolutionScatteringv0_3")
+        EDTestCasePluginExecute.__init__(self, "EDPluginControlSolutionScatteringv0_4")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_SolutionScattering.xml"))
         self.setConfigurationFile(self.getRefConfigFile())

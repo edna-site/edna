@@ -31,9 +31,6 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120213"
 
-import os
-
-from EDVerbose              import EDVerbose
 from EDUtilsPath            import EDUtilsPath
 from EDUtilsFile            import EDUtilsFile
 from EDFactoryPluginTest    import EDFactoryPluginTest
@@ -68,10 +65,8 @@ class EDUtilsTest:
         Reads a file and parses potential existing environment variables such as:
         Returns the content of this file as a string
         """
-        strParsedFile = EDUtilsFile.readFile (_strFileName)
-        if(strParsedFile.contains(_strKey)):
-            strParsedFile = strParsedFile.replace(_strKey , _strValue)
-        return str
+
+        return EDUtilsFile.readFileAndParseVariables(_strFileName, {_strKey:_strValue})
 
 
     @staticmethod

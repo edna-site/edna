@@ -31,14 +31,15 @@ __date__ = "20120105"
 
 import os, threading
 from EDPluginControl        import EDPluginControl
-from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDFactoryPlugin        import edFactoryPlugin
 from EDConfiguration        import EDConfiguration
 from EDUtilsPath            import EDUtilsPath
 from EDUtilsPlatform        import EDUtilsPlatform
-EDFactoryPluginStatic.loadModule("XSDataBioSaxsv1_0")
-EDFactoryPluginStatic.loadModule("XSDataSAS")
-EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
-EDFactoryPluginStatic.loadModule("XSDataExecCommandLine")
+from EDUtilsArray           import EDUtilsArray
+edFactoryPlugin.loadModule("XSDataBioSaxsv1_0")
+edFactoryPlugin.loadModule("XSDataSAS")
+edFactoryPlugin.loadModule("XSDataWaitFilev1_0")
+edFactoryPlugin.loadModule("XSDataExecCommandLine")
 from XSDataBioSaxsv1_0      import XSDataInputBioSaxsToSASv1_0, XSDataResultBioSaxsToSASv1_0
 from XSDataSAS              import XSDataInputSolutionScattering
 from XSDataWaitFilev1_0     import XSDataInputWaitFile
@@ -46,7 +47,7 @@ from XSDataExecCommandLine  import XSDataInputRsync
 from XSDataCommon           import XSDataInteger, XSDataDouble, XSDataString, XSDataFile, XSPluginItem
 architecture = EDUtilsPlatform.architecture
 numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
-numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
+numpy = edFactoryPlugin.preImport("numpy", numpyPath)
 
 
 
@@ -58,10 +59,6 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
     CONF_FILE_SIZE = "fileSize"
     size = None
     maxThreads = None
-    ############################################################################
-    # EDPluginControlSolutionScatteringv0_3 uses matplotlin in a non-thread-safe way. This is a global lock for this plugin 
-    ############################################################################
-    semSAS = threading.Semaphore()
 
 
     def __init__(self):
@@ -71,7 +68,7 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputBioSaxsToSASv1_0)
 
         self.__strControlledPluginWait = "EDPluginWaitFile"
-        self.__strControlledPluginSAS = "EDPluginControlSolutionScatteringv0_3"
+        self.__strControlledPluginSAS = "EDPluginControlSolutionScatteringv0_4"
         self.__strControlledPluginRsync = "EDPluginExecRsync"
         self.__edPluginExecWait = None
         self.__edPluginExecSAS = None
@@ -101,24 +98,26 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
         if (self.__class__.size is None) or (self.__class__.maxThreads is None):
             xsPluginItem = self.getConfiguration()
             if (xsPluginItem == None):
-                self.warning("EDPluginBioSaxsNormalizev1_1.configure: No plugin item defined.")
+                self.warning("EDPluginBioSaxsToSASv1_0.configure: No plugin item defined.")
                 xsPluginItem = XSPluginItem()
-            self.__class__.size = int(EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_FILE_SIZE))
-            if self.__class__.size is None:
-                strMessage = 'EDPluginBioSaxsToSASv1_0.configure: %s Configuration parameter missing: \
-    %s, defaulting to "1000"' % (self.getBaseName(), self.CONF_FILE_SIZE)
+            conf_size = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_FILE_SIZE)
+            if conf_size is None:
+                strMessage = 'EDPluginBioSaxsToSASv1_0.configure: Configuration parameter missing: \
+    %s for %s, defaulting to "1000"' % (self.CONF_FILE_SIZE, EDUtilsPath.EDNA_SITE)
                 self.WARNING(strMessage)
                 self.addErrorWarningMessagesToExecutiveSummary(strMessage)
                 self.__class__.size = 1000
-
-            self.__class__.maxThreads = int(EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_MAX_THREAD))
-            if self.__class__.maxThreads is None:
-                strMessage = 'EDPluginBioSaxsToSASv1_0.configure: %s Configuration parameter missing: \
-    %s, defaulting to "1"' % (self.getBaseName(), self.CONF_MAX_THREAD)
+            else:
+                self.__class__.size = int(conf_size)
+            maxThreads = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_MAX_THREAD)
+            if maxThreads is None:
+                strMessage = 'EDPluginBioSaxsToSASv1_0.configure: Configuration parameter missing: \
+    %s for %s, defaulting to "max"' % (self.CONF_MAX_THREAD, EDUtilsPath.EDNA_SITE)
                 self.WARNING(strMessage)
                 self.addErrorWarningMessagesToExecutiveSummary(strMessage)
-                self.__class__.maxThreads = 1
-
+                self.__class__.maxThreads = None
+            else:
+                self.__class__.maxThreads = int(maxThreads)
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
@@ -141,7 +140,7 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
 
         if self.isFailure():
             return
-
+        Rg = None
         title = open(self.strInFile).readline()
         if title.startswith("#"):
             title = title[1:]
@@ -158,36 +157,44 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
                         firstPoint = 0
                     else:
                         break
-                if line.startswith("# AutoRg: Quality:"):
+                elif line.startswith("# AutoRg: Quality:"):
                     quality = float(line[18:].split("%")[0])
                     if quality < 1:
                         self.warning("The quality of this dataset is very low (%.1f%%): garbage in garbage out !")
+                elif line.startswith("# AutoRg: Rg   ="):
+                    Rg = float(line[16:].split()[0])
         if self.dataInput.lastPoint is not None:
             lastPoint = self.dataInput.lastPoint.value
         else:
             lastPoint = None
+        if self.dataInput.qMax is not None:
+            qMax = self.dataInput.qMax.value
+        elif Rg is not None:
+            qMax = 7.0 / Rg
+        else:
+            qMax = None
         datapoint = numpy.loadtxt(self.strInFile)[firstPoint:lastPoint]
 
         q = datapoint[:, 0]
         I = datapoint[:, 1]
         s = datapoint[:, 2]
-        if self.dataInput.qMax is not None:
-            mask = (q < self.dataInput.qMax.value)
-        else:
-            mask = numpy.ones(q.shape, dtype=bool)
-        xsd = XSDataInputSolutionScattering(iNbThreads=XSDataInteger(self.__class__.maxThreads),
-                                            angularUnits=None,
-                                            rMaxSearchSettings=None,
-                                            experimentalDataStdDev=[XSDataDouble(i) for i in s[mask]],
-                                            experimentalDataValues=[XSDataDouble(i) for i in I[mask]],
-                                            experimentalDataQ=[XSDataDouble(i / 10.0) for i in q[mask]], #convert from nm-1 to A-1 
-                                            title=XSDataString(title.strip()))
+        if qMax is not None:
+            mask = (q < qMax)
+            q = q[mask]
+            I = I[mask]
+            s = s[mask]
+        xsd = XSDataInputSolutionScattering(experimentalDataQArray=EDUtilsArray.arrayToXSData(q / 10.), #from nm-1 not A-1
+                                            experimentalDataIArray=EDUtilsArray.arrayToXSData(I),
+                                            experimentalDataStdArray=EDUtilsArray.arrayToXSData(s),
+                                            title=XSDataString(title.strip()),
+                                            angularUnits=XSDataInteger(1))
+        if self.__class__.maxThreads is not None:
+            xsd.iNbThreads = XSDataInteger(self.__class__.maxThreads)
         self.__edPluginExecSAS = self.loadPlugin(self.__strControlledPluginSAS)
         self.__edPluginExecSAS.dataInput = xsd
         self.__edPluginExecSAS.connectSUCCESS(self.doSuccessExecSAS)
         self.__edPluginExecSAS.connectFAILURE(self.doFailureExecSAS)
-        with self.__class__.semSAS:
-            self.__edPluginExecSAS.executeSynchronous()
+        self.__edPluginExecSAS.executeSynchronous()
 
         if self.isFailure():
             return

@@ -35,8 +35,8 @@ __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import logging, sys, traceback, threading, os
-
+import logging, sys, traceback, os
+from EDThreading import Semaphore
 from EDObject import EDObject
 
 
@@ -45,7 +45,7 @@ class EDLoggingPyLogging(EDObject):
     This class is meant to be used for all logging
     purposes in the EDNA framework.
     """
-    __semaphoreLogging = threading.Semaphore()
+    __semaphoreLogging = Semaphore()
     __dictLoggers = {}
     __logLevel = logging.INFO
     __bInitisalised = False

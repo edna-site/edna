@@ -1,13 +1,34 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Jul 20 04:44::31 2011 by EDGenerateDS.
+# Generated Mon Mar 5 04:13::45 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = {"XSDataCommon": "kernel/datamodel"}
+
+try:
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataImageExt
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
+from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataImageExt
@@ -103,7 +124,8 @@ class MixedContainer(object):
 
 
 class XSDataInputNormalize(XSDataInput):
-	def __init__(self, configuration=None, output=None, flat=None, dark=None, data=None):
+	"""Optionnaly can scale intensities on input data with the given factor"""
+	def __init__(self, configuration=None, flatScaleFactor=None, darkScaleFactor=None, dataScaleFactor=None, output=None, flat=None, dark=None, data=None):
 		XSDataInput.__init__(self, configuration)
 		if data is None:
 			self.__data = []
@@ -122,6 +144,12 @@ class XSDataInputNormalize(XSDataInput):
 			self.__flat = flat
 		checkType("XSDataInputNormalize", "Constructor of XSDataInputNormalize", output, "XSDataImageExt")
 		self.__output = output
+		checkType("XSDataInputNormalize", "Constructor of XSDataInputNormalize", dataScaleFactor, "XSDataDouble")
+		self.__dataScaleFactor = dataScaleFactor
+		checkType("XSDataInputNormalize", "Constructor of XSDataInputNormalize", darkScaleFactor, "XSDataDouble")
+		self.__darkScaleFactor = darkScaleFactor
+		checkType("XSDataInputNormalize", "Constructor of XSDataInputNormalize", flatScaleFactor, "XSDataDouble")
+		self.__flatScaleFactor = flatScaleFactor
 	def getData(self): return self.__data
 	def setData(self, data):
 		checkType("XSDataInputNormalize", "setData", data, "list")
@@ -168,6 +196,27 @@ class XSDataInputNormalize(XSDataInput):
 	def delOutput(self): self.__output = None
 	# Properties
 	output = property(getOutput, setOutput, delOutput, "Property for output")
+	def getDataScaleFactor(self): return self.__dataScaleFactor
+	def setDataScaleFactor(self, dataScaleFactor):
+		checkType("XSDataInputNormalize", "setDataScaleFactor", dataScaleFactor, "XSDataDouble")
+		self.__dataScaleFactor = dataScaleFactor
+	def delDataScaleFactor(self): self.__dataScaleFactor = None
+	# Properties
+	dataScaleFactor = property(getDataScaleFactor, setDataScaleFactor, delDataScaleFactor, "Property for dataScaleFactor")
+	def getDarkScaleFactor(self): return self.__darkScaleFactor
+	def setDarkScaleFactor(self, darkScaleFactor):
+		checkType("XSDataInputNormalize", "setDarkScaleFactor", darkScaleFactor, "XSDataDouble")
+		self.__darkScaleFactor = darkScaleFactor
+	def delDarkScaleFactor(self): self.__darkScaleFactor = None
+	# Properties
+	darkScaleFactor = property(getDarkScaleFactor, setDarkScaleFactor, delDarkScaleFactor, "Property for darkScaleFactor")
+	def getFlatScaleFactor(self): return self.__flatScaleFactor
+	def setFlatScaleFactor(self, flatScaleFactor):
+		checkType("XSDataInputNormalize", "setFlatScaleFactor", flatScaleFactor, "XSDataDouble")
+		self.__flatScaleFactor = flatScaleFactor
+	def delFlatScaleFactor(self): self.__flatScaleFactor = None
+	# Properties
+	flatScaleFactor = property(getFlatScaleFactor, setFlatScaleFactor, delFlatScaleFactor, "Property for flatScaleFactor")
 	def export(self, outfile, level, name_='XSDataInputNormalize'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -186,6 +235,12 @@ class XSDataInputNormalize(XSDataInput):
 			flat_.export(outfile, level, name_='flat')
 		if self.__output is not None:
 			self.output.export(outfile, level, name_='output')
+		if self.__dataScaleFactor is not None:
+			self.dataScaleFactor.export(outfile, level, name_='dataScaleFactor')
+		if self.__darkScaleFactor is not None:
+			self.darkScaleFactor.export(outfile, level, name_='darkScaleFactor')
+		if self.__flatScaleFactor is not None:
+			self.flatScaleFactor.export(outfile, level, name_='flatScaleFactor')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -211,48 +266,63 @@ class XSDataInputNormalize(XSDataInput):
 			obj_ = XSDataImageExt()
 			obj_.build(child_)
 			self.setOutput(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataScaleFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDataScaleFactor(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'darkScaleFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDarkScaleFactor(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'flatScaleFactor':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setFlatScaleFactor(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputNormalize" )
+		self.export(oStreamString, 0, name_="XSDataInputNormalize")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputNormalize' )
+		self.export(outfile, 0, name_='XSDataInputNormalize')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class XSDataInputNormalize is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return XSDataInputNormalize.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputNormalize()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputNormalize" )
+		rootObj.export(oStreamString, 0, name_="XSDataInputNormalize")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataInputNormalize()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class XSDataInputNormalize
 
 class XSDataResultNormalize(XSDataResult):
@@ -291,46 +361,46 @@ class XSDataResultNormalize(XSDataResult):
 			self.setOutput(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
-	def marshal( self ):
+	def marshal(self):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultNormalize" )
+		self.export(oStreamString, 0, name_="XSDataResultNormalize")
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
+	def exportToFile(self, _outfileName):
+		outfile = open(_outfileName, "w")
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultNormalize' )
+		self.export(outfile, 0, name_='XSDataResultNormalize')
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
+	def outputFile(self, _outfileName):
 		print("WARNING: Method outputFile in class XSDataResultNormalize is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
-	def copy( self ):
+	def copy(self):
 		return XSDataResultNormalize.parseString(self.marshal())
 	#Static method for parsing a string
-	def parseString( _inString ):
+	def parseString(_inString):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultNormalize()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultNormalize" )
+		rootObj.export(oStreamString, 0, name_="XSDataResultNormalize")
 		oStreamString.close()
 		return rootObj
-	parseString = staticmethod( parseString )
+	parseString = staticmethod(parseString)
 	#Static method for parsing a file
-	def parseFile( _inFilePath ):
+	def parseFile(_inFilePath):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
 		rootObj = XSDataResultNormalize()
 		rootObj.build(rootNode)
 		return rootObj
-	parseFile = staticmethod( parseFile )
+	parseFile = staticmethod(parseFile)
 # end class XSDataResultNormalize
 
 
