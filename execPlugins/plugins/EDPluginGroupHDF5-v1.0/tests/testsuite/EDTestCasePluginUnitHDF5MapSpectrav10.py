@@ -34,6 +34,10 @@ from EDFactoryPluginStatic import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("EDPluginHDF5MapOfSpectrav10")
 from EDPluginHDF5MapOfSpectrav10    import EDPluginHDF5MapOfSpectrav10
 from EDAssert                       import EDAssert
+from XSDataHDF5v1_0 import     XSDataInput, XSDataFile, XSDataString, \
+    XSDataInputHDF5MapSpectra, XSDataSpectrum
+
+
 
 class EDTestCasePluginUnitHDF5MapSpectrav10(EDTestCasePluginUnit):
     """
@@ -45,12 +49,13 @@ class EDTestCasePluginUnitHDF5MapSpectrav10(EDTestCasePluginUnit):
         """
         """
         EDTestCasePluginUnit.__init__(self, "EDPluginHDF5MapOfSpectrav10")
-        self.strReferenceInputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataInputHDF5MapOfSpectra_reference.xml")
 
 
 
     def testCheckParameters(self):
-        xsDataInput = self.readAndParseFile(self.strReferenceInputFile)
+        xsDataInput = XSDataInputHDF5MapSpectra(HDF5File=XSDataFile(),
+                                                internalHDF5Path=XSDataString(),
+                                                inputSpectrumFile=[XSDataSpectrum()])
         edPluginExecHDF5MapOfSpectra = self.createPlugin()
         edPluginExecHDF5MapOfSpectra.setDataInput(xsDataInput)
         edPluginExecHDF5MapOfSpectra.checkParameters()

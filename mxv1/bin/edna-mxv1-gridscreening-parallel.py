@@ -127,21 +127,19 @@ def functionXMLin(_strFilename):
         EDVerbose.screen("File name not ending with .img or .mccd - ignored : %s" % _strFilename)
     return strXML
 
-def functionXMLout(_strXMLin, _strXMLout):
+def functionXMLout(_xsDataInputGridScreening, _xsDataResultGridScreening):
     """
     This is an example of XMLout function ... it prints only the name of the file created
-    @param _srXMLin: The XML string used to launch the job
-    @type _strXMLin: python string with the input XML
-    @param _strXMLout: The XML string retrieved  job
-    @type _strXMLout: python string with the output XML    
+    @param _xsDataInputGridScreening: The object used to launch the job
+    @type _xsDataInputGridScreening: XSDataInputGridScreening object
+    @param _xsDataResultGridScreening: The object retrieved from the job
+    @type _xsDataResultGridScreening: XSDataInputGridScreening object
     @return: None     
     """
-    xsDataInputGridScreening = XSDataInputGridScreening.parseString(_strXMLin)
-    strImagePath = xsDataInputGridScreening.getImageFile().getPath().getValue()
+    strImagePath = _xsDataInputGridScreening.getImageFile().getPath().getValue()
     EDVerbose.screen("Successful processing of image %s" % strImagePath)
     strResultText = "%40s  " % os.path.basename(strImagePath)
-    xsDataResultGridScreening = XSDataResultGridScreening.parseString(_strXMLout)
-    fileNameParameters = xsDataResultGridScreening.getFileNameParameters()
+    fileNameParameters = _xsDataResultGridScreening.getFileNameParameters()
     if fileNameParameters is None:
         strResultText += "%6s%10s%10s%6s" % ("NA", "NA", "NA","NA")
     else:
@@ -151,7 +149,7 @@ def functionXMLout(_strXMLin, _strXMLout):
                         fileNameParameters.getMotorPosition2().getValue(),
                         fileNameParameters.getScanId2().getValue(),
                                                 )
-    imageQualityIndicators = xsDataResultGridScreening.getImageQualityIndicators()
+    imageQualityIndicators = _xsDataResultGridScreening.getImageQualityIndicators()
     if imageQualityIndicators is None:
         strResultText += "%6s%6s%6s%6s%10s" % ("NA", "NA", "NA","NA", "NA")
     else:
@@ -171,15 +169,15 @@ def functionXMLout(_strXMLin, _strXMLout):
         if imageQualityIndicators.getTotalIntegratedSignal():
             strTotalIntegratedSignal = "%10.0f" % imageQualityIndicators.getTotalIntegratedSignal().getValue()
         strResultText += strMethod1Res + strMethod2Res + strSpotTotal + strGoodBraggCandidates + strTotalIntegratedSignal
-    if xsDataResultGridScreening.getMosaicity() is None:
+    if _xsDataResultGridScreening.getMosaicity() is None:
         strResultText += "%6s" % "NA"
     else:
-        strResultText += "%6.1f" % xsDataResultGridScreening.getMosaicity().getValue()
-    if xsDataResultGridScreening.getRankingResolution() is None:
+        strResultText += "%6.1f" % _xsDataResultGridScreening.getMosaicity().getValue()
+    if _xsDataResultGridScreening.getRankingResolution() is None:
         strResultText += "%6s" % "NA"
     else:
-        strResultText += "%6.1f" % xsDataResultGridScreening.getRankingResolution().getValue()
-    strResultText += "  " + xsDataResultGridScreening.getComment().getValue()
+        strResultText += "%6.1f" % _xsDataResultGridScreening.getRankingResolution().getValue()
+    strResultText += "  " + _xsDataResultGridScreening.getComment().getValue()
     writeToResultFile(strResultText)
 
 

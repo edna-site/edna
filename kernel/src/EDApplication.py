@@ -2,9 +2,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -31,8 +29,8 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, sys, threading, time
-
+import os, sys, time
+from EDThreading            import Semaphore
 from EDCommandLine          import EDCommandLine
 from EDVerbose              import EDVerbose
 from EDConfiguration        import EDConfiguration
@@ -74,7 +72,7 @@ class EDApplication(object):
 
     __edConfiguration = None
     __edFactoryPlugin = None
-    __semaphore = threading.Semaphore()
+    __semaphore = Semaphore()
 
 
     def __init__(self, _strName="EDApplication", \
@@ -164,7 +162,7 @@ class EDApplication(object):
                 edConfiguration = EDConfiguration(self.__strConfigurationFileName)
                 self.setConfiguration(edConfiguration)
                 self.loadConfiguration()
-                EDVerbose.DEBUG("EDApplication.preProcess: Checking... Number of plugins...: %d" % EDApplication.__edConfiguration.getPluginListSize())
+                EDVerbose.DEBUG("EDApplication.preProcess: Checking... Number of plugins...: %d" % edConfiguration.getPluginListSize())
                 pyDictionary = {}
                 pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
                 if self.getDataInputFilePath() is not None:
@@ -395,7 +393,6 @@ class EDApplication(object):
                 EDVerbose.warning("EDApplication.setConfiguration: Configuration is None!")
             else:
                 cls.__edConfiguration = _edConfiguration
-    setConfiguration = staticmethod(setConfiguration)
 
 
     @classmethod

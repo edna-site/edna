@@ -6,7 +6,7 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2010, ESRF, Grenoble
+#    Copyright (C) 2010-2012, ESRF, Grenoble
 #
 #    Principal author:       Jérôme Kieffer
 #
@@ -23,248 +23,212 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
-__copyright__ = "2010, ESRF, Grenoble"
+__copyright__ = "2012, ESRF, Grenoble"
+__date__ = "20120313"
 
 import os, threading, time
-from EDVerbose import EDVerbose
-from EDPluginControl import EDPluginControl
-from EDUtilsArray import EDUtilsArray
-from XSDataShiftv1_0 import XSDataInputMeasureOffset, XSDataInputMeasureOffsetSift
-from XSDataShiftv1_0 import XSDataResultMeasureOffset, XSDataInputSiftDescriptor
-from XSDataCommon import XSDataBoolean, XSDataFile, XSDataString, XSDataInteger
-from EDAssert import EDAssert
-from EDActionCluster import EDActionCluster
-from EDFactoryPluginStatic import EDFactoryPluginStatic
-EDFactoryPluginStatic.loadModule("XSDataExecThumbnail")
-from XSDataExecThumbnail import XSDataInputExecThumbnail
-from EDUtilsPlatform   import EDUtilsPlatform
+from EDVerbose              import EDVerbose
+from EDConfiguration        import EDConfiguration
+from EDPluginExec           import EDPluginExec
+from EDUtilsArray           import EDUtilsArray
+from XSDataCommon           import XSPluginItem, XSDataDouble
+from XSDataShiftv1_0        import XSDataInputMeasureOffset
+from XSDataShiftv1_0        import XSDataResultMeasureOffset
+from EDAssert               import EDAssert
+from EDFactoryPluginStatic  import EDFactoryPluginStatic
+from EDUtilsPlatform        import EDUtilsPlatform
+from EDThreading            import Semaphore
+from EDUtilsPath            import EDUtilsPath
 
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
-scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
-
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
-scipy = EDFactoryPluginStatic.preImport("scipy", scipyPath)
-
-try:
-    from fabio.openimage import openimage
-except:
-    EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
-    Please re-run the test suite for EDTestSuitePluginExecShift \
-    to ensure that all modules are compiled for you computer as they don't seem to be installed")
+feature = EDFactoryPluginStatic.preImport("feature")
+#
+if feature is None:
+    strErr = "Error in loading feature from https://github.com/kif/imageAlignment"
+    EDVerbose.ERROR(strErr)
+    raise ImportError(strErr)
 
 
-
-class EDPluginExecMeasureOffsetv2_0(EDPluginControl):
+class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
     """
-    An exec plugin that takes two images and measures the offset between the two.
-    In facts it is not an ExecPlugin but a control plugin that:
-    * Converts the pair of images in colored JPEG
-    * Extract the SIFT descriptor of each image
-    * Measure the offset between the two images using the Autopano tool
-    * return the measured offset and the file describing the control points.
+    An exec plugin that taked two images and measures the offset between the two using the SIFT algorithm. 
     """
+    __sem = Semaphore()
+    __npaMask = None
 
 
     def __init__(self):
         """
         """
-        EDPluginControl.__init__(self)
+        EDPluginExec.__init__(self)
         self.setXSDataInputClass(XSDataInputMeasureOffset)
-        self.__strControlledPluginThumbnail = "EDPluginExecThumbnailv10"
-        self.__strControlledPluginSift = "EDPluginExecSiftDescriptorv1_0"
-        self.__strControlledPluginAutopano = "EDPluginExecSiftOffsetv1_0"
-        self.semThumbnail = threading.Semaphore()
-        self.semSift = threading.Semaphore()
-        self.ACThumbnail = EDActionCluster()
-        self.ACSift = EDActionCluster()
-        self.xsdImages = []
-        self.xsdThumb = []
-        self.xsdKeys = []
-        self.xsdIdx = []
-        self.tCrop = [0, 0]
-        self.inputImages = []
+        self.npaIm1 = None
+        self.npaIm2 = None
         self.tOffset = None
-        self.xsdPTO = None
+        self.tCrop = None
+        self.tCenter = None
+        self.tWidth = None
+        self.tSmooth = None
+        self.bBackgroundsubtraction = False
+        self.sobel = False
+
+
+
 
     def checkParameters(self):
         """
         Checks the mandatory parameters.
         """
-        EDVerbose.DEBUG("EDPluginControlMeasureOffsetv2_0.checkParameters")
+        self.DEBUG("EDPluginExecMeasureOffsetv2_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
 
 
     def preProcess(self, _edObject=None):
-        EDPluginControl.preProcess(self)
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.preProcess")
+        EDPluginExec.preProcess(self)
+        self.DEBUG("EDPluginExecMeasureOffsetv2_0.preProcess")
         sdi = self.getDataInput()
+        images = sdi.getImage()
+        arrays = sdi.getArray()
+
+        if len(images) == 2:
+            self.npaIm1 = numpy.array(EDUtilsArray.getArray(images[0]))
+            self.npaIm2 = numpy.array(EDUtilsArray.getArray(images[1]))
+        elif len(arrays) == 2:
+            self.npaIm1 = EDUtilsArray.xsDataToArray(arrays[0])
+            self.npaIm2 = EDUtilsArray.xsDataToArray(arrays[1])
+        else:
+            strError = "EDPluginExecMeasureOffsetv2_0.preProcess: You should either provide two images or two arrays, but I got: %s" % sdi.marshal()[:1000]
+            self.ERROR(strError)
+            self.setFailure()
+            raise RuntimeError(strError)
 
         crop = sdi.getCropBorders()
-        if len(crop) == 2:
-            self.tCrop = (crop[0].getValue(), crop[1].getValue())
+        if len(crop) > 1 :
+            self.tCrop = tuple([ i.getValue() for i in crop ])
         elif len(crop) == 1:
             self.tCrop = (crop[0].getValue(), crop[0].getValue())
 
-#
-        if len(sdi.getImage()) == 2:
-            for i in sdi.getImage():
+        center = sdi.getCenter()
+        if len(center) > 1:
+            self.tCenter = tuple([ i.getValue() for i in center ])
+        elif len(center) == 1:
+            self.tCenter = (center[0].getValue(), center[0].getValue())
 
-                array = openimage(i.getPath().getValue()).data
-                shape = array.shape
-                if (self.tCrop != [0, 0]) and (shape[0] > self.tCrop[0]) and (shape[1] > self.tCrop[1]):
-                    array = array[self.tCrop[0]:-self.tCrop[0], self.tCrop[1]:-self.tCrop[1] ]
-                    EDVerbose.DEBUG("After Crop, images have shape : (%s,%s) " % (array.shape))
-                self.xsdImages.append(EDUtilsArray.arrayToXSData(array))
-        elif len(sdi.getArray()) == 2:
-            if (self.tCrop == [0, 0]) :
-                self.xsdImages = sdi.getArray()
-            else:
-                for xsdArray  in  sdi.getArray():
-                    array = EDUtilsArray.xsDataToArray(xsdArray)
-                    shape = array.shape
-                    if (shape[0] > self.tCrop[0]) and (shape[1] > self.tCrop[1]):
-                        array = array[self.tCrop[0]:-self.tCrop[0], self.tCrop[1]:-self.tCrop[1] ]
-                        EDVerbose.DEBUG("After Crop, images have shape : (%s,%s) " % (array.shape))
-                    self.xsdImages.append(EDUtilsArray.arrayToXSData(array))
-        else:
-            strError = "EDPluginExecMeasureOffsetv2_0.preProcess: You should either provide two images or two arrays, but I got: %s" % sdi.marshal()
-            EDVerbose.ERROR(strError)
-            self.setFailure()
-            raise RuntimeError(strError)
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.xsdImages len=%i %s" % (len(self.xsdImages), self.xsdImages))
-        EDAssert.equal(self.xsdImages[0].getShape() , self.xsdImages[1].getShape(), "Images have the same size")
-        self.xsdIdx = sdi.getIndex()
-        if len(self.xsdIdx) < len(self.xsdImages):
-            self.xsdIdx = [XSDataInteger(i) for i in range(len(self.xsdImages))]
+        width = sdi.getWidth()
+        if len(width) > 1 :
+            self.tWidth = tuple([i.getValue() for i in width])
+        elif len(width) == 1:
+            self.tWidth = (width[0].getValue(), width[0].getValue())
 
+        smooth = sdi.getSmoothBorders()
+        if len(smooth) == 2:
+            self.tSmooth = (smooth[0].getValue(), smooth[1].getValue())
+        elif len(smooth) == 1:
+            self.tSmooth = (smooth[0].getValue(), smooth[0].getValue())
+
+        if sdi.getBackgroundSubtraction() is not None:
+            self.bBackgroundsubtraction = (sdi.getBackgroundSubtraction().getValue() in [1, True, "true"])
+
+        if sdi.getSobelFilter() is not None:
+            self.sobel = (sdi.getSobelFilter() in [1, True, "true"])
+        EDAssert.equal(self.npaIm1.shape , self.npaIm2.shape, "Images have the same size")
 
     def process(self, _edObject=None):
-        """
-        """
-        for  i in range(2):
-            execPlugin = self.loadPlugin(self.__strControlledPluginThumbnail)
-            xsdin = XSDataInputExecThumbnail()
-            xsdin.setInputArray(self.xsdImages[i])
-            xsdFile = XSDataFile()
-            xsdFile.setPath(XSDataString(os.path.join(self.getWorkingDirectory(), "image%i.jpg" % self.xsdIdx[i].getValue())))
-            xsdin.setOutputPath(xsdFile)
-            xsdin.setLevelsColorize(XSDataBoolean(1))
-            xsdin.setLevelsEqualize(XSDataBoolean(1))
+        EDPluginExec.process(self)
+        self.DEBUG("EDPluginExecMeasureOffsetv2_0.process")
+        shape = self.npaIm1.shape
+        if (self.tCrop is not None):
+            d0min = min(shape[0], self.tCrop[0])
+            d1min = min(shape[1], self.tCrop[1])
+            d0max = max(0, shape[0] - self.tCrop[0])
+            d1max = max(0, shape[1] - self.tCrop[1])
+            shape = (d0max - d0min, d1max - d1min)
+        else:
+            d0min = 0
+            d0max = shape[0]
+            d1min = 0
+            d1max = shape[1]
 
-            execPlugin.setDataInput(xsdin)
-            execPlugin.connectSUCCESS(self.doSuccessThumb)
-            execPlugin.connectFAILURE(self.doFailureThumb)
-            self.ACThumbnail.addAction(execPlugin)
-        self.ACThumbnail.execute()
+        if self.tCenter is None:
+            #the default center is the geometry center of the image ... 
+            self.tCenter = [ i // 2 for i in shape ]
+        if self.tWidth is not None:
+            d0min = max(0, self.tCenter[0] - (self.tWidth[0] // 2))
+            d0max = min(shape[0], d0min + self.tWidth[0])
+            d1min = max(0, self.tCenter[1] - (self.tWidth[1] // 2))
+            d1max = min(shape[1], d1min + self.tWidth[1])
+            shape = (d0max - d0min, d1max - d1min)
+        if shape != self.npaIm1.shape:
+            self.DEBUG("Redefining ROI to %s - %s ; %s - %s as crop=%s, center=%s and width=%s" % (d0min, d0max, d1min, d1max, self.tCrop, self.tCenter, self.tWidth))
+            self.npaIm1 = self.npaIm1[d0min:d0max, d1min:d1max]
+            self.npaIm2 = self.npaIm2[ d0min:d0max, d1min:d1max]
+            shape = self.npaIm1.shape
+            self.DEBUG("After Crop, images have shape : %s and %s " % (self.npaIm1.shape, self.npaIm2.shape))
 
-        while len(self.xsdThumb) < 2:
-            time.sleep(1)
+        if self.bBackgroundsubtraction:
+            self.DEBUG("performing background subtraction")
+            x = range(shape[0] - 1) + [shape[0] - 1] * (shape[0] - 1) + range(shape[0] - 1, 0, -1) + [0] * (shape[0] - 1)
+            y = [0] * (shape[1] - 1) + range(shape[1] - 1) + [shape[1] - 1] * (shape[1] - 1) + range(shape[1] - 1, 0, -1)
+            spline1 = scipy.interpolate.SmoothBivariateSpline(x, y,
+                    [self.npaIm1[x[i], y[i]] for i in xrange(len(x))], kx=1, ky=1)
+            spline2 = scipy.interpolate.SmoothBivariateSpline(x, y,
+                    [self.npaIm2[x[i], y[i]] for i in xrange(len(x))], kx=1, ky=1)
+            self.npaIm1 -= spline1(range(shape[0]), range(shape[1]))
+            self.npaIm2 -= spline2(range(shape[0]), range(shape[1]))
 
-        for  oneImage in self.xsdThumb:
-            execPlugin = self.loadPlugin(self.__strControlledPluginSift)
-            xsdin = XSDataInputSiftDescriptor()
-            xsdin.setImage(oneImage)
-            execPlugin.setDataInput(xsdin)
-            execPlugin.connectSUCCESS(self.doSuccessSift)
-            execPlugin.connectFAILURE(self.doFailureSift)
-            self.ACSift.addAction(execPlugin)
-        self.ACSift.execute()
-#
-#        else:
-#            strError = "There are only %s images in self.xsdThumb" % len(self.xsdThumb)
-#            EDVerbose.ERROR(strError)
-#            self.setFailure()
-#            raise RuntimeError(strError)
+        if self.tSmooth is not None:
+            self.npaIm1 *= EDPluginExecMeasureOffsetv2_0.getMask(shape, self.tSmooth)
+            self.npaIm2 *= EDPluginExecMeasureOffsetv2_0.getMask(shape, self.tSmooth)
 
-################################################################################
-# This should be executed only after the Sift actions cluster finishes 
-################################################################################
-        while len(self.xsdKeys) < 2:
-            time.sleep(1)
-
-        execPlugin = self.loadPlugin(self.__strControlledPluginAutopano)
-        xsdin = XSDataInputMeasureOffsetSift()
-        xsdin.setDescriptorFile(self.xsdKeys)
-        execPlugin.setDataInput(xsdin)
-        execPlugin.connectSUCCESS(self.doSuccessAutopano)
-        execPlugin.connectFAILURE(self.doFailureAutopano)
-        execPlugin.executeSynchronous()
-
-
+        if self.sobel:
+            self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
+            self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
+        out = feature.sift2(self.npaIm1, self.npaIm2, verbose=self.isVerboseDebug())
+#        data = out[(0, 1)]
+        data = out
+        v0 = data[:, 0] - data[:, 2]
+        v1 = data[:, 1] - data[:, 3]
+        self.tOffset = [XSDataDouble(numpy.median(v0)), XSDataDouble(numpy.median(v1))]
 
 
     def postProcess(self, _edObject=None):
-        EDPluginControl.postProcess(self)
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.postProcess")
+        EDPluginExec.postProcess(self)
+        self.DEBUG("EDPluginExecMeasureOffsetv2_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultMeasureOffset()
         xsDataResult.setOffset(self.tOffset)
-        xsDataResult.setPanoFile(self.xsdPTO)
         self.setDataOutput(xsDataResult)
-        self.xsdImages = []
-
-    def doSuccessThumb(self, _edPlugin=None):
-        self.semThumbnail.acquire()
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.doSuccessThumb")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginExecMeasureOffsetv2_0.doSuccessThumb")
-        self.xsdThumb.append(_edPlugin.getDataOutput().getThumbnailPath())
-        self.semThumbnail.release()
 
 
-    def doFailureThumb(self, _edPlugin=None):
-        self.semThumbnail.acquire()
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.doFailureThumb")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginExecMeasureOffsetv2_0.doFailureThumb")
-        self.setFailure()
-        strError = "Error in converting to Jpeg with this input: %s" % _edPlugin.getDataInput().marshal()
-        EDVerbose.ERROR(strError)
-        self.semThumbnail.release()
-        raise RuntimeError(strError)
-
-
-    def doSuccessSift(self, _edPlugin=None):
-        self.semSift.acquire()
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.doSuccessSift")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginExecMeasureOffsetv2_0.doSuccessSift")
-        self.xsdKeys.append(_edPlugin.getDataOutput().getDescriptorFile())
-        self.semSift.release()
-
-
-    def doFailureSift(self, _edPlugin=None):
-        self.semSift.acquire()
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.doFailureSift")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginExecMeasureOffsetv2_0.doFailureSift")
-        self.setFailure()
-        strError = "Error in extracting SIFT keys with this input: %s" % _edPlugin.getDataInput().marshal()
-        EDVerbose.ERROR(strError)
-        self.semSift.release()
-        raise RuntimeError(strError)
-
-
-    def doSuccessAutopano(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.doSuccessAutopano")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginExecMeasureOffsetv2_0.doSuccessSift")
-        self.tOffset = _edPlugin.getDataOutput().getOffset()
-        self.xsdPTO = _edPlugin.getDataOutput().getPanoFile()
-
-
-    def doFailureAutopano(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginExecMeasureOffsetv2_0.doFailureAutopano")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginExecMeasureOffsetv2_0.doFailureAutopano")
-        self.setFailure()
-        strError = "Error in Autopano execution of with this input: %s" % _edPlugin.getDataInput().marshal()
-        EDVerbose.ERROR(strError)
-        raise RuntimeError(strError)
-
+    @classmethod
+    def getMask(cls, shape, sigma):
+        """
+        Generate a mask with 1 in the center and 0 on the border.
+        
+        @param shape: 2-tuple of integers: the shape of the final image
+        @param sigma: 2-tuple of floats with the width of the border
+        return: array 
+        """
+        with cls.__sem:
+            if EDPluginExecMeasureOffsetv2_0.__npaMask == None:
+                self.screen("got Shape=%s and Sigma=%s" % (shape, sigma))
+                npa1 = numpy.ones(shape)
+                npa2 = scipy.ndimage.interpolation.shift(npa1, (-2 * sigma[0], -2 * sigma[1]), mode='constant', cval=0.0 , order=0)
+                npa3 = scipy.ndimage.interpolation.shift(npa2, sigma, mode='constant', cval=0.0 , order=0)
+                npa4 = scipy.ndimage.gaussian_filter(npa3, sigma)
+                EDPluginExecMeasureOffsetv2_0.__npaMask = npa4
+                self.DEBUG("final matrix %s is %s" % (npa4.shape, npa4))
+        return EDPluginExecMeasureOffsetv2_0.__npaMask

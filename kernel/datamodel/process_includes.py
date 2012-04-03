@@ -35,6 +35,7 @@ import sys
 import os
 import getopt
 import re
+import types
 
 WhichElementTree = ''
 try:
@@ -119,7 +120,7 @@ def process_include_tree(root):
         child = children[idx]
         tag = child.tag
 
-        if type(tag) == type(""):
+        if type(tag) == types.StringType:
             tag = NAMESPACE_PAT.sub("", tag)
         else:
             tag = None
@@ -167,7 +168,7 @@ def main():
     args = sys.argv[1:]
     try:
         opts, args = getopt.getopt(args, 'hf', ['help', 'force', ])
-    except:
+    except Exception:
         usage()
     name = 'nobody'
     for opt, val in opts:

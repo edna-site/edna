@@ -456,8 +456,8 @@
 					<value>${ISPyB_pass}</value>
 				</XSParamItem>
 				<XSParamItem>
-					<name>toolsForMXCubeWebServiceWsdl</name>
-					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForMXCubeWebService?wsdl</value>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>imageServiceWdsl</name>
@@ -481,8 +481,25 @@
 					<value>${ISPyB_pass}</value>
 				</XSParamItem>
 				<XSParamItem>
-					<name>toolsForMXCubeWebServiceWsdl</name>
-					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForMXCubeWebService?wsdl</value>
+					<name>toolsForAutoprocessingWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForAutoprocessingWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>	
+		<XSPluginItem> 
+			<name>EDPluginISPyBRetrieveDataCollectionv1_3</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>	
@@ -498,8 +515,8 @@
 					<value>${ISPyB_pass}</value>
 				</XSParamItem>
 				<XSParamItem>
-					<name>toolsForMXCubeWebServiceWsdl</name>
-					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForMXCubeWebService?wsdl</value>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>	

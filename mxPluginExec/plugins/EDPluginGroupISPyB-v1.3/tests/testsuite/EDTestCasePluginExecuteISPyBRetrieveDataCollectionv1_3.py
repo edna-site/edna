@@ -45,8 +45,8 @@ class EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_3(EDTestCasePluginExe
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBRetrieveDataCollectionv1_3")
 
-        #self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputRetrieveDataCollection_reference.xml"))
+        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputRetrieveDataCollection_test.xml"))
 
 
     def testExecute(self):

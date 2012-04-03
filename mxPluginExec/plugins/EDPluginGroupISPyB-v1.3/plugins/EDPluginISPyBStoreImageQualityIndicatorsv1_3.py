@@ -60,7 +60,7 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
         self.strUserName = None
         self.strPassWord = None
         self.strImageServiceWdsl = None
-        self.strToolsForMXCubeWebServiceWsdl = None
+        self.strToolsForCollectionWebServiceWsdl = None
         self.iImageQualityIndicatorsId = None
         self.iAutoProcProgramId = None
         
@@ -82,9 +82,9 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
         if self.strImageServiceWdsl is None:
             self.ERROR("EDPluginISPyBStoreImageQualityIndicatorsv1_3.configure: No imageServiceWdsl found in configuration!")
             self.setFailure()
-        self.strToolsForMXCubeWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForMXCubeWebServiceWsdl")
-        if self.strToolsForMXCubeWebServiceWsdl is None:
-            self.ERROR("EDPluginISPyBStoreImageQualityIndicatorsv1_3.configure: No toolsForMXCubeWebServiceWsdl found in configuration!")
+        self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
+        if self.strToolsForCollectionWebServiceWsdl is None:
+            self.ERROR("EDPluginISPyBStoreImageQualityIndicatorsv1_3.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
             self.setFailure()
         self.iAutoProcProgramId = self.getIntegerConfigurationParameterValue("autoProcProgramId")
         if self.iAutoProcProgramId is None:
@@ -95,7 +95,7 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
     def process(self, _edObject=None):
         """
         First uses the ImageService to find the imageId.
-        Then uses ToolsForMXCubeWebService for storing the image quality indicators.
+        Then uses ToolsForCollectionWebService for storing the image quality indicators.
         """
         EDPluginExec.process(self)
         self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_3.process")
@@ -113,8 +113,8 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
         # Then store the image quality indicators
         self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_3.process: iImageId = %d" % iImageId)
         if iImageId > 0:
-            httpAuthenticatedToolsForMXCubeWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
-            clientToolsForMXCubeWebService = Client(self.strToolsForMXCubeWebServiceWsdl, transport=httpAuthenticatedToolsForMXCubeWebService)
+            httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+            clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
             iAutoProcProgramId = self.iAutoProcProgramId
             iSpotTotal = xsDataImageQualityIndicators.getSpotTotal().getValue()
             iInResTotal = xsDataImageQualityIndicators.getInResTotal().getValue()
@@ -127,7 +127,7 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
             iInResolutionOvrlSpots = xsDataImageQualityIndicators.getInResolutionOvrlSpots().getValue()
             fBinPopCutOffMethod2res = xsDataImageQualityIndicators.getBinPopCutOffMethod2Res().getValue()
             providedDate = Date(datetime.datetime.now())
-            self.iImageQualityIndicatorsId = clientToolsForMXCubeWebService.service.storeImageQualityIndicators(
+            self.iImageQualityIndicatorsId = clientToolsForCollectionWebService.service.storeImageQualityIndicators(
                     in0 = strDirName, \
                     in1 = strFileName, \
                     in2 = iImageId, \

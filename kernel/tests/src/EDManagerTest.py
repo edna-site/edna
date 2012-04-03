@@ -1,3 +1,4 @@
+#coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
@@ -7,7 +8,8 @@
 #    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
-#    Principal authors: Olof Svensson (svensson@esrf.fr) 
+#    Principal authors: Olof Svensson (svensson@esrf.fr)
+#                       Jérôme Kieffer (kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -30,18 +32,19 @@
 # for the EDNA project.
 #
 
-"""
- EDManagerTest stores all information comming from tests 
- Static class for storing all test information / results.
- 
-"""
+from __future__ import with_statement
 
 __authors__ = [ "Olof Svensson, Jerome Kieffer" ]
 __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120216"
+__doc__ = """
+ EDManagerTest stores all information comming from tests 
+ Static class for storing all test information / results.
+"""
 
-import sys, time
+import time
 
 from EDVerbose          import EDVerbose
 from EDObject           import EDObject
@@ -63,138 +66,130 @@ class EDManagerTest(EDObject):
     __pyStrReport = None
 
 
-    @staticmethod
-    def synchronizeOn():
+    @classmethod
+    def synchronizeOn(cls):
         """
         Locks the EDManagerTest class
         """
-        EDManagerTest.__semaphore.synchronizeOn()
+        cls.__semaphore.synchronizeOn()
 
 
-    @staticmethod
-    def synchronizeOff():
+    @classmethod
+    def synchronizeOff(cls):
         """
         Unlocks the EDManagerTest class
         """
+        cls.__semaphore.synchronizeOff()
 
-        EDManagerTest.__semaphore.synchronizeOff()
 
-
-    @staticmethod
-    def create():
+    @classmethod
+    def create(cls):
         """
         Create
         """
-        EDManagerTest.__iCumulativeTotalTest += EDManagerTest.getNumberTest()
-        EDManagerTest.__iCumulativeTotalTestMethod += EDManagerTest.getNumberTestMethod()
-        EDManagerTest.__iCumulativeTotalTestSuccess += EDManagerTest.getNumberTestSuccess()
-        EDManagerTest.__iCumulativeTotalTestFailure += EDManagerTest.getNumberTestFailure()
-        EDManagerTest.synchronizeOn()
-        for edTest in EDManagerTest.__listTest:
-            EDManagerTest.__listTestTotal.append(edTest)
-        del EDManagerTest.__listTest
-        EDManagerTest.__listTest = []
-        EDManagerTest.synchronizeOff()
+        cls.__iCumulativeTotalTest += cls.getNumberTest()
+        cls.__iCumulativeTotalTestMethod += cls.getNumberTestMethod()
+        cls.__iCumulativeTotalTestSuccess += cls.getNumberTestSuccess()
+        cls.__iCumulativeTotalTestFailure += cls.getNumberTestFailure()
+        with cls.__semaphore:
+            for edTest in cls.__listTest:
+                cls.__listTestTotal.append(edTest)
+            del cls.__listTest
+            cls.__listTest = []
 
 
-    @staticmethod
-    def outputScreen():
-        EDManagerTest.synchronizeOn()
-        strMessage = ""
-        strMessage += "\n  ===============================================================================\n"
-        strMessage += "  Final Report\n"
-        strMessage += "                            Date: %s\n" % time.strftime("%Y/%m/%d-%H:%M:%S", time.localtime())
-        strMessage += "           Total Cumulated Tests: [ %d ]\n" % EDManagerTest.__iCumulativeTotalTest
-        strMessage += "    Total Cumulated Test SUCCESS: [ %d ]\n" % EDManagerTest.__iCumulativeTotalTestSuccess
-        strMessage += "   Total Cumulated Test FAILLURE: [ %d ]\n" % EDManagerTest.__iCumulativeTotalTestFailure
-        strMessage += "    Total Cumulated Test Methods: [ %d ]\n" % EDManagerTest.__iCumulativeTotalTestMethod
-        strMessage += "  -------------------------------------------------------------------------------\n"
-        strFailedTests = ""
-        for edTest in EDManagerTest.__listTestTotal:
-            strMessage += edTest.outputString()
-            if (not edTest.isSuccess()):
-                strFailedTests += edTest.outputString()
-        strMessage += "\n  ===============================================================================\n"
-        if (strFailedTests != ""):
-            strMessage += "  Failed tests:\n"
-            strMessage += strFailedTests
-        EDManagerTest.__pyStrReport = strMessage
-        EDVerbose.screen(EDManagerTest.__pyStrReport)
-        EDManagerTest.synchronizeOff()
+    @classmethod
+    def outputScreen(cls):
+        with cls.__semaphore:
+            strMessage = ""
+            strMessage += "\n  ===============================================================================\n"
+            strMessage += "  Final Report\n"
+            strMessage += "                            Date: %s\n" % time.strftime("%Y/%m/%d-%H:%M:%S", time.localtime())
+            strMessage += "           Total Cumulated Tests: [ %d ]\n" % cls.__iCumulativeTotalTest
+            strMessage += "    Total Cumulated Test SUCCESS: [ %d ]\n" % cls.__iCumulativeTotalTestSuccess
+            strMessage += "   Total Cumulated Test FAILLURE: [ %d ]\n" % cls.__iCumulativeTotalTestFailure
+            strMessage += "    Total Cumulated Test Methods: [ %d ]\n" % cls.__iCumulativeTotalTestMethod
+            strMessage += "  -------------------------------------------------------------------------------\n"
+            strFailedTests = ""
+            for edTest in cls.__listTestTotal:
+                strMessage += edTest.outputString()
+                if (not edTest.isSuccess()):
+                    strFailedTests += edTest.outputString()
+            strMessage += "\n  ===============================================================================\n"
+            if (strFailedTests != ""):
+                strMessage += "  Failed tests:\n"
+                strMessage += strFailedTests
+            cls.__pyStrReport = strMessage
+            EDVerbose.screen(cls.__pyStrReport)
+        cls.synchronizeOff()
 
 
-    @staticmethod
-    def getNumberTestCumulative():
-        return EDManagerTest.__iCumulativeTotalTest
+    @classmethod
+    def getNumberTestCumulative(cls):
+        return cls.__iCumulativeTotalTest
 
 
-    @staticmethod
-    def getNumberTestMethodCumulative():
-        return EDManagerTest.__iCumulativeTotalTestMethod
+    @classmethod
+    def getNumberTestMethodCumulative(cls):
+        return cls.__iCumulativeTotalTestMethod
 
 
-    @staticmethod
-    def getNumberTestSuccessCumulative():
-        return EDManagerTest.__iCumulativeTotalTestSuccess
+    @classmethod
+    def getNumberTestSuccessCumulative(cls):
+        return cls.__iCumulativeTotalTestSuccess
 
 
-    @staticmethod
-    def getNumberTestFailureCumulative():
-        return EDManagerTest.__iCumulativeTotalTestFailure
+    @classmethod
+    def getNumberTestFailureCumulative(cls):
+        return cls.__iCumulativeTotalTestFailure
 
 
-    @staticmethod
-    def addInformationTest(_edInformationTest):
-        EDManagerTest.synchronizeOn()
-        EDManagerTest.__edTestRunning = _edInformationTest
-        EDManagerTest.__listTest.append(_edInformationTest)
-        EDManagerTest.synchronizeOff()
+    @classmethod
+    def addInformationTest(cls, _edInformationTest):
+        with cls.__semaphore:
+            cls.__edTestRunning = _edInformationTest
+            cls.__listTest.append(_edInformationTest)
 
 
-    @staticmethod
-    def addInformationTestMethod(_edInformationTest):
-        EDManagerTest.synchronizeOn()
-        if (EDManagerTest.__edTestRunning is not None):
-            EDManagerTest.__edTestRunning.addInformationTest(_edInformationTest)
-        EDManagerTest.synchronizeOff()
+    @classmethod
+    def addInformationTestMethod(cls, _edInformationTest):
+        with cls.__semaphore:
+            if (cls.__edTestRunning is not None):
+                cls.__edTestRunning.addInformationTest(_edInformationTest)
 
 
-    @staticmethod
-    def getNumberTest():
-        EDManagerTest.synchronizeOn()
-        iNumberTestTotal = len(EDManagerTest.__listTest)
-        EDManagerTest.synchronizeOff()
+    @classmethod
+    def getNumberTest(cls):
+        with cls.__semaphore:
+            iNumberTestTotal = len(cls.__listTest)
         return iNumberTestTotal
 
 
-    @staticmethod
-    def getNumberTestMethod():
-        EDManagerTest.synchronizeOn()
-        iNumberTestTotal = 0
-        for edTest in EDManagerTest.__listTest:
-            iNumberTestTotal += edTest.getNumberTestMethod()
-        EDManagerTest.synchronizeOff()
+    @classmethod
+    def getNumberTestMethod(cls):
+        with cls.__semaphore:
+            iNumberTestTotal = 0
+            for edTest in cls.__listTest:
+                iNumberTestTotal += edTest.getNumberTestMethod()
         return iNumberTestTotal
 
 
-    @staticmethod
-    def getNumberTestSuccess():
-        EDManagerTest.synchronizeOn()
-        iNumberTestTotal = 0
-        for edTest in EDManagerTest.__listTest:
-            if (edTest.isSuccess()):
-                iNumberTestTotal += 1
-        EDManagerTest.synchronizeOff()
+    @classmethod
+    def getNumberTestSuccess(cls):
+        with cls.__semaphore:
+            iNumberTestTotal = 0
+            for edTest in cls.__listTest:
+                if (edTest.isSuccess()):
+                    iNumberTestTotal += 1
         return iNumberTestTotal
 
 
-    @staticmethod
-    def getNumberTestFailure():
-        EDManagerTest.synchronizeOn()
-        iNumberTestTotal = 0
-        for edTest in EDManagerTest.__listTest:
-            if (not edTest.isSuccess()):
-                iNumberTestTotal += 1
-        EDManagerTest.synchronizeOff()
+    @classmethod
+    def getNumberTestFailure(cls):
+        with cls.__semaphore:
+            iNumberTestTotal = 0
+            for edTest in cls.__listTest:
+                if (not edTest.isSuccess()):
+                    iNumberTestTotal += 1
         return iNumberTestTotal
 

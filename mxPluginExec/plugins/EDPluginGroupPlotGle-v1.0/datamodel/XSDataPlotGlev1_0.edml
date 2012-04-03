@@ -1,0 +1,49 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataArray
+
+complex type XSDataPlotSet extends XSData {
+	plot : XSDataPlot []	
+}
+
+complex type XSDataPlot extends XSData {
+	plotType : string
+	title : string
+	subTitle : string
+	xsize : double optional
+	ysize : double optional
+	xmin : double optional
+	ymin : double optional
+	xmax : double optional
+	ymax : double optional
+	keypos : string optional
+	xtitle : string
+	ytitle : string
+	graph : XSDataGraph []
+}
+
+complex type XSDataGraph extends XSData {
+	lineStyle : string
+	lineWidth : double
+	lineColor : string
+	label : string
+	markerType : string
+	markerColor : string
+	data : XSDataArray
+}
+
+complex type XSDataInputPlotGle extends XSDataInput {
+	plotSet : XSDataPlotSet optional
+	filePlotMtv : XSDataFile optional
+}
+
+complex type XSDataResultPlotGle extends XSDataResult {
+	fileGraph : XSDataFile []
+}
