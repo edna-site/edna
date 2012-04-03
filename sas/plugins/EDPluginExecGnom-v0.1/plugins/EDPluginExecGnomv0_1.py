@@ -37,7 +37,7 @@ from EDPluginExecProcessScript import EDPluginExecProcessScript
 
 from XSDataSAS import XSDataInputGnom
 from XSDataSAS import XSDataResultGnom
-from XSDataSAS import XSDataFile, XSDataString, XSDataFloat
+from XSDataSAS import XSDataFile, XSDataString, XSDataDouble
 
 class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
     """
@@ -91,10 +91,14 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         EDVerbose.DEBUG("*** EDPluginExecGnomv0_1.generateGnomScript")
         self.generateGnomInputFile()
         self.setScriptCommandline("")
+        if self.getDataInput().getAngularScale() is None:
+            fAngularScale = 1
+        else:
+            fAngularScale = self.getDataInput().getAngularScale().getValue()
         commandString = 'gnom_tmp.dat' + \
-                        '\n' * 5 + str(self.getDataInput().getAngularScale().getValue()) + \
+                        '\n' * 5 + str(fAngularScale) + \
                         '\n' * 5 + str(self.getDataInput().getRMax().getValue()) + \
-                        '\n' * 3 +'No'+ '\n' * 6
+                        '\n' * 3 + 'No' + '\n' * 6
         self.addListCommandExecution(commandString)
 
 
@@ -163,23 +167,23 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         EDUtilsFile.writeFile(tmpConfigFileName, strConfig)
 
     def parseRadiusOfGyration(self, logLine):
-        return XSDataFloat(float(logLine.split()[4]))
+        return XSDataDouble(float(logLine.split()[4]))
 
     def parseFitQuality(self, logLine):
-        return XSDataFloat(float(logLine.split()[3]))
+        return XSDataDouble(float(logLine.split()[3]))
 
     def parseScatteringFitData(self, idx_start, idx_stop, dataLines, tmpQ, tmpValues):
         for idx in range (idx_start, idx_stop):
             dataLine = dataLines[idx].split()
-            tmpQ.append(XSDataFloat(float(dataLine[0])))
-            tmpValues.append(XSDataFloat(float(dataLine[-1])))
+            tmpQ.append(XSDataDouble(float(dataLine[0])))
+            tmpValues.append(XSDataDouble(float(dataLine[-1])))
 
     def parseDistributionData(self, idx_start, idx_stop, dataLines, tmpR, tmpPr, tmpErr):
         for idx in range (idx_start, idx_stop):
             dataLine = dataLines[idx].split()
-            tmpR.append(XSDataFloat(float(dataLine[0])))
-            tmpPr.append(XSDataFloat(float(dataLine[1])))
-            tmpErr.append(XSDataFloat(float(dataLine[2])))
+            tmpR.append(XSDataDouble(float(dataLine[0])))
+            tmpPr.append(XSDataDouble(float(dataLine[1])))
+            tmpErr.append(XSDataDouble(float(dataLine[2])))
 
 
     def parseGnomOutputFile(self):
@@ -198,8 +202,8 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
             if (line.find("P(R)") != -1):
                 idx_pr_start = idx + 2
             if (line.find("Reciprocal space:") != -1):
-                idx_pr_stop = idx -1
-                
+                idx_pr_stop = idx - 1
+
 
         xsScatteringFitQ = []
         xsScatteringFitValues = []
@@ -210,7 +214,7 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         xsDistributionErr = []
         self.parseDistributionData(idx_pr_start, idx_pr_stop, logLines, \
                                    xsDistributionR, xsDistributionPr, xsDistributionErr)
-        
+
         xsDataResult = XSDataResultGnom()
         xsDataResult.setFitQuality(xsFitQuality)
         xsDataResult.setRadiusOfGyration(xsRadiusOfGyration)
@@ -221,7 +225,7 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         xsDataResult.setDistributionR(xsDistributionR)
         xsDataResult.setDistributionPr(xsDistributionPr)
         xsDataResult.setDistributionErr(xsDistributionErr)
-        
+
         return xsDataResult
 
     def plotFittingResults(self):
@@ -242,17 +246,17 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         #else:         
         #    pylab.semilogy(_listExpQ, _listExpValues, linestyle='None', marker='o', markersize=5,  label="Experimental Data")
 
-        pylab.semilogy(_listExpQ, _listExpValues, linestyle='None', marker='o', markersize=5,  label="Experimental Data")
+        pylab.semilogy(_listExpQ, _listExpValues, linestyle='None', marker='o', markersize=5, label="Experimental Data")
         pylab.semilogy(_listFitQ, _listFitValues, label="Fitting curve")
         pylab.xlabel('q')
         pylab.ylabel('I(q)')
-        pylab.suptitle("RMax : %3.2f. Fit quality : %1.3f" % (self.getDataInput().getRMax().getValue(),self.getDataOutput().getFitQuality().getValue()))
+        pylab.suptitle("RMax : %3.2f. Fit quality : %1.3f" % (self.getDataInput().getRMax().getValue(), self.getDataOutput().getFitQuality().getValue()))
         pylab.legend()
-        pylab.savefig(os.path.join(self.getWorkingDirectory(),"gnomFittingResults.png"))
+        pylab.savefig(os.path.join(self.getWorkingDirectory(), "gnomFittingResults.png"))
         pylab.clf()
 
-    
-    def generateExecutiveSummary(self,__edPlugin=None):
+
+    def generateExecutiveSummary(self, __edPlugin=None):
         self.addExecutiveSummarySeparator()
         self.addExecutiveSummaryLine("Results of GNOM run:")
         self.addExecutiveSummarySeparator()
@@ -261,7 +265,7 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         self.addExecutiveSummaryLine("Output fit quality : %1.3f" % self.getDataOutput().getFitQuality().getValue())
         self.addExecutiveSummaryLine("GNOM output file : %s" % os.path.join(self.getWorkingDirectory(), "gnom.out"))
         self.addExecutiveSummarySeparator()
-        
+
         gnomLog = open(os.path.join(self.getWorkingDirectory(), "gnom.out"))
         for line in gnomLog:
             self.addExecutiveSummaryLine(line)

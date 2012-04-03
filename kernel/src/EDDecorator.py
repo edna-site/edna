@@ -31,7 +31,7 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120213"
 
-import os, traceback
+import os, traceback, time
 from EDVerbose import EDVerbose
 
 def deprecated(func):

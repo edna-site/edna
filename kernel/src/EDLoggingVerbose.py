@@ -32,8 +32,9 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "2011-07-29"
 
-import os, sys, threading, traceback
+import os, sys, traceback
 from EDLogFile import EDLogFile
+from EDThreading import Semaphore
 
 
 class EDLoggingVerbose(object):
@@ -43,7 +44,7 @@ class EDLoggingVerbose(object):
 
     def __init__(self):
         object.__init__(self)
-        self.__pySemaphoreWrite = threading.Semaphore()
+        self.__pySemaphoreWrite = Semaphore()
         self.__bIsVerbose = True
         self.__bIsVerboseDebug = False
         self.__bIsTest = False

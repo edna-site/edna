@@ -28,7 +28,7 @@ __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2010, ESRF, Grenoble"
 
-import os, gc
+import os
 from EDVerbose          import EDVerbose
 from EDPluginExec       import EDPluginExec
 from EDUtilsArray       import EDUtilsArray
@@ -129,5 +129,4 @@ class EDPluginExecShiftImagev1_0(EDPluginExec):
             xsdimg = XSDataImageExt(path=XSDataString(self.strOutputImage))
             xsDataResult.setOutputImage(xsdimg)
         self.setDataOutput(xsDataResult)
-        gc.collect()
 
