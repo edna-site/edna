@@ -1,0 +1,7 @@
+<XSDataInputBioSaxsToSASv1_0>
+	<subtractedCurve><path><value>${EDNA_TESTIMAGES}/autosubtracted.dat</value></path></subtractedCurve>
+	<!-- <firstPoint><value></value></firstPoint> -->
+	<lastPoint><value>1000</value></lastPoint>
+	<qMax><value>4</value></qMax>
+	<destinationDirectory><path><value>${TMPDIR}/edna-${USER}/BioSaxs2SAS</value></path></destinationDirectory>
+</XSDataInputBioSaxsToSASv1_0>

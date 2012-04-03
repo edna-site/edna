@@ -42,10 +42,12 @@ class EDTestSuiteUnitSasv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitExecDamminv0_1")
         self.addTestCaseFromName("EDTestCasePluginUnitExecDamfiltv0_1")
         self.addTestCaseFromName("EDTestCasePluginUnitExecGnomv0_1")
+        self.addTestCaseFromName("EDTestCasePluginUnitExecGnomv0_2")
         self.addTestCaseFromName("EDTestCasePluginUnitExecDamstartv0_1")
         self.addTestCaseFromName("EDTestCasePluginUnitExecDammifv0_1")
-        self.addTestCaseFromName("EDTestCasePluginUnitControlSolutionScatteringv0_3")
         self.addTestCaseFromName("EDTestCasePluginUnitControlSolutionScatteringv0_2")
+        self.addTestCaseFromName("EDTestCasePluginUnitControlSolutionScatteringv0_3")
+        self.addTestCaseFromName("EDTestCasePluginUnitControlSolutionScatteringv0_4")
 
 
 ##############################################################################

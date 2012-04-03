@@ -32,7 +32,7 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20120213"
+__date__ = "20120216"
 __doc__ = """
 This is a static utility class for handling of files.
 """
@@ -86,7 +86,10 @@ class EDUtilsFile(object):
         strContent = os.path.expandvars(strContent)
         if (_dict is not None):
             for key in _dict.keys():
-                strContent = strContent.replace(key , _dict[ key ])
+                try:
+                    strContent = strContent.replace(key , _dict[ key ])
+                except Exception:
+                    EDVerbose.ERROR("%s: %s" % (key , _dict[ key ]))
         return strContent
 
     @staticmethod

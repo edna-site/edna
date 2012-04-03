@@ -1,0 +1,16 @@
+<?xml version="1.0" ?><XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlAlignStackv1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>6000</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+        <XSPluginItem>
+			<name>EDPluginControlFullFieldXASv1_0</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration>

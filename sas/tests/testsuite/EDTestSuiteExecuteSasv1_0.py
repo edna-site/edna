@@ -43,12 +43,13 @@ class EDTestSuiteExecuteSasv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecSupcombv0_1")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDamminv0_1")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDamfiltv0_1")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlSolutionScatteringv0_3")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlSolutionScatteringv0_2")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecGnomv0_1")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecGnomv0_2")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDamstartv0_1")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDammifv0_1")
-
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlSolutionScatteringv0_2")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlSolutionScatteringv0_3")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlSolutionScatteringv0_4")
 
 ##############################################################################
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ from EDPluginExecProcessScript import EDPluginExecProcessScript
 from XSDataSAS import XSDataInputDammif
 from XSDataSAS import XSDataResultDammif
 
-from XSDataSAS import XSDataString, XSDataFile, XSDataFloat
+from XSDataSAS import XSDataString, XSDataFile, XSDataDouble
 
 
 class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
@@ -182,7 +182,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
 
     def returnDammifChiSqrt(self):
         logFile = open(os.path.join(self.getWorkingDirectory(), "dammif.fir"))
-        return XSDataFloat(float(logFile.readline().split('=')[-1]))
+        return XSDataDouble(float(logFile.readline().split('=')[-1]))
 
     def returnDammifRFactor(self):
         logFile = open(os.path.join(self.getWorkingDirectory(), "dammif.log"))
@@ -194,7 +194,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
             if wordsLine[0] == "Rf:":
                 tmpRfactor = float(wordsLine[1][:-1])
 
-        return XSDataFloat(tmpRfactor)
+        return XSDataDouble(tmpRfactor)
 
     def generateExecutiveSummary(self,__edPlugin=None):
         self.addExecutiveSummarySeparator()

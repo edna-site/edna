@@ -22,7 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
@@ -184,76 +184,75 @@ class EDPluginHDF5MapOfSpectrav10(EDPluginHDF5):
             listMaxSize[1] = max(maxSize[1], 1 + position[1])
         if position[0] < 0: position = (0, position[1])
         if position[1] < 0: position = (position[0], 0)
-        self.lockFile(self.strHDF5Filename)
+        with self.getFileLock(self.strHDF5Filename):
 
-################################################################################
-# Read all the sizes of all datasets
-################################################################################
-        dataset = None
-        for oneItem in self.hdf5group:
-            if oneItem == self.HDF5_DATASET_DATA:
-                dataset = self.hdf5group[oneItem]
-                if "HDF5 dataset" in str(dataset):
-                    for i in range(3):
-                        if dataset.shape[i] > listMaxSize[i]:
-                            listMaxSize[i] = dataset.shape[i]
-                    self.DEBUG("dataset exists and listMaxSize is " + str(listMaxSize))
+    ################################################################################
+    # Read all the sizes of all datasets
+    ################################################################################
+            dataset = None
+            for oneItem in self.hdf5group:
+                if oneItem == self.HDF5_DATASET_DATA:
+                    dataset = self.hdf5group[oneItem]
+                    if "HDF5 dataset" in str(dataset):
+                        for i in range(3):
+                            if dataset.shape[i] > listMaxSize[i]:
+                                listMaxSize[i] = dataset.shape[i]
+                        self.DEBUG("dataset exists and listMaxSize is " + str(listMaxSize))
 
-################################################################################
-# Start of data treatement
-################################################################################
+    ################################################################################
+    # Start of data treatement
+    ################################################################################
 
-        if dataset is not None:
-            if (dataset.shape[-1] == npaImage.shape[-1]) and (dataset.dtype == npaImage.dtype) :
-                self.DEBUG("dataset exists and is good")
+            if dataset is not None:
+                if (dataset.shape[-1] == npaImage.shape[-1]) and (dataset.dtype == npaImage.dtype) :
+                    self.DEBUG("dataset exists and is good")
+                else:
+                    self.DEBUG("dataset exists and is BAD %s %s, reseting" % (dataset.dtype, npaImage.dtype))
+                    dataset = None
+                    del self.hdf5group[self.HDF5_DATASET_DATA]
             else:
-                self.DEBUG("dataset exists and is BAD %s %s, reseting" % (dataset.dtype, npaImage.dtype))
-                dataset = None
-                del self.hdf5group[self.HDF5_DATASET_DATA]
-        else:
-            shape = ((listMaxSize[0] + 1), (listMaxSize[1] + 1), npaImage.shape[-1])
-            maxshape = (None, None, npaImage.shape[-1])
-            chunksize = (1, 1, max(1, npaImage.shape[-1] // self.iChunkSegmentation))
-            self.DEBUG("dataset creation shape= %s maxshape=%s type=%s" % (shape, maxshape, npaImage.dtype))
-            dataset = self.hdf5group.create_dataset(self.HDF5_DATASET_DATA,
-                          shape=shape, dtype=npaImage.dtype, maxshape=maxshape,
-                          compression=self.HDF5_Compression, chunks=chunksize)
-            for key in self.HDF5_DATASET_ATTRIBUTES:
-                if key not in dataset.attrs:
-                    dataset.attrs.create(key, self.HDF5_DATASET_ATTRIBUTES[key])
-            for key in self.HDF5_DATASET_MAPSPECTRA_ATTRIBUTES:
-                if not key in dataset.attrs:
-                    dataset.attrs.create(key, self.HDF5_DATASET_MAPSPECTRA_ATTRIBUTES[key])
-            if dataset.name in self.dictExtraAttributes:
-                for key in self.dictExtraAttributes[dataset.name]:
+                shape = ((listMaxSize[0] + 1), (listMaxSize[1] + 1), npaImage.shape[-1])
+                maxshape = (None, None, npaImage.shape[-1])
+                chunksize = (1, 1, max(1, npaImage.shape[-1] // self.iChunkSegmentation))
+                self.DEBUG("dataset creation shape= %s maxshape=%s type=%s" % (shape, maxshape, npaImage.dtype))
+                dataset = self.hdf5group.create_dataset(self.HDF5_DATASET_DATA,
+                              shape=shape, dtype=npaImage.dtype, maxshape=maxshape,
+                              compression=self.HDF5_Compression, chunks=chunksize)
+                for key in self.HDF5_DATASET_ATTRIBUTES:
                     if key not in dataset.attrs:
-                        dataset.attrs.create(key, self.dictExtraAttributes[dataset.name][key])
+                        dataset.attrs.create(key, self.HDF5_DATASET_ATTRIBUTES[key])
+                for key in self.HDF5_DATASET_MAPSPECTRA_ATTRIBUTES:
+                    if not key in dataset.attrs:
+                        dataset.attrs.create(key, self.HDF5_DATASET_MAPSPECTRA_ATTRIBUTES[key])
+                if dataset.name in self.dictExtraAttributes:
+                    for key in self.dictExtraAttributes[dataset.name]:
+                        if key not in dataset.attrs:
+                            dataset.attrs.create(key, self.dictExtraAttributes[dataset.name][key])
 
-            nxgroup = self.hdf5group.require_group(self.HDF5_DATAGROUP_NXDATA)
-            nxgroup.attrs.create("NX_class", "NXdata")
-            if not self.HDF5_DATASET_DATA in nxgroup:
-                nxgroup[self.HDF5_DATASET_DATA] = dataset #h5py.SoftLink(self.hdf5group.name + "/" + self.HDF5_DATASET_DATA)
-            if not self.HDF5_DATASET_START_TIME in self.hdf5group:
-                self.hdf5group[self.HDF5_DATASET_START_TIME] = self.getIsoTime()
-        if self.HDF5_DATASET_END_TIME in self.hdf5group:
-            del self.hdf5group[self.HDF5_DATASET_END_TIME]
-        self.hdf5group[self.HDF5_DATASET_END_TIME] = self.getIsoTime()
+                nxgroup = self.hdf5group.require_group(self.HDF5_DATAGROUP_NXDATA)
+                nxgroup.attrs.create("NX_class", "NXdata")
+                if not self.HDF5_DATASET_DATA in nxgroup:
+                    nxgroup[self.HDF5_DATASET_DATA] = dataset #h5py.SoftLink(self.hdf5group.name + "/" + self.HDF5_DATASET_DATA)
+                if not self.HDF5_DATASET_START_TIME in self.hdf5group:
+                    self.hdf5group[self.HDF5_DATASET_START_TIME] = self.getIsoTime()
+            if self.HDF5_DATASET_END_TIME in self.hdf5group:
+                del self.hdf5group[self.HDF5_DATASET_END_TIME]
+            self.hdf5group[self.HDF5_DATASET_END_TIME] = self.getIsoTime()
 
-        self.DEBUG("Test the sizes shape: %s \tlistMaxSize = %s" % (dataset.shape, listMaxSize))
-        reshape = False
-        for i in xrange(2):
+            self.DEBUG("Test the sizes shape: %s \tlistMaxSize = %s" % (dataset.shape, listMaxSize))
+            reshape = False
+            for i in xrange(2):
 
-            if dataset.shape[i] < listMaxSize[i]:
-                reshape = True
+                if dataset.shape[i] < listMaxSize[i]:
+                    reshape = True
 
-        if reshape:
-            self.DEBUG("Reshape of the dataset to " + str((listMaxSize[0]  , (listMaxSize[1]), +npaImage.shape[-1])))
-            dataset.resize((listMaxSize[0] , listMaxSize[1] , npaImage.shape[-1]))
+            if reshape:
+                self.DEBUG("Reshape of the dataset to " + str((listMaxSize[0]  , (listMaxSize[1]), +npaImage.shape[-1])))
+                dataset.resize((listMaxSize[0] , listMaxSize[1] , npaImage.shape[-1]))
 
-        dataset[position] = npaImage[-1]
-        self.DEBUG("End of data treatment on position %s :" % listMaxSize)
-################################################################################
-# END of data teatement
-################################################################################
-        self.releaseFile(self.strHDF5Filename)
+            dataset[position] = npaImage[-1]
+            self.DEBUG("End of data treatment on position %s :" % listMaxSize)
+    ################################################################################
+    # END of data teatement
+    ################################################################################
 

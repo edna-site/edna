@@ -15,7 +15,7 @@ import XSDataCommon.XSDataWavelength
 
 complex type XSDataInputXDS extends XSDataInput {
 	beam : XSDataXDSBeam
-	crystal : XSDataXDSCrystal
+	crystal : XSDataXDSCrystal optional
 	detector : XSDataXDSDetector
 	goniostat : XSDataXDSGoniostat
 	image : XSDataXDSImage
@@ -36,7 +36,7 @@ complex type XSDataResultXDSGenerateBackgroundImage extends XSDataResultXDS {
 }
 
 complex type XSDataXDSBeam extends XSData {
-	fraction_of_polarization : XSDataDouble
+	fraction_of_polarization : XSDataDouble optional
 	incident_beam_direction : XSDataVectorDouble
 	polarization_plane_normal : XSDataVectorDouble
 	x_ray_wavelength : XSDataWavelength
@@ -59,7 +59,7 @@ complex type XSDataXDSCrystal extends XSData {
 }
 
 complex type XSDataXDSDetector extends XSData {
-	detector_distance : XSDataDouble
+	detector_distance : XSDataLength
 	detector_name : XSDataString
 	direction_of_detector_x_axis : XSDataVectorDouble
 	direction_of_detector_y_axis : XSDataVectorDouble
@@ -69,12 +69,12 @@ complex type XSDataXDSDetector extends XSData {
 	orgx : XSDataDouble
 	orgy : XSDataDouble
 	overload : XSDataInteger
-	qx : XSDataDouble
-	qy : XSDataDouble
-	value_range_for_trusted_detector_pixels : XSDataXDSDoubleRange
+	qx : XSDataLength
+	qy : XSDataLength
+	value_range_for_trusted_detector_pixels : XSDataXDSIntegerRange optional
 	untrusted_rectangle : XSDataXDSRectangle [] optional
-	sensor_thickness : XSDataDouble
-	trusted_region : XSDataXDSDoubleRange
+	sensor_thickness : XSDataDouble optional
+	trusted_region : XSDataXDSDoubleRange optional
 }
 
 complex type XSDataXDSDoubleRange extends XSData {
