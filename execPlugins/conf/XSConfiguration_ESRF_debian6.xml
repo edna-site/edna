@@ -284,7 +284,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>convolution</name>
-					<value>fftw3</value>
+					<value>fftw</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>dtype</name>
@@ -297,11 +297,28 @@
 			<name>EDPluginExecShiftImagev1_0</name>
 			<XSParamList>
 				<XSParamItem>
-					<name>writeXMLInputOutput</name>
+					<name>writeXMLOutput</name>
 					<value>0</value>
 				</XSParamItem>
 			 </XSParamList>	
 		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecShiftImagev1_1</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>fill</name>
+					<value>mean</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>maxOffset</name>
+					<value>10</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>writeXMLOutput</name>
+					<value>0</value>
+				</XSParamItem>
+			 </XSParamList>	
+		</XSPluginItem>				
 		
 		<XSPluginItem>
 			<name>EDPluginExecNormalizeImagev1_0</name>
@@ -313,6 +330,23 @@
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>600</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>dtype</name>
+					<value>float32</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecNormalizeImagev1_1</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>writeXMLOutput</name>
+					<value>1</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>60</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>dtype</name>
@@ -379,20 +413,6 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginExecShiftImagev1_1</name>
-			<XSParamList>
-				<XSParamItem>
-					<name>fill</name>
-					<value>mean</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>maxOffset</name>
-					<value>10</value>
-				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>	
-				
 		
 		<XSPluginItem>
 			<name>EDPluginExecRsync</name>  

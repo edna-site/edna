@@ -42,7 +42,7 @@ This class is taking care of the workflow preProcess - process - postProcess.
 """
 
 
-import time, gc, os
+import time, os
 from threading   import Thread
 from EDSlot      import EDSlot
 from EDVerbose   import EDVerbose
@@ -126,8 +126,7 @@ class EDAction(EDLogging, Thread):
                 if self.__bLogTiming:
                     dictTimeStamps["slotPostProcess"] = time.time()
 
-        except:
-
+        except Exception:
             self.writeErrorTrace()
             self.setFailure()
 
@@ -137,13 +136,13 @@ class EDAction(EDLogging, Thread):
             self.finallyProcess()
             if  self.__bLogTiming:
                 dictTimeStamps["finallyProcess"] = time.time()
-        except:
+        except Exception:
             self.DEBUG("EDAction.executeKernel: ERROR in finallyProcess!")
             self.writeErrorTrace()
             self.setFailure()
         try:
             self.__edSlotFinallyProcess.call(self)
-        except:
+        except Exception:
             self.DEBUG("EDAction.executeKernel: ERROR in slotFinallyProcess!")
             self.writeErrorTrace()
             self.setFailure()
@@ -156,7 +155,7 @@ class EDAction(EDLogging, Thread):
                 if  self.__bLogTiming:
                     dictTimeStamps["slotSUCCESS"] = time.time()
 
-            except:
+            except Exception:
                 self.DEBUG("EDAction.executeKernel: ERROR in slotSUCCESS!")
                 self.writeErrorTrace()
                 self.setFailure()
@@ -168,7 +167,7 @@ class EDAction(EDLogging, Thread):
                 self.__edSlotFAILURE.call(self)
                 if  self.__bLogTiming:
                     dictTimeStamps["slotFAILURE"] = time.time()
-            except:
+            except Exception:
                 self.DEBUG("EDAction.executeKernel: ERROR in slotFAILURE!")
                 self.writeErrorTrace()
 

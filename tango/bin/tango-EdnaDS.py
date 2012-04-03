@@ -157,7 +157,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
             return "Error in load Plugin"
         jobId = edJob.getJobId()
         edJob.setDataInput(xsd)
-        self.jobQueue.put_nowait(edJob)
+        self.jobQueue.put(edJob)
         if self.processingSem._Semaphore__value > 0 :
             t = threading.Thread(target=self.startProcessing)
             t.start()

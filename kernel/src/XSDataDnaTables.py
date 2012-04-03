@@ -609,7 +609,7 @@ class SaxDna_tablesHandler(handler.ContentHandler):
             if val is not None:
                 try:
                     obj.setImage(int(val))
-                except:
+                except Exception:
                     self.reportError('"image" attribute must be integer')
             val = attrs.get('name', None)
             if val is not None:

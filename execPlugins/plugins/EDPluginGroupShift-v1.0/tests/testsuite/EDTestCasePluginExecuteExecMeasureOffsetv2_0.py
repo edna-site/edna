@@ -56,7 +56,7 @@ class EDTestCasePluginExecuteExecMeasureOffsetv2_0(EDTestCasePluginExecute):
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputMeasureOffset_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultMeasureOffset_reference.xml"))
+                                                     "XSDataResultMeasureOffset_reference2.xml"))
         self.im1 = "FullFieldXAS_00.edf"
         self.im2 = "FullFieldXAS_01.edf"
 

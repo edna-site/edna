@@ -443,7 +443,7 @@ class XschemaElement(XschemaElementBase):
             key = attr['name']
             try:
                 value = attr['value']
-            except:
+            except Exception:
                 value = '<empty>'
             showLevel(outfile, level + 1)
             outfile.write('key: %s  value: %s\n' % \
@@ -1694,7 +1694,7 @@ def generateBuildAttributes(outfile, element, hasAttributes):
             s1 = "                self.%s = float(attrs.get('%s').value)\n" % \
                 (mappedName, name,)
             outfile.write(s1)
-            s1 = '            except:\n'
+            s1 = '            except Exception:\n'
             outfile.write(s1)
             s1 = "                raise ValueError('Bad float/double attribute (%s)')\n" % \
                 (name,)
@@ -2611,7 +2611,7 @@ SAX_ATTR_INTEGER = """\
             if val is not None:
                 try:
                     obj.set%s(int(val))
-                except:
+                except Exception:
                     self.reportError('"%s" attribute must be integer')
 """
 
@@ -2631,7 +2631,7 @@ SAX_ATTR_FLOAT = """\
             if val is not None:
                 try:
                     obj.set%s(float(val))
-                except:
+                except Exception:
                     self.reportError('"%s" attribute must be float')
 """
 
@@ -2698,7 +2698,7 @@ def generateSaxAttributes(wrt, element):
 ##             s1 = "                    self.%s = float(attrs.get('%s').value)\n" % \
 ##                 (name, name)
 ##             wrt(s1)
-##             s1 = '                except:\n'
+##             s1 = '                except Exception:\n'
 ##             wrt(s1)
 ##             s1 = "                    raise ValueError('Bad float/double')\n"
 ##             wrt(s1)
@@ -2770,7 +2770,7 @@ SAX_ENDELEMENT_INT = """\
                 if content:
                     try:
                         content = int(content)
-                    except:
+                    except Exception:
                         self.reportError('"%s" must be integer -- content: %%s' %% content)
                 else:
                     content = -1
@@ -2780,7 +2780,7 @@ SAX_ENDELEMENT_FLOAT = """\
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"%s" must be float -- content: %%s' %% content)
                 else:
                     content = -1
@@ -3354,14 +3354,14 @@ def get_impl_body(classBehavior, baseImplUrl, implUrl):
 ##            implFile = urllib2.urlopen(implUrl)
 ##            impl = implFile.read()
 ##            implFile.close()
-##        except:
+##        except Exception:
 ##            trylocal = 1
 ##        if trylocal:
 ##            try:
 ##                implFile = file(implUrl)
 ##                impl = implFile.read()
 ##                implFile.close()
-##            except:
+##            except Exception:
 ##                print '*** Implementation at %s not found.' % implUrl
 ##    return impl
 

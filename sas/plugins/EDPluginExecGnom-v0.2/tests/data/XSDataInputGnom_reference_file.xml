@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInputGnom>
+	<rMax>
+		<value>50</value>
+	</rMax>
+	<experimentalDataFile>
+		<path>
+			<value>${EDNA_PLUGIN_TESTS_DATA_HOME}/lyzexp.dat</value>
+		</path>
+	</experimentalDataFile>
+</XSDataInputGnom>
