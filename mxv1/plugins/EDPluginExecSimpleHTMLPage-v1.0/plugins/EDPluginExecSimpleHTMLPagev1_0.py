@@ -502,9 +502,11 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         listXSDataFile = self.getDataInput().fileGraph
         self.page.tr( align_="CENTER" )
         iIndex = 1
-        for xsDataFile in listXSDataFile:
+        listPlotsToDisplay = [0, 1, 3, 6]
+        for iIndexPlot in listPlotsToDisplay:
+            xsDataFile = listXSDataFile[iIndexPlot]
             strFileName = os.path.basename(xsDataFile.path.value)
-            print strFileName
+            #print strFileName
             shutil.copy(xsDataFile.path.value, os.path.join(self.getWorkingDirectory(), strFileName))
             self.page.td()
             strPageGraph = os.path.join(self.getWorkingDirectory(), os.path.splitext(strFileName)[0]+".html")
