@@ -501,7 +501,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     def graphs(self):
         self.page.table( class_='bestGraphs', border_="0", cellpadding_="0")
         listXSDataFile = self.getDataInput().fileGraph
-        if listXsDataFile != []:
+        if listXSDataFile != []:
             self.page.tr( align_="CENTER" )
             iIndex = 1
             listPlotsToDisplay = [0, 1, 3, 6]
