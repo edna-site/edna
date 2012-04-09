@@ -50,20 +50,20 @@ if [ "$testit" = "" ]; then
   fi
   notifd -n >>/dev/null 2>&1 & 
   sleep 1
-  # Run notifd2db
+fi
+# Run notifd2db
+pathToNotifd2db=$(command -v notifd2db)
+if [ "$pathToNotifd2db" = "" ]; then
+  # Try local TANGO installation
+  export PATH=/usr/lib/tango:$PATH
   pathToNotifd2db=$(command -v notifd2db)
   if [ "$pathToNotifd2db" = "" ]; then
-    # Try local TANGO installation
-    export PATH=/usr/lib/tango:$PATH
-	pathToNotifd2db=$(command -v notifd2db)
-  	if [ "$pathToNotifd2db" = "" ]; then
-      echo "ERROR! Cannot locate notifd2db needed for TANGO events!"
-      exit 1
-    fi
+    echo "ERROR! Cannot locate notifd2db needed for TANGO events!"
+    exit 1
   fi
-  notifd2db
-  sleep 1
 fi
+notifd2db
+sleep 1
 
 if [ ! -d ${HOME}/log ];
 then
