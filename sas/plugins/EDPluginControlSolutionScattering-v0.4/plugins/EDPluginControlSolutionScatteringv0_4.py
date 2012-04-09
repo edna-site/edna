@@ -34,7 +34,7 @@ import os, operator, itertools, matplotlib, distutils.dir_util
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import colorConverter
-
+import numpy
 from numpy import mean, std, var, arange, resize
 
 from EDVerbose import EDVerbose
@@ -44,19 +44,13 @@ from EDActionCluster import EDActionCluster
 from EDUtilsFile import EDUtilsFile
 from EDConfiguration import EDConfiguration
 from EDParallelJobLauncher import EDParallelJobLauncher
-
+from EDUtilsArray import EDUtilsArray
 from EDPDBFilter import EDPDBFilter
 
-from XSDataSAS import XSDataInputSolutionScattering
-from XSDataSAS import XSDataResultSolutionScattering
-from XSDataSAS import XSDataInputGnom
-from XSDataSAS import XSDataInputDammif
-from XSDataSAS import XSDataInputSupcomb
-from XSDataSAS import XSDataInputDamaver
-from XSDataSAS import XSDataInputDamfilt
-from XSDataSAS import XSDataInputDamstart
-
-from XSDataSAS import XSDataFloat, XSDataInteger, XSDataString, XSDataBoolean
+from XSDataSAS import XSDataInputSolutionScattering, XSDataResultSolutionScattering, XSDataInputGnom, \
+                    XSDataInputDammif, XSDataInputSupcomb, XSDataInputDamaver, XSDataInputDamfilt, \
+                    XSDataInputDamstart
+from XSDataCommon import XSDataDouble, XSDataInteger, XSDataString, XSDataBoolean
 
 
 def try_float(tmpStr):
@@ -94,7 +88,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputSolutionScattering)
 
-        self.__strPluginExecGnom = "EDPluginExecGnomv0_1"
+        self.__strPluginExecGnom = "EDPluginExecGnomv0_2"
         self.__strPluginExecDammif = "EDPluginExecDammifv0_1"
         self.__strPluginExecSupcomb = "EDPluginExecSupcombv0_1"
         self.__strPluginExecDamaver = "EDPluginExecDamaverv0_1"
@@ -115,9 +109,12 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         self.__edPluginExecDamfilt = None
         self.__edPluginExecDamstart = None
 
-        self.__xsDataExperimentalDataQ = None
-        self.__xsDataExperimentalDataValues = None
-        self.__xsDataExperimentalDataStdDev = None
+        self.__inputType = None
+        self.npaExperimentalDataQ = None
+        self.npaExperimentalDataI = None
+        self.npaExperimentalDataStdDev = None
+        self.strExperimentalDataFile = None
+
         self.__xsDataRMax = None
         self.__xsDataOutput = None
 
@@ -160,51 +157,51 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         """
         Checks the mandatory parameters.
         """
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.checkParameters")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
 
         self.checkRMaxSearchParameters()
         self.checkModeParameter()
-        #self.checkUnitParameter()
+        self.checkUnitParameter()
         self.checkJMol()
 
     def checkRMaxSearchParameters(self):
-        if self.getDataInput().getRMaxSearchSettings() is not None:
-            if self.getDataInput().getRMaxSearchSettings().getRMaxStart() is None:
-                EDVerbose.ERROR("EDPluginControlSolutionScatteringv0_3.setRMaxSerachParameters rMaxStart is missing")
+        if self.dataInput.rMaxSearchSettings is not None:
+            if self.dataInput.rMaxSearchSettings.rMaxStart is None:
+                self.ERROR("EDPluginControlSolutionScatteringv0_4.setRMaxSerachParameters rMaxStart is missing")
                 self.setFailure()
             else:
-                if self.getDataInput().getRMaxSearchSettings().getRMaxStart().getValue() < self.__rMaxStart:
-                    EDVerbose.WARNING("EDPluginControlSolutionScatteringv0_3.setRMaxSerachParameters rMaxStart is too small. Resetting to the default.")
-            if self.getDataInput().getRMaxSearchSettings().getRMaxStop() is None:
-                EDVerbose.ERROR("EDPluginControlSolutionScatteringv0_3.setRMaxSerachParameters rMaxStop is missing")
+                if self.dataInput.rMaxSearchSettings.rMaxStart.value < self.__rMaxStart:
+                    self.WARNING("EDPluginControlSolutionScatteringv0_4.setRMaxSerachParameters rMaxStart is too small. Resetting to the default.")
+            if self.dataInput.rMaxSearchSettings.rMaxStop is None:
+                self.ERROR("EDPluginControlSolutionScatteringv0_4.setRMaxSerachParameters rMaxStop is missing")
                 self.setFailure()
-            if self.getDataInput().getRMaxSearchSettings().getRMaxAbsTol() is None:
-                EDVerbose.ERROR("EDPluginControlSolutionScatteringv0_3.setRMaxSerachParameters rMaxAbsTol is missing")
+            if self.dataInput.rMaxSearchSettings.getRMaxAbsTol() is None:
+                self.ERROR("EDPluginControlSolutionScatteringv0_4.setRMaxSerachParameters rMaxAbsTol is missing")
                 self.setFailure()
-            if self.getDataInput().getRMaxSearchSettings().getRMaxIntervals() is None:
-                EDVerbose.ERROR("EDPluginControlSolutionScatteringv0_3.setRMaxSerachParameters rMaxIntervals is missing")
+            if self.dataInput.rMaxSearchSettings.getRMaxIntervals() is None:
+                self.ERROR("EDPluginControlSolutionScatteringv0_4.setRMaxSerachParameters rMaxIntervals is missing")
                 self.setFailure()
 
     def checkModeParameter(self):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.checkModeParameter")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.checkModeParameter")
         try:
-            if self.getDataInput().getMode().getValue().lower() in ['fast', 'slow']:
-                self.__strMode = self.getDataInput().getMode().getValue().lower()
+            if self.dataInput.mode.value.lower() in ['fast', 'slow']:
+                self.__strMode = self.dataInput.mode.value.lower()
         except:
-            EDVerbose.WARNING("Running Solution Scattering pipeline in fast mode by default")
+            self.WARNING("Running Solution Scattering pipeline in fast mode by default")
 
     def checkUnitParameter(self):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.checkUnitParameter")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.checkUnitParameter")
         try:
-            if self.getDataInput().getAngularUnits().getValue() in [1, 2, 3, 4]:
-                self.__iUnit = self.getDataInput().getAngularUnits().getValue()
+            if self.dataInput.angularUnits.value in [1, 2, 3, 4]:
+                self.__iUnit = self.dataInput.angularUnits.value
                 if self.__iUnit in [1, 3]:
                     self.__strUnit = "ANGSTROM"
                 else:
                     self.__strUnit = "NANOMETER"
         except:
-            EDVerbose.WARNING("Using Angstrom units for q-values by default")
+            self.WARNING("Using Angstrom units for q-values by default")
 
     def checkJMol(self):
         self.__pluginConfiguration = self.getConfiguration()
@@ -216,64 +213,97 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.preProcess")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.preProcess")
 
-        xsDataInputSolutionScattering = self.getDataInput()
-        self.__xsDataExperimentalDataQ = xsDataInputSolutionScattering.getExperimentalDataQ()
-        self.__xsDataExperimentalDataValues = xsDataInputSolutionScattering.getExperimentalDataValues()
-        if xsDataInputSolutionScattering.getExperimentalDataStdDev():
-            self.__xsDataExperimentalDataStdDev = xsDataInputSolutionScattering.getExperimentalDataStdDev()
+        xsDataInputSolutionScattering = self.dataInput
+        if xsDataInputSolutionScattering.experimentalDataQ:
+            self.npaExperimentalDataQ = numpy.array([i.value for i in xsDataInputSolutionScattering.experimentalDataQ], dtype="float32")
+        elif xsDataInputSolutionScattering.experimentalDataQArray:
+            self.npaExperimentalDataQ = EDUtilsArray.xsDataToArray(xsDataInputSolutionScattering.experimentalDataQArray).astype("float32")
+        elif xsDataInputSolutionScattering.experimentalDataFile:
+            self.strExperimentalDataFile = xsDataInputSolutionScattering.experimentalDataFile.path.value
+        else:
+            strError = "Missing mandatory parameter: experimentalDataQ or experimentalDataQArray or experimentalDataFile"
+            self.ERROR(strError)
+            self.setFailure()
+            raise RuntimeError, strError
 
-        if self.getDataInput().getSymmetry() is not None:
-            self.__strSymmetry = self.getDataInput().getSymmetry().getValue()
+        if xsDataInputSolutionScattering.experimentalDataValues:
+            self.npaExperimentalDataI = numpy.array([i.value for i in xsDataInputSolutionScattering.experimentalDataValues], dtype="float32")
+        elif xsDataInputSolutionScattering.experimentalDataIArray:
+            self.npaExperimentalDataI = EDUtilsArray.xsDataToArray(xsDataInputSolutionScattering.experimentalDataIArray).astype("float32")
+        elif self.strExperimentalDataFile is None:
+            strError = "Missing mandatory parameter: experimentalDataValues or experimentalDataValues or experimentalDataFile"
+            self.ERROR(strError)
+            self.setFailure()
+            raise RuntimeError, strError
 
-        if self.getDataInput().getRMaxSearchSettings() is not None:
-            self.__rMaxStart = max(self.__rMaxStart, self.getDataInput().getRMaxSearchSettings().getRMaxStart().getValue())
-            self.__rMaxStop = self.getDataInput().getRMaxSearchSettings().getRMaxStop().getValue()
-            self.__absTol = self.getDataInput().getRMaxSearchSettings().getRMaxAbsTol().getValue()
+        if xsDataInputSolutionScattering.experimentalDataStdDev:
+            self.npaExperimentalDataStdDev = numpy.array([i.value for i in xsDataInputSolutionScattering.experimentalDataStdDev], dtype="float32")
+        elif xsDataInputSolutionScattering.experimentalDataStdArray:
+            self.npaExperimentalDataStdDev = EDUtilsArray.xsDataToArray(xsDataInputSolutionScattering.experimentalDataStdArray).astype("float32")
+
+        qMin = qMax = None
+        if xsDataInputSolutionScattering.qMin:
+            qMin = xsDataInputSolutionScattering.qMin.value
+        if xsDataInputSolutionScattering.qMax:
+            qMax = xsDataInputSolutionScattering.qMax.value
+
+        if self.strExperimentalDataFile is not None:
+            self.readGnomDataColumns(self.strExperimentalDataFile, _fQMin=qMin, _fQMax=qMax)
+        else:
+            self.cropInputData(qMin, qMax)
+
+        if self.dataInput.symmetry is not None:
+            self.__strSymmetry = self.dataInput.symmetry.value
+
+        if self.dataInput.rMaxSearchSettings is not None:
+            self.__rMaxStart = max(self.__rMaxStart, self.dataInput.rMaxSearchSettings.rMaxStart.value)
+            self.__rMaxStop = self.dataInput.rMaxSearchSettings.rMaxStop.value
+            self.__absTol = self.dataInput.rMaxSearchSettings.getRMaxAbsTol().value
             self.__absErr = self.__absTol * 10
-            self.__rMaxDivide = self.getDataInput().getRMaxSearchSettings().getRMaxIntervals().getValue()
+            self.__rMaxDivide = self.dataInput.rMaxSearchSettings.getRMaxIntervals().value
 
-        if self.getDataInput().getINbThreads() is not None:
-            self.__iNbThreads = self.getDataInput().getINbThreads().getValue()
+        if self.dataInput.getINbThreads() is not None:
+            self.__iNbThreads = self.dataInput.getINbThreads().value
 
-        if self.getDataInput().getOnlyGnom() is not None:
-            self.__bOnlyGnom = self.getDataInput().getOnlyGnom().getValue()
-        if self.getDataInput().getPlotFit() is not None:
-            self.__bPlotFit = self.getDataInput().getPlotFit().getValue()
+        if self.dataInput.getOnlyGnom() is not None:
+            self.__bOnlyGnom = self.dataInput.getOnlyGnom().value
+        if self.dataInput.getPlotFit() is not None:
+            self.__bPlotFit = self.dataInput.getPlotFit().value
 
     def __checkGnomSeriesResults(self, serInput):
-        fitResultDict = dict([((ser, idx), plg.getDataOutput().getFitQuality().getValue()) for (ser, idx), plg in self.__xsGnomPlugin.items() if ser == serInput])
+        fitResultDict = dict([((ser, idx), plg.dataOutput.getFitQuality().value) for (ser, idx), plg in self.__xsGnomPlugin.items() if ser == serInput])
         fitResultList = sorted(fitResultDict.iteritems(), key=operator.itemgetter(1), reverse=True)
         ((ser, idx_max), _) = fitResultList[0]
 
         # Find rMax values bracketing the best rMax result
-        self.__rMaxStart = self.__xsGnomPlugin[(ser, max(idx_max - 1, 0))].getDataInput().getRMax().getValue()
-        self.__rMaxStop = self.__xsGnomPlugin[(ser, min(idx_max + 1, len(fitResultList) - 1))].getDataInput().getRMax().getValue()
+        self.__rMaxStart = self.__xsGnomPlugin[(ser, max(idx_max - 1, 0))].dataInput.rMax.value
+        self.__rMaxStop = self.__xsGnomPlugin[(ser, min(idx_max + 1, len(fitResultList) - 1))].dataInput.rMax.value
         self.__absErr = (fitResultList[0][1] - fitResultList[-1][1])
         return self.__xsGnomPlugin[(ser, idx_max)]
 
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.process")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.process")
 
         #Make series of GNOM runs narrowing down the optimal value of rMax
         ser = 0
         while self.__absErr > self.__absTol:
 
             if (not self.__rMaxDivide):
-                xsDataRMax = [XSDataFloat(self.__rMaxStart)]
+                xsDataRMax = [XSDataDouble(self.__rMaxStart)]
             else:
-                xsDataRMax = itertools.imap(lambda idx: XSDataFloat(self.__rMaxStart + idx * (self.__rMaxStop - self.__rMaxStart) / self.__rMaxDivide), range(self.__rMaxDivide + 1))
+                xsDataRMax = itertools.imap(lambda idx: XSDataDouble(self.__rMaxStart + idx * (self.__rMaxStop - self.__rMaxStart) / self.__rMaxDivide), range(self.__rMaxDivide + 1))
+
 
             dictDataInputGnom = {}
             for idx, rMax in enumerate(xsDataRMax):
-                dictDataInputGnom[(ser, idx)] = XSDataInputGnom()
-                dictDataInputGnom[(ser, idx)].setExperimentalDataQ(self.__xsDataExperimentalDataQ)
-                dictDataInputGnom[(ser, idx)].setExperimentalDataValues(self.__xsDataExperimentalDataValues)
-                if self.__xsDataExperimentalDataStdDev:
-                    dictDataInputGnom[(ser, idx)].setExperimentalDataStdDev(self.__xsDataExperimentalDataStdDev)
+                dictDataInputGnom[(ser, idx)] = XSDataInputGnom(experimentalDataQArray=EDUtilsArray.arrayToXSData(self.npaExperimentalDataQ),
+                                                                experimentalDataIArray=EDUtilsArray.arrayToXSData(self.npaExperimentalDataI))
+                if self.npaExperimentalDataStdDev is not None:
+                    dictDataInputGnom[(ser, idx)].experimentalDataStdArray = EDUtilsArray.arrayToXSData(self.npaExperimentalDataStdDev)
                 dictDataInputGnom[(ser, idx)].setRMax(rMax)
                 dictDataInputGnom[(ser, idx)].setAngularScale(XSDataInteger(self.__iUnit))
                 dictDataInputGnom[(ser, idx)].setMode(XSDataString(self.__strMode))
@@ -293,7 +323,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
         # Just rerunning GNOM with optimal parameters to fir it into Control plugin pipeline.
         self.__edPluginExecGnom = self.loadPlugin(self.__strPluginExecGnom, self.__strPluginExecGnom + '-optimal')
-        self.__edPluginExecGnom.setDataInput(edPluginGnomOptimal.getDataInput())
+        self.__edPluginExecGnom.setDataInput(edPluginGnomOptimal.dataInput)
         self.__edPluginExecGnom.connectSUCCESS(self.doSuccessExecGnom)
         self.__edPluginExecGnom.connectFAILURE(self.doFailureExecGnom)
         self.executePluginSynchronous(self.__edPluginExecGnom)
@@ -301,22 +331,20 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.postProcess")
-
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.postProcess")
+        self.setDataOutput(self.__xsDataResultSolutionScattering)
 
     def doSuccessExecGnom(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doSuccessExecGnom")
-        self.retrieveSuccessMessages(self.__edPluginExecGnom, "EDPluginControlSolutionScatteringv0_3.doSuccessExecGnom")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doSuccessExecGnom")
+        self.retrieveSuccessMessages(self.__edPluginExecGnom, "EDPluginControlSolutionScatteringv0_4.doSuccessExecGnom")
 
         if not self.__bOnlyGnom:
-            self.__xsDataOutput = self.__edPluginExecGnom.getDataOutput().getOutput()
+            self.__xsDataOutput = self.__edPluginExecGnom.dataOutput.getOutput()
 
-            xsDataInputDammif = XSDataInputDammif()
-            xsDataInputDammif.setGnomOutputFile(self.__xsDataOutput)
-            xsDataInputDammif.setUnit(XSDataString(self.__strUnit))
-            xsDataInputDammif.setSymmetry(XSDataString(self.__strSymmetry))
-            xsDataInputDammif.setMode(XSDataString(self.__strMode))
-
+            xsDataInputDammif = XSDataInputDammif(gnomOutputFile=self.__xsDataOutput,
+                                                  unit=XSDataString(self.__strUnit),
+                                                  symmetry=XSDataString(self.__strSymmetry),
+                                                  mode=XSDataString(self.__strMode))
             dictDataInputDammif = {}
             for idx in range(self.__iNbDammifJobs):
                 dictDataInputDammif[idx] = xsDataInputDammif
@@ -328,20 +356,20 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
 
     def doFailureExecGnomActionCluster(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecGnom")
-        self.retrieveFailureMessages(self.__xsGnomJobs, "EDPluginControlSolutionScatteringv0_3.doFailureExecGnom")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecGnom")
+        self.retrieveFailureMessages(self.__xsGnomJobs, "EDPluginControlSolutionScatteringv0_4.doFailureExecGnom")
 
 
     def doFailureExecGnom(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecGnom")
-        self.retrieveFailureMessages(self, "EDPluginControlSolutionScatteringv0_3.doFailureExecGnom")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecGnom")
+        self.retrieveFailureMessages(self, "EDPluginControlSolutionScatteringv0_4.doFailureExecGnom")
 
 
     def __checkDammifSeriesResults(self):
         """
         Find DAMMIF run with best chi-square value
         """
-        fitResultDict = dict([(idx, plg.getDataOutput().getChiSqrt().getValue()) for idx, plg in self.__xsDammifPlugin.items()])
+        fitResultDict = dict([(idx, plg.dataOutput.getChiSqrt().value) for idx, plg in self.__xsDammifPlugin.items()])
         fitResultList = sorted(fitResultDict.iteritems(), key=operator.itemgetter(1))
         (idx_max, _) = fitResultList[0]
         self.__idxDammifBestChiSq = idx_max
@@ -349,30 +377,32 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         return self.__xsDammifPlugin[idx_max]
 
     def doSuccessExecDammif(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doSuccessExecDammif")
-        self.retrieveSuccessMessages(self.__xsDammifJobs, "EDPluginControlSolutionScatteringv0_3.doSuccessExecDammif")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doSuccessExecDammif")
+        self.retrieveSuccessMessages(self.__xsDammifJobs, "EDPluginControlSolutionScatteringv0_4.doSuccessExecDammif")
 
         self.__xsDammifPlugin.update(self.__xsDammifJobs.getPluginJobs())
 
-        self.__xsDataResultSolutionScattering.setLineProfileFitQuality(self.__edPluginExecGnom.getDataOutput().getFitQuality())
-        self.__xsDataResultSolutionScattering.setScatteringFitQ(self.__edPluginExecGnom.getDataOutput().getScatteringFitQ())
-        self.__xsDataResultSolutionScattering.setScatteringFitValues(self.__edPluginExecGnom.getDataOutput().getScatteringFitValues())
+        self.__xsDataResultSolutionScattering.lineProfileFitQuality = self.__edPluginExecGnom.dataOutput.getFitQuality()
+        self.__xsDataResultSolutionScattering.scatteringFitQ = self.__edPluginExecGnom.dataOutput.scatteringFitQ
+        self.__xsDataResultSolutionScattering.scatteringFitValues = self.__edPluginExecGnom.dataOutput.scatteringFitValues
+        self.__xsDataResultSolutionScattering.scatteringFitQArray = self.__edPluginExecGnom.dataOutput.scatteringFitQArray
+        self.__xsDataResultSolutionScattering.scatteringFitIArray = self.__edPluginExecGnom.dataOutput.scatteringFitIArray
 
         self.__edPluginExecDammif = self.__checkDammifSeriesResults()
         self.__plotRMaxSearchResults()
 
 
-        self.__xsDataResultSolutionScattering.setFitFile(self.__edPluginExecDammif.getDataOutput().getFitFile())
-        self.__xsDataResultSolutionScattering.setLogFile(self.__edPluginExecDammif.getDataOutput().getLogFile())
-        self.__xsDataResultSolutionScattering.setPdbMoleculeFile(self.__edPluginExecDammif.getDataOutput().getPdbMoleculeFile())
-        self.__xsDataResultSolutionScattering.setPdbSolventFile(self.__edPluginExecDammif.getDataOutput().getPdbSolventFile())
+        self.__xsDataResultSolutionScattering.setFitFile(self.__edPluginExecDammif.dataOutput.getFitFile())
+        self.__xsDataResultSolutionScattering.setLogFile(self.__edPluginExecDammif.dataOutput.getLogFile())
+        self.__xsDataResultSolutionScattering.setPdbMoleculeFile(self.__edPluginExecDammif.dataOutput.getPdbMoleculeFile())
+        self.__xsDataResultSolutionScattering.setPdbSolventFile(self.__edPluginExecDammif.dataOutput.getPdbSolventFile())
 
         dictDataInputSupcomb = {}
         for idx in self.__xsDammifPlugin.iterkeys():
             for ser in range(idx):
                 dictDataInputSupcomb[(ser, idx)] = XSDataInputSupcomb()
-                dictDataInputSupcomb[(ser, idx)].setTemplateFile(self.__xsDammifPlugin[idx].getDataOutput().getPdbMoleculeFile())
-                dictDataInputSupcomb[(ser, idx)].setSuperimposeFile(self.__xsDammifPlugin[ser].getDataOutput().getPdbMoleculeFile())
+                dictDataInputSupcomb[(ser, idx)].setTemplateFile(self.__xsDammifPlugin[idx].dataOutput.getPdbMoleculeFile())
+                dictDataInputSupcomb[(ser, idx)].setSuperimposeFile(self.__xsDammifPlugin[ser].dataOutput.getPdbMoleculeFile())
         self.__xsSupcombJobs = EDParallelJobLauncher(self, self.__strPluginExecSupcomb, dictDataInputSupcomb, self.__iNbThreads)
         self.__xsSupcombJobs.connectSUCCESS(self.doSuccessExecSupcomb)
         self.__xsSupcombJobs.connectFAILURE(self.doFailureExecSupcomb)
@@ -380,13 +410,13 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
 
     def doFailureExecDammif(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecDammif")
-        self.retrieveFailureMessages(self.__xsDammifJobs, "EDPluginControlSolutionScatteringv0_3.doFailureExecDammif")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecDammif")
+        self.retrieveFailureMessages(self.__xsDammifJobs, "EDPluginControlSolutionScatteringv0_4.doFailureExecDammif")
 
 
     def doSuccessExecSupcomb(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doSuccessExecSupcomb")
-        self.retrieveSuccessMessages(self.__xsSupcombJobs, "EDPluginControlSolutionScatteringv0_3.doSuccessExecSupcomb")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doSuccessExecSupcomb")
+        self.retrieveSuccessMessages(self.__xsSupcombJobs, "EDPluginControlSolutionScatteringv0_4.doSuccessExecSupcomb")
 
         self.__xsSupcombPlugin.update(self.__xsSupcombJobs.getPluginJobs())
 
@@ -395,8 +425,8 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         dictDataInputSupcombBest = {}
         for ser in range(self.__idxDammifBestNSD + 1, self.__iNbDammifJobs):
             dictDataInputSupcombBest[(ser, self.__idxDammifBestNSD)] = XSDataInputSupcomb()
-            dictDataInputSupcombBest[(ser, self.__idxDammifBestNSD)].setTemplateFile(self.__xsDammifPlugin[self.__idxDammifBestNSD].getDataOutput().getPdbMoleculeFile())
-            dictDataInputSupcombBest[(ser, self.__idxDammifBestNSD)].setSuperimposeFile(self.__xsDammifPlugin[ser].getDataOutput().getPdbMoleculeFile())
+            dictDataInputSupcombBest[(ser, self.__idxDammifBestNSD)].setTemplateFile(self.__xsDammifPlugin[self.__idxDammifBestNSD].dataOutput.getPdbMoleculeFile())
+            dictDataInputSupcombBest[(ser, self.__idxDammifBestNSD)].setSuperimposeFile(self.__xsDammifPlugin[ser].dataOutput.getPdbMoleculeFile())
         self.__xsSupcombJobsBest = EDParallelJobLauncher(self, self.__strPluginExecSupcomb, dictDataInputSupcombBest, self.__iNbThreads)
         self.__xsSupcombJobsBest.connectSUCCESS(self.doSuccessExecSupcombAlign)
         self.__xsSupcombJobsBest.connectFAILURE(self.doFailureExecSupcombAlign)
@@ -404,24 +434,24 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
 
     def doFailureExecSupcomb(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecSupcomb")
-        self.retrieveFailureMessages(self.__xsSupcombJobs, "EDPluginControlSolutionScatteringv0_3.doFailureExecSupcomb")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecSupcomb")
+        self.retrieveFailureMessages(self.__xsSupcombJobs, "EDPluginControlSolutionScatteringv0_4.doFailureExecSupcomb")
 
 
     def doSuccessExecSupcombAlign(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doSuccessExecSupcombAlign")
-        self.retrieveSuccessMessages(self.__xsSupcombJobsBest, "EDPluginControlSolutionScatteringv0_3.doSuccessExecSupcombAlign")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doSuccessExecSupcombAlign")
+        self.retrieveSuccessMessages(self.__xsSupcombJobsBest, "EDPluginControlSolutionScatteringv0_4.doSuccessExecSupcombAlign")
 
         self.__xsSupcombPlugin.update(self.__xsSupcombJobsBest.getPluginJobs())
         self.__plotNSDResults()
 
         xsDataInputDamaver = XSDataInputDamaver()
-        tmpOutputPdbFiles = [self.__xsDammifPlugin[self.__idxDammifBestNSD].getDataOutput().getPdbMoleculeFile()]
+        tmpOutputPdbFiles = [self.__xsDammifPlugin[self.__idxDammifBestNSD].dataOutput.getPdbMoleculeFile()]
 
         for (idx, tmpXSDammifPlugin) in self.__xsDammifPlugin.iteritems():
             if idx is not self.__idxDammifBestNSD:
                 if abs(self.__dammifRefNSD[idx] - self.__meanNSD) < 2 * self.__varNSD:
-                    tmpOutputPdbFiles.append(self.__xsSupcombPlugin[(idx, self.__idxDammifBestNSD)].getDataOutput().getOutputFilename())
+                    tmpOutputPdbFiles.append(self.__xsSupcombPlugin[(idx, self.__idxDammifBestNSD)].dataOutput.getOutputFilename())
 
         xsDataInputDamaver.setPdbInputFiles(tmpOutputPdbFiles)
         xsDataInputDamaver.setAutomatic(XSDataBoolean(False))
@@ -434,16 +464,16 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
 
     def doFailureExecSupcombAlign(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecSupcombAlign")
-        self.retrieveFailureMessages(self.__xsSupcombJobsBest, "EDPluginControlSolutionScatteringv0_3.doFailureExecSupcombAlign")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecSupcombAlign")
+        self.retrieveFailureMessages(self.__xsSupcombJobsBest, "EDPluginControlSolutionScatteringv0_4.doFailureExecSupcombAlign")
 
 
     def doSuccessExecDamaver(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doSuccessExecDamaver")
-        self.retrieveSuccessMessages(self.__edPluginExecDamaver, "EDPluginControlSolutionScatteringv0_3.doSuccessExecDamaver")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doSuccessExecDamaver")
+        self.retrieveSuccessMessages(self.__edPluginExecDamaver, "EDPluginControlSolutionScatteringv0_4.doSuccessExecDamaver")
 
         xsDataInputDamfilt = XSDataInputDamfilt()
-        xsDataInputDamfilt.setInputPdbFile(self.__edPluginExecDamaver.getDataOutput().getDamaverPdbFile())
+        xsDataInputDamfilt.setInputPdbFile(self.__edPluginExecDamaver.dataOutput.getDamaverPdbFile())
 
         self.__edPluginExecDamfilt = self.loadPlugin(self.__strPluginExecDamfilt)
         self.__edPluginExecDamfilt.setDataInput(xsDataInputDamfilt)
@@ -453,16 +483,16 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
 
     def doFailureExecDamaver(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecDamaver")
-        self.retrieveFailureMessages(self.__edPluginExecDamaver, "EDPluginControlSolutionScatteringv0_3.doFailureExecDamaver")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecDamaver")
+        self.retrieveFailureMessages(self.__edPluginExecDamaver, "EDPluginControlSolutionScatteringv0_4.doFailureExecDamaver")
 
 
     def doSuccessExecDamfilt(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doSuccessExecDamfilt")
-        self.retrieveSuccessMessages(self.__edPluginExecDamfilt, "EDPluginControlSolutionScatteringv0_3.doSuccessExecDamfilt")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doSuccessExecDamfilt")
+        self.retrieveSuccessMessages(self.__edPluginExecDamfilt, "EDPluginControlSolutionScatteringv0_4.doSuccessExecDamfilt")
 
         xsDataInputDamstart = XSDataInputDamstart()
-        xsDataInputDamstart.setInputPdbFile(self.__edPluginExecDamaver.getDataOutput().getDamaverPdbFile())
+        xsDataInputDamstart.setInputPdbFile(self.__edPluginExecDamaver.dataOutput.getDamaverPdbFile())
 
         self.__edPluginExecDamstart = self.loadPlugin(self.__strPluginExecDamstart)
         self.__edPluginExecDamstart.setDataInput(xsDataInputDamstart)
@@ -472,31 +502,31 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
 
     def doFailureExecDamfilt(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecDamfilt")
-        self.retrieveFailureMessages(self.__edPluginExecDamfilt, "EDPluginControlSolutionScatteringv0_3.doFailureExecDamfilt")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecDamfilt")
+        self.retrieveFailureMessages(self.__edPluginExecDamfilt, "EDPluginControlSolutionScatteringv0_4.doFailureExecDamfilt")
 
 
     def doSuccessExecDamstart(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doSuccessExecDamstart")
-        self.retrieveSuccessMessages(self.__edPluginExecDamstart, "EDPluginControlSolutionScatteringv0_3.doSuccessExecDamstart")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doSuccessExecDamstart")
+        self.retrieveSuccessMessages(self.__edPluginExecDamstart, "EDPluginControlSolutionScatteringv0_4.doSuccessExecDamstart")
 
-        self.setDataOutput(self.__xsDataResultSolutionScattering)
+
 
 
     def doFailureExecDamstart(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.doFailureExecDamstart")
-        self.retrieveFailureMessages(self.__edPluginExecDamstart, "EDPluginControlSolutionScatteringv0_3.doFailureExecDamstart")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.doFailureExecDamstart")
+        self.retrieveFailureMessages(self.__edPluginExecDamstart, "EDPluginControlSolutionScatteringv0_4.doFailureExecDamstart")
 
 
     def __selectBestNSDModel(self):
         for ref in self.__xsDammifPlugin.iterkeys():
-            self.__dammifRefNSD[ref] = mean([self.__xsSupcombPlugin[(min([tmp, ref]), max([tmp, ref]))].getDataOutput().getNSD().getValue() \
+            self.__dammifRefNSD[ref] = mean([self.__xsSupcombPlugin[(min([tmp, ref]), max([tmp, ref]))].dataOutput.getNSD().value \
                            for tmp in self.__xsDammifPlugin.iterkeys() if tmp is not ref])
 
         self.__meanNSD = mean(self.__dammifRefNSD.values())
         self.__varNSD = std(self.__dammifRefNSD.values())
-        self.__xsDataResultSolutionScattering.setMeanNSD(XSDataFloat(self.__meanNSD))
-        self.__xsDataResultSolutionScattering.setVariationNSD(XSDataFloat(self.__varNSD))
+        self.__xsDataResultSolutionScattering.setMeanNSD(XSDataDouble(self.__meanNSD))
+        self.__xsDataResultSolutionScattering.setVariationNSD(XSDataDouble(self.__varNSD))
 
         resultsNSD = sorted(self.__dammifRefNSD.iteritems(), key=operator.itemgetter(1))
 
@@ -505,7 +535,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
     def readGnomNexusDataColumns(self, _fileName, _strNxsQ, _strNxsData, _iNbColumns, _fQMin, _fQMax):
         """
-        Initialize pipeline input data structure using Nexus data file.
+        Initialize pipeline input data structure using Nexus/HDF5 data file.
         """
         tmpExperimentalDataQ = []
         tmpExperimentalDataValues = []
@@ -529,63 +559,80 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
                 ((_tmpQ < _fQMax) or (_fQMax is None))):
 
                 units = 1
-                if self.getDataInput().getAngularUnits() is not None:
-                    units = self.getDataInput().getAngularUnits().getValue()
+                if self.dataInput.angularUnits is not None:
+                    units = self.dataInput.angularUnits.value
                 if units in [2, 4]:
-                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ / 10.0))
+                    tmpExperimentalDataQ.append(XSDataDouble(_tmpQ / 10.0))
                 else:
-                    tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
+                    tmpExperimentalDataQ.append(XSDataDouble(_tmpQ))
 
                 _tmpValue = mean(nxsExperimentalValues[:_iNbColumns, idx])
-                tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
+                tmpExperimentalDataValues.append(XSDataDouble(_tmpValue))
                 if (_iNbColumns > 1):
                     _tmpStdDev = std(nxsExperimentalValues[:_iNbColumns, idx])
-                    tmpExperimentalDataStdDev.append(XSDataFloat(_tmpStdDev))
+                    tmpExperimentalDataStdDev.append(XSDataDouble(_tmpStdDev))
 
-        self.getDataInput().setExperimentalDataQ(tmpExperimentalDataQ)
-        self.getDataInput().setExperimentalDataValues(tmpExperimentalDataValues)
+        self.dataInput.setExperimentalDataQ(tmpExperimentalDataQ)
+        self.dataInput.setExperimentalDataValues(tmpExperimentalDataValues)
         if (_iNbColumns > 1):
-            self.getDataInput().setExperimentalDataStdDev(tmpExperimentalDataStdDev)
+            self.dataInput.setExperimentalDataStdDev(tmpExperimentalDataStdDev)
 
 
-    def readGnomDataColumns(self, fileName, _iNbColumns, _fQMin, _fQMax):
+    def readGnomDataColumns(self, fileName, _iNbColumns=1, _fQMin=None, _fQMax=None):
         """
         Initialize pipeline input data structure using ASCII data file.
         Lines with text fields are ignored.
         For every row up to _iNbColums of data will be read.
         """
-        tmpExperimentalDataQ = []
-        tmpExperimentalDataValues = []
-        tmpExperimentalDataStdDev = []
+        if fileName:
+            data = None
+            if not os.path.isfile(fileName):
+                strErrorMessage = "EDPluginControlSolutionScatteringv0_4: experimentalDataFile: %s does not exist" % fileName
+                self.error(strErrorMessage)
+                self.addErrorMessage(strErrorMessage)
+                raise RuntimeError, strErrorMessage
+            for i in range(5):
+                try:
+                    data = numpy.loadtxt(fileName, skiprows=i, dtype="float32")
+                except:
+                    pass
+                else:
+                    break
+            if data is None:
+                strErrorMessage = "EDPluginControlSolutionScatteringv0_4: Unable to parse %s with numpy.loadtxt" % fileName
+                self.error(strErrorMessage)
+                self.addErrorMessage(strErrorMessage)
+                raise RuntimeError, strErrorMessage
+            elif (_iNbColumns > 1) and (data.shape[1] > _iNbColumns):
+                self.npaExperimentalDataQ = data[:, 0]
+                I = data[:, 1:1 + _iNbColumns]
+                self.npaExperimentalDataI = I.mean(dtype="float32", axis=1)
+                self.npaExperimentalDataStdDev = I.std(dtype="float32", axis=1)
+            elif data.shape[1] == 3:
+                self.npaExperimentalDataQ, self.npaExperimentalDataI, self.npaExperimentalDataStdDev = data.T
+            elif data.shape[1] == 2:
+                self.npaQexp, self.npaIexp = data.T
+            else:
+                strErrorMessage = "EDPluginControlSolutionScatteringv0_4: %s contains an numpy object of shape %s" % (fileName, data.shape)
+                self.error(strErrorMessage)
+                self.addErrorMessage(strErrorMessage)
+                raise RuntimeError, strErrorMessage
+            self.cropInputData(_fQMin, _fQMax)
 
-        dataLines = EDUtilsFile.readFile(fileName).splitlines()
-
-        for line in dataLines:
-            if not rejectDataLine(line, 2):
-                lineList = line.split()
-                _tmpQ = float(lineList[0])
-
-                if (((_tmpQ > _fQMin) or (_fQMin is None)) and \
-                    ((_tmpQ < _fQMax) or (_fQMax is None))):
-
-                    units = 1
-                    if self.getDataInput().getAngularUnits() is not None:
-                        units = self.getDataInput().getAngularUnits().getValue()
-                    if units in [2, 4]:
-                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ / 10.0))
-                    else:
-                        tmpExperimentalDataQ.append(XSDataFloat(_tmpQ))
-
-                    _tmpValue = mean(map(float, lineList[1:_iNbColumns + 1]))
-                    tmpExperimentalDataValues.append(XSDataFloat(_tmpValue))
-                    if (_iNbColumns > 1):
-                        _tmpStdDev = std(map(float, lineList[1:_iNbColumns + 1]))
-                        tmpExperimentalDataStdDev.append(XSDataFloat(_tmpStdDev))
-
-        self.getDataInput().setExperimentalDataQ(tmpExperimentalDataQ)
-        self.getDataInput().setExperimentalDataValues(tmpExperimentalDataValues)
-        if (_iNbColumns > 1):
-            self.getDataInput().setExperimentalDataStdDev(tmpExperimentalDataStdDev)
+    def cropInputData(self, _fQMin=None, _fQMax=None):
+        """
+        Retain only the data between qMin and qMax 
+        """
+        if _fQMin or _fQMax:
+            mask = numpy.ones_like(self.npaExperimentalDataQ)
+            if _fQMin:
+                mask = (self.npaExperimentalDataQ >= _fQMin)
+            if _fQMax:
+                mask *= (self.npaExperimentalDataQ <= _fQMax)
+            self.npaExperimentalDataQ = self.npaExperimentalDataQ[mask]
+            self.npaExperimentalDataI = self.npaExperimentalDataI[mask]
+            if self.npaExperimentalDataStdDev:
+                self.npaExperimentalDataStdDev = self.npaExperimentalDataStdDev[mask]
 
 
     def __outputGnomSeriesResults(self):
@@ -595,12 +642,12 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             self.addExecutiveSummaryLine("Iteration # " + str(itr + 1))
             for idx in range(self.__rMaxDivide):
                 dirLocation = self.__xsGnomPlugin[(itr, idx)].getWorkingDirectory()
-                tmpRMaxInput = "rMax = %3.2f" % self.__xsGnomPlugin[(itr, idx)].getDataInput().getRMax().getValue()
-                tmpFitQuality = "fitQuality = " + str(self.__xsGnomPlugin[(itr, idx)].getDataOutput().getFitQuality().getValue())
+                tmpRMaxInput = "rMax = %3.2f" % self.__xsGnomPlugin[(itr, idx)].dataInput.rMax.value
+                tmpFitQuality = "fitQuality = " + str(self.__xsGnomPlugin[(itr, idx)].dataOutput.getFitQuality().value)
                 tmpStrLine = "\t".join([tmpRMaxInput, tmpFitQuality, dirLocation])
                 self.addExecutiveSummaryLine(tmpStrLine)
         self.addExecutiveSummarySeparator()
-        self.addExecutiveSummaryLine("Optimized value of RMax = %3.2f" % self.__edPluginExecGnom.getDataInput().getRMax().getValue())
+        self.addExecutiveSummaryLine("Optimized value of RMax = %3.2f" % self.__edPluginExecGnom.dataInput.rMax.value)
         self.appendExecutiveSummary(self.__edPluginExecGnom)
 
 
@@ -620,8 +667,8 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         self.addExecutiveSummaryLine("Number of DAMMIF jobs run : " + str(self.__iNbDammifJobs))
         for tmpDammifPlugin in self.__xsDammifPlugin.itervalues():
             dirLocation = tmpDammifPlugin.getWorkingDirectory()
-            tmpRFactor = "RFactor = " + str(tmpDammifPlugin.getDataOutput().getRfactor().getValue())
-            tmpChiSqrt = "Chi(Sqrt) = " + str(tmpDammifPlugin.getDataOutput().getChiSqrt().getValue())
+            tmpRFactor = "RFactor = " + str(tmpDammifPlugin.dataOutput.getRfactor().value)
+            tmpChiSqrt = "Chi(Sqrt) = " + str(tmpDammifPlugin.dataOutput.getChiSqrt().value)
             tmpStrLine = "\t".join([tmpChiSqrt, tmpRFactor, dirLocation])
             self.addExecutiveSummaryLine(tmpStrLine)
         self.appendExecutiveSummary(self.__edPluginExecDammif)
@@ -640,13 +687,25 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             rMaxList = []
             fitQualityList = []
             for idx in range(self.__rMaxDivide + 1):
+<<<<<<< HEAD
                 rMaxList.append(self.__xsGnomPlugin[(itr, idx)].getDataInput().getRMax().getValue())
                 fitQualityList.append(self.__xsGnomPlugin[(itr, idx)].getDataOutput().getFitQuality().getValue())
+=======
+                rMaxList.append(self.__xsGnomPlugin[(itr, idx)].dataInput.rMax.value)
+                fitQualityList.append(self.__xsGnomPlugin[(itr, idx)].dataOutput.getFitQuality().value)
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
             ax1.plot(rMaxList, fitQualityList, linestyle='None', marker='o', color=cm(1.0 * (itr + 1) / self.__iNbGnomSeries), markersize=5, label="Iteration # %d" % (itr + 1))
             fign = plt.figure(itr + 1, figsize=(6, 5))
             axn = fign.add_subplot(1, 1, 1)
             axn.plot(rMaxList, fitQualityList, linestyle='-', marker='o', markersize=5, label="Iteration # %d" % (itr + 1))
+<<<<<<< HEAD
             axn.set_xlabel(u"Rmax / \u00c5")
+=======
+            if self.__strUnit == "NANOMETER":
+                axn.set_xlabel(u"Rmax / nm")
+            else:
+                axn.set_xlabel(u"Rmax / \u00c5")
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
             axn.set_ylabel('Fit quality')
             axn.legend(*axn.get_legend_handles_labels(), **{"loc":4})
             fign.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults-%d.png" % (itr + 1)))
@@ -655,17 +714,26 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
         ax1.set_xlabel(u"Rmax / \u00c5")
         ax1.set_ylabel('Fit quality')
+<<<<<<< HEAD
         fig1.suptitle("Optimized value of RMax : %3.2f   Maximal fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
+=======
+        fig1.suptitle("Optimized value of RMax : %3.2f   Maximal fit quality : %1.3f" % (self.__edPluginExecGnom.dataInput.rMax.value, self.__edPluginExecGnom.dataOutput.getFitQuality().value))
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         ax1.legend(*ax1.get_legend_handles_labels(), **{"loc":4})
         fig1.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults.png"))
         fig1.clf()
         del ax1, fig1
 
 
+<<<<<<< HEAD
         _listFitQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataOutput.getScatteringFitQ()]
         _listFitValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataOutput.getScatteringFitValues()]
         _listExpQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataInput.getExperimentalDataQ()]
         _listExpValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataInput.getExperimentalDataValues()]
+=======
+        npaFitQ = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.scatteringFitQArray)
+        npaFitI = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.scatteringFitIArray)
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         _listDammifFitQ = []
         _listDammifFitValues = []
         _listDammifExpQ = []
@@ -674,17 +742,31 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         self.__parceDammifFit(_listDammifExpQ, _listDammifExpValues, _listDammifFitQ, _listDammifFitValues)
         figFit = plt.figure(figsize=(6, 5))
         axFit = figFit.add_subplot(1, 1, 1)
+<<<<<<< HEAD
         axFit.semilogy(_listExpQ, _listExpValues, linestyle='None', marker='o', markersize=5, label="Experimental Data")
         axFit.semilogy(_listFitQ, _listFitValues, label="GNOM fitting curve")
         axFit.semilogy(_listDammifFitQ, _listDammifFitValues, color='y', label="DAMMIF ab-initio model")
         axFit.set_xlabel(u"q / \u00c5$^{-1}$")
         axFit.set_ylabel('I(q)')
         figFit.suptitle("RMax : %3.2f   Fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
+=======
+        axFit.semilogy(self.npaExperimentalDataQ, self.npaExperimentalDataI, linestyle='None', marker='o', markersize=5, label="Experimental Data")
+        axFit.semilogy(npaFitQ, npaFitI, label="GNOM fitting curve")
+        axFit.semilogy(_listDammifFitQ, _listDammifFitValues, color='y', label="DAMMIF ab-initio model")
+
+        if self.__strUnit == "NANOMETER":
+            axFit.set_xlabel(u"q / nm$^{-1}$")
+        else:
+            axFit.set_xlabel(u"q / \u00c5$^{-1}$")
+        axFit.set_ylabel('I(q)')
+        figFit.suptitle("RMax : %3.2f   Fit quality : %1.3f" % (self.__edPluginExecGnom.dataInput.rMax.value, self.__edPluginExecGnom.dataOutput.getFitQuality().value))
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         axFit.legend(*axFit.get_legend_handles_labels())
         figFit.savefig(os.path.join(self.getWorkingDirectory(), "gnomFittingResults.png"))
         figFit.clf()
         del axFit, figFit
 
+<<<<<<< HEAD
         _listDistributionR = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionR()]
         _listDistributionPr = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionPr()]
         _listDistributionErr = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionErr()]
@@ -693,6 +775,19 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         axDist = figDist.add_subplot(1, 1, 1)
         axDist.errorbar(_listDistributionR, _listDistributionPr, yerr=_listDistributionErr)
         axDist.set_xlabel(u"R / \u00c5")
+=======
+        npaR = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.arrayR)
+        npaPr = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.arrayPr)
+        npaErr = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.arrayErr)
+
+        figDist = plt.figure(figsize=(6, 5))
+        axDist = figDist.add_subplot(1, 1, 1)
+        axDist.errorbar(npaR, npaPr, npaErr)
+        if self.__strUnit == "NANOMETER":
+            axDist.set_xlabel(u"R / nm")
+        else:
+            axDist.set_xlabel(u"R / \u00c5")
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         axDist.set_ylabel('P(R)')
         figDist.suptitle("Distance distribution function")
         figDist.savefig(os.path.join(self.getWorkingDirectory(), "distributionPR.png"))
@@ -723,7 +818,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             _tmpInd = []
             for tmp in self.__xsDammifPlugin.iterkeys():
                 if tmp is not ref:
-                    _tmpNSD.append(self.__xsSupcombPlugin[(min([tmp, ref]), max([tmp, ref]))].getDataOutput().getNSD().getValue())
+                    _tmpNSD.append(self.__xsSupcombPlugin[(min([tmp, ref]), max([tmp, ref]))].dataOutput.getNSD().value)
                     if tmp < ref:
                         _tmpInd.append(tmp + _width * (ref - tmp - 1))
                     else:
@@ -764,7 +859,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
     def __outputHTMLSummaryTable(self):
         _pdbFilter = EDPDBFilter()
-        pathDamaverFileRaw = self.__edPluginExecDamaver.getDataOutput().getDamaverPdbFile().getPath().getValue()
+        pathDamaverFileRaw = self.__edPluginExecDamaver.dataOutput.getDamaverPdbFile().getPath().value
         pathDamaverFile = os.path.join(self.__edPluginExecDamaver.getWorkingDirectory(), "damaver_valid.pdb")
         if os.path.isfile(pathDamaverFileRaw):
             _pdbFilter.filterPDBFile(pathDamaverFileRaw, pathDamaverFile)
@@ -777,22 +872,22 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         else:
             _htmlCode.extend(['<tr>', '<th><h3>GNOM</h3></th>', '<th><h3>DAMMIF</h3></th>', '<th><h3>DAMAVER</h3></th>', '</tr>'])
 
-        _gnomResults = '\n'.join(["<p>Optimized value of RMax : %3.2f</p>" % self.__edPluginExecGnom.getDataInput().getRMax().getValue(), \
-                                  "<p>Estimated Rg : %3.2f</p>  " % self.__edPluginExecGnom.getDataOutput().getRadiusOfGyration().getValue(), \
-                                  "<p>Output fit quality : %1.3f</p>" % self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()])
-        _dammifResults = '\n'.join(["<p>RFactor : %1.4f</p>" % self.__edPluginExecDammif.getDataOutput().getRfactor().getValue(), \
-                                    "<p>Chi(Sqrt) : %3.3f</p>" % self.__edPluginExecDammif.getDataOutput().getChiSqrt().getValue()])
-        _damaverResults = '\n'.join(["<p>Mean NSD : %2.3f</p>" % self.getDataOutput().getMeanNSD().getValue(), \
-                                     "<p>Variation of NSD : %2.3f</p>" % self.getDataOutput().getVariationNSD().getValue()])
+        _gnomResults = os.linesep.join(["<p>Optimized value of RMax : %3.2f</p>" % self.__edPluginExecGnom.dataInput.rMax.value, \
+                                  "<p>Estimated Rg : %3.2f</p>  " % self.__edPluginExecGnom.dataOutput.getRadiusOfGyration().value, \
+                                  "<p>Output fit quality : %1.3f</p>" % self.__edPluginExecGnom.dataOutput.getFitQuality().value])
+        _dammifResults = os.linesep.join(["<p>RFactor : %1.4f</p>" % self.__edPluginExecDammif.dataOutput.getRfactor().value, \
+                                    "<p>Chi(Sqrt) : %3.3f</p>" % self.__edPluginExecDammif.dataOutput.getChiSqrt().value])
+        _damaverResults = os.linesep.join(["<p>Mean NSD : %2.3f</p>" % self.dataOutput.getMeanNSD().value, \
+                                     "<p>Variation of NSD : %2.3f</p>" % self.dataOutput.getVariationNSD().value])
 
         if self.__idxDammifBestChiSq is self.__idxDammifBestNSD:
             _dammifModelLink = os.path.join(os.path.relpath(self.__edPluginExecDammif.getWorkingDirectory(), self.getWorkingDirectory()), "dammif-1.pdb")
         else:
             _dammifModelLink = os.path.join(os.path.relpath(self.__xsSupcombPlugin[self.__idxDammifBestChiSq, self.__idxDammifBestNSD].getWorkingDirectory(), self.getWorkingDirectory()), "result.pdb")
         _damaverModelLink = os.path.relpath(pathDamaverFile, self.getWorkingDirectory())
-        _dammifModel = '\n'.join(['<script>jmolInitialize("./jmol", true);', \
+        _dammifModel = os.linesep.join(['<script>jmolInitialize("./jmol", true);', \
                                   'jmolApplet(200, "load %s; isosurface saSurface; color orange; spin on");</script>' % _dammifModelLink])
-        _damaverModel = '\n'.join(['<script>jmolInitialize("./jmol", true);', \
+        _damaverModel = os.linesep.join(['<script>jmolInitialize("./jmol", true);', \
                                   'jmolApplet(200, "load %s; isosurface saSurface; color orange; spin on");</script>' % _damaverModelLink])
 
         if self.__bUseJMol:
@@ -830,9 +925,9 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         _htmlCode = ['<hr />']
         _htmlCode.append("<h2>Results of GNOM run</h2>")
         _htmlCode.append('<hr />')
-        _htmlCode.append('<h3>Optimized value of RMax : %3.2f</h3>' % self.__edPluginExecGnom.getDataInput().getRMax().getValue())
-        _htmlCode.append("<h3>Estimated Rg : %3.2f</h3>" % self.__edPluginExecGnom.getDataOutput().getRadiusOfGyration().getValue())
-        _htmlCode.append("<h3>Output fit quality : %1.3f</h3>" % self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue())
+        _htmlCode.append('<h3>Optimized value of RMax : %3.2f</h3>' % self.__edPluginExecGnom.dataInput.rMax.value)
+        _htmlCode.append("<h3>Estimated Rg : %3.2f</h3>" % self.__edPluginExecGnom.dataOutput.getRadiusOfGyration().value)
+        _htmlCode.append("<h3>Output fit quality : %1.3f</h3>" % self.__edPluginExecGnom.dataOutput.getFitQuality().value)
         _htmlCode.append('<h4>GNOM output file : <a href="%(link)s">%(link)s</a></h4>' % {'link' : _gnomOutputLink})
         _htmlCode.append('<img alt="Distribution function" src="%s"></td>' % _imgPR)
         _htmlCode.append('<hr />')
@@ -851,8 +946,8 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             _htmlCode.extend(['<tr>', '<th><h3>Rmax</h3></th>', '<th><h3>Fit Quality</h3></th>', '<th><h3>Link</h3></th>', '</tr>'])
             for idx in range(self.__rMaxDivide):
                 dirLocation = os.path.relpath(self.__xsGnomPlugin[(itr, idx)].getWorkingDirectory(), self.getWorkingDirectory())
-                _htmlCode.extend(['<tr>', '<td>%3.2f</td>' % self.__xsGnomPlugin[(itr, idx)].getDataInput().getRMax().getValue(), \
-                               '<td>%1.3f</td>' % self.__xsGnomPlugin[(itr, idx)].getDataOutput().getFitQuality().getValue(), \
+                _htmlCode.extend(['<tr>', '<td>%3.2f</td>' % self.__xsGnomPlugin[(itr, idx)].dataInput.rMax.value, \
+                               '<td>%1.3f</td>' % self.__xsGnomPlugin[(itr, idx)].dataOutput.getFitQuality().value, \
                                '<td><a href="%(link)s">%(link)s</a></td>' % {'link' : dirLocation}, '</tr>'])
             _htmlCode.append('</table></td></tr></table></div></div>')
             _htmlCode.append("<div id='iteration_%d_closed_view' style='display: block;'>" % (itr + 1))
@@ -869,7 +964,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
         _htmlCode = ["<h2>Results of the best DAMMIF run</h2>"]
         _htmlCode.append('<hr />')
-        _htmlCode.append("<h3>RFactor : %1.4f   Chi(Sqrt) : %3.3f</h3>" % (self.__edPluginExecDammif.getDataOutput().getRfactor().getValue(), self.__edPluginExecDammif.getDataOutput().getChiSqrt().getValue()))
+        _htmlCode.append("<h3>RFactor : %1.4f   Chi(Sqrt) : %3.3f</h3>" % (self.__edPluginExecDammif.dataOutput.getRfactor().value, self.__edPluginExecDammif.dataOutput.getChiSqrt().value))
         _htmlCode.append('<h4>DAMMIF particle model : <a href="%(link)s">%(link)s</a></h4>' % {'link': os.path.join(_dammifDir, "dammif-1.pdb")})
         _htmlCode.append('<h4>DAMMIF solvent model : <a href="%(link)s">%(link)s</a></h4>' % {'link': os.path.join(_dammifDir, "dammif-0.pdb")})
         _htmlCode.append('<h4>DAMMIF fit file : <a href="%(link)s">%(link)s</a></h4>' % {'link': os.path.join(_dammifDir, "dammif.fit")})
@@ -890,8 +985,8 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
                 modelFile = os.path.join(modelLocation, "result.pdb")
 
             dirLocation = os.path.relpath(tmpDammifPlugin.getWorkingDirectory(), self.getWorkingDirectory())
-            _htmlCode.extend(['<tr>', '<td>%1.4f</td>' % tmpDammifPlugin.getDataOutput().getRfactor().getValue(), \
-                               '<td>%3.3f</td>' % tmpDammifPlugin.getDataOutput().getChiSqrt().getValue()])
+            _htmlCode.extend(['<tr>', '<td>%1.4f</td>' % tmpDammifPlugin.dataOutput.getRfactor().value, \
+                               '<td>%3.3f</td>' % tmpDammifPlugin.dataOutput.getChiSqrt().value])
             if self.__bUseJMol:
                 _htmlCode.append('<td><script>jmolInitialize("./jmol", true);')
                 _htmlCode.append('jmolApplet(200, "load %s; isosurface saSurface; color isosurface %s");</script></td>' \
@@ -909,8 +1004,8 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
     def __outputHTMLDamaverResults(self):
         _pdbFilter = EDPDBFilter()
-        pathDamfiltFileRaw = self.__edPluginExecDamfilt.getDataOutput().getOutputPdbFile().getPath().getValue()
-        pathDamstartFileRaw = self.__edPluginExecDamstart.getDataOutput().getOutputPdbFile().getPath().getValue()
+        pathDamfiltFileRaw = self.__edPluginExecDamfilt.dataOutput.getOutputPdbFile().getPath().value
+        pathDamstartFileRaw = self.__edPluginExecDamstart.dataOutput.getOutputPdbFile().getPath().value
         pathDamaverFile = os.path.join(self.__edPluginExecDamaver.getWorkingDirectory(), "damaver_valid.pdb")
         pathDamfiltFile = os.path.join(self.__edPluginExecDamfilt.getWorkingDirectory(), "damfilt_valid.pdb")
         pathDamstartFile = os.path.join(self.__edPluginExecDamstart.getWorkingDirectory(), "damstart_valid.pdb")
@@ -957,29 +1052,29 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
 
     def __outputHTMLReferences(self):
-        tmpLines = [ '<hr /><h2>References</h2>', \
+        tmpLines = [ '<hr /><h2>References</h2>',
                     """<p><b>ATSAS</b> A program suite for small-angle scattering data analysis from biological macromolecules.
-                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://www.embl-hamburg.de/biosaxs/software.html'}, \
+                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://www.embl-hamburg.de/biosaxs/software.html'},
                     """<p><b>GNOM</b> Svergun D.I. (1992) Determination of the regularization parameter
                         in indirect-transform methods using perceptual criteria. <em>J. Appl. Cryst.</em>
-                        <strong>25</strong>, 495-503</p>""", \
+                        <strong>25</strong>, 495-503</p>""",
                     """<p><b>DAMMIF</b> Franke, D. and Svergun, D.I. (2009) DAMMIF, a program for
                          rapid ab-initio shape determination in small-angle scattering. <em>J. Appl. Cryst.</em> <strong>42</strong>, 342-346.</p>""", \
                     """<p><b>SUPCOMB</b> M.Kozin and D.Svergun (2000) Automated matching of high- and low-resolution
-                        structural models <em>J. Appl. Cryst.</em> <strong>34</strong>, 33-41.</p>""", \
+                        structural models <em>J. Appl. Cryst.</em> <strong>34</strong>, 33-41.</p>""",
                     """<p><b>DAMAVER</b> V. V. Volkov and D. I. Svergun (2003). Uniqueness of ab-initio shape
                         determination in small-angle scattering. <em>J. Appl. Cryst.</em> <strong>36</strong>, 860-864.</p>""", \
                     """<p><b>EDNA</b> M.-F. Incardona, G. P. Bourenkov, K. Levik, R. A. Pieritz, A. N. Popov and O. Svensson (2009).
                         EDNA: a framework for plugin-based applications applied to X-ray experiment online data analysis.
                         <em>J. Synchrotron Rad.</em> <strong>16</strong>, 872-879.<a href="%(link)s">%(link)s</a></p>""" % {'link':'http://www.edna-site.org/'}, \
                     """<p><b>Jmol</b> an open-source Java viewer for chemical structures in 3D.
-                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://www.jmol.org/'}, \
+                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://www.jmol.org/'},
                     """<p><b>Numpy</b> the package for scientific computing in Python
-                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://numpy.scipy.org/'}, \
+                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://numpy.scipy.org/'},
                     """<p><b>Matplotlib</b> the package for 2D plotting in Python
-                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://matplotlib.sourceforge.net/'}, \
+                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://matplotlib.sourceforge.net/'},
                     """<p><b>NeXus</b> a common data format for neutron, x-ray, and muon science.
-                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://www.nexusformat.org/'}, \
+                        <a href="%(link)s">%(link)s</a>""" % {'link':'http://www.nexusformat.org/'},
                     """<p><b>h5py</b> a simple Python interface to HDF5
                         <a href="%(link)s">%(link)s</a>""" % {'link':'http://h5py.alfven.org/'}]
 
@@ -988,43 +1083,43 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
     def __jsFunctions(self):
         tmpLines = [ \
-        '<script>                                                           ', \
-        '/* EDNA2html.js                                                    ', \
-        '                                                                   ', \
-        '   Javascript functions for use in the output of EDNA2html         ', \
-        '                                                                   ', \
-        '   CVS_id $Id: EDNA2html.js,v 1.3 2010/04/22 09:19:34 pjb93 Exp $  ', \
-        ' */                                                                ', \
-        '                                                                   ', \
-        '// Toggle the display property of a specific element               ', \
-        '// Specify the id of an element and its display style              ', \
-        '// will be flipped from "none" to "block", or "block" to           ', \
-        '// "none" as appropriate                                           ', \
-        'function toggleElement(name)                                       ', \
-        '{                                                                  ', \
-        '    var obj = document.getElementById(name);                       ', \
-        '    var state = obj.style.display;                                 ', \
-        '    var new_state = "";                                            ', \
-        '    if (state == "none") {                                         ', \
-        '    new_state = "block";                                           ', \
-        '    } else {                                                       ', \
-        '    new_state = "none";                                            ', \
-        '    }                                                              ', \
-        '    obj.style.display = new_state;                                 ', \
-        '}                                                                  ', \
-        '                                                                   ', \
-        '// Toggle the display properties of multiple elements              ', \
-        '// Specify a list of element ids to have their display             ', \
-        '// style flipped between "none" and "block"                        ', \
-        'function toggleElements()                                          ', \
-        '{                                                                  ', \
-        '    for (var i=0; i < arguments.length; i++) {                     ', \
-        '    toggleElement(arguments[i]);                                   ', \
-        '    }                                                              ', \
-        '}                                                                  ', \
-        '</script>                                                          ', \
+        '<script>                                                           ',
+        '/* EDNA2html.js                                                    ',
+        '                                                                   ',
+        '   Javascript functions for use in the output of EDNA2html         ',
+        '                                                                   ',
+        '   CVS_id $Id: EDNA2html.js,v 1.3 2010/04/22 09:19:34 pjb93 Exp $  ',
+        ' */                                                                ',
+        '                                                                   ',
+        '// Toggle the display property of a specific element               ',
+        '// Specify the id of an element and its display style              ',
+        '// will be flipped from "none" to "block", or "block" to           ',
+        '// "none" as appropriate                                           ',
+        'function toggleElement(name)                                       ',
+        '{                                                                  ',
+        '    var obj = document.getElementById(name);                       ',
+        '    var state = obj.style.display;                                 ',
+        '    var new_state = "";                                            ',
+        '    if (state == "none") {                                         ',
+        '    new_state = "block";                                           ',
+        '    } else {                                                       ',
+        '    new_state = "none";                                            ',
+        '    }                                                              ',
+        '    obj.style.display = new_state;                                 ',
+        '}                                                                  ',
+        '                                                                   ',
+        '// Toggle the display properties of multiple elements              ',
+        '// Specify a list of element ids to have their display             ',
+        '// style flipped between "none" and "block"                        ',
+        'function toggleElements()                                          ',
+        '{                                                                  ',
+        '    for (var i=0; i < arguments.length; i++) {                     ',
+        '    toggleElement(arguments[i]);                                   ',
+        '    }                                                              ',
+        '}                                                                  ',
+        '</script>                                                          ',
         '<script src="./jmol/Jmol.js"></script>']
-        return '\n'.join(tmpLines)
+        return os.linesep.join(tmpLines)
 
 
     def __outputHTMLPipelineResults(self):
@@ -1032,13 +1127,12 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         Output pipilene results in HTML format
         """
 
-        htmlLog = open(os.path.join(self.getWorkingDirectory(), "pipelineResults.html"), 'w')
         htmlText = ['<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"', '"http://www.w3.org/TR/html4/strict.dtd"> ', \
                     '<html>', '<head>', '<title>Solution Scattering Pipeline Results</title>', self.__jsFunctions(), '</head>', '<body>']
         htmlText.append('<h1>Summary of Solution Scattering Pipeline Execution</h1>')
 
-        if self.getDataInput().getTitle() is not None:
-            htmlText.append('<h1>Data file : %s</h1>' % self.getDataInput().getTitle().getValue())
+        if self.dataInput.getTitle() is not None:
+            htmlText.append('<h1>Data file : %s</h1>' % self.dataInput.getTitle().value)
 
         htmlText.extend(self.__outputHTMLSummaryTable())
         htmlText.extend(self.__outputHTMLGnomImages())
@@ -1049,15 +1143,15 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         htmlText.extend(self.__outputHTMLReferences())
 
         htmlText.append('<hr /></body>')
-        htmlLog.write('\n'.join(htmlText))
-        htmlLog.close()
+        with open(os.path.join(self.getWorkingDirectory(), "pipelineResults.html"), 'w') as htmlLog:
+            htmlLog.write(os.linesep.join(htmlText))
 
 
     def generateExecutiveSummary(self, __edPlugin=None):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("EDPluginControlSolutionScatteringv0_3.generateExecutiveSummary")
+        self.DEBUG("EDPluginControlSolutionScatteringv0_4.generateExecutiveSummary")
         self.addExecutiveSummaryLine("Summary of Solution Scattering Pipeline Execution:")
         self.addErrorWarningMessagesToExecutiveSummary("Characterisation failure! Error messages: ")
         self.addExecutiveSummarySeparator()

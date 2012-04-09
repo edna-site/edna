@@ -29,8 +29,8 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, sys, threading, time
-
+import os, sys, time
+from EDThreading            import Semaphore
 from EDCommandLine          import EDCommandLine
 from EDVerbose              import EDVerbose
 from EDConfiguration        import EDConfiguration
@@ -72,7 +72,7 @@ class EDApplication(object):
 
     __edConfiguration = None
     __edFactoryPlugin = None
-    __semaphore = threading.Semaphore()
+    __semaphore = Semaphore()
 
 
     def __init__(self, _strName="EDApplication", \

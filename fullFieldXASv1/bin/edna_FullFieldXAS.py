@@ -6,9 +6,9 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2011, European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110916"
+__date__ = "20120313"
 
-import os, time, sys, threading, tempfile, string, shlex, socket
+import os, time, sys, tempfile, string, shlex, socket
 
 # Append the EDNA kernel source directory to the python path
 if "EDNA_HOME" not in  os.environ:
@@ -57,6 +57,8 @@ from XSDataCommon                       import XSDataTime, XSDataFile, XSDataIma
 
 if socket.gethostname() == 'lintaillefer':
     EDShare.initialize("/mnt/data/EDShare")
+if socket.gethostname() == 'tabor':
+    EDShare.initialize("/mnt/EDShare")
 else:
     try:
         dirnames = [i for i in os.listdir("/buffer") if i.startswith(socket.gethostname())]
@@ -87,7 +89,7 @@ class FullFieldXas(object):
         self.suffix = ".edf" #
         self.headers = {}
         self.exposureTime = {}
-        self.normalizedSuffix = "_norm.edf"
+        self.normalizedSuffix = None#""#"_norm.edf"
         self.flatPrefix = None
         self.iLinewidth = 50
         self.listInput = []
@@ -95,6 +97,11 @@ class FullFieldXas(object):
         self.strMode = "OffLine"
         self.dontAlign = None
         self.iErrCount = 0
+        self.lstSubscanSize = None
+        self.fScaleData = 1.0
+        self.fScaleDark = 1.0
+        self.fScaleFlat = 1.0
+
 
     def load(self, filename):
         """
@@ -134,6 +141,8 @@ class FullFieldXas(object):
         self.readHDF5()
         self.readReference()
         self.readDark()
+        self.readSubscanSize()
+        self.readScale()
         self.readMeasureOffset()
 
     def raw_input(self, txt):
@@ -255,14 +264,9 @@ class FullFieldXas(object):
                 bOK = True
 
     def readNormSuffix(self):
-        bOK = False
-        while not bOK:
-            strtmp = self.raw_input("What is the suffix for normalized images [%s]: " % self.normalizedSuffix)
-            if strtmp == "":
-                bOK = (self.normalizedSuffix is not None)
-            else:
-                self.normalizedSuffix = strtmp
-                bOK = True
+        strtmp = self.raw_input("What is the suffix for normalized images [%s]: " % self.normalizedSuffix)
+        if strtmp != "":
+            self.normalizedSuffix = strtmp
 
 
     def readReference(self):
@@ -325,6 +329,18 @@ class FullFieldXas(object):
             if len(strtmp) > 0:
                 if strtmp != "0":
                     self.xsdMeasureOffset.setSobelFilter(XSDataBoolean(int(strtmp)))
+            strtmp = self.raw_input("Use SIFT instead of FFT correlation [0|1]: ")
+            if len(strtmp) > 0:
+                if strtmp[0] not in ["0", "n", "N"]:
+                    try:
+                        import feature
+                    except:
+                        print("Unable to import feature: fall back on FFT")
+                        self.xsdMeasureOffset.setUseSift(XSDataBoolean(False))
+                    else:
+                        self.xsdMeasureOffset.setUseSift(XSDataBoolean(True))
+                else:
+                    self.xsdMeasureOffset.setUseSift(XSDataBoolean(False))
 
 
     def readDark(self):
@@ -352,6 +368,34 @@ class FullFieldXas(object):
                     xsdata.setExposureTime(XSDataTime(expTime))
                     self.xsdDarks.append(xsdata)
 
+    def readSubscanSize(self):
+        """
+        
+        """
+        strtmp = self.raw_input("Size of the sub-scans (space separated):")
+        try:
+            self.lstSubscanSize = [int(i) for i in strtmp.split()]
+        except:
+            self.lstSubscanSize = None
+        else:
+            print("Setting scan size to %s" % self.lstSubscanSize)
+
+    def readScale(self):
+        strtmp = self.raw_input("Scale factor for data frames (division):")
+        try:
+            self.fScaleData = float(strtmp)
+        except:
+            self.fScaleData = 1
+        strtmp = self.raw_input("Scale factor for ref frames (division):")
+        try:
+            self.fScaleFlat = float(strtmp)
+        except:
+            self.fScaleFlat = 1
+        strtmp = self.raw_input("Scale factor for dark frames (division):")
+        try:
+            self.fScaleDark = float(strtmp)
+        except:
+            self.fScaleDark = 1
 
 
     def getHeaders(self, filename):
@@ -409,7 +453,7 @@ class FullFieldXas(object):
         dirname, basename = os.path.split(filename)
         if not basename.startswith(self.prefix):
             return
-        if basename.endswith(self.normalizedSuffix):
+        if self.normalizedSuffix and basename.endswith(self.normalizedSuffix):
             return
         if basename.startswith(self.flatPrefix):
             return
@@ -422,55 +466,74 @@ class FullFieldXas(object):
         extendedPrefix = ""
         number = ""
         started = False
-        for i in basename[len(self.prefix):]:
-            extendedPrefix += i
-            if started and not i.isdigit():
-                break
-            if not started and i.isdigit():
-                started = True
-            if started:
-                number += i
-            #print  extendedPrefix, number
-        xsd.setIndex(XSDataInteger(int(number)))
+        if self.lstSubscanSize:
+            subScanDigit = []
+            for i in basename[len(self.prefix):]:
+                extendedPrefix += i
+                if started and i == "_":
+                    if len(number) > 0:
+                        subScanDigit.append(int(number))
+                        number = ""
+                    continue
+                if started and not i.isdigit():
+                    if number:
+                        subScanDigit.append(int(number))
+                    number = ""
+                    break
+                if not started and i.isdigit():
+                    started = True
+                if started:
+                    number += i
+            if not subScanDigit:
+                print("ERROR: no index guessed !!!")
+                return ""
+            elif len(subScanDigit) == 1:
+                index = subScanDigit[0]
+            else:# len(subScanDigit) > 1:
+                index = 0
+                for i in range(subScanDigit[0]):
+                    index += self.lstSubscanSize[i]
+                index += subScanDigit[1]
+        else:
+            for i in basename[len(self.prefix):]:
+                extendedPrefix += i
+                if started and not i.isdigit():
+                    break
+                if not started and i.isdigit():
+                    started = True
+                if started:
+                    number += i
+                index = int(number)
 
-        xsd.setHDF5File(self.xsdHDF5)
-        xsd.setInternalHDF5Path(self.xsdInternalHdf5)
+        xsd.setIndex(XSDataInteger(index))
 
-        xsd.setReference(self.xsdReference)
-
-#        xsdNorm = XSDataFile()
-#        xsdNorm.setPath(XSDataString(os.path.join(dirname, os.path.splitext(basename)[0] + self.normalizedSuffix)))
-#        xsd.setSaveNormalized(xsdNorm)
-
-        xsd.setMeasureOffset(self.xsdMeasureOffset)
-
-
-        xsdFileData = XSDataImageExt()
-        xsdFileData.setPath(XSDataString(filename))
-        xsdFileData.setExposureTime(XSDataTime(self.getExposureTime(filename)))
-        xsd.setData([xsdFileData])
-
+        xsd.HDF5File = self.xsdHDF5
+        xsd.internalHDF5Path = self.xsdInternalHdf5
+        xsd.reference = self.xsdReference
+        xsd.measureOffset = self.xsdMeasureOffset
+        xsd.data = [XSDataImageExt(path=XSDataString(filename),
+                                   exposureTime=XSDataTime(self.getExposureTime(filename)))]
+        xsd.dataScaleFactor = XSDataDouble(self.fScaleData)
+        xsd.darkScaleFactor = XSDataDouble(self.fScaleDark)
+        xsd.flatScaleFactor = XSDataDouble(self.fScaleFlat)
+        if self.normalizedSuffix:
+            pr = os.path.splitext(os.path.abspath(filename))[0]
+            xsd.saveNormalized = XSDataFile(path=XSDataString(pr + self.normalizedSuffix))
         energy = self.getEnergy(filename)
         if energy is not None:
-#            print("Energy is %s" % energy)
-            xsd.setEnergy(XSDataDouble(energy))
+            xsd.energy = XSDataDouble(energy)
+        xsd.dark = self.xsdDarks
 
-        xsd.setDark(self.xsdDarks)
-
-        listFlats = []
         flatprefix = self.flatPrefix + extendedPrefix
-#        print "flatprefix=" + flatprefix
+        listFlats = [  ]
         for oneFile in os.listdir(dirname):
             if oneFile.startswith(flatprefix) and oneFile.endswith(self.suffix):
-                xsdFileFlat1 = XSDataImageExt()
                 oneCompleteFile = os.path.abspath(os.path.join(dirname, oneFile))
-                xsdFileFlat1.setPath(XSDataString(oneCompleteFile))
-                xsdFileFlat1.setExposureTime(XSDataTime(self.getExposureTime(oneCompleteFile)))
+                xsdFileFlat1 = XSDataImageExt(path=XSDataString(oneCompleteFile),
+                                              exposureTime=XSDataTime(self.getExposureTime(oneCompleteFile)))
                 listFlats.append(xsdFileFlat1)
-
-
         xsd.setFlat(listFlats)
-#        print xsd.marshal()
+
         return xsd.marshal()
 
 
@@ -482,7 +545,10 @@ class FullFieldXas(object):
         @rtype: None
         @return: None     
         """
-        xsd = XSDataInputFullFieldXAS.parseString(strXMLin)
+        if isinstance(strXMLin, (str, unicode)):
+            xsd = XSDataInputFullFieldXAS.parseString(strXMLin)
+        else:
+            xsd = strXMLin
         filenames = [ i.path.value for i in xsd.getData()]
         EDVerbose.ERROR("Error in the processing of: \n %s" % "\n".join(filenames))
         self.iErrCount += 1

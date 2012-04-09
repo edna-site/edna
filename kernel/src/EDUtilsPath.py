@@ -30,9 +30,11 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120216"
 
 
-import os, glob, threading, tempfile, getpass, hashlib
+import os, glob, tempfile, getpass, hashlib
+from EDThreading import Semaphore
 from EDVerbose import EDVerbose
 from os.path import dirname, abspath, exists
 
@@ -56,11 +58,13 @@ class EDUtilsPath:
     _EDNA_TESTIMAGES = None
     _EDNA_TESTS = None
     _EDNA_TESTDATA = None
+    _USER = os.getenv("USER", "UndefindedUser")
+    _TMPDIR = os.getenv("TMPDIR", tempfile.gettempdir())
 
     _EDNA_PROJECTS = {} # key: project name. Value: path to the project root
     _EDNA_PLUGINCACHE = None
 
-    __semaphore = threading.Semaphore()
+    __semaphore = Semaphore()
 
 
     @classmethod
@@ -211,7 +215,7 @@ class EDUtilsPath:
                 try:
                     # Working on Windows and Linux:
                     strUserName = getpass.getuser()
-                except:
+                except Exception:
                     # Working on MacOS:
                     strUserName = os.getlogin()
                 bIsOk = False
@@ -222,7 +226,7 @@ class EDUtilsPath:
                     if not os.path.exists(cls._EDNA_USERTEMPFOLDER):
                         try:
                             os.mkdir(cls._EDNA_USERTEMPFOLDER)
-                        except:
+                        except Exception:
                             EDVerbose.WARNING("Error when trying to create the directory %s" % cls._EDNA_USERTEMPFOLDER)
                     if os.access(cls._EDNA_USERTEMPFOLDER, os.W_OK) and os.access(cls._EDNA_USERTEMPFOLDER, os.X_OK):
                         bIsOk = True
@@ -347,10 +351,12 @@ class EDUtilsPath:
         """
         Return an os.environ like dict enriched with internal path 
         """
-        res = os.environ.copy()
-        res["EDNA_HOME"] = cls.EDNA_HOME
-        res["EDNA_SITE"] = cls.EDNA_SITE
-        res["EDNA_TESTS"] = cls.EDNA_TESTS
-        res["EDNA_TESTDATA"] = cls.EDNA_TESTDATA
-        res["EDNA_TESTIMAGES"] = cls.EDNA_TESTIMAGES
+        res = {"${EDNA_HOME}": cls.EDNA_HOME,
+               "${EDNA_SITE}": cls.EDNA_SITE,
+               "${EDNA_TESTS}": cls.EDNA_TESTS,
+               "${EDNA_TESTDATA}": cls.EDNA_TESTDATA,
+               "${EDNA_TESTIMAGES}": cls.EDNA_TESTIMAGES,
+               "${USER}": cls._USER,
+               "${TMPDIR}": cls._TMPDIR
+               }
         return res

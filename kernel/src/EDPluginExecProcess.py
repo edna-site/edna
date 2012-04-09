@@ -32,7 +32,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import threading, shlex
+import threading, shlex, sys
 
 from EDVerbose          import EDVerbose
 from EDPlugin           import EDPlugin
@@ -140,6 +140,8 @@ class EDPluginExecProcess(EDPluginExec):
         """
         Sets the executable
         """
+        if self.__strConfigExecutable == "python":
+            return sys.executable
         return self.__strConfigExecutable
 
 

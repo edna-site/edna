@@ -27,27 +27,28 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "jerome.kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF Grenoble"
-__date__ = "2011-09-05"
+__date__ = "2012-03-12"
 
 ###############################################################################
 # BIG FAT WARNING
 # HDF5 does not like unicode string and crashes with cryptic error messages
 ###############################################################################
 
-import os, threading, time, locale
+import os, time, locale
+
 from EDVerbose                  import EDVerbose
-from EDPluginExec               import EDPluginExec
-from EDAssert                   import EDAssert
+from EDPlugin                   import EDPlugin
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDConfiguration            import EDConfiguration
-from EDModule                   import EDModule
-from XSDataHDF5v1_0             import XSDataInputHDF5Writer
-from EDFactoryPluginStatic      import EDFactoryPluginStatic
+from EDFactoryPlugin            import edFactoryPlugin  as EDFactoryPluginStatic
+from EDDecorator                import deprecated
+from EDThreading                import Semaphore
+from EDUtilsPath                import EDUtilsPath
 architecture = EDUtilsPlatform.architecture
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
-h5pyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "H5Py-1.3.0", architecture)
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
+h5pyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "H5Py-1.3.0", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
 
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="__version__")
 h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="version.api_version", _strForceVersion="1.8")
@@ -64,11 +65,11 @@ if "EDNA_SITE" not in os.environ:
     os.environ["EDNA_SITE"] = "edna-site"
 
 
-class EDPluginHDF5(EDPluginExec):
+class EDPluginHDF5(EDPlugin):
     """
     This is a common part for all EDNA plugin writing HDF5. most methods are class methods 
     """
-    __semCls = threading.Semaphore()
+    __semCls = Semaphore()
     __dictHDF5 = {} #key: filename, value: hdf5 h5py objects
     __dictLock = {} #key: filename, value:semaphores for writing
     __bConfigured = False
@@ -105,19 +106,34 @@ class EDPluginHDF5(EDPluginExec):
         """
         Constructor of EDPluginHDF5
         """
-        EDPluginExec.__init__(self)
+        super(EDPluginHDF5, self).__init__()
         self.strHDF5Filename = None
         self.strHDF5Path = None
         self.dtype = None
         self.dictExtraAttributes = {} #key= h5path, value dict of attributes
         self.__iChunkSegmentation = 1
 
+    def get(self, h5Path, default):
+        try:
+            self.__getitem__(h5Path)
+        except KeyError:
+            return default
+
+    def __getitem__(self, item):
+        """
+        implements a getter a la dictionnary but compatible with  
+        """
+        if self.strHDF5Filename in self.__dictLock:
+            return  self.__dictHDF5[item]
+        else:
+            raise KeyError("HDF5 file %s not under control of EDPluginHDF5" % self.strHDF5Filename)
+
 
     def checkParameters(self):
         """
         Checks the mandatory parameters.
         """
-        EDPluginExec.checkParameters(self)
+        super(EDPluginHDF5, self).checkParameters()
         self.DEBUG("EDPluginHDF5.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.HDF5File, "No HDF5 file provided")
@@ -128,7 +144,7 @@ class EDPluginHDF5(EDPluginExec):
         """
         Configure the HDF5 compression scheme
         """
-        EDPluginExec.configure(self)
+        super(EDPluginHDF5, self).configure()
         self.DEBUG("EDPluginHDF5.configure")
         if not EDPluginHDF5.__bConfigured:
             xsPluginItem = self.getConfiguration()
@@ -143,7 +159,7 @@ class EDPluginHDF5(EDPluginExec):
 
 
     def preProcess(self, _edObject=None):
-        EDPluginExec.preProcess(self)
+        super(EDPluginHDF5, self).preProcess()
         self.DEBUG("EDPluginHDF.preProcess")
         self.strHDF5Filename = self.dataInput.HDF5File.path.value
         self.strHDF5Path = self.dataInput.internalHDF5Path.value
@@ -157,17 +173,17 @@ class EDPluginHDF5(EDPluginExec):
         if self.dataInput.forceDtype is not None:
             self.dtype = self.dataInput.forceDtype.value
         for extraAttr in self.dataInput.extraAttributes:
-             attr = {}
-             h5path = extraAttr.h5path.value
-             for meta in extraAttr.metadata.keyValuePair:
-                 attr[meta.key.value] = meta.value.value
-             self.dictExtraAttributes[h5path] = attr
+            attr = {}
+            h5path = extraAttr.h5path.value
+            for meta in extraAttr.metadata.keyValuePair:
+                attr[meta.key.value] = meta.value.value
+            self.dictExtraAttributes[h5path] = attr
         if self.dataInput.chunkSegmentation is not None:
             self._iChunkSegmentation = self.dataInput.chunkSegmentation.value
 
     def postProcess(self, _edObject=None):
         self.DEBUG("EDPluginHDF5.postProcess")
-        EDPluginExec.postProcess(self)
+        super(EDPluginHDF5, self).postProcess()
         if self.isVerboseDebug():
             self.flush(self.strHDF5Filename)
 
@@ -245,7 +261,7 @@ class EDPluginHDF5(EDPluginExec):
                             raise
                         cls.__dictHDF5[filename] = h5py.File(filename)
             if not filename in cls.__dictLock:
-                cls.__dictLock[filename] = threading.Semaphore()
+                cls.__dictLock[filename] = Semaphore()
             filelock = cls.__dictLock[filename]
         with filelock:
             hdf5 = cls.__dictHDF5[filename]
@@ -282,24 +298,40 @@ class EDPluginHDF5(EDPluginExec):
         return hdf5group
 
 
+    def flush(self, filename=None):
+        """
+        method to flush (optionaly another) hdf5 file
+        """
+        if filename:
+            self.flushFile(filename)
+        else:
+            self.flushFile(self.strHDF5Filename)
+
     @classmethod
-    def flush(cls, filename):
+    def flushFile(cls, filename):
         """
         Write down to the disk the HDF5 file.
         
         @param filename: path of the file to be created
         @type filename: string
         """
-        if cls.__dictHDF5.has_key(filename):
+        if filename in cls.__dictHDF5:
             EDVerbose.log("Flushing HDF5 buffer for " + filename)
             with cls.__dictLock[filename]:
                 cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
-                cls.__dictHDF5[filename].flush()
+
+                if h5py.version.api_version_tuple < (1, 10):
+                    cls.__dictHDF5[filename].close()
+                    cls.__dictHDF5[filename] = h5py.File(filename)
+                else:
+                    cls.__dictHDF5[filename].flush()
         else:
             EDVerbose.WARNING("HDF5 Flush: %s, no such file under control" % filename)
 
 
+
     @classmethod
+    @deprecated
     def lockFile(cls, filename):
         """
         acquire the semaphore for this specific file
@@ -308,20 +340,6 @@ class EDPluginHDF5(EDPluginExec):
             cls.__dictLock[filename].acquire()
         else:
             EDVerbose.WARNING("EDPluginHDF5.lockFile: file not under supervision %s " % filename)
-
-
-    @classmethod
-    def getFileLock(cls, filename):
-        """
-        return the semaphore for locking ....
-        """
-        if filename in cls.__dictLock:
-            return cls.__dictLock[filename]
-        else:
-            EDVerbose.WARNING("EDPluginHDF5.getFileSem: file not under supervision %s. Expect failure ! " % filename)
-
-
-
 
     @classmethod
     def releaseFile(cls, filename):
@@ -333,6 +351,15 @@ class EDPluginHDF5(EDPluginExec):
         else:
             EDVerbose.WARNING("EDPluginHDF5.releaseFile: file not under supervision %s " % filename)
 
+    @classmethod
+    def getFileLock(cls, filename):
+        """
+        return the semaphore for locking ....
+        """
+        if filename in cls.__dictLock:
+            return cls.__dictLock[filename]
+        else:
+            EDVerbose.WARNING("EDPluginHDF5.getFileSem: file not under supervision %s. Expect failure ! " % filename)
 
     @classmethod
     def flushAll(cls):
@@ -341,10 +368,7 @@ class EDPluginHDF5(EDPluginExec):
         """
         with cls.__semCls:
             for filename in cls.__dictHDF5:
-                EDVerbose.log("Flushing HDF5 buffer for " + filename)
-                with cls.__dictLock[filename]:
-                    cls.__dictHDF5[filename].attrs.create("file_update_time", cls.getIsoTime())
-                    cls.__dictHDF5[filename].flush()
+                cls.flushFile(filename)
 
 
     @classmethod

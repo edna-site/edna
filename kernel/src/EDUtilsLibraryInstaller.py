@@ -94,7 +94,7 @@ class EDUtilsLibraryInstaller:
         EDVerbose.DEBUG("LibInstaller.dependency: strDepLibPath=%s" % strDepLibPath)
         try:
             mylib = __import__(_strLibraryName)
-        except:
+        except Exception:
             if os.path.isdir(strDepLibPath)and (strDepLibPath not in sys.path):
                 sys.path.insert(1, strDepLibPath)
                 if os.environ.has_key("PYTHONPATH"):
@@ -111,13 +111,13 @@ class EDUtilsLibraryInstaller:
 #            mylib = __import__(_strLibraryName)
             try:
                 versionObt = eval("mylib.%s" % (_strMethodToGetVersion))
-            except:
+            except Exception:
                 EDVerbose.WARNING("Unable to execute version %s.%s" % (_strLibraryName, _strMethodToGetVersion))
                 versionObt = None
             if isinstance(versionObt, (unicode, str)):
                 try:
                     tupleVersionObt = tuple(map(int, versionObt.split(".")))
-                except:
+                except Exception:
                     EDVerbose.WARNING("Unable to understand Version %s" % versionObt)
                     versionObt = None
             elif isinstance(versionObt, tuple):

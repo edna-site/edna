@@ -129,7 +129,7 @@ class EDUtilsUnit:
             if len(listWords) > 0:
                 try:
                     fValue = float(listWords[0])
-                except:
+                except Exception:
                     EDVerbose.ERROR("Trying to create XSData object from %s; fValue not a float !" % _strObject)
 
                 else:
