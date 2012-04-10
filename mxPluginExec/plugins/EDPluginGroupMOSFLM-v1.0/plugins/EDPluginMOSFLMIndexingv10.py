@@ -67,7 +67,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
 
 
     def finallyProcess(self, _edObject=None):
-        EDPluginMOSFLMv10.postProcess(self)
+        EDPluginMOSFLMv10.finallyProcess(self)
         EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.finallyProcess")
         xsDataMOSFLMOutputIndexing = self.createDataMOSFLMOutputIndexing()
         self.setDataOutput(xsDataMOSFLMOutputIndexing)
