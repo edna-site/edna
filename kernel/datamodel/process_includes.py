@@ -168,7 +168,7 @@ def main():
     args = sys.argv[1:]
     try:
         opts, args = getopt.getopt(args, 'hf', ['help', 'force', ])
-    except:
+    except Exception:
         usage()
     name = 'nobody'
     for opt, val in opts:

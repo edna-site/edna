@@ -7,12 +7,12 @@
 			<xs:extension base="XSDataInput">
 				<xs:sequence>
 					<xs:element name="experimentalDataQ"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="experimentalDataValues"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="experimentalDataStdDev"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="rMax" type="XSDataFloat"
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="rMax" type="XSDataDouble"
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="angularScale" type="XSDataInteger" minOccurs="0"></xs:element>
 					<xs:element name="mode" type="XSDataString" minOccurs="0"></xs:element>
@@ -25,24 +25,24 @@
 		<xs:complexContent>
 			<xs:extension base="XSDataResult">
 				<xs:sequence>
-					<xs:element name="fitQuality" type="XSDataFloat"
+					<xs:element name="fitQuality" type="XSDataDouble"
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="output" type="XSDataFile" minOccurs="1"
 						maxOccurs="1" />
-					<xs:element name="scatteringFitQ" type="XSDataFloat"
+					<xs:element name="scatteringFitQ" type="XSDataDouble"
 						minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="scatteringFitValues" type="XSDataFloat"
+					<xs:element name="scatteringFitValues" type="XSDataDouble"
 						minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="distributionR" type="XSDataFloat"
+					<xs:element name="distributionR" type="XSDataDouble"
 						minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="distributionPr" type="XSDataFloat"
+					<xs:element name="distributionPr" type="XSDataDouble"
 						minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="distributionErr" type="XSDataFloat"
+					<xs:element name="distributionErr" type="XSDataDouble"
 						minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="radiusOfCrossSection" type="XSDataFloat"
+					<xs:element name="radiusOfCrossSection" type="XSDataDouble"
 						maxOccurs="1" minOccurs="1">
 					</xs:element>
-					<xs:element name="radiusOfGyration" type="XSDataFloat"
+					<xs:element name="radiusOfGyration" type="XSDataDouble"
 						maxOccurs="1" minOccurs="1"></xs:element>
 				</xs:sequence>
 			</xs:extension>
@@ -81,10 +81,10 @@
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="pdbSolventFile" type="XSDataFile"
 						minOccurs="1" maxOccurs="1" />
-					<xs:element name="rfactor" type="XSDataFloat"
+					<xs:element name="rfactor" type="XSDataDouble"
 						minOccurs="0" maxOccurs="1">
 					</xs:element>
-					<xs:element name="chiSqrt" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="chiSqrt" type="XSDataDouble" minOccurs="0" maxOccurs="1"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -110,7 +110,7 @@
 					<xs:element name="chained" type="XSDataBoolean"
 						minOccurs="0" maxOccurs="1">
 					</xs:element>
-					<xs:element name="constant" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="constant" type="XSDataDouble" minOccurs="0" maxOccurs="1"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -128,10 +128,10 @@
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="pdbSolventFile" type="XSDataFile"
 						minOccurs="1" maxOccurs="1" />
-					<xs:element name="rfactor" type="XSDataFloat"
+					<xs:element name="rfactor" type="XSDataDouble"
 						minOccurs="0" maxOccurs="1">
 					</xs:element>
-					<xs:element name="chiSqrt" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="chiSqrt" type="XSDataDouble" minOccurs="0" maxOccurs="1"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -145,11 +145,11 @@
 						minOccurs="0" maxOccurs="1">
 					</xs:element>
 					<xs:element name="experimentalDataQ"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="experimentalDataValues"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="experimentalDataStdDev"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="rMaxSearchSettings"
 						type="XSDataSolutionScatteringSettings" minOccurs="0"
 						maxOccurs="1">
@@ -176,25 +176,25 @@
 			<xs:extension base="XSDataResult">
 				<xs:sequence>
 					<xs:element name="corelationFitValues"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="fitFile" type="XSDataFile"
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="lineProfileFitQuality"
-						type="XSDataFloat" minOccurs="1" maxOccurs="1" />
+						type="XSDataDouble" minOccurs="1" maxOccurs="1" />
 					<xs:element name="logFile" type="XSDataFile"
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="pdbMoleculeFile" type="XSDataFile"
 						minOccurs="1" maxOccurs="1" />
 					<xs:element name="pdbSolventFile" type="XSDataFile"
 						minOccurs="1" maxOccurs="1" />
-					<xs:element name="scatteringFitQ" type="XSDataFloat"
+					<xs:element name="scatteringFitQ" type="XSDataDouble"
 						minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="scatteringFitValues"
-						type="XSDataFloat" minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="meanNSD" type="XSDataFloat"
+						type="XSDataDouble" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="meanNSD" type="XSDataDouble"
 						minOccurs="0" maxOccurs="1">
 					</xs:element>
-					<xs:element name="variationNSD" type="XSDataFloat" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="variationNSD" type="XSDataDouble" minOccurs="0" maxOccurs="1"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -228,29 +228,29 @@
 			<xs:element name="ploerr" type="XSDataBoolean" minOccurs="1"></xs:element>
 			<xs:element name="lkern" type="XSDataBoolean" minOccurs="0"></xs:element>
 			<xs:element name="jobtyp" type="XSDataInteger" minOccurs="0"></xs:element>
-			<xs:element name="rmin" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="rmax" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="rmin" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="rmax" type="XSDataDouble" minOccurs="0"></xs:element>
 			<xs:element name="lzrmin" type="XSDataBoolean" minOccurs="0"></xs:element>
 			<xs:element name="lzrmax" type="XSDataBoolean" minOccurs="0"></xs:element>
 			<xs:element name="kernel" type="XSDataFile" minOccurs="0"></xs:element>
-			<xs:element name="deviat" type="XSDataFloat" minOccurs="1"></xs:element>
+			<xs:element name="deviat" type="XSDataDouble" minOccurs="1"></xs:element>
 			<xs:element name="idet" type="XSDataInteger" minOccurs="0"></xs:element>
-			<xs:element name="fwhm1" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="fwhm2" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="ah1" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="lh1" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="aw1" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="lw1" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="ah2" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="lh2" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="aw2" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="lw2" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="fwhm1" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="fwhm2" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="ah1" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="lh1" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="aw1" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="lw1" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="ah2" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="lh2" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="aw2" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="lw2" type="XSDataDouble" minOccurs="0"></xs:element>
 			<xs:element name="spot1" type="XSDataFile" minOccurs="0"></xs:element>
 			<xs:element name="spot2" type="XSDataFile" minOccurs="0"></xs:element>
-			<xs:element name="alpha" type="XSDataFloat" minOccurs="1"></xs:element>
+			<xs:element name="alpha" type="XSDataDouble" minOccurs="1"></xs:element>
 			<xs:element name="nreal" type="XSDataInteger" minOccurs="1"></xs:element>
-			<xs:element name="coef" type="XSDataFloat" minOccurs="0"></xs:element>
-			<xs:element name="rad56" type="XSDataFloat" minOccurs="0"></xs:element>
+			<xs:element name="coef" type="XSDataDouble" minOccurs="0"></xs:element>
+			<xs:element name="rad56" type="XSDataDouble" minOccurs="0"></xs:element>
 			<xs:element name="nextjob" type="XSDataBoolean" minOccurs="0"></xs:element>
 		</xs:sequence>
 
@@ -264,10 +264,10 @@
     	<xs:complexContent>
     		<xs:extension base="XSData">
     	<xs:sequence>
-    		<xs:element name="rMaxStart" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
-    		<xs:element name="rMaxStop" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+    		<xs:element name="rMaxStart" type="XSDataDouble" minOccurs="1" maxOccurs="1"></xs:element>
+    		<xs:element name="rMaxStop" type="XSDataDouble" minOccurs="1" maxOccurs="1"></xs:element>
     		<xs:element name="rMaxIntervals" type="XSDataInteger" minOccurs="1" maxOccurs="1"></xs:element>
-    		<xs:element name="rMaxAbsTol" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+    		<xs:element name="rMaxAbsTol" type="XSDataDouble" minOccurs="1" maxOccurs="1"></xs:element>
     	</xs:sequence>
     		</xs:extension>
     	</xs:complexContent>
@@ -293,10 +293,10 @@
     	<xs:complexContent>
     		<xs:extension base="XSDataResult">
     			<xs:sequence>
-    				<xs:element name="meanNSD" type="XSDataFloat"
+    				<xs:element name="meanNSD" type="XSDataDouble"
     					minOccurs="0" maxOccurs="1">
     				</xs:element>
-    				<xs:element name="variationNSD" type="XSDataFloat"
+    				<xs:element name="variationNSD" type="XSDataDouble"
     					minOccurs="0" maxOccurs="1">
     				</xs:element>
     				<xs:element name="damaverPdbFile" type="XSDataFile"
@@ -400,7 +400,7 @@
     				<xs:element name="trns" type="XSDataVectorDouble"
     					minOccurs="1" maxOccurs="1">
     				</xs:element>
-    				<xs:element name="NSD" type="XSDataFloat" minOccurs="1" maxOccurs="1"></xs:element>
+    				<xs:element name="NSD" type="XSDataDouble" minOccurs="1" maxOccurs="1"></xs:element>
     			</xs:sequence>
     		</xs:extension>
     	</xs:complexContent>

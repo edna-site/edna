@@ -22,7 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010, European Synchrotron Radiation Facility, Grenoble, France"
@@ -37,19 +37,20 @@ from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from EDUtilsArray               import EDUtilsArray
 from EDUtilsUnit                import EDUtilsUnit
 from EDConfiguration            import EDConfiguration
-#EDFactoryPluginStatic.loadModule("XSDataNormalizeImage")
 from XSDataCommon               import XSDataImageExt, XSDataString, XSPluginItem
 from XSDataNormalizeImage       import XSDataInputNormalize, XSDataResultNormalize
 from EDAssert                   import EDAssert
 from EDUtilsPlatform            import EDUtilsPlatform
 from EDShare                    import EDShare
+from EDUtilsPath                import EDUtilsPath
+from EDThreading import Semaphore
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
 
 EDFactoryPluginStatic.preImport("Image", imagingPath)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
@@ -63,7 +64,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
     dictDark = {} #Nota: the key is a string: str(exposutTime)
 #    listDarkExposure = []
 #    listDarkArray = []
-    semaphore = threading.Semaphore()
+    semaphore = Semaphore()
     dtype = None #
     CONF_DTYPE_KEY = "dtype"
     CONF_DTYPE_DEFAULT = "float32"
@@ -100,20 +101,20 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
         """
         EDPluginExec.configure(self)
         self.DEBUG("EDPluginExecNormalizeImagev1_0.configure")
+
         if self.dtype is None:
-            self.synchronizeOn()
-            xsPluginItem = self.getConfiguration()
-            if (xsPluginItem == None):
-                self.WARNING("EDPluginExecNormalizeImagev1_0.configure: No plugin item defined.")
-                xsPluginItem = XSPluginItem()
-            strDtype = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_DTYPE_KEY)
-            if(strDtype == None):
-                self.WARNING("EDPluginExecNormalizeImagev1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
-                            % (self.CONF_DTYPE_KEY, self.CONF_DTYPE_DEFAULT, xsPluginItem.marshal()))
-                self.dtype = self.CONF_DTYPE_DEFAULT
-            else:
-                self.dtype = str(strDtype.strip().lower())
-            self.synchronizeOff()
+            with self.__class__.semaphore:
+                xsPluginItem = self.getConfiguration()
+                if (xsPluginItem == None):
+                    self.WARNING("EDPluginExecNormalizeImagev1_0.configure: No plugin item defined.")
+                    xsPluginItem = XSPluginItem()
+                strDtype = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_DTYPE_KEY)
+                if(strDtype == None):
+                    self.WARNING("EDPluginExecNormalizeImagev1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
+                                % (self.CONF_DTYPE_KEY, self.CONF_DTYPE_DEFAULT, xsPluginItem.marshal()))
+                    self.__class__.dtype = self.CONF_DTYPE_DEFAULT
+                else:
+                    self.__class__.dtype = str(strDtype.strip().lower())
 
 
     def preProcess(self, _edObject=None):
@@ -137,7 +138,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                     if os.path.isfile(strPath):
                         img = fabio.open(strPath)
                         self.listDataArray.append(img.data)
-                        for idx in range(1,img.nframes):
+                        for idx in range(1, img.nframes):
                             self.listDataArray.append(img.getframe(idx).data)
                             self.listDataExposure.append(self.listDataExposure[-1])
                     else:
@@ -165,7 +166,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                 if os.path.isfile(strPath):
                     img = fabio.open(strPath)
                     self.listFlatArray.append(img.data)
-                    for idx in range(1,img.nframes):
+                    for idx in range(1, img.nframes):
                         self.listFlatArray.append(img.getframe(idx).data)
                         self.listFlatExposure.append(self.listFlatExposure[-1])
                 else:
@@ -195,7 +196,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
                     if os.path.isfile(strPath):
                         img = fabio.open(strPath)
                         self.listDarkArray.append(img.data)
-                        for idx in range(1,img.nframes):
+                        for idx in range(1, img.nframes):
                             self.listDarkArray.append(img.getframe(idx).data)
                             self.listDarkExposure.append(self.listDarkExposure[-1])
                     else:
@@ -263,7 +264,7 @@ class EDPluginExecNormalizeImagev1_0(EDPluginExec):
             edf.write(self.strOutputFilename)
             xsdo = XSDataImageExt(path=XSDataString(self.strOutputFilename))
         elif self.strOutputShared is not None:
-            self.DEBUG("EDShare --> %" % self.strOutputShared)
+            self.DEBUG("EDShare --> %s" % self.strOutputShared)
             EDShare[ self.strOutputShared] = self.npaNormalized
             xsdo = XSDataImageExt(shared=XSDataString(self.strOutputShared))
         else:

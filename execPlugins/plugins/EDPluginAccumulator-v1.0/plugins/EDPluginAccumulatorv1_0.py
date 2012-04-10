@@ -22,6 +22,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
 """
 UseCase for EDPluginAccumulator:
 
@@ -36,16 +37,15 @@ There is a flush option that returns all items accumulated and remove them from 
 There are static methods to emptyItems and emptyQueries
 
 """
+from __future__ import with_statement
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
-__data__ = "2011-06-07"
+__data__ = "2012-03-13"
 
-
-import threading
+from EDThreading            import Semaphore
 from EDPlugin               import EDPlugin
-
 from XSDataCommon           import XSDataBoolean, XSDataString
 from XSDataAccumulatorv1_0  import XSDataResultAccumulator, XSDataInputAccumulator, XSDataQuery
 
@@ -63,15 +63,18 @@ class EDPluginAccumulatorv1_0(EDPlugin):
     
     items should be strings, queries are list of strings.
      
-    EDPluginAccumulatorv1_0 is an execution plugin because it is not a control plugin (as it controls nothing) 
+    EDPluginAccumulatorv1_0 is an simple plugin because:
+    * it is not a control plugin (as it controls nothing)
+    * it is not an execution plugin as it does not need to take a CPU (via SemaphoreNbCPU)    
 
     """
-    __semaphore = threading.Semaphore()
-    __queries = {} #queries are stored as keys of a dictionary (as sorted tuple) where the value is the flag "Remove Item"
-    __items = []
+    _semaphore = Semaphore()
+    _queries = {} #queries are stored as keys of a dictionary (as sorted tuple) where the value is the flag "Remove Item"
+    _items = []
 
     def __init__(self):
         """
+        Constructor of the plugin
         """
         EDPlugin.__init__(self)
         self.setXSDataInputClass(XSDataInputAccumulator)
@@ -84,36 +87,35 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginAccumulatorv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
 #        there are no mandatory parameters
 
 
     def preProcess(self, _edObject=None):
         EDPlugin.preProcess(self)
         self.DEBUG("EDPluginAccumulatorv1_0.preProcess")
-        self.__semaphore.acquire()
-        for oneXsdItem in self.getDataInput().getItem(): #could be empty
-            self.__items.append(oneXsdItem.getValue())
-        for oneXsdQuery in self.getDataInput().getQuery(): #could be an empty list
-            query = []
-            for  oneXsdItem in oneXsdQuery.getItem():
-                query.append(oneXsdItem.getValue())
+        with self.__class__._semaphore:
+            for oneXsdItem in self.dataInput.item: #could be empty
+                self._items.append(oneXsdItem.value)
+            for oneXsdQuery in self.dataInput.query: #could be an empty list
+                query = []
+                for  oneXsdItem in oneXsdQuery.item:
+                    query.append(oneXsdItem.value)
 
-            if oneXsdQuery.getRemoveItems() is not None:
-                if oneXsdQuery.getRemoveItems().getValue() in [1, True, "true"]:
-                    removeItems = True
-                elif oneXsdQuery.getRemoveItems().getValue() in [0, False, "false", None]:
-                    removeItems = False
+                if oneXsdQuery.removeItems is not None:
+                    if oneXsdQuery.removeItems.value in [1, True, "true"]:
+                        removeItems = True
+                    elif oneXsdQuery.removeItems.value in [0, False, "false", None]:
+                        removeItems = False
+                    else:
+                        removeItems = True
                 else:
                     removeItems = True
-            else:
-                removeItems = True
-            query.sort()
-            self.__queries[tuple(query)] = removeItems
-        self.__semaphore.release()
+                query.sort()
+                self._queries[tuple(query)] = removeItems
 
-        if self.getDataInput().getFlush() is not None:
-            if self.getDataInput().getFlush().getValue() in [1, True, "true"]:
+        if self.dataInput.flush is not None:
+            if self.dataInput.flush.value in [1, True, "true"]:
                 self.flush = True
 
 
@@ -123,36 +125,34 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         queriesToRemove = []
         listXsdQuery = []
         if not self.flush:
-            self.__semaphore.acquire()
-            for query in self.__queries:
-                present = True
-                for item in query:
-                    if not item in self.__items:
-                        present = False
-                        break
-                if present is True:
-                    queriesToRemove.append(query)
-                    xsdQuery = XSDataQuery()
-                    xsdQuery.setItem([XSDataString(item) for item in query])
-                    if self.__queries[query] is True:
-                        xsdQuery.setRemoveItems(XSDataBoolean(True))
-                        for item in query:
-                            self.__items.remove(item)
-                    else:
-                        xsdQuery.setRemoveItems(XSDataBoolean(False))
-                    listXsdQuery.append(xsdQuery)
+            with self.__class__._semaphore:
+                for query in self._queries:
+                    present = True
+                    for item in query:
+                        if not item in self._items:
+                            present = False
+                            break
+                    if present is True:
+                        queriesToRemove.append(query)
+                        xsdQuery = XSDataQuery()
+                        xsdQuery.setItem([XSDataString(item) for item in query])
+                        if self._queries[query] is True:
+                            xsdQuery.setRemoveItems(XSDataBoolean(True))
+                            for item in query:
+                                self._items.remove(item)
+                        else:
+                            xsdQuery.setRemoveItems(XSDataBoolean(False))
+                        listXsdQuery.append(xsdQuery)
 
-#Remove the query from the list of queries
-            for query in queriesToRemove:
-                self.__queries.pop(query)
-            self.__semaphore.release()
+    #Remove the query from the list of queries
+                for query in queriesToRemove:
+                    self._queries.pop(query)
         else:
             xsdQuery = XSDataQuery()
-            self.__semaphore.acquire()
-            xsdQuery.setItem([XSDataString(item) for item in self.__items])
-            xsdQuery.setRemoveItems(XSDataBoolean(True))
-            self.__class__.__items = []
-            self.__semaphore.release()
+            with self.__class__._semaphore:
+                xsdQuery.setItem([XSDataString(item) for item in self._items])
+                xsdQuery.setRemoveItems(XSDataBoolean(True))
+                self.__class__._items = []
             listXsdQuery.append(xsdQuery)
         self.xsDataResult.setQuery(listXsdQuery)
 
@@ -173,9 +173,8 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         @return: list of items accumulated.
         @rtype: list of python string 
         """
-        cls.__semaphore.acquire()
-        data = cls.__items
-        cls.__semaphore.release()
+        with cls._semaphore:
+            data = cls._items
         return data
     items = classproperty(getItems)
 
@@ -188,13 +187,13 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         @return: dictionary of queries accumulated.
         @rtype: list of python string 
         """
-        return cls.__queries
+        return cls._queries
     queries = classproperty(getQueries)
 
     @classmethod
     def reset(cls):
         """
-        classmethod to reset the whole class
+        Class method to reset the whole class
         """
         cls.emptyItems()
         cls.emptyQueries()
@@ -202,25 +201,25 @@ class EDPluginAccumulatorv1_0(EDPlugin):
     @classmethod
     def emptyItems(cls):
         """
-        Static method for removing all stored items. 
+        Class method for removing all stored items. 
         """
-        cls.__semaphore.acquire()
-        cls.__items = []
-        cls.__semaphore.release()
+        cls._semaphore.acquire()
+        cls._items = []
+        cls._semaphore.release()
 
     @classmethod
     def emptyQueries(cls):
         """
-        Static method for Resetting / removing all pending queries. 
+        Class method for Resetting / removing all pending queries. 
         """
-        cls.__semaphore.acquire()
-        cls.__queries = {}
-        cls.__semaphore.release()
+        with cls._semaphore:
+            cls._queries = {}
+
 
     @classmethod
     def addQuery(cls, _listItem, _removeItems=True):
         """
-        Static methods to append a query to the list of queries stored without changing anything else.
+        Class methods to append a query to the list of queries stored without changing anything else.
         Made for testing, nothing else.
         
         @param _listItem: list to be added to the queries 
@@ -229,22 +228,20 @@ class EDPluginAccumulatorv1_0(EDPlugin):
         @type _removeItems: boolean
         @return: nothing
         """
-        cls.__semaphore.acquire()
-        cls.__queries[_listItem] = _removeItems
-        cls.__semaphore.release()
+        with cls._semaphore:
+            cls._queries[_listItem] = _removeItems
+
 
     @classmethod
     def addItem(cls, _strItem):
         """
-        Static method for appending artificially an item, without changing anything else.
+        Class method for appending artificially an item, without changing anything else.
         Made for testing, nothing else.
         
         @param _strItem: list to be added to the queries 
         @type _strItem: string
         @return: nothing
         """
-
-        cls.__semaphore.acquire()
-        cls.__items.append(_strItem)
-        cls.__semaphore.release()
+        with cls._semaphore:
+            cls._items.append(_strItem)
 

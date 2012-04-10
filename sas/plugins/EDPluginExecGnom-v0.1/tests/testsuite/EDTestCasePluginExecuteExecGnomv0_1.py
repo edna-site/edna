@@ -30,8 +30,8 @@ import os
 
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from EDUtilsFile                         import EDUtilsFile
-
-from XSDataSAS import XSDataFloat
+from EDDecorator import timeit
+from XSDataSAS import XSDataDouble
 
 
 class EDTestCasePluginExecuteExecGnomv0_1(EDTestCasePluginExecute):
@@ -49,7 +49,7 @@ class EDTestCasePluginExecuteExecGnomv0_1(EDTestCasePluginExecute):
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultGnom_reference.xml"))
 
-
+    @timeit
     def testExecute(self):
         """
         """
@@ -61,7 +61,7 @@ class EDTestCasePluginExecuteExecGnomv0_1(EDTestCasePluginExecute):
         """
         """
         self.addTestMethod(self.testExecute)
-        
+
     def postProcess(self):
         """
         """
@@ -73,8 +73,8 @@ class EDTestCasePluginExecuteExecGnomv0_1(EDTestCasePluginExecute):
 
         dataLines = EDUtilsFile.readFile(fileName).splitlines()[1:]
         for line in dataLines:
-            tmpValue = XSDataFloat()
-            tmpQ = XSDataFloat()
+            tmpValue = XSDataDouble()
+            tmpQ = XSDataDouble()
             lineList = line.split()
             tmpQ.setValue(float(lineList[0]))
             tmpValue.setValue(float(lineList[1]))

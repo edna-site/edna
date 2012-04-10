@@ -88,8 +88,8 @@ class EDTestCasePluginExecuteExecNormalizeImagev1_0_file(EDTestCasePluginExecute
 
         #EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "Result XML are the same")
 
-        npaReference = EDUtilsArray.xsDataToArray(xsDataResultReference.output.array)
-        npaObtained = EDUtilsArray.xsDataToArray(xsDataResultObtained.output.array)
+        npaReference = EDUtilsArray.getArray(xsDataResultReference.output.array)
+        npaObtained = EDUtilsArray.getArray(xsDataResultObtained.output.array)
         EDAssert.arraySimilar(npaReference, npaObtained, "Arrays are the same", _fAbsMaxDelta=1e-6)
         EDAssert.equal(npaReference.dtype, npaObtained.dtype, "Datatypes are the same")
 #        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())

@@ -41,14 +41,15 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import threading, time
+import time
+from EDThreading import Semaphore
 
 class EDObject(object):
     """
     Virtual base class for all EDNA Objects (classes).
     It offers some synchronization and locking capabilities to make the code thread safe.
     """
-    __semaphoreId = threading.Semaphore()
+    __semaphoreId = Semaphore()
     __iId_class = 0
 
     def __init__(self):
@@ -62,7 +63,7 @@ class EDObject(object):
         with self.__class__.__semaphoreId:
             self.__class__.__iId_class += 1
             self.__iId = self.__class__.__iId_class
-        self.__semaphore = threading.Semaphore()
+        self.__semaphore = Semaphore()
         self.__fTimeInit = None
         self.__fTimeEnd = None
         self.__classname = None
@@ -78,11 +79,7 @@ class EDObject(object):
         @return: the name of the class 
         @rtype: string 
         """
-        if self.__classname is None:
-            with self.__semaphore:
-                if self.__classname is None:
-                    self.__classname = str(self.__class__).replace("<class '", "").replace("'>", "").split(".")[-1]
-        return self.__classname
+        return self.__class__.__name__
 
 
     def synchronizeOn(self):

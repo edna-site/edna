@@ -29,7 +29,7 @@ __copyright__ = "DLS"
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataSAS import XSDataInputGnom
-from XSDataCommon import XSDataFloat
+from XSDataCommon import XSDataDouble
 
 class EDTestCasePluginUnitExecGnomv0_1(EDTestCasePluginUnit):
     """
@@ -47,9 +47,9 @@ class EDTestCasePluginUnitExecGnomv0_1(EDTestCasePluginUnit):
     def testCheckParameters(self):
         xsDataInput = XSDataInputGnom()
         edPluginExecGnom = self.createPlugin()
-        xsDataInput.rMax = XSDataFloat()
-        xsDataInput.experimentalDataQ = [XSDataFloat()]
-        xsDataInput.experimentalDataValues = [XSDataFloat()]
+        xsDataInput.rMax = XSDataDouble()
+        xsDataInput.experimentalDataQ = [XSDataDouble()]
+        xsDataInput.experimentalDataValues = [XSDataDouble()]
         edPluginExecGnom.setDataInput(xsDataInput)
         edPluginExecGnom.checkParameters()
 
