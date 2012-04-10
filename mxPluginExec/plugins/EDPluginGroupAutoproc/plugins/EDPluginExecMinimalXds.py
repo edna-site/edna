@@ -28,8 +28,10 @@ __license__ = "GPLv3+"
 __copyright__ = "<copyright>"
 
 
+import os
 import os.path
 import shutil
+import fnmatch
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
@@ -74,22 +76,40 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # our new xds file
         xds_file = os.path.join(self.getWorkingDirectory(), 'XDS.INP')
 
+        parsed_config = parse_xds_file(xds_file)
+
+        # try to make some symlinks to work around the path length
+        # limitation of xds
+        # TODO: don't even try if not on Unix
+
+        # XXX: why did i make this config item a list instead of a
+        # regular string?
+        file_template = os.path.abspath(parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0])
+
+        directory = os.path.dirname(file_template)
+        filename = os.path.basename(file_template)
+
+        matches = fnmatch.filter(os.listdir(directory), filename)
+        our_dir = self.getWorkingDirectory()
+        for f in matches:
+            os.symlink(os.path.join(directory, f),
+                       os.path.join(our_dir, f))
+        # patch the template in the config by stripping the whole prefix
+        parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = filename
+
         # perhaps modify some params
         job = self.dataInput.job
         maxproc = self.dataInput.maxproc
         maxjobs = self.dataInput.maxjobs
 
-        # just skip the whole parsing and modif if there is nothing to
-        # alter in the configuration
-        if any([x is not None for x in [job, maxproc, maxjobs]]):
-            parsed = parse_xds_file(xds_file)
-            if job is not None:
-                parsed["JOB="] = job.value
-            if maxproc is not None:
-                parsed["MAXIMUM_NUMBER_OF_PROCESSORS="] = maxproc.value
-            if maxjobs is not None:
-                parsed["MAXIMUM_NUMBER_OF_JOBS="] = maxjobs.value
-            dump_xds_file(xds_file, parsed)
+        if job is not None:
+            parsed_config["JOB="] = job.value
+        if maxproc is not None:
+            parsed_config["MAXIMUM_NUMBER_OF_PROCESSORS="] = maxproc.value
+        if maxjobs is not None:
+            parsed_config["MAXIMUM_NUMBER_OF_JOBS="] = maxjobs.value
+
+        dump_xds_file(xds_file, parsed_config)
 
 
     def process(self, _edObject = None):
