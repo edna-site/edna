@@ -102,23 +102,5 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginControlInterfaceToMXCuBEv1_2</name>  
-			<XSParamList>
-			    <XSParamItem>
-			        <name>contactEmail</name>
-			        <value>svensson@esrf.fr</value>
-			    </XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginControlInterfaceToMXCuBEv1_3</name>  
-			<XSParamList>
-			    <XSParamItem>
-			        <name>contactEmail</name>
-			        <value>svensson@esrf.fr</value>
-			    </XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
 	</XSPluginList> 
 </XSConfiguration> 
