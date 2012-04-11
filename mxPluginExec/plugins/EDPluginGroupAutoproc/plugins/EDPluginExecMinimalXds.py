@@ -57,7 +57,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginExec<pluginName>.checkParameters")
+        self.DEBUG("EDPluginExecMinimalXds.checkParameters")
         self.checkMandatoryParameters(self.dataInput,"Data Input is None")
         self.checkMandatoryParameters(self.dataInput.input_file, "No XDS input file given")
 
