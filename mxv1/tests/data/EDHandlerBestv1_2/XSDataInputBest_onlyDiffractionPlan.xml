@@ -1179,4 +1179,10 @@ BEAM            102.521  104.797
     <minTransmission>
         <value>5.000000e+00</value>
     </minTransmission>
+    <detectorDistanceMin>
+    	<value>200</value>
+    </detectorDistanceMin>
+    <detectorDistanceMax>
+    	<value>3000</value>
+    </detectorDistanceMax>
 </XSDataInputBest>

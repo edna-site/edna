@@ -149,6 +149,8 @@ class EDHandlerXSDataBestv1_2(EDObject):
             xsDataInputBest.setStrategyOption(xsDataDiffractionPlan.getStrategyOption())
             xsDataInputBest.setMinTransmission(xsDataDiffractionPlan.getMinTransmission())
             xsDataInputBest.setNumberOfCrystalPositions(xsDataDiffractionPlan.getNumberOfPositions())
+            xsDataInputBest.setDetectorDistanceMin(xsDataDiffractionPlan.getDetectorDistanceMin())
+            xsDataInputBest.setDetectorDistanceMax(xsDataDiffractionPlan.getDetectorDistanceMax())
 
         # Best Files
         xsDataInputBest.setBestFileContentDat(xsDataStringBestFileContentDat)
