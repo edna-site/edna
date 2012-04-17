@@ -57,7 +57,7 @@ class EDTestCasePluginExecuteExecXscale(EDTestCasePluginExecute):
 
         plugin = self.getPlugin()
         output = plugin.dataOutput
-        reference = XSDataMinimalXDSOut.parseFile(self.getReferenceDataOutputFile())
+        reference = XSDataXscaleOutput.parseFile(self.getReferenceDataOutputFile())
 
         EDAssert.equal(output.succeeded.value,
                        reference.succeeded.value,
