@@ -474,5 +474,22 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
+		<XSPluginItem>
+		  <name>EDPluginExecXscale</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/xds/vdefault/redhate4-x86_64/xscale_par</value>
+				</XSParamItem>
+				<XSParamItem>
+				  <name>timeOut</name>
+				  <value>1200</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 	</XSPluginList>
 </XSConfiguration>
