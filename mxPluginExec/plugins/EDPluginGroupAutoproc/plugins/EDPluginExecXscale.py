@@ -35,8 +35,8 @@ import fnmatch
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
-from XSDataCommon import XSDataBoolean
-from XSDataAutoproc import XSDataXscaleInput
+from XSDataCommon import XSDataBoolean, XSDataString
+from XSDataAutoproc import XSDataXscaleInput, XSDataXscaleOutput
 
 
 # XScale input files can be quite complex and our needs simple so
@@ -74,18 +74,18 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
 
         # create the input file for xscale
         with open(os.path.join(self.getWorkingDirectory(), 'XSCALE.INP'), 'w') as inputfile:
-            inputfile.write("OUTPUT_FILE= {}".format(outfile))
-            inputfile.write("MERGE= {}".format("TRUE" if merge else "FALSE"))
+            inputfile.write("OUTPUT_FILE= {}\n".format(outfile))
+            inputfile.write("MERGE= {}\n".format("TRUE" if merged else "FALSE"))
             for xds_file in self.dataInput.xds_files:
                 path = xds_file.path.value
                 res = xds_file.res.value
-                inputfile.write("INPUT_FILE= {} XDS_ASCII 100 {}".format(path, res))
+                inputfile.write("INPUT_FILE= {} XDS_ASCII 100 {}\n".format(path, res))
             ucellconstants = ' '.join([str(x.value) for x in self.dataInput.unit_cell_constants])
-            inputfile.write("UNIT_CELL_CONSTANTS= {}".format(ucellconstants))
+            inputfile.write("UNIT_CELL_CONSTANTS= {}\n".format(ucellconstants))
             sg = self.dataInput.sg_number.value
-            inputfile.write("SPACE_GROUP_NUMBER= {}".format(sg))
+            inputfile.write("SPACE_GROUP_NUMBER= {}\n".format(sg))
             binstring = ' '.join([str(x.value) for x in self.dataInput.bins])
-            inputfile.write("RESOLUTION_SHELLS= {}".format(binstring))
+            inputfile.write("RESOLUTION_SHELLS= {}\n".format(binstring))
 
 
     def process(self, _edObject = None):
@@ -100,8 +100,8 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
         data_output = XSDataXscaleOutput()
         output_file = os.path.join(self.getWorkingDirectory(), 'XSCALE.LP')
         if os.path.isfile(output_file):
-            data_output.succeeded = True
-            data_output.output_file = os.path.abspath(output_file)
+            data_output.succeeded = XSDataBoolean(True)
+            data_output.output_file = XSDataString(os.path.abspath(output_file))
         else:
             data_output.succeeded = False
 
