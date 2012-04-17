@@ -80,6 +80,8 @@ complex type XSDataXdsOutput extends XSDataResult {
 	cell_alpha : XSDataFloat
 	cell_beta : XSDataFloat
 	cell_gamma : XSDataFloat
+	unit_cell_constants : XSDataFloat [] optional
+	sg_number : XSDataInteger optional
 }
 
 complex type XSDataResCutoff extends XSDataXdsOutput {
@@ -94,4 +96,29 @@ complex type XSDataResCutoffResult extends XSDataResult {
 	total_complete : XSDataFloat
 	total_rfactor : XSDataFloat
 	total_isig : XSDataFloat
+}
+
+
+complex type XSDataXscale {
+	path : XSDataString
+	res : XSDataFloat
+}
+
+complex type XsDataXscaleInputFiles {
+	path : XSDataString
+	res : XSDataFloat
+}
+
+complex type XSDataXscaleInput {
+	merge : XSDataBoolean
+	friedels_law : XSDataBoolean
+	xds_files : XsDataXscaleInputFiles []
+	unit_cell_constants : XSDataFloat []
+	sg_number : XSDataInteger
+	bins : XSDataDouble []
+}
+
+complex type XSDataXscaleOutput {
+	succeeded : XSDataBoolean
+	output_file : XSDataString optional
 }
