@@ -99,12 +99,7 @@ complex type XSDataResCutoffResult extends XSDataResult {
 }
 
 
-complex type XSDataXscale {
-	path : XSDataString
-	res : XSDataFloat
-}
-
-complex type XsDataXscaleInputFiles {
+complex type XSDataXscaleInputFile {
 	path : XSDataString
 	res : XSDataFloat
 }
@@ -112,7 +107,7 @@ complex type XsDataXscaleInputFiles {
 complex type XSDataXscaleInput {
 	merge : XSDataBoolean
 	friedels_law : XSDataBoolean
-	xds_files : XsDataXscaleInputFiles []
+	xds_files : XSDataXscaleInputFile []
 	unit_cell_constants : XSDataFloat []
 	sg_number : XSDataInteger
 	bins : XSDataDouble []
