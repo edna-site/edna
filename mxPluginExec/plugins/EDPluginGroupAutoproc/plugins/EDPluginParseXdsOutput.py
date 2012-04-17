@@ -165,6 +165,23 @@ class EDPluginParseXdsOutput(EDPlugin):
 
         _extract_completeness_entries(lines[info_begin:info_end+1], output)
 
+
+        # now for the last bit: check if we were given a path to the
+        # gxparm file and if it exists get the space group and unit
+        # cell constants from it
+        if self.dataInput.gxparm is not None:
+            gxparm_path = self.dataInput.gxparm.path.value
+            if os.path.exists(gxparm_path):
+                with open(gxparm_path, 'r') as f:
+                    lines = f.readlines()
+                for line in lines:
+                    # the one we want has 7 floats
+                    chunks = line.split()
+                    if len(chunks) == 7:
+                        output.sg_number = float(chunks[0])
+                        output.unit_cell_constants = [float(x) for x in chunks[1:]]
+
+
         self.dataOutput = output
 
     def postProcess(self, _edObject = None):
