@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Apr 17 10:23::00 2012 by EDGenerateDS.
+# Generated Tue Apr 17 02:59::47 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -367,33 +367,33 @@ class XSDataXdsCompletenessEntry(object):
 	parseFile = staticmethod( parseFile )
 # end class XSDataXdsCompletenessEntry
 
-class XSDataXscale(object):
+class XSDataXscaleInputFile(object):
 	def __init__(self, res=None, path=None):
-		checkType("XSDataXscale", "Constructor of XSDataXscale", path, "XSDataString")
+		checkType("XSDataXscaleInputFile", "Constructor of XSDataXscaleInputFile", path, "XSDataString")
 		self.__path = path
-		checkType("XSDataXscale", "Constructor of XSDataXscale", res, "XSDataFloat")
+		checkType("XSDataXscaleInputFile", "Constructor of XSDataXscaleInputFile", res, "XSDataFloat")
 		self.__res = res
 	def getPath(self): return self.__path
 	def setPath(self, path):
-		checkType("XSDataXscale", "setPath", path, "XSDataString")
+		checkType("XSDataXscaleInputFile", "setPath", path, "XSDataString")
 		self.__path = path
 	def delPath(self): self.__path = None
 	# Properties
 	path = property(getPath, setPath, delPath, "Property for path")
 	def getRes(self): return self.__res
 	def setRes(self, res):
-		checkType("XSDataXscale", "setRes", res, "XSDataFloat")
+		checkType("XSDataXscaleInputFile", "setRes", res, "XSDataFloat")
 		self.__res = res
 	def delRes(self): self.__res = None
 	# Properties
 	res = property(getRes, setRes, delRes, "Property for res")
-	def export(self, outfile, level, name_='XSDataXscale'):
+	def export(self, outfile, level, name_='XSDataXscaleInputFile'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataXscale'):
+	def exportChildren(self, outfile, level, name_='XSDataXscaleInputFile'):
 		pass
 		if self.__path is not None:
 			self.path.export(outfile, level, name_='path')
@@ -422,7 +422,7 @@ class XSDataXscale(object):
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataXscale" )
+		self.export( oStreamString, 0, name_="XSDataXscaleInputFile" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -430,24 +430,24 @@ class XSDataXscale(object):
 	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataXscale' )
+		self.export( outfile, 0, name_='XSDataXscaleInputFile' )
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataXscale is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class XSDataXscaleInputFile is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return XSDataXscale.parseString(self.marshal())
+		return XSDataXscaleInputFile.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = XSDataXscale()
+		rootObj = XSDataXscaleInputFile()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataXscale" )
+		rootObj.export( oStreamString, 0, name_="XSDataXscaleInputFile" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -455,105 +455,11 @@ class XSDataXscale(object):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = XSDataXscale()
+		rootObj = XSDataXscaleInputFile()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class XSDataXscale
-
-class XsDataXscaleInputFiles(object):
-	def __init__(self, res=None, path=None):
-		checkType("XsDataXscaleInputFiles", "Constructor of XsDataXscaleInputFiles", path, "XSDataString")
-		self.__path = path
-		checkType("XsDataXscaleInputFiles", "Constructor of XsDataXscaleInputFiles", res, "XSDataFloat")
-		self.__res = res
-	def getPath(self): return self.__path
-	def setPath(self, path):
-		checkType("XsDataXscaleInputFiles", "setPath", path, "XSDataString")
-		self.__path = path
-	def delPath(self): self.__path = None
-	# Properties
-	path = property(getPath, setPath, delPath, "Property for path")
-	def getRes(self): return self.__res
-	def setRes(self, res):
-		checkType("XsDataXscaleInputFiles", "setRes", res, "XSDataFloat")
-		self.__res = res
-	def delRes(self): self.__res = None
-	# Properties
-	res = property(getRes, setRes, delRes, "Property for res")
-	def export(self, outfile, level, name_='XsDataXscaleInputFiles'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XsDataXscaleInputFiles'):
-		pass
-		if self.__path is not None:
-			self.path.export(outfile, level, name_='path')
-		else:
-			warnEmptyAttribute("path", "XSDataString")
-		if self.__res is not None:
-			self.res.export(outfile, level, name_='res')
-		else:
-			warnEmptyAttribute("res", "XSDataFloat")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'path':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setPath(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'res':
-			obj_ = XSDataFloat()
-			obj_.build(child_)
-			self.setRes(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XsDataXscaleInputFiles" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XsDataXscaleInputFiles' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XsDataXscaleInputFiles is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XsDataXscaleInputFiles.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XsDataXscaleInputFiles()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XsDataXscaleInputFiles" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XsDataXscaleInputFiles()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XsDataXscaleInputFiles
+# end class XSDataXscaleInputFile
 
 class XSDataXscaleInput(object):
 	def __init__(self, bins=None, sg_number=None, unit_cell_constants=None, xds_files=None, friedels_law=None, merge=None):
@@ -600,10 +506,10 @@ class XSDataXscaleInput(object):
 	# Properties
 	xds_files = property(getXds_files, setXds_files, delXds_files, "Property for xds_files")
 	def addXds_files(self, value):
-		checkType("XSDataXscaleInput", "setXds_files", value, "XsDataXscaleInputFiles")
+		checkType("XSDataXscaleInput", "setXds_files", value, "XSDataXscaleInputFile")
 		self.__xds_files.append(value)
 	def insertXds_files(self, index, value):
-		checkType("XSDataXscaleInput", "setXds_files", value, "XsDataXscaleInputFiles")
+		checkType("XSDataXscaleInput", "setXds_files", value, "XSDataXscaleInputFile")
 		self.__xds_files[index] = value
 	def getUnit_cell_constants(self): return self.__unit_cell_constants
 	def setUnit_cell_constants(self, unit_cell_constants):
@@ -657,7 +563,7 @@ class XSDataXscaleInput(object):
 		for xds_files_ in self.getXds_files():
 			xds_files_.export(outfile, level, name_='xds_files')
 		if self.getXds_files() == []:
-			warnEmptyAttribute("xds_files", "XsDataXscaleInputFiles")
+			warnEmptyAttribute("xds_files", "XSDataXscaleInputFile")
 		for unit_cell_constants_ in self.getUnit_cell_constants():
 			unit_cell_constants_.export(outfile, level, name_='unit_cell_constants')
 		if self.getUnit_cell_constants() == []:
@@ -687,7 +593,7 @@ class XSDataXscaleInput(object):
 			self.setFriedels_law(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'xds_files':
-			obj_ = XsDataXscaleInputFiles()
+			obj_ = XSDataXscaleInputFile()
 			obj_.build(child_)
 			self.xds_files.append(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
