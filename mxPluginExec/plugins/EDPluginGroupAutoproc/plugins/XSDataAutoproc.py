@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Apr 17 02:59::47 2012 by EDGenerateDS.
+# Generated Fri Apr 20 11:06::54 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -1973,16 +1973,12 @@ class XSDataXdsOutput(XSDataResult):
 # end class XSDataXdsOutput
 
 class XSDataXdsOutputFile(XSDataInput):
-	def __init__(self, configuration=None, rover=None, compl=None, gxparm=None, correct_lp=None):
+	def __init__(self, configuration=None, gxparm=None, correct_lp=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataXdsOutputFile", "Constructor of XSDataXdsOutputFile", correct_lp, "XSDataFile")
 		self.__correct_lp = correct_lp
 		checkType("XSDataXdsOutputFile", "Constructor of XSDataXdsOutputFile", gxparm, "XSDataFile")
 		self.__gxparm = gxparm
-		checkType("XSDataXdsOutputFile", "Constructor of XSDataXdsOutputFile", compl, "XSDataBoolean")
-		self.__compl = compl
-		checkType("XSDataXdsOutputFile", "Constructor of XSDataXdsOutputFile", rover, "XSDataFloat")
-		self.__rover = rover
 	def getCorrect_lp(self): return self.__correct_lp
 	def setCorrect_lp(self, correct_lp):
 		checkType("XSDataXdsOutputFile", "setCorrect_lp", correct_lp, "XSDataFile")
@@ -1997,20 +1993,6 @@ class XSDataXdsOutputFile(XSDataInput):
 	def delGxparm(self): self.__gxparm = None
 	# Properties
 	gxparm = property(getGxparm, setGxparm, delGxparm, "Property for gxparm")
-	def getCompl(self): return self.__compl
-	def setCompl(self, compl):
-		checkType("XSDataXdsOutputFile", "setCompl", compl, "XSDataBoolean")
-		self.__compl = compl
-	def delCompl(self): self.__compl = None
-	# Properties
-	compl = property(getCompl, setCompl, delCompl, "Property for compl")
-	def getRover(self): return self.__rover
-	def setRover(self, rover):
-		checkType("XSDataXdsOutputFile", "setRover", rover, "XSDataFloat")
-		self.__rover = rover
-	def delRover(self): self.__rover = None
-	# Properties
-	rover = property(getRover, setRover, delRover, "Property for rover")
 	def export(self, outfile, level, name_='XSDataXdsOutputFile'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2025,14 +2007,6 @@ class XSDataXdsOutputFile(XSDataInput):
 			warnEmptyAttribute("correct_lp", "XSDataFile")
 		if self.__gxparm is not None:
 			self.gxparm.export(outfile, level, name_='gxparm')
-		if self.__compl is not None:
-			self.compl.export(outfile, level, name_='compl')
-		else:
-			warnEmptyAttribute("compl", "XSDataBoolean")
-		if self.__rover is not None:
-			self.rover.export(outfile, level, name_='rover')
-		else:
-			warnEmptyAttribute("rover", "XSDataFloat")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -2048,16 +2022,6 @@ class XSDataXdsOutputFile(XSDataInput):
 			obj_ = XSDataFile()
 			obj_.build(child_)
 			self.setGxparm(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'compl':
-			obj_ = XSDataBoolean()
-			obj_.build(child_)
-			self.setCompl(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rover':
-			obj_ = XSDataFloat()
-			obj_.build(child_)
-			self.setRover(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
