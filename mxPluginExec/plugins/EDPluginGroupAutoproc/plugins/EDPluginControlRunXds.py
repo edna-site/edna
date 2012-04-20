@@ -30,7 +30,6 @@ __copyright__ = "<copyright>"
 
 from EDPluginControl import EDPluginControl
 from XSDataAutoProc import XSDataMinimalXdsIn
-#from <xsDataBaseName> import <xsDataResultName>
 
 class EDPluginControlRunXds( EDPluginControl ):
     """
@@ -54,6 +53,8 @@ class EDPluginControlRunXds( EDPluginControl ):
         self.third_run = None
         self.final_run = None
 
+        # to hold a ref to the successful plugin
+        self.successful_run = None
 
     def checkParameters(self):
         """
@@ -74,14 +75,9 @@ class EDPluginControlRunXds( EDPluginControl ):
     def process(self, _edObject = None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlRunXds.process")
-        #self.__edPluginExecTemplate.connectSUCCESS(self.doSuccessExecTemplate)
-        #self.__edPluginExecTemplate.connectFAILURE(self.doFailureExecTemplate)
-        #self.__edPluginExecTemplate.executeSynchronous()
-
         # First run is vanilla without any modification
         params = XSDataMinimalXdsIn()
         params.input_file = self.dataInput.input_file
-
         self.first_run.dataInput = params
         self.firstRun.executeSynchronous()
 
@@ -89,65 +85,91 @@ class EDPluginControlRunXds( EDPluginControl ):
 
         if self.first_run.dataOutput is not None and self.first_run.dataOutput.succeeded:
             EDVerbose.DEBUG('... and it worked')
-            return
-        EDVerbose.DEBUG('... and it failed')
+            self.successful_run = self.first_run
+        else:
+            EDVerbose.DEBUG('... and it failed')
 
 
-        # second run w/ JOB set to DEFPIX INTEGRATE CORRECT
-        self.second_run = self.loadPlugin(self.controlled_plugin_name)
-        params = XSDataMinimalXdsIn()
-        params.input_file = self.dataInput.input_file
-        params.jobs = 'DEFPIX INTEGRATE CORRECT'
-        self.second_run.dataInput = params
-        self.second_run.executeSynchronous()
+        if not self.successful_run:
+            # second run w/ JOB set to DEFPIX INTEGRATE CORRECT
+            self.second_run = self.loadPlugin(self.controlled_plugin_name)
+            params = XSDataMinimalXdsIn()
+            params.input_file = self.dataInput.input_file
+            params.jobs = 'DEFPIX INTEGRATE CORRECT'
+            self.second_run.dataInput = params
+            self.second_run.executeSynchronous()
 
-        EDVerbose.DEBUG('second run completed')
-        if self.second_run.dataOutput is not None and self.second_run.dataOutput.succeeded:
-            EDVerbose.DEBUG('... and it worked')
-            return
-        EDVerbose.DEBUG('... and it failed')
+            EDVerbose.DEBUG('second run completed')
+            if self.second_run.dataOutput is not None and self.second_run.dataOutput.succeeded:
+                EDVerbose.DEBUG('... and it worked')
+                self.successful_run = self.second_run
+            else:
+                EDVerbose.DEBUG('... and it failed')
 
 
+        if not self.successful_run:
         # third run with JOB set to ALL and mxaprocs = 4 and maxjobs = 1
-        self.third_run = self.loadPlugin(self.controlled_plugin_name)
-        params = XSDataMinimalXdsIn()
-        params.input_file = self.dataInput.input_file
-        params.jobs = 'ALL'
-        params.maxprocs = 4
-        params.maxjobs = 1
-        self.third_run.dataInput = params
-        self.third_run.executeSynchronous()
+            self.third_run = self.loadPlugin(self.controlled_plugin_name)
+            params = XSDataMinimalXdsIn()
+            params.input_file = self.dataInput.input_file
+            params.jobs = 'ALL'
+            params.maxprocs = 4
+            params.maxjobs = 1
+            self.third_run.dataInput = params
+            self.third_run.executeSynchronous()
 
-        EDVerbose.DEBUG('third run completed')
-        if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded:
-            EDVerbose.DEBUG('... and it worked')
-            return
-        EDVerbose.DEBUG('... and it failed')
+            EDVerbose.DEBUG('third run completed')
+            if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded:
+                EDVerbose.DEBUG('... and it worked')
+                self.successful_run = self.third_run
+            else:
+                EDVerbose.DEBUG('... and it failed')
 
 
+        if not self.successful_run:
         # final run with parallelism like 3 but JOB like 2
-        self.final_run = self.loadPlugin(self.controlled_plugin_name)
-        params = XSDataMinimalXdsIn()
-        params.input_file = self.dataInput.input_file
-        params.jobs = 'DEFPIX INTEGRATE CORRECT'
-        params.maxprocs = 4
-        params.maxjobs = 1
-        self.final_run.dataInput = params
-        self.final_run.executeSynchronous()
+            self.final_run = self.loadPlugin(self.controlled_plugin_name)
+            params = XSDataMinimalXdsIn()
+            params.input_file = self.dataInput.input_file
+            params.jobs = 'DEFPIX INTEGRATE CORRECT'
+            params.maxprocs = 4
+            params.maxjobs = 1
+            self.final_run.dataInput = params
+            self.final_run.executeSynchronous()
 
-        EDVerbose.DEBUG('final run completed')
-        if self.final_run.dataOutput is not None and self.final_run.dataOutput.succeeded:
-            EDVerbose.DEBUG('... and it worked')
-            return
-        EDVerbose.DEBUG('... and it failed')
+            EDVerbose.DEBUG('final run completed')
+            if self.final_run.dataOutput is not None and self.final_run.dataOutput.succeeded:
+                EDVerbose.DEBUG('... and it worked')
+                self.successful_run = self.final_run
+            else:
+                EDVerbose.DEBUG('... and it failed')
 
+        if not self.successful_run:
+        # all runs failed so bail out ...
+            self.setFailure()
+        else:
+            # use the xds parser plugin to parse the xds output file...
+            parser = self.loadPlugin("EDPluginParseXdsOutput")
+            wd = self.successful_run.getWorkingDirectory()
+            parser_input = XSDataXdsOutputFile()
+            parser_input.correct_lp = os.path.join(wd, 'CORRECT.LP')
+            gxparm = os.path.join(wd, 'GXPARM.XDS')
+            if os.path.isfile(gxparm):
+                parser_input.gxparm = gxparm
+
+            parser.executeSynchronous()
+
+            if parser.isFailure():
+                # that should not hapem
+                self.setFailure()
+                return
+            self.dataOutput = parser.dataOutput
 
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginControl<pluginName>.postProcess")
-        # Create some output data
-        xsDataResult = <xsDataResultName>()
-        self.setDataOutput(xsDataResult)
+        self.DEBUG("EDPluginControlRunXds.postProcess")
+        if not self.isFailure():
+            self.setDataOutput(res)
 
 
     def doSuccessExecTemplate(self,  _edPlugin = None):
