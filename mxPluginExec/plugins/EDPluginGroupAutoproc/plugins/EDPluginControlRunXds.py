@@ -160,7 +160,7 @@ class EDPluginControlRunXds( EDPluginControl ):
             parser.executeSynchronous()
 
             if parser.isFailure():
-                # that should not hapem
+                # that should not happen
                 self.setFailure()
                 return
             self.dataOutput = parser.dataOutput
@@ -170,13 +170,3 @@ class EDPluginControlRunXds( EDPluginControl ):
         self.DEBUG("EDPluginControlRunXds.postProcess")
         if not self.isFailure():
             self.setDataOutput(res)
-
-
-    def doSuccessExecTemplate(self,  _edPlugin = None):
-        self.DEBUG("EDPluginControl<pluginName>.doSuccessExecTemplate")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControl<pluginName>.doSuccessExecTemplate")
-
-
-    def doFailureExecTemplate(self,  _edPlugin = None):
-        self.DEBUG("EDPluginControl<pluginName>.doFailureExecTemplate")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControl<pluginName>.doFailureExecTemplate")
