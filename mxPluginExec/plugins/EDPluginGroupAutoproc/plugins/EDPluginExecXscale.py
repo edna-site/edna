@@ -43,6 +43,9 @@ from XSDataAutoproc import XSDataXscaleInput, XSDataXscaleOutput
 # instead of writing a parser them like I did for XDS I'll just
 # generate the input from some data model parameters.
 
+# XXX TODO the paths for the input files are limited to 50 characters.
+# Check if it's a problem and resort to a bunch of symlinks if it is
+
 class EDPluginExecXscale(EDPluginExecProcessScript):
     """
     """
@@ -59,7 +62,32 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginXscale.checkParameters")
-        # TODO do the job of the data model thingie by hand
+        # do the data binding work...
+        self.checkMandatoryParameters(self.dataInput.merge,
+                                      'merge param not given')
+        self.checkMandatoryParameters(self.dataInput.friedels_law,
+                                      'friedel\'s law not given')
+        self.checkMandatoryParameters(self.dataInput.xds_files,
+                                      'no xds files input')
+        self.checkMandatoryParameters(self.dataInput.unit_cell_constants,
+                                      'unit cell constants not defined')
+        self.checkMandatoryParameters(self.dataInput.sg_number,
+                                      'space group not given')
+        self.checkMandatoryParameters(self.dataInput.bins,
+                                      'bins not given')
+
+        # now really check that stuff
+        # the unit cell constants param should be 6 floats
+        if len(self.dataInput.bins != 6):
+            EDVerbose.FATAL('the unit cell constants list should have 6 elements')
+            self.setFailure()
+        # check existence of the input files
+        for f in self.dataInput.xds_files:
+            path = f.path.value
+            if not os.path.isfile():
+                EDVerbose.FATAL('missing input file {}'.format(path))
+                self.setFailure()
+                break
 
     def preProcess(self, _edObject = None):
         EDPluginExecProcessScript.preProcess(self)
