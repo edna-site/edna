@@ -47,8 +47,6 @@ complex type XSDataMinimalXDSOut extends XSDataResult {
 complex type XSDataXdsOutputFile extends XSDataInput {
 	correct_lp : XSDataFile
 	gxparm : XSDataFile optional
-	compl : XSDataBoolean
-	rover : XSDataFloat
 }
 
 complex type XSDataXdsCompletenessEntry {
