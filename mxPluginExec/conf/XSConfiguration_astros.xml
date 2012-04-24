@@ -326,7 +326,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/xds_20101206/xds</value>
+					<value>/opt/xds/xds</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
