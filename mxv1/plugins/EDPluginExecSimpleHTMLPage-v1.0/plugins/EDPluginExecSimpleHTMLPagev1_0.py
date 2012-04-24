@@ -529,13 +529,13 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 pageGraph.init( title=strFileName, 
                        footer="Generated on %s" % time.asctime())
                 pageGraph.h1(strFileName)
-                pageGraph.a("Back to previous page", href_=self.strPath)
+                pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
                 pageGraph.br()
-                pageGraph.img(src=xsDataFile.path.value, title=strFileName)
-                pageGraph.a("Back to previous page", href_=self.strPath)
+                pageGraph.img(src=strFileName, title=strFileName)
+                pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageGraph, str(pageGraph))
                 self.page.a( href=strPageGraph)
-                self.page.img( src=xsDataFile.path.value,width=175, height=175, title=strFileName )
+                self.page.img( src=strFileName, width=175, height=175, title=strFileName )
                 self.page.a.close()
                 self.page.td.close()
                 iIndex += 1
