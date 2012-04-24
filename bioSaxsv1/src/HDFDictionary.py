@@ -27,7 +27,7 @@ try:
     import os
     from xml.sax import make_parser
     from xml.sax.handler import ContentHandler
-except:
+except Exception:
     print __name__ + ".py: error when importing module!"
 
 
@@ -122,7 +122,7 @@ class HDFDictionary():
                     return 0, dictionary[pDictionary]
                 else:
                     return 0, []
-        except:
+        except Exception:
             return - 1, []
 
 
@@ -219,7 +219,7 @@ class HDFDictionary():
 
                                     metaDataList.append(keyWord)
             return status, result
-        except:
+        except Exception:
             return - 1, []
 
 
@@ -436,7 +436,7 @@ if __name__ == "__main__":
                         raise(StandardError)
                 else:
                     raise(StandardError)
-            except:
+            except Exception:
                 print
                 print "Error when processing. Exiting..."
                 print

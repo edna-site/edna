@@ -67,21 +67,21 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
     if not os.path.exists(pDirectory + "/1d"):
         try:
             os.mkdir(pDirectory + "/1d")
-        except:
+        except Exception:
             showMessage(4, "Could not create directory '1d' in '%s'!" % pDirectory)
             return
 
     if not os.path.exists(pDirectory + "/2d"):
         try:
             os.mkdir(pDirectory + "/2d")
-        except:
+        except Exception:
             showMessage(4, "Could not create directory '2d' in '%s'!" % pDirectory)
             return
 
     if not os.path.exists(pDirectory + "/misc"):
         try:
             os.mkdir(pDirectory + "/misc")
-        except:
+        except Exception:
             showMessage(4, "Could not create directory 'misc' in '%s'!" % pDirectory)
             return
 
@@ -94,7 +94,7 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
                 if prefix == pPrefix and run != "" and frame != "" and (pDetector == "0" and extension == "edf" or pDetector == "1" and extension == "gfrm"):
                     try:
                         runNumberList.index(run)
-                    except:
+                    except Exception:
                         runNumberList.append(run)
     else:
         list = pRunNumber.split(",")
@@ -102,7 +102,7 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
             runNumber = "%03d" % int(runNumber)
             try:
                 runNumberList.index(runNumber)
-            except:
+            except Exception:
                 runNumberList.append(runNumber)
 
     if len(runNumberList) == 0:
@@ -139,7 +139,7 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
             else:
                 try:
                     os.mkdir(directory1D_REP)
-                except:
+                except Exception:
                     showMessage(3, "Could not create reprocess directory '%s'!" % directory1D_REP)
                 break
 
@@ -151,7 +151,7 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
             else:
                 try:
                     os.mkdir(directory2D_REP)
-                except:
+                except Exception:
                     showMessage(3, "Could not create reprocess directory '%s'!" % directory2D_REP)
                 break
 
@@ -163,7 +163,7 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
             else:
                 try:
                     os.mkdir(directoryMISC_REP)
-                except:
+                except Exception:
                     showMessage(3, "Could not create reprocess directory '%s'!" % directoryMISC_REP)
                 break
 
@@ -180,7 +180,7 @@ def Reprocess(pDetector, pOperation, pDirectory, pPrefix, pRunNumber, pFrameFirs
                             if pDetector == "0" and extension == "edf" or pDetector == "1" and extension == "gfrm":
                                 try:
                                     frameList.index(frame)
-                                except:
+                                except Exception:
                                     frameList.append(frame)
         else:   # reprocess was launched from BsxCuBE while collecting data
             frameList = ["%02d" % int(pFrameLast)]
@@ -648,7 +648,7 @@ if __name__ == "__main__":
                         runNumber = "%03d" % int(runNumber)
                         try:
                             runNumberList.index(runNumber)
-                        except:
+                        except Exception:
                             runNumberList.append(runNumber)
 
                     for runNumber in runNumberList:
