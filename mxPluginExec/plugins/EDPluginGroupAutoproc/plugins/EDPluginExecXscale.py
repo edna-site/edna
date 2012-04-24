@@ -34,6 +34,7 @@ import shutil
 import fnmatch
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
+from EDVerbose import EDVerbose
 
 from XSDataCommon import XSDataBoolean, XSDataString
 from XSDataAutoproc import XSDataXscaleInput, XSDataXscaleOutput
@@ -78,14 +79,15 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
 
         # now really check that stuff
         # the unit cell constants param should be 6 floats
-        if len(self.dataInput.bins != 6):
-            EDVerbose.FATAL('the unit cell constants list should have 6 elements')
+        if len(self.dataInput.unit_cell_constants) != 6:
+            EDVerbose.ERROR('the unit cell constants list should have 6 elements')
+            EDVerbose.ERROR('i got {}'.format(len(self.dataInput.unit_cell_constants)))
             self.setFailure()
         # check existence of the input files
         for f in self.dataInput.xds_files:
             path = f.path.value
-            if not os.path.isfile():
-                EDVerbose.FATAL('missing input file {}'.format(path))
+            if not os.path.isfile(path):
+                EDVerbose.ERROR('missing input file {}'.format(path))
                 self.setFailure()
                 break
 
