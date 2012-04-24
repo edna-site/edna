@@ -167,7 +167,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
             self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
             strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
-            xsDataResultCharacterisation.outputFile(strPathCharacterisationResult)
+            xsDataResultCharacterisation.exportToFile(strPathCharacterisationResult)
             self.xsDataResultMXCuBE.setListOfOutputFiles(XSDataString(strPathCharacterisationResult))
             # For the moment, create "DNA" style output directory
             strPathToDNAFileDirectory = self.createDNAFileDirectoryPath(xsDataResultCharacterisation)

@@ -34,7 +34,7 @@ from EDPluginExecProcessScript import EDPluginExecProcessScript
 from XSDataSAS import XSDataInputDamaver
 from XSDataSAS import XSDataResultDamaver
 
-from XSDataSAS import XSDataString, XSDataFile, XSDataFloat
+from XSDataSAS import XSDataString, XSDataFile, XSDataDouble
 
 class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
     """
@@ -138,9 +138,9 @@ class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
         for line in damselLog:
             wordsLine = [tmpStr for tmpStr in line.split(' ') if tmpStr is not '']
             if wordsLine[:4] == ['Mean', 'value', 'of', 'NSD']:
-                self.__xsDataResult.setMeanNSD(XSDataFloat(float(wordsLine[-1])))
+                self.__xsDataResult.setMeanNSD(XSDataDouble(float(wordsLine[-1])))
             if wordsLine[:3] == ['Variation', 'of', 'NSD']:
-                self.__xsDataResult.setVariationNSD(XSDataFloat(float(wordsLine[-1])))
+                self.__xsDataResult.setVariationNSD(XSDataDouble(float(wordsLine[-1])))
 
 
 

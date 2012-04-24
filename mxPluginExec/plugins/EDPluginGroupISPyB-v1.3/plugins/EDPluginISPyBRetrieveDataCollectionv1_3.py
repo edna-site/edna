@@ -59,7 +59,7 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         self.setXSDataInputClass(XSDataInputRetrieveDataCollection)
         self.strUserName = None
         self.strPassWord = None
-        self.strToolsForMXCubeWebServiceWsdl = None
+        self.strToolsForCollectionWebServiceWsdl = None
 
     def configure(self):
         """
@@ -74,9 +74,9 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         if self.strPassWord is None:
             self.ERROR("EDPluginISPyBRetrieveDataCollectionv1_3.configure: No pass word found in configuration!")
             self.setFailure()
-        self.strToolsForMXCubeWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForMXCubeWebServiceWsdl")
-        if self.strToolsForMXCubeWebServiceWsdl is None:
-            self.ERROR("EDPluginISPyBRetrieveDataCollectionv1_3.configure: No toolsForMXCubeWebServiceWsdl found in configuration!")
+        self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
+        if self.strToolsForCollectionWebServiceWsdl is None:
+            self.ERROR("EDPluginISPyBRetrieveDataCollectionv1_3.configure: No toolsForCollectionWebService found in configuration!")
             self.setFailure()
 
 
@@ -90,12 +90,12 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
         inpath = infile.getImage().getPath().getValue()
         indir = os.path.dirname(inpath)
         infilename = os.path.basename(inpath)
-        httpAuthenticatedToolsForMXCubeWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
-        clientToolsForMXCubeWebService = Client(self.strToolsForMXCubeWebServiceWsdl, transport=httpAuthenticatedToolsForMXCubeWebService)
+        httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+        clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
         self.collectParameters = None
 
         # DataCollectionProgram
-        collect_params = clientToolsForMXCubeWebService.service.findDataCollectionFromFileLocationAndFileName(
+        collect_params = clientToolsForCollectionWebService.service.findDataCollectionFromFileLocationAndFileName(
                          in0=indir,
                          in1=infilename)
         if collect_params is None:

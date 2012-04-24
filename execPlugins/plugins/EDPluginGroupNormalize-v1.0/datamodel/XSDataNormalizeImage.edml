@@ -18,10 +18,14 @@ import XSDataCommon.XSDataArray
 
 
 complex type XSDataInputNormalize extends XSDataInput {
+	"Optionnaly can scale intensities on input data with the given factor"
 	data : XSDataImageExt []
 	dark : XSDataImageExt [] optional
 	flat : XSDataImageExt [] optional
 	output : XSDataImageExt  optional
+	dataScaleFactor: XSDataDouble  optional
+	darkScaleFactor: XSDataDouble  optional
+	flatScaleFactor: XSDataDouble  optional
 }
 
 complex type XSDataResultNormalize extends XSDataResult {

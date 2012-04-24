@@ -96,11 +96,11 @@ class EDTestCaseEDHandlerRaddosev10(EDTestCase):
         xsDataAtomicComposition = XSDataAtomicComposition()
         xsDataAtom1 = XSDataAtom()
         xsDataAtom1.setSymbol(XSDataString("Se"))
-        xsDataAtom1.setNumberOf(XSDataInteger(4))
+        xsDataAtom1.setNumberOf(XSDataDouble(4))
         xsDataAtomicComposition.addAtom(xsDataAtom1)
         xsDataAtom2 = XSDataAtom()
         xsDataAtom2.setSymbol(XSDataString("S"))
-        xsDataAtom2.setNumberOf(XSDataInteger(5))
+        xsDataAtom2.setNumberOf(XSDataDouble(5))
         xsDataAtomicComposition.addAtom(xsDataAtom2)
         xsDataChain.setHeavyAtoms(xsDataAtomicComposition)
         xsDataChain.setNumberOfMonomers(XSDataDouble(100))
@@ -118,7 +118,7 @@ class EDTestCaseEDHandlerRaddosev10(EDTestCase):
         xsDataAtomicComposition = XSDataAtomicComposition()
         xsDataAtom3 = XSDataAtom()
         xsDataAtom3.setSymbol(XSDataString("Fe"))
-        xsDataAtom3.setNumberOf(XSDataInteger(1))
+        xsDataAtom3.setNumberOf(XSDataDouble(1))
         xsDataAtomicComposition.addAtom(xsDataAtom3)
         xsDataLigand.setHeavyAtoms(xsDataAtomicComposition)
         xsDataStructure.addLigand(xsDataLigand)
@@ -166,7 +166,7 @@ class EDTestCaseEDHandlerRaddosev10(EDTestCase):
                                                                                       iNumSymOperators)
 
 
-        xsDataRaddosev01Input.outputFile(self.strObtainedInputFile2)
+        xsDataRaddosev01Input.exportToFile(self.strObtainedInputFile2)
         strExpectedInput = EDUtilsTest.readAndParseFile (self.strReferenceInputFile2)
         strObtainedInput = EDUtilsTest.readAndParseFile (self.strObtainedInputFile2)
 
@@ -186,23 +186,23 @@ class EDTestCaseEDHandlerRaddosev10(EDTestCase):
         xsDataAtomicComposition1 = XSDataAtomicComposition()
         xsDataAtom1 = XSDataAtom()
         xsDataAtom1.setSymbol(XSDataString("S"))
-        xsDataAtom1.setNumberOf(XSDataInteger(4))
+        xsDataAtom1.setNumberOf(XSDataDouble(4))
         xsDataAtomicComposition1.addAtom(xsDataAtom1)
 
         xsDataAtom2 = XSDataAtom()
         xsDataAtom2.setSymbol(XSDataString("Se"))
-        xsDataAtom2.setNumberOf(XSDataInteger(3))
+        xsDataAtom2.setNumberOf(XSDataDouble(3))
         xsDataAtomicComposition1.addAtom(xsDataAtom2)
 
         xsDataAtomicComposition2 = XSDataAtomicComposition()
         xsDataAtom3 = XSDataAtom()
         xsDataAtom3.setSymbol(XSDataString("S"))
-        xsDataAtom3.setNumberOf(XSDataInteger(1))
+        xsDataAtom3.setNumberOf(XSDataDouble(1))
         xsDataAtomicComposition2.addAtom(xsDataAtom3)
 
         xsDataAtom4 = XSDataAtom()
         xsDataAtom4.setSymbol(XSDataString("Fe"))
-        xsDataAtom4.setNumberOf(XSDataInteger(5))
+        xsDataAtom4.setNumberOf(XSDataDouble(5))
         xsDataAtomicComposition2.addAtom(xsDataAtom4)
 
         from EDHandlerXSDataRaddosev10 import EDHandlerXSDataRaddosev10

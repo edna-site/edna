@@ -46,7 +46,7 @@ class EDTestCasePluginExecuteISPyBStoreDataCollectionv1_3(EDTestCasePluginExecut
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreDataCollectionv1_3")
 
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreDataCollection_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreDataCollection_test.xml"))
 
 
     def testExecute(self):

@@ -1,4 +1,4 @@
-#
+#coding: utf8
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
@@ -9,7 +9,7 @@
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
 #                       Olof Svensson (svensson@esrf.fr) 
-#                       Jerome Kieffer (kieffer@esrf.fr) 
+#                       Jérôme Kieffer (kieffer@esrf.fr) 
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -26,10 +26,11 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = [ "Olof Svensson", "Jerome Kieffer" ]
+__authors__ = [ "Olof Svensson", "Jérôme Kieffer" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120216"
 
 import os, glob, shutil
 

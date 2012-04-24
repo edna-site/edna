@@ -36,7 +36,13 @@ class EDTestSuitePluginExecNormalizeImagev1_0(EDTestSuite):
 
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitExecNormalizeImagev1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitExecNormalizeImagev1_1")
+        self.addTestCaseFromName("EDTestCasePluginUnitExecNormalizeImagev1_2")
+
         self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_1")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_2")
+
 #        Fix the tests 
         #self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_0_file")
         #self.addTestCaseFromName("EDTestCasePluginExecuteExecNormalizeImagev1_1")
