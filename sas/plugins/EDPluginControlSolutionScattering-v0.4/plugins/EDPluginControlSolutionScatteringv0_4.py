@@ -188,7 +188,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         try:
             if self.dataInput.mode.value.lower() in ['fast', 'slow']:
                 self.__strMode = self.dataInput.mode.value.lower()
-        except:
+        except Exception:
             self.WARNING("Running Solution Scattering pipeline in fast mode by default")
 
     def checkUnitParameter(self):
@@ -200,7 +200,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
                     self.__strUnit = "ANGSTROM"
                 else:
                     self.__strUnit = "NANOMETER"
-        except:
+        except Exception:
             self.WARNING("Using Angstrom units for q-values by default")
 
     def checkJMol(self):
@@ -594,7 +594,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             for i in range(5):
                 try:
                     data = numpy.loadtxt(fileName, skiprows=i, dtype="float32")
-                except:
+                except Exception:
                     pass
                 else:
                     break

@@ -80,7 +80,7 @@ class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getAutomatic():
                 self.__bAutomatic = self.getDataInput().getAutomatic().getValue()
-        except:
+        except Exception:
             EDVerbose.WARNING("Running Damaver automation pipeline by default.")
         
     def checkDamaverSymmetryInput(self):
@@ -93,7 +93,7 @@ class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getSymmetry().getValue() in knownSymmetry:
                 self.__strSymmetry = self.getDataInput().getSymmetry().getValue()
-        except:
+        except Exception:
             EDVerbose.WARNING("Symmetry wasn't specified. Setting symmetry to P1")
 
 
