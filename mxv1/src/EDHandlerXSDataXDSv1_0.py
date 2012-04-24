@@ -26,7 +26,6 @@ from EDUtilsFile import EDUtilsFile
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataInteger
-from XSDataCommon import XSDataFloat
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataWavelength
@@ -314,8 +313,8 @@ class EDHandlerXSDataXDSv1_0:
 
         fOrgx = _xsDataDetector.getBeamPositionY().getValue() / _xsDataDetector.getPixelSizeY().getValue()
         fOrgy = _xsDataDetector.getBeamPositionX().getValue() / _xsDataDetector.getPixelSizeX().getValue()
-        xsDataXDSDetector.setOrgx(XSDataFloat(fOrgx))
-        xsDataXDSDetector.setOrgy(XSDataFloat(fOrgy))
+        xsDataXDSDetector.setOrgx(XSDataDouble(fOrgx))
+        xsDataXDSDetector.setOrgy(XSDataDouble(fOrgy))
         xsDataVectorDoubleXAxis = XSDataVectorDouble()
 
         xsDataVectorDoubleXAxis.setV1(1.0)

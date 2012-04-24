@@ -687,16 +687,25 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             rMaxList = []
             fitQualityList = []
             for idx in range(self.__rMaxDivide + 1):
+<<<<<<< HEAD
+                rMaxList.append(self.__xsGnomPlugin[(itr, idx)].getDataInput().getRMax().getValue())
+                fitQualityList.append(self.__xsGnomPlugin[(itr, idx)].getDataOutput().getFitQuality().getValue())
+=======
                 rMaxList.append(self.__xsGnomPlugin[(itr, idx)].dataInput.rMax.value)
                 fitQualityList.append(self.__xsGnomPlugin[(itr, idx)].dataOutput.getFitQuality().value)
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
             ax1.plot(rMaxList, fitQualityList, linestyle='None', marker='o', color=cm(1.0 * (itr + 1) / self.__iNbGnomSeries), markersize=5, label="Iteration # %d" % (itr + 1))
             fign = plt.figure(itr + 1, figsize=(6, 5))
             axn = fign.add_subplot(1, 1, 1)
             axn.plot(rMaxList, fitQualityList, linestyle='-', marker='o', markersize=5, label="Iteration # %d" % (itr + 1))
+<<<<<<< HEAD
+            axn.set_xlabel(u"Rmax / \u00c5")
+=======
             if self.__strUnit == "NANOMETER":
                 axn.set_xlabel(u"Rmax / nm")
             else:
                 axn.set_xlabel(u"Rmax / \u00c5")
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
             axn.set_ylabel('Fit quality')
             axn.legend(*axn.get_legend_handles_labels(), **{"loc":4})
             fign.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults-%d.png" % (itr + 1)))
@@ -705,15 +714,26 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
         ax1.set_xlabel(u"Rmax / \u00c5")
         ax1.set_ylabel('Fit quality')
+<<<<<<< HEAD
+        fig1.suptitle("Optimized value of RMax : %3.2f   Maximal fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
+=======
         fig1.suptitle("Optimized value of RMax : %3.2f   Maximal fit quality : %1.3f" % (self.__edPluginExecGnom.dataInput.rMax.value, self.__edPluginExecGnom.dataOutput.getFitQuality().value))
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         ax1.legend(*ax1.get_legend_handles_labels(), **{"loc":4})
         fig1.savefig(os.path.join(self.getWorkingDirectory(), "rMaxSearchResults.png"))
         fig1.clf()
         del ax1, fig1
 
 
+<<<<<<< HEAD
+        _listFitQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataOutput.getScatteringFitQ()]
+        _listFitValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataOutput.getScatteringFitValues()]
+        _listExpQ = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataInput.getExperimentalDataQ()]
+        _listExpValues = [tmp.getValue() for tmp in self.__edPluginExecGnom.dataInput.getExperimentalDataValues()]
+=======
         npaFitQ = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.scatteringFitQArray)
         npaFitI = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.scatteringFitIArray)
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         _listDammifFitQ = []
         _listDammifFitValues = []
         _listDammifExpQ = []
@@ -722,6 +742,14 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
         self.__parceDammifFit(_listDammifExpQ, _listDammifExpValues, _listDammifFitQ, _listDammifFitValues)
         figFit = plt.figure(figsize=(6, 5))
         axFit = figFit.add_subplot(1, 1, 1)
+<<<<<<< HEAD
+        axFit.semilogy(_listExpQ, _listExpValues, linestyle='None', marker='o', markersize=5, label="Experimental Data")
+        axFit.semilogy(_listFitQ, _listFitValues, label="GNOM fitting curve")
+        axFit.semilogy(_listDammifFitQ, _listDammifFitValues, color='y', label="DAMMIF ab-initio model")
+        axFit.set_xlabel(u"q / \u00c5$^{-1}$")
+        axFit.set_ylabel('I(q)')
+        figFit.suptitle("RMax : %3.2f   Fit quality : %1.3f" % (self.__edPluginExecGnom.getDataInput().getRMax().getValue(), self.__edPluginExecGnom.getDataOutput().getFitQuality().getValue()))
+=======
         axFit.semilogy(self.npaExperimentalDataQ, self.npaExperimentalDataI, linestyle='None', marker='o', markersize=5, label="Experimental Data")
         axFit.semilogy(npaFitQ, npaFitI, label="GNOM fitting curve")
         axFit.semilogy(_listDammifFitQ, _listDammifFitValues, color='y', label="DAMMIF ab-initio model")
@@ -732,11 +760,22 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             axFit.set_xlabel(u"q / \u00c5$^{-1}$")
         axFit.set_ylabel('I(q)')
         figFit.suptitle("RMax : %3.2f   Fit quality : %1.3f" % (self.__edPluginExecGnom.dataInput.rMax.value, self.__edPluginExecGnom.dataOutput.getFitQuality().value))
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         axFit.legend(*axFit.get_legend_handles_labels())
         figFit.savefig(os.path.join(self.getWorkingDirectory(), "gnomFittingResults.png"))
         figFit.clf()
         del axFit, figFit
 
+<<<<<<< HEAD
+        _listDistributionR = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionR()]
+        _listDistributionPr = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionPr()]
+        _listDistributionErr = [tmp.getValue() for tmp in self.__edPluginExecGnom.getDataOutput().getDistributionErr()]
+
+        figDist = plt.figure(figsize=(6, 5))
+        axDist = figDist.add_subplot(1, 1, 1)
+        axDist.errorbar(_listDistributionR, _listDistributionPr, yerr=_listDistributionErr)
+        axDist.set_xlabel(u"R / \u00c5")
+=======
         npaR = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.arrayR)
         npaPr = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.arrayPr)
         npaErr = EDUtilsArray.xsDataToArray(self.__edPluginExecGnom.dataOutput.arrayErr)
@@ -748,6 +787,7 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
             axDist.set_xlabel(u"R / nm")
         else:
             axDist.set_xlabel(u"R / \u00c5")
+>>>>>>> d85e03d801b6d92e06c07ce403d72883676d00cd
         axDist.set_ylabel('P(R)')
         figDist.suptitle("Distance distribution function")
         figDist.savefig(os.path.join(self.getWorkingDirectory(), "distributionPR.png"))
