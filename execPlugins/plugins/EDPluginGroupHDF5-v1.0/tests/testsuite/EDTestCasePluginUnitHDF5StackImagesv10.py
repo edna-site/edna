@@ -22,6 +22,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+
 __author__ = "Jerome Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF Grenoble"
@@ -32,6 +33,8 @@ from EDVerbose                      import EDVerbose
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
 from EDPluginHDF5StackImagesv10     import EDPluginHDF5StackImagesv10
 from EDAssert                       import EDAssert
+from XSDataHDF5v1_0 import XSDataInputHDF5StackImages
+from XSDataCommon import XSDataString, XSDataImage, XSDataFile
 
 class EDTestCasePluginUnitHDF5StackImagesv10(EDTestCasePluginUnit):
     """
@@ -48,7 +51,9 @@ class EDTestCasePluginUnitHDF5StackImagesv10(EDTestCasePluginUnit):
 
 
     def testCheckParameters(self):
-        xsDataInput = self.readAndParseFile(self.strReferenceInputFile)
+        xsDataInput = XSDataInputHDF5StackImages(HDF5File=XSDataFile(),
+                                                 internalHDF5Path=XSDataString(),
+                                                 inputImageFile=[XSDataImage()])
         edPluginExecHDF5StackImages = self.createPlugin()
         edPluginExecHDF5StackImages.setDataInput(xsDataInput)
         edPluginExecHDF5StackImages.checkParameters()

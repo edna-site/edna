@@ -36,7 +36,7 @@ from XSDataSAS import XSDataInputSupcomb
 from XSDataSAS import XSDataResultSupcomb
 from EDPDBFilter import EDPDBFilter
 
-from XSDataSAS import XSDataString, XSDataFile, XSDataFloat, XSDataRotation, XSDataVectorDouble
+from XSDataSAS import XSDataString, XSDataFile, XSDataDouble, XSDataRotation, XSDataVectorDouble
 
 
 class EDPluginExecSupcombv0_1(EDPluginExecProcessScript):
@@ -161,7 +161,7 @@ class EDPluginExecSupcombv0_1(EDPluginExecProcessScript):
 
         xsRot = self.returnRotation(logLines[-3:])
         xsTrns = self.returnTranslation(logLines[-6:-3])
-        xsNSD = XSDataFloat(float(logLines[-8].split()[-1]))
+        xsNSD = XSDataDouble(float(logLines[-8].split()[-1]))
 
         xsDataResult = XSDataResultSupcomb()
         xsDataResult.setNSD(xsNSD)

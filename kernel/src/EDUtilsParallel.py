@@ -35,8 +35,9 @@ __contact__ = "Jerome.Kieffer@ESRF.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import threading, os, sys, re, subprocess
+import  os, sys, re, subprocess
 from EDVerbose import EDVerbose
+from EDThreading import Semaphore
 
 
 class EDUtilsParallel:
@@ -44,8 +45,8 @@ class EDUtilsParallel:
     A class helping to make a multi-threaded application. 
     """
     __iActualNbCPU = None
-    __semaphore = threading.Semaphore()
-    __semaphoreInit = threading.Semaphore()
+    __semaphore = Semaphore()
+    __semaphoreInit = Semaphore()
     __semaphoreNbThreads = None
     __iNbThreads = None
 
@@ -202,7 +203,7 @@ class EDUtilsParallel:
                 _iNbThread = EDUtilsParallel.detectNumberOfCPUs()
             EDVerbose.DEBUG("Initializing EDUtilsParallel semaphoreNbThreads to %i" % _iNbThread)
             EDUtilsParallel.__iNbThreads = _iNbThread
-            EDUtilsParallel.__semaphoreNbThreads = threading.Semaphore(_iNbThread)
+            EDUtilsParallel.__semaphoreNbThreads = Semaphore(_iNbThread)
         else:
             if EDUtilsParallel.__iNbThreads != _iNbThread:
                 EDVerbose.WARNING("EDUtilsParallel.__semaphoreNbThreads was already initialized to %i, not changing to %i" % (EDUtilsParallel.__iNbThreads, _iNbThread))

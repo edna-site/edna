@@ -24,7 +24,7 @@ package XSDataMXv1 {
 	package MXv1CharacterisationEtc {
 
 		complex type XSDataCharacterisation extends XSData {
-			"Deprecated - only used by EDPluginControlCharacterisationv10\n"
+			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
 			dataCollection : XSDataCollection
 			indexingResult : XSDataIndexingResult optional
 			integrationResult : XSDataIntegrationResult optional
@@ -234,16 +234,16 @@ package XSDataMXv1 {
 	package MXv1DiffractionPlan {
 
 		complex type XSDataDiffractionPlan extends XSData {
-			"This object contains the main properties a user can parameterize for a crystal characterisation:\r\n\r\n- the aimed* parameters are the parameters that a user would like to reach for a BEST run.\r\n- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)\r\n- complexity: BEST complexity input, can be either \"none\" (always single wedge strategy). \"min\" (few subwedges) or \"full\" (many subwedges).\r\n- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.\r\n- forcedSpaceGroup: option to force the space group of the indexing solution\r\n- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage\r\n- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.\r\n- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.\r\n- detectorMinResolution and detectorMaxResolution: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.\n- minTransmission: optional input for BEST\r\n- kappaStrategyOption: optional input for kappa strategies\r\n- numberOfPositions: optional input for BEST"
+			"This object contains the main properties a user can parameterize for a crystal characterisation:\r\n\r\n- the aimed* parameters are the parameters that a user would like to reach for a BEST run.\r\n- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)\r\n- complexity: BEST complexity input, can be either \"none\" (always single wedge strategy). \"min\" (few subwedges) or \"full\" (many subwedges).\r\n- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.\r\n- forcedSpaceGroup: option to force the space group of the indexing solution\r\n- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage\r\n- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.\r\n- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.\r\n- detectorDistanceMin and detectorDistanceMax: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.\n- minTransmission: optional input for BEST\r\n- kappaStrategyOption: optional input for kappa strategies\r\n- numberOfPositions: optional input for BEST"
 			aimedCompleteness : XSDataDouble optional
 			aimedIOverSigmaAtHighestResolution : XSDataDouble optional
 			aimedMultiplicity : XSDataDouble optional
 			aimedResolution : XSDataDouble optional
 			anomalousData : XSDataBoolean optional
 			complexity : XSDataString optional
-			detectorMaxResolution : XSDataDouble
+			detectorDistanceMax : XSDataLength
 			optional
-			detectorMinResolution : XSDataDouble optional
+			detectorDistanceMin : XSDataLength optional
 			estimateRadiationDamage : XSDataBoolean optional
 			forcedSpaceGroup : XSDataString optional
 			goniostatMaxOscillationSpeed : XSDataAngularSpeed optional

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputPlotGle>
+  <filePlotMtv>
+    <path>
+      <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/best_plots.mtv</value>
+    </path>
+  </filePlotMtv>
+</XSDataInputPlotGle>

@@ -1,21 +1,40 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 7 05:18::40 2011 by EDGenerateDS.
+# Generated Tue Mar 13 09:46::30 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataString
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
-
-
-
 
 #
 # Support/utility functions.
@@ -28,11 +47,9 @@ if sys.version.startswith('3'):
 else:
 	from StringIO import StringIO
 
-
 def showIndent(outfile, level):
 	for idx in range(level):
 		outfile.write(unicode('    '))
-
 
 def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 	if not _strExpectedType in ["float", "double", "string", "boolean", "integer"]:
@@ -45,7 +62,6 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 #		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
 #		print(strMessage)
 #		#raise BaseException(strMessage)
-
 
 def warnEmptyAttribute(_strName, _strTypeName):
 	pass
@@ -102,7 +118,6 @@ class MixedContainer(object):
 #
 # Data representation classes.
 #
-
 
 class XSDataQuery(XSData):
 	def __init__(self, removeItems=None, item=None):
@@ -418,8 +433,5 @@ class XSDataResultAccumulator(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultAccumulator
 
-
-
 # End of data representation classes.
-
 

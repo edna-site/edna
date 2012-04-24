@@ -167,11 +167,11 @@ class PluginGenerator(object):
         (strMajorNumber, strMinorNumber) = version.split(".")
         try:
             iMajorNumber = int(strMajorNumber)
-        except:
+        except Exception:
             raise RuntimeError("""The plugin version major number not an integer: %s""" % strMajorNumber)
         try:
             iMinorNumber = int(strMinorNumber)
-        except:
+        except Exception:
             raise RuntimeError("""The plugin version minor number not an integer: %s""" % strMinorNumber)
         self._version = version
         return
@@ -362,7 +362,7 @@ class PluginGenerator(object):
 #        try:
 #            input_only = tree.getElementsByTagName("xs:complexType")[int(self._xsd_data_input_order)].getElementsByTagName("xs:extension")
 #            result_only = tree.getElementsByTagName("xs:complexType")[int(self._xsd_data_result_order)].getElementsByTagName("xs:extension")
-#        except:
+#        except Exception:
 #            print '\n-i and -r options are mandatory. Please check valid inputs/results values in the following:'
 #            self.display_xsd_file(xsd_file_name)
 #            os.sys.exit(0)
