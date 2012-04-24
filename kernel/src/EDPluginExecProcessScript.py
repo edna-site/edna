@@ -5,7 +5,7 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -27,13 +27,13 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import with_statement
 
 __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
-"""
+__doc__ = """
 The purpose of this plugin execute class is to be subclassed for
 creating plugins that execute external programs through scripts.
 """
@@ -175,7 +175,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
                     # Cut down the log file to the last part if it's long
                     listLogLines = strLog.split("\n")
                     if len(listLogLines) > self.__iNumberOfLastLinesFromLogFileIfError:
-                        strErrorMessage = "Last part of the %s log file:" % self.getScriptExecutable()
+                        strErrorMessage = "Last part of the %s log file:" % self.__strScriptExecutable
                         EDVerbose.ERROR(strErrorMessage)
                         self.addErrorMessage(strErrorMessage)
                         listLogLastLines = listLogLines[-self.__iNumberOfLastLinesFromLogFileIfError:]
@@ -188,7 +188,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
                         EDVerbose.ERROR(strMessage)
                         self.addErrorMessage(strMessage)
                     else:
-                        strMessage = "%s log file: \n%s" % (self.getScriptExecutable(), strLog)
+                        strMessage = "%s log file: \n%s" % (self.__strScriptExecutable, strLog)
                         EDVerbose.ERROR(strMessage)
                         self.addErrorMessage(strMessage)
         #       Save the return code of the external program in the PID file
@@ -255,9 +255,9 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
                             EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTOR + ", using script shell: " + self.getScriptShell())
         else:
             self.setScriptExecutor(strScriptExecutor)
-        if (self.getScriptExecutable() is None):
+        if (self.__strScriptExecutable is None):
             strScriptExecutable = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE)
-            if(strScriptExecutable == None):
+            if(strScriptExecutable is None):
                 strErrorMessage = "Configuration parameter missing: " + EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE
                 EDVerbose.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
@@ -266,8 +266,8 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
                     raise RuntimeError, strErrorMessage
             else:
                 # Check that the executable file exists
-                if (os.path.exists(strScriptExecutable) == False):
-                    strErrorMessage = "Cannot find configured " + EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE + " : " + strScriptExecutable
+                if (not os.path.exists(strScriptExecutable)):
+                    strErrorMessage = "Cannot find configured %s: %s" % (EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE, strScriptExecutable)
                     EDVerbose.error(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
                     self.setFailure()
@@ -786,20 +786,15 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         """
         Sets the executable path
         """
-        self.synchronizeOn()
-        self.__strScriptExecutable = _strScriptExecutable
-        self.synchronizeOff()
-
+        with self.locked():
+            self.__strScriptExecutable = _strScriptExecutable
 
     def getScriptExecutable(self):
         """
         Returns the executable path
         """
-        returnValue = self.__strScriptExecutable
-        if (returnValue is not None):
-            returnValue = self.__strScriptExecutable
-        return returnValue
-
+        return self.__strScriptExecutable
+    scriptExecutable = property(getScriptExecutable, setScriptExecutable)
 
     def setScriptCommandline(self, _strScriptCommandline):
         """
