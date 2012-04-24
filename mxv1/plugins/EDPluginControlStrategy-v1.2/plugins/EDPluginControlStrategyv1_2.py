@@ -292,7 +292,7 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         xsDataInputPlotGle.filePlotMtv = xsDataResultBest.pathToPlotMtvFile
         self._edPluginPlotGle.dataInput = xsDataInputPlotGle
         self._edPluginPlotGle.executeSynchronous()
-        print self._edPluginPlotGle.dataOutput.marshal()
+        listFileGraph = self._edPluginPlotGle.dataOutput.fileGraph
         # TODO
         # Temporary! Otherwise fails Model from -bonly is different
         xsDataResultStrategy = None
@@ -304,8 +304,11 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
 
         if self.xsDataFileRaddoseLog is not None:
             xsDataResultStrategy.setRaddoseLogFile(self.xsDataFileRaddoseLog)
+        # Plots
+        xsDataResultStrategy.bestGraphFile = listFileGraph
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
+        
 
 
     def finallyProcess(self, _edObject=None):
