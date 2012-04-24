@@ -80,17 +80,19 @@ class EDTestCaseEDHandlerESRFPyarchv1_0(EDTestCasePluginUnit):
         if not os.path.exists(EDUtilsPath.getEdnaUserTempFolder()):
             os.mkdir(EDUtilsPath.getEdnaUserTempFolder())
         strTestFromDir = os.path.join(EDUtilsPath.getEdnaUserTempFolder(), "TestFromDir")
-        if not os.path.exists(strTestFromDir):
-            os.mkdir(strTestFromDir)
+        shutil.rmtree(strTestFromDir, ignore_errors=True)
+        os.mkdir(strTestFromDir)
         strTestHtmlFilePath = os.path.join(strTestFromDir, "index.html")
         strTestHtmlDirPath = os.path.join(strTestFromDir, "index")
-        strTestToDir = os.path.join(EDUtilsPath.getEdnaUserTempFolder(), "TestToDir")
         EDUtilsFile.writeFile(strTestHtmlFilePath, "Test content")
         if not os.path.exists(strTestHtmlDirPath):
             os.mkdir(strTestHtmlDirPath)
         strTestHtmlDirFilePath = os.path.join(strTestHtmlDirPath, "test.txt")
         EDUtilsFile.writeFile(strTestHtmlDirFilePath, "Test content")
         #
+        strTestToDir = os.path.join(EDUtilsPath.getEdnaUserTempFolder(), "TestToDir")
+        shutil.rmtree(strTestToDir, ignore_errors=True)
+        os.mkdir(strTestToDir)
         EDHandlerESRFPyarchv1_0.copyHTMLDir(strTestFromDir, strTestToDir)
         #
         # Check that files exist in strTestToDir:
