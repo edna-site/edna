@@ -129,10 +129,17 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
 
         data_output = XSDataXscaleOutput()
         output_file = os.path.join(self.getWorkingDirectory(), 'XSCALE.LP')
+        data_output.succeeded = XSDataBoolean(False)
         if os.path.isfile(output_file):
-            data_output.succeeded = XSDataBoolean(True)
+            # we have the output file
             data_output.output_file = XSDataString(os.path.abspath(output_file))
-        else:
-            data_output.succeeded = False
+            # look for an error message in the output
+            with open(output_file, 'r') as f:
+                success = True
+                for line in f:
+                    if line.find('!!! ERROR !!!') != -1:
+                        success = False
+                        break
+                data_output.succeeded = XSDataBoolean(success)
 
         self.dataOutput = data_output
