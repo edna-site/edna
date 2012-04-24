@@ -509,7 +509,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
 
     def graphs(self):
         self.page.table( class_='bestGraphs', border_="0", cellpadding_="0")
-        if characterisationResult.strategyResult.bestGraphFile == []:
+        if self.getDataInput().characterisationResult.strategyResult is None:
+            return
+        if self.getDataInput().characterisationResult.strategyResult.bestGraphFile == []:
             return
         listXSDataFile = self.getDataInput().characterisationResult.strategyResult.bestGraphFile
         if listXSDataFile != []:

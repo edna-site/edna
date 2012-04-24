@@ -210,8 +210,8 @@ package XSDataMXv1 {
 
 		complex type XSDataGoniostat extends XSData {
 			"The properties of a goniostat:\r\n- the maximal rotation speed permitted\r\n- the minimal width for an oscillation width of subwedge\r\n- the name of the rotation axis (typically phi)\r\n- the rotation start angle\r\n- the rotation end angle"
-			maxOscillationSpeed : XSDataAngularSpeed
-			minOscillationWidth : XSDataAngle
+			maxOscillationSpeed : XSDataAngularSpeed optional
+			minOscillationWidth : XSDataAngle optional
 			oscillationWidth : XSDataAngle
 			overlap : XSDataAngle optional
 			rotationAxis : XSDataString
@@ -287,7 +287,7 @@ package XSDataMXv1 {
 
 		complex type XSDataIndexingSolutionSelected extends XSDataIndexingSolution {
 			experimentalConditionRefined : XSDataExperimentalCondition
-			mosaicityEstimation : XSDataFloat
+			mosaicityEstimation : XSDataFloat optional
 			orientation : XSDataOrientation
 			statistics : XSDataStatisticsIndexing
 		}

@@ -305,11 +305,13 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         <generalization xmi:id="_TbP6YOgHEd-TcNOGyxZYYg">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
         </generalization>
-        <ownedAttribute xmi:id="_b2pO0ugGEd-TcNOGyxZYYg" name="maxOscillationSpeed">
+        <ownedAttribute xmi:id="_b2pO0ugGEd-TcNOGyxZYYg" name="maxOscillationSpeed" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_G1m4UOcyEd-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_IweKoI4gEeGjvvGrlGkoIg"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_e2ayougGEd-TcNOGyxZYYg" name="minOscillationWidth">
+        <ownedAttribute xmi:id="_e2ayougGEd-TcNOGyxZYYg" name="minOscillationWidth" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YZdRsI4gEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_htjX0ugGEd-TcNOGyxZYYg" name="oscillationWidth">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
@@ -390,8 +392,9 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
       <packagedElement xmi:type="uml:Class" xmi:id="_60pYEOgGEd-TcNOGyxZYYg" name="XSDataIndexingSolutionSelected">
         <generalization xmi:id="_7BM-oOgMEd-TcNOGyxZYYg" general="_4WZM8OgGEd-TcNOGyxZYYg"/>
         <ownedAttribute xmi:id="_ukJBAugMEd-TcNOGyxZYYg" name="experimentalConditionRefined" type="_haUQkOf3Ed-TcNOGyxZYYg"/>
-        <ownedAttribute xmi:id="_yXxqsugMEd-TcNOGyxZYYg" name="mosaicityEstimation">
+        <ownedAttribute xmi:id="_yXxqsugMEd-TcNOGyxZYYg" name="mosaicityEstimation" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_JJ8AgOc0Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tghLAI4gEeGjvvGrlGkoIg"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_8YyEUOgGEd-TcNOGyxZYYg" name="XSDataOrientation">
