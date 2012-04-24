@@ -79,6 +79,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             else:
                 self.ERROR("Path to plt mtv file does not exist: %s" % strPlotMtvPath)
                 self.setFailure()
+                return
         else:
             xsDataPlotSet = xsDataInput.plotSet
         # Prepare input script
