@@ -60,7 +60,7 @@ class EDTestCaseEDHandlerMOSFLMv10(EDTestCase):
         xsDataIndexingInput = XSDataIndexingInput.parseString(strXMLIndexingInput)
         from EDHandlerXSDataMOSFLMv10 import EDHandlerXSDataMOSFLMv10
         xsDataMOSFLMInputIndexing = EDHandlerXSDataMOSFLMv10.generateXSDataMOSFLMInputIndexing(xsDataIndexingInput)
-        xsDataMOSFLMInputIndexing.outputFile("XSDataMOSFLMInputIndexing_reference.xml")
+        xsDataMOSFLMInputIndexing.exportToFile("XSDataMOSFLMInputIndexing_reference.xml")
         strReferenceFilename = "XSDataMOSFLMInputIndexing_reference.xml"
         strReferencePath = os.path.join(self.m_strDataPath, strReferenceFilename)
         strXMLMOSFLMInputIndexingReference = EDUtilsTest.readAndParseFile(strReferencePath)
