@@ -130,7 +130,7 @@ class EDPluginResCutoff(EDPlugin):
 bravais lattice/SG could be incorrect or something more insidious like
 incorrect parameters in XDS.INP like distance, X beam, Y beam, etc.
 Stopping""")
-            self.setFailure()
+            self.setFailure(True)
             return
         if res_override is not None:
             res = res_override.value

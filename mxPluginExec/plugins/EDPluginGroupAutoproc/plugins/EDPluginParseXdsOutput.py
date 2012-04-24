@@ -100,7 +100,7 @@ class EDPluginParseXdsOutput(EDPlugin):
         # now really check it
         path = self.dataInput.correct_lp.path.value
         if not os.path.isfile(path):
-            self.setFailure()
+            self.setFailure(True)
 
     def preProcess(self, _edObject = None):
         EDPlugin.preProcess(self)
@@ -119,7 +119,7 @@ class EDPluginParseXdsOutput(EDPlugin):
             lines = f.readlines()
         except IOError:
             EDVerbose.ERROR('Could not open the specified XDS output file for reading')
-            self.setFailure()
+            self.setFailure(True)
             return
 
         # look for the "big piece of information"
@@ -136,7 +136,7 @@ class EDPluginParseXdsOutput(EDPlugin):
 
         if info_begin is None or info_end is None:
             EDVerbose.ERROR('could not find the refined parameters')
-            self.setFailure()
+            self.setFailure(True)
             return
 
         _extract_infos(lines[info_begin:info_end], output)
@@ -160,7 +160,7 @@ class EDPluginParseXdsOutput(EDPlugin):
                     info_end = line_no
         if info_begin is None or info_end is None:
             EDVerbose.ERROR('could not find the completeness table')
-            self.setFailure()
+            self.setFailure(True)
             return
 
         _extract_completeness_entries(lines[info_begin:info_end+1], output)

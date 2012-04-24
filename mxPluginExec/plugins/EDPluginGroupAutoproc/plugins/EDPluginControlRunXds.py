@@ -146,7 +146,7 @@ class EDPluginControlRunXds( EDPluginControl ):
 
         if not self.successful_run:
         # all runs failed so bail out ...
-            self.setFailure()
+            self.setFailure(True)
         else:
             # use the xds parser plugin to parse the xds output file...
             parser = self.loadPlugin("EDPluginParseXdsOutput")
@@ -161,7 +161,7 @@ class EDPluginControlRunXds( EDPluginControl ):
 
             if parser.isFailure():
                 # that should not happen
-                self.setFailure()
+                self.setFailure(True)
                 return
             self.dataOutput = parser.dataOutput
 
