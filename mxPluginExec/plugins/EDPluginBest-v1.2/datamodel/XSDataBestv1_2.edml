@@ -18,27 +18,29 @@ package XSDataBestv12 {
 		collectionPlanNumber : XSDataInteger
 		collectionRun : XSDataBestCollectionRun [] optional
 		comment : XSDataString
-		crystalScale : XSDataCrystalScale
+		optional
+		crystalScale : XSDataCrystalScale optional
 		statisticalPrediction : XSDataBestStatisticalPrediction
 		strategySummary : XSDataBestStrategySummary
 	}
 
 	complex type XSDataBestCollectionRun {
-		action : XSDataString
+		action : XSDataString optional
 		collectionRunNumber : XSDataInteger
-		crystalPosition : XSDataInteger
+		crystalPosition : XSDataInteger optional
 		exposureTime : XSDataTime
 		numberOfImages : XSDataInteger
 		overlaps : XSDataString
 		phiStart : XSDataAngle
 		phiWidth : XSDataAngle
-		transmission : XSDataDouble
+		transmission : XSDataDouble optional
 	}
 
 	complex type XSDataBestResolutionBin {
 		IOverSigma : XSDataDouble
 		averageIntensity : XSDataDouble
 		averageIntensityOverAverageSigma : XSDataDouble
+		optional
 		averageSigma : XSDataDouble
 		completeness : XSDataDouble
 		maxResolution : XSDataDouble
@@ -46,6 +48,7 @@ package XSDataBestv12 {
 		percentageOverload : XSDataDouble
 		rFactor : XSDataDouble
 		rFriedel : XSDataDouble
+		optional
 		redundancy : XSDataDouble
 	}
 
@@ -104,6 +107,7 @@ package XSDataBestv12 {
 	complex type XSDataResultBest extends XSDataResult {
 		collectionPlan : XSDataBestCollectionPlan [] optional
 		pathToLogFile : XSDataFile
+		pathToPlotMtvFile : XSDataFile
 	}
 
 }

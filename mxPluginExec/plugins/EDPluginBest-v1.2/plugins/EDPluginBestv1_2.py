@@ -336,6 +336,8 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
             xsDataResultBest = self.getOutputDataFromDNATableFile(EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
             xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
             xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
+            xsDataFilePathToPlotMtv = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv ")))
+            xsDataResultBest.setPathToPlotMtvFile(xsDataFilePathToPlotMtv)
             self.setDataOutput(xsDataResultBest)
 
 
