@@ -24,7 +24,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/dls_sw/apps/ccp4/i386/ccp4-6.1.1/ccp4-6.1.1/lib/data/</value>
+					<value>/dls_sw/apps/ccp4/32/6.2.0/7dec2011/ccp4-6.2.0/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -33,7 +33,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/dls_sw/apps/ccp4/i386/ccp4-6.1.1/ccp4-6.1.1/lib/data/</value>
+					<value>/dls_sw/apps/ccp4/32/6.2.0/7dec2011/ccp4-6.2.0/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -42,7 +42,7 @@
                         <XSParamList>
                                 <XSParamItem>
                                         <name>symopHome</name>
-                                        <value>/dls_sw/apps/ccp4/i386/ccp4-6.1.1/ccp4-6.1.1/lib/data/</value>
+					<value>/dls_sw/apps/ccp4/32/6.2.0/7dec2011/ccp4-6.2.0/lib/data/</value>
                                 </XSParamItem>
                         </XSParamList>
                 </XSPluginItem>
@@ -64,7 +64,7 @@
                         <XSParamList>
                                 <XSParamItem>
                                         <name>symopHome</name>
-                                        <value>/dls_sw/apps/ccp4/i386/ccp4-6.1.1/ccp4-6.1.1/lib/data/</value>
+					<value>/dls_sw/apps/ccp4/32/6.2.0/7dec2011/ccp4-6.2.0/lib/data/</value>
                                 </XSParamItem>
                         </XSParamList>
                 </XSPluginItem>
@@ -94,7 +94,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>characterisationPlugin</name>
-					<value>EDPluginControlCharacterisationv1_2</value>
+					<value>EDPluginControlCharacterisationv1_3</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>ispybPlugin</name>
@@ -102,7 +102,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>useISPyBPlugin</name>
-					<value>True</value>
+					<value>False</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -121,7 +121,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/dls_sw/apps/ccp4/i386/ccp4-6.1.1/ccp4-6.1.1/lib/data/</value>
+					<value>/dls_sw/apps/ccp4/32/6.2.0/7dec2011/ccp4-6.2.0/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -130,7 +130,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/dls_sw/apps/ccp4/i386/ccp4-6.1.1/ccp4-6.1.1/lib/data/</value>
+					<value>/dls_sw/apps/ccp4/32/6.2.0/7dec2011/ccp4-6.2.0/lib/data/</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>KAPPA</name>
@@ -143,7 +143,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/dls_sw/apps/ccp4/i386/ccp4-6.1.1/ccp4-6.1.1/lib/data/</value>
+					<value>/dls_sw/apps/ccp4/32/6.2.0/7dec2011/ccp4-6.2.0/lib/data/</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>KAPPA</name>

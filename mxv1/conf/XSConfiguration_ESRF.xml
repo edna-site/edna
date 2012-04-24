@@ -6,7 +6,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/lib/data</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/lib/data</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -15,7 +15,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/lib/data</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/lib/data</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -24,7 +24,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/lib/data</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/lib/data</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -42,7 +42,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/lib/data</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/lib/data</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -100,24 +100,6 @@
 					<name>EDNA2html</name>
 					<value>/opt/pxsoft/EDNA2html/v0.0.9b/linux</value>
 				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginControlInterfaceToMXCuBEv1_2</name>  
-			<XSParamList>
-			    <XSParamItem>
-			        <name>contactEmail</name>
-			        <value>svensson@esrf.fr</value>
-			    </XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginControlInterfaceToMXCuBEv1_3</name>  
-			<XSParamList>
-			    <XSParamItem>
-			        <name>contactEmail</name>
-			        <value>svensson@esrf.fr</value>
-			    </XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 	</XSPluginList> 
