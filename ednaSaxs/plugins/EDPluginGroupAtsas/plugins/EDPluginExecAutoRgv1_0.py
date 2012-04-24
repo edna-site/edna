@@ -99,7 +99,7 @@ class EDPluginExecAutoRgv1_0(EDPluginExecProcessScript):
                 xsData.lastPointUsed = XSDataInteger(int(words[5]))
                 xsData.quality = XSDataDouble(float(words[6]))
                 xsData.isagregated = XSDataBoolean(bool(int(words[7])))
-            except:
+            except Exception:
                 strError = "Error in parsing output:" + line
                 self.error(strError)
                 self.setFailure()
