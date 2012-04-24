@@ -54,6 +54,7 @@ then
 PythonProg=${EDNA_HOME}/tango/bin/tango-EdnaDS.py
 echo "Server Mode"
 cd $TestSpace
+HOSTNAME=$(hostname)
 if [ "$HOSTNAME" = "slavia" ]
 then
    ds="DAU_slavia"
