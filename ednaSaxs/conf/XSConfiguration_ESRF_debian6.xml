@@ -1,0 +1,60 @@
+<?xml version="1.0" ?><XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecAutoRgv1_0</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value></XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/autorg</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>60</value></XSParamItem>
+				</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecDatcmpv1_0</name>  
+            <XSParamList>
+                <XSParamItem>
+                    <name>execProcessScriptShell</name>
+                    <value>python</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>execProcessScriptExecutable</name>
+                    <value>/usr/bin/datcmp</value>
+                </XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecDataverv1_0</name>  
+            <XSParamList>
+                <XSParamItem>
+                    <name>execProcessScriptShell</name>
+                    <value>python</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>execProcessScriptExecutable</name>
+                    <value>/usr/bin/dataver</value>
+                </XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecDatopv1_0</name>  
+            <XSParamList>
+                <XSParamItem>
+                    <name>execProcessScriptShell</name>
+                    <value>python</value>
+                </XSParamItem>
+                <XSParamItem>
+                    <name>execProcessScriptExecutable</name>
+                    <value>/usr/bin/datop</value>
+                </XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+</XSPluginList> 
+</XSConfiguration>
