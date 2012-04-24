@@ -44,9 +44,6 @@ from XSDataAutoproc import XSDataXscaleInput, XSDataXscaleOutput
 # instead of writing a parser them like I did for XDS I'll just
 # generate the input from some data model parameters.
 
-# XXX TODO the paths for the input files are limited to 50 characters.
-# Check if it's a problem and resort to a bunch of symlinks if it is
-
 class EDPluginExecXscale(EDPluginExecProcessScript):
     """
     """
@@ -107,9 +104,15 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
             inputfile.write("OUTPUT_FILE= {}\n".format(outfile))
             inputfile.write("MERGE= {}\n".format("TRUE" if merged else "FALSE"))
             for xds_file in self.dataInput.xds_files:
-                path = xds_file.path.value
+                path = os.path.abspath(xds_file.path.value)
+                # make a symlink so we do not hit the 50char limit
+                sympath = os.path.abspath(os.path.join(self.getWorkingDirectory(),
+                                                       os.path.basename(path)))
+                os.symlink(path, sympath)
+
                 res = xds_file.res.value
-                inputfile.write("INPUT_FILE= {} XDS_ASCII 100 {}\n".format(path, res))
+                inputfile.write("INPUT_FILE= {} XDS_ASCII 100 {}\n".format(sympath, res))
+
             ucellconstants = ' '.join([str(x.value) for x in self.dataInput.unit_cell_constants])
             inputfile.write("UNIT_CELL_CONSTANTS= {}\n".format(ucellconstants))
             sg = self.dataInput.sg_number.value
