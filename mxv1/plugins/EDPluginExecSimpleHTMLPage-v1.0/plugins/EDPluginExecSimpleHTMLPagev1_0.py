@@ -517,7 +517,11 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         if listXSDataFile != []:
             self.page.tr( align_="CENTER" )
             iIndex = 1
-            listPlotsToDisplay = [0, 1, 3, 6]
+            # If -damPar is used only three plots are available:
+            if len(listXSDataFile) > 4:
+                listPlotsToDisplay = [0, 1, 3, 6]
+            else:
+                listPlotsToDisplay = range(len(listXSDataFile))
             for iIndexPlot in listPlotsToDisplay:
                 xsDataFile = listXSDataFile[iIndexPlot]
                 strFileName = os.path.basename(xsDataFile.path.value)
