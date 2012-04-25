@@ -6097,7 +6097,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = int(content)
-                    except:
+                    except Exception:
                         self.reportError('"shape" must be integer -- content: %s' % content)
                 else:
                     content = -1
@@ -6110,7 +6110,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = int(content)
-                    except:
+                    except Exception:
                         self.reportError('"size" must be integer -- content: %s' % content)
                 else:
                     content = -1
@@ -6225,7 +6225,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m11" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6238,7 +6238,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m12" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6251,7 +6251,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m13" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6264,7 +6264,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m21" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6277,7 +6277,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m22" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6290,7 +6290,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m23" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6303,7 +6303,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m31" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6316,7 +6316,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m32" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6329,7 +6329,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"m33" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6362,7 +6362,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"q0" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6375,7 +6375,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"q1" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6388,7 +6388,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"q2" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6401,7 +6401,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"q3" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6479,7 +6479,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"v1" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6492,7 +6492,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"v2" must be float -- content: %s' % content)
                 else:
                     content = -1
@@ -6505,7 +6505,7 @@ class SaxXSConfigurationHandler(handler.ContentHandler):
                 if content:
                     try:
                         content = float(content)
-                    except:
+                    except Exception:
                         self.reportError('"v3" must be float -- content: %s' % content)
                 else:
                     content = -1
