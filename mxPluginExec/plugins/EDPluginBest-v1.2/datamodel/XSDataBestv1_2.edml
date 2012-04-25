@@ -21,6 +21,7 @@ package XSDataBestv12 {
 		optional
 		crystalScale : XSDataCrystalScale optional
 		statisticalPrediction : XSDataBestStatisticalPrediction
+		optional
 		strategySummary : XSDataBestStrategySummary
 	}
 
@@ -30,7 +31,7 @@ package XSDataBestv12 {
 		crystalPosition : XSDataInteger optional
 		exposureTime : XSDataTime
 		numberOfImages : XSDataInteger
-		overlaps : XSDataString
+		overlaps : XSDataString optional
 		phiStart : XSDataAngle
 		phiWidth : XSDataAngle
 		transmission : XSDataDouble optional
@@ -57,16 +58,16 @@ package XSDataBestv12 {
 	}
 
 	complex type XSDataBestStrategySummary {
-		completeness : XSDataDouble
+		completeness : XSDataDouble optional
 		distance : XSDataLength
-		iSigma : XSDataDouble
-		rankingResolution : XSDataDouble
-		redundancy : XSDataDouble
+		iSigma : XSDataDouble optional
+		rankingResolution : XSDataDouble optional
+		redundancy : XSDataDouble optional
 		resolution : XSDataDouble
-		resolutionReasoning : XSDataString
-		totalDataCollectionTime : XSDataTime
-		totalExposureTime : XSDataTime
-		transmission : XSDataDouble
+		resolutionReasoning : XSDataString optional
+		totalDataCollectionTime : XSDataTime optional
+		totalExposureTime : XSDataTime optional
+		transmission : XSDataDouble optional
 	}
 
 	complex type XSDataCrystalScale {

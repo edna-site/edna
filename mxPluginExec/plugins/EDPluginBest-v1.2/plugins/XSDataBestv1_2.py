@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Apr 24 02:56::10 2012 by EDGenerateDS.
+# Generated Wed Apr 25 08:54::27 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -262,8 +262,6 @@ class XSDataBestCollectionRun(object):
 			warnEmptyAttribute("numberOfImages", "XSDataInteger")
 		if self._overlaps is not None:
 			self.overlaps.export(outfile, level, name_='overlaps')
-		else:
-			warnEmptyAttribute("overlaps", "XSDataString")
 		if self._phiStart is not None:
 			self.phiStart.export(outfile, level, name_='phiStart')
 		else:
@@ -810,44 +808,28 @@ class XSDataBestStrategySummary(object):
 		pass
 		if self._completeness is not None:
 			self.completeness.export(outfile, level, name_='completeness')
-		else:
-			warnEmptyAttribute("completeness", "XSDataDouble")
 		if self._distance is not None:
 			self.distance.export(outfile, level, name_='distance')
 		else:
 			warnEmptyAttribute("distance", "XSDataLength")
 		if self._iSigma is not None:
 			self.iSigma.export(outfile, level, name_='iSigma')
-		else:
-			warnEmptyAttribute("iSigma", "XSDataDouble")
 		if self._rankingResolution is not None:
 			self.rankingResolution.export(outfile, level, name_='rankingResolution')
-		else:
-			warnEmptyAttribute("rankingResolution", "XSDataDouble")
 		if self._redundancy is not None:
 			self.redundancy.export(outfile, level, name_='redundancy')
-		else:
-			warnEmptyAttribute("redundancy", "XSDataDouble")
 		if self._resolution is not None:
 			self.resolution.export(outfile, level, name_='resolution')
 		else:
 			warnEmptyAttribute("resolution", "XSDataDouble")
 		if self._resolutionReasoning is not None:
 			self.resolutionReasoning.export(outfile, level, name_='resolutionReasoning')
-		else:
-			warnEmptyAttribute("resolutionReasoning", "XSDataString")
 		if self._totalDataCollectionTime is not None:
 			self.totalDataCollectionTime.export(outfile, level, name_='totalDataCollectionTime')
-		else:
-			warnEmptyAttribute("totalDataCollectionTime", "XSDataTime")
 		if self._totalExposureTime is not None:
 			self.totalExposureTime.export(outfile, level, name_='totalExposureTime')
-		else:
-			warnEmptyAttribute("totalExposureTime", "XSDataTime")
 		if self._transmission is not None:
 			self.transmission.export(outfile, level, name_='transmission')
-		else:
-			warnEmptyAttribute("transmission", "XSDataDouble")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1129,8 +1111,6 @@ class XSDataBestCollectionPlan(object):
 			self.crystalScale.export(outfile, level, name_='crystalScale')
 		if self._statisticalPrediction is not None:
 			self.statisticalPrediction.export(outfile, level, name_='statisticalPrediction')
-		else:
-			warnEmptyAttribute("statisticalPrediction", "XSDataBestStatisticalPrediction")
 		if self._strategySummary is not None:
 			self.strategySummary.export(outfile, level, name_='strategySummary')
 		else:
