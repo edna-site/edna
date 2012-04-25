@@ -106,7 +106,7 @@ class EDHandlerESRFPyarchv1_0:
             try:
                 os.mkdir(_strPathToPyarchDirectory)
             except:
-                EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: cannot create pyarch html directory %s" % strPyarchHtmlDirectoryPath)
+                EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: cannot create pyarch html directory %s" % _strPathToPyarchDirectory)
                 return
         elif not os.path.exists(_strPathToHTMLDir):
             EDVerbose.ERROR("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: path to html directory does not exist: %s" % _strPathToHTMLDir)            
