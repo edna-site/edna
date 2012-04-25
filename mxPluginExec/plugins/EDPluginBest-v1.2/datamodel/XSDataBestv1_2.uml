@@ -49,7 +49,7 @@
       <ownedAttribute xmi:id="_RjKDUOwYEd-YN87dLY1EOA" name="bestFileContentDat">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_Ru6AUOwYEd-YN87dLY1EOA" name="bestFileContentHKL">
+      <ownedAttribute xmi:id="_Ru6AUOwYEd-YN87dLY1EOA" name="bestFileContentHKL" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jzJo4OwYEd-YN87dLY1EOA" value="*"/>
       </ownedAttribute>
@@ -121,11 +121,13 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_NEx6cI4KEeGjvvGrlGkoIg" name="pathToPlotMtvFile" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9r8gQI6uEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_1SCFIOwZEd-YN87dLY1EOA" name="XSDataBestCollectionPlan">
-      <ownedAttribute xmi:id="_4CO74OwZEd-YN87dLY1EOA" name="collectionPlanNumber">
+      <ownedAttribute xmi:id="_4CO74OwZEd-YN87dLY1EOA" name="collectionPlanNumber" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__LB_UI6sEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_52gV4OwZEd-YN87dLY1EOA" name="comment">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
@@ -248,9 +250,9 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_V7ih8uyeEd-YN87dLY1EOA" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_V7ih8-yeEd-YN87dLY1EOA" value="1"/>
       </ownedEnd>
-      <ownedEnd xmi:id="_V7ih9OyeEd-YN87dLY1EOA" name="strategySummary" type="_mDGQ0OydEd-YN87dLY1EOA" association="_V7ih8OyeEd-YN87dLY1EOA">
+      <ownedEnd xmi:id="_V7ih9OyeEd-YN87dLY1EOA" name="strategySummary" type="_mDGQ0OydEd-YN87dLY1EOA" isUnique="false" association="_V7ih8OyeEd-YN87dLY1EOA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_V7ih9eyeEd-YN87dLY1EOA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_V7ih9uyeEd-YN87dLY1EOA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_V7ih9uyeEd-YN87dLY1EOA"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_aA-tUOyeEd-YN87dLY1EOA" name="XSDataBestStatisticalPrediction"/>

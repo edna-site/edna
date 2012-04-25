@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Apr 25 08:54::27 2012 by EDGenerateDS.
+# Generated Wed Apr 25 10:17::26 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -1101,8 +1101,6 @@ class XSDataBestCollectionPlan(object):
 		pass
 		if self._collectionPlanNumber is not None:
 			self.collectionPlanNumber.export(outfile, level, name_='collectionPlanNumber')
-		else:
-			warnEmptyAttribute("collectionPlanNumber", "XSDataInteger")
 		for collectionRun_ in self.getCollectionRun():
 			collectionRun_.export(outfile, level, name_='collectionRun')
 		if self._comment is not None:
@@ -1113,8 +1111,6 @@ class XSDataBestCollectionPlan(object):
 			self.statisticalPrediction.export(outfile, level, name_='statisticalPrediction')
 		if self._strategySummary is not None:
 			self.strategySummary.export(outfile, level, name_='strategySummary')
-		else:
-			warnEmptyAttribute("strategySummary", "XSDataBestStrategySummary")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1739,8 +1735,6 @@ class XSDataResultBest(XSDataResult):
 			warnEmptyAttribute("pathToLogFile", "XSDataFile")
 		if self._pathToPlotMtvFile is not None:
 			self.pathToPlotMtvFile.export(outfile, level, name_='pathToPlotMtvFile')
-		else:
-			warnEmptyAttribute("pathToPlotMtvFile", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]

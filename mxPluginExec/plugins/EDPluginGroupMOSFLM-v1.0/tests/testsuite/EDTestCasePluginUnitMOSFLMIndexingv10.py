@@ -56,7 +56,7 @@ class EDTestCasePluginUnitMOSFLMIndexingv10(EDTestCasePluginUnit):
         self.strDataImagePath = os.path.join(self.getTestsDataHome(), strDataImageDir)
 
         strPluginTestDataHome = self.getPluginTestsDataHome()
-        self.strUnitTestDataHome = EDUtilsPath.mergePath(strPluginTestDataHome, "unitTest")
+        self.strUnitTestDataHome = os.path.join(strPluginTestDataHome, "unitTest")
 
         self.strReferenceDataInputFile = os.path.join(self.strUnitTestDataHome, "XSDataMOSFLMInputIndexing_reference.xml")
         self.strReferenceDataOutputFile = os.path.join(self.strUnitTestDataHome, "XSDataMOSFLMOutputIndexing_reference.xml")
