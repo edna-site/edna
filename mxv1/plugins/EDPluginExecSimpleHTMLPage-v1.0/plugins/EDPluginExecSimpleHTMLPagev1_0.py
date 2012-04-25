@@ -528,7 +528,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 #print strFileName
                 shutil.copy(xsDataFile.path.value, os.path.join(self.getWorkingDirectory(), strFileName))
                 self.page.td()
-                strPageGraph = os.path.join(self.getWorkingDirectory(), os.path.splitext(strFileName)[0]+".html")
+                strPageGraphFileName = os.path.splitext(strFileName)[0]+".html"
+                strPageGraphPath = os.path.join(self.getWorkingDirectory(), strPageGraphFileName)
                 pageGraph = markupv1_7.page()
                 pageGraph.init( title=strFileName, 
                        footer="Generated on %s" % time.asctime())
@@ -537,8 +538,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 pageGraph.br()
                 pageGraph.img(src=strFileName, title=strFileName)
                 pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
-                EDUtilsFile.writeFile(strPageGraph, str(pageGraph))
-                self.page.a( href=strFileName)
+                EDUtilsFile.writeFile(strPageGraphPath, str(pageGraph))
+                self.page.a( href=strPageGraphFileName)
                 self.page.img( src=strFileName, width=175, height=175, title=strFileName )
                 self.page.a.close()
                 self.page.td.close()
