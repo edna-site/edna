@@ -52,6 +52,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
         self.addCompatibleVersion("Mosflm version 7.0.5 for Image plate and CCD data 12th August 2009")
         self.addCompatibleVersion("Mosflm version 7.0.6 for Image plate and CCD data 26th January 2010")
         self.addCompatibleVersion("Mosflm version 7.0.7 for Image plate and CCD data 20th December 2010")
+        self.addCompatibleVersion("Mosflm version 7.0.8  for Image plate and CCD data 12th March 2012")
 
         self.strMOSFLMNewmatFileName = None
         self.strMOSFLMMatrixFileName = None
@@ -249,7 +250,8 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
             listLine = strNewmat.split("\n")
             # Convert into list of lists of float
             for strLine in listLine:
-                listOfListOfFloat.append(self.splitStringIntoListOfFloats(strLine))
+                if not strLine.startswith("SYMM"):
+                    listOfListOfFloat.append(self.splitStringIntoListOfFloats(strLine))
             # Fill in the data
             xsDataMOSFLMNewmat = XSDataMOSFLMNewmat()
 
