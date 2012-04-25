@@ -117,7 +117,7 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         bestFileContentHKL = EDUtilsFile.readFile(EDUtilsPath.mergePath(self.m_pyStrDataPath, "bestfile1.hkl"))
         xsDataInputBest.addBestFileContentHKL(XSDataString(bestFileContentHKL))
 
-        xsDataInputBest.outputFile(self.m_edObtainedInputFile)
+        xsDataInputBest.exportToFile(self.m_edObtainedInputFile)
 
         pyStrExpectedInput = self.readAndParseFile (self.m_edReferenceInputFile)
         pyStrObtainedInput = self.readAndParseFile (self.m_edObtainedInputFile)

@@ -45,12 +45,24 @@
   </diffractionPlan>
   <experimentalCondition>
     <goniostat>
-      <minOscillationWidth>
-        <value>0.2</value>
-      </minOscillationWidth>
-      <maxOscillationSpeed>
-        <value>360</value>
-      </maxOscillationSpeed>
+        <maxOscillationSpeed>
+            <value>3.600000e+02</value>
+        </maxOscillationSpeed>
+        <minOscillationWidth>
+            <value>2.000000e-01</value>
+        </minOscillationWidth>
+        <oscillationWidth>
+            <value>1.000000e+00</value>
+        </oscillationWidth>
+        <rotationAxis>
+            <value>phi</value>
+        </rotationAxis>
+        <rotationAxisEnd>
+            <value>1.000000e+00</value>
+        </rotationAxisEnd>
+        <rotationAxisStart>
+            <value>0.000000e+00</value>
+        </rotationAxisStart>
     </goniostat>
     <beam>
       <minExposureTimePerImage>
@@ -156,5 +168,38 @@
         </ligand>
       </structure>
     </chemicalComposition>
+    <crystal>
+        <cell>
+            <angle_alpha>
+                <value>9.000000e+01</value>
+            </angle_alpha>
+            <angle_beta>
+                <value>9.000000e+01</value>
+            </angle_beta>
+            <angle_gamma>
+                <value>9.000000e+01</value>
+            </angle_gamma>
+            <length_a>
+                <value>5.481180e+01</value>
+            </length_a>
+            <length_b>
+                <value>5.908280e+01</value>
+            </length_b>
+            <length_c>
+                <value>6.698960e+01</value>
+            </length_c>
+        </cell>
+        <mosaicity>
+            <value>5.800000e-01</value>
+        </mosaicity>
+        <spaceGroup>
+            <ITNumber>
+                <value>16</value>
+            </ITNumber>
+            <name>
+                <value>P222</value>
+            </name>
+        </spaceGroup>
+    </crystal>
   </sample>
 </XSDataInputMXCuBE>

@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -336,6 +334,8 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
             xsDataResultBest = self.getOutputDataFromDNATableFile(EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
             xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
             xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
+            xsDataFilePathToPlotMtv = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv")))
+            xsDataResultBest.setPathToPlotMtvFile(xsDataFilePathToPlotMtv)
             self.setDataOutput(xsDataResultBest)
 
 

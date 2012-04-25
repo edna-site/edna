@@ -59,11 +59,11 @@ class EDTestCasePluginUnitXDSIndexingv1_0(EDTestCasePluginUnit):
         from XSDataXDSv1_0 import XSDataInputXDSIndexing
         xmlInput = self.readAndParseFile(self.strReferenceInputFile)
         xsDataXDSIndexingInputReference = XSDataInputXDSIndexing.parseString(xmlInput)
-        xsDataXDSIndexingInputReference.outputFile("XSDataInputXDSIndexing_reference.xml")
+        xsDataXDSIndexingInputReference.exportToFile("XSDataInputXDSIndexing_reference.xml")
         edPluginXDSIndexingv1_0.setDataInput(xmlInput)
 
         xsDataXDSIndexingInput = edPluginXDSIndexingv1_0.getDataInput()
-        xsDataXDSIndexingInput.outputFile("XSDataInputXDSIndexing.xml")
+        xsDataXDSIndexingInput.exportToFile("XSDataInputXDSIndexing.xml")
         EDAssert.equal(xsDataXDSIndexingInputReference.marshal(), xsDataXDSIndexingInput.marshal())
 
         self.cleanUp(edPluginXDSIndexingv1_0)
