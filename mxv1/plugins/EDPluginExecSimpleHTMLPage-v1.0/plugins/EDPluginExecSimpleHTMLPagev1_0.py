@@ -538,7 +538,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 pageGraph.img(src=strFileName, title=strFileName)
                 pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageGraph, str(pageGraph))
-                self.page.a( href=strPageGraph)
+                self.page.a( href=strFileName)
                 self.page.img( src=strFileName, width=175, height=175, title=strFileName )
                 self.page.a.close()
                 self.page.td.close()
