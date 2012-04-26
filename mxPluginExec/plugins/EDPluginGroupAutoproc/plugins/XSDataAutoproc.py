@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Apr 20 11:06::54 2012 by EDGenerateDS.
+# Generated Thu Apr 26 07:47::58 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -238,7 +238,7 @@ class XSData2DCoordinates(object):
 # end class XSData2DCoordinates
 
 class XSDataXdsCompletenessEntry(object):
-	def __init__(self, outer_isig=None, outer_rfactor=None, outer_complete=None, outer_res=None):
+	def __init__(self, half_dataset_correlation=None, outer_isig=None, outer_rfactor=None, outer_complete=None, outer_res=None):
 		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_res, "XSDataFloat")
 		self.__outer_res = outer_res
 		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_complete, "XSDataFloat")
@@ -247,6 +247,8 @@ class XSDataXdsCompletenessEntry(object):
 		self.__outer_rfactor = outer_rfactor
 		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", outer_isig, "XSDataFloat")
 		self.__outer_isig = outer_isig
+		checkType("XSDataXdsCompletenessEntry", "Constructor of XSDataXdsCompletenessEntry", half_dataset_correlation, "XSDataFloat")
+		self.__half_dataset_correlation = half_dataset_correlation
 	def getOuter_res(self): return self.__outer_res
 	def setOuter_res(self, outer_res):
 		checkType("XSDataXdsCompletenessEntry", "setOuter_res", outer_res, "XSDataFloat")
@@ -275,6 +277,13 @@ class XSDataXdsCompletenessEntry(object):
 	def delOuter_isig(self): self.__outer_isig = None
 	# Properties
 	outer_isig = property(getOuter_isig, setOuter_isig, delOuter_isig, "Property for outer_isig")
+	def getHalf_dataset_correlation(self): return self.__half_dataset_correlation
+	def setHalf_dataset_correlation(self, half_dataset_correlation):
+		checkType("XSDataXdsCompletenessEntry", "setHalf_dataset_correlation", half_dataset_correlation, "XSDataFloat")
+		self.__half_dataset_correlation = half_dataset_correlation
+	def delHalf_dataset_correlation(self): self.__half_dataset_correlation = None
+	# Properties
+	half_dataset_correlation = property(getHalf_dataset_correlation, setHalf_dataset_correlation, delHalf_dataset_correlation, "Property for half_dataset_correlation")
 	def export(self, outfile, level, name_='XSDataXdsCompletenessEntry'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -299,6 +308,10 @@ class XSDataXdsCompletenessEntry(object):
 			self.outer_isig.export(outfile, level, name_='outer_isig')
 		else:
 			warnEmptyAttribute("outer_isig", "XSDataFloat")
+		if self.__half_dataset_correlation is not None:
+			self.half_dataset_correlation.export(outfile, level, name_='half_dataset_correlation')
+		else:
+			warnEmptyAttribute("half_dataset_correlation", "XSDataFloat")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -324,6 +337,11 @@ class XSDataXdsCompletenessEntry(object):
 			obj_ = XSDataFloat()
 			obj_.build(child_)
 			self.setOuter_isig(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'half_dataset_correlation':
+			obj_ = XSDataFloat()
+			obj_.build(child_)
+			self.setHalf_dataset_correlation(obj_)
 	#Method for marshalling an object
 	def marshal( self ):
 		oStreamString = StringIO()
