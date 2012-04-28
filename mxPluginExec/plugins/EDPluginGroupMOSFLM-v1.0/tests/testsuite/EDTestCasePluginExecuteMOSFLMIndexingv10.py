@@ -56,7 +56,7 @@ class EDTestCasePluginExecuteMOSFLMIndexingv10(EDTestCasePluginExecuteMOSFLMv10)
         xsDataObtained = self.getPlugin().getDataOutput()
         xsDataExpected = XSDataMOSFLMOutputIndexing.parseString(strXMLExpected)
         EDAssert.strAlmostEqual(xsDataExpected.marshal(), xsDataObtained.marshal(), \
-                                "(MOSFLM indexing result comparison - expected versus obtained)")
+                                "(MOSFLM indexing result comparison - expected versus obtained)", _fAbsError=1000.0)
 
 
     def process(self):
