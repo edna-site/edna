@@ -1249,6 +1249,10 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <generalization xmi:id="_N39JgOjOEd-7o_3d0R29SQ">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
         </generalization>
+        <ownedAttribute xmi:id="_oDaFoJDfEeGbUJNiBeO2yA" name="screeningId" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5EeZ8JDfEeGbUJNiBeO2yA"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_ufJpsOjEEd-7o_3d0R29SQ" name="XSDataInputControlISPyB">
         <generalization xmi:id="_vix60OjNEd-7o_3d0R29SQ">

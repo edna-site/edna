@@ -24,7 +24,7 @@ package XSDataMXv1 {
 	package MXv1CharacterisationEtc {
 
 		complex type XSDataCharacterisation extends XSData {
-			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
+			"Deprecated - only used by EDPluginControlCharacterisationv10\n"
 			dataCollection : XSDataCollection
 			indexingResult : XSDataIndexingResult optional
 			integrationResult : XSDataIntegrationResult optional
@@ -100,7 +100,8 @@ package XSDataMXv1 {
 		}
 
 		complex type XSDataResultControlISPyB extends XSDataResult {
-			screeningdId : XSDataInteger optional
+			"No attributes - the return value is XSDataStatus provided by XSDataResult"
+			screeningId : XSDataInteger optional
 		}
 
 		complex type XSDataResultControlImageQualityIndicators extends XSDataResult {
@@ -509,8 +510,9 @@ package XSDataMXv1 {
 		}
 
 		complex type XSDataStrategyResult extends XSDataResult {
-			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
-			collectionPlan : XSDataCollectionPlan []
+			"Several collection plans could be present in case of multi-sweep strategy"
+			collectionPlan : XSDataCollectionPlan
+			[]
 		}
 
 		complex type XSDataStrategySummary extends XSData {
