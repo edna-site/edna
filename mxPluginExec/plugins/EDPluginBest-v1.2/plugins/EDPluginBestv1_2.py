@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -196,8 +194,8 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
         self.setScriptLogFileName("best.log")
 
-        self.setFileBestDat(EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile.dat"))
-        self.setFileBestPar(EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile.par"))
+        self.setFileBestDat(os.path.join(self.getWorkingDirectory(), "bestfile.dat"))
+        self.setFileBestPar(os.path.join(self.getWorkingDirectory(), "bestfile.par"))
 
         EDUtilsFile.writeFile(self.getFileBestDat(), self.getDataInput().getBestFileContentDat().getValue())
         EDUtilsFile.writeFile(self.getFileBestPar(), self.getDataInput().getBestFileContentPar().getValue())
@@ -207,7 +205,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         iterator = 0
         for bestFileContentHKL in listBestFileContentHKL:
             iterator = iterator + 1
-            bestFileHKL = EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile" + str(iterator) + ".hkl")
+            bestFileHKL = os.path.join(self.getWorkingDirectory(), "bestfile" + str(iterator) + ".hkl")
             self.__listFileBestHKL.append(bestFileHKL)
             EDUtilsFile.writeFile(bestFileHKL, bestFileContentHKL.getValue())
 
@@ -310,7 +308,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
         self.__strCommandBest = self.__strCommandBest + "-T " + str(fMaxExposureTime) + " " + \
                                      "-dna " + self.getScriptBaseName() + "_dnaTables.xml" + " " + \
-                                     "-o " + EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv ") + \
+                                     "-o " + os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv ") + \
                                      "-e " + self.getComplexity() + " "
                                      
         if self.getDataInput().getXdsBackgroundImage():
@@ -333,9 +331,11 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
             self.setDataOutput(XSDataResultBest())
             self.setFailure()
         else:
-            xsDataResultBest = self.getOutputDataFromDNATableFile(EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
+            xsDataResultBest = self.getOutputDataFromDNATableFile(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
             xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
             xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
+            xsDataFilePathToPlotMtv = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv")))
+            xsDataResultBest.setPathToPlotMtvFile(xsDataFilePathToPlotMtv)
             self.setDataOutput(xsDataResultBest)
 
 

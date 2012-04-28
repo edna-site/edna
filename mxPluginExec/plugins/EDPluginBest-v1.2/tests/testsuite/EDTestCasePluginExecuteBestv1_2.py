@@ -47,7 +47,7 @@ class EDTestCasePluginExecuteBestv1_2(EDTestCasePluginExecute):
     def __init__(self, _oalStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginBestv1_2")
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputBest_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputBest_reference.xml"))
         #
         # If on Linux, check if run on Intel processor
         #
@@ -62,9 +62,9 @@ class EDTestCasePluginExecuteBestv1_2(EDTestCasePluginExecute):
                     if (pyStrLine.find("GenuineIntel") != -1):
                          self.m_bRunOnIntel = True
         if (self.m_bRunOnIntel):
-            self.setReferenceDataOutputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataResultBest_referenceForIntel.xml"))
+            self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBest_referenceForIntel.xml"))
         else:
-            self.setReferenceDataOutputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataResultBest_reference.xml"))
+            self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBest_reference.xml"))
 
 
     def testExecute(self):

@@ -52,11 +52,11 @@ class EDTestCaseEDHandlerXDSv1_0(EDTestCase):
         from EDHandlerXSDataXDSv1_0 import EDHandlerXSDataXDSv1_0
         xsDataInputXDSIndexing = EDHandlerXSDataXDSv1_0.generateXSDataInputXDSIndexing(xsDataIndexingInput)
 
-        xsDataInputXDSIndexing.outputFile("XSDataInputXDSIndexing_reference.xml")
+        xsDataInputXDSIndexing.exportToFile("XSDataInputXDSIndexing_reference.xml")
 
         pyStrReferenceFilename = "XSDataInputXDSIndexing_reference.xml"
         pyStrReferencePath = os.path.join(self.m_pyStrDataPath, pyStrReferenceFilename)
-        xsDataInputXDSIndexing.outputFile("XSDataInputXDSIndexing.xml")
+        xsDataInputXDSIndexing.exportToFile("XSDataInputXDSIndexing.xml")
         pyStrXMLInputXDSIndexingReference = self.readAndParseFile(pyStrReferencePath)
         EDAssert.equal(pyStrXMLInputXDSIndexingReference, xsDataInputXDSIndexing.marshal())
 

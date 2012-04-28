@@ -29,6 +29,8 @@ import os, shutil, time, cgi
 from EDPluginExec import EDPluginExec
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from EDUtilsFile import EDUtilsFile
+from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
+from EDUtilsPath import EDUtilsPath
 
 EDFactoryPluginStatic.loadModule("markupv1_7")
 import markupv1_7
@@ -67,7 +69,8 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         EDPluginExec.preProcess(self, _edPlugin)
         self.DEBUG("EDPluginExecSimpleHTMLPagev1_0.preProcess...")
         self.xsDataResultCharacterisation = self.getDataInput().getCharacterisationResult()
-        self.strPath = os.path.join(self.getWorkingDirectory(), "simple.html")
+        self.strHtmlFileName = "index.html"
+        self.strPath = os.path.join(self.getWorkingDirectory(), self.strHtmlFileName)
 
 
     def process(self, _edPlugin=None):
@@ -91,11 +94,11 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 self.strPageEDNALog = os.path.join(self.getWorkingDirectory(), "edna_log.html")
                 pageEDNALog = markupv1_7.page()
                 pageEDNALog.h1("EDNA Log")
-                pageEDNALog.a("Back to previous page", href_=self.strPath)
+                pageEDNALog.a("Back to previous page", href_=self.strHtmlFileName)
                 pageEDNALog.pre(cgi.escape(EDUtilsFile.readFile(strPathToLogFile)))
-                pageEDNALog.a("Back to previous page", href_=self.strPath)
+                pageEDNALog.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(self.strPageEDNALog, str(pageEDNALog))
-                self.page.a("EDNA log file", href=self.strPageEDNALog)
+                self.page.a("EDNA log file", href_="edna_log.html")
                 self.page.strong(")")
             self.page.h1.close()
             self.page.div.close()
@@ -119,6 +122,12 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         xsDataResultSimpleHTMLPage.setPathToHTMLFile(XSDataFile(XSDataString(self.strPath)))
         xsDataResultSimpleHTMLPage.setPathToHTMLDirectory(XSDataFile(XSDataString(os.path.dirname(self.strPath))))
         self.setDataOutput(xsDataResultSimpleHTMLPage)
+        # Store in Pyarch
+        strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
+        if strPyarchPath is None:
+            # For debugging purposes
+            strPyarchPath = EDUtilsPath.getEdnaUserTempFolder()
+        EDHandlerESRFPyarchv1_0.copyHTMLDir(_strPathToHTMLDir=os.path.dirname(self.strPath), _strPathToPyarchDirectory=strPyarchPath)
 
 
     def indexingResults(self):
@@ -179,9 +188,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 strPageBestLog = os.path.join(self.getWorkingDirectory(), "best_log.html")
                 pageBestLog = markupv1_7.page()
                 pageBestLog.h1("BEST Log")
-                pageBestLog.a("Back to previous page", href_=self.strPath)
+                pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
                 pageBestLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToBestLogFile)))
-                pageBestLog.a("Back to previous page", href_=self.strPath)
+                pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageBestLog, str(pageBestLog))
             # Add link to RADDOSE log file:
             strPageRaddoseLog = None
@@ -190,9 +199,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 strPageRaddoseLog = os.path.join(self.getWorkingDirectory(), "raddose_log.html")
                 pageRaddoseLog = markupv1_7.page()
                 pageRaddoseLog.h1("RADDOSE Log")
-                pageRaddoseLog.a("Back to previous page", href_=self.strPath)
+                pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
                 pageRaddoseLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToRaddoseLogFile)))
-                pageRaddoseLog.a("Back to previous page", href_=self.strPath)
+                pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageRaddoseLog, str(pageRaddoseLog))
             listXSDataCollectionPlan = xsDataResultStrategy.getCollectionPlan()
             iNoSubWedges = len(listXSDataCollectionPlan)
@@ -202,9 +211,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             else:
                 self.page.strong( "Collection plan strategy (" )
             if strPageRaddoseLog is not None:
-                self.page.a("RADDOSE log file", href=strPageRaddoseLog)
+                self.page.a("RADDOSE log file", href="raddose_log.html")
                 self.page.strong(", ")
-            self.page.a("BEST log file", href=strPageBestLog)
+            self.page.a("BEST log file", href="best_log.html")
             self.page.strong(")")
             self.page.h2.close()
             # Check if ranking resolution is higher than the suggested strategy resolution(s)
@@ -376,17 +385,17 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.table( class_='image' )
             self.page.tr( align_="CENTER" )
             self.page.td()
-            strPageReferenceImage = os.path.join(self.getWorkingDirectory(), os.path.splitext(strFileName)[0]+".html")
+            strPageReferenceImage = os.path.splitext(strFileName)[0]+".html"
             pageReferenceImage = markupv1_7.page()
             pageReferenceImage.init( title=strReferenceFileName, 
                    footer="Generated on %s" % time.asctime())
             pageReferenceImage.h1(strReferenceFileName)
-            pageReferenceImage.a("Back to previous page", href_=self.strPath)
-            pageReferenceImage.img(src=strLocalPath, title=strReferenceFileName)
-            pageReferenceImage.a("Back to previous page", href_=self.strPath)
-            EDUtilsFile.writeFile(strPageReferenceImage, str(pageReferenceImage))
+            pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
+            pageReferenceImage.img(src=strFileName, title=strReferenceFileName)
+            pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
+            EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(),strPageReferenceImage), str(pageReferenceImage))
             self.page.a( href=strPageReferenceImage)
-            self.page.img( src=strLocalPath,width=128, height=128, title=strFileName )
+            self.page.img( src=strFileName, width=128, height=128, title=strFileName )
             self.page.a.close()
             self.page.td.close()
             self.page.tr.close()
@@ -500,33 +509,45 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
 
     def graphs(self):
         self.page.table( class_='bestGraphs', border_="0", cellpadding_="0")
-        listXSDataFile = self.getDataInput().fileGraph
-        self.page.tr( align_="CENTER" )
-        iIndex = 1
-        for xsDataFile in listXSDataFile:
-            strFileName = os.path.basename(xsDataFile.path.value)
-            print strFileName
-            shutil.copy(xsDataFile.path.value, os.path.join(self.getWorkingDirectory(), strFileName))
-            self.page.td()
-            strPageGraph = os.path.join(self.getWorkingDirectory(), os.path.splitext(strFileName)[0]+".html")
-            pageGraph = markupv1_7.page()
-            pageGraph.init( title=strFileName, 
-                   footer="Generated on %s" % time.asctime())
-            pageGraph.h1(strFileName)
-            pageGraph.a("Back to previous page", href_=self.strPath)
-            pageGraph.br()
-            pageGraph.img(src=xsDataFile.path.value, title=strFileName)
-            pageGraph.a("Back to previous page", href_=self.strPath)
-            EDUtilsFile.writeFile(strPageGraph, str(pageGraph))
-            self.page.a( href=strPageGraph)
-            self.page.img( src=xsDataFile.path.value,width=175, height=175, title=strFileName )
-            self.page.a.close()
-            self.page.td.close()
-            iIndex += 1
-            if iIndex > 4:
-                iIndex = 1
-                self.page.tr.close()
-                self.page.tr( align_="CENTER" )
-        self.page.tr.close()
-        self.page.table.close()
+        if self.getDataInput().characterisationResult.strategyResult is None:
+            return
+        if self.getDataInput().characterisationResult.strategyResult.bestGraphFile == []:
+            return
+        listXSDataFile = self.getDataInput().characterisationResult.strategyResult.bestGraphFile
+        if listXSDataFile != []:
+            self.page.tr( align_="CENTER" )
+            iIndex = 1
+            # If -damPar is used only three plots are available:
+            if len(listXSDataFile) > 4:
+                listPlotsToDisplay = [0, 1, 3, 6]
+            else:
+                listPlotsToDisplay = range(len(listXSDataFile))
+            for iIndexPlot in listPlotsToDisplay:
+                xsDataFile = listXSDataFile[iIndexPlot]
+                strFileName = os.path.basename(xsDataFile.path.value)
+                #print strFileName
+                shutil.copy(xsDataFile.path.value, os.path.join(self.getWorkingDirectory(), strFileName))
+                self.page.td()
+                strPageGraphFileName = os.path.splitext(strFileName)[0]+".html"
+                strPageGraphPath = os.path.join(self.getWorkingDirectory(), strPageGraphFileName)
+                pageGraph = markupv1_7.page()
+                pageGraph.init( title=strFileName, 
+                       footer="Generated on %s" % time.asctime())
+                pageGraph.h1(strFileName)
+                pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
+                pageGraph.br()
+                pageGraph.img(src=strFileName, title=strFileName)
+                pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
+                EDUtilsFile.writeFile(strPageGraphPath, str(pageGraph))
+                self.page.a( href=strPageGraphFileName)
+                self.page.img( src=strFileName, width=175, height=175, title=strFileName )
+                self.page.a.close()
+                self.page.td.close()
+                iIndex += 1
+                if iIndex > 4:
+                    iIndex = 1
+                    self.page.tr.close()
+                    self.page.tr( align_="CENTER" )
+            self.page.tr.close()
+            self.page.table.close()
             
