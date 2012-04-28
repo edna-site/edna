@@ -28,6 +28,7 @@
 #
 
 
+import os
 
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from EDUtilsPath          import EDUtilsPath
@@ -38,7 +39,7 @@ class EDTestCasePluginUnitSTACv2_0(EDTestCasePluginUnit):
     def __init__(self, _strTestName=None):
         EDTestCasePluginUnit.__init__(self, "EDPluginSTACv2_0")
         strPluginTestDataHome = self.getPluginTestsDataHome()
-        self.strUnitTestDataHome = EDUtilsPath.mergePath(strPluginTestDataHome, "unitTest")
+        self.strUnitTestDataHome = os.path.join(strPluginTestDataHome, "unitTest")
 
 
 

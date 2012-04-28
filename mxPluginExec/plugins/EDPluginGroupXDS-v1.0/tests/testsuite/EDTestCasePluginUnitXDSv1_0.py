@@ -30,6 +30,7 @@ __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
 
+import os
 
 from EDVerbose import EDVerbose
 from EDAssert import EDAssert
@@ -45,7 +46,7 @@ class EDTestCasePluginUnitXDSv1_0(EDTestCasePluginUnit):
 
     def __init__(self, _strTestName="EDPluginXDSv1_0"):
         EDTestCasePluginUnit.__init__(self, _strTestName)
-        self.m_strReferenceDataInputFile = EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputXDSIndexing_reference.xml")
+        self.m_strReferenceDataInputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataInputXDSIndexing_reference.xml")
 
 
     def testGenerateXDSCommands(self):

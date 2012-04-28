@@ -57,7 +57,7 @@ from XSDataISPyBv1_3 import XSDataISPyBScreeningStrategySubWedge
 class EDHandlerXSDataISPyBv1_3(object):
 
     @staticmethod
-    def generateXSDataInputISPyB(_xsDataInputControlISPyB, _strStatusMessage=None):
+    def generateXSDataInputISPyBStoreScreening(_xsDataInputControlISPyB, _strStatusMessage=None, _strShortComments=None, _strComments=None):
 
         xsDataInputISPyBStoreScreening = XSDataInputISPyBStoreScreening()
 
@@ -68,13 +68,14 @@ class EDHandlerXSDataISPyBv1_3(object):
         xsDataISPyBDiffractionPlan = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBDiffractionPlan(xsDataResultCharacterisation)
 
         # Screening
-        xsDataISPyBScreening = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreening()
+        xsDataISPyBScreening = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreening(_strShortComments, _strComments)
 
         # ScreeningInput
         xsDataISPyBScreeningInput = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreeningInput(xsDataResultCharacterisation)
 
         # ScreeningOutputContainer
-        xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreeningOutputContainer(xsDataResultCharacterisation, _strStatusMessage)
+        xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_3.generateXSDataISPyBScreeningOutputContainer(xsDataResultCharacterisation, \
+                                                                                                                   _strStatusMessage)
 
         # Legacy strategy - everything stored in a list of XSDataISPyBStrategy entries
         EDHandlerXSDataISPyBv1_3.generateLegacyXSDataISPyBStrategy(xsDataResultCharacterisation, xsDataISPyBScreeningOutputContainer)
@@ -89,106 +90,6 @@ class EDHandlerXSDataISPyBv1_3(object):
 
         return xsDataInputISPyBStoreScreening
 
-#        # Data collection information
-#        bAnomalousData = None
-#        strPathToFirstImage = None
-#        xsDataCollection = xsDataResultCharacterisation.getDataCollection()
-#        if (xsDataCollection is not None):
-#            xsDataDiffractionPlan = xsDataCollection.getDiffractionPlan()
-#            xsDataSubWedgeList = xsDataCollection.getSubWedge()
-#            if (xsDataSubWedgeList is not None):
-#                xsDataSubWedgeFirst = xsDataSubWedgeList[0]
-#                xsDataExperimentalCondition = xsDataSubWedgeFirst.getExperimentalCondition()
-#                if (xsDataExperimentalCondition is not None):
-#                    xsDataDetector = xsDataExperimentalCondition.getDetector()
-#                    if (xsDataDetector is not None):
-#                        xsDataISPyBScreeningInput.setBeamX(xsDataDetector.beamPositionX)
-#                        xsDataISPyBScreeningInput.setBeamY(xsDataDetector.beamPositionY)
-#                listXSDataImage = xsDataSubWedgeFirst.getImage()
-#                if (listXSDataImage is not None):
-#                    xsDataImageFirst = listXSDataImage[ 0 ]
-#                    strPathToFirstImage = xsDataImageFirst.getPath().getValue()
-#            xsDataDiffractionPlan = xsDataCollection.getDiffractionPlan()
-#            if (xsDataDiffractionPlan is not None):
-#                if (xsDataDiffractionPlan.getAnomalousData() is not None):
-#                    bAnomalousData = xsDataDiffractionPlan.getAnomalousData().getValue()
-#        # Use dataCollectionId if provided in the input
-#        else:
-#            # Add an image path if the dataCollectionId is not present...
-#            if (strPathToFirstImage is not None):
-#                xsDataISPyBImage = XSDataISPyBImage()
-#                strImageBaseName = EDUtilsFile.getBaseName(strPathToFirstImage)
-#                strDirectoryName = EDUtilsPath.getFolderName(strPathToFirstImage)
-#                xsDataISPyBImage.setFileName(XSDataString(strImageBaseName))
-#                xsDataISPyBImage.setFileLocation(XSDataString(strDirectoryName))
-#                xsDataInputISPyBStoreScreening.setImage(xsDataISPyBImage)
-#
-#        # Indexing information
-#        bSuccessfulIndexing = False
-#        xsDataIndexingResult = xsDataResultCharacterisation.getIndexingResult()
-#        if (xsDataIndexingResult is not None):
-#            xsDataIndexingSolutionSelected = xsDataIndexingResult.getSelectedSolution()
-#            if (xsDataIndexingSolutionSelected is not None):
-#                bSuccessfulIndexing = True
-#                xsDataStatisticsIndexing = xsDataIndexingSolutionSelected.getStatistics()
-#                if (xsDataStatisticsIndexing is not None):
-#                    fBeamPositionShiftX = xsDataStatisticsIndexing.getBeamPositionShiftX().getValue()
-#                    fBeamPositionShiftY = xsDataStatisticsIndexing.getBeamPositionShiftY().getValue()
-#                    xsDataIPSyBScreeningOutput.setBeamShiftX(XSDataDouble(fBeamPositionShiftX))
-#                    xsDataIPSyBScreeningOutput.setBeamShiftY(XSDataDouble(fBeamPositionShiftY))
-#            fSpotDeviationAngular = None
-#            if xsDataStatisticsIndexing.getSpotDeviationAngular() is not None:
-#                    fSpotDeviationAngular = xsDataStatisticsIndexing.getSpotDeviationAngular().getValue()
-#                    fSpotDeviationPositional = xsDataStatisticsIndexing.getSpotDeviationPositional().getValue()
-#                    xsDataIPSyBScreeningOutput.setSpotDeviationR(XSDataDouble(fSpotDeviationPositional))
-#            if fSpotDeviationAngular is not None:
-#                xsDataIPSyBScreeningOutput.setSpotDeviationTheta(XSDataDouble(fSpotDeviationAngular))
-#                if ((xsDataStatisticsIndexing.getSpotsTotal() is not None) and (xsDataStatisticsIndexing.getSpotsUsed is not None)):
-#                    iSpotsTotal = xsDataStatisticsIndexing.getSpotsTotal().getValue()
-#                    iSpotsUsed = xsDataStatisticsIndexing.getSpotsUsed().getValue()
-#                    xsDataIPSyBScreeningOutput.setNumSpotsFound(XSDataInteger(iSpotsTotal))
-#                    xsDataIPSyBScreeningOutput.setNumSpotsUsed(XSDataInteger(iSpotsUsed))
-#                    xsDataIPSyBScreeningOutput.setNumSpotsRejected(XSDataInteger(iSpotsTotal - iSpotsUsed))
-#                xsDataCrystal = xsDataIndexingSolutionSelected.getCrystal()
-#                xsDataIPSyBScreeningOutput.setMosaicityEstimated(XSDataBoolean(False))
-#                if (xsDataCrystal is not None):
-#                    if (xsDataCrystal.getMosaicity() is not None):
-#                        fMosaicity = xsDataCrystal.getMosaicity().getValue()
-#                        xsDataIPSyBScreeningOutput.setMosaicity(XSDataDouble(fMosaicity))
-#                        xsDataIPSyBScreeningOutput.setMosaicityEstimated(XSDataBoolean(True))
-#                    xsDataCell = xsDataCrystal.getCell()
-#                    if (xsDataCell is not None):
-#                        fLength_a = xsDataCell.getLength_a().getValue()
-#                        fLength_b = xsDataCell.getLength_b().getValue()
-#                        fLength_c = xsDataCell.getLength_c().getValue()
-#                        fAngle_alpha = xsDataCell.getAngle_alpha().getValue()
-#                        fAngle_beta = xsDataCell.getAngle_beta().getValue()
-#                        fAngle_gamma = xsDataCell.getAngle_gamma().getValue()
-#                        xsDataISPyBScreeningOutputLattice.setUnitCell_a(XSDataDouble(fLength_a))
-#                        xsDataISPyBScreeningOutputLattice.setUnitCell_b(XSDataDouble(fLength_b))
-#                        xsDataISPyBScreeningOutputLattice.setUnitCell_c(XSDataDouble(fLength_c))
-#                        xsDataISPyBScreeningOutputLattice.setUnitCell_alpha(XSDataDouble(fAngle_alpha))
-#                        xsDataISPyBScreeningOutputLattice.setUnitCell_beta(XSDataDouble(fAngle_beta))
-#                        xsDataISPyBScreeningOutputLattice.setUnitCell_gamma(XSDataDouble(fAngle_gamma))
-#                    xsDataSpaceGroup = xsDataCrystal.getSpaceGroup()
-#                    if (xsDataSpaceGroup is not None):
-#                        strSpaceGroupName = xsDataSpaceGroup.getName().getValue()
-#                        xsDataISPyBScreeningOutputLattice.setSpaceGroup(XSDataString(strSpaceGroupName))
-#        if (bSuccessfulIndexing):
-#            xsDataIPSyBScreeningOutput.setScreeningSuccess(XSDataBoolean(True))
-#            if _strStatusMessage:
-#                xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
-#            else:
-#                xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString("Indexing successful"))
-#        else:
-#            xsDataIPSyBScreeningOutput.setScreeningSuccess(XSDataBoolean(False))
-#            if _strStatusMessage:
-#                xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
-#            else:
-#                xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString("Indexing failed"))
-#
-#
-#
 
 
     @staticmethod
@@ -227,11 +128,15 @@ class EDHandlerXSDataISPyBv1_3(object):
         return xsDataISPyBDiffractionPlan
     
     @staticmethod
-    def generateXSDataISPyBScreening():
+    def generateXSDataISPyBScreening(_strShortComments=None, _strComments=None):
         xsDataISPyBScreening = XSDataISPyBScreening()
         xsDataISPyBScreening.setProgramVersion(XSDataString("EDNA MX"))
         xsDataStringTimeStamp = XSDataString(time.strftime("%Y-%m-%d %H:%M:%S"))
         xsDataISPyBScreening.setTimeStamp(xsDataStringTimeStamp)
+        if _strShortComments:
+            xsDataISPyBScreening.shortComments = XSDataString(_strShortComments)
+        if _strComments:
+            xsDataISPyBScreening.comments = XSDataString(_strComments)
         return xsDataISPyBScreening
     
     
@@ -252,7 +157,7 @@ class EDHandlerXSDataISPyBv1_3(object):
         return xsDataISPyBScreeningInput
     
     @staticmethod
-    def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage = None):
+    def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage):
         xsDataISPyBScreeningOutput = XSDataISPyBScreeningOutput()
         xsDataISPyBScreeningOutputLattice = XSDataISPyBScreeningOutputLattice()
         xsDataISPyBScreeningOutputContainer = XSDataISPyBScreeningOutputContainer()
@@ -268,8 +173,8 @@ class EDHandlerXSDataISPyBv1_3(object):
                 if (xsDataStatisticsIndexing is not None):
                     xsDataISPyBScreeningOutput.beamShiftX = xsDataStatisticsIndexing.beamPositionShiftX
                     xsDataISPyBScreeningOutput.beamShiftY = xsDataStatisticsIndexing.beamPositionShiftY
-                    xsDataISPyBScreeningOutput.spotDeviationR = xsDataStatisticsIndexing.spotDeviationAngular
-                    xsDataISPyBScreeningOutput.spotDeviationTheta = xsDataStatisticsIndexing.spotDeviationPositional
+                    xsDataISPyBScreeningOutput.spotDeviationR = xsDataStatisticsIndexing.spotDeviationPositional
+                    xsDataISPyBScreeningOutput.spotDeviationTheta = xsDataStatisticsIndexing.spotDeviationAngular
                     if ((xsDataStatisticsIndexing.spotsTotal is not None) and (xsDataStatisticsIndexing.spotsUsed is not None)):
                         iSpotsTotal = xsDataStatisticsIndexing.spotsTotal.value
                         iSpotsUsed = xsDataStatisticsIndexing.spotsUsed.value
@@ -305,7 +210,7 @@ class EDHandlerXSDataISPyBv1_3(object):
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
             else:
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString("Indexing failed"))
-        
+            
 
         # Strategy information
         xsDataResultStrategy = _xsDataResultCharacterisation.strategyResult

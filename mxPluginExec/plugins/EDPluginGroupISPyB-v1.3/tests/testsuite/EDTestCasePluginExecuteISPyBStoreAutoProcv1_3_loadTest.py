@@ -31,38 +31,45 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import os.path
+import os.path, time
 
 from EDAssert import EDAssert
 from EDTestCasePluginExecute          import EDTestCasePluginExecute
+from EDConfiguration import EDConfiguration
+from EDUtilsFile import EDUtilsFile
 
-
-class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteISPyBStoreAutoProcv1_3_loadTest(EDTestCasePluginExecute):
 
     def __init__(self, _edStringTestName=None):
         """
         Sets config file + input and output reference files. 
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreImageQualityIndicatorsv1_3")
+        EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreAutoProcv1_3")
 
-        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreImageQualityIndicators_test.xml"))
+        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProc_test.xml"))
 
 
     def testExecute(self):
         """
         Runs the plugin and then compares expected output with obtained output to verify that it executed correctly. 
         """
-        self.run()
-        
-        # Check that the id extists in the results
-        edPlugin = self.getPlugin()
-        xsDataResult = edPlugin.getDataOutput()
-        bAttributeExists = True
-        if xsDataResult.getImageQualityIndicatorsId() is None:
-            bAttributeExists = False
-        EDAssert.equal(True, bAttributeExists, "Attribute imageQualityIndicatorsId in the result")
+        for i in range(100):
+            # We set up the plugin manually as it has to be executed many times
+            edPlugin = self.createPlugin()
+            edConfiguration = EDConfiguration(self.getConfigurationFile())
+            edConfiguration.load()
+            edPlugin.setConfiguration(edConfiguration.getPluginItem("EDPluginISPyBStoreAutoProcv1_3"))
+            edPlugin.setDataInput(EDUtilsFile.readFileAndParseVariables(self.getDataInputFile()))
+            edPlugin.executeSynchronous()
+            # Check that the id extists in the results
+            xsDataResult = edPlugin.getDataOutput()
+            bAttributeExists = True
+            if xsDataResult.getAutoProcId() is None:
+                bAttributeExists = False
+            EDAssert.equal(True, bAttributeExists, "Attribute AutoProcId %d in the result" % xsDataResult.autoProcId.value)
+#            time.sleep(1)
 
 
     def process(self):
@@ -73,5 +80,5 @@ class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3(EDTestCasePlug
 
 
 if __name__ == '__main__':
-    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3 = EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3")
-    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3.execute()
+    edTestCasePluginExecuteISPyBStoreAutoProcv1_3_loadTest = EDTestCasePluginExecuteISPyBStoreAutoProcv1_3_loadTest("EDTestCasePluginExecuteISPyBStoreAutoProcv1_3_loadTest")
+    edTestCasePluginExecuteISPyBStoreAutoProcv1_3_loadTest.execute()

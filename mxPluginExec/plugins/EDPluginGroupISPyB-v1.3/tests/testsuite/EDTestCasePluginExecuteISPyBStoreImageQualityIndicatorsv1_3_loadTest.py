@@ -35,9 +35,11 @@ import os.path
 
 from EDAssert import EDAssert
 from EDTestCasePluginExecute          import EDTestCasePluginExecute
+from EDUtilsFile import EDUtilsFile
+from EDConfiguration import EDConfiguration
 
 
-class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3_loadTest(EDTestCasePluginExecute):
 
     def __init__(self, _edStringTestName=None):
         """
@@ -54,15 +56,21 @@ class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3(EDTestCasePlug
         """
         Runs the plugin and then compares expected output with obtained output to verify that it executed correctly. 
         """
-        self.run()
-        
-        # Check that the id extists in the results
-        edPlugin = self.getPlugin()
-        xsDataResult = edPlugin.getDataOutput()
-        bAttributeExists = True
-        if xsDataResult.getImageQualityIndicatorsId() is None:
-            bAttributeExists = False
-        EDAssert.equal(True, bAttributeExists, "Attribute imageQualityIndicatorsId in the result")
+        #self.run()
+        for i in range(1):
+            # We set up the plugin manually as it has to be executed many times
+            edPlugin = self.createPlugin()
+            edConfiguration = EDConfiguration(self.getConfigurationFile())
+            edConfiguration.load()
+            edPlugin.setConfiguration(edConfiguration.getPluginItem("EDPluginISPyBStoreImageQualityIndicatorsv1_3"))
+            edPlugin.setDataInput(EDUtilsFile.readFileAndParseVariables(self.getDataInputFile()))
+            edPlugin.executeSynchronous()
+            # Check that the id extists in the results
+            xsDataResult = edPlugin.getDataOutput()
+            bAttributeExists = True
+            if xsDataResult.getImageQualityIndicatorsId() is None:
+                bAttributeExists = False
+            EDAssert.equal(True, bAttributeExists, "Attribute imageQualityIndicatorsId = %d in the result" % xsDataResult.imageQualityIndicatorsId.value)
 
 
     def process(self):
@@ -73,5 +81,5 @@ class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3(EDTestCasePlug
 
 
 if __name__ == '__main__':
-    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3 = EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3")
-    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3.execute()
+    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3_loadTest = EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3_loadTest("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3_loadTest")
+    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3_loadTest.execute()

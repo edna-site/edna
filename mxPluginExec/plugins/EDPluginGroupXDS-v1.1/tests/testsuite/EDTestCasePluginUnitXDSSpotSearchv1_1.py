@@ -31,6 +31,8 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
+
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
 from EDUtilsTest                    import EDUtilsTest
 from EDUtilsPath                    import EDUtilsPath
@@ -44,7 +46,7 @@ class EDTestCasePluginUnitXDSSpotSearchv1_1(EDTestCasePluginUnit):
         Set up paths, reference files etc.
         """
         EDTestCasePluginUnit.__init__(self, _pyStrTestName)
-        self.m_pyStrReferenceInputFile = EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputXDSSpotSearch_reference.xml")
+        self.m_pyStrReferenceInputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataInputXDSSpotSearch_reference.xml")
 
 
     def testCheckParameters(self):

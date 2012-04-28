@@ -189,16 +189,16 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         processingStartTime      = self.getDateValue(_xsDataAutoProcProgram.getProcessingStartTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
         processingEndTime        = self.getDateValue(_xsDataAutoProcProgram.getProcessingEndTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
         strProcessingEnvironment = self.getValue(_xsDataAutoProcProgram.getProcessingEnvironment(), "")
-        recordTimeStamp          = DateTime(datetime.datetime.now())
+        recordTimeStamp          = self.getDateValue(None,  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
         iAutoProcProgramId = _clientToolsForAutoprocessingWebService.service.storeAutoProcProgram(
-                in0 = strProcessingCommandLine, \
-                in1 = strProcessingPrograms, \
-                in2 = bProcessingStatus, \
-                in3 = strProcessingMessage, \
-                in4 = processingStartTime, \
-                in5 = processingEndTime, \
-                in6 = strProcessingEnvironment, \
-                in7 = recordTimeStamp
+                strProcessingCommandLine, \
+                strProcessingPrograms, \
+                bProcessingStatus, \
+                strProcessingMessage, \
+                processingStartTime, \
+                processingEndTime, \
+                strProcessingEnvironment, \
+                recordTimeStamp
                 )
         self.DEBUG("AutoProcProgramId: %r" % iAutoProcProgramId)
         return iAutoProcProgramId
@@ -212,11 +212,11 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         strFilePath = self.getValue(_xsDataAutoProcProgramAttachment.getFilePath(), "")
         recordTimeStamp          = DateTime(datetime.datetime.now())
         iAutoProcProgramAttachmentId = _clientToolsForAutoprocessingWebService.service.storeAutoProcProgramAttachment(
-                in0 = strFileType, \
-                in1 = strFileName, \
-                in2 = strFilePath, \
-                in3 = recordTimeStamp, \
-                in4 = iAutoProcProgramId
+                strFileType, \
+                strFileName, \
+                strFilePath, \
+                recordTimeStamp, \
+                iAutoProcProgramId
                 )
         self.DEBUG("AutoProcProgramAttachmentId: %r" % iAutoProcProgramAttachmentId)
         return iAutoProcProgramAttachmentId
@@ -247,27 +247,27 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         iDataCollectionId = _xsDataAutoProcIntegrationContainer.getImage().getDataCollectionId()        
         recordTimeStamp          = DateTime(datetime.datetime.now())
         iAutoProcIntegrationId = _clientToolsForAutoprocessingWebService.service.storeAutoProcIntegration(
-                in0 = iAutoProcProgramId, \
-                in1 = iStartImageNumber, \
-                in2 = iEndImageNumber, \
-                in3 = fRefinedDetectorDistance, \
-                in4 = fRefinedXbeam, \
-                in5 = fRefinedYbeam, \
-                in6 = fRotationAxisX, \
-                in7 = fRotationAxisY, \
-                in8 = fRotationAxisZ, \
-                in9 = fBeamVectorX, \
-                in10 = fBeamVectorY, \
-                in11 = fBeamVectorZ, \
-                in12 = fCellA, \
-                in13 = fCellB, \
-                in14 = fCellC, \
-                in15 = fCellAlpha, \
-                in16 = fCellBeta, \
-                in17 = fCellGamma, \
-                in18 = recordTimeStamp, \
-                in19 = bAnomalous, \
-                in20 = iDataCollectionId \
+                iAutoProcProgramId, \
+                iStartImageNumber, \
+                iEndImageNumber, \
+                fRefinedDetectorDistance, \
+                fRefinedXbeam, \
+                fRefinedYbeam, \
+                fRotationAxisX, \
+                fRotationAxisY, \
+                fRotationAxisZ, \
+                fBeamVectorX, \
+                fBeamVectorY, \
+                fBeamVectorZ, \
+                fCellA, \
+                fCellB, \
+                fCellC, \
+                fCellAlpha, \
+                fCellBeta, \
+                fCellGamma, \
+                recordTimeStamp, \
+                bAnomalous, \
+                iDataCollectionId \
                 )
         self.DEBUG("AutoProcProgramIntegrationId: %r" % iAutoProcIntegrationId)
         return iAutoProcIntegrationId
@@ -285,15 +285,15 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         fRefinedCellGamma = self.getValue(_xsDataAutoProc.getRefinedCell_gamma(), -1)
         recordTimeStamp = DateTime(datetime.datetime.now())
         iAutoProcId = _clientToolsForAutoprocessingWebService.service.storeAutoProc(
-                in0 = iAutoProcProgramId, \
-                in1 = strSpaceGroup, \
-                in2 = fRefinedCellA, \
-                in3 = fRefinedCellB, \
-                in4 = fRefinedCellC, \
-                in5 = fRefinedCellAlpha, \
-                in6 = fRefinedCellBeta, \
-                in7 = fRefinedCellGamma, \
-                in8 = recordTimeStamp \
+                iAutoProcProgramId, \
+                strSpaceGroup, \
+                fRefinedCellA, \
+                fRefinedCellB, \
+                fRefinedCellC, \
+                fRefinedCellAlpha, \
+                fRefinedCellBeta, \
+                fRefinedCellGamma, \
+                recordTimeStamp \
                 )
         self.DEBUG("AutoProcId: %r" % iAutoProcId)
         return iAutoProcId
@@ -304,8 +304,8 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         iAutoProcId = self.iAutoProcId
         recordTimeStamp = self.getDateValue(_xsDataAutoProcScaling.getRecordTimeStamp(), "%Y-%m-%d %H:%M:%S", DateTime(datetime.datetime.now()))
         iAutoProcScalingId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScaling(
-                in0 = iAutoProcId, \
-                in1 = recordTimeStamp \
+                iAutoProcId, \
+                recordTimeStamp \
                 )
         self.DEBUG("AutoProcScalingId: %r" % iAutoProcScalingId)
         return iAutoProcScalingId
@@ -334,27 +334,27 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         recordTimeStamp = DateTime(datetime.datetime.now())
         bAnomalous = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalous(), False)
         iAutoProcScalingId = self.iAutoProcScalingId
-        iAutoProcScalingStatisticsId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScalingStatistic(
-                in0 = strScalingStatisticsType, \
-                in1 = strComments, \
-                in2 = fResolutionLimitLow, \
-                in3 = fResolutionLimitHigh, \
-                in4 = fRmerge, \
-                in5 = fRmeasWithinIplusIminus, \
-                in6 = fRmeasAllIplusIminus, \
-                in7 = fRpimWithinIplusIminus, \
-                in8 = fRpimAllIplusIminus, \
-                in9 = fFractionalPartialBias, \
-                in10 = iNtotalObservations, \
-                in11 = iNtotalUniqueObservations, \
-                in12 = fMeanIoverSigI, \
-                in13 = fCompleteness, \
-                in14 = fMultiplicity, \
-                in15 = fAnomalousCompleteness, \
-                in16 = fAnomalousMultiplicity, \
-                in17 = recordTimeStamp, \
-                in18 = bAnomalous, \
-                in19 = iAutoProcScalingId \
+        iAutoProcScalingStatisticsId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScalingStatistics(
+                strScalingStatisticsType, \
+                strComments, \
+                fResolutionLimitLow, \
+                fResolutionLimitHigh, \
+                fRmerge, \
+                fRmeasWithinIplusIminus, \
+                fRmeasAllIplusIminus, \
+                fRpimWithinIplusIminus, \
+                fRpimAllIplusIminus, \
+                fFractionalPartialBias, \
+                iNtotalObservations, \
+                iNtotalUniqueObservations, \
+                fMeanIoverSigI, \
+                fCompleteness, \
+                fMultiplicity, \
+                fAnomalousCompleteness, \
+                fAnomalousMultiplicity, \
+                recordTimeStamp, \
+                bAnomalous, \
+                iAutoProcScalingId \
                 )
         self.DEBUG("AutoProcScalingStatisticsId: %r" % iAutoProcScalingStatisticsId)
         return iAutoProcScalingStatisticsId
@@ -366,9 +366,9 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         iAutoProcScalingId = self.iAutoProcScalingId
         recordTimeStamp = DateTime(datetime.datetime.now())
         iAutoProcScaling_has_intId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScalingHasInt(                                                                                                          
-                in0 = iAutoProcIntegrationId, \
-                in1 = iAutoProcScalingId, \
-                in2 = recordTimeStamp \
+                iAutoProcIntegrationId, \
+                iAutoProcScalingId, \
+                recordTimeStamp \
                 )
         self.DEBUG("AutoProcScaling_has_IntId: %r" % iAutoProcScaling_has_intId)
         return iAutoProcScaling_has_intId

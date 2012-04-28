@@ -45,7 +45,8 @@ class EDTestCasePluginExecuteISPyBStoreAutoProcv1_3(EDTestCasePluginExecute):
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreAutoProcv1_3")
 
-        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
+#        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
+        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProc_test.xml"))
 
 

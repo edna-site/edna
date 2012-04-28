@@ -232,34 +232,34 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         strKappaStrategyOption = self.getXSValue(_xsDataISPyBDiffractionPlan.kappaStrategyOption, "")
         iNumberOfPositions = self.getXSValue(_xsDataISPyBDiffractionPlan.numberOfPositions, -1)
         iDiffractionPlanId = _clientToolsForBLSampleWebServiceWsdl.service.storeOrUpdateDiffractionPlan(
-            in0 = iDiffractionPlanId, \
-            in1 = iXmlDocumentId, \
-            in2 = strExperimentKind, \
-            in3 = fObservedResolution, \
-            in4 = fMinimalResolution, \
-            in5 = fExposureTime, \
-            in6 = fOscillationRange, \
-            in7 = fMaximalResolution, \
-            in8 = fScreeningResolution, \
-            in9 = fRadiationSensitivity, \
-            in10 = strAnomalousScatterer, \
-            in11 = fPreferredBeamSizeX, \
-            in12 = fPreferredBeamSizeY, \
-            in13 = strComments, \
-            in14 = fAimedCompleteness, \
-            in15 = fAimedIOverSigmaAtHighestResolution, \
-            in16 = fAimedMultiplicity, \
-            in17 = fAimedResolution, \
-            in18 = bAnomalousData, \
-            in19 = strComplexity, \
-            in20 = bEstimateRadiationDamage, \
-            in21 = strForcedSpaceGroup, \
-            in22 = fRequiredCompleteness, \
-            in23 = fRequiredMultiplicity, \
-            in24 = fRequiredResolution, \
-            in25 = strStrategyOption, \
-            in26 = strKappaStrategyOption, \
-            in27 = iNumberOfPositions, \
+            iDiffractionPlanId, \
+            iXmlDocumentId, \
+            strExperimentKind, \
+            fObservedResolution, \
+            fMinimalResolution, \
+            fExposureTime, \
+            fOscillationRange, \
+            fMaximalResolution, \
+            fScreeningResolution, \
+            fRadiationSensitivity, \
+            strAnomalousScatterer, \
+            fPreferredBeamSizeX, \
+            fPreferredBeamSizeY, \
+            strComments, \
+            fAimedCompleteness, \
+            fAimedIOverSigmaAtHighestResolution, \
+            fAimedMultiplicity, \
+            fAimedResolution, \
+            bAnomalousData, \
+            strComplexity, \
+            bEstimateRadiationDamage, \
+            strForcedSpaceGroup, \
+            fRequiredCompleteness, \
+            fRequiredMultiplicity, \
+            fRequiredResolution, \
+            strStrategyOption, \
+            strKappaStrategyOption, \
+            iNumberOfPositions, \
             )
         self.DEBUG("DiffractionPlanId: %d" % iDiffractionPlanId)
         return iDiffractionPlanId
@@ -275,12 +275,12 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         strComments = self.getXSValue(_xsDataISPyBScreening.comments, "")
         strShortComments = self.getXSValue(_xsDataISPyBScreening.shortComments, "")
         iScreeningId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreening(
-            in0 = iScreeningId, \
-            in1 = iDataCollectionId, \
-            in2 = strTimeStamp, \
-            in3 = strProgramVersion, \
-            in4 = strComments, \
-            in5 = strShortComments, \
+            iScreeningId, \
+            iDataCollectionId, \
+            strTimeStamp, \
+            strProgramVersion, \
+            strComments, \
+            strShortComments, \
             )
         self.DEBUG("ScreeningId: %d" % iScreeningId)
         return iScreeningId
@@ -308,23 +308,23 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         bScreeningSuccess = self.getXSValue(_xsDataISPyBScreeningOutput.screeningSuccess, False)
         bMosaicityEstimated = self.getXSValue(_xsDataISPyBScreeningOutput.mosaicityEstimated, False)
         iScreeningOutputId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutput(
-            in0 = iScreeningOutputId, \
-            in1 = iScreeningId, \
-            in2 = strStatusDescription, \
-            in3 = iRejectedReflections, \
-            in4 = fResolutionObtained, \
-            in5 = fSpotDeviationR, \
-            in6 = fSpotDeviationTheta, \
-            in7 = fBeamShiftX, \
-            in8 = fBeamShiftY, \
-            in9 = iNumSpotsFound, \
-            in10 = iNumSpotsUsed, \
-            in11 = iNumSpotsRejected, \
-            in12 = fMosaicity, \
-            in13 = fIOverSigma, \
-            in14 = bDiffractionRings, \
-            in15 = bScreeningSuccess, \
-            in16 = bMosaicityEstimated, \
+            iScreeningOutputId, \
+            iScreeningId, \
+            strStatusDescription, \
+            iRejectedReflections, \
+            fResolutionObtained, \
+            fSpotDeviationR, \
+            fSpotDeviationTheta, \
+            fBeamShiftX, \
+            fBeamShiftY, \
+            iNumSpotsFound, \
+            iNumSpotsUsed, \
+            iNumSpotsRejected, \
+            fMosaicity, \
+            fIOverSigma, \
+            bDiffractionRings, \
+            bScreeningSuccess, \
+            bMosaicityEstimated, \
             )
         self.DEBUG("ScreeningOutputId: %d" % iScreeningOutputId)
         return iScreeningOutputId
@@ -354,27 +354,27 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         fUnitCell_gamma = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_gamma, -1.0)
         strTimeStamp = DateTime(datetime.datetime.now())
         iScreeningOutputLatticeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutputLattice(
-            in0 = iScreeningOutputLatticeId, \
-            in1 = iScreeningOutputId, \
-            in2 = strSpaceGroup, \
-            in3 = strPointGroup, \
-            in4 = strBravaisLattice, \
-            in5 = fRawOrientationMatrix_a_x, \
-            in6 = fRawOrientationMatrix_a_y, \
-            in7 = fRawOrientationMatrix_a_z, \
-            in8 = fRawOrientationMatrix_b_x, \
-            in9 = fRawOrientationMatrix_b_y, \
-            in10 = fRawOrientationMatrix_b_z, \
-            in11 = fRawOrientationMatrix_c_x, \
-            in12 = fRawOrientationMatrix_c_y, \
-            in13 = fRawOrientationMatrix_c_z, \
-            in14 = fUnitCell_a, \
-            in15 = fUnitCell_alpha, \
-            in16 = fUnitCell_b, \
-            in17 = fUnitCell_beta, \
-            in18 = fUnitCell_c, \
-            in19 = fUnitCell_gamma, \
-            in20 = strTimeStamp, \
+            iScreeningOutputLatticeId, \
+            iScreeningOutputId, \
+            strSpaceGroup, \
+            strPointGroup, \
+            strBravaisLattice, \
+            fRawOrientationMatrix_a_x, \
+            fRawOrientationMatrix_a_y, \
+            fRawOrientationMatrix_a_z, \
+            fRawOrientationMatrix_b_x, \
+            fRawOrientationMatrix_b_y, \
+            fRawOrientationMatrix_b_z, \
+            fRawOrientationMatrix_c_x, \
+            fRawOrientationMatrix_c_y, \
+            fRawOrientationMatrix_c_z, \
+            fUnitCell_a, \
+            fUnitCell_alpha, \
+            fUnitCell_b, \
+            fUnitCell_beta, \
+            fUnitCell_c, \
+            fUnitCell_gamma, \
+            strTimeStamp, \
             )
         self.DEBUG("ScreeningOutputLatticeId: %d" % iScreeningOutputLatticeId)
         return iScreeningOutputLatticeId
@@ -396,19 +396,19 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         fRankingResolution = self.getXSValue(_xsDataISPyBScreeningStrategy.rankingResolution, -1.0)
         fTransmission = self.getXSValue(_xsDataISPyBScreeningStrategy.transmission, -1.0)
         iScreeningStrategyId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningStrategy(
-            in0 = iScreeningStrategyId, \
-            in1 = iScreeningOutputId, \
-            in2 = fPhiStart, \
-            in3 = fPhiEnd, \
-            in4 = fRotation, \
-            in5 = fExposureTime, \
-            in6 = fResolution, \
-            in7 = fCompleteness, \
-            in8 = fMultiplicity, \
-            in9 = bAnomalous, \
-            in10 = strProgram, \
-            in11 = fRankingResolution, \
-            in12 = fTransmission, \
+            iScreeningStrategyId, \
+            iScreeningOutputId, \
+            fPhiStart, \
+            fPhiEnd, \
+            fRotation, \
+            fExposureTime, \
+            fResolution, \
+            fCompleteness, \
+            fMultiplicity, \
+            bAnomalous, \
+            strProgram, \
+            fRankingResolution, \
+            fTransmission, \
             )
         self.DEBUG("ScreeningStrategyId: %d" % iScreeningStrategyId)
         return iScreeningStrategyId
@@ -427,16 +427,16 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         fPhi = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.phi, -1.0)
         fKappa = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.kappa, -1.0)
         iScreeningStrategyWedgeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningStrategyWedge(
-            in0 = iScreeningStrategyWedgeId, \
-            in1 = iScreeningStrategyId, \
-            in2 = iWedgeNumber, \
-            in3 = fResolution, \
-            in4 = fCompleteness, \
-            in5 = fMultiplicity, \
-            in6 = fDoseTotal, \
-            in7 = iNumberOfImages, \
-            in8 = fPhi, \
-            in9 = fKappa, \
+            iScreeningStrategyWedgeId, \
+            iScreeningStrategyId, \
+            iWedgeNumber, \
+            fResolution, \
+            fCompleteness, \
+            fMultiplicity, \
+            fDoseTotal, \
+            iNumberOfImages, \
+            fPhi, \
+            fKappa, \
             )
         self.DEBUG("ScreeningStrategyWedgeId: %d" % iScreeningStrategyWedgeId)
         return iScreeningStrategyWedgeId
@@ -459,20 +459,20 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         fDoseTotal = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.doseTotal, -1.0)
         iNumberOfImages = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.numberOfImages, 0)
         iScreeningStrategySubWedgeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningStrategySubWedge(
-            in0 = iScreeningStrategySubWedgeId, \
-            in1 = iScreeningStrategyWedgeId, \
-            in2 = iSubWedgeNumber, \
-            in3 = strRotationAxis, \
-            in4 = fAxisStart, \
-            in5 = fAxisEnd, \
-            in6 = fExposureTime, \
-            in7 = fTransmission, \
-            in8 = fOscillationRange, \
-            in9 = fCompleteness, \
-            in10 = fMultiplicity, \
-            in11 = fResolution, \
-            in12 = fDoseTotal, \
-            in13 = iNumberOfImages, \
+            iScreeningStrategySubWedgeId, \
+            iScreeningStrategyWedgeId, \
+            iSubWedgeNumber, \
+            strRotationAxis, \
+            fAxisStart, \
+            fAxisEnd, \
+            fExposureTime, \
+            fTransmission, \
+            fOscillationRange, \
+            fCompleteness, \
+            fMultiplicity, \
+            fResolution, \
+            fDoseTotal, \
+            iNumberOfImages, \
             )
         self.DEBUG("ScreeningStrategySubWedgeId: %d" % iScreeningStrategySubWedgeId)
         return iScreeningStrategySubWedgeId
@@ -491,16 +491,16 @@ class EDPluginISPyBStoreScreeningv1_3(EDPluginExec):
         fMinimumSignalToNoise = self.getXSValue(_xsDataISPyBScreeningInput.minimumSignalToNoise, -1.0)
         strXmlSampleInformation = self.getXSValue(_xsDataISPyBScreeningInput.xmlSampleInformation, "")
         iScreeningInputId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningInput(
-            in0 = iScreeningInputId, \
-            in1 = iScreeningId, \
-            in2 = iDiffractionPlanId, \
-            in3 = fBeamX, \
-            in4 = fBeamY, \
-            in5 = fRmsErrorLimits, \
-            in6 = fMinimumFractionIndexed, \
-            in7 = fMaximumFractionRejected, \
-            in8 = fMinimumSignalToNoise, \
-            in9 = strXmlSampleInformation, \
+            iScreeningInputId, \
+            iScreeningId, \
+            iDiffractionPlanId, \
+            fBeamX, \
+            fBeamY, \
+            fRmsErrorLimits, \
+            fMinimumFractionIndexed, \
+            fMaximumFractionRejected, \
+            fMinimumSignalToNoise, \
+            strXmlSampleInformation, \
             )
         self.DEBUG("ScreeningInputId: %d" % iScreeningInputId)
         return iScreeningInputId

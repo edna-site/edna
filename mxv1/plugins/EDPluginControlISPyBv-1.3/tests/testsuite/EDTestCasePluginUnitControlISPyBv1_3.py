@@ -34,19 +34,15 @@ from EDTestCasePluginUnit   import EDTestCasePluginUnit
 from XSDataMXv1             import XSDataInputControlISPyB
 from XSDataMXv1             import XSDataResultCharacterisation
 
-class EDTestCasePluginUnitControlISPyBv1_1(EDTestCasePluginUnit):
-    """
-    """
+class EDTestCasePluginUnitControlISPyBv1_3(EDTestCasePluginUnit):
 
     def __init__(self, _edStringTestName=None):
-        """
-        """
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlISPyBv1_1")
+        EDTestCasePluginUnit.__init__(self, "EDPluginControlISPyBv1_3")
 
 
     def testCheckParameters(self):
         xsDataInputControlISPyB = XSDataInputControlISPyB()
-        xsDataResultCharacterisation = XSDataResultCharacterisation
+        xsDataResultCharacterisation = XSDataResultCharacterisation()
         xsDataInputControlISPyB.setCharacterisationResult(xsDataResultCharacterisation)
         edPluginControlISPyB = self.createPlugin()
         edPluginControlISPyB.setDataInput(xsDataInputControlISPyB)
@@ -59,10 +55,8 @@ class EDTestCasePluginUnitControlISPyBv1_1(EDTestCasePluginUnit):
 
 
 
-##############################################################################
-
 
 if __name__ == '__main__':
 
-    edTestCasePluginUnitControlISPyBv1_1 = EDTestCasePluginUnitControlISPyBv1_1("EDTestCasePluginUnitControlISPyBv1_1")
-    edTestCasePluginUnitControlISPyBv1_1.execute()
+    edTestCasePluginUnitControlISPyBv1_3 = EDTestCasePluginUnitControlISPyBv1_3("EDTestCasePluginUnitControlISPyBv1_3")
+    edTestCasePluginUnitControlISPyBv1_3.execute()

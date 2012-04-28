@@ -15,30 +15,32 @@ import XSDataCommon.XSDataTime
 package XSDataBestv12 {
 
 	complex type XSDataBestCollectionPlan {
-		collectionPlanNumber : XSDataInteger
+		collectionPlanNumber : XSDataInteger optional
 		collectionRun : XSDataBestCollectionRun [] optional
-		comment : XSDataString
-		crystalScale : XSDataCrystalScale
-		statisticalPrediction : XSDataBestStatisticalPrediction
+		comment : XSDataString optional
+		crystalScale : XSDataCrystalScale optional
+		statisticalPrediction : XSDataBestStatisticalPrediction optional
 		strategySummary : XSDataBestStrategySummary
+		optional
 	}
 
 	complex type XSDataBestCollectionRun {
-		action : XSDataString
+		action : XSDataString optional
 		collectionRunNumber : XSDataInteger
-		crystalPosition : XSDataInteger
+		crystalPosition : XSDataInteger optional
 		exposureTime : XSDataTime
 		numberOfImages : XSDataInteger
-		overlaps : XSDataString
+		overlaps : XSDataString optional
 		phiStart : XSDataAngle
 		phiWidth : XSDataAngle
-		transmission : XSDataDouble
+		transmission : XSDataDouble optional
 	}
 
 	complex type XSDataBestResolutionBin {
 		IOverSigma : XSDataDouble
 		averageIntensity : XSDataDouble
 		averageIntensityOverAverageSigma : XSDataDouble
+		optional
 		averageSigma : XSDataDouble
 		completeness : XSDataDouble
 		maxResolution : XSDataDouble
@@ -46,6 +48,7 @@ package XSDataBestv12 {
 		percentageOverload : XSDataDouble
 		rFactor : XSDataDouble
 		rFriedel : XSDataDouble
+		optional
 		redundancy : XSDataDouble
 	}
 
@@ -54,16 +57,16 @@ package XSDataBestv12 {
 	}
 
 	complex type XSDataBestStrategySummary {
-		completeness : XSDataDouble
+		completeness : XSDataDouble optional
 		distance : XSDataLength
-		iSigma : XSDataDouble
-		rankingResolution : XSDataDouble
-		redundancy : XSDataDouble
+		iSigma : XSDataDouble optional
+		rankingResolution : XSDataDouble optional
+		redundancy : XSDataDouble optional
 		resolution : XSDataDouble
-		resolutionReasoning : XSDataString
-		totalDataCollectionTime : XSDataTime
-		totalExposureTime : XSDataTime
-		transmission : XSDataDouble
+		resolutionReasoning : XSDataString optional
+		totalDataCollectionTime : XSDataTime optional
+		totalExposureTime : XSDataTime optional
+		transmission : XSDataDouble optional
 	}
 
 	complex type XSDataCrystalScale {
@@ -104,6 +107,8 @@ package XSDataBestv12 {
 	complex type XSDataResultBest extends XSDataResult {
 		collectionPlan : XSDataBestCollectionPlan [] optional
 		pathToLogFile : XSDataFile
+		pathToPlotMtvFile : XSDataFile
+		optional
 	}
 
 }

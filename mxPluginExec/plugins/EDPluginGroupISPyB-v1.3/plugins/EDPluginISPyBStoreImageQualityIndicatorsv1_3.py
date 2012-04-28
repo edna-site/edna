@@ -59,7 +59,7 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
         self.setXSDataInputClass(XSDataInputStoreImageQualityIndicators)
         self.strUserName = None
         self.strPassWord = None
-        self.strImageServiceWdsl = None
+        self.strToolsForAutoprocessingWebServiceWsdl = None
         self.strToolsForCollectionWebServiceWsdl = None
         self.iImageQualityIndicatorsId = None
         self.iAutoProcProgramId = None
@@ -78,9 +78,9 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
         if self.strPassWord is None:
             self.ERROR("EDPluginISPyBStoreImageQualityIndicatorsv1_3.configure: No pass word found in configuration!")
             self.setFailure()
-        self.strImageServiceWdsl = self.getStringConfigurationParameterValue("imageServiceWdsl")
-        if self.strImageServiceWdsl is None:
-            self.ERROR("EDPluginISPyBStoreImageQualityIndicatorsv1_3.configure: No imageServiceWdsl found in configuration!")
+        self.strToolsForAutoprocessingWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForAutoprocessingWebServiceWsdl")
+        if self.strToolsForAutoprocessingWebServiceWsdl is None:
+            self.ERROR("EDPluginISPyBStoreImageQualityIndicatorsv1_3.configure: No toolsForAutoprocessingWebServiceWsdl found in configuration!")
             self.setFailure()
         self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
         if self.strToolsForCollectionWebServiceWsdl is None:
@@ -107,50 +107,52 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_3(EDPluginExec):
         if strDirName.endswith(os.sep):
             strDirName = strDirName[:-1]
         self.DEBUG("Looking for ISPyB imageId for dir %s name %s" % (strDirName, strFileName))
-        httpAuthenticatedImageService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
-        clientImageService = Client(self.strImageServiceWdsl, transport=httpAuthenticatedImageService)
-        iImageId = clientImageService.service.findImageIdFromFileLocationAndFileName(strDirName, strFileName)
-        # Then store the image quality indicators
-        self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_3.process: iImageId = %d" % iImageId)
-        if iImageId > 0:
-            httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
-            clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
-            iAutoProcProgramId = self.iAutoProcProgramId
-            iSpotTotal = xsDataImageQualityIndicators.getSpotTotal().getValue()
-            iInResTotal = xsDataImageQualityIndicators.getInResTotal().getValue()
-            iGoodBraggCandidates = xsDataImageQualityIndicators.getGoodBraggCandidates().getValue()
-            iIceRings = xsDataImageQualityIndicators.getIceRings().getValue()
-            fMethod1res = xsDataImageQualityIndicators.getMethod1Res().getValue()
-            fMethod2res = xsDataImageQualityIndicators.getMethod2Res().getValue()
-            fMaxUnitCell = xsDataImageQualityIndicators.getMaxUnitCell().getValue()
-            fPctSaturationTop50peaks = xsDataImageQualityIndicators.getPctSaturationTop50Peaks().getValue()
-            iInResolutionOvrlSpots = xsDataImageQualityIndicators.getInResolutionOvrlSpots().getValue()
-            fBinPopCutOffMethod2res = xsDataImageQualityIndicators.getBinPopCutOffMethod2Res().getValue()
-            providedDate = Date(datetime.datetime.now())
-            self.iImageQualityIndicatorsId = clientToolsForCollectionWebService.service.storeImageQualityIndicators(
-                    in0 = strDirName, \
-                    in1 = strFileName, \
-                    in2 = iImageId, \
-                    in3 = iAutoProcProgramId, \
-                    in4 = iSpotTotal, \
-                    in5 = iInResTotal, \
-                    in6 = iGoodBraggCandidates, \
-                    in7 = iIceRings, \
-                    in8 = fMethod1res, \
-                    in9 = fMethod2res, \
-                    in10= fMaxUnitCell, \
-                    in11= fPctSaturationTop50peaks, \
-                    in12= iInResolutionOvrlSpots, \
-                    in13= fBinPopCutOffMethod2res, \
-                    in14= providedDate)
+        httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+        clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
+        iDataCollectionId = clientToolsForCollectionWebService.service.findDataCollectionFromFileLocationAndFileName(
+                strDirName, \
+                strFileName, \
+                )
+        print iDataCollectionId
+        
+        httpAuthenticatedToolsForAutoprocessingWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+        clientToolsForAutoprocessingWebService = Client(self.strToolsForAutoprocessingWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService)
+        iImageId = 0
+        iAutoProcProgramId = self.iAutoProcProgramId
+        iSpotTotal = xsDataImageQualityIndicators.getSpotTotal().getValue()
+        iInResTotal = xsDataImageQualityIndicators.getInResTotal().getValue()
+        iGoodBraggCandidates = xsDataImageQualityIndicators.getGoodBraggCandidates().getValue()
+        iIceRings = xsDataImageQualityIndicators.getIceRings().getValue()
+        fMethod1res = xsDataImageQualityIndicators.getMethod1Res().getValue()
+        fMethod2res = xsDataImageQualityIndicators.getMethod2Res().getValue()
+        fMaxUnitCell = xsDataImageQualityIndicators.getMaxUnitCell().getValue()
+        fPctSaturationTop50peaks = xsDataImageQualityIndicators.getPctSaturationTop50Peaks().getValue()
+        iInResolutionOvrlSpots = xsDataImageQualityIndicators.getInResolutionOvrlSpots().getValue()
+        fBinPopCutOffMethod2res = xsDataImageQualityIndicators.getBinPopCutOffMethod2Res().getValue()
+        providedDate = Date(datetime.datetime.now())
+        self.iImageQualityIndicatorsId = clientToolsForAutoprocessingWebService.service.storeImageQualityIndicators(
+                strDirName, \
+                strFileName, \
+                iImageId, \
+                iAutoProcProgramId, \
+                iSpotTotal, \
+                iInResTotal, \
+                iGoodBraggCandidates, \
+                iIceRings, \
+                fMethod1res, \
+                fMethod2res, \
+                fMaxUnitCell, \
+                fPctSaturationTop50peaks, \
+                iInResolutionOvrlSpots, \
+                fBinPopCutOffMethod2res, \
+                providedDate)
+        self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_3.process: imageQualityIndicatorsId=%d" % self.iImageQualityIndicatorsId)
             
              
 
 
 
     def postProcess(self, _edObject=None):
-        """
-        """
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_3.postProcess")
         xsDataResultStoreImageQualityIndicators = XSDataResultStoreImageQualityIndicators()

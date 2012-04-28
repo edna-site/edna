@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Karl Levik (karl.levik@diamond.ac.uk)
@@ -29,62 +27,47 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
+
 from EDVerbose                          import EDVerbose
 from EDAssert                           import EDAssert
 from EDTestCasePluginExecute            import EDTestCasePluginExecute
-from EDUtilsPath                        import EDUtilsPath
-from EDUtilsTest                        import EDUtilsTest
 from XSDataMXv1                         import XSDataResultControlISPyB
 
 
-class EDTestCasePluginExecuteControlISPyBv1_1(EDTestCasePluginExecute):
-    """
-    """
+class EDTestCasePluginExecuteControlISPyBv1_3(EDTestCasePluginExecute):
+
 
     def __init__(self, _edStringTestName=None):
-        """
-        """
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlISPyBv1_1")
+        EDTestCasePluginExecute.__init__(self, "EDPluginControlISPyBv1_3")
 
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                       "XSDataInputControlISPyB_reference.xml"))
 
-        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                                "XSDataResultControlISPyB_reference.xml"))
 
 
 
     def testExecute(self):
-        """
-        """
         self.run()
 
         # Checks that there are no error messages
         plugin = self.getPlugin()
 
         # Checks the expected result
-        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
-        strObtainedOutput = self.readAndParseFile (self.m_edObtainedOutputDataFile)
         EDVerbose.DEBUG("Checking obtained result...")
 
-        xsDataResultReference = XSDataResultControlISPyB.parseString(strExpectedOutput)
-        xsDataResultObtained = XSDataResultControlISPyB.parseString(strObtainedOutput)
+        xsDataResultControlISPyB = plugin.dataOutput
+        bExistScreeningId = False
+        if xsDataResultControlISPyB.screeningId is not None:
+            bExistScreeningId = True
+        EDAssert.equal(True, bExistScreeningId, "Screening id generated")
 
-        EDAssert.equal(xsDataResultReference.marshal(), xsDataResultObtained.marshal())
-
-
-##############################################################################
 
     def process(self):
-        """
-        """
         self.addTestMethod(self.testExecute)
 
 
 
-##############################################################################
-
-
 if __name__ == '__main__':
-    edTestCasePluginExecuteControlISPyBv1_1 = EDTestCasePluginExecuteControlISPyBv1_1("EDTestCasePluginExecuteControlISPyBv1_1")
-    edTestCasePluginExecuteControlISPyBv1_1.execute()
+    edTestCasePluginExecuteControlISPyBv1_3 = EDTestCasePluginExecuteControlISPyBv1_3("EDTestCasePluginExecuteControlISPyBv1_3")
+    edTestCasePluginExecuteControlISPyBv1_3.execute()

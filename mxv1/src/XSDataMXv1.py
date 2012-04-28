@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Apr 5 09:51::37 2012 by EDGenerateDS.
+# Generated Fri Mar 2 09:41::37 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -971,128 +971,9 @@ class XSDataChain(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataChain
 
-class XSDataCollection(XSData):
-	"""The data collection carried out or to be carried out with a particular sample with specific user inputs defined by the diffraction plan."""
-	def __init__(self, subWedge=None, sample=None, diffractionPlan=None):
-		XSData.__init__(self, )
-		checkType("XSDataCollection", "Constructor of XSDataCollection", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-		checkType("XSDataCollection", "Constructor of XSDataCollection", sample, "XSDataSampleCrystalMM")
-		self.__sample = sample
-		if subWedge is None:
-			self.__subWedge = []
-		else:
-			checkType("XSDataCollection", "Constructor of XSDataCollection", subWedge, "list")
-			self.__subWedge = subWedge
-	def getDiffractionPlan(self): return self.__diffractionPlan
-	def setDiffractionPlan(self, diffractionPlan):
-		checkType("XSDataCollection", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-	def delDiffractionPlan(self): self.__diffractionPlan = None
-	# Properties
-	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
-	def getSample(self): return self.__sample
-	def setSample(self, sample):
-		checkType("XSDataCollection", "setSample", sample, "XSDataSampleCrystalMM")
-		self.__sample = sample
-	def delSample(self): self.__sample = None
-	# Properties
-	sample = property(getSample, setSample, delSample, "Property for sample")
-	def getSubWedge(self): return self.__subWedge
-	def setSubWedge(self, subWedge):
-		checkType("XSDataCollection", "setSubWedge", subWedge, "list")
-		self.__subWedge = subWedge
-	def delSubWedge(self): self.__subWedge = None
-	# Properties
-	subWedge = property(getSubWedge, setSubWedge, delSubWedge, "Property for subWedge")
-	def addSubWedge(self, value):
-		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
-		self.__subWedge.append(value)
-	def insertSubWedge(self, index, value):
-		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
-		self.__subWedge[index] = value
-	def export(self, outfile, level, name_='XSDataCollection'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataCollection'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__diffractionPlan is not None:
-			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
-		if self.__sample is not None:
-			self.sample.export(outfile, level, name_='sample')
-		for subWedge_ in self.getSubWedge():
-			subWedge_.export(outfile, level, name_='subWedge')
-		if self.getSubWedge() == []:
-			warnEmptyAttribute("subWedge", "XSDataSubWedge")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'diffractionPlan':
-			obj_ = XSDataDiffractionPlan()
-			obj_.build(child_)
-			self.setDiffractionPlan(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'sample':
-			obj_ = XSDataSampleCrystalMM()
-			obj_.build(child_)
-			self.setSample(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'subWedge':
-			obj_ = XSDataSubWedge()
-			obj_.build(child_)
-			self.subWedge.append(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataCollection" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataCollection' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataCollection is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataCollection.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataCollection()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataCollection" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataCollection()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataCollection
-
 class XSDataCharacterisation(XSData):
-	"""These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."""
+	"""Deprecated - only used by EDPluginControlCharacterisationv10
+"""
 	def __init__(self, strategyResult=None, integrationResult=None, indexingResult=None, dataCollection=None):
 		XSData.__init__(self, )
 		checkType("XSDataCharacterisation", "Constructor of XSDataCharacterisation", dataCollection, "XSDataCollection")
@@ -1581,6 +1462,545 @@ class XSDataCrystal(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataCrystal
 
+class XSDataDiffractionPlan(XSData):
+	"""This object contains the main properties a user can parameterize for a crystal characterisation:
+
+- the aimed* parameters are the parameters that a user would like to reach for a BEST run.
+- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)
+- complexity: BEST complexity input, can be either "none" (always single wedge strategy). "min" (few subwedges) or "full" (many subwedges).
+- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.
+- forcedSpaceGroup: option to force the space group of the indexing solution
+- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage
+- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.
+- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.
+- detectorMinResolution and detectorMaxResolution: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.
+- minTransmission: optional input for BEST
+- kappaStrategyOption: optional input for kappa strategies
+- numberOfPositions: optional input for BEST"""
+	def __init__(self, strategyOption=None, requiredResolution=None, requiredMultiplicity=None, requiredCompleteness=None, numberOfPositions=None, minTransmission=None, minExposureTimePerImage=None, maxExposureTimePerDataCollection=None, kappaStrategyOption=None, goniostatMinOscillationWidth=None, goniostatMaxOscillationSpeed=None, forcedSpaceGroup=None, estimateRadiationDamage=None, detectorMinResolution=None, detectorMaxResolution=None, complexity=None, anomalousData=None, aimedResolution=None, aimedMultiplicity=None, aimedIOverSigmaAtHighestResolution=None, aimedCompleteness=None):
+		XSData.__init__(self, )
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedCompleteness, "XSDataDouble")
+		self.__aimedCompleteness = aimedCompleteness
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedIOverSigmaAtHighestResolution, "XSDataDouble")
+		self.__aimedIOverSigmaAtHighestResolution = aimedIOverSigmaAtHighestResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedMultiplicity, "XSDataDouble")
+		self.__aimedMultiplicity = aimedMultiplicity
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedResolution, "XSDataDouble")
+		self.__aimedResolution = aimedResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", anomalousData, "XSDataBoolean")
+		self.__anomalousData = anomalousData
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", complexity, "XSDataString")
+		self.__complexity = complexity
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", detectorMaxResolution, "XSDataDouble")
+		self.__detectorMaxResolution = detectorMaxResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", detectorMinResolution, "XSDataDouble")
+		self.__detectorMinResolution = detectorMinResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", estimateRadiationDamage, "XSDataBoolean")
+		self.__estimateRadiationDamage = estimateRadiationDamage
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", forcedSpaceGroup, "XSDataString")
+		self.__forcedSpaceGroup = forcedSpaceGroup
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", goniostatMaxOscillationSpeed, "XSDataAngularSpeed")
+		self.__goniostatMaxOscillationSpeed = goniostatMaxOscillationSpeed
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", goniostatMinOscillationWidth, "XSDataAngle")
+		self.__goniostatMinOscillationWidth = goniostatMinOscillationWidth
+		if kappaStrategyOption is None:
+			self.__kappaStrategyOption = []
+		else:
+			checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", kappaStrategyOption, "list")
+			self.__kappaStrategyOption = kappaStrategyOption
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", maxExposureTimePerDataCollection, "XSDataTime")
+		self.__maxExposureTimePerDataCollection = maxExposureTimePerDataCollection
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", minExposureTimePerImage, "XSDataTime")
+		self.__minExposureTimePerImage = minExposureTimePerImage
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", minTransmission, "XSDataDouble")
+		self.__minTransmission = minTransmission
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", numberOfPositions, "XSDataInteger")
+		self.__numberOfPositions = numberOfPositions
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredCompleteness, "XSDataDouble")
+		self.__requiredCompleteness = requiredCompleteness
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredMultiplicity, "XSDataDouble")
+		self.__requiredMultiplicity = requiredMultiplicity
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredResolution, "XSDataDouble")
+		self.__requiredResolution = requiredResolution
+		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", strategyOption, "XSDataString")
+		self.__strategyOption = strategyOption
+	def getAimedCompleteness(self): return self.__aimedCompleteness
+	def setAimedCompleteness(self, aimedCompleteness):
+		checkType("XSDataDiffractionPlan", "setAimedCompleteness", aimedCompleteness, "XSDataDouble")
+		self.__aimedCompleteness = aimedCompleteness
+	def delAimedCompleteness(self): self.__aimedCompleteness = None
+	# Properties
+	aimedCompleteness = property(getAimedCompleteness, setAimedCompleteness, delAimedCompleteness, "Property for aimedCompleteness")
+	def getAimedIOverSigmaAtHighestResolution(self): return self.__aimedIOverSigmaAtHighestResolution
+	def setAimedIOverSigmaAtHighestResolution(self, aimedIOverSigmaAtHighestResolution):
+		checkType("XSDataDiffractionPlan", "setAimedIOverSigmaAtHighestResolution", aimedIOverSigmaAtHighestResolution, "XSDataDouble")
+		self.__aimedIOverSigmaAtHighestResolution = aimedIOverSigmaAtHighestResolution
+	def delAimedIOverSigmaAtHighestResolution(self): self.__aimedIOverSigmaAtHighestResolution = None
+	# Properties
+	aimedIOverSigmaAtHighestResolution = property(getAimedIOverSigmaAtHighestResolution, setAimedIOverSigmaAtHighestResolution, delAimedIOverSigmaAtHighestResolution, "Property for aimedIOverSigmaAtHighestResolution")
+	def getAimedMultiplicity(self): return self.__aimedMultiplicity
+	def setAimedMultiplicity(self, aimedMultiplicity):
+		checkType("XSDataDiffractionPlan", "setAimedMultiplicity", aimedMultiplicity, "XSDataDouble")
+		self.__aimedMultiplicity = aimedMultiplicity
+	def delAimedMultiplicity(self): self.__aimedMultiplicity = None
+	# Properties
+	aimedMultiplicity = property(getAimedMultiplicity, setAimedMultiplicity, delAimedMultiplicity, "Property for aimedMultiplicity")
+	def getAimedResolution(self): return self.__aimedResolution
+	def setAimedResolution(self, aimedResolution):
+		checkType("XSDataDiffractionPlan", "setAimedResolution", aimedResolution, "XSDataDouble")
+		self.__aimedResolution = aimedResolution
+	def delAimedResolution(self): self.__aimedResolution = None
+	# Properties
+	aimedResolution = property(getAimedResolution, setAimedResolution, delAimedResolution, "Property for aimedResolution")
+	def getAnomalousData(self): return self.__anomalousData
+	def setAnomalousData(self, anomalousData):
+		checkType("XSDataDiffractionPlan", "setAnomalousData", anomalousData, "XSDataBoolean")
+		self.__anomalousData = anomalousData
+	def delAnomalousData(self): self.__anomalousData = None
+	# Properties
+	anomalousData = property(getAnomalousData, setAnomalousData, delAnomalousData, "Property for anomalousData")
+	def getComplexity(self): return self.__complexity
+	def setComplexity(self, complexity):
+		checkType("XSDataDiffractionPlan", "setComplexity", complexity, "XSDataString")
+		self.__complexity = complexity
+	def delComplexity(self): self.__complexity = None
+	# Properties
+	complexity = property(getComplexity, setComplexity, delComplexity, "Property for complexity")
+	def getDetectorMaxResolution(self): return self.__detectorMaxResolution
+	def setDetectorMaxResolution(self, detectorMaxResolution):
+		checkType("XSDataDiffractionPlan", "setDetectorMaxResolution", detectorMaxResolution, "XSDataDouble")
+		self.__detectorMaxResolution = detectorMaxResolution
+	def delDetectorMaxResolution(self): self.__detectorMaxResolution = None
+	# Properties
+	detectorMaxResolution = property(getDetectorMaxResolution, setDetectorMaxResolution, delDetectorMaxResolution, "Property for detectorMaxResolution")
+	def getDetectorMinResolution(self): return self.__detectorMinResolution
+	def setDetectorMinResolution(self, detectorMinResolution):
+		checkType("XSDataDiffractionPlan", "setDetectorMinResolution", detectorMinResolution, "XSDataDouble")
+		self.__detectorMinResolution = detectorMinResolution
+	def delDetectorMinResolution(self): self.__detectorMinResolution = None
+	# Properties
+	detectorMinResolution = property(getDetectorMinResolution, setDetectorMinResolution, delDetectorMinResolution, "Property for detectorMinResolution")
+	def getEstimateRadiationDamage(self): return self.__estimateRadiationDamage
+	def setEstimateRadiationDamage(self, estimateRadiationDamage):
+		checkType("XSDataDiffractionPlan", "setEstimateRadiationDamage", estimateRadiationDamage, "XSDataBoolean")
+		self.__estimateRadiationDamage = estimateRadiationDamage
+	def delEstimateRadiationDamage(self): self.__estimateRadiationDamage = None
+	# Properties
+	estimateRadiationDamage = property(getEstimateRadiationDamage, setEstimateRadiationDamage, delEstimateRadiationDamage, "Property for estimateRadiationDamage")
+	def getForcedSpaceGroup(self): return self.__forcedSpaceGroup
+	def setForcedSpaceGroup(self, forcedSpaceGroup):
+		checkType("XSDataDiffractionPlan", "setForcedSpaceGroup", forcedSpaceGroup, "XSDataString")
+		self.__forcedSpaceGroup = forcedSpaceGroup
+	def delForcedSpaceGroup(self): self.__forcedSpaceGroup = None
+	# Properties
+	forcedSpaceGroup = property(getForcedSpaceGroup, setForcedSpaceGroup, delForcedSpaceGroup, "Property for forcedSpaceGroup")
+	def getGoniostatMaxOscillationSpeed(self): return self.__goniostatMaxOscillationSpeed
+	def setGoniostatMaxOscillationSpeed(self, goniostatMaxOscillationSpeed):
+		checkType("XSDataDiffractionPlan", "setGoniostatMaxOscillationSpeed", goniostatMaxOscillationSpeed, "XSDataAngularSpeed")
+		self.__goniostatMaxOscillationSpeed = goniostatMaxOscillationSpeed
+	def delGoniostatMaxOscillationSpeed(self): self.__goniostatMaxOscillationSpeed = None
+	# Properties
+	goniostatMaxOscillationSpeed = property(getGoniostatMaxOscillationSpeed, setGoniostatMaxOscillationSpeed, delGoniostatMaxOscillationSpeed, "Property for goniostatMaxOscillationSpeed")
+	def getGoniostatMinOscillationWidth(self): return self.__goniostatMinOscillationWidth
+	def setGoniostatMinOscillationWidth(self, goniostatMinOscillationWidth):
+		checkType("XSDataDiffractionPlan", "setGoniostatMinOscillationWidth", goniostatMinOscillationWidth, "XSDataAngle")
+		self.__goniostatMinOscillationWidth = goniostatMinOscillationWidth
+	def delGoniostatMinOscillationWidth(self): self.__goniostatMinOscillationWidth = None
+	# Properties
+	goniostatMinOscillationWidth = property(getGoniostatMinOscillationWidth, setGoniostatMinOscillationWidth, delGoniostatMinOscillationWidth, "Property for goniostatMinOscillationWidth")
+	def getKappaStrategyOption(self): return self.__kappaStrategyOption
+	def setKappaStrategyOption(self, kappaStrategyOption):
+		checkType("XSDataDiffractionPlan", "setKappaStrategyOption", kappaStrategyOption, "list")
+		self.__kappaStrategyOption = kappaStrategyOption
+	def delKappaStrategyOption(self): self.__kappaStrategyOption = None
+	# Properties
+	kappaStrategyOption = property(getKappaStrategyOption, setKappaStrategyOption, delKappaStrategyOption, "Property for kappaStrategyOption")
+	def addKappaStrategyOption(self, value):
+		checkType("XSDataDiffractionPlan", "setKappaStrategyOption", value, "XSDataString")
+		self.__kappaStrategyOption.append(value)
+	def insertKappaStrategyOption(self, index, value):
+		checkType("XSDataDiffractionPlan", "setKappaStrategyOption", value, "XSDataString")
+		self.__kappaStrategyOption[index] = value
+	def getMaxExposureTimePerDataCollection(self): return self.__maxExposureTimePerDataCollection
+	def setMaxExposureTimePerDataCollection(self, maxExposureTimePerDataCollection):
+		checkType("XSDataDiffractionPlan", "setMaxExposureTimePerDataCollection", maxExposureTimePerDataCollection, "XSDataTime")
+		self.__maxExposureTimePerDataCollection = maxExposureTimePerDataCollection
+	def delMaxExposureTimePerDataCollection(self): self.__maxExposureTimePerDataCollection = None
+	# Properties
+	maxExposureTimePerDataCollection = property(getMaxExposureTimePerDataCollection, setMaxExposureTimePerDataCollection, delMaxExposureTimePerDataCollection, "Property for maxExposureTimePerDataCollection")
+	def getMinExposureTimePerImage(self): return self.__minExposureTimePerImage
+	def setMinExposureTimePerImage(self, minExposureTimePerImage):
+		checkType("XSDataDiffractionPlan", "setMinExposureTimePerImage", minExposureTimePerImage, "XSDataTime")
+		self.__minExposureTimePerImage = minExposureTimePerImage
+	def delMinExposureTimePerImage(self): self.__minExposureTimePerImage = None
+	# Properties
+	minExposureTimePerImage = property(getMinExposureTimePerImage, setMinExposureTimePerImage, delMinExposureTimePerImage, "Property for minExposureTimePerImage")
+	def getMinTransmission(self): return self.__minTransmission
+	def setMinTransmission(self, minTransmission):
+		checkType("XSDataDiffractionPlan", "setMinTransmission", minTransmission, "XSDataDouble")
+		self.__minTransmission = minTransmission
+	def delMinTransmission(self): self.__minTransmission = None
+	# Properties
+	minTransmission = property(getMinTransmission, setMinTransmission, delMinTransmission, "Property for minTransmission")
+	def getNumberOfPositions(self): return self.__numberOfPositions
+	def setNumberOfPositions(self, numberOfPositions):
+		checkType("XSDataDiffractionPlan", "setNumberOfPositions", numberOfPositions, "XSDataInteger")
+		self.__numberOfPositions = numberOfPositions
+	def delNumberOfPositions(self): self.__numberOfPositions = None
+	# Properties
+	numberOfPositions = property(getNumberOfPositions, setNumberOfPositions, delNumberOfPositions, "Property for numberOfPositions")
+	def getRequiredCompleteness(self): return self.__requiredCompleteness
+	def setRequiredCompleteness(self, requiredCompleteness):
+		checkType("XSDataDiffractionPlan", "setRequiredCompleteness", requiredCompleteness, "XSDataDouble")
+		self.__requiredCompleteness = requiredCompleteness
+	def delRequiredCompleteness(self): self.__requiredCompleteness = None
+	# Properties
+	requiredCompleteness = property(getRequiredCompleteness, setRequiredCompleteness, delRequiredCompleteness, "Property for requiredCompleteness")
+	def getRequiredMultiplicity(self): return self.__requiredMultiplicity
+	def setRequiredMultiplicity(self, requiredMultiplicity):
+		checkType("XSDataDiffractionPlan", "setRequiredMultiplicity", requiredMultiplicity, "XSDataDouble")
+		self.__requiredMultiplicity = requiredMultiplicity
+	def delRequiredMultiplicity(self): self.__requiredMultiplicity = None
+	# Properties
+	requiredMultiplicity = property(getRequiredMultiplicity, setRequiredMultiplicity, delRequiredMultiplicity, "Property for requiredMultiplicity")
+	def getRequiredResolution(self): return self.__requiredResolution
+	def setRequiredResolution(self, requiredResolution):
+		checkType("XSDataDiffractionPlan", "setRequiredResolution", requiredResolution, "XSDataDouble")
+		self.__requiredResolution = requiredResolution
+	def delRequiredResolution(self): self.__requiredResolution = None
+	# Properties
+	requiredResolution = property(getRequiredResolution, setRequiredResolution, delRequiredResolution, "Property for requiredResolution")
+	def getStrategyOption(self): return self.__strategyOption
+	def setStrategyOption(self, strategyOption):
+		checkType("XSDataDiffractionPlan", "setStrategyOption", strategyOption, "XSDataString")
+		self.__strategyOption = strategyOption
+	def delStrategyOption(self): self.__strategyOption = None
+	# Properties
+	strategyOption = property(getStrategyOption, setStrategyOption, delStrategyOption, "Property for strategyOption")
+	def export(self, outfile, level, name_='XSDataDiffractionPlan'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataDiffractionPlan'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__aimedCompleteness is not None:
+			self.aimedCompleteness.export(outfile, level, name_='aimedCompleteness')
+		if self.__aimedIOverSigmaAtHighestResolution is not None:
+			self.aimedIOverSigmaAtHighestResolution.export(outfile, level, name_='aimedIOverSigmaAtHighestResolution')
+		if self.__aimedMultiplicity is not None:
+			self.aimedMultiplicity.export(outfile, level, name_='aimedMultiplicity')
+		if self.__aimedResolution is not None:
+			self.aimedResolution.export(outfile, level, name_='aimedResolution')
+		if self.__anomalousData is not None:
+			self.anomalousData.export(outfile, level, name_='anomalousData')
+		if self.__complexity is not None:
+			self.complexity.export(outfile, level, name_='complexity')
+		if self.__detectorMaxResolution is not None:
+			self.detectorMaxResolution.export(outfile, level, name_='detectorMaxResolution')
+		if self.__detectorMinResolution is not None:
+			self.detectorMinResolution.export(outfile, level, name_='detectorMinResolution')
+		if self.__estimateRadiationDamage is not None:
+			self.estimateRadiationDamage.export(outfile, level, name_='estimateRadiationDamage')
+		if self.__forcedSpaceGroup is not None:
+			self.forcedSpaceGroup.export(outfile, level, name_='forcedSpaceGroup')
+		if self.__goniostatMaxOscillationSpeed is not None:
+			self.goniostatMaxOscillationSpeed.export(outfile, level, name_='goniostatMaxOscillationSpeed')
+		if self.__goniostatMinOscillationWidth is not None:
+			self.goniostatMinOscillationWidth.export(outfile, level, name_='goniostatMinOscillationWidth')
+		for kappaStrategyOption_ in self.getKappaStrategyOption():
+			kappaStrategyOption_.export(outfile, level, name_='kappaStrategyOption')
+		if self.__maxExposureTimePerDataCollection is not None:
+			self.maxExposureTimePerDataCollection.export(outfile, level, name_='maxExposureTimePerDataCollection')
+		if self.__minExposureTimePerImage is not None:
+			self.minExposureTimePerImage.export(outfile, level, name_='minExposureTimePerImage')
+		if self.__minTransmission is not None:
+			self.minTransmission.export(outfile, level, name_='minTransmission')
+		if self.__numberOfPositions is not None:
+			self.numberOfPositions.export(outfile, level, name_='numberOfPositions')
+		if self.__requiredCompleteness is not None:
+			self.requiredCompleteness.export(outfile, level, name_='requiredCompleteness')
+		if self.__requiredMultiplicity is not None:
+			self.requiredMultiplicity.export(outfile, level, name_='requiredMultiplicity')
+		if self.__requiredResolution is not None:
+			self.requiredResolution.export(outfile, level, name_='requiredResolution')
+		if self.__strategyOption is not None:
+			self.strategyOption.export(outfile, level, name_='strategyOption')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'aimedCompleteness':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAimedCompleteness(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'aimedIOverSigmaAtHighestResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAimedIOverSigmaAtHighestResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'aimedMultiplicity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAimedMultiplicity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'aimedResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setAimedResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'anomalousData':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setAnomalousData(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'complexity':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setComplexity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detectorMaxResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDetectorMaxResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detectorMinResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDetectorMinResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'estimateRadiationDamage':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setEstimateRadiationDamage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'forcedSpaceGroup':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setForcedSpaceGroup(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'goniostatMaxOscillationSpeed':
+			obj_ = XSDataAngularSpeed()
+			obj_.build(child_)
+			self.setGoniostatMaxOscillationSpeed(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'goniostatMinOscillationWidth':
+			obj_ = XSDataAngle()
+			obj_.build(child_)
+			self.setGoniostatMinOscillationWidth(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'kappaStrategyOption':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.kappaStrategyOption.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'maxExposureTimePerDataCollection':
+			obj_ = XSDataTime()
+			obj_.build(child_)
+			self.setMaxExposureTimePerDataCollection(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'minExposureTimePerImage':
+			obj_ = XSDataTime()
+			obj_.build(child_)
+			self.setMinExposureTimePerImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'minTransmission':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setMinTransmission(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfPositions':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setNumberOfPositions(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'requiredCompleteness':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRequiredCompleteness(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'requiredMultiplicity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRequiredMultiplicity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'requiredResolution':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRequiredResolution(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'strategyOption':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setStrategyOption(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataDiffractionPlan" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataDiffractionPlan' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataDiffractionPlan is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataDiffractionPlan.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataDiffractionPlan()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataDiffractionPlan" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataDiffractionPlan()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataDiffractionPlan
+
+class XSDataCollection(XSData):
+	"""The data collection carried out or to be carried out with a particular sample with specific user inputs defined by the diffraction plan."""
+	def __init__(self, subWedge=None, sample=None, diffractionPlan=None):
+		XSData.__init__(self, )
+		checkType("XSDataCollection", "Constructor of XSDataCollection", diffractionPlan, "XSDataDiffractionPlan")
+		self.__diffractionPlan = diffractionPlan
+		checkType("XSDataCollection", "Constructor of XSDataCollection", sample, "XSDataSampleCrystalMM")
+		self.__sample = sample
+		if subWedge is None:
+			self.__subWedge = []
+		else:
+			checkType("XSDataCollection", "Constructor of XSDataCollection", subWedge, "list")
+			self.__subWedge = subWedge
+	def getDiffractionPlan(self): return self.__diffractionPlan
+	def setDiffractionPlan(self, diffractionPlan):
+		checkType("XSDataCollection", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
+		self.__diffractionPlan = diffractionPlan
+	def delDiffractionPlan(self): self.__diffractionPlan = None
+	# Properties
+	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
+	def getSample(self): return self.__sample
+	def setSample(self, sample):
+		checkType("XSDataCollection", "setSample", sample, "XSDataSampleCrystalMM")
+		self.__sample = sample
+	def delSample(self): self.__sample = None
+	# Properties
+	sample = property(getSample, setSample, delSample, "Property for sample")
+	def getSubWedge(self): return self.__subWedge
+	def setSubWedge(self, subWedge):
+		checkType("XSDataCollection", "setSubWedge", subWedge, "list")
+		self.__subWedge = subWedge
+	def delSubWedge(self): self.__subWedge = None
+	# Properties
+	subWedge = property(getSubWedge, setSubWedge, delSubWedge, "Property for subWedge")
+	def addSubWedge(self, value):
+		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
+		self.__subWedge.append(value)
+	def insertSubWedge(self, index, value):
+		checkType("XSDataCollection", "setSubWedge", value, "XSDataSubWedge")
+		self.__subWedge[index] = value
+	def export(self, outfile, level, name_='XSDataCollection'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataCollection'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self.__diffractionPlan is not None:
+			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
+		if self.__sample is not None:
+			self.sample.export(outfile, level, name_='sample')
+		for subWedge_ in self.getSubWedge():
+			subWedge_.export(outfile, level, name_='subWedge')
+		if self.getSubWedge() == []:
+			warnEmptyAttribute("subWedge", "XSDataSubWedge")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'diffractionPlan':
+			obj_ = XSDataDiffractionPlan()
+			obj_.build(child_)
+			self.setDiffractionPlan(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'sample':
+			obj_ = XSDataSampleCrystalMM()
+			obj_.build(child_)
+			self.setSample(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'subWedge':
+			obj_ = XSDataSubWedge()
+			obj_.build(child_)
+			self.subWedge.append(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataCollection" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataCollection' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataCollection is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataCollection.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataCollection()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataCollection" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataCollection()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataCollection
+
 class XSDataDetector(XSData):
 	"""The properties of a detector. """
 	def __init__(self, type=None, twoTheta=None, serialNumber=None, pixelSizeY=None, pixelSizeX=None, numberPixelY=None, numberPixelX=None, numberBytesInHeader=None, name=None, imageSaturation=None, gain=None, distance=None, dataType=None, byteOrder=None, bin=None, beamPositionY=None, beamPositionX=None):
@@ -1947,425 +2367,6 @@ class XSDataDetector(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataDetector
-
-class XSDataDiffractionPlan(XSData):
-	"""This object contains the main properties a user can parameterize for a crystal characterisation:
-
-- the aimed* parameters are the parameters that a user would like to reach for a BEST run.
-- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)
-- complexity: BEST complexity input, can be either "none" (always single wedge strategy). "min" (few subwedges) or "full" (many subwedges).
-- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.
-- forcedSpaceGroup: option to force the space group of the indexing solution
-- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage
-- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.
-- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.
-- detectorDistanceMin and detectorDistanceMax: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.
-- minTransmission: optional input for BEST
-- kappaStrategyOption: optional input for kappa strategies
-- numberOfPositions: optional input for BEST"""
-	def __init__(self, strategyOption=None, requiredResolution=None, requiredMultiplicity=None, requiredCompleteness=None, numberOfPositions=None, minTransmission=None, minExposureTimePerImage=None, maxExposureTimePerDataCollection=None, kappaStrategyOption=None, goniostatMinOscillationWidth=None, goniostatMaxOscillationSpeed=None, forcedSpaceGroup=None, estimateRadiationDamage=None, detectorDistanceMin=None, detectorDistanceMax=None, complexity=None, anomalousData=None, aimedResolution=None, aimedMultiplicity=None, aimedIOverSigmaAtHighestResolution=None, aimedCompleteness=None):
-		XSData.__init__(self, )
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedCompleteness, "XSDataDouble")
-		self.__aimedCompleteness = aimedCompleteness
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedIOverSigmaAtHighestResolution, "XSDataDouble")
-		self.__aimedIOverSigmaAtHighestResolution = aimedIOverSigmaAtHighestResolution
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedMultiplicity, "XSDataDouble")
-		self.__aimedMultiplicity = aimedMultiplicity
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", aimedResolution, "XSDataDouble")
-		self.__aimedResolution = aimedResolution
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", anomalousData, "XSDataBoolean")
-		self.__anomalousData = anomalousData
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", complexity, "XSDataString")
-		self.__complexity = complexity
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", detectorDistanceMax, "XSDataLength")
-		self.__detectorDistanceMax = detectorDistanceMax
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", detectorDistanceMin, "XSDataLength")
-		self.__detectorDistanceMin = detectorDistanceMin
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", estimateRadiationDamage, "XSDataBoolean")
-		self.__estimateRadiationDamage = estimateRadiationDamage
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", forcedSpaceGroup, "XSDataString")
-		self.__forcedSpaceGroup = forcedSpaceGroup
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", goniostatMaxOscillationSpeed, "XSDataAngularSpeed")
-		self.__goniostatMaxOscillationSpeed = goniostatMaxOscillationSpeed
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", goniostatMinOscillationWidth, "XSDataAngle")
-		self.__goniostatMinOscillationWidth = goniostatMinOscillationWidth
-		if kappaStrategyOption is None:
-			self.__kappaStrategyOption = []
-		else:
-			checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", kappaStrategyOption, "list")
-			self.__kappaStrategyOption = kappaStrategyOption
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", maxExposureTimePerDataCollection, "XSDataTime")
-		self.__maxExposureTimePerDataCollection = maxExposureTimePerDataCollection
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", minExposureTimePerImage, "XSDataTime")
-		self.__minExposureTimePerImage = minExposureTimePerImage
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", minTransmission, "XSDataDouble")
-		self.__minTransmission = minTransmission
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", numberOfPositions, "XSDataInteger")
-		self.__numberOfPositions = numberOfPositions
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredCompleteness, "XSDataDouble")
-		self.__requiredCompleteness = requiredCompleteness
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredMultiplicity, "XSDataDouble")
-		self.__requiredMultiplicity = requiredMultiplicity
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", requiredResolution, "XSDataDouble")
-		self.__requiredResolution = requiredResolution
-		checkType("XSDataDiffractionPlan", "Constructor of XSDataDiffractionPlan", strategyOption, "XSDataString")
-		self.__strategyOption = strategyOption
-	def getAimedCompleteness(self): return self.__aimedCompleteness
-	def setAimedCompleteness(self, aimedCompleteness):
-		checkType("XSDataDiffractionPlan", "setAimedCompleteness", aimedCompleteness, "XSDataDouble")
-		self.__aimedCompleteness = aimedCompleteness
-	def delAimedCompleteness(self): self.__aimedCompleteness = None
-	# Properties
-	aimedCompleteness = property(getAimedCompleteness, setAimedCompleteness, delAimedCompleteness, "Property for aimedCompleteness")
-	def getAimedIOverSigmaAtHighestResolution(self): return self.__aimedIOverSigmaAtHighestResolution
-	def setAimedIOverSigmaAtHighestResolution(self, aimedIOverSigmaAtHighestResolution):
-		checkType("XSDataDiffractionPlan", "setAimedIOverSigmaAtHighestResolution", aimedIOverSigmaAtHighestResolution, "XSDataDouble")
-		self.__aimedIOverSigmaAtHighestResolution = aimedIOverSigmaAtHighestResolution
-	def delAimedIOverSigmaAtHighestResolution(self): self.__aimedIOverSigmaAtHighestResolution = None
-	# Properties
-	aimedIOverSigmaAtHighestResolution = property(getAimedIOverSigmaAtHighestResolution, setAimedIOverSigmaAtHighestResolution, delAimedIOverSigmaAtHighestResolution, "Property for aimedIOverSigmaAtHighestResolution")
-	def getAimedMultiplicity(self): return self.__aimedMultiplicity
-	def setAimedMultiplicity(self, aimedMultiplicity):
-		checkType("XSDataDiffractionPlan", "setAimedMultiplicity", aimedMultiplicity, "XSDataDouble")
-		self.__aimedMultiplicity = aimedMultiplicity
-	def delAimedMultiplicity(self): self.__aimedMultiplicity = None
-	# Properties
-	aimedMultiplicity = property(getAimedMultiplicity, setAimedMultiplicity, delAimedMultiplicity, "Property for aimedMultiplicity")
-	def getAimedResolution(self): return self.__aimedResolution
-	def setAimedResolution(self, aimedResolution):
-		checkType("XSDataDiffractionPlan", "setAimedResolution", aimedResolution, "XSDataDouble")
-		self.__aimedResolution = aimedResolution
-	def delAimedResolution(self): self.__aimedResolution = None
-	# Properties
-	aimedResolution = property(getAimedResolution, setAimedResolution, delAimedResolution, "Property for aimedResolution")
-	def getAnomalousData(self): return self.__anomalousData
-	def setAnomalousData(self, anomalousData):
-		checkType("XSDataDiffractionPlan", "setAnomalousData", anomalousData, "XSDataBoolean")
-		self.__anomalousData = anomalousData
-	def delAnomalousData(self): self.__anomalousData = None
-	# Properties
-	anomalousData = property(getAnomalousData, setAnomalousData, delAnomalousData, "Property for anomalousData")
-	def getComplexity(self): return self.__complexity
-	def setComplexity(self, complexity):
-		checkType("XSDataDiffractionPlan", "setComplexity", complexity, "XSDataString")
-		self.__complexity = complexity
-	def delComplexity(self): self.__complexity = None
-	# Properties
-	complexity = property(getComplexity, setComplexity, delComplexity, "Property for complexity")
-	def getDetectorDistanceMax(self): return self.__detectorDistanceMax
-	def setDetectorDistanceMax(self, detectorDistanceMax):
-		checkType("XSDataDiffractionPlan", "setDetectorDistanceMax", detectorDistanceMax, "XSDataLength")
-		self.__detectorDistanceMax = detectorDistanceMax
-	def delDetectorDistanceMax(self): self.__detectorDistanceMax = None
-	# Properties
-	detectorDistanceMax = property(getDetectorDistanceMax, setDetectorDistanceMax, delDetectorDistanceMax, "Property for detectorDistanceMax")
-	def getDetectorDistanceMin(self): return self.__detectorDistanceMin
-	def setDetectorDistanceMin(self, detectorDistanceMin):
-		checkType("XSDataDiffractionPlan", "setDetectorDistanceMin", detectorDistanceMin, "XSDataLength")
-		self.__detectorDistanceMin = detectorDistanceMin
-	def delDetectorDistanceMin(self): self.__detectorDistanceMin = None
-	# Properties
-	detectorDistanceMin = property(getDetectorDistanceMin, setDetectorDistanceMin, delDetectorDistanceMin, "Property for detectorDistanceMin")
-	def getEstimateRadiationDamage(self): return self.__estimateRadiationDamage
-	def setEstimateRadiationDamage(self, estimateRadiationDamage):
-		checkType("XSDataDiffractionPlan", "setEstimateRadiationDamage", estimateRadiationDamage, "XSDataBoolean")
-		self.__estimateRadiationDamage = estimateRadiationDamage
-	def delEstimateRadiationDamage(self): self.__estimateRadiationDamage = None
-	# Properties
-	estimateRadiationDamage = property(getEstimateRadiationDamage, setEstimateRadiationDamage, delEstimateRadiationDamage, "Property for estimateRadiationDamage")
-	def getForcedSpaceGroup(self): return self.__forcedSpaceGroup
-	def setForcedSpaceGroup(self, forcedSpaceGroup):
-		checkType("XSDataDiffractionPlan", "setForcedSpaceGroup", forcedSpaceGroup, "XSDataString")
-		self.__forcedSpaceGroup = forcedSpaceGroup
-	def delForcedSpaceGroup(self): self.__forcedSpaceGroup = None
-	# Properties
-	forcedSpaceGroup = property(getForcedSpaceGroup, setForcedSpaceGroup, delForcedSpaceGroup, "Property for forcedSpaceGroup")
-	def getGoniostatMaxOscillationSpeed(self): return self.__goniostatMaxOscillationSpeed
-	def setGoniostatMaxOscillationSpeed(self, goniostatMaxOscillationSpeed):
-		checkType("XSDataDiffractionPlan", "setGoniostatMaxOscillationSpeed", goniostatMaxOscillationSpeed, "XSDataAngularSpeed")
-		self.__goniostatMaxOscillationSpeed = goniostatMaxOscillationSpeed
-	def delGoniostatMaxOscillationSpeed(self): self.__goniostatMaxOscillationSpeed = None
-	# Properties
-	goniostatMaxOscillationSpeed = property(getGoniostatMaxOscillationSpeed, setGoniostatMaxOscillationSpeed, delGoniostatMaxOscillationSpeed, "Property for goniostatMaxOscillationSpeed")
-	def getGoniostatMinOscillationWidth(self): return self.__goniostatMinOscillationWidth
-	def setGoniostatMinOscillationWidth(self, goniostatMinOscillationWidth):
-		checkType("XSDataDiffractionPlan", "setGoniostatMinOscillationWidth", goniostatMinOscillationWidth, "XSDataAngle")
-		self.__goniostatMinOscillationWidth = goniostatMinOscillationWidth
-	def delGoniostatMinOscillationWidth(self): self.__goniostatMinOscillationWidth = None
-	# Properties
-	goniostatMinOscillationWidth = property(getGoniostatMinOscillationWidth, setGoniostatMinOscillationWidth, delGoniostatMinOscillationWidth, "Property for goniostatMinOscillationWidth")
-	def getKappaStrategyOption(self): return self.__kappaStrategyOption
-	def setKappaStrategyOption(self, kappaStrategyOption):
-		checkType("XSDataDiffractionPlan", "setKappaStrategyOption", kappaStrategyOption, "list")
-		self.__kappaStrategyOption = kappaStrategyOption
-	def delKappaStrategyOption(self): self.__kappaStrategyOption = None
-	# Properties
-	kappaStrategyOption = property(getKappaStrategyOption, setKappaStrategyOption, delKappaStrategyOption, "Property for kappaStrategyOption")
-	def addKappaStrategyOption(self, value):
-		checkType("XSDataDiffractionPlan", "setKappaStrategyOption", value, "XSDataString")
-		self.__kappaStrategyOption.append(value)
-	def insertKappaStrategyOption(self, index, value):
-		checkType("XSDataDiffractionPlan", "setKappaStrategyOption", value, "XSDataString")
-		self.__kappaStrategyOption[index] = value
-	def getMaxExposureTimePerDataCollection(self): return self.__maxExposureTimePerDataCollection
-	def setMaxExposureTimePerDataCollection(self, maxExposureTimePerDataCollection):
-		checkType("XSDataDiffractionPlan", "setMaxExposureTimePerDataCollection", maxExposureTimePerDataCollection, "XSDataTime")
-		self.__maxExposureTimePerDataCollection = maxExposureTimePerDataCollection
-	def delMaxExposureTimePerDataCollection(self): self.__maxExposureTimePerDataCollection = None
-	# Properties
-	maxExposureTimePerDataCollection = property(getMaxExposureTimePerDataCollection, setMaxExposureTimePerDataCollection, delMaxExposureTimePerDataCollection, "Property for maxExposureTimePerDataCollection")
-	def getMinExposureTimePerImage(self): return self.__minExposureTimePerImage
-	def setMinExposureTimePerImage(self, minExposureTimePerImage):
-		checkType("XSDataDiffractionPlan", "setMinExposureTimePerImage", minExposureTimePerImage, "XSDataTime")
-		self.__minExposureTimePerImage = minExposureTimePerImage
-	def delMinExposureTimePerImage(self): self.__minExposureTimePerImage = None
-	# Properties
-	minExposureTimePerImage = property(getMinExposureTimePerImage, setMinExposureTimePerImage, delMinExposureTimePerImage, "Property for minExposureTimePerImage")
-	def getMinTransmission(self): return self.__minTransmission
-	def setMinTransmission(self, minTransmission):
-		checkType("XSDataDiffractionPlan", "setMinTransmission", minTransmission, "XSDataDouble")
-		self.__minTransmission = minTransmission
-	def delMinTransmission(self): self.__minTransmission = None
-	# Properties
-	minTransmission = property(getMinTransmission, setMinTransmission, delMinTransmission, "Property for minTransmission")
-	def getNumberOfPositions(self): return self.__numberOfPositions
-	def setNumberOfPositions(self, numberOfPositions):
-		checkType("XSDataDiffractionPlan", "setNumberOfPositions", numberOfPositions, "XSDataInteger")
-		self.__numberOfPositions = numberOfPositions
-	def delNumberOfPositions(self): self.__numberOfPositions = None
-	# Properties
-	numberOfPositions = property(getNumberOfPositions, setNumberOfPositions, delNumberOfPositions, "Property for numberOfPositions")
-	def getRequiredCompleteness(self): return self.__requiredCompleteness
-	def setRequiredCompleteness(self, requiredCompleteness):
-		checkType("XSDataDiffractionPlan", "setRequiredCompleteness", requiredCompleteness, "XSDataDouble")
-		self.__requiredCompleteness = requiredCompleteness
-	def delRequiredCompleteness(self): self.__requiredCompleteness = None
-	# Properties
-	requiredCompleteness = property(getRequiredCompleteness, setRequiredCompleteness, delRequiredCompleteness, "Property for requiredCompleteness")
-	def getRequiredMultiplicity(self): return self.__requiredMultiplicity
-	def setRequiredMultiplicity(self, requiredMultiplicity):
-		checkType("XSDataDiffractionPlan", "setRequiredMultiplicity", requiredMultiplicity, "XSDataDouble")
-		self.__requiredMultiplicity = requiredMultiplicity
-	def delRequiredMultiplicity(self): self.__requiredMultiplicity = None
-	# Properties
-	requiredMultiplicity = property(getRequiredMultiplicity, setRequiredMultiplicity, delRequiredMultiplicity, "Property for requiredMultiplicity")
-	def getRequiredResolution(self): return self.__requiredResolution
-	def setRequiredResolution(self, requiredResolution):
-		checkType("XSDataDiffractionPlan", "setRequiredResolution", requiredResolution, "XSDataDouble")
-		self.__requiredResolution = requiredResolution
-	def delRequiredResolution(self): self.__requiredResolution = None
-	# Properties
-	requiredResolution = property(getRequiredResolution, setRequiredResolution, delRequiredResolution, "Property for requiredResolution")
-	def getStrategyOption(self): return self.__strategyOption
-	def setStrategyOption(self, strategyOption):
-		checkType("XSDataDiffractionPlan", "setStrategyOption", strategyOption, "XSDataString")
-		self.__strategyOption = strategyOption
-	def delStrategyOption(self): self.__strategyOption = None
-	# Properties
-	strategyOption = property(getStrategyOption, setStrategyOption, delStrategyOption, "Property for strategyOption")
-	def export(self, outfile, level, name_='XSDataDiffractionPlan'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataDiffractionPlan'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self.__aimedCompleteness is not None:
-			self.aimedCompleteness.export(outfile, level, name_='aimedCompleteness')
-		if self.__aimedIOverSigmaAtHighestResolution is not None:
-			self.aimedIOverSigmaAtHighestResolution.export(outfile, level, name_='aimedIOverSigmaAtHighestResolution')
-		if self.__aimedMultiplicity is not None:
-			self.aimedMultiplicity.export(outfile, level, name_='aimedMultiplicity')
-		if self.__aimedResolution is not None:
-			self.aimedResolution.export(outfile, level, name_='aimedResolution')
-		if self.__anomalousData is not None:
-			self.anomalousData.export(outfile, level, name_='anomalousData')
-		if self.__complexity is not None:
-			self.complexity.export(outfile, level, name_='complexity')
-		if self.__detectorDistanceMax is not None:
-			self.detectorDistanceMax.export(outfile, level, name_='detectorDistanceMax')
-		if self.__detectorDistanceMin is not None:
-			self.detectorDistanceMin.export(outfile, level, name_='detectorDistanceMin')
-		if self.__estimateRadiationDamage is not None:
-			self.estimateRadiationDamage.export(outfile, level, name_='estimateRadiationDamage')
-		if self.__forcedSpaceGroup is not None:
-			self.forcedSpaceGroup.export(outfile, level, name_='forcedSpaceGroup')
-		if self.__goniostatMaxOscillationSpeed is not None:
-			self.goniostatMaxOscillationSpeed.export(outfile, level, name_='goniostatMaxOscillationSpeed')
-		if self.__goniostatMinOscillationWidth is not None:
-			self.goniostatMinOscillationWidth.export(outfile, level, name_='goniostatMinOscillationWidth')
-		for kappaStrategyOption_ in self.getKappaStrategyOption():
-			kappaStrategyOption_.export(outfile, level, name_='kappaStrategyOption')
-		if self.__maxExposureTimePerDataCollection is not None:
-			self.maxExposureTimePerDataCollection.export(outfile, level, name_='maxExposureTimePerDataCollection')
-		if self.__minExposureTimePerImage is not None:
-			self.minExposureTimePerImage.export(outfile, level, name_='minExposureTimePerImage')
-		if self.__minTransmission is not None:
-			self.minTransmission.export(outfile, level, name_='minTransmission')
-		if self.__numberOfPositions is not None:
-			self.numberOfPositions.export(outfile, level, name_='numberOfPositions')
-		if self.__requiredCompleteness is not None:
-			self.requiredCompleteness.export(outfile, level, name_='requiredCompleteness')
-		if self.__requiredMultiplicity is not None:
-			self.requiredMultiplicity.export(outfile, level, name_='requiredMultiplicity')
-		if self.__requiredResolution is not None:
-			self.requiredResolution.export(outfile, level, name_='requiredResolution')
-		if self.__strategyOption is not None:
-			self.strategyOption.export(outfile, level, name_='strategyOption')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'aimedCompleteness':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setAimedCompleteness(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'aimedIOverSigmaAtHighestResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setAimedIOverSigmaAtHighestResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'aimedMultiplicity':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setAimedMultiplicity(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'aimedResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setAimedResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'anomalousData':
-			obj_ = XSDataBoolean()
-			obj_.build(child_)
-			self.setAnomalousData(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'complexity':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setComplexity(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'detectorDistanceMax':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setDetectorDistanceMax(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'detectorDistanceMin':
-			obj_ = XSDataLength()
-			obj_.build(child_)
-			self.setDetectorDistanceMin(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'estimateRadiationDamage':
-			obj_ = XSDataBoolean()
-			obj_.build(child_)
-			self.setEstimateRadiationDamage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'forcedSpaceGroup':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setForcedSpaceGroup(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'goniostatMaxOscillationSpeed':
-			obj_ = XSDataAngularSpeed()
-			obj_.build(child_)
-			self.setGoniostatMaxOscillationSpeed(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'goniostatMinOscillationWidth':
-			obj_ = XSDataAngle()
-			obj_.build(child_)
-			self.setGoniostatMinOscillationWidth(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'kappaStrategyOption':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.kappaStrategyOption.append(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'maxExposureTimePerDataCollection':
-			obj_ = XSDataTime()
-			obj_.build(child_)
-			self.setMaxExposureTimePerDataCollection(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'minExposureTimePerImage':
-			obj_ = XSDataTime()
-			obj_.build(child_)
-			self.setMinExposureTimePerImage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'minTransmission':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setMinTransmission(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfPositions':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setNumberOfPositions(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'requiredCompleteness':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setRequiredCompleteness(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'requiredMultiplicity':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setRequiredMultiplicity(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'requiredResolution':
-			obj_ = XSDataDouble()
-			obj_.build(child_)
-			self.setRequiredResolution(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'strategyOption':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setStrategyOption(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataDiffractionPlan" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataDiffractionPlan' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataDiffractionPlan is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataDiffractionPlan.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataDiffractionPlan()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataDiffractionPlan" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataDiffractionPlan()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataDiffractionPlan
 
 class XSDataGoniostat(XSData):
 	"""The properties of a goniostat:
@@ -6323,6 +6324,84 @@ class XSDataInputControlXDSGenerateBackgroundImage(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputControlXDSGenerateBackgroundImage
 
+class XSDataInputInducedRadiationProcess(XSDataInput):
+	def __init__(self, configuration=None, characterisationResult=None):
+		XSDataInput.__init__(self, configuration)
+		checkType("XSDataInputInducedRadiationProcess", "Constructor of XSDataInputInducedRadiationProcess", characterisationResult, "XSDataResultCharacterisation")
+		self.__characterisationResult = characterisationResult
+	def getCharacterisationResult(self): return self.__characterisationResult
+	def setCharacterisationResult(self, characterisationResult):
+		checkType("XSDataInputInducedRadiationProcess", "setCharacterisationResult", characterisationResult, "XSDataResultCharacterisation")
+		self.__characterisationResult = characterisationResult
+	def delCharacterisationResult(self): self.__characterisationResult = None
+	# Properties
+	characterisationResult = property(getCharacterisationResult, setCharacterisationResult, delCharacterisationResult, "Property for characterisationResult")
+	def export(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self.__characterisationResult is not None:
+			self.characterisationResult.export(outfile, level, name_='characterisationResult')
+		else:
+			warnEmptyAttribute("characterisationResult", "XSDataResultCharacterisation")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'characterisationResult':
+			obj_ = XSDataResultCharacterisation()
+			obj_.build(child_)
+			self.setCharacterisationResult(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputInducedRadiationProcess' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputInducedRadiationProcess is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputInducedRadiationProcess.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputInducedRadiationProcess()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputInducedRadiationProcess()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputInducedRadiationProcess
+
 class XSDataInputReadImageHeader(XSDataInput):
 	"""These two definitions are used by the read image header plugin."""
 	def __init__(self, configuration=None, image=None):
@@ -6874,10 +6953,223 @@ class XSDataIntegrationResult(XSDataResult):
 	parseFile = staticmethod( parseFile )
 # end class XSDataIntegrationResult
 
-class XSDataResultControlISPyB(XSDataResult):
-	"""No attributes - the return value is XSDataStatus provided by XSDataResult"""
-	def __init__(self, status=None):
+class XSDataResultCharacterisation(XSDataResult):
+	def __init__(self, status=None, strategyResult=None, statusMessage=None, shortSummary=None, integrationResult=None, indexingResult=None, imageQualityIndicators=None, executiveSummary=None, dataCollection=None):
 		XSDataResult.__init__(self, status)
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", dataCollection, "XSDataCollection")
+		self.__dataCollection = dataCollection
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", executiveSummary, "XSDataString")
+		self.__executiveSummary = executiveSummary
+		if imageQualityIndicators is None:
+			self.__imageQualityIndicators = []
+		else:
+			checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", imageQualityIndicators, "list")
+			self.__imageQualityIndicators = imageQualityIndicators
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", indexingResult, "XSDataIndexingResult")
+		self.__indexingResult = indexingResult
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", integrationResult, "XSDataIntegrationResult")
+		self.__integrationResult = integrationResult
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", shortSummary, "XSDataString")
+		self.__shortSummary = shortSummary
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", statusMessage, "XSDataString")
+		self.__statusMessage = statusMessage
+		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", strategyResult, "XSDataResultStrategy")
+		self.__strategyResult = strategyResult
+	def getDataCollection(self): return self.__dataCollection
+	def setDataCollection(self, dataCollection):
+		checkType("XSDataResultCharacterisation", "setDataCollection", dataCollection, "XSDataCollection")
+		self.__dataCollection = dataCollection
+	def delDataCollection(self): self.__dataCollection = None
+	# Properties
+	dataCollection = property(getDataCollection, setDataCollection, delDataCollection, "Property for dataCollection")
+	def getExecutiveSummary(self): return self.__executiveSummary
+	def setExecutiveSummary(self, executiveSummary):
+		checkType("XSDataResultCharacterisation", "setExecutiveSummary", executiveSummary, "XSDataString")
+		self.__executiveSummary = executiveSummary
+	def delExecutiveSummary(self): self.__executiveSummary = None
+	# Properties
+	executiveSummary = property(getExecutiveSummary, setExecutiveSummary, delExecutiveSummary, "Property for executiveSummary")
+	def getImageQualityIndicators(self): return self.__imageQualityIndicators
+	def setImageQualityIndicators(self, imageQualityIndicators):
+		checkType("XSDataResultCharacterisation", "setImageQualityIndicators", imageQualityIndicators, "list")
+		self.__imageQualityIndicators = imageQualityIndicators
+	def delImageQualityIndicators(self): self.__imageQualityIndicators = None
+	# Properties
+	imageQualityIndicators = property(getImageQualityIndicators, setImageQualityIndicators, delImageQualityIndicators, "Property for imageQualityIndicators")
+	def addImageQualityIndicators(self, value):
+		checkType("XSDataResultCharacterisation", "setImageQualityIndicators", value, "XSDataImageQualityIndicators")
+		self.__imageQualityIndicators.append(value)
+	def insertImageQualityIndicators(self, index, value):
+		checkType("XSDataResultCharacterisation", "setImageQualityIndicators", value, "XSDataImageQualityIndicators")
+		self.__imageQualityIndicators[index] = value
+	def getIndexingResult(self): return self.__indexingResult
+	def setIndexingResult(self, indexingResult):
+		checkType("XSDataResultCharacterisation", "setIndexingResult", indexingResult, "XSDataIndexingResult")
+		self.__indexingResult = indexingResult
+	def delIndexingResult(self): self.__indexingResult = None
+	# Properties
+	indexingResult = property(getIndexingResult, setIndexingResult, delIndexingResult, "Property for indexingResult")
+	def getIntegrationResult(self): return self.__integrationResult
+	def setIntegrationResult(self, integrationResult):
+		checkType("XSDataResultCharacterisation", "setIntegrationResult", integrationResult, "XSDataIntegrationResult")
+		self.__integrationResult = integrationResult
+	def delIntegrationResult(self): self.__integrationResult = None
+	# Properties
+	integrationResult = property(getIntegrationResult, setIntegrationResult, delIntegrationResult, "Property for integrationResult")
+	def getShortSummary(self): return self.__shortSummary
+	def setShortSummary(self, shortSummary):
+		checkType("XSDataResultCharacterisation", "setShortSummary", shortSummary, "XSDataString")
+		self.__shortSummary = shortSummary
+	def delShortSummary(self): self.__shortSummary = None
+	# Properties
+	shortSummary = property(getShortSummary, setShortSummary, delShortSummary, "Property for shortSummary")
+	def getStatusMessage(self): return self.__statusMessage
+	def setStatusMessage(self, statusMessage):
+		checkType("XSDataResultCharacterisation", "setStatusMessage", statusMessage, "XSDataString")
+		self.__statusMessage = statusMessage
+	def delStatusMessage(self): self.__statusMessage = None
+	# Properties
+	statusMessage = property(getStatusMessage, setStatusMessage, delStatusMessage, "Property for statusMessage")
+	def getStrategyResult(self): return self.__strategyResult
+	def setStrategyResult(self, strategyResult):
+		checkType("XSDataResultCharacterisation", "setStrategyResult", strategyResult, "XSDataResultStrategy")
+		self.__strategyResult = strategyResult
+	def delStrategyResult(self): self.__strategyResult = None
+	# Properties
+	strategyResult = property(getStrategyResult, setStrategyResult, delStrategyResult, "Property for strategyResult")
+	def export(self, outfile, level, name_='XSDataResultCharacterisation'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultCharacterisation'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__dataCollection is not None:
+			self.dataCollection.export(outfile, level, name_='dataCollection')
+		else:
+			warnEmptyAttribute("dataCollection", "XSDataCollection")
+		if self.__executiveSummary is not None:
+			self.executiveSummary.export(outfile, level, name_='executiveSummary')
+		else:
+			warnEmptyAttribute("executiveSummary", "XSDataString")
+		for imageQualityIndicators_ in self.getImageQualityIndicators():
+			imageQualityIndicators_.export(outfile, level, name_='imageQualityIndicators')
+		if self.__indexingResult is not None:
+			self.indexingResult.export(outfile, level, name_='indexingResult')
+		if self.__integrationResult is not None:
+			self.integrationResult.export(outfile, level, name_='integrationResult')
+		if self.__shortSummary is not None:
+			self.shortSummary.export(outfile, level, name_='shortSummary')
+		else:
+			warnEmptyAttribute("shortSummary", "XSDataString")
+		if self.__statusMessage is not None:
+			self.statusMessage.export(outfile, level, name_='statusMessage')
+		else:
+			warnEmptyAttribute("statusMessage", "XSDataString")
+		if self.__strategyResult is not None:
+			self.strategyResult.export(outfile, level, name_='strategyResult')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataCollection':
+			obj_ = XSDataCollection()
+			obj_.build(child_)
+			self.setDataCollection(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'executiveSummary':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setExecutiveSummary(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'imageQualityIndicators':
+			obj_ = XSDataImageQualityIndicators()
+			obj_.build(child_)
+			self.imageQualityIndicators.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'indexingResult':
+			obj_ = XSDataIndexingResult()
+			obj_.build(child_)
+			self.setIndexingResult(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integrationResult':
+			obj_ = XSDataIntegrationResult()
+			obj_.build(child_)
+			self.setIntegrationResult(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'shortSummary':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setShortSummary(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'statusMessage':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setStatusMessage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'strategyResult':
+			obj_ = XSDataResultStrategy()
+			obj_.build(child_)
+			self.setStrategyResult(obj_)
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultCharacterisation" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultCharacterisation' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultCharacterisation is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultCharacterisation.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultCharacterisation()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultCharacterisation" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultCharacterisation()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultCharacterisation
+
+class XSDataResultControlISPyB(XSDataResult):
+	def __init__(self, status=None, screeningdId=None):
+		XSDataResult.__init__(self, status)
+		checkType("XSDataResultControlISPyB", "Constructor of XSDataResultControlISPyB", screeningdId, "XSDataInteger")
+		self.__screeningdId = screeningdId
+	def getScreeningdId(self): return self.__screeningdId
+	def setScreeningdId(self, screeningdId):
+		checkType("XSDataResultControlISPyB", "setScreeningdId", screeningdId, "XSDataInteger")
+		self.__screeningdId = screeningdId
+	def delScreeningdId(self): self.__screeningdId = None
+	# Properties
+	screeningdId = property(getScreeningdId, setScreeningdId, delScreeningdId, "Property for screeningdId")
 	def export(self, outfile, level, name_='XSDataResultControlISPyB'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -6886,12 +7178,18 @@ class XSDataResultControlISPyB(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultControlISPyB'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self.__screeningdId is not None:
+			self.screeningdId.export(outfile, level, name_='screeningdId')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
-		pass
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'screeningdId':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setScreeningdId(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -7409,289 +7707,6 @@ class XSDataResultStrategy(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultStrategy
-
-class XSDataResultCharacterisation(XSDataResult):
-	def __init__(self, status=None, strategyResult=None, statusMessage=None, shortSummary=None, integrationResult=None, indexingResult=None, imageQualityIndicators=None, executiveSummary=None, dataCollection=None):
-		XSDataResult.__init__(self, status)
-		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", dataCollection, "XSDataCollection")
-		self.__dataCollection = dataCollection
-		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", executiveSummary, "XSDataString")
-		self.__executiveSummary = executiveSummary
-		if imageQualityIndicators is None:
-			self.__imageQualityIndicators = []
-		else:
-			checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", imageQualityIndicators, "list")
-			self.__imageQualityIndicators = imageQualityIndicators
-		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", indexingResult, "XSDataIndexingResult")
-		self.__indexingResult = indexingResult
-		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", integrationResult, "XSDataIntegrationResult")
-		self.__integrationResult = integrationResult
-		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", shortSummary, "XSDataString")
-		self.__shortSummary = shortSummary
-		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", statusMessage, "XSDataString")
-		self.__statusMessage = statusMessage
-		checkType("XSDataResultCharacterisation", "Constructor of XSDataResultCharacterisation", strategyResult, "XSDataResultStrategy")
-		self.__strategyResult = strategyResult
-	def getDataCollection(self): return self.__dataCollection
-	def setDataCollection(self, dataCollection):
-		checkType("XSDataResultCharacterisation", "setDataCollection", dataCollection, "XSDataCollection")
-		self.__dataCollection = dataCollection
-	def delDataCollection(self): self.__dataCollection = None
-	# Properties
-	dataCollection = property(getDataCollection, setDataCollection, delDataCollection, "Property for dataCollection")
-	def getExecutiveSummary(self): return self.__executiveSummary
-	def setExecutiveSummary(self, executiveSummary):
-		checkType("XSDataResultCharacterisation", "setExecutiveSummary", executiveSummary, "XSDataString")
-		self.__executiveSummary = executiveSummary
-	def delExecutiveSummary(self): self.__executiveSummary = None
-	# Properties
-	executiveSummary = property(getExecutiveSummary, setExecutiveSummary, delExecutiveSummary, "Property for executiveSummary")
-	def getImageQualityIndicators(self): return self.__imageQualityIndicators
-	def setImageQualityIndicators(self, imageQualityIndicators):
-		checkType("XSDataResultCharacterisation", "setImageQualityIndicators", imageQualityIndicators, "list")
-		self.__imageQualityIndicators = imageQualityIndicators
-	def delImageQualityIndicators(self): self.__imageQualityIndicators = None
-	# Properties
-	imageQualityIndicators = property(getImageQualityIndicators, setImageQualityIndicators, delImageQualityIndicators, "Property for imageQualityIndicators")
-	def addImageQualityIndicators(self, value):
-		checkType("XSDataResultCharacterisation", "setImageQualityIndicators", value, "XSDataImageQualityIndicators")
-		self.__imageQualityIndicators.append(value)
-	def insertImageQualityIndicators(self, index, value):
-		checkType("XSDataResultCharacterisation", "setImageQualityIndicators", value, "XSDataImageQualityIndicators")
-		self.__imageQualityIndicators[index] = value
-	def getIndexingResult(self): return self.__indexingResult
-	def setIndexingResult(self, indexingResult):
-		checkType("XSDataResultCharacterisation", "setIndexingResult", indexingResult, "XSDataIndexingResult")
-		self.__indexingResult = indexingResult
-	def delIndexingResult(self): self.__indexingResult = None
-	# Properties
-	indexingResult = property(getIndexingResult, setIndexingResult, delIndexingResult, "Property for indexingResult")
-	def getIntegrationResult(self): return self.__integrationResult
-	def setIntegrationResult(self, integrationResult):
-		checkType("XSDataResultCharacterisation", "setIntegrationResult", integrationResult, "XSDataIntegrationResult")
-		self.__integrationResult = integrationResult
-	def delIntegrationResult(self): self.__integrationResult = None
-	# Properties
-	integrationResult = property(getIntegrationResult, setIntegrationResult, delIntegrationResult, "Property for integrationResult")
-	def getShortSummary(self): return self.__shortSummary
-	def setShortSummary(self, shortSummary):
-		checkType("XSDataResultCharacterisation", "setShortSummary", shortSummary, "XSDataString")
-		self.__shortSummary = shortSummary
-	def delShortSummary(self): self.__shortSummary = None
-	# Properties
-	shortSummary = property(getShortSummary, setShortSummary, delShortSummary, "Property for shortSummary")
-	def getStatusMessage(self): return self.__statusMessage
-	def setStatusMessage(self, statusMessage):
-		checkType("XSDataResultCharacterisation", "setStatusMessage", statusMessage, "XSDataString")
-		self.__statusMessage = statusMessage
-	def delStatusMessage(self): self.__statusMessage = None
-	# Properties
-	statusMessage = property(getStatusMessage, setStatusMessage, delStatusMessage, "Property for statusMessage")
-	def getStrategyResult(self): return self.__strategyResult
-	def setStrategyResult(self, strategyResult):
-		checkType("XSDataResultCharacterisation", "setStrategyResult", strategyResult, "XSDataResultStrategy")
-		self.__strategyResult = strategyResult
-	def delStrategyResult(self): self.__strategyResult = None
-	# Properties
-	strategyResult = property(getStrategyResult, setStrategyResult, delStrategyResult, "Property for strategyResult")
-	def export(self, outfile, level, name_='XSDataResultCharacterisation'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataResultCharacterisation'):
-		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__dataCollection is not None:
-			self.dataCollection.export(outfile, level, name_='dataCollection')
-		else:
-			warnEmptyAttribute("dataCollection", "XSDataCollection")
-		if self.__executiveSummary is not None:
-			self.executiveSummary.export(outfile, level, name_='executiveSummary')
-		else:
-			warnEmptyAttribute("executiveSummary", "XSDataString")
-		for imageQualityIndicators_ in self.getImageQualityIndicators():
-			imageQualityIndicators_.export(outfile, level, name_='imageQualityIndicators')
-		if self.__indexingResult is not None:
-			self.indexingResult.export(outfile, level, name_='indexingResult')
-		if self.__integrationResult is not None:
-			self.integrationResult.export(outfile, level, name_='integrationResult')
-		if self.__shortSummary is not None:
-			self.shortSummary.export(outfile, level, name_='shortSummary')
-		else:
-			warnEmptyAttribute("shortSummary", "XSDataString")
-		if self.__statusMessage is not None:
-			self.statusMessage.export(outfile, level, name_='statusMessage')
-		else:
-			warnEmptyAttribute("statusMessage", "XSDataString")
-		if self.__strategyResult is not None:
-			self.strategyResult.export(outfile, level, name_='strategyResult')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'dataCollection':
-			obj_ = XSDataCollection()
-			obj_.build(child_)
-			self.setDataCollection(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'executiveSummary':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setExecutiveSummary(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'imageQualityIndicators':
-			obj_ = XSDataImageQualityIndicators()
-			obj_.build(child_)
-			self.imageQualityIndicators.append(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'indexingResult':
-			obj_ = XSDataIndexingResult()
-			obj_.build(child_)
-			self.setIndexingResult(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'integrationResult':
-			obj_ = XSDataIntegrationResult()
-			obj_.build(child_)
-			self.setIntegrationResult(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'shortSummary':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setShortSummary(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'statusMessage':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setStatusMessage(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'strategyResult':
-			obj_ = XSDataResultStrategy()
-			obj_.build(child_)
-			self.setStrategyResult(obj_)
-		XSDataResult.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataResultCharacterisation" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataResultCharacterisation' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataResultCharacterisation is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataResultCharacterisation.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataResultCharacterisation()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataResultCharacterisation" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataResultCharacterisation()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataResultCharacterisation
-
-class XSDataInputInducedRadiationProcess(XSDataInput):
-	def __init__(self, configuration=None, characterisationResult=None):
-		XSDataInput.__init__(self, configuration)
-		checkType("XSDataInputInducedRadiationProcess", "Constructor of XSDataInputInducedRadiationProcess", characterisationResult, "XSDataResultCharacterisation")
-		self.__characterisationResult = characterisationResult
-	def getCharacterisationResult(self): return self.__characterisationResult
-	def setCharacterisationResult(self, characterisationResult):
-		checkType("XSDataInputInducedRadiationProcess", "setCharacterisationResult", characterisationResult, "XSDataResultCharacterisation")
-		self.__characterisationResult = characterisationResult
-	def delCharacterisationResult(self): self.__characterisationResult = None
-	# Properties
-	characterisationResult = property(getCharacterisationResult, setCharacterisationResult, delCharacterisationResult, "Property for characterisationResult")
-	def export(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataInputInducedRadiationProcess'):
-		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__characterisationResult is not None:
-			self.characterisationResult.export(outfile, level, name_='characterisationResult')
-		else:
-			warnEmptyAttribute("characterisationResult", "XSDataResultCharacterisation")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'characterisationResult':
-			obj_ = XSDataResultCharacterisation()
-			obj_.build(child_)
-			self.setCharacterisationResult(obj_)
-		XSDataInput.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataInputInducedRadiationProcess' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataInputInducedRadiationProcess is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataInputInducedRadiationProcess.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputInducedRadiationProcess()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataInputInducedRadiationProcess" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataInputInducedRadiationProcess()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataInputInducedRadiationProcess
 
 class XSDataResultSubWedgeAssemble(XSDataResult):
 	"""These two definitions are used by the sub wedge assemble plugin."""
