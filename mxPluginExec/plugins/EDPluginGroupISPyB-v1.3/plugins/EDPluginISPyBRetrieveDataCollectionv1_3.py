@@ -96,8 +96,8 @@ class EDPluginISPyBRetrieveDataCollectionv1_3(EDPluginExec):
 
         # DataCollectionProgram
         collect_params = clientToolsForCollectionWebService.service.findDataCollectionFromFileLocationAndFileName(
-                         indir,
-                         infilename)
+                         in0=indir,
+                         in1=infilename)
         if collect_params is None:
             self.ERROR("Couldn't find collect for file %s in ISPyB!" % inpath)
             self.setFailure()
