@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
-#    Project: PROJECT
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) European Synchrotron Radiation Facility, Grenoble, France
 #
@@ -24,7 +22,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 __authors__ = ["Olof Svensson"]
-__contact__ = "svensson@free.fr"
+__contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 

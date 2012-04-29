@@ -13,4 +13,4 @@ fi
 full_path="$(cd "${0%/*}" 2>/dev/null; echo "$PWD"/"${0##*/}")"
 export EDNA_HOME=`dirname "$full_path" | sed 's/\/mxv1\/.*\/bin$//'`
 
-$PYTHON $EDNA_HOME/mxPluginExec/plugins/EDPluginGroupISPyB-v1.3/bin/edna-autoproc2ispyb  ${1:+"$@"} 2>&1 > /dev/null & 
+$PYTHON $EDNA_HOME/mxPluginExec/plugins/EDPluginGroupISPyB-v1.4/bin/edna-autoproc2ispyb.py  ${1:+"$@"} 2>&1 > /dev/null & 
