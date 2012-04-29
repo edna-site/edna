@@ -1,0 +1,186 @@
+<?xml version="1.0" ?>
+<XSDataInputAutoProc>
+	<AutoProcContainer>
+		<AutoProc>
+			<spaceGroup> P 2 3 </spaceGroup>
+			<refinedCell_a>87.6</refinedCell_a>
+			<refinedCell_b>87.6</refinedCell_b>
+			<refinedCell_c>87.6</refinedCell_c>
+			<refinedCell_alpha>90.0</refinedCell_alpha>
+			<refinedCell_beta>90.0</refinedCell_beta>
+			<refinedCell_gamma>90.0</refinedCell_gamma>
+		</AutoProc>
+		<AutoProcScalingContainer>
+			<AutoProcScaling>
+				<recordTimeStamp>2011-04-20 11:36:46</recordTimeStamp>
+			</AutoProcScaling>
+	
+			<AutoProcScalingStatistics>
+				<scalingStatisticsType>overall</scalingStatisticsType>
+				<meanIOverSigI>9.73</meanIOverSigI>
+				<completeness>98.0</completeness>
+				<multiplicity>6.96</multiplicity>
+				<resolutionLimitLow>60.000</resolutionLimitLow>
+				<resolutionLimitHigh>3.29</resolutionLimitHigh>
+				<nTotalObservations>24973</nTotalObservations>
+				<rMerge>21.8</rMerge>
+				<anomalous>1</anomalous>
+			</AutoProcScalingStatistics>
+	
+			<AutoProcScalingStatistics>
+				<scalingStatisticsType>innerShell</scalingStatisticsType>
+				<meanIOverSigI>33.81</meanIOverSigI>
+				<completeness>98.2</completeness>
+				<multiplicity>6.01</multiplicity>
+				<resolutionLimitLow>60.000</resolutionLimitLow>
+				<resolutionLimitHigh>9.72</resolutionLimitHigh>
+				<nTotalObservations>992</nTotalObservations>
+				<rMerge>3.7</rMerge>
+				<anomalous>1</anomalous>
+			</AutoProcScalingStatistics>
+	
+			<AutoProcScalingStatistics>
+				<scalingStatisticsType>outerShell</scalingStatisticsType>
+				<meanIOverSigI>3.06</meanIOverSigI>
+				<completeness>99.6</completeness>
+				<multiplicity>7.20</multiplicity>
+				<resolutionLimitLow>3.49</resolutionLimitLow>
+				<resolutionLimitHigh>3.29</resolutionLimitHigh>
+				<nTotalObservations>4023</nTotalObservations>
+				<rMerge>67.7</rMerge>
+				<anomalous>1</anomalous>
+			</AutoProcScalingStatistics>
+	
+			<AutoProcIntegrationContainer>
+				<Image>
+					<dataCollectionId>19570</dataCollectionId>
+				</Image>
+	
+				<AutoProcIntegration>
+					<cell_a>87.6</cell_a>
+					<cell_b>87.6</cell_b>
+					<cell_c>87.6</cell_c>
+					<cell_alpha>90.0</cell_alpha>
+					<cell_beta>90.0</cell_beta>
+					<cell_gamma>90.0</cell_gamma>
+					<StartImageNumber>1</StartImageNumber>
+					<EndImageNumber>40</EndImageNumber>
+					<RefinedDetectorDistance>399.763550</RefinedDetectorDistance>
+					<RefinedXbeam>1542.950195</RefinedXbeam>
+					<RefinedYbeam>1504.663696</RefinedYbeam>
+					<anomalous>1</anomalous>
+				</AutoProcIntegration>
+			</AutoProcIntegrationContainer>
+		</AutoProcScalingContainer>
+		<AutoProcProgramContainer>
+	
+			<AutoProcProgram>
+				<processingCommandLine>fastproc</processingCommandLine>
+				<processingPrograms>fastproc</processingPrograms>
+				<processingStatus>1</processingStatus>
+				<processingMessage>Success</processingMessage>
+				<processingStartTime>Wed Apr 20 11:28:43 2011</processingStartTime>
+				<processingEndTime>Wed Apr 20 11:32:02 2011</processingEndTime>
+			</AutoProcProgram>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_anom_sc2mtz.mtz.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_anom_pointless_multirecord.mtz.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_anom_pointless.mtz.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_noanom_sc2mtz.mtz.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_noanom_pointless_multirecord.mtz.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_noanom_pointless.mtz.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_anom.sca.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_noanom.sca.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>unmerged_anom.sca.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>unmerged_noanom.sca.gz</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_anom_pointless.mtz_scala.log</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_noanom_pointless.mtz_scala.log</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_anom_XSCALE.LP</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+	
+			<AutoProcProgramAttachment>
+				<fileType>Result</fileType>
+				<fileName>merged_noanom_XSCALE.LP</fileName>
+				<filePath>/data/pyarch/id23eh2/mx1120/20110418/PROCESSED_DATA/Jordi/cc35/Pos10/xds_dut80D81N_Pos10_run1_1/test
+				</filePath>
+			</AutoProcProgramAttachment>
+		</AutoProcProgramContainer>
+	
+	</AutoProcContainer>
+</XSDataInputAutoProc>
