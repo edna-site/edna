@@ -262,7 +262,7 @@ complex type XSDataISPyBScreening extends XSData {
 
 complex type XSDataISPyBScreeningFile extends XSData {
 	screeningFileId : XSDataInteger optional
-	screeningId : XSDataInteger
+	screeningId : XSDataInteger optional
 	fileType : XSDataString optional
 	fileName : XSDataString
 	filePath : XSDataString
@@ -273,7 +273,7 @@ complex type XSDataISPyBScreeningFile extends XSData {
 complex type XSDataISPyBScreeningRank extends XSData {
 	screeningRankId : XSDataInteger optional
 	screeningRankSetId : XSDataInteger
-	screeningId : XSDataInteger
+	screeningId : XSDataInteger optional
 	rankValue : XSDataDouble
 	rankInformation : XSDataString
 }
@@ -309,18 +309,18 @@ complex type XSDataISPyBScreeningOutput extends XSData {
 complex type XSDataISPyBScreeningOutputLattice extends XSData {
 	screeningOutputLatticeId : XSDataInteger optional
 	screeningOutputId : XSDataInteger
-	spaceGroup : XSDataString
-	pointGroup : XSDataString
-	bravaisLattice : XSDataString
-	rawOrientationMatrix_a_x : XSDataDouble
-	rawOrientationMatrix_a_y : XSDataDouble
-	rawOrientationMatrix_a_z : XSDataDouble
-	rawOrientationMatrix_b_x : XSDataDouble
-	rawOrientationMatrix_b_y : XSDataDouble
-	rawOrientationMatrix_b_z : XSDataDouble
-	rawOrientationMatrix_c_x : XSDataDouble
-	rawOrientationMatrix_c_y : XSDataDouble
-	rawOrientationMatrix_c_z : XSDataDouble
+	spaceGroup : XSDataString optional
+	pointGroup : XSDataString optional
+	bravaisLattice : XSDataString optional
+	rawOrientationMatrix_a_x : XSDataDouble optional
+	rawOrientationMatrix_a_y : XSDataDouble optional
+	rawOrientationMatrix_a_z : XSDataDouble optional
+	rawOrientationMatrix_b_x : XSDataDouble optional
+	rawOrientationMatrix_b_y : XSDataDouble optional
+	rawOrientationMatrix_b_z : XSDataDouble optional
+	rawOrientationMatrix_c_x : XSDataDouble optional
+	rawOrientationMatrix_c_y : XSDataDouble optional
+	rawOrientationMatrix_c_z : XSDataDouble optional
 	unitCell_a : XSDataLength
 	unitCell_alpha : XSDataAngle
 	unitCell_b : XSDataLength
@@ -333,17 +333,17 @@ complex type XSDataISPyBScreeningOutputLattice extends XSData {
 complex type XSDataISPyBScreeningStrategy extends XSData {
 	screeningStrategyId : XSDataInteger optional
 	screeningOutputId : XSDataInteger
-	phiStart : XSDataDouble
-	phiEnd : XSDataDouble
-	rotation : XSDataDouble
-	exposureTime : XSDataDouble
-	resolution : XSDataDouble
-	completeness : XSDataDouble
-	multiplicity : XSDataDouble
-	anomalous : XSDataBoolean
-	program : XSDataString
-	rankingResolution : XSDataDouble
-	transmission : XSDataDouble
+	phiStart : XSDataDouble optional
+	phiEnd : XSDataDouble optional
+	rotation : XSDataDouble optional
+	exposureTime : XSDataDouble optional
+	resolution : XSDataDouble optional
+	completeness : XSDataDouble optional
+	multiplicity : XSDataDouble optional
+	anomalous : XSDataBoolean optional
+	program : XSDataString optional
+	rankingResolution : XSDataDouble optional
+	transmission : XSDataDouble optional
 }
 
 
@@ -354,10 +354,10 @@ complex type XSDataISPyBScreeningStrategyWedge extends XSData {
 	resolution : XSDataDouble
 	completeness : XSDataDouble
 	multiplicity : XSDataDouble
-	doseTotal : XSDataDouble
+	doseTotal : XSDataDouble optional
 	numberOfImages : XSDataInteger
-	phi : XSDataDouble
-	kappa : XSDataDouble
+	phi : XSDataDouble optional
+	kappa : XSDataDouble optional
 }
 
 
@@ -365,31 +365,31 @@ complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
 	screeningStrategySubWedgeId : XSDataInteger optional
 	screeningStrategyWedgeId : XSDataInteger
 	subWedgeNumber : XSDataInteger
-	rotationAxis : XSDataString
+	rotationAxis : XSDataString optional
 	axisStart : XSDataAngle
 	axisEnd : XSDataAngle
 	exposureTime : XSDataTime
-	transmission : XSDataDouble
+	transmission : XSDataDouble optional
 	oscillationRange : XSDataAngle
-	completeness : XSDataDouble
-	multiplicity : XSDataDouble
-	resolution : XSDataDouble
-	doseTotal : XSDataDouble
+	completeness : XSDataDouble optional
+	multiplicity : XSDataDouble optional
+	resolution : XSDataDouble optional
+	doseTotal : XSDataDouble optional
 	numberOfImages : XSDataInteger
 }
 
 
 complex type XSDataISPyBScreeningInput extends XSData {
 	screeningInputId : XSDataInteger optional
-	screeningId : XSDataInteger
-	diffractionPlanId : XSDataInteger
-	beamX : XSDataLength
-	beamY : XSDataLength
-	rmsErrorLimits : XSDataDouble
-	minimumFractionIndexed : XSDataDouble
-	maximumFractionRejected : XSDataDouble
-	minimumSignalToNoise : XSDataDouble
-	xmlSampleInformation : XSDataString
+	screeningId : XSDataInteger optional
+	diffractionPlanId : XSDataInteger optional
+	beamX : XSDataLength optional
+	beamY : XSDataLength optional
+	rmsErrorLimits : XSDataDouble optional
+	minimumFractionIndexed : XSDataDouble optional
+	maximumFractionRejected : XSDataDouble optional
+	minimumSignalToNoise : XSDataDouble optional
+	xmlSampleInformation : XSDataString optional
 }
 
 

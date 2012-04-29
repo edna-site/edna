@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2011      European Synchrotron Radiation Facility
+#    Copyright (C) 2011-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -181,7 +179,6 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             oReturnValue = _oDefaultValue
         else:
             oReturnValue = _xsData.value
-        print type(oReturnValue)
         if type(oReturnValue) == bool:
             if oReturnValue:
                 oReturnValue = "1"

@@ -44,7 +44,7 @@ class EDTestCasePluginExecuteISPyBStoreScreeningv1_4(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreScreeningv1_4")
 
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
-#        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
+        #self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_productionDataBase.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputISPyBStoreScreening_test.xml"))
 
 
