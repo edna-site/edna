@@ -14,11 +14,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>http://pyprocz.esrf.fr:8080/jbossws/services/ToolsForAutoprocessingWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>imageServiceWdsl</name>
-					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ImageService?wsdl</value>
+					<value>http://pyprocz.esrf.fr:8080/jbossws/services/ImageService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>autoProcProgramId</name>
@@ -39,7 +39,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>http://ispyb.esrf.fr:8080/jboss-net/services/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>http://pyprocz.esrf.fr:8080/jbossws/services/ToolsForAutoprocessingWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
