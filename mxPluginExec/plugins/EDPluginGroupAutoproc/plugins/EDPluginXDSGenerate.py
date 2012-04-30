@@ -28,6 +28,9 @@ __license__ = "GPLv3+"
 __copyright__ = "<copyright>"
 
 
+from shutil import copyfile
+import os.path
+
 from EDPluginControl import EDPluginControl
 from XSDataAutoProc import XSDataXdsGenerateInput
 from XSDataAutoProc import XSDataResCutoff
@@ -98,27 +101,61 @@ class EDPluginXDSGenerate(EDPluginControl):
 
         # now that this ugly stuff is dealt with, ensure that JOB=
         # CORRECT in XDS.INP
-        cfg_path = os.path.join(xds_dir, 'XDS.INP')
-        config = parse_xds_file(cfg_path)
-        if config['JOB='] != 'CORRECT':
-            config['JOB'] = 'CORRECT'
-            dump_xds_file(config, cfg_path)
+        self.cfg_path = os.path.join(xds_dir, 'XDS.INP')
 
 
     def process(self, _edObject = None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlAutoproc.process")
 
+        EDVerbose.DEBUG('first run w/ anom')
+        config = parse_xds_file(cfg_path)
+        config['JOB='] = 'CORRECT'
+        config['FRIEDEL\'S_LAW='] = True
+        config['INCLUDE_RESOLUTION_RANGE='] = [60, self.dataInput.resolution.value]
+
+        dump_xds_file(config, cfg_path)
+
         self.xds.executeSynchronous()
+        if self.xds.isFailure():
+            EDVerbose.ERROR('xds failed when generating w/ anom')
+            self.setFailure()
+            return
+
+        #Now backup the file
+        mydir = os.path.abspath(self.getWorkingDirectory())
+        xds_output = os.path.join(mydir, 'XDS_ASCII.HKL')
+        output_anom = os.path.join(mydir, 'XDS_ANOM.HKL')
+        copyfile(xds_output, output_anom)
+
+        # now the second run, generate w/out anom
+        EDVerbose.DEBUG('second run w/out anom')
+
+        #reuse the previous config
+        config['FRIEDEL\'S_LAW='] = False
+        dump_xds_file(config, cfg_path)
+
+        self.xds.executeSynchronous()
+
+        if self.xds.isFailure():
+            EDVerbose.ERROR('xds failed when generating w/out anom')
+            self.setFailure()
+            return
+
+        # everything went fine
+        data_output = XSDataXdsGenerateOutput()
+        data_output.hkl_with_anom = output_anom
+        data_output.hkl_without_anom = xds_output
+        self.dataOutput = data_output
 
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginControlAutoproc.postProcess")
 
-    def doSuccessExecTemplate(self,  _edPlugin = None):
-        self.DEBUG("EDPluginControlAutoproc.doSuccessExecTemplate")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAutoproc.doSuccessExecTemplate")
-
-    def doFailureExecTemplate(self,  _edPlugin = None):
-        self.DEBUG("EDPluginControlAutoproc.doFailureExecTemplate")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlAutoproc.doFailureExecTemplate")
+#    def doSuccessExecTemplate(self,  _edPlugin = None):
+#        self.DEBUG("EDPluginControlAutoproc.doSuccessExecTemplate")
+#        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAutoproc.doSuccessExecTemplate")
+#
+#    def doFailureExecTemplate(self,  _edPlugin = None):
+#        self.DEBUG("EDPluginControlAutoproc.doFailureExecTemplate")
+#        self.retrieveFailureMessages(_edPlugin, "EDPluginControlAutoproc.doFailureExecTemplate")

@@ -123,11 +123,13 @@ edna insists on running each plugin into its separate directory we
 will simply require where the previous run take place and link the
 useful files from there. Yes, this is not pretty */
 
-complex type XSDataXdsGenerateInput {
+complex type XSDataXdsGenerateInput extends XSDataInput {
 	previous_run_dir : XSDataString
+	resolution : XSDataFloat
 }
 
 // we are only interested in that one file
-complex type XSDataXdsGenerateOutput {
-	hkl_file : XSDataString
+complex type XSDataXdsGenerateOutput extends XSDataResult {
+	hkl_with_anom : XSDataString
+	hkl_without_anom : XSDataString
 }
