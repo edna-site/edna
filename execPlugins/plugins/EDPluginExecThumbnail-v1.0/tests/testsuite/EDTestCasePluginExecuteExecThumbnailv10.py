@@ -33,6 +33,7 @@ from EDTestCasePluginExecute    import EDTestCasePluginExecute
 from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from XSDataExecThumbnail        import XSDataInputExecThumbnail
 from XSDataExecThumbnail        import XSDataResultExecThumbnail
+from EDUtilsPath                import EDUtilsPath
 
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
 EDFactoryPluginStatic.loadModule("EDInstallPILv1_1_7")
@@ -57,7 +58,6 @@ class EDTestCasePluginExecuteExecThumbnailv10(EDTestCasePluginExecute):
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultThumbnail_reference.xml"))
         self.m_edObtainedOutputDataFile = self.getPluginName() + "_output.xml"
 
-
         self.m_iNoErrorMessages = 0
         self.m_iNoWarningMessages = 0
 
@@ -69,7 +69,6 @@ class EDTestCasePluginExecuteExecThumbnailv10(EDTestCasePluginExecute):
         """
         EDTestCasePluginExecute.preProcess(self)
 
-#        self.loadTestImage([ "diff6105.edf"])
         xsDataInput = XSDataInputExecThumbnail.parseString(self.readAndParseFile (self.getDataInputFile()))
         self.loadTestImage([ os.path.basename(xsDataInput.getInputImagePath().getPath().getValue())])
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
@@ -90,12 +89,6 @@ class EDTestCasePluginExecuteExecThumbnailv10(EDTestCasePluginExecute):
 
         plugin = self.getPlugin()
 
-#        EDVerbose.DEBUG("Checking error messages...")
-#        EDAssert.equal(self.m_iNoErrorMessages, self.getErrorMessages().getNumberObjects())
-#
-#        EDVerbose.DEBUG("Checking warning messages...")
-#        EDAssert.equal(self.m_iNoWarningMessages, self.getWarningMessages().getNumberObjects())
-
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         strObtainedOutput = self.readAndParseFile (self.m_edObtainedOutputDataFile)
         EDVerbose.DEBUG("Checking obtained result...")
@@ -109,17 +102,9 @@ class EDTestCasePluginExecuteExecThumbnailv10(EDTestCasePluginExecute):
         outputFileName = xsDataResultReference.getThumbnailPath().getPath().getValue()
         outputImage = Image.open(outputFileName)
 
-        referenceFileName = os.path.join(self.getPluginTestsDataHome(), os.path.basename(outputFileName))
+        self.loadTestImage([os.path.basename(outputFileName)])
+        referenceFileName = os.path.join(EDUtilsPath.EDNA_TESTIMAGES, os.path.basename(outputFileName))
         referenceImage = Image.open(referenceFileName)
-
-#        print (numpy.asarray(outputImage) - numpy.asarray(referenceImage))
-#        print (numpy.asarray(outputImage) - numpy.asarray(referenceImage)).max()
-#        print (numpy.asarray(outputImage) - numpy.asarray(referenceImage)).min()
-#        print numpy.asarray(outputImage).shape
-#        print numpy.asarray(referenceImage).shape
-
-#        from fabio.edfimage import edfimage
-#        edfimage(numpy.asarray(outputImage) - numpy.asarray(referenceImage)).write("/tmp/toto.edf", force_type=numpy.asarray(outputImage).dtype)
 
         EDAssert.arraySimilar(numpy.asarray(outputImage), numpy.asarray(referenceImage), _strComment="Images are the same", _fAbsMaxDelta=5)
 ##############################################################################
