@@ -316,7 +316,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/xds/vdefault/redhate4-i686/xds</value>
+					<value>/opt/pxsoft/bin/xds</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessWorkingDirectory</name>
