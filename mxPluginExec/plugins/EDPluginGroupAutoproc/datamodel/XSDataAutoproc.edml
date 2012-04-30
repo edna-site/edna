@@ -33,14 +33,14 @@ complex type XSDataRBinsOut extends XSDataResult {
 	bins : XSDataDouble[]
 }
 
-complex type XSDataMinimalXDSIn extends XSDataInput {
+complex type XSDataMinimalXdsIn extends XSDataInput {
 	input_file : XSDataString
 	job : XSDataString optional
 	maxproc : XSDataInteger optional
 	maxjobs : XSDataInteger optional
 }
 
-complex type XSDataMinimalXDSOut extends XSDataResult {
+complex type XSDataMinimalXdsOut extends XSDataResult {
 	succeeded : XSDataBoolean
 }
 

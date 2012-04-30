@@ -36,7 +36,7 @@ import fnmatch
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
 from XSDataCommon import XSDataBoolean
-from XSDataAutoproc import XSDataMinimalXDSIn, XSDataMinimalXDSOut
+from XSDataAutoproc import XSDataMinimalXdsIn, XSDataMinimalXdsOut
 from xdscfgparser import parse_xds_file, dump_xds_file
 
 
@@ -50,7 +50,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         """
         """
         EDPluginExecProcessScript.__init__(self )
-        self.setXSDataInputClass(XSDataMinimalXDSIn)
+        self.setXSDataInputClass(XSDataMinimalXdsIn)
 
 
     def checkParameters(self):
@@ -121,7 +121,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         EDPluginExecProcessScript.postProcess(self)
         self.DEBUG("EDPluginMinimalXds.postProcess")
         # Create some output data
-        xsDataResult = XSDataMinimalXDSOut()
+        xsDataResult = XSDataMinimalXdsOut()
 
 
         # XDS is considered to have succeeded iff CORRECT.LP has been created
