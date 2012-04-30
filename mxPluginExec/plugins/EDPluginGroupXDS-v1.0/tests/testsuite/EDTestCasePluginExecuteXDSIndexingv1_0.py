@@ -30,6 +30,8 @@ __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
 
+import os
+
 from EDVerbose                        import EDVerbose
 from EDAssert                         import EDAssert
 from EDUtilsPath                      import EDUtilsPath
@@ -46,9 +48,9 @@ class EDTestCasePluginExecuteXDSIndexingv1_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, _pyStrTestName)
 
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputXDSIndexing_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputXDSIndexing_reference.xml"))
 
-        #self.setReferenceDataOutputFile( EDUtilsPath.mergePath( self.getPluginTestsDataHome(), "XSDataResultXDSIndexing_reference.xml"))
+        #self.setReferenceDataOutputFile( os.path.join( self.getPluginTestsDataHome(), "XSDataResultXDSIndexing_reference.xml"))
         #self.m_oedObtainedOutputDataFile = self.getPluginName() + "_output.xml"
 
 

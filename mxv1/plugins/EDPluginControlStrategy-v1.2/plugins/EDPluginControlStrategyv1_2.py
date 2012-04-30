@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -39,6 +37,7 @@ from EDPluginControl                   import EDPluginControl
 from EDMessage                         import EDMessage
 from EDConfiguration                   import EDConfiguration
 from EDUtilsSymmetry                   import EDUtilsSymmetry
+from EDFactoryPluginStatic             import EDFactoryPluginStatic
 
 from XSDataCommon                      import XSDataString
 from XSDataCommon                      import XSDataDouble
@@ -54,6 +53,8 @@ from XSDataMXv1                        import XSDataStructure
 from XSDataMXv1                        import XSDataSolvent
 from XSDataMXv1                        import XSDataChemicalCompositionMM
 
+EDFactoryPluginStatic.loadModule("XSDataPlotGlev1_0")
+from XSDataPlotGlev1_0 import XSDataInputPlotGle
 
 class EDPluginControlStrategyv1_2(EDPluginControl):
     """
@@ -66,39 +67,42 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputStrategy)
 
-        self.__strPluginRaddoseName = "EDPluginRaddosev10"
-        self.__edPluginRaddose = None
-        self.__edHandlerXSDataRaddose = None
+        self._strPluginRaddoseName = "EDPluginRaddosev10"
+        self._edPluginRaddose = None
+        self._edHandlerXSDataRaddose = None
 
-        self.__strPluginBestName = "EDPluginBestv1_2"
-        self.__edPluginBest = None
-        self.__edHandlerXSDataBest = None
+        self._strPluginBestName = "EDPluginBestv1_2"
+        self._edPluginBest = None
+        self._edHandlerXSDataBest = None
 
-        self.__strCONF_SYMOP_HOME = "symopHome"
+        self._strPluginPlotGleName = "EDPluginExecPlotGlev1_0"
+        self._edPluginPlotGle = None
+
+        self._strCONF_SYMOP_HOME = "symopHome"
         # Default value for the location of the symop table
-        self.__strSymopHome = None
+        self._strSymopHome = None
 
-        self.__xsDataSampleCopy = None
+        self._xsDataSampleCopy = None
 
         # For default chemical composition
-        self.__fAverageAminoAcidVolume = 135.49
-        self.__fAverageCrystalSolventContent = 0.47
-        self.__fAverageSulfurContentPerAminoacid = 0.05
-        self.__fAverageSulfurConcentration = 314
+        self._fAverageAminoAcidVolume = 135.49
+        self._fAverageCrystalSolventContent = 0.47
+        self._fAverageSulfurContentPerAminoacid = 0.05
+        self._fAverageSulfurConcentration = 314
 
         # This varaible determines if Raddose should be executed or not
-        self.__bEstimateRadiationDamage = None
+        self._bEstimateRadiationDamage = None
         
         # Raddose log file
         self.xsDataFileRaddoseLog = None
 
 
     def setSymopHome(self, _strSymopHome):
-        self.__strSymopHome = _strSymopHome
+        self._strSymopHome = _strSymopHome
 
 
     def getSymopHome(self):
-        return self.__strSymopHome
+        return self._strSymopHome
 
 
     def preProcess(self, _edObject=None):
@@ -107,24 +111,27 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         """
         EDPluginControl.preProcess(self, _edObject)
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess...")
-        self.__edPluginRaddose = None
+        self._edPluginRaddose = None
 
         xsDataSampleCrystalMM = self.getDataInput().getSample()
 
         if(xsDataSampleCrystalMM is None):
-            self.__xsDataSampleCopy = XSDataSampleCrystalMM()
+            self._xsDataSampleCopy = XSDataSampleCrystalMM()
         else:
             strXmlStringDataSample = xsDataSampleCrystalMM.marshal()
-            self.__xsDataSampleCopy = XSDataSampleCrystalMM.parseString(strXmlStringDataSample)
+            self._xsDataSampleCopy = XSDataSampleCrystalMM.parseString(strXmlStringDataSample)
 
         xsDataCrystal = self.getDataInput().getCrystalRefined()
         if(xsDataCrystal is not None):
-            self.__xsDataSampleCopy.setCrystal(xsDataCrystal)
+            self._xsDataSampleCopy.setCrystal(xsDataCrystal)
 
         # Load the Best plugin
-        self.__edPluginBest = self.loadPlugin(self.__strPluginBestName)
-        self.__edPluginBest.setBaseDirectory(self.getWorkingDirectory())
-        self.__edPluginBest.setBaseName(self.__strPluginBestName)
+        self._edPluginBest = self.loadPlugin(self._strPluginBestName)
+        self._edPluginBest.setBaseDirectory(self.getWorkingDirectory())
+        self._edPluginBest.setBaseName(self._strPluginBestName)
+
+        # Load the plot gle plugin
+        self._edPluginPlotGle = self.loadPlugin(self._strPluginPlotGleName)
 
         # Check if radiation damage estimation is required or not in the diffraction plan
         xsDataDiffractionPlan = self.getDataInput().getDiffractionPlan()
@@ -132,28 +139,28 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
             if xsDataDiffractionPlan.getEstimateRadiationDamage():
                 if xsDataDiffractionPlan.getEstimateRadiationDamage().getValue():
                     # Yes, is requested
-                    self.__bEstimateRadiationDamage = True
+                    self._bEstimateRadiationDamage = True
                 else:
                     # No, is explicitly not requested
-                    self.__bEstimateRadiationDamage = False
+                    self._bEstimateRadiationDamage = False
             elif xsDataDiffractionPlan.getStrategyOption() is not None:
                 if xsDataDiffractionPlan.getStrategyOption().getValue().find("-DamPar") != -1:
                     # The "-DamPar" option requires estimation of radiation damage
-                    self.__bEstimateRadiationDamage = True
+                    self._bEstimateRadiationDamage = True
 
         # Check if we know what to do with radiation damage
-        if self.__bEstimateRadiationDamage is None:
+        if self._bEstimateRadiationDamage is None:
             # "Force" the estimation of radiation damage if the flux is present
             if self.getDataInput().getExperimentalCondition().getBeam().getFlux() is None:
                 strWarningMessage = "EDPluginControlStrategyv1_2: Missing flux input - cannot estimate radiation damage."
                 EDVerbose.WARNING(strWarningMessage)
                 self.addWarningMessage(strWarningMessage)
-                self.__bEstimateRadiationDamage = False
+                self._bEstimateRadiationDamage = False
             else:
-                self.__bEstimateRadiationDamage = True
+                self._bEstimateRadiationDamage = True
 
 
-        if self.__bEstimateRadiationDamage:
+        if self._bEstimateRadiationDamage:
             if self.getDataInput().getExperimentalCondition().getBeam().getFlux() is None:
                 strErrorMessage = "EDPluginControlStrategyv1_2: Missing flux input. Cannot estimate radiation damage"
                 EDVerbose.ERROR(strErrorMessage)
@@ -162,10 +169,10 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
 
         if not self.isFailure():
 
-            self.__edPluginRaddose = self.loadPlugin(self.__strPluginRaddoseName)
+            self._edPluginRaddose = self.loadPlugin(self._strPluginRaddoseName)
 
-            if (self.__edPluginRaddose is not None):
-                EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: " + self.__strPluginRaddoseName + " Found... setting Data Input")
+            if (self._edPluginRaddose is not None):
+                EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: " + self._strPluginRaddoseName + " Found... setting Data Input")
 
                 strFileSymop = os.path.join(self.getSymopHome(), "symop.lib")
 
@@ -184,10 +191,10 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                         raise RuntimeError, strErrorMessage
                 # Space Group has NOT been forced
                 else:
-                    xsDataStringSpaceGroup = self.__xsDataSampleCopy.getCrystal().getSpaceGroup().getName()
+                    xsDataStringSpaceGroup = self._xsDataSampleCopy.getCrystal().getSpaceGroup().getName()
                     if (xsDataStringSpaceGroup is not None):
                         # Prepare chemical composition calculation with the Space Group calculated by indexing (Space Group Name)
-                        strSpaceGroupName = self.__xsDataSampleCopy.getCrystal().getSpaceGroup().getName().getValue()
+                        strSpaceGroupName = self._xsDataSampleCopy.getCrystal().getSpaceGroup().getName().getValue()
                         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: Space Group IT Name found by indexing: " + strSpaceGroupName)
                         try:
                             strNumOperators = EDUtilsSymmetry.getNumberOfSymmetryOperatorsFromSpaceGroupName(strSpaceGroupName, strFileSymop)
@@ -198,7 +205,7 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                             raise RuntimeError, strErrorMessage
                     else:
                         # Prepare chemical composition calculation with the Space Group calculated by indexing (Space Group IT number)
-                        iSpaceGroupITNumber = self.__xsDataSampleCopy.getCrystal().getSpaceGroup().getITNumber().getValue()
+                        iSpaceGroupITNumber = self._xsDataSampleCopy.getCrystal().getSpaceGroup().getITNumber().getValue()
                         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: Space Group IT Number Found by indexing: %d" % iSpaceGroupITNumber)
                         try:
                             strNumOperators = EDUtilsSymmetry.getNumberOfSymmetryOperatorsFromSpaceGroupITNumber(str(iSpaceGroupITNumber), strFileSymop)
@@ -216,27 +223,27 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                     self.addErrorMessage(strErrorMessage)
                     raise RuntimeError, strErrorMessage
 
-                xsDataChemicalComposition = self.__xsDataSampleCopy.getChemicalComposition()
+                xsDataChemicalComposition = self._xsDataSampleCopy.getChemicalComposition()
 
                 if(xsDataChemicalComposition is None):
                     # create a default chemical composition and assign it to the sample
-                    xsDataDefaultChemicalComposition = self.getDefaultChemicalComposition(self.__xsDataSampleCopy, iNumOperators)
-                    self.__xsDataSampleCopy.setChemicalComposition(xsDataDefaultChemicalComposition)
+                    xsDataDefaultChemicalComposition = self.getDefaultChemicalComposition(self._xsDataSampleCopy, iNumOperators)
+                    self._xsDataSampleCopy.setChemicalComposition(xsDataDefaultChemicalComposition)
                 else:
                     # Check for Sulfur atoms, if none, add native sulfur atoms
                     xsDataUpdatedChemicalComposition = self.updateChemicalComposition(xsDataChemicalComposition)
-                    self.__xsDataSampleCopy.setChemicalComposition(xsDataUpdatedChemicalComposition)
+                    self._xsDataSampleCopy.setChemicalComposition(xsDataUpdatedChemicalComposition)
 
                 # create Data Input for Raddose
                 from EDHandlerXSDataRaddosev10 import EDHandlerXSDataRaddosev10
-                self.__edHandlerXSDataRaddose = EDHandlerXSDataRaddosev10()
+                self._edHandlerXSDataRaddose = EDHandlerXSDataRaddosev10()
                 xsDataBeam = self.getDataInput().getExperimentalCondition().getBeam()
 
-                xsDataRaddoseInput = self.__edHandlerXSDataRaddose.getXSDataRaddoseInput(xsDataBeam, self.__xsDataSampleCopy, iNumOperators)
+                xsDataRaddoseInput = self._edHandlerXSDataRaddose.getXSDataRaddoseInput(xsDataBeam, self._xsDataSampleCopy, iNumOperators)
                 if xsDataRaddoseInput is not None:
-                    self.__edPluginRaddose.setDataInput(xsDataRaddoseInput)
-                    self.__edPluginRaddose.setBaseDirectory(self.getWorkingDirectory())
-                    self.__edPluginRaddose.setBaseName(self.__strPluginRaddoseName)
+                    self._edPluginRaddose.setDataInput(xsDataRaddoseInput)
+                    self._edPluginRaddose.setBaseDirectory(self.getWorkingDirectory())
+                    self._edPluginRaddose.setBaseName(self._strPluginRaddoseName)
 
 
 
@@ -250,9 +257,9 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
             EDVerbose.warning(strWarningMessage)
             self.addWarningMessage(strWarningMessage)
         else:
-            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, self.__strCONF_SYMOP_HOME)
+            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, self._strCONF_SYMOP_HOME)
             if(strSymopHome == None):
-                strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlStrategyv1_2.configure', self.__strCONF_SYMOP_HOME, self.getPluginName())
+                strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlStrategyv1_2.configure', self._strCONF_SYMOP_HOME, self.getPluginName())
                 EDVerbose.warning(strWarningMessage)
                 self.addWarningMessage(strWarningMessage)
             else:
@@ -262,12 +269,12 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
     def process(self, _edObject=None):
         EDPluginControl.process(self, _edObject)
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.process...")
-        self.__edPluginBest.connectSUCCESS(self.doSuccessActionBest)
-        self.__edPluginBest.connectFAILURE(self.doFailureActionBest)
-        if self.__bEstimateRadiationDamage:
-            self.__edPluginRaddose.connectSUCCESS(self.doRaddoseToBestTransition)
-            self.__edPluginRaddose.connectFAILURE(self.doFailureActionRaddose)
-            self.__edPluginRaddose.executeSynchronous()
+        self._edPluginBest.connectSUCCESS(self.doSuccessActionBest)
+        self._edPluginBest.connectFAILURE(self.doFailureActionBest)
+        if self._bEstimateRadiationDamage:
+            self._edPluginRaddose.connectSUCCESS(self.doRaddoseToBestTransition)
+            self._edPluginRaddose.connectFAILURE(self.doFailureActionRaddose)
+            self._edPluginRaddose.executeSynchronous()
         else:
             self.executeBest()
 
@@ -277,20 +284,33 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         EDPluginControl.postProcess(self, _edObject)
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.postProcess...")
 
-        xsDataResultBest = self.__edPluginBest.getDataOutput()
+        xsDataResultBest = self._edPluginBest.getDataOutput()
+        #
+        # Create the BEST graphs from the plot mtv file
+        #
+        xsDataInputPlotGle = XSDataInputPlotGle()
+        xsDataInputPlotGle.filePlotMtv = xsDataResultBest.pathToPlotMtvFile
+        self._edPluginPlotGle.dataInput = xsDataInputPlotGle
+        self._edPluginPlotGle.executeSynchronous()
         # TODO
         # Temporary! Otherwise fails Model from -bonly is different
         xsDataResultStrategy = None
         if(xsDataResultBest is not None and self.getDataInput().getDiffractionPlan().getStrategyOption() is not None):
             if (self.getDataInput().getDiffractionPlan().getStrategyOption().getValue() != "-Bonly"):
-                xsDataResultStrategy = self.__edHandlerXSDataBest.getXSDataResultStrategy(xsDataResultBest, self.getDataInput().getExperimentalCondition(), self.__xsDataSampleCopy)
+                xsDataResultStrategy = self._edHandlerXSDataBest.getXSDataResultStrategy(xsDataResultBest, self.getDataInput().getExperimentalCondition(), self._xsDataSampleCopy)
         else:
-            xsDataResultStrategy = self.__edHandlerXSDataBest.getXSDataResultStrategy(xsDataResultBest, self.getDataInput().getExperimentalCondition(), self.__xsDataSampleCopy)
+            xsDataResultStrategy = self._edHandlerXSDataBest.getXSDataResultStrategy(xsDataResultBest, self.getDataInput().getExperimentalCondition(), self._xsDataSampleCopy)
 
         if self.xsDataFileRaddoseLog is not None:
             xsDataResultStrategy.setRaddoseLogFile(self.xsDataFileRaddoseLog)
+        # Plots
+        if not self._edPluginPlotGle.isFailure():
+            listFileGraph = self._edPluginPlotGle.dataOutput.fileGraph
+            xsDataResultStrategy.bestGraphFile = listFileGraph
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
+        
+
 
     def finallyProcess(self, _edObject=None):
         EDPluginControl.finallyProcess(self, _edObject)
@@ -303,25 +323,25 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.doRaddoseToBestTransition")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlStrategyv1_2.doRaddoseToBestTransition")
 
-        xsDataRaddoseOutput = self.__edPluginRaddose.getDataOutput()
+        xsDataRaddoseOutput = self._edPluginRaddose.getDataOutput()
 
         # update the strategy data with the data coming from Raddose
-        self.__xsDataSampleCopy.setAbsorbedDoseRate(xsDataRaddoseOutput.getAbsorbedDoseRate())
+        self._xsDataSampleCopy.setAbsorbedDoseRate(xsDataRaddoseOutput.getAbsorbedDoseRate())
         if xsDataRaddoseOutput.getPathToLogFile() != None:
             self.xsDataFileRaddoseLog = xsDataRaddoseOutput.getPathToLogFile()
 
 
         # Call the Best Translator layer
         from EDHandlerXSDataBestv1_2    import EDHandlerXSDataBestv1_2
-        self.__edHandlerXSDataBest = EDHandlerXSDataBestv1_2()
+        self._edHandlerXSDataBest = EDHandlerXSDataBestv1_2()
 
         xsDataInputStrategyCopy = XSDataInputStrategy.parseString(self.getDataInput().marshal())
-        xsDataInputStrategyCopy.setSample(self.__xsDataSampleCopy)
+        xsDataInputStrategyCopy.setSample(self._xsDataSampleCopy)
 
-        xsDataInputBest = self.__edHandlerXSDataBest.getXSDataInputBest(xsDataInputStrategyCopy)
+        xsDataInputBest = self._edHandlerXSDataBest.getXSDataInputBest(xsDataInputStrategyCopy)
 
-        self.__edPluginBest.setDataInput(xsDataInputBest)
-        self.__edPluginBest.executeSynchronous()
+        self._edPluginBest.setDataInput(xsDataInputBest)
+        self._edPluginBest.executeSynchronous()
 
 
     def doFailureActionRaddose(self, _edPlugin=None):
@@ -331,7 +351,7 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         """
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.doFailureActionRaddose")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlStrategyv1_2.doFailureActionRaddose")
-        strWarningMessage = EDMessage.WARNING_CANNOT_USE_PLUGIN_03 % ('EDPluginControlStrategyv1_2.doFailureActionRaddose', self.__strPluginRaddoseName, "Raddose failure")
+        strWarningMessage = EDMessage.WARNING_CANNOT_USE_PLUGIN_03 % ('EDPluginControlStrategyv1_2.doFailureActionRaddose', self._strPluginRaddoseName, "Raddose failure")
         EDVerbose.warning(strWarningMessage)
         self.addWarningMessage(strWarningMessage)
         self.executeBest(self)
@@ -341,12 +361,12 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         # Call the Best Translator layer
 
         from EDHandlerXSDataBestv1_2    import EDHandlerXSDataBestv1_2
-        self.__edHandlerXSDataBest = EDHandlerXSDataBestv1_2()
+        self._edHandlerXSDataBest = EDHandlerXSDataBestv1_2()
         xsDataInputStrategyCopy = XSDataInputStrategy.parseString(self.getDataInput().marshal())
-        xsDataInputStrategyCopy.setSample(self.__xsDataSampleCopy)
-        xsDataInputBest = self.__edHandlerXSDataBest.getXSDataInputBest(xsDataInputStrategyCopy)
-        self.__edPluginBest.setDataInput(xsDataInputBest)
-        self.__edPluginBest.executeSynchronous()
+        xsDataInputStrategyCopy.setSample(self._xsDataSampleCopy)
+        xsDataInputBest = self._edHandlerXSDataBest.getXSDataInputBest(xsDataInputStrategyCopy)
+        self._edPluginBest.setDataInput(xsDataInputBest)
+        self._edPluginBest.executeSynchronous()
 
 
     def doSuccessActionBest(self, _edPlugin=None):
@@ -381,10 +401,10 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                                                  math.cos(beta) * math.cos(beta) - \
                                                  math.cos(gamma) * math.cos(gamma) + \
                                                  2 * math.cos(alpha) * math.cos(beta) * math.cos(gamma)))
-        fPolymerVolume = fUnitCellVolume * (1 - self.__fAverageCrystalSolventContent)
-        fNumberOfMonomersPerUnitCell = fPolymerVolume / self.__fAverageAminoAcidVolume
+        fPolymerVolume = fUnitCellVolume * (1 - self._fAverageCrystalSolventContent)
+        fNumberOfMonomersPerUnitCell = fPolymerVolume / self._fAverageAminoAcidVolume
         fNumberOfMonomersPerAsymmetricUnit = fNumberOfMonomersPerUnitCell / _inumOperators
-        iNumberOfSulfurAtom = int(round(fNumberOfMonomersPerAsymmetricUnit * self.__fAverageSulfurContentPerAminoacid))
+        iNumberOfSulfurAtom = int(round(fNumberOfMonomersPerAsymmetricUnit * self._fAverageSulfurContentPerAminoacid))
 
         xsDataAtom = XSDataAtom()
         xsDataAtom.setSymbol(XSDataString("S"))
@@ -404,7 +424,7 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
 
         xsDataAtomSolvent = XSDataAtom()
         xsDataAtomSolvent.setSymbol(XSDataString("S"))
-        xsDataAtomSolvent.setConcentration(XSDataDouble(self.__fAverageSulfurConcentration))
+        xsDataAtomSolvent.setConcentration(XSDataDouble(self._fAverageSulfurConcentration))
         xsDataAtomicCompositionSolvent = XSDataAtomicComposition()
         xsDataAtomicCompositionSolvent.addAtom(xsDataAtomSolvent)
         xsDataSolvent = XSDataSolvent()
@@ -453,11 +473,11 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
 
         xsDataResultStrategy = self.getDataOutput()
 
-        if (self.__edPluginRaddose is not None):
-            if (self.__edPluginRaddose.getDataOutput() is not None):
+        if (self._edPluginRaddose is not None):
+            if (self._edPluginRaddose.getDataOutput() is not None):
 
                 self.addExecutiveSummaryLine("")
-                self.appendExecutiveSummary(self.__edPluginRaddose, "Raddose : ")
+                self.appendExecutiveSummary(self._edPluginRaddose, "Raddose : ")
 
             if (xsDataResultStrategy is not None):
                 self.addExecutiveSummaryLine("")
@@ -509,9 +529,9 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                     self.addExecutiveSummaryLine("")
 
 
-        if (self.__edPluginBest is not None):
-            if (self.__edPluginBest.getDataOutput() is not None):
-                self.appendExecutiveSummary(self.__edPluginBest, "Best : ")
+        if (self._edPluginBest is not None):
+            if (self._edPluginBest.getDataOutput() is not None):
+                self.appendExecutiveSummary(self._edPluginBest, "Best : ")
                 self.addExecutiveSummaryLine("")
 
 
@@ -527,10 +547,10 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         if self.getDataInput():
             if self.getDataInput().getDiffractionPlan():
                 xsDataDiffractionPlan = self.getDataInput().getDiffractionPlan()
-        if self.__bEstimateRadiationDamage:
+        if self._bEstimateRadiationDamage:
             strStrategyShortSummary += "Strategy: Radiation damage estimated"
-            if self.__edPluginRaddose.getDataOutput().getTimeToReachHendersonLimit():
-                strStrategyShortSummary += ", time to reach Henderson limit: %.1f s\n" % self.__edPluginRaddose.getDataOutput().getTimeToReachHendersonLimit().getValue()
+            if self._edPluginRaddose.getDataOutput().getTimeToReachHendersonLimit():
+                strStrategyShortSummary += ", time to reach Henderson limit: %.1f s\n" % self._edPluginRaddose.getDataOutput().getTimeToReachHendersonLimit().getValue()
             else:
                 strStrategyShortSummary += "\n"
 

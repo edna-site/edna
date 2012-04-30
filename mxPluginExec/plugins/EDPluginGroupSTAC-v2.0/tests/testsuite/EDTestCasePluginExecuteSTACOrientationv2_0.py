@@ -43,8 +43,8 @@ class EDTestCasePluginExecuteSTACOrientationv2_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginSTACOrientationv2_0")
 
         edStringPluginTestDataHome = self.getPluginTestsDataHome()
-        self.m_edStringExecutionTestDataInputHome = EDUtilsPath.mergePath(edStringPluginTestDataHome, "executionTestInput")
-        self.m_edStringExecutionTestDataResultHome = EDUtilsPath.mergePath(edStringPluginTestDataHome, "executionTestResult")
+        self.m_edStringExecutionTestDataInputHome = os.path.join(edStringPluginTestDataHome, "executionTestInput")
+        self.m_edStringExecutionTestDataResultHome = os.path.join(edStringPluginTestDataHome, "executionTestResult")
 
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.m_edStringExecutionTestDataInputHome, "EDPluginSTACOrientationv2_0_dataInputKappaStrategyOption_reference.xml"), "KappaStrategyOption")

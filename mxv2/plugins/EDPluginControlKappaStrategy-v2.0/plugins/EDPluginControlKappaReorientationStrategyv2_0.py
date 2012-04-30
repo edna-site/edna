@@ -216,9 +216,6 @@ class EDPluginControlKappaReorientationStrategyv2_0(EDPluginControlKappaStrategy
         """
         Generates a summary of the execution of the plugin.
         """
-        if (self.edPluginSimpleStrategy is not None):
-            self.edPluginBest = self.edPluginSimpleStrategy._EDPluginControlStrategyv1_2__edPluginBest
-            self.edPluginRaddose = self.edPluginSimpleStrategy._EDPluginControlStrategyv1_2__edPluginRaddose
         EDPluginControlKappaStrategyv2_0.generateExecutiveSummary(self, _edPlugin)
         EDVerbose.DEBUG("EDPluginControlKappaReorientationStrategyv2_0.generateExecutiveSummary")
         if (self.edPluginOrientation is not None):

@@ -128,7 +128,7 @@ class EDTestCasePluginUnitRaddosev10(EDTestCasePluginUnit):
 
         xsDataRaddoseInput.setNumberOfImages(XSDataInteger(1))
 
-        xsDataRaddoseInput.outputFile(self.strObtainedInputFile)
+        xsDataRaddoseInput.exportToFile(self.strObtainedInputFile)
 
         strExpectedInput = self.readAndParseFile (self.strReferenceInputFile)
         strObtainedInput = self.readAndParseFile (self.strObtainedInputFile)
@@ -150,7 +150,7 @@ class EDTestCasePluginUnitRaddosev10(EDTestCasePluginUnit):
         edPluginRaddose.preProcess()
 
         xsDataInput = edPluginRaddose.getDataInput()
-        xsDataInput.outputFile("XSDataInputRaddosev10FromObject.xml")
+        xsDataInput.exportToFile("XSDataInputRaddosev10FromObject.xml")
         strExpectedInput = self.readAndParseFile(self.strReferenceInputFile)
         strObtainedInput = self.readAndParseFile("XSDataInputRaddosev10FromObject.xml")
 

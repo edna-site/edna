@@ -37,6 +37,7 @@ from EDConfiguration import EDConfiguration
 from EDUtilsPath import EDUtilsPath
 
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataDictionary
 from XSDataCommon import XSDataKeyValuePair
 
@@ -166,7 +167,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
             self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
             strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
-            xsDataResultCharacterisation.outputFile(strPathCharacterisationResult)
+            xsDataResultCharacterisation.exportToFile(strPathCharacterisationResult)
             self.xsDataResultMXCuBE.setListOfOutputFiles(XSDataString(strPathCharacterisationResult))
             # For the moment, create "DNA" style output directory
             strPathToDNAFileDirectory = self.createDNAFileDirectoryPath(xsDataResultCharacterisation)
@@ -189,7 +190,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                 strMessage += xsDataResultCharacterisation.getShortSummary().getValue()
             self.sendEmail(strSubject, strMessage)
             # Fix for bug EDNA-55 : If burning strategy EDNA2html shouldn't be run
-            bRunExecOutputHTML = True
+            bRunExecOutputHTML = False
             xsDataInputMXCuBE = self.getDataInput()
             xsDataDiffractionPlan = xsDataInputMXCuBE.getDiffractionPlan()
             if xsDataDiffractionPlan.getStrategyOption() is not None:
@@ -197,23 +198,8 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                 if strStrategyOption.find("-DamPar") != -1:
                     bRunExecOutputHTML = False
             if (self.edPluginExecOutputHTML is not None) and bRunExecOutputHTML:
-                self.edPluginExecOutputHTML.executeSynchronous()
-                if not self.edPluginExecOutputHTML.isFailure() and self.edPluginExecOutputHTML.hasDataOutput("htmlFile"):
-                    strPathToHTMLFile = self.edPluginExecOutputHTML.getDataOutput("htmlFile")[0].getPath().getValue()
-                    strPathToHTMLDir = self.edPluginExecOutputHTML.getDataOutput("htmlDir")[0].getPath().getValue()
-                    strPathToDNAIndexDirectory = os.path.join(strPathToDNAFileDirectory, "index")
-                    if os.path.exists(strPathToHTMLFile):
-                        try:
-                            os.mkdir(strPathToDNAIndexDirectory)
-                            shutil.copy(strPathToHTMLFile, os.path.join(strPathToDNAIndexDirectory, "index.html"))
-                            shutil.copytree(strPathToHTMLDir, os.path.join(strPathToDNAIndexDirectory, os.path.basename(strPathToHTMLDir)))
-                            if strPyArchPathToDNAFileDirectory is not None:
-                                strPathToPyArchIndexDirectory = os.path.join(strPyArchPathToDNAFileDirectory, "index")
-                                os.mkdir(strPathToPyArchIndexDirectory)
-                                shutil.copy(strPathToHTMLFile, os.path.join(strPathToPyArchIndexDirectory, "index.html"))
-                                shutil.copytree(strPathToHTMLDir, os.path.join(strPathToPyArchIndexDirectory, os.path.basename(strPathToHTMLDir)))
-                        except Exception, e:
-                            self.DEBUG("Exception caught: %r" % e)
+                self.edPluginExecOutputHTML.setDataInput(XSDataFile(XSDataString(strPathToDNAFileDirectory)), "dnaFileDirectory")
+                self.edPluginExecOutputHTML.execute()
             # Fix for bug MXSUP-251: Put the BEST .par file in the EDNA characterisation root directory
             xsDataIntegrationResult = xsDataResultCharacterisation.getIntegrationResult()
             if xsDataIntegrationResult:

@@ -31,6 +31,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
 
 from EDVerbose                           import EDVerbose
 from EDUtilsPath                         import EDUtilsPath
@@ -48,15 +49,15 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         self.m_pyStrDataPath = self.getPluginTestsDataHome()
 
         self.m_edObtainedInputFile = "XSDataInputBest_test.xml"
-        self.m_edReferenceInputFile = EDUtilsPath.mergePath(self.m_pyStrDataPath, "XSDataInputBest_reference.xml")
-        self.m_edReferenceResultFile = EDUtilsPath.mergePath(self.m_pyStrDataPath, "XSDataResultBest_reference.xml")
+        self.m_edReferenceInputFile = os.path.join(self.m_pyStrDataPath, "XSDataInputBest_reference.xml")
+        self.m_edReferenceResultFile = os.path.join(self.m_pyStrDataPath, "XSDataResultBest_reference.xml")
 
-        self.m_edReferenceScriptLogFileName = EDUtilsPath.mergePath(self.m_pyStrDataPath, "EDPluginBestv1_2.log")
+        self.m_edReferenceScriptLogFileName = os.path.join(self.m_pyStrDataPath, "EDPluginBestv1_2.log")
 
 
     def testConfigureOK(self):
         edPluginBest = self.createPlugin()
-        pyStrConfigPath = EDUtilsPath.mergePath(self.m_pyStrDataPath, "XSConfiguration.xml")
+        pyStrConfigPath = os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml")
         xsPluginItemGood01 = self.getPluginConfiguration(pyStrConfigPath)
         edPluginBest.setConfiguration(xsPluginItemGood01)
         edPluginBest.setScriptExecutable("cat")
@@ -73,7 +74,7 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
 
     def testSetDataModelInput(self):
         edPluginBest = self.createPlugin()
-        xsPluginItemGood01 = self.getPluginConfiguration(EDUtilsPath.mergePath(self.m_pyStrDataPath, "XSConfiguration.xml"))
+        xsPluginItemGood01 = self.getPluginConfiguration(os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml"))
         edPluginBest.setConfiguration(xsPluginItemGood01)
         edPluginBest.setScriptExecutable("cat")
         edPluginBest.configure()
@@ -108,16 +109,16 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         xsDataInputBest.setAnomalousData(XSDataBoolean(False))
         fileDirectory = edPluginBest.getWorkingDirectory()
 
-        bestFileContentDat = EDUtilsFile.readFile(EDUtilsPath.mergePath(self.m_pyStrDataPath, "bestfile.dat"))
+        bestFileContentDat = EDUtilsFile.readFile(os.path.join(self.m_pyStrDataPath, "bestfile.dat"))
         xsDataInputBest.setBestFileContentDat(XSDataString(bestFileContentDat))
 
-        bestFileContentPar = EDUtilsFile.readFile(EDUtilsPath.mergePath(self.m_pyStrDataPath, "bestfile.par"))
+        bestFileContentPar = EDUtilsFile.readFile(os.path.join(self.m_pyStrDataPath, "bestfile.par"))
         xsDataInputBest.setBestFileContentPar(XSDataString(bestFileContentPar))
 
-        bestFileContentHKL = EDUtilsFile.readFile(EDUtilsPath.mergePath(self.m_pyStrDataPath, "bestfile1.hkl"))
+        bestFileContentHKL = EDUtilsFile.readFile(os.path.join(self.m_pyStrDataPath, "bestfile1.hkl"))
         xsDataInputBest.addBestFileContentHKL(XSDataString(bestFileContentHKL))
 
-        xsDataInputBest.outputFile(self.m_edObtainedInputFile)
+        xsDataInputBest.exportToFile(self.m_edObtainedInputFile)
 
         pyStrExpectedInput = self.readAndParseFile (self.m_edReferenceInputFile)
         pyStrObtainedInput = self.readAndParseFile (self.m_edObtainedInputFile)
