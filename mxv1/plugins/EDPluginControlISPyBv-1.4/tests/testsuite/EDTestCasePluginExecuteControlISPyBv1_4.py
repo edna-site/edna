@@ -35,11 +35,11 @@ from EDTestCasePluginExecute            import EDTestCasePluginExecute
 from XSDataMXv1                         import XSDataResultControlISPyB
 
 
-class EDTestCasePluginExecuteControlISPyBv1_3(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteControlISPyBv1_4(EDTestCasePluginExecute):
 
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlISPyBv1_3")
+        EDTestCasePluginExecute.__init__(self, "EDPluginControlISPyBv1_4")
 
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                       "XSDataInputControlISPyB_reference.xml"))
@@ -69,5 +69,5 @@ class EDTestCasePluginExecuteControlISPyBv1_3(EDTestCasePluginExecute):
 
 
 if __name__ == '__main__':
-    edTestCasePluginExecuteControlISPyBv1_3 = EDTestCasePluginExecuteControlISPyBv1_3("EDTestCasePluginExecuteControlISPyBv1_3")
-    edTestCasePluginExecuteControlISPyBv1_3.execute()
+    edTestCasePluginExecuteControlISPyBv1_4 = EDTestCasePluginExecuteControlISPyBv1_4("EDTestCasePluginExecuteControlISPyBv1_4")
+    edTestCasePluginExecuteControlISPyBv1_4.execute()

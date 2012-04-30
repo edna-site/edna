@@ -34,10 +34,10 @@ from EDTestCasePluginUnit   import EDTestCasePluginUnit
 from XSDataMXv1             import XSDataInputControlISPyB
 from XSDataMXv1             import XSDataResultCharacterisation
 
-class EDTestCasePluginUnitControlISPyBv1_3(EDTestCasePluginUnit):
+class EDTestCasePluginUnitControlISPyBv1_4(EDTestCasePluginUnit):
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlISPyBv1_3")
+        EDTestCasePluginUnit.__init__(self, "EDPluginControlISPyBv1_4")
 
 
     def testCheckParameters(self):
@@ -58,5 +58,5 @@ class EDTestCasePluginUnitControlISPyBv1_3(EDTestCasePluginUnit):
 
 if __name__ == '__main__':
 
-    edTestCasePluginUnitControlISPyBv1_3 = EDTestCasePluginUnitControlISPyBv1_3("EDTestCasePluginUnitControlISPyBv1_3")
-    edTestCasePluginUnitControlISPyBv1_3.execute()
+    edTestCasePluginUnitControlISPyBv1_4 = EDTestCasePluginUnitControlISPyBv1_4("EDTestCasePluginUnitControlISPyBv1_4")
+    edTestCasePluginUnitControlISPyBv1_4.execute()
