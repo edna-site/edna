@@ -54,11 +54,15 @@ then
 PythonProg=${EDNA_HOME}/tango/bin/tango-EdnaDS.py
 echo "Server Mode"
 cd $TestSpace
+HOSTNAME=$(hostname)
 if [ "$HOSTNAME" = "slavia" ]
 then
    ds="DAU_slavia"
-else
-   ds="DAU143"
 fi
+if [ "$HOSTNAME" = "sparta" ]
+then
+   ds="DAU_sparta"
+fi
+
 nohup $PYTHON $PythonProg $ds -v2 > ${HOME}/log/edna-tango-$(date +"%Y%m%dT%H%M%S").log 2>&1 &
 

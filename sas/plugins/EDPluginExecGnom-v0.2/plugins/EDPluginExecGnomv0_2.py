@@ -293,7 +293,7 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
         for i in range(5):
             try:
                 data = numpy.loadtxt(fileName, skiprows=i)
-            except:
+            except Exception:
                 pass
             else:
                 break

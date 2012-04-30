@@ -200,7 +200,7 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
         if not os.path.exists(self.str2dDir):
             try:
                 os.mkdir(self.str2dDir)
-            except:
+            except Exception:
                 self.showMessage(4, "Could not create directory '2d' in '%s'!" % self.strDirectory)
                 self.setFailure()
 
@@ -208,7 +208,7 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
         if not os.path.exists(self.strMiscDir):
             try:
                 os.mkdir(self.strMiscDir)
-            except:
+            except Exception:
                 self.showMessage(4, "Could not create directory 'misc' in '%s'!" % self.strDirectory)
                 self.setFailure()
 
@@ -294,7 +294,7 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
                 else:
                     try:
                         os.mkdir(directory1D_REP)
-                    except:
+                    except Exception:
                         self.showMessage(3, "Could not create reprocess directory '%s'!" % directory1D_REP)
                     break
 
@@ -306,7 +306,7 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
                 else:
                     try:
                         os.mkdir(directory2D_REP)
-                    except:
+                    except Exception:
                         self.showMessage(3, "Could not create reprocess directory '%s'!" % directory2D_REP)
                     break
 
@@ -318,7 +318,7 @@ class EDPluginBioSaxsReprocessv1_0(EDPluginControl):
                 else:
                     try:
                         os.mkdir(directoryMISC_REP)
-                    except:
+                    except Exception:
                         self.showMessage(3, "Could not create reprocess directory '%s'!" % directoryMISC_REP)
                     break
 

@@ -48,7 +48,6 @@ class EDTestCasePluginExecuteExecThumbnailv10_resize(EDTestCasePluginExecuteExec
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultThumbnail_reference_resize.xml"))
         self.m_edObtainedOutputDataFile = self.getPluginName() + "_output.xml"
 
-
         self.m_iNoErrorMessages = 0
         self.m_iNoWarningMessages = 0
 

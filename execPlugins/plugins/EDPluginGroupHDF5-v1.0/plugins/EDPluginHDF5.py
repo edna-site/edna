@@ -245,18 +245,18 @@ class EDPluginHDF5(EDPlugin):
                 if cls.HDF5_Multifiles:
                     try:
                         cls.__dictHDF5[filename] = h5py.File(filename, driver="family")
-                    except:
+                    except Exception:
                         EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 multi-file " + filename)
                         raise
                 else:
                     try:
                         cls.__dictHDF5[filename] = h5py.File(filename)
-                    except:
+                    except Exception:
                         EDVerbose.ERROR("Error in EDPluginHDF5.createStructure during opening HDF5 file %s" % filename)
                         EDVerbose.ERROR("I will now delete this file: %s and re-create it " % filename)
                         try:
                             os.remove(filename)
-                        except:
+                        except Exception:
                             EDVerbose.ERROR("Fatal error !!! no way to recreate this corruped file %s" % filename)
                             raise
                         cls.__dictHDF5[filename] = h5py.File(filename)
@@ -438,7 +438,7 @@ class EDPluginHDF5(EDPlugin):
             h5file = cls.__dictHDF5[filename]
             try:
                 dataset = h5file[h5path]
-            except:
+            except Exception:
                 EDVerbose.ERROR("HDF5 getDataChunk: %s, no such data structure in file %s" % (h5path, filename))
                 raise
             if indexes is not None:
