@@ -33,7 +33,7 @@ from XSDataMXv1         import XSDataInputControlISPyB
 from XSDataMXv1         import XSDataResultControlISPyB
 from XSDataCommon       import XSDataString
 
-from EDHandlerXSDataISPyBv1_3 import EDHandlerXSDataISPyBv1_3
+from EDHandlerXSDataISPyBv1_4 import EDHandlerXSDataISPyBv1_4
 
 class EDPluginControlISPyBv1_3(EDPluginControl):
     """
@@ -46,7 +46,7 @@ class EDPluginControlISPyBv1_3(EDPluginControl):
         self.setXSDataInputClass(XSDataString, "shortComments")
         self.setXSDataInputClass(XSDataString, "comments")
         self.setXSDataInputClass(XSDataString, "statusMessage")
-        self.edStringPluginExecISPyBName = "EDPluginISPyBStoreScreeningv1_3"
+        self.edStringPluginExecISPyBName = "EDPluginISPyBStoreScreeningv1_4"
         self.edPluginExecISPyB = None
         self.strShortComments = None
         self.strComments = None
@@ -78,7 +78,7 @@ class EDPluginControlISPyBv1_3(EDPluginControl):
 
         self.edPluginExecISPyB = self.loadPlugin(self.edStringPluginExecISPyBName)
         try:
-            xsDataInputISPyBStoreScreening = EDHandlerXSDataISPyBv1_3.generateXSDataInputISPyBStoreScreening(self.getDataInput(), 
+            xsDataInputISPyBStoreScreening = EDHandlerXSDataISPyBv1_4.generateXSDataInputISPyBStoreScreening(self.getDataInput(), 
                                                                                                              self.strStatusMessage, \
                                                                                                              self.strShortComments, \
                                                                                                              self.strComments)

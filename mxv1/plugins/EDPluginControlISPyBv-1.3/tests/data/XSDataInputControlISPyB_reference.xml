@@ -6,6 +6,24 @@
 	<characterisationResult>
 	    <dataCollection>
 	        <diffractionPlan>
+	            <aimedCompleteness>
+	                <value>9.900000e-01</value>
+	            </aimedCompleteness>
+	            <aimedIOverSigmaAtHighestResolution>
+	                <value>3.000000e+00</value>
+	            </aimedIOverSigmaAtHighestResolution>
+	            <aimedMultiplicity>
+	                <value>9.600000e+01</value>
+	            </aimedMultiplicity>
+	            <aimedResolution>
+	                <value>1.000000e+00</value>
+	            </aimedResolution>
+	            <complexity>
+	                <value>min</value>
+	            </complexity>
+	            <forcedSpaceGroup>
+	                <value>P222</value>
+	            </forcedSpaceGroup>
 	            <maxExposureTimePerDataCollection>
 	                <value>1.000000e+04</value>
 	            </maxExposureTimePerDataCollection>
