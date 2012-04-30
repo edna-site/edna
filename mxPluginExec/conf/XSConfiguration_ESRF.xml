@@ -18,7 +18,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -47,7 +47,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -93,7 +93,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -114,11 +114,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/bin/mosflm__v707_20101220</value>
+					<value>/opt/pxsoft/bin/mosflm__v708_20120312</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -139,11 +139,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/bin/mosflm__v707_20101220</value>
+					<value>/opt/pxsoft/bin/mosflm__v708_20120312</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -164,11 +164,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/bin/mosflm__v707_20101220</value>
+					<value>/opt/pxsoft/bin/mosflm__v708_20120312</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -193,7 +193,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -222,7 +222,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -248,7 +248,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -274,7 +274,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.1.2/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>

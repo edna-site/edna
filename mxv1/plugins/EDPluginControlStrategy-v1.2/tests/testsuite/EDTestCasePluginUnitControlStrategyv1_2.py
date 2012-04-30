@@ -200,7 +200,7 @@ class EDTestCasePluginUnitControlStrategyv1_2(EDTestCasePluginUnit):
 
         xsDataStrategy.setSample(xsDataSampleCrystalMM)
 
-        xsDataStrategy.outputFile(self.strObtainedInputFile)
+        xsDataStrategy.exportToFile(self.strObtainedInputFile)
 
         pyStrExpectedInput = self.readAndParseFile (self.strReferenceInputFile)
         pyStrObtainedInput = self.readAndParseFile (self.strObtainedInputFile)

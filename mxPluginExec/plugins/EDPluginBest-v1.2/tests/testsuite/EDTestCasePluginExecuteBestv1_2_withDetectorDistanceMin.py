@@ -31,6 +31,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
@@ -46,11 +47,11 @@ class EDTestCasePluginExecuteBestv1_2_withDetectorDistanceMin(EDTestCasePluginEx
         EDTestCasePluginExecuteBestv1_2.__init__(self, "EDPluginBestv1_2")
 
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputBest_withDetectorDistanceMin.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputBest_withDetectorDistanceMin.xml"))
         if (self.m_bRunOnIntel):
-            self.setReferenceDataOutputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataResultBest_withDetectorDistanceMinForIntel.xml"))
+            self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBest_withDetectorDistanceMinForIntel.xml"))
         else:
-            self.setReferenceDataOutputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataResultBest_withDetectorDistanceMin.xml"))
+            self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBest_withDetectorDistanceMin.xml"))
 
 
     def process(self):

@@ -57,7 +57,7 @@ class EDTestCasePluginUnitBestv1_1(EDTestCasePluginUnit):
 
     def testConfigureOK(self):
         edPluginBest = self.createPlugin()
-        strConfigPath = EDUtilsPath.mergePath(self.strDataPath, "XSConfiguration.xml")
+        strConfigPath = os.path.join(self.strDataPath, "XSConfiguration.xml")
         xsPluginItemGood01 = self.getPluginConfiguration(strConfigPath)
         edPluginBest.setConfiguration(xsPluginItemGood01)
         edPluginBest.setScriptExecutable("cat")
