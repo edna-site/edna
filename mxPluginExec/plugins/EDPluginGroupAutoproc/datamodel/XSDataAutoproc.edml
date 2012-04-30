@@ -82,7 +82,8 @@ complex type XSDataXdsOutput extends XSDataResult {
 	sg_number : XSDataInteger optional
 }
 
-complex type XSDataResCutoff extends XSDataXdsOutput {
+complex type XSDataResCutoff extends XSDataInput {
+	xds_res : XSDataXdsOutput
 	completeness_cutoff : XSDataFloat optional
 	res_override : XSDataFloat optional
 	isig_cutoff : XSDataFloat optional
