@@ -32,33 +32,38 @@ complex type XSDataGeometry extends XSData{
 }
 
 complex type XSDataGeometrySPD extends XSDataGeometry {
-	sampleDetectorDistance : XSDataLength optional
-	pointOfNormalIncidence1 : XSDataLength optional
-	pointOfNormalIncidence2 : XSDataLength optional
-	rotation1: XSDataAngle optional
-	rotation2: XSDataAngle optional
-	rotation3: XSDataAngle optional
+	sampleDetectorDistance : XSDataLength
+	pointOfNormalIncidence1 : XSDataLength
+	pointOfNormalIncidence2 : XSDataLength
+	rotation1: XSDataAngle
+	rotation2: XSDataAngle
+	rotation3: XSDataAngle
 }
 
 complex type XSDataGeometryFit2D extends XSDataGeometry {
-	angleOfTilt : XSDataAngle optional
-	tiltRotation : XSDataAngle optional
-	beamCentreInPixelsX : XSDataDouble optional
-	beamCentreInPixelsY : XSDataDouble 	optional
-	distance : XSDataLength	optional
+	angleOfTilt : XSDataAngle 
+	tiltRotation : XSDataAngle
+	beamCentreInPixelsX : XSDataDouble
+	beamCentreInPixelsY : XSDataDouble
+	distance : XSDataLength
 }
 
 
 complex type XSDataInputPyFAI extends XSDataInput {
-	darkCurrentImageFile: XSDataFile optional
-	flatFieldImageFile: XSDataFile optional
+	"saxsWaxs can be saxs or waxs"
+	nbPt: XSDataInteger
+	dark: XSDataImageExt optional
+	flat: XSDataImageExt optional
 	input: XSDataImageExt
 	output: XSDataImageExt optional
-	wavelength: XSDataWavelength 	optional
-	maskFile: XSDataFile optional
-	geometryFit2D: XSDataGeometryFit2D optional
-	geometrySPD: XSDataGeometrySPD optional
-	detector: XSDataDetector }
+	wavelength: XSDataWavelength optional
+	mask: XSDataImageExt optional
+	geometry: XSDataGeometry
+	detector: XSDataDetector 
+	saxsWaxs: XSDataString 
+	dummy:XSDataDouble optional
+	deltaDummy: XSDataDouble optional
+	}
 
 
 complex type XSDataResultPyFAI extends XSDataResult {

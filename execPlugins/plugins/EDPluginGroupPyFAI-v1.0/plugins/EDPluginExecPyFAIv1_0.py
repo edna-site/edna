@@ -23,21 +23,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
+from XSDataCommon import XSDataImageExt, XSDataString
+from EDUtilsArray import EDUtilsArray
+from EDUtilsUnit import EDUtilsUnit
 __author__ = "Jérôme Kieffer <jerome.kieffer@esrf.fr>"
 __license__ = "GPLv3+"
 __copyright__ = "2012 European Synchrotron Radiation Facility"
 
-from EDPluginExec import EDPluginExec
-from EDVerbose import EDVerbose
-from EDThreading import Semaphore
-from XSDataPyFAIv1_0 import XSDataInputPyFAI
-from XSDataPyFAIv1_0 import XSDataResultPyFAI
+from EDPluginExec       import EDPluginExec
+from EDVerbose          import EDVerbose
+from EDThreading        import Semaphore
+from XSDataPyFAIv1_0    import XSDataInputPyFAI, XSDataResultPyFAI, XSDataGeometryFit2D, XSDataGeometrySPD
+
 
 try:
     import pyFAI
 except ImportError:
     EDVerbose.ERROR("Failed to import PyFAI: download and install it from \
         https://forge.epn-campus.eu/projects/azimuthal/files")
+try:
+    import fabio
+except ImportError:
+    EDVerbose.ERROR("Failed to import Fabio: download and install it from sourceforge")
 
 
 class EDPluginExecPyFAIv1_0(EDPluginExec):
@@ -45,14 +52,21 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
     This is the basic plugin of PyFAI for azimuthal integration
     """
 
-    _dictGeo = {}
+    _dictGeo = {} #key:tuple(ai.param), value= ai
     _sem = Semaphore()
     def __init__(self):
         """
         """
         EDPluginExec.__init__(self)
         self.setXSDataInputClass(XSDataInputPyFAI)
-
+        self.shared = None
+        self.strOutputFile = None
+        self.ai = None #this is the azimuthal integrator to use
+        self.data = None
+        self.mask = None
+        self.nbPt = None
+        self.dummy = None
+        self.delta_dummy = None
 
     def checkParameters(self):
         """
@@ -60,22 +74,113 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
         """
         self.DEBUG("EDPluginExecPyFAIv1_0.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
-
+        self.checkMandatoryParameters(self.dataInput.geometry, "No Geometry given")
+        self.checkMandatoryParameters(self.dataInput.detector, "No Detector given")
+        self.checkMandatoryParameters(self.dataInput.input, "No input image given")
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
         self.DEBUG("EDPluginExecPyFAIv1_0.preProcess")
+        xsDetector = self.dataInput.detector
+        if xsDetector.name and (xsDetector.name.value in dir(pyFAI.detectors)):
+            detector = getattr(pyFAI.detectors, xsDetector.name.value)()
+        else:
+            pixel2 = EDUtilsUnit.getSIValue(xsDetector.pixelSizeX)
+            pixel1 = EDUtilsUnit.getSIValue(xsDetector.pixelSizeY)
+            if xsDetector.splineFile and os.path.isFile(xsDetector.splineFile.path.value):
+                dictGeo = {"pixel1":pixel1, "pixel2":pixel2, "splineFile":xsDetector.splineFile.path.value}
+            else:
+                dictGeo = {"pixel1":pixel1, "pixel2":pixel2, "splineFile":None}
+            detector = pyFAI.detectors()
+            detector.setPyFAI(**dictGeo)
+        xsGeometry = self.dataInput.geometry
+        ai = pyFAI.AzimuthalIntegrator()
+        if isinstance(xsGeometry, XSDataGeometryFit2D):
+            d = {"direct": xsGeometry.distance.value,
+               "centerX": xsGeometry.beamCentreInPixelsX.value ,
+               "centerY":xsGeometry.beamCentreInPixelsY.value  ,
+               "tilt": xsGeometry.angleOfTilt.value,
+               "tiltPlanRotation": xsGeometry.tiltRotation.value}
+            d.update(detector.getFit2d())
+            ai.setFit2d(**d)
+
+        elif isinstance(xsGeometry, XSDataGeometrySPD):
+            d = {"dist": EDUtilsUnit.getSIValue(xsGeometry.sampleDetectorDistance),
+               "poni1": EDUtilsUnit.getSIValue(xsGeometry.pointOfNormalIncidence1),
+               "poni2": EDUtilsUnit.getSIValue(xsGeometry.pointOfNormalIncidence2),
+               "rot1": EDUtilsUnit.getSIValue(xsGeometry.rotation1),
+               "rot2": EDUtilsUnit.getSIValue(xsGeometry.rotation2),
+               "rot3": EDUtilsUnit.getSIValue(xsGeometry.rotation3)}
+            d.update(detector.getPyFAI())
+            ai.setPyFAI(**d)
+        else:
+            strError = "Geometry definition is %s, not recognized as a valid geometry%s %s" % (xsGeometry, os.linesep, xsGeometry.marshal())
+            self.ERROR(strError)
+            raise RuntimeError(strError)
+
+        ########################################################################
+        # Choose the azimuthal integrator
+        ########################################################################
+
+        with self.__class__._sem:
+            if tuple(ai.param) in self.__class__._dictGeo:
+                self.ai = self.__class__._dictGeo[tuple(ai.param)]
+            else:
+                self.__class__._dictGeo[tuple(ai.param)] = ai
+                self.ai = ai
+
+        self.data = EDUtilsArray.getArray(self.dataInput.input).astype(float)
+        if self.dataInput.dark is not None:
+            self.data -= EDUtilsArray.getArray(self.dataInput.dark)
+        if self.dataInput.flat is not None:
+            self.data /= EDUtilsArray.getArray(self.dataInput.flat)
+        if self.dataInput.mask is not None:
+            self.mask = EDUtilsArray.getArray(self.dataInput.mask)
+        if self.dataInput.wavelength is not None:
+            self.mask = EDUtilsUnit.getSIValue(self.dataInput.wavelength)
+        if self.dataInput.output is not None:
+            self.strOutputFile = "??"
+        if self.dataInput.dummy is not None:
+            self.dummy = self.dataInput.dummy.value
+        if self.dataInput.delta_dummy is not None:
+            self.delta_dummy = self.dataInput.deltaDummy.value
+
+
 
 
     def process(self, _edObject=None):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginExecPyFAIv1_0.process")
+        data = EDUtilsArray.getArray(self.dataInput.input)
+        if self.dataInput.saxsWaxs.value.lower().startswith("s"):
+
+            out = self.ai.saxs(self.data,
+                               nbPt=self.nbPt,
+                               filename=self.strOutputFile,
+                               mask=self.mask,
+                               dummy=self.dummy,
+                               delta_dummy=self.delta_dummy)
+        else:
+            out = self.ai.xrpd(self.data,
+                               nbPt=self.nbPt,
+                               filename=self.strOutputFile,
+                               mask=self.mask,
+                               dummy=self.dummy,
+                               delta_dummy=self.delta_dummy)
 
 
     def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginExecPyFAIv1_0.postProcess")
         # Create some output data
-        xsDataResult = XSDataResultPyFAI()
+        if self.strOutputFile:
+            output = XSDataImageExt(path=XSDataString(self.strOutputFile))
+        elif self.shared:
+            output = XSDataImageExt(shared=XSDataString(self.shared))
+        else:
+            output = XSDataImageExt(array=EDUtilsArray.arrayToXSData(self.npaOut))
+        xsDataResult = XSDataResultPyFAI(output=output)
+
         self.setDataOutput(xsDataResult)
+
 
