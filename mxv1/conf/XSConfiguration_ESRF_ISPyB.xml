@@ -81,15 +81,15 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>characterisationPlugin</name>
-					<value>EDPluginControlCharacterisationv1_3</value>
+					<value>EDPluginControlCharacterisationv1_4</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>ispybPlugin</name>
-					<value>EDPluginControlISPyBv1_0</value>
+					<value>EDPluginControlISPyBv1_3</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>useISPyBPlugin</name>
-					<value>False</value>
+					<value>True</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
