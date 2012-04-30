@@ -82,7 +82,7 @@ complex type AutoProcScalingStatistics {
 	rpimWithinIplusIminus : float
 	rpimAllIplusIminus : float
 	fractionalPartialBias : float
-	nTotalObservations : float
+	nTotalObservations : integer
 	ntotalUniqueObservations : integer
 	meanIOverSigI : float
 	completeness : float
