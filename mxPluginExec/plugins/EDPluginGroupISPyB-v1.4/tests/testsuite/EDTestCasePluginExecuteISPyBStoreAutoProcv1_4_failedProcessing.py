@@ -43,7 +43,7 @@ class EDTestCasePluginExecuteISPyBStoreAutoProcv1_4_failedProcessing(EDTestCaseP
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreAutoProcv1_4")
 
-        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
+        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProc_testFailedProcessing.xml"))
 
 

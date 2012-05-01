@@ -42,7 +42,7 @@ class EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_4(EDTestCasePluginExe
         Sets config file + input and output reference files. 
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBRetrieveDataCollectionv1_4")
-
+        self.setRequiredPluginConfiguration()
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputRetrieveDataCollection_test.xml"))
