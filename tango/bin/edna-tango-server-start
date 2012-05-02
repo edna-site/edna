@@ -25,9 +25,19 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
+if [ -z $PYTHON ]; then
+    export PYTHON=$(which python)
+    echo "\$PYTHON = $PYTHON" 
+fi
+
+if [ -z $EDNA_SITE ]; then
+    export EDNA_SITE=astros
+    echo "\$EDNA_SITE = $EDNA_SITE" 
+fi
+
 # Check that we have one and only one argument: the name of the edna server
-if [ $# -ne 1 ]; then
-    echo "Usage: $(basename $0) name-of-edna-tango-server"
+if [ $# -gt 2 ]; then
+    echo "Usage: $(basename $0) name-of-edna-tango-server [--DEBUG]"
     exit 1
 fi
 
@@ -80,6 +90,13 @@ fi
 
 PythonProg=$(dirname $0)/tango-EdnaDS.py
 cd $TestSpace
-nohup $PYTHON $PythonProg ${1:+"$@"} > ${HOME}/log/edna-tango-$(date +"%Y%m%dT%H%M%S").log 2>&1 &
+logfile=${HOME}/log/edna-tango-$(date +"%Y%m%dT%H%M%S").log
+nohup $PYTHON -u $PythonProg ${1:+"$@"} > $logfile 2>&1 &
+sleep 1
+if [ $? -gt 0 ]; then
+  echo "Problem when starting EDNA Tango server!"
+  echo "Please inspect the log file:"
+  cat $logfile
+fi
 #$PYTHON $PythonProg ${1:+"$@"} 
 
