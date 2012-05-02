@@ -152,7 +152,7 @@ class EDPluginXDSGenerate(EDPluginControl):
         data_output = XSDataXdsGenerateOutput()
         data_output.hkl_anom = XSDataString(output_anom)
         data_output.hkl_no_anom = XSDataString(xds_output)
-        data_output.correct_lp = XSDataString(correct_lp)
+        data_output.correct_lp_no_anom = XSDataString(correct_lp)
         data_output.correct_lp_anom = XSDataString(correct_lp_anom)
         self.dataOutput = data_output
 
