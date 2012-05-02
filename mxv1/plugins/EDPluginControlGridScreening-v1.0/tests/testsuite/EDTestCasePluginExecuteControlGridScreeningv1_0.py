@@ -41,7 +41,7 @@ class EDTestCasePluginExecuteControlGridScreeningv1_0(EDTestCasePluginExecute):
         self.setRequiredPluginConfiguration("EDPluginMOSFLMIntegrationv10")
         self.setRequiredPluginConfiguration("EDPluginMOSFLMGeneratePredictionv10")
         self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
-        self.setRequiredPluginConfiguration("EDPluginBestv1_1")
+        self.setRequiredPluginConfiguration("EDPluginBestv1_2")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputGridScreening_reference.xml"))

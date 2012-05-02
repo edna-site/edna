@@ -101,6 +101,7 @@ package XSDataMXv1 {
 
 		complex type XSDataResultControlISPyB extends XSDataResult {
 			"No attributes - the return value is XSDataStatus provided by XSDataResult"
+			screeningId : XSDataInteger optional
 		}
 
 		complex type XSDataResultControlImageQualityIndicators extends XSDataResult {
@@ -149,13 +150,13 @@ package XSDataMXv1 {
 		complex type XSDataCrystal extends XSData {
 			"Crystallographic properties"
 			cell : XSDataCell
-			mosaicity : XSDataDouble
+			mosaicity : XSDataDouble optional
 			spaceGroup : XSDataSpaceGroup
 		}
 
 		complex type XSDataSpaceGroup extends XSData {
 			"Crystallographic properties"
-			ITNumber : XSDataInteger
+			ITNumber : XSDataInteger optional
 			name : XSDataString
 		}
 
@@ -188,7 +189,7 @@ package XSDataMXv1 {
 			byteOrder : XSDataString
 			dataType : XSDataString
 			distance : XSDataLength
-			gain : XSDataFloat
+			gain : XSDataFloat optional
 			imageSaturation : XSDataInteger
 			name : XSDataString
 			numberBytesInHeader : XSDataInteger
@@ -210,8 +211,8 @@ package XSDataMXv1 {
 
 		complex type XSDataGoniostat extends XSData {
 			"The properties of a goniostat:\r\n- the maximal rotation speed permitted\r\n- the minimal width for an oscillation width of subwedge\r\n- the name of the rotation axis (typically phi)\r\n- the rotation start angle\r\n- the rotation end angle"
-			maxOscillationSpeed : XSDataAngularSpeed
-			minOscillationWidth : XSDataAngle
+			maxOscillationSpeed : XSDataAngularSpeed optional
+			minOscillationWidth : XSDataAngle optional
 			oscillationWidth : XSDataAngle
 			overlap : XSDataAngle optional
 			rotationAxis : XSDataString
@@ -234,16 +235,16 @@ package XSDataMXv1 {
 	package MXv1DiffractionPlan {
 
 		complex type XSDataDiffractionPlan extends XSData {
-			"This object contains the main properties a user can parameterize for a crystal characterisation:\r\n\r\n- the aimed* parameters are the parameters that a user would like to reach for a BEST run.\r\n- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)\r\n- complexity: BEST complexity input, can be either \"none\" (always single wedge strategy). \"min\" (few subwedges) or \"full\" (many subwedges).\r\n- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.\r\n- forcedSpaceGroup: option to force the space group of the indexing solution\r\n- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage\r\n- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.\r\n- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.\r\n- detectorMinResolution and detectorMaxResolution: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.\n- minTransmission: optional input for BEST\r\n- kappaStrategyOption: optional input for kappa strategies\r\n- numberOfPositions: optional input for BEST"
+			"This object contains the main properties a user can parameterize for a crystal characterisation:\r\n\r\n- the aimed* parameters are the parameters that a user would like to reach for a BEST run.\r\n- the required* are not yet used (the idea is to warn the user if these parameters cannot be reached)\r\n- complexity: BEST complexity input, can be either \"none\" (always single wedge strategy). \"min\" (few subwedges) or \"full\" (many subwedges).\r\n- maxExposureTimePerDataCollection is the max total exposure time (shutter open, not including readout time) the crystal can be exposed to the X-ray beam.\r\n- forcedSpaceGroup: option to force the space group of the indexing solution\r\n- strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage\r\n- anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.\r\n- estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.\r\n- detectorDistanceMin and detectorDistanceMax: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.\n- minTransmission: optional input for BEST\r\n- kappaStrategyOption: optional input for kappa strategies\r\n- numberOfPositions: optional input for BEST"
 			aimedCompleteness : XSDataDouble optional
 			aimedIOverSigmaAtHighestResolution : XSDataDouble optional
 			aimedMultiplicity : XSDataDouble optional
 			aimedResolution : XSDataDouble optional
 			anomalousData : XSDataBoolean optional
 			complexity : XSDataString optional
-			detectorMaxResolution : XSDataDouble
+			detectorDistanceMax : XSDataLength
 			optional
-			detectorMinResolution : XSDataDouble optional
+			detectorDistanceMin : XSDataLength optional
 			estimateRadiationDamage : XSDataBoolean optional
 			forcedSpaceGroup : XSDataString optional
 			goniostatMaxOscillationSpeed : XSDataAngularSpeed optional
@@ -287,7 +288,7 @@ package XSDataMXv1 {
 
 		complex type XSDataIndexingSolutionSelected extends XSDataIndexingSolution {
 			experimentalConditionRefined : XSDataExperimentalCondition
-			mosaicityEstimation : XSDataFloat
+			mosaicityEstimation : XSDataFloat optional
 			orientation : XSDataOrientation
 			statistics : XSDataStatisticsIndexing
 		}
@@ -379,8 +380,8 @@ package XSDataMXv1 {
 
 		complex type XSDataAtom extends XSData {
 			"This object describes a single atom content (of type \'symbol\' i.e \'S\') that could be either expressed in concentration if dilute in a solvent (mM) or in number in a structure"
-			concentration : XSDataDouble
-			numberOf : XSDataDouble
+			concentration : XSDataDouble optional
+			numberOf : XSDataDouble optional
 			symbol : XSDataString
 		}
 
@@ -451,7 +452,7 @@ package XSDataMXv1 {
 			"The comment can be used for describing exotic data collections, for example without collecting any images."
 			collectionPlanNumber : XSDataInteger
 			collectionStrategy : XSDataCollection
-			comment : XSDataString
+			comment : XSDataString optional
 			statistics : XSDataStatisticsStrategy
 			strategySummary : XSDataStrategySummary
 		}
@@ -469,22 +470,25 @@ package XSDataMXv1 {
 
 		complex type XSDataResolutionBin extends XSData {
 			IOverSigma : XSDataDouble
-			IOverSigmaChi : XSDataDouble
+			IOverSigmaChi : XSDataDouble optional
 			averageIntensity : XSDataDouble
-			averageIntensityOverAverageSigma : XSDataDouble
+			averageIntensityOverAverageSigma : XSDataDouble optional
 			averageSigma : XSDataDouble
 			chi2 : XSDataDouble
+			optional
 			completeness : XSDataDouble
 			maxResolution : XSDataDouble
 			minResolution : XSDataDouble
 			percentageOverload : XSDataDouble
 			rFactor : XSDataDouble
-			rFriedel : XSDataDouble
+			rFriedel : XSDataDouble optional
 			redundancy : XSDataDouble
 		}
 
 		complex type XSDataResultStrategy extends XSDataResult {
 			"Several collection plans could be present in case of multi-sweep strategy"
+			bestGraphFile : XSDataFile []
+			optional
 			bestLogFile : XSDataFile optional
 			collectionPlan : XSDataCollectionPlan [] optional
 			raddoseLogFile : XSDataFile optional
@@ -506,13 +510,14 @@ package XSDataMXv1 {
 		}
 
 		complex type XSDataStrategyResult extends XSDataResult {
-			"These classes are deprecated and will be removed once the corresponding plugins that use them have been removed."
-			collectionPlan : XSDataCollectionPlan []
+			"Several collection plans could be present in case of multi-sweep strategy"
+			collectionPlan : XSDataCollectionPlan
+			[]
 		}
 
 		complex type XSDataStrategySummary extends XSData {
 			"OBS! The attribute \"attenuation\" in XSDataStrategySummary is deprecated, see bug #379. Please use instead \"transmission\" in XSDataBeam."
-			attenuation : XSDataDouble
+			attenuation : XSDataDouble optional
 			completeness : XSDataDouble
 			iSigma : XSDataDouble
 			rankingResolution : XSDataDouble

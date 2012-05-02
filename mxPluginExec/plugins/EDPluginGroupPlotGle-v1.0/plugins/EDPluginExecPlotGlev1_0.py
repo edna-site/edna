@@ -72,8 +72,14 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         # Check if we have a plotmtv input file
         xsDataInput = self.getDataInput()
         if xsDataInput.filePlotMtv is not None:
-            strPlotMtv = EDUtilsFile.readFile(xsDataInput.filePlotMtv.path.value)
-            xsDataPlotSet = self.readPlotMtv(strPlotMtv)
+            strPlotMtvPath = xsDataInput.filePlotMtv.path.value
+            if os.path.exists(strPlotMtvPath):
+                strPlotMtv = EDUtilsFile.readFile(strPlotMtvPath)
+                xsDataPlotSet = self.readPlotMtv(strPlotMtv)
+            else:
+                self.ERROR("Path to plt mtv file does not exist: %s" % strPlotMtvPath)
+                self.setFailure()
+                return
         else:
             xsDataPlotSet = xsDataInput.plotSet
         # Prepare input script
@@ -103,9 +109,9 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.process")
         for strPath in self.listPlot:
-            strCommand = "gle -r 150 -d jpg %s.gle" % strPath
+            strCommand = "gle -verbosity 0 -r 150 -d jpg %s.gle" % strPath
             # Copied from EDPluginExecProcess
-            EDVerbose.screen(self.getBaseName() + ": Processing")
+            self.DEBUG(self.getBaseName() + ": Processing")
             timer = threading.Timer(float(self.getTimeOut()), self.kill)
             timer.start()
             self.__subprocess = EDUtilsPlatform.Popen(shlex.split(str(EDUtilsPlatform.escape(strCommand))),
@@ -262,7 +268,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                     fYValue = float(strListLine[-1])
                     listData.append([fXValue, fYValue])
                 except:
-                    self.warning("Couldn't convert %s to data point" % strLine)
+                    self.DEBUG("Couldn't convert %s to data point" % strLine)
         # Last data
         if xsDataGraph is not None and listData != []:
             xsDataGraph.data =  EDUtilsArray.arrayToXSData(listData,_bForceNoNumpy=True)

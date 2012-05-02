@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<XSDataFile>
+    <path>
+    	<value>${EDNA_DNA_FILE_DIRECTORY}</value>
+    </path>
+</XSDataFile>

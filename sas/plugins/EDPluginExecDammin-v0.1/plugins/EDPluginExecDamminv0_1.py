@@ -75,7 +75,7 @@ class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getMode().getValue().upper() in ['FAST', 'SLOW']:
                 self.__strMode = self.getDataInput().getMode().getValue().upper()[0]
-        except:
+        except Exception:
             EDVerbose.WARNING("Running DAMMIN in FAST mode by default")
 
     def checkDamminSymmetryInput(self):
@@ -91,7 +91,7 @@ class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getSymmetry().getValue() in knownSymmetry:
                 self.__strSymmetry = self.getDataInput().getSymmetry().getValue()
-        except:
+        except Exception:
             EDVerbose.WARNING("Symmetry wasn't specified. Setting symmetry to P1")
 
     def checkDamminDAMInput(self):
@@ -100,14 +100,14 @@ class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
             if self.getDataInput().getInitialDummyAtomModel().getValue() in range(4):
                 self.__strDAM = DAMModel[self.getDataInput().getInitialDummyAtomModel().getValue()]
                 return
-        except:
+        except Exception:
             EDVerbose.WARNING("No standard dummy atom model selected. Looking for a PDB mode file")
         else:
             try:
                 tmpInputFileName = self.getDataInput().getPdbInputFile().getPath().getValue()
                 os.symlink(tmpInputFileName, os.path.join(self.getWorkingDirectory(), "input.pdb"))
                 self.__strDAM = 'input.pdb'
-            except:
+            except Exception:
                 EDVerbose.WARNING("Dummy atom model PDB file not specified. Using default model")
 
 
@@ -126,7 +126,7 @@ class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getExpectedParticleShape().getValue() in range(3):
                 self.__strParticleShape = particleShape[self.getDataInput().getExpectedParticleShape().getValue()]
-        except:
+        except Exception:
             EDVerbose.ERROR("Using Unknown particle shape")
 
     def preProcess(self, _edObject=None):

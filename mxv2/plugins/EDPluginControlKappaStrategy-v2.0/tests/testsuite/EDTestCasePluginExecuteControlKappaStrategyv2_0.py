@@ -36,7 +36,7 @@ class EDTestCasePluginExecuteControlKappaStrategyv2_0(EDTestCasePluginExecute):
     def __init__(self, _strTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlKappaStrategyv2_0")
 
-        self.setRequiredPluginConfiguration("EDPluginBestv1_1")
+        self.setRequiredPluginConfiguration("EDPluginBestv1_2")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
 
         self.setConfigurationFile(self.getRefConfigFile())

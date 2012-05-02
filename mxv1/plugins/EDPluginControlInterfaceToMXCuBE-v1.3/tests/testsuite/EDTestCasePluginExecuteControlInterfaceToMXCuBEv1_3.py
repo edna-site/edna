@@ -44,7 +44,6 @@ class EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3(EDTestCasePluginExecut
         self.setRequiredPluginConfiguration("EDPluginMOSFLMGeneratePredictionv10")
         self.setRequiredPluginConfiguration("EDPluginLabelitIndexingv1_1")
         self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
-        self.setRequiredPluginConfiguration("EDPluginBestv1_1")
         self.setRequiredPluginConfiguration("EDPluginBestv1_2")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
         self.setConfigurationFile(self.getRefConfigFile())

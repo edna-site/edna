@@ -173,7 +173,7 @@ class EDApplicationSASPipeline(EDApplication):
                 else:
                     _edPlugin.readGnomDataColumns(self.__strDatasetFileName, self.__iColumns, self.__fQMin, self.__fQMax)
                     
-            except:
+            except Exception:
                 errorMessage = EDMessage.ERROR_CANNOT_READ_FILE_02 % ("EDApplicationSASPipeline.setPluginInput", self.__strDatasetFileName)
                 EDVerbose.error(errorMessage)
                 raise RuntimeError, errorMessage

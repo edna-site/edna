@@ -41,7 +41,6 @@ class EDTestSuitePluginExecuteMXv1(EDTestSuite):
 
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginExecuteControlIndexingIndicatorsv10")
-        self.addTestSuiteFromName("EDTestSuitePluginExecuteControlImageQualityIndicatorsv1_0")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlImageQualityIndicatorsv1_1")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlIndexingv10")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlGeneratePredictionv10")
@@ -51,7 +50,6 @@ class EDTestSuitePluginExecuteMXv1(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlGridScreeningv1_0")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteReadImageHeaderv10")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlInterfacev1_2")
-        self.addTestSuiteFromName("EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteExecEvaluationIndexingv10")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteExecOutputHTMLv1_0")
 

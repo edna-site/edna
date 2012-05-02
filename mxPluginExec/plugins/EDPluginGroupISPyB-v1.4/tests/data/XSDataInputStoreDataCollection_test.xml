@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<XSDataInputStoreDataCollection>
+	<dataCollection>	
+		<dataCollectionId>0</dataCollectionId>
+		<blSampleId>6489</blSampleId>
+		<sessionId>4345</sessionId>
+		<experimentType>OSC</experimentType>
+		<dataCollectionNumber>123</dataCollectionNumber>
+		<startDate>2011-10-03T14:46:30</startDate>
+		<endDate>2011-10-03T14:46:30</endDate>
+		<runStatus>test 123</runStatus>
+		<rotationAxis>OMEGA</rotationAxis>
+		<phiStart>3.14</phiStart>
+		<kappaStart>3.14</kappaStart>
+		<omegaStart>3.14</omegaStart>
+		<axisStart>3.14</axisStart>
+		<axisEnd>3.14</axisEnd>
+		<axisRange>3.14</axisRange>
+		<overlap>3.14</overlap>
+		<numberOfImages>123</numberOfImages>
+		<startImageNumber>123</startImageNumber>
+		<numberOfPasses>123</numberOfPasses>
+		<exposureTime>3.14</exposureTime>
+		<imageDirectory>/tmp/test</imageDirectory>
+		<imagePrefix>test</imagePrefix>
+		<imageSuffix>.img</imageSuffix>
+		<fileTemplate>test123</fileTemplate>
+		<wavelength>3.14</wavelength>
+		<resolution>3.14</resolution>
+		<resolutionAtCorner>3.14</resolutionAtCorner>
+		<detectorDistance>3.14</detectorDistance>
+		<detector2theta>3.14</detector2theta>
+		<detectorMode>test 123</detectorMode>
+		<undulatorGap1>3.14</undulatorGap1>
+		<undulatorGap2>3.14</undulatorGap2>
+		<undulatorGap3>3.14</undulatorGap3>
+		<xbeam>3.14</xbeam>
+		<ybeam>3.14</ybeam>
+		<crystalClass>test 123</crystalClass>
+		<slitGapVertical>3.14</slitGapVertical>
+		<slitGapHorizontal>3.14</slitGapHorizontal>
+		<beamSizeAtSampleX>3.14</beamSizeAtSampleX>
+		<beamSizeAtSampleY>3.14</beamSizeAtSampleY>
+		<transmission>3.14</transmission>
+		<synchrotronMode>test mode</synchrotronMode>
+		<centeringMethod>test 123</centeringMethod>
+		<averageTemperature>3.14</averageTemperature>
+		<comments>test 123</comments>
+		<printableForReport>true</printableForReport>
+		<xtalSnapshotFullPath1>/tmp/test 123</xtalSnapshotFullPath1>
+		<xtalSnapshotFullPath2>/tmp/test 123</xtalSnapshotFullPath2>
+		<xtalSnapshotFullPath3>/tmp/test 123</xtalSnapshotFullPath3>
+		<xtalSnapshotFullPath4>/tmp/test 123</xtalSnapshotFullPath4>
+		<beamShape>test 123</beamShape>
+	</dataCollection>
+</XSDataInputStoreDataCollection>

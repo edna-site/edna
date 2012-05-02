@@ -58,14 +58,5 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginExecOutputHTMLv1_0</name>
-			<XSParamList>
-				<XSParamItem>
-					<name>EDNA2html</name>
-					<value>/opt/EDNA2html-0.0.9a</value>
-				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
 	</XSPluginList>
 </XSConfiguration> 

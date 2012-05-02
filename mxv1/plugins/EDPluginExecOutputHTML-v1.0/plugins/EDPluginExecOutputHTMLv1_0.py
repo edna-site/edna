@@ -32,8 +32,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os
-import subprocess
+import os, subprocess, shutil
 
 from EDVerbose import EDVerbose
 from EDPluginExec import EDPluginExec
@@ -75,20 +74,21 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
 
     def __init__(self):
         EDPluginExec.__init__(self)
-        self.__strWorkingDirectory = None
-        self.__strWorkingDir = None
-        self.__strEDNA2html = None
+        self.strWorkingDirectory = None
+        self.strWorkingDir = None
+        self.strEDNA2html = None
         self.strTitle = None
         self.strBasename = None
         self.strPath = None
         
-        if not os.environ.has_key("EDNA2html"):
-            self.setRequiredToHaveConfiguration(True)
+#        if not os.environ.has_key("EDNA2html"):
+#            self.setRequiredToHaveConfiguration(True)
         if os.environ.has_key("PATH"):
             self.strPath = os.environ["PATH"]
         self.setXSDataInputClass(XSDataString, "title")
         self.setXSDataInputClass(XSDataString, "basename")
         self.setXSDataInputClass(XSDataString, "workingDir")
+        self.setXSDataInputClass(XSDataFile, "dnaFileDirectory")
 
 
     def configure(self):
@@ -97,20 +97,23 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
         pluginConfiguration = self.getConfiguration()
 
         if pluginConfiguration != None:
-            self.__strEDNA2html = EDConfiguration.getStringParamValue(pluginConfiguration, \
+            self.strEDNA2html = EDConfiguration.getStringParamValue(pluginConfiguration, \
                                                                EDPluginExecOutputHTMLv1_0.CONF_EDNA2html)
         elif os.environ.has_key("EDNA2html"):
-            self.__strEDNA2html = os.environ["EDNA2html"]
+            self.strEDNA2html = os.environ["EDNA2html"]
+        else:
+            self.strEDNA2html = EDFactoryPluginStatic.getModuleLocation("EDNA2html")
+        pass
 
 
     def process(self, _edObject=None):
         EDPluginExec.process(self)
         EDVerbose.DEBUG("EDPluginExecOutputHTMLv1_0.process")
-        if self.__strEDNA2html is None:
+        if self.strEDNA2html is None:
             EDVerbose.ERROR("Cannot find EDNA2html directory!")
             self.setFailure()
         else:
-            strCommandArgs = os.path.join(self.__strEDNA2html, "EDNA2html")
+            strCommandArgs = os.path.join(self.strEDNA2html, "EDNA2html")
 
             if (self.hasDataInput("basename") and self.hasDataInput("workingDir")):
 
@@ -124,15 +127,15 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
                     strCommandArgs += " --basename="+os.path.join(self.strBasename, "edna") 
 
                 if self.hasDataInput("workingDir"):
-                    self.__strWorkingDir = self.getDataInput("workingDir")[0].getValue()
-                    strCommandArgs += " --run_basename=" + self.__strWorkingDir
+                    self.strWorkingDir = self.getDataInput("workingDir")[0].getValue()
+                    strCommandArgs += " --run_basename=" + self.strWorkingDir
                     
                 strCommandArgs += " --portable"
 
                 #
                 # Execute the script
                 #
-                subprocessEDNA2html = subprocess.Popen(strCommandArgs, shell=True, env={"EDNA2html": self.__strEDNA2html,\
+                subprocessEDNA2html = subprocess.Popen(strCommandArgs, shell=True, env={"EDNA2html": self.strEDNA2html,\
                                                                                         "PATH": self.strPath})
                 subprocessEDNA2html.wait()
                 
@@ -155,27 +158,27 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
                                 # Final check - is the directory name in the working dir
                                 if self.getWorkingDirectory().find(strDirectoryName) != -1:
                                     # Ok, we found it!
-                                    self.__strWorkingDir = os.path.join(strBaseDir, strDirectoryName)
+                                    self.strWorkingDir = os.path.join(strBaseDir, strDirectoryName)
                                     break
-                if self.__strWorkingDir is not None:
-                    strCommandArgs += " --run_basename=" + self.__strWorkingDir + " --portable"
+                if self.strWorkingDir is not None:
+                    strCommandArgs += " --run_basename=" + self.strWorkingDir + " --portable"
                     #
                     # Execute the script
                     #
-                    subprocessEDNA2html = subprocess.Popen(strCommandArgs, shell=True, env={"EDNA2html": self.__strEDNA2html})
+                    subprocessEDNA2html = subprocess.Popen(strCommandArgs, shell=True, env={"EDNA2html": self.strEDNA2html})
                     subprocessEDNA2html.wait()
 
 
     def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
         EDVerbose.DEBUG("EDPluginExecOutputHTMLv1_0.postProcess")
-        if self.__strWorkingDir != None:
+        if self.strWorkingDir != None:
             xsDataFileHTMLFile = XSDataFile()
             xsDataFileHTMLDir = XSDataFile()
             
             if self.strBasename is None:
-                strHTMLFilePath = os.path.join(self.__strWorkingDir, "edna.html")
-                strHTMLDirPath = os.path.join(self.__strWorkingDir, "edna_html")
+                strHTMLFilePath = os.path.join(self.strWorkingDir, "edna.html")
+                strHTMLDirPath = os.path.join(self.strWorkingDir, "edna_html")
             else:
                 strHTMLFilePath = os.path.join(self.strBasename, "edna.html")
                 strHTMLDirPath = os.path.join(self.strBasename, "edna_html")
@@ -194,4 +197,5 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
                 self.setDataOutput(xsDataFileHTMLDir, "htmlDir")
             else:
                 EDVerbose.ERROR("EDPluginExecOutputHTMLv1_0.postProcess: file doesn't exist: " + strHTMLFilePath)
+
 

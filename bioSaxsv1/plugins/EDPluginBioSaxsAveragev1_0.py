@@ -201,7 +201,7 @@ class EDPluginBioSaxsAveragev1_0(EDPluginControl):
                 maxdif = lenOneFile - lenSuffix - lenPrefix
             try:
                 val = int(oneFile[lenPrefix:-lenSuffix])
-            except:
+            except Exception:
                 val = None
                 pass
             if val is not None:

@@ -66,7 +66,7 @@ fftw3 = EDFactoryPluginStatic.preImport("fftw3", fftw3Path)
 
 try:
     import scipy.ndimage, scipy.interpolate
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")

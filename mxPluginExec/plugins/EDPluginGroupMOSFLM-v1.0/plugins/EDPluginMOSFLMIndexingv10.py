@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -67,7 +65,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
 
 
     def finallyProcess(self, _edObject=None):
-        EDPluginMOSFLMv10.postProcess(self)
+        EDPluginMOSFLMv10.finallyProcess(self)
         EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.finallyProcess")
         xsDataMOSFLMOutputIndexing = self.createDataMOSFLMOutputIndexing()
         self.setDataOutput(xsDataMOSFLMOutputIndexing)
