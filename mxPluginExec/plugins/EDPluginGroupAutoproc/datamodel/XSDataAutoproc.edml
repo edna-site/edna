@@ -97,7 +97,6 @@ complex type XSDataResCutoffResult extends XSDataResult {
 	total_isig : XSDataFloat
 }
 
-
 complex type XSDataXscaleInputFile {
 	path : XSDataString
 	res : XSDataFloat
@@ -130,6 +129,8 @@ complex type XSDataXdsGenerateInput extends XSDataInput {
 
 // we are only interested in that one file
 complex type XSDataXdsGenerateOutput extends XSDataResult {
-	hkl_with_anom : XSDataString
-	hkl_without_anom : XSDataString
+	hkl_anom : XSDataString
+	hkl_no_anom : XSDataString
+	correct_lp_anom : XSDataString
+	correct_lp_no_anom : XSDataString
 }

@@ -128,6 +128,12 @@ class EDPluginXDSGenerate(EDPluginControl):
         output_anom = os.path.join(mydir, 'XDS_ANOM.HKL')
         copyfile(xds_output, output_anom)
 
+        # since the original get_xds_stats uses the CORRECT.LP file we
+        # need to backup it as well
+        correct_lp = os.path.join(mydir, 'CORRECT.LP')
+        correct_lp_anom = os.path.join(mydir, 'CORRECT_ANOM.LP')
+        copyfile(correct_lp, correct_lp_anom)
+
         # now the second run, generate w/out anom
         EDVerbose.DEBUG('second run w/out anom')
 
@@ -144,8 +150,10 @@ class EDPluginXDSGenerate(EDPluginControl):
 
         # everything went fine
         data_output = XSDataXdsGenerateOutput()
-        data_output.hkl_with_anom = XSDataString(output_anom)
-        data_output.hkl_without_anom = XSDataString(xds_output)
+        data_output.hkl_anom = XSDataString(output_anom)
+        data_output.hkl_no_anom = XSDataString(xds_output)
+        data_output.correct_lp = XSDataString(correct_lp)
+        data_output.correct_lp_anom = XSDataString(correct_lp_anom)
         self.dataOutput = data_output
 
     def postProcess(self, _edObject = None):
