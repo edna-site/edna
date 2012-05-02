@@ -144,8 +144,8 @@ class EDPluginXDSGenerate(EDPluginControl):
 
         # everything went fine
         data_output = XSDataXdsGenerateOutput()
-        data_output.hkl_with_anom = output_anom
-        data_output.hkl_without_anom = xds_output
+        data_output.hkl_with_anom = XSDataString(output_anom)
+        data_output.hkl_without_anom = XSDataString(xds_output)
         self.dataOutput = data_output
 
     def postProcess(self, _edObject = None):
