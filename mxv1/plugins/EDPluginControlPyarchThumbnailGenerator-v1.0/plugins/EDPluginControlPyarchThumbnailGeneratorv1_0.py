@@ -32,6 +32,9 @@ import os, tempfile
 from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
+
+EDFactoryPluginStatic.loadModule("EDHandlerESRFPyarchv1_0")
+
 from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
 
 from XSDataCommon import XSDataFile
