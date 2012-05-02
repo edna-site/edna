@@ -19,14 +19,19 @@ import XSDataCommon.XSDataAngle
 
 complex type XSDataDetector extends XSData {
 	"Number 1 and 2 refer to Y and X axis" 
-	spatialDistortionFile : XSDataFile optional
+	name: XSDataString optional
+	spatialDistortionFile: XSDataFile optional
 	pixelSizeX: XSDataLength optional
 	pixelSizeY: XSDataLength optional
 	distortionFileX : XSDataImageExt optional
 	distortionFileY : XSDataImageExt optional
 }
 
-complex type XSDataGeometrySPD extends XSData {
+complex type XSDataGeometry extends XSData{
+	"place holder"
+}
+
+complex type XSDataGeometrySPD extends XSDataGeometry {
 	sampleDetectorDistance : XSDataLength optional
 	pointOfNormalIncidence1 : XSDataLength optional
 	pointOfNormalIncidence2 : XSDataLength optional
@@ -35,7 +40,7 @@ complex type XSDataGeometrySPD extends XSData {
 	rotation3: XSDataAngle optional
 }
 
-complex type XSDataGeometryFit2D extends XSData {
+complex type XSDataGeometryFit2D extends XSDataGeometry {
 	angleOfTilt : XSDataAngle optional
 	tiltRotation : XSDataAngle optional
 	beamCentreInPixelsX : XSDataDouble optional
@@ -45,13 +50,15 @@ complex type XSDataGeometryFit2D extends XSData {
 
 
 complex type XSDataInputPyFAI extends XSDataInput {
-	darkCurrentImageFile : XSDataFile optional
-	flatFieldImageFile : XSDataFile optional
-	input : XSDataImageExt
-	output : XSDataImageExt optional
-	wavelength : XSDataWavelength 	optional
-	maskFile : XSDataFile optional
-}
+	darkCurrentImageFile: XSDataFile optional
+	flatFieldImageFile: XSDataFile optional
+	input: XSDataImageExt
+	output: XSDataImageExt optional
+	wavelength: XSDataWavelength 	optional
+	maskFile: XSDataFile optional
+	geometryFit2D: XSDataGeometryFit2D optional
+	geometrySPD: XSDataGeometrySPD optional
+	detector: XSDataDetector }
 
 
 complex type XSDataResultPyFAI extends XSDataResult {
@@ -73,7 +80,6 @@ complex type XSDataInputRefineDiffractionGeometry extends XSDataInput {
 }
 
 complex type XSDataResultRefineDiffractionGeometry extends XSDataResult {
-	geometryFit2D: XSDataGeometryFit2D optional
-	geometrySPD: XSDataGeometrySPD optional
- 
+ 	geometryFit2D: XSDataGeometryFit2D optional
+	geometrySPD: XSDataGeometrySPD optional 
 }

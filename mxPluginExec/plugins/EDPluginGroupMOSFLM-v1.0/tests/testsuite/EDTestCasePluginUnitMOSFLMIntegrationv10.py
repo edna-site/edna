@@ -55,7 +55,7 @@ class EDTestCasePluginUnitMOSFLMIntegrationv10(EDTestCasePluginUnit):
         EDTestCasePluginUnit.__init__(self, "EDPluginMOSFLMIntegrationv10", "EDPluginGroupMOSFLM-v1.0", _strTestName)
 
         strPluginTestDataHome = self.getPluginTestsDataHome()
-        self.strUnitTestDataHome = EDUtilsPath.mergePath(strPluginTestDataHome, "unitTest")
+        self.strUnitTestDataHome = os.path.join(strPluginTestDataHome, "unitTest")
 
         self.strReferenceDataInputFile = os.path.join(self.strUnitTestDataHome, "XSDataMOSFLMInputIntegration_reference.xml")
         self.strReferenceDataOutputFile = os.path.join(self.strUnitTestDataHome, "XSDataMOSFLMOutputIntegration_reference.xml")

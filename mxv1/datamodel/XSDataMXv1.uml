@@ -13,7 +13,7 @@
 - strategyOption: extra option for BEST for more advanced strategies like estimating the sensitivity to radiation damage&#xD;
 - anomalousData: Depreccated! Boolean value for enabling anomalous strategy. In the future the strategyOption should be used instead of anomalousData.&#xD;
 - estimateRadiationDamage: Boolean value for enabling or disabling the use of Raddose for estimation of radiation damage. If estimateRadiationDamage is enabled also the flux and beamsize must be provided.&#xD;
-- detectorMinResolution and detectorMaxResolution: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.
+- detectorDistanceMin and detectorDistanceMax: optimal input to BEST for limiting the calculated strategy resolution to be in the range of the detector displacements with respect to the sample.
 - minTransmission: optional input for BEST&#xD;
 - kappaStrategyOption: optional input for kappa strategies&#xD;
 - numberOfPositions: optional input for BEST</body>
@@ -46,12 +46,12 @@
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WV0qsFk9EeC5jZa-WsrVzA"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_8D7XAuf4Ed-TcNOGyxZYYg" name="detectorMaxResolution">
-          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <ownedAttribute xmi:id="_8D7XAuf4Ed-TcNOGyxZYYg" name="detectorDistanceMax">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XTUNsFk9EeC5jZa-WsrVzA"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_BCEsAuf5Ed-TcNOGyxZYYg" name="detectorMinResolution">
-          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <ownedAttribute xmi:id="_BCEsAuf5Ed-TcNOGyxZYYg" name="detectorDistanceMin">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XySosFk9EeC5jZa-WsrVzA"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_EqFUguf5Ed-TcNOGyxZYYg" name="estimateRadiationDamage">
@@ -256,8 +256,9 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         <ownedAttribute xmi:id="_e-s20ugEEd-TcNOGyxZYYg" name="distance">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_guTzQugEEd-TcNOGyxZYYg" name="gain">
+        <ownedAttribute xmi:id="_guTzQugEEd-TcNOGyxZYYg" name="gain" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_JJ8AgOc0Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_h8TwsI4PEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_ip2S4ugEEd-TcNOGyxZYYg" name="imageSaturation">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
@@ -304,11 +305,13 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         <generalization xmi:id="_TbP6YOgHEd-TcNOGyxZYYg">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
         </generalization>
-        <ownedAttribute xmi:id="_b2pO0ugGEd-TcNOGyxZYYg" name="maxOscillationSpeed">
+        <ownedAttribute xmi:id="_b2pO0ugGEd-TcNOGyxZYYg" name="maxOscillationSpeed" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_G1m4UOcyEd-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_IweKoI4gEeGjvvGrlGkoIg"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_e2ayougGEd-TcNOGyxZYYg" name="minOscillationWidth">
+        <ownedAttribute xmi:id="_e2ayougGEd-TcNOGyxZYYg" name="minOscillationWidth" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YZdRsI4gEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_htjX0ugGEd-TcNOGyxZYYg" name="oscillationWidth">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
@@ -389,8 +392,9 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
       <packagedElement xmi:type="uml:Class" xmi:id="_60pYEOgGEd-TcNOGyxZYYg" name="XSDataIndexingSolutionSelected">
         <generalization xmi:id="_7BM-oOgMEd-TcNOGyxZYYg" general="_4WZM8OgGEd-TcNOGyxZYYg"/>
         <ownedAttribute xmi:id="_ukJBAugMEd-TcNOGyxZYYg" name="experimentalConditionRefined" type="_haUQkOf3Ed-TcNOGyxZYYg"/>
-        <ownedAttribute xmi:id="_yXxqsugMEd-TcNOGyxZYYg" name="mosaicityEstimation">
+        <ownedAttribute xmi:id="_yXxqsugMEd-TcNOGyxZYYg" name="mosaicityEstimation" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_JJ8AgOc0Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tghLAI4gEeGjvvGrlGkoIg"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_8YyEUOgGEd-TcNOGyxZYYg" name="XSDataOrientation">
@@ -670,6 +674,7 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         </generalization>
         <ownedAttribute xmi:id="__57pIugBEd-TcNOGyxZYYg" name="mosaicity">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_E3yuEI4OEeGjvvGrlGkoIg"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_g_qJUOgBEd-TcNOGyxZYYg" name="XSDataSpaceGroup">
@@ -678,6 +683,7 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         </generalization>
         <ownedAttribute xmi:id="_wMs7QugBEd-TcNOGyxZYYg" name="ITNumber">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GhnyoI4OEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_2HfesugBEd-TcNOGyxZYYg" name="name">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
@@ -807,11 +813,13 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <generalization xmi:id="_WZPVgOgHEd-TcNOGyxZYYg">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
         </generalization>
-        <ownedAttribute xmi:id="_pNitkuf9Ed-TcNOGyxZYYg" name="concentration">
+        <ownedAttribute xmi:id="_pNitkuf9Ed-TcNOGyxZYYg" name="concentration" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rjfGUI4PEeGjvvGrlGkoIg"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_r3t00uf9Ed-TcNOGyxZYYg" name="numberOf">
+        <ownedAttribute xmi:id="_r3t00uf9Ed-TcNOGyxZYYg" name="numberOf" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_omYUoI4SEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_uOEBIuf9Ed-TcNOGyxZYYg" name="symbol">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
@@ -1005,6 +1013,11 @@ This structure is also defined by its number in the asymmetric unit.</body>
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ERqjgOi0Ed-7o_3d0R29SQ"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_vqiC8I4JEeGjvvGrlGkoIg" name="bestGraphFile" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6zMZcI4JEeGjvvGrlGkoIg" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8BD6wI4JEeGjvvGrlGkoIg"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_FogjQOgHEd-TcNOGyxZYYg" name="XSDataCollectionPlan">
         <generalization xmi:id="_moqMYOi1Ed-7o_3d0R29SQ">
@@ -1014,16 +1027,18 @@ This structure is also defined by its number in the asymmetric unit.</body>
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_vJah8ui0Ed-7o_3d0R29SQ" name="collectionStrategy" type="_BF4f4Of3Ed-TcNOGyxZYYg"/>
-        <ownedAttribute xmi:id="_zEWtgui0Ed-7o_3d0R29SQ" name="comment">
+        <ownedAttribute xmi:id="_zEWtgui0Ed-7o_3d0R29SQ" name="comment" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_02HA4I4SEeGjvvGrlGkoIg"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_IOgVIOgHEd-TcNOGyxZYYg" name="XSDataStrategySummary">
         <generalization xmi:id="_rQJ78Oi1Ed-7o_3d0R29SQ">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
         </generalization>
-        <ownedAttribute xmi:id="_KIKnYui1Ed-7o_3d0R29SQ" name="attenuation">
+        <ownedAttribute xmi:id="_KIKnYui1Ed-7o_3d0R29SQ" name="attenuation" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-I3lsI4SEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_NJIeAui1Ed-7o_3d0R29SQ" name="completeness">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
@@ -1057,14 +1072,16 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_IsBDougfEd-TcNOGyxZYYg" name="averageIntensity">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_MmNBQugfEd-TcNOGyxZYYg" name="averageIntensityOverAverageSigma">
+        <ownedAttribute xmi:id="_MmNBQugfEd-TcNOGyxZYYg" name="averageIntensityOverAverageSigma" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SFH1kI4PEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_QJ5KcugfEd-TcNOGyxZYYg" name="averageSigma">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_S8HacugfEd-TcNOGyxZYYg" name="chi2">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_B7_O0I4PEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_UkRrEugfEd-TcNOGyxZYYg" name="completeness">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
@@ -1072,8 +1089,9 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_W1jxMugfEd-TcNOGyxZYYg" name="IOverSigma">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_ZjAO4ugfEd-TcNOGyxZYYg" name="IOverSigmaChi">
+        <ownedAttribute xmi:id="_ZjAO4ugfEd-TcNOGyxZYYg" name="IOverSigmaChi" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_T9j94I4PEeGjvvGrlGkoIg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_bygMUugfEd-TcNOGyxZYYg" name="maxResolution">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
@@ -1090,8 +1108,9 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_mPH8MugfEd-TcNOGyxZYYg" name="rFactor">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_oFu4gugfEd-TcNOGyxZYYg" name="rFriedel">
+        <ownedAttribute xmi:id="_oFu4gugfEd-TcNOGyxZYYg" name="rFriedel" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P5kkAI4PEeGjvvGrlGkoIg"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_2sgXkOjCEd-7o_3d0R29SQ" name="XSDataStrategyInput">
@@ -1230,6 +1249,10 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <generalization xmi:id="_N39JgOjOEd-7o_3d0R29SQ">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
         </generalization>
+        <ownedAttribute xmi:id="_oDaFoJDfEeGbUJNiBeO2yA" name="screeningId" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5EeZ8JDfEeGbUJNiBeO2yA"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_ufJpsOjEEd-7o_3d0R29SQ" name="XSDataInputControlISPyB">
         <generalization xmi:id="_vix60OjNEd-7o_3d0R29SQ">

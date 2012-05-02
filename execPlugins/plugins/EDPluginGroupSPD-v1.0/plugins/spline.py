@@ -51,7 +51,7 @@ try:
     import scipy.optimize
     import scipy.interpolate
     import scipy.interpolate.fitpack
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading Scipy,\n\
     Please re-run the test suite for EDTestSuiteSPD \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")

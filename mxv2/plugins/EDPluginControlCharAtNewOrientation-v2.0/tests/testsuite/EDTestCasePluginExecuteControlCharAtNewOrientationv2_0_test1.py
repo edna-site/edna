@@ -42,7 +42,7 @@ class EDTestCasePluginExecuteControlCharAtNewOrientationv2_0_test1(EDTestCasePlu
         self.setRequiredPluginConfiguration("EDPluginMOSFLMIndexingv10")
         self.setRequiredPluginConfiguration("EDPluginMOSFLMIntegrationv10")
         self.setRequiredPluginConfiguration("EDPluginMOSFLMGeneratePredictionv10")
-        self.setRequiredPluginConfiguration("EDPluginBestv1_1")
+        self.setRequiredPluginConfiguration("EDPluginBestv1_2")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
 
         self.setConfigurationFile(self.getRefConfigFile())

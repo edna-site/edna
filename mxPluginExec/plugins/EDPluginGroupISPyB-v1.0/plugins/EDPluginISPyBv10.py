@@ -44,7 +44,6 @@ from XSDataISPyBv10 import XSDataISPyBScreeningOutputLattice
 from XSDataISPyBv10 import XSDataISPyBScreeningRank
 from XSDataISPyBv10 import XSDataISPyBScreeningRankSet
 from XSDataISPyBv10 import XSDataISPyBScreeningStrategy
-from XSDataISPyBv10 import XSDataISPyBv10
 from XSDataISPyBv10 import XSDataInputISPyB
 from XSDataISPyBv10 import XSDataResultISPyB
 from XSDataISPyBv10 import XSDataResultStatus

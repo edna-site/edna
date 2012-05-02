@@ -44,7 +44,8 @@ class EDTestCasePluginExecuteExecOutputHTMLv1_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginExecOutputHTMLv1_0")
         # This plugin is somewhat peculiar - a tgz file as input:
         self.__strPathToTgzFile = os.path.join(self.getPluginTestsDataHome(), \
-                                               "EDApplicationMXv1Characterisation_20100604-121926.tgz")
+            "ControlInterfaceToMXCuBEv1_3.tgz")
+
 
     def testExecute(self):
         # Untar the tgz file in the plugin working directory
@@ -54,6 +55,16 @@ class EDTestCasePluginExecuteExecOutputHTMLv1_0(EDTestCasePluginExecute):
         tarfileCharacterisation = tarfile.open(self.__strPathToTgzFile)
         tarfileCharacterisation.extractall(path=strWorkingDirectory)
         self.run()
+        # Check for "failure report"
+        bFailureReport = False
+        strPathToEdnaHtml = os.path.join(os.path.dirname(edPlugin.getWorkingDirectory()), "edna.html")
+        pyFile = open(strPathToEdnaHtml)
+        strHtml = pyFile.read()
+        pyFile.close()
+        if strHtml.find("failure report") != -1:
+                bFailureReport = True
+        EDAssert.equal(False, bFailureReport, "HTML file contains failure report")
+        
 
 
     def process(self):

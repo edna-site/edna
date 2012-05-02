@@ -205,8 +205,8 @@ class EDPluginBestv1_1(EDPluginExecProcessScript):
         """
         EDPluginExecProcessScript.preProcess(self)
 
-        self.setFileBestDat(EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile.dat"))
-        self.setFileBestPar(EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile.par"))
+        self.setFileBestDat(os.path.join(self.getWorkingDirectory(), "bestfile.dat"))
+        self.setFileBestPar(os.path.join(self.getWorkingDirectory(), "bestfile.par"))
 
         EDUtilsFile.writeFile(self.getFileBestDat(), self.getDataInput().getBestFileContentDat().getValue())
         EDUtilsFile.writeFile(self.getFileBestPar(), self.getDataInput().getBestFileContentPar().getValue())
