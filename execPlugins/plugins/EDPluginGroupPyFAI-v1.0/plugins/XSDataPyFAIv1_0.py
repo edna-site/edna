@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Apr 30 04:36::10 2012 by EDGenerateDS.
+# Generated Wed May 2 04:51::09 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -133,12 +133,12 @@ class MixedContainer(object):
 
 class XSDataDetector(XSData):
 	"""Number 1 and 2 refer to Y and X axis"""
-	def __init__(self, distortionFileY=None, distortionFileX=None, pixelSizeY=None, pixelSizeX=None, spatialDistortionFile=None, name=None):
+	def __init__(self, distortionFileY=None, distortionFileX=None, pixelSizeY=None, pixelSizeX=None, splineFile=None, name=None):
 		XSData.__init__(self, )
 		checkType("XSDataDetector", "Constructor of XSDataDetector", name, "XSDataString")
 		self.__name = name
-		checkType("XSDataDetector", "Constructor of XSDataDetector", spatialDistortionFile, "XSDataFile")
-		self.__spatialDistortionFile = spatialDistortionFile
+		checkType("XSDataDetector", "Constructor of XSDataDetector", splineFile, "XSDataFile")
+		self.__splineFile = splineFile
 		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeX, "XSDataLength")
 		self.__pixelSizeX = pixelSizeX
 		checkType("XSDataDetector", "Constructor of XSDataDetector", pixelSizeY, "XSDataLength")
@@ -154,13 +154,13 @@ class XSDataDetector(XSData):
 	def delName(self): self.__name = None
 	# Properties
 	name = property(getName, setName, delName, "Property for name")
-	def getSpatialDistortionFile(self): return self.__spatialDistortionFile
-	def setSpatialDistortionFile(self, spatialDistortionFile):
-		checkType("XSDataDetector", "setSpatialDistortionFile", spatialDistortionFile, "XSDataFile")
-		self.__spatialDistortionFile = spatialDistortionFile
-	def delSpatialDistortionFile(self): self.__spatialDistortionFile = None
+	def getSplineFile(self): return self.__splineFile
+	def setSplineFile(self, splineFile):
+		checkType("XSDataDetector", "setSplineFile", splineFile, "XSDataFile")
+		self.__splineFile = splineFile
+	def delSplineFile(self): self.__splineFile = None
 	# Properties
-	spatialDistortionFile = property(getSpatialDistortionFile, setSpatialDistortionFile, delSpatialDistortionFile, "Property for spatialDistortionFile")
+	splineFile = property(getSplineFile, setSplineFile, delSplineFile, "Property for splineFile")
 	def getPixelSizeX(self): return self.__pixelSizeX
 	def setPixelSizeX(self, pixelSizeX):
 		checkType("XSDataDetector", "setPixelSizeX", pixelSizeX, "XSDataLength")
@@ -199,8 +199,8 @@ class XSDataDetector(XSData):
 		XSData.exportChildren(self, outfile, level, name_)
 		if self.__name is not None:
 			self.name.export(outfile, level, name_='name')
-		if self.__spatialDistortionFile is not None:
-			self.spatialDistortionFile.export(outfile, level, name_='spatialDistortionFile')
+		if self.__splineFile is not None:
+			self.splineFile.export(outfile, level, name_='splineFile')
 		if self.__pixelSizeX is not None:
 			self.pixelSizeX.export(outfile, level, name_='pixelSizeX')
 		if self.__pixelSizeY is not None:
@@ -220,10 +220,10 @@ class XSDataDetector(XSData):
 			obj_.build(child_)
 			self.setName(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'spatialDistortionFile':
+			nodeName_ == 'splineFile':
 			obj_ = XSDataFile()
 			obj_.build(child_)
-			self.setSpatialDistortionFile(obj_)
+			self.setSplineFile(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'pixelSizeX':
 			obj_ = XSDataLength()
@@ -290,8 +290,17 @@ class XSDataDetector(XSData):
 
 class XSDataGeometry(XSData):
 	"""place holder"""
-	def __init__(self, ):
+	def __init__(self, detector=None):
 		XSData.__init__(self, )
+		checkType("XSDataGeometry", "Constructor of XSDataGeometry", detector, "XSDataDetector")
+		self.__detector = detector
+	def getDetector(self): return self.__detector
+	def setDetector(self, detector):
+		checkType("XSDataGeometry", "setDetector", detector, "XSDataDetector")
+		self.__detector = detector
+	def delDetector(self): self.__detector = None
+	# Properties
+	detector = property(getDetector, setDetector, delDetector, "Property for detector")
 	def export(self, outfile, level, name_='XSDataGeometry'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -300,12 +309,20 @@ class XSDataGeometry(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataGeometry'):
 		XSData.exportChildren(self, outfile, level, name_)
+		if self.__detector is not None:
+			self.detector.export(outfile, level, name_='detector')
+		else:
+			warnEmptyAttribute("detector", "XSDataDetector")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
-		pass
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detector':
+			obj_ = XSDataDetector()
+			obj_.build(child_)
+			self.setDetector(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -466,8 +483,8 @@ class XSDataPeakPosition(XSData):
 # end class XSDataPeakPosition
 
 class XSDataGeometryFit2D(XSDataGeometry):
-	def __init__(self, distance=None, beamCentreInPixelsY=None, beamCentreInPixelsX=None, tiltRotation=None, angleOfTilt=None):
-		XSDataGeometry.__init__(self, )
+	def __init__(self, detector=None, distance=None, beamCentreInPixelsY=None, beamCentreInPixelsX=None, tiltRotation=None, angleOfTilt=None):
+		XSDataGeometry.__init__(self, detector)
 		checkType("XSDataGeometryFit2D", "Constructor of XSDataGeometryFit2D", angleOfTilt, "XSDataAngle")
 		self.__angleOfTilt = angleOfTilt
 		checkType("XSDataGeometryFit2D", "Constructor of XSDataGeometryFit2D", tiltRotation, "XSDataAngle")
@@ -615,70 +632,70 @@ class XSDataGeometryFit2D(XSDataGeometry):
 	parseFile = staticmethod( parseFile )
 # end class XSDataGeometryFit2D
 
-class XSDataGeometrySPD(XSDataGeometry):
-	def __init__(self, rotation3=None, rotation2=None, rotation1=None, pointOfNormalIncidence2=None, pointOfNormalIncidence1=None, sampleDetectorDistance=None):
-		XSDataGeometry.__init__(self, )
-		checkType("XSDataGeometrySPD", "Constructor of XSDataGeometrySPD", sampleDetectorDistance, "XSDataLength")
+class XSDataGeometryPyFAI(XSDataGeometry):
+	def __init__(self, detector=None, rotation3=None, rotation2=None, rotation1=None, pointOfNormalIncidence2=None, pointOfNormalIncidence1=None, sampleDetectorDistance=None):
+		XSDataGeometry.__init__(self, detector)
+		checkType("XSDataGeometryPyFAI", "Constructor of XSDataGeometryPyFAI", sampleDetectorDistance, "XSDataLength")
 		self.__sampleDetectorDistance = sampleDetectorDistance
-		checkType("XSDataGeometrySPD", "Constructor of XSDataGeometrySPD", pointOfNormalIncidence1, "XSDataLength")
+		checkType("XSDataGeometryPyFAI", "Constructor of XSDataGeometryPyFAI", pointOfNormalIncidence1, "XSDataLength")
 		self.__pointOfNormalIncidence1 = pointOfNormalIncidence1
-		checkType("XSDataGeometrySPD", "Constructor of XSDataGeometrySPD", pointOfNormalIncidence2, "XSDataLength")
+		checkType("XSDataGeometryPyFAI", "Constructor of XSDataGeometryPyFAI", pointOfNormalIncidence2, "XSDataLength")
 		self.__pointOfNormalIncidence2 = pointOfNormalIncidence2
-		checkType("XSDataGeometrySPD", "Constructor of XSDataGeometrySPD", rotation1, "XSDataAngle")
+		checkType("XSDataGeometryPyFAI", "Constructor of XSDataGeometryPyFAI", rotation1, "XSDataAngle")
 		self.__rotation1 = rotation1
-		checkType("XSDataGeometrySPD", "Constructor of XSDataGeometrySPD", rotation2, "XSDataAngle")
+		checkType("XSDataGeometryPyFAI", "Constructor of XSDataGeometryPyFAI", rotation2, "XSDataAngle")
 		self.__rotation2 = rotation2
-		checkType("XSDataGeometrySPD", "Constructor of XSDataGeometrySPD", rotation3, "XSDataAngle")
+		checkType("XSDataGeometryPyFAI", "Constructor of XSDataGeometryPyFAI", rotation3, "XSDataAngle")
 		self.__rotation3 = rotation3
 	def getSampleDetectorDistance(self): return self.__sampleDetectorDistance
 	def setSampleDetectorDistance(self, sampleDetectorDistance):
-		checkType("XSDataGeometrySPD", "setSampleDetectorDistance", sampleDetectorDistance, "XSDataLength")
+		checkType("XSDataGeometryPyFAI", "setSampleDetectorDistance", sampleDetectorDistance, "XSDataLength")
 		self.__sampleDetectorDistance = sampleDetectorDistance
 	def delSampleDetectorDistance(self): self.__sampleDetectorDistance = None
 	# Properties
 	sampleDetectorDistance = property(getSampleDetectorDistance, setSampleDetectorDistance, delSampleDetectorDistance, "Property for sampleDetectorDistance")
 	def getPointOfNormalIncidence1(self): return self.__pointOfNormalIncidence1
 	def setPointOfNormalIncidence1(self, pointOfNormalIncidence1):
-		checkType("XSDataGeometrySPD", "setPointOfNormalIncidence1", pointOfNormalIncidence1, "XSDataLength")
+		checkType("XSDataGeometryPyFAI", "setPointOfNormalIncidence1", pointOfNormalIncidence1, "XSDataLength")
 		self.__pointOfNormalIncidence1 = pointOfNormalIncidence1
 	def delPointOfNormalIncidence1(self): self.__pointOfNormalIncidence1 = None
 	# Properties
 	pointOfNormalIncidence1 = property(getPointOfNormalIncidence1, setPointOfNormalIncidence1, delPointOfNormalIncidence1, "Property for pointOfNormalIncidence1")
 	def getPointOfNormalIncidence2(self): return self.__pointOfNormalIncidence2
 	def setPointOfNormalIncidence2(self, pointOfNormalIncidence2):
-		checkType("XSDataGeometrySPD", "setPointOfNormalIncidence2", pointOfNormalIncidence2, "XSDataLength")
+		checkType("XSDataGeometryPyFAI", "setPointOfNormalIncidence2", pointOfNormalIncidence2, "XSDataLength")
 		self.__pointOfNormalIncidence2 = pointOfNormalIncidence2
 	def delPointOfNormalIncidence2(self): self.__pointOfNormalIncidence2 = None
 	# Properties
 	pointOfNormalIncidence2 = property(getPointOfNormalIncidence2, setPointOfNormalIncidence2, delPointOfNormalIncidence2, "Property for pointOfNormalIncidence2")
 	def getRotation1(self): return self.__rotation1
 	def setRotation1(self, rotation1):
-		checkType("XSDataGeometrySPD", "setRotation1", rotation1, "XSDataAngle")
+		checkType("XSDataGeometryPyFAI", "setRotation1", rotation1, "XSDataAngle")
 		self.__rotation1 = rotation1
 	def delRotation1(self): self.__rotation1 = None
 	# Properties
 	rotation1 = property(getRotation1, setRotation1, delRotation1, "Property for rotation1")
 	def getRotation2(self): return self.__rotation2
 	def setRotation2(self, rotation2):
-		checkType("XSDataGeometrySPD", "setRotation2", rotation2, "XSDataAngle")
+		checkType("XSDataGeometryPyFAI", "setRotation2", rotation2, "XSDataAngle")
 		self.__rotation2 = rotation2
 	def delRotation2(self): self.__rotation2 = None
 	# Properties
 	rotation2 = property(getRotation2, setRotation2, delRotation2, "Property for rotation2")
 	def getRotation3(self): return self.__rotation3
 	def setRotation3(self, rotation3):
-		checkType("XSDataGeometrySPD", "setRotation3", rotation3, "XSDataAngle")
+		checkType("XSDataGeometryPyFAI", "setRotation3", rotation3, "XSDataAngle")
 		self.__rotation3 = rotation3
 	def delRotation3(self): self.__rotation3 = None
 	# Properties
 	rotation3 = property(getRotation3, setRotation3, delRotation3, "Property for rotation3")
-	def export(self, outfile, level, name_='XSDataGeometrySPD'):
+	def export(self, outfile, level, name_='XSDataGeometryPyFAI'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataGeometrySPD'):
+	def exportChildren(self, outfile, level, name_='XSDataGeometryPyFAI'):
 		XSDataGeometry.exportChildren(self, outfile, level, name_)
 		if self.__sampleDetectorDistance is not None:
 			self.sampleDetectorDistance.export(outfile, level, name_='sampleDetectorDistance')
@@ -744,7 +761,7 @@ class XSDataGeometrySPD(XSDataGeometry):
 	def marshal( self ):
 		oStreamString = StringIO()
 		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataGeometrySPD" )
+		self.export( oStreamString, 0, name_="XSDataGeometryPyFAI" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
@@ -752,24 +769,24 @@ class XSDataGeometrySPD(XSDataGeometry):
 	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataGeometrySPD' )
+		self.export( outfile, 0, name_='XSDataGeometryPyFAI' )
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataGeometrySPD is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class XSDataGeometryPyFAI is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
-		return XSDataGeometrySPD.parseString(self.marshal())
+		return XSDataGeometryPyFAI.parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = XSDataGeometrySPD()
+		rootObj = XSDataGeometryPyFAI()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataGeometrySPD" )
+		rootObj.export( oStreamString, 0, name_="XSDataGeometryPyFAI" )
 		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -777,15 +794,15 @@ class XSDataGeometrySPD(XSDataGeometry):
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = XSDataGeometrySPD()
+		rootObj = XSDataGeometryPyFAI()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
-# end class XSDataGeometrySPD
+# end class XSDataGeometryPyFAI
 
 class XSDataInputPyFAI(XSDataInput):
 	"""saxsWaxs can be saxs or waxs"""
-	def __init__(self, configuration=None, deltaDummy=None, dummy=None, saxsWaxs=None, detector=None, geometry=None, mask=None, wavelength=None, output=None, input=None, flat=None, dark=None, nbPt=None):
+	def __init__(self, configuration=None, deltaDummy=None, dummy=None, saxsWaxs=None, geometryFit2D=None, geometryPyFAI=None, mask=None, wavelength=None, output=None, input=None, flat=None, dark=None, nbPt=None):
 		XSDataInput.__init__(self, configuration)
 		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", nbPt, "XSDataInteger")
 		self.__nbPt = nbPt
@@ -801,10 +818,10 @@ class XSDataInputPyFAI(XSDataInput):
 		self.__wavelength = wavelength
 		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", mask, "XSDataImageExt")
 		self.__mask = mask
-		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", geometry, "XSDataGeometry")
-		self.__geometry = geometry
-		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", detector, "XSDataDetector")
-		self.__detector = detector
+		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", geometryPyFAI, "XSDataGeometryPyFAI")
+		self.__geometryPyFAI = geometryPyFAI
+		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", geometryFit2D, "XSDataGeometryFit2D")
+		self.__geometryFit2D = geometryFit2D
 		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", saxsWaxs, "XSDataString")
 		self.__saxsWaxs = saxsWaxs
 		checkType("XSDataInputPyFAI", "Constructor of XSDataInputPyFAI", dummy, "XSDataDouble")
@@ -860,20 +877,20 @@ class XSDataInputPyFAI(XSDataInput):
 	def delMask(self): self.__mask = None
 	# Properties
 	mask = property(getMask, setMask, delMask, "Property for mask")
-	def getGeometry(self): return self.__geometry
-	def setGeometry(self, geometry):
-		checkType("XSDataInputPyFAI", "setGeometry", geometry, "XSDataGeometry")
-		self.__geometry = geometry
-	def delGeometry(self): self.__geometry = None
+	def getGeometryPyFAI(self): return self.__geometryPyFAI
+	def setGeometryPyFAI(self, geometryPyFAI):
+		checkType("XSDataInputPyFAI", "setGeometryPyFAI", geometryPyFAI, "XSDataGeometryPyFAI")
+		self.__geometryPyFAI = geometryPyFAI
+	def delGeometryPyFAI(self): self.__geometryPyFAI = None
 	# Properties
-	geometry = property(getGeometry, setGeometry, delGeometry, "Property for geometry")
-	def getDetector(self): return self.__detector
-	def setDetector(self, detector):
-		checkType("XSDataInputPyFAI", "setDetector", detector, "XSDataDetector")
-		self.__detector = detector
-	def delDetector(self): self.__detector = None
+	geometryPyFAI = property(getGeometryPyFAI, setGeometryPyFAI, delGeometryPyFAI, "Property for geometryPyFAI")
+	def getGeometryFit2D(self): return self.__geometryFit2D
+	def setGeometryFit2D(self, geometryFit2D):
+		checkType("XSDataInputPyFAI", "setGeometryFit2D", geometryFit2D, "XSDataGeometryFit2D")
+		self.__geometryFit2D = geometryFit2D
+	def delGeometryFit2D(self): self.__geometryFit2D = None
 	# Properties
-	detector = property(getDetector, setDetector, delDetector, "Property for detector")
+	geometryFit2D = property(getGeometryFit2D, setGeometryFit2D, delGeometryFit2D, "Property for geometryFit2D")
 	def getSaxsWaxs(self): return self.__saxsWaxs
 	def setSaxsWaxs(self, saxsWaxs):
 		checkType("XSDataInputPyFAI", "setSaxsWaxs", saxsWaxs, "XSDataString")
@@ -921,18 +938,12 @@ class XSDataInputPyFAI(XSDataInput):
 			self.wavelength.export(outfile, level, name_='wavelength')
 		if self.__mask is not None:
 			self.mask.export(outfile, level, name_='mask')
-		if self.__geometry is not None:
-			self.geometry.export(outfile, level, name_='geometry')
-		else:
-			warnEmptyAttribute("geometry", "XSDataGeometry")
-		if self.__detector is not None:
-			self.detector.export(outfile, level, name_='detector')
-		else:
-			warnEmptyAttribute("detector", "XSDataDetector")
+		if self.__geometryPyFAI is not None:
+			self.geometryPyFAI.export(outfile, level, name_='geometryPyFAI')
+		if self.__geometryFit2D is not None:
+			self.geometryFit2D.export(outfile, level, name_='geometryFit2D')
 		if self.__saxsWaxs is not None:
 			self.saxsWaxs.export(outfile, level, name_='saxsWaxs')
-		else:
-			warnEmptyAttribute("saxsWaxs", "XSDataString")
 		if self.__dummy is not None:
 			self.dummy.export(outfile, level, name_='dummy')
 		if self.__deltaDummy is not None:
@@ -978,15 +989,15 @@ class XSDataInputPyFAI(XSDataInput):
 			obj_.build(child_)
 			self.setMask(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'geometry':
-			obj_ = XSDataGeometry()
+			nodeName_ == 'geometryPyFAI':
+			obj_ = XSDataGeometryPyFAI()
 			obj_.build(child_)
-			self.setGeometry(obj_)
+			self.setGeometryPyFAI(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'detector':
-			obj_ = XSDataDetector()
+			nodeName_ == 'geometryFit2D':
+			obj_ = XSDataGeometryFit2D()
 			obj_.build(child_)
-			self.setDetector(obj_)
+			self.setGeometryFit2D(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'saxsWaxs':
 			obj_ = XSDataString()
@@ -1056,7 +1067,7 @@ class XSDataInputRefineDiffractionGeometry(XSDataInput):
 			self.__points = points
 		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", geometryFit2D, "XSDataGeometryFit2D")
 		self.__geometryFit2D = geometryFit2D
-		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", geometrySPD, "XSDataGeometrySPD")
+		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", geometrySPD, "XSDataGeometryPyFAI")
 		self.__geometrySPD = geometrySPD
 		checkType("XSDataInputRefineDiffractionGeometry", "Constructor of XSDataInputRefineDiffractionGeometry", detector, "XSDataDetector")
 		self.__detector = detector
@@ -1082,7 +1093,7 @@ class XSDataInputRefineDiffractionGeometry(XSDataInput):
 	geometryFit2D = property(getGeometryFit2D, setGeometryFit2D, delGeometryFit2D, "Property for geometryFit2D")
 	def getGeometrySPD(self): return self.__geometrySPD
 	def setGeometrySPD(self, geometrySPD):
-		checkType("XSDataInputRefineDiffractionGeometry", "setGeometrySPD", geometrySPD, "XSDataGeometrySPD")
+		checkType("XSDataInputRefineDiffractionGeometry", "setGeometrySPD", geometrySPD, "XSDataGeometryPyFAI")
 		self.__geometrySPD = geometrySPD
 	def delGeometrySPD(self): self.__geometrySPD = None
 	# Properties
@@ -1131,7 +1142,7 @@ class XSDataInputRefineDiffractionGeometry(XSDataInput):
 			self.setGeometryFit2D(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'geometrySPD':
-			obj_ = XSDataGeometrySPD()
+			obj_ = XSDataGeometryPyFAI()
 			obj_.build(child_)
 			self.setGeometrySPD(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -1266,7 +1277,7 @@ class XSDataResultRefineDiffractionGeometry(XSDataResult):
 		XSDataResult.__init__(self, status)
 		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", geometryFit2D, "XSDataGeometryFit2D")
 		self.__geometryFit2D = geometryFit2D
-		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", geometrySPD, "XSDataGeometrySPD")
+		checkType("XSDataResultRefineDiffractionGeometry", "Constructor of XSDataResultRefineDiffractionGeometry", geometrySPD, "XSDataGeometryPyFAI")
 		self.__geometrySPD = geometrySPD
 	def getGeometryFit2D(self): return self.__geometryFit2D
 	def setGeometryFit2D(self, geometryFit2D):
@@ -1277,7 +1288,7 @@ class XSDataResultRefineDiffractionGeometry(XSDataResult):
 	geometryFit2D = property(getGeometryFit2D, setGeometryFit2D, delGeometryFit2D, "Property for geometryFit2D")
 	def getGeometrySPD(self): return self.__geometrySPD
 	def setGeometrySPD(self, geometrySPD):
-		checkType("XSDataResultRefineDiffractionGeometry", "setGeometrySPD", geometrySPD, "XSDataGeometrySPD")
+		checkType("XSDataResultRefineDiffractionGeometry", "setGeometrySPD", geometrySPD, "XSDataGeometryPyFAI")
 		self.__geometrySPD = geometrySPD
 	def delGeometrySPD(self): self.__geometrySPD = None
 	# Properties
@@ -1306,7 +1317,7 @@ class XSDataResultRefineDiffractionGeometry(XSDataResult):
 			self.setGeometryFit2D(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'geometrySPD':
-			obj_ = XSDataGeometrySPD()
+			obj_ = XSDataGeometryPyFAI()
 			obj_.build(child_)
 			self.setGeometrySPD(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)

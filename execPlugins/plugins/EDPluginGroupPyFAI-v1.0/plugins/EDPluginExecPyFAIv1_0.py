@@ -23,17 +23,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
-from XSDataCommon import XSDataImageExt, XSDataString
-from EDUtilsArray import EDUtilsArray
-from EDUtilsUnit import EDUtilsUnit
 __author__ = "Jérôme Kieffer <jerome.kieffer@esrf.fr>"
 __license__ = "GPLv3+"
 __copyright__ = "2012 European Synchrotron Radiation Facility"
 
+import os
+import numpy as np
+from EDUtilsArray       import EDUtilsArray
+from EDUtilsUnit        import EDUtilsUnit
 from EDPluginExec       import EDPluginExec
 from EDVerbose          import EDVerbose
 from EDThreading        import Semaphore
-from XSDataPyFAIv1_0    import XSDataInputPyFAI, XSDataResultPyFAI, XSDataGeometryFit2D, XSDataGeometrySPD
+from XSDataPyFAIv1_0    import XSDataInputPyFAI, XSDataResultPyFAI, XSDataGeometryFit2D, XSDataGeometryPyFAI
+from XSDataCommon       import XSDataImageExt, XSDataString
 
 
 try:
@@ -67,6 +69,7 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
         self.nbPt = None
         self.dummy = None
         self.delta_dummy = None
+        self.npaOut = None
 
     def checkParameters(self):
         """
@@ -74,14 +77,14 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
         """
         self.DEBUG("EDPluginExecPyFAIv1_0.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
-        self.checkMandatoryParameters(self.dataInput.geometry, "No Geometry given")
-        self.checkMandatoryParameters(self.dataInput.detector, "No Detector given")
+#        self.checkMandatoryParameters(self.dataInput.geometry, "No Geometry given")
+#        self.checkMandatoryParameters(self.dataInput.detector, "No Detector given")
         self.checkMandatoryParameters(self.dataInput.input, "No input image given")
+        self.checkMandatoryParameters(self.dataInput.nbPt, "No Number of points given for integration")
 
-    def preProcess(self, _edObject=None):
-        EDPluginExec.preProcess(self)
-        self.DEBUG("EDPluginExecPyFAIv1_0.preProcess")
-        xsDetector = self.dataInput.detector
+    @staticmethod
+    def getDetector(xsDetector):
+        detector = None
         if xsDetector.name and (xsDetector.name.value in dir(pyFAI.detectors)):
             detector = getattr(pyFAI.detectors, xsDetector.name.value)()
         else:
@@ -91,20 +94,29 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
                 dictGeo = {"pixel1":pixel1, "pixel2":pixel2, "splineFile":xsDetector.splineFile.path.value}
             else:
                 dictGeo = {"pixel1":pixel1, "pixel2":pixel2, "splineFile":None}
-            detector = pyFAI.detectors()
+            detector = pyFAI.detectors.Detector()
             detector.setPyFAI(**dictGeo)
-        xsGeometry = self.dataInput.geometry
-        ai = pyFAI.AzimuthalIntegrator()
-        if isinstance(xsGeometry, XSDataGeometryFit2D):
-            d = {"direct": xsGeometry.distance.value,
-               "centerX": xsGeometry.beamCentreInPixelsX.value ,
-               "centerY":xsGeometry.beamCentreInPixelsY.value  ,
-               "tilt": xsGeometry.angleOfTilt.value,
-               "tiltPlanRotation": xsGeometry.tiltRotation.value}
-            d.update(detector.getFit2d())
-            ai.setFit2d(**d)
+        return detector
 
-        elif isinstance(xsGeometry, XSDataGeometrySPD):
+    def preProcess(self, _edObject=None):
+        EDPluginExec.preProcess(self)
+        self.DEBUG("EDPluginExecPyFAIv1_0.preProcess")
+        sdi = self.dataInput
+        ai = pyFAI.AzimuthalIntegrator()
+        if sdi.geometryFit2D is not None:
+            xsGeometry = sdi.geometryFit2D
+            detector = self.getDetector(xsGeometry.detector)
+            if isinstance(xsGeometry, XSDataGeometryFit2D):
+                d = {"direct": xsGeometry.distance.value,
+                   "centerX": xsGeometry.beamCentreInPixelsX.value ,
+                   "centerY":xsGeometry.beamCentreInPixelsY.value  ,
+                   "tilt": xsGeometry.angleOfTilt.value,
+                   "tiltPlanRotation": xsGeometry.tiltRotation.value}
+                d.update(detector.getFit2D())
+                ai.setFit2d(**d)
+        if sdi.geometryPyFAI is not None:
+            xsGeometry = sdi.geometryPyFAI
+            detector = self.getDetector(xsGeometry.detector)
             d = {"dist": EDUtilsUnit.getSIValue(xsGeometry.sampleDetectorDistance),
                "poni1": EDUtilsUnit.getSIValue(xsGeometry.pointOfNormalIncidence1),
                "poni2": EDUtilsUnit.getSIValue(xsGeometry.pointOfNormalIncidence2),
@@ -114,7 +126,7 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
             d.update(detector.getPyFAI())
             ai.setPyFAI(**d)
         else:
-            strError = "Geometry definition is %s, not recognized as a valid geometry%s %s" % (xsGeometry, os.linesep, xsGeometry.marshal())
+            strError = "Geometry definition in %s, not recognized as a valid geometry%s %s" % (sdi, os.linesep, sdi.marshal())
             self.ERROR(strError)
             raise RuntimeError(strError)
 
@@ -130,30 +142,28 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
                 self.ai = ai
 
         self.data = EDUtilsArray.getArray(self.dataInput.input).astype(float)
-        if self.dataInput.dark is not None:
-            self.data -= EDUtilsArray.getArray(self.dataInput.dark)
-        if self.dataInput.flat is not None:
-            self.data /= EDUtilsArray.getArray(self.dataInput.flat)
-        if self.dataInput.mask is not None:
-            self.mask = EDUtilsArray.getArray(self.dataInput.mask)
-        if self.dataInput.wavelength is not None:
-            self.mask = EDUtilsUnit.getSIValue(self.dataInput.wavelength)
-        if self.dataInput.output is not None:
-            self.strOutputFile = "??"
-        if self.dataInput.dummy is not None:
-            self.dummy = self.dataInput.dummy.value
-        if self.dataInput.delta_dummy is not None:
-            self.delta_dummy = self.dataInput.deltaDummy.value
-
-
-
+        if sdi.dark is not None:
+            self.data -= EDUtilsArray.getArray(sdi.dark)
+        if sdi.flat is not None:
+            self.data /= EDUtilsArray.getArray(sdi.flat)
+        if sdi.mask is not None:
+            self.mask = EDUtilsArray.getArray(sdi.mask)
+        if sdi.wavelength is not None:
+            self.ai.wavelength = EDUtilsUnit.getSIValue(sdi.wavelength)
+        if sdi.output is not None:
+            self.strOutputFile = sdi.output.path.value
+        if sdi.dummy is not None:
+            self.dummy = sdi.dummy.value
+        if sdi.deltaDummy is not None:
+            self.delta_dummy = sdi.deltaDummy.value
+        if sdi.nbPt:
+            self.nbPt = sdi.nbPt.value
 
     def process(self, _edObject=None):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginExecPyFAIv1_0.process")
         data = EDUtilsArray.getArray(self.dataInput.input)
-        if self.dataInput.saxsWaxs.value.lower().startswith("s"):
-
+        if self.dataInput.saxsWaxs and self.dataInput.saxsWaxs.value.lower().startswith("s"):
             out = self.ai.saxs(self.data,
                                nbPt=self.nbPt,
                                filename=self.strOutputFile,
@@ -167,6 +177,7 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
                                mask=self.mask,
                                dummy=self.dummy,
                                delta_dummy=self.delta_dummy)
+        self.npaOut = np.hstack((i.reshape(-1, 1) for i in out if i is not None))
 
 
     def postProcess(self, _edObject=None):

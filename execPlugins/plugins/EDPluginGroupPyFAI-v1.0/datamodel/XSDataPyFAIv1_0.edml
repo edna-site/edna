@@ -20,7 +20,7 @@ import XSDataCommon.XSDataAngle
 complex type XSDataDetector extends XSData {
 	"Number 1 and 2 refer to Y and X axis" 
 	name: XSDataString optional
-	spatialDistortionFile: XSDataFile optional
+	splineFile: XSDataFile optional
 	pixelSizeX: XSDataLength optional
 	pixelSizeY: XSDataLength optional
 	distortionFileX : XSDataImageExt optional
@@ -29,9 +29,10 @@ complex type XSDataDetector extends XSData {
 
 complex type XSDataGeometry extends XSData{
 	"place holder"
+	detector: XSDataDetector
 }
 
-complex type XSDataGeometrySPD extends XSDataGeometry {
+complex type XSDataGeometryPyFAI extends XSDataGeometry {
 	sampleDetectorDistance : XSDataLength
 	pointOfNormalIncidence1 : XSDataLength
 	pointOfNormalIncidence2 : XSDataLength
@@ -58,9 +59,9 @@ complex type XSDataInputPyFAI extends XSDataInput {
 	output: XSDataImageExt optional
 	wavelength: XSDataWavelength optional
 	mask: XSDataImageExt optional
-	geometry: XSDataGeometry
-	detector: XSDataDetector 
-	saxsWaxs: XSDataString 
+	geometryPyFAI: XSDataGeometryPyFAI optional/*one of them must be available */
+	geometryFit2D:	XSDataGeometryFit2D optional
+	saxsWaxs: XSDataString  optional /*#waxs by default*/
 	dummy:XSDataDouble optional
 	deltaDummy: XSDataDouble optional
 	}
@@ -80,11 +81,11 @@ complex type XSDataPeakPosition extends XSData {
 complex type XSDataInputRefineDiffractionGeometry extends XSDataInput {
 	points : XSDataPeakPosition []
 	geometryFit2D: XSDataGeometryFit2D optional
-	geometrySPD: XSDataGeometrySPD optional
+	geometrySPD: XSDataGeometryPyFAI optional
 	detector: XSDataDetector 
 }
 
 complex type XSDataResultRefineDiffractionGeometry extends XSDataResult {
  	geometryFit2D: XSDataGeometryFit2D optional
-	geometrySPD: XSDataGeometrySPD optional 
+	geometrySPD: XSDataGeometryPyFAI optional 
 }
