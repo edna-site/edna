@@ -106,15 +106,14 @@ class EDPluginExecPyFAIv1_0(EDPluginExec):
         if sdi.geometryFit2D is not None:
             xsGeometry = sdi.geometryFit2D
             detector = self.getDetector(xsGeometry.detector)
-            if isinstance(xsGeometry, XSDataGeometryFit2D):
-                d = {"direct": xsGeometry.distance.value,
-                   "centerX": xsGeometry.beamCentreInPixelsX.value ,
-                   "centerY":xsGeometry.beamCentreInPixelsY.value  ,
-                   "tilt": xsGeometry.angleOfTilt.value,
-                   "tiltPlanRotation": xsGeometry.tiltRotation.value}
-                d.update(detector.getFit2D())
-                ai.setFit2d(**d)
-        if sdi.geometryPyFAI is not None:
+            d = {"direct": EDUtilsUnit.getSIValue(xsGeometry.distance) * 1000, #fit2D takes the distance in mm
+               "centerX": xsGeometry.beamCentreInPixelsX.value ,
+               "centerY":xsGeometry.beamCentreInPixelsY.value  ,
+               "tilt": xsGeometry.angleOfTilt.value,
+               "tiltPlanRotation": xsGeometry.tiltRotation.value}
+            d.update(detector.getFit2D())
+            ai.setFit2D(**d)
+        elif sdi.geometryPyFAI is not None:
             xsGeometry = sdi.geometryPyFAI
             detector = self.getDetector(xsGeometry.detector)
             d = {"dist": EDUtilsUnit.getSIValue(xsGeometry.sampleDetectorDistance),
