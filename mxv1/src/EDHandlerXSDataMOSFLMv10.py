@@ -504,6 +504,8 @@ class EDHandlerXSDataMOSFLMv10:
 
             xsDataIntegrationSubWedgeResult.addStatisticsPerResolutionBin(xsDataStatisticsIntegrationPerResolutionBin)
 
+        xsDataIntegrationSubWedgeResult.setIntegrationLogFile(_xsDataMOSFLMOutputIntegration.getPathToLogFile())
+
         return xsDataIntegrationSubWedgeResult
     generateXSDataIntegrationSubWedgeResult = staticmethod(generateXSDataIntegrationSubWedgeResult)
 
