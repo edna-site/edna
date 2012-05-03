@@ -32,6 +32,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
 
 from EDVerbose import EDVerbose
 from EDPluginLabelitv1_1 import EDPluginLabelitv1_1
@@ -42,6 +43,7 @@ from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataMatrixDouble
 
 from XSDataLabelitv1_1 import XSDataCell
@@ -80,6 +82,8 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         self.addListCommandPreExecution("export PYTHONPATH=\"\" ")
         self.addListCommandPreExecution(". %s" % self.getPathToLabelitSetpathScript())
         self.addListCommandPostExecution("[ -f \"LABELIT_possible\" ] && labelit.mosflm_scripts")
+        # Force name of log file
+        self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
 
 
     def postProcess(self, _edObject=None):
@@ -111,6 +115,8 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
                 else:
                     strLabelitMosflmScriptsOutput = self.readProcessFile(self.generateMosflmScriptName(xsDataIntegerSelectedSolutionNumber.getValue()))
                     xsDataLabelitMosflmScriptsOutput = self.parseMosflmScriptsOutput(strLabelitMosflmScriptsOutput)
+                    # Path to log file
+                    xsDataLabelitScreenOutput.setPathToLogFile(XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName()))))
                     self.setDataOutput(xsDataLabelitScreenOutput, "labelitScreenOutput")
                     self.setDataOutput(xsDataLabelitMosflmScriptsOutput, "mosflmScriptsOutput")
 
