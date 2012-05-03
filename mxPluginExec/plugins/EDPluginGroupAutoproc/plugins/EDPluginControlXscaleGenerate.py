@@ -30,9 +30,11 @@ __copyright__ = "<copyright>"
 
 from EDPluginControl import EDPluginControl
 
+from XSDataCommon import XSDataBoolean
+
 # we reuse the vanilla xscale input and will just ignore the friedel's
 # law and merge boolean parameters
-from XSDataAutoProc import XSDataXscaleInput
+from XSDataAutoProc import XSDataXscaleInput, XSDataXscaleGeneratedFiles
 
 class EDPluginControlXscaleGenerate(EDPluginControl):
     """
@@ -105,8 +107,16 @@ class EDPluginControlXscaleGenerate(EDPluginControl):
         self.DEBUG("EDPluginControlXscaleGenerate.postProcess")
 
         self.synchronizePlugins()
+
+        out = XSDataXscaleGeneratedFiles()
+
         if not self.isFailure():
-            self.setDataOutput(res)
+            out.anom_merged = self.xscale_anom_merged.dataOutput.output_file
+            out.noanom_merged = self.xscale_noanom_merged.dataOutput.output_file
+            out.anom_unmerged = self.xscale_anom_unmerged.dataOutput.output_file
+            out.noanom_unmerged = self.xscale_noanom_unmerged.dataOutput.output_file
+        self.dataOutput = out
+
 
 
     def xscale_success(self, plugin):

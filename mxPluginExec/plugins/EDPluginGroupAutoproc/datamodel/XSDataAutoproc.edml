@@ -102,6 +102,13 @@ complex type XSDataXscaleInputFile {
 	res : XSDataFloat
 }
 
+complex type XSDataXscaleGeneratedFiles {
+	anom_merged : XSDataString
+	noanom_merged : XSDataString
+	anom_unmerged : XSDataString
+	noanom_unmerged : XSDataString
+}
+
 complex type XSDataXscaleInput {
 	merge : XSDataBoolean
 	friedels_law : XSDataBoolean
