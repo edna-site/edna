@@ -41,6 +41,7 @@ from EDPluginControl import EDPluginControl
 from EDActionCluster import EDActionCluster
 
 from XSDataCommon import XSDataImage
+from XSDataCommon import XSDataBoolean
 
 from XSDataMXv1 import XSDataCollection
 from XSDataMXv1 import XSDataCrystal
@@ -153,6 +154,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
         xsDataCollection = self.getDataInput("dataCollection")[0]
         xsDataListImage = self.generateImageList(xsDataCollection)
         xsDataIndexingResult.setImage(xsDataListImage)
+        xsDataIndexingResult.setLabelitIndexing(XSDataBoolean(False))
         self.setDataOutput(xsDataIndexingResult, "indexingResult")
 #        self.generateExecutiveSummaryMOSFLM(_edPlugin)
         self.addExecutiveSummarySeparator()
