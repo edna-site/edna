@@ -250,6 +250,8 @@ class EDHandlerXSDataMOSFLMv10:
         xsDataIndexingSolutionSelected.setExperimentalConditionRefined(xsDataExperimentalConditionRefined)
 
         xsDataIndexingResult.setSelectedSolution(xsDataIndexingSolutionSelected)
+        
+        xsDataIndexingResult.setIndexingLogFile(_xsDataMOSFLMIndexingOutput.getPathToLogFile())
 
         return xsDataIndexingResult
     generateXSDataIndexingResult = staticmethod(generateXSDataIndexingResult)

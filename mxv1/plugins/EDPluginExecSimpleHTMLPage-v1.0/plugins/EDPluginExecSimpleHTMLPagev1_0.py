@@ -443,6 +443,16 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.td.close()
         self.page.tr.close()
         self.page.table.close()
+        if _xsDataResultIndexing.getIndexingLogFile():
+            strPathToIndexingLogFile = _xsDataResultIndexing.getIndexingLogFile().getPath().getValue()
+            strPageIndexingLog = os.path.join(self.getWorkingDirectory(), "indexing_log.html")
+            pageIndexingLog = markupv1_7.page()
+            pageIndexingLog.h1("Indexing Log")
+            pageIndexingLog.a("Back to previous page", href_=self.strHtmlFileName)
+            pageIndexingLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToIndexingLogFile)))
+            pageIndexingLog.a("Back to previous page", href_=self.strHtmlFileName)
+            EDUtilsFile.writeFile(strPageIndexingLog, str(pageIndexingLog))
+            self.page.a("Indexing log file", href="indexing_log.html")
         
 
         
