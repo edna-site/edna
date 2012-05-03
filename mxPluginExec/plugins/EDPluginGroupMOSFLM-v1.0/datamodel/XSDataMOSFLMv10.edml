@@ -14,8 +14,6 @@ import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataString
 import XSDataCommon.XSDataWavelength
 
-complex type Class1 {
-}
 
 complex type XSDataCell extends XSData {
 	angle_alpha : XSDataAngle
@@ -118,6 +116,7 @@ complex type XSDataMOSFLMOutput extends XSDataResult {
 	refinedBeam : XSDataMOSFLMBeamPosition
 	refinedDistance : XSDataLength
 	refinedNewmat : XSDataMOSFLMNewmat
+	pathToLogFile : XSDataFile
 }
 
 complex type XSDataMOSFLMOutputGeneratePrediction extends XSData {
