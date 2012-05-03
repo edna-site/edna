@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu May 3 11:02::24 2012 by EDGenerateDS.
+# Generated Thu May 3 11:58::53 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -1105,12 +1105,8 @@ class XSDataMOSFLMIntegrationStatisticsPerResolutionBin(XSData):
 		XSData.exportChildren(self, outfile, level, name_)
 		if self._maxResolution is not None:
 			self.maxResolution.export(outfile, level, name_='maxResolution')
-		else:
-			warnEmptyAttribute("maxResolution", "XSDataFloat")
 		if self._minResolution is not None:
 			self.minResolution.export(outfile, level, name_='minResolution')
-		else:
-			warnEmptyAttribute("minResolution", "XSDataFloat")
 		if self._profileFitted is not None:
 			self.profileFitted.export(outfile, level, name_='profileFitted')
 		else:
@@ -1439,12 +1435,14 @@ class XSDataMOSFLMNewmat(XSData):
 # end class XSDataMOSFLMNewmat
 
 class XSDataMOSFLMOutputGeneratePrediction(XSData):
-	def __init__(self, predictionImage=None):
+	def __init__(self, pathToLogFile=None, predictionImage=None):
 		XSData.__init__(self, )
 	
 	
 		checkType("XSDataMOSFLMOutputGeneratePrediction", "Constructor of XSDataMOSFLMOutputGeneratePrediction", predictionImage, "XSDataImage")
 		self._predictionImage = predictionImage
+		checkType("XSDataMOSFLMOutputGeneratePrediction", "Constructor of XSDataMOSFLMOutputGeneratePrediction", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
 	def getPredictionImage(self): return self._predictionImage
 	def setPredictionImage(self, predictionImage):
 		checkType("XSDataMOSFLMOutputGeneratePrediction", "setPredictionImage", predictionImage, "XSDataImage")
@@ -1452,6 +1450,13 @@ class XSDataMOSFLMOutputGeneratePrediction(XSData):
 	def delPredictionImage(self): self._predictionImage = None
 	# Properties
 	predictionImage = property(getPredictionImage, setPredictionImage, delPredictionImage, "Property for predictionImage")
+	def getPathToLogFile(self): return self._pathToLogFile
+	def setPathToLogFile(self, pathToLogFile):
+		checkType("XSDataMOSFLMOutputGeneratePrediction", "setPathToLogFile", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
+	def delPathToLogFile(self): self._pathToLogFile = None
+	# Properties
+	pathToLogFile = property(getPathToLogFile, setPathToLogFile, delPathToLogFile, "Property for pathToLogFile")
 	def export(self, outfile, level, name_='XSDataMOSFLMOutputGeneratePrediction'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1464,6 +1469,8 @@ class XSDataMOSFLMOutputGeneratePrediction(XSData):
 			self.predictionImage.export(outfile, level, name_='predictionImage')
 		else:
 			warnEmptyAttribute("predictionImage", "XSDataImage")
+		if self._pathToLogFile is not None:
+			self.pathToLogFile.export(outfile, level, name_='pathToLogFile')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1474,6 +1481,11 @@ class XSDataMOSFLMOutputGeneratePrediction(XSData):
 			obj_ = XSDataImage()
 			obj_.build(child_)
 			self.setPredictionImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pathToLogFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setPathToLogFile(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -1630,16 +1642,10 @@ class XSDataMOSFLMInput(XSDataInput):
 			warnEmptyAttribute("distance", "XSDataLength")
 		if self._matrix is not None:
 			self.matrix.export(outfile, level, name_='matrix')
-		else:
-			warnEmptyAttribute("matrix", "XSDataMOSFLMNewmat")
 		if self._mosaicity is not None:
 			self.mosaicity.export(outfile, level, name_='mosaicity')
-		else:
-			warnEmptyAttribute("mosaicity", "XSDataDouble")
 		if self._symmetry is not None:
 			self.symmetry.export(outfile, level, name_='symmetry')
-		else:
-			warnEmptyAttribute("symmetry", "XSDataString")
 		if self._template is not None:
 			self.template.export(outfile, level, name_='template')
 		else:
@@ -1805,8 +1811,6 @@ class XSDataMOSFLMOutput(XSDataResult):
 			warnEmptyAttribute("refinedNewmat", "XSDataMOSFLMNewmat")
 		if self._pathToLogFile is not None:
 			self.pathToLogFile.export(outfile, level, name_='pathToLogFile')
-		else:
-			warnEmptyAttribute("pathToLogFile", "XSDataFile")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -2672,8 +2676,6 @@ class XSDataMOSFLMOutputIntegration(XSDataMOSFLMOutput):
 			warnEmptyAttribute("bestfileDat", "XSDataString")
 		if self._bestfileHKL is not None:
 			self.bestfileHKL.export(outfile, level, name_='bestfileHKL')
-		else:
-			warnEmptyAttribute("bestfileHKL", "XSDataString")
 		if self._bestfilePar is not None:
 			self.bestfilePar.export(outfile, level, name_='bestfilePar')
 		else:
@@ -2708,8 +2710,6 @@ class XSDataMOSFLMOutputIntegration(XSDataMOSFLMOutput):
 			warnEmptyAttribute("numberOfPartialReflections", "XSDataInteger")
 		if self._numberOfReflectionsGenerated is not None:
 			self.numberOfReflectionsGenerated.export(outfile, level, name_='numberOfReflectionsGenerated')
-		else:
-			warnEmptyAttribute("numberOfReflectionsGenerated", "XSDataInteger")
 		if self._overallIOverSigma is not None:
 			self.overallIOverSigma.export(outfile, level, name_='overallIOverSigma')
 		else:
@@ -2720,8 +2720,6 @@ class XSDataMOSFLMOutputIntegration(XSDataMOSFLMOutput):
 			warnEmptyAttribute("overallStatistics", "XSDataMOSFLMIntegrationStatisticsPerResolutionBin")
 		if self._refinedMosaicity is not None:
 			self.refinedMosaicity.export(outfile, level, name_='refinedMosaicity')
-		else:
-			warnEmptyAttribute("refinedMosaicity", "XSDataFloat")
 		if self._refinedYScale is not None:
 			self.refinedYScale.export(outfile, level, name_='refinedYScale')
 		else:

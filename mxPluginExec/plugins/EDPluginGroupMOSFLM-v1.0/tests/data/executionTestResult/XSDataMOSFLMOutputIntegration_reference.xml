@@ -980,4 +980,9 @@ BEAM            102.514  104.887
             <m33>-4.255866e-01</m33>
         </uMatrix>
     </refinedNewmat>
+    <pathToLogFile>
+        <path>
+            <value>${EDNA_WORKING_DIR}/MOSFLMIntegrationv10.log</value>
+        </path>
+    </pathToLogFile>
 </XSDataMOSFLMOutputIntegration>

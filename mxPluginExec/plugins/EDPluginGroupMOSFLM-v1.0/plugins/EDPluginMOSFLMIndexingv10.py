@@ -30,6 +30,8 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
+
 from EDVerbose import EDVerbose
 
 from EDUtilsTable      import EDUtilsTable
@@ -40,6 +42,7 @@ from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataFloat
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 
 from XSDataMOSFLMv10 import XSDataCell
 from XSDataMOSFLMv10 import XSDataMOSFLMBeamPosition
@@ -117,6 +120,8 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
 #            strPrefix = strTemplate.split("#")[0][:-1]
 #            strGenFileName = strPrefix + ".gen"
 #            strSptFileName = strPrefix + ".spt"
+        # Force name of log file
+        self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
 
         EDVerbose.DEBUG("Finished EDPluginMOSFLMIndexingv10.generateMOSFLMIndexingCommands")
 
@@ -222,7 +227,8 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
                 xsDataMOSFLMBeamPositionShift.setY(XSDataLength(fInitialBeamPositionY - fRefinedBeamPositionY))
                 xsDataMOSFLMOutputIndexing.setRefinedBeam(xsDataMOSFLMBeamPositionRefined)
                 xsDataMOSFLMOutputIndexing.setBeamShift(xsDataMOSFLMBeamPositionShift)
-
+        # Path to log file
+        xsDataMOSFLMOutputIndexing.setPathToLogFile(XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName()))))
         return xsDataMOSFLMOutputIndexing
 
 

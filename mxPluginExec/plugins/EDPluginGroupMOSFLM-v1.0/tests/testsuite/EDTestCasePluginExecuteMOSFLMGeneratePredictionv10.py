@@ -45,7 +45,7 @@ class EDTestCasePluginExecuteMOSFLMGeneratePredictionv10(EDTestCasePluginExecute
 
         pyStrPluginTestDataHome = self.getPluginTestsDataHome()
         self.strExecutionTestDataInputHome = os.path.join(pyStrPluginTestDataHome, "executionTestInput")
-        self.strExecutionTestDataResultHome = os.path.join(pyStrPluginTestDataHome, "executionTestResult_v706_20100126")
+        self.strExecutionTestDataResultHome = os.path.join(pyStrPluginTestDataHome, "executionTestResult")
 
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.strExecutionTestDataInputHome, "XSDataMOSFLMInputGeneratePrediction_reference.xml"))
