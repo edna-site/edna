@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+
+if [ -z $PYTHON ];
+then
+    echo "Note: If you encounter a python error at this step, "
+    echo "      please check that the \$PYTHON environment variable "
+    echo "      correspond to the python binary you intent to use."    
+    export PYTHON=$(which python)
+    echo "\$PYTHON = $PYTHON" 
+fi
+
+full_path="$(cd "${0%/*}" 2>/dev/null; echo "$PWD"/"${0##*/}")"
+export EDNA_HOME=`dirname "$full_path" | sed 's/\/mxv1\/.*\/bin$//'`
+
+$PYTHON $EDNA_HOME/mxPluginExec/plugins/EDPluginGroupISPyB-v1.4/bin/edna-autoproc2ispyb.py  ${1:+"$@"} 2>&1 > /dev/null & 

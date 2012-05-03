@@ -40,6 +40,7 @@ from EDPluginMOSFLMv10 import EDPluginMOSFLMv10
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataImage
+from XSDataCommon import XSDataFile
 
 from XSDataMOSFLMv10 import XSDataMOSFLMInputGeneratePrediction
 from XSDataMOSFLMv10 import XSDataMOSFLMOutputGeneratePrediction
@@ -133,6 +134,9 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
 
             self.addListCommandPostExecution("chmod 644 %s" % self.getPredictionImageFileName())
 
+        # Force name of log file
+        self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
+
         EDVerbose.DEBUG("Finished EDPluginMOSFLMGeneratePredictionv10.generateMOSFLMCommands")
 
 
@@ -146,6 +150,8 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
         xsDataImage.setNumber(XSDataInteger(iImageNumber))
         xsDataImage.setPath(XSDataString(os.path.join(self.getWorkingDirectory(), self.getPredictionImageFileName())))
         xsDataMOSFLMOutputGeneratePrediction.setPredictionImage(xsDataImage)
+         # Path to log file
+        xsDataMOSFLMOutputGeneratePrediction.setPathToLogFile(XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName()))))
         return xsDataMOSFLMOutputGeneratePrediction
 
 

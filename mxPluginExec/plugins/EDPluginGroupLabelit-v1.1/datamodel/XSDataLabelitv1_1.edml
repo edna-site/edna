@@ -4,6 +4,7 @@ import XSDataCommon.XSData
 import XSDataCommon.XSDataAngle
 import XSDataCommon.XSDataBoolean
 import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataFile
 import XSDataCommon.XSDataImage
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataInteger
@@ -59,6 +60,7 @@ complex type XSDataLabelitScreenOutput extends XSData {
 	distance : XSDataLength
 	labelitScreenSolution : XSDataLabelitScreenSolution [] optional
 	mosaicity : XSDataAngle
+	pathToLogFile : XSDataFile
 	selectedSolutionNumber : XSDataInteger
 }
 

@@ -1,0 +1,176 @@
+<AutoProcContainer>
+	<AutoProc>
+		<spaceGroup> I 2 3 </spaceGroup>
+		<refinedCell_a>78.0</refinedCell_a>
+		<refinedCell_b>78.0</refinedCell_b>
+		<refinedCell_c>78.0</refinedCell_c>
+		<refinedCell_alpha>90.0</refinedCell_alpha>
+		<refinedCell_beta>90.0</refinedCell_beta>
+		<refinedCell_gamma>90.0</refinedCell_gamma>
+	</AutoProc>
+	<AutoProcScalingContainer>
+
+		<AutoProcScaling>
+			<recordTimeStamp>2011-04-15 01:19:12</recordTimeStamp>
+		</AutoProcScaling>
+
+		<AutoProcScalingStatistics>
+			<scalingStatisticsType>overall</scalingStatisticsType>
+			<meanIOverSigI>11.58</meanIOverSigI>
+			<completeness>99.9</completeness>
+			<multiplicity>5.53</multiplicity>
+			<resolutionLimitLow>60.000</resolutionLimitLow>
+			<resolutionLimitHigh>2.03</resolutionLimitHigh>
+			<nTotalObservations>29138</nTotalObservations>
+			<rMerge>13.2</rMerge>
+			<anomalous>1</anomalous>
+		</AutoProcScalingStatistics>
+
+		<AutoProcScalingStatistics>
+			<scalingStatisticsType>innerShell</scalingStatisticsType>
+			<meanIOverSigI>32.23</meanIOverSigI>
+			<completeness>99.6</completeness>
+			<multiplicity>5.49</multiplicity>
+			<resolutionLimitLow>60.000</resolutionLimitLow>
+			<resolutionLimitHigh>6.06</resolutionLimitHigh>
+			<nTotalObservations>1236</nTotalObservations>
+			<rMerge>3.6</rMerge>
+			<anomalous>1</anomalous>
+		</AutoProcScalingStatistics>
+
+		<AutoProcScalingStatistics>
+			<scalingStatisticsType>outerShell</scalingStatisticsType>
+			<meanIOverSigI>1.66</meanIOverSigI>
+			<completeness>99.3</completeness>
+			<multiplicity>3.83</multiplicity>
+			<resolutionLimitLow>2.15</resolutionLimitLow>
+			<resolutionLimitHigh>2.03</resolutionLimitHigh>
+			<nTotalObservations>3197</nTotalObservations>
+			<rMerge>74.8</rMerge>
+			<anomalous>1</anomalous>
+		</AutoProcScalingStatistics>
+ 
+ 		<AutoProcIntegrationContainer>
+			<Image>
+				<dataCollectionId>19570</dataCollectionId>
+			</Image>
+
+			<AutoProcIntegration>
+				<cell_a>78.0</cell_a>
+				<cell_b>78.0</cell_b>
+				<cell_c>78.0</cell_c>
+				<cell_alpha>90.0</cell_alpha>
+				<cell_beta>90.0</cell_beta>
+				<cell_gamma>90.0</cell_gamma>
+			</AutoProcIntegration>
+		</AutoProcIntegrationContainer>
+	</AutoProcScalingContainer>
+	<AutoProcProgramContainer>
+
+		<AutoProcProgram>
+			<processingCommandLine>fastproc</processingCommandLine>
+			<processingPrograms>fastproc</processingPrograms>
+		</AutoProcProgram>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_anom_sc2mtz.mtz.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_anom_pointless_multirecord.mtz.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_anom_pointless.mtz.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_noanom_sc2mtz.mtz.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_noanom_pointless_multirecord.mtz.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_noanom_pointless.mtz.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_anom.sca.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_noanom.sca.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>unmerged_anom.sca.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>unmerged_noanom.sca.gz</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_anom_pointless.mtz_scala.log</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_noanom_pointless.mtz_scala.log</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_anom_XSCALE.LP</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+
+		<AutoProcProgramAttachment>
+			<fileType>Result</fileType>
+			<fileName>merged_noanom_XSCALE.LP</fileName>
+			<filePath>/data/pyarch/id23eh1//opid231/20110414/PROCESSED_DATA/INS_CL4/xds_x1_run1_2/xds_fastproc
+			</filePath>
+		</AutoProcProgramAttachment>
+	</AutoProcProgramContainer>
+
+</AutoProcContainer>
+
+

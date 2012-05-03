@@ -1,13 +1,56 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 14 11:24::15 2011 by EDGenerateDS.
+# Generated Thu May 3 11:58::53 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataAngle
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataFloat
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataMatrixDouble
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataString
+	from XSDataCommon import XSDataImage
+	from XSDataCommon import XSDataLength
+	from XSDataCommon import XSDataWavelength
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataDouble
@@ -56,9 +99,8 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
-	pass
-	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
-	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
+	if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
 class MixedContainer(object):
 	# Constants for category:
@@ -112,111 +154,53 @@ class MixedContainer(object):
 #
 
 
-class Class1(object):
-	def __init__(self):
-		pass
-	def export(self, outfile, level, name_='Class1'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='Class1'):
-		pass
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		pass
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="Class1" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='Class1' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class Class1 is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return Class1.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = Class1()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="Class1" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = Class1()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class Class1
-
 class XSDataMOSFLMDetector(object):
 	def __init__(self, type=None, pixelSizeY=None, pixelSizeX=None, numberPixelY=None, numberPixelX=None):
+	
+	
 		checkType("XSDataMOSFLMDetector", "Constructor of XSDataMOSFLMDetector", numberPixelX, "XSDataInteger")
-		self.__numberPixelX = numberPixelX
+		self._numberPixelX = numberPixelX
 		checkType("XSDataMOSFLMDetector", "Constructor of XSDataMOSFLMDetector", numberPixelY, "XSDataInteger")
-		self.__numberPixelY = numberPixelY
+		self._numberPixelY = numberPixelY
 		checkType("XSDataMOSFLMDetector", "Constructor of XSDataMOSFLMDetector", pixelSizeX, "XSDataLength")
-		self.__pixelSizeX = pixelSizeX
+		self._pixelSizeX = pixelSizeX
 		checkType("XSDataMOSFLMDetector", "Constructor of XSDataMOSFLMDetector", pixelSizeY, "XSDataLength")
-		self.__pixelSizeY = pixelSizeY
+		self._pixelSizeY = pixelSizeY
 		checkType("XSDataMOSFLMDetector", "Constructor of XSDataMOSFLMDetector", type, "XSDataString")
-		self.__type = type
-	def getNumberPixelX(self): return self.__numberPixelX
+		self._type = type
+	def getNumberPixelX(self): return self._numberPixelX
 	def setNumberPixelX(self, numberPixelX):
 		checkType("XSDataMOSFLMDetector", "setNumberPixelX", numberPixelX, "XSDataInteger")
-		self.__numberPixelX = numberPixelX
-	def delNumberPixelX(self): self.__numberPixelX = None
+		self._numberPixelX = numberPixelX
+	def delNumberPixelX(self): self._numberPixelX = None
 	# Properties
 	numberPixelX = property(getNumberPixelX, setNumberPixelX, delNumberPixelX, "Property for numberPixelX")
-	def getNumberPixelY(self): return self.__numberPixelY
+	def getNumberPixelY(self): return self._numberPixelY
 	def setNumberPixelY(self, numberPixelY):
 		checkType("XSDataMOSFLMDetector", "setNumberPixelY", numberPixelY, "XSDataInteger")
-		self.__numberPixelY = numberPixelY
-	def delNumberPixelY(self): self.__numberPixelY = None
+		self._numberPixelY = numberPixelY
+	def delNumberPixelY(self): self._numberPixelY = None
 	# Properties
 	numberPixelY = property(getNumberPixelY, setNumberPixelY, delNumberPixelY, "Property for numberPixelY")
-	def getPixelSizeX(self): return self.__pixelSizeX
+	def getPixelSizeX(self): return self._pixelSizeX
 	def setPixelSizeX(self, pixelSizeX):
 		checkType("XSDataMOSFLMDetector", "setPixelSizeX", pixelSizeX, "XSDataLength")
-		self.__pixelSizeX = pixelSizeX
-	def delPixelSizeX(self): self.__pixelSizeX = None
+		self._pixelSizeX = pixelSizeX
+	def delPixelSizeX(self): self._pixelSizeX = None
 	# Properties
 	pixelSizeX = property(getPixelSizeX, setPixelSizeX, delPixelSizeX, "Property for pixelSizeX")
-	def getPixelSizeY(self): return self.__pixelSizeY
+	def getPixelSizeY(self): return self._pixelSizeY
 	def setPixelSizeY(self, pixelSizeY):
 		checkType("XSDataMOSFLMDetector", "setPixelSizeY", pixelSizeY, "XSDataLength")
-		self.__pixelSizeY = pixelSizeY
-	def delPixelSizeY(self): self.__pixelSizeY = None
+		self._pixelSizeY = pixelSizeY
+	def delPixelSizeY(self): self._pixelSizeY = None
 	# Properties
 	pixelSizeY = property(getPixelSizeY, setPixelSizeY, delPixelSizeY, "Property for pixelSizeY")
-	def getType(self): return self.__type
+	def getType(self): return self._type
 	def setType(self, type):
 		checkType("XSDataMOSFLMDetector", "setType", type, "XSDataString")
-		self.__type = type
-	def delType(self): self.__type = None
+		self._type = type
+	def delType(self): self._type = None
 	# Properties
 	type = property(getType, setType, delType, "Property for type")
 	def export(self, outfile, level, name_='XSDataMOSFLMDetector'):
@@ -227,23 +211,23 @@ class XSDataMOSFLMDetector(object):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMDetector'):
 		pass
-		if self.__numberPixelX is not None:
+		if self._numberPixelX is not None:
 			self.numberPixelX.export(outfile, level, name_='numberPixelX')
 		else:
 			warnEmptyAttribute("numberPixelX", "XSDataInteger")
-		if self.__numberPixelY is not None:
+		if self._numberPixelY is not None:
 			self.numberPixelY.export(outfile, level, name_='numberPixelY')
 		else:
 			warnEmptyAttribute("numberPixelY", "XSDataInteger")
-		if self.__pixelSizeX is not None:
+		if self._pixelSizeX is not None:
 			self.pixelSizeX.export(outfile, level, name_='pixelSizeX')
 		else:
 			warnEmptyAttribute("pixelSizeX", "XSDataLength")
-		if self.__pixelSizeY is not None:
+		if self._pixelSizeY is not None:
 			self.pixelSizeY.export(outfile, level, name_='pixelSizeY')
 		else:
 			warnEmptyAttribute("pixelSizeY", "XSDataLength")
-		if self.__type is not None:
+		if self._type is not None:
 			self.type.export(outfile, level, name_='type')
 		else:
 			warnEmptyAttribute("type", "XSDataString")
@@ -323,58 +307,60 @@ class XSDataMOSFLMDetector(object):
 class XSDataCell(XSData):
 	def __init__(self, length_c=None, length_b=None, length_a=None, angle_gamma=None, angle_beta=None, angle_alpha=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataCell", "Constructor of XSDataCell", angle_alpha, "XSDataAngle")
-		self.__angle_alpha = angle_alpha
+		self._angle_alpha = angle_alpha
 		checkType("XSDataCell", "Constructor of XSDataCell", angle_beta, "XSDataAngle")
-		self.__angle_beta = angle_beta
+		self._angle_beta = angle_beta
 		checkType("XSDataCell", "Constructor of XSDataCell", angle_gamma, "XSDataAngle")
-		self.__angle_gamma = angle_gamma
+		self._angle_gamma = angle_gamma
 		checkType("XSDataCell", "Constructor of XSDataCell", length_a, "XSDataLength")
-		self.__length_a = length_a
+		self._length_a = length_a
 		checkType("XSDataCell", "Constructor of XSDataCell", length_b, "XSDataLength")
-		self.__length_b = length_b
+		self._length_b = length_b
 		checkType("XSDataCell", "Constructor of XSDataCell", length_c, "XSDataLength")
-		self.__length_c = length_c
-	def getAngle_alpha(self): return self.__angle_alpha
+		self._length_c = length_c
+	def getAngle_alpha(self): return self._angle_alpha
 	def setAngle_alpha(self, angle_alpha):
 		checkType("XSDataCell", "setAngle_alpha", angle_alpha, "XSDataAngle")
-		self.__angle_alpha = angle_alpha
-	def delAngle_alpha(self): self.__angle_alpha = None
+		self._angle_alpha = angle_alpha
+	def delAngle_alpha(self): self._angle_alpha = None
 	# Properties
 	angle_alpha = property(getAngle_alpha, setAngle_alpha, delAngle_alpha, "Property for angle_alpha")
-	def getAngle_beta(self): return self.__angle_beta
+	def getAngle_beta(self): return self._angle_beta
 	def setAngle_beta(self, angle_beta):
 		checkType("XSDataCell", "setAngle_beta", angle_beta, "XSDataAngle")
-		self.__angle_beta = angle_beta
-	def delAngle_beta(self): self.__angle_beta = None
+		self._angle_beta = angle_beta
+	def delAngle_beta(self): self._angle_beta = None
 	# Properties
 	angle_beta = property(getAngle_beta, setAngle_beta, delAngle_beta, "Property for angle_beta")
-	def getAngle_gamma(self): return self.__angle_gamma
+	def getAngle_gamma(self): return self._angle_gamma
 	def setAngle_gamma(self, angle_gamma):
 		checkType("XSDataCell", "setAngle_gamma", angle_gamma, "XSDataAngle")
-		self.__angle_gamma = angle_gamma
-	def delAngle_gamma(self): self.__angle_gamma = None
+		self._angle_gamma = angle_gamma
+	def delAngle_gamma(self): self._angle_gamma = None
 	# Properties
 	angle_gamma = property(getAngle_gamma, setAngle_gamma, delAngle_gamma, "Property for angle_gamma")
-	def getLength_a(self): return self.__length_a
+	def getLength_a(self): return self._length_a
 	def setLength_a(self, length_a):
 		checkType("XSDataCell", "setLength_a", length_a, "XSDataLength")
-		self.__length_a = length_a
-	def delLength_a(self): self.__length_a = None
+		self._length_a = length_a
+	def delLength_a(self): self._length_a = None
 	# Properties
 	length_a = property(getLength_a, setLength_a, delLength_a, "Property for length_a")
-	def getLength_b(self): return self.__length_b
+	def getLength_b(self): return self._length_b
 	def setLength_b(self, length_b):
 		checkType("XSDataCell", "setLength_b", length_b, "XSDataLength")
-		self.__length_b = length_b
-	def delLength_b(self): self.__length_b = None
+		self._length_b = length_b
+	def delLength_b(self): self._length_b = None
 	# Properties
 	length_b = property(getLength_b, setLength_b, delLength_b, "Property for length_b")
-	def getLength_c(self): return self.__length_c
+	def getLength_c(self): return self._length_c
 	def setLength_c(self, length_c):
 		checkType("XSDataCell", "setLength_c", length_c, "XSDataLength")
-		self.__length_c = length_c
-	def delLength_c(self): self.__length_c = None
+		self._length_c = length_c
+	def delLength_c(self): self._length_c = None
 	# Properties
 	length_c = property(getLength_c, setLength_c, delLength_c, "Property for length_c")
 	def export(self, outfile, level, name_='XSDataCell'):
@@ -385,27 +371,27 @@ class XSDataCell(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataCell'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__angle_alpha is not None:
+		if self._angle_alpha is not None:
 			self.angle_alpha.export(outfile, level, name_='angle_alpha')
 		else:
 			warnEmptyAttribute("angle_alpha", "XSDataAngle")
-		if self.__angle_beta is not None:
+		if self._angle_beta is not None:
 			self.angle_beta.export(outfile, level, name_='angle_beta')
 		else:
 			warnEmptyAttribute("angle_beta", "XSDataAngle")
-		if self.__angle_gamma is not None:
+		if self._angle_gamma is not None:
 			self.angle_gamma.export(outfile, level, name_='angle_gamma')
 		else:
 			warnEmptyAttribute("angle_gamma", "XSDataAngle")
-		if self.__length_a is not None:
+		if self._length_a is not None:
 			self.length_a.export(outfile, level, name_='length_a')
 		else:
 			warnEmptyAttribute("length_a", "XSDataLength")
-		if self.__length_b is not None:
+		if self._length_b is not None:
 			self.length_b.export(outfile, level, name_='length_b')
 		else:
 			warnEmptyAttribute("length_b", "XSDataLength")
-		if self.__length_c is not None:
+		if self._length_c is not None:
 			self.length_c.export(outfile, level, name_='length_c')
 		else:
 			warnEmptyAttribute("length_c", "XSDataLength")
@@ -491,22 +477,24 @@ class XSDataCell(XSData):
 class XSDataMOSFLMBeamPosition(XSData):
 	def __init__(self, y=None, x=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMBeamPosition", "Constructor of XSDataMOSFLMBeamPosition", x, "XSDataLength")
-		self.__x = x
+		self._x = x
 		checkType("XSDataMOSFLMBeamPosition", "Constructor of XSDataMOSFLMBeamPosition", y, "XSDataLength")
-		self.__y = y
-	def getX(self): return self.__x
+		self._y = y
+	def getX(self): return self._x
 	def setX(self, x):
 		checkType("XSDataMOSFLMBeamPosition", "setX", x, "XSDataLength")
-		self.__x = x
-	def delX(self): self.__x = None
+		self._x = x
+	def delX(self): self._x = None
 	# Properties
 	x = property(getX, setX, delX, "Property for x")
-	def getY(self): return self.__y
+	def getY(self): return self._y
 	def setY(self, y):
 		checkType("XSDataMOSFLMBeamPosition", "setY", y, "XSDataLength")
-		self.__y = y
-	def delY(self): self.__y = None
+		self._y = y
+	def delY(self): self._y = None
 	# Properties
 	y = property(getY, setY, delY, "Property for y")
 	def export(self, outfile, level, name_='XSDataMOSFLMBeamPosition'):
@@ -517,11 +505,11 @@ class XSDataMOSFLMBeamPosition(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMBeamPosition'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__x is not None:
+		if self._x is not None:
 			self.x.export(outfile, level, name_='x')
 		else:
 			warnEmptyAttribute("x", "XSDataLength")
-		if self.__y is not None:
+		if self._y is not None:
 			self.y.export(outfile, level, name_='y')
 		else:
 			warnEmptyAttribute("y", "XSDataLength")
@@ -587,31 +575,33 @@ class XSDataMOSFLMBeamPosition(XSData):
 class XSDataMOSFLMImage(XSData):
 	def __init__(self, rotationAxisStart=None, rotationAxisEnd=None, number=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMImage", "Constructor of XSDataMOSFLMImage", number, "XSDataInteger")
-		self.__number = number
+		self._number = number
 		checkType("XSDataMOSFLMImage", "Constructor of XSDataMOSFLMImage", rotationAxisEnd, "XSDataAngle")
-		self.__rotationAxisEnd = rotationAxisEnd
+		self._rotationAxisEnd = rotationAxisEnd
 		checkType("XSDataMOSFLMImage", "Constructor of XSDataMOSFLMImage", rotationAxisStart, "XSDataAngle")
-		self.__rotationAxisStart = rotationAxisStart
-	def getNumber(self): return self.__number
+		self._rotationAxisStart = rotationAxisStart
+	def getNumber(self): return self._number
 	def setNumber(self, number):
 		checkType("XSDataMOSFLMImage", "setNumber", number, "XSDataInteger")
-		self.__number = number
-	def delNumber(self): self.__number = None
+		self._number = number
+	def delNumber(self): self._number = None
 	# Properties
 	number = property(getNumber, setNumber, delNumber, "Property for number")
-	def getRotationAxisEnd(self): return self.__rotationAxisEnd
+	def getRotationAxisEnd(self): return self._rotationAxisEnd
 	def setRotationAxisEnd(self, rotationAxisEnd):
 		checkType("XSDataMOSFLMImage", "setRotationAxisEnd", rotationAxisEnd, "XSDataAngle")
-		self.__rotationAxisEnd = rotationAxisEnd
-	def delRotationAxisEnd(self): self.__rotationAxisEnd = None
+		self._rotationAxisEnd = rotationAxisEnd
+	def delRotationAxisEnd(self): self._rotationAxisEnd = None
 	# Properties
 	rotationAxisEnd = property(getRotationAxisEnd, setRotationAxisEnd, delRotationAxisEnd, "Property for rotationAxisEnd")
-	def getRotationAxisStart(self): return self.__rotationAxisStart
+	def getRotationAxisStart(self): return self._rotationAxisStart
 	def setRotationAxisStart(self, rotationAxisStart):
 		checkType("XSDataMOSFLMImage", "setRotationAxisStart", rotationAxisStart, "XSDataAngle")
-		self.__rotationAxisStart = rotationAxisStart
-	def delRotationAxisStart(self): self.__rotationAxisStart = None
+		self._rotationAxisStart = rotationAxisStart
+	def delRotationAxisStart(self): self._rotationAxisStart = None
 	# Properties
 	rotationAxisStart = property(getRotationAxisStart, setRotationAxisStart, delRotationAxisStart, "Property for rotationAxisStart")
 	def export(self, outfile, level, name_='XSDataMOSFLMImage'):
@@ -622,15 +612,15 @@ class XSDataMOSFLMImage(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMImage'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__number is not None:
+		if self._number is not None:
 			self.number.export(outfile, level, name_='number')
 		else:
 			warnEmptyAttribute("number", "XSDataInteger")
-		if self.__rotationAxisEnd is not None:
+		if self._rotationAxisEnd is not None:
 			self.rotationAxisEnd.export(outfile, level, name_='rotationAxisEnd')
 		else:
 			warnEmptyAttribute("rotationAxisEnd", "XSDataAngle")
-		if self.__rotationAxisStart is not None:
+		if self._rotationAxisStart is not None:
 			self.rotationAxisStart.export(outfile, level, name_='rotationAxisStart')
 		else:
 			warnEmptyAttribute("rotationAxisStart", "XSDataAngle")
@@ -701,40 +691,42 @@ class XSDataMOSFLMImage(XSData):
 class XSDataMOSFLMIndexingSolution(XSData):
 	def __init__(self, penalty=None, lattice=None, index=None, cell=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMIndexingSolution", "Constructor of XSDataMOSFLMIndexingSolution", cell, "XSDataCell")
-		self.__cell = cell
+		self._cell = cell
 		checkType("XSDataMOSFLMIndexingSolution", "Constructor of XSDataMOSFLMIndexingSolution", index, "XSDataInteger")
-		self.__index = index
+		self._index = index
 		checkType("XSDataMOSFLMIndexingSolution", "Constructor of XSDataMOSFLMIndexingSolution", lattice, "XSDataString")
-		self.__lattice = lattice
+		self._lattice = lattice
 		checkType("XSDataMOSFLMIndexingSolution", "Constructor of XSDataMOSFLMIndexingSolution", penalty, "XSDataInteger")
-		self.__penalty = penalty
-	def getCell(self): return self.__cell
+		self._penalty = penalty
+	def getCell(self): return self._cell
 	def setCell(self, cell):
 		checkType("XSDataMOSFLMIndexingSolution", "setCell", cell, "XSDataCell")
-		self.__cell = cell
-	def delCell(self): self.__cell = None
+		self._cell = cell
+	def delCell(self): self._cell = None
 	# Properties
 	cell = property(getCell, setCell, delCell, "Property for cell")
-	def getIndex(self): return self.__index
+	def getIndex(self): return self._index
 	def setIndex(self, index):
 		checkType("XSDataMOSFLMIndexingSolution", "setIndex", index, "XSDataInteger")
-		self.__index = index
-	def delIndex(self): self.__index = None
+		self._index = index
+	def delIndex(self): self._index = None
 	# Properties
 	index = property(getIndex, setIndex, delIndex, "Property for index")
-	def getLattice(self): return self.__lattice
+	def getLattice(self): return self._lattice
 	def setLattice(self, lattice):
 		checkType("XSDataMOSFLMIndexingSolution", "setLattice", lattice, "XSDataString")
-		self.__lattice = lattice
-	def delLattice(self): self.__lattice = None
+		self._lattice = lattice
+	def delLattice(self): self._lattice = None
 	# Properties
 	lattice = property(getLattice, setLattice, delLattice, "Property for lattice")
-	def getPenalty(self): return self.__penalty
+	def getPenalty(self): return self._penalty
 	def setPenalty(self, penalty):
 		checkType("XSDataMOSFLMIndexingSolution", "setPenalty", penalty, "XSDataInteger")
-		self.__penalty = penalty
-	def delPenalty(self): self.__penalty = None
+		self._penalty = penalty
+	def delPenalty(self): self._penalty = None
 	# Properties
 	penalty = property(getPenalty, setPenalty, delPenalty, "Property for penalty")
 	def export(self, outfile, level, name_='XSDataMOSFLMIndexingSolution'):
@@ -745,19 +737,19 @@ class XSDataMOSFLMIndexingSolution(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMIndexingSolution'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__cell is not None:
+		if self._cell is not None:
 			self.cell.export(outfile, level, name_='cell')
 		else:
 			warnEmptyAttribute("cell", "XSDataCell")
-		if self.__index is not None:
+		if self._index is not None:
 			self.index.export(outfile, level, name_='index')
 		else:
 			warnEmptyAttribute("index", "XSDataInteger")
-		if self.__lattice is not None:
+		if self._lattice is not None:
 			self.lattice.export(outfile, level, name_='lattice')
 		else:
 			warnEmptyAttribute("lattice", "XSDataString")
-		if self.__penalty is not None:
+		if self._penalty is not None:
 			self.penalty.export(outfile, level, name_='penalty')
 		else:
 			warnEmptyAttribute("penalty", "XSDataInteger")
@@ -833,40 +825,42 @@ class XSDataMOSFLMIndexingSolution(XSData):
 class XSDataMOSFLMIntegrationStatistics(XSData):
 	def __init__(self, numberOfReflections=None, averageSigma=None, averageIOverSigma=None, averageIntensity=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMIntegrationStatistics", "Constructor of XSDataMOSFLMIntegrationStatistics", averageIntensity, "XSDataFloat")
-		self.__averageIntensity = averageIntensity
+		self._averageIntensity = averageIntensity
 		checkType("XSDataMOSFLMIntegrationStatistics", "Constructor of XSDataMOSFLMIntegrationStatistics", averageIOverSigma, "XSDataFloat")
-		self.__averageIOverSigma = averageIOverSigma
+		self._averageIOverSigma = averageIOverSigma
 		checkType("XSDataMOSFLMIntegrationStatistics", "Constructor of XSDataMOSFLMIntegrationStatistics", averageSigma, "XSDataFloat")
-		self.__averageSigma = averageSigma
+		self._averageSigma = averageSigma
 		checkType("XSDataMOSFLMIntegrationStatistics", "Constructor of XSDataMOSFLMIntegrationStatistics", numberOfReflections, "XSDataInteger")
-		self.__numberOfReflections = numberOfReflections
-	def getAverageIntensity(self): return self.__averageIntensity
+		self._numberOfReflections = numberOfReflections
+	def getAverageIntensity(self): return self._averageIntensity
 	def setAverageIntensity(self, averageIntensity):
 		checkType("XSDataMOSFLMIntegrationStatistics", "setAverageIntensity", averageIntensity, "XSDataFloat")
-		self.__averageIntensity = averageIntensity
-	def delAverageIntensity(self): self.__averageIntensity = None
+		self._averageIntensity = averageIntensity
+	def delAverageIntensity(self): self._averageIntensity = None
 	# Properties
 	averageIntensity = property(getAverageIntensity, setAverageIntensity, delAverageIntensity, "Property for averageIntensity")
-	def getAverageIOverSigma(self): return self.__averageIOverSigma
+	def getAverageIOverSigma(self): return self._averageIOverSigma
 	def setAverageIOverSigma(self, averageIOverSigma):
 		checkType("XSDataMOSFLMIntegrationStatistics", "setAverageIOverSigma", averageIOverSigma, "XSDataFloat")
-		self.__averageIOverSigma = averageIOverSigma
-	def delAverageIOverSigma(self): self.__averageIOverSigma = None
+		self._averageIOverSigma = averageIOverSigma
+	def delAverageIOverSigma(self): self._averageIOverSigma = None
 	# Properties
 	averageIOverSigma = property(getAverageIOverSigma, setAverageIOverSigma, delAverageIOverSigma, "Property for averageIOverSigma")
-	def getAverageSigma(self): return self.__averageSigma
+	def getAverageSigma(self): return self._averageSigma
 	def setAverageSigma(self, averageSigma):
 		checkType("XSDataMOSFLMIntegrationStatistics", "setAverageSigma", averageSigma, "XSDataFloat")
-		self.__averageSigma = averageSigma
-	def delAverageSigma(self): self.__averageSigma = None
+		self._averageSigma = averageSigma
+	def delAverageSigma(self): self._averageSigma = None
 	# Properties
 	averageSigma = property(getAverageSigma, setAverageSigma, delAverageSigma, "Property for averageSigma")
-	def getNumberOfReflections(self): return self.__numberOfReflections
+	def getNumberOfReflections(self): return self._numberOfReflections
 	def setNumberOfReflections(self, numberOfReflections):
 		checkType("XSDataMOSFLMIntegrationStatistics", "setNumberOfReflections", numberOfReflections, "XSDataInteger")
-		self.__numberOfReflections = numberOfReflections
-	def delNumberOfReflections(self): self.__numberOfReflections = None
+		self._numberOfReflections = numberOfReflections
+	def delNumberOfReflections(self): self._numberOfReflections = None
 	# Properties
 	numberOfReflections = property(getNumberOfReflections, setNumberOfReflections, delNumberOfReflections, "Property for numberOfReflections")
 	def export(self, outfile, level, name_='XSDataMOSFLMIntegrationStatistics'):
@@ -877,19 +871,19 @@ class XSDataMOSFLMIntegrationStatistics(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMIntegrationStatistics'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__averageIntensity is not None:
+		if self._averageIntensity is not None:
 			self.averageIntensity.export(outfile, level, name_='averageIntensity')
 		else:
 			warnEmptyAttribute("averageIntensity", "XSDataFloat")
-		if self.__averageIOverSigma is not None:
+		if self._averageIOverSigma is not None:
 			self.averageIOverSigma.export(outfile, level, name_='averageIOverSigma')
 		else:
 			warnEmptyAttribute("averageIOverSigma", "XSDataFloat")
-		if self.__averageSigma is not None:
+		if self._averageSigma is not None:
 			self.averageSigma.export(outfile, level, name_='averageSigma')
 		else:
 			warnEmptyAttribute("averageSigma", "XSDataFloat")
-		if self.__numberOfReflections is not None:
+		if self._numberOfReflections is not None:
 			self.numberOfReflections.export(outfile, level, name_='numberOfReflections')
 		else:
 			warnEmptyAttribute("numberOfReflections", "XSDataInteger")
@@ -965,22 +959,24 @@ class XSDataMOSFLMIntegrationStatistics(XSData):
 class XSDataMOSFLMIntegrationStatisticsPerReflectionType(XSData):
 	def __init__(self, partials=None, fullyRecorded=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMIntegrationStatisticsPerReflectionType", "Constructor of XSDataMOSFLMIntegrationStatisticsPerReflectionType", fullyRecorded, "XSDataMOSFLMIntegrationStatistics")
-		self.__fullyRecorded = fullyRecorded
+		self._fullyRecorded = fullyRecorded
 		checkType("XSDataMOSFLMIntegrationStatisticsPerReflectionType", "Constructor of XSDataMOSFLMIntegrationStatisticsPerReflectionType", partials, "XSDataMOSFLMIntegrationStatistics")
-		self.__partials = partials
-	def getFullyRecorded(self): return self.__fullyRecorded
+		self._partials = partials
+	def getFullyRecorded(self): return self._fullyRecorded
 	def setFullyRecorded(self, fullyRecorded):
 		checkType("XSDataMOSFLMIntegrationStatisticsPerReflectionType", "setFullyRecorded", fullyRecorded, "XSDataMOSFLMIntegrationStatistics")
-		self.__fullyRecorded = fullyRecorded
-	def delFullyRecorded(self): self.__fullyRecorded = None
+		self._fullyRecorded = fullyRecorded
+	def delFullyRecorded(self): self._fullyRecorded = None
 	# Properties
 	fullyRecorded = property(getFullyRecorded, setFullyRecorded, delFullyRecorded, "Property for fullyRecorded")
-	def getPartials(self): return self.__partials
+	def getPartials(self): return self._partials
 	def setPartials(self, partials):
 		checkType("XSDataMOSFLMIntegrationStatisticsPerReflectionType", "setPartials", partials, "XSDataMOSFLMIntegrationStatistics")
-		self.__partials = partials
-	def delPartials(self): self.__partials = None
+		self._partials = partials
+	def delPartials(self): self._partials = None
 	# Properties
 	partials = property(getPartials, setPartials, delPartials, "Property for partials")
 	def export(self, outfile, level, name_='XSDataMOSFLMIntegrationStatisticsPerReflectionType'):
@@ -991,11 +987,11 @@ class XSDataMOSFLMIntegrationStatisticsPerReflectionType(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMIntegrationStatisticsPerReflectionType'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__fullyRecorded is not None:
+		if self._fullyRecorded is not None:
 			self.fullyRecorded.export(outfile, level, name_='fullyRecorded')
 		else:
 			warnEmptyAttribute("fullyRecorded", "XSDataMOSFLMIntegrationStatistics")
-		if self.__partials is not None:
+		if self._partials is not None:
 			self.partials.export(outfile, level, name_='partials')
 		else:
 			warnEmptyAttribute("partials", "XSDataMOSFLMIntegrationStatistics")
@@ -1061,40 +1057,42 @@ class XSDataMOSFLMIntegrationStatisticsPerReflectionType(XSData):
 class XSDataMOSFLMIntegrationStatisticsPerResolutionBin(XSData):
 	def __init__(self, summation=None, profileFitted=None, minResolution=None, maxResolution=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "Constructor of XSDataMOSFLMIntegrationStatisticsPerResolutionBin", maxResolution, "XSDataFloat")
-		self.__maxResolution = maxResolution
+		self._maxResolution = maxResolution
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "Constructor of XSDataMOSFLMIntegrationStatisticsPerResolutionBin", minResolution, "XSDataFloat")
-		self.__minResolution = minResolution
+		self._minResolution = minResolution
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "Constructor of XSDataMOSFLMIntegrationStatisticsPerResolutionBin", profileFitted, "XSDataMOSFLMIntegrationStatisticsPerReflectionType")
-		self.__profileFitted = profileFitted
+		self._profileFitted = profileFitted
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "Constructor of XSDataMOSFLMIntegrationStatisticsPerResolutionBin", summation, "XSDataMOSFLMIntegrationStatisticsPerReflectionType")
-		self.__summation = summation
-	def getMaxResolution(self): return self.__maxResolution
+		self._summation = summation
+	def getMaxResolution(self): return self._maxResolution
 	def setMaxResolution(self, maxResolution):
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "setMaxResolution", maxResolution, "XSDataFloat")
-		self.__maxResolution = maxResolution
-	def delMaxResolution(self): self.__maxResolution = None
+		self._maxResolution = maxResolution
+	def delMaxResolution(self): self._maxResolution = None
 	# Properties
 	maxResolution = property(getMaxResolution, setMaxResolution, delMaxResolution, "Property for maxResolution")
-	def getMinResolution(self): return self.__minResolution
+	def getMinResolution(self): return self._minResolution
 	def setMinResolution(self, minResolution):
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "setMinResolution", minResolution, "XSDataFloat")
-		self.__minResolution = minResolution
-	def delMinResolution(self): self.__minResolution = None
+		self._minResolution = minResolution
+	def delMinResolution(self): self._minResolution = None
 	# Properties
 	minResolution = property(getMinResolution, setMinResolution, delMinResolution, "Property for minResolution")
-	def getProfileFitted(self): return self.__profileFitted
+	def getProfileFitted(self): return self._profileFitted
 	def setProfileFitted(self, profileFitted):
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "setProfileFitted", profileFitted, "XSDataMOSFLMIntegrationStatisticsPerReflectionType")
-		self.__profileFitted = profileFitted
-	def delProfileFitted(self): self.__profileFitted = None
+		self._profileFitted = profileFitted
+	def delProfileFitted(self): self._profileFitted = None
 	# Properties
 	profileFitted = property(getProfileFitted, setProfileFitted, delProfileFitted, "Property for profileFitted")
-	def getSummation(self): return self.__summation
+	def getSummation(self): return self._summation
 	def setSummation(self, summation):
 		checkType("XSDataMOSFLMIntegrationStatisticsPerResolutionBin", "setSummation", summation, "XSDataMOSFLMIntegrationStatisticsPerReflectionType")
-		self.__summation = summation
-	def delSummation(self): self.__summation = None
+		self._summation = summation
+	def delSummation(self): self._summation = None
 	# Properties
 	summation = property(getSummation, setSummation, delSummation, "Property for summation")
 	def export(self, outfile, level, name_='XSDataMOSFLMIntegrationStatisticsPerResolutionBin'):
@@ -1105,19 +1103,15 @@ class XSDataMOSFLMIntegrationStatisticsPerResolutionBin(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMIntegrationStatisticsPerResolutionBin'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__maxResolution is not None:
+		if self._maxResolution is not None:
 			self.maxResolution.export(outfile, level, name_='maxResolution')
-		else:
-			warnEmptyAttribute("maxResolution", "XSDataFloat")
-		if self.__minResolution is not None:
+		if self._minResolution is not None:
 			self.minResolution.export(outfile, level, name_='minResolution')
-		else:
-			warnEmptyAttribute("minResolution", "XSDataFloat")
-		if self.__profileFitted is not None:
+		if self._profileFitted is not None:
 			self.profileFitted.export(outfile, level, name_='profileFitted')
 		else:
 			warnEmptyAttribute("profileFitted", "XSDataMOSFLMIntegrationStatisticsPerReflectionType")
-		if self.__summation is not None:
+		if self._summation is not None:
 			self.summation.export(outfile, level, name_='summation')
 		else:
 			warnEmptyAttribute("summation", "XSDataMOSFLMIntegrationStatisticsPerReflectionType")
@@ -1193,31 +1187,33 @@ class XSDataMOSFLMIntegrationStatisticsPerResolutionBin(XSData):
 class XSDataMOSFLMMissettingsAngles(XSData):
 	def __init__(self, phiz=None, phiy=None, phix=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMMissettingsAngles", "Constructor of XSDataMOSFLMMissettingsAngles", phix, "XSDataAngle")
-		self.__phix = phix
+		self._phix = phix
 		checkType("XSDataMOSFLMMissettingsAngles", "Constructor of XSDataMOSFLMMissettingsAngles", phiy, "XSDataAngle")
-		self.__phiy = phiy
+		self._phiy = phiy
 		checkType("XSDataMOSFLMMissettingsAngles", "Constructor of XSDataMOSFLMMissettingsAngles", phiz, "XSDataAngle")
-		self.__phiz = phiz
-	def getPhix(self): return self.__phix
+		self._phiz = phiz
+	def getPhix(self): return self._phix
 	def setPhix(self, phix):
 		checkType("XSDataMOSFLMMissettingsAngles", "setPhix", phix, "XSDataAngle")
-		self.__phix = phix
-	def delPhix(self): self.__phix = None
+		self._phix = phix
+	def delPhix(self): self._phix = None
 	# Properties
 	phix = property(getPhix, setPhix, delPhix, "Property for phix")
-	def getPhiy(self): return self.__phiy
+	def getPhiy(self): return self._phiy
 	def setPhiy(self, phiy):
 		checkType("XSDataMOSFLMMissettingsAngles", "setPhiy", phiy, "XSDataAngle")
-		self.__phiy = phiy
-	def delPhiy(self): self.__phiy = None
+		self._phiy = phiy
+	def delPhiy(self): self._phiy = None
 	# Properties
 	phiy = property(getPhiy, setPhiy, delPhiy, "Property for phiy")
-	def getPhiz(self): return self.__phiz
+	def getPhiz(self): return self._phiz
 	def setPhiz(self, phiz):
 		checkType("XSDataMOSFLMMissettingsAngles", "setPhiz", phiz, "XSDataAngle")
-		self.__phiz = phiz
-	def delPhiz(self): self.__phiz = None
+		self._phiz = phiz
+	def delPhiz(self): self._phiz = None
 	# Properties
 	phiz = property(getPhiz, setPhiz, delPhiz, "Property for phiz")
 	def export(self, outfile, level, name_='XSDataMOSFLMMissettingsAngles'):
@@ -1228,15 +1224,15 @@ class XSDataMOSFLMMissettingsAngles(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMMissettingsAngles'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__phix is not None:
+		if self._phix is not None:
 			self.phix.export(outfile, level, name_='phix')
 		else:
 			warnEmptyAttribute("phix", "XSDataAngle")
-		if self.__phiy is not None:
+		if self._phiy is not None:
 			self.phiy.export(outfile, level, name_='phiy')
 		else:
 			warnEmptyAttribute("phiy", "XSDataAngle")
-		if self.__phiz is not None:
+		if self._phiz is not None:
 			self.phiz.export(outfile, level, name_='phiz')
 		else:
 			warnEmptyAttribute("phiz", "XSDataAngle")
@@ -1307,40 +1303,42 @@ class XSDataMOSFLMMissettingsAngles(XSData):
 class XSDataMOSFLMNewmat(XSData):
 	def __init__(self, uMatrix=None, refinedCell=None, missettingAngles=None, aMatrix=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMNewmat", "Constructor of XSDataMOSFLMNewmat", aMatrix, "XSDataMatrixDouble")
-		self.__aMatrix = aMatrix
+		self._aMatrix = aMatrix
 		checkType("XSDataMOSFLMNewmat", "Constructor of XSDataMOSFLMNewmat", missettingAngles, "XSDataMOSFLMMissettingsAngles")
-		self.__missettingAngles = missettingAngles
+		self._missettingAngles = missettingAngles
 		checkType("XSDataMOSFLMNewmat", "Constructor of XSDataMOSFLMNewmat", refinedCell, "XSDataCell")
-		self.__refinedCell = refinedCell
+		self._refinedCell = refinedCell
 		checkType("XSDataMOSFLMNewmat", "Constructor of XSDataMOSFLMNewmat", uMatrix, "XSDataMatrixDouble")
-		self.__uMatrix = uMatrix
-	def getAMatrix(self): return self.__aMatrix
+		self._uMatrix = uMatrix
+	def getAMatrix(self): return self._aMatrix
 	def setAMatrix(self, aMatrix):
 		checkType("XSDataMOSFLMNewmat", "setAMatrix", aMatrix, "XSDataMatrixDouble")
-		self.__aMatrix = aMatrix
-	def delAMatrix(self): self.__aMatrix = None
+		self._aMatrix = aMatrix
+	def delAMatrix(self): self._aMatrix = None
 	# Properties
 	aMatrix = property(getAMatrix, setAMatrix, delAMatrix, "Property for aMatrix")
-	def getMissettingAngles(self): return self.__missettingAngles
+	def getMissettingAngles(self): return self._missettingAngles
 	def setMissettingAngles(self, missettingAngles):
 		checkType("XSDataMOSFLMNewmat", "setMissettingAngles", missettingAngles, "XSDataMOSFLMMissettingsAngles")
-		self.__missettingAngles = missettingAngles
-	def delMissettingAngles(self): self.__missettingAngles = None
+		self._missettingAngles = missettingAngles
+	def delMissettingAngles(self): self._missettingAngles = None
 	# Properties
 	missettingAngles = property(getMissettingAngles, setMissettingAngles, delMissettingAngles, "Property for missettingAngles")
-	def getRefinedCell(self): return self.__refinedCell
+	def getRefinedCell(self): return self._refinedCell
 	def setRefinedCell(self, refinedCell):
 		checkType("XSDataMOSFLMNewmat", "setRefinedCell", refinedCell, "XSDataCell")
-		self.__refinedCell = refinedCell
-	def delRefinedCell(self): self.__refinedCell = None
+		self._refinedCell = refinedCell
+	def delRefinedCell(self): self._refinedCell = None
 	# Properties
 	refinedCell = property(getRefinedCell, setRefinedCell, delRefinedCell, "Property for refinedCell")
-	def getUMatrix(self): return self.__uMatrix
+	def getUMatrix(self): return self._uMatrix
 	def setUMatrix(self, uMatrix):
 		checkType("XSDataMOSFLMNewmat", "setUMatrix", uMatrix, "XSDataMatrixDouble")
-		self.__uMatrix = uMatrix
-	def delUMatrix(self): self.__uMatrix = None
+		self._uMatrix = uMatrix
+	def delUMatrix(self): self._uMatrix = None
 	# Properties
 	uMatrix = property(getUMatrix, setUMatrix, delUMatrix, "Property for uMatrix")
 	def export(self, outfile, level, name_='XSDataMOSFLMNewmat'):
@@ -1351,19 +1349,19 @@ class XSDataMOSFLMNewmat(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMNewmat'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__aMatrix is not None:
+		if self._aMatrix is not None:
 			self.aMatrix.export(outfile, level, name_='aMatrix')
 		else:
 			warnEmptyAttribute("aMatrix", "XSDataMatrixDouble")
-		if self.__missettingAngles is not None:
+		if self._missettingAngles is not None:
 			self.missettingAngles.export(outfile, level, name_='missettingAngles')
 		else:
 			warnEmptyAttribute("missettingAngles", "XSDataMOSFLMMissettingsAngles")
-		if self.__refinedCell is not None:
+		if self._refinedCell is not None:
 			self.refinedCell.export(outfile, level, name_='refinedCell')
 		else:
 			warnEmptyAttribute("refinedCell", "XSDataCell")
-		if self.__uMatrix is not None:
+		if self._uMatrix is not None:
 			self.uMatrix.export(outfile, level, name_='uMatrix')
 		else:
 			warnEmptyAttribute("uMatrix", "XSDataMatrixDouble")
@@ -1437,17 +1435,28 @@ class XSDataMOSFLMNewmat(XSData):
 # end class XSDataMOSFLMNewmat
 
 class XSDataMOSFLMOutputGeneratePrediction(XSData):
-	def __init__(self, predictionImage=None):
+	def __init__(self, pathToLogFile=None, predictionImage=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataMOSFLMOutputGeneratePrediction", "Constructor of XSDataMOSFLMOutputGeneratePrediction", predictionImage, "XSDataImage")
-		self.__predictionImage = predictionImage
-	def getPredictionImage(self): return self.__predictionImage
+		self._predictionImage = predictionImage
+		checkType("XSDataMOSFLMOutputGeneratePrediction", "Constructor of XSDataMOSFLMOutputGeneratePrediction", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
+	def getPredictionImage(self): return self._predictionImage
 	def setPredictionImage(self, predictionImage):
 		checkType("XSDataMOSFLMOutputGeneratePrediction", "setPredictionImage", predictionImage, "XSDataImage")
-		self.__predictionImage = predictionImage
-	def delPredictionImage(self): self.__predictionImage = None
+		self._predictionImage = predictionImage
+	def delPredictionImage(self): self._predictionImage = None
 	# Properties
 	predictionImage = property(getPredictionImage, setPredictionImage, delPredictionImage, "Property for predictionImage")
+	def getPathToLogFile(self): return self._pathToLogFile
+	def setPathToLogFile(self, pathToLogFile):
+		checkType("XSDataMOSFLMOutputGeneratePrediction", "setPathToLogFile", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
+	def delPathToLogFile(self): self._pathToLogFile = None
+	# Properties
+	pathToLogFile = property(getPathToLogFile, setPathToLogFile, delPathToLogFile, "Property for pathToLogFile")
 	def export(self, outfile, level, name_='XSDataMOSFLMOutputGeneratePrediction'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1456,10 +1465,12 @@ class XSDataMOSFLMOutputGeneratePrediction(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMOutputGeneratePrediction'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__predictionImage is not None:
+		if self._predictionImage is not None:
 			self.predictionImage.export(outfile, level, name_='predictionImage')
 		else:
 			warnEmptyAttribute("predictionImage", "XSDataImage")
+		if self._pathToLogFile is not None:
+			self.pathToLogFile.export(outfile, level, name_='pathToLogFile')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1470,6 +1481,11 @@ class XSDataMOSFLMOutputGeneratePrediction(XSData):
 			obj_ = XSDataImage()
 			obj_.build(child_)
 			self.setPredictionImage(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pathToLogFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setPathToLogFile(obj_)
 		XSData.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -1517,85 +1533,87 @@ class XSDataMOSFLMOutputGeneratePrediction(XSData):
 class XSDataMOSFLMInput(XSDataInput):
 	def __init__(self, configuration=None, wavelength=None, template=None, symmetry=None, mosaicity=None, matrix=None, distance=None, directory=None, detector=None, beam=None):
 		XSDataInput.__init__(self, configuration)
+	
+	
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", beam, "XSDataMOSFLMBeamPosition")
-		self.__beam = beam
+		self._beam = beam
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", detector, "XSDataMOSFLMDetector")
-		self.__detector = detector
+		self._detector = detector
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", directory, "XSDataString")
-		self.__directory = directory
+		self._directory = directory
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", distance, "XSDataLength")
-		self.__distance = distance
+		self._distance = distance
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", matrix, "XSDataMOSFLMNewmat")
-		self.__matrix = matrix
+		self._matrix = matrix
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", mosaicity, "XSDataDouble")
-		self.__mosaicity = mosaicity
+		self._mosaicity = mosaicity
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", symmetry, "XSDataString")
-		self.__symmetry = symmetry
+		self._symmetry = symmetry
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", template, "XSDataString")
-		self.__template = template
+		self._template = template
 		checkType("XSDataMOSFLMInput", "Constructor of XSDataMOSFLMInput", wavelength, "XSDataWavelength")
-		self.__wavelength = wavelength
-	def getBeam(self): return self.__beam
+		self._wavelength = wavelength
+	def getBeam(self): return self._beam
 	def setBeam(self, beam):
 		checkType("XSDataMOSFLMInput", "setBeam", beam, "XSDataMOSFLMBeamPosition")
-		self.__beam = beam
-	def delBeam(self): self.__beam = None
+		self._beam = beam
+	def delBeam(self): self._beam = None
 	# Properties
 	beam = property(getBeam, setBeam, delBeam, "Property for beam")
-	def getDetector(self): return self.__detector
+	def getDetector(self): return self._detector
 	def setDetector(self, detector):
 		checkType("XSDataMOSFLMInput", "setDetector", detector, "XSDataMOSFLMDetector")
-		self.__detector = detector
-	def delDetector(self): self.__detector = None
+		self._detector = detector
+	def delDetector(self): self._detector = None
 	# Properties
 	detector = property(getDetector, setDetector, delDetector, "Property for detector")
-	def getDirectory(self): return self.__directory
+	def getDirectory(self): return self._directory
 	def setDirectory(self, directory):
 		checkType("XSDataMOSFLMInput", "setDirectory", directory, "XSDataString")
-		self.__directory = directory
-	def delDirectory(self): self.__directory = None
+		self._directory = directory
+	def delDirectory(self): self._directory = None
 	# Properties
 	directory = property(getDirectory, setDirectory, delDirectory, "Property for directory")
-	def getDistance(self): return self.__distance
+	def getDistance(self): return self._distance
 	def setDistance(self, distance):
 		checkType("XSDataMOSFLMInput", "setDistance", distance, "XSDataLength")
-		self.__distance = distance
-	def delDistance(self): self.__distance = None
+		self._distance = distance
+	def delDistance(self): self._distance = None
 	# Properties
 	distance = property(getDistance, setDistance, delDistance, "Property for distance")
-	def getMatrix(self): return self.__matrix
+	def getMatrix(self): return self._matrix
 	def setMatrix(self, matrix):
 		checkType("XSDataMOSFLMInput", "setMatrix", matrix, "XSDataMOSFLMNewmat")
-		self.__matrix = matrix
-	def delMatrix(self): self.__matrix = None
+		self._matrix = matrix
+	def delMatrix(self): self._matrix = None
 	# Properties
 	matrix = property(getMatrix, setMatrix, delMatrix, "Property for matrix")
-	def getMosaicity(self): return self.__mosaicity
+	def getMosaicity(self): return self._mosaicity
 	def setMosaicity(self, mosaicity):
 		checkType("XSDataMOSFLMInput", "setMosaicity", mosaicity, "XSDataDouble")
-		self.__mosaicity = mosaicity
-	def delMosaicity(self): self.__mosaicity = None
+		self._mosaicity = mosaicity
+	def delMosaicity(self): self._mosaicity = None
 	# Properties
 	mosaicity = property(getMosaicity, setMosaicity, delMosaicity, "Property for mosaicity")
-	def getSymmetry(self): return self.__symmetry
+	def getSymmetry(self): return self._symmetry
 	def setSymmetry(self, symmetry):
 		checkType("XSDataMOSFLMInput", "setSymmetry", symmetry, "XSDataString")
-		self.__symmetry = symmetry
-	def delSymmetry(self): self.__symmetry = None
+		self._symmetry = symmetry
+	def delSymmetry(self): self._symmetry = None
 	# Properties
 	symmetry = property(getSymmetry, setSymmetry, delSymmetry, "Property for symmetry")
-	def getTemplate(self): return self.__template
+	def getTemplate(self): return self._template
 	def setTemplate(self, template):
 		checkType("XSDataMOSFLMInput", "setTemplate", template, "XSDataString")
-		self.__template = template
-	def delTemplate(self): self.__template = None
+		self._template = template
+	def delTemplate(self): self._template = None
 	# Properties
 	template = property(getTemplate, setTemplate, delTemplate, "Property for template")
-	def getWavelength(self): return self.__wavelength
+	def getWavelength(self): return self._wavelength
 	def setWavelength(self, wavelength):
 		checkType("XSDataMOSFLMInput", "setWavelength", wavelength, "XSDataWavelength")
-		self.__wavelength = wavelength
-	def delWavelength(self): self.__wavelength = None
+		self._wavelength = wavelength
+	def delWavelength(self): self._wavelength = None
 	# Properties
 	wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
 	def export(self, outfile, level, name_='XSDataMOSFLMInput'):
@@ -1606,39 +1624,33 @@ class XSDataMOSFLMInput(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMInput'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__beam is not None:
+		if self._beam is not None:
 			self.beam.export(outfile, level, name_='beam')
 		else:
 			warnEmptyAttribute("beam", "XSDataMOSFLMBeamPosition")
-		if self.__detector is not None:
+		if self._detector is not None:
 			self.detector.export(outfile, level, name_='detector')
 		else:
 			warnEmptyAttribute("detector", "XSDataMOSFLMDetector")
-		if self.__directory is not None:
+		if self._directory is not None:
 			self.directory.export(outfile, level, name_='directory')
 		else:
 			warnEmptyAttribute("directory", "XSDataString")
-		if self.__distance is not None:
+		if self._distance is not None:
 			self.distance.export(outfile, level, name_='distance')
 		else:
 			warnEmptyAttribute("distance", "XSDataLength")
-		if self.__matrix is not None:
+		if self._matrix is not None:
 			self.matrix.export(outfile, level, name_='matrix')
-		else:
-			warnEmptyAttribute("matrix", "XSDataMOSFLMNewmat")
-		if self.__mosaicity is not None:
+		if self._mosaicity is not None:
 			self.mosaicity.export(outfile, level, name_='mosaicity')
-		else:
-			warnEmptyAttribute("mosaicity", "XSDataDouble")
-		if self.__symmetry is not None:
+		if self._symmetry is not None:
 			self.symmetry.export(outfile, level, name_='symmetry')
-		else:
-			warnEmptyAttribute("symmetry", "XSDataString")
-		if self.__template is not None:
+		if self._template is not None:
 			self.template.export(outfile, level, name_='template')
 		else:
 			warnEmptyAttribute("template", "XSDataString")
-		if self.__wavelength is not None:
+		if self._wavelength is not None:
 			self.wavelength.export(outfile, level, name_='wavelength')
 		else:
 			warnEmptyAttribute("wavelength", "XSDataWavelength")
@@ -1737,35 +1749,46 @@ class XSDataMOSFLMInput(XSDataInput):
 # end class XSDataMOSFLMInput
 
 class XSDataMOSFLMOutput(XSDataResult):
-	def __init__(self, status=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None):
+	def __init__(self, status=None, pathToLogFile=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None):
 		XSDataResult.__init__(self, status)
+	
+	
 		checkType("XSDataMOSFLMOutput", "Constructor of XSDataMOSFLMOutput", refinedBeam, "XSDataMOSFLMBeamPosition")
-		self.__refinedBeam = refinedBeam
+		self._refinedBeam = refinedBeam
 		checkType("XSDataMOSFLMOutput", "Constructor of XSDataMOSFLMOutput", refinedDistance, "XSDataLength")
-		self.__refinedDistance = refinedDistance
+		self._refinedDistance = refinedDistance
 		checkType("XSDataMOSFLMOutput", "Constructor of XSDataMOSFLMOutput", refinedNewmat, "XSDataMOSFLMNewmat")
-		self.__refinedNewmat = refinedNewmat
-	def getRefinedBeam(self): return self.__refinedBeam
+		self._refinedNewmat = refinedNewmat
+		checkType("XSDataMOSFLMOutput", "Constructor of XSDataMOSFLMOutput", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
+	def getRefinedBeam(self): return self._refinedBeam
 	def setRefinedBeam(self, refinedBeam):
 		checkType("XSDataMOSFLMOutput", "setRefinedBeam", refinedBeam, "XSDataMOSFLMBeamPosition")
-		self.__refinedBeam = refinedBeam
-	def delRefinedBeam(self): self.__refinedBeam = None
+		self._refinedBeam = refinedBeam
+	def delRefinedBeam(self): self._refinedBeam = None
 	# Properties
 	refinedBeam = property(getRefinedBeam, setRefinedBeam, delRefinedBeam, "Property for refinedBeam")
-	def getRefinedDistance(self): return self.__refinedDistance
+	def getRefinedDistance(self): return self._refinedDistance
 	def setRefinedDistance(self, refinedDistance):
 		checkType("XSDataMOSFLMOutput", "setRefinedDistance", refinedDistance, "XSDataLength")
-		self.__refinedDistance = refinedDistance
-	def delRefinedDistance(self): self.__refinedDistance = None
+		self._refinedDistance = refinedDistance
+	def delRefinedDistance(self): self._refinedDistance = None
 	# Properties
 	refinedDistance = property(getRefinedDistance, setRefinedDistance, delRefinedDistance, "Property for refinedDistance")
-	def getRefinedNewmat(self): return self.__refinedNewmat
+	def getRefinedNewmat(self): return self._refinedNewmat
 	def setRefinedNewmat(self, refinedNewmat):
 		checkType("XSDataMOSFLMOutput", "setRefinedNewmat", refinedNewmat, "XSDataMOSFLMNewmat")
-		self.__refinedNewmat = refinedNewmat
-	def delRefinedNewmat(self): self.__refinedNewmat = None
+		self._refinedNewmat = refinedNewmat
+	def delRefinedNewmat(self): self._refinedNewmat = None
 	# Properties
 	refinedNewmat = property(getRefinedNewmat, setRefinedNewmat, delRefinedNewmat, "Property for refinedNewmat")
+	def getPathToLogFile(self): return self._pathToLogFile
+	def setPathToLogFile(self, pathToLogFile):
+		checkType("XSDataMOSFLMOutput", "setPathToLogFile", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
+	def delPathToLogFile(self): self._pathToLogFile = None
+	# Properties
+	pathToLogFile = property(getPathToLogFile, setPathToLogFile, delPathToLogFile, "Property for pathToLogFile")
 	def export(self, outfile, level, name_='XSDataMOSFLMOutput'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -1774,18 +1797,20 @@ class XSDataMOSFLMOutput(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMOutput'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__refinedBeam is not None:
+		if self._refinedBeam is not None:
 			self.refinedBeam.export(outfile, level, name_='refinedBeam')
 		else:
 			warnEmptyAttribute("refinedBeam", "XSDataMOSFLMBeamPosition")
-		if self.__refinedDistance is not None:
+		if self._refinedDistance is not None:
 			self.refinedDistance.export(outfile, level, name_='refinedDistance')
 		else:
 			warnEmptyAttribute("refinedDistance", "XSDataLength")
-		if self.__refinedNewmat is not None:
+		if self._refinedNewmat is not None:
 			self.refinedNewmat.export(outfile, level, name_='refinedNewmat')
 		else:
 			warnEmptyAttribute("refinedNewmat", "XSDataMOSFLMNewmat")
+		if self._pathToLogFile is not None:
+			self.pathToLogFile.export(outfile, level, name_='pathToLogFile')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -1806,6 +1831,11 @@ class XSDataMOSFLMOutput(XSDataResult):
 			obj_ = XSDataMOSFLMNewmat()
 			obj_.build(child_)
 			self.setRefinedNewmat(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pathToLogFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setPathToLogFile(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -1853,13 +1883,15 @@ class XSDataMOSFLMOutput(XSDataResult):
 class XSDataMOSFLMInputGeneratePrediction(XSDataMOSFLMInput):
 	def __init__(self, configuration=None, wavelength=None, template=None, symmetry=None, mosaicity=None, matrix=None, distance=None, directory=None, detector=None, beam=None, image=None):
 		XSDataMOSFLMInput.__init__(self, configuration, wavelength, template, symmetry, mosaicity, matrix, distance, directory, detector, beam)
+	
+	
 		checkType("XSDataMOSFLMInputGeneratePrediction", "Constructor of XSDataMOSFLMInputGeneratePrediction", image, "XSDataMOSFLMImage")
-		self.__image = image
-	def getImage(self): return self.__image
+		self._image = image
+	def getImage(self): return self._image
 	def setImage(self, image):
 		checkType("XSDataMOSFLMInputGeneratePrediction", "setImage", image, "XSDataMOSFLMImage")
-		self.__image = image
-	def delImage(self): self.__image = None
+		self._image = image
+	def delImage(self): self._image = None
 	# Properties
 	image = property(getImage, setImage, delImage, "Property for image")
 	def export(self, outfile, level, name_='XSDataMOSFLMInputGeneratePrediction'):
@@ -1870,7 +1902,7 @@ class XSDataMOSFLMInputGeneratePrediction(XSDataMOSFLMInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMInputGeneratePrediction'):
 		XSDataMOSFLMInput.exportChildren(self, outfile, level, name_)
-		if self.__image is not None:
+		if self._image is not None:
 			self.image.export(outfile, level, name_='image')
 		else:
 			warnEmptyAttribute("image", "XSDataMOSFLMImage")
@@ -1931,24 +1963,26 @@ class XSDataMOSFLMInputGeneratePrediction(XSDataMOSFLMInput):
 class XSDataMOSFLMInputIndexing(XSDataMOSFLMInput):
 	def __init__(self, configuration=None, wavelength=None, template=None, symmetry=None, mosaicity=None, matrix=None, distance=None, directory=None, detector=None, beam=None, image=None):
 		XSDataMOSFLMInput.__init__(self, configuration, wavelength, template, symmetry, mosaicity, matrix, distance, directory, detector, beam)
+	
+	
 		if image is None:
-			self.__image = []
+			self._image = []
 		else:
-			checkType("XSDataMOSFLMInputIndexing", "Constructor of XSDataMOSFLMInputIndexing", image, "XSDataMOSFLMImage")
-			self.__image = image
-	def getImage(self): return self.__image
+			checkType("XSDataMOSFLMInputIndexing", "Constructor of XSDataMOSFLMInputIndexing", image, "list")
+			self._image = image
+	def getImage(self): return self._image
 	def setImage(self, image):
 		checkType("XSDataMOSFLMInputIndexing", "setImage", image, "list")
-		self.__image = image
-	def delImage(self): self.__image = None
+		self._image = image
+	def delImage(self): self._image = None
 	# Properties
 	image = property(getImage, setImage, delImage, "Property for image")
 	def addImage(self, value):
 		checkType("XSDataMOSFLMInputIndexing", "setImage", value, "XSDataMOSFLMImage")
-		self.__image.append(value)
+		self._image.append(value)
 	def insertImage(self, index, value):
 		checkType("XSDataMOSFLMInputIndexing", "setImage", value, "XSDataMOSFLMImage")
-		self.__image[index] = value
+		self._image[index] = value
 	def export(self, outfile, level, name_='XSDataMOSFLMInputIndexing'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2018,40 +2052,42 @@ class XSDataMOSFLMInputIndexing(XSDataMOSFLMInput):
 class XSDataMOSFLMInputIntegration(XSDataMOSFLMInput):
 	def __init__(self, configuration=None, wavelength=None, template=None, symmetry=None, mosaicity=None, matrix=None, distance=None, directory=None, detector=None, beam=None, rotationAxisStart=None, oscillationWidth=None, imageStart=None, imageEnd=None):
 		XSDataMOSFLMInput.__init__(self, configuration, wavelength, template, symmetry, mosaicity, matrix, distance, directory, detector, beam)
+	
+	
 		checkType("XSDataMOSFLMInputIntegration", "Constructor of XSDataMOSFLMInputIntegration", imageEnd, "XSDataInteger")
-		self.__imageEnd = imageEnd
+		self._imageEnd = imageEnd
 		checkType("XSDataMOSFLMInputIntegration", "Constructor of XSDataMOSFLMInputIntegration", imageStart, "XSDataInteger")
-		self.__imageStart = imageStart
+		self._imageStart = imageStart
 		checkType("XSDataMOSFLMInputIntegration", "Constructor of XSDataMOSFLMInputIntegration", oscillationWidth, "XSDataAngle")
-		self.__oscillationWidth = oscillationWidth
+		self._oscillationWidth = oscillationWidth
 		checkType("XSDataMOSFLMInputIntegration", "Constructor of XSDataMOSFLMInputIntegration", rotationAxisStart, "XSDataAngle")
-		self.__rotationAxisStart = rotationAxisStart
-	def getImageEnd(self): return self.__imageEnd
+		self._rotationAxisStart = rotationAxisStart
+	def getImageEnd(self): return self._imageEnd
 	def setImageEnd(self, imageEnd):
 		checkType("XSDataMOSFLMInputIntegration", "setImageEnd", imageEnd, "XSDataInteger")
-		self.__imageEnd = imageEnd
-	def delImageEnd(self): self.__imageEnd = None
+		self._imageEnd = imageEnd
+	def delImageEnd(self): self._imageEnd = None
 	# Properties
 	imageEnd = property(getImageEnd, setImageEnd, delImageEnd, "Property for imageEnd")
-	def getImageStart(self): return self.__imageStart
+	def getImageStart(self): return self._imageStart
 	def setImageStart(self, imageStart):
 		checkType("XSDataMOSFLMInputIntegration", "setImageStart", imageStart, "XSDataInteger")
-		self.__imageStart = imageStart
-	def delImageStart(self): self.__imageStart = None
+		self._imageStart = imageStart
+	def delImageStart(self): self._imageStart = None
 	# Properties
 	imageStart = property(getImageStart, setImageStart, delImageStart, "Property for imageStart")
-	def getOscillationWidth(self): return self.__oscillationWidth
+	def getOscillationWidth(self): return self._oscillationWidth
 	def setOscillationWidth(self, oscillationWidth):
 		checkType("XSDataMOSFLMInputIntegration", "setOscillationWidth", oscillationWidth, "XSDataAngle")
-		self.__oscillationWidth = oscillationWidth
-	def delOscillationWidth(self): self.__oscillationWidth = None
+		self._oscillationWidth = oscillationWidth
+	def delOscillationWidth(self): self._oscillationWidth = None
 	# Properties
 	oscillationWidth = property(getOscillationWidth, setOscillationWidth, delOscillationWidth, "Property for oscillationWidth")
-	def getRotationAxisStart(self): return self.__rotationAxisStart
+	def getRotationAxisStart(self): return self._rotationAxisStart
 	def setRotationAxisStart(self, rotationAxisStart):
 		checkType("XSDataMOSFLMInputIntegration", "setRotationAxisStart", rotationAxisStart, "XSDataAngle")
-		self.__rotationAxisStart = rotationAxisStart
-	def delRotationAxisStart(self): self.__rotationAxisStart = None
+		self._rotationAxisStart = rotationAxisStart
+	def delRotationAxisStart(self): self._rotationAxisStart = None
 	# Properties
 	rotationAxisStart = property(getRotationAxisStart, setRotationAxisStart, delRotationAxisStart, "Property for rotationAxisStart")
 	def export(self, outfile, level, name_='XSDataMOSFLMInputIntegration'):
@@ -2062,19 +2098,19 @@ class XSDataMOSFLMInputIntegration(XSDataMOSFLMInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMInputIntegration'):
 		XSDataMOSFLMInput.exportChildren(self, outfile, level, name_)
-		if self.__imageEnd is not None:
+		if self._imageEnd is not None:
 			self.imageEnd.export(outfile, level, name_='imageEnd')
 		else:
 			warnEmptyAttribute("imageEnd", "XSDataInteger")
-		if self.__imageStart is not None:
+		if self._imageStart is not None:
 			self.imageStart.export(outfile, level, name_='imageStart')
 		else:
 			warnEmptyAttribute("imageStart", "XSDataInteger")
-		if self.__oscillationWidth is not None:
+		if self._oscillationWidth is not None:
 			self.oscillationWidth.export(outfile, level, name_='oscillationWidth')
 		else:
 			warnEmptyAttribute("oscillationWidth", "XSDataAngle")
-		if self.__rotationAxisStart is not None:
+		if self._rotationAxisStart is not None:
 			self.rotationAxisStart.export(outfile, level, name_='rotationAxisStart')
 		else:
 			warnEmptyAttribute("rotationAxisStart", "XSDataAngle")
@@ -2150,6 +2186,8 @@ class XSDataMOSFLMInputIntegration(XSDataMOSFLMInput):
 class XSDataMOSFLMInputPostRefinement(XSDataMOSFLMInput):
 	def __init__(self, configuration=None, wavelength=None, template=None, symmetry=None, mosaicity=None, matrix=None, distance=None, directory=None, detector=None, beam=None):
 		XSDataMOSFLMInput.__init__(self, configuration, wavelength, template, symmetry, mosaicity, matrix, distance, directory, detector, beam)
+	
+	
 	def export(self, outfile, level, name_='XSDataMOSFLMInputPostRefinement'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2209,105 +2247,107 @@ class XSDataMOSFLMInputPostRefinement(XSDataMOSFLMInput):
 # end class XSDataMOSFLMInputPostRefinement
 
 class XSDataMOSFLMOutputIndexing(XSDataMOSFLMOutput):
-	def __init__(self, status=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None, spotsUsed=None, spotsTotal=None, selectedSolutionSpaceGroupNumber=None, selectedSolutionSpaceGroup=None, selectedSolutionNumber=None, possibleSolutions=None, mosaicityEstimation=None, deviationPositional=None, deviationAngular=None, beamShift=None):
-		XSDataMOSFLMOutput.__init__(self, status, refinedNewmat, refinedDistance, refinedBeam)
+	def __init__(self, status=None, pathToLogFile=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None, spotsUsed=None, spotsTotal=None, selectedSolutionSpaceGroupNumber=None, selectedSolutionSpaceGroup=None, selectedSolutionNumber=None, possibleSolutions=None, mosaicityEstimation=None, deviationPositional=None, deviationAngular=None, beamShift=None):
+		XSDataMOSFLMOutput.__init__(self, status, pathToLogFile, refinedNewmat, refinedDistance, refinedBeam)
+	
+	
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", beamShift, "XSDataMOSFLMBeamPosition")
-		self.__beamShift = beamShift
+		self._beamShift = beamShift
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", deviationAngular, "XSDataAngle")
-		self.__deviationAngular = deviationAngular
+		self._deviationAngular = deviationAngular
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", deviationPositional, "XSDataLength")
-		self.__deviationPositional = deviationPositional
+		self._deviationPositional = deviationPositional
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", mosaicityEstimation, "XSDataFloat")
-		self.__mosaicityEstimation = mosaicityEstimation
+		self._mosaicityEstimation = mosaicityEstimation
 		if possibleSolutions is None:
-			self.__possibleSolutions = []
+			self._possibleSolutions = []
 		else:
-			checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", possibleSolutions, "XSDataMOSFLMIndexingSolution")
-			self.__possibleSolutions = possibleSolutions
+			checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", possibleSolutions, "list")
+			self._possibleSolutions = possibleSolutions
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", selectedSolutionNumber, "XSDataInteger")
-		self.__selectedSolutionNumber = selectedSolutionNumber
+		self._selectedSolutionNumber = selectedSolutionNumber
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", selectedSolutionSpaceGroup, "XSDataString")
-		self.__selectedSolutionSpaceGroup = selectedSolutionSpaceGroup
+		self._selectedSolutionSpaceGroup = selectedSolutionSpaceGroup
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", selectedSolutionSpaceGroupNumber, "XSDataInteger")
-		self.__selectedSolutionSpaceGroupNumber = selectedSolutionSpaceGroupNumber
+		self._selectedSolutionSpaceGroupNumber = selectedSolutionSpaceGroupNumber
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", spotsTotal, "XSDataInteger")
-		self.__spotsTotal = spotsTotal
+		self._spotsTotal = spotsTotal
 		checkType("XSDataMOSFLMOutputIndexing", "Constructor of XSDataMOSFLMOutputIndexing", spotsUsed, "XSDataInteger")
-		self.__spotsUsed = spotsUsed
-	def getBeamShift(self): return self.__beamShift
+		self._spotsUsed = spotsUsed
+	def getBeamShift(self): return self._beamShift
 	def setBeamShift(self, beamShift):
 		checkType("XSDataMOSFLMOutputIndexing", "setBeamShift", beamShift, "XSDataMOSFLMBeamPosition")
-		self.__beamShift = beamShift
-	def delBeamShift(self): self.__beamShift = None
+		self._beamShift = beamShift
+	def delBeamShift(self): self._beamShift = None
 	# Properties
 	beamShift = property(getBeamShift, setBeamShift, delBeamShift, "Property for beamShift")
-	def getDeviationAngular(self): return self.__deviationAngular
+	def getDeviationAngular(self): return self._deviationAngular
 	def setDeviationAngular(self, deviationAngular):
 		checkType("XSDataMOSFLMOutputIndexing", "setDeviationAngular", deviationAngular, "XSDataAngle")
-		self.__deviationAngular = deviationAngular
-	def delDeviationAngular(self): self.__deviationAngular = None
+		self._deviationAngular = deviationAngular
+	def delDeviationAngular(self): self._deviationAngular = None
 	# Properties
 	deviationAngular = property(getDeviationAngular, setDeviationAngular, delDeviationAngular, "Property for deviationAngular")
-	def getDeviationPositional(self): return self.__deviationPositional
+	def getDeviationPositional(self): return self._deviationPositional
 	def setDeviationPositional(self, deviationPositional):
 		checkType("XSDataMOSFLMOutputIndexing", "setDeviationPositional", deviationPositional, "XSDataLength")
-		self.__deviationPositional = deviationPositional
-	def delDeviationPositional(self): self.__deviationPositional = None
+		self._deviationPositional = deviationPositional
+	def delDeviationPositional(self): self._deviationPositional = None
 	# Properties
 	deviationPositional = property(getDeviationPositional, setDeviationPositional, delDeviationPositional, "Property for deviationPositional")
-	def getMosaicityEstimation(self): return self.__mosaicityEstimation
+	def getMosaicityEstimation(self): return self._mosaicityEstimation
 	def setMosaicityEstimation(self, mosaicityEstimation):
 		checkType("XSDataMOSFLMOutputIndexing", "setMosaicityEstimation", mosaicityEstimation, "XSDataFloat")
-		self.__mosaicityEstimation = mosaicityEstimation
-	def delMosaicityEstimation(self): self.__mosaicityEstimation = None
+		self._mosaicityEstimation = mosaicityEstimation
+	def delMosaicityEstimation(self): self._mosaicityEstimation = None
 	# Properties
 	mosaicityEstimation = property(getMosaicityEstimation, setMosaicityEstimation, delMosaicityEstimation, "Property for mosaicityEstimation")
-	def getPossibleSolutions(self): return self.__possibleSolutions
+	def getPossibleSolutions(self): return self._possibleSolutions
 	def setPossibleSolutions(self, possibleSolutions):
 		checkType("XSDataMOSFLMOutputIndexing", "setPossibleSolutions", possibleSolutions, "list")
-		self.__possibleSolutions = possibleSolutions
-	def delPossibleSolutions(self): self.__possibleSolutions = None
+		self._possibleSolutions = possibleSolutions
+	def delPossibleSolutions(self): self._possibleSolutions = None
 	# Properties
 	possibleSolutions = property(getPossibleSolutions, setPossibleSolutions, delPossibleSolutions, "Property for possibleSolutions")
 	def addPossibleSolutions(self, value):
 		checkType("XSDataMOSFLMOutputIndexing", "setPossibleSolutions", value, "XSDataMOSFLMIndexingSolution")
-		self.__possibleSolutions.append(value)
+		self._possibleSolutions.append(value)
 	def insertPossibleSolutions(self, index, value):
 		checkType("XSDataMOSFLMOutputIndexing", "setPossibleSolutions", value, "XSDataMOSFLMIndexingSolution")
-		self.__possibleSolutions[index] = value
-	def getSelectedSolutionNumber(self): return self.__selectedSolutionNumber
+		self._possibleSolutions[index] = value
+	def getSelectedSolutionNumber(self): return self._selectedSolutionNumber
 	def setSelectedSolutionNumber(self, selectedSolutionNumber):
 		checkType("XSDataMOSFLMOutputIndexing", "setSelectedSolutionNumber", selectedSolutionNumber, "XSDataInteger")
-		self.__selectedSolutionNumber = selectedSolutionNumber
-	def delSelectedSolutionNumber(self): self.__selectedSolutionNumber = None
+		self._selectedSolutionNumber = selectedSolutionNumber
+	def delSelectedSolutionNumber(self): self._selectedSolutionNumber = None
 	# Properties
 	selectedSolutionNumber = property(getSelectedSolutionNumber, setSelectedSolutionNumber, delSelectedSolutionNumber, "Property for selectedSolutionNumber")
-	def getSelectedSolutionSpaceGroup(self): return self.__selectedSolutionSpaceGroup
+	def getSelectedSolutionSpaceGroup(self): return self._selectedSolutionSpaceGroup
 	def setSelectedSolutionSpaceGroup(self, selectedSolutionSpaceGroup):
 		checkType("XSDataMOSFLMOutputIndexing", "setSelectedSolutionSpaceGroup", selectedSolutionSpaceGroup, "XSDataString")
-		self.__selectedSolutionSpaceGroup = selectedSolutionSpaceGroup
-	def delSelectedSolutionSpaceGroup(self): self.__selectedSolutionSpaceGroup = None
+		self._selectedSolutionSpaceGroup = selectedSolutionSpaceGroup
+	def delSelectedSolutionSpaceGroup(self): self._selectedSolutionSpaceGroup = None
 	# Properties
 	selectedSolutionSpaceGroup = property(getSelectedSolutionSpaceGroup, setSelectedSolutionSpaceGroup, delSelectedSolutionSpaceGroup, "Property for selectedSolutionSpaceGroup")
-	def getSelectedSolutionSpaceGroupNumber(self): return self.__selectedSolutionSpaceGroupNumber
+	def getSelectedSolutionSpaceGroupNumber(self): return self._selectedSolutionSpaceGroupNumber
 	def setSelectedSolutionSpaceGroupNumber(self, selectedSolutionSpaceGroupNumber):
 		checkType("XSDataMOSFLMOutputIndexing", "setSelectedSolutionSpaceGroupNumber", selectedSolutionSpaceGroupNumber, "XSDataInteger")
-		self.__selectedSolutionSpaceGroupNumber = selectedSolutionSpaceGroupNumber
-	def delSelectedSolutionSpaceGroupNumber(self): self.__selectedSolutionSpaceGroupNumber = None
+		self._selectedSolutionSpaceGroupNumber = selectedSolutionSpaceGroupNumber
+	def delSelectedSolutionSpaceGroupNumber(self): self._selectedSolutionSpaceGroupNumber = None
 	# Properties
 	selectedSolutionSpaceGroupNumber = property(getSelectedSolutionSpaceGroupNumber, setSelectedSolutionSpaceGroupNumber, delSelectedSolutionSpaceGroupNumber, "Property for selectedSolutionSpaceGroupNumber")
-	def getSpotsTotal(self): return self.__spotsTotal
+	def getSpotsTotal(self): return self._spotsTotal
 	def setSpotsTotal(self, spotsTotal):
 		checkType("XSDataMOSFLMOutputIndexing", "setSpotsTotal", spotsTotal, "XSDataInteger")
-		self.__spotsTotal = spotsTotal
-	def delSpotsTotal(self): self.__spotsTotal = None
+		self._spotsTotal = spotsTotal
+	def delSpotsTotal(self): self._spotsTotal = None
 	# Properties
 	spotsTotal = property(getSpotsTotal, setSpotsTotal, delSpotsTotal, "Property for spotsTotal")
-	def getSpotsUsed(self): return self.__spotsUsed
+	def getSpotsUsed(self): return self._spotsUsed
 	def setSpotsUsed(self, spotsUsed):
 		checkType("XSDataMOSFLMOutputIndexing", "setSpotsUsed", spotsUsed, "XSDataInteger")
-		self.__spotsUsed = spotsUsed
-	def delSpotsUsed(self): self.__spotsUsed = None
+		self._spotsUsed = spotsUsed
+	def delSpotsUsed(self): self._spotsUsed = None
 	# Properties
 	spotsUsed = property(getSpotsUsed, setSpotsUsed, delSpotsUsed, "Property for spotsUsed")
 	def export(self, outfile, level, name_='XSDataMOSFLMOutputIndexing'):
@@ -2318,41 +2358,41 @@ class XSDataMOSFLMOutputIndexing(XSDataMOSFLMOutput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMOutputIndexing'):
 		XSDataMOSFLMOutput.exportChildren(self, outfile, level, name_)
-		if self.__beamShift is not None:
+		if self._beamShift is not None:
 			self.beamShift.export(outfile, level, name_='beamShift')
 		else:
 			warnEmptyAttribute("beamShift", "XSDataMOSFLMBeamPosition")
-		if self.__deviationAngular is not None:
+		if self._deviationAngular is not None:
 			self.deviationAngular.export(outfile, level, name_='deviationAngular')
 		else:
 			warnEmptyAttribute("deviationAngular", "XSDataAngle")
-		if self.__deviationPositional is not None:
+		if self._deviationPositional is not None:
 			self.deviationPositional.export(outfile, level, name_='deviationPositional')
 		else:
 			warnEmptyAttribute("deviationPositional", "XSDataLength")
-		if self.__mosaicityEstimation is not None:
+		if self._mosaicityEstimation is not None:
 			self.mosaicityEstimation.export(outfile, level, name_='mosaicityEstimation')
 		else:
 			warnEmptyAttribute("mosaicityEstimation", "XSDataFloat")
 		for possibleSolutions_ in self.getPossibleSolutions():
 			possibleSolutions_.export(outfile, level, name_='possibleSolutions')
-		if self.__selectedSolutionNumber is not None:
+		if self._selectedSolutionNumber is not None:
 			self.selectedSolutionNumber.export(outfile, level, name_='selectedSolutionNumber')
 		else:
 			warnEmptyAttribute("selectedSolutionNumber", "XSDataInteger")
-		if self.__selectedSolutionSpaceGroup is not None:
+		if self._selectedSolutionSpaceGroup is not None:
 			self.selectedSolutionSpaceGroup.export(outfile, level, name_='selectedSolutionSpaceGroup')
 		else:
 			warnEmptyAttribute("selectedSolutionSpaceGroup", "XSDataString")
-		if self.__selectedSolutionSpaceGroupNumber is not None:
+		if self._selectedSolutionSpaceGroupNumber is not None:
 			self.selectedSolutionSpaceGroupNumber.export(outfile, level, name_='selectedSolutionSpaceGroupNumber')
 		else:
 			warnEmptyAttribute("selectedSolutionSpaceGroupNumber", "XSDataInteger")
-		if self.__spotsTotal is not None:
+		if self._spotsTotal is not None:
 			self.spotsTotal.export(outfile, level, name_='spotsTotal')
 		else:
 			warnEmptyAttribute("spotsTotal", "XSDataInteger")
-		if self.__spotsUsed is not None:
+		if self._spotsUsed is not None:
 			self.spotsUsed.export(outfile, level, name_='spotsUsed')
 		else:
 			warnEmptyAttribute("spotsUsed", "XSDataInteger")
@@ -2456,170 +2496,172 @@ class XSDataMOSFLMOutputIndexing(XSDataMOSFLMOutput):
 # end class XSDataMOSFLMOutputIndexing
 
 class XSDataMOSFLMOutputIntegration(XSDataMOSFLMOutput):
-	def __init__(self, status=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None, statisticsPerResolutionBin=None, RMSSpotDeviation=None, refinedYScale=None, refinedMosaicity=None, overallStatistics=None, overallIOverSigma=None, numberOfReflectionsGenerated=None, numberOfPartialReflections=None, numberOfOverlappedReflections=None, numberOfNegativeReflections=None, numberOfFullyRecordedReflections=None, numberOfBadReflections=None, highestResolutionIOverSigma=None, generatedMTZFile=None, bestfilePar=None, bestfileHKL=None, bestfileDat=None):
-		XSDataMOSFLMOutput.__init__(self, status, refinedNewmat, refinedDistance, refinedBeam)
+	def __init__(self, status=None, pathToLogFile=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None, statisticsPerResolutionBin=None, RMSSpotDeviation=None, refinedYScale=None, refinedMosaicity=None, overallStatistics=None, overallIOverSigma=None, numberOfReflectionsGenerated=None, numberOfPartialReflections=None, numberOfOverlappedReflections=None, numberOfNegativeReflections=None, numberOfFullyRecordedReflections=None, numberOfBadReflections=None, highestResolutionIOverSigma=None, generatedMTZFile=None, bestfilePar=None, bestfileHKL=None, bestfileDat=None):
+		XSDataMOSFLMOutput.__init__(self, status, pathToLogFile, refinedNewmat, refinedDistance, refinedBeam)
+	
+	
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", bestfileDat, "XSDataString")
-		self.__bestfileDat = bestfileDat
+		self._bestfileDat = bestfileDat
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", bestfileHKL, "XSDataString")
-		self.__bestfileHKL = bestfileHKL
+		self._bestfileHKL = bestfileHKL
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", bestfilePar, "XSDataString")
-		self.__bestfilePar = bestfilePar
+		self._bestfilePar = bestfilePar
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", generatedMTZFile, "XSDataFile")
-		self.__generatedMTZFile = generatedMTZFile
+		self._generatedMTZFile = generatedMTZFile
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", highestResolutionIOverSigma, "XSDataFloat")
-		self.__highestResolutionIOverSigma = highestResolutionIOverSigma
+		self._highestResolutionIOverSigma = highestResolutionIOverSigma
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", numberOfBadReflections, "XSDataInteger")
-		self.__numberOfBadReflections = numberOfBadReflections
+		self._numberOfBadReflections = numberOfBadReflections
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", numberOfFullyRecordedReflections, "XSDataInteger")
-		self.__numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
+		self._numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", numberOfNegativeReflections, "XSDataInteger")
-		self.__numberOfNegativeReflections = numberOfNegativeReflections
+		self._numberOfNegativeReflections = numberOfNegativeReflections
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", numberOfOverlappedReflections, "XSDataInteger")
-		self.__numberOfOverlappedReflections = numberOfOverlappedReflections
+		self._numberOfOverlappedReflections = numberOfOverlappedReflections
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", numberOfPartialReflections, "XSDataInteger")
-		self.__numberOfPartialReflections = numberOfPartialReflections
+		self._numberOfPartialReflections = numberOfPartialReflections
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", numberOfReflectionsGenerated, "XSDataInteger")
-		self.__numberOfReflectionsGenerated = numberOfReflectionsGenerated
+		self._numberOfReflectionsGenerated = numberOfReflectionsGenerated
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", overallIOverSigma, "XSDataFloat")
-		self.__overallIOverSigma = overallIOverSigma
+		self._overallIOverSigma = overallIOverSigma
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", overallStatistics, "XSDataMOSFLMIntegrationStatisticsPerResolutionBin")
-		self.__overallStatistics = overallStatistics
+		self._overallStatistics = overallStatistics
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", refinedMosaicity, "XSDataFloat")
-		self.__refinedMosaicity = refinedMosaicity
+		self._refinedMosaicity = refinedMosaicity
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", refinedYScale, "XSDataFloat")
-		self.__refinedYScale = refinedYScale
+		self._refinedYScale = refinedYScale
 		checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", RMSSpotDeviation, "XSDataLength")
-		self.__RMSSpotDeviation = RMSSpotDeviation
+		self._RMSSpotDeviation = RMSSpotDeviation
 		if statisticsPerResolutionBin is None:
-			self.__statisticsPerResolutionBin = []
+			self._statisticsPerResolutionBin = []
 		else:
-			checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", statisticsPerResolutionBin, "XSDataMOSFLMIntegrationStatisticsPerResolutionBin")
-			self.__statisticsPerResolutionBin = statisticsPerResolutionBin
-	def getBestfileDat(self): return self.__bestfileDat
+			checkType("XSDataMOSFLMOutputIntegration", "Constructor of XSDataMOSFLMOutputIntegration", statisticsPerResolutionBin, "list")
+			self._statisticsPerResolutionBin = statisticsPerResolutionBin
+	def getBestfileDat(self): return self._bestfileDat
 	def setBestfileDat(self, bestfileDat):
 		checkType("XSDataMOSFLMOutputIntegration", "setBestfileDat", bestfileDat, "XSDataString")
-		self.__bestfileDat = bestfileDat
-	def delBestfileDat(self): self.__bestfileDat = None
+		self._bestfileDat = bestfileDat
+	def delBestfileDat(self): self._bestfileDat = None
 	# Properties
 	bestfileDat = property(getBestfileDat, setBestfileDat, delBestfileDat, "Property for bestfileDat")
-	def getBestfileHKL(self): return self.__bestfileHKL
+	def getBestfileHKL(self): return self._bestfileHKL
 	def setBestfileHKL(self, bestfileHKL):
 		checkType("XSDataMOSFLMOutputIntegration", "setBestfileHKL", bestfileHKL, "XSDataString")
-		self.__bestfileHKL = bestfileHKL
-	def delBestfileHKL(self): self.__bestfileHKL = None
+		self._bestfileHKL = bestfileHKL
+	def delBestfileHKL(self): self._bestfileHKL = None
 	# Properties
 	bestfileHKL = property(getBestfileHKL, setBestfileHKL, delBestfileHKL, "Property for bestfileHKL")
-	def getBestfilePar(self): return self.__bestfilePar
+	def getBestfilePar(self): return self._bestfilePar
 	def setBestfilePar(self, bestfilePar):
 		checkType("XSDataMOSFLMOutputIntegration", "setBestfilePar", bestfilePar, "XSDataString")
-		self.__bestfilePar = bestfilePar
-	def delBestfilePar(self): self.__bestfilePar = None
+		self._bestfilePar = bestfilePar
+	def delBestfilePar(self): self._bestfilePar = None
 	# Properties
 	bestfilePar = property(getBestfilePar, setBestfilePar, delBestfilePar, "Property for bestfilePar")
-	def getGeneratedMTZFile(self): return self.__generatedMTZFile
+	def getGeneratedMTZFile(self): return self._generatedMTZFile
 	def setGeneratedMTZFile(self, generatedMTZFile):
 		checkType("XSDataMOSFLMOutputIntegration", "setGeneratedMTZFile", generatedMTZFile, "XSDataFile")
-		self.__generatedMTZFile = generatedMTZFile
-	def delGeneratedMTZFile(self): self.__generatedMTZFile = None
+		self._generatedMTZFile = generatedMTZFile
+	def delGeneratedMTZFile(self): self._generatedMTZFile = None
 	# Properties
 	generatedMTZFile = property(getGeneratedMTZFile, setGeneratedMTZFile, delGeneratedMTZFile, "Property for generatedMTZFile")
-	def getHighestResolutionIOverSigma(self): return self.__highestResolutionIOverSigma
+	def getHighestResolutionIOverSigma(self): return self._highestResolutionIOverSigma
 	def setHighestResolutionIOverSigma(self, highestResolutionIOverSigma):
 		checkType("XSDataMOSFLMOutputIntegration", "setHighestResolutionIOverSigma", highestResolutionIOverSigma, "XSDataFloat")
-		self.__highestResolutionIOverSigma = highestResolutionIOverSigma
-	def delHighestResolutionIOverSigma(self): self.__highestResolutionIOverSigma = None
+		self._highestResolutionIOverSigma = highestResolutionIOverSigma
+	def delHighestResolutionIOverSigma(self): self._highestResolutionIOverSigma = None
 	# Properties
 	highestResolutionIOverSigma = property(getHighestResolutionIOverSigma, setHighestResolutionIOverSigma, delHighestResolutionIOverSigma, "Property for highestResolutionIOverSigma")
-	def getNumberOfBadReflections(self): return self.__numberOfBadReflections
+	def getNumberOfBadReflections(self): return self._numberOfBadReflections
 	def setNumberOfBadReflections(self, numberOfBadReflections):
 		checkType("XSDataMOSFLMOutputIntegration", "setNumberOfBadReflections", numberOfBadReflections, "XSDataInteger")
-		self.__numberOfBadReflections = numberOfBadReflections
-	def delNumberOfBadReflections(self): self.__numberOfBadReflections = None
+		self._numberOfBadReflections = numberOfBadReflections
+	def delNumberOfBadReflections(self): self._numberOfBadReflections = None
 	# Properties
 	numberOfBadReflections = property(getNumberOfBadReflections, setNumberOfBadReflections, delNumberOfBadReflections, "Property for numberOfBadReflections")
-	def getNumberOfFullyRecordedReflections(self): return self.__numberOfFullyRecordedReflections
+	def getNumberOfFullyRecordedReflections(self): return self._numberOfFullyRecordedReflections
 	def setNumberOfFullyRecordedReflections(self, numberOfFullyRecordedReflections):
 		checkType("XSDataMOSFLMOutputIntegration", "setNumberOfFullyRecordedReflections", numberOfFullyRecordedReflections, "XSDataInteger")
-		self.__numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
-	def delNumberOfFullyRecordedReflections(self): self.__numberOfFullyRecordedReflections = None
+		self._numberOfFullyRecordedReflections = numberOfFullyRecordedReflections
+	def delNumberOfFullyRecordedReflections(self): self._numberOfFullyRecordedReflections = None
 	# Properties
 	numberOfFullyRecordedReflections = property(getNumberOfFullyRecordedReflections, setNumberOfFullyRecordedReflections, delNumberOfFullyRecordedReflections, "Property for numberOfFullyRecordedReflections")
-	def getNumberOfNegativeReflections(self): return self.__numberOfNegativeReflections
+	def getNumberOfNegativeReflections(self): return self._numberOfNegativeReflections
 	def setNumberOfNegativeReflections(self, numberOfNegativeReflections):
 		checkType("XSDataMOSFLMOutputIntegration", "setNumberOfNegativeReflections", numberOfNegativeReflections, "XSDataInteger")
-		self.__numberOfNegativeReflections = numberOfNegativeReflections
-	def delNumberOfNegativeReflections(self): self.__numberOfNegativeReflections = None
+		self._numberOfNegativeReflections = numberOfNegativeReflections
+	def delNumberOfNegativeReflections(self): self._numberOfNegativeReflections = None
 	# Properties
 	numberOfNegativeReflections = property(getNumberOfNegativeReflections, setNumberOfNegativeReflections, delNumberOfNegativeReflections, "Property for numberOfNegativeReflections")
-	def getNumberOfOverlappedReflections(self): return self.__numberOfOverlappedReflections
+	def getNumberOfOverlappedReflections(self): return self._numberOfOverlappedReflections
 	def setNumberOfOverlappedReflections(self, numberOfOverlappedReflections):
 		checkType("XSDataMOSFLMOutputIntegration", "setNumberOfOverlappedReflections", numberOfOverlappedReflections, "XSDataInteger")
-		self.__numberOfOverlappedReflections = numberOfOverlappedReflections
-	def delNumberOfOverlappedReflections(self): self.__numberOfOverlappedReflections = None
+		self._numberOfOverlappedReflections = numberOfOverlappedReflections
+	def delNumberOfOverlappedReflections(self): self._numberOfOverlappedReflections = None
 	# Properties
 	numberOfOverlappedReflections = property(getNumberOfOverlappedReflections, setNumberOfOverlappedReflections, delNumberOfOverlappedReflections, "Property for numberOfOverlappedReflections")
-	def getNumberOfPartialReflections(self): return self.__numberOfPartialReflections
+	def getNumberOfPartialReflections(self): return self._numberOfPartialReflections
 	def setNumberOfPartialReflections(self, numberOfPartialReflections):
 		checkType("XSDataMOSFLMOutputIntegration", "setNumberOfPartialReflections", numberOfPartialReflections, "XSDataInteger")
-		self.__numberOfPartialReflections = numberOfPartialReflections
-	def delNumberOfPartialReflections(self): self.__numberOfPartialReflections = None
+		self._numberOfPartialReflections = numberOfPartialReflections
+	def delNumberOfPartialReflections(self): self._numberOfPartialReflections = None
 	# Properties
 	numberOfPartialReflections = property(getNumberOfPartialReflections, setNumberOfPartialReflections, delNumberOfPartialReflections, "Property for numberOfPartialReflections")
-	def getNumberOfReflectionsGenerated(self): return self.__numberOfReflectionsGenerated
+	def getNumberOfReflectionsGenerated(self): return self._numberOfReflectionsGenerated
 	def setNumberOfReflectionsGenerated(self, numberOfReflectionsGenerated):
 		checkType("XSDataMOSFLMOutputIntegration", "setNumberOfReflectionsGenerated", numberOfReflectionsGenerated, "XSDataInteger")
-		self.__numberOfReflectionsGenerated = numberOfReflectionsGenerated
-	def delNumberOfReflectionsGenerated(self): self.__numberOfReflectionsGenerated = None
+		self._numberOfReflectionsGenerated = numberOfReflectionsGenerated
+	def delNumberOfReflectionsGenerated(self): self._numberOfReflectionsGenerated = None
 	# Properties
 	numberOfReflectionsGenerated = property(getNumberOfReflectionsGenerated, setNumberOfReflectionsGenerated, delNumberOfReflectionsGenerated, "Property for numberOfReflectionsGenerated")
-	def getOverallIOverSigma(self): return self.__overallIOverSigma
+	def getOverallIOverSigma(self): return self._overallIOverSigma
 	def setOverallIOverSigma(self, overallIOverSigma):
 		checkType("XSDataMOSFLMOutputIntegration", "setOverallIOverSigma", overallIOverSigma, "XSDataFloat")
-		self.__overallIOverSigma = overallIOverSigma
-	def delOverallIOverSigma(self): self.__overallIOverSigma = None
+		self._overallIOverSigma = overallIOverSigma
+	def delOverallIOverSigma(self): self._overallIOverSigma = None
 	# Properties
 	overallIOverSigma = property(getOverallIOverSigma, setOverallIOverSigma, delOverallIOverSigma, "Property for overallIOverSigma")
-	def getOverallStatistics(self): return self.__overallStatistics
+	def getOverallStatistics(self): return self._overallStatistics
 	def setOverallStatistics(self, overallStatistics):
 		checkType("XSDataMOSFLMOutputIntegration", "setOverallStatistics", overallStatistics, "XSDataMOSFLMIntegrationStatisticsPerResolutionBin")
-		self.__overallStatistics = overallStatistics
-	def delOverallStatistics(self): self.__overallStatistics = None
+		self._overallStatistics = overallStatistics
+	def delOverallStatistics(self): self._overallStatistics = None
 	# Properties
 	overallStatistics = property(getOverallStatistics, setOverallStatistics, delOverallStatistics, "Property for overallStatistics")
-	def getRefinedMosaicity(self): return self.__refinedMosaicity
+	def getRefinedMosaicity(self): return self._refinedMosaicity
 	def setRefinedMosaicity(self, refinedMosaicity):
 		checkType("XSDataMOSFLMOutputIntegration", "setRefinedMosaicity", refinedMosaicity, "XSDataFloat")
-		self.__refinedMosaicity = refinedMosaicity
-	def delRefinedMosaicity(self): self.__refinedMosaicity = None
+		self._refinedMosaicity = refinedMosaicity
+	def delRefinedMosaicity(self): self._refinedMosaicity = None
 	# Properties
 	refinedMosaicity = property(getRefinedMosaicity, setRefinedMosaicity, delRefinedMosaicity, "Property for refinedMosaicity")
-	def getRefinedYScale(self): return self.__refinedYScale
+	def getRefinedYScale(self): return self._refinedYScale
 	def setRefinedYScale(self, refinedYScale):
 		checkType("XSDataMOSFLMOutputIntegration", "setRefinedYScale", refinedYScale, "XSDataFloat")
-		self.__refinedYScale = refinedYScale
-	def delRefinedYScale(self): self.__refinedYScale = None
+		self._refinedYScale = refinedYScale
+	def delRefinedYScale(self): self._refinedYScale = None
 	# Properties
 	refinedYScale = property(getRefinedYScale, setRefinedYScale, delRefinedYScale, "Property for refinedYScale")
-	def getRMSSpotDeviation(self): return self.__RMSSpotDeviation
+	def getRMSSpotDeviation(self): return self._RMSSpotDeviation
 	def setRMSSpotDeviation(self, RMSSpotDeviation):
 		checkType("XSDataMOSFLMOutputIntegration", "setRMSSpotDeviation", RMSSpotDeviation, "XSDataLength")
-		self.__RMSSpotDeviation = RMSSpotDeviation
-	def delRMSSpotDeviation(self): self.__RMSSpotDeviation = None
+		self._RMSSpotDeviation = RMSSpotDeviation
+	def delRMSSpotDeviation(self): self._RMSSpotDeviation = None
 	# Properties
 	RMSSpotDeviation = property(getRMSSpotDeviation, setRMSSpotDeviation, delRMSSpotDeviation, "Property for RMSSpotDeviation")
-	def getStatisticsPerResolutionBin(self): return self.__statisticsPerResolutionBin
+	def getStatisticsPerResolutionBin(self): return self._statisticsPerResolutionBin
 	def setStatisticsPerResolutionBin(self, statisticsPerResolutionBin):
 		checkType("XSDataMOSFLMOutputIntegration", "setStatisticsPerResolutionBin", statisticsPerResolutionBin, "list")
-		self.__statisticsPerResolutionBin = statisticsPerResolutionBin
-	def delStatisticsPerResolutionBin(self): self.__statisticsPerResolutionBin = None
+		self._statisticsPerResolutionBin = statisticsPerResolutionBin
+	def delStatisticsPerResolutionBin(self): self._statisticsPerResolutionBin = None
 	# Properties
 	statisticsPerResolutionBin = property(getStatisticsPerResolutionBin, setStatisticsPerResolutionBin, delStatisticsPerResolutionBin, "Property for statisticsPerResolutionBin")
 	def addStatisticsPerResolutionBin(self, value):
 		checkType("XSDataMOSFLMOutputIntegration", "setStatisticsPerResolutionBin", value, "XSDataMOSFLMIntegrationStatisticsPerResolutionBin")
-		self.__statisticsPerResolutionBin.append(value)
+		self._statisticsPerResolutionBin.append(value)
 	def insertStatisticsPerResolutionBin(self, index, value):
 		checkType("XSDataMOSFLMOutputIntegration", "setStatisticsPerResolutionBin", value, "XSDataMOSFLMIntegrationStatisticsPerResolutionBin")
-		self.__statisticsPerResolutionBin[index] = value
+		self._statisticsPerResolutionBin[index] = value
 	def export(self, outfile, level, name_='XSDataMOSFLMOutputIntegration'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2628,67 +2670,61 @@ class XSDataMOSFLMOutputIntegration(XSDataMOSFLMOutput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataMOSFLMOutputIntegration'):
 		XSDataMOSFLMOutput.exportChildren(self, outfile, level, name_)
-		if self.__bestfileDat is not None:
+		if self._bestfileDat is not None:
 			self.bestfileDat.export(outfile, level, name_='bestfileDat')
 		else:
 			warnEmptyAttribute("bestfileDat", "XSDataString")
-		if self.__bestfileHKL is not None:
+		if self._bestfileHKL is not None:
 			self.bestfileHKL.export(outfile, level, name_='bestfileHKL')
-		else:
-			warnEmptyAttribute("bestfileHKL", "XSDataString")
-		if self.__bestfilePar is not None:
+		if self._bestfilePar is not None:
 			self.bestfilePar.export(outfile, level, name_='bestfilePar')
 		else:
 			warnEmptyAttribute("bestfilePar", "XSDataString")
-		if self.__generatedMTZFile is not None:
+		if self._generatedMTZFile is not None:
 			self.generatedMTZFile.export(outfile, level, name_='generatedMTZFile')
 		else:
 			warnEmptyAttribute("generatedMTZFile", "XSDataFile")
-		if self.__highestResolutionIOverSigma is not None:
+		if self._highestResolutionIOverSigma is not None:
 			self.highestResolutionIOverSigma.export(outfile, level, name_='highestResolutionIOverSigma')
 		else:
 			warnEmptyAttribute("highestResolutionIOverSigma", "XSDataFloat")
-		if self.__numberOfBadReflections is not None:
+		if self._numberOfBadReflections is not None:
 			self.numberOfBadReflections.export(outfile, level, name_='numberOfBadReflections')
 		else:
 			warnEmptyAttribute("numberOfBadReflections", "XSDataInteger")
-		if self.__numberOfFullyRecordedReflections is not None:
+		if self._numberOfFullyRecordedReflections is not None:
 			self.numberOfFullyRecordedReflections.export(outfile, level, name_='numberOfFullyRecordedReflections')
 		else:
 			warnEmptyAttribute("numberOfFullyRecordedReflections", "XSDataInteger")
-		if self.__numberOfNegativeReflections is not None:
+		if self._numberOfNegativeReflections is not None:
 			self.numberOfNegativeReflections.export(outfile, level, name_='numberOfNegativeReflections')
 		else:
 			warnEmptyAttribute("numberOfNegativeReflections", "XSDataInteger")
-		if self.__numberOfOverlappedReflections is not None:
+		if self._numberOfOverlappedReflections is not None:
 			self.numberOfOverlappedReflections.export(outfile, level, name_='numberOfOverlappedReflections')
 		else:
 			warnEmptyAttribute("numberOfOverlappedReflections", "XSDataInteger")
-		if self.__numberOfPartialReflections is not None:
+		if self._numberOfPartialReflections is not None:
 			self.numberOfPartialReflections.export(outfile, level, name_='numberOfPartialReflections')
 		else:
 			warnEmptyAttribute("numberOfPartialReflections", "XSDataInteger")
-		if self.__numberOfReflectionsGenerated is not None:
+		if self._numberOfReflectionsGenerated is not None:
 			self.numberOfReflectionsGenerated.export(outfile, level, name_='numberOfReflectionsGenerated')
-		else:
-			warnEmptyAttribute("numberOfReflectionsGenerated", "XSDataInteger")
-		if self.__overallIOverSigma is not None:
+		if self._overallIOverSigma is not None:
 			self.overallIOverSigma.export(outfile, level, name_='overallIOverSigma')
 		else:
 			warnEmptyAttribute("overallIOverSigma", "XSDataFloat")
-		if self.__overallStatistics is not None:
+		if self._overallStatistics is not None:
 			self.overallStatistics.export(outfile, level, name_='overallStatistics')
 		else:
 			warnEmptyAttribute("overallStatistics", "XSDataMOSFLMIntegrationStatisticsPerResolutionBin")
-		if self.__refinedMosaicity is not None:
+		if self._refinedMosaicity is not None:
 			self.refinedMosaicity.export(outfile, level, name_='refinedMosaicity')
-		else:
-			warnEmptyAttribute("refinedMosaicity", "XSDataFloat")
-		if self.__refinedYScale is not None:
+		if self._refinedYScale is not None:
 			self.refinedYScale.export(outfile, level, name_='refinedYScale')
 		else:
 			warnEmptyAttribute("refinedYScale", "XSDataFloat")
-		if self.__RMSSpotDeviation is not None:
+		if self._RMSSpotDeviation is not None:
 			self.RMSSpotDeviation.export(outfile, level, name_='RMSSpotDeviation')
 		else:
 			warnEmptyAttribute("RMSSpotDeviation", "XSDataLength")
@@ -2831,8 +2867,10 @@ class XSDataMOSFLMOutputIntegration(XSDataMOSFLMOutput):
 # end class XSDataMOSFLMOutputIntegration
 
 class XSDataMOSFLMOutputPostRefinement(XSDataMOSFLMOutput):
-	def __init__(self, status=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None):
-		XSDataMOSFLMOutput.__init__(self, status, refinedNewmat, refinedDistance, refinedBeam)
+	def __init__(self, status=None, pathToLogFile=None, refinedNewmat=None, refinedDistance=None, refinedBeam=None):
+		XSDataMOSFLMOutput.__init__(self, status, pathToLogFile, refinedNewmat, refinedDistance, refinedBeam)
+	
+	
 	def export(self, outfile, level, name_='XSDataMOSFLMOutputPostRefinement'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))

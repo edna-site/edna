@@ -127,6 +127,9 @@ class EDPluginMOSFLMIntegrationv10(EDPluginMOSFLMv10):
             self.addListCommandExecution("GO")
             self.addListCommandExecution("BEST OFF")
 
+        # Force name of log file
+        self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
+
         EDVerbose.DEBUG("Finished EDPluginMOSFLMIntegrationv10.generateMOSFLMCommands")
 
 
@@ -234,6 +237,8 @@ class EDPluginMOSFLMIntegrationv10(EDPluginMOSFLMv10):
                 except:
                     bContinue = False
 
+        # Path to log file
+        xsDataMOSFLMOutputIntegration.setPathToLogFile(XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName()))))
         return xsDataMOSFLMOutputIntegration
 
 

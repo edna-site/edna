@@ -99,7 +99,7 @@ import gzip
 try:
     from FastEdf import extended_fread
     CAN_USE_FASTEDF = 1
-except:
+except Exception:
     CAN_USE_FASTEDF = 0
 
 ################################################################################
@@ -182,10 +182,10 @@ class  EdfFile:
                     self.File=open(self.FileName, "rb")
 
                 self.File.seek(0, 0)
-            except:
+            except Exception:
                 try:
                     self.File.close()
-                except:
+                except Exception:
                     pass
                 raise "EdfFile: Error opening file"
         else: self.__ownedOpen = False
@@ -276,7 +276,7 @@ class  EdfFile:
             self.NumImages += 1
             try:
                 header,headersize = self.__readOneHeader()
-            except: break
+            except Exception: break
         
     def GetNumImages(self):
         """ Returns number of images of the object (and associated file)
@@ -686,7 +686,7 @@ class  EdfFile:
         try:
             if self.__ownedOpen:
                 self.File.close()
-        except:
+        except Exception:
             pass
 
     def GetDefaultNumpyType(self, EdfType, index=None):

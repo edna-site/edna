@@ -46,7 +46,7 @@ class EDTestCasePluginExecuteInterfacev2_2(EDTestCasePluginExecute):
         self.setRequiredPluginConfiguration("EDPluginMOSFLMIndexingv10")
         self.setRequiredPluginConfiguration("EDPluginMOSFLMIntegrationv10")
         self.setRequiredPluginConfiguration("EDPluginMOSFLMGeneratePredictionv10")
-        self.setRequiredPluginConfiguration("EDPluginBestv1_1")
+        self.setRequiredPluginConfiguration("EDPluginBestv1_2")
         #self.setRequiredPluginConfiguration("EDPluginBestv2_0")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
 

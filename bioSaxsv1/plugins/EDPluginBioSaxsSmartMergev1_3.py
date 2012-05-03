@@ -321,7 +321,7 @@ class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
                 frameMax = line.split()[-1]
         try:
             c = float(Concentration)
-        except:
+        except Exception:
             c = -1.0
         self.fConcentration = c
         lstHeader = ["%s %s" % (hdr, Comments), "%s Sample c= %s mg/ml" % (hdr, Concentration), hdr]

@@ -213,13 +213,13 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         try:
             pluginId = _edPlugin.getId()
             xsdOut = _edPlugin.dataOutput
-        except:
+        except Exception:
             self.ERROR("ExecProcessOneFile: No dataOutput")
         else:
             try:
                 self.lstSummary.append(xsdOut.status.executiveSummary.value)
                 self.lstCurves.append(xsdOut.integratedCurve.path.value)
-            except:
+            except Exception:
                 pass
         self.lstSummary.append("EDPluginBioSaxsProcessOneFilev1_0 %s failed" % pluginId)
         self.synchronizeOff()
@@ -233,13 +233,13 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         try:
             pluginId = _edPlugin.getId()
             xsdOut = _edPlugin.dataOutput
-        except:
+        except Exception:
             self.ERROR("ExecProcessOneFile: No dataOutput")
         else:
             try:
                 if xsdOut.status is not None:
                     self.lstSummary.append(xsdOut.status.executiveSummary.value)
-            except:
+            except Exception:
                 pass
         self.lstSummary.append("EDPluginBioSaxsSmartMergev1_0 %s failed" % pluginId)
         self.synchronizeOff()
@@ -254,13 +254,13 @@ class EDPluginBioSaxsReduceFileSeriev1_0(EDPluginControl):
         try:
             pluginId = _edPlugin.getId()
             xsdOut = _edPlugin.dataOutput
-        except:
+        except Exception:
             self.ERROR("ExecProcessOneFile: No dataOutput")
         else:
             try:
                 self.lstSummary.append(xsdOut.status.executiveSummary.value)
                 self.xsdMergedCurve = xsdOut
-            except:
+            except Exception:
                 pass
         self.lstSummary.append("EDPluginBioSaxsSmartMergev1_0 %s failed" % pluginId)
         self.synchronizeOff()
