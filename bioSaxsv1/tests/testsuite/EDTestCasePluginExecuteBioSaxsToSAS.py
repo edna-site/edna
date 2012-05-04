@@ -44,6 +44,13 @@ class EDTestCasePluginExecuteBioSaxsToSAS(EDTestCasePluginExecute):
                                            "XSDataInputBioSaxsToSAS_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultBioSaxsToSAS_reference.xml"))
+    def preProcess(self):
+        """
+        PreProcess of the execution test: download a set of images  from http://www.edna-site.org
+        and remove any existing output file 
+        """
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([ "autosubtracted.dat"])
 
 
     def testExecute(self):

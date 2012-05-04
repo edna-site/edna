@@ -193,12 +193,12 @@ class EDTestCasePluginUnitISPyBv1_2(EDTestCasePluginUnit):
         xsDataISPyBScreeningFile.setDescription(XSDataString("Output log file"))
 
         # Write XSDataISPyB objects to files
-        xsDataISPyBScreening.exportToFile(self.__strObtainedScreening)
-        xsDataISPyBScreeningInput.exportToFile(self.__strObtainedScreeningInput)
-        xsDataISPyBScreeningOutputContainer.exportToFile(self.__strObtainedScreeningOutputContainer)
-        xsDataISPyBScreeningRank.exportToFile(self.__strObtainedScreeningRank)
-        xsDataISPyBScreeningRankSet.exportToFile(self.__strObtainedScreeningRankSet)
-        xsDataISPyBScreeningFile.exportToFile(self.__strObtainedScreeningFile)
+        xsDataISPyBScreening.outputFile(self.__strObtainedScreening)
+        xsDataISPyBScreeningInput.outputFile(self.__strObtainedScreeningInput)
+        xsDataISPyBScreeningOutputContainer.outputFile(self.__strObtainedScreeningOutputContainer)
+        xsDataISPyBScreeningRank.outputFile(self.__strObtainedScreeningRank)
+        xsDataISPyBScreeningRankSet.outputFile(self.__strObtainedScreeningRankSet)
+        xsDataISPyBScreeningFile.outputFile(self.__strObtainedScreeningFile)
 
         # Compare screening
         strInputScreeningExpected = self.readAndParseFile(self.__strReferenceInputScreening)

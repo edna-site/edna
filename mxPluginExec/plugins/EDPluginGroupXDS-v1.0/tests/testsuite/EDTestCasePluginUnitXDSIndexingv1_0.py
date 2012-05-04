@@ -51,7 +51,7 @@ class EDTestCasePluginUnitXDSIndexingv1_0(EDTestCasePluginUnit):
         """
         """
         edPluginXDSIndexingv1_0 = self.createPlugin()
-        xsPluginItemGood01 = self.getPluginConfiguration(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "EDPluginXDSIndexingv1_0_configuration_OK_01.xml"))
+        xsPluginItemGood01 = self.getPluginConfiguration(os.path.join(self.getPluginTestsDataHome(), "EDPluginXDSIndexingv1_0_configuration_OK_01.xml"))
         edPluginXDSIndexingv1_0.setConfiguration(xsPluginItemGood01)
         edPluginXDSIndexingv1_0.setScriptExecutable("cat")
         edPluginXDSIndexingv1_0.configure()

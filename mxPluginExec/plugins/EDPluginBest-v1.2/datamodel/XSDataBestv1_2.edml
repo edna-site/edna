@@ -15,14 +15,13 @@ import XSDataCommon.XSDataTime
 package XSDataBestv12 {
 
 	complex type XSDataBestCollectionPlan {
-		collectionPlanNumber : XSDataInteger
+		collectionPlanNumber : XSDataInteger optional
 		collectionRun : XSDataBestCollectionRun [] optional
-		comment : XSDataString
-		optional
+		comment : XSDataString optional
 		crystalScale : XSDataCrystalScale optional
-		statisticalPrediction : XSDataBestStatisticalPrediction
-		optional
+		statisticalPrediction : XSDataBestStatisticalPrediction optional
 		strategySummary : XSDataBestStrategySummary
+		optional
 	}
 
 	complex type XSDataBestCollectionRun {
@@ -109,6 +108,7 @@ package XSDataBestv12 {
 		collectionPlan : XSDataBestCollectionPlan [] optional
 		pathToLogFile : XSDataFile
 		pathToPlotMtvFile : XSDataFile
+		optional
 	}
 
 }

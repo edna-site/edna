@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_TwYYIQdcEeCIqPjmQLbFcg">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_OlxNoQfOEeCHfoTkpt3vnQ">
   <model href="XSDataMXv1.uml#_w8IxIM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_CwbIYefyEd-TcNOGyxZYYg" position="0,0" size="100,100" name="XSDataMXv1" zoom="0.75" viewport="0,206">
+  <diagrams xmi:id="_CwbIYefyEd-TcNOGyxZYYg" position="0,0" size="100,100" name="XSDataMXv1" zoom="0.75" viewport="0,243">
     <property xmi:id="_CwuDUOfyEd-TcNOGyxZYYg" key="pageFormatName" value="A4"/>
     <property xmi:id="_CwuDUefyEd-TcNOGyxZYYg" key="diagramWidth" value="840"/>
     <property xmi:id="_CwuDUufyEd-TcNOGyxZYYg" key="diagramHeight" value="1188"/>
@@ -2430,7 +2430,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_OlxNoAfOEeCHfoTkpt3vnQ">
     <model href="XSDataMXv1.uml#_McKc0AfOEeCHfoTkpt3vnQ"/>
-    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,80">
+    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,1040">
       <property xmi:id="_Om52EAfOEeCHfoTkpt3vnQ" key="pageFormatName" value=""/>
       <property xmi:id="_Om52EQfOEeCHfoTkpt3vnQ" key="diagramWidth" value="1144"/>
       <property xmi:id="_Om52EgfOEeCHfoTkpt3vnQ" key="diagramHeight" value="1498"/>
@@ -2608,8 +2608,7 @@
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_yk2rIAfOEeCHfoTkpt3vnQ" position="90,1122" size="215,-1">
-        <anchorage xmi:id="_DOdzAQgiEeC2H-UR8vd0nQ" graphEdge="_DOfBIAgiEeC2H-UR8vd0nQ"/>
+      <contained xsi:type="di:GraphNode" xmi:id="_yk2rIAfOEeCHfoTkpt3vnQ" position="90,1122" size="276,-1">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_yk2rIQfOEeCHfoTkpt3vnQ" presentation="default">
           <element href="XSDataMXv1.uml#_U5PxEOjFEd-7o_3d0R29SQ"/>
         </semanticModel>
@@ -2618,6 +2617,11 @@
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_yk2rJAfOEeCHfoTkpt3vnQ" presentation="default">
             <element href="XSDataMXv1.uml#_U5PxEOjFEd-7o_3d0R29SQ"/>
           </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_oDY3gJDfEeGbUJNiBeO2yA" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oDY3gZDfEeGbUJNiBeO2yA" presentation="default">
+              <element href="XSDataMXv1.uml#_oDaFoJDfEeGbUJNiBeO2yA"/>
+            </semanticModel>
+          </contained>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_yk2rJQfOEeCHfoTkpt3vnQ">
           <property xmi:id="_yk2rJgfOEeCHfoTkpt3vnQ" key="eStructuralFeatureID" value="47 50 "/>
@@ -2917,15 +2921,6 @@
       </contained>
       <contained xsi:type="di:GraphEdge" xmi:id="_CJVW8AgiEeC2H-UR8vd0nQ" anchor="_CJKX0AgiEeC2H-UR8vd0nQ _CJUv4AgiEeC2H-UR8vd0nQ">
         <semanticModel xsi:type="di:SimpleSemanticModelElement" xmi:id="_CJVW8QgiEeC2H-UR8vd0nQ" presentation="default" typeInfo="CommentLink"/>
-      </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_DOK4EAgiEeC2H-UR8vd0nQ" position="531,1101" size="176,71">
-        <anchorage xmi:id="_DOdzAAgiEeC2H-UR8vd0nQ" graphEdge="_DOfBIAgiEeC2H-UR8vd0nQ"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DOK4EQgiEeC2H-UR8vd0nQ" presentation="default">
-          <element href="XSDataMXv1.uml#_3ZRKYOjXEd-7o_3d0R29SQ"/>
-        </semanticModel>
-      </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_DOfBIAgiEeC2H-UR8vd0nQ" anchor="_DOdzAAgiEeC2H-UR8vd0nQ _DOdzAQgiEeC2H-UR8vd0nQ">
-        <semanticModel xsi:type="di:SimpleSemanticModelElement" xmi:id="_DOfBIQgiEeC2H-UR8vd0nQ" presentation="default" typeInfo="CommentLink"/>
       </contained>
       <contained xsi:type="di:GraphNode" xmi:id="_znJqcAgiEeC2H-UR8vd0nQ" position="769,571" size="234,69">
         <anchorage xmi:id="_5oVJwAgiEeC2H-UR8vd0nQ" graphEdge="_5oWX4AgiEeC2H-UR8vd0nQ"/>

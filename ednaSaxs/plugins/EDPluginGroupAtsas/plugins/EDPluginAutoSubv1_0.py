@@ -298,7 +298,7 @@ class EDPluginAutoSubv1_0(EDPluginControl):
 #                frameMax = line.split()[-1]
         try:
             self.fConcentration = float(headers["Concentration"])
-        except:
+        except Exception:
             self.fConcentration = -1
         return headers
 

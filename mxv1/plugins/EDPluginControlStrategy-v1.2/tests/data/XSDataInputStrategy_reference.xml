@@ -2327,9 +2327,4 @@ BEAM            102.514  104.889
 	        </spaceGroup>
 	    </crystal>
     </sample>
-    <xdsBackgroundImage>
-        <path>
-            <value>/users/svensson/WorkSpace-olofsvensson-edna/tmp/EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_20120424-151648/ControlInterfaceToMXCuBEv1_3-00000003/ControlInterfacev1_2/Characterisation/ControlXDSGenerateBackgroundImage/XDSGenerateBackgroundImagev1_0/BKGINIT.cbf</value>
-        </path>
-    </xdsBackgroundImage>
 </XSDataInputStrategy>

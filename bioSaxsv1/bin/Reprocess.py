@@ -143,7 +143,7 @@ class BioSaxsReprocess(EDLogging):
                 try:
                     self.wavelenth = float(raw)
                     ok = True
-                except:
+                except Exception:
                     self.ERROR("Unable to convert to float: %s" % raw)
                     ok = False
 
@@ -160,7 +160,7 @@ class BioSaxsReprocess(EDLogging):
                 try:
                     self.imageSize = float(raw)
                     ok = True
-                except:
+                except Exception:
                     self.ERROR("Unable to convert to float: %s" % raw)
                     ok = False
             else:
@@ -187,7 +187,7 @@ class BioSaxsReprocess(EDLogging):
                 try:
                     self.detectorDistance = float(raw)
                     ok = True
-                except:
+                except Exception:
                     self.ERROR("Unable to convert to float: %s" % raw)
                     ok = False
 
@@ -201,7 +201,7 @@ class BioSaxsReprocess(EDLogging):
                 try:
                     self.normalization = float(raw)
                     ok = True
-                except:
+                except Exception:
                     self.ERROR("Unable to convert to float: %s" % raw)
                     ok = False
 
@@ -217,7 +217,7 @@ class BioSaxsReprocess(EDLogging):
                         self.pixelSize_1 = float(lpx[0])
                         self.pixelSize_2 = float(lpx[0])
                         ok = True
-                    except:
+                    except Exception:
                         self.ERROR("Unable to convert to float: %s" % raw)
                         ok = False
                 else:
@@ -225,7 +225,7 @@ class BioSaxsReprocess(EDLogging):
                         self.pixelSize_1 = float(lpx[0])
                         self.pixelSize_2 = float(lpx[1])
                         ok = True
-                    except:
+                    except Exception:
                         self.ERROR("Unable to convert to float: %s" % raw)
                         ok = False
             else:
@@ -244,7 +244,7 @@ class BioSaxsReprocess(EDLogging):
                         self.beamCenter_1 = float(lpx[0])
                         self.beamCenter_2 = float(lpx[0])
                         ok = True
-                    except:
+                    except Exception:
                         self.ERROR("Unable to convert to float: %s" % raw)
                         ok = False
                 else:
@@ -252,7 +252,7 @@ class BioSaxsReprocess(EDLogging):
                         self.beamCenter_1 = float(lpx[0])
                         self.beamCenter_2 = float(lpx[1])
                         ok = True
-                    except:
+                    except Exception:
                         self.ERROR("Unable to convert to float: %s" % raw)
                         ok = False
             else:
@@ -312,32 +312,32 @@ class BioSaxsReprocess(EDLogging):
                 if line.startswith("Center_1")and (self.beamCenter_1 is None):
                     try:
                         self.experimentSetup.beamCenter_1 = XSDataDouble(float(line.split("=", 1)[-1].split()[0]))
-                    except:
+                    except Exception:
                         self.ERROR("Reading from header: not a float " + line)
                 elif line.startswith("Center_2")and (self.beamCenter_2 is None):
                     try:
                         self.experimentSetup.beamCenter_2 = XSDataDouble(float(line.split("=", 1)[-1].split()[0]))
-                    except:
+                    except Exception:
                         self.ERROR("Reading from header: not a float " + line)
                 elif line.startswith("PSize_1")and (self.pixelSize_1 is None):
                     try:
                         self.experimentSetup.pixelSize_1 = XSDataLength(float(line.split("=", 1)[-1].split()[0]))
-                    except:
+                    except Exception:
                         self.ERROR("Reading from header: not a float " + line)
                 elif line.startswith("PSize_2") and (self.pixelSize_2 is None):
                     try:
                         self.experimentSetup.pixelSize_2 = XSDataLength(float(line.split("=", 1)[-1].split()[0]))
-                    except:
+                    except Exception:
                         self.ERROR("Reading from header: not a float " + line)
                 elif line.startswith("SampleDistance") and (self.detectorDistance is None) :
                     try:
                         self.experimentSetup.detectorDistance = XSDataLength(float(line.split("=", 1)[-1].split()[0]))
-                    except:
+                    except Exception:
                         self.ERROR("Reading from header: not a float " + line)
                 elif line.startswith("WaveLength")and (self.wavelength is None):
                     try:
                         self.experimentSetup.wavelength = XSDataWavelength(float(line.split("=", 1)[-1].split()[0]))
-                    except:
+                    except Exception:
                         self.ERROR("Reading from header: not a float " + line)
             if title:
                 for block in title.split(","):
@@ -354,17 +354,17 @@ class BioSaxsReprocess(EDLogging):
                         if key == "DiodeCurr":
                             try:
                                 self.experimentSetup.beamStopDiode = XSDataDouble(float(value))
-                            except:
+                            except Exception:
                                 self.ERROR("Unable to convert %s to float" % block)
                         elif key == "MachCurr":
                             try:
                                 self.experimentSetup.machineCurrent = XSDataDouble(float(value.split()[0]))
-                            except:
+                            except Exception:
                                 self.ERROR("Unable to convert %s to float" % block)
                         elif key == "Concentration":
                             try:
                                 self.sample.concentration = XSDataDouble(float(value.split()[0]))
-                            except:
+                            except Exception:
                                 self.ERROR("Unable to convert %s to float" % block)
                         elif (key == "Comments") and (self.comment is None):
                                 self.sample.comments = XSDataString(value.strip())
@@ -375,7 +375,7 @@ class BioSaxsReprocess(EDLogging):
                         elif (key == "Normalisation") and (self.normalization is None):
                             try:
                                 self.experimentSetup.normalizationFactor = XSDataDouble(float(value.split()[0]))
-                            except:
+                            except Exception:
                                 self.ERROR("Unable to convert %s to float" % block)
 
 
@@ -403,7 +403,7 @@ class BioSaxsReprocess(EDLogging):
         try:
             xsd = XSDataInputBioSaxsProcessOneFilev1_0.parseString(xmlin)
             filename = xsd.rawImage.path.value
-        except:
+        except Exception:
             filename = xmlin
         self.ERROR("Processing failed for: %s" % filename)
 

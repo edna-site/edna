@@ -188,7 +188,7 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
         try:
             if self.getDataInput().getMode().getValue().lower() in ['fast', 'slow']:
                 self.__strMode = self.getDataInput().getMode().getValue().lower()
-        except:
+        except Exception:
             EDVerbose.WARNING("Running Solution Scattering pipeline in fast mode by default")
 
     def checkUnitParameter(self):
@@ -200,7 +200,7 @@ class EDPluginControlSolutionScatteringv0_3(EDPluginControl):
                     self.__strUnit = "ANGSTROM"
                 else:
                     self.__strUnit = "NANOMETER"
-        except:
+        except Exception:
             EDVerbose.WARNING("Using Angstrom units for q-values by default")
 
     def checkJMol(self):
