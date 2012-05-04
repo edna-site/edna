@@ -1462,4 +1462,9 @@
             <m33>-4.255866e-01</m33>
         </uMatrix>
     </refinedNewmat>
+    <pathToLogFile>
+        <path>
+            <value>MOSFLMIndexingv10.log</value>
+        </path>
+    </pathToLogFile>    
 </XSDataMOSFLMOutputIndexing>
