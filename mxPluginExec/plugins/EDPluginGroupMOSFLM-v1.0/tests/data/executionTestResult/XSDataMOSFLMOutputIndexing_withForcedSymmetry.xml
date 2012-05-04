@@ -2,20 +2,20 @@
 <XSDataMOSFLMOutputIndexing>
     <beamShift>
         <x>
-            <value>-1.812000e-02</value>
+            <value>-1.894400e-02</value>
         </x>
         <y>
-            <value>-1.483460e-01</value>
+            <value>-1.474530e-01</value>
         </y>
     </beamShift>
     <deviationAngular>
-        <value>4.357700e-01</value>
+        <value>4.345280e-01</value>
     </deviationAngular>
     <deviationPositional>
-        <value>1.495660e-01</value>
+        <value>1.497600e-01</value>
     </deviationPositional>
     <mosaicityEstimation>
-        <value>5.850000e-01</value>
+        <value>5.950000e-01</value>
     </mosaicityEstimation>
     <possibleSolutions>
         <cell>
@@ -1382,13 +1382,13 @@
         </penalty>
     </possibleSolutions>
     <selectedSolutionNumber>
-        <value>5</value>
+        <value>1</value>
     </selectedSolutionNumber>
     <selectedSolutionSpaceGroup>
-        <value>P222</value>
+        <value>P1</value>
     </selectedSolutionSpaceGroup>
     <selectedSolutionSpaceGroupNumber>
-        <value>16</value>
+        <value>1</value>
     </selectedSolutionSpaceGroupNumber>
     <spotsTotal>
         <value>1430</value>
@@ -1398,10 +1398,10 @@
     </spotsUsed>
     <refinedBeam>
         <x>
-            <value>1.024771e+02</value>
+            <value>1.024780e+02</value>
         </x>
         <y>
-            <value>1.048863e+02</value>
+            <value>1.048855e+02</value>
         </y>
     </refinedBeam>
     <refinedDistance>
@@ -1409,15 +1409,15 @@
     </refinedDistance>
     <refinedNewmat>
         <aMatrix>
-            <m11>-8.264400e-03</m11>
-            <m12>8.851380e-03</m12>
-            <m13>9.368670e-03</m13>
-            <m21>1.266470e-03</m21>
-            <m22>1.251975e-02</m22>
-            <m23>-8.452390e-03</m23>
-            <m31>-1.485059e-02</m31>
-            <m32>-3.858130e-03</m32>
-            <m33>-5.934520e-03</m33>
+            <m11>-8.252850e-03</m11>
+            <m12>8.853970e-03</m12>
+            <m13>9.366420e-03</m13>
+            <m21>1.266630e-03</m21>
+            <m22>1.252218e-02</m22>
+            <m23>-8.448510e-03</m23>
+            <m31>-1.485350e-02</m31>
+            <m32>-3.859220e-03</m32>
+            <m33>-5.939020e-03</m33>
         </aMatrix>
         <missettingAngles>
             <phix>
@@ -1432,34 +1432,39 @@
         </missettingAngles>
         <refinedCell>
             <angle_alpha>
-                <value>9.000000e+01</value>
+                <value>9.001460e+01</value>
             </angle_alpha>
             <angle_beta>
-                <value>9.000000e+01</value>
+                <value>9.005170e+01</value>
             </angle_beta>
             <angle_gamma>
-                <value>9.000000e+01</value>
+                <value>9.002410e+01</value>
             </angle_gamma>
             <length_a>
-                <value>5.480440e+01</value>
+                <value>5.481420e+01</value>
             </length_a>
             <length_b>
-                <value>5.907420e+01</value>
+                <value>5.906060e+01</value>
             </length_b>
             <length_c>
-                <value>6.698250e+01</value>
+                <value>6.699190e+01</value>
             </length_c>
         </refinedCell>
         <uMatrix>
-            <m11>-4.849312e-01</m11>
-            <m12>5.598369e-01</m12>
-            <m13>6.718813e-01</m13>
-            <m21>7.431270e-02</m21>
-            <m22>7.918562e-01</m22>
-            <m23>-6.061695e-01</m23>
-            <m31>-8.713892e-01</m31>
-            <m32>-2.440211e-01</m32>
-            <m33>-4.255989e-01</m33>
+            <m11>-4.843402e-01</m11>
+            <m12>5.600761e-01</m12>
+            <m13>6.721082e-01</m13>
+            <m21>7.433560e-02</m21>
+            <m22>7.917962e-01</m22>
+            <m23>-6.062451e-01</m23>
+            <m31>-8.717161e-01</m31>
+            <m32>-2.436672e-01</m32>
+            <m33>-4.251323e-01</m33>
         </uMatrix>
     </refinedNewmat>
+    <pathToLogFile>
+        <path>
+            <value>${EDNA_WORKING_DIR}/MOSFLMIndexingv10.log</value>
+        </path>
+    </pathToLogFile>
 </XSDataMOSFLMOutputIndexing>

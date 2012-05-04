@@ -250,6 +250,8 @@ class EDHandlerXSDataMOSFLMv10:
         xsDataIndexingSolutionSelected.setExperimentalConditionRefined(xsDataExperimentalConditionRefined)
 
         xsDataIndexingResult.setSelectedSolution(xsDataIndexingSolutionSelected)
+        
+        xsDataIndexingResult.setIndexingLogFile(_xsDataMOSFLMIndexingOutput.getPathToLogFile())
 
         return xsDataIndexingResult
     generateXSDataIndexingResult = staticmethod(generateXSDataIndexingResult)
@@ -501,6 +503,8 @@ class EDHandlerXSDataMOSFLMv10:
             xsDataStatisticsIntegrationPerResolutionBin.setSummation(EDHandlerXSDataMOSFLMv10.generateXSDataIntegrationStatisticsPerReflectionType(xsDataMOSFLMIntegrationStatisticsPerResolutionBin.getSummation()))
 
             xsDataIntegrationSubWedgeResult.addStatisticsPerResolutionBin(xsDataStatisticsIntegrationPerResolutionBin)
+
+        xsDataIntegrationSubWedgeResult.setIntegrationLogFile(_xsDataMOSFLMOutputIntegration.getPathToLogFile())
 
         return xsDataIntegrationSubWedgeResult
     generateXSDataIntegrationSubWedgeResult = staticmethod(generateXSDataIntegrationSubWedgeResult)
