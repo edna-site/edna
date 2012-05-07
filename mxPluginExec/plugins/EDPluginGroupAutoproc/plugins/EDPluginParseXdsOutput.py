@@ -264,7 +264,7 @@ def _extract_completeness_entries(lines, output):
         if line.find('total') != -1:
             # special case for the last table line which contains the
             # totals
-            infos = [float(x.replace('%', '')) for x in line.split()[1:]]
+            infos = [float(x.replace('%', '').replace('*','')) for x in line.split()[1:]]
             output.total_completeness = XSDataXdsCompletenessEntry()
             output.total_completeness.outer_complete = XSDataFloat(infos[3])
             output.total_completeness.outer_rfactor = XSDataFloat(infos[4])
