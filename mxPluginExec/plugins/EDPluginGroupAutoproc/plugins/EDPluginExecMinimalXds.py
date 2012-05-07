@@ -64,7 +64,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # really look into the mandatory arg
         xds_input = os.path.abspath(self.dataInput.input_file.value)
         if not (os.path.exists(xds_input) and os.path.isfile(xds_input)):
-            self.setFailure(True)
+            self.setFailure()
 
 
     def preProcess(self, _edObject = None):
@@ -128,7 +128,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         outfile = os.path.join(self.getWorkingDirectory(), 'CORRECT.LP')
         if not os.path.isfile(outfile):
             xsDataResult.succeeded = XSDataBoolean(False)
-            self.setFailure(True)
+            self.setFailure()
         else:
             xsDataResult.succeeded = XSDataBoolean(True)
         self.setDataOutput(xsDataResult)

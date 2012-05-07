@@ -59,7 +59,7 @@ class EDPluginXDSGenerate(EDPluginControl):
         path = os.path.abspath(self.dataInput.previous_run_dir.value)
         if not os.path.isdir(path):
             EDVerbose.ERROR('path given is not a directory')
-            self.setFailure(True)
+            self.setFailure()
             return
 
         files = ['XDS.INP', 'INTEGRATE.HKL', 'REMOVE.HKL',
@@ -71,7 +71,7 @@ class EDPluginXDSGenerate(EDPluginControl):
         for f in self._required:
             if not os.path.isfile(f):
                 EDVerbose.ERROR('missing required file {}'.format(f))
-                self.setFailure(True)
+                self.setFailure()
                 return
 
 
