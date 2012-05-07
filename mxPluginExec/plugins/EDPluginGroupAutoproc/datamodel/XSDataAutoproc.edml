@@ -141,3 +141,10 @@ complex type XSDataXdsGenerateOutput extends XSDataResult {
 	correct_lp_anom : XSDataString
 	correct_lp_no_anom : XSDataString
 }
+
+complex type XSDataAutoprocInput extends XSDataInput {
+	input_file : XSDataFile
+	completeness_cutoff : XSDataFloat optional
+	res_override : XSDataFloat optional
+	isig_cutoff : XSDataFloat optional
+}
