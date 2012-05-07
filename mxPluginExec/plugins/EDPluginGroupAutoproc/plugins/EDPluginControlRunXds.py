@@ -27,9 +27,14 @@ __author__="<author>"
 __license__ = "GPLv3+"
 __copyright__ = "<copyright>"
 
+import os.path
 
 from EDPluginControl import EDPluginControl
-from XSDataAutoProc import XSDataMinimalXdsIn
+from EDVerbose import EDVerbose
+
+from XSDataCommon import XSDataFile, XSDataString
+
+from XSDataAutoproc  import XSDataMinimalXdsIn, XSDataXdsOutputFile
 
 class EDPluginControlRunXds( EDPluginControl ):
     """
@@ -152,9 +157,13 @@ class EDPluginControlRunXds( EDPluginControl ):
             parser = self.loadPlugin("EDPluginParseXdsOutput")
             wd = self.successful_run.getWorkingDirectory()
             parser_input = XSDataXdsOutputFile()
-            parser_input.correct_lp = os.path.join(wd, 'CORRECT.LP')
-            gxparm = os.path.join(wd, 'GXPARM.XDS')
-            if os.path.isfile(gxparm):
+            correct_lp_path = XSDataFile()
+            correct_lp_path.path = XSDataString(os.path.join(wd, 'CORRECT.LP'))
+            parser_input.correct_lp = correct_lp_path
+            gxparm_path = os.path.join(wd, 'GXPARM.XDS')
+            if os.path.isfile(gxparm_path):
+                gxparm = XSDataFile()
+                gxparm.path = XSDataString(os.path.join(wd, 'GXPARM.XDS'))
                 parser_input.gxparm = gxparm
 
             parser.executeSynchronous()
