@@ -32,8 +32,8 @@ from shutil import copyfile
 import os.path
 
 from EDPluginControl import EDPluginControl
-from XSDataAutoProc import XSDataXdsGenerateInput
-from XSDataAutoProc import XSDataResCutoff
+from XSDataAutoproc import XSDataXdsGenerateInput
+from XSDataAutoproc import XSDataResCutoff
 from xdscfgparser import parse_xds_file, dump_xds_file
 
 class EDPluginXDSGenerate(EDPluginControl):

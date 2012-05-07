@@ -32,8 +32,9 @@ from EDPluginControl import EDPluginControl
 
 from XSDataCommon import XSDataPath, XSDataBoolean
 
-from XSDataAutoProc import XSDataMinimalXdsIn
-from XSDataAutoProc import XSDataResCutoff
+from XSDataAutoproc import XSDataAutoprocInput
+from XSDataAutoproc import XSDataResCutoff
+from XSDataAutoproc import XSDataMinimalXdsIn
 
 
 class EDPluginControlAutoproc( EDPluginControl ):
