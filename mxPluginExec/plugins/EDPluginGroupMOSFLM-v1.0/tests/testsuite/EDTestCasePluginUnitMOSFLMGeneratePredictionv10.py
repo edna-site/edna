@@ -34,6 +34,7 @@ from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataWavelength
 
 
@@ -123,6 +124,8 @@ class EDTestCasePluginUnitMOSFLMGeneratePredictionv10(EDTestCasePluginUnit):
         xsDataImage = xsDataMOSFLMOutputGeneratePredictionReference.getPredictionImage()
         xsDataImage.setPath(XSDataString(stringImagePath))
         xsDataMOSFLMOutputGeneratePredictionReference.setPredictionImage(xsDataImage)
+        # Replace path to log file since it cannot be determined by the unit test
+        xsDataMOSFLMOutputGeneratePrediction.setPathToLogFile(XSDataFile(XSDataString("MOSFLMGeneratePredictionv10.log")))        
         EDAssert.equal(xsDataMOSFLMOutputGeneratePredictionReference.marshal(), xsDataMOSFLMOutputGeneratePrediction.marshal())
 
         self.cleanUp(pluginGeneratePrediction)
