@@ -84,7 +84,7 @@ class EDPluginControlRunXds( EDPluginControl ):
         params = XSDataMinimalXdsIn()
         params.input_file = self.dataInput.input_file
         self.first_run.dataInput = params
-        self.firstRun.executeSynchronous()
+        self.first_run.executeSynchronous()
 
         EDVerbose.DEBUG('first run completed...')
 
