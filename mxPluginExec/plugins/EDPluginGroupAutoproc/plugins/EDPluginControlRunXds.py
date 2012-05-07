@@ -166,6 +166,7 @@ class EDPluginControlRunXds( EDPluginControl ):
                 gxparm.path = XSDataString(os.path.join(wd, 'GXPARM.XDS'))
                 parser_input.gxparm = gxparm
 
+            parser.dataInput = parser_input
             parser.executeSynchronous()
 
             if parser.isFailure():
