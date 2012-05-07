@@ -272,7 +272,7 @@ def _extract_completeness_entries(lines, output):
         else:
             # regular line, do not strip the first elem and bump the
             # indices by 1
-            infos = [float(x.replace('%', '')) for x in line.split()]
+            infos = [float(x.replace('%', '').replace('*','')) for x in line.split()]
             res = XSDataXdsCompletenessEntry()
             res.outer_res = XSDataFloat(infos[0])
             res.outer_complete = XSDataFloat(infos[4])
