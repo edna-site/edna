@@ -120,7 +120,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         xsDataResultSimpleHTMLPage.setPathToHTMLDirectory(XSDataFile(XSDataString(os.path.dirname(self.strPath))))
         self.setDataOutput(xsDataResultSimpleHTMLPage)
         # Store in Pyarch
-        strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
+        strPyarchPath = None
+        if self.xsDataResultCharacterisation is not None:
+            strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
         if strPyarchPath is None:
             # For debugging purposes
             strPyarchPath = EDUtilsPath.getEdnaUserTempFolder()
