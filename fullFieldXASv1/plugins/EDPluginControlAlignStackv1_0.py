@@ -246,7 +246,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 while not self.queue.empty():
                     try:
                         plugin = self.queue.get_nowait()
-                    except:
+                    except Exception:
                         break
                     else:
                         plugin.execute()

@@ -280,7 +280,7 @@ class FullFieldXas(object):
             if strtmp != "":
                 try:
                     tmpRef = int(strtmp)
-                except:
+                except Exception:
                     tmpRef = None
             if isinstance(tmpRef, int):
                 self.xsdReference = XSDataInteger(tmpRef)
@@ -307,7 +307,7 @@ class FullFieldXas(object):
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
-                except:
+                except Exception:
                     print("error in reading integers from %s" % strtmp)
                 else:
                     if ints == [0]:
@@ -318,7 +318,7 @@ class FullFieldXas(object):
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
-                except:
+                except Exception:
                     print("error in reading integers from %s" % strtmp)
                 else:
                     if ints == [0]:
@@ -334,7 +334,7 @@ class FullFieldXas(object):
                 if strtmp[0] not in ["0", "n", "N"]:
                     try:
                         import feature
-                    except:
+                    except Exception:
                         print("Unable to import feature: fall back on FFT")
                         self.xsdMeasureOffset.setUseSift(XSDataBoolean(False))
                     else:
@@ -363,7 +363,7 @@ class FullFieldXas(object):
                         strtmp = self.raw_input("What is the exposure time of %s: " % os.path.basename(oneFile))
                         try:
                             expTime = float(strtmp)
-                        except:
+                        except Exception:
                             print("Unable to understand this %s !!" % strtmp)
                     xsdata.setExposureTime(XSDataTime(expTime))
                     self.xsdDarks.append(xsdata)
@@ -375,7 +375,7 @@ class FullFieldXas(object):
         strtmp = self.raw_input("Size of the sub-scans (space separated):")
         try:
             self.lstSubscanSize = [int(i) for i in strtmp.split()]
-        except:
+        except Exception:
             self.lstSubscanSize = None
         else:
             print("Setting scan size to %s" % self.lstSubscanSize)
@@ -384,17 +384,17 @@ class FullFieldXas(object):
         strtmp = self.raw_input("Scale factor for data frames (division):")
         try:
             self.fScaleData = float(strtmp)
-        except:
+        except Exception:
             self.fScaleData = 1
         strtmp = self.raw_input("Scale factor for ref frames (division):")
         try:
             self.fScaleFlat = float(strtmp)
-        except:
+        except Exception:
             self.fScaleFlat = 1
         strtmp = self.raw_input("Scale factor for dark frames (division):")
         try:
             self.fScaleDark = float(strtmp)
-        except:
+        except Exception:
             self.fScaleDark = 1
 
 
@@ -413,12 +413,12 @@ class FullFieldXas(object):
         if "exposure_time" in header:
             try:
                 value = float(header["exposure_time"])
-            except:
+            except Exception:
                 value = None
         elif "count_time" in header:
             try:
                 value = float(header["count_time"])
-            except:
+            except Exception:
                 value = None
         else:
             EDVerbose.WARNING("No exposure time in file %s" % filename)
@@ -431,7 +431,7 @@ class FullFieldXas(object):
         if "energy" in header:
             try:
                 value = float(header["energy"])
-            except:
+            except Exception:
                 value = None
         else:
             EDVerbose.WARNING("No energyin file %s" % filename)
