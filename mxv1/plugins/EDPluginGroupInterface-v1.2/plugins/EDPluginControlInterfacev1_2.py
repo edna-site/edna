@@ -589,6 +589,7 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
         if _edPlugin.hasDataOutput("statusMessage"):
             self.strStatusMessage = _edPlugin.getDataOutput("statusMessage")[0].getValue()
         self.generateExecutiveSummary(self)
+        self.storeResultsInISPyB(_edPlugin)
         self.setFailure()
 
     def doSuccessActionCharacterisation(self, _edPlugin=None):
