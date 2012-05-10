@@ -81,7 +81,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>characterisationPlugin</name>
-					<value>EDPluginControlCharacterisationv1_2</value>
+					<value>EDPluginControlCharacterisationv1_3</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>ispybPlugin</name>
