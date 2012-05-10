@@ -88,8 +88,10 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         self.normalizationFactor = None
 
         self.lstProcessLog = []
-
+        self.npaOut = None
         self.xsdResult = XSDataResultBioSaxsAzimutIntv1_0()
+        self.dummy = -1
+        self.delta_dummy = 0.1
 
 
     def checkParameters(self):
@@ -209,7 +211,8 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
                                            tiltRotation=XSDataAngle(0.0),
                                            angleOfTilt=XSDataAngle(0.0))
             self.__edPluginPyFAI.dataInput = XSDataInputPyFAI(input=self.dataInput.normalizedImage,
-                                             dummy=XSDataDouble(-1),
+                                             dummy=XSDataDouble(self.dummy),
+                                             deltaDummy=XSDataDouble(self.delta_dummy),
                                              geometryFit2D=geometry,
                                              nbPt=XSDataInteger(500),
                                              wavelength=self.experimentSetup.wavelength,
@@ -226,14 +229,13 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
     def doSuccessPyFAI(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsAzimutIntv1_3.doSuccessPyFAI")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_3.doSuccessPyFAI")
-        self.npaOut = EDUtilsArray.xsDataToArray(_edPlugin.dataOutput.output)
-#        self.xsdResult.setIntegratedImage(self.dataInput.getIntegratedImage())
+        self.npaOut = EDUtilsArray.getArray(_edPlugin.dataOutput.output)
 
 
     def doFailurePyFAI(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsAzimutIntv1_3.doFailurePyFAI")
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_3.doFailurePyFAI")
-        self.lstProcessLog.append("Error during integration with saxs_angle on '%s'" % (self.integratedImage))
+        self.lstProcessLog.append("Error during integration with pyFAI on '%s'" % (self.normalizedImage))
         self.setFailure()
 
 
@@ -281,19 +283,12 @@ s-vector Intensity Error
 s-vector Intensity Error
         """
         hdr = str(hdr)
-#        fabiofile = fabio.open(inputImage)
-#        npaSignal = fabiofile.data[0, :]
-#        npaStd = numpy.sqrt(fabiofile.next().data[0, :])
-#        fDistance = float(fabiofile.header["SampleDistance"])
-#        fPixelSize = float(fabiofile.header["PSize_1"])
-#        iOffset = int(fabiofile.header["Offset_1"])
-#        fWavelength = float(fabiofile.header["WaveLength"])
-#        fDummy = float(fabiofile.header["Dummy"])
-#        fDeltaDummy = float(fabiofile.header["DDummy"])
         npaQ = inputArray[:, 0]
         npaSignal = inputArray[:, 1]
-        npaStd = inputArray[:, 2]
-
+        try:
+            npaStd = inputArray[:, 2]
+        except:
+            npaStd = None
         headers = []
         if self.sample.comments is not None:
             headers.append(hdr + " " + self.sample.comments.value)
@@ -309,8 +304,6 @@ s-vector Intensity Error
             headers.append(hdr + " Detector = %s" % self.experimentSetup.detector.value)
         if self.experimentSetup.pixelSize_1 is not None:
             headers.append(hdr + " PixelSize_1 = %s" % self.experimentSetup.pixelSize_1.value)
-        else:
-            headers.append(hdr + " PixelSize_1 = %s" % fPixelSize)
         if self.experimentSetup.pixelSize_2 is not None:
             headers.append(hdr + " PixelSize_2 = %s" % self.experimentSetup.pixelSize_2.value)
         headers.append(hdr)
@@ -322,23 +315,17 @@ s-vector Intensity Error
         if self.experimentSetup.exposureTime is not None:
             headers.append(hdr + " Time per frame (s) = %s" % self.experimentSetup.exposureTime.value)
         if self.experimentSetup.detectorDistance is not None:
-            headers.append(hdr + " SampleDistance = %s" % fDistance)
+            headers.append(hdr + " SampleDistance = %s" % self.experimentSetup.detectorDistance.value)
         if self.experimentSetup.wavelength is not None:
-            headers.append(hdr + " WaveLength = %s" % fWavelength)
+            headers.append(hdr + " WaveLength = %s" % self.experimentSetup.wavelength)
         if self.experimentSetup.normalizationFactor is not None:
             headers.append(hdr + " Normalization = %s" % self.experimentSetup.normalizationFactor.value)
-        history = [key for key in fabiofile.header if key.startswith("History")]
-        history.sort()
-        for key in  history:
-            headers.append(hdr + " " + key + " = " + fabiofile.header[key])
         if self.experimentSetup.beamStopDiode is not None:
             headers.append(hdr + " DiodeCurr = %s" % self.experimentSetup.beamStopDiode.value)
         if self.experimentSetup.machineCurrent is not None:
             headers.append(hdr + " MachCurr = %s" % self.experimentSetup.machineCurrent.value)
         if self.experimentSetup.maskFile is not None:
             headers.append(hdr + " Mask = %s" % self.experimentSetup.maskFile.path.value)
-        if "SaxsDataVersion" in fabiofile.header:
-            headers.append(hdr + " SaxsDataVersion = %s" % fabiofile.header["SaxsDataVersion"])
         headers.append(hdr)
         headers.append(hdr + " N 3")
         if self.sample.comments is not None:
@@ -364,7 +351,13 @@ s-vector Intensity Error
         with open(outputCurve, "w") as f:
             f.writelines(linesep.join(headers))
             f.write(linesep)
-            for q, I, std in zip(npaQ, npaSignal, npaStd):
-                if abs(I - fDummy) > fDeltaDummy:
-                    f.write("%14.6e %14.6e %14.6e%s" % (q, I, std, linesep))
+            if npaStd is None:
+                data = ["%14.6e %14.6e " % (q, I)
+                        for q, I in zip(npaQ, npaSignal)
+                        if abs(I - self.dummy) > self.delta_dummy]
+            else:
+                data = ["%14.6e %14.6e %14.6e" % (q, I, std)
+                        for q, I, std in zip(npaQ, npaSignal, npaStd)
+                        if abs(I - self.dummy) > self.delta_dummy]
+            f.writelines(linesep.join(data))
             f.flush()
