@@ -69,11 +69,17 @@ class EDPluginXDSGenerate(EDPluginControl):
             self.setFailure()
             return
 
-        files = ['XDS.INP', 'INTEGRATE.HKL', 'REMOVE.HKL',
-                 'X-CORRECTIONS.cbf', 'Y-CORRECTIONS.cbf']
+        # we do not generate a REMOVE.HKL file for now
+        to_link = ['INTEGRATE.HKL', #'REMOVE.HKL',
+                   'X-CORRECTIONS.cbf', 'Y-CORRECTIONS.cbf']
+
+        # we require it but the run xds plugin copies it to its WD so
+        # no need to link it
+        required = to_link + ['XDS.INP']
 
         # we'll use it in preprocess
-        self._required = [os.path.join(path, f) for f in files]
+        self._required = [os.path.join(path, f) for f in required]
+        self._to_link =  [os.path.join(path, f) for f in to_link]
 
         for f in self._required:
             if not os.path.isfile(f):
