@@ -179,8 +179,8 @@ class EDPluginParseXdsOutput(EDPlugin):
                     # the one we want has 7 floats
                     chunks = line.split()
                     if len(chunks) == 7:
-                        output.sg_number = float(chunks[0])
-                        output.unit_cell_constants = [float(x) for x in chunks[1:]]
+                        output.sg_number = XSDataInteger(int(chunks[0]))
+                        output.unit_cell_constants = [XSDataFloat(float(x)) for x in chunks[1:]]
 
 
         input_file = self.dataInput.correct_lp.path.value
