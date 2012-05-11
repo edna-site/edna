@@ -34,6 +34,7 @@ import shutil
 import fnmatch
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
+from EDVerbose import EDVerbose
 
 from XSDataCommon import XSDataBoolean
 from XSDataAutoproc import XSDataMinimalXdsIn, XSDataMinimalXdsOut

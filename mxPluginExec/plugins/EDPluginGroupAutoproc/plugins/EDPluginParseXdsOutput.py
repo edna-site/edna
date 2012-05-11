@@ -38,7 +38,8 @@ import os.path
 import shutil
 
 from EDPlugin import EDPlugin
-from XSDataCommon import XSDataBoolean, XSDataFloat, XSDataVectorDouble
+from XSDataCommon import XSDataBoolean, XSDataInteger, XSDataFloat
+from XSDataCommon import XSDataVectorDouble, XSDataString
 from XSDataAutoproc import XSDataXdsOutputFile, XSDataXdsOutput
 from XSDataAutoproc import XSData2DCoordinates, XSDataXdsCompletenessEntry
 

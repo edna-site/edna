@@ -28,13 +28,20 @@ __license__ = "GPLv3+"
 __copyright__ = "<copyright>"
 
 
-from EDPluginControl import EDPluginControl
+import os.path
 
-from XSDataCommon import XSDataPath, XSDataBoolean
+from EDPluginControl import EDPluginControl
+from EDVerbose import EDVerbose
+
+from XSDataCommon import XSDataFile, XSDataBoolean, XSDataString
 
 from XSDataAutoproc import XSDataAutoprocInput
 from XSDataAutoproc import XSDataResCutoff
 from XSDataAutoproc import XSDataMinimalXdsIn
+from XSDataAutoproc import XSDataXdsGenerateInput
+from XSDataAutoproc import XSDataXdsOutputFile
+from XSDataAutoproc import XSDataXscaleInput
+from XSDataAutoproc import XSDataXscaleInputFile
 
 
 class EDPluginControlAutoproc( EDPluginControl ):
