@@ -61,7 +61,6 @@ class EDPluginXDSGenerate(EDPluginControl):
                                       "previous run directory not specified")
         self.checkMandatoryParameters(self.dataInput.resolution,
                                       "resolution not specified")
-
         # Now really check what we need
         path = os.path.abspath(self.dataInput.previous_run_dir.value)
         if not os.path.isdir(path):
@@ -92,13 +91,33 @@ class EDPluginXDSGenerate(EDPluginControl):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlAutoproc.preProcess")
 
-        self.xds = self.loadPlugin('EDPluginExecMinimalXDS')
+        self.xds_anom = self.loadPlugin('EDPluginExecMinimalXds')
+        self.xds_noanom = self.loadPlugin('EDPluginExecMinimalXds')
 
-        xds_dir = os.path.abspath(self.xds.getWorkingDirectory())
+        path = os.path.abspath(self.dataInput.previous_run_dir.value)
+
+        # create the data inputs now we know the files are here
+        input_anom = XSDataMinimalXdsIn()
+        input_anom.input_file = XSDataString(os.path.join(path, 'XDS.INP'))
+        input_anom.friedels_law = XSDataBoolean(True)
+        input_anom.job = XSDataString('CORRECT')
+        input_anom.resolution = self.dataInput.resolution
+        input_anom.resolution_range = [XSDataFloat(60), self.dataInput.resolution]
+        self.xds_anom.dataInput = input_anom
+
+        input_noanom = XSDataMinimalXdsIn()
+        input_noanom.input_file = XSDataString(os.path.join(path, 'XDS.INP'))
+        input_noanom.fridels_law = XSDataBoolean(False)
+        input_noanom.job = XSDataString('CORRECT')
+        input_noanom.resolution_range = [XSDataFloat(60), self.dataInput.resolution]
+        self.xds_noanom.dataInput = input_noanom
+
+        xds_anom_dir = os.path.abspath(self.xds_anom.getWorkingDirectory())
+        xds_noanom_dir = os.path.abspath(self.xds_noanom.getWorkingDirectory())
         # let's make some links!
-        for f in self._required:
-            os.symlink(f, os.path.join(xds_dir, os.path.basename(f)))
-
+        for f in self._to_link:
+            os.symlink(f, os.path.join(xds_anom_dir, os.path.basename(f)))
+            os.symlink(f, os.path.join(xds_noanom_dir, os.path.basename(f)))
         # now this is the horrible part, we need to make symlinks to
         # the images also. for now we rely on the fact that the links
         # in the previous run are most likely the links to the
@@ -110,11 +129,8 @@ class EDPluginXDSGenerate(EDPluginControl):
             fullpath = os.path.join(path, f)
             if os.path.islink(fullpath):
                 # symlink the symlink...
-                os.symlink(fullpath, f)
-
-        # now that this ugly stuff is dealt with, ensure that JOB=
-        # CORRECT in XDS.INP
-        self.cfg_path = os.path.join(xds_dir, 'XDS.INP')
+                os.symlink(fullpath, os.path.join(xds_anom_dir, f))
+                os.symlink(fullpath, os.path.join(xds_noanom_dir, f))
 
 
     def process(self, _edObject = None):
@@ -122,50 +138,53 @@ class EDPluginXDSGenerate(EDPluginControl):
         self.DEBUG("EDPluginControlAutoproc.process")
 
         EDVerbose.DEBUG('first run w/ anom')
-        config = parse_xds_file(cfg_path)
-        config['JOB='] = 'CORRECT'
-        config['FRIEDEL\'S_LAW='] = True
-        config['INCLUDE_RESOLUTION_RANGE='] = [60, self.dataInput.resolution.value]
 
-        dump_xds_file(config, cfg_path)
-
-        self.xds.executeSynchronous()
-        if self.xds.isFailure():
+        self.xds_anom.executeSynchronous()
+        if self.xds_anom.isFailure():
             EDVerbose.ERROR('xds failed when generating w/ anom')
             self.setFailure()
             return
 
         #Now backup the file
         mydir = os.path.abspath(self.getWorkingDirectory())
-        xds_output = os.path.join(mydir, 'XDS_ASCII.HKL')
+        xds_run_directory= self.xds_anom.getWorkingDirectory()
+        xds_output = os.path.join(xds_run_directory, 'XDS_ASCII.HKL')
         output_anom = os.path.join(mydir, 'XDS_ANOM.HKL')
         copyfile(xds_output, output_anom)
 
         # since the original get_xds_stats uses the CORRECT.LP file we
         # need to backup it as well
-        correct_lp = os.path.join(mydir, 'CORRECT.LP')
+        correct_lp = os.path.join(xds_run_directory, 'CORRECT.LP')
         correct_lp_anom = os.path.join(mydir, 'CORRECT_ANOM.LP')
         copyfile(correct_lp, correct_lp_anom)
 
         # now the second run, generate w/out anom
         EDVerbose.DEBUG('second run w/out anom')
 
-        #reuse the previous config
-        config['FRIEDEL\'S_LAW='] = False
-        dump_xds_file(config, cfg_path)
+        self.xds_noanom.executeSynchronous()
 
-        self.xds.executeSynchronous()
-
-        if self.xds.isFailure():
+        if self.xds_noanom.isFailure():
             EDVerbose.ERROR('xds failed when generating w/out anom')
             self.setFailure()
             return
 
+        #Now backup the file
+        xds_run_directory= self.xds_anom.getWorkingDirectory()
+        xds_output = os.path.join(xds_run_directory, 'XDS_ASCII.HKL')
+        output_noanom = os.path.join(mydir, 'XDS_NOANOM.HKL')
+        copyfile(xds_output, output_noanom)
+
+        # since the original get_xds_stats uses the CORRECT.LP file we
+        # need to backup it as well
+        correct_lp = os.path.join(xds_run_directory, 'CORRECT.LP')
+        correct_lp_noanom = os.path.join(mydir, 'CORRECT_NOANOM.LP')
+        copyfile(correct_lp, correct_lp_noanom)
+
         # everything went fine
         data_output = XSDataXdsGenerateOutput()
         data_output.hkl_anom = XSDataString(output_anom)
-        data_output.hkl_no_anom = XSDataString(xds_output)
-        data_output.correct_lp_no_anom = XSDataString(correct_lp)
+        data_output.hkl_no_anom = XSDataString(output_noanom)
+        data_output.correct_lp_no_anom = XSDataString(correct_lp_noanom)
         data_output.correct_lp_anom = XSDataString(correct_lp_anom)
         self.dataOutput = data_output
 
