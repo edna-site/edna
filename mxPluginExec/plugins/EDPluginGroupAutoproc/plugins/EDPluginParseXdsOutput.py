@@ -183,6 +183,8 @@ class EDPluginParseXdsOutput(EDPlugin):
                         output.unit_cell_constants = [float(x) for x in chunks[1:]]
 
 
+        input_file = self.dataInput.correct_lp.path.value
+        output.xds_run_directory = XSDataString(os.path.dirname(input_file))
         self.dataOutput = output
 
     def postProcess(self, _edObject = None):
