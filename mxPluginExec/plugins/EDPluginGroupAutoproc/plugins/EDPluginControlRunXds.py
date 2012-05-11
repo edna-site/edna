@@ -178,5 +178,4 @@ class EDPluginControlRunXds( EDPluginControl ):
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginControlRunXds.postProcess")
-        if not self.isFailure():
-            self.setDataOutput(res)
+        # XXX: maybe move the XDS output parsing there?
