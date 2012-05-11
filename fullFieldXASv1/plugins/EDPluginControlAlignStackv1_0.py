@@ -251,19 +251,26 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 bAllFinished = self.queue.empty()
             else:
                 while not self.queue.empty():
+                    #acquire all semaphores to be sure no plugins are under configuration ! 
+                    with self.semAccumulator:
+                       pass
+                    with self.semMeasure:
+                       pass
+                    with self.semShift:
+                       pass
                     try:
                         plugin = self.queue.get()
                     except Exception:
                         self.WARNING("In EDPluginControlAlignStackv1_0, exception in self.queue.get()")
                         break
                     else:
-                        plugin.execute()
+                        plugin.executeSynchronous()
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginControlAlignStackv1_0.postProcess")
         self.executeControlledPlugins()
-#        self.synchronizePlugins()
+        self.synchronizePlugins()
         # Create some output data
         xsDataResult = XSDataResultAlignStack()
         xsDataResult.setHDF5File(self.xsdHDF5File)
@@ -326,6 +333,8 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
 
     def doSuccessExecShiftImage(self, _edPlugin=None):
         with self.semShift:
+            edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
+            self.queue.put(edPluginExecHDF5)
             self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
             self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
             xsdIdx = _edPlugin.dataInput.index
@@ -339,11 +348,9 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                                                 index=[xsdIdx],
                                                 inputImageFile=[_edPlugin.dataOutput.outputImage])
 #                                                inputArray=[_edPlugin.dataOutput.outputArray])
-            edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
             edPluginExecHDF5.setDataInput(xsdata)
             edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
             edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
-            self.queue.put(edPluginExecHDF5)
 
 
     def doFailureExecShiftImage(self, _edPlugin=None):
