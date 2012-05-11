@@ -68,7 +68,19 @@ class EDHandlerXSDataISPyBv1_4(object):
         xsDataISPyBDiffractionPlan = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBDiffractionPlan(xsDataResultCharacterisation)
 
         # Screening
-        xsDataISPyBScreening = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreening(_strShortComments, _strComments)
+        # Temporary fix for mxsup717, while waiting for a change of the ISPyB web service
+        strComments = _strComments
+        if xsDataResultCharacterisation.getIndexingResult() is not None:
+            if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing():
+                if strComments is None:
+                    strComments = ""
+                else:
+                    strComments += " "
+                if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing().getValue():
+                    strComments += "Labelit indexing"
+                else:
+                    strComments += "MOSFLM indexing"
+        xsDataISPyBScreening = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreening(_strShortComments, strComments)
 
         # ScreeningInput
         xsDataISPyBScreeningInput = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningInput(xsDataResultCharacterisation)
