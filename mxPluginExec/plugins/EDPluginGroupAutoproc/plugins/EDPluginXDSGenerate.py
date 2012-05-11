@@ -59,6 +59,8 @@ class EDPluginXDSGenerate(EDPluginControl):
         self.DEBUG("EDPluginControlAutoproc.checkParameters")
         self.checkMandatoryParameters(self.dataInput.previous_run_dir,
                                       "previous run directory not specified")
+        self.checkMandatoryParameters(self.dataInput.resolution,
+                                      "resolution not specified")
 
         # Now really check what we need
         path = os.path.abspath(self.dataInput.previous_run_dir.value)
