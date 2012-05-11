@@ -377,8 +377,7 @@ class FullFieldXas(object):
             self.lstSubscanSize = [int(i) for i in strtmp.split()]
         except Exception:
             self.lstSubscanSize = None
-        else:
-            print("Setting scan size to %s" % self.lstSubscanSize)
+        print("Setting scan size to %s" % self.lstSubscanSize)
 
     def readScale(self):
         strtmp = self.raw_input("Scale factor for data frames (division):")

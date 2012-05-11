@@ -239,14 +239,22 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         """
         bAllFinished = False
         while not bAllFinished:
+            #acquire all semaphores to be sure no plugins are under configuration ! 
+            with self.semAccumulator:
+                pass
+            with self.semMeasure:
+                pass
+            with self.semShift:
+                pass
             if self.queue.empty():
                 self.synchronizePlugins()
                 bAllFinished = self.queue.empty()
             else:
                 while not self.queue.empty():
                     try:
-                        plugin = self.queue.get_nowait()
+                        plugin = self.queue.get()
                     except Exception:
+                        self.WARNING("In EDPluginControlAlignStackv1_0, exception in self.queue.get()")
                         break
                     else:
                         plugin.execute()
@@ -254,8 +262,9 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginControlAlignStackv1_0.postProcess")
+        self.executeControlledPlugins()
+#        self.synchronizePlugins()
         # Create some output data
-        self.synchronizePlugins()
         xsDataResult = XSDataResultAlignStack()
         xsDataResult.setHDF5File(self.xsdHDF5File)
         xsDataResult.setInternalHDF5Path(self.xsdHDF5Internal)
@@ -306,7 +315,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 edPluginExecAccumulator.connectSUCCESS(self.doSuccessExecAccumultor)
                 edPluginExecAccumulator.connectFAILURE(self.doFailureExecAccumulator)
                 self.queue.put(edPluginExecAccumulator)
-#        self.removeLoadedPlugin(_edPlugin)
 
 
     def doFailureExecMeasureOffset(self, _edPlugin=None):
@@ -314,11 +322,9 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecMeasureOffset")
         self.ERROR("Failure in execution of the MeasureOffset with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.dataOutput.marshal()[:1000]))
         self.setFailure()
-#        self.removeLoadedPlugin(_edPlugin)
 
 
     def doSuccessExecShiftImage(self, _edPlugin=None):
-#        self.semShift.acquire()
         with self.semShift:
             self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
             self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
@@ -338,7 +344,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
             edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
             self.queue.put(edPluginExecHDF5)
-#        self.removeLoadedPlugin(_edPlugin)
 
 
     def doFailureExecShiftImage(self, _edPlugin=None):
@@ -346,7 +351,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecShiftImage")
         self.ERROR("Failure in execution of the ExecShiftImage with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.dataOutput.marshal()[:1000]))
         self.setFailure()
-#        self.removeLoadedPlugin(_edPlugin)
 
     def doSuccessExecStackHDF5(self, _edPlugin=None):
         self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecStackHDF5")
