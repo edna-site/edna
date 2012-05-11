@@ -254,8 +254,11 @@ def _extract_infos(lines, output):
 
         parsed['UNIT_CELL_CONSTANTS='] = [XSDataFloat(x) for x in parsed['UNIT_CELL_CONSTANTS='] ]
 
+        # there may be trailing information after the 6 floats (the
+        # string "as used by INTEGRATE")
+        unit_cells = parsed['UNIT_CELL_CONSTANTS='][:6]
         output.cell_a, output.cell_b, output.cell_c, \
-        output.cell_alpha, output.cell_beta, output.cell_gamma = parsed['UNIT_CELL_CONSTANTS=']
+        output.cell_alpha, output.cell_beta, output.cell_gamma = unit_cells
 
     except KeyError, ke:
         EDVerbose.ERROR('Some parameters could not be found!')
