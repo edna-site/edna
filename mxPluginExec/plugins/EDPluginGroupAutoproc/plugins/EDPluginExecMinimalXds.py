@@ -67,6 +67,16 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         if not (os.path.exists(xds_input) and os.path.isfile(xds_input)):
             self.setFailure()
 
+        # if we have a resolution it has to be a list of 2 XSDataFloat
+        resrange = self.dataInput.resolution_range
+        if resrange is not None and len(resrange) != 0:
+            # a non specified list input parameter has a default value
+            # of [], seriously???
+            if len(resrange) != 2:
+                EDVerbose.ERROR("resolution range must be 2 in length ({} given)".format(resrange))
+                self.setFailure()
+                return
+
 
     def preProcess(self, _edObject = None):
         EDPluginExecProcessScript.preProcess(self)
@@ -102,6 +112,8 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         job = self.dataInput.job
         maxproc = self.dataInput.maxproc
         maxjobs = self.dataInput.maxjobs
+        resolution_range = self.dataInput.resolution_range
+        friedels_law = self.dataInput.friedels_law
 
         if job is not None:
             parsed_config["JOB="] = job.value
@@ -109,7 +121,13 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
             parsed_config["MAXIMUM_NUMBER_OF_PROCESSORS="] = maxproc.value
         if maxjobs is not None:
             parsed_config["MAXIMUM_NUMBER_OF_JOBS="] = maxjobs.value
-
+        if resolution_range is not None and len(resolution_range) != 0:
+            parsed_config["INCLUDE_RESOLUTION_RANGE="] = [x.value for x in resolution_range]
+        if friedels_law is not None:
+            if friedels_law:
+                parsed_config["FRIEDEL'S_LAW="] = "TRUE"
+            else:
+                parsed_config["FRIEDEL'S_LAW="] = "FALSE"
         dump_xds_file(xds_file, parsed_config)
 
 

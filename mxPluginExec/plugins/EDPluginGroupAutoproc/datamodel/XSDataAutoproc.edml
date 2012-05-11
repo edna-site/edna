@@ -38,6 +38,8 @@ complex type XSDataMinimalXdsIn extends XSDataInput {
 	job : XSDataString optional
 	maxproc : XSDataInteger optional
 	maxjobs : XSDataInteger optional
+	friedels_law : XSDataBoolean optional
+	resolution_range : XSDataFloat [] optional
 }
 
 complex type XSDataMinimalXdsOut extends XSDataResult {
