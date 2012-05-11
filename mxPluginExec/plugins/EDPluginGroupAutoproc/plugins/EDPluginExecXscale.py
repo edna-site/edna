@@ -71,8 +71,8 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
                                       'unit cell constants not defined')
         self.checkMandatoryParameters(self.dataInput.sg_number,
                                       'space group not given')
-        self.checkMandatoryParameters(self.dataInput.bins,
-                                      'bins not given')
+        # bins explicitely not mandatory as we may want to run xscale
+        # over the whole data if the detector is complete
 
         # now really check that stuff
         # the unit cell constants param should be 6 floats
@@ -117,8 +117,13 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
             inputfile.write("UNIT_CELL_CONSTANTS= {}\n".format(ucellconstants))
             sg = self.dataInput.sg_number.value
             inputfile.write("SPACE_GROUP_NUMBER= {}\n".format(sg))
-            binstring = ' '.join([str(x.value) for x in self.dataInput.bins])
-            inputfile.write("RESOLUTION_SHELLS= {}\n".format(binstring))
+
+            # include the RESOLUTION_SHELLS directive only if bins are
+            # specified. Otherwise the whole data is used
+            bins = self.dataInput.bins
+            if bins is not None and len(bins) != 0:
+                binstring = ' '.join([str(x.value) for x in self.dataInput.bins])
+                inputfile.write("RESOLUTION_SHELLS= {}\n".format(binstring))
 
 
     def process(self, _edObject = None):
