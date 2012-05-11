@@ -3,9 +3,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDPluginExecSimpleHTMLPagev1_0.py.py 2100 2010-09-27 09:17:13Z svensson $"
-#
-#    Copyright (C) 2008-2011 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal author:       Olof Svensson (svensson@esrf.fr) 
@@ -103,11 +101,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.h1.close()
             self.page.div.close()
             self.diffractionPlan()
-            self.page.hr()
             self.strategyResults()
             self.graphs()
-            self.page.hr()
             self.indexingResults()
+            self.integrationResults()
             self.imageQualityIndicatorResults()
         
 
@@ -123,7 +120,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         xsDataResultSimpleHTMLPage.setPathToHTMLDirectory(XSDataFile(XSDataString(os.path.dirname(self.strPath))))
         self.setDataOutput(xsDataResultSimpleHTMLPage)
         # Store in Pyarch
-        strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
+        strPyarchPath = None
+        if self.xsDataResultCharacterisation is not None:
+            strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
         if strPyarchPath is None:
             # For debugging purposes
             strPyarchPath = EDUtilsPath.getEdnaUserTempFolder()
@@ -139,7 +138,6 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup is not None:
                 strForcedSpaceGroup = self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup.value
         if xsDataResultIndexing:
-            self.page.hr()
             # Table containg indexing results and thumbnail images
             self.page.table( class_='indexResultsAndThumbnails', border_="0", cellpadding_="0")
             self.page.tr( align_="CENTER" )
@@ -155,10 +153,32 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.table.close()
 
     
+    def integrationResults(self):
+        # Was the integration successful?
+        xsDataResultIntegration = self.xsDataResultCharacterisation.getIntegrationResult()
+        if xsDataResultIntegration:
+            iIntegration = 1
+            for xsDataIntegrationSubWedgeResult in xsDataResultIntegration.getIntegrationSubWedgeResult():
+                strPathToIntegrationLogFile = xsDataIntegrationSubWedgeResult.getIntegrationLogFile().getPath().getValue()
+                strIntegrationHtmlPageName = "integration_%d_log.html" % iIntegration
+                strPageIntegrationLog = os.path.join(self.getWorkingDirectory(), strIntegrationHtmlPageName)
+                pageIntegrationLog = markupv1_7.page()
+                pageIntegrationLog.h1("Integration Log No %d" % iIntegration)
+                pageIntegrationLog.a("Back to previous page", href_=self.strHtmlFileName)
+                pageIntegrationLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToIntegrationLogFile)))
+                pageIntegrationLog.a("Back to previous page", href_=self.strHtmlFileName)
+                EDUtilsFile.writeFile(strPageIntegrationLog, str(pageIntegrationLog))
+                self.page.a("Integration log file %d" % iIntegration, href=strIntegrationHtmlPageName) 
+                self.page.br()
+                iIntegration += 1               
+
+
+
+
+    
     def strategyResults(self):
         # Was the strategy successful?
         xsDataResultStrategy = self.xsDataResultCharacterisation.getStrategyResult()
-        self.page.hr()
         if xsDataResultStrategy is None:
             # Check if indexing and integration results
             xsDataResultIntegration = self.xsDataResultCharacterisation.getIntegrationResult()
@@ -443,6 +463,16 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.td.close()
         self.page.tr.close()
         self.page.table.close()
+        if _xsDataResultIndexing.getIndexingLogFile():
+            strPathToIndexingLogFile = _xsDataResultIndexing.getIndexingLogFile().getPath().getValue()
+            strPageIndexingLog = os.path.join(self.getWorkingDirectory(), "indexing_log.html")
+            pageIndexingLog = markupv1_7.page()
+            pageIndexingLog.h1("Indexing Log")
+            pageIndexingLog.a("Back to previous page", href_=self.strHtmlFileName)
+            pageIndexingLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToIndexingLogFile)))
+            pageIndexingLog.a("Back to previous page", href_=self.strHtmlFileName)
+            EDUtilsFile.writeFile(strPageIndexingLog, str(pageIndexingLog))
+            self.page.a("Indexing log file", href="indexing_log.html")
         
 
         

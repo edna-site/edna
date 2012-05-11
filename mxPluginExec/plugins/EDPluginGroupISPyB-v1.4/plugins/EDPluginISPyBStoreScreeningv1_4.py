@@ -344,10 +344,10 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         fRawOrientationMatrix_c_y = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_c_y, None)
         fRawOrientationMatrix_c_z = self.getXSValue(_xsDataISPyBScreeningOutputLattice.rawOrientationMatrix_c_z, None)
         fUnitCell_a = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_a, None)
-        fUnitCell_alpha = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_alpha, None)
         fUnitCell_b = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_b, None)
-        fUnitCell_beta = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_beta, None)
         fUnitCell_c = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_c, None)
+        fUnitCell_alpha = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_alpha, None)
+        fUnitCell_beta = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_beta, None)
         fUnitCell_gamma = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_gamma, None)
         strTimeStamp = DateTime(datetime.datetime.now())
         iScreeningOutputLatticeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutputLattice(
@@ -366,10 +366,10 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             fRawOrientationMatrix_c_y, \
             fRawOrientationMatrix_c_z, \
             fUnitCell_a, \
-            fUnitCell_alpha, \
             fUnitCell_b, \
-            fUnitCell_beta, \
             fUnitCell_c, \
+            fUnitCell_alpha, \
+            fUnitCell_beta, \
             fUnitCell_gamma, \
             strTimeStamp, \
             )

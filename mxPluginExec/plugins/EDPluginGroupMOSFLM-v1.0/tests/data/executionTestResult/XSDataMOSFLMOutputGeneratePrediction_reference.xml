@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataMOSFLMOutputGeneratePrediction>
+    <predictionImage>
+        <number>
+            <value>1</value>
+        </number>
+        <path>
+            <value>${EDNA_WORKING_DIR}/ref-testscale_1_001_pred.jpg</value>
+        </path>
+    </predictionImage>
+    <pathToLogFile>
+        <path>
+            <value>${EDNA_WORKING_DIR}/MOSFLMGeneratePredictionv10.log</value>
+        </path>
+    </pathToLogFile>
+</XSDataMOSFLMOutputGeneratePrediction>

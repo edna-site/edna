@@ -152,5 +152,7 @@ class EDHandlerXSDataLabelitv1_1:
 
         xsDataIndexingResult.setSelectedSolution(xsDataIndexingSolutionSelected)
 
+        xsDataIndexingResult.setIndexingLogFile(_xsDataLabelitScreenOutput.getPathToLogFile())
+
         return xsDataIndexingResult
     generateXSDataIndexingResult = staticmethod(generateXSDataIndexingResult)
