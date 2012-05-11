@@ -269,6 +269,7 @@ def _extract_completeness_entries(lines, output):
             output.total_completeness.outer_complete = XSDataFloat(infos[3])
             output.total_completeness.outer_rfactor = XSDataFloat(infos[4])
             output.total_completeness.outer_isig = XSDataFloat(infos[7])
+            output.total_completeness.half_dataset_correlation = XSDataFloat(infos[10])
         else:
             # regular line, do not strip the first elem and bump the
             # indices by 1
@@ -278,4 +279,5 @@ def _extract_completeness_entries(lines, output):
             res.outer_complete = XSDataFloat(infos[4])
             res.outer_rfactor = XSDataFloat(infos[5])
             res.outer_isig = XSDataFloat(infos[8])
+            res.half_dataset_correlation = XSDataFloat(infos[10])
             output.completeness_entries.append(res)
