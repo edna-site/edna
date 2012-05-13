@@ -81,7 +81,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>characterisationPlugin</name>
-					<value>EDPluginControlCharacterisationv1_2</value>
+					<value>EDPluginControlCharacterisationv1_3</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>ispybPlugin</name>
@@ -94,13 +94,13 @@
 			</XSParamList>
 		</XSPluginItem>
         <XSPluginItem>
-                <name>EDPluginExecOutputHTMLv1_0</name>
-                <XSParamList>
-                        <XSParamItem>
-                                <name>EDNA2html</name>
-                                <value>/opt/pxsoft/EDNA2html/v0.0.9b/linux</value>
-                        </XSParamItem>
-                </XSParamList>
+            <name>EDPluginExecOutputHTMLv1_0</name>
+            <XSParamList>
+                <XSParamItem>
+                    <name>EDNA2html</name>
+                    <value>/opt/pxsoft/EDNA2html/v0.0.9b/linux</value>
+                </XSParamItem>
+            </XSParamList>
         </XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginControlInterfaceToMXCuBEv1_2</name>  

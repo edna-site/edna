@@ -273,11 +273,11 @@ package XSDataMXv1 {
 		complex type XSDataIndexingResult extends XSDataResult {
 			image : XSDataImage []
 			indexingLogFile : XSDataFile optional
-			predictionResult : XSDataGeneratePredictionResult
+			labelitIndexing : XSDataBoolean
+			predictionResult : XSDataGeneratePredictionResult optional
+			selectedSolution : XSDataIndexingSolutionSelected
 			optional
-			selectedSolution : XSDataIndexingSolutionSelected optional
-			solution : XSDataIndexingSolution []
-			optional
+			solution : XSDataIndexingSolution [] optional
 		}
 
 		complex type XSDataIndexingSolution extends XSData {

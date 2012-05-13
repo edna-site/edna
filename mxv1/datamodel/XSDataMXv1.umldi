@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_OlxNoQfOEeCHfoTkpt3vnQ">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_TwYYIQdcEeCIqPjmQLbFcg">
   <model href="XSDataMXv1.uml#_w8IxIM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_CwbIYefyEd-TcNOGyxZYYg" position="0,0" size="100,100" name="XSDataMXv1" zoom="0.75" viewport="0,243">
+  <diagrams xmi:id="_CwbIYefyEd-TcNOGyxZYYg" position="0,0" size="100,100" name="XSDataMXv1" zoom="0.75" viewport="0,173">
     <property xmi:id="_CwuDUOfyEd-TcNOGyxZYYg" key="pageFormatName" value="A4"/>
     <property xmi:id="_CwuDUefyEd-TcNOGyxZYYg" key="diagramWidth" value="840"/>
     <property xmi:id="_CwuDUufyEd-TcNOGyxZYYg" key="diagramHeight" value="1188"/>
@@ -630,7 +630,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_TwYYIAdcEeCIqPjmQLbFcg">
     <model href="XSDataMXv1.uml#_SiHOMAdcEeCIqPjmQLbFcg"/>
-    <diagrams xmi:id="_TwYYIQdcEeCIqPjmQLbFcg" position="0,0" size="100,100" name="Indexing" zoom="0.75" viewport="-14,175">
+    <diagrams xmi:id="_TwYYIQdcEeCIqPjmQLbFcg" position="0,0" size="100,100" name="Indexing" zoom="0.75" viewport="0,0">
       <property xmi:id="_Ty3EYAdcEeCIqPjmQLbFcg" key="pageFormatName" value=""/>
       <property xmi:id="_Ty3EYQdcEeCIqPjmQLbFcg" key="diagramWidth" value="1146"/>
       <property xmi:id="_Ty3EYgdcEeCIqPjmQLbFcg" key="diagramHeight" value="762"/>
@@ -700,6 +700,11 @@
               <element href="XSDataMXv1.uml#_Ijn9ougUEd-TcNOGyxZYYg"/>
             </semanticModel>
           </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_Mx_8QJT4EeGz5667jSekjg" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MyAjUJT4EeGz5667jSekjg" presentation="default">
+              <element href="XSDataMXv1.uml#_MyDmoJT4EeGz5667jSekjg"/>
+            </semanticModel>
+          </contained>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ioRZdQdcEeCIqPjmQLbFcg">
           <property xmi:id="_ioRZdgdcEeCIqPjmQLbFcg" key="eStructuralFeatureID" value="47 50 "/>
@@ -736,7 +741,7 @@
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_m8tqIAdcEeCIqPjmQLbFcg" position="135,178" size="235,-1">
+      <contained xsi:type="di:GraphNode" xmi:id="_m8tqIAdcEeCIqPjmQLbFcg" position="116,178" size="277,-1">
         <anchorage xmi:id="_m9GEoQdcEeCIqPjmQLbFcg" graphEdge="_m9GrsAdcEeCIqPjmQLbFcg _9YmoYAdcEeCIqPjmQLbFcg"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_m8tqIQdcEeCIqPjmQLbFcg" presentation="default">
           <element href="XSDataMXv1.uml#_4WZM8OgGEd-TcNOGyxZYYg"/>
@@ -2430,7 +2435,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_OlxNoAfOEeCHfoTkpt3vnQ">
     <model href="XSDataMXv1.uml#_McKc0AfOEeCHfoTkpt3vnQ"/>
-    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,1040">
+    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,80">
       <property xmi:id="_Om52EAfOEeCHfoTkpt3vnQ" key="pageFormatName" value=""/>
       <property xmi:id="_Om52EQfOEeCHfoTkpt3vnQ" key="diagramWidth" value="1144"/>
       <property xmi:id="_Om52EgfOEeCHfoTkpt3vnQ" key="diagramHeight" value="1498"/>
