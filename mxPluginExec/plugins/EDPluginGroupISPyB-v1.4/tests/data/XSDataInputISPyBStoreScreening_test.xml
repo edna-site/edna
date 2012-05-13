@@ -16,7 +16,7 @@
             <value>2012-02-27 09:02:11</value>
         </timeStamp>
         <programVersion>
-            <value>EDNA MX</value>
+            <value>EDNA MX 11111111111111122222222222222223333333333333333444444444444445555555555566666666</value>
         </programVersion>
     </screening>
     <screeningInput>
@@ -30,7 +30,7 @@
     <screeningOutputContainer>
         <screeningOutput>
             <statusDescription>
-                <value>Indexing successful</value>
+                <value>Image no 1: 3 ice/powder rings detected. Image no 2: 2 ice/powder rings detected. Image no 3: 5 ice/powder rings detected. Image no 4: 2 ice/powder rings detected. MOSFLM: Indexing successful (P1). Labelit: Indexing successful (P1). Integration successful. Strategy calculation successful.</value>
             </statusDescription>
             <spotDeviationR>
                 <value>4.360170e-01</value>

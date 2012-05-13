@@ -176,8 +176,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
                 oReturnValue = "1"
             else:
                 oReturnValue = "0"
-        elif type(oReturnValue) == str:
-            if len(str) > _iMaxStringLength:
+        elif (type(oReturnValue) == str) or (type(oReturnValue) == unicode):
+            if len(oReturnValue) > _iMaxStringLength:
                 strOldString = oReturnValue
                 oReturnValue = oReturnValue[0:_iMaxStringLength-3]+"..."
                 self.warning("String truncated to %d characters for ISPyB! Original string: %s" % (_iMaxStringLength, strOldString))
