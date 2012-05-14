@@ -287,7 +287,7 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         self.DEBUG("EDPluginISPyBStoreScreeningv1_4.storeScreeningOutput")
         iScreeningOutputId = self.getXSValue(_xsDataISPyBScreeningOutput.screeningOutputId)
         iScreeningId = _iScreeningId
-        strStatusDescription = self.getXSValue(_xsDataISPyBScreeningOutput.statusDescription, _iMaxStringLength=255)
+        strStatusDescription = self.getXSValue(_xsDataISPyBScreeningOutput.statusDescription, _iMaxStringLength=1024)
         iRejectedReflections = self.getXSValue(_xsDataISPyBScreeningOutput.rejectedReflections)
         fResolutionObtained = self.getXSValue(_xsDataISPyBScreeningOutput.resolutionObtained)
         fSpotDeviationR = self.getXSValue(_xsDataISPyBScreeningOutput.spotDeviationR)
