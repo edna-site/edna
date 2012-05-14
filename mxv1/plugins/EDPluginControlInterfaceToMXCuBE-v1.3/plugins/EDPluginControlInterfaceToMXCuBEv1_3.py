@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDPluginControlInterfaceToMXCuBEv1_3.py 2100 2010-09-27 09:17:13Z svensson $"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal author:       Olof Svensson (svensson@esrf.fr) 
@@ -75,7 +73,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.setXSDataInputClass(XSDataInputMXCuBE)
         self.strPluginControlInterface = "EDPluginControlInterfacev1_2"
         self.edPluginControlInterface = None
-        self.strPluginControlISPyB = "EDPluginControlISPyBv1_1"
+        self.strPluginControlISPyB = "EDPluginControlISPyBv1_4"
         self.edPluginControlISPyB = None
         self.xsDataResultMXCuBE = None
         self.xsDataIntegerDataCollectionId = None
@@ -162,8 +160,11 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface...")
         self.retrieveSuccessMessages(self.edPluginControlInterface, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface")
         xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput().getResultCharacterisation()
+        self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
+        xsDataResultControlISPyB = self.edPluginControlInterface.getDataOutput().getResultControlISPyB()
+        if xsDataResultControlISPyB != None:
+            self.xsDataResultMXCuBE.setScreeningId(xsDataResultControlISPyB.getScreeningId())
         if xsDataResultCharacterisation != None:
-            self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
             strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
             xsDataResultCharacterisation.exportToFile(strPathCharacterisationResult)
             self.xsDataResultMXCuBE.setListOfOutputFiles(XSDataString(strPathCharacterisationResult))

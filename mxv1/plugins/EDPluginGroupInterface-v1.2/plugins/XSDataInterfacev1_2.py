@@ -1,13 +1,60 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jun 27 04:13::52 2011 by EDGenerateDS.
+# Generated Mon May 14 10:38::44 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataFloat
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataString
+	from XSDataMXv1 import XSDataDiffractionPlan
+	from XSDataMXv1 import XSDataExperimentalCondition
+	from XSDataMXv1 import XSDataInputCharacterisation
+	from XSDataMXv1 import XSDataResultCharacterisation
+	from XSDataMXv1 import XSDataResultControlISPyB
+	from XSDataCommon import XSDataLength
+	from XSDataCommon import XSDataTime
+	from XSDataCommon import XSDataWavelength
+	from XSDataMXv1 import XSDataSampleCrystalMM
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataFile
@@ -16,13 +63,13 @@ from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataString
 from XSDataMXv1 import XSDataDiffractionPlan
 from XSDataMXv1 import XSDataExperimentalCondition
-from XSDataMXv1 import XSDataSample
 from XSDataMXv1 import XSDataInputCharacterisation
 from XSDataMXv1 import XSDataResultCharacterisation
 from XSDataMXv1 import XSDataResultControlISPyB
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataTime
 from XSDataCommon import XSDataWavelength
+from XSDataMXv1 import XSDataSampleCrystalMM
 
 
 
@@ -58,9 +105,8 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
-	pass
-	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
-	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
+	if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
 class MixedContainer(object):
 	# Constants for category:
@@ -116,193 +162,195 @@ class MixedContainer(object):
 
 class XSDataInputInterface(object):
 	def __init__(self, inputCharacterisation=None, comments=None, shortComments=None, dataCollectionId=None, transmission=None, wavelength=None, beamPosY=None, beamPosX=None, resultsFilePath=None, generatedTemplateFile=None, templateMode=None, beamSizeY=None, beamSizeX=None, beamSize=None, minExposureTimePerImage=None, flux=None, imagePath=None, sample=None, diffractionPlan=None, experimentalCondition=None):
+	
+	
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", experimentalCondition, "XSDataExperimentalCondition")
-		self.__experimentalCondition = experimentalCondition
+		self._experimentalCondition = experimentalCondition
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", sample, "XSDataSample")
-		self.__sample = sample
+		self._diffractionPlan = diffractionPlan
+		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", sample, "XSDataSampleCrystalMM")
+		self._sample = sample
 		if imagePath is None:
-			self.__imagePath = []
+			self._imagePath = []
 		else:
 			checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", imagePath, "list")
-			self.__imagePath = imagePath
+			self._imagePath = imagePath
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", flux, "XSDataFloat")
-		self.__flux = flux
+		self._flux = flux
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", minExposureTimePerImage, "XSDataTime")
-		self.__minExposureTimePerImage = minExposureTimePerImage
+		self._minExposureTimePerImage = minExposureTimePerImage
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", beamSize, "XSDataLength")
-		self.__beamSize = beamSize
+		self._beamSize = beamSize
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", beamSizeX, "XSDataLength")
-		self.__beamSizeX = beamSizeX
+		self._beamSizeX = beamSizeX
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", beamSizeY, "XSDataLength")
-		self.__beamSizeY = beamSizeY
+		self._beamSizeY = beamSizeY
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", templateMode, "XSDataBoolean")
-		self.__templateMode = templateMode
+		self._templateMode = templateMode
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", generatedTemplateFile, "XSDataFile")
-		self.__generatedTemplateFile = generatedTemplateFile
+		self._generatedTemplateFile = generatedTemplateFile
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", resultsFilePath, "XSDataFile")
-		self.__resultsFilePath = resultsFilePath
+		self._resultsFilePath = resultsFilePath
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", beamPosX, "XSDataFloat")
-		self.__beamPosX = beamPosX
+		self._beamPosX = beamPosX
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", beamPosY, "XSDataFloat")
-		self.__beamPosY = beamPosY
+		self._beamPosY = beamPosY
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", wavelength, "XSDataWavelength")
-		self.__wavelength = wavelength
+		self._wavelength = wavelength
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", transmission, "XSDataDouble")
-		self.__transmission = transmission
+		self._transmission = transmission
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", dataCollectionId, "XSDataInteger")
-		self.__dataCollectionId = dataCollectionId
+		self._dataCollectionId = dataCollectionId
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", shortComments, "XSDataString")
-		self.__shortComments = shortComments
+		self._shortComments = shortComments
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", comments, "XSDataString")
-		self.__comments = comments
+		self._comments = comments
 		checkType("XSDataInputInterface", "Constructor of XSDataInputInterface", inputCharacterisation, "XSDataInputCharacterisation")
-		self.__inputCharacterisation = inputCharacterisation
-	def getExperimentalCondition(self): return self.__experimentalCondition
+		self._inputCharacterisation = inputCharacterisation
+	def getExperimentalCondition(self): return self._experimentalCondition
 	def setExperimentalCondition(self, experimentalCondition):
 		checkType("XSDataInputInterface", "setExperimentalCondition", experimentalCondition, "XSDataExperimentalCondition")
-		self.__experimentalCondition = experimentalCondition
-	def delExperimentalCondition(self): self.__experimentalCondition = None
+		self._experimentalCondition = experimentalCondition
+	def delExperimentalCondition(self): self._experimentalCondition = None
 	# Properties
 	experimentalCondition = property(getExperimentalCondition, setExperimentalCondition, delExperimentalCondition, "Property for experimentalCondition")
-	def getDiffractionPlan(self): return self.__diffractionPlan
+	def getDiffractionPlan(self): return self._diffractionPlan
 	def setDiffractionPlan(self, diffractionPlan):
 		checkType("XSDataInputInterface", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-	def delDiffractionPlan(self): self.__diffractionPlan = None
+		self._diffractionPlan = diffractionPlan
+	def delDiffractionPlan(self): self._diffractionPlan = None
 	# Properties
 	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
-	def getSample(self): return self.__sample
+	def getSample(self): return self._sample
 	def setSample(self, sample):
-		checkType("XSDataInputInterface", "setSample", sample, "XSDataSample")
-		self.__sample = sample
-	def delSample(self): self.__sample = None
+		checkType("XSDataInputInterface", "setSample", sample, "XSDataSampleCrystalMM")
+		self._sample = sample
+	def delSample(self): self._sample = None
 	# Properties
 	sample = property(getSample, setSample, delSample, "Property for sample")
-	def getImagePath(self): return self.__imagePath
+	def getImagePath(self): return self._imagePath
 	def setImagePath(self, imagePath):
 		checkType("XSDataInputInterface", "setImagePath", imagePath, "list")
-		self.__imagePath = imagePath
-	def delImagePath(self): self.__imagePath = None
+		self._imagePath = imagePath
+	def delImagePath(self): self._imagePath = None
 	# Properties
 	imagePath = property(getImagePath, setImagePath, delImagePath, "Property for imagePath")
 	def addImagePath(self, value):
 		checkType("XSDataInputInterface", "setImagePath", value, "XSDataFile")
-		self.__imagePath.append(value)
+		self._imagePath.append(value)
 	def insertImagePath(self, index, value):
 		checkType("XSDataInputInterface", "setImagePath", value, "XSDataFile")
-		self.__imagePath[index] = value
-	def getFlux(self): return self.__flux
+		self._imagePath[index] = value
+	def getFlux(self): return self._flux
 	def setFlux(self, flux):
 		checkType("XSDataInputInterface", "setFlux", flux, "XSDataFloat")
-		self.__flux = flux
-	def delFlux(self): self.__flux = None
+		self._flux = flux
+	def delFlux(self): self._flux = None
 	# Properties
 	flux = property(getFlux, setFlux, delFlux, "Property for flux")
-	def getMinExposureTimePerImage(self): return self.__minExposureTimePerImage
+	def getMinExposureTimePerImage(self): return self._minExposureTimePerImage
 	def setMinExposureTimePerImage(self, minExposureTimePerImage):
 		checkType("XSDataInputInterface", "setMinExposureTimePerImage", minExposureTimePerImage, "XSDataTime")
-		self.__minExposureTimePerImage = minExposureTimePerImage
-	def delMinExposureTimePerImage(self): self.__minExposureTimePerImage = None
+		self._minExposureTimePerImage = minExposureTimePerImage
+	def delMinExposureTimePerImage(self): self._minExposureTimePerImage = None
 	# Properties
 	minExposureTimePerImage = property(getMinExposureTimePerImage, setMinExposureTimePerImage, delMinExposureTimePerImage, "Property for minExposureTimePerImage")
-	def getBeamSize(self): return self.__beamSize
+	def getBeamSize(self): return self._beamSize
 	def setBeamSize(self, beamSize):
 		checkType("XSDataInputInterface", "setBeamSize", beamSize, "XSDataLength")
-		self.__beamSize = beamSize
-	def delBeamSize(self): self.__beamSize = None
+		self._beamSize = beamSize
+	def delBeamSize(self): self._beamSize = None
 	# Properties
 	beamSize = property(getBeamSize, setBeamSize, delBeamSize, "Property for beamSize")
-	def getBeamSizeX(self): return self.__beamSizeX
+	def getBeamSizeX(self): return self._beamSizeX
 	def setBeamSizeX(self, beamSizeX):
 		checkType("XSDataInputInterface", "setBeamSizeX", beamSizeX, "XSDataLength")
-		self.__beamSizeX = beamSizeX
-	def delBeamSizeX(self): self.__beamSizeX = None
+		self._beamSizeX = beamSizeX
+	def delBeamSizeX(self): self._beamSizeX = None
 	# Properties
 	beamSizeX = property(getBeamSizeX, setBeamSizeX, delBeamSizeX, "Property for beamSizeX")
-	def getBeamSizeY(self): return self.__beamSizeY
+	def getBeamSizeY(self): return self._beamSizeY
 	def setBeamSizeY(self, beamSizeY):
 		checkType("XSDataInputInterface", "setBeamSizeY", beamSizeY, "XSDataLength")
-		self.__beamSizeY = beamSizeY
-	def delBeamSizeY(self): self.__beamSizeY = None
+		self._beamSizeY = beamSizeY
+	def delBeamSizeY(self): self._beamSizeY = None
 	# Properties
 	beamSizeY = property(getBeamSizeY, setBeamSizeY, delBeamSizeY, "Property for beamSizeY")
-	def getTemplateMode(self): return self.__templateMode
+	def getTemplateMode(self): return self._templateMode
 	def setTemplateMode(self, templateMode):
 		checkType("XSDataInputInterface", "setTemplateMode", templateMode, "XSDataBoolean")
-		self.__templateMode = templateMode
-	def delTemplateMode(self): self.__templateMode = None
+		self._templateMode = templateMode
+	def delTemplateMode(self): self._templateMode = None
 	# Properties
 	templateMode = property(getTemplateMode, setTemplateMode, delTemplateMode, "Property for templateMode")
-	def getGeneratedTemplateFile(self): return self.__generatedTemplateFile
+	def getGeneratedTemplateFile(self): return self._generatedTemplateFile
 	def setGeneratedTemplateFile(self, generatedTemplateFile):
 		checkType("XSDataInputInterface", "setGeneratedTemplateFile", generatedTemplateFile, "XSDataFile")
-		self.__generatedTemplateFile = generatedTemplateFile
-	def delGeneratedTemplateFile(self): self.__generatedTemplateFile = None
+		self._generatedTemplateFile = generatedTemplateFile
+	def delGeneratedTemplateFile(self): self._generatedTemplateFile = None
 	# Properties
 	generatedTemplateFile = property(getGeneratedTemplateFile, setGeneratedTemplateFile, delGeneratedTemplateFile, "Property for generatedTemplateFile")
-	def getResultsFilePath(self): return self.__resultsFilePath
+	def getResultsFilePath(self): return self._resultsFilePath
 	def setResultsFilePath(self, resultsFilePath):
 		checkType("XSDataInputInterface", "setResultsFilePath", resultsFilePath, "XSDataFile")
-		self.__resultsFilePath = resultsFilePath
-	def delResultsFilePath(self): self.__resultsFilePath = None
+		self._resultsFilePath = resultsFilePath
+	def delResultsFilePath(self): self._resultsFilePath = None
 	# Properties
 	resultsFilePath = property(getResultsFilePath, setResultsFilePath, delResultsFilePath, "Property for resultsFilePath")
-	def getBeamPosX(self): return self.__beamPosX
+	def getBeamPosX(self): return self._beamPosX
 	def setBeamPosX(self, beamPosX):
 		checkType("XSDataInputInterface", "setBeamPosX", beamPosX, "XSDataFloat")
-		self.__beamPosX = beamPosX
-	def delBeamPosX(self): self.__beamPosX = None
+		self._beamPosX = beamPosX
+	def delBeamPosX(self): self._beamPosX = None
 	# Properties
 	beamPosX = property(getBeamPosX, setBeamPosX, delBeamPosX, "Property for beamPosX")
-	def getBeamPosY(self): return self.__beamPosY
+	def getBeamPosY(self): return self._beamPosY
 	def setBeamPosY(self, beamPosY):
 		checkType("XSDataInputInterface", "setBeamPosY", beamPosY, "XSDataFloat")
-		self.__beamPosY = beamPosY
-	def delBeamPosY(self): self.__beamPosY = None
+		self._beamPosY = beamPosY
+	def delBeamPosY(self): self._beamPosY = None
 	# Properties
 	beamPosY = property(getBeamPosY, setBeamPosY, delBeamPosY, "Property for beamPosY")
-	def getWavelength(self): return self.__wavelength
+	def getWavelength(self): return self._wavelength
 	def setWavelength(self, wavelength):
 		checkType("XSDataInputInterface", "setWavelength", wavelength, "XSDataWavelength")
-		self.__wavelength = wavelength
-	def delWavelength(self): self.__wavelength = None
+		self._wavelength = wavelength
+	def delWavelength(self): self._wavelength = None
 	# Properties
 	wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
-	def getTransmission(self): return self.__transmission
+	def getTransmission(self): return self._transmission
 	def setTransmission(self, transmission):
 		checkType("XSDataInputInterface", "setTransmission", transmission, "XSDataDouble")
-		self.__transmission = transmission
-	def delTransmission(self): self.__transmission = None
+		self._transmission = transmission
+	def delTransmission(self): self._transmission = None
 	# Properties
 	transmission = property(getTransmission, setTransmission, delTransmission, "Property for transmission")
-	def getDataCollectionId(self): return self.__dataCollectionId
+	def getDataCollectionId(self): return self._dataCollectionId
 	def setDataCollectionId(self, dataCollectionId):
 		checkType("XSDataInputInterface", "setDataCollectionId", dataCollectionId, "XSDataInteger")
-		self.__dataCollectionId = dataCollectionId
-	def delDataCollectionId(self): self.__dataCollectionId = None
+		self._dataCollectionId = dataCollectionId
+	def delDataCollectionId(self): self._dataCollectionId = None
 	# Properties
 	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
-	def getShortComments(self): return self.__shortComments
+	def getShortComments(self): return self._shortComments
 	def setShortComments(self, shortComments):
 		checkType("XSDataInputInterface", "setShortComments", shortComments, "XSDataString")
-		self.__shortComments = shortComments
-	def delShortComments(self): self.__shortComments = None
+		self._shortComments = shortComments
+	def delShortComments(self): self._shortComments = None
 	# Properties
 	shortComments = property(getShortComments, setShortComments, delShortComments, "Property for shortComments")
-	def getComments(self): return self.__comments
+	def getComments(self): return self._comments
 	def setComments(self, comments):
 		checkType("XSDataInputInterface", "setComments", comments, "XSDataString")
-		self.__comments = comments
-	def delComments(self): self.__comments = None
+		self._comments = comments
+	def delComments(self): self._comments = None
 	# Properties
 	comments = property(getComments, setComments, delComments, "Property for comments")
-	def getInputCharacterisation(self): return self.__inputCharacterisation
+	def getInputCharacterisation(self): return self._inputCharacterisation
 	def setInputCharacterisation(self, inputCharacterisation):
 		checkType("XSDataInputInterface", "setInputCharacterisation", inputCharacterisation, "XSDataInputCharacterisation")
-		self.__inputCharacterisation = inputCharacterisation
-	def delInputCharacterisation(self): self.__inputCharacterisation = None
+		self._inputCharacterisation = inputCharacterisation
+	def delInputCharacterisation(self): self._inputCharacterisation = None
 	# Properties
 	inputCharacterisation = property(getInputCharacterisation, setInputCharacterisation, delInputCharacterisation, "Property for inputCharacterisation")
 	def export(self, outfile, level, name_='XSDataInputInterface'):
@@ -313,45 +361,45 @@ class XSDataInputInterface(object):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputInterface'):
 		pass
-		if self.__experimentalCondition is not None:
+		if self._experimentalCondition is not None:
 			self.experimentalCondition.export(outfile, level, name_='experimentalCondition')
-		if self.__diffractionPlan is not None:
+		if self._diffractionPlan is not None:
 			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
-		if self.__sample is not None:
+		if self._sample is not None:
 			self.sample.export(outfile, level, name_='sample')
 		for imagePath_ in self.getImagePath():
 			imagePath_.export(outfile, level, name_='imagePath')
-		if self.__flux is not None:
+		if self._flux is not None:
 			self.flux.export(outfile, level, name_='flux')
-		if self.__minExposureTimePerImage is not None:
+		if self._minExposureTimePerImage is not None:
 			self.minExposureTimePerImage.export(outfile, level, name_='minExposureTimePerImage')
-		if self.__beamSize is not None:
+		if self._beamSize is not None:
 			self.beamSize.export(outfile, level, name_='beamSize')
-		if self.__beamSizeX is not None:
+		if self._beamSizeX is not None:
 			self.beamSizeX.export(outfile, level, name_='beamSizeX')
-		if self.__beamSizeY is not None:
+		if self._beamSizeY is not None:
 			self.beamSizeY.export(outfile, level, name_='beamSizeY')
-		if self.__templateMode is not None:
+		if self._templateMode is not None:
 			self.templateMode.export(outfile, level, name_='templateMode')
-		if self.__generatedTemplateFile is not None:
+		if self._generatedTemplateFile is not None:
 			self.generatedTemplateFile.export(outfile, level, name_='generatedTemplateFile')
-		if self.__resultsFilePath is not None:
+		if self._resultsFilePath is not None:
 			self.resultsFilePath.export(outfile, level, name_='resultsFilePath')
-		if self.__beamPosX is not None:
+		if self._beamPosX is not None:
 			self.beamPosX.export(outfile, level, name_='beamPosX')
-		if self.__beamPosY is not None:
+		if self._beamPosY is not None:
 			self.beamPosY.export(outfile, level, name_='beamPosY')
-		if self.__wavelength is not None:
+		if self._wavelength is not None:
 			self.wavelength.export(outfile, level, name_='wavelength')
-		if self.__transmission is not None:
+		if self._transmission is not None:
 			self.transmission.export(outfile, level, name_='transmission')
-		if self.__dataCollectionId is not None:
+		if self._dataCollectionId is not None:
 			self.dataCollectionId.export(outfile, level, name_='dataCollectionId')
-		if self.__shortComments is not None:
+		if self._shortComments is not None:
 			self.shortComments.export(outfile, level, name_='shortComments')
-		if self.__comments is not None:
+		if self._comments is not None:
 			self.comments.export(outfile, level, name_='comments')
-		if self.__inputCharacterisation is not None:
+		if self._inputCharacterisation is not None:
 			self.inputCharacterisation.export(outfile, level, name_='inputCharacterisation')
 	def build(self, node_):
 		for child_ in node_.childNodes:
@@ -370,7 +418,7 @@ class XSDataInputInterface(object):
 			self.setDiffractionPlan(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'sample':
-			obj_ = XSDataSample()
+			obj_ = XSDataSampleCrystalMM()
 			obj_.build(child_)
 			self.setSample(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -503,22 +551,24 @@ class XSDataInputInterface(object):
 
 class XSDataResultInterface(object):
 	def __init__(self, resultControlISPyB=None, resultCharacterisation=None):
+	
+	
 		checkType("XSDataResultInterface", "Constructor of XSDataResultInterface", resultCharacterisation, "XSDataResultCharacterisation")
-		self.__resultCharacterisation = resultCharacterisation
+		self._resultCharacterisation = resultCharacterisation
 		checkType("XSDataResultInterface", "Constructor of XSDataResultInterface", resultControlISPyB, "XSDataResultControlISPyB")
-		self.__resultControlISPyB = resultControlISPyB
-	def getResultCharacterisation(self): return self.__resultCharacterisation
+		self._resultControlISPyB = resultControlISPyB
+	def getResultCharacterisation(self): return self._resultCharacterisation
 	def setResultCharacterisation(self, resultCharacterisation):
 		checkType("XSDataResultInterface", "setResultCharacterisation", resultCharacterisation, "XSDataResultCharacterisation")
-		self.__resultCharacterisation = resultCharacterisation
-	def delResultCharacterisation(self): self.__resultCharacterisation = None
+		self._resultCharacterisation = resultCharacterisation
+	def delResultCharacterisation(self): self._resultCharacterisation = None
 	# Properties
 	resultCharacterisation = property(getResultCharacterisation, setResultCharacterisation, delResultCharacterisation, "Property for resultCharacterisation")
-	def getResultControlISPyB(self): return self.__resultControlISPyB
+	def getResultControlISPyB(self): return self._resultControlISPyB
 	def setResultControlISPyB(self, resultControlISPyB):
 		checkType("XSDataResultInterface", "setResultControlISPyB", resultControlISPyB, "XSDataResultControlISPyB")
-		self.__resultControlISPyB = resultControlISPyB
-	def delResultControlISPyB(self): self.__resultControlISPyB = None
+		self._resultControlISPyB = resultControlISPyB
+	def delResultControlISPyB(self): self._resultControlISPyB = None
 	# Properties
 	resultControlISPyB = property(getResultControlISPyB, setResultControlISPyB, delResultControlISPyB, "Property for resultControlISPyB")
 	def export(self, outfile, level, name_='XSDataResultInterface'):
@@ -529,9 +579,9 @@ class XSDataResultInterface(object):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultInterface'):
 		pass
-		if self.__resultCharacterisation is not None:
+		if self._resultCharacterisation is not None:
 			self.resultCharacterisation.export(outfile, level, name_='resultCharacterisation')
-		if self.__resultControlISPyB is not None:
+		if self._resultControlISPyB is not None:
 			self.resultControlISPyB.export(outfile, level, name_='resultControlISPyB')
 		else:
 			warnEmptyAttribute("resultControlISPyB", "XSDataResultControlISPyB")
