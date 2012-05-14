@@ -50,6 +50,8 @@ from XSDataMXCuBEv1_3 import XSDataResultMXCuBE
 EDFactoryPluginStatic.loadModule("XSDataSimpleHTMLPagev1_0")
 from XSDataSimpleHTMLPagev1_0 import XSDataInputSimpleHTMLPage
 
+EDFactoryPluginStatic.loadModule("XSDataInterfacev1_2")
+from XSDataInterfacev1_2 import XSDataInputInterface
 
 
 class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
@@ -123,23 +125,19 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.tStart = time.time()
 
         xsDataInputMXCuBE = self.getDataInput()
-
+        xsDataInputInterface = XSDataInputInterface()
         self.edPluginControlInterface = self.loadPlugin(self.strPluginControlInterface)
         for xsDataSetMXCuBE in xsDataInputMXCuBE.getDataSet():
             for xsDataFile in xsDataSetMXCuBE.getImageFile():
-                strPath = xsDataFile.getPath().getValue()
-                self.edPluginControlInterface.setDataInput(XSDataString(strPath), "imagePaths")
+                xsDataInputInterface.addImagePath(xsDataFile)
 
-        if xsDataInputMXCuBE.getExperimentalCondition() != None:
-            self.edPluginControlInterface.setDataInput(str(xsDataInputMXCuBE.getExperimentalCondition().marshal()), "experimentalCondition")
-        if xsDataInputMXCuBE.getDiffractionPlan() != None:
-            self.edPluginControlInterface.setDataInput(str(xsDataInputMXCuBE.getDiffractionPlan().marshal()), "diffractionPlan")
-        if xsDataInputMXCuBE.getSample() != None:
-            self.edPluginControlInterface.setDataInput(xsDataInputMXCuBE.getSample().marshal(), "sample")
-        if xsDataInputMXCuBE.getDataCollectionId() != None:
-            self.edPluginControlInterface.setDataInput(xsDataInputMXCuBE.getDataCollectionId().marshal(), "dataCollectionId")
+        xsDataInputInterface.setExperimentalCondition(xsDataInputMXCuBE.getExperimentalCondition())
+        xsDataInputInterface.setDiffractionPlan(xsDataInputMXCuBE.getDiffractionPlan())
+        xsDataInputInterface.setSample(xsDataInputMXCuBE.getSample())
+        xsDataInputInterface.setDataCollectionId(xsDataInputMXCuBE.getDataCollectionId())
+        self.edPluginControlInterface.setDataInput(xsDataInputInterface)
 
-        self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
+        #self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
         self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
         self.xsDataResultMXCuBE = XSDataResultMXCuBE()
 
@@ -163,8 +161,8 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def doSuccessActionInterface(self, _edPlugin=None):
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface...")
         self.retrieveSuccessMessages(self.edPluginControlInterface, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface")
-        if self.edPluginControlInterface.hasDataOutput("characterisation"):
-            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
+        xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput().getResultCharacterisation()
+        if xsDataResultCharacterisation != None:
             self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
             strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
             xsDataResultCharacterisation.exportToFile(strPathCharacterisationResult)
