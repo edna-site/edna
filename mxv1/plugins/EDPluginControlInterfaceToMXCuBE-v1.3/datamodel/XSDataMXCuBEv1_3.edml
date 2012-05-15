@@ -15,12 +15,12 @@ import XSDataMXv1.XSDataResultCharacterisation
 import XSDataMXv1.XSDataCollectionPlan
 
 complex type XSDataInputMXCuBE extends XSDataInput {
-	characterisationInput : XSDataInputCharacterisation
+	characterisationInput : XSDataInputCharacterisation optional
 	dataCollectionId : XSDataInteger optional
-	diffractionPlan : XSDataDiffractionPlan
+	diffractionPlan : XSDataDiffractionPlan optional
 	experimentalCondition : XSDataExperimentalCondition optional
-	outputFileDirectory : XSDataFile
-	sample : XSDataSampleCrystalMM
+	outputFileDirectory : XSDataFile optional
+	sample : XSDataSampleCrystalMM optional
 	dataSet : XSDataMXCuBEDataSet [] optional
 }
 
@@ -29,12 +29,13 @@ complex type XSDataMXCuBEDataSet {
 }
 
 complex type XSDataResultMXCuBE extends XSDataResult {
-	characterisationExecutiveSummary : XSDataString
-	characterisationResult : XSDataResultCharacterisation
+	characterisationExecutiveSummary : XSDataString optional
+	characterisationResult : XSDataResultCharacterisation optional
 	collectionPlan : XSDataCollectionPlan [] optional
-	listOfOutputFiles : XSDataString
+	listOfOutputFiles : XSDataString optional
 	outputFileDictionary : XSDataDictionary optional
 	htmlPage : XSDataFile optional
+	screeningId : XSDataInteger optional
 }
 
 

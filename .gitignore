@@ -13,6 +13,13 @@ sdist
 develop-eggs
 .installed.cfg
 
+# the libraries dir may contain stuff that is downloaded, so we ignore archives
+*.gz
+*.bz2
+
+# libs get "installed" in libraries/lib.$ostype so ignore those
+lib.*
+
 # Installer logs
 pip-log.txt
 
