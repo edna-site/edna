@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010-, European Synchrotron Radiation Facility, Grenoble"
 __contact__ = "jerome.kieffer@esrf.fr"
-__date__ = "20120301"
+__date__ = "20120518"
 __status__ = "production"
 
 import os, sys
@@ -251,20 +251,17 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 bAllFinished = self.queue.empty()
             else:
                 while not self.queue.empty():
-                    #acquire all semaphores to be sure no plugins are under configuration ! 
-                    with self.semAccumulator:
-                       pass
-                    with self.semMeasure:
-                       pass
-                    with self.semShift:
-                       pass
                     try:
                         plugin = self.queue.get()
                     except Exception:
                         self.WARNING("In EDPluginControlAlignStackv1_0, exception in self.queue.get()")
                         break
                     else:
-                        plugin.executeSynchronous()
+                        #this is a hack to prevent thousands of threads to be launched at once.
+                        with EDUtilsParallel.getSemaphoreNbThreads():
+                            pass
+                        plugin.execute()
+                self.synchronizePlugins()
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
@@ -383,9 +380,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 listInt = [int(i.getValue().split()[1]) for i in query.getItem()]
                 if accType == "raw":
                     listFrame = [self.getFrameRef(i) for i in listInt]
-                    #this is a hack to prevent thousands of threads to be launched at once.
-                    EDUtilsParallel.semaphoreNbThreadsAcquire()
-                    EDUtilsParallel.semaphoreNbThreadsRelease()
 
                     xsdata = XSDataInputMeasureOffset()
                     xsdata.setImage(listFrame)
@@ -423,10 +417,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                         iFrameShift = min(listInt)
                     EDPluginControlAlignStackv1_0.__dictAbsShift[iFrameShift] = (shift_1, shift_2)
                     self.screen("Frame number %i has absolute offset of %.3f,%.3f" % (iFrameShift, shift_1, shift_2))
-
-                    #this is a hack to prevent thousands of threads to be launched at once.
-                    EDUtilsParallel.semaphoreNbThreadsAcquire()
-                    EDUtilsParallel.semaphoreNbThreadsRelease()
 
                     edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
                     xsdata = XSDataInputShiftImage()
