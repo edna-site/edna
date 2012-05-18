@@ -162,4 +162,5 @@ complex type XSDataAutoprocInput extends XSDataInput {
 	completeness_cutoff : XSDataFloat optional
 	res_override : XSDataFloat optional
 	isig_cutoff : XSDataFloat optional
+	data_collection_id : XSDataInteger optional
 }
