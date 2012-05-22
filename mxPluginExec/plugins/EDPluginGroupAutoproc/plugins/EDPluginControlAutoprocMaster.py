@@ -86,8 +86,7 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
         self.DEBUG("EDPluginControlAutoprocMaster.preProcess")
 
         # instantiate the plugins
-        self.wait_files = self.loadPlugin("EDPluginWaitMultiFile")
-        self.wait_result = self.loadPlugin("EDPluginWaitMultiFile")
+        self.wait_intput_files = self.loadPlugin("EDPluginWaitFile")
         self.ispyb_upload = self.loadPlugin("EDPluginISPyBStoreAutoProcv1_4")
 
 
