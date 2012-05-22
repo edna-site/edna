@@ -77,6 +77,10 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
         if len(spot_range) != 0:
             cfg['SPOT_RANGE='] = spot_range
 
+        #SECONDS is also set to 20
+        cfg['SECONDS='] = 20
+        dump_xds_file(input_file, cfg)
+
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlAutoprocMaster.preProcess")
@@ -90,6 +94,7 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlAutoprocMaster.process")
+
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
