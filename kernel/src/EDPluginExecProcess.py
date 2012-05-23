@@ -9,7 +9,7 @@
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
-#                       Olof Svensson (svensson@esrf.fr) 
+#                       Olof Svensson (svensson@esrf.fr)
 #                       Jérôme Kieffer (jerome.kieffer@esrf.eu)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 #    GNU Lesser General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    and the GNU Lesser General Public License  along with this program.  
+#    and the GNU Lesser General Public License  along with this program.
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
@@ -53,7 +53,7 @@ class EDPluginExecProcess(EDPluginExec):
         - Process time out management (configurable by EDPlugin )
         - Process executable to be invoked (configurable, Default 'cat')
         - Process command line to be launched (Default: empty)
-    The ExecProcess plugin is required to have a configuration in order 
+    The ExecProcess plugin is required to have a configuration in order
     to be executed in a plugin execution test case.
     """
 
@@ -77,7 +77,7 @@ class EDPluginExecProcess(EDPluginExec):
     def process_locally(self, _edObject=None):
         """
         Sets the process up with the executable, command line and time out
-        Launches the process, in case of error, an error message is added to the list, and the plugins fails 
+        Launches the process, in case of error, an error message is added to the list, and the plugins fails
         """
         strCommand = self.getExecutable() + " " + self.getCommandline()
         EDVerbose.DEBUG("EDPluginExecProcess.process executing: " + self.getExecutable())
