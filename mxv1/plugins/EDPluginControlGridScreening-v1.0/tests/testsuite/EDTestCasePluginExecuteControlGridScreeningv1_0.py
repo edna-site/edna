@@ -45,8 +45,8 @@ class EDTestCasePluginExecuteControlGridScreeningv1_0(EDTestCasePluginExecute):
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputGridScreening_reference.xml"))
-        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultCharacterisation_reference.xml"))
+#        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
+#                                                     "XSDataResultCharacterisation_reference.xml"))
         self.setNoExpectedWarningMessages(1)
 
 

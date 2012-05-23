@@ -30,6 +30,7 @@ complex type XSDataResultGridScreening extends XSDataResult {
 	rankingResolution : XSDataDouble optional
 	comment : XSDataString optional
 	imageQualityIndicatorsId : XSDataInteger optional
+	resultIntegration : XSDataGridScreeningResultIntegration optional
 }
 
 complex type XSDataGridScreeningFileNameParameters extends XSData {
@@ -40,6 +41,6 @@ complex type XSDataGridScreeningFileNameParameters extends XSData {
 }
 
 complex type XSDataGridScreeningResultIntegration extends XSData {
-	filename : string
+	fileName : string
 	integratedData : string
 }

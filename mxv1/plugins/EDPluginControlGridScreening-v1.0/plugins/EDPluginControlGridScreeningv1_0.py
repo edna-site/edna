@@ -54,6 +54,7 @@ from XSDataMXv1 import XSDataInputControlImageQualityIndicators
 from XSDataGridScreeningv1_0 import XSDataInputGridScreening
 from XSDataGridScreeningv1_0 import XSDataResultGridScreening
 from XSDataGridScreeningv1_0 import XSDataGridScreeningFileNameParameters
+from XSDataGridScreeningv1_0 import XSDataGridScreeningResultIntegration
 
 EDFactoryPluginStatic.loadModule("XSDataISPyBv1_3")
 from XSDataISPyBv1_3 import XSDataInputStoreImageQualityIndicators
@@ -95,7 +96,9 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
         self.xsDataImageQualityIndicators = None
         self.bStoreImageQualityIndicatorsInISPyB = False
         self.bDoOnlyImageQualityIndicators = False
+        self.bDoOnlyIntegrationWithXMLOutput = False
         self.iImageQualityIndicatorsId = None
+        self.xsDataGridScreeningResultIntegration = None
 
 
     def checkParameters(self):
@@ -136,6 +139,8 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
             self.bStoreImageQualityIndicatorsInISPyB = self.getDataInput().getStoreImageQualityIndicatorsInISPyB().getValue()
         if self.getDataInput().getDoOnlyImageQualityIndicators():
             self.bDoOnlyImageQualityIndicators = self.getDataInput().getDoOnlyImageQualityIndicators().getValue()
+        if self.getDataInput().getDoOnlyIntegrationWithXMLOutput():
+            self.bDoOnlyIntegrationWithXMLOutput = self.getDataInput().getDoOnlyIntegrationWithXMLOutput().getValue()
         if self.bStoreImageQualityIndicatorsInISPyB:
             self.edPluginISPyBStoreImageQualityIndicators = self.loadPlugin(self.strISPyBStoreImageQualityIndicatorsPluginName, \
                                                          "ISPyBStoreImageQualityIndicators")
@@ -187,6 +192,7 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
                 xsDataCollectionPlan = self.xsDataStrategyResult.getCollectionPlan()[0]
                 xsDataStrategySummary = xsDataCollectionPlan.getStrategySummary()
                 xsDataResultGridScreening.setRankingResolution(xsDataStrategySummary.getRankingResolution())
+        xsDataResultGridScreening.setResultIntegration(self.xsDataGridScreeningResultIntegration)
         xsDataResultGridScreening.setComment(XSDataString(strComment))
         if self.iImageQualityIndicatorsId is not None:
             xsDataResultGridScreening.setImageQualityIndicatorsId(XSDataInteger(self.iImageQualityIndicatorsId))
@@ -204,12 +210,22 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
             self.xsDataCollection = XSDataCollection()
             self.xsDataCollection.addSubWedge(xsDataSubWedge)
             self.xsDataCollection.setDiffractionPlan(self.xsDataDiffractionPlan)
-            xsDataInputControlImageQualityIndicators = XSDataInputControlImageQualityIndicators()
-            xsDataInputControlImageQualityIndicators.addImage(XSDataImage(path=XSDataString(self.strImageFile)))
-            self.edPluginControlIndicators.setDataInput(xsDataInputControlImageQualityIndicators)
-            self.edPluginControlIndicators.connectSUCCESS(self.doSuccessIndicators)
-            self.edPluginControlIndicators.connectFAILURE(self.doFailureIndicators)
-            self.executePluginSynchronous(self.edPluginControlIndicators)
+            if not self.bDoOnlyIntegrationWithXMLOutput:
+                xsDataInputControlImageQualityIndicators = XSDataInputControlImageQualityIndicators()
+                xsDataInputControlImageQualityIndicators.addImage(XSDataImage(path=XSDataString(self.strImageFile)))
+                self.edPluginControlIndicators.setDataInput(xsDataInputControlImageQualityIndicators)
+                self.edPluginControlIndicators.connectSUCCESS(self.doSuccessIndicators)
+                self.edPluginControlIndicators.connectFAILURE(self.doFailureIndicators)
+                self.executePluginSynchronous(self.edPluginControlIndicators)
+            else:
+                xsDataIndexingInput = XSDataIndexingInput()
+                xsDataIndexingInput.setDataCollection(self.xsDataCollection)
+                from EDHandlerXSDataMOSFLMv10 import EDHandlerXSDataMOSFLMv10
+                xsDataMOSFLMIndexingInput = EDHandlerXSDataMOSFLMv10.generateXSDataMOSFLMInputIndexing(xsDataIndexingInput)
+                self.edPluginMOSFLMIndexing.connectSUCCESS(self.doSuccessIndexingMOSFLM)
+                self.edPluginMOSFLMIndexing.connectFAILURE(self.doFailureIndexingMOSFLM)
+                self.edPluginMOSFLMIndexing.setDataInput(xsDataMOSFLMIndexingInput)
+                self.edPluginMOSFLMIndexing.executeSynchronous()
 
 
     def doFailureReadImageHeader(self, _edPlugin=None):
@@ -302,21 +318,27 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
         if self.edPluginControlIntegration.hasDataOutput("integrationShortSummary"):
             self.strCharacterisationShortSummary += self.edPluginControlIntegration.getDataOutput("integrationShortSummary")[0].getValue()
         #self.DEBUG( self.xsDataExperimentCharacterisation.marshal() )
-        xsDataInputStrategy = XSDataInputStrategy()
-        xsDataSolutionSelected = self.xsDataIndexingResult.getSelectedSolution()
-        xsDataInputStrategy.setCrystalRefined(xsDataSolutionSelected.getCrystal())
-        xsDataInputStrategy.setSample(self.xsDataCollection.getSample())
-        xsDataIntegrationSubWedgeResultList = self.xsDataIntegrationOutput.getIntegrationSubWedgeResult()
-        xsDataInputStrategy.setBestFileContentDat(xsDataIntegrationSubWedgeResultList[0].getBestfileDat())
-        xsDataInputStrategy.setBestFileContentPar(xsDataIntegrationSubWedgeResultList[0].getBestfilePar())
-        xsDataInputStrategy.setExperimentalCondition(xsDataIntegrationSubWedgeResultList[0].getExperimentalConditionRefined())
-        for xsDataIntegrationSubWedgeResult in xsDataIntegrationSubWedgeResultList:
-            xsDataInputStrategy.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
-        xsDataInputStrategy.setDiffractionPlan(self.xsDataDiffractionPlan)
-        self.edPluginControlStrategy.connectSUCCESS(self.doSuccessStrategy)
-        self.edPluginControlStrategy.connectFAILURE(self.doFailureStrategy)
-        self.edPluginControlStrategy.setDataInput(xsDataInputStrategy)
-        self.executePluginSynchronous(self.edPluginControlStrategy)
+        if self.bDoOnlyIntegrationWithXMLOutput:
+            # Output the result in XML format
+            self.xsDataGridScreeningResultIntegration = XSDataGridScreeningResultIntegration()
+            self.xsDataGridScreeningResultIntegration.setFileName(self.strImageFile)
+        else:
+            # We continue with the strategy calculation
+            xsDataInputStrategy = XSDataInputStrategy()
+            xsDataSolutionSelected = self.xsDataIndexingResult.getSelectedSolution()
+            xsDataInputStrategy.setCrystalRefined(xsDataSolutionSelected.getCrystal())
+            xsDataInputStrategy.setSample(self.xsDataCollection.getSample())
+            xsDataIntegrationSubWedgeResultList = self.xsDataIntegrationOutput.getIntegrationSubWedgeResult()
+            xsDataInputStrategy.setBestFileContentDat(xsDataIntegrationSubWedgeResultList[0].getBestfileDat())
+            xsDataInputStrategy.setBestFileContentPar(xsDataIntegrationSubWedgeResultList[0].getBestfilePar())
+            xsDataInputStrategy.setExperimentalCondition(xsDataIntegrationSubWedgeResultList[0].getExperimentalConditionRefined())
+            for xsDataIntegrationSubWedgeResult in xsDataIntegrationSubWedgeResultList:
+                xsDataInputStrategy.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
+            xsDataInputStrategy.setDiffractionPlan(self.xsDataDiffractionPlan)
+            self.edPluginControlStrategy.connectSUCCESS(self.doSuccessStrategy)
+            self.edPluginControlStrategy.connectFAILURE(self.doFailureStrategy)
+            self.edPluginControlStrategy.setDataInput(xsDataInputStrategy)
+            self.executePluginSynchronous(self.edPluginControlStrategy)
 
 
 

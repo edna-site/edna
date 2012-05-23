@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed May 23 08:48::43 2012 by EDGenerateDS.
+# Generated Wed May 23 12:48::37 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -280,21 +280,21 @@ class XSDataGridScreeningFileNameParameters(XSData):
 # end class XSDataGridScreeningFileNameParameters
 
 class XSDataGridScreeningResultIntegration(XSData):
-	def __init__(self, integratedData=None, filename=None):
+	def __init__(self, integratedData=None, fileName=None):
 		XSData.__init__(self, )
 	
 	
-		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", filename, "string")
-		self._filename = filename
+		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", fileName, "string")
+		self._fileName = fileName
 		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", integratedData, "string")
 		self._integratedData = integratedData
-	def getFilename(self): return self._filename
-	def setFilename(self, filename):
-		checkType("XSDataGridScreeningResultIntegration", "setFilename", filename, "string")
-		self._filename = filename
-	def delFilename(self): self._filename = None
+	def getFileName(self): return self._fileName
+	def setFileName(self, fileName):
+		checkType("XSDataGridScreeningResultIntegration", "setFileName", fileName, "string")
+		self._fileName = fileName
+	def delFileName(self): self._fileName = None
 	# Properties
-	filename = property(getFilename, setFilename, delFilename, "Property for filename")
+	fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
 	def getIntegratedData(self): return self._integratedData
 	def setIntegratedData(self, integratedData):
 		checkType("XSDataGridScreeningResultIntegration", "setIntegratedData", integratedData, "string")
@@ -310,11 +310,11 @@ class XSDataGridScreeningResultIntegration(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataGridScreeningResultIntegration'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self._filename is not None:
+		if self._fileName is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<filename>%s</filename>\n' % self._filename))
+			outfile.write(unicode('<fileName>%s</fileName>\n' % self._fileName))
 		else:
-			warnEmptyAttribute("filename", "string")
+			warnEmptyAttribute("fileName", "string")
 		if self._integratedData is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<integratedData>%s</integratedData>\n' % self._integratedData))
@@ -326,12 +326,12 @@ class XSDataGridScreeningResultIntegration(XSData):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'filename':
+			nodeName_ == 'fileName':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._filename = value_
+			self._fileName = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'integratedData':
 			value_ = ''
@@ -528,7 +528,7 @@ class XSDataInputGridScreening(XSDataInput):
 # end class XSDataInputGridScreening
 
 class XSDataResultGridScreening(XSDataResult):
-	def __init__(self, status=None, imageQualityIndicatorsId=None, comment=None, rankingResolution=None, mosaicity=None, imageQualityIndicators=None, fileNameParameters=None):
+	def __init__(self, status=None, resultIntegration=None, imageQualityIndicatorsId=None, comment=None, rankingResolution=None, mosaicity=None, imageQualityIndicators=None, fileNameParameters=None):
 		XSDataResult.__init__(self, status)
 	
 	
@@ -544,6 +544,8 @@ class XSDataResultGridScreening(XSDataResult):
 		self._comment = comment
 		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", imageQualityIndicatorsId, "XSDataInteger")
 		self._imageQualityIndicatorsId = imageQualityIndicatorsId
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", resultIntegration, "XSDataGridScreeningResultIntegration")
+		self._resultIntegration = resultIntegration
 	def getFileNameParameters(self): return self._fileNameParameters
 	def setFileNameParameters(self, fileNameParameters):
 		checkType("XSDataResultGridScreening", "setFileNameParameters", fileNameParameters, "XSDataGridScreeningFileNameParameters")
@@ -586,6 +588,13 @@ class XSDataResultGridScreening(XSDataResult):
 	def delImageQualityIndicatorsId(self): self._imageQualityIndicatorsId = None
 	# Properties
 	imageQualityIndicatorsId = property(getImageQualityIndicatorsId, setImageQualityIndicatorsId, delImageQualityIndicatorsId, "Property for imageQualityIndicatorsId")
+	def getResultIntegration(self): return self._resultIntegration
+	def setResultIntegration(self, resultIntegration):
+		checkType("XSDataResultGridScreening", "setResultIntegration", resultIntegration, "XSDataGridScreeningResultIntegration")
+		self._resultIntegration = resultIntegration
+	def delResultIntegration(self): self._resultIntegration = None
+	# Properties
+	resultIntegration = property(getResultIntegration, setResultIntegration, delResultIntegration, "Property for resultIntegration")
 	def export(self, outfile, level, name_='XSDataResultGridScreening'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -606,6 +615,8 @@ class XSDataResultGridScreening(XSDataResult):
 			self.comment.export(outfile, level, name_='comment')
 		if self._imageQualityIndicatorsId is not None:
 			self.imageQualityIndicatorsId.export(outfile, level, name_='imageQualityIndicatorsId')
+		if self._resultIntegration is not None:
+			self.resultIntegration.export(outfile, level, name_='resultIntegration')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -641,6 +652,11 @@ class XSDataResultGridScreening(XSDataResult):
 			obj_ = XSDataInteger()
 			obj_.build(child_)
 			self.setImageQualityIndicatorsId(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'resultIntegration':
+			obj_ = XSDataGridScreeningResultIntegration()
+			obj_.build(child_)
+			self.setResultIntegration(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
