@@ -3,9 +3,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -41,7 +39,7 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120131"
 
-import sys, os, threading, urllib2, exceptions
+import sys, os, threading, urllib2
 
 from EDVerbose          import EDVerbose
 from EDUtilsPath        import EDUtilsPath
@@ -150,7 +148,7 @@ class EDTestCasePlugin(EDTestCase):
         try:
             edFactoryPlugin = EDFactoryPlugin()
             edPlugin = edFactoryPlugin.loadPlugin(self.getPluginName())
-        except exceptions.ImportError, exceptionObject:
+        except ImportError, exceptionObject:
             strWarningMessage = "Could not create the plugin: %s, reason: %s" % (self.getPluginName(), exceptionObject)
             EDVerbose.WARNING(strWarningMessage)
         if edPlugin is None:
