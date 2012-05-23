@@ -7,7 +7,7 @@
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
 #    Principal authors: Sandor Brockhauser (brockhauser@embl-grenoble.fr)
-#                       Olof Svensson (svensson@esrf.fr) 
+#                       Olof Svensson (svensson@esrf.fr)
 #                       Pierre Legrand (pierre.legrand@synchrotron-soleil.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #    GNU Lesser General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    and the GNU Lesser General Public License  along with this program.  
+#    and the GNU Lesser General Public License  along with this program.
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
@@ -41,7 +41,7 @@ from EDUtilsTest                      import EDUtilsTest
 
 
 
-class EDTestCasePluginExecuteXDSIndexingv1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteXDSIndexingv1_0 (EDTestCasePluginExecute):
 
 
     def __init__(self, _pyStrTestName="EDPluginXDSIndexingv1_0"):
@@ -53,13 +53,19 @@ class EDTestCasePluginExecuteXDSIndexingv1_0(EDTestCasePluginExecute):
         #self.setReferenceDataOutputFile( os.path.join( self.getPluginTestsDataHome(), "XSDataResultXDSIndexing_reference.xml"))
         #self.m_oedObtainedOutputDataFile = self.getPluginName() + "_output.xml"
 
-
+    def preProcess(self):
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage(['ref-testscale_1_001.img',
+                            'ref-testscale_1_002.img'])
 
     def testExecute(self):
+        EDVerbose.WARNING('**************************************************')
+        EDVerbose.WARNING('plop')
+        EDVerbose.WARNING('**************************************************')
         self.run()
-
-
-
+        EDVerbose.WARNING('**************************************************')
+        EDVerbose.WARNING(str(self.getPlugin()))
+        EDVerbose.WARNING('**************************************************')
 
     def process(self):
         self.addTestMethod(self.testExecute)
@@ -69,6 +75,5 @@ class EDTestCasePluginExecuteXDSIndexingv1_0(EDTestCasePluginExecute):
 
 
 if __name__ == '__main__':
-
-    edTestCasePluginExecuteMOSFLMv1_0Indexing = EDTestCasePluginExecuteMOSFLMv1_0Indexing("EDTestCasePluginExecuteMOSFLMv1_0Indexing")
-    edTestCasePluginExecuteMOSFLMv1_0Indexing.execute()
+    t = EDTestCasePluginExecuteXDSIndexingv1_0("EDTestCasePluginExecuteXDSIndexingv1_0")
+    t.execute()

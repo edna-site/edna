@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+  <cell>
+    <value>30 31 32 91 92 93</value>
+  </cell>
+  <a>
+    <value>30</value>
+  </a>
+  <b>
+    <value>31</value>
+  </b>
+  <c>
+    <value>32</value>
+  </c>
+  <alpha>
+    <value>91</value>
+  </alpha>
+  <beta>
+    <value>92</value>
+  </beta>
+  <gamma>
+    <value>93</value>
+  </gamma>
+  <symm>
+    <value>P1</value>
+  </symm>
+</XSDataInput>

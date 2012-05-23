@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
-<XSConfiguration> 
+<XSConfiguration>
 	<XSPluginList>
-		<XSPluginItem> 
-			<name>EDPluginLabelitv10</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
@@ -30,8 +30,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginLabelitIndexingv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitIndexingv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
@@ -59,8 +59,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginDistlSignalStrengthv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginDistlSignalStrengthv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -76,8 +76,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginLabelitDistlv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitDistlv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
@@ -105,8 +105,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginMOSFLMIndexingv10</name>  
+		<XSPluginItem>
+			<name>EDPluginMOSFLMIndexingv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -131,7 +131,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginMOSFLMIntegrationv10</name>  
+			<name>EDPluginMOSFLMIntegrationv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -155,8 +155,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginMOSFLMGeneratePredictionv10</name>  
+		<XSPluginItem>
+			<name>EDPluginMOSFLMGeneratePredictionv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -179,9 +179,9 @@
 					<value>30</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem> 
+		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginRaddosev10</name>  
+			<name>EDPluginRaddosev10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -206,6 +206,58 @@
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>30</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBestv10</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/BEST/v3.2.0.z_20081103/redhate4-i686/best</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptSetupCCP4</name>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptVersionString</name>
+					<value>Version 3.2.0 //  03.11.2008</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>30</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBestv1_1</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/BEST/v3.2.0.z_20081103/redhate4-i686/best</value>
+					<!--  <value>/opt/pxsoft/BEST/v3.1.0d_20070716/linux/bin/best</value>  -->
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptSetupCCP4</name>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptVersionString</name>
+					<value>Version 3.2.0 //  03.11.2008</value>
+					<!--  <value>Version 3.1.0.d //  16.07.2007</value> -->
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>600</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -262,6 +314,9 @@
 					<value>/data/id29/inhouse/opid291/y_geo_corr.cbf</value>
 				</XSParamItem>
 			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginXDSSpotSearchv1_1</name>
 		</XSPluginItem> 
 		<XSPluginItem>
 			<name>EDPluginSTACOrientationv2_0</name>
@@ -321,8 +376,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginSTACStrategyv2_0</name>  
+		<XSPluginItem>
+			<name>EDPluginSTACStrategyv2_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -350,5 +405,52 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-	</XSPluginList> 
-</XSConfiguration> 
+		<XSPluginItem>
+		  <name>EDPluginSolveContent</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/res_bins</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+		  <name>EDPluginExecMinimalXds</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/xds/vdefault/redhate4-x86_64/xds_par</value>
+				</XSParamItem>
+				<XSParamItem>
+				  <name>timeOut</name>
+				  <value>1200</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+		  <name>EDPluginExecXscale</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/xds/vdefault/redhate4-x86_64/xscale_par</value>
+				</XSParamItem>
+				<XSParamItem>
+				  <name>timeOut</name>
+				  <value>1200</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList>
+</XSConfiguration>
