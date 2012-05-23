@@ -277,8 +277,10 @@ class EDHandlerXSDataISPyBv1_4(object):
         # Assembly
         xsDataISPyBScreeningOutputContainer = XSDataISPyBScreeningOutputContainer()
         xsDataISPyBScreeningOutputContainer.screeningOutput = xsDataISPyBScreeningOutput
-        xsDataISPyBScreeningOutputContainer.addScreeningOutputLattice(xsDataISPyBScreeningOutputLattice)
-        xsDataISPyBScreeningOutputContainer.addScreeningStrategyContainer(xsDataISPyBScreeningStrategyContainer)
+        if xsDataISPyBScreeningOutputLattice is not None:
+            xsDataISPyBScreeningOutputContainer.addScreeningOutputLattice(xsDataISPyBScreeningOutputLattice)
+        if xsDataISPyBScreeningStrategyContainer is not None:
+            xsDataISPyBScreeningOutputContainer.addScreeningStrategyContainer(xsDataISPyBScreeningStrategyContainer)
         
         return xsDataISPyBScreeningOutputContainer
 

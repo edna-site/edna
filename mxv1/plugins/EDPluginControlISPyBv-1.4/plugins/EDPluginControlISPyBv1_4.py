@@ -83,6 +83,7 @@ class EDPluginControlISPyBv1_4(EDPluginControl):
                                                                                                              self.strShortComments, \
                                                                                                              self.strComments)
         except Exception, error:
+            raise
             # This exception handling needs to be rethought, see bug #43.
             errorMessage = "EDPluginControlISPyBv1_4.preProcess: Unexpected error in ISPyB handler: %r" % error
             EDVerbose.error(errorMessage)
