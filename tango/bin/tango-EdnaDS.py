@@ -110,14 +110,14 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         if self.lastSuccess is None:
             attr.set_value("No job succeeded (yet)")
         else:
-            attr.set_value("Last success job: %s%s%s" % (self.lastSuccess, os.linesep, EDJob.getDataOutputFromId(self.lastSuccess)))
+            attr.set_value("Last success job: %s" % self.lastSuccess)
 
     def read_jobFailure(self, attr):
         self.DEBUG("In %s.read_jobFailure()" % self.get_name())
         if self.lastFailure is None:
             attr.set_value("No job Failed (yet)")
         else:
-            attr.set_value("Last failed job: %s%s%s" % (self.lastFailure, os.linesep, EDJob.getDataOutputFromId(self.lastFailure)))
+            attr.set_value("Last failed job: %s" % self.lastFailure)
 
     def read_statisticsCollected(self, attr):
         attr.set_value(self.lastStatistics)

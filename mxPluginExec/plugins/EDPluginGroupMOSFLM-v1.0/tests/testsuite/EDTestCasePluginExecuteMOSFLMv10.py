@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteMOSFLMIndexingv10.py 1677 2010-06-22 15:41:10Z svensson $"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -59,15 +57,7 @@ class EDTestCasePluginExecuteMOSFLMv10(EDTestCasePluginExecute):
             else:
                 edPluginMOSFLM.setConfiguration(xsPluginItem)
         #edPluginMOSFLM.configure()
-        strMOSFLMVersion = edPluginMOSFLM.getStringConfigurationParameterValue("execProcessScriptVersionString")
-        if strMOSFLMVersion.find("7.0.1") != -1:
-            strResultDir = "executionTestResult_v701_20070820"
-        elif strMOSFLMVersion.find("7.0.5") != -1:
-            strResultDir = "executionTestResult_v706_20090812"
-        elif strMOSFLMVersion.find("7.0.6") != -1:
-            strResultDir = "executionTestResult_v706_20100126"
-        else:
-            strResultDir = "executionTestResult_v707_20101220"
+        strResultDir = "executionTestResult"
         strPluginTestDataHome = self.getPluginTestsDataHome()
         self.strExecutionTestDataInputHome = os.path.join(strPluginTestDataHome, "executionTestInput")
         self.strExecutionTestDataResultHome = os.path.join(strPluginTestDataHome, strResultDir)

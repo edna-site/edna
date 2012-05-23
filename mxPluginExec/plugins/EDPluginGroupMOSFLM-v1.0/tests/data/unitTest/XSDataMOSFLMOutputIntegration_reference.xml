@@ -1886,4 +1886,9 @@ BEAM            102.513  104.937
             <m33>-4.255866e-01</m33>
         </uMatrix>
     </refinedNewmat>
+    <pathToLogFile>
+        <path>
+            <value>MOSFLMIntegrationv10.log</value>
+        </path>
+    </pathToLogFile>
 </XSDataMOSFLMOutputIntegration>

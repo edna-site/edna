@@ -364,6 +364,9 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         <ownedAttribute xmi:id="_Ijn9ougUEd-TcNOGyxZYYg" name="predictionResult" type="_wLcbIOi-Ed-7o_3d0R29SQ">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_HMg9AAdeEeCIqPjmQLbFcg"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_MyDmoJT4EeGz5667jSekjg" name="labelitIndexing">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_ucgWsOgGEd-TcNOGyxZYYg" name="XSDataIndexingInput">
         <generalization xmi:id="_tq06sOjNEd-7o_3d0R29SQ">
@@ -1249,6 +1252,10 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <generalization xmi:id="_N39JgOjOEd-7o_3d0R29SQ">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
         </generalization>
+        <ownedAttribute xmi:id="_oDaFoJDfEeGbUJNiBeO2yA" name="screeningId" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5EeZ8JDfEeGbUJNiBeO2yA"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_ufJpsOjEEd-7o_3d0R29SQ" name="XSDataInputControlISPyB">
         <generalization xmi:id="_vix60OjNEd-7o_3d0R29SQ">

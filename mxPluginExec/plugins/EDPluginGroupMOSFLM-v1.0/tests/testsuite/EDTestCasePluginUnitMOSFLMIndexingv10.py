@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -42,6 +40,7 @@ from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataWavelength
 
 from XSDataMOSFLMv10 import XSDataMOSFLMOutputIndexing
@@ -132,6 +131,8 @@ class EDTestCasePluginUnitMOSFLMIndexingv10(EDTestCasePluginUnit):
         xsDataMOSFLMOutputIndexingReference = XSDataMOSFLMOutputIndexing.parseString(strReferenceXML)
         #print len( strReferenceXML )
         #print len( xsDataMOSFLMOutputIndexing.marshal() )
+        # Replace path to log file since it cannot be determined by the unit test
+        xsDataMOSFLMOutputIndexing.setPathToLogFile(XSDataFile(XSDataString("MOSFLMIndexingv10.log")))        
         EDAssert.equal(xsDataMOSFLMOutputIndexingReference.marshal(), xsDataMOSFLMOutputIndexing.marshal())
         self.cleanUp(pluginIndexing)
 
