@@ -87,7 +87,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     __sem = Semaphore()
     __npaMask = None
 
-    CONF_CONVOLUTION = None
+    CONF_CONVOLUTION = "fftw"
     CONF_CONVOLUTION_KEY = "convolution"
     CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "fftw". signal is no more possible
 
@@ -126,16 +126,16 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             with self.__class__.__sem:
                 self.DEBUG("EDPluginExecMeasureOffsetv1_0.configure")
                 xsPluginItem = self.getConfiguration()
-                if (xsPluginItem == None):
+                if xsPluginItem is None:
                     self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No plugin item defined.")
                     xsPluginItem = XSPluginItem()
                 strCONVOLUTION = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_CONVOLUTION_KEY)
-                if(strCONVOLUTION == None):
+                if strCONVOLUTION is None:
                     self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
                                 % (self.CONF_CONVOLUTION_KEY, self.CONF_CONVOLUTION_DEFAULT, xsPluginItem.marshal()))
-                    self.CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
+                    self.__class__CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
                 else:
-                    self.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
+                    self.__class__.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
 
 
     def preProcess(self, _edObject=None):
