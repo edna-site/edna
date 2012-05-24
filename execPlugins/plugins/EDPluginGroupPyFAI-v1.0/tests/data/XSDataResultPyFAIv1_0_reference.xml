@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResult>    
+	<output>
+        <path>
+            <value>/tmp/edna-${USER}/AgBe_SAXS.dat</value>
+        </path>
+    </output>
+</XSDataResult>

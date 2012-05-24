@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jerome Kieffer <jerome.kieffer@esrf.fr>"
+__author__ = "Jerome Kieffer <jerome.kieffer@esrf.fr>"
 __license__ = "GPLv3+"
 __copyright__ = "2012 European Synchrotron Radiation Facility"
 
@@ -32,14 +32,15 @@ import os
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from XSDataPyFAIv1_0                     import XSDataResultPyFAI
 
 
 class EDTestCasePluginExecuteExecPyFAIv1_0(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin PyFAIv1_0
     """
-    
-    def __init__(self, _strTestName = None):
+
+    def __init__(self, _strTestName=None):
         """
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginExecPyFAIv1_0")
@@ -49,20 +50,52 @@ class EDTestCasePluginExecuteExecPyFAIv1_0(EDTestCasePluginExecute):
                                            "XSDataInputPyFAIv1_0_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultPyFAIv1_0_reference.xml"))
-                 
-        
+
+    def preProcess(self):
+        """
+        PreProcess of the execution test: download a set of images  from http://www.edna-site.org
+        and remove any existing output file 
+        """
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([ "AgBe_SAXS.%s" % i for i in ("cbf", "dat")])
+        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
+        EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
+        xsDataResultReference = XSDataResultPyFAI.parseString(strExpectedOutput)
+        self.refOutput = xsDataResultReference.output.path.value
+        EDVerbose.DEBUG(" Output file is %s" % self.refOutput)
+        if not os.path.isdir(os.path.dirname(self.refOutput)):
+            os.makedirs(os.path.dirname(self.refOutput))
+        if os.path.isfile(self.refOutput):
+            EDVerbose.DEBUG(" Output file exists %s, I will remove it" % self.refOutput)
+            os.remove(self.refOutput)
+
     def testExecute(self):
         """
-        """ 
+        """
         self.run()
-        
+
+
+        plugin = self.getPlugin()
+
+        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
+#        strObtainedOutput = self.readAndParseFile (self.m_edObtainedOutputDataFile)
+        EDVerbose.DEBUG("Checking obtained result...")
+        xsDataResultReference = XSDataResultPyFAI.parseString(strExpectedOutput)
+        xsDataResultObtained = plugin.getDataOutput()
+        EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same")
+
+
+#        outputData = openimage(xsDataResultObtained.output.path.value).data
+#        referenceData = openimage(os.path.join(self.getTestsDataImagesHome(), "Moke-2th10-tilt0-rot0.azim")).data
+#        EDAssert.arraySimilar(outputData, referenceData , _fAbsMaxDelta=0.4, _fScaledMaxDelta=0.5, _strComment="Images are the same")
+
 
     def process(self):
         """
         """
         self.addTestMethod(self.testExecute)
 
-        
+
 
 if __name__ == '__main__':
 
