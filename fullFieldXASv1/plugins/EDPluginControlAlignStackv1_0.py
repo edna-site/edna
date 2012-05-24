@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010-, European Synchrotron Radiation Facility, Grenoble"
 __contact__ = "jerome.kieffer@esrf.fr"
-__date__ = "20120301"
+__date__ = "20120518"
 __status__ = "production"
 
 import os, sys
@@ -129,15 +129,15 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.DEBUG("EDPluginControlAlignStackv1_0.preProcess")
 
         sdi = self.dataInput
-        self.xsdHDF5File = sdi.getHDF5File()
-        self.xsdHDF5Internal = sdi.getInternalHDF5Path()
+        self.xsdHDF5File = sdi.HDF5File
+        self.xsdHDF5Internal = sdi.internalHDF5Path
         self.hdf5ExtraAttributes = sdi.extraAttributes
         if  sdi.dontAlign is not None:
             self.bDoAlign = not(bool(sdi.dontAlign.value))
 
-        self.iFrames = [ xsd.getValue() for xsd in sdi.index]
+        self.iFrames = [ xsd.value for xsd in sdi.index]
 
-        for idx, oneXSDFile in enumerate(sdi.getImages()):
+        for idx, oneXSDFile in enumerate(sdi.images):
             self.npArrays.append(EDUtilsArray.getArray(oneXSDFile))
             if len(self.iFrames) <= idx:
                 if (oneXSDFile.number is not None):
@@ -157,15 +157,15 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             self.ERROR(strError)
             self.setFailure()
 
-        self.xsdMeasureOffset = sdi.getMeasureOffset()
-        if self.xsdMeasureOffset.getAlwaysVersusRef() is not None:
+        self.xsdMeasureOffset = sdi.measureOffset
+        if self.xsdMeasureOffset.alwaysVersusRef is not None:
             self.bAlwaysMOvsRef = bool(self.xsdMeasureOffset.alwaysVersusRef.value)
 
         with self.__class__.__semaphore:
             if (self.__class__.__iRefFrame is None):
-                self.DEBUG("reference Frame is: %s" % sdi.getFrameReference().getValue())
+                self.DEBUG("reference Frame is: %s" % sdi.frameReference.value)
                 if  sdi.getFrameReference() is not None:
-                    self.__class__.__iRefFrame = sdi.getFrameReference().getValue()
+                    self.__class__.__iRefFrame = sdi.frameReference.value
                 else:
                     self.__class__.__iRefFrame = 0
 
@@ -190,7 +190,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             queryShift.setRemoveItems(XSDataBoolean(False))
             xsdataAcc = XSDataInputAccumulator()
             if  (EDPluginControlAlignStackv1_0.__iRefFrame == iFrame) or (self.bDoAlign == False) :
-#                edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
                 EDPluginControlAlignStackv1_0.__dictAbsShift[iFrame] = (0.0, 0.0)
                 EDPluginControlAlignStackv1_0.__dictRelShift[iFrame] = (0.0, 0.0)
                 self.hdf5_offset(index=iFrame, offset=[0.0, 0.0])
@@ -223,8 +222,8 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                     queryRaw.setItem([XSDataString("raw %04i" % (iFrame + 1)), XSDataString("raw %04i" % iFrame)])
                     queryShift.setItem([XSDataString("shift %04i" % i) for i in range(EDPluginControlAlignStackv1_0.__iRefFrame - 1, iFrame - 1, -1)])
                     xsdataAcc.setQuery([queryRaw, queryShift])
-#            else:
-#                #We are the frame reference !!!!
+            if (EDPluginControlAlignStackv1_0.__iRefFrame == iFrame):
+                self.saveReferenceFrame(iFrame)
 
             xsdataAcc.setItem([XSDataString("raw %04i" % iFrame)])
             edPluginExecAccumulator.setDataInput(xsdataAcc)
@@ -239,23 +238,36 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         """
         bAllFinished = False
         while not bAllFinished:
+            #acquire all semaphores to be sure no plugins are under configuration ! 
+            with self.semAccumulator:
+                pass
+            with self.semMeasure:
+                pass
+            with self.semShift:
+                pass
             if self.queue.empty():
                 self.synchronizePlugins()
                 bAllFinished = self.queue.empty()
             else:
                 while not self.queue.empty():
                     try:
-                        plugin = self.queue.get_nowait()
-                    except:
+                        plugin = self.queue.get()
+                    except Exception:
+                        self.WARNING("In EDPluginControlAlignStackv1_0, exception in self.queue.get()")
                         break
                     else:
+                        #this is a hack to prevent thousands of threads to be launched at once.
+                        with EDUtilsParallel.getSemaphoreNbThreads():
+                            pass
                         plugin.execute()
+                self.synchronizePlugins()
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginControlAlignStackv1_0.postProcess")
-        # Create some output data
+        self.executeControlledPlugins()
         self.synchronizePlugins()
+        # Create some output data
         xsDataResult = XSDataResultAlignStack()
         xsDataResult.setHDF5File(self.xsdHDF5File)
         xsDataResult.setInternalHDF5Path(self.xsdHDF5Internal)
@@ -306,7 +318,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 edPluginExecAccumulator.connectSUCCESS(self.doSuccessExecAccumultor)
                 edPluginExecAccumulator.connectFAILURE(self.doFailureExecAccumulator)
                 self.queue.put(edPluginExecAccumulator)
-#        self.removeLoadedPlugin(_edPlugin)
 
 
     def doFailureExecMeasureOffset(self, _edPlugin=None):
@@ -314,18 +325,17 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecMeasureOffset")
         self.ERROR("Failure in execution of the MeasureOffset with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.dataOutput.marshal()[:1000]))
         self.setFailure()
-#        self.removeLoadedPlugin(_edPlugin)
 
 
     def doSuccessExecShiftImage(self, _edPlugin=None):
-#        self.semShift.acquire()
         with self.semShift:
+            edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
             self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
             self.retrieveSuccessMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doSuccessExecShiftImage")
             xsdIdx = _edPlugin.dataInput.index
             self.__class__.MaxOffset = _edPlugin.MAX_OFFSET_VALUE
             self.hdf5_offset(index=xsdIdx.value, offset=[i.value for i in _edPlugin.dataInput.offset])
-            xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(8),
+            xsdata = XSDataInputHDF5StackImages(chunkSegmentation=XSDataInteger(32),
                                                 forceDtype=XSDataString("float32"),
                                                 extraAttributes=self.hdf5ExtraAttributes,
                                                 internalHDF5Path=self.xsdHDF5Internal,
@@ -333,12 +343,10 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                                                 index=[xsdIdx],
                                                 inputImageFile=[_edPlugin.dataOutput.outputImage])
 #                                                inputArray=[_edPlugin.dataOutput.outputArray])
-            edPluginExecHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
             edPluginExecHDF5.setDataInput(xsdata)
             edPluginExecHDF5.connectSUCCESS(self.doSuccessExecStackHDF5)
             edPluginExecHDF5.connectFAILURE(self.doFailureExecStackHDF5)
             self.queue.put(edPluginExecHDF5)
-#        self.removeLoadedPlugin(_edPlugin)
 
 
     def doFailureExecShiftImage(self, _edPlugin=None):
@@ -346,7 +354,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecShiftImage")
         self.ERROR("Failure in execution of the ExecShiftImage with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.dataOutput.marshal()[:1000]))
         self.setFailure()
-#        self.removeLoadedPlugin(_edPlugin)
 
     def doSuccessExecStackHDF5(self, _edPlugin=None):
         self.DEBUG("EDPluginControlAlignStackv1_0.doSuccessExecStackHDF5")
@@ -372,9 +379,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 listInt = [int(i.getValue().split()[1]) for i in query.getItem()]
                 if accType == "raw":
                     listFrame = [self.getFrameRef(i) for i in listInt]
-                    #this is a hack to prevent thousands of threads to be launched at once.
-                    EDUtilsParallel.semaphoreNbThreadsAcquire()
-                    EDUtilsParallel.semaphoreNbThreadsRelease()
 
                     xsdata = XSDataInputMeasureOffset()
                     xsdata.setImage(listFrame)
@@ -413,10 +417,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                     EDPluginControlAlignStackv1_0.__dictAbsShift[iFrameShift] = (shift_1, shift_2)
                     self.screen("Frame number %i has absolute offset of %.3f,%.3f" % (iFrameShift, shift_1, shift_2))
 
-                    #this is a hack to prevent thousands of threads to be launched at once.
-                    EDUtilsParallel.semaphoreNbThreadsAcquire()
-                    EDUtilsParallel.semaphoreNbThreadsRelease()
-
                     edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
                     xsdata = XSDataInputShiftImage()
                     xsdata.setIndex(XSDataInteger(iFrameShift))
@@ -435,6 +435,24 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlAlignStackv1_0.doFailureExecAccumulator")
         self.ERROR("Failure in execution of the accumulator with input: %s and output %s" % (_edPlugin.dataInput.marshal()[:1000], _edPlugin.dataOutput.marshal()[:1000]))
         self.setFailure()
+
+
+    def saveReferenceFrame(self, iFrame):
+        """
+        Save the reference frame to the HDF5 file
+        @param iFrame: frame number to save as reference frame
+        """
+        ref = "reference_frame"
+        hdf5file = self.xsdHDF5File.path.value
+        edpluginHDF5 = self.loadPlugin(self.__strControlledPluginHDF5)
+        with edpluginHDF5.getFileLock(hdf5file):
+            #Seems strange to redefine h5Grp but if there is a flush in between: h5Grp could be closed 
+            entry = edpluginHDF5.getHDF5File(hdf5file)[self.xsdHDF5Internal.value]
+            if ref in entry:
+                del entry[ref]
+#                entry.flush()
+            entry[ref] = self.getFrame(iFrame)
+            entry[ref].attrs["index"] = iFrame
 
 
     def hdf5_offset(self, index, offset):

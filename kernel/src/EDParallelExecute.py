@@ -67,10 +67,8 @@ if not os.environ.has_key("EDNA_HOME"):
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
 from EDLogging              import EDLogging
-from EDVerbose              import EDVerbose
 from EDUtilsParallel        import EDUtilsParallel
 from EDJob                  import EDJob
-from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDThreading            import Semaphore
 
 
@@ -317,7 +315,7 @@ class EDParallelExecute(EDLogging):
         """
         for oneFile in _listNewFiles:
             if os.path.isdir(oneFile) and _bIncludeSubdirs == True:
-                for root, dirs, onesubdirfiles in os.walk(oneFile):
+                for root, _, onesubdirfiles in os.walk(oneFile):
                     for onesubdirfile in onesubdirfiles:
                         strFilename = os.path.abspath(os.path.join(root, onesubdirfile))
                         if self.__bQuit == True:
@@ -486,7 +484,6 @@ class EDParallelExecute(EDLogging):
         @type listMethods: list of strings representing names of methods of the plugin to be called.
         """
         self.waitForAllProcessToFinish()
-        edPlugin = EDFactoryPluginStatic.loadPlugin(self.__strPluginName)
         for strOneMethod in  listMethods:
             try:
                 print "calling edPlugin.%s" % strOneMethod
