@@ -3,9 +3,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -38,7 +36,7 @@ This is a static utility class for handling of files.
 """
 
 
-import os, shutil, exceptions
+import os, shutil
 from EDVerbose import EDVerbose
 
 
@@ -52,10 +50,10 @@ class EDUtilsFile(object):
         strContent = None
         try:
             strContent = open(_strFileName, "rb").read()
-        except exceptions.Exception, e:
+        except Exception, e:
             strError = "EDUtilsFile.readFile: Reading %s: %s" % (_strFileName, str(e))
             EDVerbose.ERROR(strError)
-            raise exceptions.IOError(strError)
+            raise IOError(strError)
         return strContent
 
 
@@ -68,10 +66,10 @@ class EDUtilsFile(object):
                 myFile.write(_strContent)
                 myFile.flush()
 
-        except exceptions.Exception, e:
+        except Exception, e:
             strError = "EDUtilsFile.writeFile: Writing %s: %s" % (_strFileName, str(e))
             EDVerbose.ERROR(strError)
-            raise exceptions.IOError(strError)
+            raise IOError(strError)
 
 
     @classmethod

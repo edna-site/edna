@@ -23,38 +23,43 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Jerome Kieffer <jerome.kieffer@esrf.fr>"
+__author__ = "Jerome Kieffer <jerome.kieffer@esrf.fr>"
 __license__ = "GPLv3+"
 __copyright__ = "2012 European Synchrotron Radiation Facility"
 
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataPyFAIv1_0 import XSDataInputPyFAI
+from XSDataPyFAIv1_0 import XSDataInputPyFAI, XSDataGeometry, XSDataDetector
+from XSDataCommon import XSDataInteger, XSDataImageExt
 
 class EDTestCasePluginUnitExecPyFAIv1_0(EDTestCasePluginUnit):
     """
     Those are all units tests for the EDNA Exec plugin PyFAIv1_0
     """
 
-    def __init__(self, _strTestName = None):
+    def __init__(self, _strTestName=None):
         """
         """
         EDTestCasePluginUnit.__init__(self, "EDPluginExecPyFAIv1_0")
-              
+
 
     def testCheckParameters(self):
-        xsDataInput = XSDataInputPyFAI()
+        xsDataInput = XSDataInputPyFAI(detector=XSDataDetector(),
+                                       geometry=XSDataGeometry(),
+                                       output=XSDataImageExt(),
+                                       input=XSDataImageExt(),
+                                       nbPt=XSDataInteger())
         edPluginExecPyFAIv1_0 = self.createPlugin()
         edPluginExecPyFAIv1_0.setDataInput(xsDataInput)
         edPluginExecPyFAIv1_0.checkParameters()
-        
-    
-    
+
+
+
     def process(self):
         self.addTestMethod(self.testCheckParameters)
 
-    
+
 
 if __name__ == '__main__':
 

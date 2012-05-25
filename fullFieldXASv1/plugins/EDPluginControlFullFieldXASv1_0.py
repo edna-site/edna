@@ -133,14 +133,13 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         edPluginExecNormalize = self.loadPlugin(self.__strControlledNormalize)
         edPluginExecNormalize.connectSUCCESS(self.doSuccessExecNormalize)
         edPluginExecNormalize.connectFAILURE(self.doFailureExecNormalize)
-        xsdInNorm = XSDataInputNormalize()
         sdi = self.dataInput
-        xsdInNorm.data = sdi.data
-        xsdInNorm.flat = sdi.flat
-        xsdInNorm.dark = sdi.dark
-        xsdInNorm.dataScaleFactor = sdi.dataScaleFactor
-        xsdInNorm.darkScaleFactor = sdi.darkScaleFactor
-        xsdInNorm.flatScaleFactor = sdi.flatScaleFactor
+        xsdInNorm = XSDataInputNormalize(data=sdi.data,
+                                         flat=sdi.flat,
+                                         dark=sdi.dark,
+                                         dataScaleFactor=sdi.dataScaleFactor,
+                                         darkScaleFactor=sdi.darkScaleFactor,
+                                         flatScaleFactor=sdi.flatScaleFactor)
         if self.xsdNormalizedFilename is not None:
             xsdInNorm.output = XSDataImageExt(path=self.xsdNormalizedFilename.path)
         else:

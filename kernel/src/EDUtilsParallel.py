@@ -1,9 +1,8 @@
 # -*- coding: utf8 -*-
 #
-#    Project: PROJECT
+#    Project: EDNA kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDParallelExecute.py 1397 2010-04-22 06:40:16Z svensson $"
 #
 #    Copyright (C) European Synchrotron Radiation Facility, Grenoble, France
 #
@@ -23,140 +22,142 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import with_statement
 
-"""
+__license__ = "LGPLv3+"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__author__ = "Jérôme Kieffer"
+__contact__ = "jerome.kieffer@esrf.eu"
+__date__ = "20120518"
+__status__ = "production"
+__doc__ = """
 
 Some useful static methods dealing with parallel programming and the number of CPU detection 
 
 """
 
-__author__ = "Jerome Kieffer"
-__contact__ = "Jerome.Kieffer@ESRF.eu"
-__license__ = "LGPLv3+"
-__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import  os, sys, re, subprocess
 from EDVerbose import EDVerbose
 from EDThreading import Semaphore
 
 
-class EDUtilsParallel:
+class EDUtilsParallel(object):
     """ 
-    A class helping to make a multi-threaded application. 
+    A class helping to control the workload on a multi-threaded application. 
     """
-    __iActualNbCPU = None
-    __semaphore = Semaphore()
-    __semaphoreInit = Semaphore()
-    __semaphoreNbThreads = None
-    __iNbThreads = None
+    _iActualNbCPU = None
+    _semaphore = Semaphore()
+    _semaphoreInit = Semaphore()
+    _semaphoreNbThreads = None
+    _iNbThreads = None
 
 
-    @staticmethod
-    def __detectNumberOfCPUs():
+    @classmethod
+    def _detectNumberOfCPUs(cls):
         """
         detect the actual number of CPUs and stores it in a class variable 
         """
-        EDUtilsParallel.__semaphore.acquire()
-        if EDUtilsParallel.__iActualNbCPU is not None:
-            return
-        iNbCPU = None
-        #The best way: using python 2.6 or later
-        try:
-            import multiprocessing
-            iNbCPU = multiprocessing.cpu_count()
-
-        except (ImportError, NotImplementedError):
+        with cls._semaphore:
+            if cls._iActualNbCPU is not None:
+                return
             iNbCPU = None
-
-        # POSIX
-        if iNbCPU is None:
+            #The best way: using python 2.6 or later
             try:
-                iNbCPU = int(os.sysconf('SC_NPROCESSORS_ONLN'))
-                if iNbCPU <= 0:
-                    iNbCPU = None
-            except (AttributeError, ValueError):
+                import multiprocessing
+                iNbCPU = multiprocessing.cpu_count()
+
+            except (ImportError, NotImplementedError):
                 iNbCPU = None
 
-        # Windows
-        if iNbCPU is None:
-            try:
-                iNbCPU = int(os.environ['NUMBER_OF_PROCESSORS'])
-                if iNbCPU <= 0:
-                    iNbCPU = None
-            except (KeyError, ValueError):
-                iNbCPU = None
-
-        # jython
-        if iNbCPU is None:
-            try:
-                from java.lang import Runtime
-                runtime = Runtime.getRuntime()
-                iNbCPU = runtime.availableProcessors()
-                if iNbCPU <= 0:
-                    iNbCPU = None
-            except ImportError:
-                iNbCPU = None
-
-        # BSD
-        if iNbCPU is None:
-            try:
-                sysctl = subprocess.Popen(['sysctl', '-n', 'hw.ncpu'], stdout=subprocess.PIPE)
-                scStdout = sysctl.communicate()[0]
-                iNbCPU = int(scStdout)
-                if iNbCPU <= 0:
-                    iNbCPU = None
-            except (OSError, ValueError):
-                iNbCPU = None
-
-        # Linux
-        if iNbCPU is None:
-            try:
-                iNbCPU = open('/proc/cpuinfo').read().count('processor\t:')
-                if iNbCPU <= 0:
-                    iNbCPU = None
-            except IOError:
-                iNbCPU = None
-
-        # Solaris
-        if iNbCPU is None:
-            try:
-                pseudoDevices = os.listdir('/devices/pseudo/')
-                expr = re.compile('^cpuid@[0-9]+$')
-                iNbCPU = 0
-                for pd in pseudoDevices:
-                    if expr.match(pd) != None:
-                        iNbCPU += 1
-                if iNbCPU <= 0:
-                    iNbCPU = None
-            except OSError:
-                iNbCPU = None
-
-        # Other UNIXes (heuristic)
-        if iNbCPU is None:
-            try:
+            # POSIX
+            if iNbCPU is None:
                 try:
-                    dmesg = open('/var/run/dmesg.boot').read()
-                except IOError:
-                    dmesgProcess = subprocess.Popen(['dmesg'], stdout=subprocess.PIPE)
-                    dmesg = dmesgProcess.communicate()[0]
-                iNbCPU = 0
-                while '\ncpu' + str(iNbCPU) + ':' in dmesg:
-                    iNbCPU += 1
-                if iNbCPU <= 0:
+                    iNbCPU = int(os.sysconf('SC_NPROCESSORS_ONLN'))
+                    if iNbCPU <= 0:
+                        iNbCPU = None
+                except (AttributeError, ValueError):
                     iNbCPU = None
-            except OSError:
-                iNbCPU = None
 
-        #if nothing else works ...
-        if iNbCPU is None:
-            iNbCPU = 1
+            # Windows
+            if iNbCPU is None:
+                try:
+                    iNbCPU = int(os.environ['NUMBER_OF_PROCESSORS'])
+                    if iNbCPU <= 0:
+                        iNbCPU = None
+                except (KeyError, ValueError):
+                    iNbCPU = None
 
-        EDUtilsParallel.__iActualNbCPU = iNbCPU
-        EDUtilsParallel.__semaphore.release()
+            # jython
+            if iNbCPU is None:
+                try:
+                    from java.lang import Runtime
+                    runtime = Runtime.getRuntime()
+                    iNbCPU = runtime.availableProcessors()
+                    if iNbCPU <= 0:
+                        iNbCPU = None
+                except ImportError:
+                    iNbCPU = None
+
+            # BSD
+            if iNbCPU is None:
+                try:
+                    sysctl = subprocess.Popen(['sysctl', '-n', 'hw.ncpu'], stdout=subprocess.PIPE)
+                    scStdout = sysctl.communicate()[0]
+                    iNbCPU = int(scStdout)
+                    if iNbCPU <= 0:
+                        iNbCPU = None
+                except (OSError, ValueError):
+                    iNbCPU = None
+
+            # Linux
+            if iNbCPU is None:
+                try:
+                    iNbCPU = open('/proc/cpuinfo').read().count('processor\t:')
+                    if iNbCPU <= 0:
+                        iNbCPU = None
+                except IOError:
+                    iNbCPU = None
+
+            # Solaris
+            if iNbCPU is None:
+                try:
+                    pseudoDevices = os.listdir('/devices/pseudo/')
+                    expr = re.compile('^cpuid@[0-9]+$')
+                    iNbCPU = 0
+                    for pd in pseudoDevices:
+                        if expr.match(pd) != None:
+                            iNbCPU += 1
+                    if iNbCPU <= 0:
+                        iNbCPU = None
+                except OSError:
+                    iNbCPU = None
+
+            # Other UNIXes (heuristic)
+            if iNbCPU is None:
+                try:
+                    try:
+                        dmesg = open('/var/run/dmesg.boot').read()
+                    except IOError:
+                        dmesgProcess = subprocess.Popen(['dmesg'], stdout=subprocess.PIPE)
+                        dmesg = dmesgProcess.communicate()[0]
+                    iNbCPU = 0
+                    while '\ncpu' + str(iNbCPU) + ':' in dmesg:
+                        iNbCPU += 1
+                    if iNbCPU <= 0:
+                        iNbCPU = None
+                except OSError:
+                    iNbCPU = None
+
+            #if nothing else works ...
+            if iNbCPU is None:
+                iNbCPU = 1
+
+            cls._iActualNbCPU = iNbCPU
 
 
-    @staticmethod
-    def detectNumberOfCPUs(_iMaxCPU=sys.maxint, _bForce=False):
+    @classmethod
+    def detectNumberOfCPUs(cls, _iMaxCPU=sys.maxint, _bForce=False):
         """
         class method :
         Detects the number of CPUs on a system. Cribbed from pp.
@@ -178,9 +179,9 @@ class EDUtilsParallel:
             if _bForce:
                 return _iMaxCPU
 
-        if EDUtilsParallel.__iActualNbCPU is None:
-            EDUtilsParallel.__detectNumberOfCPUs()
-        iNbCPU = EDUtilsParallel.__iActualNbCPU
+        if cls._iActualNbCPU is None:
+            cls._detectNumberOfCPUs()
+        iNbCPU = cls._iActualNbCPU
         if iNbCPU < 1:
             return 1
         elif iNbCPU > _iMaxCPU :
@@ -189,39 +190,38 @@ class EDUtilsParallel:
             return iNbCPU
 
 
-    @staticmethod
-    def initializeNbThread(_iNbThread=None):
+    @classmethod
+    def initializeNbThread(cls, _iNbThread=None):
         """
         Class method:
         Initialises a semaphore with the right number of threads
         @param _iNbThread: the maximum number of threads concurrently running and CPU intensive
         @type _iNbThread: integer
         """
-        EDUtilsParallel.__semaphoreInit.acquire()
-        if EDUtilsParallel.__semaphoreNbThreads is None:
-            if _iNbThread is None:
-                _iNbThread = EDUtilsParallel.detectNumberOfCPUs()
-            EDVerbose.DEBUG("Initializing EDUtilsParallel semaphoreNbThreads to %i" % _iNbThread)
-            EDUtilsParallel.__iNbThreads = _iNbThread
-            EDUtilsParallel.__semaphoreNbThreads = Semaphore(_iNbThread)
-        else:
-            if EDUtilsParallel.__iNbThreads != _iNbThread:
-                EDVerbose.WARNING("EDUtilsParallel.__semaphoreNbThreads was already initialized to %i, not changing to %i" % (EDUtilsParallel.__iNbThreads, _iNbThread))
-        EDUtilsParallel.__semaphoreInit.release()
+        with cls._semaphoreInit:
+            if cls._semaphoreNbThreads is None:
+                if _iNbThread is None:
+                    _iNbThread = cls.detectNumberOfCPUs()
+                EDVerbose.DEBUG("Initializing EDUtilsParallel semaphoreNbThreads to %s" % _iNbThread)
+                cls._iNbThreads = _iNbThread
+                cls._semaphoreNbThreads = Semaphore(_iNbThread)
+            else:
+                if cls._iNbThreads != _iNbThread:
+                    EDVerbose.WARNING("cls._semaphoreNbThreads was already initialized to %s, not changing to %s" % (cls._iNbThreads, _iNbThread))
 
 
-    @staticmethod
-    def uninitializeNbThread():
+    @classmethod
+    def uninitializeNbThread(cls):
         """
         For testing purpose: un-initialize the semaphore controlling the number of execPlugin running at once  
         """
-        if EDUtilsParallel.__semaphoreNbThreads is not None:
+        if cls._semaphoreNbThreads is not None:
             EDVerbose.DEBUG("resetting the semaphore concerning the number of threads.")
-            EDUtilsParallel.__semaphoreNbThreads = None
+            cls._semaphoreNbThreads = None
 
 
-    @staticmethod
-    def getSemaphoreValue():
+    @classmethod
+    def getSemaphoreValue(cls):
         """
         Class method:
         getter for the current value of the semaphore counting the CPU-active threads
@@ -229,14 +229,14 @@ class EDUtilsParallel:
         @return: value of the semaphore (or None if not initialized) 
         @rtype: int
         """
-        if EDUtilsParallel.__semaphoreNbThreads is not None:
-            return EDUtilsParallel.__semaphoreNbThreads._Semaphore__value
+        if cls._semaphoreNbThreads is not None:
+            return cls._semaphoreNbThreads._Semaphore__value
         else:
             return None
 
 
-    @staticmethod
-    def getNbRunning():
+    @classmethod
+    def getNbRunning(cls):
         """
         Class method:
         getter for the number of CPU-active threads running
@@ -244,33 +244,44 @@ class EDUtilsParallel:
         @return: the number of CPU-active threads runnings
         @rtype: integer
         """
-        if EDUtilsParallel.__semaphoreNbThreads is not None:
-            return EDUtilsParallel.__iNbThreads - EDUtilsParallel.__semaphoreNbThreads._Semaphore__value
+        if cls._semaphoreNbThreads is not None:
+            return cls._iNbThreads - cls._semaphoreNbThreads._Semaphore__value
         else:
             return None
 
 
-    @staticmethod
-    def semaphoreNbThreadsAcquire():
+    @classmethod
+    def semaphoreNbThreadsAcquire(cls):
         """
         Class method:
         Method to acquire the semaphore that controls the number of threads running concurrently
         """
-        if EDUtilsParallel.__semaphoreNbThreads is not None:
-            EDUtilsParallel.__semaphoreNbThreads.acquire()
+        if cls._semaphoreNbThreads is not None:
+            cls._semaphoreNbThreads.acquire()
         else:
             EDVerbose.DEBUG("EDUtilsParallel: Unable to acquire an uninitialized semaphore (NbCPU).")
 
 
-    @staticmethod
-    def semaphoreNbThreadsRelease():
+    @classmethod
+    def semaphoreNbThreadsRelease(cls):
         """
         Class method:
         Method to release the semaphore that controls the number of threads running concurrently
         """
-        if EDUtilsParallel.__semaphoreNbThreads is not None:
-            if EDUtilsParallel.__semaphoreNbThreads._Semaphore__value < EDUtilsParallel.__iNbThreads:
-                EDUtilsParallel.__semaphoreNbThreads.release()
+        if cls._semaphoreNbThreads is not None:
+            if cls._semaphoreNbThreads._Semaphore__value < cls._iNbThreads:
+                cls._semaphoreNbThreads.release()
         else:
             EDVerbose.DEBUG("EDUtilsParallel: Unable to release an uninitialized semaphore (NbCPU).")
 
+
+    @classmethod
+    def getSemaphoreNbThreads(cls):
+        """
+        classmethod that returns the semaphore nb threads (to be used with the with_statement)
+        @return: semaphore controling CPUs
+        """
+        if cls._semaphoreNbThreads is not None:
+            return cls._semaphoreNbThreads
+        else:
+            EDVerbose.DEBUG("EDUtilsParallel: Unable to acquire an uninitialized semaphore (NbCPU).")

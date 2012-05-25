@@ -171,15 +171,14 @@ class EDHandlerXSDataISPyBv1_4(object):
     @staticmethod
     def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage):
         xsDataISPyBScreeningOutput = XSDataISPyBScreeningOutput()
-        xsDataISPyBScreeningOutputLattice = XSDataISPyBScreeningOutputLattice()
-        xsDataISPyBScreeningOutputContainer = XSDataISPyBScreeningOutputContainer()
-        xsDataISPyBScreeningStrategyContainer = XSDataISPyBScreeningStrategyContainer()
+        xsDataISPyBScreeningOutputLattice = None
         # Indexing information
         bSuccessfulIndexing = False
         xsDataIndexingResult = _xsDataResultCharacterisation.getIndexingResult()
         if (xsDataIndexingResult is not None):
             xsDataIndexingSolutionSelected = xsDataIndexingResult.getSelectedSolution()
             if (xsDataIndexingSolutionSelected is not None):
+                xsDataISPyBScreeningOutputLattice = XSDataISPyBScreeningOutputLattice()
                 bSuccessfulIndexing = True
                 xsDataStatisticsIndexing = xsDataIndexingSolutionSelected.getStatistics()
                 if (xsDataStatisticsIndexing is not None):
@@ -226,8 +225,10 @@ class EDHandlerXSDataISPyBv1_4(object):
 
         # Strategy information
         xsDataResultStrategy = _xsDataResultCharacterisation.strategyResult
+        xsDataISPyBScreeningStrategyContainer = None
         xsDataISPyBScreeningStrategyWedgeContainer = None
         if xsDataResultStrategy is not None:
+            xsDataISPyBScreeningStrategyContainer = XSDataISPyBScreeningStrategyContainer()
             xsDataISPyBScreeningStrategy = XSDataISPyBScreeningStrategy()
             listXSDataCollectionPlan = xsDataResultStrategy.collectionPlan
             for xsDataCollectionPlan in listXSDataCollectionPlan:
@@ -274,9 +275,12 @@ class EDHandlerXSDataISPyBv1_4(object):
                 xsDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer(xsDataISPyBScreeningStrategyWedgeContainer)   
             xsDataISPyBScreeningStrategyContainer.screeningStrategy = xsDataISPyBScreeningStrategy
         # Assembly
+        xsDataISPyBScreeningOutputContainer = XSDataISPyBScreeningOutputContainer()
         xsDataISPyBScreeningOutputContainer.screeningOutput = xsDataISPyBScreeningOutput
-        xsDataISPyBScreeningOutputContainer.addScreeningOutputLattice(xsDataISPyBScreeningOutputLattice)
-        xsDataISPyBScreeningOutputContainer.addScreeningStrategyContainer(xsDataISPyBScreeningStrategyContainer)
+        if xsDataISPyBScreeningOutputLattice is not None:
+            xsDataISPyBScreeningOutputContainer.addScreeningOutputLattice(xsDataISPyBScreeningOutputLattice)
+        if xsDataISPyBScreeningStrategyContainer is not None:
+            xsDataISPyBScreeningOutputContainer.addScreeningStrategyContainer(xsDataISPyBScreeningStrategyContainer)
         
         return xsDataISPyBScreeningOutputContainer
 

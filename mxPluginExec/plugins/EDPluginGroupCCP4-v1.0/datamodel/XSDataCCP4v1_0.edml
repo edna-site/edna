@@ -1,0 +1,17 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataString
+
+complex type XSDataInputMtz2Various extends XSDataInput {
+	mtzfile : XSDataFile
+	labin : XSDataString []
+	output : XSDataString optional
+	format : XSDataString optional
+}
+
+complex type XSDataResultMtz2Various extends XSDataResult {
+	hklfile : XSDataFile
+}
