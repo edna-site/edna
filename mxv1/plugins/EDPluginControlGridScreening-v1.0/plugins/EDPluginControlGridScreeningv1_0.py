@@ -338,7 +338,8 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
             strIntegration = EDUtilsFile.readFile(strHklFilePath)
             # Output the result in XML format
             self.xsDataGridScreeningResultIntegration = XSDataGridScreeningResultIntegration()
-            self.xsDataGridScreeningResultIntegration.setFileName(self.strImageFile)
+            self.xsDataGridScreeningResultIntegration.setFileName(os.path.basename(self.strImageFile))
+            self.xsDataGridScreeningResultIntegration.setFileDirectory(os.path.dirname(self.strImageFile))
             self.xsDataGridScreeningResultIntegration.setIntegratedData(strIntegration)
         else:
             # We continue with the strategy calculation
