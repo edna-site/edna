@@ -30,6 +30,7 @@ import os
 
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDUtilsFile import EDUtilsFile
 
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataImage
@@ -60,6 +61,8 @@ EDFactoryPluginStatic.loadModule("XSDataISPyBv1_3")
 from XSDataISPyBv1_3 import XSDataInputStoreImageQualityIndicators
 from XSDataISPyBv1_3 import XSDataISPyBImageQualityIndicators
 
+EDFactoryPluginStatic.loadModule("XSDataCCP4v1_0")
+from XSDataCCP4v1_0 import XSDataInputMtz2Various
 
 
 class EDPluginControlGridScreeningv1_0(EDPluginControl):
@@ -84,6 +87,8 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
         self.edPluginControlIntegration = None
         self.strPluginControlStrategy = "EDPluginControlStrategyv1_2"
         self.edPluginControlStrategy = None
+        self.strPluginExecMtz2Various = "EDPluginExecMtz2Variousv1_0"
+        self.edPluginExecMtz2Various = None
         self.strImageFile = None
         self.xsDataIndexingResultMOSFLM = None
         self.xsDataCrystal = None
@@ -124,6 +129,8 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
                                                             "Integration")
         self.edPluginControlStrategy = self.loadPlugin(self.strPluginControlStrategy, \
                                                          "Strategy")
+        self.edPluginExecMtz2Various = self.loadPlugin(self.strPluginExecMtz2Various, \
+                                                         "Mtz2Various")
         # Input data
         self.strImageFile = self.getDataInput().getImageFile().getPath().getValue()
         self.xsDataGridScreeningFileNameParameters = self.getFileNameParameters(self.strImageFile)
@@ -319,9 +326,21 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
             self.strCharacterisationShortSummary += self.edPluginControlIntegration.getDataOutput("integrationShortSummary")[0].getValue()
         #self.DEBUG( self.xsDataExperimentCharacterisation.marshal() )
         if self.bDoOnlyIntegrationWithXMLOutput:
+            # Run mtz2various
+            xsDataInputMtz2Various = XSDataInputMtz2Various()
+            xsDataInputMtz2Various.setMtzfile(self.edPluginControlIntegration.getDataOutput().getIntegrationSubWedgeResult()[0].getGeneratedMTZFile())
+            xsDataInputMtz2Various.addLabin(XSDataString("I=I"))
+            xsDataInputMtz2Various.addLabin(XSDataString("SIGI=SIGI"))
+            xsDataInputMtz2Various.setOutput(XSDataString("USER '(3I4,2F10.1)'"))
+            self.edPluginExecMtz2Various.setDataInput(xsDataInputMtz2Various)
+            self.edPluginExecMtz2Various.executeSynchronous()
+            strHklFilePath = self.edPluginExecMtz2Various.getDataOutput().getHklfile().getPath().getValue()
+            strIntegration = EDUtilsFile.readFile(strHklFilePath)
             # Output the result in XML format
             self.xsDataGridScreeningResultIntegration = XSDataGridScreeningResultIntegration()
             self.xsDataGridScreeningResultIntegration.setFileName(self.strImageFile)
+            self.xsDataGridScreeningResultIntegration.setIntegratedData(strIntegration)
+            print self.xsDataGridScreeningResultIntegration.marshal()
         else:
             # We continue with the strategy calculation
             xsDataInputStrategy = XSDataInputStrategy()
