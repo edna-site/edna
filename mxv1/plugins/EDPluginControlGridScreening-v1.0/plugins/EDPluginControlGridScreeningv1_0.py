@@ -340,7 +340,6 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
             self.xsDataGridScreeningResultIntegration = XSDataGridScreeningResultIntegration()
             self.xsDataGridScreeningResultIntegration.setFileName(self.strImageFile)
             self.xsDataGridScreeningResultIntegration.setIntegratedData(strIntegration)
-            print self.xsDataGridScreeningResultIntegration.marshal()
         else:
             # We continue with the strategy calculation
             xsDataInputStrategy = XSDataInputStrategy()
