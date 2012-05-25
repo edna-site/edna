@@ -9,7 +9,6 @@ __copyright__ = "2011, European Synchrotron Radiation Facility, Grenoble, France
 __date__ = "20120313"
 
 import os, time, sys, tempfile, string, shlex, socket, json
-
 # Append the EDNA kernel source directory to the python path
 if "EDNA_HOME" not in  os.environ:
     pyStrProgramPath = os.path.realpath(os.path.abspath(sys.argv[0]))
@@ -39,6 +38,7 @@ from EDParallelExecute      import EDParallelExecute
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDJob                  import EDJob
+from EDShare                import EDShare
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
 fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
@@ -67,7 +67,7 @@ else:
     if dirnames != []:
          EDShare.initialize(os.path.join("/buffer", dirnames[0]))
 
-
+REFERENCE_FRAME_NAME = "reference_frame"
 
 
 EDNAPluginName = "EDPluginControlFullFieldXASv1_0"
@@ -98,9 +98,9 @@ class FullFieldXas(object):
         self.dontAlign = None
         self.iErrCount = 0
         self.lstSubscanSize = None
-        self.fScaleData = 1.0
-        self.fScaleDark = 1.0
-        self.fScaleFlat = 1.0
+        self.fScaleData = None
+        self.fScaleDark = None
+        self.fScaleFlat = None
 
 
     def load(self, filename):
@@ -135,10 +135,14 @@ class FullFieldXas(object):
         """
         Save configuration to file
         """
+        if isinstance(self.reference, int):
+            reference = self.reference
+        else:
+            reference = -1
         xsdi = XSDataInputFullFieldXAS(HDF5File=XSDataFile(XSDataString(self.HDF5)),
                                        internalHDF5Path=XSDataString(self.internalHdf5),
                                        measureOffset=self.getXSDMeasureOffset(),
-                                       reference=XSDataInteger(self.reference),
+                                       reference=XSDataInteger(reference),
                                        dark=self.getXsdDark())
         with open(filename, "wb") as xmlFile:
             xmlFile.write(xsdi.marshal())
@@ -326,9 +330,9 @@ class FullFieldXas(object):
             if strtmp != "":
                 try:
                     tmpRef = int(strtmp)
-                except Exception:
-                    tmpRef = None
-            if isinstance(tmpRef, int):
+                except ValueError:
+                    tmpRef = strtmp
+            if isinstance(tmpRef, int) or os.path.isfile(tmpRef.split(":")[0]):
                 self.reference = tmpRef
                 bOK = True
 
@@ -422,22 +426,25 @@ class FullFieldXas(object):
             self.lstSubscanSize = None
         print("Setting scan size to %s" % self.lstSubscanSize)
 
+    #
     def readScale(self):
-        strtmp = self.raw_input("Scale factor for data frames (division):")
-        try:
-            self.fScaleData = float(strtmp)
-        except Exception:
-            self.fScaleData = 1
-        strtmp = self.raw_input("Scale factor for ref frames (division):")
-        try:
-            self.fScaleFlat = float(strtmp)
-        except Exception:
-            self.fScaleFlat = 1
-        strtmp = self.raw_input("Scale factor for dark frames (division):")
-        try:
-            self.fScaleDark = float(strtmp)
-        except Exception:
-            self.fScaleDark = 1
+        strtmp = self.raw_input("OVERRIDE the scale factor found in files? [N|y]: ").lower()
+        if  strtmp.find("y") == 0:
+            strtmp = self.raw_input("Scale factor for data frames (division):")
+            try:
+                self.fScaleData = float(strtmp)
+            except Exception:
+                self.fScaleData = None
+            strtmp = self.raw_input("Scale factor for ref frames (division):")
+            try:
+                self.fScaleFlat = float(strtmp)
+            except Exception:
+                self.fScaleFlat = None
+            strtmp = self.raw_input("Scale factor for dark frames (division):")
+            try:
+                self.fScaleDark = float(strtmp)
+            except Exception:
+                self.fScaleDark = None
 
 
     def getHeaders(self, filename):
@@ -476,9 +483,21 @@ class FullFieldXas(object):
             except Exception:
                 value = None
         else:
-            EDVerbose.WARNING("No energyin file %s" % filename)
+            EDVerbose.WARNING("No energy in file %s" % filename)
         return value
 
+
+    def getNbFrames(self, filename):
+        header = self.getHeaders(filename)
+        value = None
+        if "nb_frames" in header:
+            try:
+                value = float(header["nb_frames"])
+            except Exception:
+                value = 1
+        else:
+            EDVerbose.WARNING("No 'nb_frames' in file %s" % filename)
+        return value
 
 
     def makeXML(self, filename):
@@ -490,7 +509,6 @@ class FullFieldXas(object):
         @rtype: XML string
         @return: python string  
         """
-    #Ti_slow_data_0000_0000_0000.edf
         self.header = None
         dirname, basename = os.path.split(filename)
         if not basename.startswith(self.prefix):
@@ -502,16 +520,34 @@ class FullFieldXas(object):
         if not basename.endswith(self.suffix):
             return
 
+        if self.fScaleData:
+            fScaleData = self.fScaleData
+        else:
+             fScaleData = self.getNbFrames(filename)
+        if not fScaleData:
+            fScaleData = 1.0
+
+        if self.fScaleDark:
+            fScaleDark = self.fScaleDark
+        else:
+             fScaleDark = self.getNbFrames(self.darks[0]["path"])
+        if not fScaleDark:
+            fScaleDark = 1.0
+
+        if isinstance(self.reference, int):
+            reference = self.reference
+        else:
+            reference = -1
+
         xsd = XSDataInputFullFieldXAS(HDF5File=XSDataFile(path=XSDataString(self.HDF5)),
                                       internalHDF5Path=XSDataString(self.internalHdf5),
                                       measureOffset=self.getXSDMeasureOffset(),
                                       dark=self.getXsdDark(),
-                                      reference=XSDataInteger(self.reference),
+                                      reference=XSDataInteger(reference),
                                       data=[XSDataImageExt(path=XSDataString(filename),
                                                              exposureTime=XSDataTime(self.getExposureTime(filename)))],
-                                      dataScaleFactor=XSDataDouble(self.fScaleData),
-                                      darkScaleFactor=XSDataDouble(self.fScaleDark),
-                                      flatScaleFactor=XSDataDouble(self.fScaleFlat),
+                                      dataScaleFactor=XSDataDouble(fScaleData),
+                                      darkScaleFactor=XSDataDouble(fScaleDark),
                                       )
         if self.dontAlign:
             xsd.dontAlign = XSDataBoolean(self.dontAlign)
@@ -521,6 +557,7 @@ class FullFieldXas(object):
         if self.lstSubscanSize:
             subScanDigit = []
             for i in basename[len(self.prefix):]:
+#                print subScanDigit, number, extendedPrefix, started, i
                 extendedPrefix += i
                 if started and i == "_":
                     if len(number) > 0:
@@ -536,6 +573,7 @@ class FullFieldXas(object):
                     started = True
                 if started:
                     number += i
+            print subScanDigit
             if not subScanDigit:
                 print("ERROR: no index guessed !!!")
                 return ""
@@ -556,7 +594,7 @@ class FullFieldXas(object):
                 if started:
                     number += i
                 index = int(number)
-
+#        print index
         xsd.index = XSDataInteger(index)
 
         if self.normalizedSuffix:
@@ -568,15 +606,26 @@ class FullFieldXas(object):
 
 
         flatprefix = self.flatPrefix + extendedPrefix
-        listFlats = [  ]
+        print("%s %s %s" % (flatprefix, self.flatPrefix, extendedPrefix))
+        listFlats = []
         for oneFile in os.listdir(dirname):
             if oneFile.startswith(flatprefix) and oneFile.endswith(self.suffix):
                 oneCompleteFile = os.path.abspath(os.path.join(dirname, oneFile))
                 xsdFileFlat1 = XSDataImageExt(path=XSDataString(oneCompleteFile),
                                               exposureTime=XSDataTime(self.getExposureTime(oneCompleteFile)))
                 listFlats.append(xsdFileFlat1)
-        xsd.setFlat(listFlats)
+        xsd.flat = listFlats
+        if len(listFlats) != 2:
+            EDVerbose.ERROR([a.path.value for a in listFlats ])
+            EDVerbose.ERROR("%s\t%s" % (flatprefix, self.suffix))
 
+        if self.fScaleFlat:
+            fScaleFlat = self.fScaleFlat
+        else:
+             fScaleFlat = self.getNbFrames(oneCompleteFile)
+        if not fScaleFlat:
+            fScaleFlat = 1.0
+        xsd.flatScaleFactor = XSDataDouble(fScaleFlat)
         return xsd.marshal()
 
 
@@ -617,6 +666,30 @@ class FullFieldXas(object):
         return [XSDataImageExt(path=XSDataString(i["path"]),
                                exposureTime=XSDataTime(i["exposureTime"]))
                 for i in self.darks]
+
+    @classmethod
+    def uploadReferenceFrame(cls, entry):
+        paths = entry.split(":")
+        if len(paths) == 1 and os.path.isfile(paths[0]):
+            obj = fabio.open(paths[0]).data
+            EDVerbose.WARNING("Got reference frame %s via fabio" % entry)
+            EDPluginControlAlignStackv1_0.addFrame(-1, obj)
+        elif len(paths) == 2 and os.path.isfile(paths[0]):
+            hdf = h5py.File(paths[0])
+            if paths[1] in hdf:
+                obj = hdf[paths[1]]
+                if obj.__class__.__name__ == "Group":
+                    if REFERENCE_FRAME_NAME in obj:
+                        EDPluginControlAlignStackv1_0.addFrame(-1, obj[REFERENCE_FRAME_NAME][:])
+                    else:
+                        EDVerbose.ERROR("HDF5: No '%s' in group %s from %s" % (REFERENCE_FRAME_NAME, paths[1], paths[0]))
+                elif obj.__class__.__name__ == "Dataset":
+                    EDPluginControlAlignStackv1_0.addFrame(-1, obj[:])
+            else:
+                EDVerbose.ERROR("HDF5: No such internal path %s in %s" % (paths[1], paths[0]))
+        else:
+            EDVerbose.ERROR("No such entry %s" % entry)
+
 
 
 if __name__ == '__main__':
@@ -670,13 +743,20 @@ if __name__ == '__main__':
             print("*" + "Skipping image alignement part".center(78) + "*")
             print("*"*80)
         ffx.setup(_listInput=paths, _mode=mode)
-
+    if not isinstance(ffx.reference, int):
+        ffx.uploadReferenceFrame(ffx.reference)
     ffx.save(".XSDataInputFullFieldXAS.xml")
     ffx.dump("analysis-%s.json" % time.strftime("%Y%m%d-%Hh%Mm%Ss"))
     edna = EDParallelExecute(ffx.pluginName, ffx.makeXML, _functXMLerr=ffx.error, _bVerbose=True, _bDebug=debug, _iNbThreads=iNbCPU)
     edna.runEDNA(ffx.listInput, ffx.strMode , ffx.bNewerOnly)
     EDVerbose.WARNING("Back to main !")
     EDJob.synchronizeAll()
+    with EDPluginHDF5StackImagesv10.getFileLock(ffx.HDF5):
+        try:
+            referenceDS = EDPluginHDF5StackImagesv10.getDataChunk(ffx.HDF5, ffx.internalHdf5 + "/" + REFERENCE_FRAME_NAME)
+            referenceDS.attrs["origin"] = ffx.reference
+        except Exception, error:
+            EDVerbose.ERROR(error)
     EDPluginControlAlignStackv1_0.showData()
     if (ffx.iErrCount == 0) and (not EDVerbose.isVerboseDebug()):
         EDVerbose.WARNING("All processing finished successfully: Remove EDShare's big HDF5 file")

@@ -264,8 +264,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5NeXus")
         with EDPluginHDF5.getFileLock(self.HDF5filename.path.value):
             #Seems strange to redefine h5Grp but if there is a flush in between: h5Grp could be closed 
-            h5Grp = EDPluginHDF5.getHDF5File(self.HDF5filename.path.value)[self.internalHDF5Path.value]
-            entry = h5Grp.parent
+            entry = EDPluginHDF5.getHDF5File(self.HDF5filename.path.value)[self.internalHDF5Path.value]
             if not "title" in  entry:
                 entry.create_dataset("title", data=self.TITLE)
             if not "program" in  entry:
@@ -278,7 +277,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
             if "end_time" in  entry:
                 entry["end_time"][()] = EDPluginHDF5.getIsoTime()
             else:
-                entry.create_dataset("end_time", data=EDPluginHDF5.getIsoTime(), dtype=h5py.special_dtype(vlen=str))
+                entry.create_dataset("end_time", data=EDPluginHDF5.getIsoTime())
             if "duration" in  entry:
                 entry["duration"][()] = time.time() - self.start_time
             else:

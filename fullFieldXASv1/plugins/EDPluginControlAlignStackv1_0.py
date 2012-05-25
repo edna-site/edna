@@ -106,6 +106,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.semAccumulator = Semaphore()
         self.semMeasure = Semaphore()
         self.semShift = Semaphore()
+        self.lstSem = [self.locked(), self.semAccumulator, self.semMeasure, self.semShift]
         self.queue = Queue()
         self.__strControlledPluginAccumulator = "EDPluginAccumulatorv1_0"
         self.__strControlledPluginMeasureFFT = "EDPluginExecMeasureOffsetv1_0"
@@ -238,13 +239,10 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         """
         bAllFinished = False
         while not bAllFinished:
-            #acquire all semaphores to be sure no plugins are under configuration ! 
-            with self.semAccumulator:
-                pass
-            with self.semMeasure:
-                pass
-            with self.semShift:
-                pass
+            #acquire all semaphores to be sure no plugins are under configuration !
+            for sem in self.lstSem:
+                with sem:
+                    pass
             if self.queue.empty():
                 self.synchronizePlugins()
                 bAllFinished = self.queue.empty()
@@ -450,7 +448,6 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             entry = edpluginHDF5.getHDF5File(hdf5file)[self.xsdHDF5Internal.value]
             if ref in entry:
                 del entry[ref]
-#                entry.flush()
             entry[ref] = self.getFrame(iFrame)
             entry[ref].attrs["index"] = iFrame
 
@@ -496,7 +493,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
     @classmethod
     def getFrame(cls, index):
         """
-        Just Retrives the value from EDShare 
+        Just Retrieves the value from EDShare 
         """
         return EDShare["Normalized-%06i" % int(index)]
 
