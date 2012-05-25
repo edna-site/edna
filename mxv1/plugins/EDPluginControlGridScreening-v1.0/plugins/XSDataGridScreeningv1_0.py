@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed May 23 12:48::37 2012 by EDGenerateDS.
+# Generated Fri May 25 03:00::22 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -280,12 +280,14 @@ class XSDataGridScreeningFileNameParameters(XSData):
 # end class XSDataGridScreeningFileNameParameters
 
 class XSDataGridScreeningResultIntegration(XSData):
-	def __init__(self, integratedData=None, fileName=None):
+	def __init__(self, integratedData=None, fileDirectory=None, fileName=None):
 		XSData.__init__(self, )
 	
 	
 		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", fileName, "string")
 		self._fileName = fileName
+		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", fileDirectory, "string")
+		self._fileDirectory = fileDirectory
 		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", integratedData, "string")
 		self._integratedData = integratedData
 	def getFileName(self): return self._fileName
@@ -295,6 +297,13 @@ class XSDataGridScreeningResultIntegration(XSData):
 	def delFileName(self): self._fileName = None
 	# Properties
 	fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
+	def getFileDirectory(self): return self._fileDirectory
+	def setFileDirectory(self, fileDirectory):
+		checkType("XSDataGridScreeningResultIntegration", "setFileDirectory", fileDirectory, "string")
+		self._fileDirectory = fileDirectory
+	def delFileDirectory(self): self._fileDirectory = None
+	# Properties
+	fileDirectory = property(getFileDirectory, setFileDirectory, delFileDirectory, "Property for fileDirectory")
 	def getIntegratedData(self): return self._integratedData
 	def setIntegratedData(self, integratedData):
 		checkType("XSDataGridScreeningResultIntegration", "setIntegratedData", integratedData, "string")
@@ -315,6 +324,11 @@ class XSDataGridScreeningResultIntegration(XSData):
 			outfile.write(unicode('<fileName>%s</fileName>\n' % self._fileName))
 		else:
 			warnEmptyAttribute("fileName", "string")
+		if self._fileDirectory is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<fileDirectory>%s</fileDirectory>\n' % self._fileDirectory))
+		else:
+			warnEmptyAttribute("fileDirectory", "string")
 		if self._integratedData is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<integratedData>%s</integratedData>\n' % self._integratedData))
@@ -332,6 +346,13 @@ class XSDataGridScreeningResultIntegration(XSData):
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
 			self._fileName = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileDirectory':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._fileDirectory = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'integratedData':
 			value_ = ''

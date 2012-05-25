@@ -42,5 +42,6 @@ complex type XSDataGridScreeningFileNameParameters extends XSData {
 
 complex type XSDataGridScreeningResultIntegration extends XSData {
 	fileName : string
+	fileDirectory : string
 	integratedData : string
 }
