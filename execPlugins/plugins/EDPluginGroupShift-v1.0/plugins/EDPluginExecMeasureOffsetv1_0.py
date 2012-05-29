@@ -87,9 +87,9 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     __sem = Semaphore()
     __npaMask = None
 
-    CONF_CONVOLUTION = "fftw"
+    CONF_CONVOLUTION = None
     CONF_CONVOLUTION_KEY = "convolution"
-    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "fftw". signal is no more possible
+    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "fftw", "cuda" or simply falls back on numpy.fftpack
 
     def __init__(self):
         """
@@ -239,6 +239,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
 
+        self.DEBUG("Doing ffts using %s" % self.CONF_CONVOLUTION)
         offset, logs = MeasureOffset.measure_offset(self.npaIm1, self.npaIm2,
                                                     self.CONF_CONVOLUTION, withLog=True)
 

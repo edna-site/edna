@@ -48,6 +48,8 @@ h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="vers
 from EDShare                import EDShare
 EDFactoryPluginStatic.loadModule('EDPluginHDF5StackImagesv10')
 EDFactoryPluginStatic.loadModule('EDPluginControlAlignStackv1_0')
+EDFactoryPluginStatic.loadModule("EDPluginAccumulatorv1_0")
+from EDPluginAccumulatorv1_0            import EDPluginAccumulatorv1_0
 from EDPluginControlAlignStackv1_0      import EDPluginControlAlignStackv1_0
 from EDPluginControlFullFieldXASv1_0    import EDPluginControlFullFieldXASv1_0
 from EDPluginHDF5StackImagesv10         import EDPluginHDF5StackImagesv10
@@ -557,33 +559,37 @@ class FullFieldXas(object):
         if self.lstSubscanSize:
             subScanDigit = []
             for i in basename[len(self.prefix):]:
-#                print subScanDigit, number, extendedPrefix, started, i
-                extendedPrefix += i
                 if started and i == "_":
                     if len(number) > 0:
-                        subScanDigit.append(int(number))
+                        subScanDigit.append(number)
                         number = ""
                     continue
                 if started and not i.isdigit():
                     if number:
-                        subScanDigit.append(int(number))
+                        subScanDigit.append(number)
                     number = ""
                     break
-                if not started and i.isdigit():
-                    started = True
+                if not started:
+                    if i.isdigit():
+                        started = True
+                    else:
+                        extendedPrefix += i
                 if started:
                     number += i
-            print subScanDigit
+
+
+#            print basename, self.prefix, extendedPrefix, subScanDigit
             if not subScanDigit:
                 print("ERROR: no index guessed !!!")
                 return ""
             elif len(subScanDigit) == 1:
-                index = subScanDigit[0]
+                index = int(subScanDigit[0])
             else:# len(subScanDigit) > 1:
                 index = 0
-                for i in range(subScanDigit[0]):
+                for i in range(int(subScanDigit[0])):
                     index += self.lstSubscanSize[i]
-                index += subScanDigit[1]
+                index += int(subScanDigit[1])
+                extendedPrefix += "_".join(subScanDigit[:2])
         else:
             for i in basename[len(self.prefix):]:
                 extendedPrefix += i
@@ -606,7 +612,7 @@ class FullFieldXas(object):
 
 
         flatprefix = self.flatPrefix + extendedPrefix
-        print("%s %s %s" % (flatprefix, self.flatPrefix, extendedPrefix))
+#        print("%s %s %s" % (flatprefix, self.flatPrefix, extendedPrefix))
         listFlats = []
         for oneFile in os.listdir(dirname):
             if oneFile.startswith(flatprefix) and oneFile.endswith(self.suffix):
@@ -674,6 +680,7 @@ class FullFieldXas(object):
             obj = fabio.open(paths[0]).data
             EDVerbose.WARNING("Got reference frame %s via fabio" % entry)
             EDPluginControlAlignStackv1_0.addFrame(-1, obj)
+            EDPluginAccumulatorv1_0.addItem(XSDataString("raw -001"))
         elif len(paths) == 2 and os.path.isfile(paths[0]):
             hdf = h5py.File(paths[0])
             if paths[1] in hdf:
@@ -681,10 +688,12 @@ class FullFieldXas(object):
                 if obj.__class__.__name__ == "Group":
                     if REFERENCE_FRAME_NAME in obj:
                         EDPluginControlAlignStackv1_0.addFrame(-1, obj[REFERENCE_FRAME_NAME][:])
+                        EDPluginAccumulatorv1_0.addItem("raw -001")
                     else:
                         EDVerbose.ERROR("HDF5: No '%s' in group %s from %s" % (REFERENCE_FRAME_NAME, paths[1], paths[0]))
                 elif obj.__class__.__name__ == "Dataset":
                     EDPluginControlAlignStackv1_0.addFrame(-1, obj[:])
+                    EDPluginAccumulatorv1_0.addItem(XSDataString("raw -001"))
             else:
                 EDVerbose.ERROR("HDF5: No such internal path %s in %s" % (paths[1], paths[0]))
         else:
@@ -700,6 +709,7 @@ if __name__ == '__main__':
     iNbCPU = None
     dontAlign = None
     replay = None
+    keepShare = False
     for i in sys.argv[1:]:
         if i.lower().find("-online") in [0, 1]:
             mode = "dirwatch"
@@ -716,7 +726,8 @@ if __name__ == '__main__':
             path = i.split("=", 1)[1]
             if os.path.isfile(path):
                 replay = path
-
+        elif i.lower().find("-keep") in [0, 1]:
+            keepShare = True
         elif i.lower().find("-h") in [0, 1]:
             print "This is the DiffractionCTv1 application of EDNA %s, \nplease give a path to process offline or the option:\n\
             --online to process online incoming data in the given directory.\n\
@@ -724,7 +735,8 @@ if __name__ == '__main__':
             --debug to turn on debugging mode in EDNA\n\
             --nCPU=xxx to specify the number of CPUs to use. Usually EDNA autodetects the number of processors.\n\
             --dontAlign to allow the constitution an unaligned stack \n\
-            --replay=filename to replay a former processing" % EDNAPluginName
+            --replay=filename to replay a former processing\n\
+            --keep retain temporary HDF5 shared data file" % EDNAPluginName
 
             sys.exit()
         elif os.path.exists(i):
@@ -758,7 +770,9 @@ if __name__ == '__main__':
         except Exception, error:
             EDVerbose.ERROR(error)
     EDPluginControlAlignStackv1_0.showData()
-    if (ffx.iErrCount == 0) and (not EDVerbose.isVerboseDebug()):
+    if keepShare:
+        EDShare.close()
+    elif (ffx.iErrCount == 0) and (not EDVerbose.isVerboseDebug()):
         EDVerbose.WARNING("All processing finished successfully: Remove EDShare's big HDF5 file")
         EDShare.close(remove=True)
     else:
