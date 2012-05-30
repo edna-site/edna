@@ -93,7 +93,7 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
         self.DEBUG("EDPluginXscale.preProcess")
         anomalous = self.dataInput.friedels_law.value
         merged = self.dataInput.merge.value
-        outfile = 'merged' if merged else unmerged
+        outfile = 'merged' if merged else 'unmerged'
         if anomalous:
             outfile += '_anom.hkl'
         else:
