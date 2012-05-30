@@ -244,7 +244,8 @@ class EDPluginControlAutoproc( EDPluginControl ):
         xscale_anom_in.xds_files = [input_file]
         xscale_anom_in.unit_cell_constants = self.parse_xds_anom.dataOutput.unit_cell_constants
         xscale_anom_in.sg_number = self.parse_xds_anom.dataOutput.sg_number
-        xscale_anom_in.bins = self.res_cutoff_anom.bins
+        xscale_anom_in.bins = self.res_cutoff_anom.dataOutput.bins
+
 
         self.xscale_anom.dataInput = xscale_anom_in
         self.xscale_anom.executeSynchronous()
@@ -258,13 +259,15 @@ class EDPluginControlAutoproc( EDPluginControl ):
         xscale_noanom_in = XSDataXscaleInput()
 
         input_file = XSDataXscaleInputFile()
-        input_file.path = self.generate.dataOuput.hkl_anom
+        input_file.path = self.generate.dataOutput.hkl_anom
         input_file.res = self.res_cutoff_anom.dataOutput.res
 
         xscale_noanom_in.xds_files = [input_file]
         xscale_noanom_in.unit_cell_constants = self.parse_xds_noanom.dataOutput.unit_cell_constants
         xscale_noanom_in.sg_number = self.parse_xds_noanom.dataOutput.sg_number
-        xscale_noanom_in.bins = self.res_cutoff_noanom.bins
+        xscale_noanom_in.bins = self.res_cutoff_noanom.dataOutput.bins
+
+
 
         self.xscale_noanom.dataInput = xscale_noanom_in
         self.xscale_noanom.executeSynchronous()
