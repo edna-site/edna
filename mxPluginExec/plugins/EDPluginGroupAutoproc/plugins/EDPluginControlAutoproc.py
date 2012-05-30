@@ -126,7 +126,10 @@ class EDPluginControlAutoproc( EDPluginControl ):
 
         #XXX: remove from the data model as it is just pass-through?
         res_cutoff_in.total_completeness = xdsresult.total_completeness
-
+        res_cutoff_in.completeness_cutoff = self.dataInput.completeness_cutoff
+        res_cutoff_in.isig_cutoff = self.dataInput.isig_cutoff
+        res_cutoff_in.r_value_cutoff = self.dataInput.r_value_cutoff
+        res_cutoff_in.cc_half_cutoff = self.dataInput.cc_half_cutoff
         self.first_res_cutoff.dataInput = res_cutoff_in
         self.first_res_cutoff.executeSynchronous()
         if self.first_res_cutoff.isFailure():
@@ -158,6 +161,12 @@ class EDPluginControlAutoproc( EDPluginControl ):
         parse_anom_input.correct_lp = XSDataFile()
         parse_anom_input.correct_lp.path = self.generate.dataOutput.correct_lp_anom
 
+        # this one is the same as the first XDS run since they share
+        # the same directory
+        gxparm_file_anom = XSDataFile()
+        gxparm_file_anom.path = self.generate.dataOutput.gxparm
+        parse_anom_input.gxparm = gxparm_file_anom
+
         self.parse_xds_anom.dataInput = parse_anom_input
         self.parse_xds_anom.executeSynchronous()
 
@@ -170,6 +179,10 @@ class EDPluginControlAutoproc( EDPluginControl ):
         parse_noanom_input = XSDataXdsOutputFile()
         parse_noanom_input.correct_lp = XSDataFile()
         parse_noanom_input.correct_lp.path = self.generate.dataOutput.correct_lp_no_anom
+
+        gxparm_file_noanom = XSDataFile()
+        gxparm_file_noanom.path = self.generate.dataOutput.gxparm
+        parse_noanom_input.gxparm = gxparm_file_noanom
 
         self.parse_xds_noanom.dataInput = parse_noanom_input
         self.parse_xds_noanom.executeSynchronous()
@@ -187,6 +200,13 @@ class EDPluginControlAutoproc( EDPluginControl ):
         # missing
         res_cutoff_anom_in = XSDataResCutoff()
         res_cutoff_anom_in.xds_res = self.parse_xds_anom.dataOutput
+        res_cutoff_anom_in.completeness_entries = self.parse_xds_anom.dataOutput.completeness_entries
+        res_cutoff_anom_in.total_completeness = self.parse_xds_anom.dataOutput.total_completeness
+        # pass in global cutoffs
+        res_cutoff_anom_in.completeness_cutoff = self.dataInput.completeness_cutoff
+        res_cutoff_anom_in.isig_cutoff = self.dataInput.isig_cutoff
+        res_cutoff_anom_in.r_value_cutoff = self.dataInput.r_value_cutoff
+        res_cutoff_anom_in.cc_half_cutoff = self.dataInput.cc_half_cutoff
         self.res_cutoff_anom.dataInput = res_cutoff_anom_in
 
         self.res_cutoff_anom.executeSynchronous()
@@ -196,6 +216,13 @@ class EDPluginControlAutoproc( EDPluginControl ):
         # same for non anom
         res_cutoff_noanom_in = XSDataResCutoff()
         res_cutoff_noanom_in.xds_res = self.parse_xds_noanom.dataOutput
+        res_cutoff_noanom_in.completeness_entries = self.parse_xds_noanom.dataOutput.completeness_entries
+        res_cutoff_noanom_in.total_completeness = self.parse_xds_noanom.dataOutput.total_completeness
+        # pass in global cutoffs
+        res_cutoff_noanom_in.completeness_cutoff = self.dataInput.completeness_cutoff
+        res_cutoff_noanom_in.isig_cutoff = self.dataInput.isig_cutoff
+        res_cutoff_noanom_in.r_value_cutoff = self.dataInput.r_value_cutoff
+        res_cutoff_noanom_in.cc_half_cutoff = self.dataInput.cc_half_cutoff
         self.res_cutoff_noanom.dataInput = res_cutoff_noanom_in
 
         self.res_cutoff_noanom.executeSynchronous()
