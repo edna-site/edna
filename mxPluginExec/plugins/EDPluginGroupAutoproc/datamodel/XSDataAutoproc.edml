@@ -53,6 +53,9 @@ complex type XSDataXdsOutputFile extends XSDataInput {
 
 complex type XSDataXdsCompletenessEntry {
 	outer_res : XSDataFloat
+	outer_observed : XSDataFloat
+	outer_unique : XSDataFloat
+	outer_possible : XSDataFloat
 	outer_complete : XSDataFloat
 	outer_rfactor : XSDataFloat
 	outer_isig : XSDataFloat
