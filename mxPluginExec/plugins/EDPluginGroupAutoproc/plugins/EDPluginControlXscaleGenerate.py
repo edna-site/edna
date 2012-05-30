@@ -29,6 +29,7 @@ __copyright__ = "<copyright>"
 
 
 from EDPluginControl import EDPluginControl
+from EDVerbose import EDVerbose
 
 from XSDataCommon import XSDataBoolean
 
@@ -59,9 +60,13 @@ class EDPluginControlXscaleGenerate(EDPluginControl):
     def preProcess(self, _edObject = None):
         EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlXscaleGenerate.preProcess")
+        print '****************************************************************'
+        print 'input for xscalegenerate is :'
+        print self.dataInput.marshal()
+        print '****************************************************************'
         # Load the execution plugin
         self.xscale_anom_merged  = self.loadPlugin("EDPluginExecXscale")
-        anom_merged_in = XSDataXscaleInput.copyViaDict()
+        anom_merged_in = self.dataInput.copyViaDict()
         anom_merged_in.friedels_law = XSDataBoolean(True)
         anom_merged_in.merge = XSDataBoolean(True)
         self.xscale_anom_merged.dataInput = anom_merged_in
@@ -70,7 +75,7 @@ class EDPluginControlXscaleGenerate(EDPluginControl):
 
 
         self.xscale_anom_unmerged  = self.loadPlugin("EDPluginExecXscale")
-        anom_unmerged_in = XSDataXscaleInput.copyViaDict()
+        anom_unmerged_in = self.dataInput.copyViaDict()
         anom_unmerged_in.friedels_law = XSDataBoolean(True)
         anom_unmerged_in.merge = XSDataBoolean(False)
         self.xscale_anom_unmerged.dataInput = anom_unmerged_in
@@ -78,7 +83,7 @@ class EDPluginControlXscaleGenerate(EDPluginControl):
         self.xscale_anom_unmerged.connectFAILURE(self.xscale_failure)
 
         self.xscale_noanom_merged  = self.loadPlugin("EDPluginExecXscale")
-        noanom_merged_in = XSDataXscaleInput.copyViaDict()
+        noanom_merged_in = self.dataInput.copyViaDict()
         noanom_merged_in.friedels_law = XSDataBoolean(False)
         noanom_merged_in.merge = XSDataBoolean(True)
         self.xscale_noanom_merged.dataInput = noanom_merged_in
@@ -86,7 +91,7 @@ class EDPluginControlXscaleGenerate(EDPluginControl):
         self.xscale_noanom_merged.connectFAILURE(self.xscale_failure)
 
         self.xscale_noanom_unmerged  = self.loadPlugin("EDPluginExecXscale")
-        noanom_unmerged_in = XSDataXscaleInput.copyViaDict()
+        noanom_unmerged_in = self.dataInput.copyViaDict()
         noanom_unmerged_in.friedels_law = XSDataBoolean(False)
         noanom_unmerged_in.merge = XSDataBoolean(False)
         self.xscale_noanom_unmerged.dataInput = noanom_unmerged_in
