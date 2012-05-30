@@ -33,6 +33,8 @@ import os.path
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
 
+from EDFactoryPlugin import edFactoryPlugin
+
 from XSDataCommon import XSDataFile, XSDataBoolean, XSDataString
 
 from XSDataAutoproc import XSDataAutoprocInput
@@ -42,6 +44,12 @@ from XSDataAutoproc import XSDataXdsGenerateInput
 from XSDataAutoproc import XSDataXdsOutputFile
 from XSDataAutoproc import XSDataXscaleInput
 from XSDataAutoproc import XSDataXscaleInputFile
+
+
+
+edFactoryPlugin.loadModule('XSDataISPyBv1_4')
+from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
+from XSDataISPyBv1_4 import XSDataResultStoreAutoProc
 
 
 class EDPluginControlAutoproc( EDPluginControl ):
