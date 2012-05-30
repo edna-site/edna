@@ -123,6 +123,7 @@ class EDPluginControlAutoproc( EDPluginControl ):
         res_cutoff_in = XSDataResCutoff()
         res_cutoff_in.xds_res = xdsresult
         res_cutoff_in.completeness_entries = xdsresult.completeness_entries
+        res_cutoff_in.detector_max_res = self.dataInput.detector_max_res
 
         #XXX: remove from the data model as it is just pass-through?
         res_cutoff_in.total_completeness = xdsresult.total_completeness
@@ -199,6 +200,7 @@ class EDPluginControlAutoproc( EDPluginControl ):
         # XXX completeness_cutoff/res_override and isig_cutoff still
         # missing
         res_cutoff_anom_in = XSDataResCutoff()
+        res_cutoff_anom_in.detector_max_res = self.dataInput.detector_max_res
         res_cutoff_anom_in.xds_res = self.parse_xds_anom.dataOutput
         res_cutoff_anom_in.completeness_entries = self.parse_xds_anom.dataOutput.completeness_entries
         res_cutoff_anom_in.total_completeness = self.parse_xds_anom.dataOutput.total_completeness
@@ -215,6 +217,7 @@ class EDPluginControlAutoproc( EDPluginControl ):
 
         # same for non anom
         res_cutoff_noanom_in = XSDataResCutoff()
+        res_cutoff_noanom_in.detector_max_res = self.dataInput.detector_max_res
         res_cutoff_noanom_in.xds_res = self.parse_xds_noanom.dataOutput
         res_cutoff_noanom_in.completeness_entries = self.parse_xds_noanom.dataOutput.completeness_entries
         res_cutoff_noanom_in.total_completeness = self.parse_xds_noanom.dataOutput.total_completeness

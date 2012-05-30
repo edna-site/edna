@@ -72,6 +72,10 @@ class EDPluginResCutoff(EDPlugin):
 
     def process(self, _edObject = None):
         EDPlugin.process(self)
+        detector_max_res = self.dataInput.detector_max_res
+        if detector_max_res is not None:
+            detector_max_res = detector_max_res.value
+
         completeness_cutoff_param = self.dataInput.completeness_cutoff
         if completeness_cutoff_param is None:
             completeness_cutoff = 80
@@ -98,6 +102,7 @@ class EDPluginResCutoff(EDPlugin):
         # detector_max_res, which we should somehow defined (in the
         # data model?) and used as the default value before we start
         # the processing
+        res = detector_max_res
 
         for entry in self.dataInput.completeness_entries:
             outer_res = entry.outer_res.value

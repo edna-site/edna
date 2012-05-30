@@ -95,6 +95,7 @@ complex type XSDataXdsOutput extends XSDataResult {
 complex type XSDataResCutoff extends XSDataInput {
 	xds_res : XSDataXdsOutput
 	completeness_entries : XSDataXdsCompletenessEntry []
+	detector_max_res : XSDataFloat optional
 	//XXX: remove from model as it is only pass through?
 	total_completeness : XSDataXdsCompletenessEntry
 	res_override : XSDataFloat optional
@@ -171,6 +172,7 @@ complex type XSDataAutoprocMasterInput extends XSDataInput {
 	cc_half_cutoff : XSDataFloat optional
 
 	data_collection_id : XSDataInteger optional
+	detector_max_res : XSDataFloat optional
 }
 
 complex type XSDataAutoprocInput extends XSDataAutoprocMasterInput {
