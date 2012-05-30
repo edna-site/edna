@@ -180,12 +180,20 @@ class EDPluginXDSGenerate(EDPluginControl):
         correct_lp_noanom = os.path.join(mydir, 'CORRECT_NOANOM.LP')
         copyfile(correct_lp, correct_lp_noanom)
 
+        gxparm = os.path.join(xds_run_directory, 'GXPARM.XDS')
+
         # everything went fine
         data_output = XSDataXdsGenerateOutput()
         data_output.hkl_anom = XSDataString(output_anom)
         data_output.hkl_no_anom = XSDataString(output_noanom)
         data_output.correct_lp_no_anom = XSDataString(correct_lp_noanom)
         data_output.correct_lp_anom = XSDataString(correct_lp_anom)
+
+        if not os.path.isfile(gxparm):
+            EDVerbose.WARNING('No GXPARM.XDS in {}'.format(xds_run_directory))
+            EDVerbose.WARNING('Things will probably crash soon')
+        else:
+            data_output.gxparm = XSDataString(gxparm)
         self.dataOutput = data_output
 
     def postProcess(self, _edObject = None):
