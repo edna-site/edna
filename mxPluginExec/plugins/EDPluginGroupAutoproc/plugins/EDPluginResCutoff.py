@@ -36,6 +36,7 @@ __copyright__ = "<copyright>"
 
 import os.path
 import shutil
+import math
 
 from EDPlugin import EDPlugin
 from EDVerbose import EDVerbose
