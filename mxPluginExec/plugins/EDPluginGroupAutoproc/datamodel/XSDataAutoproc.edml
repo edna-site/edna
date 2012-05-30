@@ -115,19 +115,19 @@ complex type XSDataResCutoffResult extends XSDataResult {
 	total_isig : XSDataFloat
 }
 
-complex type XSDataXscaleInputFile {
+complex type XSDataXscaleInputFile extends XSDataInput {
 	path : XSDataString
 	res : XSDataFloat
 }
 
-complex type XSDataXscaleGeneratedFiles {
+complex type XSDataXscaleGeneratedFiles extends XSDataResult {
 	anom_merged : XSDataString
 	noanom_merged : XSDataString
 	anom_unmerged : XSDataString
 	noanom_unmerged : XSDataString
 }
 
-complex type XSDataXscaleInput {
+complex type XSDataXscaleInput extends XSDataInput {
 	merge : XSDataBoolean
 	friedels_law : XSDataBoolean
 	xds_files : XSDataXscaleInputFile []
@@ -136,7 +136,7 @@ complex type XSDataXscaleInput {
 	bins : XSDataDouble [] optional
 }
 
-complex type XSDataXscaleOutput {
+complex type XSDataXscaleOutput extends XSDataResult {
 	succeeded : XSDataBoolean
 	output_file : XSDataString optional
 }
