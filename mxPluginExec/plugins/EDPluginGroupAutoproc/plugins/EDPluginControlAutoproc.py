@@ -46,7 +46,6 @@ from XSDataAutoproc import XSDataXscaleInput
 from XSDataAutoproc import XSDataXscaleInputFile
 
 
-
 edFactoryPlugin.loadModule('XSDataISPyBv1_4')
 from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
 from XSDataISPyBv1_4 import XSDataResultStoreAutoProc
@@ -236,8 +235,6 @@ class EDPluginControlAutoproc( EDPluginControl ):
         # anom, merged and unmerged
 
         # We use another control plugin for that to isolate the whole thing
-
-#        if not self.res_cutoff_anom.isFailure():
         xscale_anom_in = XSDataXscaleInput()
 
         input_file = XSDataXscaleInputFile()
@@ -258,7 +255,6 @@ class EDPluginControlAutoproc( EDPluginControl ):
 
         # same for non anom code path
 
-        #if not self.res_cutoff_noanom.isFailure():
         xscale_noanom_in = XSDataXscaleInput()
 
         input_file = XSDataXscaleInputFile()
@@ -270,8 +266,6 @@ class EDPluginControlAutoproc( EDPluginControl ):
         xscale_noanom_in.sg_number = self.parse_xds_noanom.dataOutput.sg_number
         xscale_noanom_in.bins = self.res_cutoff_noanom.dataOutput.bins
 
-
-
         self.xscale_noanom.dataInput = xscale_noanom_in
         self.xscale_noanom.executeSynchronous()
 
@@ -282,3 +276,7 @@ class EDPluginControlAutoproc( EDPluginControl ):
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginControlAutoproc.postProcess")
+
+        #Now that we have executed the whole thing we need to create
+        #the suitable ISPyB plugin input and serialize it to the file
+        #we've been given as input
