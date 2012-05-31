@@ -122,10 +122,21 @@ complex type XSDataXscaleInputFile extends XSDataInput {
 }
 
 complex type XSDataXscaleGeneratedFiles extends XSDataResult {
-	anom_merged : XSDataString
-	noanom_merged : XSDataString
-	anom_unmerged : XSDataString
-	noanom_unmerged : XSDataString
+	hkl_anom_merged : XSDataString
+	lp_anom_merged : XSDataString
+	stats_anom_merged : XSDataXscaleParsedOutput
+
+	hkl_noanom_merged : XSDataString
+	lp_noanom_merged : XSDataString
+	stats_noanom_merged : XSDataXscaleParsedOutput
+
+	hkl_anom_unmerged : XSDataString
+	lp_anom_unmerged : XSDataString
+	stats_anom_unmerged : XSDataXscaleParsedOutput
+
+	hkl_noanom_unmerged : XSDataString
+	lp_noanom_unmerged : XSDataString
+	stats_noanom_unmerged : XSDataXscaleParsedOutput
 }
 
 complex type XSDataXscaleInput extends XSDataInput {
@@ -139,7 +150,17 @@ complex type XSDataXscaleInput extends XSDataInput {
 
 complex type XSDataXscaleOutput extends XSDataResult {
 	succeeded : XSDataBoolean
-	output_file : XSDataString optional
+	hkl_file : XSDataString optional
+	lp_file : XSDataString optional
+}
+
+complex type XSDataXscaleParsingInput extends XSDataInput {
+	lp_file : XSDataString
+}
+
+complex type XSDataXscaleParsedOutput extends XSDataResult {
+	total_completeness : XSDataXdsCompletenessEntry
+	completeness_entries : XSDataXdsCompletenessEntry []
 }
 
 
