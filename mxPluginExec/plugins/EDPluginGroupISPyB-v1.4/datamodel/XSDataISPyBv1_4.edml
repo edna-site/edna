@@ -169,6 +169,9 @@ complex type XSDataISPyBDataCollection {
 	dataCollectionId : integer
 	blSampleId : integer
 	sessionId : integer
+	screeningOrigId : integer optional
+	detectorId : integer optional
+	strategySubWedgeOrigId : integer optional
 	experimentType : string
 	dataCollectionNumber : integer
 	startDate : string
@@ -254,10 +257,12 @@ complex type XSDataISPyBDiffractionPlan extends XSData {
 complex type XSDataISPyBScreening extends XSData {
 	screeningId : XSDataInteger optional
 	dataCollectionId : XSDataInteger
+	diffractionplanId : XSDataInteger
 	timeStamp : XSDataString
 	programVersion : XSDataString optional
 	comments : XSDataString optional
 	shortComments : XSDataString optional
+	xmlSampleInformation : XSDataString optional
 }
 
 complex type XSDataISPyBScreeningFile extends XSData {
@@ -304,6 +309,12 @@ complex type XSDataISPyBScreeningOutput extends XSData {
 	diffractionRings : XSDataBoolean optional
 	screeningSuccess : XSDataBoolean
 	mosaicityEstimated : XSDataBoolean optional
+	rankingResolution : XSDataDouble optional
+	program : XSDataString optional
+	doseTotal : XSDataDouble optional
+	totalExposureTime : XSDataDouble optional
+	totalRotationRange : XSDataDouble optional
+	rFriedel : XSDataDouble optional
 }
 
 complex type XSDataISPyBScreeningOutputLattice extends XSData {
@@ -328,6 +339,7 @@ complex type XSDataISPyBScreeningOutputLattice extends XSData {
 	unitCell_c : XSDataLength
 	unitCell_gamma : XSDataAngle
 	timeStamp : XSDataLength
+	labelitIndexing : XSDataBoolean optional
 }
 
 complex type XSDataISPyBScreeningStrategy extends XSData {
@@ -350,6 +362,7 @@ complex type XSDataISPyBScreeningStrategy extends XSData {
 complex type XSDataISPyBScreeningStrategyWedge extends XSData {
 	screeningStrategyWedgeId : XSDataInteger optional
 	screeningStrategyId : XSDataInteger
+	screeningStrategyOutputId : XSDataInteger
 	wedgeNumber : XSDataInteger
 	resolution : XSDataDouble
 	completeness : XSDataDouble
@@ -358,6 +371,8 @@ complex type XSDataISPyBScreeningStrategyWedge extends XSData {
 	numberOfImages : XSDataInteger
 	phi : XSDataDouble optional
 	kappa : XSDataDouble optional
+	comments : XSDataString optional
+	wavelength : XSDataDouble optional
 }
 
 
@@ -376,22 +391,8 @@ complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
 	resolution : XSDataDouble optional
 	doseTotal : XSDataDouble optional
 	numberOfImages : XSDataInteger
+	comments : XSDataString optional
 }
-
-
-complex type XSDataISPyBScreeningInput extends XSData {
-	screeningInputId : XSDataInteger optional
-	screeningId : XSDataInteger optional
-	diffractionPlanId : XSDataInteger optional
-	beamX : XSDataLength optional
-	beamY : XSDataLength optional
-	rmsErrorLimits : XSDataDouble optional
-	minimumFractionIndexed : XSDataDouble optional
-	maximumFractionRejected : XSDataDouble optional
-	minimumSignalToNoise : XSDataDouble optional
-	xmlSampleInformation : XSDataString optional
-}
-
 
 
 complex type XSDataISPyBImage extends XSData {
@@ -407,10 +408,6 @@ complex type XSDataISPyBImage extends XSData {
 	measuredIntensity : XSDataDouble
 	synchrotronCurrent : XSDataDouble
 	temperature : XSDataDouble
-}
-
-complex type XSDataISPyBScreeningInputContainer extends XSData {
-	screeningInput : XSDataISPyBScreeningInput
 }
 
 
@@ -437,7 +434,6 @@ complex type XSDataInputISPyBStoreScreening extends XSDataInput {
 	file : XSDataISPyBScreeningFile [] optional
 	image : XSDataISPyBImage optional
 	screening : XSDataISPyBScreening optional
-	screeningInput : XSDataISPyBScreeningInput optional
 	screeningOutputContainer : XSDataISPyBScreeningOutputContainer [] optional
 	screeningRank : XSDataISPyBScreeningRank [] optional
 	screeningRankSet : XSDataISPyBScreeningRankSet optional
