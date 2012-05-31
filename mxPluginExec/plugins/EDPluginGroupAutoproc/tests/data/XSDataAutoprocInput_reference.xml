@@ -5,6 +5,11 @@
       <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/XDS.INP</value>
     </path>
   </input_file>
+  <output_file>
+    <path>
+      <value>/tmp/edna-autoproc-test-output-file.xml</value>
+    </path>
+  </output_file>
   <!-- not used yet
   <completeness_cutoff>
     <value></value>
