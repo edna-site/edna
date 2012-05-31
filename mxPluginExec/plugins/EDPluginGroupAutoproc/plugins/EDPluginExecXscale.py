@@ -93,15 +93,15 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
         self.DEBUG("EDPluginXscale.preProcess")
         anomalous = self.dataInput.friedels_law.value
         merged = self.dataInput.merge.value
-        outfile = 'merged' if merged else 'unmerged'
+        self.hkl_file = 'merged' if merged else 'unmerged'
         if anomalous:
-            outfile += '_anom.hkl'
+            self.hkl_file += '_anom_XSCALE.hkl'
         else:
-            outfile += '_noanom.hkl'
+            self.hkl_file += '_noanom_XSCALE.hkl'
 
         # create the input file for xscale
         with open(os.path.join(self.getWorkingDirectory(), 'XSCALE.INP'), 'w') as inputfile:
-            inputfile.write("OUTPUT_FILE= {}\n".format(outfile))
+            inputfile.write("OUTPUT_FILE= {}\n".format(self.hkl_file))
             inputfile.write("MERGE= {}\n".format("TRUE" if merged else "FALSE"))
             for xds_file in self.dataInput.xds_files:
                 path = os.path.abspath(xds_file.path.value)
@@ -111,7 +111,8 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
                 os.symlink(path, sympath)
 
                 res = xds_file.res.value
-                inputfile.write("INPUT_FILE= {} XDS_ASCII 100 {}\n".format(sympath, res))
+                # os.basename(sympath) is the filename relative to our dir
+                inputfile.write("INPUT_FILE= {} XDS_ASCII 100 {}\n".format(os.path.basename(sympath), res))
 
             ucellconstants = ' '.join([str(x.value) for x in self.dataInput.unit_cell_constants])
             inputfile.write("UNIT_CELL_CONSTANTS= {}\n".format(ucellconstants))
@@ -136,18 +137,34 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
         self.DEBUG("EDPluginXscale.postProcess")
 
         data_output = XSDataXscaleOutput()
-        output_file = os.path.join(self.getWorkingDirectory(), 'XSCALE.LP')
+        lp_file = os.path.join(self.getWorkingDirectory(), 'XSCALE.LP')
         data_output.succeeded = XSDataBoolean(False)
-        if os.path.isfile(output_file):
+        if os.path.isfile(lp_file):
             # we have the output file
-            data_output.output_file = XSDataString(os.path.abspath(output_file))
+            # copy it to some other name
+            anomalous = self.dataInput.friedels_law.value
+            merged = self.dataInput.merge.value
+            new_lp_file = 'merged' if merged else 'unmerged'
+            if anomalous:
+                new_lp_file += '_anom_XSCALE.lp'
+            else:
+                new_lp_file += '_noanom_XSCALE.lp'
+            new_lp_file = os.path.join(self.getWorkingDirectory(), new_lp_file)
+
+            shutil.copy(lp_file, new_lp_file)
+
+            data_output.lp_file = XSDataString(os.path.abspath(new_lp_file))
+
             # look for an error message in the output
-            with open(output_file, 'r') as f:
+            with open(new_lp_file, 'r') as f:
                 success = True
                 for line in f:
                     if line.find('!!! ERROR !!!') != -1:
                         success = False
                         break
                 data_output.succeeded = XSDataBoolean(success)
+
+        # also add the hkl file to our output
+        data_output.hkl_file = XSDataString(self.hkl_file)
 
         self.dataOutput = data_output
