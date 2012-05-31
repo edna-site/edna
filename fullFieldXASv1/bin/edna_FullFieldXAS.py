@@ -695,7 +695,6 @@ class FullFieldXas(object):
                         data = obj[self.REFERENCE_FRAME_NAME][:]
                         EDPluginControlAlignStackv1_0.addFrame(-1, data)
                         EDPluginAccumulatorv1_0.addItem("raw -001")
-                        print data
                         self.updateAttrRefImage(data)
                     else:
                         EDVerbose.ERROR("HDF5: No '%s' in group %s from %s" % (self.REFERENCE_FRAME_NAME, paths[1], paths[0]))
