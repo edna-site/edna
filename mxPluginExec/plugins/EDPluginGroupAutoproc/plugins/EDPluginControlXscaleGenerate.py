@@ -137,7 +137,6 @@ class EDPluginControlXscaleGenerate(EDPluginControl):
                    self.xscale_noanom_unmerged_parser]
 
         for p in parsers:
-            print '{0} has dataInput {1}'.format(p, p.dataInput)
             p.executeSynchronous()
             if p.isFailure():
                 # include the file it failed to parse to the msg
