@@ -134,6 +134,8 @@ class CudaCorrelate(object):
     data2_gpus = {}
     multconj = None
     ctx = None
+    pycuda.autoinit.context.pop()
+#    ctx.pop()
     sem = threading.Semaphore()
     initsem = threading.Semaphore()
 
@@ -156,6 +158,26 @@ class CudaCorrelate(object):
                         self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
                     self.ctx.synchronize()
                     self.ctx.pop()
+    @classmethod
+    def clean(cls):
+        with initsem:
+            with sem:
+                if self.ctx:
+                    cls.ctx.push()
+                    for plan_name in list(cls.plans.keys()):
+                        plan = cls.plans.pop(plan_name)
+                        del plan
+                    for plan_name in list(cls.data1_gpus.keys()):
+                        data = cls.data1_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    for plan_name in cls.data2_gpus.copy():
+                        data = cls.data2_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    cls.ctx.pop()
+                    cls.ctx = None
+
     def correlate(self, data1, data2):
         self.init()
         with self.__class__.sem:
