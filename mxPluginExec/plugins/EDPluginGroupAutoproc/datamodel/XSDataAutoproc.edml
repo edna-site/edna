@@ -158,9 +158,13 @@ complex type XSDataXscaleParsingInput extends XSDataInput {
 	lp_file : XSDataString
 }
 
+complex type XSDataXscaleCompletenessEntry extends XSDataXdsCompletenessEntry {
+	multiplicity : XSDataFloat
+}
+
 complex type XSDataXscaleParsedOutput extends XSDataResult {
-	total_completeness : XSDataXdsCompletenessEntry
-	completeness_entries : XSDataXdsCompletenessEntry []
+	total_completeness : XSDataXscaleCompletenessEntry
+	completeness_entries : XSDataXscaleCompletenessEntry []
 }
 
 
