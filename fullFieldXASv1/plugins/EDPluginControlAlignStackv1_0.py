@@ -470,14 +470,26 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
             mydict = cls.__dictAbsShift.copy()
         else:
             mydict = cls.__dictRelShift.copy()
+        lstTxt = []
         for i in mydict:
-            EDVerbose.screen("Frame %i relative: %s absolute: %s" % \
-                             (i, cls.__dictRelShift.get(i), cls.__dictAbsShift.get(i)))
+            txt = "Frame %4i:\t" % i
+            rela = cls.__dictRelShift.get(i)
+            abso = cls.__dictAbsShift.get(i)
+            if rela:
+                txt += "relative: (%.3f, %.3f)\t" % rela
+            else:
+                txt += "relative: %12s\t" % rela
+            if abso:
+                txt += "absolute:  (%.3f, %.3f)" % abso
+            else:
+                txt += "absolute:  %12s" % abso
+            lstTxt.append(txt)
+        EDVerbose.screen(os.linesep.join(lstTxt))
         items = EDPluginAccumulatorv1_0.getItems()
         items.sort()
-        EDVerbose.screen("Items in the accumultor: %s" % (items))
+        EDVerbose.screen("Items in the accumulator: %s" % (items))
         querylist = [" "] + [ str(i) for i in EDPluginAccumulatorv1_0.getQueries().keys()]
-        EDVerbose.screen("Queries in the accumultor: " + os.linesep.join(querylist))
+        EDVerbose.screen("Queries in the accumulator: " + os.linesep.join(querylist))
 
 
     @classmethod

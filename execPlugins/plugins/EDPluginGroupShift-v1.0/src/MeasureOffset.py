@@ -135,28 +135,27 @@ class CudaCorrelate(object):
     multconj = None
     ctx = None
     sem = threading.Semaphore()
+    initsem = threading.Semaphore()
 
     def __init__(self, shape):
         self.shape = tuple(shape)
+
     def init(self):
-        with self.__class__.sem:
-            if self.ctx is None:
-                self.__class__.ctx = pycuda.autoinit.context
-            self.ctx.push()
-            if self.shape not in self.__class__.plans:
-                print "Single exec plan"
-                self.__class__.plans[self.shape] = cu_fft.Plan(self.shape, numpy.complex128, numpy.complex128)
-            if self.shape not in self.__class__.data1_gpus:
-                print "Single exec data1"
-                self.__class__.data1_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
-            if self.shape not in self.__class__.data2_gpus:
-                print "Single exec data2"
-                self.__class__.data2_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
-            if not self.__class__.multconj:
-                self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
-            self.ctx.synchronize()
-#            self.ctx.detach()
-            self.ctx.pop()
+        if self.ctx is None:
+            with self.__class__.initsem:
+                if self.ctx is None:
+                    self.__class__.ctx = pycuda.autoinit.context
+                    self.ctx.push()
+                    if self.shape not in self.__class__.plans:
+                        self.__class__.plans[self.shape] = cu_fft.Plan(self.shape, numpy.complex128, numpy.complex128)
+                    if self.shape not in self.__class__.data1_gpus:
+                        self.__class__.data1_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if self.shape not in self.__class__.data2_gpus:
+                        self.__class__.data2_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if not self.__class__.multconj:
+                        self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
+                    self.ctx.synchronize()
+                    self.ctx.pop()
     def correlate(self, data1, data2):
         self.init()
         with self.__class__.sem:
@@ -164,28 +163,17 @@ class CudaCorrelate(object):
             plan = self.__class__.plans[self.shape]
             data1_gpu = self.__class__.data1_gpus[self.shape]
             data2_gpu = self.__class__.data2_gpus[self.shape]
-            print data1_gpu.ptr, data2_gpu.ptr, plan
             data1_gpu.set(data1.astype(numpy.complex128))
             cu_fft.fft(data1_gpu, data1_gpu, plan)
-
-            print data1_gpu.ptr, data2_gpu.ptr, plan
             data2_gpu.set(data2.astype(numpy.complex128))
             cu_fft.fft(data2_gpu, data2_gpu, plan)
     #            data1_gpu *= data2_gpu.conj()
             self.multconj(data1_gpu, data2_gpu)
             cu_fft.ifft(data1_gpu, data1_gpu, plan, True)
-            res = data1_gpu.real.get()
-            print data1_gpu.ptr, data2_gpu.ptr, plan
-            self.ctx.synchronize()
-#            self.ctx.detach()
+#            self.ctx.synchronize()
+            res = data1_gpu.get().real
             self.ctx.pop()
         return res
-    def dummy(self):
-        self.init()
-        print "%s, %s" % (self.ctx, pycuda.autoinit.context)
-
-#    def __del__(self):
-#        gc.collect()
 
 def measure_offset(img1, img2, method="fftw", withLog=False):
     """
@@ -221,22 +209,6 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         with sem:
             cuda_correlate = CudaCorrelate(shape)
             res = cuda_correlate.correlate(img1, img2)
-#            plan = cu_fft.Plan(shape, numpy.complex128, numpy.complex128)
-#            data1_gpu = gpuarray.to_gpu(img1.astype(numpy.complex128))#, allocator=pycuda.autoinit.device.mem_alloc())
-#            data2_gpu = gpuarray.to_gpu(img2.astype(numpy.complex128))#, allocator=pycuda.autoinit.device.mem_alloc())
-#            cu_fft.fft(data1_gpu, data1_gpu, plan)
-#            cu_fft.fft(data2_gpu, data2_gpu, plan)
-##            data1_gpu *= data2_gpu.conj()
-#            ew1 = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
-#            ew1(data1_gpu, data2_gpu)
-#            del ew1
-#            data2_gpu.allocator.stop_holding()
-#            cu_fft.ifft(data1_gpu, data1_gpu, plan, True)
-#            res = data1_gpu.real.get()
-#            data1_gpu.allocator.stop_holding()
-#            del data1_gpu, data2_gpu
-#            del plan
-#            gc.collect()
     else:#use numpy fftpack
         i1f = numpy.fft.fft2(img1)
         i2f = numpy.fft.fft2(img2)

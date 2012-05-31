@@ -69,7 +69,6 @@ else:
     if dirnames != []:
          EDShare.initialize(os.path.join("/buffer", dirnames[0]))
 
-REFERENCE_FRAME_NAME = "reference_frame"
 
 
 EDNAPluginName = "EDPluginControlFullFieldXASv1_0"
@@ -77,6 +76,7 @@ class FullFieldXas(object):
     """
     class for the definition and the storage of the metadata as well as the XML generation. 
     """
+    REFERENCE_FRAME_NAME = "reference_frame"
 
     def __init__(self):
         """Constructor of the class"""
@@ -86,24 +86,23 @@ class FullFieldXas(object):
         self.measureOffset = None
         self.reference = None #
         self.darks = []
-        self.dirname = None #
         self.prefix = None #
         self.suffix = ".edf" #
         self.headers = {}
-        self.exposureTime = {}
         self.normalizedSuffix = None#""#"_norm.edf"
         self.flatPrefix = None
-        self.iLinewidth = 50
+        self._iLinewidth = 50
         self.listInput = []
         self.bNewerOnly = False
         self.strMode = "OffLine"
         self.dontAlign = None
-        self.iErrCount = 0
+        self._lstErrorFile = []
         self.lstSubscanSize = None
         self.fScaleData = None
         self.fScaleDark = None
         self.fScaleFlat = None
-
+        self._xsdDataMeasureOffset = None
+        self._xsDataDark = None
 
     def load(self, filename):
         """
@@ -157,8 +156,8 @@ class FullFieldXas(object):
         for k, v in self.__dict__.items():
             if k == "headers":
                 dumpdic[k] = {}
-            elif "__call__" in dir(v):
-                 continue
+            elif k.startswith("_") or ("__call__" in dir(v)):
+                continue
             else:
                 dumpdic[k] = v
         with open(filename, "w") as dumpfile:
@@ -204,10 +203,10 @@ class FullFieldXas(object):
         @param txt: text to be displayed
         @return: string
         """
-        if len(txt) > self.iLinewidth:
-            self.iLinewidth = len(txt)
+        if len(txt) > self._iLinewidth:
+            self._iLinewidth = len(txt)
         else:
-            txt = txt.ljust(self.iLinewidth)
+            txt = txt.ljust(self._iLinewidth)
         return raw_input(txt).strip()
 
     def readInputDir(self, _listInput):
@@ -577,8 +576,6 @@ class FullFieldXas(object):
                 if started:
                     number += i
 
-
-#            print basename, self.prefix, extendedPrefix, subScanDigit
             if not subScanDigit:
                 print("ERROR: no index guessed !!!")
                 return ""
@@ -600,7 +597,6 @@ class FullFieldXas(object):
                 if started:
                     number += i
                 index = int(number)
-#        print index
         xsd.index = XSDataInteger(index)
 
         if self.normalizedSuffix:
@@ -612,7 +608,6 @@ class FullFieldXas(object):
 
 
         flatprefix = self.flatPrefix + extendedPrefix
-#        print("%s %s %s" % (flatprefix, self.flatPrefix, extendedPrefix))
         listFlats = []
         for oneFile in os.listdir(dirname):
             if oneFile.startswith(flatprefix) and oneFile.endswith(self.suffix):
@@ -649,55 +644,84 @@ class FullFieldXas(object):
             xsd = strXMLin
         filenames = [ i.path.value for i in xsd.getData()]
         EDVerbose.ERROR("Error in the processing of: \n %s" % "\n".join(filenames))
-        self.iErrCount += 1
+        self._lstErrorFile.append(filenames)
 
 
     def getXSDMeasureOffset(self):
         """
         return MeasureOffset XSData object
         """
-        mo = MeasureOffset()
-        for key in ["alwaysVersusRef", "removeBackground", "sobelFilter" , "useSift"]:
-            if key in self.measureOffset:
-                setattr(mo, key, XSDataBoolean(self.measureOffset[key]))
-        for key in ["cropBorders", "smoothBorders"]:
-            if key in self.measureOffset:
-                setattr(mo, key, [XSDataInteger(i) for i in self.measureOffset[key]])
-        return mo
+        if self._xsdDataMeasureOffset is None:
+            mo = MeasureOffset()
+            for key in ["alwaysVersusRef", "removeBackground", "sobelFilter" , "useSift"]:
+                if key in self.measureOffset:
+                    setattr(mo, key, XSDataBoolean(self.measureOffset[key]))
+            for key in ["cropBorders", "smoothBorders"]:
+                if key in self.measureOffset:
+                    setattr(mo, key, [XSDataInteger(i) for i in self.measureOffset[key]])
+            self._xsdDataMeasureOffset = mo
+        return self._xsdDataMeasureOffset
 
     def getXsdDark(self):
         """
         return XSDataDark object
         """
-        return [XSDataImageExt(path=XSDataString(i["path"]),
-                               exposureTime=XSDataTime(i["exposureTime"]))
-                for i in self.darks]
 
-    @classmethod
-    def uploadReferenceFrame(cls, entry):
+        if self._xsDataDark is None:
+            self._xsDataDark = [XSDataImageExt(path=XSDataString(i["path"]),
+                               exposureTime=XSDataTime(i["exposureTime"]))
+                              for i in self.darks]
+        return self._xsDataDark
+
+    def getNrErrors(self):
+        if self._lstErrorFile != []:
+            EDVerbose.WARNING("Error processing those files:" + os.linesep.join(["\t".join(i) for i in self._lstErrorFile]))
+        return len(self._lstErrorFile)
+
+    def uploadReferenceFrame(self, entry):
         paths = entry.split(":")
         if len(paths) == 1 and os.path.isfile(paths[0]):
             obj = fabio.open(paths[0]).data
             EDVerbose.WARNING("Got reference frame %s via fabio" % entry)
             EDPluginControlAlignStackv1_0.addFrame(-1, obj)
             EDPluginAccumulatorv1_0.addItem(XSDataString("raw -001"))
+            self.updateAttrRefImage(obj)
         elif len(paths) == 2 and os.path.isfile(paths[0]):
             hdf = h5py.File(paths[0])
             if paths[1] in hdf:
                 obj = hdf[paths[1]]
                 if obj.__class__.__name__ == "Group":
-                    if REFERENCE_FRAME_NAME in obj:
-                        EDPluginControlAlignStackv1_0.addFrame(-1, obj[REFERENCE_FRAME_NAME][:])
+                    if self.REFERENCE_FRAME_NAME in obj:
+                        data = obj[self.REFERENCE_FRAME_NAME][:]
+                        EDPluginControlAlignStackv1_0.addFrame(-1, data)
                         EDPluginAccumulatorv1_0.addItem("raw -001")
+                        print data
+                        self.updateAttrRefImage(data)
                     else:
-                        EDVerbose.ERROR("HDF5: No '%s' in group %s from %s" % (REFERENCE_FRAME_NAME, paths[1], paths[0]))
+                        EDVerbose.ERROR("HDF5: No '%s' in group %s from %s" % (self.REFERENCE_FRAME_NAME, paths[1], paths[0]))
                 elif obj.__class__.__name__ == "Dataset":
-                    EDPluginControlAlignStackv1_0.addFrame(-1, obj[:])
+                    data = obj[:]
+                    EDPluginControlAlignStackv1_0.addFrame(-1, data)
                     EDPluginAccumulatorv1_0.addItem(XSDataString("raw -001"))
+                    self.updateAttrRefImage(data)
             else:
                 EDVerbose.ERROR("HDF5: No such internal path %s in %s" % (paths[1], paths[0]))
         else:
             EDVerbose.ERROR("No such entry %s" % entry)
+
+    def updateAttrRefImage(self, data=None):
+        h5grp = EDPluginHDF5StackImagesv10.createStructure(ffx.HDF5, str(self.internalHdf5))
+        with EDPluginHDF5StackImagesv10.getFileLock(ffx.HDF5):
+            if (self.REFERENCE_FRAME_NAME not in h5grp) and (data is not None):
+                h5grp[self.REFERENCE_FRAME_NAME] = data
+            if self.REFERENCE_FRAME_NAME  in h5grp:
+                referenceDS = h5grp[self.REFERENCE_FRAME_NAME ]
+                if isinstance(self.reference, int):
+                    referenceDS.attrs["origin"] = self.reference
+                else:
+                    referenceDS.attrs["origin"] = str(self.reference)
+            else:
+                EDVerbose.WARNING("Reference frame is not in %s:%s attr not updated" % (self.HDF5, self.internalHdf5))
 
 
 
@@ -763,16 +787,11 @@ if __name__ == '__main__':
     edna.runEDNA(ffx.listInput, ffx.strMode , ffx.bNewerOnly)
     EDVerbose.WARNING("Back to main !")
     EDJob.synchronizeAll()
-    with EDPluginHDF5StackImagesv10.getFileLock(ffx.HDF5):
-        try:
-            referenceDS = EDPluginHDF5StackImagesv10.getDataChunk(ffx.HDF5, ffx.internalHdf5 + "/" + REFERENCE_FRAME_NAME)
-            referenceDS.attrs["origin"] = ffx.reference
-        except Exception, error:
-            EDVerbose.ERROR(error)
+    ffx.updateAttrRefImage()
     EDPluginControlAlignStackv1_0.showData()
     if keepShare:
         EDShare.close()
-    elif (ffx.iErrCount == 0) and (not EDVerbose.isVerboseDebug()):
+    elif (ffx.getNrErrors() == 0) and (not EDVerbose.isVerboseDebug()):
         EDVerbose.WARNING("All processing finished successfully: Remove EDShare's big HDF5 file")
         EDShare.close(remove=True)
     else:
