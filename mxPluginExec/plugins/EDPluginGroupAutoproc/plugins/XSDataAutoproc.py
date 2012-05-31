@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu May 31 10:27::17 2012 by EDGenerateDS.
+# Generated Thu May 31 10:55::51 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -442,6 +442,86 @@ class XSDataXdsCompletenessEntry(object):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataXdsCompletenessEntry
+
+class XSDataXscaleCompletenessEntry(XSDataXdsCompletenessEntry):
+    def __init__(self, half_dataset_correlation=None, outer_isig=None, outer_rfactor=None, outer_complete=None, outer_possible=None, outer_unique=None, outer_observed=None, outer_res=None, multiplicity=None):
+        XSDataXdsCompletenessEntry.__init__(self, half_dataset_correlation, outer_isig, outer_rfactor, outer_complete, outer_possible, outer_unique, outer_observed, outer_res)
+    
+    
+        checkType("XSDataXscaleCompletenessEntry", "Constructor of XSDataXscaleCompletenessEntry", multiplicity, "XSDataFloat")
+        self._multiplicity = multiplicity
+    def getMultiplicity(self): return self._multiplicity
+    def setMultiplicity(self, multiplicity):
+        checkType("XSDataXscaleCompletenessEntry", "setMultiplicity", multiplicity, "XSDataFloat")
+        self._multiplicity = multiplicity
+    def delMultiplicity(self): self._multiplicity = None
+    # Properties
+    multiplicity = property(getMultiplicity, setMultiplicity, delMultiplicity, "Property for multiplicity")
+    def export(self, outfile, level, name_='XSDataXscaleCompletenessEntry'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataXscaleCompletenessEntry'):
+        XSDataXdsCompletenessEntry.exportChildren(self, outfile, level, name_)
+        if self._multiplicity is not None:
+            self.multiplicity.export(outfile, level, name_='multiplicity')
+        else:
+            warnEmptyAttribute("multiplicity", "XSDataFloat")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'multiplicity':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setMultiplicity(obj_)
+        XSDataXdsCompletenessEntry.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataXscaleCompletenessEntry" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataXscaleCompletenessEntry' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataXscaleCompletenessEntry is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataXscaleCompletenessEntry.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleCompletenessEntry()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataXscaleCompletenessEntry" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleCompletenessEntry()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataXscaleCompletenessEntry
 
 class XSDataAutoprocMasterInput(XSDataInput):
     def __init__(self, configuration=None, detector_max_res=None, data_collection_id=None, cc_half_cutoff=None, r_value_cutoff=None, isig_cutoff=None, completeness_cutoff=None, res_override=None, input_file=None):
@@ -1357,424 +1437,6 @@ class XSDataRBinsOut(XSDataResult):
     parseFile = staticmethod( parseFile )
 # end class XSDataRBinsOut
 
-class XSDataXdsOutput(XSDataResult):
-    def __init__(self, status=None, xds_run_directory=None, sg_number=None, unit_cell_constants=None, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, coordinates_of_unit_cell_c_axis=None, coordinates_of_unit_cell_b_axis=None, coordinates_of_unit_cell_a_axis=None, crystal_to_detector_distance=None, detector_origin=None, direct_beam_detector_coordinates=None, direct_beam_coordinates=None, crystal_mosaicity=None, total_completeness=None, completeness_entries=None):
-        XSDataResult.__init__(self, status)
-    
-    
-        if completeness_entries is None:
-            self._completeness_entries = []
-        else:
-            checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", completeness_entries, "list")
-            self._completeness_entries = completeness_entries
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", total_completeness, "XSDataXdsCompletenessEntry")
-        self._total_completeness = total_completeness
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", crystal_mosaicity, "XSDataFloat")
-        self._crystal_mosaicity = crystal_mosaicity
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", direct_beam_coordinates, "XSDataVectorDouble")
-        self._direct_beam_coordinates = direct_beam_coordinates
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", direct_beam_detector_coordinates, "XSData2DCoordinates")
-        self._direct_beam_detector_coordinates = direct_beam_detector_coordinates
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", detector_origin, "XSData2DCoordinates")
-        self._detector_origin = detector_origin
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", crystal_to_detector_distance, "XSDataFloat")
-        self._crystal_to_detector_distance = crystal_to_detector_distance
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", coordinates_of_unit_cell_a_axis, "XSDataVectorDouble")
-        self._coordinates_of_unit_cell_a_axis = coordinates_of_unit_cell_a_axis
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", coordinates_of_unit_cell_b_axis, "XSDataVectorDouble")
-        self._coordinates_of_unit_cell_b_axis = coordinates_of_unit_cell_b_axis
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", coordinates_of_unit_cell_c_axis, "XSDataVectorDouble")
-        self._coordinates_of_unit_cell_c_axis = coordinates_of_unit_cell_c_axis
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_a, "XSDataFloat")
-        self._cell_a = cell_a
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_b, "XSDataFloat")
-        self._cell_b = cell_b
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_c, "XSDataFloat")
-        self._cell_c = cell_c
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_alpha, "XSDataFloat")
-        self._cell_alpha = cell_alpha
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_beta, "XSDataFloat")
-        self._cell_beta = cell_beta
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_gamma, "XSDataFloat")
-        self._cell_gamma = cell_gamma
-        if unit_cell_constants is None:
-            self._unit_cell_constants = []
-        else:
-            checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", unit_cell_constants, "list")
-            self._unit_cell_constants = unit_cell_constants
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", sg_number, "XSDataInteger")
-        self._sg_number = sg_number
-        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", xds_run_directory, "XSDataString")
-        self._xds_run_directory = xds_run_directory
-    def getCompleteness_entries(self): return self._completeness_entries
-    def setCompleteness_entries(self, completeness_entries):
-        checkType("XSDataXdsOutput", "setCompleteness_entries", completeness_entries, "list")
-        self._completeness_entries = completeness_entries
-    def delCompleteness_entries(self): self._completeness_entries = None
-    # Properties
-    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
-    def addCompleteness_entries(self, value):
-        checkType("XSDataXdsOutput", "setCompleteness_entries", value, "XSDataXdsCompletenessEntry")
-        self._completeness_entries.append(value)
-    def insertCompleteness_entries(self, index, value):
-        checkType("XSDataXdsOutput", "setCompleteness_entries", value, "XSDataXdsCompletenessEntry")
-        self._completeness_entries[index] = value
-    def getTotal_completeness(self): return self._total_completeness
-    def setTotal_completeness(self, total_completeness):
-        checkType("XSDataXdsOutput", "setTotal_completeness", total_completeness, "XSDataXdsCompletenessEntry")
-        self._total_completeness = total_completeness
-    def delTotal_completeness(self): self._total_completeness = None
-    # Properties
-    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
-    def getCrystal_mosaicity(self): return self._crystal_mosaicity
-    def setCrystal_mosaicity(self, crystal_mosaicity):
-        checkType("XSDataXdsOutput", "setCrystal_mosaicity", crystal_mosaicity, "XSDataFloat")
-        self._crystal_mosaicity = crystal_mosaicity
-    def delCrystal_mosaicity(self): self._crystal_mosaicity = None
-    # Properties
-    crystal_mosaicity = property(getCrystal_mosaicity, setCrystal_mosaicity, delCrystal_mosaicity, "Property for crystal_mosaicity")
-    def getDirect_beam_coordinates(self): return self._direct_beam_coordinates
-    def setDirect_beam_coordinates(self, direct_beam_coordinates):
-        checkType("XSDataXdsOutput", "setDirect_beam_coordinates", direct_beam_coordinates, "XSDataVectorDouble")
-        self._direct_beam_coordinates = direct_beam_coordinates
-    def delDirect_beam_coordinates(self): self._direct_beam_coordinates = None
-    # Properties
-    direct_beam_coordinates = property(getDirect_beam_coordinates, setDirect_beam_coordinates, delDirect_beam_coordinates, "Property for direct_beam_coordinates")
-    def getDirect_beam_detector_coordinates(self): return self._direct_beam_detector_coordinates
-    def setDirect_beam_detector_coordinates(self, direct_beam_detector_coordinates):
-        checkType("XSDataXdsOutput", "setDirect_beam_detector_coordinates", direct_beam_detector_coordinates, "XSData2DCoordinates")
-        self._direct_beam_detector_coordinates = direct_beam_detector_coordinates
-    def delDirect_beam_detector_coordinates(self): self._direct_beam_detector_coordinates = None
-    # Properties
-    direct_beam_detector_coordinates = property(getDirect_beam_detector_coordinates, setDirect_beam_detector_coordinates, delDirect_beam_detector_coordinates, "Property for direct_beam_detector_coordinates")
-    def getDetector_origin(self): return self._detector_origin
-    def setDetector_origin(self, detector_origin):
-        checkType("XSDataXdsOutput", "setDetector_origin", detector_origin, "XSData2DCoordinates")
-        self._detector_origin = detector_origin
-    def delDetector_origin(self): self._detector_origin = None
-    # Properties
-    detector_origin = property(getDetector_origin, setDetector_origin, delDetector_origin, "Property for detector_origin")
-    def getCrystal_to_detector_distance(self): return self._crystal_to_detector_distance
-    def setCrystal_to_detector_distance(self, crystal_to_detector_distance):
-        checkType("XSDataXdsOutput", "setCrystal_to_detector_distance", crystal_to_detector_distance, "XSDataFloat")
-        self._crystal_to_detector_distance = crystal_to_detector_distance
-    def delCrystal_to_detector_distance(self): self._crystal_to_detector_distance = None
-    # Properties
-    crystal_to_detector_distance = property(getCrystal_to_detector_distance, setCrystal_to_detector_distance, delCrystal_to_detector_distance, "Property for crystal_to_detector_distance")
-    def getCoordinates_of_unit_cell_a_axis(self): return self._coordinates_of_unit_cell_a_axis
-    def setCoordinates_of_unit_cell_a_axis(self, coordinates_of_unit_cell_a_axis):
-        checkType("XSDataXdsOutput", "setCoordinates_of_unit_cell_a_axis", coordinates_of_unit_cell_a_axis, "XSDataVectorDouble")
-        self._coordinates_of_unit_cell_a_axis = coordinates_of_unit_cell_a_axis
-    def delCoordinates_of_unit_cell_a_axis(self): self._coordinates_of_unit_cell_a_axis = None
-    # Properties
-    coordinates_of_unit_cell_a_axis = property(getCoordinates_of_unit_cell_a_axis, setCoordinates_of_unit_cell_a_axis, delCoordinates_of_unit_cell_a_axis, "Property for coordinates_of_unit_cell_a_axis")
-    def getCoordinates_of_unit_cell_b_axis(self): return self._coordinates_of_unit_cell_b_axis
-    def setCoordinates_of_unit_cell_b_axis(self, coordinates_of_unit_cell_b_axis):
-        checkType("XSDataXdsOutput", "setCoordinates_of_unit_cell_b_axis", coordinates_of_unit_cell_b_axis, "XSDataVectorDouble")
-        self._coordinates_of_unit_cell_b_axis = coordinates_of_unit_cell_b_axis
-    def delCoordinates_of_unit_cell_b_axis(self): self._coordinates_of_unit_cell_b_axis = None
-    # Properties
-    coordinates_of_unit_cell_b_axis = property(getCoordinates_of_unit_cell_b_axis, setCoordinates_of_unit_cell_b_axis, delCoordinates_of_unit_cell_b_axis, "Property for coordinates_of_unit_cell_b_axis")
-    def getCoordinates_of_unit_cell_c_axis(self): return self._coordinates_of_unit_cell_c_axis
-    def setCoordinates_of_unit_cell_c_axis(self, coordinates_of_unit_cell_c_axis):
-        checkType("XSDataXdsOutput", "setCoordinates_of_unit_cell_c_axis", coordinates_of_unit_cell_c_axis, "XSDataVectorDouble")
-        self._coordinates_of_unit_cell_c_axis = coordinates_of_unit_cell_c_axis
-    def delCoordinates_of_unit_cell_c_axis(self): self._coordinates_of_unit_cell_c_axis = None
-    # Properties
-    coordinates_of_unit_cell_c_axis = property(getCoordinates_of_unit_cell_c_axis, setCoordinates_of_unit_cell_c_axis, delCoordinates_of_unit_cell_c_axis, "Property for coordinates_of_unit_cell_c_axis")
-    def getCell_a(self): return self._cell_a
-    def setCell_a(self, cell_a):
-        checkType("XSDataXdsOutput", "setCell_a", cell_a, "XSDataFloat")
-        self._cell_a = cell_a
-    def delCell_a(self): self._cell_a = None
-    # Properties
-    cell_a = property(getCell_a, setCell_a, delCell_a, "Property for cell_a")
-    def getCell_b(self): return self._cell_b
-    def setCell_b(self, cell_b):
-        checkType("XSDataXdsOutput", "setCell_b", cell_b, "XSDataFloat")
-        self._cell_b = cell_b
-    def delCell_b(self): self._cell_b = None
-    # Properties
-    cell_b = property(getCell_b, setCell_b, delCell_b, "Property for cell_b")
-    def getCell_c(self): return self._cell_c
-    def setCell_c(self, cell_c):
-        checkType("XSDataXdsOutput", "setCell_c", cell_c, "XSDataFloat")
-        self._cell_c = cell_c
-    def delCell_c(self): self._cell_c = None
-    # Properties
-    cell_c = property(getCell_c, setCell_c, delCell_c, "Property for cell_c")
-    def getCell_alpha(self): return self._cell_alpha
-    def setCell_alpha(self, cell_alpha):
-        checkType("XSDataXdsOutput", "setCell_alpha", cell_alpha, "XSDataFloat")
-        self._cell_alpha = cell_alpha
-    def delCell_alpha(self): self._cell_alpha = None
-    # Properties
-    cell_alpha = property(getCell_alpha, setCell_alpha, delCell_alpha, "Property for cell_alpha")
-    def getCell_beta(self): return self._cell_beta
-    def setCell_beta(self, cell_beta):
-        checkType("XSDataXdsOutput", "setCell_beta", cell_beta, "XSDataFloat")
-        self._cell_beta = cell_beta
-    def delCell_beta(self): self._cell_beta = None
-    # Properties
-    cell_beta = property(getCell_beta, setCell_beta, delCell_beta, "Property for cell_beta")
-    def getCell_gamma(self): return self._cell_gamma
-    def setCell_gamma(self, cell_gamma):
-        checkType("XSDataXdsOutput", "setCell_gamma", cell_gamma, "XSDataFloat")
-        self._cell_gamma = cell_gamma
-    def delCell_gamma(self): self._cell_gamma = None
-    # Properties
-    cell_gamma = property(getCell_gamma, setCell_gamma, delCell_gamma, "Property for cell_gamma")
-    def getUnit_cell_constants(self): return self._unit_cell_constants
-    def setUnit_cell_constants(self, unit_cell_constants):
-        checkType("XSDataXdsOutput", "setUnit_cell_constants", unit_cell_constants, "list")
-        self._unit_cell_constants = unit_cell_constants
-    def delUnit_cell_constants(self): self._unit_cell_constants = None
-    # Properties
-    unit_cell_constants = property(getUnit_cell_constants, setUnit_cell_constants, delUnit_cell_constants, "Property for unit_cell_constants")
-    def addUnit_cell_constants(self, value):
-        checkType("XSDataXdsOutput", "setUnit_cell_constants", value, "XSDataFloat")
-        self._unit_cell_constants.append(value)
-    def insertUnit_cell_constants(self, index, value):
-        checkType("XSDataXdsOutput", "setUnit_cell_constants", value, "XSDataFloat")
-        self._unit_cell_constants[index] = value
-    def getSg_number(self): return self._sg_number
-    def setSg_number(self, sg_number):
-        checkType("XSDataXdsOutput", "setSg_number", sg_number, "XSDataInteger")
-        self._sg_number = sg_number
-    def delSg_number(self): self._sg_number = None
-    # Properties
-    sg_number = property(getSg_number, setSg_number, delSg_number, "Property for sg_number")
-    def getXds_run_directory(self): return self._xds_run_directory
-    def setXds_run_directory(self, xds_run_directory):
-        checkType("XSDataXdsOutput", "setXds_run_directory", xds_run_directory, "XSDataString")
-        self._xds_run_directory = xds_run_directory
-    def delXds_run_directory(self): self._xds_run_directory = None
-    # Properties
-    xds_run_directory = property(getXds_run_directory, setXds_run_directory, delXds_run_directory, "Property for xds_run_directory")
-    def export(self, outfile, level, name_='XSDataXdsOutput'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataXdsOutput'):
-        XSDataResult.exportChildren(self, outfile, level, name_)
-        for completeness_entries_ in self.getCompleteness_entries():
-            completeness_entries_.export(outfile, level, name_='completeness_entries')
-        if self.getCompleteness_entries() == []:
-            warnEmptyAttribute("completeness_entries", "XSDataXdsCompletenessEntry")
-        if self._total_completeness is not None:
-            self.total_completeness.export(outfile, level, name_='total_completeness')
-        else:
-            warnEmptyAttribute("total_completeness", "XSDataXdsCompletenessEntry")
-        if self._crystal_mosaicity is not None:
-            self.crystal_mosaicity.export(outfile, level, name_='crystal_mosaicity')
-        else:
-            warnEmptyAttribute("crystal_mosaicity", "XSDataFloat")
-        if self._direct_beam_coordinates is not None:
-            self.direct_beam_coordinates.export(outfile, level, name_='direct_beam_coordinates')
-        else:
-            warnEmptyAttribute("direct_beam_coordinates", "XSDataVectorDouble")
-        if self._direct_beam_detector_coordinates is not None:
-            self.direct_beam_detector_coordinates.export(outfile, level, name_='direct_beam_detector_coordinates')
-        else:
-            warnEmptyAttribute("direct_beam_detector_coordinates", "XSData2DCoordinates")
-        if self._detector_origin is not None:
-            self.detector_origin.export(outfile, level, name_='detector_origin')
-        else:
-            warnEmptyAttribute("detector_origin", "XSData2DCoordinates")
-        if self._crystal_to_detector_distance is not None:
-            self.crystal_to_detector_distance.export(outfile, level, name_='crystal_to_detector_distance')
-        else:
-            warnEmptyAttribute("crystal_to_detector_distance", "XSDataFloat")
-        if self._coordinates_of_unit_cell_a_axis is not None:
-            self.coordinates_of_unit_cell_a_axis.export(outfile, level, name_='coordinates_of_unit_cell_a_axis')
-        else:
-            warnEmptyAttribute("coordinates_of_unit_cell_a_axis", "XSDataVectorDouble")
-        if self._coordinates_of_unit_cell_b_axis is not None:
-            self.coordinates_of_unit_cell_b_axis.export(outfile, level, name_='coordinates_of_unit_cell_b_axis')
-        else:
-            warnEmptyAttribute("coordinates_of_unit_cell_b_axis", "XSDataVectorDouble")
-        if self._coordinates_of_unit_cell_c_axis is not None:
-            self.coordinates_of_unit_cell_c_axis.export(outfile, level, name_='coordinates_of_unit_cell_c_axis')
-        else:
-            warnEmptyAttribute("coordinates_of_unit_cell_c_axis", "XSDataVectorDouble")
-        if self._cell_a is not None:
-            self.cell_a.export(outfile, level, name_='cell_a')
-        else:
-            warnEmptyAttribute("cell_a", "XSDataFloat")
-        if self._cell_b is not None:
-            self.cell_b.export(outfile, level, name_='cell_b')
-        else:
-            warnEmptyAttribute("cell_b", "XSDataFloat")
-        if self._cell_c is not None:
-            self.cell_c.export(outfile, level, name_='cell_c')
-        else:
-            warnEmptyAttribute("cell_c", "XSDataFloat")
-        if self._cell_alpha is not None:
-            self.cell_alpha.export(outfile, level, name_='cell_alpha')
-        else:
-            warnEmptyAttribute("cell_alpha", "XSDataFloat")
-        if self._cell_beta is not None:
-            self.cell_beta.export(outfile, level, name_='cell_beta')
-        else:
-            warnEmptyAttribute("cell_beta", "XSDataFloat")
-        if self._cell_gamma is not None:
-            self.cell_gamma.export(outfile, level, name_='cell_gamma')
-        else:
-            warnEmptyAttribute("cell_gamma", "XSDataFloat")
-        for unit_cell_constants_ in self.getUnit_cell_constants():
-            unit_cell_constants_.export(outfile, level, name_='unit_cell_constants')
-        if self._sg_number is not None:
-            self.sg_number.export(outfile, level, name_='sg_number')
-        if self._xds_run_directory is not None:
-            self.xds_run_directory.export(outfile, level, name_='xds_run_directory')
-        else:
-            warnEmptyAttribute("xds_run_directory", "XSDataString")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'completeness_entries':
-            obj_ = XSDataXdsCompletenessEntry()
-            obj_.build(child_)
-            self.completeness_entries.append(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'total_completeness':
-            obj_ = XSDataXdsCompletenessEntry()
-            obj_.build(child_)
-            self.setTotal_completeness(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'crystal_mosaicity':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCrystal_mosaicity(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'direct_beam_coordinates':
-            obj_ = XSDataVectorDouble()
-            obj_.build(child_)
-            self.setDirect_beam_coordinates(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'direct_beam_detector_coordinates':
-            obj_ = XSData2DCoordinates()
-            obj_.build(child_)
-            self.setDirect_beam_detector_coordinates(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'detector_origin':
-            obj_ = XSData2DCoordinates()
-            obj_.build(child_)
-            self.setDetector_origin(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'crystal_to_detector_distance':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCrystal_to_detector_distance(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'coordinates_of_unit_cell_a_axis':
-            obj_ = XSDataVectorDouble()
-            obj_.build(child_)
-            self.setCoordinates_of_unit_cell_a_axis(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'coordinates_of_unit_cell_b_axis':
-            obj_ = XSDataVectorDouble()
-            obj_.build(child_)
-            self.setCoordinates_of_unit_cell_b_axis(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'coordinates_of_unit_cell_c_axis':
-            obj_ = XSDataVectorDouble()
-            obj_.build(child_)
-            self.setCoordinates_of_unit_cell_c_axis(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'cell_a':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCell_a(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'cell_b':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCell_b(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'cell_c':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCell_c(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'cell_alpha':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCell_alpha(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'cell_beta':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCell_beta(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'cell_gamma':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setCell_gamma(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'unit_cell_constants':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.unit_cell_constants.append(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'sg_number':
-            obj_ = XSDataInteger()
-            obj_.build(child_)
-            self.setSg_number(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'xds_run_directory':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setXds_run_directory(obj_)
-        XSDataResult.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataXdsOutput" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataXdsOutput' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataXdsOutput is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataXdsOutput.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataXdsOutput()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataXdsOutput" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataXdsOutput()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataXdsOutput
-
 class XSDataResCutoff(XSDataInput):
     def __init__(self, configuration=None, cc_half_cutoff=None, r_value_cutoff=None, isig_cutoff=None, completeness_cutoff=None, res_override=None, total_completeness=None, detector_max_res=None, completeness_entries=None, xds_res=None):
         XSDataInput.__init__(self, configuration)
@@ -2407,6 +2069,424 @@ class XSDataXdsGenerateOutput(XSDataResult):
     parseFile = staticmethod( parseFile )
 # end class XSDataXdsGenerateOutput
 
+class XSDataXdsOutput(XSDataResult):
+    def __init__(self, status=None, xds_run_directory=None, sg_number=None, unit_cell_constants=None, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, coordinates_of_unit_cell_c_axis=None, coordinates_of_unit_cell_b_axis=None, coordinates_of_unit_cell_a_axis=None, crystal_to_detector_distance=None, detector_origin=None, direct_beam_detector_coordinates=None, direct_beam_coordinates=None, crystal_mosaicity=None, total_completeness=None, completeness_entries=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        if completeness_entries is None:
+            self._completeness_entries = []
+        else:
+            checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", completeness_entries, "list")
+            self._completeness_entries = completeness_entries
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", total_completeness, "XSDataXdsCompletenessEntry")
+        self._total_completeness = total_completeness
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", crystal_mosaicity, "XSDataFloat")
+        self._crystal_mosaicity = crystal_mosaicity
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", direct_beam_coordinates, "XSDataVectorDouble")
+        self._direct_beam_coordinates = direct_beam_coordinates
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", direct_beam_detector_coordinates, "XSData2DCoordinates")
+        self._direct_beam_detector_coordinates = direct_beam_detector_coordinates
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", detector_origin, "XSData2DCoordinates")
+        self._detector_origin = detector_origin
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", crystal_to_detector_distance, "XSDataFloat")
+        self._crystal_to_detector_distance = crystal_to_detector_distance
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", coordinates_of_unit_cell_a_axis, "XSDataVectorDouble")
+        self._coordinates_of_unit_cell_a_axis = coordinates_of_unit_cell_a_axis
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", coordinates_of_unit_cell_b_axis, "XSDataVectorDouble")
+        self._coordinates_of_unit_cell_b_axis = coordinates_of_unit_cell_b_axis
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", coordinates_of_unit_cell_c_axis, "XSDataVectorDouble")
+        self._coordinates_of_unit_cell_c_axis = coordinates_of_unit_cell_c_axis
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_a, "XSDataFloat")
+        self._cell_a = cell_a
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_b, "XSDataFloat")
+        self._cell_b = cell_b
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_c, "XSDataFloat")
+        self._cell_c = cell_c
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_alpha, "XSDataFloat")
+        self._cell_alpha = cell_alpha
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_beta, "XSDataFloat")
+        self._cell_beta = cell_beta
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", cell_gamma, "XSDataFloat")
+        self._cell_gamma = cell_gamma
+        if unit_cell_constants is None:
+            self._unit_cell_constants = []
+        else:
+            checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", unit_cell_constants, "list")
+            self._unit_cell_constants = unit_cell_constants
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", sg_number, "XSDataInteger")
+        self._sg_number = sg_number
+        checkType("XSDataXdsOutput", "Constructor of XSDataXdsOutput", xds_run_directory, "XSDataString")
+        self._xds_run_directory = xds_run_directory
+    def getCompleteness_entries(self): return self._completeness_entries
+    def setCompleteness_entries(self, completeness_entries):
+        checkType("XSDataXdsOutput", "setCompleteness_entries", completeness_entries, "list")
+        self._completeness_entries = completeness_entries
+    def delCompleteness_entries(self): self._completeness_entries = None
+    # Properties
+    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
+    def addCompleteness_entries(self, value):
+        checkType("XSDataXdsOutput", "setCompleteness_entries", value, "XSDataXdsCompletenessEntry")
+        self._completeness_entries.append(value)
+    def insertCompleteness_entries(self, index, value):
+        checkType("XSDataXdsOutput", "setCompleteness_entries", value, "XSDataXdsCompletenessEntry")
+        self._completeness_entries[index] = value
+    def getTotal_completeness(self): return self._total_completeness
+    def setTotal_completeness(self, total_completeness):
+        checkType("XSDataXdsOutput", "setTotal_completeness", total_completeness, "XSDataXdsCompletenessEntry")
+        self._total_completeness = total_completeness
+    def delTotal_completeness(self): self._total_completeness = None
+    # Properties
+    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
+    def getCrystal_mosaicity(self): return self._crystal_mosaicity
+    def setCrystal_mosaicity(self, crystal_mosaicity):
+        checkType("XSDataXdsOutput", "setCrystal_mosaicity", crystal_mosaicity, "XSDataFloat")
+        self._crystal_mosaicity = crystal_mosaicity
+    def delCrystal_mosaicity(self): self._crystal_mosaicity = None
+    # Properties
+    crystal_mosaicity = property(getCrystal_mosaicity, setCrystal_mosaicity, delCrystal_mosaicity, "Property for crystal_mosaicity")
+    def getDirect_beam_coordinates(self): return self._direct_beam_coordinates
+    def setDirect_beam_coordinates(self, direct_beam_coordinates):
+        checkType("XSDataXdsOutput", "setDirect_beam_coordinates", direct_beam_coordinates, "XSDataVectorDouble")
+        self._direct_beam_coordinates = direct_beam_coordinates
+    def delDirect_beam_coordinates(self): self._direct_beam_coordinates = None
+    # Properties
+    direct_beam_coordinates = property(getDirect_beam_coordinates, setDirect_beam_coordinates, delDirect_beam_coordinates, "Property for direct_beam_coordinates")
+    def getDirect_beam_detector_coordinates(self): return self._direct_beam_detector_coordinates
+    def setDirect_beam_detector_coordinates(self, direct_beam_detector_coordinates):
+        checkType("XSDataXdsOutput", "setDirect_beam_detector_coordinates", direct_beam_detector_coordinates, "XSData2DCoordinates")
+        self._direct_beam_detector_coordinates = direct_beam_detector_coordinates
+    def delDirect_beam_detector_coordinates(self): self._direct_beam_detector_coordinates = None
+    # Properties
+    direct_beam_detector_coordinates = property(getDirect_beam_detector_coordinates, setDirect_beam_detector_coordinates, delDirect_beam_detector_coordinates, "Property for direct_beam_detector_coordinates")
+    def getDetector_origin(self): return self._detector_origin
+    def setDetector_origin(self, detector_origin):
+        checkType("XSDataXdsOutput", "setDetector_origin", detector_origin, "XSData2DCoordinates")
+        self._detector_origin = detector_origin
+    def delDetector_origin(self): self._detector_origin = None
+    # Properties
+    detector_origin = property(getDetector_origin, setDetector_origin, delDetector_origin, "Property for detector_origin")
+    def getCrystal_to_detector_distance(self): return self._crystal_to_detector_distance
+    def setCrystal_to_detector_distance(self, crystal_to_detector_distance):
+        checkType("XSDataXdsOutput", "setCrystal_to_detector_distance", crystal_to_detector_distance, "XSDataFloat")
+        self._crystal_to_detector_distance = crystal_to_detector_distance
+    def delCrystal_to_detector_distance(self): self._crystal_to_detector_distance = None
+    # Properties
+    crystal_to_detector_distance = property(getCrystal_to_detector_distance, setCrystal_to_detector_distance, delCrystal_to_detector_distance, "Property for crystal_to_detector_distance")
+    def getCoordinates_of_unit_cell_a_axis(self): return self._coordinates_of_unit_cell_a_axis
+    def setCoordinates_of_unit_cell_a_axis(self, coordinates_of_unit_cell_a_axis):
+        checkType("XSDataXdsOutput", "setCoordinates_of_unit_cell_a_axis", coordinates_of_unit_cell_a_axis, "XSDataVectorDouble")
+        self._coordinates_of_unit_cell_a_axis = coordinates_of_unit_cell_a_axis
+    def delCoordinates_of_unit_cell_a_axis(self): self._coordinates_of_unit_cell_a_axis = None
+    # Properties
+    coordinates_of_unit_cell_a_axis = property(getCoordinates_of_unit_cell_a_axis, setCoordinates_of_unit_cell_a_axis, delCoordinates_of_unit_cell_a_axis, "Property for coordinates_of_unit_cell_a_axis")
+    def getCoordinates_of_unit_cell_b_axis(self): return self._coordinates_of_unit_cell_b_axis
+    def setCoordinates_of_unit_cell_b_axis(self, coordinates_of_unit_cell_b_axis):
+        checkType("XSDataXdsOutput", "setCoordinates_of_unit_cell_b_axis", coordinates_of_unit_cell_b_axis, "XSDataVectorDouble")
+        self._coordinates_of_unit_cell_b_axis = coordinates_of_unit_cell_b_axis
+    def delCoordinates_of_unit_cell_b_axis(self): self._coordinates_of_unit_cell_b_axis = None
+    # Properties
+    coordinates_of_unit_cell_b_axis = property(getCoordinates_of_unit_cell_b_axis, setCoordinates_of_unit_cell_b_axis, delCoordinates_of_unit_cell_b_axis, "Property for coordinates_of_unit_cell_b_axis")
+    def getCoordinates_of_unit_cell_c_axis(self): return self._coordinates_of_unit_cell_c_axis
+    def setCoordinates_of_unit_cell_c_axis(self, coordinates_of_unit_cell_c_axis):
+        checkType("XSDataXdsOutput", "setCoordinates_of_unit_cell_c_axis", coordinates_of_unit_cell_c_axis, "XSDataVectorDouble")
+        self._coordinates_of_unit_cell_c_axis = coordinates_of_unit_cell_c_axis
+    def delCoordinates_of_unit_cell_c_axis(self): self._coordinates_of_unit_cell_c_axis = None
+    # Properties
+    coordinates_of_unit_cell_c_axis = property(getCoordinates_of_unit_cell_c_axis, setCoordinates_of_unit_cell_c_axis, delCoordinates_of_unit_cell_c_axis, "Property for coordinates_of_unit_cell_c_axis")
+    def getCell_a(self): return self._cell_a
+    def setCell_a(self, cell_a):
+        checkType("XSDataXdsOutput", "setCell_a", cell_a, "XSDataFloat")
+        self._cell_a = cell_a
+    def delCell_a(self): self._cell_a = None
+    # Properties
+    cell_a = property(getCell_a, setCell_a, delCell_a, "Property for cell_a")
+    def getCell_b(self): return self._cell_b
+    def setCell_b(self, cell_b):
+        checkType("XSDataXdsOutput", "setCell_b", cell_b, "XSDataFloat")
+        self._cell_b = cell_b
+    def delCell_b(self): self._cell_b = None
+    # Properties
+    cell_b = property(getCell_b, setCell_b, delCell_b, "Property for cell_b")
+    def getCell_c(self): return self._cell_c
+    def setCell_c(self, cell_c):
+        checkType("XSDataXdsOutput", "setCell_c", cell_c, "XSDataFloat")
+        self._cell_c = cell_c
+    def delCell_c(self): self._cell_c = None
+    # Properties
+    cell_c = property(getCell_c, setCell_c, delCell_c, "Property for cell_c")
+    def getCell_alpha(self): return self._cell_alpha
+    def setCell_alpha(self, cell_alpha):
+        checkType("XSDataXdsOutput", "setCell_alpha", cell_alpha, "XSDataFloat")
+        self._cell_alpha = cell_alpha
+    def delCell_alpha(self): self._cell_alpha = None
+    # Properties
+    cell_alpha = property(getCell_alpha, setCell_alpha, delCell_alpha, "Property for cell_alpha")
+    def getCell_beta(self): return self._cell_beta
+    def setCell_beta(self, cell_beta):
+        checkType("XSDataXdsOutput", "setCell_beta", cell_beta, "XSDataFloat")
+        self._cell_beta = cell_beta
+    def delCell_beta(self): self._cell_beta = None
+    # Properties
+    cell_beta = property(getCell_beta, setCell_beta, delCell_beta, "Property for cell_beta")
+    def getCell_gamma(self): return self._cell_gamma
+    def setCell_gamma(self, cell_gamma):
+        checkType("XSDataXdsOutput", "setCell_gamma", cell_gamma, "XSDataFloat")
+        self._cell_gamma = cell_gamma
+    def delCell_gamma(self): self._cell_gamma = None
+    # Properties
+    cell_gamma = property(getCell_gamma, setCell_gamma, delCell_gamma, "Property for cell_gamma")
+    def getUnit_cell_constants(self): return self._unit_cell_constants
+    def setUnit_cell_constants(self, unit_cell_constants):
+        checkType("XSDataXdsOutput", "setUnit_cell_constants", unit_cell_constants, "list")
+        self._unit_cell_constants = unit_cell_constants
+    def delUnit_cell_constants(self): self._unit_cell_constants = None
+    # Properties
+    unit_cell_constants = property(getUnit_cell_constants, setUnit_cell_constants, delUnit_cell_constants, "Property for unit_cell_constants")
+    def addUnit_cell_constants(self, value):
+        checkType("XSDataXdsOutput", "setUnit_cell_constants", value, "XSDataFloat")
+        self._unit_cell_constants.append(value)
+    def insertUnit_cell_constants(self, index, value):
+        checkType("XSDataXdsOutput", "setUnit_cell_constants", value, "XSDataFloat")
+        self._unit_cell_constants[index] = value
+    def getSg_number(self): return self._sg_number
+    def setSg_number(self, sg_number):
+        checkType("XSDataXdsOutput", "setSg_number", sg_number, "XSDataInteger")
+        self._sg_number = sg_number
+    def delSg_number(self): self._sg_number = None
+    # Properties
+    sg_number = property(getSg_number, setSg_number, delSg_number, "Property for sg_number")
+    def getXds_run_directory(self): return self._xds_run_directory
+    def setXds_run_directory(self, xds_run_directory):
+        checkType("XSDataXdsOutput", "setXds_run_directory", xds_run_directory, "XSDataString")
+        self._xds_run_directory = xds_run_directory
+    def delXds_run_directory(self): self._xds_run_directory = None
+    # Properties
+    xds_run_directory = property(getXds_run_directory, setXds_run_directory, delXds_run_directory, "Property for xds_run_directory")
+    def export(self, outfile, level, name_='XSDataXdsOutput'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataXdsOutput'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        for completeness_entries_ in self.getCompleteness_entries():
+            completeness_entries_.export(outfile, level, name_='completeness_entries')
+        if self.getCompleteness_entries() == []:
+            warnEmptyAttribute("completeness_entries", "XSDataXdsCompletenessEntry")
+        if self._total_completeness is not None:
+            self.total_completeness.export(outfile, level, name_='total_completeness')
+        else:
+            warnEmptyAttribute("total_completeness", "XSDataXdsCompletenessEntry")
+        if self._crystal_mosaicity is not None:
+            self.crystal_mosaicity.export(outfile, level, name_='crystal_mosaicity')
+        else:
+            warnEmptyAttribute("crystal_mosaicity", "XSDataFloat")
+        if self._direct_beam_coordinates is not None:
+            self.direct_beam_coordinates.export(outfile, level, name_='direct_beam_coordinates')
+        else:
+            warnEmptyAttribute("direct_beam_coordinates", "XSDataVectorDouble")
+        if self._direct_beam_detector_coordinates is not None:
+            self.direct_beam_detector_coordinates.export(outfile, level, name_='direct_beam_detector_coordinates')
+        else:
+            warnEmptyAttribute("direct_beam_detector_coordinates", "XSData2DCoordinates")
+        if self._detector_origin is not None:
+            self.detector_origin.export(outfile, level, name_='detector_origin')
+        else:
+            warnEmptyAttribute("detector_origin", "XSData2DCoordinates")
+        if self._crystal_to_detector_distance is not None:
+            self.crystal_to_detector_distance.export(outfile, level, name_='crystal_to_detector_distance')
+        else:
+            warnEmptyAttribute("crystal_to_detector_distance", "XSDataFloat")
+        if self._coordinates_of_unit_cell_a_axis is not None:
+            self.coordinates_of_unit_cell_a_axis.export(outfile, level, name_='coordinates_of_unit_cell_a_axis')
+        else:
+            warnEmptyAttribute("coordinates_of_unit_cell_a_axis", "XSDataVectorDouble")
+        if self._coordinates_of_unit_cell_b_axis is not None:
+            self.coordinates_of_unit_cell_b_axis.export(outfile, level, name_='coordinates_of_unit_cell_b_axis')
+        else:
+            warnEmptyAttribute("coordinates_of_unit_cell_b_axis", "XSDataVectorDouble")
+        if self._coordinates_of_unit_cell_c_axis is not None:
+            self.coordinates_of_unit_cell_c_axis.export(outfile, level, name_='coordinates_of_unit_cell_c_axis')
+        else:
+            warnEmptyAttribute("coordinates_of_unit_cell_c_axis", "XSDataVectorDouble")
+        if self._cell_a is not None:
+            self.cell_a.export(outfile, level, name_='cell_a')
+        else:
+            warnEmptyAttribute("cell_a", "XSDataFloat")
+        if self._cell_b is not None:
+            self.cell_b.export(outfile, level, name_='cell_b')
+        else:
+            warnEmptyAttribute("cell_b", "XSDataFloat")
+        if self._cell_c is not None:
+            self.cell_c.export(outfile, level, name_='cell_c')
+        else:
+            warnEmptyAttribute("cell_c", "XSDataFloat")
+        if self._cell_alpha is not None:
+            self.cell_alpha.export(outfile, level, name_='cell_alpha')
+        else:
+            warnEmptyAttribute("cell_alpha", "XSDataFloat")
+        if self._cell_beta is not None:
+            self.cell_beta.export(outfile, level, name_='cell_beta')
+        else:
+            warnEmptyAttribute("cell_beta", "XSDataFloat")
+        if self._cell_gamma is not None:
+            self.cell_gamma.export(outfile, level, name_='cell_gamma')
+        else:
+            warnEmptyAttribute("cell_gamma", "XSDataFloat")
+        for unit_cell_constants_ in self.getUnit_cell_constants():
+            unit_cell_constants_.export(outfile, level, name_='unit_cell_constants')
+        if self._sg_number is not None:
+            self.sg_number.export(outfile, level, name_='sg_number')
+        if self._xds_run_directory is not None:
+            self.xds_run_directory.export(outfile, level, name_='xds_run_directory')
+        else:
+            warnEmptyAttribute("xds_run_directory", "XSDataString")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'completeness_entries':
+            obj_ = XSDataXdsCompletenessEntry()
+            obj_.build(child_)
+            self.completeness_entries.append(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'total_completeness':
+            obj_ = XSDataXdsCompletenessEntry()
+            obj_.build(child_)
+            self.setTotal_completeness(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'crystal_mosaicity':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCrystal_mosaicity(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'direct_beam_coordinates':
+            obj_ = XSDataVectorDouble()
+            obj_.build(child_)
+            self.setDirect_beam_coordinates(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'direct_beam_detector_coordinates':
+            obj_ = XSData2DCoordinates()
+            obj_.build(child_)
+            self.setDirect_beam_detector_coordinates(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'detector_origin':
+            obj_ = XSData2DCoordinates()
+            obj_.build(child_)
+            self.setDetector_origin(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'crystal_to_detector_distance':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCrystal_to_detector_distance(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'coordinates_of_unit_cell_a_axis':
+            obj_ = XSDataVectorDouble()
+            obj_.build(child_)
+            self.setCoordinates_of_unit_cell_a_axis(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'coordinates_of_unit_cell_b_axis':
+            obj_ = XSDataVectorDouble()
+            obj_.build(child_)
+            self.setCoordinates_of_unit_cell_b_axis(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'coordinates_of_unit_cell_c_axis':
+            obj_ = XSDataVectorDouble()
+            obj_.build(child_)
+            self.setCoordinates_of_unit_cell_c_axis(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cell_a':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCell_a(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cell_b':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCell_b(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cell_c':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCell_c(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cell_alpha':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCell_alpha(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cell_beta':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCell_beta(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cell_gamma':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setCell_gamma(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'unit_cell_constants':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.unit_cell_constants.append(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'sg_number':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setSg_number(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'xds_run_directory':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setXds_run_directory(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataXdsOutput" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataXdsOutput' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataXdsOutput is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataXdsOutput.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataXdsOutput()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataXdsOutput" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataXdsOutput()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataXdsOutput
+
 class XSDataXdsOutputFile(XSDataInput):
     def __init__(self, configuration=None, gxparm=None, correct_lp=None):
         XSDataInput.__init__(self, configuration)
@@ -2502,6 +2582,284 @@ class XSDataXdsOutputFile(XSDataInput):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataXdsOutputFile
+
+class XSDataXscaleGeneratedFiles(XSDataResult):
+    def __init__(self, status=None, stats_noanom_unmerged=None, lp_noanom_unmerged=None, hkl_noanom_unmerged=None, stats_anom_unmerged=None, lp_anom_unmerged=None, hkl_anom_unmerged=None, stats_noanom_merged=None, lp_noanom_merged=None, hkl_noanom_merged=None, stats_anom_merged=None, lp_anom_merged=None, hkl_anom_merged=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_anom_merged, "XSDataString")
+        self._hkl_anom_merged = hkl_anom_merged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_anom_merged, "XSDataString")
+        self._lp_anom_merged = lp_anom_merged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_anom_merged, "XSDataXscaleParsedOutput")
+        self._stats_anom_merged = stats_anom_merged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_noanom_merged, "XSDataString")
+        self._hkl_noanom_merged = hkl_noanom_merged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_noanom_merged, "XSDataString")
+        self._lp_noanom_merged = lp_noanom_merged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_noanom_merged, "XSDataXscaleParsedOutput")
+        self._stats_noanom_merged = stats_noanom_merged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_anom_unmerged, "XSDataString")
+        self._hkl_anom_unmerged = hkl_anom_unmerged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_anom_unmerged, "XSDataString")
+        self._lp_anom_unmerged = lp_anom_unmerged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_anom_unmerged, "XSDataXscaleParsedOutput")
+        self._stats_anom_unmerged = stats_anom_unmerged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_noanom_unmerged, "XSDataString")
+        self._hkl_noanom_unmerged = hkl_noanom_unmerged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_noanom_unmerged, "XSDataString")
+        self._lp_noanom_unmerged = lp_noanom_unmerged
+        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_noanom_unmerged, "XSDataXscaleParsedOutput")
+        self._stats_noanom_unmerged = stats_noanom_unmerged
+    def getHkl_anom_merged(self): return self._hkl_anom_merged
+    def setHkl_anom_merged(self, hkl_anom_merged):
+        checkType("XSDataXscaleGeneratedFiles", "setHkl_anom_merged", hkl_anom_merged, "XSDataString")
+        self._hkl_anom_merged = hkl_anom_merged
+    def delHkl_anom_merged(self): self._hkl_anom_merged = None
+    # Properties
+    hkl_anom_merged = property(getHkl_anom_merged, setHkl_anom_merged, delHkl_anom_merged, "Property for hkl_anom_merged")
+    def getLp_anom_merged(self): return self._lp_anom_merged
+    def setLp_anom_merged(self, lp_anom_merged):
+        checkType("XSDataXscaleGeneratedFiles", "setLp_anom_merged", lp_anom_merged, "XSDataString")
+        self._lp_anom_merged = lp_anom_merged
+    def delLp_anom_merged(self): self._lp_anom_merged = None
+    # Properties
+    lp_anom_merged = property(getLp_anom_merged, setLp_anom_merged, delLp_anom_merged, "Property for lp_anom_merged")
+    def getStats_anom_merged(self): return self._stats_anom_merged
+    def setStats_anom_merged(self, stats_anom_merged):
+        checkType("XSDataXscaleGeneratedFiles", "setStats_anom_merged", stats_anom_merged, "XSDataXscaleParsedOutput")
+        self._stats_anom_merged = stats_anom_merged
+    def delStats_anom_merged(self): self._stats_anom_merged = None
+    # Properties
+    stats_anom_merged = property(getStats_anom_merged, setStats_anom_merged, delStats_anom_merged, "Property for stats_anom_merged")
+    def getHkl_noanom_merged(self): return self._hkl_noanom_merged
+    def setHkl_noanom_merged(self, hkl_noanom_merged):
+        checkType("XSDataXscaleGeneratedFiles", "setHkl_noanom_merged", hkl_noanom_merged, "XSDataString")
+        self._hkl_noanom_merged = hkl_noanom_merged
+    def delHkl_noanom_merged(self): self._hkl_noanom_merged = None
+    # Properties
+    hkl_noanom_merged = property(getHkl_noanom_merged, setHkl_noanom_merged, delHkl_noanom_merged, "Property for hkl_noanom_merged")
+    def getLp_noanom_merged(self): return self._lp_noanom_merged
+    def setLp_noanom_merged(self, lp_noanom_merged):
+        checkType("XSDataXscaleGeneratedFiles", "setLp_noanom_merged", lp_noanom_merged, "XSDataString")
+        self._lp_noanom_merged = lp_noanom_merged
+    def delLp_noanom_merged(self): self._lp_noanom_merged = None
+    # Properties
+    lp_noanom_merged = property(getLp_noanom_merged, setLp_noanom_merged, delLp_noanom_merged, "Property for lp_noanom_merged")
+    def getStats_noanom_merged(self): return self._stats_noanom_merged
+    def setStats_noanom_merged(self, stats_noanom_merged):
+        checkType("XSDataXscaleGeneratedFiles", "setStats_noanom_merged", stats_noanom_merged, "XSDataXscaleParsedOutput")
+        self._stats_noanom_merged = stats_noanom_merged
+    def delStats_noanom_merged(self): self._stats_noanom_merged = None
+    # Properties
+    stats_noanom_merged = property(getStats_noanom_merged, setStats_noanom_merged, delStats_noanom_merged, "Property for stats_noanom_merged")
+    def getHkl_anom_unmerged(self): return self._hkl_anom_unmerged
+    def setHkl_anom_unmerged(self, hkl_anom_unmerged):
+        checkType("XSDataXscaleGeneratedFiles", "setHkl_anom_unmerged", hkl_anom_unmerged, "XSDataString")
+        self._hkl_anom_unmerged = hkl_anom_unmerged
+    def delHkl_anom_unmerged(self): self._hkl_anom_unmerged = None
+    # Properties
+    hkl_anom_unmerged = property(getHkl_anom_unmerged, setHkl_anom_unmerged, delHkl_anom_unmerged, "Property for hkl_anom_unmerged")
+    def getLp_anom_unmerged(self): return self._lp_anom_unmerged
+    def setLp_anom_unmerged(self, lp_anom_unmerged):
+        checkType("XSDataXscaleGeneratedFiles", "setLp_anom_unmerged", lp_anom_unmerged, "XSDataString")
+        self._lp_anom_unmerged = lp_anom_unmerged
+    def delLp_anom_unmerged(self): self._lp_anom_unmerged = None
+    # Properties
+    lp_anom_unmerged = property(getLp_anom_unmerged, setLp_anom_unmerged, delLp_anom_unmerged, "Property for lp_anom_unmerged")
+    def getStats_anom_unmerged(self): return self._stats_anom_unmerged
+    def setStats_anom_unmerged(self, stats_anom_unmerged):
+        checkType("XSDataXscaleGeneratedFiles", "setStats_anom_unmerged", stats_anom_unmerged, "XSDataXscaleParsedOutput")
+        self._stats_anom_unmerged = stats_anom_unmerged
+    def delStats_anom_unmerged(self): self._stats_anom_unmerged = None
+    # Properties
+    stats_anom_unmerged = property(getStats_anom_unmerged, setStats_anom_unmerged, delStats_anom_unmerged, "Property for stats_anom_unmerged")
+    def getHkl_noanom_unmerged(self): return self._hkl_noanom_unmerged
+    def setHkl_noanom_unmerged(self, hkl_noanom_unmerged):
+        checkType("XSDataXscaleGeneratedFiles", "setHkl_noanom_unmerged", hkl_noanom_unmerged, "XSDataString")
+        self._hkl_noanom_unmerged = hkl_noanom_unmerged
+    def delHkl_noanom_unmerged(self): self._hkl_noanom_unmerged = None
+    # Properties
+    hkl_noanom_unmerged = property(getHkl_noanom_unmerged, setHkl_noanom_unmerged, delHkl_noanom_unmerged, "Property for hkl_noanom_unmerged")
+    def getLp_noanom_unmerged(self): return self._lp_noanom_unmerged
+    def setLp_noanom_unmerged(self, lp_noanom_unmerged):
+        checkType("XSDataXscaleGeneratedFiles", "setLp_noanom_unmerged", lp_noanom_unmerged, "XSDataString")
+        self._lp_noanom_unmerged = lp_noanom_unmerged
+    def delLp_noanom_unmerged(self): self._lp_noanom_unmerged = None
+    # Properties
+    lp_noanom_unmerged = property(getLp_noanom_unmerged, setLp_noanom_unmerged, delLp_noanom_unmerged, "Property for lp_noanom_unmerged")
+    def getStats_noanom_unmerged(self): return self._stats_noanom_unmerged
+    def setStats_noanom_unmerged(self, stats_noanom_unmerged):
+        checkType("XSDataXscaleGeneratedFiles", "setStats_noanom_unmerged", stats_noanom_unmerged, "XSDataXscaleParsedOutput")
+        self._stats_noanom_unmerged = stats_noanom_unmerged
+    def delStats_noanom_unmerged(self): self._stats_noanom_unmerged = None
+    # Properties
+    stats_noanom_unmerged = property(getStats_noanom_unmerged, setStats_noanom_unmerged, delStats_noanom_unmerged, "Property for stats_noanom_unmerged")
+    def export(self, outfile, level, name_='XSDataXscaleGeneratedFiles'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataXscaleGeneratedFiles'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._hkl_anom_merged is not None:
+            self.hkl_anom_merged.export(outfile, level, name_='hkl_anom_merged')
+        else:
+            warnEmptyAttribute("hkl_anom_merged", "XSDataString")
+        if self._lp_anom_merged is not None:
+            self.lp_anom_merged.export(outfile, level, name_='lp_anom_merged')
+        else:
+            warnEmptyAttribute("lp_anom_merged", "XSDataString")
+        if self._stats_anom_merged is not None:
+            self.stats_anom_merged.export(outfile, level, name_='stats_anom_merged')
+        else:
+            warnEmptyAttribute("stats_anom_merged", "XSDataXscaleParsedOutput")
+        if self._hkl_noanom_merged is not None:
+            self.hkl_noanom_merged.export(outfile, level, name_='hkl_noanom_merged')
+        else:
+            warnEmptyAttribute("hkl_noanom_merged", "XSDataString")
+        if self._lp_noanom_merged is not None:
+            self.lp_noanom_merged.export(outfile, level, name_='lp_noanom_merged')
+        else:
+            warnEmptyAttribute("lp_noanom_merged", "XSDataString")
+        if self._stats_noanom_merged is not None:
+            self.stats_noanom_merged.export(outfile, level, name_='stats_noanom_merged')
+        else:
+            warnEmptyAttribute("stats_noanom_merged", "XSDataXscaleParsedOutput")
+        if self._hkl_anom_unmerged is not None:
+            self.hkl_anom_unmerged.export(outfile, level, name_='hkl_anom_unmerged')
+        else:
+            warnEmptyAttribute("hkl_anom_unmerged", "XSDataString")
+        if self._lp_anom_unmerged is not None:
+            self.lp_anom_unmerged.export(outfile, level, name_='lp_anom_unmerged')
+        else:
+            warnEmptyAttribute("lp_anom_unmerged", "XSDataString")
+        if self._stats_anom_unmerged is not None:
+            self.stats_anom_unmerged.export(outfile, level, name_='stats_anom_unmerged')
+        else:
+            warnEmptyAttribute("stats_anom_unmerged", "XSDataXscaleParsedOutput")
+        if self._hkl_noanom_unmerged is not None:
+            self.hkl_noanom_unmerged.export(outfile, level, name_='hkl_noanom_unmerged')
+        else:
+            warnEmptyAttribute("hkl_noanom_unmerged", "XSDataString")
+        if self._lp_noanom_unmerged is not None:
+            self.lp_noanom_unmerged.export(outfile, level, name_='lp_noanom_unmerged')
+        else:
+            warnEmptyAttribute("lp_noanom_unmerged", "XSDataString")
+        if self._stats_noanom_unmerged is not None:
+            self.stats_noanom_unmerged.export(outfile, level, name_='stats_noanom_unmerged')
+        else:
+            warnEmptyAttribute("stats_noanom_unmerged", "XSDataXscaleParsedOutput")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'hkl_anom_merged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setHkl_anom_merged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'lp_anom_merged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setLp_anom_merged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'stats_anom_merged':
+            obj_ = XSDataXscaleParsedOutput()
+            obj_.build(child_)
+            self.setStats_anom_merged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'hkl_noanom_merged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setHkl_noanom_merged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'lp_noanom_merged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setLp_noanom_merged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'stats_noanom_merged':
+            obj_ = XSDataXscaleParsedOutput()
+            obj_.build(child_)
+            self.setStats_noanom_merged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'hkl_anom_unmerged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setHkl_anom_unmerged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'lp_anom_unmerged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setLp_anom_unmerged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'stats_anom_unmerged':
+            obj_ = XSDataXscaleParsedOutput()
+            obj_.build(child_)
+            self.setStats_anom_unmerged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'hkl_noanom_unmerged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setHkl_noanom_unmerged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'lp_noanom_unmerged':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setLp_noanom_unmerged(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'stats_noanom_unmerged':
+            obj_ = XSDataXscaleParsedOutput()
+            obj_.build(child_)
+            self.setStats_noanom_unmerged(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataXscaleGeneratedFiles" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataXscaleGeneratedFiles' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataXscaleGeneratedFiles is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataXscaleGeneratedFiles.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleGeneratedFiles()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataXscaleGeneratedFiles" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleGeneratedFiles()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataXscaleGeneratedFiles
 
 class XSDataXscaleInputFile(XSDataInput):
     def __init__(self, configuration=None, res=None, path=None):
@@ -2796,391 +3154,6 @@ class XSDataXscaleInput(XSDataInput):
     parseFile = staticmethod( parseFile )
 # end class XSDataXscaleInput
 
-class XSDataXscaleParsedOutput(XSDataResult):
-    def __init__(self, status=None, completeness_entries=None, total_completeness=None):
-        XSDataResult.__init__(self, status)
-    
-    
-        checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", total_completeness, "XSDataXdsCompletenessEntry")
-        self._total_completeness = total_completeness
-        if completeness_entries is None:
-            self._completeness_entries = []
-        else:
-            checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", completeness_entries, "list")
-            self._completeness_entries = completeness_entries
-    def getTotal_completeness(self): return self._total_completeness
-    def setTotal_completeness(self, total_completeness):
-        checkType("XSDataXscaleParsedOutput", "setTotal_completeness", total_completeness, "XSDataXdsCompletenessEntry")
-        self._total_completeness = total_completeness
-    def delTotal_completeness(self): self._total_completeness = None
-    # Properties
-    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
-    def getCompleteness_entries(self): return self._completeness_entries
-    def setCompleteness_entries(self, completeness_entries):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", completeness_entries, "list")
-        self._completeness_entries = completeness_entries
-    def delCompleteness_entries(self): self._completeness_entries = None
-    # Properties
-    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
-    def addCompleteness_entries(self, value):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXdsCompletenessEntry")
-        self._completeness_entries.append(value)
-    def insertCompleteness_entries(self, index, value):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXdsCompletenessEntry")
-        self._completeness_entries[index] = value
-    def export(self, outfile, level, name_='XSDataXscaleParsedOutput'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataXscaleParsedOutput'):
-        XSDataResult.exportChildren(self, outfile, level, name_)
-        if self._total_completeness is not None:
-            self.total_completeness.export(outfile, level, name_='total_completeness')
-        else:
-            warnEmptyAttribute("total_completeness", "XSDataXdsCompletenessEntry")
-        for completeness_entries_ in self.getCompleteness_entries():
-            completeness_entries_.export(outfile, level, name_='completeness_entries')
-        if self.getCompleteness_entries() == []:
-            warnEmptyAttribute("completeness_entries", "XSDataXdsCompletenessEntry")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'total_completeness':
-            obj_ = XSDataXdsCompletenessEntry()
-            obj_.build(child_)
-            self.setTotal_completeness(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'completeness_entries':
-            obj_ = XSDataXdsCompletenessEntry()
-            obj_.build(child_)
-            self.completeness_entries.append(obj_)
-        XSDataResult.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataXscaleParsedOutput' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataXscaleParsedOutput is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataXscaleParsedOutput.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleParsedOutput()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleParsedOutput()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataXscaleParsedOutput
-
-class XSDataXscaleGeneratedFiles(XSDataResult):
-    def __init__(self, status=None, stats_noanom_unmerged=None, lp_noanom_unmerged=None, hkl_noanom_unmerged=None, stats_anom_unmerged=None, lp_anom_unmerged=None, hkl_anom_unmerged=None, stats_noanom_merged=None, lp_noanom_merged=None, hkl_noanom_merged=None, stats_anom_merged=None, lp_anom_merged=None, hkl_anom_merged=None):
-        XSDataResult.__init__(self, status)
-    
-    
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_anom_merged, "XSDataString")
-        self._hkl_anom_merged = hkl_anom_merged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_anom_merged, "XSDataString")
-        self._lp_anom_merged = lp_anom_merged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_anom_merged, "XSDataXscaleParsedOutput")
-        self._stats_anom_merged = stats_anom_merged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_noanom_merged, "XSDataString")
-        self._hkl_noanom_merged = hkl_noanom_merged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_noanom_merged, "XSDataString")
-        self._lp_noanom_merged = lp_noanom_merged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_noanom_merged, "XSDataXscaleParsedOutput")
-        self._stats_noanom_merged = stats_noanom_merged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_anom_unmerged, "XSDataString")
-        self._hkl_anom_unmerged = hkl_anom_unmerged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_anom_unmerged, "XSDataString")
-        self._lp_anom_unmerged = lp_anom_unmerged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_anom_unmerged, "XSDataXscaleParsedOutput")
-        self._stats_anom_unmerged = stats_anom_unmerged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", hkl_noanom_unmerged, "XSDataString")
-        self._hkl_noanom_unmerged = hkl_noanom_unmerged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", lp_noanom_unmerged, "XSDataString")
-        self._lp_noanom_unmerged = lp_noanom_unmerged
-        checkType("XSDataXscaleGeneratedFiles", "Constructor of XSDataXscaleGeneratedFiles", stats_noanom_unmerged, "XSDataXscaleParsedOutput")
-        self._stats_noanom_unmerged = stats_noanom_unmerged
-    def getHkl_anom_merged(self): return self._hkl_anom_merged
-    def setHkl_anom_merged(self, hkl_anom_merged):
-        checkType("XSDataXscaleGeneratedFiles", "setHkl_anom_merged", hkl_anom_merged, "XSDataString")
-        self._hkl_anom_merged = hkl_anom_merged
-    def delHkl_anom_merged(self): self._hkl_anom_merged = None
-    # Properties
-    hkl_anom_merged = property(getHkl_anom_merged, setHkl_anom_merged, delHkl_anom_merged, "Property for hkl_anom_merged")
-    def getLp_anom_merged(self): return self._lp_anom_merged
-    def setLp_anom_merged(self, lp_anom_merged):
-        checkType("XSDataXscaleGeneratedFiles", "setLp_anom_merged", lp_anom_merged, "XSDataString")
-        self._lp_anom_merged = lp_anom_merged
-    def delLp_anom_merged(self): self._lp_anom_merged = None
-    # Properties
-    lp_anom_merged = property(getLp_anom_merged, setLp_anom_merged, delLp_anom_merged, "Property for lp_anom_merged")
-    def getStats_anom_merged(self): return self._stats_anom_merged
-    def setStats_anom_merged(self, stats_anom_merged):
-        checkType("XSDataXscaleGeneratedFiles", "setStats_anom_merged", stats_anom_merged, "XSDataXscaleParsedOutput")
-        self._stats_anom_merged = stats_anom_merged
-    def delStats_anom_merged(self): self._stats_anom_merged = None
-    # Properties
-    stats_anom_merged = property(getStats_anom_merged, setStats_anom_merged, delStats_anom_merged, "Property for stats_anom_merged")
-    def getHkl_noanom_merged(self): return self._hkl_noanom_merged
-    def setHkl_noanom_merged(self, hkl_noanom_merged):
-        checkType("XSDataXscaleGeneratedFiles", "setHkl_noanom_merged", hkl_noanom_merged, "XSDataString")
-        self._hkl_noanom_merged = hkl_noanom_merged
-    def delHkl_noanom_merged(self): self._hkl_noanom_merged = None
-    # Properties
-    hkl_noanom_merged = property(getHkl_noanom_merged, setHkl_noanom_merged, delHkl_noanom_merged, "Property for hkl_noanom_merged")
-    def getLp_noanom_merged(self): return self._lp_noanom_merged
-    def setLp_noanom_merged(self, lp_noanom_merged):
-        checkType("XSDataXscaleGeneratedFiles", "setLp_noanom_merged", lp_noanom_merged, "XSDataString")
-        self._lp_noanom_merged = lp_noanom_merged
-    def delLp_noanom_merged(self): self._lp_noanom_merged = None
-    # Properties
-    lp_noanom_merged = property(getLp_noanom_merged, setLp_noanom_merged, delLp_noanom_merged, "Property for lp_noanom_merged")
-    def getStats_noanom_merged(self): return self._stats_noanom_merged
-    def setStats_noanom_merged(self, stats_noanom_merged):
-        checkType("XSDataXscaleGeneratedFiles", "setStats_noanom_merged", stats_noanom_merged, "XSDataXscaleParsedOutput")
-        self._stats_noanom_merged = stats_noanom_merged
-    def delStats_noanom_merged(self): self._stats_noanom_merged = None
-    # Properties
-    stats_noanom_merged = property(getStats_noanom_merged, setStats_noanom_merged, delStats_noanom_merged, "Property for stats_noanom_merged")
-    def getHkl_anom_unmerged(self): return self._hkl_anom_unmerged
-    def setHkl_anom_unmerged(self, hkl_anom_unmerged):
-        checkType("XSDataXscaleGeneratedFiles", "setHkl_anom_unmerged", hkl_anom_unmerged, "XSDataString")
-        self._hkl_anom_unmerged = hkl_anom_unmerged
-    def delHkl_anom_unmerged(self): self._hkl_anom_unmerged = None
-    # Properties
-    hkl_anom_unmerged = property(getHkl_anom_unmerged, setHkl_anom_unmerged, delHkl_anom_unmerged, "Property for hkl_anom_unmerged")
-    def getLp_anom_unmerged(self): return self._lp_anom_unmerged
-    def setLp_anom_unmerged(self, lp_anom_unmerged):
-        checkType("XSDataXscaleGeneratedFiles", "setLp_anom_unmerged", lp_anom_unmerged, "XSDataString")
-        self._lp_anom_unmerged = lp_anom_unmerged
-    def delLp_anom_unmerged(self): self._lp_anom_unmerged = None
-    # Properties
-    lp_anom_unmerged = property(getLp_anom_unmerged, setLp_anom_unmerged, delLp_anom_unmerged, "Property for lp_anom_unmerged")
-    def getStats_anom_unmerged(self): return self._stats_anom_unmerged
-    def setStats_anom_unmerged(self, stats_anom_unmerged):
-        checkType("XSDataXscaleGeneratedFiles", "setStats_anom_unmerged", stats_anom_unmerged, "XSDataXscaleParsedOutput")
-        self._stats_anom_unmerged = stats_anom_unmerged
-    def delStats_anom_unmerged(self): self._stats_anom_unmerged = None
-    # Properties
-    stats_anom_unmerged = property(getStats_anom_unmerged, setStats_anom_unmerged, delStats_anom_unmerged, "Property for stats_anom_unmerged")
-    def getHkl_noanom_unmerged(self): return self._hkl_noanom_unmerged
-    def setHkl_noanom_unmerged(self, hkl_noanom_unmerged):
-        checkType("XSDataXscaleGeneratedFiles", "setHkl_noanom_unmerged", hkl_noanom_unmerged, "XSDataString")
-        self._hkl_noanom_unmerged = hkl_noanom_unmerged
-    def delHkl_noanom_unmerged(self): self._hkl_noanom_unmerged = None
-    # Properties
-    hkl_noanom_unmerged = property(getHkl_noanom_unmerged, setHkl_noanom_unmerged, delHkl_noanom_unmerged, "Property for hkl_noanom_unmerged")
-    def getLp_noanom_unmerged(self): return self._lp_noanom_unmerged
-    def setLp_noanom_unmerged(self, lp_noanom_unmerged):
-        checkType("XSDataXscaleGeneratedFiles", "setLp_noanom_unmerged", lp_noanom_unmerged, "XSDataString")
-        self._lp_noanom_unmerged = lp_noanom_unmerged
-    def delLp_noanom_unmerged(self): self._lp_noanom_unmerged = None
-    # Properties
-    lp_noanom_unmerged = property(getLp_noanom_unmerged, setLp_noanom_unmerged, delLp_noanom_unmerged, "Property for lp_noanom_unmerged")
-    def getStats_noanom_unmerged(self): return self._stats_noanom_unmerged
-    def setStats_noanom_unmerged(self, stats_noanom_unmerged):
-        checkType("XSDataXscaleGeneratedFiles", "setStats_noanom_unmerged", stats_noanom_unmerged, "XSDataXscaleParsedOutput")
-        self._stats_noanom_unmerged = stats_noanom_unmerged
-    def delStats_noanom_unmerged(self): self._stats_noanom_unmerged = None
-    # Properties
-    stats_noanom_unmerged = property(getStats_noanom_unmerged, setStats_noanom_unmerged, delStats_noanom_unmerged, "Property for stats_noanom_unmerged")
-    def export(self, outfile, level, name_='XSDataXscaleGeneratedFiles'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataXscaleGeneratedFiles'):
-        XSDataResult.exportChildren(self, outfile, level, name_)
-        if self._hkl_anom_merged is not None:
-            self.hkl_anom_merged.export(outfile, level, name_='hkl_anom_merged')
-        else:
-            warnEmptyAttribute("hkl_anom_merged", "XSDataString")
-        if self._lp_anom_merged is not None:
-            self.lp_anom_merged.export(outfile, level, name_='lp_anom_merged')
-        else:
-            warnEmptyAttribute("lp_anom_merged", "XSDataString")
-        if self._stats_anom_merged is not None:
-            self.stats_anom_merged.export(outfile, level, name_='stats_anom_merged')
-        else:
-            warnEmptyAttribute("stats_anom_merged", "XSDataXscaleParsedOutput")
-        if self._hkl_noanom_merged is not None:
-            self.hkl_noanom_merged.export(outfile, level, name_='hkl_noanom_merged')
-        else:
-            warnEmptyAttribute("hkl_noanom_merged", "XSDataString")
-        if self._lp_noanom_merged is not None:
-            self.lp_noanom_merged.export(outfile, level, name_='lp_noanom_merged')
-        else:
-            warnEmptyAttribute("lp_noanom_merged", "XSDataString")
-        if self._stats_noanom_merged is not None:
-            self.stats_noanom_merged.export(outfile, level, name_='stats_noanom_merged')
-        else:
-            warnEmptyAttribute("stats_noanom_merged", "XSDataXscaleParsedOutput")
-        if self._hkl_anom_unmerged is not None:
-            self.hkl_anom_unmerged.export(outfile, level, name_='hkl_anom_unmerged')
-        else:
-            warnEmptyAttribute("hkl_anom_unmerged", "XSDataString")
-        if self._lp_anom_unmerged is not None:
-            self.lp_anom_unmerged.export(outfile, level, name_='lp_anom_unmerged')
-        else:
-            warnEmptyAttribute("lp_anom_unmerged", "XSDataString")
-        if self._stats_anom_unmerged is not None:
-            self.stats_anom_unmerged.export(outfile, level, name_='stats_anom_unmerged')
-        else:
-            warnEmptyAttribute("stats_anom_unmerged", "XSDataXscaleParsedOutput")
-        if self._hkl_noanom_unmerged is not None:
-            self.hkl_noanom_unmerged.export(outfile, level, name_='hkl_noanom_unmerged')
-        else:
-            warnEmptyAttribute("hkl_noanom_unmerged", "XSDataString")
-        if self._lp_noanom_unmerged is not None:
-            self.lp_noanom_unmerged.export(outfile, level, name_='lp_noanom_unmerged')
-        else:
-            warnEmptyAttribute("lp_noanom_unmerged", "XSDataString")
-        if self._stats_noanom_unmerged is not None:
-            self.stats_noanom_unmerged.export(outfile, level, name_='stats_noanom_unmerged')
-        else:
-            warnEmptyAttribute("stats_noanom_unmerged", "XSDataXscaleParsedOutput")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'hkl_anom_merged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setHkl_anom_merged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'lp_anom_merged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setLp_anom_merged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'stats_anom_merged':
-            obj_ = XSDataXscaleParsedOutput()
-            obj_.build(child_)
-            self.setStats_anom_merged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'hkl_noanom_merged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setHkl_noanom_merged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'lp_noanom_merged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setLp_noanom_merged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'stats_noanom_merged':
-            obj_ = XSDataXscaleParsedOutput()
-            obj_.build(child_)
-            self.setStats_noanom_merged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'hkl_anom_unmerged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setHkl_anom_unmerged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'lp_anom_unmerged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setLp_anom_unmerged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'stats_anom_unmerged':
-            obj_ = XSDataXscaleParsedOutput()
-            obj_.build(child_)
-            self.setStats_anom_unmerged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'hkl_noanom_unmerged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setHkl_noanom_unmerged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'lp_noanom_unmerged':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setLp_noanom_unmerged(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'stats_noanom_unmerged':
-            obj_ = XSDataXscaleParsedOutput()
-            obj_.build(child_)
-            self.setStats_noanom_unmerged(obj_)
-        XSDataResult.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataXscaleGeneratedFiles" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataXscaleGeneratedFiles' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataXscaleGeneratedFiles is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataXscaleGeneratedFiles.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleGeneratedFiles()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataXscaleGeneratedFiles" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleGeneratedFiles()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataXscaleGeneratedFiles
-
 class XSDataXscaleOutput(XSDataResult):
     def __init__(self, status=None, lp_file=None, hkl_file=None, succeeded=None):
         XSDataResult.__init__(self, status)
@@ -3292,6 +3265,113 @@ class XSDataXscaleOutput(XSDataResult):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataXscaleOutput
+
+class XSDataXscaleParsedOutput(XSDataResult):
+    def __init__(self, status=None, completeness_entries=None, total_completeness=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", total_completeness, "XSDataXscaleCompletenessEntry")
+        self._total_completeness = total_completeness
+        if completeness_entries is None:
+            self._completeness_entries = []
+        else:
+            checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", completeness_entries, "list")
+            self._completeness_entries = completeness_entries
+    def getTotal_completeness(self): return self._total_completeness
+    def setTotal_completeness(self, total_completeness):
+        checkType("XSDataXscaleParsedOutput", "setTotal_completeness", total_completeness, "XSDataXscaleCompletenessEntry")
+        self._total_completeness = total_completeness
+    def delTotal_completeness(self): self._total_completeness = None
+    # Properties
+    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
+    def getCompleteness_entries(self): return self._completeness_entries
+    def setCompleteness_entries(self, completeness_entries):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", completeness_entries, "list")
+        self._completeness_entries = completeness_entries
+    def delCompleteness_entries(self): self._completeness_entries = None
+    # Properties
+    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
+    def addCompleteness_entries(self, value):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
+        self._completeness_entries.append(value)
+    def insertCompleteness_entries(self, index, value):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
+        self._completeness_entries[index] = value
+    def export(self, outfile, level, name_='XSDataXscaleParsedOutput'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataXscaleParsedOutput'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._total_completeness is not None:
+            self.total_completeness.export(outfile, level, name_='total_completeness')
+        else:
+            warnEmptyAttribute("total_completeness", "XSDataXscaleCompletenessEntry")
+        for completeness_entries_ in self.getCompleteness_entries():
+            completeness_entries_.export(outfile, level, name_='completeness_entries')
+        if self.getCompleteness_entries() == []:
+            warnEmptyAttribute("completeness_entries", "XSDataXscaleCompletenessEntry")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'total_completeness':
+            obj_ = XSDataXscaleCompletenessEntry()
+            obj_.build(child_)
+            self.setTotal_completeness(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'completeness_entries':
+            obj_ = XSDataXscaleCompletenessEntry()
+            obj_.build(child_)
+            self.completeness_entries.append(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataXscaleParsedOutput' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataXscaleParsedOutput is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataXscaleParsedOutput.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleParsedOutput()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleParsedOutput()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataXscaleParsedOutput
 
 class XSDataXscaleParsingInput(XSDataInput):
     def __init__(self, configuration=None, lp_file=None):
