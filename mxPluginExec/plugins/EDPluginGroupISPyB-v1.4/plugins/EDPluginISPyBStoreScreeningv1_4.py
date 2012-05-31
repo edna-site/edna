@@ -106,15 +106,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             self.bContinue = False
         # Screening
         xsDataISPyBScreening = xsDataInputISPyBStoreScreening.screening
-        self.iScreeningId = self.storeOrUpdateScreening(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreening)
+        self.iScreeningId = self.storeOrUpdateScreening(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreening, iDiffractionPlanId)
         if self.iScreeningId is None:
-            self.ERROR("Couldn't create entry for screening in ISPyB!")
-            self.setFailure()
-            self.bContinue = False
-        # Screening Input
-        xsDataISPyBScreeningInput = xsDataInputISPyBStoreScreening.screeningInput
-        iScreeningInputId = self.storeOrUpdateScreeningInput(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningInput, self.iScreeningId, iDiffractionPlanId)
-        if iScreeningInputId is None:
             self.ERROR("Couldn't create entry for screening in ISPyB!")
             self.setFailure()
             self.bContinue = False
@@ -260,22 +253,26 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         return iDiffractionPlanId
 
 
-    def storeOrUpdateScreening(self, _clientToolsForScreeningEDNAWebServiceWsdl, _xsDataISPyBScreening):
+    def storeOrUpdateScreening(self, _clientToolsForScreeningEDNAWebServiceWsdl, _xsDataISPyBScreening, _iDiffractionPlanId):
         """Creates an entry in ISPyB for the Screening table"""
         self.DEBUG("EDPluginISPyBStoreScreeningv1_4.storeScreening")
         iScreeningId = self.getXSValue(_xsDataISPyBScreening.screeningId)
         iDataCollectionId = self.getXSValue(_xsDataISPyBScreening.dataCollectionId)
+        iDiffractionPlanId = _iDiffractionPlanId
         strTimeStamp = DateTime(datetime.datetime.now())
         strProgramVersion = self.getXSValue(_xsDataISPyBScreening.programVersion, _iMaxStringLength=45)
         strComments = self.getXSValue(_xsDataISPyBScreening.comments, _iMaxStringLength=255)
         strShortComments = self.getXSValue(_xsDataISPyBScreening.shortComments, _iMaxStringLength=20)
+        strXmlSampleInformation = self.getXSValue(_xsDataISPyBScreening.xmlSampleInformation)
         iScreeningId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreening(
             iScreeningId, \
             iDataCollectionId, \
+            iDiffractionPlanId, \
             strTimeStamp, \
             strProgramVersion, \
             strComments, \
             strShortComments, \
+            strXmlSampleInformation, \
             )
         self.DEBUG("ScreeningId: %d" % iScreeningId)
         return iScreeningId
@@ -302,6 +299,12 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         bDiffractionRings = self.getXSValue(_xsDataISPyBScreeningOutput.diffractionRings, _oDefaultValue=False)
         bScreeningSuccess = self.getXSValue(_xsDataISPyBScreeningOutput.screeningSuccess, _oDefaultValue=False)
         bMosaicityEstimated = self.getXSValue(_xsDataISPyBScreeningOutput.mosaicityEstimated, _oDefaultValue=False)
+        fRankingResolution = self.getXSValue(_xsDataISPyBScreeningOutput.rankingResolution)
+        strProgram = self.getXSValue(_xsDataISPyBScreeningOutput.program, _iMaxStringLength=45)
+        fDoseTotal = self.getXSValue(_xsDataISPyBScreeningOutput.doseTotal)
+        fTotalExposureTime = self.getXSValue(_xsDataISPyBScreeningOutput.totalExposureTime)
+        fTotalRotationRange = self.getXSValue(_xsDataISPyBScreeningOutput.totalRotationRange)
+        fRFriedel = self.getXSValue(_xsDataISPyBScreeningOutput.rFriedel)
         iScreeningOutputId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutput(
             iScreeningOutputId, \
             iScreeningId, \
@@ -320,6 +323,12 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             bDiffractionRings, \
             bScreeningSuccess, \
             bMosaicityEstimated, \
+            fRankingResolution, \
+            strProgram, \
+            fDoseTotal, \
+            fTotalExposureTime, \
+            fTotalRotationRange, \
+            fRFriedel, \
             )
         self.DEBUG("ScreeningOutputId: %d" % iScreeningOutputId)
         return iScreeningOutputId
@@ -348,6 +357,7 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         fUnitCell_beta = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_beta)
         fUnitCell_gamma = self.getXSValue(_xsDataISPyBScreeningOutputLattice.unitCell_gamma)
         strTimeStamp = DateTime(datetime.datetime.now())
+        bLabelitIndexing = self.getXSValue(_xsDataISPyBScreeningOutputLattice.labelitIndexing, _oDefaultValue=False)
         iScreeningOutputLatticeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutputLattice(
             iScreeningOutputLatticeId, \
             iScreeningOutputId, \
@@ -370,6 +380,7 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             fUnitCell_beta, \
             fUnitCell_gamma, \
             strTimeStamp, \
+            bLabelitIndexing, \
             )
         self.DEBUG("ScreeningOutputLatticeId: %d" % iScreeningOutputLatticeId)
         return iScreeningOutputLatticeId
@@ -421,6 +432,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         iNumberOfImages = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.numberOfImages)
         fPhi = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.phi)
         fKappa = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.kappa)
+        strComments = self.getXSValue(_xsDataISPyBScreeningOutput.comments, _iMaxStringLength=255)
+        fWavelength = self.getXSValue(_xsDataISPyBScreeningOutput.wavelength)
         iScreeningStrategyWedgeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningStrategyWedge(
             iScreeningStrategyWedgeId, \
             iScreeningStrategyId, \
@@ -432,6 +445,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             iNumberOfImages, \
             fPhi, \
             fKappa, \
+            strComments, \
+            fWavelength, \
             )
         self.DEBUG("ScreeningStrategyWedgeId: %d" % iScreeningStrategyWedgeId)
         return iScreeningStrategyWedgeId
@@ -453,6 +468,7 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         fResolution = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.resolution)
         fDoseTotal = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.doseTotal)
         iNumberOfImages = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.numberOfImages)
+        strComments = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.comments, _iMaxStringLength=255)
         iScreeningStrategySubWedgeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningStrategySubWedge(
             iScreeningStrategySubWedgeId, \
             iScreeningStrategyWedgeId, \
@@ -468,6 +484,7 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             fResolution, \
             fDoseTotal, \
             iNumberOfImages, \
+            strComments, \
             )
         self.DEBUG("ScreeningStrategySubWedgeId: %d" % iScreeningStrategySubWedgeId)
         return iScreeningStrategySubWedgeId
