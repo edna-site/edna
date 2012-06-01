@@ -40,6 +40,7 @@ from suds.sax.date import DateTime
 
 from XSDataCommon import XSDataInteger
 
+from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategy
 from XSDataISPyBv1_4 import XSDataInputISPyBStoreScreening
 from XSDataISPyBv1_4 import XSDataResultISPyBStoreScreening
 
@@ -126,7 +127,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
                     self.setFailure()
                     self.bContinue = False
             for xsDataISPyBScreeningStrategyContainer in xsDataISPyBScreeningOutputContainer.screeningStrategyContainer:
-                xsDataISPyBScreeningStrategy = xsDataISPyBScreeningStrategyContainer.screeningStrategy
+                # Create an empty object of type XSDataISPyBScreeningStrategy
+                xsDataISPyBScreeningStrategy = XSDataISPyBScreeningStrategy()
                 iScreeningStrategyId = self.storeOrUpdateScreeningStrategy(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningStrategy, iScreeningOutputId)
                 if iScreeningStrategyId is None:
                     self.ERROR("Couldn't create entry for screening strategy in ISPyB!")
@@ -432,8 +434,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         iNumberOfImages = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.numberOfImages)
         fPhi = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.phi)
         fKappa = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.kappa)
-        strComments = self.getXSValue(_xsDataISPyBScreeningOutput.comments, _iMaxStringLength=255)
-        fWavelength = self.getXSValue(_xsDataISPyBScreeningOutput.wavelength)
+        strComments = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.comments, _iMaxStringLength=255)
+        fWavelength = self.getXSValue(_xsDataISPyBScreeningStrategyWedge.wavelength)
         iScreeningStrategyWedgeId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningStrategyWedge(
             iScreeningStrategyWedgeId, \
             iScreeningStrategyId, \

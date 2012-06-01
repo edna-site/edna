@@ -2,7 +2,7 @@
 <XSDataInputISPyBStoreScreening>
     <diffractionPlan>
         <experimentKind>
-            <value>Normal</value>
+            <value>Default</value>
         </experimentKind>
         <observedResolution>
             <value>2.0</value>
@@ -97,7 +97,7 @@
         	<value>A short comment.</value>
         </shortComments>
         <xmlSampleInformation>
-        	<vale>Sample information.</vale>
+        	<value>Sample information.</value>
         </xmlSampleInformation>
     </screening>
     <screeningOutputContainer>
@@ -147,9 +147,9 @@
             <diffractionRings>
             	<value>true</value>
             </diffractionRings>
-            <rankingReoslution>
+            <rankingResolution>
             	<value>4.0</value>
-            </rankingReoslution>
+            </rankingResolution>
             <program>
             	<value>EDNA MXv1</value>
             </program>
