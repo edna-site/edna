@@ -50,6 +50,7 @@ edFactoryPlugin.loadModule('XSDataISPyBv1_4')
 from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
 from XSDataISPyBv1_4 import XSDataResultStoreAutoProc
 
+from xdscfgparser import parse_xds_file, dump_xds_file
 
 class EDPluginControlAutoproc( EDPluginControl ):
     """
@@ -88,11 +89,33 @@ class EDPluginControlAutoproc( EDPluginControl ):
         xds_in = XSDataMinimalXdsIn()
         xds_in.input_file = data_in.input_file.path
 
+        # we'll need the low res limit later on
         lowres = data_in.low_resolution_limit
         if lowres is not None:
             self.low_resolution_limit = lowres.value
         else:
             self.low_resolution_limit = 50
+
+        res_override = data_in.res_override
+        if res_override is not None:
+            self.res_override = res_override.value
+        else:
+            # XXX: default to 0?
+            self.res_override = None
+
+        # modify the XDS.INP file to reflect these values, if
+        # specified
+        conf = parse_xds_file(data_in.input_file.path.value)
+        resrange = conf.get('INCLUDE_RESOLUTION_RANGE=')
+
+        if resrange is not None:
+            if self.low_resolution_limit is not None:
+                resrange[0] = self.low_resolution_limit
+            if self.res_override is not None:
+                resrange[1] = self.res_override
+            conf['INCLUDE_RESOLUTION_RANGE='] = resrange
+            dump_xds_file(data_in.input_file.path.value, conf)
+
 
         self.xds_first = self.loadPlugin("EDPluginControlRunXds")
         self.xds_first.dataInput = xds_in
