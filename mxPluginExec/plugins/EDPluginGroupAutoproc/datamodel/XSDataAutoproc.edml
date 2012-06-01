@@ -198,6 +198,7 @@ complex type XSDataAutoprocMasterInput extends XSDataInput {
 
 	data_collection_id : XSDataInteger optional
 	detector_max_res : XSDataFloat optional
+	low_resolution_limit : XSDataFloat optional
 }
 
 complex type XSDataAutoprocInput extends XSDataAutoprocMasterInput {

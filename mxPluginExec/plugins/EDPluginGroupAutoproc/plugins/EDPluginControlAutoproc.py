@@ -88,6 +88,12 @@ class EDPluginControlAutoproc( EDPluginControl ):
         xds_in = XSDataMinimalXdsIn()
         xds_in.input_file = data_in.input_file.path
 
+        lowres = data_in.low_resolution_limit
+        if lowres is not None:
+            self.low_resolution_limit = lowres.value
+        else:
+            self.low_resolution_limit = 50
+
         self.xds_first = self.loadPlugin("EDPluginControlRunXds")
         self.xds_first.dataInput = xds_in
 
