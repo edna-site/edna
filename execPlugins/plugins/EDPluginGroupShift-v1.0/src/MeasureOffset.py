@@ -134,7 +134,7 @@ class CudaCorrelate(object):
     data2_gpus = {}
     multconj = None
     ctx = None
-    pycuda.autoinit.context.pop()
+#    pycuda.autoinit.context.pop()
 #    ctx.pop()
     sem = threading.Semaphore()
     initsem = threading.Semaphore()
@@ -206,6 +206,7 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
     @param _shared: DO NOT USE !!! 
     @return: tuple of floats with the offsets
     """
+    method = str(method)
     ################################################################################
     # Start convolutions
     ################################################################################

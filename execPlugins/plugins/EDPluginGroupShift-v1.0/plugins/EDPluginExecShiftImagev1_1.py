@@ -41,7 +41,7 @@ from EDFactoryPlugin    import edFactoryPlugin as  EDFactoryPluginStatic
 from EDUtilsPath        import EDUtilsPath
 from EDThreading import Semaphore
 from XSDataShiftv1_0    import XSDataInputShiftImage, XSDataResultShiftImage
-from XSDataCommon       import XSDataImageExt, XSDataString
+from XSDataCommon       import XSDataImageExt, XSDataString, XSPluginItem
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
