@@ -147,15 +147,18 @@ class CudaCorrelate(object):
             with self.__class__.initsem:
                 if self.ctx is None:
                     self.__class__.ctx = pycuda.autoinit.context
+        if not self.shape in self.plans:
+            with self.__class__.initsem:
+                if not self.shape in self.plans:
                     self.ctx.push()
-                    if self.shape not in self.__class__.plans:
-                        self.__class__.plans[self.shape] = cu_fft.Plan(self.shape, numpy.complex128, numpy.complex128)
+                    if not self.__class__.multconj:
+                        self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
                     if self.shape not in self.__class__.data1_gpus:
                         self.__class__.data1_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
                     if self.shape not in self.__class__.data2_gpus:
                         self.__class__.data2_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
-                    if not self.__class__.multconj:
-                        self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
+                    if self.shape not in self.__class__.plans:
+                        self.__class__.plans[self.shape] = cu_fft.Plan(self.shape, numpy.complex128, numpy.complex128)
                     self.ctx.synchronize()
                     self.ctx.pop()
     @classmethod
