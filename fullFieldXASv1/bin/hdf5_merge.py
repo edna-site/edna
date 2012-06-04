@@ -33,7 +33,7 @@ __doc__ = """
 Merge and Crop HDF5 stacks of FullField Xanes/Exafs data 
 """
 
-import sys, logging, os
+import sys, logging, os, time
 logger = logging.getLogger("hdf5merge")
 import numpy
 import h5py
@@ -78,6 +78,7 @@ class MergeFFX(object):
                 filepath, h5path = h.split(":", 1)
                 if os.path.isfile(filepath):
                     h5file = h5py.File(filepath)
+#                    cls.set_cache(h5file, policy=0.0)
                     if h5path in h5file:
                         if h5file[h5path].__class__.__name__ == "Group":
                             res[h] = h5file[h5path]
@@ -87,12 +88,32 @@ class MergeFFX(object):
                         logger.warning("No such group %s in file: %s" % (h5path, filepath))
         return res
 
+    @classmethod
+    def set_cache(cls, f, size=None, policy=None):
+        if hasattr(f.id, 'get_access_plist'):
+            p = f.id.get_access_plist()
+            # create a copy of the current settings
+            cache_settings = list(p.get_cache())
+            # multiply current cache by 10
+            if not size:
+                cache_settings[2] = int(10 * cache_settings[2])
+            else:
+                cache_settings[2] = int(size)
+            # if we are not going to use the read or written chunks, set the 
+            # preemption policy to 0
+            if policy is not None:
+                cache_settings[3] = float(policy)
+            p.set_cache(*cache_settings)
+
+
+
     def create_output(self):
         if ":" not in self.output:
-            logger.warning("Input %s does not look like a HDF5 path" % h)
+            logger.warning("Input %s does not look like a HDF5 path" % self.output)
         else:
             filepath, h5path = self.output.split(":", 1)
             self.h5file = h5py.File(filepath)
+            self.set_cache(self.h5file, size=100e6, policy=0.0)
             if h5path in self.h5file:
                 self.h5grp = self.h5file[h5path]
             else:
@@ -154,11 +175,13 @@ class MergeFFX(object):
                                        dtype="float32", chunks=(1, max(1, dim1 // 8), max(1, dim2 // 8)))
         ds = self.h5grp[self.STACK]
         sys.stdout.write("Averaging out frame ")
+        readt = []
+        writet = []
         for frn in xrange(self.shape[0]):
             sys.stdout.write("%04i" % frn)
-            sys.stdout.flush()
             fr = numpy.zeros((dim1, dim2), "float64")
             i = 0
+            tr0 = time.time()
             for path, h5grp in self.inputs.items():
                 if self.MAX_INT in h5grp:
                     norm_factor = h5grp[self.MAX_INT][frn]
@@ -170,14 +193,22 @@ class MergeFFX(object):
                     fr += h5grp[self.STACK][idx] / norm_factor
                 else:
                     logger.warning("no %s in %s ?????"(self.STACK, frn))
+            tr = time.time() - tr0
+            sys.stdout.write("  r=%5.3fs" % tr)
+            readt.append(tr)
             if i == 0:
                 logger.warning("Why is i=0?????")
                 i = 1
-            ds[frn, :, :] = fr / i
-
-            sys.stdout.write("\b"*4)
+            tw0 = time.time()
+            ds[frn] = fr / i
+            tw = time.time() - tw0
+            sys.stdout.write("  w=%5.3fs" % tw)
+            writet.append(tw)
             sys.stdout.flush()
+            sys.stdout.write("\b"*24)
+
         print("Finished !!!")
+        return readt, writet
 
 
 
@@ -204,4 +235,8 @@ if __name__ == "__main__":
     mfx.create_output()
     mfx.get_offsets()
     mfx.get_crop_region()
-    mfx.merge_dataset()
+    r, w = mfx.merge_dataset()
+    from pylab import *
+    plot(r, 'b')
+    plot(w, 'r')
+    show()
