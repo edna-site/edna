@@ -188,13 +188,13 @@ class EDHandlerXSDataISPyBv1_4(object):
                     if xsDataSpaceGroup is not None:
                         xsDataISPyBScreeningOutputLattice.spaceGroup = xsDataSpaceGroup.name
         if (bSuccessfulIndexing):
-            xsDataISPyBScreeningOutput.setScreeningSuccess(XSDataBoolean(True))
+            xsDataISPyBScreeningOutput.setIndexingSuccess(XSDataBoolean(True))
             if _strStatusMessage:
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
             else:
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString("Indexing successful"))
         else:
-            xsDataISPyBScreeningOutput.setScreeningSuccess(XSDataBoolean(False))
+            xsDataISPyBScreeningOutput.setIndexingSuccess(XSDataBoolean(False))
             if _strStatusMessage:
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
             else:
@@ -205,7 +205,10 @@ class EDHandlerXSDataISPyBv1_4(object):
         xsDataResultStrategy = _xsDataResultCharacterisation.strategyResult
         xsDataISPyBScreeningStrategyContainer = None
         xsDataISPyBScreeningStrategyWedgeContainer = None
-        if xsDataResultStrategy is not None:
+        if xsDataResultStrategy is None:
+            xsDataISPyBScreeningOutput.setStrategySuccess(XSDataBoolean(False))
+        else:
+            xsDataISPyBScreeningOutput.setStrategySuccess(XSDataBoolean(True))
             xsDataISPyBScreeningStrategyContainer = XSDataISPyBScreeningStrategyContainer()
             xsDataISPyBScreeningStrategy = XSDataISPyBScreeningStrategy()
             listXSDataCollectionPlan = xsDataResultStrategy.collectionPlan
