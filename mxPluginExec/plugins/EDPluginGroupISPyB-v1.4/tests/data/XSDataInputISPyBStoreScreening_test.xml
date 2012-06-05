@@ -138,9 +138,12 @@
             <iOverSigma>
             	<value>3.5</value>
             </iOverSigma>
-            <screeningSuccess>
+            <indexingSuccess>
                 <value>true</value>
-            </screeningSuccess>
+            </indexingSuccess>
+            <strategySuccess>
+                <value>true</value>
+            </strategySuccess>
             <mosaicityEstimated>
                 <value>true</value>
             </mosaicityEstimated>

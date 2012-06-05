@@ -307,7 +307,8 @@ complex type XSDataISPyBScreeningOutput extends XSData {
 	mosaicity : XSDataDouble optional
 	iOverSigma : XSDataDouble optional
 	diffractionRings : XSDataBoolean optional
-	screeningSuccess : XSDataBoolean
+	indexingSuccess : XSDataBoolean
+	strategySuccess : XSDataBoolean
 	mosaicityEstimated : XSDataBoolean optional
 	rankingResolution : XSDataDouble optional
 	program : XSDataString optional
@@ -388,7 +389,6 @@ complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
 	oscillationRange : XSDataAngle
 	completeness : XSDataDouble optional
 	multiplicity : XSDataDouble optional
-	resolution : XSDataDouble optional
 	doseTotal : XSDataDouble optional
 	numberOfImages : XSDataInteger
 	comments : XSDataString optional

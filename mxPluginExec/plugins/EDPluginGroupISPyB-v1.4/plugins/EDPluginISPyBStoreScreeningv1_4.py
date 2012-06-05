@@ -299,7 +299,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         fMosaicity = self.getXSValue(_xsDataISPyBScreeningOutput.mosaicity)
         fIOverSigma = self.getXSValue(_xsDataISPyBScreeningOutput.iOverSigma)
         bDiffractionRings = self.getXSValue(_xsDataISPyBScreeningOutput.diffractionRings, _oDefaultValue=False)
-        bScreeningSuccess = self.getXSValue(_xsDataISPyBScreeningOutput.screeningSuccess, _oDefaultValue=False)
+        bIndexingSuccess = self.getXSValue(_xsDataISPyBScreeningOutput.indexingSuccess, _oDefaultValue=False)
+        bStrategySuccess = self.getXSValue(_xsDataISPyBScreeningOutput.strategySuccess, _oDefaultValue=False)
         bMosaicityEstimated = self.getXSValue(_xsDataISPyBScreeningOutput.mosaicityEstimated, _oDefaultValue=False)
         fRankingResolution = self.getXSValue(_xsDataISPyBScreeningOutput.rankingResolution)
         strProgram = self.getXSValue(_xsDataISPyBScreeningOutput.program, _iMaxStringLength=45)
@@ -323,7 +324,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             fMosaicity, \
             fIOverSigma, \
             bDiffractionRings, \
-            bScreeningSuccess, \
+            bIndexingSuccess, \
+            bStrategySuccess, \
             bMosaicityEstimated, \
             fRankingResolution, \
             strProgram, \
@@ -467,7 +469,6 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         fOscillationRange = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.oscillationRange)
         fCompleteness = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.completeness)
         fMultiplicity = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.multiplicity)
-        fResolution = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.resolution)
         fDoseTotal = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.doseTotal)
         iNumberOfImages = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.numberOfImages)
         strComments = self.getXSValue(_xsDataISPyBScreeningStrategySubWedge.comments, _iMaxStringLength=255)
@@ -483,7 +484,6 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             fOscillationRange, \
             fCompleteness, \
             fMultiplicity, \
-            fResolution, \
             fDoseTotal, \
             iNumberOfImages, \
             strComments, \

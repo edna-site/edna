@@ -43,7 +43,6 @@ EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
 from XSDataISPyBv1_4 import XSDataInputISPyBStoreScreening
 from XSDataISPyBv1_4 import XSDataISPyBDiffractionPlan
 from XSDataISPyBv1_4 import XSDataISPyBScreening
-from XSDataISPyBv1_4 import XSDataISPyBScreeningInput
 from XSDataISPyBv1_4 import XSDataISPyBScreeningOutput
 from XSDataISPyBv1_4 import XSDataISPyBScreeningOutputContainer
 from XSDataISPyBv1_4 import XSDataISPyBScreeningOutputLattice
@@ -82,9 +81,6 @@ class EDHandlerXSDataISPyBv1_4(object):
                     strComments += "MOSFLM indexing"
         xsDataISPyBScreening = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreening(_strShortComments, strComments)
 
-        # ScreeningInput
-        xsDataISPyBScreeningInput = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningInput(xsDataResultCharacterisation)
-
         # ScreeningOutputContainer
         xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningOutputContainer(xsDataResultCharacterisation, \
                                                                                                                    _strStatusMessage)
@@ -96,9 +92,7 @@ class EDHandlerXSDataISPyBv1_4(object):
         xsDataISPyBScreening.dataCollectionId = xsDataIntegerDataCollectionId
         xsDataInputISPyBStoreScreening.diffractionPlan = xsDataISPyBDiffractionPlan
         xsDataInputISPyBStoreScreening.screening = xsDataISPyBScreening
-        xsDataInputISPyBStoreScreening.screeningInput = xsDataISPyBScreeningInput
         xsDataInputISPyBStoreScreening.addScreeningOutputContainer(xsDataISPyBScreeningOutputContainer)
-
 
         return xsDataInputISPyBStoreScreening
 
@@ -140,7 +134,7 @@ class EDHandlerXSDataISPyBv1_4(object):
         return xsDataISPyBDiffractionPlan
     
     @staticmethod
-    def generateXSDataISPyBScreening(_strShortComments=None, _strComments=None):
+    def generateXSDataISPyBScreening(_xsDataSample=None, _strShortComments=None, _strComments=None):
         xsDataISPyBScreening = XSDataISPyBScreening()
         xsDataISPyBScreening.setProgramVersion(XSDataString("EDNA MX"))
         xsDataStringTimeStamp = XSDataString(time.strftime("%Y-%m-%d %H:%M:%S"))
@@ -151,23 +145,7 @@ class EDHandlerXSDataISPyBv1_4(object):
             xsDataISPyBScreening.comments = XSDataString(_strComments)
         return xsDataISPyBScreening
     
-    
-    @staticmethod
-    def generateXSDataISPyBScreeningInput(_xsDataResultCharacterisation):
-        xsDataISPyBScreeningInput = XSDataISPyBScreeningInput()
-        xsDataCollection = _xsDataResultCharacterisation.dataCollection
-        if xsDataCollection is not None:
-            xsDataSubWedgeList = xsDataCollection.getSubWedge()
-            if (xsDataSubWedgeList is not None):
-                xsDataSubWedgeFirst = xsDataSubWedgeList[0]
-                xsDataExperimentalCondition = xsDataSubWedgeFirst.getExperimentalCondition()
-                if (xsDataExperimentalCondition is not None):
-                    xsDataDetector = xsDataExperimentalCondition.getDetector()
-                    if (xsDataDetector is not None):
-                        xsDataISPyBScreeningInput.setBeamX(xsDataDetector.beamPositionX)
-                        xsDataISPyBScreeningInput.setBeamY(xsDataDetector.beamPositionY)
-        return xsDataISPyBScreeningInput
-    
+        
     @staticmethod
     def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage):
         xsDataISPyBScreeningOutput = XSDataISPyBScreeningOutput()
