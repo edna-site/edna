@@ -35,33 +35,32 @@ from EDTestCasePluginExecuteControlGridScreeningv1_0 import EDTestCasePluginExec
 
 
 
-class EDTestCasePluginExecuteControlGridScreeningv1_0_fewSpots(EDTestCasePluginExecuteControlGridScreeningv1_0):
+class EDTestCasePluginExecuteControlGridScreeningv1_0_onlyIntegrationWithXMLOutput(EDTestCasePluginExecuteControlGridScreeningv1_0):
     """
     Test of characterisation error messages.
     """
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginExecuteControlGridScreeningv1_0.__init__(self, "EDTestCasePluginExecuteControlGridScreeningv1_0_fewSpots")
+        EDTestCasePluginExecuteControlGridScreeningv1_0.__init__(self, "EDTestCasePluginExecuteControlGridScreeningv1_0_onlyIntegrationWithXMLOutput")
+
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputGridScreening_fewSpots.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputGridScreening_onlyIntegrationWithXMLOutput.xml"))
         self.setNoExpectedWarningMessages(0)
-        self.setNoExpectedErrorMessages(4)
+        self.setNoExpectedErrorMessages(0)
 
 
     def preProcess(self):
         EDTestCasePluginExecuteControlGridScreeningv1_0.preProcess(self)
-        self.loadTestImage([ "fewSpots_1_001.img" ])
+        self.loadTestImage([ "ref-testscale_1_001.img" ])
 
 
-#    def testExecute(self):
-#        EDTestCasePluginExecuteControlGridScreeningv1_0.testExecute(self)
-#
-#        edPlugin = self.getPlugin()
-#        strStatusMessage = None
-#        if edPlugin.hasDataOutput("statusMessage"):
-#            strStatusMessage = edPlugin.getDataOutput("statusMessage")[0].getValue()
-#        EDAssert.equal(True, strStatusMessage.find("Indexing FAILURE") != -1, "Status message contains 'Indexing FAILURE'")
+    def testExecute(self):
+        EDTestCasePluginExecuteControlGridScreeningv1_0.testExecute(self)
 
+        edPlugin = self.getPlugin()
+        # Check that we have the image quality indicators
+        xsDataResult = edPlugin.getDataOutput()
+        EDAssert.equal(False, xsDataResult.getResultIntegration() is None, "Result contains integration data")
 
 
 
@@ -73,5 +72,5 @@ class EDTestCasePluginExecuteControlGridScreeningv1_0_fewSpots(EDTestCasePluginE
 
 if __name__ == '__main__':
 
-    edTestCasePluginExecuteControlGridScreeningv1_0_fewSpots = EDTestCasePluginExecuteControlGridScreeningv1_0_fewSpots("EDTestCasePluginExecuteControlGridScreeningv1_0_fewSpots")
-    edTestCasePluginExecuteControlGridScreeningv1_0_fewSpots.execute()
+    edTestCasePluginExecuteControlGridScreeningv1_0_onlyIntegrationWithXMLOutput = EDTestCasePluginExecuteControlGridScreeningv1_0_onlyIntegrationWithXMLOutput("EDTestCasePluginExecuteControlGridScreeningv1_0_onlyIntegrationWithXMLOutput")
+    edTestCasePluginExecuteControlGridScreeningv1_0_onlyIntegrationWithXMLOutput.execute()

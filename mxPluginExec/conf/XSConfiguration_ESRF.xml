@@ -405,6 +405,20 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
+		<XSPluginItem> 
+			<name>EDPluginExecMtz2Variousv1_0</name>  
+					<value>/opt/pxsoft/bin/mtz2various</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>600</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptSetupCCP4</name>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 		<XSPluginItem>
 		  <name>EDPluginSolveContent</name>
 			<XSParamList>

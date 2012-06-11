@@ -1,11 +1,13 @@
+# coding: utf8
 #
-#    Project: EDNA MXv1
+#    Project: <projectName>
 #             http://www.edna-site.org
 #
-#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
-#                            Grenoble, France
+#    File: "$Id$"
 #
-#    Principal authors:      Olof Svensson (svensson@esrf.fr) 
+#    Copyright (C) ESRF
+#
+#    Principal author:       Olof Svensson
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,25 +23,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = [ "Olof Svensson" ]
-__contact__ = "svensson@esrf.fr"
+__author__="Olof Svensson"
 __license__ = "GPLv3+"
-__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__copyright__ = "ESRF"
 
 from EDTestSuite  import EDTestSuite
 
-class EDTestSuitePluginUnitControlGridScreeningv1_0(EDTestSuite):
+class EDTestSuitePluginExecMtz2Variousv1_0(EDTestSuite):
     """
-    This is the unit test suite for EDNA plugin GridScreeningv1_0 
-    """
+    This is the test suite for EDNA plugin Mtz2Variousv1_0 
+    It will run subsequently all unit tests and execution tests.     
+    """        
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitControlGridScreeningv1_0")
-
+        self.addTestCaseFromName("EDTestCasePluginUnitExecMtz2Variousv1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecMtz2Variousv1_0")
+        
 
 
 if __name__ == '__main__':
 
-    edTestSuitePluginUnitControlGridScreeningv1_0 = EDTestSuitePluginUnitControlGridScreeningv1_0("EDTestSuitePluginUnitControlGridScreeningv1_0")
-    edTestSuitePluginUnitControlGridScreeningv1_0.execute()
+    edTestSuitePluginExecMtz2Variousv1_0 = EDTestSuitePluginExecMtz2Variousv1_0("EDTestSuitePluginExecMtz2Variousv1_0")
+    edTestSuitePluginExecMtz2Variousv1_0.execute()
 
