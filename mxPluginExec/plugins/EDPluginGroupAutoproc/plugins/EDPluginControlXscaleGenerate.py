@@ -170,9 +170,9 @@ class EDPluginControlXscaleGenerate(EDPluginControl):
 
 
     def xscale_success(self, plugin):
-        EDVerbose.DEBUG('{!r} succeeded'.format(plugin))
+        EDVerbose.DEBUG('{0!r} succeeded'.format(plugin))
         return
 
     def xscale_failure(self, plugin):
-        EDVerbose.ERROR('{!r} failed'.format(plugin))
+        EDVerbose.ERROR('{0!r} failed'.format(plugin))
         self.setFailure()
