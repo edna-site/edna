@@ -39,12 +39,14 @@ from EDVerbose import EDVerbose
 from XSDataCommon import XSDataFile, XSDataBoolean, XSDataString, XSDataInteger
 
 from XSDataAutoproc import XSDataAutoprocInput
+
+from EDFactoryPlugin import edFactoryPlugin
+edFactoryPlugin.loadModule("XSDataISPyBv1_4")
 from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
 from XSDataISPyBv1_4 import XSDataResultStoreAutoProc
 
-from EDFactoryPlugin import edFactoryPlugin
-edFactoryPlugin.loadModule("XSDataWaitFilev1_0")
 
+edFactoryPlugin.loadModule("XSDataWaitFilev1_0")
 from XSDataWaitFilev1_0 import XSDataInputWaitFile
 
 from xdscfgparser import parse_xds_file, dump_xds_file
@@ -128,7 +130,7 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
         self.run_autoproc = self.loadPlugin("EDPluginExecAutoprocOnOar")
         self.ispyb_upload = self.loadPlugin("EDPluginISPyBStoreAutoProcv1_4")
 
-        wait_file_in = XSDataWaitFilev1_0()
+        wait_file_in = XSDataInputWaitFile()
         filepath = XSDataFile()
         filepath.path = XSDataString(self.first_image)
         wait_file_in.expectedFile = filepath
