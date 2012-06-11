@@ -73,7 +73,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
             # a non specified list input parameter has a default value
             # of [], seriously???
             if len(resrange) != 2:
-                EDVerbose.ERROR("resolution range must be 2 in length ({} given)".format(resrange))
+                EDVerbose.ERROR("resolution range must be 2 in length ({0} given)".format(resrange))
                 self.setFailure()
                 return
 

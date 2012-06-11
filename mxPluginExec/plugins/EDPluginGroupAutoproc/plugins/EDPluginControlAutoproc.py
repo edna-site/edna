@@ -181,7 +181,7 @@ class EDPluginControlAutoproc( EDPluginControl ):
         # for the generate w/ and w/out anom we have to specify where
         # the first XDS plugin run took place
         xds_run_directory = os.path.abspath(self.xds_first.dataOutput.xds_run_directory.value)
-        EDVerbose.screen("the xds run took place in {}".format(xds_run_directory))
+        EDVerbose.screen("the xds run took place in {0}".format(xds_run_directory))
         generate_input = XSDataXdsGenerateInput()
         generate_input.resolution = resolution
         generate_input.previous_run_dir = XSDataString(xds_run_directory)

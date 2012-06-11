@@ -82,7 +82,7 @@ class EDPluginXDSGenerate(EDPluginControl):
 
         for f in self._required:
             if not os.path.isfile(f):
-                EDVerbose.ERROR('missing required file {}'.format(f))
+                EDVerbose.ERROR('missing required file {0}'.format(f))
                 self.setFailure()
                 return
 
@@ -190,7 +190,7 @@ class EDPluginXDSGenerate(EDPluginControl):
         data_output.correct_lp_anom = XSDataString(correct_lp_anom)
 
         if not os.path.isfile(gxparm):
-            EDVerbose.WARNING('No GXPARM.XDS in {}'.format(xds_run_directory))
+            EDVerbose.WARNING('No GXPARM.XDS in {0}'.format(xds_run_directory))
             EDVerbose.WARNING('Things will probably crash soon')
         else:
             data_output.gxparm = XSDataString(gxparm)

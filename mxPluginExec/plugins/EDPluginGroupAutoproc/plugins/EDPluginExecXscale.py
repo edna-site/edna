@@ -78,13 +78,13 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
         # the unit cell constants param should be 6 floats
         if len(self.dataInput.unit_cell_constants) != 6:
             EDVerbose.ERROR('the unit cell constants list should have 6 elements')
-            EDVerbose.ERROR('i got {}'.format(len(self.dataInput.unit_cell_constants)))
+            EDVerbose.ERROR('i got {0}'.format(len(self.dataInput.unit_cell_constants)))
             self.setFailure()
         # check existence of the input files
         for f in self.dataInput.xds_files:
             path = f.path.value
             if not os.path.isfile(path):
-                EDVerbose.ERROR('missing input file {}'.format(path))
+                EDVerbose.ERROR('missing input file {0}'.format(path))
                 self.setFailure()
                 break
 
@@ -101,8 +101,8 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
 
         # create the input file for xscale
         with open(os.path.join(self.getWorkingDirectory(), 'XSCALE.INP'), 'w') as inputfile:
-            inputfile.write("OUTPUT_FILE= {}\n".format(self.hkl_file))
-            inputfile.write("MERGE= {}\n".format("TRUE" if merged else "FALSE"))
+            inputfile.write("OUTPUT_FILE= {0}\n".format(self.hkl_file))
+            inputfile.write("MERGE= {0}\n".format("TRUE" if merged else "FALSE"))
             for xds_file in self.dataInput.xds_files:
                 path = os.path.abspath(xds_file.path.value)
                 # make a symlink so we do not hit the 50char limit
@@ -112,19 +112,19 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
 
                 res = xds_file.res.value
                 # os.basename(sympath) is the filename relative to our dir
-                inputfile.write("INPUT_FILE= {} XDS_ASCII 100 {}\n".format(os.path.basename(sympath), res))
+                inputfile.write("INPUT_FILE= {0} XDS_ASCII 100 {1}\n".format(os.path.basename(sympath), res))
 
             ucellconstants = ' '.join([str(x.value) for x in self.dataInput.unit_cell_constants])
-            inputfile.write("UNIT_CELL_CONSTANTS= {}\n".format(ucellconstants))
+            inputfile.write("UNIT_CELL_CONSTANTS= {0}\n".format(ucellconstants))
             sg = self.dataInput.sg_number.value
-            inputfile.write("SPACE_GROUP_NUMBER= {}\n".format(sg))
+            inputfile.write("SPACE_GROUP_NUMBER= {0}\n".format(sg))
 
             # include the RESOLUTION_SHELLS directive only if bins are
             # specified. Otherwise the whole data is used
             bins = self.dataInput.bins
             if bins is not None and len(bins) != 0:
                 binstring = ' '.join([str(x.value) for x in self.dataInput.bins])
-                inputfile.write("RESOLUTION_SHELLS= {}\n".format(binstring))
+                inputfile.write("RESOLUTION_SHELLS= {0}\n".format(binstring))
 
 
     def process(self, _edObject = None):
