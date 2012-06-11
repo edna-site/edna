@@ -98,8 +98,20 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
             self.setFailure()
             return
 
+
+
+    def preProcess(self, _edObject=None):
+        EDPluginControl.preProcess(self)
+        self.DEBUG("EDPluginControlAutoprocMaster.preProcess")
+
+        # instantiate the plugins
+        self.wait_input_files = self.loadPlugin("EDPluginWaitFile")
+        self.run_autoproc = self.loadPlugin("EDPluginExecAutoprocOnOar")
+        self.ispyb_upload = self.loadPlugin("EDPluginISPyBStoreAutoProcv1_4")
+
         # we need to "fix" the input file so the SPOT_RANGE gets set
         # to a sensible value
+        input_file = self.dataInput.input_file.value
         cfg = parse_xds_file(input_file)
         data_range = cfg.get("DATA_RANGE=", None)
         if data_range is None:
@@ -120,15 +132,6 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
         #SECONDS is also set to 20
         cfg['SECONDS='] = 20
         dump_xds_file(input_file, cfg)
-
-    def preProcess(self, _edObject=None):
-        EDPluginControl.preProcess(self)
-        self.DEBUG("EDPluginControlAutoprocMaster.preProcess")
-
-        # instantiate the plugins
-        self.wait_input_files = self.loadPlugin("EDPluginWaitFile")
-        self.run_autoproc = self.loadPlugin("EDPluginExecAutoprocOnOar")
-        self.ispyb_upload = self.loadPlugin("EDPluginISPyBStoreAutoProcv1_4")
 
         wait_file_in = XSDataInputWaitFile()
         filepath = XSDataFile()
@@ -152,6 +155,7 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
 
         # the autoproc proper takes a subclass of our data model, with
         # only an added path to serialize its output to
+        # XXX: maybe move that stuff to preprocess?
         autoproc_input = XSDataAutoprocInput()
         autoproc_input.input_file = self.dataInput.input_file
         autoproc_input.completeness_cutoff = self.dataInput.completeness_cutoff
