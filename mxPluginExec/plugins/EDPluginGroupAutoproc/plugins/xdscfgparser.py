@@ -69,7 +69,7 @@ def parse_xds_file(path):
         # special case, for repeatable params, we add them as a list
         # or append them if they already exist
         if kw in REPEATABLE_PARAMS:
-            print 'keyword', kw, 'is repeatable'
+            #print 'keyword', kw, 'is repeatable'
             if kw in parsed:
                 parsed[kw].append(parsedargs)
             else:
@@ -118,6 +118,8 @@ value"""
         valstring = ' '.join(map(str, value))
         res = '{0} {1}\n'.format(key, valstring)
     else: #single val
+        if type(value) == bool:
+            value = 'TRUE' if value else 'FALSE'
         res = '{0} {1}\n'.format(key, value)
 
     return res
