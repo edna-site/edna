@@ -202,7 +202,8 @@ def _spot_range(cfg):
     in the format "START END" or an empty list in case anything goes
     wrong."""
 
-    template = cfg['NAMED_TEMPLATE_OF_DATA_FILES=']
+    # Why did I make that parameter a list...
+    template = cfg['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
     osc_range = cfg['OSCILLATION_RANGE=']
     data_range = cfg['DATA_RANGE=']
 
