@@ -117,7 +117,8 @@ class EDPluginResCutoff(EDPlugin):
                     res = prev_res
                 else:
                     res = _calculate_res_from_bins(prev_isig, prev_res,
-                                                   outer_isig, outer_res)
+                                                   outer_isig, outer_res,
+                                                   isig_cutoff)
                 bins.append(outer_res)
 
                 #NOTE: get out of the loop, see the value of `skip` in
@@ -160,7 +161,7 @@ Stopping""")
 
 
 # straight port of max's code, reusing the same var names (pythonized)
-def _calculate_res_from_bins(prev_isig, prev_res, outer_isig, outer_res):
+def _calculate_res_from_bins(prev_isig, prev_res, outer_isig, outer_res, isig_cutoff):
     diff_i = prev_isig - outer_isig
     diff_d = prev_res - outer_res
 
