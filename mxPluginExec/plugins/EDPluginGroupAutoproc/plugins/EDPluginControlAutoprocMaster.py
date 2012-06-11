@@ -215,7 +215,7 @@ def _spot_range(cfg):
     res = list()
     for range_ in eranges:
         for angle in range_:
-            imnumber = startimage+(angle//osc_range)
+            imnumber = int(startimage+(angle//osc_range))
             filename = _template_to_image(template, imnumber)
             if os.path.exists(filename):
                 startno = imnumber-10
