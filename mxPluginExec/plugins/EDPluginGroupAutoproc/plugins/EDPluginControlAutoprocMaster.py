@@ -75,7 +75,7 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
             self.setFailure()
             return
         if output_path[-1] != '/':
-            # mkstemp if picky about that
+            # mkstemp is picky about that
             output_path += '/'
         fd, path = mkstemp(prefix=output_path, suffix='.xml')
         os.close(fd)
@@ -108,7 +108,7 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
             self.setFailure()
             return
         image_start, image_end = data_range
-        template = cfg["NAMED_TEMPLATE_OF_DATA_FILES="]
+        template = cfg["NAME_TEMPLATE_OF_DATA_FILES="]
 
         #that's the image we'll wait for
         self.first_image = _template_to_image(template, image_start)
@@ -168,7 +168,7 @@ class EDPluginControlAutoprocMaster(EDPluginControl):
         if self.run_autoproc.isFailure():
             # TODO: maybe distinguish between timeout and "other"
             # failures
-            EDVerbose.ERROR('autoproc completed UNsuccessfully on the cluster')
+            EDVerbose.ERROR('autoproc completed Unsuccessfully on the cluster')
             self.setFailure()
             return
 
