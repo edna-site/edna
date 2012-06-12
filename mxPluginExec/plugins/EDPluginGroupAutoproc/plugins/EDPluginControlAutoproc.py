@@ -363,9 +363,9 @@ class EDPluginControlAutoproc( EDPluginControl ):
 
         # ANOM PATH
         xscale_stats_anom = self.xscale_anom.dataOutput.stats_anom_merged
-        inner_stats_anom = xscale_stats.completeness_entries[0]
-        outer_stats_anom = xscale_stats.completeness_entries[-1]
-        total_stats_anom = xscale_stats.total_completeness
+        inner_stats_anom = xscale_stats_anom.completeness_entries[0]
+        outer_stats_anom = xscale_stats_anom.completeness_entries[-1]
+        total_stats_anom = xscale_stats_anom.total_completeness
 
         stats = _create_scaling_stats(inner_stats_anom, 'inner',
                                       self.low_resolution_limit, 0)
