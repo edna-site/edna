@@ -332,7 +332,7 @@ class EDPluginControlAutoproc( EDPluginControl ):
         autoproc.refinedCell_c = xdsout.cell_c.value
         autoproc.refinedCell_alpha = xdsout.cell_alpha.value
         autoproc.refinedCell_beta = xdsout.cell_beta.value
-        autoproc.refinedCell_gamm1a = xdsout.cell_gamma.value
+        autoproc.refinedCell_gamma = xdsout.cell_gamma.value
 
         output.AutoProc = autoproc
 
@@ -344,21 +344,37 @@ class EDPluginControlAutoproc( EDPluginControl ):
         scaling_container.AutoProcScaling = scaling
 
 
-        # FIXME: handle the anom path as well. It seems that max
-        # generates a whole different data model for that
-        xscale_stats = self.xscale_noanom.dataOutput.stats_noanom_merged
-        inner_stats = xscale_stats.completeness_entries[0]
-        outer_stats = xscale_stats.completeness_entries[-1]
-        total_stats = xscale_stats.total_completeness
+        # NOANOM PATH
+        xscale_stats_noanom = self.xscale_noanom.dataOutput.stats_noanom_merged
+        inner_stats_noanom = xscale_stats_noanom.completeness_entries[0]
+        outer_stats_noanom = xscale_stats_noanom.completeness_entries[-1]
+        total_stats_noanom = xscale_stats_noanom.total_completeness
 
-        stats = _create_scaling_stats(inner_stats, 'inner',
+        stats = _create_scaling_stats(inner_stats_noanom, 'inner',
                                       self.low_resolution_limit, 0)
         scaling_container.AutoProcScalingStatistics.append(stats)
 
-        stats = _create_scaling_stats(outer_stats, 'outer',
+        stats = _create_scaling_stats(outer_stats_noanom, 'outer',
                                       self.low_resolution_limit, 0)
         scaling_container.AutoProcScalingStatistics.append(stats)
-        stats = _create_scaling_stats(total_stats, 'total',
+        stats = _create_scaling_stats(total_stats_noanom, 'total',
+                                      self.low_resolution_limit, 0)
+        scaling_container.AutoProcScalingStatistics.append(stats)
+
+        # ANOM PATH
+        xscale_stats_anom = self.xscale_anom.dataOutput.stats_anom_merged
+        inner_stats_anom = xscale_stats.completeness_entries[0]
+        outer_stats_anom = xscale_stats.completeness_entries[-1]
+        total_stats_anom = xscale_stats.total_completeness
+
+        stats = _create_scaling_stats(inner_stats_anom, 'inner',
+                                      self.low_resolution_limit, 0)
+        scaling_container.AutoProcScalingStatistics.append(stats)
+
+        stats = _create_scaling_stats(outer_stats_anom, 'outer',
+                                      self.low_resolution_limit, 0)
+        scaling_container.AutoProcScalingStatistics.append(stats)
+        stats = _create_scaling_stats(total_stats_anom, 'total',
                                       self.low_resolution_limit, 0)
         scaling_container.AutoProcScalingStatistics.append(stats)
 
