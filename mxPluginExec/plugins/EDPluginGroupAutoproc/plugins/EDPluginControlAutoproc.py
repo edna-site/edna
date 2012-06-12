@@ -351,14 +351,14 @@ class EDPluginControlAutoproc( EDPluginControl ):
         total_stats_noanom = xscale_stats_noanom.total_completeness
 
         stats = _create_scaling_stats(inner_stats_noanom, 'inner',
-                                      self.low_resolution_limit, 0)
+                                      self.low_resolution_limit, False)
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_noanom, 'outer',
-                                      self.low_resolution_limit, 0)
+                                      self.low_resolution_limit, False)
         scaling_container.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_noanom, 'total',
-                                      self.low_resolution_limit, 0)
+                                      self.low_resolution_limit, False)
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         # ANOM PATH
@@ -368,14 +368,14 @@ class EDPluginControlAutoproc( EDPluginControl ):
         total_stats_anom = xscale_stats_anom.total_completeness
 
         stats = _create_scaling_stats(inner_stats_anom, 'inner',
-                                      self.low_resolution_limit, 0)
+                                      self.low_resolution_limit, True)
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_anom, 'outer',
-                                      self.low_resolution_limit, 0)
+                                      self.low_resolution_limit, True)
         scaling_container.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_anom, 'total',
-                                      self.low_resolution_limit, 0)
+                                      self.low_resolution_limit, True)
         scaling_container.AutoProcScalingStatistics.append(stats)
 
 
