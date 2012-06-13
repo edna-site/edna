@@ -79,6 +79,10 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
         self.DEBUG("EDPluginHDF5StackImagesv10.preProcess")
 
         for onefile in self.dataInput.inputImageFile:
+            if onefile is None: 
+                self.ERROR("Please investigate why  EDPluginHDF5StackImagesv10.dataInput.inputImageFile is a list containing None !!!!")
+                self.setFailure()
+                continue
             if onefile.path is not None:
                 self.listImageFilenames.append(onefile.path.value)
             if onefile.date is not None:
