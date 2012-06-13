@@ -350,7 +350,7 @@ class FullFieldXas(object):
                  self.measureOffset = {}
             strtmp = self.raw_input("Measure Offset versus reference (not versus the next) [0|1]: ")
             if len(strtmp) > 0:
-                self.measureOffset["awaysVersusRef"] = int(strtmp)
+                self.measureOffset["alwaysVersusRef"] = int(strtmp)
             strtmp = self.raw_input("Remove background for measuring offset [0|1]: ")
             if len(strtmp) > 0:
                 self.measureOffset["removeBackground"] = int(strtmp)
@@ -617,8 +617,8 @@ class FullFieldXas(object):
                 listFlats.append(xsdFileFlat1)
         xsd.flat = listFlats
         if len(listFlats) != 2:
-            EDVerbose.ERROR([a.path.value for a in listFlats ])
-            EDVerbose.ERROR("%s\t%s" % (flatprefix, self.suffix))
+            EDVerbose.WARNING("Not exactly 2 flats were found:"+" ".join([a.path.value for a in listFlats ]))
+            EDVerbose.WARNING("Those are the flat prefix ans suffix: %s\t%s" % (flatprefix, self.suffix))
 
         if self.fScaleFlat:
             fScaleFlat = self.fScaleFlat
