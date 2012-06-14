@@ -47,10 +47,11 @@ class MergeFFX(object):
     STACK = "data"
     ENERGY = "energy"
     MAX_INT = "maxInt"
-    def __init__(self, inputs, output, crop=False, check=False, normalize=False):
+    def __init__(self, inputs, output, crop=False, check=False, normalize=False,logarithm=False):
         """
         inputs and output are /path/to/file:internal
         """
+        self._h5files = []
         self.inputs = self.validateInputs(inputs) #list of HDF5 groups
         if output is None:
             raise RuntimeError("Output cannot be None")
@@ -64,9 +65,10 @@ class MergeFFX(object):
         self.offsets = {}
         self._shape = None
         self._crop_region = None
+        self.ln = logarithm
 
-    @classmethod
-    def validateInputs(cls, inputs):
+#    @classmethod
+    def validateInputs(self, inputs):
         """
         @return: dict with "path:h5" -> Group object 
         """
@@ -78,6 +80,7 @@ class MergeFFX(object):
                 filepath, h5path = h.split(":", 1)
                 if os.path.isfile(filepath):
                     h5file = h5py.File(filepath)
+                    self._h5files.append(h5file)
 #                    cls.set_cache(h5file, policy=0.0)
                     if h5path in h5file:
                         if h5file[h5path].__class__.__name__ == "Group":
@@ -169,7 +172,8 @@ class MergeFFX(object):
         dim1 = self.crop_region[0].stop - self.crop_region[0].start
         dim2 = self.crop_region[1].stop - self.crop_region[1].start
         if not self.ENERGY in self.h5grp:
-            self.h5grp.create_dataset(self.ENERGY, (self.shape[0],), dtype="float32", data=self.get_energy())
+            nrj=self.get_energy()
+            self.h5grp.create_dataset(self.ENERGY, (nrj.size,), dtype="float32", data=nrj)
         if not self.STACK in self.h5grp:
             self.h5grp.create_dataset(self.STACK, (self.shape[0], dim1, dim2),
                                        dtype="float32", chunks=(1, max(1, dim1 // 8), max(1, dim2 // 8)))
@@ -200,7 +204,10 @@ class MergeFFX(object):
                 logger.warning("Why is i=0?????")
                 i = 1
             tw0 = time.time()
-            ds[frn] = fr / i
+            if self.ln:
+                ds[frn] = -numpy.log(fr / i)
+            else:
+                ds[frn] = fr / i
             tw = time.time() - tw0
             sys.stdout.write("  w=%5.3fs" % tw)
             writet.append(tw)
@@ -226,12 +233,16 @@ if __name__ == "__main__":
     parser.add_option("-q", "--quiet",
                       action="store_false", dest="verbose", default=True,
                       help="don't print status messages to stdout")
+    parser.add_option("-l", "--ln",
+                      dest="ln", default=False,
+                      help="write data as -logarithm of merged input")
+
 
 
     (options, args) = parser.parse_args()
     print options
     print args
-    mfx = MergeFFX(args, options.h5path, crop=options.crop, check=options.recheck, normalize=options.normalize)
+    mfx = MergeFFX(args, options.h5path, crop=options.crop, check=options.recheck, normalize=options.normalize,logarithm=options.ln)
     mfx.create_output()
     mfx.get_offsets()
     mfx.get_crop_region()

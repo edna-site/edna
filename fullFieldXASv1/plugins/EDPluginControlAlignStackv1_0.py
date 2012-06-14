@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2010-, European Synchrotron Radiation Facility, Grenoble"
 __contact__ = "jerome.kieffer@esrf.fr"
-__date__ = "20120518"
+__date__ = "20120613"
 __status__ = "production"
 
 import os, sys
@@ -101,7 +101,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.hdf5ExtraAttributes = None
         self.xsdHDF5File = None
         self.xsdHDF5Internal = None
-        self.bAlwaysMOvsRef = False
+        self.bAlwaysMOvsRef = True 
         self.bDoAlign = True
         self.semAccumulator = Semaphore()
         self.semMeasure = Semaphore()
@@ -302,15 +302,14 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 if min(listIndex) < EDPluginControlAlignStackv1_0.__iRefFrame:
 
                     iToShift, iRef = tuple(listIndex)
-                    EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ -i.getValue() for i in dataOutput.getOffset()])
+                    EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ -i.value for i in dataOutput.offset])
                 else:
                     iRef, iToShift = tuple(listIndex)
-                    EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ i.getValue() for i in dataOutput.getOffset()])
+                    EDPluginControlAlignStackv1_0.__dictRelShift[iToShift] = tuple([ i.value for i in dataOutput.offset])
                 self.screen("Frame number %i has relative offset of %.3f,%.3f" %
                                      (iToShift, EDPluginControlAlignStackv1_0.__dictRelShift[iToShift][0], EDPluginControlAlignStackv1_0.__dictRelShift[iToShift][1]))
 
-                xsdata = XSDataInputAccumulator()
-                xsdata.setItem([XSDataString("shift %04i" % iToShift)])
+                xsdata = XSDataInputAccumulator(item=[XSDataString("shift %04i" % iToShift)])
                 edPluginExecAccumulator = self.loadPlugin(self.__strControlledPluginAccumulator)
                 edPluginExecAccumulator.setDataInput(xsdata)
                 edPluginExecAccumulator.connectSUCCESS(self.doSuccessExecAccumultor)
@@ -416,10 +415,10 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                     self.screen("Frame number %i has absolute offset of %.3f,%.3f" % (iFrameShift, shift_1, shift_2))
 
                     edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
-                    xsdata = XSDataInputShiftImage()
-                    xsdata.setIndex(XSDataInteger(iFrameShift))
-                    xsdata.setOffset([XSDataDouble(shift_1), XSDataDouble(shift_2)])
-                    xsdata.setInputImage(self.getFrameRef(iFrameShift))
+                    xsdata = XSDataInputShiftImage(index=XSDataInteger(iFrameShift),
+                                                   offset=[XSDataDouble(shift_1), XSDataDouble(shift_2)],
+                                                   inputImage=self.getFrameRef(iFrameShift) 
+                                                    )
                     edPluginExecShift.setDataInput(xsdata)
                     edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
                     edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
