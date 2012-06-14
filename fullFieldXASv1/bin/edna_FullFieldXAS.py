@@ -596,7 +596,7 @@ class FullFieldXas(object):
                     started = True
                 if started:
                     number += i
-                index = int(number)
+            index = int(number)
         xsd.index = XSDataInteger(index)
 
         if self.normalizedSuffix:
@@ -617,7 +617,7 @@ class FullFieldXas(object):
                 listFlats.append(xsdFileFlat1)
         xsd.flat = listFlats
         if len(listFlats) != 2:
-            EDVerbose.WARNING("Not exactly 2 flats were found:"+" ".join([a.path.value for a in listFlats ]))
+            EDVerbose.WARNING("Not exactly 2 flats were found:" + " ".join([a.path.value for a in listFlats ]))
             EDVerbose.WARNING("Those are the flat prefix ans suffix: %s\t%s" % (flatprefix, self.suffix))
 
         if self.fScaleFlat:

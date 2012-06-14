@@ -101,7 +101,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
         self.hdf5ExtraAttributes = None
         self.xsdHDF5File = None
         self.xsdHDF5Internal = None
-        self.bAlwaysMOvsRef = True 
+        self.bAlwaysMOvsRef = True
         self.bDoAlign = True
         self.semAccumulator = Semaphore()
         self.semMeasure = Semaphore()
@@ -415,11 +415,11 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                     self.screen("Frame number %i has absolute offset of %.3f,%.3f" % (iFrameShift, shift_1, shift_2))
 
                     edPluginExecShift = self.loadPlugin(self.__strControlledPluginShift)
-                    xsdata = XSDataInputShiftImage(index=XSDataInteger(iFrameShift),
+                    edPluginExecShift.dataInput = XSDataInputShiftImage(index=XSDataInteger(iFrameShift),
                                                    offset=[XSDataDouble(shift_1), XSDataDouble(shift_2)],
-                                                   inputImage=self.getFrameRef(iFrameShift) 
-                                                    )
-                    edPluginExecShift.setDataInput(xsdata)
+                                                   inputImage=self.getFrameRef(iFrameShift),
+                                                   outputImage=XSDataImageExt(shared=XSDataString("Shifted-%06i" % iFrameShift)))
+
                     edPluginExecShift.connectSUCCESS(self.doSuccessExecShiftImage)
                     edPluginExecShift.connectFAILURE(self.doFailureExecShiftImage)
                     self.queue.put(edPluginExecShift)
