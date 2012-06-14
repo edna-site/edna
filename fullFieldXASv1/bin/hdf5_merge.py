@@ -47,7 +47,7 @@ class MergeFFX(object):
     STACK = "data"
     ENERGY = "energy"
     MAX_INT = "maxInt"
-    def __init__(self, inputs, output, crop=False, check=False, normalize=False,logarithm=False):
+    def __init__(self, inputs, output, crop=False, check=False, normalize=False, logarithm=False):
         """
         inputs and output are /path/to/file:internal
         """
@@ -172,7 +172,7 @@ class MergeFFX(object):
         dim1 = self.crop_region[0].stop - self.crop_region[0].start
         dim2 = self.crop_region[1].stop - self.crop_region[1].start
         if not self.ENERGY in self.h5grp:
-            nrj=self.get_energy()
+            nrj = self.get_energy()
             self.h5grp.create_dataset(self.ENERGY, (nrj.size,), dtype="float32", data=nrj)
         if not self.STACK in self.h5grp:
             self.h5grp.create_dataset(self.STACK, (self.shape[0], dim1, dim2),
@@ -187,13 +187,16 @@ class MergeFFX(object):
             i = 0
             tr0 = time.time()
             for path, h5grp in self.inputs.items():
-                if self.MAX_INT in h5grp:
+                if self.normalize and (self.MAX_INT in h5grp):
                     norm_factor = h5grp[self.MAX_INT][frn]
                 else:
                     norm_factor = 1.0
                 if self.STACK in h5grp:
-                    i += 1
                     idx = (frn,) + self.crop_region
+                    cropped = h5grp[self.STACK][idx]
+                    if abs(cropped).max() < 1e-10:
+                        continue
+                    i += 1
                     fr += h5grp[self.STACK][idx] / norm_factor
                 else:
                     logger.warning("no %s in %s ?????"(self.STACK, frn))
@@ -242,7 +245,7 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
     print options
     print args
-    mfx = MergeFFX(args, options.h5path, crop=options.crop, check=options.recheck, normalize=options.normalize,logarithm=options.ln)
+    mfx = MergeFFX(args, options.h5path, crop=options.crop, check=options.recheck, normalize=options.normalize, logarithm=options.ln)
     mfx.create_output()
     mfx.get_offsets()
     mfx.get_crop_region()
