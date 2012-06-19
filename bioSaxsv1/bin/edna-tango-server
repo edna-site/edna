@@ -39,9 +39,16 @@ then
 fi
 now=$(date +"%Y%m%dT%H%M%S")
 
-if [ -d /buffer/$(hostname)1 ]
+if [ -d /nobackup ]
 then
-   baseLog=/buffer/$(hostname)1
+   buffer="nobackup"
+else
+   buffer="buffer"
+fi
+
+if [ -d /${buffer}/$(hostname)1 ]
+then
+   baseLog=/${buffer}/$(hostname)1
 else
    baseLog=/tmp
 fi 
