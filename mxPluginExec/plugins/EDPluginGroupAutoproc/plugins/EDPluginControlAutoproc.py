@@ -37,6 +37,7 @@ from EDVerbose import EDVerbose
 from EDFactoryPlugin import edFactoryPlugin
 
 from XSDataCommon import XSDataFile, XSDataBoolean, XSDataString
+from XSDataCommon import  XSDataInteger, XSDataTime
 
 from XSDataAutoproc import XSDataAutoprocInput
 from XSDataAutoproc import XSDataResCutoff
@@ -46,6 +47,8 @@ from XSDataAutoproc import XSDataXdsOutputFile
 from XSDataAutoproc import XSDataXscaleInput
 from XSDataAutoproc import XSDataXscaleInputFile
 
+edFactoryPlugin.loadModule('XSDataWaitFilev1_0')
+from XSDataWaitFilev1_0 import XSDataInputWaitFile
 
 edFactoryPlugin.loadModule('XSDataISPyBv1_4')
 # plugin input/output
@@ -62,7 +65,9 @@ from XSDataISPyBv1_4 import Image
 
 from xdscfgparser import parse_xds_file, dump_xds_file
 
-class EDPluginControlAutoproc( EDPluginControl ):
+WAIT_FOR_FRAME_TIMEOUT=240 #max uses 50*5
+
+class EDPluginControlAutoproc(EDPluginControl):
     """
     Runs the part of the autoproc pipeline that has to be run on the
     cluster.
@@ -113,10 +118,13 @@ class EDPluginControlAutoproc( EDPluginControl ):
             # XXX: default to 0?
             self.res_override = None
 
-        # modify the XDS.INP file to reflect these values, if
-        # specified
+        # check the number of images (must be > 8) and get the first
+        # image name to wait for. Also modify the XDS.INP file to
+        # reflect these values, if specified
         conf = parse_xds_file(data_in.input_file.path.value)
         resrange = conf.get('INCLUDE_RESOLUTION_RANGE=')
+
+
 
         if resrange is not None:
             if self.low_resolution_limit is not None:
@@ -126,6 +134,29 @@ class EDPluginControlAutoproc( EDPluginControl ):
             conf['INCLUDE_RESOLUTION_RANGE='] = resrange
             dump_xds_file(data_in.input_file.path.value, conf)
 
+
+        data_range = conf.get('DATA_RANGE=')
+        if data_range is not None:
+            start_image = data_range[0]
+            end_image = data_range[1]
+            if end_image - start_image < 8:
+                self.ERROR('there are fewer than 8 images, aborting')
+                self.setFailure()
+                return
+
+        template = conf['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
+        first_image = _template_to_image(template, start_image)
+
+        self.wait_file = self.loadPlugin('EDPluginWaitFile')
+        waitfileinput = XSDataInputWaitFile()
+        waitfileinput.expectedFile = XSDataFile()
+        waitfileinput.expectedFile.path = XSDataString(first_image)
+        waitfileinput.expectedSize = XSDataInteger(0) # we do not care
+        timeout = XSDataTime()
+        global WAIT_FOR_FRAME_TIMEOUT
+        timeout.value = WAIT_FOR_FRAME_TIMEOUT
+        waitfileinput.timeOut = timeout
+        self.wait_file.dataInput = waitfileinput
 
         self.xds_first = self.loadPlugin("EDPluginControlRunXds")
         self.xds_first.dataInput = xds_in
@@ -145,6 +176,14 @@ class EDPluginControlAutoproc( EDPluginControl ):
     def process(self, _edObject = None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlAutoproc.process")
+
+        # wait for the first frame
+        self.wait_file.executeSynchronous()
+        if self.wait_file.isFailure():
+            self.ERROR('error waiting for the first image file to appear')
+            self.setFailure()
+            return
+        EDVerbose.screen('first frame appeared on time')
 
         # first XDS plugin run with supplied XDS file
         EDVerbose.screen("First XDS run...")
@@ -421,6 +460,29 @@ def _create_scaling_stats(xscale_stats, stats_type, lowres, anom):
     stats.anomalous = anom
 
     return stats
+
+
+
+# copy/pasted from another plugin
+def _template_to_image(fmt, num):
+    # for simplicity we will assume the template to contain only one
+    # sequence of '?' characters. max's code uses a regexp so this
+    # further restrict the possible templates.
+    start = fmt.find('?')
+    end = fmt.rfind('?')
+    if start == -1 or end == -1:
+        # the caller test for the file existence and an empty path
+        # does not exist
+        return ''
+    prefix = fmt[:start]
+    suffix = fmt[end+1:]
+    length = end - start + 1
+
+    # this is essentially the python format string equivalent to the
+    # template string
+    fmt_string = prefix + '{0:0' + str(length) + 'd}' + suffix
+
+    return fmt_string.format(num)
 
 
 # taken straight from max's code
