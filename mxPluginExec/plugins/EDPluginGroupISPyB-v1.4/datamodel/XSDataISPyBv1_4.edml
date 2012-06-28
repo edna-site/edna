@@ -315,6 +315,7 @@ complex type XSDataISPyBScreeningOutput extends XSData {
 	doseTotal : XSDataDouble optional
 	totalExposureTime : XSDataDouble optional
 	totalRotationRange : XSDataDouble optional
+	totalNumberOfImages : XSDataInteger optional
 	rFriedel : XSDataDouble optional
 }
 

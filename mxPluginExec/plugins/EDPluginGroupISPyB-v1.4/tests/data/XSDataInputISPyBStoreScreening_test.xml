@@ -165,6 +165,9 @@
             <totalRotationRange>
             	<value>180.0</value>
             </totalRotationRange>
+            <totalNumberOfImages>
+            	<value>180</value>
+            </totalNumberOfImages>
             <rFriedel>
             	<value>2.2</value>
             </rFriedel>

@@ -307,32 +307,34 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         fDoseTotal = self.getXSValue(_xsDataISPyBScreeningOutput.doseTotal)
         fTotalExposureTime = self.getXSValue(_xsDataISPyBScreeningOutput.totalExposureTime)
         fTotalRotationRange = self.getXSValue(_xsDataISPyBScreeningOutput.totalRotationRange)
+        fTotalNumberOfImages = self.getXSValue(_xsDataISPyBScreeningOutput.totalNumberOfImages)
         fRFriedel = self.getXSValue(_xsDataISPyBScreeningOutput.rFriedel)
         iScreeningOutputId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutput(
             iScreeningOutputId, \
-            iScreeningId, \
-            strStatusDescription, \
-            iRejectedReflections, \
-            fResolutionObtained, \
-            fSpotDeviationR, \
-            fSpotDeviationTheta, \
-            fBeamShiftX, \
-            fBeamShiftY, \
-            iNumSpotsFound, \
-            iNumSpotsUsed, \
-            iNumSpotsRejected, \
-            fMosaicity, \
-            fIOverSigma, \
-            bDiffractionRings, \
-            bIndexingSuccess, \
-            bStrategySuccess, \
-            bMosaicityEstimated, \
-            fRankingResolution, \
-            strProgram, \
-            fDoseTotal, \
-            fTotalExposureTime, \
-            fTotalRotationRange, \
-            fRFriedel, \
+            screeningId = iScreeningId, \
+            statusDescription = strStatusDescription, \
+            rejectedReflections = iRejectedReflections, \
+            resolutionObtained = fResolutionObtained, \
+            spotDeviationR = fSpotDeviationR, \
+            spotDeviationTheta = fSpotDeviationTheta, \
+            beamShiftX = fBeamShiftX, \
+            beamShiftY = fBeamShiftY, \
+            numSpotsFound = iNumSpotsFound, \
+            numSpotsUsed = iNumSpotsUsed, \
+            numSpotsRejected = iNumSpotsRejected, \
+            mosaicity = fMosaicity, \
+            ioverSigma = fIOverSigma, \
+            diffractionRings = bDiffractionRings, \
+            strategySuccess = bStrategySuccess, \
+            indexingSuccess = bIndexingSuccess, \
+            mosaicityEstimated = bMosaicityEstimated, \
+            rankingResolution = fRankingResolution, \
+            program = strProgram, \
+            doseTotal = fDoseTotal, \
+            totalExposureTime = fTotalExposureTime, \
+            totalRotationRange = fTotalRotationRange, \
+            totalNumberOfImages = fTotalNumberOfImages, \
+            rFriedel = fRFriedel, \
             )
         self.DEBUG("ScreeningOutputId: %d" % iScreeningOutputId)
         return iScreeningOutputId
