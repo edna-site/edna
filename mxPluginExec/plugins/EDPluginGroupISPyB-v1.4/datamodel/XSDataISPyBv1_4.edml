@@ -52,6 +52,7 @@ complex type XSDataResultStoreAutoProc extends XSDataResult {
 
 
 complex type AutoProc {
+	autoProcId : integer optional
 	spaceGroup : string
 	refinedCell_a : string
 	refinedCell_b : string
@@ -68,10 +69,12 @@ complex type AutoProcScalingContainer {
 }
 
 complex type AutoProcScaling {
+	iAutoProcScalingId : integer optional
 	recordTimeStamp : string
 }
 
 complex type AutoProcScalingStatistics {
+	iAutoProcScalingStatisticsId : integer optional
 	scalingStatisticsType : string
 	comments : string
 	resolutionLimitLow : float
@@ -89,7 +92,9 @@ complex type AutoProcScalingStatistics {
 	multiplicity : float
 	anomalousCompleteness : float
 	anomalousMultiplicity : float
+	recordTimeStamp : string
 	anomalous : boolean
+	ccHalf : float
 }
 
 complex type Image {
@@ -97,6 +102,7 @@ complex type Image {
 }
 
 complex type AutoProcIntegration {
+	autoProcIntegrationId : integer optional
 	startImageNumber : integer
 	endImageNumber : integer
 	refinedDetectorDistance : float
@@ -123,6 +129,7 @@ complex type AutoProcIntegrationContainer {
 }
 
 complex type AutoProcProgram {
+	autoProcProgramId : integer optional
 	processingCommandLine : string
 	processingPrograms : string
 	processingStatus : boolean
@@ -133,9 +140,11 @@ complex type AutoProcProgram {
 }
 
 complex type AutoProcProgramAttachment {
+	autoProcProgramAttachmentId : integer optional
 	fileType : string
 	fileName : string
 	filePath : string
+	recordTimeStamp : string
 }
 
 complex type AutoProcProgramContainer {
