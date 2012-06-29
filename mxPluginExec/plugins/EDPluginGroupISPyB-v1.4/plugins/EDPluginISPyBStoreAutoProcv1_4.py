@@ -61,7 +61,7 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         self.iAutoProcId = None
         self.iAutoProcProgramId = None
         self.bContinue = True
-        self.iAutoProcScaling_has_IntId = None
+        self.iAutoProcScalingHasIntId = None
         
     
     def configure(self):
@@ -130,10 +130,10 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
                 self.setFailure()
                 self.bContinue = False
         if self.bContinue:
-            # AutoProcScaling_has_IntId
-            self.iAutoProcScaling_has_IntId = self.storeOrUpdateAutoProcScaling_has_IntId(clientToolsForAutoprocessingWebService)
-            if self.iAutoProcScaling_has_IntId is None:
-                self.ERROR("Couldn't create entry for AutoProcScaling_has_IntId in ISPyB!")
+            # AutoProcScalingHasIntId
+            self.iAutoProcScalingHasIntId = self.storeOrUpdateAutoProcScalingHasIntId(clientToolsForAutoprocessingWebService)
+            if self.iAutoProcScalingHasIntId is None:
+                self.ERROR("Couldn't create entry for AutoProcScalingHasIntId in ISPyB!")
                 self.setFailure()
                 self.bContinue = False
         if self.bContinue:
@@ -333,8 +333,9 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
     
     def storeOrUpdateAutoProcScalingStatistics(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcScalingStatistics):
         """Creates an entry in the ISPyB AutoProcScalingStatistics table"""
-        strScalingStatisticsType = _xsDataAutoProcScalingStatistics.getScalingStatisticsType()
-        strComments = ""
+        iAutoProcScalingStatisticsId = self.getXSValue(_xsDataAutoProcScalingStatistics.getAutoProcScalingStatisticsId())
+        strScalingStatisticsType = self.getXSValue(_xsDataAutoProcScalingStatistics.getScalingStatisticsType())
+        strComments = self.getXSValue(_xsDataAutoProcScalingStatistics.getComments())
         fResolutionLimitLow = self.getXSValue(_xsDataAutoProcScalingStatistics.getResolutionLimitLow())
         fResolutionLimitHigh = self.getXSValue(_xsDataAutoProcScalingStatistics.getResolutionLimitHigh())
         fRmerge = self.getXSValue(_xsDataAutoProcScalingStatistics.getRMerge())
@@ -353,41 +354,45 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         recordTimeStamp = DateTime(datetime.datetime.now())
         bAnomalous = self.getXSValue(_xsDataAutoProcScalingStatistics.getAnomalous(), False)
         iAutoProcScalingId = self.iAutoProcScalingId
+        fCcHalf = self.getXSValue(_xsDataAutoProcScalingStatistics.getCcHalf())
         iAutoProcScalingStatisticsId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcScalingStatistics(
-                strScalingStatisticsType, \
-                strComments, \
-                fResolutionLimitLow, \
-                fResolutionLimitHigh, \
-                fRmerge, \
-                fRmeasWithinIplusIminus, \
-                fRmeasAllIplusIminus, \
-                fRpimWithinIplusIminus, \
-                fRpimAllIplusIminus, \
-                fFractionalPartialBias, \
-                iNtotalObservations, \
-                iNtotalUniqueObservations, \
-                fMeanIoverSigI, \
-                fCompleteness, \
-                fMultiplicity, \
-                fAnomalousCompleteness, \
-                fAnomalousMultiplicity, \
-                recordTimeStamp, \
-                bAnomalous, \
-                iAutoProcScalingId \
+                arg0 = iAutoProcScalingStatisticsId, \
+                scalingStatisticsType = strScalingStatisticsType, \
+                comments = strComments, \
+                resolutionLimitLow = fResolutionLimitLow, \
+                resolutionLimitHigh = fResolutionLimitHigh, \
+                rRmerge = fRmerge, \
+                rmeasWithinIplusIminus = fRmeasWithinIplusIminus, \
+                rmeasAllIplusIminus = fRmeasAllIplusIminus, \
+                rpimWithinIplusIminus = fRpimWithinIplusIminus, \
+                rpimAllIplusIminus = fRpimAllIplusIminus, \
+                fFractionalPartialBias = fFractionalPartialBias, \
+                ntotalObservations = iNtotalObservations, \
+                ntotalUniqueObservations = iNtotalUniqueObservations, \
+                meanIoverSigI = fMeanIoverSigI, \
+                completeness = fCompleteness, \
+                multiplicity = fMultiplicity, \
+                anomalousCompleteness = fAnomalousCompleteness, \
+                anomalousMultiplicity = fAnomalousMultiplicity, \
+                recordTimeStamp = recordTimeStamp, \
+                anomalous = bAnomalous, \
+                autoProcScalingId = iAutoProcScalingId, \
+                ccHalf = fCcHalf, \
                 )
         self.DEBUG("AutoProcScalingStatisticsId: %r" % iAutoProcScalingStatisticsId)
         return iAutoProcScalingStatisticsId
 
 
-    def storeOrUpdateAutoProcScaling_has_IntId(self, _clientToolsForAutoprocessingWebService):
-        """Creates an entry in the ISPyB storeOrUpdateAutoProcScaling_has_IntId table"""
+    def storeOrUpdateAutoProcScalingHasIntId(self, _clientToolsForAutoprocessingWebService):
+        """Creates an entry in the ISPyB storeOrUpdateAutoProcScalingHasIntId table"""
         iAutoProcIntegrationId = self.iAutoProcIntegrationId
         iAutoProcScalingId = self.iAutoProcScalingId
         recordTimeStamp = DateTime(datetime.datetime.now())
-        iAutoProcScaling_has_intId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcScalingHasInt(                                                                                                          
-                iAutoProcIntegrationId, \
-                iAutoProcScalingId, \
-                recordTimeStamp \
+        iAutoProcScalingHasIntId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcScalingHasInt(
+                arg0 = None, \
+                autoProcIntegrationId = iAutoProcIntegrationId, \
+                autoProcScalingId = iAutoProcScalingId, \
+                recordTimeStamp = recordTimeStamp \
                 )
-        self.DEBUG("AutoProcScaling_has_IntId: %r" % iAutoProcScaling_has_intId)
-        return iAutoProcScaling_has_intId
+        self.DEBUG("AutoProcScalingHasIntId: %r" % iAutoProcScalingHasIntId)
+        return iAutoProcScalingHasIntId

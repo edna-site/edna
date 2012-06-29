@@ -69,12 +69,12 @@ complex type AutoProcScalingContainer {
 }
 
 complex type AutoProcScaling {
-	iAutoProcScalingId : integer optional
+	autoProcScalingId : integer optional
 	recordTimeStamp : string
 }
 
 complex type AutoProcScalingStatistics {
-	iAutoProcScalingStatisticsId : integer optional
+	autoProcScalingStatisticsId : integer optional
 	scalingStatisticsType : string
 	comments : string
 	resolutionLimitLow : float

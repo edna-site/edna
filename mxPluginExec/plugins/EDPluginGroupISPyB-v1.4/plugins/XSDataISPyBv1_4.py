@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun 28 05:19::41 2012 by EDGenerateDS.
+# Generated Fri Jun 29 06:10::16 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -375,120 +375,6 @@ class AutoProc(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class AutoProc
-
-class AutoProcContainer(object):
-	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
-	
-	
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProc, "AutoProc")
-		self._AutoProc = AutoProc
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
-		self._AutoProcScalingContainer = AutoProcScalingContainer
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
-		self._AutoProcProgramContainer = AutoProcProgramContainer
-	def getAutoProc(self): return self._AutoProc
-	def setAutoProc(self, AutoProc):
-		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
-		self._AutoProc = AutoProc
-	def delAutoProc(self): self._AutoProc = None
-	# Properties
-	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
-	def getAutoProcScalingContainer(self): return self._AutoProcScalingContainer
-	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
-		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
-		self._AutoProcScalingContainer = AutoProcScalingContainer
-	def delAutoProcScalingContainer(self): self._AutoProcScalingContainer = None
-	# Properties
-	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
-	def getAutoProcProgramContainer(self): return self._AutoProcProgramContainer
-	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
-		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
-		self._AutoProcProgramContainer = AutoProcProgramContainer
-	def delAutoProcProgramContainer(self): self._AutoProcProgramContainer = None
-	# Properties
-	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
-	def export(self, outfile, level, name_='AutoProcContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
-		pass
-		if self._AutoProc is not None:
-			self.AutoProc.export(outfile, level, name_='AutoProc')
-		else:
-			warnEmptyAttribute("AutoProc", "AutoProc")
-		if self._AutoProcScalingContainer is not None:
-			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
-		else:
-			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
-		if self._AutoProcProgramContainer is not None:
-			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
-		else:
-			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProc':
-			obj_ = AutoProc()
-			obj_.build(child_)
-			self.setAutoProc(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScalingContainer':
-			obj_ = AutoProcScalingContainer()
-			obj_.build(child_)
-			self.setAutoProcScalingContainer(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcProgramContainer':
-			obj_ = AutoProcProgramContainer()
-			obj_.build(child_)
-			self.setAutoProcProgramContainer(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class AutoProcContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcContainer
 
 class AutoProcIntegration(object):
 	def __init__(self, anomalous=None, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, beamVectorZ=None, beamVectorY=None, beamVectorX=None, rotationAxisZ=None, rotationAxisY=None, rotationAxisX=None, refinedYbeam=None, refinedXbeam=None, refinedDetectorDistance=None, endImageNumber=None, startImageNumber=None, autoProcIntegrationId=None):
@@ -1592,20 +1478,20 @@ class AutoProcProgramContainer(object):
 # end class AutoProcProgramContainer
 
 class AutoProcScaling(object):
-	def __init__(self, recordTimeStamp=None, iAutoProcScalingId=None):
+	def __init__(self, recordTimeStamp=None, autoProcScalingId=None):
 	
 	
-		checkType("AutoProcScaling", "Constructor of AutoProcScaling", iAutoProcScalingId, "integer")
-		self._iAutoProcScalingId = iAutoProcScalingId
+		checkType("AutoProcScaling", "Constructor of AutoProcScaling", autoProcScalingId, "integer")
+		self._autoProcScalingId = autoProcScalingId
 		checkType("AutoProcScaling", "Constructor of AutoProcScaling", recordTimeStamp, "string")
 		self._recordTimeStamp = recordTimeStamp
-	def getIAutoProcScalingId(self): return self._iAutoProcScalingId
-	def setIAutoProcScalingId(self, iAutoProcScalingId):
-		checkType("AutoProcScaling", "setIAutoProcScalingId", iAutoProcScalingId, "integer")
-		self._iAutoProcScalingId = iAutoProcScalingId
-	def delIAutoProcScalingId(self): self._iAutoProcScalingId = None
+	def getAutoProcScalingId(self): return self._autoProcScalingId
+	def setAutoProcScalingId(self, autoProcScalingId):
+		checkType("AutoProcScaling", "setAutoProcScalingId", autoProcScalingId, "integer")
+		self._autoProcScalingId = autoProcScalingId
+	def delAutoProcScalingId(self): self._autoProcScalingId = None
 	# Properties
-	iAutoProcScalingId = property(getIAutoProcScalingId, setIAutoProcScalingId, delIAutoProcScalingId, "Property for iAutoProcScalingId")
+	autoProcScalingId = property(getAutoProcScalingId, setAutoProcScalingId, delAutoProcScalingId, "Property for autoProcScalingId")
 	def getRecordTimeStamp(self): return self._recordTimeStamp
 	def setRecordTimeStamp(self, recordTimeStamp):
 		checkType("AutoProcScaling", "setRecordTimeStamp", recordTimeStamp, "string")
@@ -1621,9 +1507,9 @@ class AutoProcScaling(object):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='AutoProcScaling'):
 		pass
-		if self._iAutoProcScalingId is not None:
+		if self._autoProcScalingId is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<iAutoProcScalingId>%d</iAutoProcScalingId>\n' % self._iAutoProcScalingId))
+			outfile.write(unicode('<autoProcScalingId>%d</autoProcScalingId>\n' % self._autoProcScalingId))
 		if self._recordTimeStamp is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<recordTimeStamp>%s</recordTimeStamp>\n' % self._recordTimeStamp))
@@ -1635,14 +1521,14 @@ class AutoProcScaling(object):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'iAutoProcScalingId':
+			nodeName_ == 'autoProcScalingId':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
 					ival_ = int(sval_)
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._iAutoProcScalingId = ival_
+				self._autoProcScalingId = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'recordTimeStamp':
 			value_ = ''
@@ -1693,12 +1579,249 @@ class AutoProcScaling(object):
 	parseFile = staticmethod( parseFile )
 # end class AutoProcScaling
 
+class AutoProcScalingContainer(object):
+	def __init__(self, AutoProcIntegrationContainer=None, AutoProcScalingStatistics=None, AutoProcScaling=None):
+	
+	
+		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScaling, "AutoProcScaling")
+		self._AutoProcScaling = AutoProcScaling
+		if AutoProcScalingStatistics is None:
+			self._AutoProcScalingStatistics = []
+		else:
+			checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScalingStatistics, "list")
+			self._AutoProcScalingStatistics = AutoProcScalingStatistics
+		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
+		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
+	def getAutoProcScaling(self): return self._AutoProcScaling
+	def setAutoProcScaling(self, AutoProcScaling):
+		checkType("AutoProcScalingContainer", "setAutoProcScaling", AutoProcScaling, "AutoProcScaling")
+		self._AutoProcScaling = AutoProcScaling
+	def delAutoProcScaling(self): self._AutoProcScaling = None
+	# Properties
+	AutoProcScaling = property(getAutoProcScaling, setAutoProcScaling, delAutoProcScaling, "Property for AutoProcScaling")
+	def getAutoProcScalingStatistics(self): return self._AutoProcScalingStatistics
+	def setAutoProcScalingStatistics(self, AutoProcScalingStatistics):
+		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", AutoProcScalingStatistics, "list")
+		self._AutoProcScalingStatistics = AutoProcScalingStatistics
+	def delAutoProcScalingStatistics(self): self._AutoProcScalingStatistics = None
+	# Properties
+	AutoProcScalingStatistics = property(getAutoProcScalingStatistics, setAutoProcScalingStatistics, delAutoProcScalingStatistics, "Property for AutoProcScalingStatistics")
+	def addAutoProcScalingStatistics(self, value):
+		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
+		self._AutoProcScalingStatistics.append(value)
+	def insertAutoProcScalingStatistics(self, index, value):
+		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
+		self._AutoProcScalingStatistics[index] = value
+	def getAutoProcIntegrationContainer(self): return self._AutoProcIntegrationContainer
+	def setAutoProcIntegrationContainer(self, AutoProcIntegrationContainer):
+		checkType("AutoProcScalingContainer", "setAutoProcIntegrationContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
+		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
+	def delAutoProcIntegrationContainer(self): self._AutoProcIntegrationContainer = None
+	# Properties
+	AutoProcIntegrationContainer = property(getAutoProcIntegrationContainer, setAutoProcIntegrationContainer, delAutoProcIntegrationContainer, "Property for AutoProcIntegrationContainer")
+	def export(self, outfile, level, name_='AutoProcScalingContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcScalingContainer'):
+		pass
+		if self._AutoProcScaling is not None:
+			self.AutoProcScaling.export(outfile, level, name_='AutoProcScaling')
+		else:
+			warnEmptyAttribute("AutoProcScaling", "AutoProcScaling")
+		for AutoProcScalingStatistics_ in self.getAutoProcScalingStatistics():
+			AutoProcScalingStatistics_.export(outfile, level, name_='AutoProcScalingStatistics')
+		if self.getAutoProcScalingStatistics() == []:
+			warnEmptyAttribute("AutoProcScalingStatistics", "AutoProcScalingStatistics")
+		if self._AutoProcIntegrationContainer is not None:
+			self.AutoProcIntegrationContainer.export(outfile, level, name_='AutoProcIntegrationContainer')
+		else:
+			warnEmptyAttribute("AutoProcIntegrationContainer", "AutoProcIntegrationContainer")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScaling':
+			obj_ = AutoProcScaling()
+			obj_.build(child_)
+			self.setAutoProcScaling(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScalingStatistics':
+			obj_ = AutoProcScalingStatistics()
+			obj_.build(child_)
+			self.AutoProcScalingStatistics.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcIntegrationContainer':
+			obj_ = AutoProcIntegrationContainer()
+			obj_.build(child_)
+			self.setAutoProcIntegrationContainer(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcScalingContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcScalingContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcScalingContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcScalingContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcScalingContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcScalingContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcScalingContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcScalingContainer
+
+class AutoProcContainer(object):
+	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
+	
+	
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProc, "AutoProc")
+		self._AutoProc = AutoProc
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self._AutoProcScalingContainer = AutoProcScalingContainer
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self._AutoProcProgramContainer = AutoProcProgramContainer
+	def getAutoProc(self): return self._AutoProc
+	def setAutoProc(self, AutoProc):
+		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
+		self._AutoProc = AutoProc
+	def delAutoProc(self): self._AutoProc = None
+	# Properties
+	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
+	def getAutoProcScalingContainer(self): return self._AutoProcScalingContainer
+	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
+		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self._AutoProcScalingContainer = AutoProcScalingContainer
+	def delAutoProcScalingContainer(self): self._AutoProcScalingContainer = None
+	# Properties
+	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
+	def getAutoProcProgramContainer(self): return self._AutoProcProgramContainer
+	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
+		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self._AutoProcProgramContainer = AutoProcProgramContainer
+	def delAutoProcProgramContainer(self): self._AutoProcProgramContainer = None
+	# Properties
+	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
+	def export(self, outfile, level, name_='AutoProcContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
+		pass
+		if self._AutoProc is not None:
+			self.AutoProc.export(outfile, level, name_='AutoProc')
+		else:
+			warnEmptyAttribute("AutoProc", "AutoProc")
+		if self._AutoProcScalingContainer is not None:
+			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
+		else:
+			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
+		if self._AutoProcProgramContainer is not None:
+			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
+		else:
+			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProc':
+			obj_ = AutoProc()
+			obj_.build(child_)
+			self.setAutoProc(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScalingContainer':
+			obj_ = AutoProcScalingContainer()
+			obj_.build(child_)
+			self.setAutoProcScalingContainer(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcProgramContainer':
+			obj_ = AutoProcProgramContainer()
+			obj_.build(child_)
+			self.setAutoProcProgramContainer(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcContainer
+
 class AutoProcScalingStatistics(object):
-	def __init__(self, ccHalf=None, anomalous=None, recordTimeStamp=None, anomalousMultiplicity=None, anomalousCompleteness=None, multiplicity=None, completeness=None, meanIOverSigI=None, ntotalUniqueObservations=None, nTotalObservations=None, fractionalPartialBias=None, rpimAllIplusIminus=None, rpimWithinIplusIminus=None, rmeasAllIplusIminus=None, rmeasWithinIplusIminus=None, rMerge=None, resolutionLimitHigh=None, resolutionLimitLow=None, comments=None, scalingStatisticsType=None, iAutoProcScalingStatisticsId=None):
+	def __init__(self, ccHalf=None, anomalous=None, recordTimeStamp=None, anomalousMultiplicity=None, anomalousCompleteness=None, multiplicity=None, completeness=None, meanIOverSigI=None, ntotalUniqueObservations=None, nTotalObservations=None, fractionalPartialBias=None, rpimAllIplusIminus=None, rpimWithinIplusIminus=None, rmeasAllIplusIminus=None, rmeasWithinIplusIminus=None, rMerge=None, resolutionLimitHigh=None, resolutionLimitLow=None, comments=None, scalingStatisticsType=None, autoProcScalingStatisticsId=None):
 	
 	
-		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", iAutoProcScalingStatisticsId, "integer")
-		self._iAutoProcScalingStatisticsId = iAutoProcScalingStatisticsId
+		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", autoProcScalingStatisticsId, "integer")
+		self._autoProcScalingStatisticsId = autoProcScalingStatisticsId
 		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", scalingStatisticsType, "string")
 		self._scalingStatisticsType = scalingStatisticsType
 		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", comments, "string")
@@ -1739,13 +1862,13 @@ class AutoProcScalingStatistics(object):
 		self._anomalous = anomalous
 		checkType("AutoProcScalingStatistics", "Constructor of AutoProcScalingStatistics", ccHalf, "float")
 		self._ccHalf = ccHalf
-	def getIAutoProcScalingStatisticsId(self): return self._iAutoProcScalingStatisticsId
-	def setIAutoProcScalingStatisticsId(self, iAutoProcScalingStatisticsId):
-		checkType("AutoProcScalingStatistics", "setIAutoProcScalingStatisticsId", iAutoProcScalingStatisticsId, "integer")
-		self._iAutoProcScalingStatisticsId = iAutoProcScalingStatisticsId
-	def delIAutoProcScalingStatisticsId(self): self._iAutoProcScalingStatisticsId = None
+	def getAutoProcScalingStatisticsId(self): return self._autoProcScalingStatisticsId
+	def setAutoProcScalingStatisticsId(self, autoProcScalingStatisticsId):
+		checkType("AutoProcScalingStatistics", "setAutoProcScalingStatisticsId", autoProcScalingStatisticsId, "integer")
+		self._autoProcScalingStatisticsId = autoProcScalingStatisticsId
+	def delAutoProcScalingStatisticsId(self): self._autoProcScalingStatisticsId = None
 	# Properties
-	iAutoProcScalingStatisticsId = property(getIAutoProcScalingStatisticsId, setIAutoProcScalingStatisticsId, delIAutoProcScalingStatisticsId, "Property for iAutoProcScalingStatisticsId")
+	autoProcScalingStatisticsId = property(getAutoProcScalingStatisticsId, setAutoProcScalingStatisticsId, delAutoProcScalingStatisticsId, "Property for autoProcScalingStatisticsId")
 	def getScalingStatisticsType(self): return self._scalingStatisticsType
 	def setScalingStatisticsType(self, scalingStatisticsType):
 		checkType("AutoProcScalingStatistics", "setScalingStatisticsType", scalingStatisticsType, "string")
@@ -1894,9 +2017,9 @@ class AutoProcScalingStatistics(object):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='AutoProcScalingStatistics'):
 		pass
-		if self._iAutoProcScalingStatisticsId is not None:
+		if self._autoProcScalingStatisticsId is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<iAutoProcScalingStatisticsId>%d</iAutoProcScalingStatisticsId>\n' % self._iAutoProcScalingStatisticsId))
+			outfile.write(unicode('<autoProcScalingStatisticsId>%d</autoProcScalingStatisticsId>\n' % self._autoProcScalingStatisticsId))
 		if self._scalingStatisticsType is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<scalingStatisticsType>%s</scalingStatisticsType>\n' % self._scalingStatisticsType))
@@ -2006,14 +2129,14 @@ class AutoProcScalingStatistics(object):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'iAutoProcScalingStatisticsId':
+			nodeName_ == 'autoProcScalingStatisticsId':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
 					ival_ = int(sval_)
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._iAutoProcScalingStatisticsId = ival_
+				self._autoProcScalingStatisticsId = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'scalingStatisticsType':
 			value_ = ''
@@ -2232,129 +2355,6 @@ class AutoProcScalingStatistics(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class AutoProcScalingStatistics
-
-class AutoProcScalingContainer(object):
-	def __init__(self, AutoProcIntegrationContainer=None, AutoProcScalingStatistics=None, AutoProcScaling=None):
-	
-	
-		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScaling, "AutoProcScaling")
-		self._AutoProcScaling = AutoProcScaling
-		if AutoProcScalingStatistics is None:
-			self._AutoProcScalingStatistics = []
-		else:
-			checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScalingStatistics, "list")
-			self._AutoProcScalingStatistics = AutoProcScalingStatistics
-		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
-		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
-	def getAutoProcScaling(self): return self._AutoProcScaling
-	def setAutoProcScaling(self, AutoProcScaling):
-		checkType("AutoProcScalingContainer", "setAutoProcScaling", AutoProcScaling, "AutoProcScaling")
-		self._AutoProcScaling = AutoProcScaling
-	def delAutoProcScaling(self): self._AutoProcScaling = None
-	# Properties
-	AutoProcScaling = property(getAutoProcScaling, setAutoProcScaling, delAutoProcScaling, "Property for AutoProcScaling")
-	def getAutoProcScalingStatistics(self): return self._AutoProcScalingStatistics
-	def setAutoProcScalingStatistics(self, AutoProcScalingStatistics):
-		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", AutoProcScalingStatistics, "list")
-		self._AutoProcScalingStatistics = AutoProcScalingStatistics
-	def delAutoProcScalingStatistics(self): self._AutoProcScalingStatistics = None
-	# Properties
-	AutoProcScalingStatistics = property(getAutoProcScalingStatistics, setAutoProcScalingStatistics, delAutoProcScalingStatistics, "Property for AutoProcScalingStatistics")
-	def addAutoProcScalingStatistics(self, value):
-		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
-		self._AutoProcScalingStatistics.append(value)
-	def insertAutoProcScalingStatistics(self, index, value):
-		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
-		self._AutoProcScalingStatistics[index] = value
-	def getAutoProcIntegrationContainer(self): return self._AutoProcIntegrationContainer
-	def setAutoProcIntegrationContainer(self, AutoProcIntegrationContainer):
-		checkType("AutoProcScalingContainer", "setAutoProcIntegrationContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
-		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
-	def delAutoProcIntegrationContainer(self): self._AutoProcIntegrationContainer = None
-	# Properties
-	AutoProcIntegrationContainer = property(getAutoProcIntegrationContainer, setAutoProcIntegrationContainer, delAutoProcIntegrationContainer, "Property for AutoProcIntegrationContainer")
-	def export(self, outfile, level, name_='AutoProcScalingContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcScalingContainer'):
-		pass
-		if self._AutoProcScaling is not None:
-			self.AutoProcScaling.export(outfile, level, name_='AutoProcScaling')
-		else:
-			warnEmptyAttribute("AutoProcScaling", "AutoProcScaling")
-		for AutoProcScalingStatistics_ in self.getAutoProcScalingStatistics():
-			AutoProcScalingStatistics_.export(outfile, level, name_='AutoProcScalingStatistics')
-		if self.getAutoProcScalingStatistics() == []:
-			warnEmptyAttribute("AutoProcScalingStatistics", "AutoProcScalingStatistics")
-		if self._AutoProcIntegrationContainer is not None:
-			self.AutoProcIntegrationContainer.export(outfile, level, name_='AutoProcIntegrationContainer')
-		else:
-			warnEmptyAttribute("AutoProcIntegrationContainer", "AutoProcIntegrationContainer")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScaling':
-			obj_ = AutoProcScaling()
-			obj_.build(child_)
-			self.setAutoProcScaling(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScalingStatistics':
-			obj_ = AutoProcScalingStatistics()
-			obj_.build(child_)
-			self.AutoProcScalingStatistics.append(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcIntegrationContainer':
-			obj_ = AutoProcIntegrationContainer()
-			obj_.build(child_)
-			self.setAutoProcIntegrationContainer(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcScalingContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcScalingContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class AutoProcScalingContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcScalingContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcScalingContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcScalingContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcScalingContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcScalingContainer
 
 class Image(object):
 	def __init__(self, dataCollectionId=None):
@@ -6136,245 +6136,6 @@ class XSDataISPyBScreeningOutputLattice(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataISPyBScreeningOutputLattice
 
-class XSDataISPyBScreeningRankSet(XSData):
-	def __init__(self, rankingSummaryFileName=None, rankingProjectFileName=None, rankEngine=None, screeningRankSetId=None):
-		XSData.__init__(self, )
-	
-	
-		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", screeningRankSetId, "XSDataInteger")
-		self._screeningRankSetId = screeningRankSetId
-		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", rankEngine, "XSDataString")
-		self._rankEngine = rankEngine
-		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", rankingProjectFileName, "XSDataString")
-		self._rankingProjectFileName = rankingProjectFileName
-		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", rankingSummaryFileName, "XSDataString")
-		self._rankingSummaryFileName = rankingSummaryFileName
-	def getScreeningRankSetId(self): return self._screeningRankSetId
-	def setScreeningRankSetId(self, screeningRankSetId):
-		checkType("XSDataISPyBScreeningRankSet", "setScreeningRankSetId", screeningRankSetId, "XSDataInteger")
-		self._screeningRankSetId = screeningRankSetId
-	def delScreeningRankSetId(self): self._screeningRankSetId = None
-	# Properties
-	screeningRankSetId = property(getScreeningRankSetId, setScreeningRankSetId, delScreeningRankSetId, "Property for screeningRankSetId")
-	def getRankEngine(self): return self._rankEngine
-	def setRankEngine(self, rankEngine):
-		checkType("XSDataISPyBScreeningRankSet", "setRankEngine", rankEngine, "XSDataString")
-		self._rankEngine = rankEngine
-	def delRankEngine(self): self._rankEngine = None
-	# Properties
-	rankEngine = property(getRankEngine, setRankEngine, delRankEngine, "Property for rankEngine")
-	def getRankingProjectFileName(self): return self._rankingProjectFileName
-	def setRankingProjectFileName(self, rankingProjectFileName):
-		checkType("XSDataISPyBScreeningRankSet", "setRankingProjectFileName", rankingProjectFileName, "XSDataString")
-		self._rankingProjectFileName = rankingProjectFileName
-	def delRankingProjectFileName(self): self._rankingProjectFileName = None
-	# Properties
-	rankingProjectFileName = property(getRankingProjectFileName, setRankingProjectFileName, delRankingProjectFileName, "Property for rankingProjectFileName")
-	def getRankingSummaryFileName(self): return self._rankingSummaryFileName
-	def setRankingSummaryFileName(self, rankingSummaryFileName):
-		checkType("XSDataISPyBScreeningRankSet", "setRankingSummaryFileName", rankingSummaryFileName, "XSDataString")
-		self._rankingSummaryFileName = rankingSummaryFileName
-	def delRankingSummaryFileName(self): self._rankingSummaryFileName = None
-	# Properties
-	rankingSummaryFileName = property(getRankingSummaryFileName, setRankingSummaryFileName, delRankingSummaryFileName, "Property for rankingSummaryFileName")
-	def export(self, outfile, level, name_='XSDataISPyBScreeningRankSet'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningRankSet'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self._screeningRankSetId is not None:
-			self.screeningRankSetId.export(outfile, level, name_='screeningRankSetId')
-		else:
-			warnEmptyAttribute("screeningRankSetId", "XSDataInteger")
-		if self._rankEngine is not None:
-			self.rankEngine.export(outfile, level, name_='rankEngine')
-		else:
-			warnEmptyAttribute("rankEngine", "XSDataString")
-		if self._rankingProjectFileName is not None:
-			self.rankingProjectFileName.export(outfile, level, name_='rankingProjectFileName')
-		else:
-			warnEmptyAttribute("rankingProjectFileName", "XSDataString")
-		if self._rankingSummaryFileName is not None:
-			self.rankingSummaryFileName.export(outfile, level, name_='rankingSummaryFileName')
-		else:
-			warnEmptyAttribute("rankingSummaryFileName", "XSDataString")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'screeningRankSetId':
-			obj_ = XSDataInteger()
-			obj_.build(child_)
-			self.setScreeningRankSetId(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rankEngine':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setRankEngine(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rankingProjectFileName':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setRankingProjectFileName(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rankingSummaryFileName':
-			obj_ = XSDataString()
-			obj_.build(child_)
-			self.setRankingSummaryFileName(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataISPyBScreeningRankSet" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataISPyBScreeningRankSet' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataISPyBScreeningRankSet is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataISPyBScreeningRankSet.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataISPyBScreeningRankSet()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningRankSet" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataISPyBScreeningRankSet()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataISPyBScreeningRankSet
-
-class XSDataISPyBScreeningStrategyContainer(XSData):
-	def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
-		XSData.__init__(self, )
-	
-	
-		checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategy, "XSDataISPyBScreeningStrategy")
-		self._screeningStrategy = screeningStrategy
-		if screeningStrategyWedgeContainer is None:
-			self._screeningStrategyWedgeContainer = []
-		else:
-			checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategyWedgeContainer, "list")
-			self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-	def getScreeningStrategy(self): return self._screeningStrategy
-	def setScreeningStrategy(self, screeningStrategy):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategy", screeningStrategy, "XSDataISPyBScreeningStrategy")
-		self._screeningStrategy = screeningStrategy
-	def delScreeningStrategy(self): self._screeningStrategy = None
-	# Properties
-	screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
-	def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
-	def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", screeningStrategyWedgeContainer, "list")
-		self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-	def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
-	# Properties
-	screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
-	def addScreeningStrategyWedgeContainer(self, value):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
-		self._screeningStrategyWedgeContainer.append(value)
-	def insertScreeningStrategyWedgeContainer(self, index, value):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
-		self._screeningStrategyWedgeContainer[index] = value
-	def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self._screeningStrategy is not None:
-			self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
-		else:
-			warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
-		for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
-			screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'screeningStrategy':
-			obj_ = XSDataISPyBScreeningStrategy()
-			obj_.build(child_)
-			self.setScreeningStrategy(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'screeningStrategyWedgeContainer':
-			obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
-			obj_.build(child_)
-			self.screeningStrategyWedgeContainer.append(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataISPyBScreeningStrategyContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataISPyBScreeningStrategyContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataISPyBScreeningStrategyContainer
-
 class XSDataISPyBScreeningOutputContainer(XSData):
 	def __init__(self, screeningStrategyContainer=None, screeningOutputLattice=None, screeningOutput=None):
 		XSData.__init__(self, )
@@ -6652,6 +6413,140 @@ class XSDataISPyBScreeningRank(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataISPyBScreeningRank
+
+class XSDataISPyBScreeningRankSet(XSData):
+	def __init__(self, rankingSummaryFileName=None, rankingProjectFileName=None, rankEngine=None, screeningRankSetId=None):
+		XSData.__init__(self, )
+	
+	
+		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", screeningRankSetId, "XSDataInteger")
+		self._screeningRankSetId = screeningRankSetId
+		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", rankEngine, "XSDataString")
+		self._rankEngine = rankEngine
+		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", rankingProjectFileName, "XSDataString")
+		self._rankingProjectFileName = rankingProjectFileName
+		checkType("XSDataISPyBScreeningRankSet", "Constructor of XSDataISPyBScreeningRankSet", rankingSummaryFileName, "XSDataString")
+		self._rankingSummaryFileName = rankingSummaryFileName
+	def getScreeningRankSetId(self): return self._screeningRankSetId
+	def setScreeningRankSetId(self, screeningRankSetId):
+		checkType("XSDataISPyBScreeningRankSet", "setScreeningRankSetId", screeningRankSetId, "XSDataInteger")
+		self._screeningRankSetId = screeningRankSetId
+	def delScreeningRankSetId(self): self._screeningRankSetId = None
+	# Properties
+	screeningRankSetId = property(getScreeningRankSetId, setScreeningRankSetId, delScreeningRankSetId, "Property for screeningRankSetId")
+	def getRankEngine(self): return self._rankEngine
+	def setRankEngine(self, rankEngine):
+		checkType("XSDataISPyBScreeningRankSet", "setRankEngine", rankEngine, "XSDataString")
+		self._rankEngine = rankEngine
+	def delRankEngine(self): self._rankEngine = None
+	# Properties
+	rankEngine = property(getRankEngine, setRankEngine, delRankEngine, "Property for rankEngine")
+	def getRankingProjectFileName(self): return self._rankingProjectFileName
+	def setRankingProjectFileName(self, rankingProjectFileName):
+		checkType("XSDataISPyBScreeningRankSet", "setRankingProjectFileName", rankingProjectFileName, "XSDataString")
+		self._rankingProjectFileName = rankingProjectFileName
+	def delRankingProjectFileName(self): self._rankingProjectFileName = None
+	# Properties
+	rankingProjectFileName = property(getRankingProjectFileName, setRankingProjectFileName, delRankingProjectFileName, "Property for rankingProjectFileName")
+	def getRankingSummaryFileName(self): return self._rankingSummaryFileName
+	def setRankingSummaryFileName(self, rankingSummaryFileName):
+		checkType("XSDataISPyBScreeningRankSet", "setRankingSummaryFileName", rankingSummaryFileName, "XSDataString")
+		self._rankingSummaryFileName = rankingSummaryFileName
+	def delRankingSummaryFileName(self): self._rankingSummaryFileName = None
+	# Properties
+	rankingSummaryFileName = property(getRankingSummaryFileName, setRankingSummaryFileName, delRankingSummaryFileName, "Property for rankingSummaryFileName")
+	def export(self, outfile, level, name_='XSDataISPyBScreeningRankSet'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningRankSet'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self._screeningRankSetId is not None:
+			self.screeningRankSetId.export(outfile, level, name_='screeningRankSetId')
+		else:
+			warnEmptyAttribute("screeningRankSetId", "XSDataInteger")
+		if self._rankEngine is not None:
+			self.rankEngine.export(outfile, level, name_='rankEngine')
+		else:
+			warnEmptyAttribute("rankEngine", "XSDataString")
+		if self._rankingProjectFileName is not None:
+			self.rankingProjectFileName.export(outfile, level, name_='rankingProjectFileName')
+		else:
+			warnEmptyAttribute("rankingProjectFileName", "XSDataString")
+		if self._rankingSummaryFileName is not None:
+			self.rankingSummaryFileName.export(outfile, level, name_='rankingSummaryFileName')
+		else:
+			warnEmptyAttribute("rankingSummaryFileName", "XSDataString")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'screeningRankSetId':
+			obj_ = XSDataInteger()
+			obj_.build(child_)
+			self.setScreeningRankSetId(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rankEngine':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setRankEngine(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rankingProjectFileName':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setRankingProjectFileName(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'rankingSummaryFileName':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setRankingSummaryFileName(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataISPyBScreeningRankSet" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataISPyBScreeningRankSet' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataISPyBScreeningRankSet is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataISPyBScreeningRankSet.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataISPyBScreeningRankSet()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningRankSet" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataISPyBScreeningRankSet()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataISPyBScreeningRankSet
 
 class XSDataISPyBScreeningStrategy(XSData):
 	def __init__(self, transmission=None, rankingResolution=None, program=None, anomalous=None, multiplicity=None, completeness=None, resolution=None, exposureTime=None, rotation=None, phiEnd=None, phiStart=None, screeningOutputId=None, screeningStrategyId=None):
@@ -7613,6 +7508,111 @@ class XSDataISPyBScreeningStrategyWedgeContainer(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataISPyBScreeningStrategyWedgeContainer
+
+class XSDataISPyBScreeningStrategyContainer(XSData):
+	def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
+		XSData.__init__(self, )
+	
+	
+		checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategy, "XSDataISPyBScreeningStrategy")
+		self._screeningStrategy = screeningStrategy
+		if screeningStrategyWedgeContainer is None:
+			self._screeningStrategyWedgeContainer = []
+		else:
+			checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategyWedgeContainer, "list")
+			self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+	def getScreeningStrategy(self): return self._screeningStrategy
+	def setScreeningStrategy(self, screeningStrategy):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategy", screeningStrategy, "XSDataISPyBScreeningStrategy")
+		self._screeningStrategy = screeningStrategy
+	def delScreeningStrategy(self): self._screeningStrategy = None
+	# Properties
+	screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
+	def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
+	def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", screeningStrategyWedgeContainer, "list")
+		self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+	def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
+	# Properties
+	screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
+	def addScreeningStrategyWedgeContainer(self, value):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
+		self._screeningStrategyWedgeContainer.append(value)
+	def insertScreeningStrategyWedgeContainer(self, index, value):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
+		self._screeningStrategyWedgeContainer[index] = value
+	def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self._screeningStrategy is not None:
+			self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
+		else:
+			warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
+		for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
+			screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'screeningStrategy':
+			obj_ = XSDataISPyBScreeningStrategy()
+			obj_.build(child_)
+			self.setScreeningStrategy(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'screeningStrategyWedgeContainer':
+			obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
+			obj_.build(child_)
+			self.screeningStrategyWedgeContainer.append(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataISPyBScreeningStrategyContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataISPyBScreeningStrategyContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataISPyBScreeningStrategyContainer
 
 class XSDataInputISPyBStoreScreening(XSDataInput):
 	def __init__(self, configuration=None, screeningRankSet=None, screeningRank=None, screeningOutputContainer=None, screening=None, image=None, file=None, diffractionPlan=None):
