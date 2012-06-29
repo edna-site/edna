@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jun 29 06:10::16 2012 by EDGenerateDS.
+# Generated Fri Jun 29 06:44::49 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -375,6 +375,120 @@ class AutoProc(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class AutoProc
+
+class AutoProcContainer(object):
+	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
+	
+	
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProc, "AutoProc")
+		self._AutoProc = AutoProc
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self._AutoProcScalingContainer = AutoProcScalingContainer
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self._AutoProcProgramContainer = AutoProcProgramContainer
+	def getAutoProc(self): return self._AutoProc
+	def setAutoProc(self, AutoProc):
+		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
+		self._AutoProc = AutoProc
+	def delAutoProc(self): self._AutoProc = None
+	# Properties
+	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
+	def getAutoProcScalingContainer(self): return self._AutoProcScalingContainer
+	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
+		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self._AutoProcScalingContainer = AutoProcScalingContainer
+	def delAutoProcScalingContainer(self): self._AutoProcScalingContainer = None
+	# Properties
+	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
+	def getAutoProcProgramContainer(self): return self._AutoProcProgramContainer
+	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
+		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self._AutoProcProgramContainer = AutoProcProgramContainer
+	def delAutoProcProgramContainer(self): self._AutoProcProgramContainer = None
+	# Properties
+	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
+	def export(self, outfile, level, name_='AutoProcContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
+		pass
+		if self._AutoProc is not None:
+			self.AutoProc.export(outfile, level, name_='AutoProc')
+		else:
+			warnEmptyAttribute("AutoProc", "AutoProc")
+		if self._AutoProcScalingContainer is not None:
+			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
+		else:
+			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
+		if self._AutoProcProgramContainer is not None:
+			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
+		else:
+			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProc':
+			obj_ = AutoProc()
+			obj_.build(child_)
+			self.setAutoProc(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScalingContainer':
+			obj_ = AutoProcScalingContainer()
+			obj_.build(child_)
+			self.setAutoProcScalingContainer(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcProgramContainer':
+			obj_ = AutoProcProgramContainer()
+			obj_.build(child_)
+			self.setAutoProcProgramContainer(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcContainer
 
 class AutoProcIntegration(object):
 	def __init__(self, anomalous=None, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, beamVectorZ=None, beamVectorY=None, beamVectorX=None, rotationAxisZ=None, rotationAxisY=None, rotationAxisX=None, refinedYbeam=None, refinedXbeam=None, refinedDetectorDistance=None, endImageNumber=None, startImageNumber=None, autoProcIntegrationId=None):
@@ -1579,243 +1693,6 @@ class AutoProcScaling(object):
 	parseFile = staticmethod( parseFile )
 # end class AutoProcScaling
 
-class AutoProcScalingContainer(object):
-	def __init__(self, AutoProcIntegrationContainer=None, AutoProcScalingStatistics=None, AutoProcScaling=None):
-	
-	
-		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScaling, "AutoProcScaling")
-		self._AutoProcScaling = AutoProcScaling
-		if AutoProcScalingStatistics is None:
-			self._AutoProcScalingStatistics = []
-		else:
-			checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScalingStatistics, "list")
-			self._AutoProcScalingStatistics = AutoProcScalingStatistics
-		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
-		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
-	def getAutoProcScaling(self): return self._AutoProcScaling
-	def setAutoProcScaling(self, AutoProcScaling):
-		checkType("AutoProcScalingContainer", "setAutoProcScaling", AutoProcScaling, "AutoProcScaling")
-		self._AutoProcScaling = AutoProcScaling
-	def delAutoProcScaling(self): self._AutoProcScaling = None
-	# Properties
-	AutoProcScaling = property(getAutoProcScaling, setAutoProcScaling, delAutoProcScaling, "Property for AutoProcScaling")
-	def getAutoProcScalingStatistics(self): return self._AutoProcScalingStatistics
-	def setAutoProcScalingStatistics(self, AutoProcScalingStatistics):
-		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", AutoProcScalingStatistics, "list")
-		self._AutoProcScalingStatistics = AutoProcScalingStatistics
-	def delAutoProcScalingStatistics(self): self._AutoProcScalingStatistics = None
-	# Properties
-	AutoProcScalingStatistics = property(getAutoProcScalingStatistics, setAutoProcScalingStatistics, delAutoProcScalingStatistics, "Property for AutoProcScalingStatistics")
-	def addAutoProcScalingStatistics(self, value):
-		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
-		self._AutoProcScalingStatistics.append(value)
-	def insertAutoProcScalingStatistics(self, index, value):
-		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
-		self._AutoProcScalingStatistics[index] = value
-	def getAutoProcIntegrationContainer(self): return self._AutoProcIntegrationContainer
-	def setAutoProcIntegrationContainer(self, AutoProcIntegrationContainer):
-		checkType("AutoProcScalingContainer", "setAutoProcIntegrationContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
-		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
-	def delAutoProcIntegrationContainer(self): self._AutoProcIntegrationContainer = None
-	# Properties
-	AutoProcIntegrationContainer = property(getAutoProcIntegrationContainer, setAutoProcIntegrationContainer, delAutoProcIntegrationContainer, "Property for AutoProcIntegrationContainer")
-	def export(self, outfile, level, name_='AutoProcScalingContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcScalingContainer'):
-		pass
-		if self._AutoProcScaling is not None:
-			self.AutoProcScaling.export(outfile, level, name_='AutoProcScaling')
-		else:
-			warnEmptyAttribute("AutoProcScaling", "AutoProcScaling")
-		for AutoProcScalingStatistics_ in self.getAutoProcScalingStatistics():
-			AutoProcScalingStatistics_.export(outfile, level, name_='AutoProcScalingStatistics')
-		if self.getAutoProcScalingStatistics() == []:
-			warnEmptyAttribute("AutoProcScalingStatistics", "AutoProcScalingStatistics")
-		if self._AutoProcIntegrationContainer is not None:
-			self.AutoProcIntegrationContainer.export(outfile, level, name_='AutoProcIntegrationContainer')
-		else:
-			warnEmptyAttribute("AutoProcIntegrationContainer", "AutoProcIntegrationContainer")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScaling':
-			obj_ = AutoProcScaling()
-			obj_.build(child_)
-			self.setAutoProcScaling(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScalingStatistics':
-			obj_ = AutoProcScalingStatistics()
-			obj_.build(child_)
-			self.AutoProcScalingStatistics.append(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcIntegrationContainer':
-			obj_ = AutoProcIntegrationContainer()
-			obj_.build(child_)
-			self.setAutoProcIntegrationContainer(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcScalingContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcScalingContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class AutoProcScalingContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcScalingContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcScalingContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcScalingContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcScalingContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcScalingContainer
-
-class AutoProcContainer(object):
-	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
-	
-	
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProc, "AutoProc")
-		self._AutoProc = AutoProc
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
-		self._AutoProcScalingContainer = AutoProcScalingContainer
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
-		self._AutoProcProgramContainer = AutoProcProgramContainer
-	def getAutoProc(self): return self._AutoProc
-	def setAutoProc(self, AutoProc):
-		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
-		self._AutoProc = AutoProc
-	def delAutoProc(self): self._AutoProc = None
-	# Properties
-	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
-	def getAutoProcScalingContainer(self): return self._AutoProcScalingContainer
-	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
-		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
-		self._AutoProcScalingContainer = AutoProcScalingContainer
-	def delAutoProcScalingContainer(self): self._AutoProcScalingContainer = None
-	# Properties
-	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
-	def getAutoProcProgramContainer(self): return self._AutoProcProgramContainer
-	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
-		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
-		self._AutoProcProgramContainer = AutoProcProgramContainer
-	def delAutoProcProgramContainer(self): self._AutoProcProgramContainer = None
-	# Properties
-	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
-	def export(self, outfile, level, name_='AutoProcContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
-		pass
-		if self._AutoProc is not None:
-			self.AutoProc.export(outfile, level, name_='AutoProc')
-		else:
-			warnEmptyAttribute("AutoProc", "AutoProc")
-		if self._AutoProcScalingContainer is not None:
-			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
-		else:
-			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
-		if self._AutoProcProgramContainer is not None:
-			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
-		else:
-			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProc':
-			obj_ = AutoProc()
-			obj_.build(child_)
-			self.setAutoProc(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScalingContainer':
-			obj_ = AutoProcScalingContainer()
-			obj_.build(child_)
-			self.setAutoProcScalingContainer(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcProgramContainer':
-			obj_ = AutoProcProgramContainer()
-			obj_.build(child_)
-			self.setAutoProcProgramContainer(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class AutoProcContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcContainer
-
 class AutoProcScalingStatistics(object):
 	def __init__(self, ccHalf=None, anomalous=None, recordTimeStamp=None, anomalousMultiplicity=None, anomalousCompleteness=None, multiplicity=None, completeness=None, meanIOverSigI=None, ntotalUniqueObservations=None, nTotalObservations=None, fractionalPartialBias=None, rpimAllIplusIminus=None, rpimWithinIplusIminus=None, rmeasAllIplusIminus=None, rmeasWithinIplusIminus=None, rMerge=None, resolutionLimitHigh=None, resolutionLimitLow=None, comments=None, scalingStatisticsType=None, autoProcScalingStatisticsId=None):
 	
@@ -2356,6 +2233,129 @@ class AutoProcScalingStatistics(object):
 	parseFile = staticmethod( parseFile )
 # end class AutoProcScalingStatistics
 
+class AutoProcScalingContainer(object):
+	def __init__(self, AutoProcIntegrationContainer=None, AutoProcScalingStatistics=None, AutoProcScaling=None):
+	
+	
+		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScaling, "AutoProcScaling")
+		self._AutoProcScaling = AutoProcScaling
+		if AutoProcScalingStatistics is None:
+			self._AutoProcScalingStatistics = []
+		else:
+			checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcScalingStatistics, "list")
+			self._AutoProcScalingStatistics = AutoProcScalingStatistics
+		checkType("AutoProcScalingContainer", "Constructor of AutoProcScalingContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
+		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
+	def getAutoProcScaling(self): return self._AutoProcScaling
+	def setAutoProcScaling(self, AutoProcScaling):
+		checkType("AutoProcScalingContainer", "setAutoProcScaling", AutoProcScaling, "AutoProcScaling")
+		self._AutoProcScaling = AutoProcScaling
+	def delAutoProcScaling(self): self._AutoProcScaling = None
+	# Properties
+	AutoProcScaling = property(getAutoProcScaling, setAutoProcScaling, delAutoProcScaling, "Property for AutoProcScaling")
+	def getAutoProcScalingStatistics(self): return self._AutoProcScalingStatistics
+	def setAutoProcScalingStatistics(self, AutoProcScalingStatistics):
+		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", AutoProcScalingStatistics, "list")
+		self._AutoProcScalingStatistics = AutoProcScalingStatistics
+	def delAutoProcScalingStatistics(self): self._AutoProcScalingStatistics = None
+	# Properties
+	AutoProcScalingStatistics = property(getAutoProcScalingStatistics, setAutoProcScalingStatistics, delAutoProcScalingStatistics, "Property for AutoProcScalingStatistics")
+	def addAutoProcScalingStatistics(self, value):
+		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
+		self._AutoProcScalingStatistics.append(value)
+	def insertAutoProcScalingStatistics(self, index, value):
+		checkType("AutoProcScalingContainer", "setAutoProcScalingStatistics", value, "AutoProcScalingStatistics")
+		self._AutoProcScalingStatistics[index] = value
+	def getAutoProcIntegrationContainer(self): return self._AutoProcIntegrationContainer
+	def setAutoProcIntegrationContainer(self, AutoProcIntegrationContainer):
+		checkType("AutoProcScalingContainer", "setAutoProcIntegrationContainer", AutoProcIntegrationContainer, "AutoProcIntegrationContainer")
+		self._AutoProcIntegrationContainer = AutoProcIntegrationContainer
+	def delAutoProcIntegrationContainer(self): self._AutoProcIntegrationContainer = None
+	# Properties
+	AutoProcIntegrationContainer = property(getAutoProcIntegrationContainer, setAutoProcIntegrationContainer, delAutoProcIntegrationContainer, "Property for AutoProcIntegrationContainer")
+	def export(self, outfile, level, name_='AutoProcScalingContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcScalingContainer'):
+		pass
+		if self._AutoProcScaling is not None:
+			self.AutoProcScaling.export(outfile, level, name_='AutoProcScaling')
+		else:
+			warnEmptyAttribute("AutoProcScaling", "AutoProcScaling")
+		for AutoProcScalingStatistics_ in self.getAutoProcScalingStatistics():
+			AutoProcScalingStatistics_.export(outfile, level, name_='AutoProcScalingStatistics')
+		if self.getAutoProcScalingStatistics() == []:
+			warnEmptyAttribute("AutoProcScalingStatistics", "AutoProcScalingStatistics")
+		if self._AutoProcIntegrationContainer is not None:
+			self.AutoProcIntegrationContainer.export(outfile, level, name_='AutoProcIntegrationContainer')
+		else:
+			warnEmptyAttribute("AutoProcIntegrationContainer", "AutoProcIntegrationContainer")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScaling':
+			obj_ = AutoProcScaling()
+			obj_.build(child_)
+			self.setAutoProcScaling(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScalingStatistics':
+			obj_ = AutoProcScalingStatistics()
+			obj_.build(child_)
+			self.AutoProcScalingStatistics.append(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcIntegrationContainer':
+			obj_ = AutoProcIntegrationContainer()
+			obj_.build(child_)
+			self.setAutoProcIntegrationContainer(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcScalingContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcScalingContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcScalingContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcScalingContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcScalingContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcScalingContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcScalingContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcScalingContainer
+
 class Image(object):
 	def __init__(self, dataCollectionId=None):
 	
@@ -2440,107 +2440,99 @@ class Image(object):
 # end class Image
 
 class XSDataISPyBDataCollection(object):
-	def __init__(self, beamShape=None, xtalSnapshotFullPath4=None, xtalSnapshotFullPath3=None, xtalSnapshotFullPath2=None, xtalSnapshotFullPath1=None, printableForReport=None, comments=None, averageTemperature=None, centeringMethod=None, synchrotronMode=None, transmission=None, beamSizeAtSampleY=None, beamSizeAtSampleX=None, slitGapHorizontal=None, slitGapVertical=None, crystalClass=None, ybeam=None, xbeam=None, undulatorGap3=None, undulatorGap2=None, undulatorGap1=None, detectorMode=None, detector2theta=None, detectorDistance=None, resolutionAtCorner=None, resolution=None, wavelength=None, fileTemplate=None, imageSuffix=None, imagePrefix=None, imageDirectory=None, exposureTime=None, numberOfPasses=None, startImageNumber=None, numberOfImages=None, overlap=None, axisRange=None, axisEnd=None, axisStart=None, omegaStart=None, kappaStart=None, phiStart=None, rotationAxis=None, runStatus=None, endDate=None, startDate=None, dataCollectionNumber=None, experimentType=None, strategySubWedgeOrigId=None, detectorId=None, screeningOrigId=None, sessionId=None, blSampleId=None, dataCollectionId=None):
+	def __init__(self, ybeam=None, xtalSnapshotFullPath4=None, xtalSnapshotFullPath3=None, xtalSnapshotFullPath2=None, xtalSnapshotFullPath1=None, xbeam=None, wavelength=None, undulatorGap3=None, undulatorGap2=None, undulatorGap1=None, transmission=None, synchrotronMode=None, startTime=None, strategySubWedgeOrigId=None, startImageNumber=None, slitGapHorizontal=None, slitGapVertical=None, runStatus=None, rotationAxis=None, resolutionAtCorner=None, resolution=None, printableForReport=None, phiStart=None, overlap=None, omegaStart=None, numberOfPasses=None, numberOfImages=None, kappaStart=None, imageSuffix=None, imagePrefix=None, imageDirectory=None, flux=None, fileTemplate=None, exposureTime=None, endTime=None, detectorMode=None, detectorDistance=None, detector2theta=None, dataCollectionNumber=None, dataCollectionId=None, comments=None, centeringMethod=None, beamSizeAtSampleY=None, beamSizeAtSampleX=None, beamShape=None, axisStart=None, axisRange=None, axisEnd=None, averageTemperature=None, actualCenteringPosition=None):
 	
 	
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", dataCollectionId, "integer")
-		self._dataCollectionId = dataCollectionId
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", blSampleId, "integer")
-		self._blSampleId = blSampleId
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", sessionId, "integer")
-		self._sessionId = sessionId
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", screeningOrigId, "integer")
-		self._screeningOrigId = screeningOrigId
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detectorId, "integer")
-		self._detectorId = detectorId
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", strategySubWedgeOrigId, "integer")
-		self._strategySubWedgeOrigId = strategySubWedgeOrigId
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", experimentType, "string")
-		self._experimentType = experimentType
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", dataCollectionNumber, "integer")
-		self._dataCollectionNumber = dataCollectionNumber
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", startDate, "string")
-		self._startDate = startDate
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", endDate, "string")
-		self._endDate = endDate
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", runStatus, "string")
-		self._runStatus = runStatus
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", rotationAxis, "string")
-		self._rotationAxis = rotationAxis
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", phiStart, "float")
-		self._phiStart = phiStart
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", kappaStart, "float")
-		self._kappaStart = kappaStart
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", omegaStart, "float")
-		self._omegaStart = omegaStart
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", axisStart, "float")
-		self._axisStart = axisStart
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", actualCenteringPosition, "string")
+		self._actualCenteringPosition = actualCenteringPosition
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", averageTemperature, "float")
+		self._averageTemperature = averageTemperature
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", axisEnd, "float")
 		self._axisEnd = axisEnd
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", axisRange, "float")
 		self._axisRange = axisRange
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", overlap, "float")
-		self._overlap = overlap
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", numberOfImages, "integer")
-		self._numberOfImages = numberOfImages
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", startImageNumber, "integer")
-		self._startImageNumber = startImageNumber
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", numberOfPasses, "integer")
-		self._numberOfPasses = numberOfPasses
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", axisStart, "float")
+		self._axisStart = axisStart
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamShape, "string")
+		self._beamShape = beamShape
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamSizeAtSampleX, "float")
+		self._beamSizeAtSampleX = beamSizeAtSampleX
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamSizeAtSampleY, "float")
+		self._beamSizeAtSampleY = beamSizeAtSampleY
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", centeringMethod, "string")
+		self._centeringMethod = centeringMethod
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", comments, "string")
+		self._comments = comments
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", dataCollectionId, "integer")
+		self._dataCollectionId = dataCollectionId
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", dataCollectionNumber, "integer")
+		self._dataCollectionNumber = dataCollectionNumber
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detector2theta, "float")
+		self._detector2theta = detector2theta
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detectorDistance, "float")
+		self._detectorDistance = detectorDistance
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detectorMode, "string")
+		self._detectorMode = detectorMode
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", endTime, "string")
+		self._endTime = endTime
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", exposureTime, "float")
 		self._exposureTime = exposureTime
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", fileTemplate, "string")
+		self._fileTemplate = fileTemplate
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", flux, "float")
+		self._flux = flux
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", imageDirectory, "string")
 		self._imageDirectory = imageDirectory
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", imagePrefix, "string")
 		self._imagePrefix = imagePrefix
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", imageSuffix, "string")
 		self._imageSuffix = imageSuffix
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", fileTemplate, "string")
-		self._fileTemplate = fileTemplate
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", wavelength, "float")
-		self._wavelength = wavelength
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", kappaStart, "float")
+		self._kappaStart = kappaStart
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", numberOfImages, "integer")
+		self._numberOfImages = numberOfImages
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", numberOfPasses, "integer")
+		self._numberOfPasses = numberOfPasses
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", omegaStart, "float")
+		self._omegaStart = omegaStart
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", overlap, "float")
+		self._overlap = overlap
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", phiStart, "float")
+		self._phiStart = phiStart
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", printableForReport, "boolean")
+		self._printableForReport = printableForReport
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", resolution, "float")
 		self._resolution = resolution
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", resolutionAtCorner, "float")
 		self._resolutionAtCorner = resolutionAtCorner
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detectorDistance, "float")
-		self._detectorDistance = detectorDistance
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detector2theta, "float")
-		self._detector2theta = detector2theta
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", detectorMode, "string")
-		self._detectorMode = detectorMode
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", rotationAxis, "string")
+		self._rotationAxis = rotationAxis
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", runStatus, "string")
+		self._runStatus = runStatus
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", slitGapVertical, "float")
+		self._slitGapVertical = slitGapVertical
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", slitGapHorizontal, "float")
+		self._slitGapHorizontal = slitGapHorizontal
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", startImageNumber, "integer")
+		self._startImageNumber = startImageNumber
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", strategySubWedgeOrigId, "integer")
+		self._strategySubWedgeOrigId = strategySubWedgeOrigId
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", startTime, "string")
+		self._startTime = startTime
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", synchrotronMode, "string")
+		self._synchrotronMode = synchrotronMode
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", transmission, "float")
+		self._transmission = transmission
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", undulatorGap1, "float")
 		self._undulatorGap1 = undulatorGap1
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", undulatorGap2, "float")
 		self._undulatorGap2 = undulatorGap2
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", undulatorGap3, "float")
 		self._undulatorGap3 = undulatorGap3
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", wavelength, "float")
+		self._wavelength = wavelength
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xbeam, "float")
 		self._xbeam = xbeam
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", ybeam, "float")
-		self._ybeam = ybeam
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", crystalClass, "string")
-		self._crystalClass = crystalClass
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", slitGapVertical, "float")
-		self._slitGapVertical = slitGapVertical
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", slitGapHorizontal, "float")
-		self._slitGapHorizontal = slitGapHorizontal
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamSizeAtSampleX, "float")
-		self._beamSizeAtSampleX = beamSizeAtSampleX
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamSizeAtSampleY, "float")
-		self._beamSizeAtSampleY = beamSizeAtSampleY
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", transmission, "float")
-		self._transmission = transmission
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", synchrotronMode, "string")
-		self._synchrotronMode = synchrotronMode
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", centeringMethod, "string")
-		self._centeringMethod = centeringMethod
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", averageTemperature, "float")
-		self._averageTemperature = averageTemperature
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", comments, "string")
-		self._comments = comments
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", printableForReport, "boolean")
-		self._printableForReport = printableForReport
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xtalSnapshotFullPath1, "string")
 		self._xtalSnapshotFullPath1 = xtalSnapshotFullPath1
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xtalSnapshotFullPath2, "string")
@@ -2549,120 +2541,22 @@ class XSDataISPyBDataCollection(object):
 		self._xtalSnapshotFullPath3 = xtalSnapshotFullPath3
 		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", xtalSnapshotFullPath4, "string")
 		self._xtalSnapshotFullPath4 = xtalSnapshotFullPath4
-		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", beamShape, "string")
-		self._beamShape = beamShape
-	def getDataCollectionId(self): return self._dataCollectionId
-	def setDataCollectionId(self, dataCollectionId):
-		checkType("XSDataISPyBDataCollection", "setDataCollectionId", dataCollectionId, "integer")
-		self._dataCollectionId = dataCollectionId
-	def delDataCollectionId(self): self._dataCollectionId = None
+		checkType("XSDataISPyBDataCollection", "Constructor of XSDataISPyBDataCollection", ybeam, "float")
+		self._ybeam = ybeam
+	def getActualCenteringPosition(self): return self._actualCenteringPosition
+	def setActualCenteringPosition(self, actualCenteringPosition):
+		checkType("XSDataISPyBDataCollection", "setActualCenteringPosition", actualCenteringPosition, "string")
+		self._actualCenteringPosition = actualCenteringPosition
+	def delActualCenteringPosition(self): self._actualCenteringPosition = None
 	# Properties
-	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
-	def getBlSampleId(self): return self._blSampleId
-	def setBlSampleId(self, blSampleId):
-		checkType("XSDataISPyBDataCollection", "setBlSampleId", blSampleId, "integer")
-		self._blSampleId = blSampleId
-	def delBlSampleId(self): self._blSampleId = None
+	actualCenteringPosition = property(getActualCenteringPosition, setActualCenteringPosition, delActualCenteringPosition, "Property for actualCenteringPosition")
+	def getAverageTemperature(self): return self._averageTemperature
+	def setAverageTemperature(self, averageTemperature):
+		checkType("XSDataISPyBDataCollection", "setAverageTemperature", averageTemperature, "float")
+		self._averageTemperature = averageTemperature
+	def delAverageTemperature(self): self._averageTemperature = None
 	# Properties
-	blSampleId = property(getBlSampleId, setBlSampleId, delBlSampleId, "Property for blSampleId")
-	def getSessionId(self): return self._sessionId
-	def setSessionId(self, sessionId):
-		checkType("XSDataISPyBDataCollection", "setSessionId", sessionId, "integer")
-		self._sessionId = sessionId
-	def delSessionId(self): self._sessionId = None
-	# Properties
-	sessionId = property(getSessionId, setSessionId, delSessionId, "Property for sessionId")
-	def getScreeningOrigId(self): return self._screeningOrigId
-	def setScreeningOrigId(self, screeningOrigId):
-		checkType("XSDataISPyBDataCollection", "setScreeningOrigId", screeningOrigId, "integer")
-		self._screeningOrigId = screeningOrigId
-	def delScreeningOrigId(self): self._screeningOrigId = None
-	# Properties
-	screeningOrigId = property(getScreeningOrigId, setScreeningOrigId, delScreeningOrigId, "Property for screeningOrigId")
-	def getDetectorId(self): return self._detectorId
-	def setDetectorId(self, detectorId):
-		checkType("XSDataISPyBDataCollection", "setDetectorId", detectorId, "integer")
-		self._detectorId = detectorId
-	def delDetectorId(self): self._detectorId = None
-	# Properties
-	detectorId = property(getDetectorId, setDetectorId, delDetectorId, "Property for detectorId")
-	def getStrategySubWedgeOrigId(self): return self._strategySubWedgeOrigId
-	def setStrategySubWedgeOrigId(self, strategySubWedgeOrigId):
-		checkType("XSDataISPyBDataCollection", "setStrategySubWedgeOrigId", strategySubWedgeOrigId, "integer")
-		self._strategySubWedgeOrigId = strategySubWedgeOrigId
-	def delStrategySubWedgeOrigId(self): self._strategySubWedgeOrigId = None
-	# Properties
-	strategySubWedgeOrigId = property(getStrategySubWedgeOrigId, setStrategySubWedgeOrigId, delStrategySubWedgeOrigId, "Property for strategySubWedgeOrigId")
-	def getExperimentType(self): return self._experimentType
-	def setExperimentType(self, experimentType):
-		checkType("XSDataISPyBDataCollection", "setExperimentType", experimentType, "string")
-		self._experimentType = experimentType
-	def delExperimentType(self): self._experimentType = None
-	# Properties
-	experimentType = property(getExperimentType, setExperimentType, delExperimentType, "Property for experimentType")
-	def getDataCollectionNumber(self): return self._dataCollectionNumber
-	def setDataCollectionNumber(self, dataCollectionNumber):
-		checkType("XSDataISPyBDataCollection", "setDataCollectionNumber", dataCollectionNumber, "integer")
-		self._dataCollectionNumber = dataCollectionNumber
-	def delDataCollectionNumber(self): self._dataCollectionNumber = None
-	# Properties
-	dataCollectionNumber = property(getDataCollectionNumber, setDataCollectionNumber, delDataCollectionNumber, "Property for dataCollectionNumber")
-	def getStartDate(self): return self._startDate
-	def setStartDate(self, startDate):
-		checkType("XSDataISPyBDataCollection", "setStartDate", startDate, "string")
-		self._startDate = startDate
-	def delStartDate(self): self._startDate = None
-	# Properties
-	startDate = property(getStartDate, setStartDate, delStartDate, "Property for startDate")
-	def getEndDate(self): return self._endDate
-	def setEndDate(self, endDate):
-		checkType("XSDataISPyBDataCollection", "setEndDate", endDate, "string")
-		self._endDate = endDate
-	def delEndDate(self): self._endDate = None
-	# Properties
-	endDate = property(getEndDate, setEndDate, delEndDate, "Property for endDate")
-	def getRunStatus(self): return self._runStatus
-	def setRunStatus(self, runStatus):
-		checkType("XSDataISPyBDataCollection", "setRunStatus", runStatus, "string")
-		self._runStatus = runStatus
-	def delRunStatus(self): self._runStatus = None
-	# Properties
-	runStatus = property(getRunStatus, setRunStatus, delRunStatus, "Property for runStatus")
-	def getRotationAxis(self): return self._rotationAxis
-	def setRotationAxis(self, rotationAxis):
-		checkType("XSDataISPyBDataCollection", "setRotationAxis", rotationAxis, "string")
-		self._rotationAxis = rotationAxis
-	def delRotationAxis(self): self._rotationAxis = None
-	# Properties
-	rotationAxis = property(getRotationAxis, setRotationAxis, delRotationAxis, "Property for rotationAxis")
-	def getPhiStart(self): return self._phiStart
-	def setPhiStart(self, phiStart):
-		checkType("XSDataISPyBDataCollection", "setPhiStart", phiStart, "float")
-		self._phiStart = phiStart
-	def delPhiStart(self): self._phiStart = None
-	# Properties
-	phiStart = property(getPhiStart, setPhiStart, delPhiStart, "Property for phiStart")
-	def getKappaStart(self): return self._kappaStart
-	def setKappaStart(self, kappaStart):
-		checkType("XSDataISPyBDataCollection", "setKappaStart", kappaStart, "float")
-		self._kappaStart = kappaStart
-	def delKappaStart(self): self._kappaStart = None
-	# Properties
-	kappaStart = property(getKappaStart, setKappaStart, delKappaStart, "Property for kappaStart")
-	def getOmegaStart(self): return self._omegaStart
-	def setOmegaStart(self, omegaStart):
-		checkType("XSDataISPyBDataCollection", "setOmegaStart", omegaStart, "float")
-		self._omegaStart = omegaStart
-	def delOmegaStart(self): self._omegaStart = None
-	# Properties
-	omegaStart = property(getOmegaStart, setOmegaStart, delOmegaStart, "Property for omegaStart")
-	def getAxisStart(self): return self._axisStart
-	def setAxisStart(self, axisStart):
-		checkType("XSDataISPyBDataCollection", "setAxisStart", axisStart, "float")
-		self._axisStart = axisStart
-	def delAxisStart(self): self._axisStart = None
-	# Properties
-	axisStart = property(getAxisStart, setAxisStart, delAxisStart, "Property for axisStart")
+	averageTemperature = property(getAverageTemperature, setAverageTemperature, delAverageTemperature, "Property for averageTemperature")
 	def getAxisEnd(self): return self._axisEnd
 	def setAxisEnd(self, axisEnd):
 		checkType("XSDataISPyBDataCollection", "setAxisEnd", axisEnd, "float")
@@ -2677,34 +2571,90 @@ class XSDataISPyBDataCollection(object):
 	def delAxisRange(self): self._axisRange = None
 	# Properties
 	axisRange = property(getAxisRange, setAxisRange, delAxisRange, "Property for axisRange")
-	def getOverlap(self): return self._overlap
-	def setOverlap(self, overlap):
-		checkType("XSDataISPyBDataCollection", "setOverlap", overlap, "float")
-		self._overlap = overlap
-	def delOverlap(self): self._overlap = None
+	def getAxisStart(self): return self._axisStart
+	def setAxisStart(self, axisStart):
+		checkType("XSDataISPyBDataCollection", "setAxisStart", axisStart, "float")
+		self._axisStart = axisStart
+	def delAxisStart(self): self._axisStart = None
 	# Properties
-	overlap = property(getOverlap, setOverlap, delOverlap, "Property for overlap")
-	def getNumberOfImages(self): return self._numberOfImages
-	def setNumberOfImages(self, numberOfImages):
-		checkType("XSDataISPyBDataCollection", "setNumberOfImages", numberOfImages, "integer")
-		self._numberOfImages = numberOfImages
-	def delNumberOfImages(self): self._numberOfImages = None
+	axisStart = property(getAxisStart, setAxisStart, delAxisStart, "Property for axisStart")
+	def getBeamShape(self): return self._beamShape
+	def setBeamShape(self, beamShape):
+		checkType("XSDataISPyBDataCollection", "setBeamShape", beamShape, "string")
+		self._beamShape = beamShape
+	def delBeamShape(self): self._beamShape = None
 	# Properties
-	numberOfImages = property(getNumberOfImages, setNumberOfImages, delNumberOfImages, "Property for numberOfImages")
-	def getStartImageNumber(self): return self._startImageNumber
-	def setStartImageNumber(self, startImageNumber):
-		checkType("XSDataISPyBDataCollection", "setStartImageNumber", startImageNumber, "integer")
-		self._startImageNumber = startImageNumber
-	def delStartImageNumber(self): self._startImageNumber = None
+	beamShape = property(getBeamShape, setBeamShape, delBeamShape, "Property for beamShape")
+	def getBeamSizeAtSampleX(self): return self._beamSizeAtSampleX
+	def setBeamSizeAtSampleX(self, beamSizeAtSampleX):
+		checkType("XSDataISPyBDataCollection", "setBeamSizeAtSampleX", beamSizeAtSampleX, "float")
+		self._beamSizeAtSampleX = beamSizeAtSampleX
+	def delBeamSizeAtSampleX(self): self._beamSizeAtSampleX = None
 	# Properties
-	startImageNumber = property(getStartImageNumber, setStartImageNumber, delStartImageNumber, "Property for startImageNumber")
-	def getNumberOfPasses(self): return self._numberOfPasses
-	def setNumberOfPasses(self, numberOfPasses):
-		checkType("XSDataISPyBDataCollection", "setNumberOfPasses", numberOfPasses, "integer")
-		self._numberOfPasses = numberOfPasses
-	def delNumberOfPasses(self): self._numberOfPasses = None
+	beamSizeAtSampleX = property(getBeamSizeAtSampleX, setBeamSizeAtSampleX, delBeamSizeAtSampleX, "Property for beamSizeAtSampleX")
+	def getBeamSizeAtSampleY(self): return self._beamSizeAtSampleY
+	def setBeamSizeAtSampleY(self, beamSizeAtSampleY):
+		checkType("XSDataISPyBDataCollection", "setBeamSizeAtSampleY", beamSizeAtSampleY, "float")
+		self._beamSizeAtSampleY = beamSizeAtSampleY
+	def delBeamSizeAtSampleY(self): self._beamSizeAtSampleY = None
 	# Properties
-	numberOfPasses = property(getNumberOfPasses, setNumberOfPasses, delNumberOfPasses, "Property for numberOfPasses")
+	beamSizeAtSampleY = property(getBeamSizeAtSampleY, setBeamSizeAtSampleY, delBeamSizeAtSampleY, "Property for beamSizeAtSampleY")
+	def getCenteringMethod(self): return self._centeringMethod
+	def setCenteringMethod(self, centeringMethod):
+		checkType("XSDataISPyBDataCollection", "setCenteringMethod", centeringMethod, "string")
+		self._centeringMethod = centeringMethod
+	def delCenteringMethod(self): self._centeringMethod = None
+	# Properties
+	centeringMethod = property(getCenteringMethod, setCenteringMethod, delCenteringMethod, "Property for centeringMethod")
+	def getComments(self): return self._comments
+	def setComments(self, comments):
+		checkType("XSDataISPyBDataCollection", "setComments", comments, "string")
+		self._comments = comments
+	def delComments(self): self._comments = None
+	# Properties
+	comments = property(getComments, setComments, delComments, "Property for comments")
+	def getDataCollectionId(self): return self._dataCollectionId
+	def setDataCollectionId(self, dataCollectionId):
+		checkType("XSDataISPyBDataCollection", "setDataCollectionId", dataCollectionId, "integer")
+		self._dataCollectionId = dataCollectionId
+	def delDataCollectionId(self): self._dataCollectionId = None
+	# Properties
+	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
+	def getDataCollectionNumber(self): return self._dataCollectionNumber
+	def setDataCollectionNumber(self, dataCollectionNumber):
+		checkType("XSDataISPyBDataCollection", "setDataCollectionNumber", dataCollectionNumber, "integer")
+		self._dataCollectionNumber = dataCollectionNumber
+	def delDataCollectionNumber(self): self._dataCollectionNumber = None
+	# Properties
+	dataCollectionNumber = property(getDataCollectionNumber, setDataCollectionNumber, delDataCollectionNumber, "Property for dataCollectionNumber")
+	def getDetector2theta(self): return self._detector2theta
+	def setDetector2theta(self, detector2theta):
+		checkType("XSDataISPyBDataCollection", "setDetector2theta", detector2theta, "float")
+		self._detector2theta = detector2theta
+	def delDetector2theta(self): self._detector2theta = None
+	# Properties
+	detector2theta = property(getDetector2theta, setDetector2theta, delDetector2theta, "Property for detector2theta")
+	def getDetectorDistance(self): return self._detectorDistance
+	def setDetectorDistance(self, detectorDistance):
+		checkType("XSDataISPyBDataCollection", "setDetectorDistance", detectorDistance, "float")
+		self._detectorDistance = detectorDistance
+	def delDetectorDistance(self): self._detectorDistance = None
+	# Properties
+	detectorDistance = property(getDetectorDistance, setDetectorDistance, delDetectorDistance, "Property for detectorDistance")
+	def getDetectorMode(self): return self._detectorMode
+	def setDetectorMode(self, detectorMode):
+		checkType("XSDataISPyBDataCollection", "setDetectorMode", detectorMode, "string")
+		self._detectorMode = detectorMode
+	def delDetectorMode(self): self._detectorMode = None
+	# Properties
+	detectorMode = property(getDetectorMode, setDetectorMode, delDetectorMode, "Property for detectorMode")
+	def getEndTime(self): return self._endTime
+	def setEndTime(self, endTime):
+		checkType("XSDataISPyBDataCollection", "setEndTime", endTime, "string")
+		self._endTime = endTime
+	def delEndTime(self): self._endTime = None
+	# Properties
+	endTime = property(getEndTime, setEndTime, delEndTime, "Property for endTime")
 	def getExposureTime(self): return self._exposureTime
 	def setExposureTime(self, exposureTime):
 		checkType("XSDataISPyBDataCollection", "setExposureTime", exposureTime, "float")
@@ -2712,6 +2662,20 @@ class XSDataISPyBDataCollection(object):
 	def delExposureTime(self): self._exposureTime = None
 	# Properties
 	exposureTime = property(getExposureTime, setExposureTime, delExposureTime, "Property for exposureTime")
+	def getFileTemplate(self): return self._fileTemplate
+	def setFileTemplate(self, fileTemplate):
+		checkType("XSDataISPyBDataCollection", "setFileTemplate", fileTemplate, "string")
+		self._fileTemplate = fileTemplate
+	def delFileTemplate(self): self._fileTemplate = None
+	# Properties
+	fileTemplate = property(getFileTemplate, setFileTemplate, delFileTemplate, "Property for fileTemplate")
+	def getFlux(self): return self._flux
+	def setFlux(self, flux):
+		checkType("XSDataISPyBDataCollection", "setFlux", flux, "float")
+		self._flux = flux
+	def delFlux(self): self._flux = None
+	# Properties
+	flux = property(getFlux, setFlux, delFlux, "Property for flux")
 	def getImageDirectory(self): return self._imageDirectory
 	def setImageDirectory(self, imageDirectory):
 		checkType("XSDataISPyBDataCollection", "setImageDirectory", imageDirectory, "string")
@@ -2733,20 +2697,55 @@ class XSDataISPyBDataCollection(object):
 	def delImageSuffix(self): self._imageSuffix = None
 	# Properties
 	imageSuffix = property(getImageSuffix, setImageSuffix, delImageSuffix, "Property for imageSuffix")
-	def getFileTemplate(self): return self._fileTemplate
-	def setFileTemplate(self, fileTemplate):
-		checkType("XSDataISPyBDataCollection", "setFileTemplate", fileTemplate, "string")
-		self._fileTemplate = fileTemplate
-	def delFileTemplate(self): self._fileTemplate = None
+	def getKappaStart(self): return self._kappaStart
+	def setKappaStart(self, kappaStart):
+		checkType("XSDataISPyBDataCollection", "setKappaStart", kappaStart, "float")
+		self._kappaStart = kappaStart
+	def delKappaStart(self): self._kappaStart = None
 	# Properties
-	fileTemplate = property(getFileTemplate, setFileTemplate, delFileTemplate, "Property for fileTemplate")
-	def getWavelength(self): return self._wavelength
-	def setWavelength(self, wavelength):
-		checkType("XSDataISPyBDataCollection", "setWavelength", wavelength, "float")
-		self._wavelength = wavelength
-	def delWavelength(self): self._wavelength = None
+	kappaStart = property(getKappaStart, setKappaStart, delKappaStart, "Property for kappaStart")
+	def getNumberOfImages(self): return self._numberOfImages
+	def setNumberOfImages(self, numberOfImages):
+		checkType("XSDataISPyBDataCollection", "setNumberOfImages", numberOfImages, "integer")
+		self._numberOfImages = numberOfImages
+	def delNumberOfImages(self): self._numberOfImages = None
 	# Properties
-	wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
+	numberOfImages = property(getNumberOfImages, setNumberOfImages, delNumberOfImages, "Property for numberOfImages")
+	def getNumberOfPasses(self): return self._numberOfPasses
+	def setNumberOfPasses(self, numberOfPasses):
+		checkType("XSDataISPyBDataCollection", "setNumberOfPasses", numberOfPasses, "integer")
+		self._numberOfPasses = numberOfPasses
+	def delNumberOfPasses(self): self._numberOfPasses = None
+	# Properties
+	numberOfPasses = property(getNumberOfPasses, setNumberOfPasses, delNumberOfPasses, "Property for numberOfPasses")
+	def getOmegaStart(self): return self._omegaStart
+	def setOmegaStart(self, omegaStart):
+		checkType("XSDataISPyBDataCollection", "setOmegaStart", omegaStart, "float")
+		self._omegaStart = omegaStart
+	def delOmegaStart(self): self._omegaStart = None
+	# Properties
+	omegaStart = property(getOmegaStart, setOmegaStart, delOmegaStart, "Property for omegaStart")
+	def getOverlap(self): return self._overlap
+	def setOverlap(self, overlap):
+		checkType("XSDataISPyBDataCollection", "setOverlap", overlap, "float")
+		self._overlap = overlap
+	def delOverlap(self): self._overlap = None
+	# Properties
+	overlap = property(getOverlap, setOverlap, delOverlap, "Property for overlap")
+	def getPhiStart(self): return self._phiStart
+	def setPhiStart(self, phiStart):
+		checkType("XSDataISPyBDataCollection", "setPhiStart", phiStart, "float")
+		self._phiStart = phiStart
+	def delPhiStart(self): self._phiStart = None
+	# Properties
+	phiStart = property(getPhiStart, setPhiStart, delPhiStart, "Property for phiStart")
+	def getPrintableForReport(self): return self._printableForReport
+	def setPrintableForReport(self, printableForReport):
+		checkType("XSDataISPyBDataCollection", "setPrintableForReport", printableForReport, "boolean")
+		self._printableForReport = printableForReport
+	def delPrintableForReport(self): self._printableForReport = None
+	# Properties
+	printableForReport = property(getPrintableForReport, setPrintableForReport, delPrintableForReport, "Property for printableForReport")
 	def getResolution(self): return self._resolution
 	def setResolution(self, resolution):
 		checkType("XSDataISPyBDataCollection", "setResolution", resolution, "float")
@@ -2761,27 +2760,69 @@ class XSDataISPyBDataCollection(object):
 	def delResolutionAtCorner(self): self._resolutionAtCorner = None
 	# Properties
 	resolutionAtCorner = property(getResolutionAtCorner, setResolutionAtCorner, delResolutionAtCorner, "Property for resolutionAtCorner")
-	def getDetectorDistance(self): return self._detectorDistance
-	def setDetectorDistance(self, detectorDistance):
-		checkType("XSDataISPyBDataCollection", "setDetectorDistance", detectorDistance, "float")
-		self._detectorDistance = detectorDistance
-	def delDetectorDistance(self): self._detectorDistance = None
+	def getRotationAxis(self): return self._rotationAxis
+	def setRotationAxis(self, rotationAxis):
+		checkType("XSDataISPyBDataCollection", "setRotationAxis", rotationAxis, "string")
+		self._rotationAxis = rotationAxis
+	def delRotationAxis(self): self._rotationAxis = None
 	# Properties
-	detectorDistance = property(getDetectorDistance, setDetectorDistance, delDetectorDistance, "Property for detectorDistance")
-	def getDetector2theta(self): return self._detector2theta
-	def setDetector2theta(self, detector2theta):
-		checkType("XSDataISPyBDataCollection", "setDetector2theta", detector2theta, "float")
-		self._detector2theta = detector2theta
-	def delDetector2theta(self): self._detector2theta = None
+	rotationAxis = property(getRotationAxis, setRotationAxis, delRotationAxis, "Property for rotationAxis")
+	def getRunStatus(self): return self._runStatus
+	def setRunStatus(self, runStatus):
+		checkType("XSDataISPyBDataCollection", "setRunStatus", runStatus, "string")
+		self._runStatus = runStatus
+	def delRunStatus(self): self._runStatus = None
 	# Properties
-	detector2theta = property(getDetector2theta, setDetector2theta, delDetector2theta, "Property for detector2theta")
-	def getDetectorMode(self): return self._detectorMode
-	def setDetectorMode(self, detectorMode):
-		checkType("XSDataISPyBDataCollection", "setDetectorMode", detectorMode, "string")
-		self._detectorMode = detectorMode
-	def delDetectorMode(self): self._detectorMode = None
+	runStatus = property(getRunStatus, setRunStatus, delRunStatus, "Property for runStatus")
+	def getSlitGapVertical(self): return self._slitGapVertical
+	def setSlitGapVertical(self, slitGapVertical):
+		checkType("XSDataISPyBDataCollection", "setSlitGapVertical", slitGapVertical, "float")
+		self._slitGapVertical = slitGapVertical
+	def delSlitGapVertical(self): self._slitGapVertical = None
 	# Properties
-	detectorMode = property(getDetectorMode, setDetectorMode, delDetectorMode, "Property for detectorMode")
+	slitGapVertical = property(getSlitGapVertical, setSlitGapVertical, delSlitGapVertical, "Property for slitGapVertical")
+	def getSlitGapHorizontal(self): return self._slitGapHorizontal
+	def setSlitGapHorizontal(self, slitGapHorizontal):
+		checkType("XSDataISPyBDataCollection", "setSlitGapHorizontal", slitGapHorizontal, "float")
+		self._slitGapHorizontal = slitGapHorizontal
+	def delSlitGapHorizontal(self): self._slitGapHorizontal = None
+	# Properties
+	slitGapHorizontal = property(getSlitGapHorizontal, setSlitGapHorizontal, delSlitGapHorizontal, "Property for slitGapHorizontal")
+	def getStartImageNumber(self): return self._startImageNumber
+	def setStartImageNumber(self, startImageNumber):
+		checkType("XSDataISPyBDataCollection", "setStartImageNumber", startImageNumber, "integer")
+		self._startImageNumber = startImageNumber
+	def delStartImageNumber(self): self._startImageNumber = None
+	# Properties
+	startImageNumber = property(getStartImageNumber, setStartImageNumber, delStartImageNumber, "Property for startImageNumber")
+	def getStrategySubWedgeOrigId(self): return self._strategySubWedgeOrigId
+	def setStrategySubWedgeOrigId(self, strategySubWedgeOrigId):
+		checkType("XSDataISPyBDataCollection", "setStrategySubWedgeOrigId", strategySubWedgeOrigId, "integer")
+		self._strategySubWedgeOrigId = strategySubWedgeOrigId
+	def delStrategySubWedgeOrigId(self): self._strategySubWedgeOrigId = None
+	# Properties
+	strategySubWedgeOrigId = property(getStrategySubWedgeOrigId, setStrategySubWedgeOrigId, delStrategySubWedgeOrigId, "Property for strategySubWedgeOrigId")
+	def getStartTime(self): return self._startTime
+	def setStartTime(self, startTime):
+		checkType("XSDataISPyBDataCollection", "setStartTime", startTime, "string")
+		self._startTime = startTime
+	def delStartTime(self): self._startTime = None
+	# Properties
+	startTime = property(getStartTime, setStartTime, delStartTime, "Property for startTime")
+	def getSynchrotronMode(self): return self._synchrotronMode
+	def setSynchrotronMode(self, synchrotronMode):
+		checkType("XSDataISPyBDataCollection", "setSynchrotronMode", synchrotronMode, "string")
+		self._synchrotronMode = synchrotronMode
+	def delSynchrotronMode(self): self._synchrotronMode = None
+	# Properties
+	synchrotronMode = property(getSynchrotronMode, setSynchrotronMode, delSynchrotronMode, "Property for synchrotronMode")
+	def getTransmission(self): return self._transmission
+	def setTransmission(self, transmission):
+		checkType("XSDataISPyBDataCollection", "setTransmission", transmission, "float")
+		self._transmission = transmission
+	def delTransmission(self): self._transmission = None
+	# Properties
+	transmission = property(getTransmission, setTransmission, delTransmission, "Property for transmission")
 	def getUndulatorGap1(self): return self._undulatorGap1
 	def setUndulatorGap1(self, undulatorGap1):
 		checkType("XSDataISPyBDataCollection", "setUndulatorGap1", undulatorGap1, "float")
@@ -2803,6 +2844,13 @@ class XSDataISPyBDataCollection(object):
 	def delUndulatorGap3(self): self._undulatorGap3 = None
 	# Properties
 	undulatorGap3 = property(getUndulatorGap3, setUndulatorGap3, delUndulatorGap3, "Property for undulatorGap3")
+	def getWavelength(self): return self._wavelength
+	def setWavelength(self, wavelength):
+		checkType("XSDataISPyBDataCollection", "setWavelength", wavelength, "float")
+		self._wavelength = wavelength
+	def delWavelength(self): self._wavelength = None
+	# Properties
+	wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
 	def getXbeam(self): return self._xbeam
 	def setXbeam(self, xbeam):
 		checkType("XSDataISPyBDataCollection", "setXbeam", xbeam, "float")
@@ -2810,90 +2858,6 @@ class XSDataISPyBDataCollection(object):
 	def delXbeam(self): self._xbeam = None
 	# Properties
 	xbeam = property(getXbeam, setXbeam, delXbeam, "Property for xbeam")
-	def getYbeam(self): return self._ybeam
-	def setYbeam(self, ybeam):
-		checkType("XSDataISPyBDataCollection", "setYbeam", ybeam, "float")
-		self._ybeam = ybeam
-	def delYbeam(self): self._ybeam = None
-	# Properties
-	ybeam = property(getYbeam, setYbeam, delYbeam, "Property for ybeam")
-	def getCrystalClass(self): return self._crystalClass
-	def setCrystalClass(self, crystalClass):
-		checkType("XSDataISPyBDataCollection", "setCrystalClass", crystalClass, "string")
-		self._crystalClass = crystalClass
-	def delCrystalClass(self): self._crystalClass = None
-	# Properties
-	crystalClass = property(getCrystalClass, setCrystalClass, delCrystalClass, "Property for crystalClass")
-	def getSlitGapVertical(self): return self._slitGapVertical
-	def setSlitGapVertical(self, slitGapVertical):
-		checkType("XSDataISPyBDataCollection", "setSlitGapVertical", slitGapVertical, "float")
-		self._slitGapVertical = slitGapVertical
-	def delSlitGapVertical(self): self._slitGapVertical = None
-	# Properties
-	slitGapVertical = property(getSlitGapVertical, setSlitGapVertical, delSlitGapVertical, "Property for slitGapVertical")
-	def getSlitGapHorizontal(self): return self._slitGapHorizontal
-	def setSlitGapHorizontal(self, slitGapHorizontal):
-		checkType("XSDataISPyBDataCollection", "setSlitGapHorizontal", slitGapHorizontal, "float")
-		self._slitGapHorizontal = slitGapHorizontal
-	def delSlitGapHorizontal(self): self._slitGapHorizontal = None
-	# Properties
-	slitGapHorizontal = property(getSlitGapHorizontal, setSlitGapHorizontal, delSlitGapHorizontal, "Property for slitGapHorizontal")
-	def getBeamSizeAtSampleX(self): return self._beamSizeAtSampleX
-	def setBeamSizeAtSampleX(self, beamSizeAtSampleX):
-		checkType("XSDataISPyBDataCollection", "setBeamSizeAtSampleX", beamSizeAtSampleX, "float")
-		self._beamSizeAtSampleX = beamSizeAtSampleX
-	def delBeamSizeAtSampleX(self): self._beamSizeAtSampleX = None
-	# Properties
-	beamSizeAtSampleX = property(getBeamSizeAtSampleX, setBeamSizeAtSampleX, delBeamSizeAtSampleX, "Property for beamSizeAtSampleX")
-	def getBeamSizeAtSampleY(self): return self._beamSizeAtSampleY
-	def setBeamSizeAtSampleY(self, beamSizeAtSampleY):
-		checkType("XSDataISPyBDataCollection", "setBeamSizeAtSampleY", beamSizeAtSampleY, "float")
-		self._beamSizeAtSampleY = beamSizeAtSampleY
-	def delBeamSizeAtSampleY(self): self._beamSizeAtSampleY = None
-	# Properties
-	beamSizeAtSampleY = property(getBeamSizeAtSampleY, setBeamSizeAtSampleY, delBeamSizeAtSampleY, "Property for beamSizeAtSampleY")
-	def getTransmission(self): return self._transmission
-	def setTransmission(self, transmission):
-		checkType("XSDataISPyBDataCollection", "setTransmission", transmission, "float")
-		self._transmission = transmission
-	def delTransmission(self): self._transmission = None
-	# Properties
-	transmission = property(getTransmission, setTransmission, delTransmission, "Property for transmission")
-	def getSynchrotronMode(self): return self._synchrotronMode
-	def setSynchrotronMode(self, synchrotronMode):
-		checkType("XSDataISPyBDataCollection", "setSynchrotronMode", synchrotronMode, "string")
-		self._synchrotronMode = synchrotronMode
-	def delSynchrotronMode(self): self._synchrotronMode = None
-	# Properties
-	synchrotronMode = property(getSynchrotronMode, setSynchrotronMode, delSynchrotronMode, "Property for synchrotronMode")
-	def getCenteringMethod(self): return self._centeringMethod
-	def setCenteringMethod(self, centeringMethod):
-		checkType("XSDataISPyBDataCollection", "setCenteringMethod", centeringMethod, "string")
-		self._centeringMethod = centeringMethod
-	def delCenteringMethod(self): self._centeringMethod = None
-	# Properties
-	centeringMethod = property(getCenteringMethod, setCenteringMethod, delCenteringMethod, "Property for centeringMethod")
-	def getAverageTemperature(self): return self._averageTemperature
-	def setAverageTemperature(self, averageTemperature):
-		checkType("XSDataISPyBDataCollection", "setAverageTemperature", averageTemperature, "float")
-		self._averageTemperature = averageTemperature
-	def delAverageTemperature(self): self._averageTemperature = None
-	# Properties
-	averageTemperature = property(getAverageTemperature, setAverageTemperature, delAverageTemperature, "Property for averageTemperature")
-	def getComments(self): return self._comments
-	def setComments(self, comments):
-		checkType("XSDataISPyBDataCollection", "setComments", comments, "string")
-		self._comments = comments
-	def delComments(self): self._comments = None
-	# Properties
-	comments = property(getComments, setComments, delComments, "Property for comments")
-	def getPrintableForReport(self): return self._printableForReport
-	def setPrintableForReport(self, printableForReport):
-		checkType("XSDataISPyBDataCollection", "setPrintableForReport", printableForReport, "boolean")
-		self._printableForReport = printableForReport
-	def delPrintableForReport(self): self._printableForReport = None
-	# Properties
-	printableForReport = property(getPrintableForReport, setPrintableForReport, delPrintableForReport, "Property for printableForReport")
 	def getXtalSnapshotFullPath1(self): return self._xtalSnapshotFullPath1
 	def setXtalSnapshotFullPath1(self, xtalSnapshotFullPath1):
 		checkType("XSDataISPyBDataCollection", "setXtalSnapshotFullPath1", xtalSnapshotFullPath1, "string")
@@ -2922,13 +2886,13 @@ class XSDataISPyBDataCollection(object):
 	def delXtalSnapshotFullPath4(self): self._xtalSnapshotFullPath4 = None
 	# Properties
 	xtalSnapshotFullPath4 = property(getXtalSnapshotFullPath4, setXtalSnapshotFullPath4, delXtalSnapshotFullPath4, "Property for xtalSnapshotFullPath4")
-	def getBeamShape(self): return self._beamShape
-	def setBeamShape(self, beamShape):
-		checkType("XSDataISPyBDataCollection", "setBeamShape", beamShape, "string")
-		self._beamShape = beamShape
-	def delBeamShape(self): self._beamShape = None
+	def getYbeam(self): return self._ybeam
+	def setYbeam(self, ybeam):
+		checkType("XSDataISPyBDataCollection", "setYbeam", ybeam, "float")
+		self._ybeam = ybeam
+	def delYbeam(self): self._ybeam = None
 	# Properties
-	beamShape = property(getBeamShape, setBeamShape, delBeamShape, "Property for beamShape")
+	ybeam = property(getYbeam, setYbeam, delYbeam, "Property for ybeam")
 	def export(self, outfile, level, name_='XSDataISPyBDataCollection'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -2937,80 +2901,16 @@ class XSDataISPyBDataCollection(object):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataISPyBDataCollection'):
 		pass
-		if self._dataCollectionId is not None:
+		if self._actualCenteringPosition is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<dataCollectionId>%d</dataCollectionId>\n' % self._dataCollectionId))
+			outfile.write(unicode('<actualCenteringPosition>%s</actualCenteringPosition>\n' % self._actualCenteringPosition))
 		else:
-			warnEmptyAttribute("dataCollectionId", "integer")
-		if self._blSampleId is not None:
+			warnEmptyAttribute("actualCenteringPosition", "string")
+		if self._averageTemperature is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<blSampleId>%d</blSampleId>\n' % self._blSampleId))
+			outfile.write(unicode('<averageTemperature>%e</averageTemperature>\n' % self._averageTemperature))
 		else:
-			warnEmptyAttribute("blSampleId", "integer")
-		if self._sessionId is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<sessionId>%d</sessionId>\n' % self._sessionId))
-		else:
-			warnEmptyAttribute("sessionId", "integer")
-		if self._screeningOrigId is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<screeningOrigId>%d</screeningOrigId>\n' % self._screeningOrigId))
-		if self._detectorId is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<detectorId>%d</detectorId>\n' % self._detectorId))
-		if self._strategySubWedgeOrigId is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<strategySubWedgeOrigId>%d</strategySubWedgeOrigId>\n' % self._strategySubWedgeOrigId))
-		if self._experimentType is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<experimentType>%s</experimentType>\n' % self._experimentType))
-		else:
-			warnEmptyAttribute("experimentType", "string")
-		if self._dataCollectionNumber is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<dataCollectionNumber>%d</dataCollectionNumber>\n' % self._dataCollectionNumber))
-		else:
-			warnEmptyAttribute("dataCollectionNumber", "integer")
-		if self._startDate is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<startDate>%s</startDate>\n' % self._startDate))
-		else:
-			warnEmptyAttribute("startDate", "string")
-		if self._endDate is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<endDate>%s</endDate>\n' % self._endDate))
-		else:
-			warnEmptyAttribute("endDate", "string")
-		if self._runStatus is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<runStatus>%s</runStatus>\n' % self._runStatus))
-		else:
-			warnEmptyAttribute("runStatus", "string")
-		if self._rotationAxis is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<rotationAxis>%s</rotationAxis>\n' % self._rotationAxis))
-		else:
-			warnEmptyAttribute("rotationAxis", "string")
-		if self._phiStart is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<phiStart>%e</phiStart>\n' % self._phiStart))
-		else:
-			warnEmptyAttribute("phiStart", "float")
-		if self._kappaStart is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<kappaStart>%e</kappaStart>\n' % self._kappaStart))
-		else:
-			warnEmptyAttribute("kappaStart", "float")
-		if self._omegaStart is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<omegaStart>%e</omegaStart>\n' % self._omegaStart))
-		else:
-			warnEmptyAttribute("omegaStart", "float")
-		if self._axisStart is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<axisStart>%e</axisStart>\n' % self._axisStart))
-		else:
-			warnEmptyAttribute("axisStart", "float")
+			warnEmptyAttribute("averageTemperature", "float")
 		if self._axisEnd is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<axisEnd>%e</axisEnd>\n' % self._axisEnd))
@@ -3021,31 +2921,81 @@ class XSDataISPyBDataCollection(object):
 			outfile.write(unicode('<axisRange>%e</axisRange>\n' % self._axisRange))
 		else:
 			warnEmptyAttribute("axisRange", "float")
-		if self._overlap is not None:
+		if self._axisStart is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<overlap>%e</overlap>\n' % self._overlap))
+			outfile.write(unicode('<axisStart>%e</axisStart>\n' % self._axisStart))
 		else:
-			warnEmptyAttribute("overlap", "float")
-		if self._numberOfImages is not None:
+			warnEmptyAttribute("axisStart", "float")
+		if self._beamShape is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<numberOfImages>%d</numberOfImages>\n' % self._numberOfImages))
+			outfile.write(unicode('<beamShape>%s</beamShape>\n' % self._beamShape))
 		else:
-			warnEmptyAttribute("numberOfImages", "integer")
-		if self._startImageNumber is not None:
+			warnEmptyAttribute("beamShape", "string")
+		if self._beamSizeAtSampleX is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<startImageNumber>%d</startImageNumber>\n' % self._startImageNumber))
+			outfile.write(unicode('<beamSizeAtSampleX>%e</beamSizeAtSampleX>\n' % self._beamSizeAtSampleX))
 		else:
-			warnEmptyAttribute("startImageNumber", "integer")
-		if self._numberOfPasses is not None:
+			warnEmptyAttribute("beamSizeAtSampleX", "float")
+		if self._beamSizeAtSampleY is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<numberOfPasses>%d</numberOfPasses>\n' % self._numberOfPasses))
+			outfile.write(unicode('<beamSizeAtSampleY>%e</beamSizeAtSampleY>\n' % self._beamSizeAtSampleY))
 		else:
-			warnEmptyAttribute("numberOfPasses", "integer")
+			warnEmptyAttribute("beamSizeAtSampleY", "float")
+		if self._centeringMethod is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<centeringMethod>%s</centeringMethod>\n' % self._centeringMethod))
+		else:
+			warnEmptyAttribute("centeringMethod", "string")
+		if self._comments is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<comments>%s</comments>\n' % self._comments))
+		else:
+			warnEmptyAttribute("comments", "string")
+		if self._dataCollectionId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<dataCollectionId>%d</dataCollectionId>\n' % self._dataCollectionId))
+		else:
+			warnEmptyAttribute("dataCollectionId", "integer")
+		if self._dataCollectionNumber is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<dataCollectionNumber>%d</dataCollectionNumber>\n' % self._dataCollectionNumber))
+		else:
+			warnEmptyAttribute("dataCollectionNumber", "integer")
+		if self._detector2theta is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<detector2theta>%e</detector2theta>\n' % self._detector2theta))
+		else:
+			warnEmptyAttribute("detector2theta", "float")
+		if self._detectorDistance is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<detectorDistance>%e</detectorDistance>\n' % self._detectorDistance))
+		else:
+			warnEmptyAttribute("detectorDistance", "float")
+		if self._detectorMode is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<detectorMode>%s</detectorMode>\n' % self._detectorMode))
+		else:
+			warnEmptyAttribute("detectorMode", "string")
+		if self._endTime is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<endTime>%s</endTime>\n' % self._endTime))
+		else:
+			warnEmptyAttribute("endTime", "string")
 		if self._exposureTime is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<exposureTime>%e</exposureTime>\n' % self._exposureTime))
 		else:
 			warnEmptyAttribute("exposureTime", "float")
+		if self._fileTemplate is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<fileTemplate>%s</fileTemplate>\n' % self._fileTemplate))
+		else:
+			warnEmptyAttribute("fileTemplate", "string")
+		if self._flux is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<flux>%e</flux>\n' % self._flux))
+		else:
+			warnEmptyAttribute("flux", "float")
 		if self._imageDirectory is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<imageDirectory>%s</imageDirectory>\n' % self._imageDirectory))
@@ -3061,16 +3011,44 @@ class XSDataISPyBDataCollection(object):
 			outfile.write(unicode('<imageSuffix>%s</imageSuffix>\n' % self._imageSuffix))
 		else:
 			warnEmptyAttribute("imageSuffix", "string")
-		if self._fileTemplate is not None:
+		if self._kappaStart is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<fileTemplate>%s</fileTemplate>\n' % self._fileTemplate))
+			outfile.write(unicode('<kappaStart>%e</kappaStart>\n' % self._kappaStart))
 		else:
-			warnEmptyAttribute("fileTemplate", "string")
-		if self._wavelength is not None:
+			warnEmptyAttribute("kappaStart", "float")
+		if self._numberOfImages is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<wavelength>%e</wavelength>\n' % self._wavelength))
+			outfile.write(unicode('<numberOfImages>%d</numberOfImages>\n' % self._numberOfImages))
 		else:
-			warnEmptyAttribute("wavelength", "float")
+			warnEmptyAttribute("numberOfImages", "integer")
+		if self._numberOfPasses is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<numberOfPasses>%d</numberOfPasses>\n' % self._numberOfPasses))
+		else:
+			warnEmptyAttribute("numberOfPasses", "integer")
+		if self._omegaStart is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<omegaStart>%e</omegaStart>\n' % self._omegaStart))
+		else:
+			warnEmptyAttribute("omegaStart", "float")
+		if self._overlap is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<overlap>%e</overlap>\n' % self._overlap))
+		else:
+			warnEmptyAttribute("overlap", "float")
+		if self._phiStart is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<phiStart>%e</phiStart>\n' % self._phiStart))
+		else:
+			warnEmptyAttribute("phiStart", "float")
+		if self._printableForReport is not None:
+			showIndent(outfile, level)
+			if self._printableForReport:
+				outfile.write(unicode('<printableForReport>true</printableForReport>\n'))
+			else:
+				outfile.write(unicode('<printableForReport>false</printableForReport>\n'))
+		else:
+			warnEmptyAttribute("printableForReport", "boolean")
 		if self._resolution is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<resolution>%e</resolution>\n' % self._resolution))
@@ -3081,21 +3059,49 @@ class XSDataISPyBDataCollection(object):
 			outfile.write(unicode('<resolutionAtCorner>%e</resolutionAtCorner>\n' % self._resolutionAtCorner))
 		else:
 			warnEmptyAttribute("resolutionAtCorner", "float")
-		if self._detectorDistance is not None:
+		if self._rotationAxis is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<detectorDistance>%e</detectorDistance>\n' % self._detectorDistance))
+			outfile.write(unicode('<rotationAxis>%s</rotationAxis>\n' % self._rotationAxis))
 		else:
-			warnEmptyAttribute("detectorDistance", "float")
-		if self._detector2theta is not None:
+			warnEmptyAttribute("rotationAxis", "string")
+		if self._runStatus is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<detector2theta>%e</detector2theta>\n' % self._detector2theta))
+			outfile.write(unicode('<runStatus>%s</runStatus>\n' % self._runStatus))
 		else:
-			warnEmptyAttribute("detector2theta", "float")
-		if self._detectorMode is not None:
+			warnEmptyAttribute("runStatus", "string")
+		if self._slitGapVertical is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<detectorMode>%s</detectorMode>\n' % self._detectorMode))
+			outfile.write(unicode('<slitGapVertical>%e</slitGapVertical>\n' % self._slitGapVertical))
 		else:
-			warnEmptyAttribute("detectorMode", "string")
+			warnEmptyAttribute("slitGapVertical", "float")
+		if self._slitGapHorizontal is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<slitGapHorizontal>%e</slitGapHorizontal>\n' % self._slitGapHorizontal))
+		else:
+			warnEmptyAttribute("slitGapHorizontal", "float")
+		if self._startImageNumber is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<startImageNumber>%d</startImageNumber>\n' % self._startImageNumber))
+		else:
+			warnEmptyAttribute("startImageNumber", "integer")
+		if self._strategySubWedgeOrigId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<strategySubWedgeOrigId>%d</strategySubWedgeOrigId>\n' % self._strategySubWedgeOrigId))
+		if self._startTime is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<startTime>%s</startTime>\n' % self._startTime))
+		else:
+			warnEmptyAttribute("startTime", "string")
+		if self._synchrotronMode is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<synchrotronMode>%s</synchrotronMode>\n' % self._synchrotronMode))
+		else:
+			warnEmptyAttribute("synchrotronMode", "string")
+		if self._transmission is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<transmission>%e</transmission>\n' % self._transmission))
+		else:
+			warnEmptyAttribute("transmission", "float")
 		if self._undulatorGap1 is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<undulatorGap1>%e</undulatorGap1>\n' % self._undulatorGap1))
@@ -3111,74 +3117,16 @@ class XSDataISPyBDataCollection(object):
 			outfile.write(unicode('<undulatorGap3>%e</undulatorGap3>\n' % self._undulatorGap3))
 		else:
 			warnEmptyAttribute("undulatorGap3", "float")
+		if self._wavelength is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<wavelength>%e</wavelength>\n' % self._wavelength))
+		else:
+			warnEmptyAttribute("wavelength", "float")
 		if self._xbeam is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<xbeam>%e</xbeam>\n' % self._xbeam))
 		else:
 			warnEmptyAttribute("xbeam", "float")
-		if self._ybeam is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<ybeam>%e</ybeam>\n' % self._ybeam))
-		else:
-			warnEmptyAttribute("ybeam", "float")
-		if self._crystalClass is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<crystalClass>%s</crystalClass>\n' % self._crystalClass))
-		else:
-			warnEmptyAttribute("crystalClass", "string")
-		if self._slitGapVertical is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<slitGapVertical>%e</slitGapVertical>\n' % self._slitGapVertical))
-		else:
-			warnEmptyAttribute("slitGapVertical", "float")
-		if self._slitGapHorizontal is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<slitGapHorizontal>%e</slitGapHorizontal>\n' % self._slitGapHorizontal))
-		else:
-			warnEmptyAttribute("slitGapHorizontal", "float")
-		if self._beamSizeAtSampleX is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<beamSizeAtSampleX>%e</beamSizeAtSampleX>\n' % self._beamSizeAtSampleX))
-		else:
-			warnEmptyAttribute("beamSizeAtSampleX", "float")
-		if self._beamSizeAtSampleY is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<beamSizeAtSampleY>%e</beamSizeAtSampleY>\n' % self._beamSizeAtSampleY))
-		else:
-			warnEmptyAttribute("beamSizeAtSampleY", "float")
-		if self._transmission is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<transmission>%e</transmission>\n' % self._transmission))
-		else:
-			warnEmptyAttribute("transmission", "float")
-		if self._synchrotronMode is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<synchrotronMode>%s</synchrotronMode>\n' % self._synchrotronMode))
-		else:
-			warnEmptyAttribute("synchrotronMode", "string")
-		if self._centeringMethod is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<centeringMethod>%s</centeringMethod>\n' % self._centeringMethod))
-		else:
-			warnEmptyAttribute("centeringMethod", "string")
-		if self._averageTemperature is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<averageTemperature>%e</averageTemperature>\n' % self._averageTemperature))
-		else:
-			warnEmptyAttribute("averageTemperature", "float")
-		if self._comments is not None:
-			showIndent(outfile, level)
-			outfile.write(unicode('<comments>%s</comments>\n' % self._comments))
-		else:
-			warnEmptyAttribute("comments", "string")
-		if self._printableForReport is not None:
-			showIndent(outfile, level)
-			if self._printableForReport:
-				outfile.write(unicode('<printableForReport>true</printableForReport>\n'))
-			else:
-				outfile.write(unicode('<printableForReport>false</printableForReport>\n'))
-		else:
-			warnEmptyAttribute("printableForReport", "boolean")
 		if self._xtalSnapshotFullPath1 is not None:
 			showIndent(outfile, level)
 			outfile.write(unicode('<xtalSnapshotFullPath1>%s</xtalSnapshotFullPath1>\n' % self._xtalSnapshotFullPath1))
@@ -3199,150 +3147,32 @@ class XSDataISPyBDataCollection(object):
 			outfile.write(unicode('<xtalSnapshotFullPath4>%s</xtalSnapshotFullPath4>\n' % self._xtalSnapshotFullPath4))
 		else:
 			warnEmptyAttribute("xtalSnapshotFullPath4", "string")
-		if self._beamShape is not None:
+		if self._ybeam is not None:
 			showIndent(outfile, level)
-			outfile.write(unicode('<beamShape>%s</beamShape>\n' % self._beamShape))
+			outfile.write(unicode('<ybeam>%e</ybeam>\n' % self._ybeam))
 		else:
-			warnEmptyAttribute("beamShape", "string")
+			warnEmptyAttribute("ybeam", "float")
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'dataCollectionId':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					ival_ = int(sval_)
-				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._dataCollectionId = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'blSampleId':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					ival_ = int(sval_)
-				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._blSampleId = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'sessionId':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					ival_ = int(sval_)
-				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._sessionId = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'screeningOrigId':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					ival_ = int(sval_)
-				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._screeningOrigId = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'detectorId':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					ival_ = int(sval_)
-				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._detectorId = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'strategySubWedgeOrigId':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					ival_ = int(sval_)
-				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._strategySubWedgeOrigId = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'experimentType':
+			nodeName_ == 'actualCenteringPosition':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._experimentType = value_
+			self._actualCenteringPosition = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'dataCollectionNumber':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					ival_ = int(sval_)
-				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._dataCollectionNumber = ival_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'startDate':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._startDate = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'endDate':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._endDate = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'runStatus':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._runStatus = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'rotationAxis':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._rotationAxis = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'phiStart':
+			nodeName_ == 'averageTemperature':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
 					fval_ = float(sval_)
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._phiStart = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'kappaStart':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._kappaStart = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'omegaStart':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._omegaStart = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'axisStart':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._axisStart = fval_
+				self._averageTemperature = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'axisEnd':
 			if child_.firstChild:
@@ -3362,41 +3192,103 @@ class XSDataISPyBDataCollection(object):
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
 				self._axisRange = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'overlap':
+			nodeName_ == 'axisStart':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
 					fval_ = float(sval_)
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._overlap = fval_
+				self._axisStart = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfImages':
+			nodeName_ == 'beamShape':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._beamShape = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamSizeAtSampleX':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._beamSizeAtSampleX = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'beamSizeAtSampleY':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._beamSizeAtSampleY = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'centeringMethod':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._centeringMethod = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'comments':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._comments = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataCollectionId':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
 					ival_ = int(sval_)
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._numberOfImages = ival_
+				self._dataCollectionId = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'startImageNumber':
+			nodeName_ == 'dataCollectionNumber':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
 					ival_ = int(sval_)
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._startImageNumber = ival_
+				self._dataCollectionNumber = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'numberOfPasses':
+			nodeName_ == 'detector2theta':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
-					ival_ = int(sval_)
+					fval_ = float(sval_)
 				except ValueError:
-					raise ValueError('requires integer -- %s' % child_.toxml())
-				self._numberOfPasses = ival_
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._detector2theta = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detectorDistance':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._detectorDistance = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'detectorMode':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._detectorMode = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'endTime':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._endTime = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'exposureTime':
 			if child_.firstChild:
@@ -3406,6 +3298,22 @@ class XSDataISPyBDataCollection(object):
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
 				self._exposureTime = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileTemplate':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._fileTemplate = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'flux':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._flux = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'imageDirectory':
 			value_ = ''
@@ -3428,21 +3336,70 @@ class XSDataISPyBDataCollection(object):
 					value_ += text__content_.nodeValue
 			self._imageSuffix = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'fileTemplate':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._fileTemplate = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'wavelength':
+			nodeName_ == 'kappaStart':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
 				try:
 					fval_ = float(sval_)
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._wavelength = fval_
+				self._kappaStart = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfImages':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._numberOfImages = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'numberOfPasses':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._numberOfPasses = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'omegaStart':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._omegaStart = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'overlap':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._overlap = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'phiStart':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._phiStart = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'printableForReport':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				if sval_ in ('True', 'true', '1'):
+					ival_ = True
+				elif sval_ in ('False', 'false', '0'):
+					ival_ = False
+				else:
+					raise ValueError('requires boolean -- %s' % child_.toxml())
+				self._printableForReport = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'resolution':
 			if child_.firstChild:
@@ -3462,30 +3419,78 @@ class XSDataISPyBDataCollection(object):
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
 				self._resolutionAtCorner = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'detectorDistance':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._detectorDistance = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'detector2theta':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._detector2theta = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'detectorMode':
+			nodeName_ == 'rotationAxis':
 			value_ = ''
 			for text__content_ in child_.childNodes:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
-			self._detectorMode = value_
+			self._rotationAxis = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'runStatus':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._runStatus = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'slitGapVertical':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._slitGapVertical = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'slitGapHorizontal':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._slitGapHorizontal = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'startImageNumber':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._startImageNumber = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'strategySubWedgeOrigId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._strategySubWedgeOrigId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'startTime':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._startTime = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'synchrotronMode':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._synchrotronMode = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'transmission':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._transmission = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'undulatorGap1':
 			if child_.firstChild:
@@ -3514,6 +3519,15 @@ class XSDataISPyBDataCollection(object):
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
 				self._undulatorGap3 = fval_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'wavelength':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._wavelength = fval_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'xbeam':
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
@@ -3522,108 +3536,6 @@ class XSDataISPyBDataCollection(object):
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
 				self._xbeam = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'ybeam':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._ybeam = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'crystalClass':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._crystalClass = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'slitGapVertical':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._slitGapVertical = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'slitGapHorizontal':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._slitGapHorizontal = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'beamSizeAtSampleX':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._beamSizeAtSampleX = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'beamSizeAtSampleY':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._beamSizeAtSampleY = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'transmission':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._transmission = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'synchrotronMode':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._synchrotronMode = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'centeringMethod':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._centeringMethod = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'averageTemperature':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				try:
-					fval_ = float(sval_)
-				except ValueError:
-					raise ValueError('requires float (or double) -- %s' % child_.toxml())
-				self._averageTemperature = fval_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'comments':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._comments = value_
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'printableForReport':
-			if child_.firstChild:
-				sval_ = child_.firstChild.nodeValue
-				if sval_ in ('True', 'true', '1'):
-					ival_ = True
-				elif sval_ in ('False', 'false', '0'):
-					ival_ = False
-				else:
-					raise ValueError('requires boolean -- %s' % child_.toxml())
-				self._printableForReport = ival_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'xtalSnapshotFullPath1':
 			value_ = ''
@@ -3653,12 +3565,14 @@ class XSDataISPyBDataCollection(object):
 					value_ += text__content_.nodeValue
 			self._xtalSnapshotFullPath4 = value_
 		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'beamShape':
-			value_ = ''
-			for text__content_ in child_.childNodes:
-				if text__content_.nodeValue is not None:
-					value_ += text__content_.nodeValue
-			self._beamShape = value_
+			nodeName_ == 'ybeam':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				self._ybeam = fval_
 	#Method for marshalling an object
 	def marshal( self ):
 		oStreamString = StringIO()
@@ -6820,6 +6734,111 @@ class XSDataISPyBScreeningStrategy(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataISPyBScreeningStrategy
 
+class XSDataISPyBScreeningStrategyContainer(XSData):
+	def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
+		XSData.__init__(self, )
+	
+	
+		checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategy, "XSDataISPyBScreeningStrategy")
+		self._screeningStrategy = screeningStrategy
+		if screeningStrategyWedgeContainer is None:
+			self._screeningStrategyWedgeContainer = []
+		else:
+			checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategyWedgeContainer, "list")
+			self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+	def getScreeningStrategy(self): return self._screeningStrategy
+	def setScreeningStrategy(self, screeningStrategy):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategy", screeningStrategy, "XSDataISPyBScreeningStrategy")
+		self._screeningStrategy = screeningStrategy
+	def delScreeningStrategy(self): self._screeningStrategy = None
+	# Properties
+	screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
+	def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
+	def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", screeningStrategyWedgeContainer, "list")
+		self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+	def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
+	# Properties
+	screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
+	def addScreeningStrategyWedgeContainer(self, value):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
+		self._screeningStrategyWedgeContainer.append(value)
+	def insertScreeningStrategyWedgeContainer(self, index, value):
+		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
+		self._screeningStrategyWedgeContainer[index] = value
+	def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self._screeningStrategy is not None:
+			self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
+		else:
+			warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
+		for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
+			screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'screeningStrategy':
+			obj_ = XSDataISPyBScreeningStrategy()
+			obj_.build(child_)
+			self.setScreeningStrategy(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'screeningStrategyWedgeContainer':
+			obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
+			obj_.build(child_)
+			self.screeningStrategyWedgeContainer.append(obj_)
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataISPyBScreeningStrategyContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataISPyBScreeningStrategyContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataISPyBScreeningStrategyContainer
+
 class XSDataISPyBScreeningStrategySubWedge(XSData):
 	def __init__(self, comments=None, numberOfImages=None, doseTotal=None, multiplicity=None, completeness=None, oscillationRange=None, transmission=None, exposureTime=None, axisEnd=None, axisStart=None, rotationAxis=None, subWedgeNumber=None, screeningStrategyWedgeId=None, screeningStrategySubWedgeId=None):
 		XSData.__init__(self, )
@@ -7508,111 +7527,6 @@ class XSDataISPyBScreeningStrategyWedgeContainer(XSData):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataISPyBScreeningStrategyWedgeContainer
-
-class XSDataISPyBScreeningStrategyContainer(XSData):
-	def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
-		XSData.__init__(self, )
-	
-	
-		checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategy, "XSDataISPyBScreeningStrategy")
-		self._screeningStrategy = screeningStrategy
-		if screeningStrategyWedgeContainer is None:
-			self._screeningStrategyWedgeContainer = []
-		else:
-			checkType("XSDataISPyBScreeningStrategyContainer", "Constructor of XSDataISPyBScreeningStrategyContainer", screeningStrategyWedgeContainer, "list")
-			self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-	def getScreeningStrategy(self): return self._screeningStrategy
-	def setScreeningStrategy(self, screeningStrategy):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategy", screeningStrategy, "XSDataISPyBScreeningStrategy")
-		self._screeningStrategy = screeningStrategy
-	def delScreeningStrategy(self): self._screeningStrategy = None
-	# Properties
-	screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
-	def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
-	def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", screeningStrategyWedgeContainer, "list")
-		self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-	def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
-	# Properties
-	screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
-	def addScreeningStrategyWedgeContainer(self, value):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
-		self._screeningStrategyWedgeContainer.append(value)
-	def insertScreeningStrategyWedgeContainer(self, index, value):
-		checkType("XSDataISPyBScreeningStrategyContainer", "setScreeningStrategyWedgeContainer", value, "XSDataISPyBScreeningStrategyWedgeContainer")
-		self._screeningStrategyWedgeContainer[index] = value
-	def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-		XSData.exportChildren(self, outfile, level, name_)
-		if self._screeningStrategy is not None:
-			self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
-		else:
-			warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
-		for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
-			screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'screeningStrategy':
-			obj_ = XSDataISPyBScreeningStrategy()
-			obj_.build(child_)
-			self.setScreeningStrategy(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'screeningStrategyWedgeContainer':
-			obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
-			obj_.build(child_)
-			self.screeningStrategyWedgeContainer.append(obj_)
-		XSData.buildChildren(self, child_, nodeName_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = XSDataISPyBScreeningStrategyContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = XSDataISPyBScreeningStrategyContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class XSDataISPyBScreeningStrategyContainer
 
 class XSDataInputISPyBStoreScreening(XSDataInput):
 	def __init__(self, configuration=None, screeningRankSet=None, screeningRank=None, screeningOutputContainer=None, screening=None, image=None, file=None, diffractionPlan=None):

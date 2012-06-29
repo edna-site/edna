@@ -175,60 +175,56 @@ complex type XSDataResultRetrieveDataCollection extends XSDataResult {
 }
 
 complex type XSDataISPyBDataCollection {
-	dataCollectionId : integer
-	blSampleId : integer
-	sessionId : integer
-	screeningOrigId : integer optional
-	detectorId : integer optional
-	strategySubWedgeOrigId : integer optional
-	experimentType : string
-	dataCollectionNumber : integer
-	startDate : string
-	endDate : string
-	runStatus : string
-	rotationAxis : string
-	phiStart : float
-	kappaStart : float
-	omegaStart : float
-	axisStart : float
+	actualCenteringPosition : string
+	averageTemperature : float
 	axisEnd : float
 	axisRange : float
-	overlap : float
-	numberOfImages : integer
-	startImageNumber : integer
-	numberOfPasses : integer
+	axisStart : float
+	beamShape : string
+	beamSizeAtSampleX : float
+	beamSizeAtSampleY : float
+	centeringMethod : string
+	comments : string
+	dataCollectionId : integer
+	dataCollectionNumber : integer
+	detector2theta : float
+	detectorDistance : float
+	detectorMode : string
+	endTime : string
 	exposureTime : float
+	fileTemplate : string
+	flux : float
 	imageDirectory : string
 	imagePrefix : string
 	imageSuffix : string
-	fileTemplate : string
-	wavelength : float
+	kappaStart : float
+	numberOfImages : integer
+	numberOfPasses : integer
+	omegaStart : float
+	overlap : float
+	phiStart : float
+	printableForReport : boolean
 	resolution : float
 	resolutionAtCorner : float
-	detectorDistance : float
-	detector2theta : float
-	detectorMode : string
+	rotationAxis : string
+	runStatus : string
+	slitGapVertical : float
+	slitGapHorizontal : float
+	startImageNumber : integer
+	strategySubWedgeOrigId : integer optional
+	startTime : string
+	synchrotronMode : string
+	transmission : float
 	undulatorGap1 : float
 	undulatorGap2 : float
 	undulatorGap3 : float
+	wavelength : float
 	xbeam : float
-	ybeam : float
-	crystalClass : string
-	slitGapVertical : float
-	slitGapHorizontal : float
-	beamSizeAtSampleX : float
-	beamSizeAtSampleY : float
-	transmission : float
-	synchrotronMode : string
-	centeringMethod : string
-	averageTemperature : float
-	comments : string
-	printableForReport : boolean
 	xtalSnapshotFullPath1 : string
 	xtalSnapshotFullPath2 : string
 	xtalSnapshotFullPath3 : string
 	xtalSnapshotFullPath4 : string
-	beamShape : string
+	ybeam : float
 }
 
 
