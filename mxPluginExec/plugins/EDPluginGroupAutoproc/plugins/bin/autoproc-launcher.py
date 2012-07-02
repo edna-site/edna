@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 # input data model
 #input_file : XSDataFile
 #res_override : XSDataFloat optional
