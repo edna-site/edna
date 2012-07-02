@@ -307,6 +307,8 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         if not self._edPluginPlotGle.isFailure():
             listFileGraph = self._edPluginPlotGle.dataOutput.fileGraph
             xsDataResultStrategy.bestGraphFile = listFileGraph
+        # Sample
+        xsDataResultStrategy.setSample(self._xsDataSampleCopy)
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
         

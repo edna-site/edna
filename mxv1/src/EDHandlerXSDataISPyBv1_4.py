@@ -69,16 +69,16 @@ class EDHandlerXSDataISPyBv1_4(object):
         # Screening
         # Temporary fix for mxsup717, while waiting for a change of the ISPyB web service
         strComments = _strComments
-        if xsDataResultCharacterisation.getIndexingResult() is not None:
-            if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing():
-                if strComments is None:
-                    strComments = ""
-                else:
-                    strComments += " "
-                if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing().getValue():
-                    strComments += "Labelit indexing"
-                else:
-                    strComments += "MOSFLM indexing"
+#        if xsDataResultCharacterisation.getIndexingResult() is not None:
+#            if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing():
+#                if strComments is None:
+#                    strComments = ""
+#                else:
+#                    strComments += " "
+#                if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing().getValue():
+#                    strComments += "Labelit indexing"
+#                else:
+#                    strComments += "MOSFLM indexing"
         xsDataISPyBScreening = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreening(_strShortComments, strComments)
 
         # ScreeningOutputContainer
@@ -119,8 +119,11 @@ class EDHandlerXSDataISPyBv1_4(object):
                 xsDataISPyBDiffractionPlan.goniostatMaxOscillationSpeed = xsDataDiffractionPlan.goniostatMaxOscillationSpeed
                 xsDataISPyBDiffractionPlan.goniostatMinOscillationWidth = xsDataDiffractionPlan.goniostatMinOscillationWidth
                 strAllKappaStrategyOptions = ""
-                for strKappaStrategyOption in xsDataDiffractionPlan.kappaStrategyOption:
-                    strAllKappaStrategyOptions += strKappaStrategyOption + ", "
+                for kappaStrategyOption in xsDataDiffractionPlan.kappaStrategyOption:
+                    strAllKappaStrategyOptions += kappaStrategyOption.value
+                    # Add a comma to separate entries except for the last item
+                    if kappaStrategyOption != xsDataDiffractionPlan.kappaStrategyOption[-1]:
+                        strAllKappaStrategyOptions += ", "
                 if strAllKappaStrategyOptions != "":
                     xsDataISPyBDiffractionPlan.kappaStrategyOption = XSDataString(strAllKappaStrategyOptions)
                 xsDataISPyBDiffractionPlan.maxExposureTimePerDataCollection = xsDataDiffractionPlan.maxExposureTimePerDataCollection
