@@ -17,9 +17,16 @@
 
 
 import sys
+import os
 import os.path
 import tempfile
 import subprocess
+
+
+# this hack is present in the current script on the beamline so this value is
+# not set anywhere else
+os.environ['EDNA_SITE'] = 'ESRF_ISPyB'
+
 
 # do the arg parsing by hand since neither getopt nor optparse support
 # single dash long options.
