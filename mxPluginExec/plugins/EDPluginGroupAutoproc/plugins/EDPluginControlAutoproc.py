@@ -173,6 +173,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.xscale_anom = self.loadPlugin("EDPluginControlXscaleGenerate")
         self.xscale_noanom = self.loadPlugin("EDPluginControlXscaleGenerate")
 
+        self.store_autoproc = self.loadPlugin('EDPluginISPyBStoreAutoProcv1_4')
+
     def process(self, _edObject = None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlAutoproc.process")
@@ -382,7 +384,6 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         scaling_container.AutoProcScaling = scaling
 
-
         # NOANOM PATH
         xscale_stats_noanom = self.xscale_noanom.dataOutput.stats_noanom_merged
         inner_stats_noanom = xscale_stats_noanom.completeness_entries[0]
@@ -441,9 +442,19 @@ class EDPluginControlAutoproc(EDPluginControl):
         # output container
         output.AutoProcScalingContainer = scaling_container
 
+        program_container = AutoProcProgramContainer()
+        program_container.AutoProcProgram = AutoProcProgram()
+        program_container.AutoProcProgram.processingCommandLine = ' '.join(sys.argv)
+        program_container.AutoProcProgram.processingPrograms = 'edna-fastproc'
 
-        with open(self.dataInput.output_file.path.value, 'w') as f:
-            f.write(output.marshal())
+        #with open(self.dataInput.output_file.path.value, 'w') as f:
+        #    f.write(output.marshal())
+
+        # store results in ispyb
+        self.store_autoproc.dataInput = output
+        self.store_autoproc.executeSynchronous()
+        if self.store_autoproc.isFailure():
+            self.ERROR('could not send results to ispyb')
 
 
 def _create_scaling_stats(xscale_stats, stats_type, lowres, anom):
