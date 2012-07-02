@@ -45,7 +45,7 @@ class EDTestCasePluginExecuteISPyBStoreAutoProcStatusv1_4(EDTestCasePluginExecut
 
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
         #self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_productionDataBase.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProcStatus_test1.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProcStatus_test.xml"))
 
 
     def testExecute(self):
