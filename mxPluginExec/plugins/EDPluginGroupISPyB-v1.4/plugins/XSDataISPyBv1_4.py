@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jun 29 06:44::49 2012 by EDGenerateDS.
+# Generated Mon Jul 2 04:27::16 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -375,120 +375,6 @@ class AutoProc(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class AutoProc
-
-class AutoProcContainer(object):
-	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
-	
-	
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProc, "AutoProc")
-		self._AutoProc = AutoProc
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
-		self._AutoProcScalingContainer = AutoProcScalingContainer
-		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
-		self._AutoProcProgramContainer = AutoProcProgramContainer
-	def getAutoProc(self): return self._AutoProc
-	def setAutoProc(self, AutoProc):
-		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
-		self._AutoProc = AutoProc
-	def delAutoProc(self): self._AutoProc = None
-	# Properties
-	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
-	def getAutoProcScalingContainer(self): return self._AutoProcScalingContainer
-	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
-		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
-		self._AutoProcScalingContainer = AutoProcScalingContainer
-	def delAutoProcScalingContainer(self): self._AutoProcScalingContainer = None
-	# Properties
-	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
-	def getAutoProcProgramContainer(self): return self._AutoProcProgramContainer
-	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
-		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
-		self._AutoProcProgramContainer = AutoProcProgramContainer
-	def delAutoProcProgramContainer(self): self._AutoProcProgramContainer = None
-	# Properties
-	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
-	def export(self, outfile, level, name_='AutoProcContainer'):
-		showIndent(outfile, level)
-		outfile.write(unicode('<%s>\n' % name_))
-		self.exportChildren(outfile, level + 1, name_)
-		showIndent(outfile, level)
-		outfile.write(unicode('</%s>\n' % name_))
-	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
-		pass
-		if self._AutoProc is not None:
-			self.AutoProc.export(outfile, level, name_='AutoProc')
-		else:
-			warnEmptyAttribute("AutoProc", "AutoProc")
-		if self._AutoProcScalingContainer is not None:
-			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
-		else:
-			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
-		if self._AutoProcProgramContainer is not None:
-			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
-		else:
-			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
-	def build(self, node_):
-		for child_ in node_.childNodes:
-			nodeName_ = child_.nodeName.split(':')[-1]
-			self.buildChildren(child_, nodeName_)
-	def buildChildren(self, child_, nodeName_):
-		if child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProc':
-			obj_ = AutoProc()
-			obj_.build(child_)
-			self.setAutoProc(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcScalingContainer':
-			obj_ = AutoProcScalingContainer()
-			obj_.build(child_)
-			self.setAutoProcScalingContainer(obj_)
-		elif child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'AutoProcProgramContainer':
-			obj_ = AutoProcProgramContainer()
-			obj_.build(child_)
-			self.setAutoProcProgramContainer(obj_)
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO()
-		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-		self.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-	#Only to export the entire XML tree to a file stream on disk
-	def exportToFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-		self.export( outfile, 0, name_='AutoProcContainer' )
-		outfile.close()
-	#Deprecated method, replaced by exportToFile
-	def outputFile( self, _outfileName ):
-		print("WARNING: Method outputFile in class AutoProcContainer is deprecated, please use instead exportToFile!")
-		self.exportToFile(_outfileName)
-	#Method for making a copy in a new instance
-	def copy( self ):
-		return AutoProcContainer.parseString(self.marshal())
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO()
-		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
-		oStreamString.close()
-		return rootObj
-	parseString = staticmethod( parseString )
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = AutoProcContainer()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-# end class AutoProcContainer
 
 class AutoProcIntegration(object):
 	def __init__(self, anomalous=None, cell_gamma=None, cell_beta=None, cell_alpha=None, cell_c=None, cell_b=None, cell_a=None, beamVectorZ=None, beamVectorY=None, beamVectorX=None, rotationAxisZ=None, rotationAxisY=None, rotationAxisX=None, refinedYbeam=None, refinedXbeam=None, refinedDetectorDistance=None, endImageNumber=None, startImageNumber=None, autoProcIntegrationId=None):
@@ -2355,6 +2241,308 @@ class AutoProcScalingContainer(object):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class AutoProcScalingContainer
+
+class AutoProcContainer(object):
+	def __init__(self, AutoProcProgramContainer=None, AutoProcScalingContainer=None, AutoProc=None):
+	
+	
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProc, "AutoProc")
+		self._AutoProc = AutoProc
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self._AutoProcScalingContainer = AutoProcScalingContainer
+		checkType("AutoProcContainer", "Constructor of AutoProcContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self._AutoProcProgramContainer = AutoProcProgramContainer
+	def getAutoProc(self): return self._AutoProc
+	def setAutoProc(self, AutoProc):
+		checkType("AutoProcContainer", "setAutoProc", AutoProc, "AutoProc")
+		self._AutoProc = AutoProc
+	def delAutoProc(self): self._AutoProc = None
+	# Properties
+	AutoProc = property(getAutoProc, setAutoProc, delAutoProc, "Property for AutoProc")
+	def getAutoProcScalingContainer(self): return self._AutoProcScalingContainer
+	def setAutoProcScalingContainer(self, AutoProcScalingContainer):
+		checkType("AutoProcContainer", "setAutoProcScalingContainer", AutoProcScalingContainer, "AutoProcScalingContainer")
+		self._AutoProcScalingContainer = AutoProcScalingContainer
+	def delAutoProcScalingContainer(self): self._AutoProcScalingContainer = None
+	# Properties
+	AutoProcScalingContainer = property(getAutoProcScalingContainer, setAutoProcScalingContainer, delAutoProcScalingContainer, "Property for AutoProcScalingContainer")
+	def getAutoProcProgramContainer(self): return self._AutoProcProgramContainer
+	def setAutoProcProgramContainer(self, AutoProcProgramContainer):
+		checkType("AutoProcContainer", "setAutoProcProgramContainer", AutoProcProgramContainer, "AutoProcProgramContainer")
+		self._AutoProcProgramContainer = AutoProcProgramContainer
+	def delAutoProcProgramContainer(self): self._AutoProcProgramContainer = None
+	# Properties
+	AutoProcProgramContainer = property(getAutoProcProgramContainer, setAutoProcProgramContainer, delAutoProcProgramContainer, "Property for AutoProcProgramContainer")
+	def export(self, outfile, level, name_='AutoProcContainer'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcContainer'):
+		pass
+		if self._AutoProc is not None:
+			self.AutoProc.export(outfile, level, name_='AutoProc')
+		else:
+			warnEmptyAttribute("AutoProc", "AutoProc")
+		if self._AutoProcScalingContainer is not None:
+			self.AutoProcScalingContainer.export(outfile, level, name_='AutoProcScalingContainer')
+		else:
+			warnEmptyAttribute("AutoProcScalingContainer", "AutoProcScalingContainer")
+		if self._AutoProcProgramContainer is not None:
+			self.AutoProcProgramContainer.export(outfile, level, name_='AutoProcProgramContainer')
+		else:
+			warnEmptyAttribute("AutoProcProgramContainer", "AutoProcProgramContainer")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProc':
+			obj_ = AutoProc()
+			obj_.build(child_)
+			self.setAutoProc(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcScalingContainer':
+			obj_ = AutoProcScalingContainer()
+			obj_.build(child_)
+			self.setAutoProcScalingContainer(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcProgramContainer':
+			obj_ = AutoProcProgramContainer()
+			obj_.build(child_)
+			self.setAutoProcProgramContainer(obj_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcContainer' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcContainer is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcContainer.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcContainer" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcContainer()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcContainer
+
+class AutoProcStatus(object):
+	def __init__(self, bltimeStamp=None, comments=None, status=None, step=None, autoProcIntegrationId=None, autoProcStatusId=None):
+	
+	
+		checkType("AutoProcStatus", "Constructor of AutoProcStatus", autoProcStatusId, "integer")
+		self._autoProcStatusId = autoProcStatusId
+		checkType("AutoProcStatus", "Constructor of AutoProcStatus", autoProcIntegrationId, "integer")
+		self._autoProcIntegrationId = autoProcIntegrationId
+		checkType("AutoProcStatus", "Constructor of AutoProcStatus", step, "string")
+		self._step = step
+		checkType("AutoProcStatus", "Constructor of AutoProcStatus", status, "string")
+		self._status = status
+		checkType("AutoProcStatus", "Constructor of AutoProcStatus", comments, "string")
+		self._comments = comments
+		checkType("AutoProcStatus", "Constructor of AutoProcStatus", bltimeStamp, "string")
+		self._bltimeStamp = bltimeStamp
+	def getAutoProcStatusId(self): return self._autoProcStatusId
+	def setAutoProcStatusId(self, autoProcStatusId):
+		checkType("AutoProcStatus", "setAutoProcStatusId", autoProcStatusId, "integer")
+		self._autoProcStatusId = autoProcStatusId
+	def delAutoProcStatusId(self): self._autoProcStatusId = None
+	# Properties
+	autoProcStatusId = property(getAutoProcStatusId, setAutoProcStatusId, delAutoProcStatusId, "Property for autoProcStatusId")
+	def getAutoProcIntegrationId(self): return self._autoProcIntegrationId
+	def setAutoProcIntegrationId(self, autoProcIntegrationId):
+		checkType("AutoProcStatus", "setAutoProcIntegrationId", autoProcIntegrationId, "integer")
+		self._autoProcIntegrationId = autoProcIntegrationId
+	def delAutoProcIntegrationId(self): self._autoProcIntegrationId = None
+	# Properties
+	autoProcIntegrationId = property(getAutoProcIntegrationId, setAutoProcIntegrationId, delAutoProcIntegrationId, "Property for autoProcIntegrationId")
+	def getStep(self): return self._step
+	def setStep(self, step):
+		checkType("AutoProcStatus", "setStep", step, "string")
+		self._step = step
+	def delStep(self): self._step = None
+	# Properties
+	step = property(getStep, setStep, delStep, "Property for step")
+	def getStatus(self): return self._status
+	def setStatus(self, status):
+		checkType("AutoProcStatus", "setStatus", status, "string")
+		self._status = status
+	def delStatus(self): self._status = None
+	# Properties
+	status = property(getStatus, setStatus, delStatus, "Property for status")
+	def getComments(self): return self._comments
+	def setComments(self, comments):
+		checkType("AutoProcStatus", "setComments", comments, "string")
+		self._comments = comments
+	def delComments(self): self._comments = None
+	# Properties
+	comments = property(getComments, setComments, delComments, "Property for comments")
+	def getBltimeStamp(self): return self._bltimeStamp
+	def setBltimeStamp(self, bltimeStamp):
+		checkType("AutoProcStatus", "setBltimeStamp", bltimeStamp, "string")
+		self._bltimeStamp = bltimeStamp
+	def delBltimeStamp(self): self._bltimeStamp = None
+	# Properties
+	bltimeStamp = property(getBltimeStamp, setBltimeStamp, delBltimeStamp, "Property for bltimeStamp")
+	def export(self, outfile, level, name_='AutoProcStatus'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='AutoProcStatus'):
+		pass
+		if self._autoProcStatusId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<autoProcStatusId>%d</autoProcStatusId>\n' % self._autoProcStatusId))
+		if self._autoProcIntegrationId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<autoProcIntegrationId>%d</autoProcIntegrationId>\n' % self._autoProcIntegrationId))
+		else:
+			warnEmptyAttribute("autoProcIntegrationId", "integer")
+		if self._step is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<step>%s</step>\n' % self._step))
+		else:
+			warnEmptyAttribute("step", "string")
+		if self._status is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<status>%s</status>\n' % self._status))
+		else:
+			warnEmptyAttribute("status", "string")
+		if self._comments is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<comments>%s</comments>\n' % self._comments))
+		else:
+			warnEmptyAttribute("comments", "string")
+		if self._bltimeStamp is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<bltimeStamp>%s</bltimeStamp>\n' % self._bltimeStamp))
+		else:
+			warnEmptyAttribute("bltimeStamp", "string")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoProcStatusId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._autoProcStatusId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoProcIntegrationId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._autoProcIntegrationId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'step':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._step = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'status':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._status = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'comments':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._comments = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'bltimeStamp':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._bltimeStamp = value_
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="AutoProcStatus" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='AutoProcStatus' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class AutoProcStatus is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return AutoProcStatus.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = AutoProcStatus()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="AutoProcStatus" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = AutoProcStatus()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class AutoProcStatus
 
 class Image(object):
 	def __init__(self, dataCollectionId=None):
@@ -7889,6 +8077,149 @@ class XSDataInputStoreAutoProc(XSDataInput):
 	parseFile = staticmethod( parseFile )
 # end class XSDataInputStoreAutoProc
 
+class XSDataInputStoreAutoProcStatus(XSDataInput):
+	def __init__(self, configuration=None, AutoProcStatus=None, autoProcStatusId=None, autoProcIntegrationId=None, dataCollectionId=None):
+		XSDataInput.__init__(self, configuration)
+	
+	
+		checkType("XSDataInputStoreAutoProcStatus", "Constructor of XSDataInputStoreAutoProcStatus", dataCollectionId, "integer")
+		self._dataCollectionId = dataCollectionId
+		checkType("XSDataInputStoreAutoProcStatus", "Constructor of XSDataInputStoreAutoProcStatus", autoProcIntegrationId, "integer")
+		self._autoProcIntegrationId = autoProcIntegrationId
+		checkType("XSDataInputStoreAutoProcStatus", "Constructor of XSDataInputStoreAutoProcStatus", autoProcStatusId, "integer")
+		self._autoProcStatusId = autoProcStatusId
+		checkType("XSDataInputStoreAutoProcStatus", "Constructor of XSDataInputStoreAutoProcStatus", AutoProcStatus, "AutoProcStatus")
+		self._AutoProcStatus = AutoProcStatus
+	def getDataCollectionId(self): return self._dataCollectionId
+	def setDataCollectionId(self, dataCollectionId):
+		checkType("XSDataInputStoreAutoProcStatus", "setDataCollectionId", dataCollectionId, "integer")
+		self._dataCollectionId = dataCollectionId
+	def delDataCollectionId(self): self._dataCollectionId = None
+	# Properties
+	dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
+	def getAutoProcIntegrationId(self): return self._autoProcIntegrationId
+	def setAutoProcIntegrationId(self, autoProcIntegrationId):
+		checkType("XSDataInputStoreAutoProcStatus", "setAutoProcIntegrationId", autoProcIntegrationId, "integer")
+		self._autoProcIntegrationId = autoProcIntegrationId
+	def delAutoProcIntegrationId(self): self._autoProcIntegrationId = None
+	# Properties
+	autoProcIntegrationId = property(getAutoProcIntegrationId, setAutoProcIntegrationId, delAutoProcIntegrationId, "Property for autoProcIntegrationId")
+	def getAutoProcStatusId(self): return self._autoProcStatusId
+	def setAutoProcStatusId(self, autoProcStatusId):
+		checkType("XSDataInputStoreAutoProcStatus", "setAutoProcStatusId", autoProcStatusId, "integer")
+		self._autoProcStatusId = autoProcStatusId
+	def delAutoProcStatusId(self): self._autoProcStatusId = None
+	# Properties
+	autoProcStatusId = property(getAutoProcStatusId, setAutoProcStatusId, delAutoProcStatusId, "Property for autoProcStatusId")
+	def getAutoProcStatus(self): return self._AutoProcStatus
+	def setAutoProcStatus(self, AutoProcStatus):
+		checkType("XSDataInputStoreAutoProcStatus", "setAutoProcStatus", AutoProcStatus, "AutoProcStatus")
+		self._AutoProcStatus = AutoProcStatus
+	def delAutoProcStatus(self): self._AutoProcStatus = None
+	# Properties
+	AutoProcStatus = property(getAutoProcStatus, setAutoProcStatus, delAutoProcStatus, "Property for AutoProcStatus")
+	def export(self, outfile, level, name_='XSDataInputStoreAutoProcStatus'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataInputStoreAutoProcStatus'):
+		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self._dataCollectionId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<dataCollectionId>%d</dataCollectionId>\n' % self._dataCollectionId))
+		if self._autoProcIntegrationId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<autoProcIntegrationId>%d</autoProcIntegrationId>\n' % self._autoProcIntegrationId))
+		if self._autoProcStatusId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<autoProcStatusId>%d</autoProcStatusId>\n' % self._autoProcStatusId))
+		if self._AutoProcStatus is not None:
+			self.AutoProcStatus.export(outfile, level, name_='AutoProcStatus')
+		else:
+			warnEmptyAttribute("AutoProcStatus", "AutoProcStatus")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dataCollectionId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._dataCollectionId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoProcIntegrationId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._autoProcIntegrationId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoProcStatusId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._autoProcStatusId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'AutoProcStatus':
+			obj_ = AutoProcStatus()
+			obj_.build(child_)
+			self.setAutoProcStatus(obj_)
+		XSDataInput.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataInputStoreAutoProcStatus" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataInputStoreAutoProcStatus' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputStoreAutoProcStatus is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataInputStoreAutoProcStatus.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputStoreAutoProcStatus()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataInputStoreAutoProcStatus" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataInputStoreAutoProcStatus()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataInputStoreAutoProcStatus
+
 class XSDataInputStoreDataCollection(XSDataInput):
 	def __init__(self, configuration=None, dataCollection=None):
 		XSDataInput.__init__(self, configuration)
@@ -8284,6 +8615,114 @@ class XSDataResultStoreAutoProc(XSDataResult):
 		return rootObj
 	parseFile = staticmethod( parseFile )
 # end class XSDataResultStoreAutoProc
+
+class XSDataResultStoreAutoProcStatus(XSDataResult):
+	def __init__(self, status=None, autoProcStatusId=None, autoProcIntegrationId=None):
+		XSDataResult.__init__(self, status)
+	
+	
+		checkType("XSDataResultStoreAutoProcStatus", "Constructor of XSDataResultStoreAutoProcStatus", autoProcIntegrationId, "integer")
+		self._autoProcIntegrationId = autoProcIntegrationId
+		checkType("XSDataResultStoreAutoProcStatus", "Constructor of XSDataResultStoreAutoProcStatus", autoProcStatusId, "integer")
+		self._autoProcStatusId = autoProcStatusId
+	def getAutoProcIntegrationId(self): return self._autoProcIntegrationId
+	def setAutoProcIntegrationId(self, autoProcIntegrationId):
+		checkType("XSDataResultStoreAutoProcStatus", "setAutoProcIntegrationId", autoProcIntegrationId, "integer")
+		self._autoProcIntegrationId = autoProcIntegrationId
+	def delAutoProcIntegrationId(self): self._autoProcIntegrationId = None
+	# Properties
+	autoProcIntegrationId = property(getAutoProcIntegrationId, setAutoProcIntegrationId, delAutoProcIntegrationId, "Property for autoProcIntegrationId")
+	def getAutoProcStatusId(self): return self._autoProcStatusId
+	def setAutoProcStatusId(self, autoProcStatusId):
+		checkType("XSDataResultStoreAutoProcStatus", "setAutoProcStatusId", autoProcStatusId, "integer")
+		self._autoProcStatusId = autoProcStatusId
+	def delAutoProcStatusId(self): self._autoProcStatusId = None
+	# Properties
+	autoProcStatusId = property(getAutoProcStatusId, setAutoProcStatusId, delAutoProcStatusId, "Property for autoProcStatusId")
+	def export(self, outfile, level, name_='XSDataResultStoreAutoProcStatus'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataResultStoreAutoProcStatus'):
+		XSDataResult.exportChildren(self, outfile, level, name_)
+		if self._autoProcIntegrationId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<autoProcIntegrationId>%d</autoProcIntegrationId>\n' % self._autoProcIntegrationId))
+		else:
+			warnEmptyAttribute("autoProcIntegrationId", "integer")
+		if self._autoProcStatusId is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<autoProcStatusId>%d</autoProcStatusId>\n' % self._autoProcStatusId))
+		else:
+			warnEmptyAttribute("autoProcStatusId", "integer")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoProcIntegrationId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._autoProcIntegrationId = ival_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'autoProcStatusId':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				self._autoProcStatusId = ival_
+		XSDataResult.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataResultStoreAutoProcStatus" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataResultStoreAutoProcStatus' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultStoreAutoProcStatus is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataResultStoreAutoProcStatus.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultStoreAutoProcStatus()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataResultStoreAutoProcStatus" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataResultStoreAutoProcStatus()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataResultStoreAutoProcStatus
 
 class XSDataResultStoreDataCollection(XSDataResult):
 	def __init__(self, status=None, dataCollectionId=None):

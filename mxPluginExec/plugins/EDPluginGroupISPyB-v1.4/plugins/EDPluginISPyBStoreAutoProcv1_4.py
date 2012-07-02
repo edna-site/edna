@@ -148,8 +148,6 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
 
 
     def postProcess(self, _edObject=None):
-        """
-        """
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginISPyBStoreAutoProcv1_4.postProcess")
         xsDataResultStoreAutoProc = XSDataResultStoreAutoProc()

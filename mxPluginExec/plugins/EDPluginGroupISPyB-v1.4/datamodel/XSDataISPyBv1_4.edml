@@ -158,6 +158,28 @@ complex type AutoProcContainer {
 	AutoProcProgramContainer : AutoProcProgramContainer
 }
 
+
+complex type XSDataInputStoreAutoProcStatus extends XSDataInput {
+	dataCollectionId : integer optional
+	autoProcIntegrationId : integer optional
+	autoProcStatusId : integer optional
+	AutoProcStatus : AutoProcStatus
+} 
+
+complex type XSDataResultStoreAutoProcStatus extends XSDataResult {
+	autoProcIntegrationId : integer
+	autoProcStatusId : integer
+} 
+
+complex type AutoProcStatus {
+	autoProcStatusId : integer optional
+	autoProcIntegrationId : integer
+	step : string
+	status : string
+	comments : string
+	bltimeStamp : string
+}
+
 complex type XSDataInputStoreDataCollection extends XSDataInput {
 	dataCollection : XSDataISPyBDataCollection
 }
