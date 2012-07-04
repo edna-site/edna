@@ -145,7 +145,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                 return
 
         template = conf['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
-        self.debug('template for images is {0}'.format(template))
+        self.DEBUG('template for images is {0}'.format(template))
         # fix the path if it's not absolute
         if not os.path.isabs(start_image):
             self.DEBUG('file path {0} is not absolute'.format(start_image))
