@@ -97,7 +97,13 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # regular string?
         file_template = os.path.abspath(parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0])
 
+        # the files location can be a relative pathname, in this case
+        # make it absolute
+
         directory = os.path.dirname(file_template)
+        if not os.path.isabs(directory):
+            directory = os.path.normpath(os.path.join(xds_input, directory))
+
         filename = os.path.basename(file_template)
 
         matches = fnmatch.filter(os.listdir(directory), filename)
