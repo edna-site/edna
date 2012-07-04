@@ -147,6 +147,13 @@ class EDPluginControlAutoproc(EDPluginControl):
         template = conf['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
         first_image = _template_to_image(template, start_image)
 
+        # fix the path if it's not absolute
+        if not os.path.isabs(start_image):
+            self.DEBUG('file path {0} is not absolute'.format(start_image))
+            base_dir = os.path.abspath(os.path.dirname(data_in.input_file.path.value))
+            start_image = os.path.normpath(os.path.join(base_dir, start_image))
+            self.DEBUG('file path fixed to {0}'.format(start_image))
+
         self.wait_file = self.loadPlugin('EDPluginWaitFile')
         waitfileinput = XSDataInputWaitFile()
         waitfileinput.expectedFile = XSDataFile()
