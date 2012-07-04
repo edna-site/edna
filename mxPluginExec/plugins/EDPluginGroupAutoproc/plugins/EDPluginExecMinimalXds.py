@@ -101,9 +101,10 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # make it absolute
         directory = os.path.dirname(file_template)
         self.DEBUG('files are in {0}'.format(directory))
+        xds_input_directory = os.path.dirname(xds_input)
         if not os.path.isabs(directory):
-            directory = os.path.normpath(os.path.join(xds_input, directory))
-            self.DEBUG('relative path has been normalized to {0}\n(xds file path was {1}'.format(directory, xds_input))
+            directory = os.path.normpath(os.path.join(xds_input_directory, directory))
+            self.DEBUG('relative path has been normalized to {0}\n(xds file path was {1}'.format(directory, xds_input_directory))
 
         filename = os.path.basename(file_template)
 
