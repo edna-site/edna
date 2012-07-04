@@ -95,7 +95,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
 
         # XXX: why did i make this config item a list instead of a
         # regular string?
-        file_template = os.path.abspath(parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0])
+        file_template = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
 
         # the files location can be a relative pathname, in this case
         # make it absolute
