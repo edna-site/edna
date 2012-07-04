@@ -99,10 +99,11 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
 
         # the files location can be a relative pathname, in this case
         # make it absolute
-
         directory = os.path.dirname(file_template)
+        self.DEBUG('files are in {0}'.format(directory))
         if not os.path.isabs(directory):
             directory = os.path.normpath(os.path.join(xds_input, directory))
+            self.DEBUG('relative path has been normalized to {0}\n(xds file path was {1}'.format(directory, xds_input))
 
         filename = os.path.basename(file_template)
 
