@@ -111,8 +111,15 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         matches = fnmatch.filter(os.listdir(directory), filename)
         our_dir = self.getWorkingDirectory()
         for f in matches:
-            os.symlink(os.path.join(directory, f),
-                       os.path.join(our_dir, f))
+            source = os.path.join(directory, f)
+            dest = os.path.join(our_dir, f)
+            self.DEBUG('symlinking {0} -> {1}'.format(source, dest))
+
+            try:
+                os.symlink(os.path.join(directory, f),
+                           os.path.join(our_dir, f))
+            except OSError:
+                self.DEBUG('failed, the destination file probably  already exists')
         # patch the template in the config by stripping the whole prefix
         parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = filename
 
