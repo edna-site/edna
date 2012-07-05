@@ -459,6 +459,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         program_container.AutoProcProgram.processingCommandLine = ' '.join(sys.argv)
         program_container.AutoProcProgram.processingPrograms = 'edna-fastproc'
 
+        output.AutoProcProgramContainer = program_container
+
         #with open(self.dataInput.output_file.path.value, 'w') as f:
         #    f.write(output.marshal())
 
