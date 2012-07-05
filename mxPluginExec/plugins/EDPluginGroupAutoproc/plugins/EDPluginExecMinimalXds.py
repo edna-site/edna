@@ -129,6 +129,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         maxjobs = self.dataInput.maxjobs
         resolution_range = self.dataInput.resolution_range
         friedels_law = self.dataInput.friedels_law
+        spot_range = self.dataInput.spot_range
 
         if job is not None:
             parsed_config["JOB="] = job.value
@@ -143,6 +144,8 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                 parsed_config["FRIEDEL'S_LAW="] = "TRUE"
             else:
                 parsed_config["FRIEDEL'S_LAW="] = "FALSE"
+        if spot_range is not None:
+            parsed_config['SPOT_RANGE='] = ' '.join([x.value for x in spot_range])
         dump_xds_file(xds_file, parsed_config)
 
 

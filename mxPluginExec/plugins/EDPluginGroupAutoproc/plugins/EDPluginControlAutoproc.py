@@ -170,7 +170,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         waitfileinput.timeOut = timeout
         self.wait_file.dataInput = waitfileinput
 
-        self.xds_first = self.loadPlugin("EDPluginControlRunXds")
+        self.xds_first = self.loadPlugin("EDPluginControlRunXdsFastProc")
         self.xds_first.dataInput = xds_in
 
         self.generate = self.loadPlugin("EDPluginXDSGenerate")
