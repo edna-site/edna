@@ -145,7 +145,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                 parsed_config["FRIEDEL'S_LAW="] = "TRUE"
             else:
                 parsed_config["FRIEDEL'S_LAW="] = "FALSE"
-        if spot_range is not None:
+        if spot_range is not None and len(spot_range) > 0:
             spot_range_list = list()
             for srange in spot_range:
                 spot_range_list.append('{0} {1}'.format(srange.begin, srange.end))
