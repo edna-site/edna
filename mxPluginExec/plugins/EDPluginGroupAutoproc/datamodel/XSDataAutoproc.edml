@@ -33,6 +33,11 @@ complex type XSDataRBinsOut extends XSDataResult {
 	bins : XSDataDouble[]
 }
 
+complex type XSDataRange {
+	begin : integer
+	end : integer
+}
+
 complex type XSDataMinimalXdsIn extends XSDataInput {
 	input_file : XSDataString
 	job : XSDataString optional
@@ -40,7 +45,7 @@ complex type XSDataMinimalXdsIn extends XSDataInput {
 	maxjobs : XSDataInteger optional
 	friedels_law : XSDataBoolean optional
 	resolution_range : XSDataFloat [] optional
-	spot_range : XSDataInteger [] optional
+	spot_range : XSDataRange [] optional
 }
 
 complex type XSDataMinimalXdsOut extends XSDataResult {

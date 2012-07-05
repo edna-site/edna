@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jul 5 11:38::51 2012 by EDGenerateDS.
+# Generated Thu Jul 5 04:11::12 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -238,6 +238,112 @@ class XSData2DCoordinates(object):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSData2DCoordinates
+
+class XSDataRange(object):
+    def __init__(self, end=None, begin=None):
+    
+    
+        checkType("XSDataRange", "Constructor of XSDataRange", begin, "int")
+        self._begin = begin
+        checkType("XSDataRange", "Constructor of XSDataRange", end, "int")
+        self._end = end
+    def getBegin(self): return self._begin
+    def setBegin(self, begin):
+        checkType("XSDataRange", "setBegin", begin, "int")
+        self._begin = begin
+    def delBegin(self): self._begin = None
+    # Properties
+    begin = property(getBegin, setBegin, delBegin, "Property for begin")
+    def getEnd(self): return self._end
+    def setEnd(self, end):
+        checkType("XSDataRange", "setEnd", end, "int")
+        self._end = end
+    def delEnd(self): self._end = None
+    # Properties
+    end = property(getEnd, setEnd, delEnd, "Property for end")
+    def export(self, outfile, level, name_='XSDataRange'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataRange'):
+        pass
+        if self._begin is not None:
+            showIndent(outfile, level)
+            outfile.write(unicode('<begin>%d</begin>\n' % self._begin))
+        else:
+            warnEmptyAttribute("begin", "integer")
+        if self._end is not None:
+            showIndent(outfile, level)
+            outfile.write(unicode('<end>%d</end>\n' % self._end))
+        else:
+            warnEmptyAttribute("end", "integer")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'begin':
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                try:
+                    ival_ = int(sval_)
+                except ValueError:
+                    raise ValueError('requires integer -- %s' % child_.toxml())
+                self._begin = ival_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'end':
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                try:
+                    ival_ = int(sval_)
+                except ValueError:
+                    raise ValueError('requires integer -- %s' % child_.toxml())
+                self._end = ival_
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataRange" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataRange' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataRange is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataRange.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataRange()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataRange" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataRange()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataRange
 
 class XSDataXdsCompletenessEntry(object):
     def __init__(self, half_dataset_correlation=None, outer_isig=None, outer_rfactor=None, outer_complete=None, outer_possible=None, outer_unique=None, outer_observed=None, outer_res=None):
@@ -1098,10 +1204,10 @@ class XSDataMinimalXdsIn(XSDataInput):
     # Properties
     spot_range = property(getSpot_range, setSpot_range, delSpot_range, "Property for spot_range")
     def addSpot_range(self, value):
-        checkType("XSDataMinimalXdsIn", "setSpot_range", value, "XSDataInteger")
+        checkType("XSDataMinimalXdsIn", "setSpot_range", value, "XSDataRange")
         self._spot_range.append(value)
     def insertSpot_range(self, index, value):
-        checkType("XSDataMinimalXdsIn", "setSpot_range", value, "XSDataInteger")
+        checkType("XSDataMinimalXdsIn", "setSpot_range", value, "XSDataRange")
         self._spot_range[index] = value
     def export(self, outfile, level, name_='XSDataMinimalXdsIn'):
         showIndent(outfile, level)
@@ -1164,7 +1270,7 @@ class XSDataMinimalXdsIn(XSDataInput):
             self.resolution_range.append(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'spot_range':
-            obj_ = XSDataInteger()
+            obj_ = XSDataRange()
             obj_.build(child_)
             self.spot_range.append(obj_)
         XSDataInput.buildChildren(self, child_, nodeName_)
