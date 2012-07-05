@@ -27,6 +27,7 @@ __author__="<author>"
 __license__ = "GPLv3+"
 __copyright__ = "<copyright>"
 
+import sys
 import os.path
 
 from EDPluginControl import EDPluginControl
@@ -34,7 +35,7 @@ from EDVerbose import EDVerbose
 
 from XSDataCommon import XSDataFile, XSDataString
 
-from XSDataAutoproc  import XSDataMinimalXdsIn, XSDataXdsOutputFile
+from XSDataAutoproc  import XSDataMinimalXdsIn, XSDataXdsOutputFile, XSDataRange
 
 from xdscfgparser import parse_xds_file
 
@@ -83,8 +84,17 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             self.ERROR('no SPOT_RANGE parameter')
             self.setFailure()
         else:
-            # we can have many spot ranges so take the first. May need to change
-            self.spot_range = spot_range[0]
+            self.spot_range = spot_range
+
+        # we will use this value to constrain the upper bound of
+        # spot_range so it does not get past the last image number, so
+        # we use a default value that cannot be a constraint in case
+        # we cannot find it in the xds input file
+        self.end_image_no = sys.maxint
+
+        data_range = cfg.get('DATA_RANGE=')
+        if data_range is not None:
+            self.end_image_no = data_range[1]
 
     def process(self, _edObject = None):
         EDPluginControl.process(self)
@@ -109,7 +119,18 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             self.second_run = self.loadPlugin(self.controlled_plugin_name)
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
-            spot_range = [self.spot_range[0], self.spot_range[1] + 20]
+
+            # increase all the spot ranges end by 20, constrained to
+            # the data range upper limit
+            spot_range = list()
+            for srange in self.spot_range:
+                range_begin = srange[0]
+                range_end = srange + 20
+                if range_end > self.end_image_no:
+                    range_end = self.end_image_no
+                r = XSDataRange(begin=range_begin, end=range_end)
+                spot_range.append(r)
+
             params.spot_range = spot_range
 
             self.second_run.dataInput = params
@@ -128,8 +149,18 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             self.third_run = self.loadPlugin(self.controlled_plugin_name)
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
-            spot_range = [self.spot_range[0], self.spot_range[1] + 20]
+
+            spot_range = list()
+            for srange in self.spot_range:
+                range_begin = srange[0]
+                range_end = srange + 40
+                if range_end > self.end_image_no:
+                    range_end = self.end_image_no
+                r = XSDataRange(begin=range_begin, end=range_end)
+                spot_range.append(r)
+
             params.spot_range = spot_range
+
             self.third_run.dataInput = params
             self.third_run.executeSynchronous()
 
@@ -137,25 +168,6 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded:
                 EDVerbose.DEBUG('... and it worked')
                 self.successful_run = self.third_run
-            else:
-                EDVerbose.DEBUG('... and it failed')
-
-
-        if not self.successful_run:
-        # final run with parallelism like 3 but JOB like 2
-            self.final_run = self.loadPlugin(self.controlled_plugin_name)
-            params = XSDataMinimalXdsIn()
-            params.input_file = self.dataInput.input_file
-            params.jobs = 'DEFPIX INTEGRATE CORRECT'
-            params.maxprocs = 4
-            params.maxjobs = 1
-            self.final_run.dataInput = params
-            self.final_run.executeSynchronous()
-
-            EDVerbose.DEBUG('final run completed')
-            if self.final_run.dataOutput is not None and self.final_run.dataOutput.succeeded:
-                EDVerbose.DEBUG('... and it worked')
-                self.successful_run = self.final_run
             else:
                 EDVerbose.DEBUG('... and it failed')
 
