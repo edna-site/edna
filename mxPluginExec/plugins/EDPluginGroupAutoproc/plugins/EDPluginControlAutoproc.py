@@ -30,6 +30,7 @@ __copyright__ = "<copyright>"
 
 import os.path
 import time
+import sys
 
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
