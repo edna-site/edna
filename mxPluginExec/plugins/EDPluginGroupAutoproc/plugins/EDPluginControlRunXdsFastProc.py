@@ -78,7 +78,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
         # Load the execution plugin
         self.first_run = self.loadPlugin(self.controlled_plugin_name)
 
-        cfg = parse_xds_file(self.dataInput.input_file.path.value)
+        cfg = parse_xds_file(self.dataInput.input_file.value)
         spot_range = cfg.get('SPOT_RANGE=')
         if spot_range is None:
             self.ERROR('no SPOT_RANGE parameter')
