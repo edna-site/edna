@@ -48,6 +48,7 @@ from XSDataAutoproc import XSDataXdsOutputFile
 from XSDataAutoproc import XSDataXscaleInput
 from XSDataAutoproc import XSDataXscaleInputFile
 
+
 edFactoryPlugin.loadModule('XSDataWaitFilev1_0')
 from XSDataWaitFilev1_0 import XSDataInputWaitFile
 
@@ -63,6 +64,7 @@ from XSDataISPyBv1_4 import AutoProcIntegrationContainer, AutoProcIntegration
 from XSDataISPyBv1_4 import AutoProcProgramContainer, AutoProcProgram
 from XSDataISPyBv1_4 import AutoProcProgramAttachment
 from XSDataISPyBv1_4 import Image
+from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
 
 from xdscfgparser import parse_xds_file, dump_xds_file
 
@@ -461,7 +463,9 @@ class EDPluginControlAutoproc(EDPluginControl):
         #    f.write(output.marshal())
 
         # store results in ispyb
-        self.store_autoproc.dataInput = output
+        ispyb_input = XSDataInputStoreAutoProc()
+        ispyb_input.AutoProcContainer = output
+        self.store_autoproc.dataInput = ispyb_input
         self.store_autoproc.executeSynchronous()
         if self.store_autoproc.isFailure():
             self.ERROR('could not send results to ispyb')
