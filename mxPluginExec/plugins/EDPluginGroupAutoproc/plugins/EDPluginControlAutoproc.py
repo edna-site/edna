@@ -461,12 +461,13 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         output.AutoProcProgramContainer = program_container
 
+        ispyb_input = XSDataInputStoreAutoProc()
+        ispyb_input.AutoProcContainer = output
+
         with open(self.dataInput.output_file.path.value, 'w') as f:
-            f.write(output.marshal())
+            f.write(ispyb_input.marshal())
 
         # store results in ispyb
-        #ispyb_input = XSDataInputStoreAutoProc()
-        #ispyb_input.AutoProcContainer = output
         #self.store_autoproc.dataInput = ispyb_input
         #self.store_autoproc.executeSynchronous()
         #if self.store_autoproc.isFailure():
