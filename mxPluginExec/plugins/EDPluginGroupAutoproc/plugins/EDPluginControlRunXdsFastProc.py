@@ -107,7 +107,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
 
         EDVerbose.DEBUG('first run completed...')
 
-        if self.first_run.dataOutput is not None and self.first_run.dataOutput.succeeded:
+        if self.first_run.dataOutput is not None and self.first_run.dataOutput.succeeded.value:
             EDVerbose.DEBUG('... and it worked')
             self.successful_run = self.first_run
         else:
@@ -137,7 +137,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             self.second_run.executeSynchronous()
 
             EDVerbose.DEBUG('second run completed')
-            if self.second_run.dataOutput is not None and self.second_run.dataOutput.succeeded:
+            if self.second_run.dataOutput is not None and self.second_run.dataOutput.succeeded.value:
                 EDVerbose.DEBUG('... and it worked')
                 self.successful_run = self.second_run
             else:
@@ -165,7 +165,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             self.third_run.executeSynchronous()
 
             EDVerbose.DEBUG('third run completed')
-            if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded:
+            if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded.value:
                 EDVerbose.DEBUG('... and it worked')
                 self.successful_run = self.third_run
             else:
