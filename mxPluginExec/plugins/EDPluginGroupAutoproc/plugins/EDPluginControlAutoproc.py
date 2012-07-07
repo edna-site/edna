@@ -461,16 +461,16 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         output.AutoProcProgramContainer = program_container
 
-        #with open(self.dataInput.output_file.path.value, 'w') as f:
-        #    f.write(output.marshal())
+        with open(self.dataInput.output_file.path.value, 'w') as f:
+            f.write(output.marshal())
 
         # store results in ispyb
-        ispyb_input = XSDataInputStoreAutoProc()
-        ispyb_input.AutoProcContainer = output
-        self.store_autoproc.dataInput = ispyb_input
-        self.store_autoproc.executeSynchronous()
-        if self.store_autoproc.isFailure():
-            self.ERROR('could not send results to ispyb')
+        #ispyb_input = XSDataInputStoreAutoProc()
+        #ispyb_input.AutoProcContainer = output
+        #self.store_autoproc.dataInput = ispyb_input
+        #self.store_autoproc.executeSynchronous()
+        #if self.store_autoproc.isFailure():
+        #    self.ERROR('could not send results to ispyb')
 
 
 def _create_scaling_stats(xscale_stats, stats_type, lowres, anom):
