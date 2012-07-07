@@ -131,7 +131,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
                     self.DEBUG('End of range {0} would be past the last image {1}'.format(range_end,
                                                                                           self.end_image_no))
                     range_end = self.end_image_no
-                self.DEBUG('Changing spot range {0} to {1}'.format(srange, list(range_begin, range_end)))
+                self.DEBUG('Changing spot range {0} to [{1} {2}]'.format(srange, range_begin, range_end))
                 r = XSDataRange(begin=range_begin, end=range_end)
                 spot_range.append(r)
 
@@ -162,7 +162,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
                     self.DEBUG('End of range {0} would be past the last image {1}'.format(range_end,
                                                                                           self.end_image_no))
                     range_end = self.end_image_no
-                self.DEBUG('Changing spot range {0} to {1}'.format(srange, list(range_begin, range_end)))
+                self.DEBUG('Changing spot range {0} to [{1} {2}]'.format(srange, range_begin, range_end))
                 r = XSDataRange(begin=range_begin, end=range_end)
                 spot_range.append(r)
 
