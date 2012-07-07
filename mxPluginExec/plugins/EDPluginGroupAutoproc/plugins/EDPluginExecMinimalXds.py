@@ -173,7 +173,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
             xsDataResult.succeeded = XSDataBoolean(False)
             self.setFailure()
         else:
-            self.debug('FOUND')
+            self.DEBUG('FOUND')
             xsDataResult.succeeded = XSDataBoolean(True)
         self.DEBUG('succeeded is {0} and succeeded.value is {1}'.format(xsDataResult.succeeded,
                                                                         xsDataResult.succeeded.value))
