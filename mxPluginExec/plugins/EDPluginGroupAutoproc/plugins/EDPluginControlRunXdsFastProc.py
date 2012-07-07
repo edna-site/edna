@@ -116,6 +116,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
 
         if not self.successful_run:
             self.second_run = self.loadPlugin(self.controlled_plugin_name)
+            self.DEBUG('retrying with increased SPOT_RANGE')
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
             params.jobs = 'DEFPIX INTEGRATE CORRECT'
@@ -127,7 +128,10 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
                 range_begin = srange[0]
                 range_end = srange[1] + 20
                 if range_end > self.end_image_no:
+                    self.DEBUG('End of range {0} would be past the last image {1}'.format(range_end,
+                                                                                          self.end_image_no))
                     range_end = self.end_image_no
+                self.DEBUG('Changing spot range {0} to {1}'.format(srange, list(range_begin, range_end)))
                 r = XSDataRange(begin=range_begin, end=range_end)
                 spot_range.append(r)
 
@@ -146,6 +150,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
 
         if not self.successful_run:
             self.third_run = self.loadPlugin(self.controlled_plugin_name)
+            self.DEBUG('retrying with increased SPOT_RANGE')
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
             params.jobs = 'DEFPIX INTEGRATE CORRECT'
@@ -154,7 +159,10 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
                 range_begin = srange[0]
                 range_end = srange[1] + 40
                 if range_end > self.end_image_no:
+                    self.DEBUG('End of range {0} would be past the last image {1}'.format(range_end,
+                                                                                          self.end_image_no))
                     range_end = self.end_image_no
+                self.DEBUG('Changing spot range {0} to {1}'.format(srange, list(range_begin, range_end)))
                 r = XSDataRange(begin=range_begin, end=range_end)
                 spot_range.append(r)
 
