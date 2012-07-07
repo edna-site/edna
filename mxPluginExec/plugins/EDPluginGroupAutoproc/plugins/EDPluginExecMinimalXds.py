@@ -167,9 +167,14 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
 
         # XDS is considered to have succeeded iff CORRECT.LP has been created
         outfile = os.path.join(self.getWorkingDirectory(), 'CORRECT.LP')
+        self.DEBUG('looking for {0}'.format(outfile))
         if not os.path.isfile(outfile):
+            self.DEBUG('NOT FOUND')
             xsDataResult.succeeded = XSDataBoolean(False)
             self.setFailure()
         else:
+            self.debug('FOUND')
             xsDataResult.succeeded = XSDataBoolean(True)
+        self.DEBUG('succeeded is {0} and succeeded.value is {1}'.format(xsDataResult.succeeded,
+                                                                        xsDataResult.succeeded.value))
         self.setDataOutput(xsDataResult)
