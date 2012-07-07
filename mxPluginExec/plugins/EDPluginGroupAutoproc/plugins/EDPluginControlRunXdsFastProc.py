@@ -125,7 +125,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             spot_range = list()
             for srange in self.spot_range:
                 range_begin = srange[0]
-                range_end = srange + 20
+                range_end = srange[1] + 20
                 if range_end > self.end_image_no:
                     range_end = self.end_image_no
                 r = XSDataRange(begin=range_begin, end=range_end)
@@ -152,7 +152,7 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             spot_range = list()
             for srange in self.spot_range:
                 range_begin = srange[0]
-                range_end = srange + 40
+                range_end = srange[1] + 40
                 if range_end > self.end_image_no:
                     range_end = self.end_image_no
                 r = XSDataRange(begin=range_begin, end=range_end)
