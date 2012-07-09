@@ -41,12 +41,8 @@ from xdscfgparser import parse_xds_file
 
 class EDPluginControlRunXdsFastProc( EDPluginControl ):
     """
-    Runx XDS 3 times like Max's autoproc does.
-    1. First run is a vanilla run
-    2. Second run set JOB to DEFPIX INTEGRATE CORRECT
-    3. Third run set JOB to ALL, maxproc to 4 and maxjobs to 1
-    4. Final run set JOB to DEFPIX INTEGRATE CORRECT and maxproc and
-    maxjobs like the 3rd run
+    Run XDS up to three times, extending the SPOT_RANGE after each
+    failure.
     """
 
 
