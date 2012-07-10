@@ -60,7 +60,6 @@ class EDPluginExec(EDPlugin):
         after processing of the plugin:
         Release a CPU resource by releasing the semaphore
         """
-        EDPlugin.finallyProcess(self, _edObject)
         EDVerbose.DEBUG("Release semaphore nbCPU by plugin %s, currently value: %s" % (self.getPluginName(), EDUtilsParallel.getSemaphoreValue()))
         EDUtilsParallel.semaphoreNbThreadsRelease()
         EDPlugin.finallyProcess(self, _edObject)
