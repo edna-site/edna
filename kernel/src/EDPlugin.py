@@ -92,6 +92,7 @@ class EDPlugin(EDAction):
         self.__strPluginId = "%s-%08i" % (self.getClassName(), self.getId())
         self.strPathDataInput = None
         self.strPathDataOutput = None
+        self.__bUseWarningInsteadOfError = False
 
 
     def preProcess(self, _edObject=None):
@@ -866,4 +867,33 @@ class EDPlugin(EDAction):
 
 
     def setWriteXMLInputOutput(self, _bValue=True):
+        """
+        Sets or unsets the plugin to write XML input and output files.
+        @param _bValue: WriteDataXMLInputOutput
+        @type: boolean
+        """
         self.__bWriteDataXMLInputOutput = _bValue
+        
+    def setUseWarningInsteadOfError(self, _bValue = True):
+        """
+        Sets or unsets the plugin to use warning messages also for error messages.
+        @param _bValue: UseWarningInsteadOfError
+        @type: boolean
+        """
+        self.__bUseWarningInsteadOfError = _bValue
+        
+    def error(self, _strErrorMessage):
+        """
+        Overloaded from EDLogging. If self.__bUseWarningInsteadOfError is True
+        a warning message is issued instead of an error message.
+        """
+        if self.__bUseWarningInsteadOfError:
+            self.warning(_strErrorMessage)
+        else:
+            EDAction.error(self, _strErrorMessage)
+            
+    def ERROR(self, _strErrorMessage):
+        """
+        Uses the overloaded self.error method above.
+        """
+        self.error(_strErrorMessage)
