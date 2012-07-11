@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2010 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -28,9 +26,11 @@ __authors__ = [ "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
-from EDVerbose import EDVerbose
+
 from EDPluginLabelitv1_1 import EDPluginLabelitv1_1
 
 from XSDataCommon import XSDataDouble
@@ -50,7 +50,7 @@ class EDPluginLabelitDistlv1_1(EDPluginLabelitv1_1):
         Sets up the Labelit command line
         """
         EDPluginLabelitv1_1.preProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginLabelitDistlv1_1.preProcess...")
+        self.DEBUG("EDPluginLabelitDistlv1_1.preProcess...")
         self.setScriptExecutable("labelit.distl")
         self.initaliseLabelitCommandLine()
         self.addListCommandPreExecution("export PYTHONPATH=\"\" ")
@@ -62,11 +62,11 @@ class EDPluginLabelitDistlv1_1(EDPluginLabelitv1_1):
         Parses the labelit.screen log file and the generated MOSFLM script
         """
         EDPluginLabelitv1_1.postProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginLabelitDistlv1_1.postProcess")
+        self.DEBUG("EDPluginLabelitDistlv1_1.postProcess")
         strLabelitDistlLog = self.readProcessLogFile()
         if (strLabelitDistlLog is None):
             strErrorMessage = "EDPluginLabelitDistlv1_1.postProcess : Could not read the Labelit log file"
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
         else:
@@ -77,7 +77,7 @@ class EDPluginLabelitDistlv1_1(EDPluginLabelitv1_1):
 
 
     def parseLabelitDistlOutput(self, _strLabelitDistlLogText):
-        EDVerbose.DEBUG("EDPluginLabelitDistlv1_1.parseLabelitDistlOutput")
+        self.DEBUG("EDPluginLabelitDistlv1_1.parseLabelitDistlOutput")
         xsDataImageQualityIndicators = None
         if _strLabelitDistlLogText is not None:
             xsDataImageQualityIndicators = XSDataImageQualityIndicators()
@@ -121,7 +121,7 @@ class EDPluginLabelitDistlv1_1(EDPluginLabelitv1_1):
         """
         Generates a summary of the execution of the Labelit distl plugin.
         """
-        EDVerbose.DEBUG("EDPluginLabelitDistlv1_1.generateExecutiveSummary")
+        self.DEBUG("EDPluginLabelitDistlv1_1.generateExecutiveSummary")
         xsDataImageQualityIndicators = self.getDataOutput("imageQualityIndicators")[0]
         self.addExecutiveSummaryLine("Execution of Labelit distl successful.")
         self.addExecutiveSummaryLine("Image                   : %s" % xsDataImageQualityIndicators.getImage().getPath().getValue())
