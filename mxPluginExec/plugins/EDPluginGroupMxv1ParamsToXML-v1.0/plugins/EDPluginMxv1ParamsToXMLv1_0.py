@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDPluginMxv1ParamsToXMLv1_0.py 1384 2010-04-20 11:40:26Z svensson $"
-#
 #    Copyright (C) 2011 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -30,7 +28,7 @@ __copyright__ = "Diamond Light Source, Chilton, Didcot, UK"
 
 import os
 
-from EDVerbose          import EDVerbose
+
 from EDMessage          import EDMessage
 from EDPluginExec       import EDPluginExec
 from XSDataCommon       import XSDataString
@@ -62,14 +60,14 @@ class EDPluginMxv1ParamsToXMLv1_0(EDPluginExecProcessScript):
         self.setRequireCCP4(True)
 
         if(pluginConfiguration == None):
-            EDVerbose.DEBUG("*** EDPluginMxv1ParamsToXMLv1_0.configure: pluginConfiguration is None, using default settings")
+            self.DEBUG("*** EDPluginMxv1ParamsToXMLv1_0.configure: pluginConfiguration is None, using default settings")
         else:
-            EDVerbose.DEBUG("*** EDPluginMxv1ParamsToXMLv1_0.configure: pluginConfiguration found, using settings from there")
+            self.DEBUG("*** EDPluginMxv1ParamsToXMLv1_0.configure: pluginConfiguration found, using settings from there")
             strScriptExecutable = self.getScriptExecutable()
             if (strScriptExecutable == None):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginMxv1ParamsToXMLv1_0.configure", self.getClassName(), \
                                                                      "Configuration parameter missing: strScriptExecutable")
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
 
@@ -85,7 +83,7 @@ class EDPluginMxv1ParamsToXMLv1_0(EDPluginExecProcessScript):
         strError = self.readProcessErrorLogFile()
         if((strError is not None) and (strError != "")):
             strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginMxv1ParamsToXMLv1_0.postProcess', 'EDPluginMxv1ParamsToXMLv1_0', strError)
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             raise RuntimeError, strErrorMessage
 

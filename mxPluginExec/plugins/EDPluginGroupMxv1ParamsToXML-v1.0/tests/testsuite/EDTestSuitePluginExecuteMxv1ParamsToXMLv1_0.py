@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestSuitePluginExecuteMxv1ParamsToXMLv1_0.py 1384 2010-04-20 11:40:26Z svensson $"
-#
 #    Copyright (C) 2011 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
