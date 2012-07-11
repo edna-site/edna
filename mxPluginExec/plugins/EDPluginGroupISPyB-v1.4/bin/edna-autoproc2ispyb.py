@@ -25,6 +25,8 @@ __authors__ = ["Olof Svensson"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os, time, sys, threading, tempfile
 
@@ -46,7 +48,7 @@ os.environ["EDNA_SITE"] = "ESRF_ISPyB"
 
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
-from EDVerbose import EDVerbose
+
 from EDUtilsFile import EDUtilsFile
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("EDPluginISPyBStoreAutoProcv1_4")
@@ -56,28 +58,28 @@ from XSDataISPyBv1_4 import AutoProcContainer
 
 
 def successAction(self, _edObject=None):
-    EDVerbose.screen("XML data sucessfully stored in ISPyB")
+    self.screen("XML data sucessfully stored in ISPyB")
 
 def failureAction(self, _edObject=None):
-    EDVerbose.ERROR("XML data not stored in ISPyB")
+    self.ERROR("XML data not stored in ISPyB")
 
 if __name__ == '__main__':
     strCwd = os.getcwd()
     strPathToTempDir = tempfile.mkdtemp(prefix="edna-autoproc2ispyb_")
     os.chdir(strPathToTempDir)
-    EDVerbose.setVerboseOn()
-    EDVerbose.setLogFileName(os.path.join(strPathToTempDir, "edna.log"))
+    self.setVerboseOn()
+    self.setLogFileName(os.path.join(strPathToTempDir, "edna.log"))
     # Populate input data
-    EDVerbose.DEBUG("Arguments: %r" % sys.argv)
+    self.DEBUG("Arguments: %r" % sys.argv)
     bVerbose = False
     bDebug = False
     listPaths = []
     for iIndex, strArg in enumerate(sys.argv[1:]):
         strarg = strArg.lower()
         if strarg == "--verbose":
-            EDVerbose.setVerboseOn()
+            self.setVerboseOn()
         elif strarg == "--debug":
-            EDVerbose.setVerboseDebugOn()
+            self.setVerboseDebugOn()
         strArgPath = strArg
         if os.path.dirname(strArgPath) == "":
             strArgPath = os.path.join(strCwd, strArg)
@@ -85,17 +87,17 @@ if __name__ == '__main__':
         if os.path.exists(strArgPathAbsolute):
             listPaths.append(strArgPathAbsolute)
     if listPaths == []:
-        EDVerbose.ERROR("No valid XML file given as input!")
-        EDVerbose.ERROR("Arguments: %r" % sys.argv)
-        EDVerbose.ERROR("Usage: edna-autoproc2ispyb path_to_xml_file [--debug]")
+        self.ERROR("No valid XML file given as input!")
+        self.ERROR("Arguments: %r" % sys.argv)
+        self.ERROR("Usage: edna-autoproc2ispyb path_to_xml_file [--debug]")
         sys.exit(1)
     for strPath in listPaths:
-        EDVerbose.screen("Starting EDNA AutoProc -> ISPyB for file %s" % strPath)
+        self.screen("Starting EDNA AutoProc -> ISPyB for file %s" % strPath)
         xsDataInputStoreAutoProc = XSDataInputStoreAutoProc()
         strXMLAutoProcContainer = EDUtilsFile.readFile(strPath)
         xsDataAutoProcContainer = AutoProcContainer.parseString(strXMLAutoProcContainer)
         if xsDataAutoProcContainer is None:
-            EDVerbose.WARNING("Couldn't parse file %s" % strPath)
+            self.WARNING("Couldn't parse file %s" % strPath)
         else:
             xsDataInputStoreAutoProc.setAutoProcContainer(xsDataAutoProcContainer)
             edPluginISPyBStoreAutoProc = EDFactoryPluginStatic.loadPlugin("EDPluginISPyBStoreAutoProcv1_4")

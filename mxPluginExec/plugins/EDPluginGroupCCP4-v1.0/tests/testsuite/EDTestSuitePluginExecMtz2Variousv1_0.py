@@ -3,8 +3,6 @@
 #    Project: <projectName>
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) ESRF
 #
 #    Principal author:       Olof Svensson

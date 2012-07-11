@@ -29,9 +29,11 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
-from EDVerbose import EDVerbose
+
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDConfiguration import EDConfiguration
 
@@ -62,7 +64,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
     def process(self, _edObject=None):
         EDPluginExecProcessScript.process(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.process")
+        self.DEBUG("EDPluginMOSFLMv10.process")
         # It should not be possible to execute this abstract plugin
         if (self.getPluginName() == "EDPluginMOSFLMv10"):
             raise RuntimeError, "ExectuteAbstractPluginError"
@@ -70,7 +72,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
     def process(self, _edObject=None):
         EDPluginExecProcessScript.process(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.process")
+        self.DEBUG("EDPluginMOSFLMv10.process")
         # It should not be possible to execute this abstract plugin
         if (self.getPluginName() == "EDPluginMOSFLMv10"):
             raise RuntimeError, "ExectuteAbstractPluginError"
@@ -78,7 +80,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
     
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.configure")
+        self.DEBUG("EDPluginMOSFLMv10.configure")
         self.setRequireCCP4(True)
         self.setScriptCommandline(" DNA " + self.getScriptBaseName() + "_dnaTables.xml")
         # Check for reversephi configuration option
@@ -98,7 +100,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
         """
         Checks the mandatory parameters for all MOSLFM plugins
         """
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.checkParameters")
+        self.DEBUG("EDPluginMOSFLMv10.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.checkMandatoryParameters(self.getDataInput().getBeam(), "beamPosition")
         self.checkMandatoryParameters(self.getDataInput().getDetector(), "detector")
@@ -113,7 +115,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
         This method creates a list of MOSFLM indexing commands given a valid
         XSDataMOSFLMInput as self.getDataInput()
         """
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.generateMOSFLMCommands")
+        self.DEBUG("EDPluginMOSFLMv10.generateMOSFLMCommands")
         xsDataMOSFLMInput = self.getDataInput()
 
         if (xsDataMOSFLMInput is not None):
@@ -209,7 +211,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
 
     def splitStringIntoListOfFloats(self, _strInput):
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.splitStringIntoListOfFloats")
+        self.DEBUG("EDPluginMOSFLMv10.splitStringIntoListOfFloats")
         listFloats = []
         listString = _strInput.split()
         for strElement in listString:
@@ -219,7 +221,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
 
     def getDataMOSFLMMatrix(self, _strMatrixFileName=None):
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.getDataMOSFLMMatrix")
+        self.DEBUG("EDPluginMOSFLMv10.getDataMOSFLMMatrix")
         strMatrixFileName = None
         if (_strMatrixFileName is None):
             strMatrixFileName = self.getMatrixFileName()
@@ -230,7 +232,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
 
     def getDataMOSFLMNewmat(self, _strNewmatFileName=None):
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.getDataMOSFLMNewmat")
+        self.DEBUG("EDPluginMOSFLMv10.getDataMOSFLMNewmat")
         xsDataMOSFLMNewmat = None
         strNewmatFileName = None
         listOfListOfFloat = []
@@ -246,12 +248,12 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
             if (strError is not None) and (strError != ""):
                 strErrorMessage = "EDPluginMOSFLMv10.getDataMOSFLMNewmat: %s : error reading newmat file : %s" % \
                                 (self.getClassName(), strError)
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 self.setFailure()
             else:
                 strErrorMessage = "EDPluginMOSFLMv10.getDataMOSFLMNewmat : Cannot read MOSFLM NEWMAT file : " + strNewmatFileName
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 self.setFailure()
         #print strNewmat
@@ -308,7 +310,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
 
     def writeDataMOSFLMNewmat(self, _xsDataMOSFLNNewmat, _strNewmatFileName=None):
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.writeDataMOSFLMNewmat")
+        self.DEBUG("EDPluginMOSFLMv10.writeDataMOSFLMNewmat")
         strNewmatFileName = None
         if (_strNewmatFileName is None):
             strNewmatFileName = self.getNewmatFileName()
@@ -347,6 +349,6 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
         Generates a summary of the execution of the plugin.
         This method is common to all MOSFLM plugins.
         """
-        EDVerbose.DEBUG("EDPluginMOSFLMv10.generateExecutiveSummary")
+        self.DEBUG("EDPluginMOSFLMv10.generateExecutiveSummary")
         if (self.getStringVersion() is not None):
             self.addExecutiveSummaryLine(self.getStringVersion())
