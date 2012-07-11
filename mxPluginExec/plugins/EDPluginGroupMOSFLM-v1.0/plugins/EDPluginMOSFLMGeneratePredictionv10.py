@@ -29,11 +29,14 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
 
 
 import os
 
-from EDVerbose import EDVerbose
+
 
 from EDPluginMOSFLMv10 import EDPluginMOSFLMv10
 
@@ -57,23 +60,23 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
 
     def preProcess(self, _edObject=None):
         EDPluginMOSFLMv10.preProcess(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.preProcess")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.preProcess")
         self.generateMOSFLMCommands()
 
 
     def postProcess(self, _edObject=None):
         EDPluginMOSFLMv10.postProcess(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.postProcess")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.postProcess")
         xsDataMOSFLMOutputGeneratePrediction = self.createDataMOSFLMOutputGeneratePrediction()
         self.setDataOutput(xsDataMOSFLMOutputGeneratePrediction)
 
 
     def configure(self):
         EDPluginMOSFLMv10.configure(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.configure")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.configure")
         xsPluginItem = self.getConfiguration()
         if (xsPluginItem == None):
-            EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.configure: xsPluginItem is None")
+            self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.configure: xsPluginItem is None")
         self.createPredictionImageFileName()
 
 
@@ -82,22 +85,22 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
         Checks the mandatory parameters for MOSLFM indexing
         """
         EDPluginMOSFLMv10.checkParameters(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.checkParameters")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.checkParameters")
         self.checkMandatoryParameters(self.getDataInput().getImage(), "image")
 
 
     def getPredictionImageFileName(self):
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.getPredictionImageFileName")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.getPredictionImageFileName")
         return self.__strPredictionImageFileName
 
 
     def setPredictionImageFileName(self, _strFileName):
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.setPredictionImageFileName : " + _strFileName)
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.setPredictionImageFileName : " + _strFileName)
         self.__strPredictionImageFileName = _strFileName
 
 
     def createPredictionImageFileName(self):
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.createPredictionImagePath")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.createPredictionImagePath")
         strImageFileName = self.getBaseName() + "_image.jpg"
         self.setPredictionImageFileName(strImageFileName)
 
@@ -108,7 +111,7 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
         XSDataMOSFLMInputGeneratePrediction as input to the plugin.
         """
         EDPluginMOSFLMv10.generateMOSFLMCommands(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.generateMOSFLMCommands")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.generateMOSFLMCommands")
 
         xsDataMOSFLMInputGeneratePrediction = self.getDataInput()
 
@@ -137,11 +140,11 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
         # Force name of log file
         self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
 
-        EDVerbose.DEBUG("Finished EDPluginMOSFLMGeneratePredictionv10.generateMOSFLMCommands")
+        self.DEBUG("Finished EDPluginMOSFLMGeneratePredictionv10.generateMOSFLMCommands")
 
 
     def createDataMOSFLMOutputGeneratePrediction(self):
-        EDVerbose.DEBUG("EDPluginMOSFLMGeneratePredictionv10.createDataMOSFLMOutputIntegration")
+        self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.createDataMOSFLMOutputIntegration")
         xsDataMOSFLMInputGeneratePrediction = self.getDataInput()
         xsDataMOSFLMImage = xsDataMOSFLMInputGeneratePrediction.getImage()
         iImageNumber = xsDataMOSFLMImage.getNumber().getValue()
@@ -174,6 +177,6 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
                     iNoHashes += 1
             strImageFileName = _strTemplate[ 0:iFirstHash ] + str(_iImageNumber).rjust(iNoHashes, "0")
         except:
-            EDVerbose.warning("EDPluginMOSFLMGeneratePredictionv10: Couldn't transform template %s to file name" % _strTemplate)
+            self.warning("EDPluginMOSFLMGeneratePredictionv10: Couldn't transform template %s to file name" % _strTemplate)
             strImageFileName = None
         return strImageFileName
