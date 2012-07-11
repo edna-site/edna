@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginUnitISPyBv1_2.py 1384 2010-04-20 11:40:26Z svensson $"
-#
 #    Copyright (C) 2010 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -30,10 +28,12 @@ __author__ = "Karl Levik, Marie-Francoise Incardona, Olof Svensson"
 __contact__ = "karl.levik@diamnd.ac.uk"
 __license__ = "GPLv3+"
 __copyright__ = "Diamond Light Source, Chilton, Didcot, UK"
+__date__ = "20120712"
+__status__ = "production"
 
 import os.path
 
-from EDVerbose                      import EDVerbose
+
 from EDAssert                       import EDAssert
 from EDUtilsFile                    import EDUtilsFile
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
@@ -272,7 +272,7 @@ class EDTestCasePluginUnitISPyBv1_2(EDTestCasePluginUnit):
        """
        List of test methods
        """
-       EDVerbose.DEBUG("*** EDTestCasePluginUnitISPyBv1_2.process")
+       self.DEBUG("*** EDTestCasePluginUnitISPyBv1_2.process")
        self.addTestMethod(self.testConfigureOK)
        self.addTestMethod(self.testSetDataModelInput)
 

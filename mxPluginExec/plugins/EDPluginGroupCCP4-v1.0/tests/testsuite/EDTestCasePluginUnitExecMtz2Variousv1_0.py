@@ -3,8 +3,6 @@
 #    Project: <projectName>
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) ESRF
 #
 #    Principal author:       Olof Svensson
@@ -27,7 +25,7 @@ __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-from EDVerbose import EDVerbose
+
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
 from XSDataCCP4v1_0 import XSDataInputMtz2Various

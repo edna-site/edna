@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDPluginISPyBv1_2.py 582 2008-12-05 12:05:05Z levik $"
-#
 #    Copyright (C) 2008 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -30,9 +28,11 @@ __author__ = "Karl Levik, Marie-Francoise Incardona, Olof Svensson"
 __contact__ = "karl.levik@diamnd.ac.uk"
 __license__ = "GPLv3+"
 __copyright__ = "Diamond Light Source, Chilton, Didcot, UK"
+__date__ = "20120712"
+__status__ = "production"
 
 from EDPluginExec       import EDPluginExec
-from EDVerbose          import EDVerbose
+
 from EDMessage          import EDMessage
 from EDConfiguration    import EDConfiguration
 from EDUtilsXML         import EDUtilsXML
@@ -103,14 +103,14 @@ class EDPluginISPyBv1_2(EDPluginExec):
         pluginConfiguration = self.getConfiguration()
 
         if(pluginConfiguration == None):
-            EDVerbose.DEBUG("*** EDPluginISPyBv1_2.configure: pluginConfiguration is None, using default settings")
+            self.DEBUG("*** EDPluginISPyBv1_2.configure: pluginConfiguration is None, using default settings")
         else:
-            EDVerbose.DEBUG("*** EDPluginISPyBv1_2.configure: pluginConfiguration found, using settings from there")
+            self.DEBUG("*** EDPluginISPyBv1_2.configure: pluginConfiguration found, using settings from there")
             strDbserverHost = EDConfiguration.getStringParamValue(pluginConfiguration, "dbserverHost")
             if(strDbserverHost == None):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2.configure", self.getClassName(), \
                                                                      "Configuration parameter missing: dbserverHost")
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
             else:
@@ -120,7 +120,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
             if(strDbserverPort == None):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2.configure", self.getClassName(), \
                                                                      "Configuration parameter missing: dbserverPort")
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
             else:
@@ -142,20 +142,20 @@ class EDPluginISPyBv1_2(EDPluginExec):
         """
 
         EDPluginExec.process(self)
-        EDVerbose.DEBUG("*** EDPluginISPyBv1_2.process")
+        self.DEBUG("*** EDPluginISPyBv1_2.process")
 
         # Basic sanity check of inputs:
         if (self.hasDataInput("screening")):
             if (len(self.getDataInput("screening")) > 1):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "process", "There should only be one input 'screening'.")
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
 
         if (self.hasDataInput("screeningRankSet")):
             if (len(self.getDataInput("screeningRankSet")) > 1):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "process", "There should only be one input 'screeningRankSet'.")
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
 
@@ -200,7 +200,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
             if ((xsDataISPyBImage == None) or (xsDataISPyBImage.getFileName() == None) or (xsDataISPyBImage.getFileLocation() == None)):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "process", \
                                                                      "Neither a dataCollectionId nor an image filename + path are provided.")
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 return
 
@@ -214,14 +214,14 @@ class EDPluginISPyBv1_2(EDPluginExec):
                 xsDatadbstatus = XSDatadbstatus.parseString(strResponse)
                 strCode = xsDatadbstatus.getCode()
                 strMessage = xsDatadbstatus.getMessage()
-                EDVerbose.DEBUG("dbserver returns code: " + strCode)
-                EDVerbose.DEBUG("dbserver returns message: " + strMessage)
+                self.DEBUG("dbserver returns code: " + strCode)
+                self.DEBUG("dbserver returns message: " + strMessage)
 
                 if (strCode == "error") or (xsDatadbstatus.getDataCollectionId() == -1):
                     if xsDatadbstatus.getDataCollectionId() == -1:
                         strMessage = "An image corresponding to the given fileName and fileLocation was not found."
                     strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "process", strMessage)
-                    EDVerbose.error(strErrorMessage)
+                    self.error(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
                     return
 
@@ -288,7 +288,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
         """
         """
         EDPluginExec.postProcess(self)
-        EDVerbose.DEBUG("*** EDPluginISPyBv1_2.postProcess")
+        self.DEBUG("*** EDPluginISPyBv1_2.postProcess")
         if (self.__xsDataResultISPyB is not None):
             self.setDataOutput(self.__xsDataResultISPyB)
 
@@ -326,7 +326,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "httpPost", \
                                                            "No header returned for %s, host %s, port %d. HTTP resonse was: %s" \
                                                            % (_strPath, _strHost, _iPort, strReply))
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
             try:
@@ -335,7 +335,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "httpPost", \
                                                            "Cannot convert Content-Length %s to integer for %s, host %s, port %d!" \
                                                            % (strContentLength, _strPath, _strHost, _iPort))
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 raise RuntimeError, strErrorMessage
 
@@ -343,7 +343,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
         except (socket.error, httplib.BadStatusLine), (msg):
             strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "httpPost", \
                                                                  "Have you set up a connection to the dbserver? Error is: %s" % (msg))
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
             raise RuntimeError, strErrorMessage
@@ -359,16 +359,16 @@ class EDPluginISPyBv1_2(EDPluginExec):
 
         if strResponse != None:
             # Handle response:
-            EDVerbose.DEBUG(strResponse)
+            self.DEBUG(strResponse)
 
             xsDatadbstatus = XSDatadbstatus.parseString(strResponse)
 
-            EDVerbose.DEBUG("dbserver returns code: " + xsDatadbstatus.getCode())
-            EDVerbose.DEBUG("dbserver returns message: " + xsDatadbstatus.getMessage())
+            self.DEBUG("dbserver returns code: " + xsDatadbstatus.getCode())
+            self.DEBUG("dbserver returns message: " + xsDatadbstatus.getMessage())
 
             if xsDatadbstatus.getCode() == "error":
                 strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "store", xsDatadbstatus.getMessage())
-                EDVerbose.error(xsDatadbstatus.getMessage())
+                self.error(xsDatadbstatus.getMessage())
                 self.addErrorMessage(strErrorMessage)
                 return - 1
             else:
@@ -412,7 +412,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
                 else:
                     strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv1_2", "store", \
                                                            "Class type not found.")
-                    EDVerbose.error(strErrorMessage)
+                    self.error(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
                     raise RuntimeError, strErrorMessage
 
@@ -423,7 +423,7 @@ class EDPluginISPyBv1_2(EDPluginExec):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("*** EDPluginISPyBv1_2.generateExecutiveSummary")
+        self.DEBUG("*** EDPluginISPyBv1_2.generateExecutiveSummary")
 
         xsDataResultISPyB = self.getDataOutput()
         if xsDataResultISPyB != None:

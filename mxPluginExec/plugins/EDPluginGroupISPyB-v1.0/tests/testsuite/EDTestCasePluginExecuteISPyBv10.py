@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -35,7 +33,7 @@ import os.path
 
 from EDAssert                         import EDAssert
 from EDTestCasePluginExecute          import EDTestCasePluginExecute
-from EDVerbose                        import EDVerbose
+
 
 from XSDataISPyBv10                   import XSDataResultISPyB
 from XSDataCommon                     import XSDataString
@@ -68,7 +66,7 @@ class EDTestCasePluginExecuteISPyBv10(EDTestCasePluginExecute):
         edStringResponse = edPluginISPyB.httpPost(edPluginISPyB.getDbserverHost(), edPluginISPyB.getDbserverPort(), \
                                                   '/proposal_request', edStringXML)
         if edStringResponse != None:
-            EDVerbose.DEBUG("*** EDTestCasePluginExecuteISPyBv10.testHttpPost response: " + edStringResponse)
+            self.DEBUG("*** EDTestCasePluginExecuteISPyBv10.testHttpPost response: " + edStringResponse)
 
         EDAssert.equal(edStringResponse != None, True)
 
@@ -85,7 +83,7 @@ class EDTestCasePluginExecuteISPyBv10(EDTestCasePluginExecute):
         xsDataResultISPyBObtained = XSDataResultISPyB.parseString(strObtainedOutput)
         xsDataResultStatusListObtained = xsDataResultISPyBObtained.getResultStatus()
 
-        EDVerbose.DEBUG("Checking obtained result...")
+        self.DEBUG("Checking obtained result...")
         for xsDataResultStatusObtained in xsDataResultStatusListObtained:
             EDAssert.equal(xsDataResultStatusObtained.getCode().getValue(), "ok")
 
