@@ -2,8 +2,6 @@
 #    Project: EDNA mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
 #    Principal authors: Sandor Brockhauser (brockhauser@embl-grenoble.fr)
@@ -29,8 +27,10 @@ __authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
 __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
-from EDVerbose import EDVerbose
+
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDUtilsPath import EDUtilsPath
 
@@ -60,7 +60,7 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
 
     def preProcess(self, _oedObject=None):
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginXDSv1_0.preProcess")
+        self.DEBUG("EDPluginXDSv1_0.preProcess")
         self.createImageLinks()
         self.generateXDSCommands()
         self.writeInputXDSFile()
@@ -68,7 +68,7 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
 
     def process(self, _oedObject=None):
         EDPluginExecProcessScript.process(self)
-        EDVerbose.DEBUG("EDPluginXDSv1_0.process")
+        self.DEBUG("EDPluginXDSv1_0.process")
         # It should not be possible to execute this abstract plugin
         if (self.getPluginName() == "EDPluginXDSv1_0"):
              raise ExectuteAbstractPluginError
@@ -78,7 +78,7 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
         """
         Checks the mandatory parameters for all XDS plugins
         """
-        EDVerbose.DEBUG("EDPluginXDSv1_0.checkParameters")
+        self.DEBUG("EDPluginXDSv1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.checkMandatoryParameters(self.getDataInput().getBeam(), "beam")
         self.checkMandatoryParameters(self.getDataInput().getDetector(), "detector")
@@ -103,7 +103,7 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
         This method creates a list of XDS commands given a valid
         XSDataXDSInput as self.getDataInput()
         """
-        EDVerbose.DEBUG("EDPluginXDSv1_0.generateXDSCommands")
+        self.DEBUG("EDPluginXDSv1_0.generateXDSCommands")
         self.__strXDSInput = ""
 
         xsDataXDSInput = self.getDataInput()
