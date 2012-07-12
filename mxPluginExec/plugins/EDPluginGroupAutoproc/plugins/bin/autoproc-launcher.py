@@ -21,6 +21,7 @@
 import sys
 import os
 import os.path
+from stat import S_IRWXU, S_IXGRP, S_IRGRP, S_IXOTH, S_IROTH
 import tempfile
 import subprocess
 
