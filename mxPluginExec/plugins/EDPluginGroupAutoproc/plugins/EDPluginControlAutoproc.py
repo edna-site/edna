@@ -483,7 +483,9 @@ def _create_scaling_stats(xscale_stats, stats_type, lowres, anom):
     stats.meanIOverSigI = xscale_stats.outer_isig.value
     stats.completeness = xscale_stats.outer_complete.value
     stats.multiplicity = xscale_stats.multiplicity.value
-    stats.nTotalObservations = xscale_stats.outer_observed.value
+    # The ispyb plugin DOES NOT convert to the right data types. This
+    # happens to be an integer on the ispyb side
+    stats.nTotalObservations = int(xscale_stats.outer_observed.value)
     stats.rMerge = xscale_stats.outer_rfactor.value
     stats.anomalous = anom
 
