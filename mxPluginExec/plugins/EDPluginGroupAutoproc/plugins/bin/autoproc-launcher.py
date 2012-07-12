@@ -105,6 +105,7 @@ export EDNA_SITE=ESRF
 
 script_file.file.write(script_template.format(dm_path=dm_path, edna_path=EDNA_PATH))
 script_path = script_file.name
+os.chmod(script_path, S_IRWXU|S_IXGRP|S_IRGRP|S_IXOTH|S_IROTH)
 
 # now that everything's in place we need to call oarsub
 command_line = ['oarsub',
