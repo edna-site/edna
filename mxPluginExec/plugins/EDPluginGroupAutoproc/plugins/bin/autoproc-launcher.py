@@ -15,6 +15,8 @@
 # called this way
 # xdsproc.pl -path /data/id23eh2/inhouse/opid232/20100209/mxschool/process -mode before -datacollectID 666783
 
+# FIXME: This file contains way to much hard-coded values
+
 
 import sys
 import os
@@ -105,7 +107,11 @@ script_file.file.write(script_template.format(dm_path=dm_path, edna_path=EDNA_PA
 script_path = script_file.name
 
 # now that everything's in place we need to call oarsub
-command_line = ['oarsub', '-p', 'private_node=\'MX\'', '-d', path, script_path]
+command_line = ['oarsub',
+                '-p', 'private_node=\'MX\'',
+                '-l', 'core=6,walltime=0:20:0',
+                '-d', path,
+                script_path]
 print 'going to run "{0}"'.format(' '.join(command_line))
 code = subprocess.call(command_line)
 print 'return code:', code
