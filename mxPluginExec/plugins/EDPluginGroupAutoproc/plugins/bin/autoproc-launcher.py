@@ -91,7 +91,12 @@ script_file = tempfile.NamedTemporaryFile(suffix='.sh',
                                           prefix='edna-autoproc-launcher-',
                                           dir=path,
                                           delete=False)
+
+# you MUST add ISPyB_user and ISPyB_pass environment variables as the
+# EDNA ispyb plugin uses these values from the environment
 script_template = '''#!/bin/sh
+export ISPyB_user=""
+export ISPyB_pass=""
 export EDNA_SITE=ESRF
 /opt/pxsoft/tools/python/v2.6.6_20110210/centos5-x86_64/bin/python {edna_path}/kernel/bin/edna-plugin-launcher.py --inputFile={dm_path} --execute=EDPluginControlAutoproc
 '''
