@@ -74,7 +74,7 @@ input_template = '''<?xml version="1.0"?>
 
 # the other parameters are not used right now
 input_dm = input_template.format(input_file=input_file,
-                                 dcid=options['-dataCollectionID'],
+                                 dcid=options['-datacollectionID'],
                                  output_path=output_path)
 
 # we now need a temp file in the data dir to write the data model to
