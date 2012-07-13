@@ -15,18 +15,18 @@
 # called this way
 # xdsproc.pl -path /data/id23eh2/inhouse/opid232/20100209/mxschool/process -mode before -datacollectID 666783
 
-# FIXME: This file contains way to much hard-coded values
 
+# FIXME: This file contains way to much hard-coded values
 
 import sys
 import os
-import os.path
 from stat import S_IRWXU, S_IXGRP, S_IRGRP, S_IXOTH, S_IROTH
+import os.path
 import tempfile
 import subprocess
 
 # this is where the edna autoproc tree resides on the disk
-EDNA_PATH='~opid23/edna-autoproc/'
+EDNA_PATH='/scisoft/edna-autoproc/'
 
 # this hack is present in the current script on the beamline so this value is
 # not set anywhere else
@@ -94,21 +94,22 @@ script_file = tempfile.NamedTemporaryFile(suffix='.sh',
                                           prefix='edna-autoproc-launcher-',
                                           dir=path,
                                           delete=False)
-
-# you MUST add ISPyB_user and ISPyB_pass environment variables as the
-# EDNA ispyb plugin uses these values from the environment
+#XXX: you must edit ispyb user and path (do not put that in the git repo.)
 script_template = '''#!/bin/sh
+export EDNA_SITE=ESRF
 export ISPyB_user=""
 export ISPyB_pass=""
-export EDNA_SITE=ESRF
-/opt/pxsoft/tools/python/v2.6.6_20110210/centos5-x86_64/bin/python {edna_path}/kernel/bin/edna-plugin-launcher.py --inputFile={dm_path} --execute=EDPluginControlAutoproc
+
+/opt/pxsoft/tools/python/v2.6.6_20110210/centos5-x86_64/bin/python {edna_path}/kernel/bin/edna-plugin-launcher.py --inputFile {dm_path} --execute EDPluginControlAutoproc
 '''
 
 script_file.file.write(script_template.format(dm_path=dm_path, edna_path=EDNA_PATH))
 script_path = script_file.name
 os.chmod(script_path, S_IRWXU|S_IXGRP|S_IRGRP|S_IXOTH|S_IROTH)
 
+
 # now that everything's in place we need to call oarsub
+#command_line = ['oarsub', '-p', 'private_node=\'MX\'', '-d', path, script_path]
 command_line = ['oarsub',
                 '-p', 'private_node=\'MX\'',
                 '-l', 'core=6,walltime=0:20:0',
