@@ -485,5 +485,19 @@
         </XSParamItem>
       </XSParamList>
     </XSPluginItem>
+
+<!-- The autoproc control plugin itself. We use a loooong timeout
+     value just in case -->
+
+    <XSPluginItem>
+      <name>EDPluginControlAutoproc</name>
+      <XSParamList>
+        <XSParamItem>
+          <name>timeOut</name>
+          <value>1800</value>
+        </XSParamItem>
+      </XSParamList>
+    </XSPluginItem>
+
   </XSPluginList>
 </XSConfiguration>
