@@ -202,7 +202,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         EDVerbose.screen('first frame appeared on time')
 
         # first XDS plugin run with supplied XDS file
-        EDVerbose.screen('First XDS run...'
+        EDVerbose.screen('First XDS run...')
         self.xds_first.executeSynchronous()
         if self.xds_first.isFailure():
             EDVerbose.ERROR('first XDS run failed')
