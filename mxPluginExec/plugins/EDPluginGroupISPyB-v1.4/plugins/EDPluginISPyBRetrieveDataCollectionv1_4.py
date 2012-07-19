@@ -26,6 +26,8 @@ __author__ = "Thomas Boeglin"
 __contact__ = "thomas.boeglin@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os, datetime
 

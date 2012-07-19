@@ -3,8 +3,6 @@
 #    Project: <projectName>
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) ESRF
 #
 #    Principal author:       Olof Svensson
@@ -29,7 +27,7 @@ __copyright__ = "ESRF"
 
 import os
 
-from EDVerbose                           import EDVerbose
+
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
