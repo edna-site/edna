@@ -212,6 +212,6 @@ complex type XSDataAutoprocInput extends XSDataAutoprocMasterInput {
 }
 
 complex type XSDataXdsToSca extends XSDataInput {
-	xds_file : XSDataFile
+	hkl_file : XSDataFile
 	sca_file : XSDataFile
 }

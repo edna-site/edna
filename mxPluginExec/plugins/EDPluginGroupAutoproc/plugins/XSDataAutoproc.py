@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jul 20 03:08::45 2012 by EDGenerateDS.
+# Generated Fri Jul 20 03:11::58 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -2731,21 +2731,21 @@ class XSDataXdsOutputFile(XSDataInput):
 # end class XSDataXdsOutputFile
 
 class XSDataXdsToSca(XSDataInput):
-    def __init__(self, configuration=None, sca_file=None, xds_file=None):
+    def __init__(self, configuration=None, sca_file=None, hkl_file=None):
         XSDataInput.__init__(self, configuration)
     
     
-        checkType("XSDataXdsToSca", "Constructor of XSDataXdsToSca", xds_file, "XSDataFile")
-        self._xds_file = xds_file
+        checkType("XSDataXdsToSca", "Constructor of XSDataXdsToSca", hkl_file, "XSDataFile")
+        self._hkl_file = hkl_file
         checkType("XSDataXdsToSca", "Constructor of XSDataXdsToSca", sca_file, "XSDataFile")
         self._sca_file = sca_file
-    def getXds_file(self): return self._xds_file
-    def setXds_file(self, xds_file):
-        checkType("XSDataXdsToSca", "setXds_file", xds_file, "XSDataFile")
-        self._xds_file = xds_file
-    def delXds_file(self): self._xds_file = None
+    def getHkl_file(self): return self._hkl_file
+    def setHkl_file(self, hkl_file):
+        checkType("XSDataXdsToSca", "setHkl_file", hkl_file, "XSDataFile")
+        self._hkl_file = hkl_file
+    def delHkl_file(self): self._hkl_file = None
     # Properties
-    xds_file = property(getXds_file, setXds_file, delXds_file, "Property for xds_file")
+    hkl_file = property(getHkl_file, setHkl_file, delHkl_file, "Property for hkl_file")
     def getSca_file(self): return self._sca_file
     def setSca_file(self, sca_file):
         checkType("XSDataXdsToSca", "setSca_file", sca_file, "XSDataFile")
@@ -2761,10 +2761,10 @@ class XSDataXdsToSca(XSDataInput):
         outfile.write(unicode('</%s>\n' % name_))
     def exportChildren(self, outfile, level, name_='XSDataXdsToSca'):
         XSDataInput.exportChildren(self, outfile, level, name_)
-        if self._xds_file is not None:
-            self.xds_file.export(outfile, level, name_='xds_file')
+        if self._hkl_file is not None:
+            self.hkl_file.export(outfile, level, name_='hkl_file')
         else:
-            warnEmptyAttribute("xds_file", "XSDataFile")
+            warnEmptyAttribute("hkl_file", "XSDataFile")
         if self._sca_file is not None:
             self.sca_file.export(outfile, level, name_='sca_file')
         else:
@@ -2775,10 +2775,10 @@ class XSDataXdsToSca(XSDataInput):
             self.buildChildren(child_, nodeName_)
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'xds_file':
+            nodeName_ == 'hkl_file':
             obj_ = XSDataFile()
             obj_.build(child_)
-            self.setXds_file(obj_)
+            self.setHkl_file(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'sca_file':
             obj_ = XSDataFile()
