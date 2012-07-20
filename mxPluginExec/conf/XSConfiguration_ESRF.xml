@@ -485,6 +485,15 @@
         </XSParamItem>
       </XSParamList>
     </XSPluginItem>
+    <XSPluginItem>
+      <name>EDPluginControlRunXdsFastProc</name>
+      <XSParamList>
+	<XSParamItem>
+	  <name>timeOut</name>
+	  <value>1200</value>
+	</XSParamItem>
+      </XSParamList>
+    </XSPluginItem>
 
 <!-- The autoproc control plugin itself. We use a loooong timeout
      value just in case -->
