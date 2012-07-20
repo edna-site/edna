@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jul 5 04:11::12 2012 by EDGenerateDS.
+# Generated Fri Jul 20 03:08::45 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -2729,6 +2729,104 @@ class XSDataXdsOutputFile(XSDataInput):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataXdsOutputFile
+
+class XSDataXdsToSca(XSDataInput):
+    def __init__(self, configuration=None, sca_file=None, xds_file=None):
+        XSDataInput.__init__(self, configuration)
+    
+    
+        checkType("XSDataXdsToSca", "Constructor of XSDataXdsToSca", xds_file, "XSDataFile")
+        self._xds_file = xds_file
+        checkType("XSDataXdsToSca", "Constructor of XSDataXdsToSca", sca_file, "XSDataFile")
+        self._sca_file = sca_file
+    def getXds_file(self): return self._xds_file
+    def setXds_file(self, xds_file):
+        checkType("XSDataXdsToSca", "setXds_file", xds_file, "XSDataFile")
+        self._xds_file = xds_file
+    def delXds_file(self): self._xds_file = None
+    # Properties
+    xds_file = property(getXds_file, setXds_file, delXds_file, "Property for xds_file")
+    def getSca_file(self): return self._sca_file
+    def setSca_file(self, sca_file):
+        checkType("XSDataXdsToSca", "setSca_file", sca_file, "XSDataFile")
+        self._sca_file = sca_file
+    def delSca_file(self): self._sca_file = None
+    # Properties
+    sca_file = property(getSca_file, setSca_file, delSca_file, "Property for sca_file")
+    def export(self, outfile, level, name_='XSDataXdsToSca'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataXdsToSca'):
+        XSDataInput.exportChildren(self, outfile, level, name_)
+        if self._xds_file is not None:
+            self.xds_file.export(outfile, level, name_='xds_file')
+        else:
+            warnEmptyAttribute("xds_file", "XSDataFile")
+        if self._sca_file is not None:
+            self.sca_file.export(outfile, level, name_='sca_file')
+        else:
+            warnEmptyAttribute("sca_file", "XSDataFile")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'xds_file':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setXds_file(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'sca_file':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setSca_file(obj_)
+        XSDataInput.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataXdsToSca" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataXdsToSca' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataXdsToSca is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataXdsToSca.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataXdsToSca()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataXdsToSca" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataXdsToSca()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataXdsToSca
 
 class XSDataXscaleGeneratedFiles(XSDataResult):
     def __init__(self, status=None, stats_noanom_unmerged=None, lp_noanom_unmerged=None, hkl_noanom_unmerged=None, stats_anom_unmerged=None, lp_anom_unmerged=None, hkl_anom_unmerged=None, stats_noanom_merged=None, lp_noanom_merged=None, hkl_noanom_merged=None, stats_anom_merged=None, lp_anom_merged=None, hkl_anom_merged=None):
