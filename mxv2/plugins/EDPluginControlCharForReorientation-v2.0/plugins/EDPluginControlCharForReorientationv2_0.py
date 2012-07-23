@@ -147,7 +147,7 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
             xsDataInputStrategy.setBestFileContentDat(xsDataIntegrationSubWedgeResultList[0].getBestfileDat())
             xsDataInputStrategy.setBestFileContentPar(xsDataIntegrationSubWedgeResultList[0].getBestfilePar())
             xsDataInputStrategy.setExperimentalCondition(xsDataIntegrationSubWedgeResultList[0].getExperimentalConditionRefined())
-            #xsDataInputStrategy.setXdsBackgroundImage(xsDataFileXdsBackgroundImage)
+            xsDataInputStrategy.setXdsBackgroundImage(self.xsDataResultCharacterisation.getXdsBackgroundImage())
             for xsDataIntegrationSubWedgeResult in xsDataIntegrationSubWedgeResultList:
                 xsDataInputStrategy.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
             xsDataInputStrategy.setDiffractionPlan(self.xsDataResultCharacterisation.getDataCollection().getDiffractionPlan())
