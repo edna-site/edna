@@ -169,7 +169,7 @@ class EDPluginXDSGenerate(EDPluginControl):
             return
 
         #Now backup the file
-        xds_run_directory= self.xds_anom.getWorkingDirectory()
+        xds_run_directory= self.xds_noanom.getWorkingDirectory()
         xds_output = os.path.join(xds_run_directory, 'XDS_ASCII.HKL')
         output_noanom = os.path.join(mydir, 'XDS_NOANOM.HKL')
         copyfile(xds_output, output_noanom)
