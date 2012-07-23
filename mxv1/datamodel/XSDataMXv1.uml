@@ -1280,6 +1280,10 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_rpaTAujBEd-7o_3d0R29SQ" name="indexingResult" type="_583voOgTEd-TcNOGyxZYYg" isUnique="false">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wOqm4OjBEd-7o_3d0R29SQ"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_xCaocNTBEeGqZ8d-U-q81Q" name="xdsBackgroundImage" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_341GoNTBEeGqZ8d-U-q81Q"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_UuiSsOjBEd-7o_3d0R29SQ" name="XSDataInputCharacterisation">
         <generalization xmi:id="_zKMtcOjNEd-7o_3d0R29SQ">
