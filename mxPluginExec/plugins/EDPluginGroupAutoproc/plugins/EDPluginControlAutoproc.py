@@ -414,6 +414,13 @@ class EDPluginControlAutoproc(EDPluginControl):
         xscale_stats_noanom = self.xscale_noanom.dataOutput.stats_noanom_merged
         inner_stats_noanom = xscale_stats_noanom.completeness_entries[0]
         outer_stats_noanom = xscale_stats_noanom.completeness_entries[-1]
+
+        # use the previous shell's res as low res, if available
+        prev_res = self.low_resolution_limit
+        try:
+            prev_res = xscale_stats_noanom.completeness_entries[-2].outer_res.value
+        except IndexError:
+            pass
         total_stats_noanom = xscale_stats_noanom.total_completeness
 
         stats = _create_scaling_stats(inner_stats_noanom, 'innerShell',
@@ -421,7 +428,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_noanom, 'outerShell',
-                                      self.low_resolution_limit, False)
+                                      prev_res, False)
         scaling_container.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_noanom, 'overall',
                                       self.low_resolution_limit, False)
@@ -431,6 +438,13 @@ class EDPluginControlAutoproc(EDPluginControl):
         xscale_stats_anom = self.xscale_anom.dataOutput.stats_anom_merged
         inner_stats_anom = xscale_stats_anom.completeness_entries[0]
         outer_stats_anom = xscale_stats_anom.completeness_entries[-1]
+
+        # use the previous shell's res as low res if available
+        prev_res = self.low_resolution_limit
+        try:
+            prev_res = xscale_stats_noanom.completeness_entries[-2].outer_res.value
+        except IndexError:
+            pass
         total_stats_anom = xscale_stats_anom.total_completeness
 
         stats = _create_scaling_stats(inner_stats_anom, 'innerShell',
@@ -438,7 +452,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_anom, 'outerShell',
-                                      self.low_resolution_limit, True)
+                                      prev_res, True)
         scaling_container.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_anom, 'overall',
                                       self.low_resolution_limit, True)
