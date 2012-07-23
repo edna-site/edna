@@ -62,7 +62,7 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputCharacterisationv2_0)
         self.setXSDataInputClass(XSDataInputCharacterisation, "mxv1InputCharacterisation")
         self.setXSDataInputClass(XSDataCollection, "mxv2DataCollection")
-        self.strPluginControlCharacterisation = "EDPluginControlCharacterisationv1_2"
+        self.strPluginControlCharacterisation = "EDPluginControlCharacterisationv1_3"
         self.edPluginControlCharacterisation = None
         self.mxv1InputCharacterisation = None
         self.mxv2DataCollection = None
