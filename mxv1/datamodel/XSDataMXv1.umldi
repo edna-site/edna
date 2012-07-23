@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_TwYYIQdcEeCIqPjmQLbFcg">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_OlxNoQfOEeCHfoTkpt3vnQ">
   <model href="XSDataMXv1.uml#_w8IxIM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_CwbIYefyEd-TcNOGyxZYYg" position="0,0" size="100,100" name="XSDataMXv1" zoom="0.75" viewport="0,173">
+  <diagrams xmi:id="_CwbIYefyEd-TcNOGyxZYYg" position="0,0" size="100,100" name="XSDataMXv1" zoom="0.75" viewport="0,0">
     <property xmi:id="_CwuDUOfyEd-TcNOGyxZYYg" key="pageFormatName" value="A4"/>
     <property xmi:id="_CwuDUefyEd-TcNOGyxZYYg" key="diagramWidth" value="840"/>
     <property xmi:id="_CwuDUufyEd-TcNOGyxZYYg" key="diagramHeight" value="1188"/>
@@ -2435,7 +2435,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_OlxNoAfOEeCHfoTkpt3vnQ">
     <model href="XSDataMXv1.uml#_McKc0AfOEeCHfoTkpt3vnQ"/>
-    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,80">
+    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,0">
       <property xmi:id="_Om52EAfOEeCHfoTkpt3vnQ" key="pageFormatName" value=""/>
       <property xmi:id="_Om52EQfOEeCHfoTkpt3vnQ" key="diagramWidth" value="1144"/>
       <property xmi:id="_Om52EgfOEeCHfoTkpt3vnQ" key="diagramHeight" value="1498"/>
@@ -2774,6 +2774,11 @@
           <contained xsi:type="di:GraphNode" xmi:id="_6TRIVAfOEeCHfoTkpt3vnQ" position="0,0" size="-1,-1">
             <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_6TRIVQfOEeCHfoTkpt3vnQ" presentation="default">
               <element href="XSDataMXv1.uml#_rpaTAujBEd-7o_3d0R29SQ"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_xCXlINTBEeGqZ8d-U-q81Q" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xCXlIdTBEeGqZ8d-U-q81Q" presentation="default">
+              <element href="XSDataMXv1.uml#_xCaocNTBEeGqZ8d-U-q81Q"/>
             </semanticModel>
           </contained>
         </contained>
