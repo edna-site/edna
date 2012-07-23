@@ -44,28 +44,29 @@ class EDHandlerXSDataMXv1v1_0:
         from XSDataMXv1 import XSDataResultStrategy
         suggestedStrategy = XSDataResultStrategy.parseString(_xsDataResultStrategy.marshal())
         #take only the first CollectionPlan
-        suggestedStrategy.setCollectionPlan([suggestedStrategy.getCollectionPlan()[0]])
-        #modify the DC part taking it from the input 
-        suggestedStrategy.getCollectionPlan()[0].setCollectionStrategy(_xsDataCollection)
-        #and modify the Orientation
-      #  dc = XSDataMXv2.XSDataCollection()
-      #  dc = self.getDataInput("mxv2DataCollection_Reference")[0]
-#        Orients = _possible_orientation.getPossible_orientation()
-#        omega = Orients[0].getOmega()
-#        kappa = Orients[0].getKappa()
-#        phi = Orients[0].getPhi()
-        suggestedStrategy = EDHandlerXSDataMXv1v1_0.copyStrategyToNewOrientation(suggestedStrategy, _fOmega, _fKappa, _fPhi, "MERGED")
-#        for dcplan in suggestedStrategy.getCollectionPlan():
-#            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "OMEGA=", omega))
-#            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "KAPPA=", kappa))
-#            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "PHI=", phi))
-        #finally take the suggested new orientation out of the list of further possible ones
-#        if newpossibleOrientations is not None:
-#            newpossibleOrientations.setPossible_orientation([])
-#            for i in range(1, Orients.__len__()):
-#                if (math.fabs(float(Orients[i].getKappa())-float(kappa))<tol and math.fabs(float(Orients[i].getPhi())-float(phi))<tol):
-#                    newpossibleOrientations.addPossible_orientation(Orients[i])
-#        return [suggestedStrategy,newpossibleOrientations]
+        if len(suggestedStrategy.getCollectionPlan()) > 0:
+            suggestedStrategy.setCollectionPlan([suggestedStrategy.getCollectionPlan()[0]])
+            #modify the DC part taking it from the input 
+            suggestedStrategy.getCollectionPlan()[0].setCollectionStrategy(_xsDataCollection)
+            #and modify the Orientation
+          #  dc = XSDataMXv2.XSDataCollection()
+          #  dc = self.getDataInput("mxv2DataCollection_Reference")[0]
+    #        Orients = _possible_orientation.getPossible_orientation()
+    #        omega = Orients[0].getOmega()
+    #        kappa = Orients[0].getKappa()
+    #        phi = Orients[0].getPhi()
+            suggestedStrategy = EDHandlerXSDataMXv1v1_0.copyStrategyToNewOrientation(suggestedStrategy, _fOmega, _fKappa, _fPhi, "MERGED")
+    #        for dcplan in suggestedStrategy.getCollectionPlan():
+    #            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "OMEGA=", omega))
+    #            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "KAPPA=", kappa))
+    #            dcplan.setComment(EDHandlerXSDataMXv1v1_0().replaceElements(dcplan.getComment(), "PHI=", phi))
+            #finally take the suggested new orientation out of the list of further possible ones
+    #        if newpossibleOrientations is not None:
+    #            newpossibleOrientations.setPossible_orientation([])
+    #            for i in range(1, Orients.__len__()):
+    #                if (math.fabs(float(Orients[i].getKappa())-float(kappa))<tol and math.fabs(float(Orients[i].getPhi())-float(phi))<tol):
+    #                    newpossibleOrientations.addPossible_orientation(Orients[i])
+    #        return [suggestedStrategy,newpossibleOrientations]
         return suggestedStrategy
 
 
