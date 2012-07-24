@@ -215,3 +215,46 @@ complex type XSDataXdsToSca extends XSDataInput {
 	hkl_file : XSDataFile
 	sca_file : XSDataFile
 }
+
+
+// the following are for the file conversion routines
+complex type XSDataXsToCCP4ViaPointless extends XSDataInput {
+	anom : XSDataBoolean
+	datacollectionID : XSDataInteger
+	end_image : XSDataInteger
+	infile : XSDataString /* XSDataPath offers nothing over XSDataString */
+	nres : XSDataInteger
+	outfile : XSDataString
+	res : XSDataFloat
+	start_image : XSDataInteger
+}
+
+// these are use by the subplugins of the general file conversion
+// control plugin
+complex type XSDataPointless extends XSDataInput {
+	infile : XSDataString
+	outfile : XSDataString
+}
+
+complex type XSDataScala extends XSDataInput {
+	infile : XSDataString // intermediate file name
+	outfile : XSDataString
+	symdb : XSDataString // path to the sym db
+	datacollectionID : XSDataInteger
+	start_image : XSDataInteger
+	end_image : XSDataInteger
+	res : XSDataFloat
+	anom : XSDataBoolean
+}
+
+complex type XSDataTruncate extends XSDataInput {
+	infile : XSDataString
+	nres : XSDataFloat
+	anom : XSDataBoolean
+	res : XSDataFloat
+}
+
+complex type XSDataUniqueify  extends XSDataInput {
+	infile : XSDataString
+	outfile : XSDataString
+}
