@@ -38,7 +38,7 @@ from EDPluginExecProcessScript import EDPluginExecProcessScript
 from XSDataCommon import XSDataStatus, XSDataBoolean
 from XSDataAutoproc import XSDataXdsToSca
 
-class EDPluginRBins(EDPluginExecProcessScript):
+class EDPluginExecXdsToSca(EDPluginExecProcessScript):
     def __init__(self):
         EDPluginExecProcessScript.__init__(self)
         self.setRequiredToHaveConfiguration(True)
