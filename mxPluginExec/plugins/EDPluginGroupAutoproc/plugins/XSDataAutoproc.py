@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jul 24 03:50::46 2012 by EDGenerateDS.
+# Generated Thu Jul 26 01:57::40 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -628,6 +628,212 @@ class XSDataXscaleCompletenessEntry(XSDataXdsCompletenessEntry):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataXscaleCompletenessEntry
+
+class XSDataAimless(XSDataInput):
+    def __init__(self, configuration=None, anom=None, res=None, end_image=None, start_image=None, datacollectionID=None, symdb=None, outfile=None, infile=None):
+        XSDataInput.__init__(self, configuration)
+    
+    
+        checkType("XSDataAimless", "Constructor of XSDataAimless", infile, "XSDataString")
+        self._infile = infile
+        checkType("XSDataAimless", "Constructor of XSDataAimless", outfile, "XSDataString")
+        self._outfile = outfile
+        checkType("XSDataAimless", "Constructor of XSDataAimless", symdb, "XSDataString")
+        self._symdb = symdb
+        checkType("XSDataAimless", "Constructor of XSDataAimless", datacollectionID, "XSDataInteger")
+        self._datacollectionID = datacollectionID
+        checkType("XSDataAimless", "Constructor of XSDataAimless", start_image, "XSDataInteger")
+        self._start_image = start_image
+        checkType("XSDataAimless", "Constructor of XSDataAimless", end_image, "XSDataInteger")
+        self._end_image = end_image
+        checkType("XSDataAimless", "Constructor of XSDataAimless", res, "XSDataFloat")
+        self._res = res
+        checkType("XSDataAimless", "Constructor of XSDataAimless", anom, "XSDataBoolean")
+        self._anom = anom
+    def getInfile(self): return self._infile
+    def setInfile(self, infile):
+        checkType("XSDataAimless", "setInfile", infile, "XSDataString")
+        self._infile = infile
+    def delInfile(self): self._infile = None
+    # Properties
+    infile = property(getInfile, setInfile, delInfile, "Property for infile")
+    def getOutfile(self): return self._outfile
+    def setOutfile(self, outfile):
+        checkType("XSDataAimless", "setOutfile", outfile, "XSDataString")
+        self._outfile = outfile
+    def delOutfile(self): self._outfile = None
+    # Properties
+    outfile = property(getOutfile, setOutfile, delOutfile, "Property for outfile")
+    def getSymdb(self): return self._symdb
+    def setSymdb(self, symdb):
+        checkType("XSDataAimless", "setSymdb", symdb, "XSDataString")
+        self._symdb = symdb
+    def delSymdb(self): self._symdb = None
+    # Properties
+    symdb = property(getSymdb, setSymdb, delSymdb, "Property for symdb")
+    def getDatacollectionID(self): return self._datacollectionID
+    def setDatacollectionID(self, datacollectionID):
+        checkType("XSDataAimless", "setDatacollectionID", datacollectionID, "XSDataInteger")
+        self._datacollectionID = datacollectionID
+    def delDatacollectionID(self): self._datacollectionID = None
+    # Properties
+    datacollectionID = property(getDatacollectionID, setDatacollectionID, delDatacollectionID, "Property for datacollectionID")
+    def getStart_image(self): return self._start_image
+    def setStart_image(self, start_image):
+        checkType("XSDataAimless", "setStart_image", start_image, "XSDataInteger")
+        self._start_image = start_image
+    def delStart_image(self): self._start_image = None
+    # Properties
+    start_image = property(getStart_image, setStart_image, delStart_image, "Property for start_image")
+    def getEnd_image(self): return self._end_image
+    def setEnd_image(self, end_image):
+        checkType("XSDataAimless", "setEnd_image", end_image, "XSDataInteger")
+        self._end_image = end_image
+    def delEnd_image(self): self._end_image = None
+    # Properties
+    end_image = property(getEnd_image, setEnd_image, delEnd_image, "Property for end_image")
+    def getRes(self): return self._res
+    def setRes(self, res):
+        checkType("XSDataAimless", "setRes", res, "XSDataFloat")
+        self._res = res
+    def delRes(self): self._res = None
+    # Properties
+    res = property(getRes, setRes, delRes, "Property for res")
+    def getAnom(self): return self._anom
+    def setAnom(self, anom):
+        checkType("XSDataAimless", "setAnom", anom, "XSDataBoolean")
+        self._anom = anom
+    def delAnom(self): self._anom = None
+    # Properties
+    anom = property(getAnom, setAnom, delAnom, "Property for anom")
+    def export(self, outfile, level, name_='XSDataAimless'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataAimless'):
+        XSDataInput.exportChildren(self, outfile, level, name_)
+        if self._infile is not None:
+            self.infile.export(outfile, level, name_='infile')
+        else:
+            warnEmptyAttribute("infile", "XSDataString")
+        if self._outfile is not None:
+            self.outfile.export(outfile, level, name_='outfile')
+        else:
+            warnEmptyAttribute("outfile", "XSDataString")
+        if self._symdb is not None:
+            self.symdb.export(outfile, level, name_='symdb')
+        else:
+            warnEmptyAttribute("symdb", "XSDataString")
+        if self._datacollectionID is not None:
+            self.datacollectionID.export(outfile, level, name_='datacollectionID')
+        else:
+            warnEmptyAttribute("datacollectionID", "XSDataInteger")
+        if self._start_image is not None:
+            self.start_image.export(outfile, level, name_='start_image')
+        else:
+            warnEmptyAttribute("start_image", "XSDataInteger")
+        if self._end_image is not None:
+            self.end_image.export(outfile, level, name_='end_image')
+        else:
+            warnEmptyAttribute("end_image", "XSDataInteger")
+        if self._res is not None:
+            self.res.export(outfile, level, name_='res')
+        else:
+            warnEmptyAttribute("res", "XSDataFloat")
+        if self._anom is not None:
+            self.anom.export(outfile, level, name_='anom')
+        else:
+            warnEmptyAttribute("anom", "XSDataBoolean")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'infile':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setInfile(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'outfile':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setOutfile(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'symdb':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setSymdb(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'datacollectionID':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setDatacollectionID(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'start_image':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setStart_image(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'end_image':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setEnd_image(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'res':
+            obj_ = XSDataFloat()
+            obj_.build(child_)
+            self.setRes(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'anom':
+            obj_ = XSDataBoolean()
+            obj_.build(child_)
+            self.setAnom(obj_)
+        XSDataInput.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataAimless" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataAimless' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataAimless is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataAimless.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataAimless()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataAimless" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataAimless()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataAimless
 
 class XSDataAutoprocMasterInput(XSDataInput):
     def __init__(self, configuration=None, low_resolution_limit=None, detector_max_res=None, data_collection_id=None, cc_half_cutoff=None, r_value_cutoff=None, isig_cutoff=None, completeness_cutoff=None, res_override=None, input_file=None):
@@ -2064,212 +2270,6 @@ class XSDataResCutoffResult(XSDataResult):
     parseFile = staticmethod( parseFile )
 # end class XSDataResCutoffResult
 
-class XSDataScala(XSDataInput):
-    def __init__(self, configuration=None, anom=None, res=None, end_image=None, start_image=None, datacollectionID=None, symdb=None, outfile=None, infile=None):
-        XSDataInput.__init__(self, configuration)
-    
-    
-        checkType("XSDataScala", "Constructor of XSDataScala", infile, "XSDataString")
-        self._infile = infile
-        checkType("XSDataScala", "Constructor of XSDataScala", outfile, "XSDataString")
-        self._outfile = outfile
-        checkType("XSDataScala", "Constructor of XSDataScala", symdb, "XSDataString")
-        self._symdb = symdb
-        checkType("XSDataScala", "Constructor of XSDataScala", datacollectionID, "XSDataInteger")
-        self._datacollectionID = datacollectionID
-        checkType("XSDataScala", "Constructor of XSDataScala", start_image, "XSDataInteger")
-        self._start_image = start_image
-        checkType("XSDataScala", "Constructor of XSDataScala", end_image, "XSDataInteger")
-        self._end_image = end_image
-        checkType("XSDataScala", "Constructor of XSDataScala", res, "XSDataFloat")
-        self._res = res
-        checkType("XSDataScala", "Constructor of XSDataScala", anom, "XSDataBoolean")
-        self._anom = anom
-    def getInfile(self): return self._infile
-    def setInfile(self, infile):
-        checkType("XSDataScala", "setInfile", infile, "XSDataString")
-        self._infile = infile
-    def delInfile(self): self._infile = None
-    # Properties
-    infile = property(getInfile, setInfile, delInfile, "Property for infile")
-    def getOutfile(self): return self._outfile
-    def setOutfile(self, outfile):
-        checkType("XSDataScala", "setOutfile", outfile, "XSDataString")
-        self._outfile = outfile
-    def delOutfile(self): self._outfile = None
-    # Properties
-    outfile = property(getOutfile, setOutfile, delOutfile, "Property for outfile")
-    def getSymdb(self): return self._symdb
-    def setSymdb(self, symdb):
-        checkType("XSDataScala", "setSymdb", symdb, "XSDataString")
-        self._symdb = symdb
-    def delSymdb(self): self._symdb = None
-    # Properties
-    symdb = property(getSymdb, setSymdb, delSymdb, "Property for symdb")
-    def getDatacollectionID(self): return self._datacollectionID
-    def setDatacollectionID(self, datacollectionID):
-        checkType("XSDataScala", "setDatacollectionID", datacollectionID, "XSDataInteger")
-        self._datacollectionID = datacollectionID
-    def delDatacollectionID(self): self._datacollectionID = None
-    # Properties
-    datacollectionID = property(getDatacollectionID, setDatacollectionID, delDatacollectionID, "Property for datacollectionID")
-    def getStart_image(self): return self._start_image
-    def setStart_image(self, start_image):
-        checkType("XSDataScala", "setStart_image", start_image, "XSDataInteger")
-        self._start_image = start_image
-    def delStart_image(self): self._start_image = None
-    # Properties
-    start_image = property(getStart_image, setStart_image, delStart_image, "Property for start_image")
-    def getEnd_image(self): return self._end_image
-    def setEnd_image(self, end_image):
-        checkType("XSDataScala", "setEnd_image", end_image, "XSDataInteger")
-        self._end_image = end_image
-    def delEnd_image(self): self._end_image = None
-    # Properties
-    end_image = property(getEnd_image, setEnd_image, delEnd_image, "Property for end_image")
-    def getRes(self): return self._res
-    def setRes(self, res):
-        checkType("XSDataScala", "setRes", res, "XSDataFloat")
-        self._res = res
-    def delRes(self): self._res = None
-    # Properties
-    res = property(getRes, setRes, delRes, "Property for res")
-    def getAnom(self): return self._anom
-    def setAnom(self, anom):
-        checkType("XSDataScala", "setAnom", anom, "XSDataBoolean")
-        self._anom = anom
-    def delAnom(self): self._anom = None
-    # Properties
-    anom = property(getAnom, setAnom, delAnom, "Property for anom")
-    def export(self, outfile, level, name_='XSDataScala'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataScala'):
-        XSDataInput.exportChildren(self, outfile, level, name_)
-        if self._infile is not None:
-            self.infile.export(outfile, level, name_='infile')
-        else:
-            warnEmptyAttribute("infile", "XSDataString")
-        if self._outfile is not None:
-            self.outfile.export(outfile, level, name_='outfile')
-        else:
-            warnEmptyAttribute("outfile", "XSDataString")
-        if self._symdb is not None:
-            self.symdb.export(outfile, level, name_='symdb')
-        else:
-            warnEmptyAttribute("symdb", "XSDataString")
-        if self._datacollectionID is not None:
-            self.datacollectionID.export(outfile, level, name_='datacollectionID')
-        else:
-            warnEmptyAttribute("datacollectionID", "XSDataInteger")
-        if self._start_image is not None:
-            self.start_image.export(outfile, level, name_='start_image')
-        else:
-            warnEmptyAttribute("start_image", "XSDataInteger")
-        if self._end_image is not None:
-            self.end_image.export(outfile, level, name_='end_image')
-        else:
-            warnEmptyAttribute("end_image", "XSDataInteger")
-        if self._res is not None:
-            self.res.export(outfile, level, name_='res')
-        else:
-            warnEmptyAttribute("res", "XSDataFloat")
-        if self._anom is not None:
-            self.anom.export(outfile, level, name_='anom')
-        else:
-            warnEmptyAttribute("anom", "XSDataBoolean")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'infile':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setInfile(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'outfile':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setOutfile(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'symdb':
-            obj_ = XSDataString()
-            obj_.build(child_)
-            self.setSymdb(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'datacollectionID':
-            obj_ = XSDataInteger()
-            obj_.build(child_)
-            self.setDatacollectionID(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'start_image':
-            obj_ = XSDataInteger()
-            obj_.build(child_)
-            self.setStart_image(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'end_image':
-            obj_ = XSDataInteger()
-            obj_.build(child_)
-            self.setEnd_image(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'res':
-            obj_ = XSDataFloat()
-            obj_.build(child_)
-            self.setRes(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'anom':
-            obj_ = XSDataBoolean()
-            obj_.build(child_)
-            self.setAnom(obj_)
-        XSDataInput.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataScala" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataScala' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataScala is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataScala.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataScala()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataScala" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataScala()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataScala
-
 class XSDataTruncate(XSDataInput):
     def __init__(self, configuration=None, res=None, anom=None, nres=None, infile=None):
         XSDataInput.__init__(self, configuration)
@@ -3570,6 +3570,113 @@ class XSDataXsToCCP4ViaPointless(XSDataInput):
     parseFile = staticmethod( parseFile )
 # end class XSDataXsToCCP4ViaPointless
 
+class XSDataXscaleParsedOutput(XSDataResult):
+    def __init__(self, status=None, completeness_entries=None, total_completeness=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", total_completeness, "XSDataXscaleCompletenessEntry")
+        self._total_completeness = total_completeness
+        if completeness_entries is None:
+            self._completeness_entries = []
+        else:
+            checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", completeness_entries, "list")
+            self._completeness_entries = completeness_entries
+    def getTotal_completeness(self): return self._total_completeness
+    def setTotal_completeness(self, total_completeness):
+        checkType("XSDataXscaleParsedOutput", "setTotal_completeness", total_completeness, "XSDataXscaleCompletenessEntry")
+        self._total_completeness = total_completeness
+    def delTotal_completeness(self): self._total_completeness = None
+    # Properties
+    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
+    def getCompleteness_entries(self): return self._completeness_entries
+    def setCompleteness_entries(self, completeness_entries):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", completeness_entries, "list")
+        self._completeness_entries = completeness_entries
+    def delCompleteness_entries(self): self._completeness_entries = None
+    # Properties
+    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
+    def addCompleteness_entries(self, value):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
+        self._completeness_entries.append(value)
+    def insertCompleteness_entries(self, index, value):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
+        self._completeness_entries[index] = value
+    def export(self, outfile, level, name_='XSDataXscaleParsedOutput'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataXscaleParsedOutput'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._total_completeness is not None:
+            self.total_completeness.export(outfile, level, name_='total_completeness')
+        else:
+            warnEmptyAttribute("total_completeness", "XSDataXscaleCompletenessEntry")
+        for completeness_entries_ in self.getCompleteness_entries():
+            completeness_entries_.export(outfile, level, name_='completeness_entries')
+        if self.getCompleteness_entries() == []:
+            warnEmptyAttribute("completeness_entries", "XSDataXscaleCompletenessEntry")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'total_completeness':
+            obj_ = XSDataXscaleCompletenessEntry()
+            obj_.build(child_)
+            self.setTotal_completeness(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'completeness_entries':
+            obj_ = XSDataXscaleCompletenessEntry()
+            obj_.build(child_)
+            self.completeness_entries.append(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataXscaleParsedOutput' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataXscaleParsedOutput is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataXscaleParsedOutput.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleParsedOutput()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleParsedOutput()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataXscaleParsedOutput
+
 class XSDataXscaleGeneratedFiles(XSDataResult):
     def __init__(self, status=None, stats_noanom_unmerged=None, lp_noanom_unmerged=None, hkl_noanom_unmerged=None, stats_anom_unmerged=None, lp_anom_unmerged=None, hkl_anom_unmerged=None, stats_noanom_merged=None, lp_noanom_merged=None, hkl_noanom_merged=None, stats_anom_merged=None, lp_anom_merged=None, hkl_anom_merged=None):
         XSDataResult.__init__(self, status)
@@ -4252,113 +4359,6 @@ class XSDataXscaleOutput(XSDataResult):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataXscaleOutput
-
-class XSDataXscaleParsedOutput(XSDataResult):
-    def __init__(self, status=None, completeness_entries=None, total_completeness=None):
-        XSDataResult.__init__(self, status)
-    
-    
-        checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", total_completeness, "XSDataXscaleCompletenessEntry")
-        self._total_completeness = total_completeness
-        if completeness_entries is None:
-            self._completeness_entries = []
-        else:
-            checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", completeness_entries, "list")
-            self._completeness_entries = completeness_entries
-    def getTotal_completeness(self): return self._total_completeness
-    def setTotal_completeness(self, total_completeness):
-        checkType("XSDataXscaleParsedOutput", "setTotal_completeness", total_completeness, "XSDataXscaleCompletenessEntry")
-        self._total_completeness = total_completeness
-    def delTotal_completeness(self): self._total_completeness = None
-    # Properties
-    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
-    def getCompleteness_entries(self): return self._completeness_entries
-    def setCompleteness_entries(self, completeness_entries):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", completeness_entries, "list")
-        self._completeness_entries = completeness_entries
-    def delCompleteness_entries(self): self._completeness_entries = None
-    # Properties
-    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
-    def addCompleteness_entries(self, value):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
-        self._completeness_entries.append(value)
-    def insertCompleteness_entries(self, index, value):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
-        self._completeness_entries[index] = value
-    def export(self, outfile, level, name_='XSDataXscaleParsedOutput'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataXscaleParsedOutput'):
-        XSDataResult.exportChildren(self, outfile, level, name_)
-        if self._total_completeness is not None:
-            self.total_completeness.export(outfile, level, name_='total_completeness')
-        else:
-            warnEmptyAttribute("total_completeness", "XSDataXscaleCompletenessEntry")
-        for completeness_entries_ in self.getCompleteness_entries():
-            completeness_entries_.export(outfile, level, name_='completeness_entries')
-        if self.getCompleteness_entries() == []:
-            warnEmptyAttribute("completeness_entries", "XSDataXscaleCompletenessEntry")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'total_completeness':
-            obj_ = XSDataXscaleCompletenessEntry()
-            obj_.build(child_)
-            self.setTotal_completeness(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'completeness_entries':
-            obj_ = XSDataXscaleCompletenessEntry()
-            obj_.build(child_)
-            self.completeness_entries.append(obj_)
-        XSDataResult.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataXscaleParsedOutput' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataXscaleParsedOutput is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataXscaleParsedOutput.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleParsedOutput()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleParsedOutput()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataXscaleParsedOutput
 
 class XSDataXscaleParsingInput(XSDataInput):
     def __init__(self, configuration=None, lp_file=None):

@@ -236,7 +236,7 @@ complex type XSDataPointless extends XSDataInput {
 	outfile : XSDataString
 }
 
-complex type XSDataScala extends XSDataInput {
+complex type XSDataAimless extends XSDataInput {
 	infile : XSDataString // intermediate file name
 	outfile : XSDataString
 	symdb : XSDataString // path to the sym db
