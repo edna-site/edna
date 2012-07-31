@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteDistlSignalStrengthThinClientv1_1.py 1411 2010-04-23 13:59:10Z svensson $"
-#
-#    Copyright (C) 2008-2011 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -28,6 +26,8 @@ __authors__ = [ "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
 import os, time, shlex
@@ -58,7 +58,7 @@ class EDTestCasePluginExecuteDistlSignalStrengthThinClientLocalServerv1_1(EDTest
             if(strPathToServer == None):
                 strErrorMessage = "EDPluginLabelitv1_1.configure : Configuration parameter missing: " + \
                                     "distl.mp_spotfinder_server_read_file"
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 self.setFailure()
             # Start the server using random port

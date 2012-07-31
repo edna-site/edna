@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -29,6 +27,8 @@ __authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
 __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
 from EDTestSuite import EDTestSuite

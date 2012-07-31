@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -27,7 +25,7 @@
 #
 
 import os.path
-from EDVerbose                      import EDVerbose
+
 from EDAssert                       import EDAssert
 from EDUtilsFile                    import EDUtilsFile
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
@@ -160,7 +158,7 @@ class EDTestCasePluginUnitISPyBv1_1(EDTestCasePluginUnit):
        """
        List of test methods
        """
-       EDVerbose.DEBUG("*** EDTestCasePluginUnitISPyBv1_1.process")
+       self.DEBUG("*** EDTestCasePluginUnitISPyBv1_1.process")
        self.addTestMethod(self.testConfigureOK)
        self.addTestMethod(self.testSetDataModelInput)
 
