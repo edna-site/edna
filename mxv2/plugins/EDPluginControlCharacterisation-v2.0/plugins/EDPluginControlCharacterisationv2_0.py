@@ -199,6 +199,7 @@ class EDPluginControlCharacterisationv2_0(EDPluginControl):
             xsDataInputStrategyOLD.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
 
         xsDataInputStrategyOLD.setDiffractionPlan(self.xsDataResultCharacterisation.getDataCollection().getDiffractionPlan())
+        xsDataInputStrategyOLD.setXdsBackgroundImage(self.xsDataResultCharacterisation.getXdsBackgroundImage())
 
         #print xsDataInputStrategy.marshal()
         self.edPluginStrategy.setDataInput(xsDataInputStrategyOLD, "mxv1InputStrategy")
