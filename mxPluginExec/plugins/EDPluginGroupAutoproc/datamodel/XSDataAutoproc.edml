@@ -249,6 +249,7 @@ complex type XSDataAimless extends XSDataInput {
 
 complex type XSDataTruncate extends XSDataInput {
 	infile : XSDataString
+	outfile : XSDataString
 	nres : XSDataFloat
 	anom : XSDataBoolean
 	res : XSDataFloat

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jul 26 01:57::40 2012 by EDGenerateDS.
+# Generated Wed Aug 1 01:35::07 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -2271,12 +2271,14 @@ class XSDataResCutoffResult(XSDataResult):
 # end class XSDataResCutoffResult
 
 class XSDataTruncate(XSDataInput):
-    def __init__(self, configuration=None, res=None, anom=None, nres=None, infile=None):
+    def __init__(self, configuration=None, res=None, anom=None, nres=None, outfile=None, infile=None):
         XSDataInput.__init__(self, configuration)
     
     
         checkType("XSDataTruncate", "Constructor of XSDataTruncate", infile, "XSDataString")
         self._infile = infile
+        checkType("XSDataTruncate", "Constructor of XSDataTruncate", outfile, "XSDataString")
+        self._outfile = outfile
         checkType("XSDataTruncate", "Constructor of XSDataTruncate", nres, "XSDataFloat")
         self._nres = nres
         checkType("XSDataTruncate", "Constructor of XSDataTruncate", anom, "XSDataBoolean")
@@ -2290,6 +2292,13 @@ class XSDataTruncate(XSDataInput):
     def delInfile(self): self._infile = None
     # Properties
     infile = property(getInfile, setInfile, delInfile, "Property for infile")
+    def getOutfile(self): return self._outfile
+    def setOutfile(self, outfile):
+        checkType("XSDataTruncate", "setOutfile", outfile, "XSDataString")
+        self._outfile = outfile
+    def delOutfile(self): self._outfile = None
+    # Properties
+    outfile = property(getOutfile, setOutfile, delOutfile, "Property for outfile")
     def getNres(self): return self._nres
     def setNres(self, nres):
         checkType("XSDataTruncate", "setNres", nres, "XSDataFloat")
@@ -2323,6 +2332,10 @@ class XSDataTruncate(XSDataInput):
             self.infile.export(outfile, level, name_='infile')
         else:
             warnEmptyAttribute("infile", "XSDataString")
+        if self._outfile is not None:
+            self.outfile.export(outfile, level, name_='outfile')
+        else:
+            warnEmptyAttribute("outfile", "XSDataString")
         if self._nres is not None:
             self.nres.export(outfile, level, name_='nres')
         else:
@@ -2345,6 +2358,11 @@ class XSDataTruncate(XSDataInput):
             obj_ = XSDataString()
             obj_.build(child_)
             self.setInfile(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'outfile':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setOutfile(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'nres':
             obj_ = XSDataFloat()
@@ -3570,113 +3588,6 @@ class XSDataXsToCCP4ViaPointless(XSDataInput):
     parseFile = staticmethod( parseFile )
 # end class XSDataXsToCCP4ViaPointless
 
-class XSDataXscaleParsedOutput(XSDataResult):
-    def __init__(self, status=None, completeness_entries=None, total_completeness=None):
-        XSDataResult.__init__(self, status)
-    
-    
-        checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", total_completeness, "XSDataXscaleCompletenessEntry")
-        self._total_completeness = total_completeness
-        if completeness_entries is None:
-            self._completeness_entries = []
-        else:
-            checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", completeness_entries, "list")
-            self._completeness_entries = completeness_entries
-    def getTotal_completeness(self): return self._total_completeness
-    def setTotal_completeness(self, total_completeness):
-        checkType("XSDataXscaleParsedOutput", "setTotal_completeness", total_completeness, "XSDataXscaleCompletenessEntry")
-        self._total_completeness = total_completeness
-    def delTotal_completeness(self): self._total_completeness = None
-    # Properties
-    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
-    def getCompleteness_entries(self): return self._completeness_entries
-    def setCompleteness_entries(self, completeness_entries):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", completeness_entries, "list")
-        self._completeness_entries = completeness_entries
-    def delCompleteness_entries(self): self._completeness_entries = None
-    # Properties
-    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
-    def addCompleteness_entries(self, value):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
-        self._completeness_entries.append(value)
-    def insertCompleteness_entries(self, index, value):
-        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
-        self._completeness_entries[index] = value
-    def export(self, outfile, level, name_='XSDataXscaleParsedOutput'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataXscaleParsedOutput'):
-        XSDataResult.exportChildren(self, outfile, level, name_)
-        if self._total_completeness is not None:
-            self.total_completeness.export(outfile, level, name_='total_completeness')
-        else:
-            warnEmptyAttribute("total_completeness", "XSDataXscaleCompletenessEntry")
-        for completeness_entries_ in self.getCompleteness_entries():
-            completeness_entries_.export(outfile, level, name_='completeness_entries')
-        if self.getCompleteness_entries() == []:
-            warnEmptyAttribute("completeness_entries", "XSDataXscaleCompletenessEntry")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'total_completeness':
-            obj_ = XSDataXscaleCompletenessEntry()
-            obj_.build(child_)
-            self.setTotal_completeness(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'completeness_entries':
-            obj_ = XSDataXscaleCompletenessEntry()
-            obj_.build(child_)
-            self.completeness_entries.append(obj_)
-        XSDataResult.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataXscaleParsedOutput' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataXscaleParsedOutput is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataXscaleParsedOutput.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleParsedOutput()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataXscaleParsedOutput()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataXscaleParsedOutput
-
 class XSDataXscaleGeneratedFiles(XSDataResult):
     def __init__(self, status=None, stats_noanom_unmerged=None, lp_noanom_unmerged=None, hkl_noanom_unmerged=None, stats_anom_unmerged=None, lp_anom_unmerged=None, hkl_anom_unmerged=None, stats_noanom_merged=None, lp_noanom_merged=None, hkl_noanom_merged=None, stats_anom_merged=None, lp_anom_merged=None, hkl_anom_merged=None):
         XSDataResult.__init__(self, status)
@@ -4359,6 +4270,113 @@ class XSDataXscaleOutput(XSDataResult):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataXscaleOutput
+
+class XSDataXscaleParsedOutput(XSDataResult):
+    def __init__(self, status=None, completeness_entries=None, total_completeness=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", total_completeness, "XSDataXscaleCompletenessEntry")
+        self._total_completeness = total_completeness
+        if completeness_entries is None:
+            self._completeness_entries = []
+        else:
+            checkType("XSDataXscaleParsedOutput", "Constructor of XSDataXscaleParsedOutput", completeness_entries, "list")
+            self._completeness_entries = completeness_entries
+    def getTotal_completeness(self): return self._total_completeness
+    def setTotal_completeness(self, total_completeness):
+        checkType("XSDataXscaleParsedOutput", "setTotal_completeness", total_completeness, "XSDataXscaleCompletenessEntry")
+        self._total_completeness = total_completeness
+    def delTotal_completeness(self): self._total_completeness = None
+    # Properties
+    total_completeness = property(getTotal_completeness, setTotal_completeness, delTotal_completeness, "Property for total_completeness")
+    def getCompleteness_entries(self): return self._completeness_entries
+    def setCompleteness_entries(self, completeness_entries):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", completeness_entries, "list")
+        self._completeness_entries = completeness_entries
+    def delCompleteness_entries(self): self._completeness_entries = None
+    # Properties
+    completeness_entries = property(getCompleteness_entries, setCompleteness_entries, delCompleteness_entries, "Property for completeness_entries")
+    def addCompleteness_entries(self, value):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
+        self._completeness_entries.append(value)
+    def insertCompleteness_entries(self, index, value):
+        checkType("XSDataXscaleParsedOutput", "setCompleteness_entries", value, "XSDataXscaleCompletenessEntry")
+        self._completeness_entries[index] = value
+    def export(self, outfile, level, name_='XSDataXscaleParsedOutput'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataXscaleParsedOutput'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._total_completeness is not None:
+            self.total_completeness.export(outfile, level, name_='total_completeness')
+        else:
+            warnEmptyAttribute("total_completeness", "XSDataXscaleCompletenessEntry")
+        for completeness_entries_ in self.getCompleteness_entries():
+            completeness_entries_.export(outfile, level, name_='completeness_entries')
+        if self.getCompleteness_entries() == []:
+            warnEmptyAttribute("completeness_entries", "XSDataXscaleCompletenessEntry")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'total_completeness':
+            obj_ = XSDataXscaleCompletenessEntry()
+            obj_.build(child_)
+            self.setTotal_completeness(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'completeness_entries':
+            obj_ = XSDataXscaleCompletenessEntry()
+            obj_.build(child_)
+            self.completeness_entries.append(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataXscaleParsedOutput' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataXscaleParsedOutput is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataXscaleParsedOutput.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleParsedOutput()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataXscaleParsedOutput" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataXscaleParsedOutput()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataXscaleParsedOutput
 
 class XSDataXscaleParsingInput(XSDataInput):
     def __init__(self, configuration=None, lp_file=None):
