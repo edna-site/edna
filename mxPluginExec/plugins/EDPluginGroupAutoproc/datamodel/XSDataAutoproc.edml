@@ -217,19 +217,6 @@ complex type XSDataXdsToSca extends XSDataInput {
 	sca_file : XSDataFile
 }
 
-
-// the following are for the file conversion routines
-complex type XSDataXsToCCP4ViaPointless extends XSDataInput {
-	anom : XSDataBoolean
-	datacollectionID : XSDataInteger
-	end_image : XSDataInteger
-	infile : XSDataString /* XSDataPath offers nothing over XSDataString */
-	nres : XSDataInteger
-	outfile : XSDataString
-	res : XSDataFloat
-	start_image : XSDataInteger
-}
-
 // these are use by the subplugins of the general file conversion
 // control plugin
 complex type XSDataPointless extends XSDataInput {
