@@ -55,7 +55,12 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
         self.DEBUG('Aimless: preprocess')
         infile = self.dataInput.infile.value
         outfile = self.dataInput.outfile.value
-        symdb = self.dataInput.symdb.value
+        symdb = self.getStringConfigurationParamValue('symdb_path')
+        if symdb is None:
+            self.ERROR('no symdb in configuration, aborting')
+            self.setFailure()
+            return
+
         # TODO: ask Max why he forces the version to 6.2.0
         options = 'HKLIN {0} HKLOUT {1} SYMINFO {3}'.format(infile, outfile, symdb)
         self.setScriptCommandLine(options)
