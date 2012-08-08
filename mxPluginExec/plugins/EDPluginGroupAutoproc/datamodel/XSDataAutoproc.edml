@@ -250,6 +250,7 @@ complex type XSDataUniqueify  extends XSDataInput {
 // this contpains the information for the 4 conversion plugins
 complex type XSDataFileConversion extends XSDataInput {
         input_file       : XSDataString
+        output_file      : XSDataString
         dataCollectionID : XSDataInteger
         start_image      : XSDataInteger
         end_image        : XSDataInteger
