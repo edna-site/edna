@@ -44,8 +44,8 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
         self.setRequiredToHaveConfiguration(True)
         self.setXSDataInputClass(XSDataAimless)
 
-        self.outfile = None
-        self.infile = None
+        self.output_file = None
+        self.input_file = None
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
@@ -53,8 +53,8 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
     def preProcess(self):
         EDPluginExecProcessScript.preProcess(self)
         self.DEBUG('Aimless: preprocess')
-        infile = self.dataInput.infile.value
-        outfile = self.dataInput.outfile.value
+        input_file = self.dataInput.input_file.value
+        output_file = self.dataInput.output_file.value
         symdb = self.getStringConfigurationParamValue('symdb_path')
         if symdb is None:
             self.ERROR('no symdb in configuration, aborting')
@@ -62,7 +62,7 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
             return
 
         # TODO: ask Max why he forces the version to 6.2.0
-        options = 'HKLIN {0} HKLOUT {1} SYMINFO {3}'.format(infile, outfile, symdb)
+        options = 'HKLIN {0} HKLOUT {1} SYMINFO {3}'.format(input_file, output_file, symdb)
         self.setScriptCommandLine(options)
         self.DEBUG('command line options set to {0}'.format(options))
 
@@ -89,12 +89,12 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
     def checkParameters(self):
         self.DEBUG('Aimless: checkParameters')
         data_input = self.dataInput
-        self.checkMandatoryParameters(data_input.infile, 'no input file')
-        self.checkMandatoryParameters(data_input.outfile, 'no output file')
+        self.checkMandatoryParameters(data_input.input_file, 'no input file')
+        self.checkMandatoryParameters(data_input.output_file, 'no output file')
 
         # now really check the parameters
-        if data_input.infile is not None:
-            path = data_input.infile.value
+        if data_input.input_file is not None:
+            path = data_input.input_file.value
             if not os.path.exists(path):
                 self.ERROR('input file {0} does not exist'.format(path))
                 self.setFailure()
@@ -107,7 +107,7 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
     def postProcess(self):
         self.DEBUG('Aimless: postProcess')
         EDPluginExecProcessScript.postProcess(self)
-        output_file = self.dataInput.outfile.value
+        output_file = self.dataInput.output_file.value
 
         res = XSDataResult()
         status = XSDataStatus()

@@ -10,167 +10,167 @@ import XSDataCommon.XSDataBoolean
 import XSDataCommon.XSDataFile
 
 complex type XSDataMatthewsCoeffIn extends XSDataInput {
-	a     : XSDataDouble
-	b     : XSDataDouble
-	c     : XSDataDouble
-	alpha : XSDataDouble
-	beta  : XSDataDouble
-	gamma : XSDataDouble
-	symm  : XSDataString
+        a     : XSDataDouble
+        b     : XSDataDouble
+        c     : XSDataDouble
+        alpha : XSDataDouble
+        beta  : XSDataDouble
+        gamma : XSDataDouble
+        symm  : XSDataString
 }
 
 complex type XSDataMatthewsCoeffOut extends XSDataResult {
-	best_p   : XSDataDouble
-	best_sol : XSDataString
+        best_p   : XSDataDouble
+        best_sol : XSDataString
 }
 
 complex type XSDataRBinsIn extends XSDataInput {
-	low  : XSDataDouble
-	high : XSDataDouble
+        low  : XSDataDouble
+        high : XSDataDouble
 }
 
 complex type XSDataRBinsOut extends XSDataResult {
-	bins : XSDataDouble[]
+        bins : XSDataDouble[]
 }
 
 complex type XSDataRange {
-	begin : integer
-	end   : integer
+        begin : integer
+        end   : integer
 }
 
 complex type XSDataMinimalXdsIn extends XSDataInput {
-	input_file       : XSDataString
-	job              : XSDataString optional
-	maxproc          : XSDataInteger optional
-	maxjobs          : XSDataInteger optional
-	friedels_law     : XSDataBoolean optional
-	resolution_range : XSDataFloat [] optional
-	spot_range       : XSDataRange [] optional
+        input_file       : XSDataString
+        job              : XSDataString optional
+        maxproc          : XSDataInteger optional
+        maxjobs          : XSDataInteger optional
+        friedels_law     : XSDataBoolean optional
+        resolution_range : XSDataFloat [] optional
+        spot_range       : XSDataRange [] optional
 }
 
 complex type XSDataMinimalXdsOut extends XSDataResult {
-	succeeded : XSDataBoolean
+        succeeded : XSDataBoolean
 }
 
 complex type XSDataXdsOutputFile extends XSDataInput {
-	correct_lp : XSDataFile
-	gxparm     : XSDataFile optional
+        correct_lp : XSDataFile
+        gxparm     : XSDataFile optional
 }
 
 complex type XSDataXdsCompletenessEntry {
-	outer_res                : XSDataFloat
-	outer_observed           : XSDataFloat
-	outer_unique             : XSDataFloat
-	outer_possible           : XSDataFloat
-	outer_complete           : XSDataFloat
-	outer_rfactor            : XSDataFloat
-	outer_isig               : XSDataFloat
-	half_dataset_correlation : XSDataFloat
+        outer_res                : XSDataFloat
+        outer_observed           : XSDataFloat
+        outer_unique             : XSDataFloat
+        outer_possible           : XSDataFloat
+        outer_complete           : XSDataFloat
+        outer_rfactor            : XSDataFloat
+        outer_isig               : XSDataFloat
+        half_dataset_correlation : XSDataFloat
 }
 
 complex type XSData2DCoordinates {
-	x : XSDataFloat
-	y : XSDataFloat
+        x : XSDataFloat
+        y : XSDataFloat
 }
 
 complex type XSDataXdsOutput extends XSDataResult {
-	completeness_entries             : XSDataXdsCompletenessEntry []
-	total_completeness               : XSDataXdsCompletenessEntry
-	crystal_mosaicity                : XSDataFloat
-	direct_beam_coordinates          : XSDataVectorDouble
-	direct_beam_detector_coordinates : XSData2DCoordinates
-	detector_origin                  : XSData2DCoordinates
-	crystal_to_detector_distance     : XSDataFloat
-	coordinates_of_unit_cell_a_axis  : XSDataVectorDouble
-	coordinates_of_unit_cell_b_axis  : XSDataVectorDouble
-	coordinates_of_unit_cell_c_axis  : XSDataVectorDouble
-	cell_a                           : XSDataFloat
-	cell_b                           : XSDataFloat
-	cell_c                           : XSDataFloat
-	cell_alpha                       : XSDataFloat
-	cell_beta                        : XSDataFloat
-	cell_gamma                       : XSDataFloat
-	unit_cell_constants              : XSDataFloat [] optional
-	sg_number                        : XSDataInteger optional
-	/* the XDS run and the parsing are in separate plugins we
-	cannot use getWorkingDirectory to find where XDS ran so we
-	include that here. Yes, this is not pretty. */
-	xds_run_directory                : XSDataString
+        completeness_entries             : XSDataXdsCompletenessEntry []
+        total_completeness               : XSDataXdsCompletenessEntry
+        crystal_mosaicity                : XSDataFloat
+        direct_beam_coordinates          : XSDataVectorDouble
+        direct_beam_detector_coordinates : XSData2DCoordinates
+        detector_origin                  : XSData2DCoordinates
+        crystal_to_detector_distance     : XSDataFloat
+        coordinates_of_unit_cell_a_axis  : XSDataVectorDouble
+        coordinates_of_unit_cell_b_axis  : XSDataVectorDouble
+        coordinates_of_unit_cell_c_axis  : XSDataVectorDouble
+        cell_a                           : XSDataFloat
+        cell_b                           : XSDataFloat
+        cell_c                           : XSDataFloat
+        cell_alpha                       : XSDataFloat
+        cell_beta                        : XSDataFloat
+        cell_gamma                       : XSDataFloat
+        unit_cell_constants              : XSDataFloat [] optional
+        sg_number                        : XSDataInteger optional
+        /* the XDS run and the parsing are in separate plugins we
+        cannot use getWorkingDirectory to find where XDS ran so we
+        include that here. Yes, this is not pretty. */
+        xds_run_directory                : XSDataString
 }
 
 complex type XSDataResCutoff extends XSDataInput {
-	xds_res              : XSDataXdsOutput
-	completeness_entries : XSDataXdsCompletenessEntry []
-	detector_max_res     : XSDataFloat optional
-	//XXX : remove from model as it is only pass through?
-	total_completeness   : XSDataXdsCompletenessEntry
-	res_override         : XSDataFloat optional
+        xds_res              : XSDataXdsOutput
+        completeness_entries : XSDataXdsCompletenessEntry []
+        detector_max_res     : XSDataFloat optional
+        //XXX : remove from model as it is only pass through?
+        total_completeness   : XSDataXdsCompletenessEntry
+        res_override         : XSDataFloat optional
 
-	// the parameters we can use for cutoff
-	completeness_cutoff  : XSDataFloat optional
-	isig_cutoff          : XSDataFloat optional
-	r_value_cutoff       : XSDataFloat optional
-	cc_half_cutoff       : XSDataFloat optional
+        // the parameters we can use for cutoff
+        completeness_cutoff  : XSDataFloat optional
+        isig_cutoff          : XSDataFloat optional
+        r_value_cutoff       : XSDataFloat optional
+        cc_half_cutoff       : XSDataFloat optional
 }
 
 complex type XSDataResCutoffResult extends XSDataResult {
-	res            : XSDataFloat
-	bins           : XSDataFloat []
-	//XXX : those 3 vars are only pass-through. Remove?
-	total_complete : XSDataFloat
-	total_rfactor  : XSDataFloat
-	total_isig     : XSDataFloat
+        res            : XSDataFloat
+        bins           : XSDataFloat []
+        //XXX : those 3 vars are only pass-through. Remove?
+        total_complete : XSDataFloat
+        total_rfactor  : XSDataFloat
+        total_isig     : XSDataFloat
 }
 
 complex type XSDataXscaleInputFile extends XSDataInput {
-	path : XSDataString
-	res  : XSDataFloat
+        path : XSDataString
+        res  : XSDataFloat
 }
 
 complex type XSDataXscaleGeneratedFiles extends XSDataResult {
-	hkl_anom_merged       : XSDataString
-	lp_anom_merged        : XSDataString
-	stats_anom_merged     : XSDataXscaleParsedOutput
+        hkl_anom_merged       : XSDataString
+        lp_anom_merged        : XSDataString
+        stats_anom_merged     : XSDataXscaleParsedOutput
 
-	hkl_noanom_merged     : XSDataString
-	lp_noanom_merged      : XSDataString
-	stats_noanom_merged   : XSDataXscaleParsedOutput
+        hkl_noanom_merged     : XSDataString
+        lp_noanom_merged      : XSDataString
+        stats_noanom_merged   : XSDataXscaleParsedOutput
 
-	hkl_anom_unmerged     : XSDataString
-	lp_anom_unmerged      : XSDataString
-	stats_anom_unmerged   : XSDataXscaleParsedOutput
+        hkl_anom_unmerged     : XSDataString
+        lp_anom_unmerged      : XSDataString
+        stats_anom_unmerged   : XSDataXscaleParsedOutput
 
-	hkl_noanom_unmerged   : XSDataString
-	lp_noanom_unmerged    : XSDataString
-	stats_noanom_unmerged : XSDataXscaleParsedOutput
+        hkl_noanom_unmerged   : XSDataString
+        lp_noanom_unmerged    : XSDataString
+        stats_noanom_unmerged : XSDataXscaleParsedOutput
 }
 
 complex type XSDataXscaleInput extends XSDataInput {
-	merge               : XSDataBoolean
-	friedels_law        : XSDataBoolean
-	xds_files           : XSDataXscaleInputFile []
-	unit_cell_constants : XSDataFloat []
-	sg_number           : XSDataInteger
-	bins                : XSDataDouble [] optional
+        merge               : XSDataBoolean
+        friedels_law        : XSDataBoolean
+        xds_files           : XSDataXscaleInputFile []
+        unit_cell_constants : XSDataFloat []
+        sg_number           : XSDataInteger
+        bins                : XSDataDouble [] optional
 }
 
 complex type XSDataXscaleOutput extends XSDataResult {
-	succeeded : XSDataBoolean
-	hkl_file  : XSDataString optional
-	lp_file   : XSDataString optional
+        succeeded : XSDataBoolean
+        hkl_file  : XSDataString optional
+        lp_file   : XSDataString optional
 }
 
 complex type XSDataXscaleParsingInput extends XSDataInput {
-	lp_file : XSDataString
+        lp_file : XSDataString
 }
 
 complex type XSDataXscaleCompletenessEntry extends XSDataXdsCompletenessEntry {
-	multiplicity : XSDataFloat
+        multiplicity : XSDataFloat
 }
 
 complex type XSDataXscaleParsedOutput extends XSDataResult {
-	total_completeness   : XSDataXscaleCompletenessEntry
-	completeness_entries : XSDataXscaleCompletenessEntry []
+        total_completeness   : XSDataXscaleCompletenessEntry
+        completeness_entries : XSDataXscaleCompletenessEntry []
 }
 
 
@@ -180,80 +180,80 @@ will simply require where the previous run take place and link the
 useful files from there. Yes, this is not pretty */
 
 complex type XSDataXdsGenerateInput extends XSDataInput {
-	previous_run_dir : XSDataString
-	resolution       : XSDataFloat
+        previous_run_dir : XSDataString
+        resolution       : XSDataFloat
 }
 
 // we are only interested in that one file
 complex type XSDataXdsGenerateOutput extends XSDataResult {
-	hkl_anom           : XSDataString
-	hkl_no_anom        : XSDataString
-	correct_lp_anom    : XSDataString
-	correct_lp_no_anom : XSDataString
-	gxparm             : XSDataString
+        hkl_anom           : XSDataString
+        hkl_no_anom        : XSDataString
+        correct_lp_anom    : XSDataString
+        correct_lp_no_anom : XSDataString
+        gxparm             : XSDataString
 }
 
 complex type XSDataAutoprocMasterInput extends XSDataInput {
-	input_file           : XSDataFile
-	res_override         : XSDataFloat optional
-	//cutoffs
-	completeness_cutoff  : XSDataFloat optional
-	isig_cutoff          : XSDataFloat optional
-	r_value_cutoff       : XSDataFloat optional
-	cc_half_cutoff       : XSDataFloat optional
+        input_file           : XSDataFile
+        res_override         : XSDataFloat optional
+        //cutoffs
+        completeness_cutoff  : XSDataFloat optional
+        isig_cutoff          : XSDataFloat optional
+        r_value_cutoff       : XSDataFloat optional
+        cc_half_cutoff       : XSDataFloat optional
 
-	data_collection_id   : XSDataInteger optional
-	detector_max_res     : XSDataFloat optional
-	low_resolution_limit : XSDataFloat optional
-	nres                 : XSDataFloat optional
+        data_collection_id   : XSDataInteger optional
+        detector_max_res     : XSDataFloat optional
+        low_resolution_limit : XSDataFloat optional
+        nres                 : XSDataFloat optional
 }
 
 complex type XSDataAutoprocInput extends XSDataAutoprocMasterInput {
-	output_file : XSDataFile
+        output_file : XSDataFile
 }
 
 complex type XSDataXdsToSca extends XSDataInput {
-	hkl_file : XSDataFile
-	sca_file : XSDataFile
+        hkl_file : XSDataFile
+        sca_file : XSDataFile
 }
 
 // these are use by the subplugins of the general file conversion
 // control plugin
 complex type XSDataPointless extends XSDataInput {
-	infile  : XSDataString // XDS HKL file
-	outfile : XSDataString
+        infile      : XSDataString // XDS HKL file
+        output_file : XSDataString
 }
 
 complex type XSDataAimless extends XSDataInput {
-	infile           : XSDataString // intermediate file name
-	outfile          : XSDataString
-	datacollectionID : XSDataInteger
-	start_image      : XSDataInteger
-	end_image        : XSDataInteger
-	res              : XSDataFloat
-	anom             : XSDataBoolean
+        infile           : XSDataString // intermediate file name
+        output_file      : XSDataString
+        datacollectionID : XSDataInteger
+        start_image      : XSDataInteger
+        end_image        : XSDataInteger
+        res              : XSDataFloat
+        anom             : XSDataBoolean
 }
 
 complex type XSDataTruncate extends XSDataInput {
-	infile  : XSDataString
-	outfile : XSDataString
-	nres    : XSDataFloat
-	anom    : XSDataBoolean
-	res     : XSDataFloat
+        infile      : XSDataString
+        output_file : XSDataString
+        nres        : XSDataFloat
+        anom        : XSDataBoolean
+        res         : XSDataFloat
 }
 
 complex type XSDataUniqueify  extends XSDataInput {
-	infile  : XSDataString
-	outfile : XSDataString
+        infile      : XSDataString
+        output_file : XSDataString
 }
 
 // this contpains the information for the 4 conversion plugins
 complex type XSDataFileConversion extends XSDataInput {
-	infile           : XSDataString
-	dataCollectionID : XSDataInteger
-	start_image      : XSDataInteger
-	end_image        : XSDataInteger
-	res              : XSDataFloat
-	nres             : XSDataFloat
-	anom             : XSDataBoolean
+        input_file       : XSDataString
+        dataCollectionID : XSDataInteger
+        start_image      : XSDataInteger
+        end_image        : XSDataInteger
+        res              : XSDataFloat
+        nres             : XSDataFloat
+        anom             : XSDataBoolean
 }

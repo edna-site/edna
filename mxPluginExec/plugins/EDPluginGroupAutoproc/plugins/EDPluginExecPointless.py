@@ -51,21 +51,21 @@ class EDPluginExecPointless(EDPluginExecProcessScript):
     def preProcess(self):
         EDPluginExecProcessScript.preProcess(self)
         self.DEBUG('Pointless: preprocess')
-        if self.outfile is not None and self.infile is not None:
+        if self.output_file is not None and self.input_file is not None:
             # TODO: ask Max why he forces the version to 6.2.0
-            options = '-copy xdsin {0} hklout {1}'.format(self.infile, self.outfile)
+            options = '-copy xdsin {0} hklout {1}'.format(self.input_file, self.output_file)
             self.setScriptCommandLine(options)
             self.DEBUG('command line options set to {0}'.format(options))
 
     def checkParameters(self):
         self.DEBUG('Pointless: checkParameters')
         data_input = self.getDataInput()
-        self.checkMandatoryParameters(data_input.infile, 'no input file')
-        self.checkMandatoryParameters(data_input.outfile, 'no output file')
+        self.checkMandatoryParameters(data_input.input_file, 'no input file')
+        self.checkMandatoryParameters(data_input.output_file, 'no output file')
 
         # now really check the parameters
-        if data_input.infile is not None:
-            path = data_input.infile.value
+        if data_input.input_file is not None:
+            path = data_input.input_file.value
             if not os.path.exists(path):
                 self.ERROR('input file {0} does not exist'.format(path))
                 self.setFailure()
@@ -78,7 +78,7 @@ class EDPluginExecPointless(EDPluginExecProcessScript):
     def postProcess(self):
         self.DEBUG('Pointless: postProcess')
         EDPluginExecProcessScript.postProcess(self)
-        output_file = self.dataInput.outfile.value
+        output_file = self.dataInput.output_file.value
 
         res = XSDataResult()
         status = XSDataStatus()

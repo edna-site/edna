@@ -50,9 +50,9 @@ class EDPluginExecUniqueify(EDPluginExecProcessScript):
     def preProcess(self):
         EDPluginExecProcessScript.preProcess(self)
         self.DEBUG('Uniqueify: preprocess')
-        infile = self.dataInput.infile.value
-        outfile = self.dataInput.outfile.value
-        options = '{0} {1}'.format(infile, outfile)
+        input_file = self.dataInput.input_file.value
+        output_file = self.dataInput.output_file.value
+        options = '{0} {1}'.format(input_file, output_file)
         self.setScriptCommandLine(options)
         self.DEBUG('command line options set to {0}'.format(options))
 
@@ -60,12 +60,12 @@ class EDPluginExecUniqueify(EDPluginExecProcessScript):
     def checkParameters(self):
         self.DEBUG('Uniqueify: checkParameters')
         data_input = self.getDataInput()
-        self.checkMandatoryParameters(data_input.infile, 'no input file')
-        self.checkMandatoryParameters(data_input.outfile, 'no output file')
+        self.checkMandatoryParameters(data_input.input_file, 'no input file')
+        self.checkMandatoryParameters(data_input.output_file, 'no output file')
 
         # now really check the parameters
-        if data_input.infile is not None:
-            path = data_input.infile.value
+        if data_input.input_file is not None:
+            path = data_input.input_file.value
             if not os.path.exists(path):
                 self.ERROR('input file {0} does not exist'.format(path))
                 self.setFailure()
@@ -78,7 +78,7 @@ class EDPluginExecUniqueify(EDPluginExecProcessScript):
     def postProcess(self):
         self.DEBUG('Uniqueify: postProcess')
         EDPluginExecProcessScript.postProcess(self)
-        output_file = self.dataInput.outfile.value
+        output_file = self.dataInput.output_file.value
 
         res = XSDataResult()
         status = XSDataStatus()

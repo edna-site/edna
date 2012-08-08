@@ -52,8 +52,8 @@ class EDPluginControlFileConversion(EDPluginControl):
     def preProcess(self):
         EDPluginControl.preProcess(self)
         self.DEBUG('FileConversion: preprocess')
-        infile = self.dataInput.infile.value
-        outfile = self.dataInput.outfile.value
+        infile = self.dataInput.input_file.value
+        outfile = self.dataInput.output_file.value
         options = '{0} {1}'.format(infile, outfile)
         self.setScriptCommandLine(options)
         self.DEBUG('command line options set to {0}'.format(options))
@@ -69,12 +69,12 @@ class EDPluginControlFileConversion(EDPluginControl):
     def checkParameters(self):
         self.DEBUG('FileConversion: checkParameters')
         data_input = self.getDataInput()
-        self.checkMandatoryParameters(data_input.infile, 'no input file')
-        self.checkMandatoryParameters(data_input.outfile, 'no output file')
+        self.checkMandatoryParameters(data_input.input_file, 'no input file')
+        self.checkMandatoryParameters(data_input.output_file, 'no output file')
 
         # now really check the parameters
-        if data_input.infile is not None:
-            path = data_input.infile.value
+        if data_input.input_file is not None:
+            path = data_input.input_file.value
             if not os.path.exists(path):
                 self.ERROR('input file {0} does not exist'.format(path))
                 self.setFailure()
@@ -85,8 +85,8 @@ class EDPluginControlFileConversion(EDPluginControl):
         EDPluginControl.process(self)
         # first we generate the intermediary file name
         pointless_in = XSDataPointless()
-        pointless_in.infile = self.dataInput.infile
-        pointless_in.outfile = XSDataString("{0}_multirecord.mtz".format(self.output_basename))
+        pointless_in.input_file = self.dataInput.input_file
+        pointless_in.output_file = XSDataString("{0}_multirecord.mtz".format(self.output_basename))
         self.pointless.dataInput = pointless_in
         self.DEBUG("Pointless")
         self.pointless.executeSynchronous()
@@ -104,8 +104,8 @@ class EDPluginControlFileConversion(EDPluginControl):
         temp_file.close()
 
         aimless_in = XSDataAimless()
-        aimless_in.infile = pointless_in.outfile
-        aimless_in.outfile = aimless_out
+        aimless_in.input_file = pointless_in.output_file
+        aimless_in.output_file = aimless_out
         aimless_in.datacollectionID = self.dataInput.datacollectionID
         aimless_in.start_image = self.dataInput.start_image
         aimless_in.end_image = self.dataInput.end_image
@@ -122,12 +122,12 @@ class EDPluginControlFileConversion(EDPluginControl):
 
         # now truncate
         truncate_in = XSDataTruncate()
-        truncate_in.infile = self.aimless.dataInput.outfile
+        truncate_in.input_file = self.aimless.dataInput.output_file
         temp_file = tempfile.NamedTemporaryFile(suffix='.mtz',
                                                 prefix='tmp2-',
                                                 dir=self.aimless.getWorkingDirectory(),
                                                 delete=False)
-        truncate_in.outfile = temp_file.name
+        truncate_in.output_file = temp_file.name
         temp_file.close()
         truncate_in.nres = self.dataInput.nres
         truncate_in.anom = self.dataInput.anom
@@ -143,8 +143,8 @@ class EDPluginControlFileConversion(EDPluginControl):
 
         # and finally uniqueify
         uniqueify_in = XSDataUniqueify()
-        uniqueify_in.infile = truncate_in.outfile
-        uniqueify_in.outfile = self.output_basename + ".mtz"
+        uniqueify_in.input_file = truncate_in.output_file
+        uniqueify_in.output_file = self.output_basename + ".mtz"
 
         self.uniqueify.dataInput = uniqueify_in
 
@@ -158,7 +158,7 @@ class EDPluginControlFileConversion(EDPluginControl):
     def postProcess(self):
         self.DEBUG('FileConversion: postProcess')
         EDPluginControl.postProcess(self)
-        output_file = self.dataInput.outfile.value
+        output_file = self.dataInput.output_file.value
 
         res = XSDataResult()
         status = XSDataStatus()
