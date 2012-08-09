@@ -220,12 +220,12 @@ complex type XSDataXdsToSca extends XSDataInput {
 // these are use by the subplugins of the general file conversion
 // control plugin
 complex type XSDataPointless extends XSDataInput {
-        infile      : XSDataString // XDS HKL file
+        input_file      : XSDataString // XDS HKL file
         output_file : XSDataString
 }
 
 complex type XSDataAimless extends XSDataInput {
-        infile           : XSDataString // intermediate file name
+        input_file       : XSDataString // intermediate file name
         output_file      : XSDataString
         datacollectionID : XSDataInteger
         start_image      : XSDataInteger
@@ -235,7 +235,7 @@ complex type XSDataAimless extends XSDataInput {
 }
 
 complex type XSDataTruncate extends XSDataInput {
-        infile      : XSDataString
+        input_file  : XSDataString
         output_file : XSDataString
         nres        : XSDataFloat
         anom        : XSDataBoolean
@@ -243,7 +243,7 @@ complex type XSDataTruncate extends XSDataInput {
 }
 
 complex type XSDataUniqueify  extends XSDataInput {
-        infile      : XSDataString
+        input_file  : XSDataString
         output_file : XSDataString
 }
 
