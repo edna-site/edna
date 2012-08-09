@@ -534,6 +534,10 @@
 	  <name>execProcessScriptExecutable</name>
 	  <value>/opt/pxsoft/bin/aimless</value>
 	</XSParamItem>
+	<XSParamItem>
+	  <name>sym_db</name>
+	  <value>/opt/pxsoft/ccp4-6.0.2/lib/data/syminfo.lib</value>
+	</XSParamItem>
       </XSParamList>
     </XSPluginItem>
 
