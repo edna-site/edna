@@ -102,7 +102,7 @@ class EDPluginControlFileConversion(EDPluginControl):
 
         aimless_in = XSDataAimless()
         aimless_in.input_file = pointless_in.output_file
-        aimless_in.output_file = aimless_out
+        aimless_in.output_file = XSDataString(aimless_out)
         aimless_in.datacollectionID = self.dataInput.dataCollectionID
         aimless_in.start_image = self.dataInput.start_image
         aimless_in.end_image = self.dataInput.end_image
@@ -124,7 +124,7 @@ class EDPluginControlFileConversion(EDPluginControl):
                                                 prefix='tmp2-',
                                                 dir=self.aimless.getWorkingDirectory(),
                                                 delete=False)
-        truncate_in.output_file = temp_file.name
+        truncate_in.output_file = XSDataString(temp_file.name)
         temp_file.close()
         truncate_in.nres = self.dataInput.nres
         truncate_in.anom = self.dataInput.anom
