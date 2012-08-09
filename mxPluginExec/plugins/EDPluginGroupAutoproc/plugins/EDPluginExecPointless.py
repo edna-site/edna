@@ -54,7 +54,7 @@ class EDPluginExecPointless(EDPluginExecProcessScript):
         if self.output_file is not None and self.input_file is not None:
             # TODO: ask Max why he forces the version to 6.2.0
             options = '-copy xdsin {0} hklout {1}'.format(self.input_file, self.output_file)
-            self.setScriptCommandLine(options)
+            self.setScriptCommandline(options)
             self.DEBUG('command line options set to {0}'.format(options))
 
     def checkParameters(self):
@@ -62,6 +62,9 @@ class EDPluginExecPointless(EDPluginExecProcessScript):
         data_input = self.getDataInput()
         self.checkMandatoryParameters(data_input.input_file, 'no input file')
         self.checkMandatoryParameters(data_input.output_file, 'no output file')
+
+        self.input_file = self.dataInput.input_file.value
+        self.output_file = self.dataInput.output_file.value
 
         # now really check the parameters
         if data_input.input_file is not None:
