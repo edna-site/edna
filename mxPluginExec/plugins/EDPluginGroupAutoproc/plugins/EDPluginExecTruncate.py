@@ -53,8 +53,8 @@ class EDPluginExecTruncate(EDPluginExecProcessScript):
         self.DEBUG('Truncate: preprocess')
         input_file = self.dataInput.input_file.value
         output_file = self.dataInput.output_file.value
-        options = 'hklin {0} hklout {1}'.format(input_file, output_file)
-        self.setScriptCommandLine(options)
+        options = '--PXSOFT_VERSION v6.1.2 hklin {0} hklout {1}'.format(input_file, output_file)
+        self.setScriptCommandline(options)
         self.DEBUG('command line options set to {0}'.format(options))
 
         nres = self.dataInput.nres.value
