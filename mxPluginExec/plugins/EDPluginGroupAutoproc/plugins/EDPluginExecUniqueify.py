@@ -53,7 +53,7 @@ class EDPluginExecUniqueify(EDPluginExecProcessScript):
         input_file = self.dataInput.input_file.value
         output_file = self.dataInput.output_file.value
         options = '{0} {1}'.format(input_file, output_file)
-        self.setScriptCommandLine(options)
+        self.setScriptCommandline(options)
         self.DEBUG('command line options set to {0}'.format(options))
 
 

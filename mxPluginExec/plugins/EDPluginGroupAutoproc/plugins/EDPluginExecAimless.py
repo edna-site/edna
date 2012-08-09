@@ -62,8 +62,8 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
             return
 
         # TODO: ask Max why he forces the version to 6.2.0
-        options = 'HKLIN {0} HKLOUT {1} SYMINFO {3}'.format(input_file, output_file, symdb)
-        self.setScriptCommandLine(options)
+        options = 'HKLIN {0} HKLOUT {1} SYMINFO {2}'.format(input_file, output_file, symdb)
+        self.setScriptCommandline(options)
         self.DEBUG('command line options set to {0}'.format(options))
 
 
