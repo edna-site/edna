@@ -47,7 +47,7 @@ class EDTestCasePluginControlFileConversion(EDTestCasePluginExecute):
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataFileConversionInput_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataFileConversion_reference.xml"))
+                                                     "XSDataFileConversionOutput_reference.xml"))
 
     def testExecute(self):
         """
