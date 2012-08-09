@@ -508,5 +508,62 @@
       </XSParamList>
     </XSPluginItem>
 
+<!-- the plugins for the file conversion -->
+    <XSPluginItem>
+      <name>EDPluginExecPointless</name>
+      <XSParamList>
+	<XSParamItem>
+	  <name>execProcessScriptShell</name>
+	  <value>/bin/bash</value>
+	</XSParamItem>
+	<XSParamItem>
+	  <name>execProcessScriptExecutable</name>
+	  <value>/opt/pxsoft/bin/pointless</value>
+	</XSParamItem>
+      </XSParamList>
+    </XSPluginItem>
+
+    <XSPluginItem>
+      <name>EDPluginExecAimless</name>
+      <XSParamList>
+	<XSParamItem>
+	  <name>execProcessScriptShell</name>
+	  <value>/bin/bash</value>
+	</XSParamItem>
+	<XSParamItem>
+	  <name>execProcessScriptExecutable</name>
+	  <value>/opt/pxsoft/bin/aimless</value>
+	</XSParamItem>
+      </XSParamList>
+    </XSPluginItem>
+
+    <XSPluginItem>
+      <name>EDPluginExecTruncate</name>
+      <XSParamList>
+	<XSParamItem>
+	  <name>execProcessScriptShell</name>
+	  <value>/bin/bash</value>
+	</XSParamItem>
+	<XSParamItem>
+	  <name>execProcessScriptExecutable</name>
+	  <value>/opt/pxsoft/bin/truncate</value>
+	</XSParamItem>
+      </XSParamList>
+    </XSPluginItem>
+
+    <XSPluginItem>
+      <name>EDPluginExecUniqueify</name>
+      <XSParamList>
+	<XSParamItem>
+	  <name>execProcessScriptShell</name>
+	  <value>/bin/bash</value>
+	</XSParamItem>
+	<XSParamItem>
+	  <name>execProcessScriptExecutable</name>
+	  <value>/opt/pxsoft/bin/uniqueify</value>
+	</XSParamItem>
+      </XSParamList>
+    </XSPluginItem>
+
   </XSPluginList>
 </XSConfiguration>
