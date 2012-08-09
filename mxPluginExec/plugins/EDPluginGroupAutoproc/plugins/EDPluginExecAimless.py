@@ -79,7 +79,8 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
         self.addListCommandExecution('scales constant')
         self.addListCommandExecution('resolution 50 {0}'.format(resolution))
         self.addListCommandExecution('cycles 100')
-        self.addListCommandExecution('anomalous {0}'.format(anom))
+        anomalous = 'ON' if anom else 'OFF'
+        self.addListCommandExecution('anomalous {0}'.format(anomalous))
         self.addListCommandExecution('END')
 
         # TODO: Max saves those parameters to a file, we'll need to
