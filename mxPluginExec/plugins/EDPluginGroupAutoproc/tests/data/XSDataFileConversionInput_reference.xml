@@ -1,8 +1,11 @@
 <?xml version="1.0" ?>
 <XSDataInput>
-  <infile>
+  <input_file>
     <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/XDS_ASCII.HKL</value>
-  </infile>
+  </input_file>
+    <output_file>
+    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/file_conversion_out</value>
+  </output_file>
   <dataCollectionID>
       <value>31337</value>
   </dataCollectionID>
