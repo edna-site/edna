@@ -83,7 +83,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         # first we generate the intermediary file name
         pointless_in = XSDataPointless()
         pointless_in.input_file = self.dataInput.input_file
-        pointless_in.output_file = XSDataString("{0}_multirecord.mtz".format(self.output_basename))
+        pointless_in.output_file = XSDataString(os.path.abspath("{0}_multirecord.mtz".format(self.output_basename)))
         self.pointless.dataInput = pointless_in
         self.DEBUG("Pointless")
         self.pointless.executeSynchronous()
@@ -97,7 +97,7 @@ class EDPluginControlFileConversion(EDPluginControl):
                                                 prefix='tmp-',
                                                 dir=self.aimless.getWorkingDirectory(),
                                                 delete=False)
-        aimless_out = temp_file.name
+        aimless_out = os.path.abspath(temp_file.name)
         temp_file.close()
 
         aimless_in = XSDataAimless()
