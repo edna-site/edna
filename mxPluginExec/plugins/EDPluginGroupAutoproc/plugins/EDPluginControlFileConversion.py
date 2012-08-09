@@ -103,7 +103,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         aimless_in = XSDataAimless()
         aimless_in.input_file = pointless_in.output_file
         aimless_in.output_file = XSDataString(aimless_out)
-        aimless_in.datacollectionID = self.dataInput.dataCollectionID
+        aimless_in.dataCollectionID = self.dataInput.dataCollectionID
         aimless_in.start_image = self.dataInput.start_image
         aimless_in.end_image = self.dataInput.end_image
         aimless_in.res = self.dataInput.res
@@ -141,7 +141,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         # and finally uniqueify
         uniqueify_in = XSDataUniqueify()
         uniqueify_in.input_file = truncate_in.output_file
-        uniqueify_in.output_file = self.output_basename + ".mtz"
+        uniqueify_in.output_file = XSDataString(self.output_basename + ".mtz")
 
         self.uniqueify.dataInput = uniqueify_in
 
