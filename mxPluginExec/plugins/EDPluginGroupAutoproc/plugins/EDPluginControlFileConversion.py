@@ -43,7 +43,6 @@ from XSDataAutoproc import XSDataTruncate, XSDataUniqueify
 class EDPluginControlFileConversion(EDPluginControl):
     def __init__(self):
         EDPluginControl.__init__(self)
-        self.setRequiredToHaveConfiguration(True)
         self.setXSDataInputClass(XSDataFileConversion)
 
     def configure(self):
@@ -54,9 +53,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         self.DEBUG('FileConversion: preprocess')
         infile = self.dataInput.input_file.value
         outfile = self.dataInput.output_file.value
-        options = '{0} {1}'.format(infile, outfile)
-        self.setScriptCommandLine(options)
-        self.DEBUG('command line options set to {0}'.format(options))
+
         self.pointless = self.loadPlugin("EDPluginExecPointless")
         self.aimless = self.loadPlugin("EDPluginExecAimless")
         self.truncate = self.loadPlugin("EDPluginExecTruncate")
