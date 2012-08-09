@@ -69,7 +69,7 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
 
         start_image = self.dataInput.start_image.value
         end_image = self.dataInput.end_image.value
-        dcid = self.dataInput.datacollectionID.value
+        dcid = self.dataInput.dataCollectionID.value
         resolution = self.dataInput.res.value
         anom = self.dataInput.anom.value
 
