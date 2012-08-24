@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInputGridScreening>
+	<imageFile>
+        <path>
+            <value>${EDNA_TESTIMAGES}/ref-testscale_1_001.img</value>
+        </path>
+	</imageFile>
+	<doOnlyIntegrationWithXMLOutput>
+		<value>true</value>
+	</doOnlyIntegrationWithXMLOutput>
+</XSDataInputGridScreening>

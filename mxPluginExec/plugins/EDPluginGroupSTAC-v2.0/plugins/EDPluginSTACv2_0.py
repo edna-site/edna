@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -11,9 +9,16 @@
 #
 #    
 
+__authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
+__contact__ = "svensson@esrf.fr"
+__license__ = "GPLv3+"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
 import os
 
-from EDVerbose import EDVerbose
+
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDConfiguration import EDConfiguration
 from EDUtilsFile import EDUtilsFile
@@ -37,12 +42,12 @@ class EDPluginSTACv2_0(EDPluginExecProcessScript):
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginSTACv2_0.preProcess")
+        self.DEBUG("EDPluginSTACv2_0.preProcess")
         xsPluginItem = self.getConfiguration()
         self.addListCommandPreExecution("export STACDIR=%s" % EDConfiguration.getStringParamValue(xsPluginItem, "STACDIR"))
         if (self.__pyStrBCMDEF is None):
             self.__pyStrBCMDEF = EDConfiguration.getStringParamValue(xsPluginItem, "BCMDEF")
-        EDVerbose.DEBUG("EDPluginSTACv2_0.preProcess: BCMDEF set to %s" % self.__pyStrBCMDEF)
+        self.DEBUG("EDPluginSTACv2_0.preProcess: BCMDEF set to %s" % self.__pyStrBCMDEF)
         self.addListCommandPreExecution("export BCMDEF=%s" % self.__pyStrBCMDEF)
         self.addListCommandPreExecution("export RUNDIR=%s" % self.getWorkingDirectory())
         self.setScriptCommandline("stac.core.STAC_DNA_listener %s -%s/ %s" % (self.getSTACcommand(), self.getWorkingDirectory(), self.getSTACparams()))
@@ -126,7 +131,7 @@ class EDPluginSTACv2_0(EDPluginExecProcessScript):
 
     def process(self, _edObject=None):
         EDPluginExecProcessScript.process(self)
-        EDVerbose.DEBUG("EDPluginSTACv2_0.process")
+        self.DEBUG("EDPluginSTACv2_0.process")
         # It should not be possible to execute this abstract plugin
         if (self.getPluginName() == "EDPluginSTACv2_0"):
              raise ExectuteAbstractPluginError
@@ -144,17 +149,17 @@ class EDPluginSTACv2_0(EDPluginExecProcessScript):
         """
         Checks the mandatory parameters for all XDS plugins
         """
-        EDVerbose.DEBUG("EDPluginSTACv2_0.checkParameters")
+        self.DEBUG("EDPluginSTACv2_0.checkParameters")
 
     def postProcess(self, _edObject=None):
         """
         reading back and genericly process the output
         """
         EDPluginExecProcessScript.postProcess(self)
-        EDVerbose.DEBUG("EDPluginSTACv2_0.postProcess")
+        self.DEBUG("EDPluginSTACv2_0.postProcess")
         OutputData = self.fetchOutput()
 
-        EDVerbose.DEBUG("EDPluginSTACv2_0.postProcess: " + str(OutputData))
+        self.DEBUG("EDPluginSTACv2_0.postProcess: " + str(OutputData))
         if (OutputData is not None):
             self.setDataOutput(OutputData)
 

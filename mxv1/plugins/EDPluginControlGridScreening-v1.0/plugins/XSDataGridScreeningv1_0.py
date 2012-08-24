@@ -1,13 +1,50 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Apr 18 10:29::10 2011 by EDGenerateDS.
+# Generated Fri May 25 03:00::22 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+ "XSDataMXv1": "mxv1/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataString
+	from XSDataCommon import XSDataFile
+	from XSDataMXv1 import XSDataDiffractionPlan
+	from XSDataMXv1 import XSDataImageQualityIndicators
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
@@ -46,18 +83,17 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
-	pass
-	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
-	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
+	if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
-class MixedContainer:
+class MixedContainer(object):
 	# Constants for category:
 	CategoryNone = 0
 	CategoryText = 1
@@ -112,36 +148,42 @@ class MixedContainer:
 class XSDataGridScreeningFileNameParameters(XSData):
 	def __init__(self, scanId2=None, scanId1=None, motorPosition2=None, motorPosition1=None):
 		XSData.__init__(self, )
-		self.__motorPosition1 = motorPosition1
-		self.__motorPosition2 = motorPosition2
-		self.__scanId1 = scanId1
-		self.__scanId2 = scanId2
-	def getMotorPosition1(self): return self.__motorPosition1
+	
+	
+		checkType("XSDataGridScreeningFileNameParameters", "Constructor of XSDataGridScreeningFileNameParameters", motorPosition1, "XSDataString")
+		self._motorPosition1 = motorPosition1
+		checkType("XSDataGridScreeningFileNameParameters", "Constructor of XSDataGridScreeningFileNameParameters", motorPosition2, "XSDataString")
+		self._motorPosition2 = motorPosition2
+		checkType("XSDataGridScreeningFileNameParameters", "Constructor of XSDataGridScreeningFileNameParameters", scanId1, "XSDataString")
+		self._scanId1 = scanId1
+		checkType("XSDataGridScreeningFileNameParameters", "Constructor of XSDataGridScreeningFileNameParameters", scanId2, "XSDataString")
+		self._scanId2 = scanId2
+	def getMotorPosition1(self): return self._motorPosition1
 	def setMotorPosition1(self, motorPosition1):
 		checkType("XSDataGridScreeningFileNameParameters", "setMotorPosition1", motorPosition1, "XSDataString")
-		self.__motorPosition1 = motorPosition1
-	def delMotorPosition1(self): self.__motorPosition1 = None
+		self._motorPosition1 = motorPosition1
+	def delMotorPosition1(self): self._motorPosition1 = None
 	# Properties
 	motorPosition1 = property(getMotorPosition1, setMotorPosition1, delMotorPosition1, "Property for motorPosition1")
-	def getMotorPosition2(self): return self.__motorPosition2
+	def getMotorPosition2(self): return self._motorPosition2
 	def setMotorPosition2(self, motorPosition2):
 		checkType("XSDataGridScreeningFileNameParameters", "setMotorPosition2", motorPosition2, "XSDataString")
-		self.__motorPosition2 = motorPosition2
-	def delMotorPosition2(self): self.__motorPosition2 = None
+		self._motorPosition2 = motorPosition2
+	def delMotorPosition2(self): self._motorPosition2 = None
 	# Properties
 	motorPosition2 = property(getMotorPosition2, setMotorPosition2, delMotorPosition2, "Property for motorPosition2")
-	def getScanId1(self): return self.__scanId1
+	def getScanId1(self): return self._scanId1
 	def setScanId1(self, scanId1):
 		checkType("XSDataGridScreeningFileNameParameters", "setScanId1", scanId1, "XSDataString")
-		self.__scanId1 = scanId1
-	def delScanId1(self): self.__scanId1 = None
+		self._scanId1 = scanId1
+	def delScanId1(self): self._scanId1 = None
 	# Properties
 	scanId1 = property(getScanId1, setScanId1, delScanId1, "Property for scanId1")
-	def getScanId2(self): return self.__scanId2
+	def getScanId2(self): return self._scanId2
 	def setScanId2(self, scanId2):
 		checkType("XSDataGridScreeningFileNameParameters", "setScanId2", scanId2, "XSDataString")
-		self.__scanId2 = scanId2
-	def delScanId2(self): self.__scanId2 = None
+		self._scanId2 = scanId2
+	def delScanId2(self): self._scanId2 = None
 	# Properties
 	scanId2 = property(getScanId2, setScanId2, delScanId2, "Property for scanId2")
 	def export(self, outfile, level, name_='XSDataGridScreeningFileNameParameters'):
@@ -152,19 +194,19 @@ class XSDataGridScreeningFileNameParameters(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataGridScreeningFileNameParameters'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__motorPosition1 is not None:
+		if self._motorPosition1 is not None:
 			self.motorPosition1.export(outfile, level, name_='motorPosition1')
 		else:
 			warnEmptyAttribute("motorPosition1", "XSDataString")
-		if self.__motorPosition2 is not None:
+		if self._motorPosition2 is not None:
 			self.motorPosition2.export(outfile, level, name_='motorPosition2')
 		else:
 			warnEmptyAttribute("motorPosition2", "XSDataString")
-		if self.__scanId1 is not None:
+		if self._scanId1 is not None:
 			self.scanId1.export(outfile, level, name_='scanId1')
 		else:
 			warnEmptyAttribute("scanId1", "XSDataString")
-		if self.__scanId2 is not None:
+		if self._scanId2 is not None:
 			self.scanId2.export(outfile, level, name_='scanId2')
 		else:
 			warnEmptyAttribute("scanId2", "XSDataString")
@@ -203,11 +245,15 @@ class XSDataGridScreeningFileNameParameters(XSData):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataGridScreeningFileNameParameters' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataGridScreeningFileNameParameters is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataGridScreeningFileNameParameters.parseString(self.marshal())
@@ -233,41 +279,181 @@ class XSDataGridScreeningFileNameParameters(XSData):
 	parseFile = staticmethod( parseFile )
 # end class XSDataGridScreeningFileNameParameters
 
+class XSDataGridScreeningResultIntegration(XSData):
+	def __init__(self, integratedData=None, fileDirectory=None, fileName=None):
+		XSData.__init__(self, )
+	
+	
+		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", fileName, "string")
+		self._fileName = fileName
+		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", fileDirectory, "string")
+		self._fileDirectory = fileDirectory
+		checkType("XSDataGridScreeningResultIntegration", "Constructor of XSDataGridScreeningResultIntegration", integratedData, "string")
+		self._integratedData = integratedData
+	def getFileName(self): return self._fileName
+	def setFileName(self, fileName):
+		checkType("XSDataGridScreeningResultIntegration", "setFileName", fileName, "string")
+		self._fileName = fileName
+	def delFileName(self): self._fileName = None
+	# Properties
+	fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
+	def getFileDirectory(self): return self._fileDirectory
+	def setFileDirectory(self, fileDirectory):
+		checkType("XSDataGridScreeningResultIntegration", "setFileDirectory", fileDirectory, "string")
+		self._fileDirectory = fileDirectory
+	def delFileDirectory(self): self._fileDirectory = None
+	# Properties
+	fileDirectory = property(getFileDirectory, setFileDirectory, delFileDirectory, "Property for fileDirectory")
+	def getIntegratedData(self): return self._integratedData
+	def setIntegratedData(self, integratedData):
+		checkType("XSDataGridScreeningResultIntegration", "setIntegratedData", integratedData, "string")
+		self._integratedData = integratedData
+	def delIntegratedData(self): self._integratedData = None
+	# Properties
+	integratedData = property(getIntegratedData, setIntegratedData, delIntegratedData, "Property for integratedData")
+	def export(self, outfile, level, name_='XSDataGridScreeningResultIntegration'):
+		showIndent(outfile, level)
+		outfile.write(unicode('<%s>\n' % name_))
+		self.exportChildren(outfile, level + 1, name_)
+		showIndent(outfile, level)
+		outfile.write(unicode('</%s>\n' % name_))
+	def exportChildren(self, outfile, level, name_='XSDataGridScreeningResultIntegration'):
+		XSData.exportChildren(self, outfile, level, name_)
+		if self._fileName is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<fileName>%s</fileName>\n' % self._fileName))
+		else:
+			warnEmptyAttribute("fileName", "string")
+		if self._fileDirectory is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<fileDirectory>%s</fileDirectory>\n' % self._fileDirectory))
+		else:
+			warnEmptyAttribute("fileDirectory", "string")
+		if self._integratedData is not None:
+			showIndent(outfile, level)
+			outfile.write(unicode('<integratedData>%s</integratedData>\n' % self._integratedData))
+		else:
+			warnEmptyAttribute("integratedData", "string")
+	def build(self, node_):
+		for child_ in node_.childNodes:
+			nodeName_ = child_.nodeName.split(':')[-1]
+			self.buildChildren(child_, nodeName_)
+	def buildChildren(self, child_, nodeName_):
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileName':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._fileName = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'fileDirectory':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._fileDirectory = value_
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'integratedData':
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
+			self._integratedData = value_
+		XSData.buildChildren(self, child_, nodeName_)
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+		self.export( oStreamString, 0, name_="XSDataGridScreeningResultIntegration" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def exportToFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+		self.export( outfile, 0, name_='XSDataGridScreeningResultIntegration' )
+		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataGridScreeningResultIntegration is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return XSDataGridScreeningResultIntegration.parseString(self.marshal())
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = XSDataGridScreeningResultIntegration()
+		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO()
+		rootObj.export( oStreamString, 0, name_="XSDataGridScreeningResultIntegration" )
+		oStreamString.close()
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = XSDataGridScreeningResultIntegration()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
+# end class XSDataGridScreeningResultIntegration
+
 class XSDataInputGridScreening(XSDataInput):
-	def __init__(self, configuration=None, doOnlyImageQualityIndicators=None, storeImageQualityIndicatorsInISPyB=None, diffractionPlan=None, imageFile=None):
+	def __init__(self, configuration=None, doOnlyIntegrationWithXMLOutput=None, doOnlyImageQualityIndicators=None, storeImageQualityIndicatorsInISPyB=None, diffractionPlan=None, imageFile=None):
 		XSDataInput.__init__(self, configuration)
-		self.__imageFile = imageFile
-		self.__diffractionPlan = diffractionPlan
-		self.__storeImageQualityIndicatorsInISPyB = storeImageQualityIndicatorsInISPyB
-		self.__doOnlyImageQualityIndicators = doOnlyImageQualityIndicators
-	def getImageFile(self): return self.__imageFile
+	
+	
+		checkType("XSDataInputGridScreening", "Constructor of XSDataInputGridScreening", imageFile, "XSDataFile")
+		self._imageFile = imageFile
+		checkType("XSDataInputGridScreening", "Constructor of XSDataInputGridScreening", diffractionPlan, "XSDataDiffractionPlan")
+		self._diffractionPlan = diffractionPlan
+		checkType("XSDataInputGridScreening", "Constructor of XSDataInputGridScreening", storeImageQualityIndicatorsInISPyB, "XSDataBoolean")
+		self._storeImageQualityIndicatorsInISPyB = storeImageQualityIndicatorsInISPyB
+		checkType("XSDataInputGridScreening", "Constructor of XSDataInputGridScreening", doOnlyImageQualityIndicators, "XSDataBoolean")
+		self._doOnlyImageQualityIndicators = doOnlyImageQualityIndicators
+		checkType("XSDataInputGridScreening", "Constructor of XSDataInputGridScreening", doOnlyIntegrationWithXMLOutput, "XSDataBoolean")
+		self._doOnlyIntegrationWithXMLOutput = doOnlyIntegrationWithXMLOutput
+	def getImageFile(self): return self._imageFile
 	def setImageFile(self, imageFile):
 		checkType("XSDataInputGridScreening", "setImageFile", imageFile, "XSDataFile")
-		self.__imageFile = imageFile
-	def delImageFile(self): self.__imageFile = None
+		self._imageFile = imageFile
+	def delImageFile(self): self._imageFile = None
 	# Properties
 	imageFile = property(getImageFile, setImageFile, delImageFile, "Property for imageFile")
-	def getDiffractionPlan(self): return self.__diffractionPlan
+	def getDiffractionPlan(self): return self._diffractionPlan
 	def setDiffractionPlan(self, diffractionPlan):
 		checkType("XSDataInputGridScreening", "setDiffractionPlan", diffractionPlan, "XSDataDiffractionPlan")
-		self.__diffractionPlan = diffractionPlan
-	def delDiffractionPlan(self): self.__diffractionPlan = None
+		self._diffractionPlan = diffractionPlan
+	def delDiffractionPlan(self): self._diffractionPlan = None
 	# Properties
 	diffractionPlan = property(getDiffractionPlan, setDiffractionPlan, delDiffractionPlan, "Property for diffractionPlan")
-	def getStoreImageQualityIndicatorsInISPyB(self): return self.__storeImageQualityIndicatorsInISPyB
+	def getStoreImageQualityIndicatorsInISPyB(self): return self._storeImageQualityIndicatorsInISPyB
 	def setStoreImageQualityIndicatorsInISPyB(self, storeImageQualityIndicatorsInISPyB):
 		checkType("XSDataInputGridScreening", "setStoreImageQualityIndicatorsInISPyB", storeImageQualityIndicatorsInISPyB, "XSDataBoolean")
-		self.__storeImageQualityIndicatorsInISPyB = storeImageQualityIndicatorsInISPyB
-	def delStoreImageQualityIndicatorsInISPyB(self): self.__storeImageQualityIndicatorsInISPyB = None
+		self._storeImageQualityIndicatorsInISPyB = storeImageQualityIndicatorsInISPyB
+	def delStoreImageQualityIndicatorsInISPyB(self): self._storeImageQualityIndicatorsInISPyB = None
 	# Properties
 	storeImageQualityIndicatorsInISPyB = property(getStoreImageQualityIndicatorsInISPyB, setStoreImageQualityIndicatorsInISPyB, delStoreImageQualityIndicatorsInISPyB, "Property for storeImageQualityIndicatorsInISPyB")
-	def getDoOnlyImageQualityIndicators(self): return self.__doOnlyImageQualityIndicators
+	def getDoOnlyImageQualityIndicators(self): return self._doOnlyImageQualityIndicators
 	def setDoOnlyImageQualityIndicators(self, doOnlyImageQualityIndicators):
 		checkType("XSDataInputGridScreening", "setDoOnlyImageQualityIndicators", doOnlyImageQualityIndicators, "XSDataBoolean")
-		self.__doOnlyImageQualityIndicators = doOnlyImageQualityIndicators
-	def delDoOnlyImageQualityIndicators(self): self.__doOnlyImageQualityIndicators = None
+		self._doOnlyImageQualityIndicators = doOnlyImageQualityIndicators
+	def delDoOnlyImageQualityIndicators(self): self._doOnlyImageQualityIndicators = None
 	# Properties
 	doOnlyImageQualityIndicators = property(getDoOnlyImageQualityIndicators, setDoOnlyImageQualityIndicators, delDoOnlyImageQualityIndicators, "Property for doOnlyImageQualityIndicators")
+	def getDoOnlyIntegrationWithXMLOutput(self): return self._doOnlyIntegrationWithXMLOutput
+	def setDoOnlyIntegrationWithXMLOutput(self, doOnlyIntegrationWithXMLOutput):
+		checkType("XSDataInputGridScreening", "setDoOnlyIntegrationWithXMLOutput", doOnlyIntegrationWithXMLOutput, "XSDataBoolean")
+		self._doOnlyIntegrationWithXMLOutput = doOnlyIntegrationWithXMLOutput
+	def delDoOnlyIntegrationWithXMLOutput(self): self._doOnlyIntegrationWithXMLOutput = None
+	# Properties
+	doOnlyIntegrationWithXMLOutput = property(getDoOnlyIntegrationWithXMLOutput, setDoOnlyIntegrationWithXMLOutput, delDoOnlyIntegrationWithXMLOutput, "Property for doOnlyIntegrationWithXMLOutput")
 	def export(self, outfile, level, name_='XSDataInputGridScreening'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -276,16 +462,18 @@ class XSDataInputGridScreening(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputGridScreening'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__imageFile is not None:
+		if self._imageFile is not None:
 			self.imageFile.export(outfile, level, name_='imageFile')
 		else:
 			warnEmptyAttribute("imageFile", "XSDataFile")
-		if self.__diffractionPlan is not None:
+		if self._diffractionPlan is not None:
 			self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
-		if self.__storeImageQualityIndicatorsInISPyB is not None:
+		if self._storeImageQualityIndicatorsInISPyB is not None:
 			self.storeImageQualityIndicatorsInISPyB.export(outfile, level, name_='storeImageQualityIndicatorsInISPyB')
-		if self.__doOnlyImageQualityIndicators is not None:
+		if self._doOnlyImageQualityIndicators is not None:
 			self.doOnlyImageQualityIndicators.export(outfile, level, name_='doOnlyImageQualityIndicators')
+		if self._doOnlyIntegrationWithXMLOutput is not None:
+			self.doOnlyIntegrationWithXMLOutput.export(outfile, level, name_='doOnlyIntegrationWithXMLOutput')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -311,6 +499,11 @@ class XSDataInputGridScreening(XSDataInput):
 			obj_ = XSDataBoolean()
 			obj_.build(child_)
 			self.setDoOnlyImageQualityIndicators(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'doOnlyIntegrationWithXMLOutput':
+			obj_ = XSDataBoolean()
+			obj_.build(child_)
+			self.setDoOnlyIntegrationWithXMLOutput(obj_)
 		XSDataInput.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -321,11 +514,15 @@ class XSDataInputGridScreening(XSDataInput):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataInputGridScreening' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataInputGridScreening is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataInputGridScreening.parseString(self.marshal())
@@ -352,56 +549,73 @@ class XSDataInputGridScreening(XSDataInput):
 # end class XSDataInputGridScreening
 
 class XSDataResultGridScreening(XSDataResult):
-	def __init__(self, status=None, imageQualityIndicatorsId=None, comment=None, rankingResolution=None, mosaicity=None, imageQualityIndicators=None, fileNameParameters=None):
+	def __init__(self, status=None, resultIntegration=None, imageQualityIndicatorsId=None, comment=None, rankingResolution=None, mosaicity=None, imageQualityIndicators=None, fileNameParameters=None):
 		XSDataResult.__init__(self, status)
-		self.__fileNameParameters = fileNameParameters
-		self.__imageQualityIndicators = imageQualityIndicators
-		self.__mosaicity = mosaicity
-		self.__rankingResolution = rankingResolution
-		self.__comment = comment
-		self.__imageQualityIndicatorsId = imageQualityIndicatorsId
-	def getFileNameParameters(self): return self.__fileNameParameters
+	
+	
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", fileNameParameters, "XSDataGridScreeningFileNameParameters")
+		self._fileNameParameters = fileNameParameters
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", imageQualityIndicators, "XSDataImageQualityIndicators")
+		self._imageQualityIndicators = imageQualityIndicators
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", mosaicity, "XSDataDouble")
+		self._mosaicity = mosaicity
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", rankingResolution, "XSDataDouble")
+		self._rankingResolution = rankingResolution
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", comment, "XSDataString")
+		self._comment = comment
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", imageQualityIndicatorsId, "XSDataInteger")
+		self._imageQualityIndicatorsId = imageQualityIndicatorsId
+		checkType("XSDataResultGridScreening", "Constructor of XSDataResultGridScreening", resultIntegration, "XSDataGridScreeningResultIntegration")
+		self._resultIntegration = resultIntegration
+	def getFileNameParameters(self): return self._fileNameParameters
 	def setFileNameParameters(self, fileNameParameters):
 		checkType("XSDataResultGridScreening", "setFileNameParameters", fileNameParameters, "XSDataGridScreeningFileNameParameters")
-		self.__fileNameParameters = fileNameParameters
-	def delFileNameParameters(self): self.__fileNameParameters = None
+		self._fileNameParameters = fileNameParameters
+	def delFileNameParameters(self): self._fileNameParameters = None
 	# Properties
 	fileNameParameters = property(getFileNameParameters, setFileNameParameters, delFileNameParameters, "Property for fileNameParameters")
-	def getImageQualityIndicators(self): return self.__imageQualityIndicators
+	def getImageQualityIndicators(self): return self._imageQualityIndicators
 	def setImageQualityIndicators(self, imageQualityIndicators):
 		checkType("XSDataResultGridScreening", "setImageQualityIndicators", imageQualityIndicators, "XSDataImageQualityIndicators")
-		self.__imageQualityIndicators = imageQualityIndicators
-	def delImageQualityIndicators(self): self.__imageQualityIndicators = None
+		self._imageQualityIndicators = imageQualityIndicators
+	def delImageQualityIndicators(self): self._imageQualityIndicators = None
 	# Properties
 	imageQualityIndicators = property(getImageQualityIndicators, setImageQualityIndicators, delImageQualityIndicators, "Property for imageQualityIndicators")
-	def getMosaicity(self): return self.__mosaicity
+	def getMosaicity(self): return self._mosaicity
 	def setMosaicity(self, mosaicity):
 		checkType("XSDataResultGridScreening", "setMosaicity", mosaicity, "XSDataDouble")
-		self.__mosaicity = mosaicity
-	def delMosaicity(self): self.__mosaicity = None
+		self._mosaicity = mosaicity
+	def delMosaicity(self): self._mosaicity = None
 	# Properties
 	mosaicity = property(getMosaicity, setMosaicity, delMosaicity, "Property for mosaicity")
-	def getRankingResolution(self): return self.__rankingResolution
+	def getRankingResolution(self): return self._rankingResolution
 	def setRankingResolution(self, rankingResolution):
 		checkType("XSDataResultGridScreening", "setRankingResolution", rankingResolution, "XSDataDouble")
-		self.__rankingResolution = rankingResolution
-	def delRankingResolution(self): self.__rankingResolution = None
+		self._rankingResolution = rankingResolution
+	def delRankingResolution(self): self._rankingResolution = None
 	# Properties
 	rankingResolution = property(getRankingResolution, setRankingResolution, delRankingResolution, "Property for rankingResolution")
-	def getComment(self): return self.__comment
+	def getComment(self): return self._comment
 	def setComment(self, comment):
 		checkType("XSDataResultGridScreening", "setComment", comment, "XSDataString")
-		self.__comment = comment
-	def delComment(self): self.__comment = None
+		self._comment = comment
+	def delComment(self): self._comment = None
 	# Properties
 	comment = property(getComment, setComment, delComment, "Property for comment")
-	def getImageQualityIndicatorsId(self): return self.__imageQualityIndicatorsId
+	def getImageQualityIndicatorsId(self): return self._imageQualityIndicatorsId
 	def setImageQualityIndicatorsId(self, imageQualityIndicatorsId):
 		checkType("XSDataResultGridScreening", "setImageQualityIndicatorsId", imageQualityIndicatorsId, "XSDataInteger")
-		self.__imageQualityIndicatorsId = imageQualityIndicatorsId
-	def delImageQualityIndicatorsId(self): self.__imageQualityIndicatorsId = None
+		self._imageQualityIndicatorsId = imageQualityIndicatorsId
+	def delImageQualityIndicatorsId(self): self._imageQualityIndicatorsId = None
 	# Properties
 	imageQualityIndicatorsId = property(getImageQualityIndicatorsId, setImageQualityIndicatorsId, delImageQualityIndicatorsId, "Property for imageQualityIndicatorsId")
+	def getResultIntegration(self): return self._resultIntegration
+	def setResultIntegration(self, resultIntegration):
+		checkType("XSDataResultGridScreening", "setResultIntegration", resultIntegration, "XSDataGridScreeningResultIntegration")
+		self._resultIntegration = resultIntegration
+	def delResultIntegration(self): self._resultIntegration = None
+	# Properties
+	resultIntegration = property(getResultIntegration, setResultIntegration, delResultIntegration, "Property for resultIntegration")
 	def export(self, outfile, level, name_='XSDataResultGridScreening'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -410,18 +624,20 @@ class XSDataResultGridScreening(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultGridScreening'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__fileNameParameters is not None:
+		if self._fileNameParameters is not None:
 			self.fileNameParameters.export(outfile, level, name_='fileNameParameters')
-		if self.__imageQualityIndicators is not None:
+		if self._imageQualityIndicators is not None:
 			self.imageQualityIndicators.export(outfile, level, name_='imageQualityIndicators')
-		if self.__mosaicity is not None:
+		if self._mosaicity is not None:
 			self.mosaicity.export(outfile, level, name_='mosaicity')
-		if self.__rankingResolution is not None:
+		if self._rankingResolution is not None:
 			self.rankingResolution.export(outfile, level, name_='rankingResolution')
-		if self.__comment is not None:
+		if self._comment is not None:
 			self.comment.export(outfile, level, name_='comment')
-		if self.__imageQualityIndicatorsId is not None:
+		if self._imageQualityIndicatorsId is not None:
 			self.imageQualityIndicatorsId.export(outfile, level, name_='imageQualityIndicatorsId')
+		if self._resultIntegration is not None:
+			self.resultIntegration.export(outfile, level, name_='resultIntegration')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -457,6 +673,11 @@ class XSDataResultGridScreening(XSDataResult):
 			obj_ = XSDataInteger()
 			obj_.build(child_)
 			self.setImageQualityIndicatorsId(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'resultIntegration':
+			obj_ = XSDataGridScreeningResultIntegration()
+			obj_.build(child_)
+			self.setResultIntegration(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
@@ -467,11 +688,15 @@ class XSDataResultGridScreening(XSDataResult):
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='XSDataResultGridScreening' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARNING: Method outputFile in class XSDataResultGridScreening is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return XSDataResultGridScreening.parseString(self.marshal())

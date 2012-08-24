@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -27,7 +25,7 @@
 #
 
 from EDPluginExec       import EDPluginExec
-from EDVerbose          import EDVerbose
+
 from EDMessage          import EDMessage
 from EDConfiguration    import EDConfiguration
 from EDUtilsXML         import EDUtilsXML
@@ -88,14 +86,14 @@ class EDPluginISPyBv10(EDPluginExec):
         pluginConfiguration = self.getConfiguration()
 
         if(pluginConfiguration == None):
-            EDVerbose.DEBUG("*** EDPluginISPyBv10.configure: pluginConfiguration is None, using default settings")
+            self.DEBUG("*** EDPluginISPyBv10.configure: pluginConfiguration is None, using default settings")
         else:
-            EDVerbose.DEBUG("*** EDPluginISPyBv10.configure: pluginConfiguration found, using settings from there")
+            self.DEBUG("*** EDPluginISPyBv10.configure: pluginConfiguration found, using settings from there")
             pyStrDbserverHost = EDConfiguration.getStringParamValue(pluginConfiguration, "dbserverHost")
             if(pyStrDbserverHost == None):
                 pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10.configure", self.getClassName(), \
                                                                      "Configuration parameter missing: dbserverHost")
-                EDVerbose.error(pyStrErrorMessage)
+                self.error(pyStrErrorMessage)
                 self.addErrorMessage(pyStrErrorMessage)
                 raise RuntimeError, pyStrErrorMessage
             else:
@@ -105,7 +103,7 @@ class EDPluginISPyBv10(EDPluginExec):
             if(pyStrDbserverPort == None):
                 pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10.configure", self.getClassName(), \
                                                                      "Configuration parameter missing: dbserverPort")
-                EDVerbose.error(pyStrErrorMessage)
+                self.error(pyStrErrorMessage)
                 self.addErrorMessage(pyStrErrorMessage)
                 raise RuntimeError, pyStrErrorMessage
             else:
@@ -125,7 +123,7 @@ class EDPluginISPyBv10(EDPluginExec):
         """
 
         EDPluginExec.process(self)
-        EDVerbose.DEBUG("*** EDPluginISPyBv10.process")
+        self.DEBUG("*** EDPluginISPyBv10.process")
         xsDataInputISPyB = self.getDataInput()
         self.m_xsDataResultISPyB = XSDataResultISPyB()
 
@@ -139,7 +137,7 @@ class EDPluginISPyBv10(EDPluginExec):
             if ((xsDataISPyBImage == None) or (xsDataISPyBImage.getFileName() == None) or (xsDataISPyBImage.getFileLocation() == None)):
                 pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "process", \
                                                                      "Neither a dataCollectionId nor a image filename + path are provided.")
-                EDVerbose.error(pyStrErrorMessage)
+                self.error(pyStrErrorMessage)
                 self.addErrorMessage(pyStrErrorMessage)
                 return
 
@@ -150,24 +148,24 @@ class EDPluginISPyBv10(EDPluginExec):
 
             if edStringResponse != None:
                 # Handle response:
-                EDVerbose.DEBUG(edStringResponse)
+                self.DEBUG(edStringResponse)
                 xsDatadbstatus = XSDatadbstatus.parseString(edStringResponse)
                 pyStrCode = xsDatadbstatus.getCode()
                 pyStrMessage = xsDatadbstatus.getMessage()
-                EDVerbose.DEBUG("dbserver returns code: " + pyStrCode)
-                EDVerbose.DEBUG("dbserver returns message: " + pyStrMessage)
+                self.DEBUG("dbserver returns code: " + pyStrCode)
+                self.DEBUG("dbserver returns message: " + pyStrMessage)
 
                 if (pyStrCode == "error") or (xsDatadbstatus.getDataCollectionId() == -1):
                     if xsDatadbstatus.getDataCollectionId() == -1:
                         pyStrMessage = "An image corresponding to the given fileName and fileLocation was not found."
                     pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "process", pyStrMessage)
-                    EDVerbose.error(pyStrErrorMessage)
+                    self.error(pyStrErrorMessage)
                     self.addErrorMessage(pyStrErrorMessage)
                     return
 
                 if xsDatadbstatus.getDataCollectionId() != -1:
                     xsDataISPyBScreening.setDataCollectionId(XSDataInteger(xsDatadbstatus.getDataCollectionId()))
-                    EDVerbose.DEBUG("dataCollectionId is: " + str(xsDataISPyBScreening.getDataCollectionId().getValue()))
+                    self.DEBUG("dataCollectionId is: " + str(xsDataISPyBScreening.getDataCollectionId().getValue()))
 
         xsDataISPyBScreeningInput = xsDataInputISPyB.getScreeningInput()
         xsDataISPyBScreeningOutput = xsDataInputISPyB.getScreeningOutput()
@@ -192,7 +190,7 @@ class EDPluginISPyBv10(EDPluginExec):
 
                 if edStringResponse != None:
                     # Handle response:
-                    EDVerbose.DEBUG(edStringResponse)
+                    self.DEBUG(edStringResponse)
 
                     xsDatadbstatus = XSDatadbstatus.parseString(edStringResponse)
 
@@ -200,8 +198,8 @@ class EDPluginISPyBv10(EDPluginExec):
                     pyStrMessage = xsDatadbstatus.getMessage()
                     xsDataStrCode = XSDataString(pyStrCode)
                     xsDataStrMessage = XSDataString(pyStrMessage)
-                    EDVerbose.DEBUG("dbserver returns code: " + pyStrCode)
-                    EDVerbose.DEBUG("dbserver returns message: " + pyStrMessage)
+                    self.DEBUG("dbserver returns code: " + pyStrCode)
+                    self.DEBUG("dbserver returns message: " + pyStrMessage)
 
                     xsDataResultStatusList = self.m_xsDataResultISPyB.getResultStatus()
                     xsDataResultStatus = XSDataResultStatus(xsDataISPyBScreeningObject, xsDataStrCode, xsDataStrMessage)
@@ -211,7 +209,7 @@ class EDPluginISPyBv10(EDPluginExec):
 
                     if pyStrCode == "error":
                         pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "process", pyStrMessage)
-                        EDVerbose.error(pyStrErrorMessage)
+                        self.error(pyStrErrorMessage)
                         self.addErrorMessage(pyStrErrorMessage)
                         return
                 else:
@@ -221,7 +219,7 @@ class EDPluginISPyBv10(EDPluginExec):
         """
         """
         EDPluginExec.postProcess(self)
-        EDVerbose.DEBUG("*** EDPluginISPyBv10.postProcess")
+        self.DEBUG("*** EDPluginISPyBv10.postProcess")
         if (self.m_xsDataResultISPyB is not None):
             self.setDataOutput(self.m_xsDataResultISPyB)
 
@@ -234,12 +232,12 @@ class EDPluginISPyBv10(EDPluginExec):
                 if xsDataStrCode.getValue() == "error":
                     pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "postProcess", "Could not store object of class %s." \
                                                                          % xsDataObject.__class__.__name__)
-                    EDVerbose.error(pyStrErrorMessage)
+                    self.error(pyStrErrorMessage)
                     self.addErrorMessage(pyStrErrorMessage)
 
         if len(xsDataResultStatusList) == 0:
             pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "postProcess", "No objects stored.")
-            EDVerbose.error(pyStrErrorMessage)
+            self.error(pyStrErrorMessage)
             self.addErrorMessage(pyStrErrorMessage)
 
     def setForeignKeyAttributes(self, _xsDataISPyBScreeningObject, _xsDataResultISPyB):
@@ -286,7 +284,7 @@ class EDPluginISPyBv10(EDPluginExec):
                 pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "httpPost", \
                                                            "No header returned for %s, host %s, port %d. HTTP resonse was: %s" \
                                                            % (_strPath, _strHost, _iPort, pyStrReply))
-                EDVerbose.error(pyStrErrorMessage)
+                self.error(pyStrErrorMessage)
                 self.addErrorMessage(pyStrErrorMessage)
                 raise RuntimeError, pyStrErrorMessage
             try:
@@ -295,7 +293,7 @@ class EDPluginISPyBv10(EDPluginExec):
                 pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "httpPost", \
                                                            "Cannot convert Content-Length %s to integer for %s, host %s, port %d!" \
                                                            % (pyStrContentLength, _strPath, _strHost, _iPort))
-                EDVerbose.error(pyStrErrorMessage)
+                self.error(pyStrErrorMessage)
                 self.addErrorMessage(pyStrErrorMessage)
                 raise RuntimeError, pyStrErrorMessage
 
@@ -303,7 +301,7 @@ class EDPluginISPyBv10(EDPluginExec):
         except (PySocket.error, PyHttplib.BadStatusLine), (msg):
             pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginISPyBv10", "httpPost", \
                                                                  "Have you set up a connection to the dbserver? Error is: %s" % (msg))
-            EDVerbose.error(pyStrErrorMessage)
+            self.error(pyStrErrorMessage)
             self.addErrorMessage(pyStrErrorMessage)
             return None
 
@@ -317,32 +315,32 @@ class EDPluginISPyBv10(EDPluginExec):
 
         if _xsDatadbstatus.getScreeningId() != -1:
             _xsDataResultISPyB.setScreeningId(XSDataInteger(_xsDatadbstatus.getScreeningId()))
-            EDVerbose.DEBUG("screeningId is: " + str(_xsDataResultISPyB.getScreeningId().getValue()))
+            self.DEBUG("screeningId is: " + str(_xsDataResultISPyB.getScreeningId().getValue()))
         if _xsDatadbstatus.getScreeningRankId() != -1:
             _xsDataResultISPyB.setScreeningRankId(XSDataInteger(_xsDatadbstatus.getScreeningRankId()))
-            EDVerbose.DEBUG("screeningRankId is: " + str(_xsDataResultISPyB.getScreeningRankId().getValue()))
+            self.DEBUG("screeningRankId is: " + str(_xsDataResultISPyB.getScreeningRankId().getValue()))
         if _xsDatadbstatus.getScreeningRankSetId() != -1:
             _xsDataResultISPyB.setScreeningRankSetId(XSDataInteger(_xsDatadbstatus.getScreeningRankSetId()))
-            EDVerbose.DEBUG("screeningRankSetId is: " + str(_xsDataResultISPyB.getScreeningRankSetId().getValue()))
+            self.DEBUG("screeningRankSetId is: " + str(_xsDataResultISPyB.getScreeningRankSetId().getValue()))
         if _xsDatadbstatus.getScreeningStrategyId() != -1:
             _xsDataResultISPyB.setScreeningStrategyId(XSDataInteger(_xsDatadbstatus.getScreeningStrategyId()))
-            EDVerbose.DEBUG("screeningStrategyId is: " + str(_xsDataResultISPyB.getScreeningStrategyId().getValue()))
+            self.DEBUG("screeningStrategyId is: " + str(_xsDataResultISPyB.getScreeningStrategyId().getValue()))
         if _xsDatadbstatus.getScreeningInputId() != -1:
             _xsDataResultISPyB.setScreeningInputId(XSDataInteger(_xsDatadbstatus.getScreeningInputId()))
-            EDVerbose.DEBUG("screeningInputId is: " + str(_xsDataResultISPyB.getScreeningInputId().getValue()))
+            self.DEBUG("screeningInputId is: " + str(_xsDataResultISPyB.getScreeningInputId().getValue()))
         if _xsDatadbstatus.getScreeningOutputId() != -1:
             _xsDataResultISPyB.setScreeningOutputId(XSDataInteger(_xsDatadbstatus.getScreeningOutputId()))
-            EDVerbose.DEBUG("screeningOutputId is: " + str(_xsDataResultISPyB.getScreeningOutputId().getValue()))
+            self.DEBUG("screeningOutputId is: " + str(_xsDataResultISPyB.getScreeningOutputId().getValue()))
         if _xsDatadbstatus.getScreeningOutputLatticeId() != -1:
             _xsDataResultISPyB.setScreeningOutputLatticeId(XSDataInteger(_xsDatadbstatus.getScreeningOutputLatticeId()))
-            EDVerbose.DEBUG("screeningOutputLatticeId is: " + str(_xsDataResultISPyB.getScreeningOutputLatticeId().getValue()))
+            self.DEBUG("screeningOutputLatticeId is: " + str(_xsDataResultISPyB.getScreeningOutputLatticeId().getValue()))
         return _xsDataResultISPyB
 
     def generateExecutiveSummary(self, _edPlugin):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("*** EDPluginISPyBv10.generateExecutiveSummary")
+        self.DEBUG("*** EDPluginISPyBv10.generateExecutiveSummary")
 
         xsDataResultISPyB = self.getDataOutput()
         if xsDataResultISPyB != None:

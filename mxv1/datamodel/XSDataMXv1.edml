@@ -97,6 +97,7 @@ package XSDataMXv1 {
 			shortSummary : XSDataString
 			statusMessage : XSDataString
 			strategyResult : XSDataResultStrategy optional
+			xdsBackgroundImage : XSDataFile optional
 		}
 
 		complex type XSDataResultControlISPyB extends XSDataResult {
