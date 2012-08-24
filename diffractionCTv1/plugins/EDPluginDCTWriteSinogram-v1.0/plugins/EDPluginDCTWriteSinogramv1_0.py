@@ -178,7 +178,7 @@ class EDPluginDCTWriteSinogramv1_0(EDPluginExec):
             self.m_cifPowderData = CIF()
             self.m_cifPowderData.loadCIF(pyStrPathToInputCIFFile)
             EDVerbose.DEBUG("Parsing of the CIF file %s successful" % pyStrPathToInputCIFFile)
-        except:
+        except Exception:
             pyStrErrorMessage = EDMessage.ERROR_UNEXPECTED_01 % ("EDPluginDCTWriteSinogramv1_0.preProcess: Error when trying to read CIF file : %s" % pyStrPathToInputCIFFile)
             EDVerbose.error(pyStrErrorMessage)
             self.addErrorMessage(pyStrErrorMessage)

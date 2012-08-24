@@ -57,7 +57,7 @@ EDFactoryPluginStatic.preImport("Image", imagingPath)
 
 try:
     import numpy, scipy.ndimage.morphology, Image, fabio
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy,PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginPyarchThumbnailv10 \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")

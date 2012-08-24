@@ -115,7 +115,7 @@ class EDApplicationDimplev0(EDApplication):
                 if (self.strDatasetFileName is not None):
                     try:
                         self.ccp4DataInputControlPipelineCalcDiffMap = CCP4DataInputControlPipelineCalcDiffMap.parseFile(self.strDatasetFileName)
-                    except:
+                    except Exception:
                         errorMessage = EDMessage.ERROR_CANNOT_READ_FILE_02 % ("EDApplicationDimplev0.process", self.strDatasetFileName)
                         EDVerbose.error(errorMessage)
                         raise RuntimeError, errorMessage
