@@ -49,13 +49,14 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
     * EDPluginBioSaxsAzimutIntv1_3 #with pyFAI
 
     """
+    __strControlledPluginNormalize = "EDPluginBioSaxsNormalizev1_1"
+    __strControlledPluginIntegrate = "EDPluginBioSaxsAzimutIntv1_3"
+
     def __init__(self):
         """
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsProcessOneFilev1_0)
-        self.__strControlledPluginNormalize = "EDPluginBioSaxsNormalizev1_1"
-        self.__strControlledPluginIntegrate = "EDPluginBioSaxsAzimutIntv1_3"
         self.__edPluginNormalize = None
         self.__edPluginIntegrate = None
 
@@ -89,8 +90,6 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginBioSaxsProcessOneFilev1_2.process")
 
-
-
         self.__edPluginNormalize.connectSUCCESS(self.doSuccessNormalize)
         self.__edPluginNormalize.connectFAILURE(self.doFailureNormalize)
         xsd = XSDataInputBioSaxsNormalizev1_0()
@@ -101,6 +100,7 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         xsd.sample = self.dataInput.sample
         self.__edPluginNormalize.dataInput = xsd
         self.__edPluginNormalize.executeSynchronous()
+
         if self.isFailure():
             return
 
