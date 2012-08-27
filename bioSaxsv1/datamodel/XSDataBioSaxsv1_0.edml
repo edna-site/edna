@@ -96,6 +96,7 @@ complex type XSDataBioSaxsExperimentSetup extends XSData{
 	exposureTime: XSDataTime optional
 	frameNumber: XSDataInteger optional
 	frameMax: XSDataInteger optional
+	
 }
 
 complex type XSDataBioSaxsSample extends XSData {
@@ -172,6 +173,7 @@ complex type XSDataInputBioSaxsNormalizev1_0 extends  XSDataInput{
 	rawImageSize : XSDataInteger
 	sample: XSDataBioSaxsSample
 	experimentSetup: XSDataBioSaxsExperimentSetup
+	
 }
 
 complex type XSDataResultBioSaxsNormalizev1_0 extends XSDataResult {
@@ -190,6 +192,7 @@ complex type XSDataInputBioSaxsProcessOneFilev1_0 extends XSDataInput{
 	normalizedImage : XSDataImage optional
 	integratedImage : XSDataImage optional
 	integratedCurve : XSDataFile optional
+	
 }
 
 complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {

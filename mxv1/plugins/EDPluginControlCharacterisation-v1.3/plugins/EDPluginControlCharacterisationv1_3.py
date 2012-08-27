@@ -458,6 +458,7 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlCharacterisationv1_3.doSuccessXDSGenerateBackgroundImage")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlCharacterisationv1_3.doSuccessXDSGenerateBackgroundImage")
         self._xsDataFileXdsBackgroundImage = self._edPluginControlXDSGenerateBackgroundImage.getDataOutput().getXdsBackgroundImage()
+        self._xsDataResultCharacterisation.setXdsBackgroundImage(self._xsDataFileXdsBackgroundImage)
 
 
     def doFailureXDSGenerateBackgroundImage(self, _edPlugin=None):

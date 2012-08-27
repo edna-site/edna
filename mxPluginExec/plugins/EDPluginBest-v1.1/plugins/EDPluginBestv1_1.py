@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -30,10 +28,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "deprecated"
 
 import os
 
-from EDVerbose                       import EDVerbose
+
 from EDUtilsPath                     import EDUtilsPath
 from EDMessage                       import EDMessage
 from EDUtilsFile                     import EDUtilsFile
@@ -179,10 +179,10 @@ class EDPluginBestv1_1(EDPluginExecProcessScript):
         """
         """
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginBestv1_1.configure")
+        self.DEBUG("EDPluginBestv1_1.configure")
         self.setRequireCCP4(True)
         strScriptExecutable = self.getScriptExecutable()
-        EDVerbose.DEBUG("EDPluginBestv1_1.configure: Script Executable: " + strScriptExecutable)
+        self.DEBUG("EDPluginBestv1_1.configure: Script Executable: " + strScriptExecutable)
         strBestScriptHome = os.path.dirname(strScriptExecutable)
         strBestHome = None
 
@@ -196,7 +196,7 @@ class EDPluginBestv1_1(EDPluginExecProcessScript):
                 strBestHome = strBestScriptHome
 
         self.setBestHome(strBestHome)
-        EDVerbose.DEBUG("EDPluginBestv1_1.configure: Best Home: " + strBestHome)
+        self.DEBUG("EDPluginBestv1_1.configure: Best Home: " + strBestHome)
         self.setCommandBestHome("export besthome=" + self.getBestHome())
 
 
@@ -307,7 +307,7 @@ class EDPluginBestv1_1(EDPluginExecProcessScript):
         strError = self.readProcessErrorLogFile()
         if((strError is not None) and (strError != "")):
             pyStrErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_1.postProcess', 'EDPluginBestv1_1', strError)
-            EDVerbose.error(pyStrErrorMessage)
+            self.error(pyStrErrorMessage)
             self.addErrorMessage(pyStrErrorMessage)
             raise RuntimeError, pyStrErrorMessage
 
@@ -530,7 +530,7 @@ class EDPluginBestv1_1(EDPluginExecProcessScript):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("EDPluginBestv1_1.generateExecutiveSummary")
+        self.DEBUG("EDPluginBestv1_1.generateExecutiveSummary")
         if (self.getStringVersion() is not None):
             self.addExecutiveSummaryLine(self.getStringVersion())
 

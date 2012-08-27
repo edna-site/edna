@@ -28,10 +28,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
 
-from EDVerbose                       import EDVerbose
+
 from EDUtilsPath                     import EDUtilsPath
 from EDMessage                       import EDMessage
 from EDUtilsFile                     import EDUtilsFile
@@ -167,10 +169,10 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginBestv1_2.configure")
+        self.DEBUG("EDPluginBestv1_2.configure")
         self.setRequireCCP4(True)
         strScriptExecutable = self.getScriptExecutable()
-        EDVerbose.DEBUG("EDPluginBestv1_2.configure: Script Executable: " + strScriptExecutable)
+        self.DEBUG("EDPluginBestv1_2.configure: Script Executable: " + strScriptExecutable)
         strBestScriptHome = EDUtilsPath.getFolderName(strScriptExecutable)
         strBestHome = None
 
@@ -184,13 +186,13 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
                 strBestHome = strBestScriptHome
 
         self.setBestHome(strBestHome)
-        EDVerbose.DEBUG("EDPluginBestv1_2.configure: Best Home: " + strBestHome)
+        self.DEBUG("EDPluginBestv1_2.configure: Best Home: " + strBestHome)
         self.setCommandBestHome("export besthome=" + self.getBestHome())
 
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginBestv1_2.preProcess")
+        self.DEBUG("EDPluginBestv1_2.preProcess")
 
         self.setScriptLogFileName("best.log")
 
@@ -322,11 +324,11 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
     def finallyProcess(self, _edObject=None):
         EDPluginExecProcessScript.finallyProcess(self)
-        EDVerbose.DEBUG("EDPluginBestv1_2.finallyProcess")
+        self.DEBUG("EDPluginBestv1_2.finallyProcess")
         strError = self.readProcessErrorLogFile()
         if((strError is not None) and (strError != "")):
             strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_2.postProcess', 'EDPluginBestv1_2', strError)
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setDataOutput(XSDataResultBest())
             self.setFailure()
@@ -644,7 +646,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("EDPluginBestv1_2.generateExecutiveSummary")
+        self.DEBUG("EDPluginBestv1_2.generateExecutiveSummary")
         strBestLog = self.readProcessLogFile()
         listBestLogLines = strBestLog.split("\n")
         for strLine in listBestLogLines:

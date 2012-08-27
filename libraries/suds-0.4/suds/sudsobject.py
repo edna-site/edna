@@ -144,7 +144,7 @@ class Object:
             builtin =  name.startswith('__') and name.endswith('__')
             if not builtin:
                 self.__keylist__.remove(name)
-        except:
+        except Exception:
             cls = self.__class__.__name__
             raise AttributeError, "%s has no attribute '%s'" % (cls, name)
 
@@ -206,7 +206,7 @@ class Iter:
                     ordering)
                 raise KeyError()
             return ordering
-        except:
+        except Exception:
             return keylist
         
     def __iter__(self):
@@ -372,7 +372,7 @@ class Printer:
             wrappers = getattr(pmd, 'wrappers', {})
             fn = wrappers.get(item[0], nopt)
             return (item[0], fn(item[1]))
-        except:
+        except Exception:
             pass
         return item
     
@@ -385,6 +385,6 @@ class Printer:
                 return False
             excludes = getattr(pmd, 'excludes', [])
             return ( item[0] in excludes ) 
-        except:
+        except Exception:
             pass
         return False

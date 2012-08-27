@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteMxv1ParamsToXMLv1_0.py 1384 2010-04-20 11:40:26Z svensson $"
-#
 #    Copyright (C) 2011 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -30,7 +28,7 @@ __copyright__ = "Diamond Light Source, Chilton, Didcot, UK"
 
 import os.path
 
-from EDVerbose                        import EDVerbose
+
 from EDAssert                         import EDAssert
 from EDUtilsFile                      import EDUtilsFile
 from EDTestCasePluginExecute          import EDTestCasePluginExecute
@@ -63,8 +61,8 @@ class EDTestCasePluginExecuteMxv1ParamsToXMLv1_0(EDTestCasePluginExecute):
         strObtainedOutput = self.readAndParseFile(strXMLFile)
         xsDataInputInterfaceObtained = XSDataInputInterface.parseString(strObtainedOutput)
 
-        EDVerbose.DEBUG("Checking obtained result...")
-        EDVerbose.DEBUG("Found class of type: %s" % xsDataInputInterfaceObtained.__class__.__name__)
+        self.DEBUG("Checking obtained result...")
+        self.DEBUG("Found class of type: %s" % xsDataInputInterfaceObtained.__class__.__name__)
         # Just quickly check that we have an actual XSDataInputInterface object 
         EDAssert.equal(xsDataInputInterfaceObtained.__class__.__name__ == "XSDataInputInterface", True)
 

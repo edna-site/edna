@@ -42,6 +42,7 @@ class EDTestSuitePluginExecuteISPyBv1_4(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_4_failedProcessing")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreDataCollectionv1_4")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreScreeningv1_4")
 
 
 ##############################################################################

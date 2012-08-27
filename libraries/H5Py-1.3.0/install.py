@@ -73,21 +73,21 @@ if __name__ == "__main__":
         if pthreadPath is None:
             try:
                 installHDF5.configure("--prefix=%s" % (installHDF5.getDestinationDirectory()))
-            except:
+            except Exception:
                 EDVerbose.ERROR("Error in the configure step, no pthread")
         else:
             try:
                 installHDF5.configure("--prefix=%s --enable-threadsafe --with-pthread=%s" % (installHDF5.getDestinationDirectory(), pthreadPath))
-            except:
+            except Exception:
                 EDVerbose.ERROR("Error in the configure step, with pthread")
         try:
             installHDF5.make("-j %i" % EDUtilsParallel.detectNumberOfCPUs())
-        except:
+        except Exception:
             EDVerbose.ERROR("Error in the 'make' step")
 
         try:
             installHDF5.make("install")
-        except:
+        except Exception:
             EDVerbose.ERROR("Error in the 'make install' step")
         hdfPath = installHDF5.getDestinationDirectory()
         installHDF5.cleanSources()
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     install.unZipArchive()
     try:
         install.buildSources("--hdf5=%s" % hdfPath)
-    except:
+    except Exception:
         EDVerbose.ERROR("Error in the building of %s" % (h5pyLibrary))
         sys.exit(0)
     install.installBuilt()

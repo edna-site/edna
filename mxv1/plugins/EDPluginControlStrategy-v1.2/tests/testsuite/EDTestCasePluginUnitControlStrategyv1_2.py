@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -28,6 +26,8 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120711"
+__status__ = "production"
 
 
 import os
@@ -64,6 +64,7 @@ from XSDataMXv1 import XSDataExperimentalCondition
 from XSDataMXv1 import XSDataResultStrategy
 from XSDataMXv1 import XSDataDetector
 from XSDataMXv1 import XSDataGoniostat
+from XSDataMXv1 import XSDataInputStrategy
 
 class EDTestCasePluginUnitControlStrategyv1_2(EDTestCasePluginUnit):
 
@@ -88,8 +89,7 @@ class EDTestCasePluginUnitControlStrategyv1_2(EDTestCasePluginUnit):
         edPluginStrategy.setConfiguration(xsPluginItemGood01)
         edPluginStrategy.configure()
 
-        from XSDataMXv1 import XSDataStrategyInput
-        xsDataStrategy = XSDataStrategyInput()
+        xsDataStrategy = XSDataInputStrategy()
 
         # Beam
 
@@ -205,8 +205,8 @@ class EDTestCasePluginUnitControlStrategyv1_2(EDTestCasePluginUnit):
         pyStrExpectedInput = self.readAndParseFile (self.strReferenceInputFile)
         pyStrObtainedInput = self.readAndParseFile (self.strObtainedInputFile)
 
-        xsDataInputExpected = XSDataStrategyInput.parseString(pyStrExpectedInput)
-        xsDataInputObtained = XSDataStrategyInput.parseString(pyStrObtainedInput)
+        xsDataInputExpected = XSDataInputStrategy.parseString(pyStrExpectedInput)
+        xsDataInputObtained = XSDataInputStrategy.parseString(pyStrObtainedInput)
 
         EDAssert.equal(xsDataInputExpected.marshal(), xsDataInputObtained.marshal())
 
@@ -216,12 +216,12 @@ class EDTestCasePluginUnitControlStrategyv1_2(EDTestCasePluginUnit):
 
         xsDataSampleCrystalMM = XSDataSampleCrystalMM()
         xsDataCrystal = XSDataCrystal()
-        xsDataCell = XSDataCell(XSDataAngle(90.0),
-                                 XSDataAngle(90.0),
-                                 XSDataAngle(90.0),
-                                 XSDataLength(78.9),
-                                 XSDataLength(95.162),
-                                 XSDataLength(104.087))
+        xsDataCell = XSDataCell(angle_alpha=XSDataAngle(90.0),
+                                 angle_beta=XSDataAngle(90.0),
+                                 angle_gamma=XSDataAngle(90.0),
+                                 length_a=XSDataLength(78.9),
+                                 length_b=XSDataLength(95.162),
+                                 length_c=XSDataLength(104.087))
         xsDataCrystal.setCell(xsDataCell)
         xsDataSampleCrystalMM.setCrystal(xsDataCrystal)
         inumOperators = 4

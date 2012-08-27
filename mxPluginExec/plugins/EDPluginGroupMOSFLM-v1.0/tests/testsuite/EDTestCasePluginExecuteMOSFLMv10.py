@@ -29,10 +29,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
 
-from EDVerbose import EDVerbose
+
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from EDApplication import EDApplication
 from XSDataCommon import XSPluginItem
@@ -52,7 +54,7 @@ class EDTestCasePluginExecuteMOSFLMv10(EDTestCasePluginExecute):
                 xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
 
             if (xsPluginItem is None):
-                EDVerbose.DEBUG("EDPlugin.configure: No plugin configuration found for " + self.getPluginName())
+                self.DEBUG("EDPlugin.configure: No plugin configuration found for " + self.getPluginName())
                 xsPluginItem = XSPluginItem()
             else:
                 edPluginMOSFLM.setConfiguration(xsPluginItem)

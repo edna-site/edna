@@ -156,7 +156,7 @@ class EDApplicationXAFSBatchProcessing(EDApplication):
             try:
                 if (self.__strNxsEnergy and self.__strNxsLnI0It):
                     _edPlugin.readXAFSNexusFiles(self.__strDatasetFileNames, self.__strNxsEnergy, self.__strNxsLnI0It, self.__strNxsScanIndex)
-            except:
+            except Exception:
                 errorMessage = EDMessage.ERROR_CANNOT_READ_FILE_02 % ("EDApplicationXAFSBatchProcessing.setPluginInput", self.__strDatasetFileNames)
                 EDVerbose.error(errorMessage)
                 raise RuntimeError, errorMessage

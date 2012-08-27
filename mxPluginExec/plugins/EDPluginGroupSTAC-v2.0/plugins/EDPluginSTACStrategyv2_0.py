@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -11,9 +9,16 @@
 #
 #    
 
+__authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
+__contact__ = "svensson@esrf.fr"
+__license__ = "GPLv3+"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
 import os
 
-from EDVerbose import EDVerbose
+
 from EDMessage import EDMessage
 from EDUtilsFile import EDUtilsFile
 from EDFactoryPluginStatic import  EDFactoryPluginStatic
@@ -62,7 +67,7 @@ class EDPluginSTACStrategyv2_0( EDPluginSTACv2_0 ):
 
     def preProcess( self, _oedObject=None ):
         EDPluginSTACv2_0.preProcess( self )
-        EDVerbose.DEBUG( "EDPluginSTACStrategyv2_0.preProcess" )
+        self.DEBUG( "EDPluginSTACStrategyv2_0.preProcess" )
         #bestfile.par
         #EDUtilsFile.writeFile( EDDiskExplorer.mergePath( self.getWorkingDirectory(), "bestfile.par" ), self.m_oxsDataBestFileContentPar.getValue())
         #self.writeBestfilePar( os.path.join( self.getWorkingDirectory(), "bestfile.par" ), self.m_oxsDataBestFileContentPar.getValue() )
@@ -111,7 +116,7 @@ class EDPluginSTACStrategyv2_0( EDPluginSTACv2_0 ):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG( "EDPluginSTACStrategyv2_0.generateExecutiveSummary" )
+        self.DEBUG( "EDPluginSTACStrategyv2_0.generateExecutiveSummary" )
         self.addExecutiveSummaryLine( "<!--SUMMARY_BEGIN-->" )
         if ( self.getStringVersion() is not None ):
             self.addExecutiveSummaryLine( self.getStringVersion() + " by Sandor Brockhauser" )

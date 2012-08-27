@@ -36,11 +36,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>ispybPlugin</name>
-					<value>EDPluginControlISPyBv1_0</value>
+					<value>EDPluginControlISPyBv1_4</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>useISPyBPlugin</name>
-					<value>True</value>
+					<value>False</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

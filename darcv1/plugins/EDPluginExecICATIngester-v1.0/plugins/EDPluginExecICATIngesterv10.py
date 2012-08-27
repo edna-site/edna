@@ -582,7 +582,7 @@ class EDPluginExecICATIngesterv10( EDPluginExec ):
                         fileTree.writexml( f )
                         f.close()
                 
-                except:
+                except Exception:
                     #
                     #os.rename( filepath, filepath + '.nosplit' )
                     shutil.move( filepath, filepath + '.nosplit' )
@@ -591,7 +591,7 @@ class EDPluginExecICATIngesterv10( EDPluginExec ):
         
         
         
-        except:
+        except Exception:
             EDVerbose.DEBUG( strftime("%Y-%m-%d %H:%M:%S") + " *** EDPluginExecICATIngesterv10.splitBigFiles  Failed to parse file '%s' renaming it." % filepath )
             #os.rename( filepath, filepath + '.invalid' )
             shutil.move( filepath, filepath + '.invalid' )
@@ -616,7 +616,7 @@ class EDPluginExecICATIngesterv10( EDPluginExec ):
         # get the filename to load        
         try:
             edTree = minidom.parse( edFileName )
-        except:
+        except Exception:
             # is performed by the archiver already
             EDVerbose.DEBUG( strftime("%Y-%m-%d %H:%M:%S") + " *** EDPluginControlDLSArchiverv10.openXMLTree  Failed to parse file '%s' renaming it." % edFileName )
             #os.rename( edFileName, edFileName + '.invalid' )

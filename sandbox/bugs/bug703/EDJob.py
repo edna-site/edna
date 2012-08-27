@@ -213,12 +213,12 @@ class EDJob(EDObject):
         self.synchronizeOff()
         try:
             self.__edSlotSUCCESS.call(self.__jobId)
-        except:
+        except Exception:
             EDVerbose.ERROR("Error in execution of Success call-back for %s" % self.__jobId)
             EDVerbose.writeErrorTrace()
         try:
             self.__edSlotCallBack.call(self.__jobId)
-        except:
+        except Exception:
             EDVerbose.ERROR("Error in execution of Common call-back (after success) for %s" % self.__jobId)
             EDVerbose.writeErrorTrace()
 
@@ -233,12 +233,12 @@ class EDJob(EDObject):
         self.synchronizeOff()
         try:
             self.__edSlotFAILURE.call(self.__jobId)
-        except:
+        except Exception:
             EDVerbose.ERROR("Error in execution of Failure call-back for %s" % self.__jobId)
             EDVerbose.writeErrorTrace()
         try:
             self.__edSlotCallBack.call(self.__jobId)
-        except:
+        except Exception:
             EDVerbose.ERROR("Error in execution of Common call-back (after failure) for %s" % self.__jobId)
             EDVerbose.writeErrorTrace()
 

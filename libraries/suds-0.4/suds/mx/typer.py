@@ -118,6 +118,6 @@ class Typer:
             md = object.__metadata__
             known = md.sxtype
             return known
-        except:
+        except Exception:
             pass
 

@@ -1,12 +1,11 @@
 #
-#    Project: PROJECT
+#    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
+#                            Grenoble, France
 #
-#    Copyright (C) ESRF
-#
-#    Principal author:       Olof Svensson
+#    Principal authors:      Olof Svensson (svensson@esrf.fr) 
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,9 +21,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__ = "Olof Svensson"
+__authors__ = [ "Olof Svensson" ]
+__contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
-__copyright__ = "ESRF"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os
 
@@ -45,8 +45,8 @@ class EDTestCasePluginExecuteControlGridScreeningv1_0(EDTestCasePluginExecute):
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputGridScreening_reference.xml"))
-        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultCharacterisation_reference.xml"))
+#        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
+#                                                     "XSDataResultCharacterisation_reference.xml"))
         self.setNoExpectedWarningMessages(1)
 
 
