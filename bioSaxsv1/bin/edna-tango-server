@@ -46,9 +46,9 @@ else
    buffer="buffer"
 fi
 hostname=$(hostname)
-if [ -d /${buffer}/$(hostname)1 ]
+if [ -d /${buffer}/${hostname}1 ]
 then
-   baseLog=/${buffer}/$(hostname)1
+   baseLog=/${buffer}/${hostname}1
 else
    baseLog=/tmp
 fi 
@@ -61,7 +61,8 @@ then
 PythonProg=${EDNA_HOME}/tango/bin/tango-EdnaDS.py
 echo "Server Mode"
 cd $TestSpace
-if [ "$hostname" = "slavia" ]
+
+if [ ${hostname} = "slavia" ]
 then
    ds="DAU_slavia"
 else
