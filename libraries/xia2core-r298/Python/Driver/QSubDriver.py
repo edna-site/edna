@@ -195,7 +195,7 @@ class QSubDriver(DefaultDriver):
         try:
             os.remove(sge_stdout)
             os.remove(sge_stderr)
-        except:
+        except Exception:
             # something wrong with this deletion?
             pass
 

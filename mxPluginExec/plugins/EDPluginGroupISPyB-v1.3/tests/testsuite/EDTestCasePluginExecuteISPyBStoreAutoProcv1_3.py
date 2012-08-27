@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2011      European Synchrotron Radiation Facility
+#    Copyright (C) 2011-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -29,6 +27,8 @@ __author__ = "Olof Svensson"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "deprecated"
 
 
 import os.path
@@ -46,7 +46,7 @@ class EDTestCasePluginExecuteISPyBStoreAutoProcv1_3(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreAutoProcv1_3")
 
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBase.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProc_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProc_test.xml"))
 
 
     def testExecute(self):

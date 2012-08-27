@@ -3,9 +3,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -32,7 +30,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, tempfile, stat
+import os, tempfile, stat, types
 
 from EDSlot             import EDSlot
 from EDApplication      import EDApplication
@@ -94,6 +92,7 @@ class EDPlugin(EDAction):
         self.__strPluginId = "%s-%08i" % (self.getClassName(), self.getId())
         self.strPathDataInput = None
         self.strPathDataOutput = None
+        self.__bUseWarningInsteadOfError = False
 
 
     def preProcess(self, _edObject=None):
@@ -186,29 +185,33 @@ class EDPlugin(EDAction):
           - Otherwise if a product-wide (e.g. "mxPluginExec") configuration value exists it will be used.         
         """
         self.DEBUG("EDPlugin.getConfigurationParameterValue")
-        strParameteValue = None
+        strParameterValue = None
         xsPluginItem = self.getConfiguration()
         bFoundConfigurationParameter = False
         if xsPluginItem:
-            strParameteValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName).getValue()
-            if strParameteValue:
-                bFoundConfigurationParameter = True
+            xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
+            if xsDataValue:
+                strParameterValue = xsDataValue.getValue() 
+                if strParameterValue:
+                    bFoundConfigurationParameter = True
 
         if not bFoundConfigurationParameter:
             xsPluginItem = EDApplication.getApplicationPluginConfiguration(self.getPluginName())
             if xsPluginItem:
-                strParameteValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName).getValue()
-                if strParameteValue:
-                    bFoundConfigurationParameter = True
+                xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
+                if xsDataValue:
+                    strParameterValue = xsDataValue.getValue()
+                    if strParameterValue:
+                        bFoundConfigurationParameter = True
 
         if not bFoundConfigurationParameter:
             xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
             if xsPluginItem:
-                strParameteValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName).getValue()
-                if strParameteValue:
-                    bFoundConfigurationParameter = True
+                xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
+                if xsDataValue:
+                    strParameterValue = xsDataValue.getValue()
 
-        return strParameteValue
+        return strParameterValue
 
 
     def getDoubleConfigurationParameterValue(self, _strConfigurationParameterName):
@@ -477,7 +480,7 @@ class EDPlugin(EDAction):
             self.__dictXSDataOutput[ strDataOutputKey ] = _xsDataOutput
         else:
             # Check if the _xsDataoutput object is already a list
-            if (type(_xsDataOutput) == type ([])):
+            if (type(_xsDataOutput) == types.ListType):
                 self.__dictXSDataOutput[ strDataOutputKey ] = _xsDataOutput
             else:
                 # Check if the stored object contains already a list
@@ -523,7 +526,7 @@ class EDPlugin(EDAction):
         if (strDataOutputKey in self.__dictXSDataOutput.keys()):
             self.__dictXSDataOutput[ strDataOutputKey ] = None
         else:
-            strErrorMessage = self.getPluginName() + ".delDataOutput, no output data defined for key: " + strDataInputKey
+            strErrorMessage = self.getPluginName() + ".delDataOutput, no output data defined for key: " + _strDataOutputKey
             self.warning(strErrorMessage)
             self.addWarningMessage(strErrorMessage)
 
@@ -753,7 +756,7 @@ class EDPlugin(EDAction):
         Checks that a mandatory parameter exists in the data
         If not, an error message is added in the list and the plugin fails
         """
-        if (_xsData in [ None, list(), tuple(), dict()]):
+        if _xsData is None or (hasattr(_xsData, '__len__') and len(_xsData) == 0):
             strErrorMessage = "%s: input parameter is missing: %s" % (self.getPluginName(), _strParamName)
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
@@ -864,4 +867,33 @@ class EDPlugin(EDAction):
 
 
     def setWriteXMLInputOutput(self, _bValue=True):
+        """
+        Sets or unsets the plugin to write XML input and output files.
+        @param _bValue: WriteDataXMLInputOutput
+        @type: boolean
+        """
         self.__bWriteDataXMLInputOutput = _bValue
+        
+    def setUseWarningInsteadOfError(self, _bValue = True):
+        """
+        Sets or unsets the plugin to use warning messages also for error messages.
+        @param _bValue: UseWarningInsteadOfError
+        @type: boolean
+        """
+        self.__bUseWarningInsteadOfError = _bValue
+        
+    def error(self, _strErrorMessage):
+        """
+        Overloaded from EDLogging. If self.__bUseWarningInsteadOfError is True
+        a warning message is issued instead of an error message.
+        """
+        if self.__bUseWarningInsteadOfError:
+            self.warning(_strErrorMessage)
+        else:
+            EDAction.error(self, _strErrorMessage)
+            
+    def ERROR(self, _strErrorMessage):
+        """
+        Uses the overloaded self.error method above.
+        """
+        self.error(_strErrorMessage)

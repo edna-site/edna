@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -30,6 +28,10 @@ __authors__ = ["Olof Svensson", "Sandor Brockhauser", "Gleb Bourenkov"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
+import os
 
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
 from EDUtilsTest                    import EDUtilsTest
@@ -44,7 +46,7 @@ class EDTestCasePluginUnitXDSSpotSearchv1_1(EDTestCasePluginUnit):
         Set up paths, reference files etc.
         """
         EDTestCasePluginUnit.__init__(self, _pyStrTestName)
-        self.m_pyStrReferenceInputFile = EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputXDSSpotSearch_reference.xml")
+        self.m_pyStrReferenceInputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataInputXDSSpotSearch_reference.xml")
 
 
     def testCheckParameters(self):

@@ -1,15 +1,14 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) 2008-2010 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
 #                       Olof Svensson (svensson@esrf.fr) 
-#                       Jerome Kieffer
+#                       Jérôme Kieffer (Jerome.kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -37,8 +36,7 @@ __authors__ = "Marie-Francoise Incardona, Olof Svensson, Jerome Kieffer"
 __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
-import exceptions
+__date__ = "20120216"
 
 from EDVerbose          import EDVerbose
 from EDTest             import EDTest
@@ -87,7 +85,7 @@ class EDTestSuite(EDTest):
         exceptionObject = None
         try:
             edTestCase = EDUtilsTest.getFactoryPluginTest().loadPlugin(_strTestCaseName)
-        except exceptions.ImportError, exceptionObject:
+        except ImportError, exceptionObject:
             strWarningMessage = "Could not create the test case: %s, reason: %s" % (_strTestCaseName, exceptionObject)
             EDVerbose.WARNING(strWarningMessage)
             self.__dictTestCaseNotExecuted[_strTestCaseName] = "%s : %s" % (self.getClassName(), strWarningMessage)
@@ -112,7 +110,7 @@ class EDTestSuite(EDTest):
         exceptionObject = None
         try:
             edTestSuite = EDUtilsTest.getFactoryPluginTest().loadPlugin(_strTestSuiteName)
-        except exceptions.ImportError, exceptionObject:
+        except ImportError, exceptionObject:
             strWarningMessage = "Could not create the test suite: %s, reason: %s" % (_strTestSuiteName, exceptionObject)
             EDVerbose.WARNING(strWarningMessage)
             self.__dictTestCaseNotExecuted[_strTestSuiteName] = "%s : %s" % (self.getClassName(), strWarningMessage)

@@ -24,7 +24,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
-import EDLogging
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
@@ -42,17 +41,20 @@ from XSDataShiftv1_0        import XSDataResultMeasureOffset
 from EDAssert               import EDAssert
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
+from EDUtilsPath            import EDUtilsPath
+from EDThreading            import Semaphore
+
 
 
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
 architecture = EDUtilsPlatform.architecture
-fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", architecture)
-imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1.1.7", architecture)
-numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", architecture)
-scipyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090711-SciPy-0.7.1", architecture)
-fftw3Path = os.path.join(os.environ["EDNA_HOME"], "libraries", "pyfftw3-0.2.1", architecture)
+fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
+imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
+numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3", architecture)
+scipyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090711-SciPy-0.7.1", architecture)
+fftw3Path = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "pyfftw3-0.2.1", architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 EDFactoryPluginStatic.preImport("scipy.ndimage", scipyPath)
 EDFactoryPluginStatic.preImport("scipy.fftpack", scipyPath)
@@ -64,7 +66,7 @@ fftw3 = EDFactoryPluginStatic.preImport("fftw3", fftw3Path)
 
 try:
     import scipy.ndimage, scipy.interpolate
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
@@ -75,19 +77,19 @@ try:
     MeasureOffset = imp.load_module(*(("MeasureOffset",) + imp.find_module("MeasureOffset", [srcDir])))
 except ImportError, error:
     strErr = "Unable to load the MeasureOffset module from %s; %s" % (srcDir, error)
-    EDLogging.ERROR(strErr)
+    EDVerbose.ERROR(strErr)
     raise ImportError(strErr)
 
 class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     """
     An exec plugin that taked two images and measures the offset between the two.
     """
-    __sem = threading.Semaphore()
+    __sem = Semaphore()
     __npaMask = None
 
     CONF_CONVOLUTION = None
     CONF_CONVOLUTION_KEY = "convolution"
-    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "fftw". signal is no more possible
+    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "fftw", "cuda" or simply falls back on numpy.fftpack
 
     def __init__(self):
         """
@@ -121,20 +123,20 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         """
         EDPluginExec.configure(self)
         if self.CONF_CONVOLUTION is None:
-            self.synchronizeOn()
-            self.DEBUG("EDPluginExecMeasureOffsetv1_0.configure")
-            xsPluginItem = self.getConfiguration()
-            if (xsPluginItem == None):
-                self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No plugin item defined.")
-                xsPluginItem = XSPluginItem()
-            strCONVOLUTION = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_CONVOLUTION_KEY)
-            if(strCONVOLUTION == None):
-                self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
-                            % (self.CONF_CONVOLUTION_KEY, self.CONF_CONVOLUTION_DEFAULT, xsPluginItem.marshal()))
-                self.CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
-            else:
-                self.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
-            self.synchronizeOff()
+            with self.__class__.__sem:
+                self.DEBUG("EDPluginExecMeasureOffsetv1_0.configure")
+                xsPluginItem = self.getConfiguration()
+                if xsPluginItem is None:
+                    self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No plugin item defined.")
+                    xsPluginItem = XSPluginItem()
+                strCONVOLUTION = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_CONVOLUTION_KEY)
+                if strCONVOLUTION is None:
+                    self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
+                                % (self.CONF_CONVOLUTION_KEY, self.CONF_CONVOLUTION_DEFAULT, xsPluginItem.marshal()))
+                    self.__class__CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
+                else:
+                    self.__class__.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
+
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
@@ -237,8 +239,10 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
 
+        self.DEBUG("Doing ffts using %s" % self.CONF_CONVOLUTION)
         offset, logs = MeasureOffset.measure_offset(self.npaIm1, self.npaIm2,
-                                                    method=self.CONF_CONVOLUTION, withLog=True)
+                                                    self.CONF_CONVOLUTION, withLog=True)
+
         self.tOffset = [XSDataDouble(f) for f in offset]
         logs.insert(0, "")
         if len(logs) <= 4:

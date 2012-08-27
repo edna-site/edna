@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2011      European Synchrotron Radiation Facility
+#    Copyright (C) 2011-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -29,6 +27,8 @@ __author__ = "Olof Svensson"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "deprecated"
 
 import os, datetime
 
@@ -59,7 +59,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         self.setXSDataInputClass(XSDataInputStoreAutoProc)
         self.strUserName = None
         self.strPassWord = None
-        self.strToolsForMXCubeWebServiceWsdl = None
+        self.strToolsForAutoprocessingWebServiceWsdl = None
         self.iAutoProcId = None
         self.iAutoProcProgramId = None
         self.bContinue = True
@@ -79,9 +79,9 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         if self.strPassWord is None:
             self.ERROR("EDPluginISPyBStoreAutoProcv1_3.configure: No pass word found in configuration!")
             self.setFailure()
-        self.strToolsForMXCubeWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForMXCubeWebServiceWsdl")
-        if self.strToolsForMXCubeWebServiceWsdl is None:
-            self.ERROR("EDPluginISPyBStoreAutoProcv1_3.configure: No toolsForMXCubeWebServiceWsdl found in configuration!")
+        self.strToolsForAutoprocessingWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForAutoprocessingWebServiceWsdl")
+        if self.strToolsForAutoprocessingWebServiceWsdl is None:
+            self.ERROR("EDPluginISPyBStoreAutoProcv1_3.configure: No toolsForAutoprocessingWebServiceWsdl found in configuration!")
             self.setFailure()
                 
 
@@ -93,12 +93,12 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         self.DEBUG("EDPluginISPyBStoreAutoProcv1_3.process")
         xsDataInputStoreAutoProc = self.getDataInput()
         xsDataAutoProcContainer = xsDataInputStoreAutoProc.getAutoProcContainer()
-        httpAuthenticatedToolsForMXCubeWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
-        clientToolsForMXCubeWebService = Client(self.strToolsForMXCubeWebServiceWsdl, transport=httpAuthenticatedToolsForMXCubeWebService)
+        httpAuthenticatedToolsForAutoprocessingWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+        clientToolsForAutoprocessingWebService = Client(self.strToolsForAutoprocessingWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService)
         xsDataAutoProcScalingContainer = xsDataAutoProcContainer.getAutoProcScalingContainer()
         xsDataAutoProcProgram = xsDataAutoProcContainer.getAutoProcProgramContainer().getAutoProcProgram()
         # AutoProcProgram
-        self.iAutoProcProgramId = self.storeAutoProcProgram(clientToolsForMXCubeWebService, xsDataAutoProcProgram)
+        self.iAutoProcProgramId = self.storeAutoProcProgram(clientToolsForAutoprocessingWebService, xsDataAutoProcProgram)
         if self.iAutoProcProgramId is None:
             self.ERROR("Couldn't create entry for AutoProcProgram in ISPyB!")
             self.setFailure()
@@ -106,19 +106,19 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         else:
             listAutoProcProgramAttachment = xsDataAutoProcContainer.getAutoProcProgramContainer().getAutoProcProgramAttachment()
             for xsDataAutoProcProgramAttachment in listAutoProcProgramAttachment:
-                self.storeAutoProcProgramAttachment(clientToolsForMXCubeWebService, xsDataAutoProcProgramAttachment)
+                self.storeAutoProcProgramAttachment(clientToolsForAutoprocessingWebService, xsDataAutoProcProgramAttachment)
             if xsDataAutoProcProgram.getProcessingStatus() == False:
                 self.bContinue = False
         if self.bContinue:
             # AutoProcIntegration
             xsDataAutoProcIntegrationContainer = xsDataAutoProcScalingContainer.getAutoProcIntegrationContainer()
-            self.iAutoProcIntegrationId = self.storeAutoProcIntegration(clientToolsForMXCubeWebService, xsDataAutoProcIntegrationContainer)
+            self.iAutoProcIntegrationId = self.storeAutoProcIntegration(clientToolsForAutoprocessingWebService, xsDataAutoProcIntegrationContainer)
             if self.iAutoProcIntegrationId is None:
                 self.WARNING("Couldn't create entry for AutoProcIntegration in ISPyB!")
         if self.bContinue:
             # AutoProc
             xsDataAutoProc = xsDataAutoProcContainer.getAutoProc()
-            self.iAutoProcId = self.storeAutoProc(clientToolsForMXCubeWebService, xsDataAutoProc)
+            self.iAutoProcId = self.storeAutoProc(clientToolsForAutoprocessingWebService, xsDataAutoProc)
             if self.iAutoProcId is None:
                 self.ERROR("Couldn't create entry for AutoProc in ISPyB!")
                 self.setFailure()
@@ -126,14 +126,14 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         if self.bContinue:
             # AutoProcScaling
             xsDataAutoProcScaling = xsDataAutoProcScalingContainer.getAutoProcScaling()
-            self.iAutoProcScalingId = self.storeAutoProcScaling(clientToolsForMXCubeWebService, xsDataAutoProcScaling)
+            self.iAutoProcScalingId = self.storeAutoProcScaling(clientToolsForAutoprocessingWebService, xsDataAutoProcScaling)
             if self.iAutoProcScalingId is None:
                 self.ERROR("Couldn't create entry for AutoProcScaling in ISPyB!")
                 self.setFailure()
                 self.bContinue = False
         if self.bContinue:
             # AutoProcScaling_has_IntId
-            self.iAutoProcScaling_has_IntId = self.storeAutoProcScaling_has_IntId(clientToolsForMXCubeWebService)
+            self.iAutoProcScaling_has_IntId = self.storeAutoProcScaling_has_IntId(clientToolsForAutoprocessingWebService)
             if self.iAutoProcScaling_has_IntId is None:
                 self.ERROR("Couldn't create entry for AutoProcScaling_has_IntId in ISPyB!")
                 self.setFailure()
@@ -141,7 +141,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         if self.bContinue:
             # AutoProcScalingStatistics
             for xsDataAutoProcScalingStatistics in xsDataAutoProcScalingContainer.getAutoProcScalingStatistics():
-                iAutoProcScalingStatisticsId = self.storeAutoProcScalingStatistics(clientToolsForMXCubeWebService, xsDataAutoProcScalingStatistics)
+                iAutoProcScalingStatisticsId = self.storeAutoProcScalingStatistics(clientToolsForAutoprocessingWebService, xsDataAutoProcScalingStatistics)
                 if iAutoProcScalingStatisticsId is None:
                     self.ERROR("Couldn't create entry for AutoProcScalingStatistics in ISPyB!")
                     self.setFailure()
@@ -179,7 +179,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         return oReturnValue
     
 
-    def storeAutoProcProgram(self, _clientToolsForMXCubeWebService, _xsDataAutoProcProgram):
+    def storeAutoProcProgram(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcProgram):
         """Creates an entry in the ISPyB AutoProcProgram table"""
         self.DEBUG("EDPluginISPyBStoreAutoProcv1_3.storeAutoProcProgram")
         strProcessingCommandLine = self.getValue(_xsDataAutoProcProgram.getProcessingCommandLine(), "")
@@ -190,7 +190,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         processingEndTime        = self.getDateValue(_xsDataAutoProcProgram.getProcessingEndTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
         strProcessingEnvironment = self.getValue(_xsDataAutoProcProgram.getProcessingEnvironment(), "")
         recordTimeStamp          = DateTime(datetime.datetime.now())
-        iAutoProcProgramId = _clientToolsForMXCubeWebService.service.storeAutoProcProgram(
+        iAutoProcProgramId = _clientToolsForAutoprocessingWebService.service.storeAutoProcProgram(
                 in0 = strProcessingCommandLine, \
                 in1 = strProcessingPrograms, \
                 in2 = bProcessingStatus, \
@@ -204,14 +204,14 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         return iAutoProcProgramId
 
 
-    def storeAutoProcProgramAttachment(self, _clientToolsForMXCubeWebService, _xsDataAutoProcProgramAttachment):
+    def storeAutoProcProgramAttachment(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcProgramAttachment):
         """Creates an entry in the ISPyB AutoProcProgramAttachment table"""
         iAutoProcProgramId = self.iAutoProcProgramId
         strFileType = self.getValue(_xsDataAutoProcProgramAttachment.getFileType(), "")
         strFileName = self.getValue(_xsDataAutoProcProgramAttachment.getFileName(), "")
         strFilePath = self.getValue(_xsDataAutoProcProgramAttachment.getFilePath(), "")
         recordTimeStamp          = DateTime(datetime.datetime.now())
-        iAutoProcProgramAttachmentId = _clientToolsForMXCubeWebService.service.storeAutoProcProgramAttachment(
+        iAutoProcProgramAttachmentId = _clientToolsForAutoprocessingWebService.service.storeAutoProcProgramAttachment(
                 in0 = strFileType, \
                 in1 = strFileName, \
                 in2 = strFilePath, \
@@ -222,7 +222,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         return iAutoProcProgramAttachmentId
 
 
-    def storeAutoProcIntegration(self, _clientToolsForMXCubeWebService, _xsDataAutoProcIntegrationContainer):
+    def storeAutoProcIntegration(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcIntegrationContainer):
         """Creates an entry in the ISPyB AutoProcIntegration table"""
         xsDataProcIntegration = _xsDataAutoProcIntegrationContainer.getAutoProcIntegration()
         iAutoProcProgramId = self.iAutoProcProgramId
@@ -246,7 +246,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         bAnomalous         = self.getValue(xsDataProcIntegration.getAnomalous(), False)
         iDataCollectionId = _xsDataAutoProcIntegrationContainer.getImage().getDataCollectionId()        
         recordTimeStamp          = DateTime(datetime.datetime.now())
-        iAutoProcIntegrationId = _clientToolsForMXCubeWebService.service.storeAutoProcIntegration(
+        iAutoProcIntegrationId = _clientToolsForAutoprocessingWebService.service.storeAutoProcIntegration(
                 in0 = iAutoProcProgramId, \
                 in1 = iStartImageNumber, \
                 in2 = iEndImageNumber, \
@@ -266,14 +266,14 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
                 in16 = fCellBeta, \
                 in17 = fCellGamma, \
                 in18 = recordTimeStamp, \
-                in19 = iDataCollectionId, \
-                in20 = bAnomalous \
+                in19 = bAnomalous, \
+                in20 = iDataCollectionId \
                 )
         self.DEBUG("AutoProcProgramIntegrationId: %r" % iAutoProcIntegrationId)
         return iAutoProcIntegrationId
 
 
-    def storeAutoProc(self, _clientToolsForMXCubeWebService, _xsDataAutoProc):
+    def storeAutoProc(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProc):
         """Creates an entry in the ISPyB AutoProc table"""
         iAutoProcProgramId = self.iAutoProcProgramId
         strSpaceGroup = self.getValue(_xsDataAutoProc.getSpaceGroup(), "")
@@ -284,7 +284,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         fRefinedCellBeta = self.getValue(_xsDataAutoProc.getRefinedCell_beta(), -1)
         fRefinedCellGamma = self.getValue(_xsDataAutoProc.getRefinedCell_gamma(), -1)
         recordTimeStamp = DateTime(datetime.datetime.now())
-        iAutoProcId = _clientToolsForMXCubeWebService.service.storeAutoProc(
+        iAutoProcId = _clientToolsForAutoprocessingWebService.service.storeAutoProc(
                 in0 = iAutoProcProgramId, \
                 in1 = strSpaceGroup, \
                 in2 = fRefinedCellA, \
@@ -299,11 +299,11 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         return iAutoProcId
     
     
-    def storeAutoProcScaling(self, _clientToolsForMXCubeWebService, _xsDataAutoProcScaling):
+    def storeAutoProcScaling(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcScaling):
         """Creates an entry in the ISPyB AutoProcScaling table"""
         iAutoProcId = self.iAutoProcId
         recordTimeStamp = self.getDateValue(_xsDataAutoProcScaling.getRecordTimeStamp(), "%Y-%m-%d %H:%M:%S", DateTime(datetime.datetime.now()))
-        iAutoProcScalingId = _clientToolsForMXCubeWebService.service.storeAutoProcScaling(
+        iAutoProcScalingId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScaling(
                 in0 = iAutoProcId, \
                 in1 = recordTimeStamp \
                 )
@@ -312,7 +312,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         
     
     
-    def storeAutoProcScalingStatistics(self, _clientToolsForMXCubeWebService, _xsDataAutoProcScalingStatistics):
+    def storeAutoProcScalingStatistics(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcScalingStatistics):
         """Creates an entry in the ISPyB AutoProcScalingStatistics table"""
         strScalingStatisticsType = _xsDataAutoProcScalingStatistics.getScalingStatisticsType()
         strComments = ""
@@ -334,7 +334,7 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         recordTimeStamp = DateTime(datetime.datetime.now())
         bAnomalous = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalous(), False)
         iAutoProcScalingId = self.iAutoProcScalingId
-        iAutoProcScalingStatisticsId = _clientToolsForMXCubeWebService.service.storeAutoProcScalingStatistic(
+        iAutoProcScalingStatisticsId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScalingStatistic(
                 in0 = strScalingStatisticsType, \
                 in1 = strComments, \
                 in2 = fResolutionLimitLow, \
@@ -360,12 +360,12 @@ class EDPluginISPyBStoreAutoProcv1_3(EDPluginExec):
         return iAutoProcScalingStatisticsId
 
 
-    def storeAutoProcScaling_has_IntId(self, _clientToolsForMXCubeWebService):
+    def storeAutoProcScaling_has_IntId(self, _clientToolsForAutoprocessingWebService):
         """Creates an entry in the ISPyB storeAutoProcScaling_has_IntId table"""
         iAutoProcIntegrationId = self.iAutoProcIntegrationId
         iAutoProcScalingId = self.iAutoProcScalingId
         recordTimeStamp = DateTime(datetime.datetime.now())
-        iAutoProcScaling_has_intId = _clientToolsForMXCubeWebService.service.storeAutoProcScalingHasInt(                                                                                                          
+        iAutoProcScaling_has_intId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScalingHasInt(                                                                                                          
                 in0 = iAutoProcIntegrationId, \
                 in1 = iAutoProcScalingId, \
                 in2 = recordTimeStamp \

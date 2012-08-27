@@ -376,7 +376,7 @@ class EDPluginControl(EDPlugin):
             try:
                 _edControlSlotSUCCESS.call(_edPlugin)
 
-            except:
+            except Exception:
                 EDVerbose.DEBUG("EDControlPlugin.executeSynchronous: ERROR in slotSUCCESS!")
                 EDVerbose.writeErrorTrace()
                 _edPlugin.setFailure()
@@ -387,6 +387,6 @@ class EDPluginControl(EDPlugin):
             try:
                 _edControlSlotFAILURE.call(_edPlugin)
 
-            except:
+            except Exception:
                 EDVerbose.DEBUG("EDControlPlugin.executeSynchronous: ERROR in slotFAILURE!")
                 EDVerbose.writeErrorTrace()

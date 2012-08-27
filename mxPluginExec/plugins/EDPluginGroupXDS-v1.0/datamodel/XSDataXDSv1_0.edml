@@ -1,0 +1,121 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataAngle
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataVectorDouble
+import XSDataCommon.XSDataWavelength
+
+complex type XSDataInputXDS extends XSDataInput {
+	beam : XSDataXDSBeam
+	crystal : XSDataXDSCrystal optional
+	detector : XSDataXDSDetector
+	goniostat : XSDataXDSGoniostat
+	image : XSDataXDSImage
+	image_link : XSDataXDSImageLink []
+}
+
+complex type XSDataInputXDSGenerateBackgroundImage extends XSDataInputXDS {
+}
+
+complex type XSDataInputXDSIndexing extends XSDataInputXDS {
+}
+
+complex type XSDataResultXDS extends XSDataResult {
+}
+
+complex type XSDataResultXDSGenerateBackgroundImage extends XSDataResultXDS {
+	xdsBackgroundImage : XSDataFile
+}
+
+complex type XSDataXDSBeam extends XSData {
+	fraction_of_polarization : XSDataDouble optional
+	incident_beam_direction : XSDataVectorDouble
+	polarization_plane_normal : XSDataVectorDouble
+	x_ray_wavelength : XSDataWavelength
+}
+
+complex type XSDataXDSCell extends XSData {
+	angle_alpha : XSDataAngle
+	angle_beta : XSDataAngle
+	length_a : XSDataLength
+	length_b : XSDataLength
+	length_c : XSDataLength
+	angle_gamma : XSDataAngle
+}
+
+complex type XSDataXDSCrystal extends XSData {
+	friedels_law : XSDataString
+	space_group_number : XSDataInteger
+	strong_pixel : XSDataInteger
+	unit_cell_constants : XSDataXDSCell
+}
+
+complex type XSDataXDSDetector extends XSData {
+	detector_distance : XSDataLength
+	detector_name : XSDataString
+	direction_of_detector_x_axis : XSDataVectorDouble
+	direction_of_detector_y_axis : XSDataVectorDouble
+	minimum_valid_pixel_value : XSDataInteger
+	nx : XSDataInteger
+	ny : XSDataInteger
+	orgx : XSDataDouble
+	orgy : XSDataDouble
+	overload : XSDataInteger
+	qx : XSDataLength
+	qy : XSDataLength
+	value_range_for_trusted_detector_pixels : XSDataXDSIntegerRange optional
+	untrusted_rectangle : XSDataXDSRectangle [] optional
+	sensor_thickness : XSDataDouble optional
+	trusted_region : XSDataXDSDoubleRange optional
+}
+
+complex type XSDataXDSDoubleRange extends XSData {
+	lower : XSDataDouble
+	upper : XSDataDouble
+}
+
+complex type XSDataXDSGoniostat extends XSData {
+	oscillation_range : XSDataAngle
+	rotation_axis : XSDataVectorDouble
+	starting_angle : XSDataAngle
+}
+
+complex type XSDataXDSImage extends XSData {
+	background_range : XSDataXDSIntegerRange []
+	data_range : XSDataXDSIntegerRange []
+	spot_range : XSDataXDSIntegerRange
+	[]
+	starting_frame : XSDataInteger
+	name_template_of_data_frames : XSDataString
+}
+
+complex type XSDataXDSImageLink extends XSData {
+	source : XSDataFile
+	target : XSDataString
+}
+
+complex type XSDataXDSIntegerRange extends XSData {
+	lower : XSDataInteger
+	upper : XSDataInteger
+}
+
+complex type XSDataXDSRectangle extends XSData {
+	x1 : XSDataInteger
+	x2 : XSDataInteger
+	y1 : XSDataInteger
+	y2 : XSDataInteger
+}
+
+complex type XSDataXDSVector extends XSData {
+	v1 : XSDataFloat
+	v2 : XSDataFloat
+	v3 : XSDataFloat
+}

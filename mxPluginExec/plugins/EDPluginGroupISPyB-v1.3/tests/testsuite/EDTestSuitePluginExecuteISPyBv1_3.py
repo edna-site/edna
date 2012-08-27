@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2011      European Synchrotron Radiation Facility
+#    Copyright (C) 2011-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -29,6 +27,9 @@ __author__ = "Olof Svensson"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "deprecated"
+
 
 from EDTestSuite                                          import EDTestSuite
 
@@ -42,6 +43,8 @@ class EDTestSuitePluginExecuteISPyBv1_3(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_3")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_3")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_3_failedProcessing")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_3")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreDataCollectionv1_3")
 
 
 ##############################################################################

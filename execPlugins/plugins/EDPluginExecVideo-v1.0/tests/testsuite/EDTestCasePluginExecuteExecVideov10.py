@@ -43,6 +43,7 @@ class EDTestCasePluginExecuteExecVideov10(EDTestCasePluginExecute):
     def __init__(self):
         """
         """
+        self.EXCLUDED = ["Playing", "Software:", "ID_FILENAME", "ID_CLIP_INFO_VALUE0", "load"]
         EDTestCasePluginExecute.__init__(self, "EDPluginExecVideov10")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                                          "XSConfiguration_Video.xml"))
@@ -107,19 +108,20 @@ class EDTestCasePluginExecuteExecVideov10(EDTestCasePluginExecute):
 ################################################################################
         outputVideoLog = subprocess.Popen("mplayer  -identify -vo null -ao null -frames 0 2>/dev/null " + outputFileName, stdout=subprocess.PIPE, shell=True).stdout.readlines()
         outputVideoSummary = ""
+
         for oneLine in outputVideoLog:
             if oneLine.strip() != "":
-                if not oneLine.split()[0].split("=")[0] in ["Playing", "Software:", "ID_FILENAME", "ID_CLIP_INFO_VALUE0"]:
+                if not oneLine.split()[0].split("=")[0] in self.EXCLUDED:
                     outputVideoSummary += oneLine
 
         referenceVideoLog = subprocess.Popen("mplayer  -identify -vo null -ao null -frames 0 2>/dev/null " + referenceFileName, stdout=subprocess.PIPE, shell=True).stdout.readlines()
         referenceVideoSummary = ""
         for oneLine in referenceVideoLog:
             if oneLine.strip() != "":
-                if not oneLine.split()[0].split("=")[0] in ["Playing", "Software:", "ID_FILENAME", "ID_CLIP_INFO_VALUE0"]:
+                if not oneLine.split()[0].split("=")[0] in self.EXCLUDED:
                     referenceVideoSummary += oneLine
 
-        EDAssert.strAlmostEqual(outputVideoSummary, referenceVideoSummary, "Identification of the video by mplayer")
+        EDAssert.strAlmostEqual(outputVideoSummary, referenceVideoSummary, "Identification of the video by mplayer", _lstExcluded="edna")
 #########################outputVideoSummary#####################################################
 
     def process(self):

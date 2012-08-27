@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -31,11 +29,13 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
 import os, shutil
 
-from EDVerbose            import EDVerbose
+
 from EDAssert             import EDAssert
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from EDUtilsPath          import EDUtilsPath
@@ -55,7 +55,7 @@ class EDTestCasePluginUnitMOSFLMIntegrationv10(EDTestCasePluginUnit):
         EDTestCasePluginUnit.__init__(self, "EDPluginMOSFLMIntegrationv10", "EDPluginGroupMOSFLM-v1.0", _strTestName)
 
         strPluginTestDataHome = self.getPluginTestsDataHome()
-        self.strUnitTestDataHome = EDUtilsPath.mergePath(strPluginTestDataHome, "unitTest")
+        self.strUnitTestDataHome = os.path.join(strPluginTestDataHome, "unitTest")
 
         self.strReferenceDataInputFile = os.path.join(self.strUnitTestDataHome, "XSDataMOSFLMInputIntegration_reference.xml")
         self.strReferenceDataOutputFile = os.path.join(self.strUnitTestDataHome, "XSDataMOSFLMOutputIntegration_reference.xml")
@@ -65,7 +65,7 @@ class EDTestCasePluginUnitMOSFLMIntegrationv10(EDTestCasePluginUnit):
 
 
     def preProcess(self):
-        EDVerbose.DEBUG ("*** EDTestCaseEDPluginMOSFLMIntegrationv10.preProcess")
+        self.DEBUG ("*** EDTestCaseEDPluginMOSFLMIntegrationv10.preProcess")
 
 
 
@@ -104,6 +104,8 @@ class EDTestCasePluginUnitMOSFLMIntegrationv10(EDTestCasePluginUnit):
         xsDataMOSFLMIntegrationOutput.setGeneratedMTZFile(xsDataFile)
         strReferenceXML = self.readAndParseFile(self.strReferenceDataOutputFile)
         xsDataMOSFLMIntegrationOutputReference = XSDataMOSFLMOutputIntegration.parseString(strReferenceXML)
+        # Replace path to log file since it cannot be determined by the unit test
+        xsDataMOSFLMIntegrationOutput.setPathToLogFile(XSDataFile(XSDataString("MOSFLMIntegrationv10.log")))
         EDAssert.equal(xsDataMOSFLMIntegrationOutputReference.marshal(), xsDataMOSFLMIntegrationOutput.marshal())
 
 

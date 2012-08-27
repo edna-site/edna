@@ -250,7 +250,7 @@ class EDPluginControlID11v1_0(EDPluginControl):
             if ("FF MULTIPLIER" in self.__dictID11):
                 try:
                     value = float(self.__dictID11["FF MULTIPLIER"])
-                except:
+                except Exception:
                     self.warning("Asked for FF SCALE correction but FF MULTIPLIER provided (%s) in not float !" % (self.__dictID11["FF MULTIPLIER"]))
                 else:
                      xsDataInputSPDCake.setIntensityScaleFactor(XSDataDouble(1 / value))

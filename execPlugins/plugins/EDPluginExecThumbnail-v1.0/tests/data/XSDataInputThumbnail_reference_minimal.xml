@@ -2,7 +2,7 @@
 <XSDataInputThumbnail>
 	<inputImagePath>
 		<path>
-			<value>${EDNA_TESTS_DATA_HOME}/images/diff6105.edf</value>
+			<value>${EDNA_TESTIMAGES}/diff6105.edf</value>
 		</path>
 	</inputImagePath>
 </XSDataInputThumbnail>

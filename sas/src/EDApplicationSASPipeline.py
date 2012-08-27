@@ -33,7 +33,7 @@ from EDApplication import EDApplication
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 
 from XSDataCommon import XSDataString
-from XSDataCommon import XSDataFloat
+from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataBoolean
 
@@ -140,13 +140,13 @@ class EDApplicationSASPipeline(EDApplication):
         xsDataSolutionScatteringSettings = XSDataSolutionScatteringSettings()
         
         if (not self.__fRMaxStart is None):
-            xsDataSolutionScatteringSettings.setRMaxStart(XSDataFloat(self.__fRMaxStart))
+            xsDataSolutionScatteringSettings.setRMaxStart(XSDataDouble(self.__fRMaxStart))
         if (not self.__fRMaxStop is None):
-            xsDataSolutionScatteringSettings.setRMaxStop(XSDataFloat(self.__fRMaxStop))
+            xsDataSolutionScatteringSettings.setRMaxStop(XSDataDouble(self.__fRMaxStop))
         if (not self.__iRMaxIntervals is None):
             xsDataSolutionScatteringSettings.setRMaxIntervals(XSDataInteger(self.__iRMaxIntervals))
         if (not self.__fRMaxAbsTol is None):
-            xsDataSolutionScatteringSettings.setRMaxAbsTol(XSDataFloat(self.__fRMaxAbsTol))
+            xsDataSolutionScatteringSettings.setRMaxAbsTol(XSDataDouble(self.__fRMaxAbsTol))
         _edPlugin.getDataInput().setRMaxSearchSettings(xsDataSolutionScatteringSettings)
         #_edPlugin.getDataInput().setDataInput(xsDataSolutionScatteringSettings, "rMaxSearchSettings")
 
@@ -173,7 +173,7 @@ class EDApplicationSASPipeline(EDApplication):
                 else:
                     _edPlugin.readGnomDataColumns(self.__strDatasetFileName, self.__iColumns, self.__fQMin, self.__fQMax)
                     
-            except:
+            except Exception:
                 errorMessage = EDMessage.ERROR_CANNOT_READ_FILE_02 % ("EDApplicationSASPipeline.setPluginInput", self.__strDatasetFileName)
                 EDVerbose.error(errorMessage)
                 raise RuntimeError, errorMessage

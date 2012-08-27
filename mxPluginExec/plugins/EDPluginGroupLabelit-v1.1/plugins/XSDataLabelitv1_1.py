@@ -1,22 +1,64 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 14 12:10::12 2011 by EDGenerateDS.
+# Generated Thu May 3 12:19::24 2012 by EDGenerateDS.
 #
 
-import sys
+import os, sys
 from xml.dom import minidom
 from xml.dom import Node
 
+
+strEdnaHome = os.environ.get("EDNA_HOME", None)
+
+dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
+}
+
+try:
+	from XSDataCommon import XSData
+	from XSDataCommon import XSDataAngle
+	from XSDataCommon import XSDataBoolean
+	from XSDataCommon import XSDataDouble
+	from XSDataCommon import XSDataInteger
+	from XSDataCommon import XSDataMatrixDouble
+	from XSDataCommon import XSDataString
+	from XSDataCommon import XSDataFile
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataResult
+	from XSDataCommon import XSDataImage
+	from XSDataCommon import XSDataLength
+except ImportError as error:
+	if strEdnaHome is not None:
+		for strXsdName in dictLocation:
+			strXsdModule = strXsdName + ".py"
+			strRootdir = os.path.dirname(os.path.abspath(os.path.join(strEdnaHome, dictLocation[strXsdName])))
+			for strRoot, listDirs, listFiles in os.walk(strRootdir):
+				if strXsdModule in listFiles:
+					sys.path.append(strRoot)
+	else:
+		raise error
 from XSDataCommon import XSData
 from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
-from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataMatrixDouble
-from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
+from XSDataCommon import XSDataInput
+from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataLength
 
@@ -54,9 +96,8 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
-	pass
-	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
-	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
+	if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
 class MixedContainer(object):
 	# Constants for category:
@@ -112,58 +153,60 @@ class MixedContainer(object):
 
 class XSDataCell(object):
 	def __init__(self, length_c=None, length_b=None, length_a=None, angle_gamma=None, angle_beta=None, angle_alpha=None):
+	
+	
 		checkType("XSDataCell", "Constructor of XSDataCell", angle_alpha, "XSDataAngle")
-		self.__angle_alpha = angle_alpha
+		self._angle_alpha = angle_alpha
 		checkType("XSDataCell", "Constructor of XSDataCell", angle_beta, "XSDataAngle")
-		self.__angle_beta = angle_beta
+		self._angle_beta = angle_beta
 		checkType("XSDataCell", "Constructor of XSDataCell", angle_gamma, "XSDataAngle")
-		self.__angle_gamma = angle_gamma
+		self._angle_gamma = angle_gamma
 		checkType("XSDataCell", "Constructor of XSDataCell", length_a, "XSDataLength")
-		self.__length_a = length_a
+		self._length_a = length_a
 		checkType("XSDataCell", "Constructor of XSDataCell", length_b, "XSDataLength")
-		self.__length_b = length_b
+		self._length_b = length_b
 		checkType("XSDataCell", "Constructor of XSDataCell", length_c, "XSDataLength")
-		self.__length_c = length_c
-	def getAngle_alpha(self): return self.__angle_alpha
+		self._length_c = length_c
+	def getAngle_alpha(self): return self._angle_alpha
 	def setAngle_alpha(self, angle_alpha):
 		checkType("XSDataCell", "setAngle_alpha", angle_alpha, "XSDataAngle")
-		self.__angle_alpha = angle_alpha
-	def delAngle_alpha(self): self.__angle_alpha = None
+		self._angle_alpha = angle_alpha
+	def delAngle_alpha(self): self._angle_alpha = None
 	# Properties
 	angle_alpha = property(getAngle_alpha, setAngle_alpha, delAngle_alpha, "Property for angle_alpha")
-	def getAngle_beta(self): return self.__angle_beta
+	def getAngle_beta(self): return self._angle_beta
 	def setAngle_beta(self, angle_beta):
 		checkType("XSDataCell", "setAngle_beta", angle_beta, "XSDataAngle")
-		self.__angle_beta = angle_beta
-	def delAngle_beta(self): self.__angle_beta = None
+		self._angle_beta = angle_beta
+	def delAngle_beta(self): self._angle_beta = None
 	# Properties
 	angle_beta = property(getAngle_beta, setAngle_beta, delAngle_beta, "Property for angle_beta")
-	def getAngle_gamma(self): return self.__angle_gamma
+	def getAngle_gamma(self): return self._angle_gamma
 	def setAngle_gamma(self, angle_gamma):
 		checkType("XSDataCell", "setAngle_gamma", angle_gamma, "XSDataAngle")
-		self.__angle_gamma = angle_gamma
-	def delAngle_gamma(self): self.__angle_gamma = None
+		self._angle_gamma = angle_gamma
+	def delAngle_gamma(self): self._angle_gamma = None
 	# Properties
 	angle_gamma = property(getAngle_gamma, setAngle_gamma, delAngle_gamma, "Property for angle_gamma")
-	def getLength_a(self): return self.__length_a
+	def getLength_a(self): return self._length_a
 	def setLength_a(self, length_a):
 		checkType("XSDataCell", "setLength_a", length_a, "XSDataLength")
-		self.__length_a = length_a
-	def delLength_a(self): self.__length_a = None
+		self._length_a = length_a
+	def delLength_a(self): self._length_a = None
 	# Properties
 	length_a = property(getLength_a, setLength_a, delLength_a, "Property for length_a")
-	def getLength_b(self): return self.__length_b
+	def getLength_b(self): return self._length_b
 	def setLength_b(self, length_b):
 		checkType("XSDataCell", "setLength_b", length_b, "XSDataLength")
-		self.__length_b = length_b
-	def delLength_b(self): self.__length_b = None
+		self._length_b = length_b
+	def delLength_b(self): self._length_b = None
 	# Properties
 	length_b = property(getLength_b, setLength_b, delLength_b, "Property for length_b")
-	def getLength_c(self): return self.__length_c
+	def getLength_c(self): return self._length_c
 	def setLength_c(self, length_c):
 		checkType("XSDataCell", "setLength_c", length_c, "XSDataLength")
-		self.__length_c = length_c
-	def delLength_c(self): self.__length_c = None
+		self._length_c = length_c
+	def delLength_c(self): self._length_c = None
 	# Properties
 	length_c = property(getLength_c, setLength_c, delLength_c, "Property for length_c")
 	def export(self, outfile, level, name_='XSDataCell'):
@@ -174,27 +217,27 @@ class XSDataCell(object):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataCell'):
 		pass
-		if self.__angle_alpha is not None:
+		if self._angle_alpha is not None:
 			self.angle_alpha.export(outfile, level, name_='angle_alpha')
 		else:
 			warnEmptyAttribute("angle_alpha", "XSDataAngle")
-		if self.__angle_beta is not None:
+		if self._angle_beta is not None:
 			self.angle_beta.export(outfile, level, name_='angle_beta')
 		else:
 			warnEmptyAttribute("angle_beta", "XSDataAngle")
-		if self.__angle_gamma is not None:
+		if self._angle_gamma is not None:
 			self.angle_gamma.export(outfile, level, name_='angle_gamma')
 		else:
 			warnEmptyAttribute("angle_gamma", "XSDataAngle")
-		if self.__length_a is not None:
+		if self._length_a is not None:
 			self.length_a.export(outfile, level, name_='length_a')
 		else:
 			warnEmptyAttribute("length_a", "XSDataLength")
-		if self.__length_b is not None:
+		if self._length_b is not None:
 			self.length_b.export(outfile, level, name_='length_b')
 		else:
 			warnEmptyAttribute("length_b", "XSDataLength")
-		if self.__length_c is not None:
+		if self._length_c is not None:
 			self.length_c.export(outfile, level, name_='length_c')
 		else:
 			warnEmptyAttribute("length_c", "XSDataLength")
@@ -279,166 +322,168 @@ class XSDataCell(object):
 class XSDataImageQualityIndicators(XSData):
 	def __init__(self, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", binPopCutOffMethod2Res, "XSDataDouble")
-		self.__binPopCutOffMethod2Res = binPopCutOffMethod2Res
+		self._binPopCutOffMethod2Res = binPopCutOffMethod2Res
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", goodBraggCandidates, "XSDataInteger")
-		self.__goodBraggCandidates = goodBraggCandidates
+		self._goodBraggCandidates = goodBraggCandidates
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", iceRings, "XSDataInteger")
-		self.__iceRings = iceRings
+		self._iceRings = iceRings
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", image, "XSDataImage")
-		self.__image = image
+		self._image = image
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", inResTotal, "XSDataInteger")
-		self.__inResTotal = inResTotal
+		self._inResTotal = inResTotal
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", inResolutionOvrlSpots, "XSDataInteger")
-		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
+		self._inResolutionOvrlSpots = inResolutionOvrlSpots
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", maxUnitCell, "XSDataDouble")
-		self.__maxUnitCell = maxUnitCell
+		self._maxUnitCell = maxUnitCell
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", method1Res, "XSDataDouble")
-		self.__method1Res = method1Res
+		self._method1Res = method1Res
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", method2Res, "XSDataDouble")
-		self.__method2Res = method2Res
+		self._method2Res = method2Res
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", pctSaturationTop50Peaks, "XSDataDouble")
-		self.__pctSaturationTop50Peaks = pctSaturationTop50Peaks
+		self._pctSaturationTop50Peaks = pctSaturationTop50Peaks
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeAverage, "XSDataDouble")
-		self.__saturationRangeAverage = saturationRangeAverage
+		self._saturationRangeAverage = saturationRangeAverage
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeMax, "XSDataDouble")
-		self.__saturationRangeMax = saturationRangeMax
+		self._saturationRangeMax = saturationRangeMax
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", saturationRangeMin, "XSDataDouble")
-		self.__saturationRangeMin = saturationRangeMin
+		self._saturationRangeMin = saturationRangeMin
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeAverage, "XSDataDouble")
-		self.__signalRangeAverage = signalRangeAverage
+		self._signalRangeAverage = signalRangeAverage
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeMax, "XSDataDouble")
-		self.__signalRangeMax = signalRangeMax
+		self._signalRangeMax = signalRangeMax
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", signalRangeMin, "XSDataDouble")
-		self.__signalRangeMin = signalRangeMin
+		self._signalRangeMin = signalRangeMin
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", spotTotal, "XSDataInteger")
-		self.__spotTotal = spotTotal
+		self._spotTotal = spotTotal
 		checkType("XSDataImageQualityIndicators", "Constructor of XSDataImageQualityIndicators", totalIntegratedSignal, "XSDataDouble")
-		self.__totalIntegratedSignal = totalIntegratedSignal
-	def getBinPopCutOffMethod2Res(self): return self.__binPopCutOffMethod2Res
+		self._totalIntegratedSignal = totalIntegratedSignal
+	def getBinPopCutOffMethod2Res(self): return self._binPopCutOffMethod2Res
 	def setBinPopCutOffMethod2Res(self, binPopCutOffMethod2Res):
 		checkType("XSDataImageQualityIndicators", "setBinPopCutOffMethod2Res", binPopCutOffMethod2Res, "XSDataDouble")
-		self.__binPopCutOffMethod2Res = binPopCutOffMethod2Res
-	def delBinPopCutOffMethod2Res(self): self.__binPopCutOffMethod2Res = None
+		self._binPopCutOffMethod2Res = binPopCutOffMethod2Res
+	def delBinPopCutOffMethod2Res(self): self._binPopCutOffMethod2Res = None
 	# Properties
 	binPopCutOffMethod2Res = property(getBinPopCutOffMethod2Res, setBinPopCutOffMethod2Res, delBinPopCutOffMethod2Res, "Property for binPopCutOffMethod2Res")
-	def getGoodBraggCandidates(self): return self.__goodBraggCandidates
+	def getGoodBraggCandidates(self): return self._goodBraggCandidates
 	def setGoodBraggCandidates(self, goodBraggCandidates):
 		checkType("XSDataImageQualityIndicators", "setGoodBraggCandidates", goodBraggCandidates, "XSDataInteger")
-		self.__goodBraggCandidates = goodBraggCandidates
-	def delGoodBraggCandidates(self): self.__goodBraggCandidates = None
+		self._goodBraggCandidates = goodBraggCandidates
+	def delGoodBraggCandidates(self): self._goodBraggCandidates = None
 	# Properties
 	goodBraggCandidates = property(getGoodBraggCandidates, setGoodBraggCandidates, delGoodBraggCandidates, "Property for goodBraggCandidates")
-	def getIceRings(self): return self.__iceRings
+	def getIceRings(self): return self._iceRings
 	def setIceRings(self, iceRings):
 		checkType("XSDataImageQualityIndicators", "setIceRings", iceRings, "XSDataInteger")
-		self.__iceRings = iceRings
-	def delIceRings(self): self.__iceRings = None
+		self._iceRings = iceRings
+	def delIceRings(self): self._iceRings = None
 	# Properties
 	iceRings = property(getIceRings, setIceRings, delIceRings, "Property for iceRings")
-	def getImage(self): return self.__image
+	def getImage(self): return self._image
 	def setImage(self, image):
 		checkType("XSDataImageQualityIndicators", "setImage", image, "XSDataImage")
-		self.__image = image
-	def delImage(self): self.__image = None
+		self._image = image
+	def delImage(self): self._image = None
 	# Properties
 	image = property(getImage, setImage, delImage, "Property for image")
-	def getInResTotal(self): return self.__inResTotal
+	def getInResTotal(self): return self._inResTotal
 	def setInResTotal(self, inResTotal):
 		checkType("XSDataImageQualityIndicators", "setInResTotal", inResTotal, "XSDataInteger")
-		self.__inResTotal = inResTotal
-	def delInResTotal(self): self.__inResTotal = None
+		self._inResTotal = inResTotal
+	def delInResTotal(self): self._inResTotal = None
 	# Properties
 	inResTotal = property(getInResTotal, setInResTotal, delInResTotal, "Property for inResTotal")
-	def getInResolutionOvrlSpots(self): return self.__inResolutionOvrlSpots
+	def getInResolutionOvrlSpots(self): return self._inResolutionOvrlSpots
 	def setInResolutionOvrlSpots(self, inResolutionOvrlSpots):
 		checkType("XSDataImageQualityIndicators", "setInResolutionOvrlSpots", inResolutionOvrlSpots, "XSDataInteger")
-		self.__inResolutionOvrlSpots = inResolutionOvrlSpots
-	def delInResolutionOvrlSpots(self): self.__inResolutionOvrlSpots = None
+		self._inResolutionOvrlSpots = inResolutionOvrlSpots
+	def delInResolutionOvrlSpots(self): self._inResolutionOvrlSpots = None
 	# Properties
 	inResolutionOvrlSpots = property(getInResolutionOvrlSpots, setInResolutionOvrlSpots, delInResolutionOvrlSpots, "Property for inResolutionOvrlSpots")
-	def getMaxUnitCell(self): return self.__maxUnitCell
+	def getMaxUnitCell(self): return self._maxUnitCell
 	def setMaxUnitCell(self, maxUnitCell):
 		checkType("XSDataImageQualityIndicators", "setMaxUnitCell", maxUnitCell, "XSDataDouble")
-		self.__maxUnitCell = maxUnitCell
-	def delMaxUnitCell(self): self.__maxUnitCell = None
+		self._maxUnitCell = maxUnitCell
+	def delMaxUnitCell(self): self._maxUnitCell = None
 	# Properties
 	maxUnitCell = property(getMaxUnitCell, setMaxUnitCell, delMaxUnitCell, "Property for maxUnitCell")
-	def getMethod1Res(self): return self.__method1Res
+	def getMethod1Res(self): return self._method1Res
 	def setMethod1Res(self, method1Res):
 		checkType("XSDataImageQualityIndicators", "setMethod1Res", method1Res, "XSDataDouble")
-		self.__method1Res = method1Res
-	def delMethod1Res(self): self.__method1Res = None
+		self._method1Res = method1Res
+	def delMethod1Res(self): self._method1Res = None
 	# Properties
 	method1Res = property(getMethod1Res, setMethod1Res, delMethod1Res, "Property for method1Res")
-	def getMethod2Res(self): return self.__method2Res
+	def getMethod2Res(self): return self._method2Res
 	def setMethod2Res(self, method2Res):
 		checkType("XSDataImageQualityIndicators", "setMethod2Res", method2Res, "XSDataDouble")
-		self.__method2Res = method2Res
-	def delMethod2Res(self): self.__method2Res = None
+		self._method2Res = method2Res
+	def delMethod2Res(self): self._method2Res = None
 	# Properties
 	method2Res = property(getMethod2Res, setMethod2Res, delMethod2Res, "Property for method2Res")
-	def getPctSaturationTop50Peaks(self): return self.__pctSaturationTop50Peaks
+	def getPctSaturationTop50Peaks(self): return self._pctSaturationTop50Peaks
 	def setPctSaturationTop50Peaks(self, pctSaturationTop50Peaks):
 		checkType("XSDataImageQualityIndicators", "setPctSaturationTop50Peaks", pctSaturationTop50Peaks, "XSDataDouble")
-		self.__pctSaturationTop50Peaks = pctSaturationTop50Peaks
-	def delPctSaturationTop50Peaks(self): self.__pctSaturationTop50Peaks = None
+		self._pctSaturationTop50Peaks = pctSaturationTop50Peaks
+	def delPctSaturationTop50Peaks(self): self._pctSaturationTop50Peaks = None
 	# Properties
 	pctSaturationTop50Peaks = property(getPctSaturationTop50Peaks, setPctSaturationTop50Peaks, delPctSaturationTop50Peaks, "Property for pctSaturationTop50Peaks")
-	def getSaturationRangeAverage(self): return self.__saturationRangeAverage
+	def getSaturationRangeAverage(self): return self._saturationRangeAverage
 	def setSaturationRangeAverage(self, saturationRangeAverage):
 		checkType("XSDataImageQualityIndicators", "setSaturationRangeAverage", saturationRangeAverage, "XSDataDouble")
-		self.__saturationRangeAverage = saturationRangeAverage
-	def delSaturationRangeAverage(self): self.__saturationRangeAverage = None
+		self._saturationRangeAverage = saturationRangeAverage
+	def delSaturationRangeAverage(self): self._saturationRangeAverage = None
 	# Properties
 	saturationRangeAverage = property(getSaturationRangeAverage, setSaturationRangeAverage, delSaturationRangeAverage, "Property for saturationRangeAverage")
-	def getSaturationRangeMax(self): return self.__saturationRangeMax
+	def getSaturationRangeMax(self): return self._saturationRangeMax
 	def setSaturationRangeMax(self, saturationRangeMax):
 		checkType("XSDataImageQualityIndicators", "setSaturationRangeMax", saturationRangeMax, "XSDataDouble")
-		self.__saturationRangeMax = saturationRangeMax
-	def delSaturationRangeMax(self): self.__saturationRangeMax = None
+		self._saturationRangeMax = saturationRangeMax
+	def delSaturationRangeMax(self): self._saturationRangeMax = None
 	# Properties
 	saturationRangeMax = property(getSaturationRangeMax, setSaturationRangeMax, delSaturationRangeMax, "Property for saturationRangeMax")
-	def getSaturationRangeMin(self): return self.__saturationRangeMin
+	def getSaturationRangeMin(self): return self._saturationRangeMin
 	def setSaturationRangeMin(self, saturationRangeMin):
 		checkType("XSDataImageQualityIndicators", "setSaturationRangeMin", saturationRangeMin, "XSDataDouble")
-		self.__saturationRangeMin = saturationRangeMin
-	def delSaturationRangeMin(self): self.__saturationRangeMin = None
+		self._saturationRangeMin = saturationRangeMin
+	def delSaturationRangeMin(self): self._saturationRangeMin = None
 	# Properties
 	saturationRangeMin = property(getSaturationRangeMin, setSaturationRangeMin, delSaturationRangeMin, "Property for saturationRangeMin")
-	def getSignalRangeAverage(self): return self.__signalRangeAverage
+	def getSignalRangeAverage(self): return self._signalRangeAverage
 	def setSignalRangeAverage(self, signalRangeAverage):
 		checkType("XSDataImageQualityIndicators", "setSignalRangeAverage", signalRangeAverage, "XSDataDouble")
-		self.__signalRangeAverage = signalRangeAverage
-	def delSignalRangeAverage(self): self.__signalRangeAverage = None
+		self._signalRangeAverage = signalRangeAverage
+	def delSignalRangeAverage(self): self._signalRangeAverage = None
 	# Properties
 	signalRangeAverage = property(getSignalRangeAverage, setSignalRangeAverage, delSignalRangeAverage, "Property for signalRangeAverage")
-	def getSignalRangeMax(self): return self.__signalRangeMax
+	def getSignalRangeMax(self): return self._signalRangeMax
 	def setSignalRangeMax(self, signalRangeMax):
 		checkType("XSDataImageQualityIndicators", "setSignalRangeMax", signalRangeMax, "XSDataDouble")
-		self.__signalRangeMax = signalRangeMax
-	def delSignalRangeMax(self): self.__signalRangeMax = None
+		self._signalRangeMax = signalRangeMax
+	def delSignalRangeMax(self): self._signalRangeMax = None
 	# Properties
 	signalRangeMax = property(getSignalRangeMax, setSignalRangeMax, delSignalRangeMax, "Property for signalRangeMax")
-	def getSignalRangeMin(self): return self.__signalRangeMin
+	def getSignalRangeMin(self): return self._signalRangeMin
 	def setSignalRangeMin(self, signalRangeMin):
 		checkType("XSDataImageQualityIndicators", "setSignalRangeMin", signalRangeMin, "XSDataDouble")
-		self.__signalRangeMin = signalRangeMin
-	def delSignalRangeMin(self): self.__signalRangeMin = None
+		self._signalRangeMin = signalRangeMin
+	def delSignalRangeMin(self): self._signalRangeMin = None
 	# Properties
 	signalRangeMin = property(getSignalRangeMin, setSignalRangeMin, delSignalRangeMin, "Property for signalRangeMin")
-	def getSpotTotal(self): return self.__spotTotal
+	def getSpotTotal(self): return self._spotTotal
 	def setSpotTotal(self, spotTotal):
 		checkType("XSDataImageQualityIndicators", "setSpotTotal", spotTotal, "XSDataInteger")
-		self.__spotTotal = spotTotal
-	def delSpotTotal(self): self.__spotTotal = None
+		self._spotTotal = spotTotal
+	def delSpotTotal(self): self._spotTotal = None
 	# Properties
 	spotTotal = property(getSpotTotal, setSpotTotal, delSpotTotal, "Property for spotTotal")
-	def getTotalIntegratedSignal(self): return self.__totalIntegratedSignal
+	def getTotalIntegratedSignal(self): return self._totalIntegratedSignal
 	def setTotalIntegratedSignal(self, totalIntegratedSignal):
 		checkType("XSDataImageQualityIndicators", "setTotalIntegratedSignal", totalIntegratedSignal, "XSDataDouble")
-		self.__totalIntegratedSignal = totalIntegratedSignal
-	def delTotalIntegratedSignal(self): self.__totalIntegratedSignal = None
+		self._totalIntegratedSignal = totalIntegratedSignal
+	def delTotalIntegratedSignal(self): self._totalIntegratedSignal = None
 	# Properties
 	totalIntegratedSignal = property(getTotalIntegratedSignal, setTotalIntegratedSignal, delTotalIntegratedSignal, "Property for totalIntegratedSignal")
 	def export(self, outfile, level, name_='XSDataImageQualityIndicators'):
@@ -449,63 +494,63 @@ class XSDataImageQualityIndicators(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataImageQualityIndicators'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__binPopCutOffMethod2Res is not None:
+		if self._binPopCutOffMethod2Res is not None:
 			self.binPopCutOffMethod2Res.export(outfile, level, name_='binPopCutOffMethod2Res')
 		else:
 			warnEmptyAttribute("binPopCutOffMethod2Res", "XSDataDouble")
-		if self.__goodBraggCandidates is not None:
+		if self._goodBraggCandidates is not None:
 			self.goodBraggCandidates.export(outfile, level, name_='goodBraggCandidates')
 		else:
 			warnEmptyAttribute("goodBraggCandidates", "XSDataInteger")
-		if self.__iceRings is not None:
+		if self._iceRings is not None:
 			self.iceRings.export(outfile, level, name_='iceRings')
 		else:
 			warnEmptyAttribute("iceRings", "XSDataInteger")
-		if self.__image is not None:
+		if self._image is not None:
 			self.image.export(outfile, level, name_='image')
 		else:
 			warnEmptyAttribute("image", "XSDataImage")
-		if self.__inResTotal is not None:
+		if self._inResTotal is not None:
 			self.inResTotal.export(outfile, level, name_='inResTotal')
 		else:
 			warnEmptyAttribute("inResTotal", "XSDataInteger")
-		if self.__inResolutionOvrlSpots is not None:
+		if self._inResolutionOvrlSpots is not None:
 			self.inResolutionOvrlSpots.export(outfile, level, name_='inResolutionOvrlSpots')
 		else:
 			warnEmptyAttribute("inResolutionOvrlSpots", "XSDataInteger")
-		if self.__maxUnitCell is not None:
+		if self._maxUnitCell is not None:
 			self.maxUnitCell.export(outfile, level, name_='maxUnitCell')
 		else:
 			warnEmptyAttribute("maxUnitCell", "XSDataDouble")
-		if self.__method1Res is not None:
+		if self._method1Res is not None:
 			self.method1Res.export(outfile, level, name_='method1Res')
 		else:
 			warnEmptyAttribute("method1Res", "XSDataDouble")
-		if self.__method2Res is not None:
+		if self._method2Res is not None:
 			self.method2Res.export(outfile, level, name_='method2Res')
 		else:
 			warnEmptyAttribute("method2Res", "XSDataDouble")
-		if self.__pctSaturationTop50Peaks is not None:
+		if self._pctSaturationTop50Peaks is not None:
 			self.pctSaturationTop50Peaks.export(outfile, level, name_='pctSaturationTop50Peaks')
 		else:
 			warnEmptyAttribute("pctSaturationTop50Peaks", "XSDataDouble")
-		if self.__saturationRangeAverage is not None:
+		if self._saturationRangeAverage is not None:
 			self.saturationRangeAverage.export(outfile, level, name_='saturationRangeAverage')
-		if self.__saturationRangeMax is not None:
+		if self._saturationRangeMax is not None:
 			self.saturationRangeMax.export(outfile, level, name_='saturationRangeMax')
-		if self.__saturationRangeMin is not None:
+		if self._saturationRangeMin is not None:
 			self.saturationRangeMin.export(outfile, level, name_='saturationRangeMin')
-		if self.__signalRangeAverage is not None:
+		if self._signalRangeAverage is not None:
 			self.signalRangeAverage.export(outfile, level, name_='signalRangeAverage')
-		if self.__signalRangeMax is not None:
+		if self._signalRangeMax is not None:
 			self.signalRangeMax.export(outfile, level, name_='signalRangeMax')
-		if self.__signalRangeMin is not None:
+		if self._signalRangeMin is not None:
 			self.signalRangeMin.export(outfile, level, name_='signalRangeMin')
-		if self.__spotTotal is not None:
+		if self._spotTotal is not None:
 			self.spotTotal.export(outfile, level, name_='spotTotal')
 		else:
 			warnEmptyAttribute("spotTotal", "XSDataInteger")
-		if self.__totalIntegratedSignal is not None:
+		if self._totalIntegratedSignal is not None:
 			self.totalIntegratedSignal.export(outfile, level, name_='totalIntegratedSignal')
 	def build(self, node_):
 		for child_ in node_.childNodes:
@@ -649,22 +694,24 @@ class XSDataImageQualityIndicators(XSData):
 class XSDataLabelitMosflmScriptsOutput(XSData):
 	def __init__(self, uMatrix=None, aMatrix=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataLabelitMosflmScriptsOutput", "Constructor of XSDataLabelitMosflmScriptsOutput", aMatrix, "XSDataMatrixDouble")
-		self.__aMatrix = aMatrix
+		self._aMatrix = aMatrix
 		checkType("XSDataLabelitMosflmScriptsOutput", "Constructor of XSDataLabelitMosflmScriptsOutput", uMatrix, "XSDataMatrixDouble")
-		self.__uMatrix = uMatrix
-	def getAMatrix(self): return self.__aMatrix
+		self._uMatrix = uMatrix
+	def getAMatrix(self): return self._aMatrix
 	def setAMatrix(self, aMatrix):
 		checkType("XSDataLabelitMosflmScriptsOutput", "setAMatrix", aMatrix, "XSDataMatrixDouble")
-		self.__aMatrix = aMatrix
-	def delAMatrix(self): self.__aMatrix = None
+		self._aMatrix = aMatrix
+	def delAMatrix(self): self._aMatrix = None
 	# Properties
 	aMatrix = property(getAMatrix, setAMatrix, delAMatrix, "Property for aMatrix")
-	def getUMatrix(self): return self.__uMatrix
+	def getUMatrix(self): return self._uMatrix
 	def setUMatrix(self, uMatrix):
 		checkType("XSDataLabelitMosflmScriptsOutput", "setUMatrix", uMatrix, "XSDataMatrixDouble")
-		self.__uMatrix = uMatrix
-	def delUMatrix(self): self.__uMatrix = None
+		self._uMatrix = uMatrix
+	def delUMatrix(self): self._uMatrix = None
 	# Properties
 	uMatrix = property(getUMatrix, setUMatrix, delUMatrix, "Property for uMatrix")
 	def export(self, outfile, level, name_='XSDataLabelitMosflmScriptsOutput'):
@@ -675,11 +722,11 @@ class XSDataLabelitMosflmScriptsOutput(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataLabelitMosflmScriptsOutput'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__aMatrix is not None:
+		if self._aMatrix is not None:
 			self.aMatrix.export(outfile, level, name_='aMatrix')
 		else:
 			warnEmptyAttribute("aMatrix", "XSDataMatrixDouble")
-		if self.__uMatrix is not None:
+		if self._uMatrix is not None:
 			self.uMatrix.export(outfile, level, name_='uMatrix')
 		else:
 			warnEmptyAttribute("uMatrix", "XSDataMatrixDouble")
@@ -745,94 +792,96 @@ class XSDataLabelitMosflmScriptsOutput(XSData):
 class XSDataLabelitScreenSolution(XSData):
 	def __init__(self, volume=None, unitCell=None, solutionNumber=None, rmsd=None, numberOfSpots=None, metricFitValue=None, metricFitCode=None, happy=None, crystalSystem=None, bravaisLattice=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", bravaisLattice, "XSDataString")
-		self.__bravaisLattice = bravaisLattice
+		self._bravaisLattice = bravaisLattice
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", crystalSystem, "XSDataString")
-		self.__crystalSystem = crystalSystem
+		self._crystalSystem = crystalSystem
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", happy, "XSDataBoolean")
-		self.__happy = happy
+		self._happy = happy
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", metricFitCode, "XSDataString")
-		self.__metricFitCode = metricFitCode
+		self._metricFitCode = metricFitCode
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", metricFitValue, "XSDataDouble")
-		self.__metricFitValue = metricFitValue
+		self._metricFitValue = metricFitValue
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", numberOfSpots, "XSDataInteger")
-		self.__numberOfSpots = numberOfSpots
+		self._numberOfSpots = numberOfSpots
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", rmsd, "XSDataLength")
-		self.__rmsd = rmsd
+		self._rmsd = rmsd
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", solutionNumber, "XSDataInteger")
-		self.__solutionNumber = solutionNumber
+		self._solutionNumber = solutionNumber
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", unitCell, "XSDataCell")
-		self.__unitCell = unitCell
+		self._unitCell = unitCell
 		checkType("XSDataLabelitScreenSolution", "Constructor of XSDataLabelitScreenSolution", volume, "XSDataInteger")
-		self.__volume = volume
-	def getBravaisLattice(self): return self.__bravaisLattice
+		self._volume = volume
+	def getBravaisLattice(self): return self._bravaisLattice
 	def setBravaisLattice(self, bravaisLattice):
 		checkType("XSDataLabelitScreenSolution", "setBravaisLattice", bravaisLattice, "XSDataString")
-		self.__bravaisLattice = bravaisLattice
-	def delBravaisLattice(self): self.__bravaisLattice = None
+		self._bravaisLattice = bravaisLattice
+	def delBravaisLattice(self): self._bravaisLattice = None
 	# Properties
 	bravaisLattice = property(getBravaisLattice, setBravaisLattice, delBravaisLattice, "Property for bravaisLattice")
-	def getCrystalSystem(self): return self.__crystalSystem
+	def getCrystalSystem(self): return self._crystalSystem
 	def setCrystalSystem(self, crystalSystem):
 		checkType("XSDataLabelitScreenSolution", "setCrystalSystem", crystalSystem, "XSDataString")
-		self.__crystalSystem = crystalSystem
-	def delCrystalSystem(self): self.__crystalSystem = None
+		self._crystalSystem = crystalSystem
+	def delCrystalSystem(self): self._crystalSystem = None
 	# Properties
 	crystalSystem = property(getCrystalSystem, setCrystalSystem, delCrystalSystem, "Property for crystalSystem")
-	def getHappy(self): return self.__happy
+	def getHappy(self): return self._happy
 	def setHappy(self, happy):
 		checkType("XSDataLabelitScreenSolution", "setHappy", happy, "XSDataBoolean")
-		self.__happy = happy
-	def delHappy(self): self.__happy = None
+		self._happy = happy
+	def delHappy(self): self._happy = None
 	# Properties
 	happy = property(getHappy, setHappy, delHappy, "Property for happy")
-	def getMetricFitCode(self): return self.__metricFitCode
+	def getMetricFitCode(self): return self._metricFitCode
 	def setMetricFitCode(self, metricFitCode):
 		checkType("XSDataLabelitScreenSolution", "setMetricFitCode", metricFitCode, "XSDataString")
-		self.__metricFitCode = metricFitCode
-	def delMetricFitCode(self): self.__metricFitCode = None
+		self._metricFitCode = metricFitCode
+	def delMetricFitCode(self): self._metricFitCode = None
 	# Properties
 	metricFitCode = property(getMetricFitCode, setMetricFitCode, delMetricFitCode, "Property for metricFitCode")
-	def getMetricFitValue(self): return self.__metricFitValue
+	def getMetricFitValue(self): return self._metricFitValue
 	def setMetricFitValue(self, metricFitValue):
 		checkType("XSDataLabelitScreenSolution", "setMetricFitValue", metricFitValue, "XSDataDouble")
-		self.__metricFitValue = metricFitValue
-	def delMetricFitValue(self): self.__metricFitValue = None
+		self._metricFitValue = metricFitValue
+	def delMetricFitValue(self): self._metricFitValue = None
 	# Properties
 	metricFitValue = property(getMetricFitValue, setMetricFitValue, delMetricFitValue, "Property for metricFitValue")
-	def getNumberOfSpots(self): return self.__numberOfSpots
+	def getNumberOfSpots(self): return self._numberOfSpots
 	def setNumberOfSpots(self, numberOfSpots):
 		checkType("XSDataLabelitScreenSolution", "setNumberOfSpots", numberOfSpots, "XSDataInteger")
-		self.__numberOfSpots = numberOfSpots
-	def delNumberOfSpots(self): self.__numberOfSpots = None
+		self._numberOfSpots = numberOfSpots
+	def delNumberOfSpots(self): self._numberOfSpots = None
 	# Properties
 	numberOfSpots = property(getNumberOfSpots, setNumberOfSpots, delNumberOfSpots, "Property for numberOfSpots")
-	def getRmsd(self): return self.__rmsd
+	def getRmsd(self): return self._rmsd
 	def setRmsd(self, rmsd):
 		checkType("XSDataLabelitScreenSolution", "setRmsd", rmsd, "XSDataLength")
-		self.__rmsd = rmsd
-	def delRmsd(self): self.__rmsd = None
+		self._rmsd = rmsd
+	def delRmsd(self): self._rmsd = None
 	# Properties
 	rmsd = property(getRmsd, setRmsd, delRmsd, "Property for rmsd")
-	def getSolutionNumber(self): return self.__solutionNumber
+	def getSolutionNumber(self): return self._solutionNumber
 	def setSolutionNumber(self, solutionNumber):
 		checkType("XSDataLabelitScreenSolution", "setSolutionNumber", solutionNumber, "XSDataInteger")
-		self.__solutionNumber = solutionNumber
-	def delSolutionNumber(self): self.__solutionNumber = None
+		self._solutionNumber = solutionNumber
+	def delSolutionNumber(self): self._solutionNumber = None
 	# Properties
 	solutionNumber = property(getSolutionNumber, setSolutionNumber, delSolutionNumber, "Property for solutionNumber")
-	def getUnitCell(self): return self.__unitCell
+	def getUnitCell(self): return self._unitCell
 	def setUnitCell(self, unitCell):
 		checkType("XSDataLabelitScreenSolution", "setUnitCell", unitCell, "XSDataCell")
-		self.__unitCell = unitCell
-	def delUnitCell(self): self.__unitCell = None
+		self._unitCell = unitCell
+	def delUnitCell(self): self._unitCell = None
 	# Properties
 	unitCell = property(getUnitCell, setUnitCell, delUnitCell, "Property for unitCell")
-	def getVolume(self): return self.__volume
+	def getVolume(self): return self._volume
 	def setVolume(self, volume):
 		checkType("XSDataLabelitScreenSolution", "setVolume", volume, "XSDataInteger")
-		self.__volume = volume
-	def delVolume(self): self.__volume = None
+		self._volume = volume
+	def delVolume(self): self._volume = None
 	# Properties
 	volume = property(getVolume, setVolume, delVolume, "Property for volume")
 	def export(self, outfile, level, name_='XSDataLabelitScreenSolution'):
@@ -843,43 +892,43 @@ class XSDataLabelitScreenSolution(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataLabelitScreenSolution'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__bravaisLattice is not None:
+		if self._bravaisLattice is not None:
 			self.bravaisLattice.export(outfile, level, name_='bravaisLattice')
 		else:
 			warnEmptyAttribute("bravaisLattice", "XSDataString")
-		if self.__crystalSystem is not None:
+		if self._crystalSystem is not None:
 			self.crystalSystem.export(outfile, level, name_='crystalSystem')
 		else:
 			warnEmptyAttribute("crystalSystem", "XSDataString")
-		if self.__happy is not None:
+		if self._happy is not None:
 			self.happy.export(outfile, level, name_='happy')
 		else:
 			warnEmptyAttribute("happy", "XSDataBoolean")
-		if self.__metricFitCode is not None:
+		if self._metricFitCode is not None:
 			self.metricFitCode.export(outfile, level, name_='metricFitCode')
 		else:
 			warnEmptyAttribute("metricFitCode", "XSDataString")
-		if self.__metricFitValue is not None:
+		if self._metricFitValue is not None:
 			self.metricFitValue.export(outfile, level, name_='metricFitValue')
 		else:
 			warnEmptyAttribute("metricFitValue", "XSDataDouble")
-		if self.__numberOfSpots is not None:
+		if self._numberOfSpots is not None:
 			self.numberOfSpots.export(outfile, level, name_='numberOfSpots')
 		else:
 			warnEmptyAttribute("numberOfSpots", "XSDataInteger")
-		if self.__rmsd is not None:
+		if self._rmsd is not None:
 			self.rmsd.export(outfile, level, name_='rmsd')
 		else:
 			warnEmptyAttribute("rmsd", "XSDataLength")
-		if self.__solutionNumber is not None:
+		if self._solutionNumber is not None:
 			self.solutionNumber.export(outfile, level, name_='solutionNumber')
 		else:
 			warnEmptyAttribute("solutionNumber", "XSDataInteger")
-		if self.__unitCell is not None:
+		if self._unitCell is not None:
 			self.unitCell.export(outfile, level, name_='unitCell')
 		else:
 			warnEmptyAttribute("unitCell", "XSDataCell")
-		if self.__volume is not None:
+		if self._volume is not None:
 			self.volume.export(outfile, level, name_='volume')
 		else:
 			warnEmptyAttribute("volume", "XSDataInteger")
@@ -983,69 +1032,80 @@ class XSDataLabelitScreenSolution(XSData):
 # end class XSDataLabelitScreenSolution
 
 class XSDataLabelitScreenOutput(XSData):
-	def __init__(self, selectedSolutionNumber=None, mosaicity=None, labelitScreenSolution=None, distance=None, beamCentreY=None, beamCentreX=None):
+	def __init__(self, selectedSolutionNumber=None, pathToLogFile=None, mosaicity=None, labelitScreenSolution=None, distance=None, beamCentreY=None, beamCentreX=None):
 		XSData.__init__(self, )
+	
+	
 		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", beamCentreX, "XSDataLength")
-		self.__beamCentreX = beamCentreX
+		self._beamCentreX = beamCentreX
 		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", beamCentreY, "XSDataLength")
-		self.__beamCentreY = beamCentreY
+		self._beamCentreY = beamCentreY
 		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", distance, "XSDataLength")
-		self.__distance = distance
+		self._distance = distance
 		if labelitScreenSolution is None:
-			self.__labelitScreenSolution = []
+			self._labelitScreenSolution = []
 		else:
-			checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", labelitScreenSolution, "XSDataLabelitScreenSolution")
-			self.__labelitScreenSolution = labelitScreenSolution
+			checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", labelitScreenSolution, "list")
+			self._labelitScreenSolution = labelitScreenSolution
 		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", mosaicity, "XSDataAngle")
-		self.__mosaicity = mosaicity
+		self._mosaicity = mosaicity
+		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
 		checkType("XSDataLabelitScreenOutput", "Constructor of XSDataLabelitScreenOutput", selectedSolutionNumber, "XSDataInteger")
-		self.__selectedSolutionNumber = selectedSolutionNumber
-	def getBeamCentreX(self): return self.__beamCentreX
+		self._selectedSolutionNumber = selectedSolutionNumber
+	def getBeamCentreX(self): return self._beamCentreX
 	def setBeamCentreX(self, beamCentreX):
 		checkType("XSDataLabelitScreenOutput", "setBeamCentreX", beamCentreX, "XSDataLength")
-		self.__beamCentreX = beamCentreX
-	def delBeamCentreX(self): self.__beamCentreX = None
+		self._beamCentreX = beamCentreX
+	def delBeamCentreX(self): self._beamCentreX = None
 	# Properties
 	beamCentreX = property(getBeamCentreX, setBeamCentreX, delBeamCentreX, "Property for beamCentreX")
-	def getBeamCentreY(self): return self.__beamCentreY
+	def getBeamCentreY(self): return self._beamCentreY
 	def setBeamCentreY(self, beamCentreY):
 		checkType("XSDataLabelitScreenOutput", "setBeamCentreY", beamCentreY, "XSDataLength")
-		self.__beamCentreY = beamCentreY
-	def delBeamCentreY(self): self.__beamCentreY = None
+		self._beamCentreY = beamCentreY
+	def delBeamCentreY(self): self._beamCentreY = None
 	# Properties
 	beamCentreY = property(getBeamCentreY, setBeamCentreY, delBeamCentreY, "Property for beamCentreY")
-	def getDistance(self): return self.__distance
+	def getDistance(self): return self._distance
 	def setDistance(self, distance):
 		checkType("XSDataLabelitScreenOutput", "setDistance", distance, "XSDataLength")
-		self.__distance = distance
-	def delDistance(self): self.__distance = None
+		self._distance = distance
+	def delDistance(self): self._distance = None
 	# Properties
 	distance = property(getDistance, setDistance, delDistance, "Property for distance")
-	def getLabelitScreenSolution(self): return self.__labelitScreenSolution
+	def getLabelitScreenSolution(self): return self._labelitScreenSolution
 	def setLabelitScreenSolution(self, labelitScreenSolution):
 		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", labelitScreenSolution, "list")
-		self.__labelitScreenSolution = labelitScreenSolution
-	def delLabelitScreenSolution(self): self.__labelitScreenSolution = None
+		self._labelitScreenSolution = labelitScreenSolution
+	def delLabelitScreenSolution(self): self._labelitScreenSolution = None
 	# Properties
 	labelitScreenSolution = property(getLabelitScreenSolution, setLabelitScreenSolution, delLabelitScreenSolution, "Property for labelitScreenSolution")
 	def addLabelitScreenSolution(self, value):
 		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", value, "XSDataLabelitScreenSolution")
-		self.__labelitScreenSolution.append(value)
+		self._labelitScreenSolution.append(value)
 	def insertLabelitScreenSolution(self, index, value):
 		checkType("XSDataLabelitScreenOutput", "setLabelitScreenSolution", value, "XSDataLabelitScreenSolution")
-		self.__labelitScreenSolution[index] = value
-	def getMosaicity(self): return self.__mosaicity
+		self._labelitScreenSolution[index] = value
+	def getMosaicity(self): return self._mosaicity
 	def setMosaicity(self, mosaicity):
 		checkType("XSDataLabelitScreenOutput", "setMosaicity", mosaicity, "XSDataAngle")
-		self.__mosaicity = mosaicity
-	def delMosaicity(self): self.__mosaicity = None
+		self._mosaicity = mosaicity
+	def delMosaicity(self): self._mosaicity = None
 	# Properties
 	mosaicity = property(getMosaicity, setMosaicity, delMosaicity, "Property for mosaicity")
-	def getSelectedSolutionNumber(self): return self.__selectedSolutionNumber
+	def getPathToLogFile(self): return self._pathToLogFile
+	def setPathToLogFile(self, pathToLogFile):
+		checkType("XSDataLabelitScreenOutput", "setPathToLogFile", pathToLogFile, "XSDataFile")
+		self._pathToLogFile = pathToLogFile
+	def delPathToLogFile(self): self._pathToLogFile = None
+	# Properties
+	pathToLogFile = property(getPathToLogFile, setPathToLogFile, delPathToLogFile, "Property for pathToLogFile")
+	def getSelectedSolutionNumber(self): return self._selectedSolutionNumber
 	def setSelectedSolutionNumber(self, selectedSolutionNumber):
 		checkType("XSDataLabelitScreenOutput", "setSelectedSolutionNumber", selectedSolutionNumber, "XSDataInteger")
-		self.__selectedSolutionNumber = selectedSolutionNumber
-	def delSelectedSolutionNumber(self): self.__selectedSolutionNumber = None
+		self._selectedSolutionNumber = selectedSolutionNumber
+	def delSelectedSolutionNumber(self): self._selectedSolutionNumber = None
 	# Properties
 	selectedSolutionNumber = property(getSelectedSolutionNumber, setSelectedSolutionNumber, delSelectedSolutionNumber, "Property for selectedSolutionNumber")
 	def export(self, outfile, level, name_='XSDataLabelitScreenOutput'):
@@ -1056,25 +1116,29 @@ class XSDataLabelitScreenOutput(XSData):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataLabelitScreenOutput'):
 		XSData.exportChildren(self, outfile, level, name_)
-		if self.__beamCentreX is not None:
+		if self._beamCentreX is not None:
 			self.beamCentreX.export(outfile, level, name_='beamCentreX')
 		else:
 			warnEmptyAttribute("beamCentreX", "XSDataLength")
-		if self.__beamCentreY is not None:
+		if self._beamCentreY is not None:
 			self.beamCentreY.export(outfile, level, name_='beamCentreY')
 		else:
 			warnEmptyAttribute("beamCentreY", "XSDataLength")
-		if self.__distance is not None:
+		if self._distance is not None:
 			self.distance.export(outfile, level, name_='distance')
 		else:
 			warnEmptyAttribute("distance", "XSDataLength")
 		for labelitScreenSolution_ in self.getLabelitScreenSolution():
 			labelitScreenSolution_.export(outfile, level, name_='labelitScreenSolution')
-		if self.__mosaicity is not None:
+		if self._mosaicity is not None:
 			self.mosaicity.export(outfile, level, name_='mosaicity')
 		else:
 			warnEmptyAttribute("mosaicity", "XSDataAngle")
-		if self.__selectedSolutionNumber is not None:
+		if self._pathToLogFile is not None:
+			self.pathToLogFile.export(outfile, level, name_='pathToLogFile')
+		else:
+			warnEmptyAttribute("pathToLogFile", "XSDataFile")
+		if self._selectedSolutionNumber is not None:
 			self.selectedSolutionNumber.export(outfile, level, name_='selectedSolutionNumber')
 		else:
 			warnEmptyAttribute("selectedSolutionNumber", "XSDataInteger")
@@ -1108,6 +1172,11 @@ class XSDataLabelitScreenOutput(XSData):
 			obj_ = XSDataAngle()
 			obj_.build(child_)
 			self.setMosaicity(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'pathToLogFile':
+			obj_ = XSDataFile()
+			obj_.build(child_)
+			self.setPathToLogFile(obj_)
 		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'selectedSolutionNumber':
 			obj_ = XSDataInteger()
@@ -1160,13 +1229,15 @@ class XSDataLabelitScreenOutput(XSData):
 class XSDataInputDistlSignalStrength(XSDataInput):
 	def __init__(self, configuration=None, referenceImage=None):
 		XSDataInput.__init__(self, configuration)
+	
+	
 		checkType("XSDataInputDistlSignalStrength", "Constructor of XSDataInputDistlSignalStrength", referenceImage, "XSDataImage")
-		self.__referenceImage = referenceImage
-	def getReferenceImage(self): return self.__referenceImage
+		self._referenceImage = referenceImage
+	def getReferenceImage(self): return self._referenceImage
 	def setReferenceImage(self, referenceImage):
 		checkType("XSDataInputDistlSignalStrength", "setReferenceImage", referenceImage, "XSDataImage")
-		self.__referenceImage = referenceImage
-	def delReferenceImage(self): self.__referenceImage = None
+		self._referenceImage = referenceImage
+	def delReferenceImage(self): self._referenceImage = None
 	# Properties
 	referenceImage = property(getReferenceImage, setReferenceImage, delReferenceImage, "Property for referenceImage")
 	def export(self, outfile, level, name_='XSDataInputDistlSignalStrength'):
@@ -1177,7 +1248,7 @@ class XSDataInputDistlSignalStrength(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputDistlSignalStrength'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
-		if self.__referenceImage is not None:
+		if self._referenceImage is not None:
 			self.referenceImage.export(outfile, level, name_='referenceImage')
 		else:
 			warnEmptyAttribute("referenceImage", "XSDataImage")
@@ -1238,13 +1309,15 @@ class XSDataInputDistlSignalStrength(XSDataInput):
 class XSDataResultDistlSignalStrength(XSDataResult):
 	def __init__(self, status=None, imageQualityIndicators=None):
 		XSDataResult.__init__(self, status)
+	
+	
 		checkType("XSDataResultDistlSignalStrength", "Constructor of XSDataResultDistlSignalStrength", imageQualityIndicators, "XSDataImageQualityIndicators")
-		self.__imageQualityIndicators = imageQualityIndicators
-	def getImageQualityIndicators(self): return self.__imageQualityIndicators
+		self._imageQualityIndicators = imageQualityIndicators
+	def getImageQualityIndicators(self): return self._imageQualityIndicators
 	def setImageQualityIndicators(self, imageQualityIndicators):
 		checkType("XSDataResultDistlSignalStrength", "setImageQualityIndicators", imageQualityIndicators, "XSDataImageQualityIndicators")
-		self.__imageQualityIndicators = imageQualityIndicators
-	def delImageQualityIndicators(self): self.__imageQualityIndicators = None
+		self._imageQualityIndicators = imageQualityIndicators
+	def delImageQualityIndicators(self): self._imageQualityIndicators = None
 	# Properties
 	imageQualityIndicators = property(getImageQualityIndicators, setImageQualityIndicators, delImageQualityIndicators, "Property for imageQualityIndicators")
 	def export(self, outfile, level, name_='XSDataResultDistlSignalStrength'):
@@ -1255,7 +1328,7 @@ class XSDataResultDistlSignalStrength(XSDataResult):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataResultDistlSignalStrength'):
 		XSDataResult.exportChildren(self, outfile, level, name_)
-		if self.__imageQualityIndicators is not None:
+		if self._imageQualityIndicators is not None:
 			self.imageQualityIndicators.export(outfile, level, name_='imageQualityIndicators')
 		else:
 			warnEmptyAttribute("imageQualityIndicators", "XSDataImageQualityIndicators")

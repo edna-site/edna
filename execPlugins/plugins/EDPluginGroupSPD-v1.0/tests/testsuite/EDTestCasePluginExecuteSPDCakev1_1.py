@@ -142,7 +142,7 @@ def readChiPlot(filename):
                 try:
                     x = float(words[0])
                     y = float(words[1])
-                except:
+                except Exception:
                     continue
                 X.append(x)
                 Y.append(y)

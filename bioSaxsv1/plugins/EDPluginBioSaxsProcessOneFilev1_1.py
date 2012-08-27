@@ -140,7 +140,7 @@ class EDPluginBioSaxsProcessOneFilev1_1(EDPluginControl):
         try:
             xsdOut = _edPlugin.dataOutput
             self.lstExecutiveSummary.append(xsdOut.status.executiveSummary.value)
-        except:
+        except Exception:
             pass
         self.setFailure()
 
@@ -161,6 +161,6 @@ class EDPluginBioSaxsProcessOneFilev1_1(EDPluginControl):
             self.strExecutiveSummary.append(xsdOut.status.executiveSummary.value)
             self.integratedImage = xsdOut.integratedImage
             self.integratedCurve = xsdOut.integratedCurve
-        except:
+        except Exception:
             pass
         self.setFailure()

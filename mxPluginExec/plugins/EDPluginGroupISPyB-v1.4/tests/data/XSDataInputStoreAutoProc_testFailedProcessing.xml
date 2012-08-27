@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataInputAutoProc>
+	<AutoProcContainer>
+	    <AutoProcProgramContainer>
+	        <AutoProcProgram>
+	            <processingCommandLine>fastproc</processingCommandLine>
+	            <processingPrograms>fastproc</processingPrograms>
+				<processingStatus>false</processingStatus>
+				<processingMessage>Test failure message</processingMessage>
+	        </AutoProcProgram>
+	    </AutoProcProgramContainer>
+	</AutoProcContainer>
+</XSDataInputAutoProc>

@@ -1,5 +1,18 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+
+
+import XSDataMXv1.XSDataDiffractionPlan 
+import XSDataMXv1.XSDataImageQualityIndicators
+import XSDataMXv1 
 import XSDataMXv1 
 
 complex type XSDataInputGridScreening extends XSDataInput {
@@ -7,6 +20,7 @@ complex type XSDataInputGridScreening extends XSDataInput {
 	diffractionPlan : XSDataDiffractionPlan optional
 	storeImageQualityIndicatorsInISPyB : XSDataBoolean optional
 	doOnlyImageQualityIndicators : XSDataBoolean optional
+	doOnlyIntegrationWithXMLOutput : XSDataBoolean optional
 }
 
 complex type XSDataResultGridScreening extends XSDataResult {
@@ -16,6 +30,7 @@ complex type XSDataResultGridScreening extends XSDataResult {
 	rankingResolution : XSDataDouble optional
 	comment : XSDataString optional
 	imageQualityIndicatorsId : XSDataInteger optional
+	resultIntegration : XSDataGridScreeningResultIntegration optional
 }
 
 complex type XSDataGridScreeningFileNameParameters extends XSData {
@@ -23,4 +38,10 @@ complex type XSDataGridScreeningFileNameParameters extends XSData {
 	motorPosition2 : XSDataString
 	scanId1 : XSDataString
 	scanId2 : XSDataString	
+}
+
+complex type XSDataGridScreeningResultIntegration extends XSData {
+	fileName : string
+	fileDirectory : string
+	integratedData : string
 }

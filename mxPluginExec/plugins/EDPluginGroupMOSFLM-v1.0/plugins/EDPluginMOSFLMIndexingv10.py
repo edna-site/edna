@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -31,8 +29,10 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
-from EDVerbose import EDVerbose
+import os
 
 from EDUtilsTable      import EDUtilsTable
 from EDPluginMOSFLMv10 import EDPluginMOSFLMv10
@@ -42,6 +42,7 @@ from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataFloat
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 
 from XSDataMOSFLMv10 import XSDataCell
 from XSDataMOSFLMv10 import XSDataMOSFLMBeamPosition
@@ -62,23 +63,23 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
 
     def preProcess(self, _edObject=None):
         EDPluginMOSFLMv10.preProcess(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.preProcess")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.preProcess")
         self.generateMOSFLMCommands()
 
 
     def finallyProcess(self, _edObject=None):
-        EDPluginMOSFLMv10.postProcess(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.finallyProcess")
+        EDPluginMOSFLMv10.finallyProcess(self)
+        self.DEBUG("EDPluginMOSFLMIndexingv10.finallyProcess")
         xsDataMOSFLMOutputIndexing = self.createDataMOSFLMOutputIndexing()
         self.setDataOutput(xsDataMOSFLMOutputIndexing)
 
 
     def configure(self):
         EDPluginMOSFLMv10.configure(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.configure")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.configure")
         xsPluginItem = self.getConfiguration()
         if (xsPluginItem == None):
-            EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.configure: xsPluginItem is None")
+            self.DEBUG("EDPluginMOSFLMIndexingv10.configure: xsPluginItem is None")
 
 
     def checkParameters(self):
@@ -86,7 +87,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         Checks the mandatory parameters for MOSLFM indexing
         """
         EDPluginMOSFLMv10.checkParameters(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.checkParameters")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.checkParameters")
         self.checkMandatoryParameters(self.getDataInput().getImage(), "image")
 
 
@@ -96,7 +97,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         XSDataMOSFLMIndexingingInput as self.getDataInput()
         """
         EDPluginMOSFLMv10.generateMOSFLMCommands(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.generateMOSFLMCommands")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.generateMOSFLMCommands")
 
         xsDataMOSFLMIndexingInput = self.getDataInput()
 
@@ -119,18 +120,20 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
 #            strPrefix = strTemplate.split("#")[0][:-1]
 #            strGenFileName = strPrefix + ".gen"
 #            strSptFileName = strPrefix + ".spt"
+        # Force name of log file
+        self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
 
-        EDVerbose.DEBUG("Finished EDPluginMOSFLMIndexingv10.generateMOSFLMIndexingCommands")
+        self.DEBUG("Finished EDPluginMOSFLMIndexingv10.generateMOSFLMIndexingCommands")
 
 
     def createDataMOSFLMOutputIndexing(self):
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
         xsDataMOSFLMOutputIndexing = XSDataMOSFLMOutputIndexing()
         # Read Newmat file
         xsDataMOSFLMNewmat = self.getDataMOSFLMNewmat()
         if (xsDataMOSFLMNewmat is None):
             strError = "MOSFLM indexing error : No solution was obtained!"
-            EDVerbose.ERROR(strError)
+            self.ERROR(strError)
             self.setFailure()
         else:
             xsDataMOSFLMOutputIndexing.setRefinedNewmat(xsDataMOSFLMNewmat)
@@ -153,7 +156,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
             xsTableRefinement = EDUtilsTable.getTableFromTables(xsDataDnaTables, "refinement")
             if (xsTableRefinement is None):
                 strError = "MOSFLM indexing error : No solution was refined!"
-                EDVerbose.ERROR(strError)
+                self.ERROR(strError)
                 self.setFailure()
             else:
                 xsListDeviations = EDUtilsTable.getListsFromTable(xsTableRefinement, "deviations")[0]
@@ -224,7 +227,8 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
                 xsDataMOSFLMBeamPositionShift.setY(XSDataLength(fInitialBeamPositionY - fRefinedBeamPositionY))
                 xsDataMOSFLMOutputIndexing.setRefinedBeam(xsDataMOSFLMBeamPositionRefined)
                 xsDataMOSFLMOutputIndexing.setBeamShift(xsDataMOSFLMBeamPositionShift)
-
+        # Path to log file
+        xsDataMOSFLMOutputIndexing.setPathToLogFile(XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName()))))
         return xsDataMOSFLMOutputIndexing
 
 
@@ -233,7 +237,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         Generates a summary of the execution of the plugin.
         """
         EDPluginMOSFLMv10.generateExecutiveSummary(self, _edPlugin)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
         xsDataMOSFLMInputIndexing = self.getDataInput()
         xsDataMOSFLMOutputIndexing = self.getDataOutput()
         if not self.isFailure():

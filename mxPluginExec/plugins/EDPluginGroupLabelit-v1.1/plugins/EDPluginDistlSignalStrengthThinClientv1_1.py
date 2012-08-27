@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDPluginDistlSignalStrengthThinClientv1_1.py 1631 2010-06-15 11:42:06Z svensson $"
-#
-#    Copyright (C) 2008-2011 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -28,9 +26,11 @@ __authors__ = [ "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
-from EDVerbose import EDVerbose
+
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDConfiguration import EDConfiguration
 
@@ -63,7 +63,7 @@ class EDPluginDistlSignalStrengthThinClientv1_1(EDPluginExecProcessScript):
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.configure")
+        self.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.configure")
         strHostName = self.getStringConfigurationParameterValue(self.CONF_DISTL_SIGNAL_STRENGTH_SERVER_HOST)
         if strHostName is not None:
             self.strHostName = strHostName
@@ -78,7 +78,7 @@ class EDPluginDistlSignalStrengthThinClientv1_1(EDPluginExecProcessScript):
         Sets up the Labelit command line
         """
         EDPluginExecProcessScript.preProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.preProcess...")
+        self.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.preProcess...")
         self.xsDataImage = self.getDataInput().getReferenceImage()
         strCommandLine = self.xsDataImage.getPath().getValue()
         strCommandLine += " %s" % self.strHostName
@@ -92,11 +92,11 @@ class EDPluginDistlSignalStrengthThinClientv1_1(EDPluginExecProcessScript):
         Parses the labelit.screen log file and the generated MOSFLM script
         """
         EDPluginExecProcessScript.postProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.postProcess")
+        self.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.postProcess")
         strLabelitDistlLog = self.readProcessLogFile()
         if (strLabelitDistlLog is None):
             strErrorMessage = "EDPluginDistlSignalStrengthThinClientv1_1.postProcess : Could not read the Labelit log file"
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
         else:
@@ -108,7 +108,7 @@ class EDPluginDistlSignalStrengthThinClientv1_1(EDPluginExecProcessScript):
 
 
     def parseLabelitDistlOutput(self, _strLabelitDistlLogText):
-        EDVerbose.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.parseLabelitDistlOutput")
+        self.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.parseLabelitDistlOutput")
         xsDataImageQualityIndicators = None
         if _strLabelitDistlLogText is not None:
             xsDataImageQualityIndicators = XSDataImageQualityIndicators()
@@ -152,7 +152,7 @@ class EDPluginDistlSignalStrengthThinClientv1_1(EDPluginExecProcessScript):
         """
         Generates a summary of the execution of the Labelit distl thin client plugin.
         """
-        EDVerbose.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.generateExecutiveSummary")
+        self.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.generateExecutiveSummary")
         xsDataImageQualityIndicators = self.getDataOutput().getImageQualityIndicators()
         self.addExecutiveSummaryLine("Execution of Labelit distl.thin_client successful.")
         self.addExecutiveSummaryLine("Image                   : %s" % xsDataImageQualityIndicators.getImage().getPath().getValue())

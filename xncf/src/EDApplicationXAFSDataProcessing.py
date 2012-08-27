@@ -151,7 +151,7 @@ class EDApplicationXAFSDataProcessing(EDApplication):
             try:
                 if (self.__strNxsEnergy and self.__strNxsLnI0It):
                     _edPlugin.readXAFSNexusData(self.__strDatasetFileName, self.__strNxsEnergy, self.__strNxsLnI0It, self.__strNxsScanIndex)
-            except:
+            except Exception:
                 errorMessage = EDMessage.ERROR_CANNOT_READ_FILE_02 % ("EDApplicationXAFSDataProcessing.setPluginInput", self.__strDatasetFileName)
                 EDVerbose.error(errorMessage)
                 raise RuntimeError, errorMessage

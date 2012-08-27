@@ -1,3 +1,4 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
@@ -7,7 +8,8 @@
 #    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
-#    Principal authors: Olof Svensson (svensson@esrf.fr) 
+#    Principal authors: Olof Svensson (svensson@esrf.fr)
+#                       Jérôme Kieffer (jerome.kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -30,17 +32,15 @@
 # for the EDNA project.
 #
 
-"""
-EDInformationTest: Information for the test cases.
-
-TODO DocString
-
-"""
-
-__authors__ = "Olof Svensson, Jerome Kieffer"
+from __future__ import with_statement
+__authors__ = ["Olof Svensson", "Jérôme Kieffer"]
 __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120216"
+__doc__ = """
+EDInformationTest: Information for the test cases.
+"""
 
 
 from EDObject          import EDObject
@@ -111,18 +111,16 @@ class EDInformationTest(EDObject):
     def outputString(self, _strSpacing="  "):
         fTime = self.getRunTime()
         bSuccess = self.isSuccess()
-        self.synchronizeOn()
+        with self.locked():
+            strMessage = _strSpacing
+            if (bSuccess):
+                strMessage += "[SUCCESS]"
+            else:
+                strMessage += "[FAILURE]"
+            strMessage += " [ %d ][ %s ][ %.3f s ]\n" % (self.__iNumberTest, self.__strNameTest, fTime)
+            if ((not bSuccess) and (self.__strException is not None)):
+                strMessage += _strSpacing + "          [Exception]: " + str(self.__strException) + "\n"
 
-        strMessage = _strSpacing
-        if (bSuccess):
-            strMessage += "[SUCCESS]"
-        else:
-            strMessage += "[FAILURE]"
-        strMessage += " [ %d ][ %s ][ %.3f s ]\n" % (self.__iNumberTest, self.__strNameTest, fTime)
-        if ((not bSuccess) and (self.__strException is not None)):
-            strMessage += _strSpacing + "          [Exception]: " + str(self.__strException) + "\n"
-
-        for edTest in self.__listTest:
-            strMessage += edTest.outputString("            ")
-        self.synchronizeOff()
+            for edTest in self.__listTest:
+                strMessage += edTest.outputString("            ")
         return strMessage

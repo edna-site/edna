@@ -25,7 +25,7 @@
 try:
     import os
     import sys
-except:
+except Exception:
     print __name__ + ".py: error when importing module!"
 
 
@@ -60,7 +60,7 @@ class EDF:
             self.__filename = str(pFilename)
             self.__handler = open(self.__filename, str(pMode))
             return 0
-        except:
+        except Exception:
             return -1
 
 
@@ -69,7 +69,7 @@ class EDF:
         try:
             self.__handler.close()
             return 0
-        except:
+        except Exception:
             return -1
 
 
@@ -82,7 +82,7 @@ class EDF:
                 return 0
             else:
                 return -1                                              
-        except:
+        except Exception:
             return -1
         
 
@@ -101,7 +101,7 @@ class EDF:
                 else:                 
                     #if i > 0:
                     header.append(lines[i][2:-1])
-        except:
+        except Exception:
             pass
         return header    
                 
@@ -117,7 +117,7 @@ class EDF:
                     break
                 else:
                    result.join(tmp)
-        except:
+        except Exception:
             pass            
         return result
     

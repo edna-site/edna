@@ -30,12 +30,22 @@ __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF, Grenoble"
 __date__ = "20120112"
 __doc__ = "This is a python module to measure image offsets using pyfftw3 or fftpack"
-import os, threading, time
+import os, threading, time, gc
 try:
     import fftw3
 except ImportError:
     fftw3 = None
+try:
+    import pycuda
+    import pycuda.autoinit
+    import pycuda.elementwise
+    import pycuda.gpuarray as gpuarray
+    import scikits.cuda.fft as cu_fft
+except ImportError:
+    cu_fft = None
+
 import numpy
+from math import ceil, floor
 sem = threading.Semaphore()
 
 def shift(input, shift):
@@ -68,11 +78,11 @@ def shiftFFT(inp, shift, method="fftw"):
     """
     d0, d1 = inp.shape
     v0, v1 = shift
-    f0 = np.fft.ifftshift(np.arange(-d0 // 2, d0 // 2))
-    f1 = np.fft.ifftshift(np.arange(-d1 // 2, d1 // 2))
+    f0 = numpy.fft.ifftshift(numpy.arange(-d0 // 2, d0 // 2))
+    f1 = numpy.fft.ifftshift(numpy.arange(-d1 // 2, d1 // 2))
     m1, m0 = numpy.meshgrid(f1, f0)
-    e0 = np.exp(-2j * pi * v0 * m0 / float(d0))
-    e1 = np.exp(-2j * pi * v1 * m1 / float(d1))
+    e0 = numpy.exp(-2j * numpy.pi * v0 * m0 / float(d0))
+    e1 = numpy.exp(-2j * numpy.pi * v1 * m1 / float(d1))
     e = e0 * e1
     if method.startswith("fftw") and (fftw3 is not None):
 
@@ -87,7 +97,7 @@ def shiftFFT(inp, shift, method="fftw"):
         ifft()
         out = input / input.size
     else:
-        out = np.fft.ifft2(np.fft.fft2(inp) * e)
+        out = numpy.fft.ifft2(numpy.fft.fft2(inp) * e)
     return abs(out)
 
 def maximum_position(img):
@@ -118,13 +128,88 @@ def center_of_mass(img):
 
 
 
+class CudaCorrelate(object):
+    plans = {}
+    data1_gpus = {}
+    data2_gpus = {}
+    multconj = None
+    ctx = None
+#    pycuda.autoinit.context.pop()
+#    ctx.pop()
+    sem = threading.Semaphore()
+    initsem = threading.Semaphore()
+
+    def __init__(self, shape):
+        self.shape = tuple(shape)
+
+    def init(self):
+        if self.ctx is None:
+            with self.__class__.initsem:
+                if self.ctx is None:
+                    self.__class__.ctx = pycuda.autoinit.context
+        if not self.shape in self.plans:
+            with self.__class__.initsem:
+                if not self.shape in self.plans:
+                    self.ctx.push()
+                    if not self.__class__.multconj:
+                        self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
+                    if self.shape not in self.__class__.data1_gpus:
+                        self.__class__.data1_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if self.shape not in self.__class__.data2_gpus:
+                        self.__class__.data2_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if self.shape not in self.__class__.plans:
+                        self.__class__.plans[self.shape] = cu_fft.Plan(self.shape, numpy.complex128, numpy.complex128)
+                    self.ctx.synchronize()
+                    self.ctx.pop()
+    @classmethod
+    def clean(cls):
+        with initsem:
+            with sem:
+                if self.ctx:
+                    cls.ctx.push()
+                    for plan_name in list(cls.plans.keys()):
+                        plan = cls.plans.pop(plan_name)
+                        del plan
+                    for plan_name in list(cls.data1_gpus.keys()):
+                        data = cls.data1_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    for plan_name in cls.data2_gpus.copy():
+                        data = cls.data2_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    cls.ctx.pop()
+                    cls.ctx = None
+
+    def correlate(self, data1, data2):
+        self.init()
+        with self.__class__.sem:
+            self.ctx.push()
+            plan = self.__class__.plans[self.shape]
+            data1_gpu = self.__class__.data1_gpus[self.shape]
+            data2_gpu = self.__class__.data2_gpus[self.shape]
+            data1_gpu.set(data1.astype(numpy.complex128))
+            cu_fft.fft(data1_gpu, data1_gpu, plan)
+            data2_gpu.set(data2.astype(numpy.complex128))
+            cu_fft.fft(data2_gpu, data2_gpu, plan)
+    #            data1_gpu *= data2_gpu.conj()
+            self.multconj(data1_gpu, data2_gpu)
+            cu_fft.ifft(data1_gpu, data1_gpu, plan, True)
+#            self.ctx.synchronize()
+            res = data1_gpu.get().real
+            self.ctx.pop()
+        return res
+
 def measure_offset(img1, img2, method="fftw", withLog=False):
     """
     Measure the actual offset between 2 images
     @param img1: ndarray, first image 
     @param img2: ndarray, second image, same shape as img1
+    @param withLog: shall we return logs as well ? boolean
+    @param _shared: DO NOT USE !!! 
     @return: tuple of floats with the offsets
     """
+    method = str(method)
     ################################################################################
     # Start convolutions
     ################################################################################
@@ -146,7 +231,10 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         output *= temp
         ifft()
         res = input.real / input.size
-
+    if method[:4] == "cuda" and (cu_fft is not None):
+        with sem:
+            cuda_correlate = CudaCorrelate(shape)
+            res = cuda_correlate.correlate(img1, img2)
     else:#use numpy fftpack
         i1f = numpy.fft.fft2(img1)
         i2f = numpy.fft.fft2(img2)
@@ -188,8 +276,12 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         return offset
 
 def merge3(a, b, c, ROI=None):
+    """
+    @param: a, b, c: 3 2D-datasets
+    @param ROI: tuple of slices, i.e. (slice(1,513),slice(700,700+512))
+    """
     from scipy import ndimage
-    out = np.zeros(a.shape, dtype="float32")
+    out = numpy.zeros(a.shape, dtype="float32")
     out += a
     if ROI is not None:
         ac = a[ROI]
@@ -200,8 +292,46 @@ def merge3(a, b, c, ROI=None):
         bc = b
         cc = c
     shab = measure_offset(ac, bc)
-    out += ndimage.shift(b, shab, order=1, cval=b.mean(dtype=float), output_type="float32")
+    out += ndimage.shift(b, shab, order=1, cval=b.mean(dtype=float))
     shac = measure_offset(ac, cc)
-    out += ndimage.shift(c, shac, order=1, cval=c.mean(dtype=float), output_type="float32")
-    print shab, shac
+    out += ndimage.shift(c, shac, order=1, cval=c.mean(dtype=float))
+    print(shab, shac)
     return out / 3.0
+
+def patch(*arrays):
+    """
+    Will try to merge n-ndarray's representing images.
+    @param arrays: list of 2D images
+    @return: one image (ndarray)
+    """
+    n = len(arrays)
+    assert n > 0
+    #ensure all arrays have the same size
+    shape = arrays[0].shape
+    for i in arrays:
+        assert i.shape == shape
+    deltas = numpy.zeros((n, 2))
+    for i in range(1, n):
+         deltas[i] = measure_offset(arrays[0], arrays[i])
+    d0min = int(floor(deltas[:, 0].min()))
+    d1min = int(floor(deltas[:, 1].min()))
+    d0max = int(ceil(deltas[:, 0].max()))
+    d1max = int(ceil(deltas[:, 1].max()))
+    big_shape = (shape[0] + d0max - d0min, shape[1] + d1max - d1min)
+    print shape, big_shape
+    idx = numpy.zeros(big_shape, dtype=int)
+    patched = numpy.zeros(big_shape, dtype="float64")
+    print deltas
+    for i in range(n):
+        data = numpy.zeros(big_shape, dtype="float64")
+        pos = data.copy()
+        data[:shape[0], :shape[1]] = arrays[i]
+        pos[:shape[0], :shape[1]] = 1.0
+        patched += shiftFFT(data, deltas[i] - [d0min, d1min])
+        idx += shiftFFT(pos, deltas[i] - [d0min, d1min]).round().astype(int)
+    out = patched / idx.clip(1, n)
+    out[idx == 0] = 0
+    return out
+
+
+

@@ -95,7 +95,7 @@ class EDModule(EDLogging):
 
             try:
                 self.__path = self.module.__file__
-            except:
+            except Exception:
                 pass
         return self.__module
 
@@ -120,12 +120,12 @@ class EDModule(EDLogging):
         if "__call__" in dir(objVersion):
             try:
                 self.__version = objVersion()
-            except:
+            except Exception:
                 pass
         else:
             try:
                 self.__version = objVersion
-            except:
+            except Exception:
                 pass
 #        if not isinstance(self.__version, (str, unicode)):
 #            self.__version = str(self.__version)

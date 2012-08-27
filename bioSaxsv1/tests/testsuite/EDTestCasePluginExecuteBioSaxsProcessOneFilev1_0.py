@@ -115,7 +115,7 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
         keysObt.sort()
 #        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dict")
         for key in keysRef:
-            if not (key.startswith("History") or key in [ "Compression", "DDummy", "Dummy", "EDF_HeaderSize", "HeaderID", "Image", "filename"]):
+            if not (key.startswith("History") or key in [ "Compression", "DDummy", "Dummy", "EDF_HeaderSize", "HeaderID", "Image", "filename", "RasterOrientation"]):
                 EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value %s are the same" % key, _strExcluded="bioSaxs")
 
 ################################################################################
@@ -133,8 +133,8 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
 ################################################################################
 # Compare Ascii files
 ################################################################################
-        asciiObt = open(xsDataResultObtained.integratedCurve.path.value).read()
-        asciiRef = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.dat")).read()
+        asciiObt = os.linesep.join([i.strip() for i in  open(xsDataResultObtained.integratedCurve.path.value) if "RasterOrientation" not in i])
+        asciiRef = os.linesep.join([i.strip() for i in  open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.dat")) if "RasterOrientation" not in i])
         EDAssert.strAlmostEqual(asciiRef, asciiObt, _strComment="3 column ascii files are the same", _fRelError=0.1, _strExcluded=os.environ["USER"])
 
     def process(self):

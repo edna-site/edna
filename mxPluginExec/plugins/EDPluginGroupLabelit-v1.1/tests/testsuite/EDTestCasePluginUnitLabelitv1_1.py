@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2010 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Olof Svensson (svensson@esrf.fr) 
@@ -28,6 +26,8 @@ __authors__ = [ "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
 
@@ -82,7 +82,7 @@ class EDTestCasePluginUnitLabelitv1_1(EDTestCasePluginUnit):
         edPluginLabelitv1_1.setDataInput(xmlInput2, "referenceImage")
         edPluginLabelitv1_1.initaliseLabelitCommandLine()
         strScriptCommandLine = edPluginLabelitv1_1.getScriptCommandline()
-        strCommandLineExpected = "--index_only ${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_001.img ${EDNA_TESTS_DATA_HOME}/images/ref-testscale_1_002.img"
+        strCommandLineExpected = "--index_only ${EDNA_TESTIMAGES}/images/ref-testscale_1_001.img ${EDNA_TESTIMAGES}/images/ref-testscale_1_002.img"
         EDAssert.equal(strCommandLineExpected, strScriptCommandLine)
 
 

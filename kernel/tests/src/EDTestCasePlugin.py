@@ -3,9 +3,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -39,9 +37,9 @@ __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-__date__ = "20110915"
+__date__ = "20120131"
 
-import sys, os, threading, urllib2, exceptions, tempfile
+import sys, os, threading, urllib2
 
 from EDVerbose          import EDVerbose
 from EDUtilsPath        import EDUtilsPath
@@ -59,33 +57,23 @@ class EDTestCasePlugin(EDTestCase):
     """
     This is the main test class to test a plugin (Unit and Execution)
     """
-
+    URL_EDNA_SITE = "http://www.edna-site.org/data/tests/images"
 
     def __init__(self, _strPluginName, _strPluginDir=None, _strTestName=None):
         """
         Initialize the test case by determining the paths to the plugin home and plugin test directories.
         """
         EDTestCase.__init__(self, _strTestName)
-        self.__strPluginName = _strPluginName
-        self.__strTestsDataDir = None
-        self.__strPluginTestsDataDir = None
-        self.__strPluginHome = EDUtilsTest.getFactoryPluginTest().getModuleLocation(_strPluginName)
-        self.__strPluginTestsDataHome = EDUtilsTest.getPluginTestDataDirectory(self.getClassName())
-        self.__listRequiredConfigurationPluginNames = []
-        self.__strConfigurationFile = None
-        self.__dictConfigurations = {} #key=pluginName ; value=config
-        self.dictReplace = {"${EDNA_TESTS_DATA_HOME}": EDUtilsTest.getTestsDataHome(),
-                       "${EDNA_PLUGIN_TESTS_DATA_HOME}" : self.getPluginTestsDataHome(),
-                       "${EDNA_HOME}": EDUtilsPath.getEdnaHome(),
-                       "${USER}":  os.getenv("USER", "UndefindedUser"),
-                       "${TMPDIR}": os.getenv("TMPDIR", tempfile.gettempdir()),
-                        }
-
-
+        self._edPlugin = None
+        self._strPluginName = _strPluginName
+        self._strPluginHome = EDUtilsTest.getFactoryPluginTest().getModuleLocation(_strPluginName)
+        self._strPluginTestsDataHome = EDUtilsTest.getPluginTestDataDirectory(self.getClassName())
+        self._listRequiredConfigurationPluginNames = []
+        self._strConfigurationFile = None
+        self._dictConfigurations = {} #key=pluginName ; value=config
 
 
     def preProcess(self):
-        EDTestCase.preProcess(self)
         # Check if the plugin to be tested requires configuration
         edPlugin = self.createPlugin()
         if edPlugin is None:
@@ -93,9 +81,9 @@ class EDTestCasePlugin(EDTestCase):
             EDVerbose.ERROR(strErr)
             raise RuntimeError(strErr)
         if edPlugin.isRequiredToHaveConfiguration():
-            self.__listRequiredConfigurationPluginNames.append(self.getPluginName())
+            self._listRequiredConfigurationPluginNames.append(self.getPluginName())
         # Check if the required plugin parameters are available
-        for strPluginName in self.__listRequiredConfigurationPluginNames:
+        for strPluginName in self._listRequiredConfigurationPluginNames:
             if self.getPluginConfiguration(strPluginName) is None:
                 EDVerbose.DEBUG("EDTestCasePlugin.preProcess: plugin configuration NOT found for plugin %s" % strPluginName)
                 self.setReasonForNotBeingExectuted("Missing configuration for %s" % strPluginName)
@@ -107,12 +95,12 @@ class EDTestCasePlugin(EDTestCase):
         # Load the configuration file if provided
         if _strPluginName == None:
             _strPluginName = self.getPluginName()
-        if _strPluginName in self.__dictConfigurations :
-            xsConfiguration = self.__dictConfigurations[_strPluginName]
+        if _strPluginName in self._dictConfigurations :
+            xsConfiguration = self._dictConfigurations[_strPluginName]
         else:
             xsConfiguration = None
-            if (self.__strConfigurationFile is not None):
-                edConfigurationTest = EDConfiguration(self.__strConfigurationFile)
+            if (self._strConfigurationFile is not None):
+                edConfigurationTest = EDConfiguration(self._strConfigurationFile)
                 edConfigurationTest.load()
                 if (edConfigurationTest is not None):
                     xsConfiguration = edConfigurationTest.getPluginItem(_strPluginName)
@@ -123,7 +111,7 @@ class EDTestCasePlugin(EDTestCase):
                 xsConfiguration = EDApplication.getProjectPluginConfiguration(_strPluginName)
             if xsConfiguration is None:
                 EDVerbose.WARNING("EDTestCasePlugin.getPluginConfiguration: xsConfiguration is still None after all guesses: Expect to fail soon")
-            self.__dictConfigurations[_strPluginName] = xsConfiguration
+            self._dictConfigurations[_strPluginName] = xsConfiguration
         return xsConfiguration
 
 
@@ -133,22 +121,22 @@ class EDTestCasePlugin(EDTestCase):
         """
         Sets the configuration file
         """
-        self.__strConfigurationFile = _strConfigurationFile
+        self._strConfigurationFile = _strConfigurationFile
 
 
     def getConfigurationFile(self):
         """
         Returns the configuration file
         """
-        return self.__strConfigurationFile
+        return self._strConfigurationFile
 
 
 
     def setRequiredPluginConfiguration(self, _strPluginName=None):
         if _strPluginName is None:
-            self.__listRequiredConfigurationPluginNames.append(self.__strPluginName)
+            self._listRequiredConfigurationPluginNames.append(self._strPluginName)
         else:
-            self.__listRequiredConfigurationPluginNames.append(_strPluginName)
+            self._listRequiredConfigurationPluginNames.append(_strPluginName)
 
 
     def createPlugin(self):
@@ -160,7 +148,7 @@ class EDTestCasePlugin(EDTestCase):
         try:
             edFactoryPlugin = EDFactoryPlugin()
             edPlugin = edFactoryPlugin.loadPlugin(self.getPluginName())
-        except exceptions.ImportError, exceptionObject:
+        except ImportError, exceptionObject:
             strWarningMessage = "Could not create the plugin: %s, reason: %s" % (self.getPluginName(), exceptionObject)
             EDVerbose.WARNING(strWarningMessage)
         if edPlugin is None:
@@ -169,39 +157,43 @@ class EDTestCasePlugin(EDTestCase):
         return edPlugin
 
 
+    def getPlugin(self):
+        """
+        Returns the plugin instance
+        """
+        return self._edPlugin
+    plugin = property(getPlugin, doc="read-only only property")
+
+
     def getPluginName(self):
         """
         Returns the plugin name
         """
-        return self.__strPluginName
+        return self._strPluginName
+    pluginName = property(getPluginName, doc="read-only property")
 
 
     def getPluginHome(self):
         """
         Returns the plugin home directory
         """
-        return self.__strPluginHome
-
-
-    def setPluginTestsDataDir(self, _strPluginDataDir):
-        """
-        Sets the plugin test data directory
-        """
-        self.__strPluginTestsDataDir = _strPluginDataDir
+        return self._strPluginHome
+    pluginHome = property(getPluginHome, doc="read-only property")
 
 
     def getPluginTestsDataHome(self):
         """
         Returns the plugin test data home directory
         """
-        return self.__strPluginTestsDataHome
+        return self._strPluginTestsDataHome
 
 
     def setPluginTestsDataHome(self, _strPluginTestsDataHome):
         """
         Sets the plugin test data home directory
         """
-        self.__strPluginTestsDataHome = _strPluginTestsDataHome
+        self._strPluginTestsDataHome = _strPluginTestsDataHome
+    pluginTestDataHome = property(getPluginTestsDataHome, setPluginTestsDataHome, "pluginTestDataHome is the data directory in the plugin's tests")
 
 
     def loadTestImage(self, _listImageFileName):
@@ -210,11 +202,12 @@ class EDTestCasePlugin(EDTestCase):
         in the $EDNA_HOME/tests/data/images directory. If one image is not present
         this method tries to download it from http://www.edna-site.org/data/tests/images
         """
+        if not os.path.isdir(EDUtilsPath.EDNA_TESTIMAGES):
+            os.makedirs(EDUtilsPath.EDNA_TESTIMAGES)
         for strImageName in _listImageFileName:
-            strImagePath = os.path.join(self.getTestsDataImagesHome(), strImageName)
+            strImagePath = os.path.join(EDUtilsPath.EDNA_TESTIMAGES, strImageName)
             if(not os.path.exists(strImagePath)):
                 EDVerbose.unitTest("Trying to download image %s, timeout set to %d s" % (strImagePath, iMAX_DOWNLOAD_TIME))
-                strDestination = os.path.join(self.getTestsDataImagesHome(), strImageName)
                 if os.environ.has_key("http_proxy"):
                     dictProxies = {'http': os.environ["http_proxy"]}
                     proxy_handler = urllib2.ProxyHandler(dictProxies)
@@ -226,15 +219,15 @@ class EDTestCasePlugin(EDTestCase):
                 timer = threading.Timer(iMAX_DOWNLOAD_TIME + 1, timeoutDuringDownload)
                 timer.start()
                 if sys.version > (2, 6):
-                    data = opener("http://www.edna-site.org/data/tests/images/%s" % strImageName, data=None, timeout=iMAX_DOWNLOAD_TIME).read()
+                    data = opener("%s/%s" % (self.URL_EDNA_SITE, strImageName), data=None, timeout=iMAX_DOWNLOAD_TIME).read()
                 else:
-                    data = opener("http://www.edna-site.org/data/tests/images/%s" % strImageName, data=None).read()
+                    data = opener("%s/%s" % (self.URL_EDNA_SITE, strImageName), data=None).read()
                 timer.cancel()
 
                 try:
-                    open(strDestination, "wb").write(data)
+                    open(strImagePath, "wb").write(data)
                 except IOError:
-                    raise IOError, "unable to write downloaded data to disk at " + strDestination
+                    raise IOError, "unable to write downloaded data to disk at %s" % strImagePath
 
                 if os.path.exists(strImagePath):
                     EDVerbose.unitTest("Image %s successfully downloaded." % strImagePath)
@@ -244,7 +237,15 @@ class EDTestCasePlugin(EDTestCase):
                                          Otherwise please try to download the images manually from \n \
                                          http://www.edna-site.org/data/tests/images" % _listImageFileName
 
-
+    def getDictReplace(self):
+        dictReplace = EDUtilsPath.getDictOfPaths()
+        dictReplace["${EDNA_PLUGIN_TESTS_DATA_HOME}"] = self._strPluginTestsDataHome
+        if self._edPlugin is not None:
+            workDir = self._edPlugin.getWorkingDirectory()
+            if workDir is not None:
+                dictReplace["${EDNA_WORKING_DIR}"] = workDir
+        return dictReplace
+    dictReplace = property(getDictReplace, doc="Read-only property")
 
     def readAndParseFile(self, _strFileName):
         """
@@ -259,10 +260,8 @@ class EDTestCasePlugin(EDTestCase):
 
         Returns the content of this file as a string
         """
-        strXML = str(EDUtilsFile.readFileAndParseVariables (_strFileName))
-        for key in self.dictReplace:
-            strXML = strXML.replace(key, self.dictReplace[key])
-        return str(strXML)
+        return  str(EDUtilsFile.readFileAndParseVariables(_strFileName, self.dictReplace))
+
 
 
 def timeoutDuringDownload():

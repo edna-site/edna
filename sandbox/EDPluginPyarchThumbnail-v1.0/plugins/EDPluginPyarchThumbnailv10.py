@@ -57,7 +57,7 @@ EDFactoryPluginStatic.preImport("Image", imagingPath)
 
 try:
     import numpy, scipy.ndimage.morphology, Image, fabio
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy,PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginPyarchThumbnailv10 \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
@@ -232,7 +232,7 @@ class EDPluginPyarchThumbnailv10(EDPluginExec):
         """
         strPyarchDNAFilePath = None
         listOfDirectories = _strDNAFileDirectoryPath.split(os.sep)
-        listBeamlines = ["id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2", "id29"]
+        listBeamlines = ["bm14", "id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2", "id29"]
         # Check that we have at least four levels of directories:
         if (len(listOfDirectories) > 4):
             strDataDirectory = listOfDirectories[ 1 ]

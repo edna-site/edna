@@ -28,7 +28,7 @@ __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
 __copyright__ = "2010, ESRF, Grenoble"
 
-import os, gc
+import os
 from EDVerbose          import EDVerbose
 from EDPluginExec       import EDPluginExec
 from EDUtilsArray       import EDUtilsArray
@@ -55,7 +55,7 @@ fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 try:
     from fabio.edfimage import edfimage
     import  scipy.ndimage
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
@@ -129,5 +129,4 @@ class EDPluginExecShiftImagev1_0(EDPluginExec):
             xsdimg = XSDataImageExt(path=XSDataString(self.strOutputImage))
             xsDataResult.setOutputImage(xsdimg)
         self.setDataOutput(xsDataResult)
-        gc.collect()
 

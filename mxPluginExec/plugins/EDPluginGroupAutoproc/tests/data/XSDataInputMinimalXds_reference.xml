@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+  <input_file>
+    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/XDS.INP</value>
+  </input_file>
+  <maxproc>
+    <value>4</value>
+  </maxproc>
+  <maxjobs>
+    <value>1</value>
+  </maxjobs>
+</XSDataInput>

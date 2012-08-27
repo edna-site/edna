@@ -1,13 +1,13 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
-#    Principal authors: Olof Svensson (svensson@esrf.fr) 
+#    Principal authors: Olof Svensson (svensson@esrf.fr)
+#                       Jérôme Kieffer (jerome.kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -38,17 +38,18 @@ __authors__ = "Olof Svensson, Jerome Kieffer"
 __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120711"
 
 from EDObject          import  EDObject
-from EDVerbose         import  EDVerbose
+from EDLogging         import  EDLogging
 
 
-class EDTest(EDObject):
+class EDTest(EDLogging):
     """
     Parent class for plugin test cases
     """
     def __init__(self, _strTestName="Test"):
-        EDObject.__init__(self)
+        EDLogging.__init__(self)
         if _strTestName is None:
             self.__strTestName = self.getClassName()
         else:
@@ -104,7 +105,7 @@ class EDTest(EDObject):
 
 
     def executeKernel(self):
-        EDVerbose.DEBUG("EDTest.executeKernel")
+        self.DEBUG("EDTest.executeKernel")
         self.preProcess()
         self.process()
         self.processKernel()
@@ -112,7 +113,7 @@ class EDTest(EDObject):
 
 
     def execute(self):
-        EDVerbose.DEBUG("EDTest.execute()")
+        self.DEBUG("EDTest.execute()")
         self.executeKernel()
 
 
@@ -120,25 +121,25 @@ class EDTest(EDObject):
         """
         to be overwritten
         """
-        EDVerbose.DEBUG("EDTest.preProcess()")
+        self.DEBUG("EDTest.preProcess()")
 
 
     def process(self):
         """
         to be overridden
         """
-        EDVerbose.DEBUG("EDTest.process()")
+        self.DEBUG("EDTest.process()")
 
 
     def postProcess(self):
         """
         to be overridden
         """
-        EDVerbose.DEBUG("EDTest.postProcess()")
+        self.DEBUG("EDTest.postProcess()")
 
 
     def processKernel(self):
         """
         to be overridden
         """
-        EDVerbose.DEBUG("EDTest.processKernel()")
+        self.DEBUG("EDTest.processKernel()")

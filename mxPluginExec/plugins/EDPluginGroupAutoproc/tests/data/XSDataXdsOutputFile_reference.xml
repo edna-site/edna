@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+  <correct_lp>
+    <path>
+      <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/CORRECT.LP</value>
+    </path>
+  </correct_lp>
+  <compl>
+    <value></value>
+  </compl>
+  <rover>
+    <value></value>
+  </rover>
+</XSDataInput>

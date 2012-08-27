@@ -1,0 +1,91 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataImageExt
+import XSDataCommon.XSDataWavelength
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataStatus
+import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataAngle
+
+
+complex type XSDataDetector extends XSData {
+	"Number 1 and 2 refer to Y and X axis" 
+	name: XSDataString optional
+	splineFile: XSDataFile optional
+	pixelSizeX: XSDataLength optional
+	pixelSizeY: XSDataLength optional
+	distortionFileX : XSDataImageExt optional
+	distortionFileY : XSDataImageExt optional
+}
+
+complex type XSDataGeometry extends XSData{
+	"place holder"
+	detector: XSDataDetector
+}
+
+complex type XSDataGeometryPyFAI extends XSDataGeometry {
+	sampleDetectorDistance : XSDataLength
+	pointOfNormalIncidence1 : XSDataLength
+	pointOfNormalIncidence2 : XSDataLength
+	rotation1: XSDataAngle
+	rotation2: XSDataAngle
+	rotation3: XSDataAngle
+}
+
+complex type XSDataGeometryFit2D extends XSDataGeometry {
+	angleOfTilt : XSDataAngle 
+	tiltRotation : XSDataAngle
+	beamCentreInPixelsX : XSDataDouble
+	beamCentreInPixelsY : XSDataDouble
+	distance : XSDataLength
+}
+
+
+complex type XSDataInputPyFAI extends XSDataInput {
+	"saxsWaxs can be saxs or waxs"
+	nbPt: XSDataInteger
+	dark: XSDataImageExt optional
+	flat: XSDataImageExt optional
+	input: XSDataImageExt
+	output: XSDataImageExt optional
+	wavelength: XSDataWavelength optional
+	mask: XSDataImageExt optional
+	geometryPyFAI: XSDataGeometryPyFAI optional/*one of them must be available */
+	geometryFit2D:	XSDataGeometryFit2D optional
+	saxsWaxs: XSDataString  optional /*#waxs by default*/
+	dummy:XSDataDouble optional
+	deltaDummy: XSDataDouble optional
+	}
+
+
+complex type XSDataResultPyFAI extends XSDataResult {
+	output : XSDataImageExt
+}
+
+complex type XSDataPeakPosition extends XSData {
+	"Set of pixel coordinates and the associated 2Theta diffraction angle"
+	positionX : XSDataDouble
+	positionY : XSDataDouble
+	twoTheta  : XSDataDouble
+}
+
+complex type XSDataInputRefineDiffractionGeometry extends XSDataInput {
+	points : XSDataPeakPosition []
+	geometryFit2D: XSDataGeometryFit2D optional
+	geometrySPD: XSDataGeometryPyFAI optional
+	detector: XSDataDetector 
+}
+
+complex type XSDataResultRefineDiffractionGeometry extends XSDataResult {
+ 	geometryFit2D: XSDataGeometryFit2D optional
+	geometrySPD: XSDataGeometryPyFAI optional 
+}

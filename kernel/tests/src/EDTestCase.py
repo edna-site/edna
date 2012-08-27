@@ -1,15 +1,16 @@
+# coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
 #                       Olof Svensson (svensson@esrf.fr) 
-#                       Jerome Kieffer
+#                       Jérôme Kieffer (jerome.kieffer@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -29,18 +30,18 @@
 EDNA test Case module ...
 
 a TestCase is a single test, either an unit test or an execution test.
-
 """
 
 __authors__ = "Marie-Francoise Incardona, Olof Svensson, Jerome Kieffer"
 __contact__ = "svensson@esrf.eu"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
-
+__date__ = "20120216"
 
 from EDTest            import EDTest
 from EDVerbose         import EDVerbose
 from EDUtilsTest       import EDUtilsTest
+from EDUtilsPath       import EDUtilsPath
 
 
 class EDTestCase(EDTest):
@@ -200,9 +201,7 @@ class EDTestCase(EDTest):
         @return: TestsHome
         @rtype: string
         """
-        if (self.__strTestsHome is None):
-            self.__strTestsHome = EDUtilsTest.getTestsHome()
-        return self.__strTestsHome
+        return EDUtilsPath.EDNA_TESTS
 
 
     def getTestsDataHome(self):
@@ -211,9 +210,7 @@ class EDTestCase(EDTest):
         @return: TestsDataHome
         @rtype: string
         """
-        if (self.__strTestsDataHome is None):
-            self.__strTestsDataHome = EDUtilsTest.getTestsDataHome()
-        return self.__strTestsDataHome
+        return EDUtilsPath.EDNA_TESTDATA
 
 
     def getTestsDataImagesHome(self):
@@ -222,9 +219,8 @@ class EDTestCase(EDTest):
         @return: TestsDataImagesHome
         @rtype: string
         """
-        if (self.__strTestsDataImagesHome is None):
-            self.__strTestsDataImagesHome = EDUtilsTest.getTestsDataImagesHome()
-        return self.__strTestsDataImagesHome
+        return EDUtilsPath.EDNA_TESTIMAGES
+
 
 
     def getNumberTestMethodSuccess(self):

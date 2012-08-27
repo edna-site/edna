@@ -38,7 +38,7 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import os, tempfile
+import os, tempfile, types
 from difflib import SequenceMatcher
 from EDVerbose import EDVerbose
 
@@ -121,7 +121,7 @@ class EDAssert:
 
 
     @staticmethod
-    def strAlmostEqual(_oExpected, _oObtained, _strComment="Strings are similar", _fRelError=1e-2, _fAbsError=1e-4, _fStrSimilar=1.0, _strExcluded=None):
+    def strAlmostEqual(_oExpected, _oObtained, _strComment="Strings are similar", _fRelError=1e-2, _fAbsError=1e-4, _fStrSimilar=1.0, _strExcluded=None, _lstExcluded=[]):
         """
         Check if two strings (or XML strings) are almost equal, which means that: 
         - all pure text part are equal
@@ -136,7 +136,10 @@ class EDAssert:
         @param _fRelError: maximum relative error defined as a float
         @param _fAbsError: maximum absolute error defined as a float
         @param _strExcluded: if a "word" contains this string, it is not taken into account for the comparison
-        @type _strExcluded: string
+        @type _strExcluded: string 
+        @param _lstExcluded: list of words to be excluded for the comparison
+        @type _lstExcluded:  list of strings
+
         """
         bAlmostEqual = True
         ERROR_ASSERT_MESSAGE = _strComment + ". "
@@ -155,6 +158,14 @@ class EDAssert:
                     if dataReference != dataObtained:
                         if (_strExcluded is not None) and (_strExcluded  in dataReference or _strExcluded in dataObtained):
                             continue
+                        if len(_lstExcluded) > 0:
+                            bFound = False
+                            for key in _lstExcluded:
+                                if (key  in dataReference) or (key in dataObtained):
+                                    bFound = True
+                                    break
+                            if bFound:
+                                continue
                         try:
                             fRefValue = float(dataReference)
                             fObtValue = float(dataObtained)
@@ -267,7 +278,7 @@ class EDAssert:
         try:
             refShape = _npaRef.shape
             valShape = _npaValue.shape
-        except:
+        except Exception:
             bAlmostEqual = False
             ERROR_ASSERT_MESSAGE = "Objects passed have no shape attribute"
 

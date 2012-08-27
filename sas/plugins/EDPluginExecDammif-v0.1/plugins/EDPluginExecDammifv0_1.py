@@ -34,7 +34,7 @@ from EDPluginExecProcessScript import EDPluginExecProcessScript
 from XSDataSAS import XSDataInputDammif
 from XSDataSAS import XSDataResultDammif
 
-from XSDataSAS import XSDataString, XSDataFile, XSDataFloat
+from XSDataSAS import XSDataString, XSDataFile, XSDataDouble
 
 
 class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
@@ -76,7 +76,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getMode().getValue().lower() in ['fast', 'slow']:
                 self.__strMode = self.getDataInput().getMode().getValue().lower()
-        except:
+        except Exception:
             EDVerbose.WARNING("Running DAMMIF in fast mode by default")
 
     def checkDammifUnitInput(self):
@@ -84,7 +84,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getUnit().getValue().lower() in ['angstrom', 'nanometer']:
                 self.__strUnit = self.getDataInput().getUnit().getValue().upper()
-        except:
+        except Exception:
             EDVerbose.WARNING("Using A-1 units for q-axis values by default")
 
     def checkDammifSymmetryInput(self):
@@ -97,7 +97,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getSymmetry().getValue() in _knownSymmetry:
                 self.__strSymmetry = self.getDataInput().getSymmetry().getValue()
-        except:
+        except Exception:
             EDVerbose.WARNING("Symmetry wasn't specified. Setting symmetry to P1")
 
     def checkDammifParticleShapeInput(self):
@@ -105,20 +105,20 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         try:
             if self.getDataInput().getExpectedParticleShape().getValue() in range(3):
                 self.__strParticleShape = particleShape[self.getDataInput().getExpectedParticleShape().getValue()]
-        except:
+        except Exception:
             EDVerbose.WARNING("Using Unknown particle shape")
 
     def checkDammifConstant(self):
         try:
             self.__strConstant = '--constant=' + str(self.getDataInput().getConstant().getValue())
-        except:
+        except Exception:
             EDVerbose.WARNING("Constant to subtract will be defined automatically")
 
     def checkDammifChained(self):
         try:
             if self.getDataInput().getChained().getValue():
                 self.__strChained = '--chained'
-        except:
+        except Exception:
             EDVerbose.WARNING("Atoms in the output model are not chained")
 
     def preProcess(self, _edObject=None):
@@ -182,7 +182,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
 
     def returnDammifChiSqrt(self):
         logFile = open(os.path.join(self.getWorkingDirectory(), "dammif.fir"))
-        return XSDataFloat(float(logFile.readline().split('=')[-1]))
+        return XSDataDouble(float(logFile.readline().split('=')[-1]))
 
     def returnDammifRFactor(self):
         logFile = open(os.path.join(self.getWorkingDirectory(), "dammif.log"))
@@ -194,7 +194,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
             if wordsLine[0] == "Rf:":
                 tmpRfactor = float(wordsLine[1][:-1])
 
-        return XSDataFloat(tmpRfactor)
+        return XSDataDouble(tmpRfactor)
 
     def generateExecutiveSummary(self,__edPlugin=None):
         self.addExecutiveSummarySeparator()

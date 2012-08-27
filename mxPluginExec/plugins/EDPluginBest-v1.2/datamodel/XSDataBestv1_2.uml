@@ -49,7 +49,7 @@
       <ownedAttribute xmi:id="_RjKDUOwYEd-YN87dLY1EOA" name="bestFileContentDat">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_Ru6AUOwYEd-YN87dLY1EOA" name="bestFileContentHKL">
+      <ownedAttribute xmi:id="_Ru6AUOwYEd-YN87dLY1EOA" name="bestFileContentHKL" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jzJo4OwYEd-YN87dLY1EOA" value="*"/>
       </ownedAttribute>
@@ -119,13 +119,19 @@
       <ownedAttribute xmi:id="_rMZR4OwZEd-YN87dLY1EOA" name="pathToLogFile">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_NEx6cI4KEeGjvvGrlGkoIg" name="pathToPlotMtvFile" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9r8gQI6uEeGAm7ix7ynmIQ"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_1SCFIOwZEd-YN87dLY1EOA" name="XSDataBestCollectionPlan">
-      <ownedAttribute xmi:id="_4CO74OwZEd-YN87dLY1EOA" name="collectionPlanNumber">
+      <ownedAttribute xmi:id="_4CO74OwZEd-YN87dLY1EOA" name="collectionPlanNumber" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__LB_UI6sEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_52gV4OwZEd-YN87dLY1EOA" name="comment">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PfvPEI4MEeGjvvGrlGkoIg"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_K_qPMOwaEd-YN87dLY1EOA" name="A_&lt;xSDataResultBest>_&lt;xSDataBestCollectionPlan>" memberEnd="_K_qPMewaEd-YN87dLY1EOA _K_qPNOwaEd-YN87dLY1EOA" navigableOwnedEnd="_K_qPNOwaEd-YN87dLY1EOA">
@@ -141,6 +147,7 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_ynNoMOwaEd-YN87dLY1EOA" name="XSDataBestCollectionRun">
       <ownedAttribute xmi:id="_2fIU8OwaEd-YN87dLY1EOA" name="action">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F8APAI4MEeGjvvGrlGkoIg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_26v58OwaEd-YN87dLY1EOA" name="collectionRunNumber">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
@@ -148,8 +155,9 @@
       <ownedAttribute xmi:id="_3Mme8OwaEd-YN87dLY1EOA" name="exposureTime">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_3eEpcOwaEd-YN87dLY1EOA" name="overlaps">
+      <ownedAttribute xmi:id="_3eEpcOwaEd-YN87dLY1EOA" name="overlaps" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nNKcgI6iEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_3t8RcOwaEd-YN87dLY1EOA" name="phiStart">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
@@ -159,12 +167,14 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_mOYGcOweEd-YN87dLY1EOA" name="transmission">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M-uD0I4MEeGjvvGrlGkoIg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_oEG0YOyfEd-YN87dLY1EOA" name="numberOfImages">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_QsnYwJ2UEeC4ZuPIMRh-ww" name="crystalPosition">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_LQJCII4MEeGjvvGrlGkoIg"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_sIulCuweEd-YN87dLY1EOA" name="A_&lt;xSDataBestCollectionPlan>_&lt;xSDataBestCollectionRun>" memberEnd="_sIulC-weEd-YN87dLY1EOA _sIulDuweEd-YN87dLY1EOA" navigableOwnedEnd="_sIulDuweEd-YN87dLY1EOA">
@@ -178,35 +188,43 @@
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_mDGQ0OydEd-YN87dLY1EOA" name="XSDataBestStrategySummary">
-      <ownedAttribute xmi:id="_p27HwOydEd-YN87dLY1EOA" name="completeness">
+      <ownedAttribute xmi:id="_p27HwOydEd-YN87dLY1EOA" name="completeness" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_T_Ir8I6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_qfXAwOydEd-YN87dLY1EOA" name="distance">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_q8H1QOydEd-YN87dLY1EOA" name="iSigma">
+      <ownedAttribute xmi:id="_q8H1QOydEd-YN87dLY1EOA" name="iSigma" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VQ_VYI6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_rRyjQOydEd-YN87dLY1EOA" name="rankingResolution">
+      <ownedAttribute xmi:id="_rRyjQOydEd-YN87dLY1EOA" name="rankingResolution" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WnlU4I6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_rl8OUOydEd-YN87dLY1EOA" name="redundancy">
+      <ownedAttribute xmi:id="_rl8OUOydEd-YN87dLY1EOA" name="redundancy" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Xvms4I6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_r5ifwOydEd-YN87dLY1EOA" name="resolution">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_sMiUQOydEd-YN87dLY1EOA" name="resolutionReasoning">
+      <ownedAttribute xmi:id="_sMiUQOydEd-YN87dLY1EOA" name="resolutionReasoning" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Yu2jYI6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_sexTwOydEd-YN87dLY1EOA" name="totalDataCollectionTime">
+      <ownedAttribute xmi:id="_sexTwOydEd-YN87dLY1EOA" name="totalDataCollectionTime" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ZxnA4I6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_sw7awOydEd-YN87dLY1EOA" name="totalExposureTime">
+      <ownedAttribute xmi:id="_sw7awOydEd-YN87dLY1EOA" name="totalExposureTime" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_u_N84OcvEd-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_a3MI4I6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_tMeHQOydEd-YN87dLY1EOA" name="transmission">
+      <ownedAttribute xmi:id="_tMeHQOydEd-YN87dLY1EOA" name="transmission" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_b0h64I6jEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_H3GW0OyeEd-YN87dLY1EOA" name="XSDataCrystalScale">
@@ -224,7 +242,7 @@
       </ownedEnd>
       <ownedEnd xmi:id="_QNA47uyeEd-YN87dLY1EOA" name="crystalScale" type="_H3GW0OyeEd-YN87dLY1EOA" association="_QNA46uyeEd-YN87dLY1EOA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QNA47-yeEd-YN87dLY1EOA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QNA48OyeEd-YN87dLY1EOA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QNA48OyeEd-YN87dLY1EOA"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_V7ih8OyeEd-YN87dLY1EOA" name="A_&lt;xSDataBestCollectionPlan>_&lt;xSDataBestStrategySummary>" memberEnd="_V7ih8eyeEd-YN87dLY1EOA _V7ih9OyeEd-YN87dLY1EOA" navigableOwnedEnd="_V7ih9OyeEd-YN87dLY1EOA">
@@ -232,9 +250,9 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_V7ih8uyeEd-YN87dLY1EOA" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_V7ih8-yeEd-YN87dLY1EOA" value="1"/>
       </ownedEnd>
-      <ownedEnd xmi:id="_V7ih9OyeEd-YN87dLY1EOA" name="strategySummary" type="_mDGQ0OydEd-YN87dLY1EOA" association="_V7ih8OyeEd-YN87dLY1EOA">
+      <ownedEnd xmi:id="_V7ih9OyeEd-YN87dLY1EOA" name="strategySummary" type="_mDGQ0OydEd-YN87dLY1EOA" isUnique="false" association="_V7ih8OyeEd-YN87dLY1EOA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_V7ih9eyeEd-YN87dLY1EOA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_V7ih9uyeEd-YN87dLY1EOA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_V7ih9uyeEd-YN87dLY1EOA"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_aA-tUOyeEd-YN87dLY1EOA" name="XSDataBestStatisticalPrediction"/>
@@ -243,9 +261,9 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eI5k_OyeEd-YN87dLY1EOA" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eI5k_eyeEd-YN87dLY1EOA" value="1"/>
       </ownedEnd>
-      <ownedEnd xmi:id="_eI5k_uyeEd-YN87dLY1EOA" name="statisticalPrediction" type="_aA-tUOyeEd-YN87dLY1EOA" association="_eI5k-uyeEd-YN87dLY1EOA">
+      <ownedEnd xmi:id="_eI5k_uyeEd-YN87dLY1EOA" name="statisticalPrediction" type="_aA-tUOyeEd-YN87dLY1EOA" isUnique="false" association="_eI5k-uyeEd-YN87dLY1EOA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eI5k_-yeEd-YN87dLY1EOA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eI5lAOyeEd-YN87dLY1EOA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eI5lAOyeEd-YN87dLY1EOA"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_jHQ8YOyeEd-YN87dLY1EOA" name="XSDataBestResolutionBin">
@@ -254,12 +272,14 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_mvuQ0OyeEd-YN87dLY1EOA" name="averageIntensityOverAverageSigma">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0KPBEI4MEeGjvvGrlGkoIg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_nBHi0OyeEd-YN87dLY1EOA" name="averageSigma">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_nVfQUOyeEd-YN87dLY1EOA" name="completeness">
+      <ownedAttribute xmi:id="_nVfQUOyeEd-YN87dLY1EOA" name="completeness" isUnique="false">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9a0xgI6iEeGAm7ix7ynmIQ" value="1"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_nlgpUOyeEd-YN87dLY1EOA" name="IOverSigma">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
@@ -281,6 +301,7 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="__WcH4OyeEd-YN87dLY1EOA" name="rFriedel">
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_q5mjMI4MEeGjvvGrlGkoIg"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_DZKWeuyfEd-YN87dLY1EOA" name="A_&lt;xSDataBestStatisticalPrediction>_&lt;xSDataBestResolutionBin>" memberEnd="_DZKWe-yfEd-YN87dLY1EOA _DZKWfuyfEd-YN87dLY1EOA" navigableOwnedEnd="_DZKWfuyfEd-YN87dLY1EOA">

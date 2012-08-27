@@ -231,11 +231,8 @@ package XSDataCommon {
 			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
 		}
 
-		complex type XSDataDisplacement {
+		complex type XSDataDisplacement extends XSDataDoubleWithUnit {
 			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
-			error : XSDataDouble optional
-			unit : XSDataString optional
-			value : double
 		}
 
 		complex type XSDataDoubleWithUnit extends XSDataDouble {

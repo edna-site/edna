@@ -31,7 +31,8 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import sys, os, threading, math, distutils.util, signal, subprocess
+import sys, os, math, distutils.util, signal, subprocess
+from EDThreading import Semaphore
 from EDVerbose import EDVerbose
 
 
@@ -48,7 +49,7 @@ class EDUtilsPlatform(object):
     Static class for guessing: platform specific stuff.
     
     """
-    __semaphore = threading.Semaphore()
+    __semaphore = Semaphore()
     __semaphore.acquire()
     __strCmdSep = None
     __strCmdEnv = None

@@ -2,8 +2,6 @@
 #    Project: EDNA mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteXDSGenerateBackgroundImagev1_0.py 1505 2010-05-10 10:18:00Z svensson $"
-#
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
 #    Principal authors: Sandor Brockhauser (brockhauser@embl-grenoble.fr)
@@ -29,8 +27,12 @@ __authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
 __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
-from EDVerbose                        import EDVerbose
+import os
+
+
 from EDAssert                         import EDAssert
 from EDUtilsPath                      import EDUtilsPath
 from EDTestCasePluginExecute          import EDTestCasePluginExecute
@@ -46,9 +48,9 @@ class EDTestCasePluginExecuteXDSGenerateBackgroundImagev1_0(EDTestCasePluginExec
         EDTestCasePluginExecute.__init__(self, _pyStrTestName)
 
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputXDSIndexing_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputXDSIndexing_reference.xml"))
 
-        #self.setReferenceDataOutputFile( EDUtilsPath.mergePath( self.getPluginTestsDataHome(), "XSDataResultXDSIndexing_reference.xml"))
+        #self.setReferenceDataOutputFile( os.path.join( self.getPluginTestsDataHome(), "XSDataResultXDSIndexing_reference.xml"))
         #self.m_oedObtainedOutputDataFile = self.getPluginName() + "_output.xml"
 
 

@@ -1,3 +1,4 @@
+#coding: utf8
 #
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
@@ -9,7 +10,7 @@
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
 #                       Olof Svensson (svensson@esrf.fr) 
-#                       Jerome Kieffer 
+#                       Jérôme Kieffer 
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -26,20 +27,19 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jerome Kieffer" ]
+__authors__ = [ "Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120216"
 
-
-import os
-import sys
-import time
+import os, sys, time
 
 from EDVerbose import EDVerbose
 from EDCommandLine import EDCommandLine
 from EDUtilsTest import EDUtilsTest
 from EDApplication import EDApplication
+from EDTestSuite import EDTestSuite
 
 
 
@@ -104,3 +104,16 @@ class EDTestLauncher(EDApplication):
             EDVerbose.DEBUG("EDTestLauncher.process: launching test : %s" % self.__edTestCase.getTestName())
             self.__edTestCase.execute()
 
+
+    def isFailure(self):
+        """
+        Returns True if the number of failures (test methods and test cases) is 0.
+        Returns False if the number of failures (test methods and test cases) is different than 0.
+        Returns None if there's no test case or test suite defined.
+        """
+        bValue = None
+        if (self.__edTestCase is not None):
+            bValue = self.__edTestCase.getNumberTestMethodFailure() != 0
+            if isinstance(self.__edTestCase, EDTestSuite):
+                bValue = bValue or (self.__edTestCase.getNumberTestCaseFailure() != 0)
+        return bValue

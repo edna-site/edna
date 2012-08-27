@@ -33,14 +33,14 @@ __authors__ = ["Marie-Francoise Incardona", "Olof Svensson", "Jérôme Kieffer" 
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120213"
 
-import os, sys, threading, hashlib
-
+import os, sys, hashlib
+from EDThreading import Semaphore
 from EDLogging   import EDLogging
 from EDVerbose   import EDVerbose
 from EDUtilsPath import EDUtilsPath
 from EDModule    import EDModule
-
 from XSDataCommon import XSDataDictionary
 from XSDataCommon import XSDataKeyValuePair
 from XSDataCommon import XSDataString
@@ -98,29 +98,20 @@ class EDFactoryPlugin(EDLogging):
 
     # class  variables
     IGNORE_FILE = ".ednaignore"
-    __dictLoadedModules = {}
-    __semaphoreStatic = threading.Semaphore()
+    _dictLoadedModules = {}
+    __dictConfFiles = {None:None}
+    __dictProjectRootDir = {None:None}
+    __semaphoreStatic = Semaphore()
     __edFactoryPlugin = None
 
     def __init__(self):
         EDLogging.__init__(self)
-        strEdnaHome = EDUtilsPath.EDNA_HOME
         # Default plugin root directory: $EDNA_HOME
-        self.__listPluginRootDirectory = [ strEdnaHome ]
+        self.__listPluginRootDirectory = [EDUtilsPath.EDNA_HOME]
+        for oneProjectDir in EDUtilsPath._EDNA_PROJECTS.values():
+            if os.path.isdir(oneProjectDir):
+                self.__listPluginRootDirectory.append(os.path.abspath(oneProjectDir))
         self.__dictModuleLocation = None
-        self.__strPathToModuleCache = None
-
-
-    def __initPluginCachePath(self):
-        """This private method initialises the path to the plugin cache file"""
-        if os.environ.has_key("EDNA_PLUGINCACHE"):
-            self.__strPathToModuleCache = os.environ["EDNA_PLUGINCACHE"]
-        else:
-            strTempFileDir = EDUtilsPath.getEdnaUserTempFolder()
-            # We create a hash of the path in order to be able to reference several different EDNA_HOME 
-            # caches in the same directory
-            strCacheFileName = hashlib.sha1(os.getenv('EDNA_HOME')).hexdigest()+".xml"
-            self.__strPathToModuleCache = os.path.abspath(os.path.join(strTempFileDir, strCacheFileName))
 
 
     def __initModuleDictionary(self):
@@ -130,13 +121,11 @@ class EDFactoryPlugin(EDLogging):
         the plugin root directories are searched and the dictionary is
         written to the cache file.
         """
-        if self.__strPathToModuleCache is None:
-            self.__initPluginCachePath()
-        if (os.path.exists(self.__strPathToModuleCache)):
-            self.loadModuleDictionaryFromDisk(self.__strPathToModuleCache)
+        if (os.path.exists(EDUtilsPath.getEdnaPluginCachePath())):
+            self.loadModuleDictionaryFromDisk(EDUtilsPath.getEdnaPluginCachePath())
         else:
             self.__searchRootDirectories()
-            self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+            self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
 
 
 
@@ -162,7 +151,7 @@ class EDFactoryPlugin(EDLogging):
             xsDataDictionaryPlugin.addKeyValuePair(xsDataKeyValuePair)
         try:
             xsDataDictionaryPlugin.exportToFile(_strPath)
-        except:
+        except Exception:
             self.warning("The module cache could not be written to disk.")
 
 
@@ -202,8 +191,6 @@ class EDFactoryPlugin(EDLogging):
         @return: Path to the module location
         @type: python string
         """
-        if self.__strPathToModuleCache is None:
-            self.__initPluginCachePath()
         strModuleLocation = None
         if (self.__dictModuleLocation is None):
             with self.locked():
@@ -213,9 +200,9 @@ class EDFactoryPlugin(EDLogging):
             strModuleLocation = self.__dictModuleLocation[ _strModuleName ]
             strDirectoryIgnored = self.checkDirectoriesForIgnoreFile(strModuleLocation)
             if strDirectoryIgnored:
-                self.warning("Module location %s ignored because directory %s contains %s" % (strModuleLocation, strDirectoryIgnored, EDFactoryPlugin.IGNORE_FILE))
+                self.warning("Module location %s ignored because directory %s contains %s" % (strModuleLocation, strDirectoryIgnored, self.IGNORE_FILE))
                 self.__searchRootDirectories()
-                self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+                self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
                 strModuleLocation = None
         else:
             with self.locked():
@@ -223,11 +210,11 @@ class EDFactoryPlugin(EDLogging):
                 self.warning("Module %s not found, forcing reloading of all modules..." % _strModuleName)
                 self.__searchRootDirectories()
                 # Save the new dictionary in any case - even if the plugin might not be found.
-                self.saveModuleDictionaryToDisk(self.__strPathToModuleCache)
+                self.saveModuleDictionaryToDisk(EDUtilsPath.getEdnaPluginCachePath())
                 if (_strModuleName in self.__dictModuleLocation.keys()):
                     strModuleLocation = self.__dictModuleLocation[ _strModuleName ]
                     # Fix for bug #395 - update the saved cache
-                    self.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % self.__strPathToModuleCache)
+                    self.DEBUG("EDFactoryPlugin.loadModule: Updating the module cache file %s" % EDUtilsPath.getEdnaPluginCachePath())
                 else:
                     self.DEBUG("EDFactoryPlugin.loadModule: module %s not found after forced reload of all modules." % _strModuleName)
         return strModuleLocation
@@ -239,7 +226,7 @@ class EDFactoryPlugin(EDLogging):
         bContinueSearching = True
         strCurrentDirectory = _strDirectory
         while bContinueSearching:
-            if EDFactoryPlugin.IGNORE_FILE in os.listdir(strCurrentDirectory):
+            if self.IGNORE_FILE in os.listdir(strCurrentDirectory):
                 strDirectoryIgnored = strCurrentDirectory
                 bContinueSearching = False
             # Move up a directory
@@ -291,7 +278,7 @@ class EDFactoryPlugin(EDLogging):
             self.__dictModuleLocation = {}
         strDirectoryIgnored = self.checkDirectoriesForIgnoreFile(_strDirectoryVisit)
         if strDirectoryIgnored:
-            self.DEBUG("Directory %s ignored because directory %s contains %s" % (_strDirectoryVisit, strDirectoryIgnored, EDFactoryPlugin.IGNORE_FILE))
+            self.DEBUG("Directory %s ignored because directory %s contains %s" % (_strDirectoryVisit, strDirectoryIgnored, self.IGNORE_FILE))
         else:
             for strFileName in _listDirectory:
                 if strFileName.endswith(".py"):
@@ -341,7 +328,7 @@ class EDFactoryPlugin(EDLogging):
         strModuleLocation = self.getModuleLocation(_strPluginName)
         if (strModuleLocation is not None):
             self.appendPath(strModuleLocation)
-            oModule = EDFactoryPlugin.preImport(_strPluginName, strModuleLocation)
+            oModule = self.preImport(_strPluginName, strModuleLocation)
             if oModule:
                 edPlugin = oModule.__dict__[ _strPluginName ]()
             else:
@@ -361,7 +348,7 @@ class EDFactoryPlugin(EDLogging):
         """
         strModuleLocation = self.getModuleLocation(_strModuleName)
         if (strModuleLocation is not None):
-            return EDFactoryPlugin.preImport(_strModuleName, strModuleLocation)
+            return self.preImport(_strModuleName, strModuleLocation)
 
 
 
@@ -391,24 +378,27 @@ class EDFactoryPlugin(EDLogging):
         @type: python string
         """
         strModuleLocation = self.getModuleLocation(_strModuleName)
-        with self.locked():
-            strProjectRootDirectory = None
-            if (strModuleLocation is not None):
-                # Now start looking for "conf" and "plugins", max four iterations
-                bFoundRootDirectory = False
-                iMaxIterations = 4
-                strProjectRootDirectory = strModuleLocation
-                while ((not bFoundRootDirectory) and (iMaxIterations > 0)):
-                    strProjectRootDirectory = os.path.abspath(os.path.join(strProjectRootDirectory, ".."))
-                    edListDirectoryContent = EDUtilsPath.getFileList(strProjectRootDirectory)
-                    if (("conf" in edListDirectoryContent) and \
-                         ("src" in edListDirectoryContent) and \
-                         ("plugins" in edListDirectoryContent)):
-                        bFoundRootDirectory = True
-                    iMaxIterations = iMaxIterations - 1
-                if (not bFoundRootDirectory):
+        if strModuleLocation not in self.__class__.__dictProjectRootDir:
+            with self.__class__.__semaphoreStatic:
+                if strModuleLocation not in self.__class__.__dictProjectRootDir:
                     strProjectRootDirectory = None
-        return strProjectRootDirectory
+                    if (strModuleLocation is not None):
+                        # Now start looking for "conf" and "plugins", max four iterations
+                        bFoundRootDirectory = False
+                        iMaxIterations = 4
+                        strProjectRootDirectory = strModuleLocation
+                        while ((not bFoundRootDirectory) and (iMaxIterations > 0)):
+                            strProjectRootDirectory = os.path.abspath(os.path.join(strProjectRootDirectory, ".."))
+                            edListDirectoryContent = EDUtilsPath.getFileList(strProjectRootDirectory)
+                            if (("conf" in edListDirectoryContent) and \
+                                 ("src" in edListDirectoryContent) and \
+                                 ("plugins" in edListDirectoryContent)):
+                                bFoundRootDirectory = True
+                            iMaxIterations = iMaxIterations - 1
+                        if (not bFoundRootDirectory):
+                            strProjectRootDirectory = None
+                        self.__class__.__dictProjectRootDir[strModuleLocation] = strProjectRootDirectory
+        return self.__class__.__dictProjectRootDir[strModuleLocation]
 
 
     def getProjectName(self, _strModuleName):
@@ -424,9 +414,8 @@ class EDFactoryPlugin(EDLogging):
         """
         strProjectName = None
         strProjectRootDirectory = self.getProjectRootDirectory(_strModuleName)
-        with self.locked():
-            if (strProjectRootDirectory is not None):
-                strProjectName = os.path.basename(strProjectRootDirectory)
+        if (strProjectRootDirectory is not None):
+            strProjectName = os.path.basename(strProjectRootDirectory)
         return strProjectName
 
 
@@ -440,24 +429,28 @@ class EDFactoryPlugin(EDLogging):
         @return: The path to the project configuration file
         @type: python string
         """
-        strPathToProjectConfigurationFile = None
+
         strCurrentDirectory = self.getModuleLocation(_strModuleName)
-        bConfFileFound = False
-        with self.locked():
-            while not bConfFileFound:
-                strPreviousDirectory = strCurrentDirectory
-                strCurrentDirectory = os.path.dirname(strCurrentDirectory)
-                strPathToConfigurationDirectory = os.path.abspath(os.path.join(strCurrentDirectory, "conf"))
-                strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.getEdnaSite()
-                strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
-                                                                                strConfigurationFileName))
-                self.DEBUG("Looking for configuration file for %s in %s" %
-                                (_strModuleName, strPathToProjectConfigurationFile))
-                bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
-                if strCurrentDirectory in (EDUtilsPath.EDNA_HOME, strPreviousDirectory):
+        if not strCurrentDirectory in self.__dictConfFiles:
+            with self.__semaphoreStatic:
+                if not strCurrentDirectory in self.__dictConfFiles:
+                    bConfFileFound = False
                     strPathToProjectConfigurationFile = None
-                    break
-        return strPathToProjectConfigurationFile
+                    while not bConfFileFound:
+                        strPreviousDirectory = strCurrentDirectory
+                        strCurrentDirectory = os.path.dirname(strCurrentDirectory)
+                        strPathToConfigurationDirectory = os.path.abspath(os.path.join(strCurrentDirectory, "conf"))
+                        strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.EDNA_SITE
+                        strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
+                                                                                        strConfigurationFileName))
+                        self.DEBUG("Looking for configuration file for %s in %s" %
+                                        (_strModuleName, strPathToProjectConfigurationFile))
+                        bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
+                        if strCurrentDirectory in (EDUtilsPath.EDNA_HOME, strPreviousDirectory):
+                            strPathToProjectConfigurationFile = None
+                            break
+                    self.__dictConfFiles[strCurrentDirectory] = strPathToProjectConfigurationFile
+        return self.__dictConfFiles[strCurrentDirectory]
 
 
     @classmethod
@@ -471,30 +464,30 @@ class EDFactoryPlugin(EDLogging):
         @return: reference to the module loaded
         """
         oModule = None
-        EDVerbose.DEBUG("EDFactoryPlugin.preImport %s %s %s is loaded=%s" % (_strModuleName, _strPath, _strForceVersion, _strModuleName in EDFactoryPlugin.__dictLoadedModules))
-        if (_strModuleName not in EDFactoryPlugin.__dictLoadedModules) or \
-                (cls.__dictLoadedModules[_strModuleName].module is None):
+        EDVerbose.DEBUG("EDFactoryPlugin.preImport %s %s %s is loaded=%s" % (_strModuleName, _strPath, _strForceVersion, _strModuleName in cls._dictLoadedModules))
+        if (_strModuleName not in cls._dictLoadedModules) or \
+                (cls._dictLoadedModules[_strModuleName].module is None):
             with cls.__semaphoreStatic:
-                if _strModuleName not in cls.__dictLoadedModules:
+                if _strModuleName not in cls._dictLoadedModules:
                     edModule = EDModule(_strModuleName)
-                    cls.__dictLoadedModules[_strModuleName] = edModule
+                    cls._dictLoadedModules[_strModuleName] = edModule
                 else:
-                    edModule = cls.__dictLoadedModules[_strModuleName]
+                    edModule = cls._dictLoadedModules[_strModuleName]
             oModule = edModule.preImport(_strPath, _strMethodVersion)
         elif (_strForceVersion is not None) and \
-             (cls.__dictLoadedModules[_strModuleName].version < _strForceVersion):
-            if (cls.__dictLoadedModules[_strModuleName].version == "") and (_strMethodVersion is not None):
-                cls.__dictLoadedModules[_strModuleName].retrieveVersion(_strMethodVersion)
-            if (cls.__dictLoadedModules[_strModuleName].version < _strForceVersion):
-                EDVerbose.WARNING("EDFactoryPlugin.preimport wrong module version: %s is %s not %s" % (_strModuleName, cls.__dictLoadedModules[_strModuleName].version, _strForceVersion))
+             (cls._dictLoadedModules[_strModuleName].version < _strForceVersion):
+            if (cls._dictLoadedModules[_strModuleName].version == "") and (_strMethodVersion is not None):
+                cls._dictLoadedModules[_strModuleName].retrieveVersion(_strMethodVersion)
+            if (cls._dictLoadedModules[_strModuleName].version < _strForceVersion):
+                EDVerbose.WARNING("EDFactoryPlugin.preimport wrong module version: %s is %s not %s" % (_strModuleName, cls._dictLoadedModules[_strModuleName].version, _strForceVersion))
                 cls.unImport(_strModuleName)
                 cls.preImport(_strModuleName, _strPath, _strForceVersion, _strMethodVersion)
-            oModule = cls.__dictLoadedModules[_strModuleName].module
-        elif (cls.__dictLoadedModules[_strModuleName].version == ""):
-            cls.__dictLoadedModules[_strModuleName].retrieveVersion(_strMethodVersion)
-            oModule = cls.__dictLoadedModules[_strModuleName].module
+            oModule = cls._dictLoadedModules[_strModuleName].module
+        elif (cls._dictLoadedModules[_strModuleName].version == ""):
+            cls._dictLoadedModules[_strModuleName].retrieveVersion(_strMethodVersion)
+            oModule = cls._dictLoadedModules[_strModuleName].module
         else:
-            oModule = cls.__dictLoadedModules[_strModuleName].module
+            oModule = cls._dictLoadedModules[_strModuleName].module
         return oModule
 
 
@@ -504,10 +497,10 @@ class EDFactoryPlugin(EDLogging):
         Static method that remove a module from the imported modules.
         @param _strModuleName: Name of the module to un-import
         """
-        if _strModuleName in  cls.__dictLoadedModules:
+        if _strModuleName in  cls._dictLoadedModules:
             EDVerbose.DEBUG("EDFactoryPlugin.unImport: unload module %s." % _strModuleName)
             with cls.__semaphoreStatic:
-                module = cls.__dictLoadedModules.pop(_strModuleName)
+                module = cls._dictLoadedModules.pop(_strModuleName)
                 module.unImport()
         else:
             EDVerbose.WARNING("EDFactoryPlugin.unImport: Module %s is not loaded. " % _strModuleName)

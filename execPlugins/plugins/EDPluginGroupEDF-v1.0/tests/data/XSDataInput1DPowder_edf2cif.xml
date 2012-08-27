@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <XSDataInput>
-<edfFile><path><value>${EDNA_TESTS_DATA_HOME}/images/sample1_6284.edf</value></path></edfFile>
+<edfFile><path><value>${EDNA_TESTIMAGES}/sample1_6284.edf</value></path></edfFile>
 <outputFile><path><value>/tmp/edna-${USER}/sample1_6284.cif</value></path></outputFile>
 <outputFormat><value>cif</value></outputFormat>
 </XSDataInput>

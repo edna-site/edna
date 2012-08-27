@@ -1,0 +1,45 @@
+#!/bin/sh -ef
+#
+# Run EDNA2html.py
+#
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU Lesser General Public License as published
+#   by the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU Lesser General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   and the GNU Lesser General Public License  along with this program.  
+#   If not, see <http://www.gnu.org/licenses/>.
+#
+# NB Need to set the EDNA2HTMLDIR environment variable to the
+# location of the EDNA2html.py program
+#
+# CVS_id $Id: EDNA2html,v 1.1.1.1 2010/03/08 13:50:45 pjb93 Exp $
+#
+# Set up the environment
+
+echo "Running EDNA2html with the arguments: ${1+"$@"}" 
+
+if [ -z $PYTHON ];
+then
+    export PYTHON=$(which python)
+    echo "\$PYTHON = $PYTHON" 
+fi
+
+full_path=$(readlink -fn ${0})
+export EDNA2HTMLDIR=$(dirname $full_path)
+
+#echo $full_path
+#echo $EDNA2HTMLDIR
+
+# Run the EDNA2html.py script
+logFile=$(mktemp -t EDNA2html.log_XXXXXXXXXX)
+echo $EDNA2HTMLDIR
+#echo "EDNA2html log file : $logFile"
+${PYTHON} ${EDNA2HTMLDIR}/EDNA2html.py ${1+"$@"} 2>&1 > $logFile 
+
