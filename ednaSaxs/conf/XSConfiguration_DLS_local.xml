@@ -1,61 +1,6 @@
-<?xml version="1.0" ?><XSConfiguration> 
+<?xml version="1.0" ?>
+<XSConfiguration> 
 	<XSPluginList>
-		<XSPluginItem>
-			<name>EDPluginExecAutoRgv1_0</name>
-			<XSParamList>
-				<XSParamItem>
-					<name>execProcessScriptShell</name>
-					<value>python</value></XSParamItem>
-				<XSParamItem>
-					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/autorg</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>timeOut</name>
-					<value>60</value></XSParamItem>
-				</XSParamList>
-		</XSPluginItem>
-		<XSPluginItem>
-			<name>EDPluginExecDatcmpv1_0</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>python</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/usr/bin/datcmp</value>
-                </XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
-
-		<XSPluginItem>
-			<name>EDPluginExecDataverv1_0</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>python</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/usr/bin/dataver</value>
-                </XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
-
-		<XSPluginItem>
-			<name>EDPluginExecDatopv1_0</name>  
-            <XSParamList>
-                <XSParamItem>
-                    <name>execProcessScriptShell</name>
-                    <value>python</value>
-                </XSParamItem>
-                <XSParamItem>
-                    <name>execProcessScriptExecutable</name>
-                    <value>/usr/bin/datop</value>
-                </XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecGnomv0_1</name>
 			<XSParamList>
@@ -64,7 +9,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/gnom</value></XSParamItem>
+					<value>/dls_sw/apps/ATSAS/2.3/bin/gnom</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
@@ -81,15 +26,13 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/dammin</value></XSParamItem>
+					<value>/dls_sw/apps/ATSAS/2.3/bin/dammin</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value></XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1000</value>
-				</XSParamItem>
-			</XSParamList>
+					<value>600</value></XSParamItem></XSParamList>
 	</XSPluginItem>
 	<XSPluginItem>
 			<name>EDPluginExecDammifv0_1</name>
@@ -99,16 +42,13 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/dammif</value></XSParamItem>
+					<value>/dls_sw/apps/ATSAS/2.3/bin/dammif</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value></value>
-				</XSParamItem>
+					<value></value></XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
-				</XSParamItem>
-			</XSParamList>
+					<value>600</value></XSParamItem></XSParamList>
 	</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecDamaverv0_1</name>
@@ -118,16 +58,14 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/damaver</value></XSParamItem>
+					<value>/dls_sw/apps/ATSAS/2_3/bin/damaver</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
-				</XSParamItem>
-			</XSParamList>
+					<value>600</value></XSParamItem></XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginExecSupcombv0_1</name>
@@ -137,7 +75,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/supcomb20</value></XSParamItem>
+					<value>/dls_sw/apps/ATSAS/2_3/bin/supcomb20</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
@@ -154,7 +92,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/damfilt</value></XSParamItem>
+					<value>/dls_sw/apps/ATSAS/2_3/bin/damfilt</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
@@ -171,7 +109,7 @@
 					<value>/bin/bash</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/damstart</value></XSParamItem>
+					<value>/dls_sw/apps/ATSAS/2_3/bin/damstart</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
 					<value></value>
