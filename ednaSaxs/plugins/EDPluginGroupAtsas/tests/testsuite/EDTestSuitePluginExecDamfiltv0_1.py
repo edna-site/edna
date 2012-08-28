@@ -26,37 +26,22 @@ __author__ = "irakli"
 __license__ = "GPLv3+"
 __copyright__ = "DLS"
 
-from EDTestCasePluginUnit import EDTestCasePluginUnit
+from EDTestSuite  import EDTestSuite
 
-from XSDataSAS import XSDataInputDamfilt
-from XSDataCommon import XSDataFile
-
-class EDTestCasePluginUnitExecDamfiltv0_1(EDTestCasePluginUnit):
+class EDTestSuitePluginExecDamfiltv0_1(EDTestSuite):
     """
-    Those are all units tests for the EDNA Exec plugin Damfiltv0_1
+    This is the test suite for EDNA plugin Damfiltv0_1 
+    It will run subsequently all unit tests and execution tests.     
     """
-
-    def __init__(self, _strTestName=None):
-        """
-        """
-        EDTestCasePluginUnit.__init__(self, "EDPluginExecDamfiltv0_1")
-
-
-    def testCheckParameters(self):
-        xsDataInput = XSDataInputDamfilt()
-        xsDataInput.setInputPdbFile(XSDataFile)
-        edPluginExecDamfilt = self.createPlugin()
-        edPluginExecDamfilt.setDataInput(xsDataInput)
-        edPluginExecDamfilt.checkParameters()
-
-
 
     def process(self):
-        self.addTestMethod(self.testCheckParameters)
+        self.addTestCaseFromName("EDTestCasePluginUnitExecDamfiltv0_1")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecDamfiltv0_1")
 
 
 
 if __name__ == '__main__':
 
-    edTestCasePluginUnitExecDamfiltv0_1 = EDTestCasePluginUnitExecDamfiltv0_1("EDTestCasePluginUnitExecDamfiltv0_1")
-    edTestCasePluginUnitExecDamfiltv0_1.execute()
+    edTestSuitePluginExecDamfiltv0_1 = EDTestSuitePluginExecDamfiltv0_1("EDTestSuitePluginExecDamfiltv0_1")
+    edTestSuitePluginExecDamfiltv0_1.execute()
+

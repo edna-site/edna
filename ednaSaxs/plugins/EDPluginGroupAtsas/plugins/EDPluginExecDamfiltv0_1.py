@@ -31,10 +31,10 @@ import os
 from EDVerbose import EDVerbose
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
-from XSDataSAS import XSDataInputDamfilt
-from XSDataSAS import XSDataResultDamfilt
+from XSDataEdnaSaxs import XSDataInputDamfilt
+from XSDataEdnaSaxs import XSDataResultDamfilt
 
-from XSDataSAS import XSDataFile, XSDataString
+from XSDataCommon import XSDataFile, XSDataString
 
 
 class EDPluginExecDamfiltv0_1(EDPluginExecProcessScript):
@@ -75,17 +75,17 @@ class EDPluginExecDamfiltv0_1(EDPluginExecProcessScript):
     def postProcess(self, _edObject=None):
         EDPluginExecProcessScript.postProcess(self)
         EDVerbose.DEBUG("EDPluginExecDamfiltv0_1.postProcess")
-        
+
         xsDataResult = XSDataResultDamfilt()
-        
+
         pathOutputFile = XSDataString(os.path.join(self.getWorkingDirectory(), self.__strOutputPdbFileName))
         xsDataResult.setOutputPdbFile(XSDataFile(pathOutputFile))
-        
+
         self.setDataOutput(xsDataResult)
 
     def generateDamfiltScript(self):
         EDVerbose.DEBUG("*** EDPluginExecDamfiltv0_1.generateDamfiltScript")
-        
+
         _tmpInputFileName = self.getDataInput().getInputPdbFile().getPath().getValue()
         os.symlink(_tmpInputFileName, os.path.join(self.getWorkingDirectory(), self.__strInputPdbFileName))
 
@@ -94,5 +94,5 @@ class EDPluginExecDamfiltv0_1(EDPluginExecProcessScript):
         self.addListCommandExecution(commandString)
         #self.setScriptCommandline(self.__strInputPdbFileName)
 
-    def generateExecutiveSummary(self,__edPlugin=None):
+    def generateExecutiveSummary(self, __edPlugin=None):
             self.addExecutiveSummaryLine(self.readProcessLogFile())
