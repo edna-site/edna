@@ -29,7 +29,7 @@ __copyright__ = "DLS"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataSAS import XSDataInputDamaver
+from XSDataEdnaSaxs import XSDataInputDamaver
 from XSDataCommon import XSDataFile
 
 class EDTestCasePluginUnitExecDamaverv0_1(EDTestCasePluginUnit):

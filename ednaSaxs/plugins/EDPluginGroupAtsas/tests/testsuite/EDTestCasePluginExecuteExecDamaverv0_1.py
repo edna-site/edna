@@ -30,7 +30,7 @@ import os
 
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
-from XSDataSAS import XSDataString
+from XSDataCommon import XSDataString
 
 class EDTestCasePluginExecuteExecDamaverv0_1(EDTestCasePluginExecute):
     """

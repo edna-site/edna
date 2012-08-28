@@ -30,11 +30,9 @@ import os, itertools
 
 from EDVerbose import EDVerbose
 from EDPluginExecProcessScript import EDPluginExecProcessScript
+from XSDataEdnaSaxs import XSDataInputDamaver, XSDataResultDamaver
 
-from XSDataSAS import XSDataInputDamaver
-from XSDataSAS import XSDataResultDamaver
-
-from XSDataSAS import XSDataString, XSDataFile, XSDataDouble
+from XSDataCommon import XSDataString, XSDataFile, XSDataDouble
 
 class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
     """
@@ -82,7 +80,7 @@ class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
                 self.__bAutomatic = self.getDataInput().getAutomatic().getValue()
         except Exception:
             EDVerbose.WARNING("Running Damaver automation pipeline by default.")
-        
+
     def checkDamaverSymmetryInput(self):
         EDVerbose.DEBUG("EDPluginExecDammifv0_1.checkDammifSymmetryInput")
 
@@ -120,7 +118,7 @@ class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
         xsDamaverFile = XSDataFile(pathDamaverFile)
         if os.path.exists(pathDamaverFile.getValue()):
             self.__xsDataResult.setDamaverPdbFile(xsDamaverFile)
-        
+
         if self.__bAutomatic:
             pathDamfilterFile = XSDataString(os.path.join(self.getWorkingDirectory(), "damfilt.pdb"))
             pathDamstartFile = XSDataString(os.path.join(self.getWorkingDirectory(), "damstart.pdb"))
@@ -152,7 +150,7 @@ class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
             tmpInputFileName = pdbInputFile.getPath().getValue()
             os.symlink(tmpInputFileName, os.path.join(self.getWorkingDirectory(), 'dammif-' + str(idx + 1) + '.pdb'))
             dataFileNames.append('dammif-' + str(idx + 1) + '.pdb')
-            
+
         if self.__bAutomatic:
             commandScriptLine = ['/a', self.__strSymmetry]
         else:
@@ -160,20 +158,20 @@ class EDPluginExecDamaverv0_1(EDPluginExecProcessScript):
             damsupLog.write('\n'.join(dataFileNames))
             damsupLog.close()
             commandScriptLine = ['damsup.log']
-            
+
         self.setScriptCommandline(' '.join(commandScriptLine))
-        
-    def generateExecutiveSummary(self,__edPlugin=None):
+
+    def generateExecutiveSummary(self, __edPlugin=None):
         self.addExecutiveSummaryLine("Results of model averaging using DAMAVER pipeline")
         self.addExecutiveSummarySeparator()
         self.addExecutiveSummaryLine("DAMAVER output pdb model : %s" % os.path.join(self.getWorkingDirectory(), "damaver.pdb"))
-        
+
         if self.__bAutomatic:
             self.addExecutiveSummaryLine("DAMFILT output pdb model : %s" % os.path.join(self.getWorkingDirectory(), "damfilt.pdb"))
             self.addExecutiveSummaryLine("DAMSTART output pdb model : %s" % os.path.join(self.getWorkingDirectory(), "damstart.pdb"))
             damselLog = open(os.path.join(self.getWorkingDirectory(), "damsel.log"))
             for line in damselLog:
                 self.addExecutiveSummaryLine(line)
-                
+
         self.addExecutiveSummarySeparator()
-        
+
