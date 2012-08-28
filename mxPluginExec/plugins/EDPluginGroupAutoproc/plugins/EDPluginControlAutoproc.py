@@ -253,7 +253,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.DEBUG('STARTING anom/noanom generation')
         t0=time.time()
         self.generate.executeSynchronous()
-        self.stats['anom/noanom_generation'] = t0-time.time()
+        self.stats['anom/noanom_generation'] = time.time()-t0
         self.DEBUG('FINISHED anom/noanom generation')
 
         if self.generate.isFailure():
