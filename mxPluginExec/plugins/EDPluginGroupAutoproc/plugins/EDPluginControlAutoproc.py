@@ -205,7 +205,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             self.setFailure()
             return
         EDVerbose.screen('first frame appeared on time')
-        self.stats['wait_file'] = time.time-t0
+        self.stats['wait_file'] = time.time()-t0
 
         # first XDS plugin run with supplied XDS file
         EDVerbose.screen('STARTING XDS run...')
