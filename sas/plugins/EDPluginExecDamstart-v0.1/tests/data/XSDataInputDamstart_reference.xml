@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<XSDataInputDamstart>
-	<inputPdbFile>
-		<path>
-			<value>damaver.pdb</value>
-		</path>
-	</inputPdbFile>
-</XSDataInputDamstart>
