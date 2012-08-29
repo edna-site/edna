@@ -5,7 +5,7 @@
 #    File: "$Id$"
 #
 #    Copyright (C) DLS
-
+#
 #    Principal author:       irakli
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,37 +26,22 @@ __author__ = "irakli"
 __license__ = "GPLv3+"
 __copyright__ = "DLS"
 
-from EDTestCasePluginUnit import EDTestCasePluginUnit
+from EDTestSuite  import EDTestSuite
 
-from XSDataSAS import XSDataInputDammin
-from XSDataCommon import XSDataFile
-
-class EDTestCasePluginUnitExecDamminv0_1(EDTestCasePluginUnit):
+class EDTestSuitePluginExecDamminv0_1(EDTestSuite):
     """
-    Those are all units tests for the EDNA Exec plugin Damminv0_1
+    This is the test suite for EDNA plugin Damminv0_1 
+    It will run subsequently all unit tests and execution tests.     
     """
-
-    def __init__(self, _strTestName=None):
-        """
-        """
-        EDTestCasePluginUnit.__init__(self, "EDPluginExecDamminv0_1")
-
-
-    def testCheckParameters(self):
-        xsDataInput = XSDataInputDammin()
-        xsDataInput.gnomOutputFile = XSDataFile()
-        edPluginExecDammin = self.createPlugin()
-        edPluginExecDammin.setDataInput(xsDataInput)
-        edPluginExecDammin.checkParameters()
-
-
 
     def process(self):
-        self.addTestMethod(self.testCheckParameters)
+        self.addTestCaseFromName("EDTestCasePluginUnitExecDamminv0_1")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecDamminv0_1")
 
 
 
 if __name__ == '__main__':
 
-    edTestCasePluginUnitExecDamminv0_1 = EDTestCasePluginUnitExecDamminv0_1("EDTestCasePluginUnitExecDamminv0_1")
-    edTestCasePluginUnitExecDamminv0_1.execute()
+    edTestSuitePluginExecDamminv0_1 = EDTestSuitePluginExecDamminv0_1("EDTestSuitePluginExecDamminv0_1")
+    edTestSuitePluginExecDamminv0_1.execute()
+

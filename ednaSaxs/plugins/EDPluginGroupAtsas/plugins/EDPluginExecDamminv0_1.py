@@ -31,10 +31,10 @@ import os, itertools
 from EDVerbose import EDVerbose
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
-from XSDataSAS import XSDataInputDammin
-from XSDataSAS import XSDataResultDammin
+from XSDataEdnaSaxs import XSDataInputDammin
+from XSDataEdnaSaxs import XSDataResultDammin
 
-from XSDataSAS import XSDataString, XSDataFile, XSDataDouble
+from XSDataCommon import XSDataString, XSDataFile, XSDataDouble
 
 
 class EDPluginExecDamminv0_1(EDPluginExecProcessScript):
