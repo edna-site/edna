@@ -28,7 +28,7 @@ __copyright__ = "DLS"
 
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataSAS import XSDataInputDammif
+from XSDataEdnaSaxs import XSDataInputDammif
 from XSDataCommon import XSDataFile
 
 class EDTestCasePluginUnitExecDammifv0_1(EDTestCasePluginUnit):

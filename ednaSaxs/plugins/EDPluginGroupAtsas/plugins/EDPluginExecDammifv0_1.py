@@ -31,10 +31,10 @@ import os, itertools
 from EDVerbose import EDVerbose
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
-from XSDataSAS import XSDataInputDammif
-from XSDataSAS import XSDataResultDammif
+from XSDataEdnaSaxs import XSDataInputDammif
+from XSDataEdnaSaxs import XSDataResultDammif
 
-from XSDataSAS import XSDataString, XSDataFile, XSDataDouble
+from XSDataCommon import XSDataString, XSDataFile, XSDataDouble
 
 
 class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
@@ -196,7 +196,7 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
 
         return XSDataDouble(tmpRfactor)
 
-    def generateExecutiveSummary(self,__edPlugin=None):
+    def generateExecutiveSummary(self, __edPlugin=None):
         self.addExecutiveSummarySeparator()
         self.addExecutiveSummaryLine("Results of DAMMIF run:")
         self.addExecutiveSummarySeparator()
@@ -204,11 +204,11 @@ class EDPluginExecDammifv0_1(EDPluginExecProcessScript):
         tmpChiSqrt = "Chi(Sqrt) = %3.3f" % self.getDataOutput().getChiSqrt().getValue()
         tmpStrLine = "\t".join([tmpChiSqrt, tmpRFactor])
         self.addExecutiveSummaryLine(tmpStrLine)
-        
+
         self.addExecutiveSummaryLine("DAMMIF fit file : %s" % os.path.join(self.getWorkingDirectory(), "dammif.fit"))
         self.addExecutiveSummaryLine("DAMMIF log file : %s" % os.path.join(self.getWorkingDirectory(), "dammif.log"))
         self.addExecutiveSummarySeparator()
-        
+
         dammifLog = open(os.path.join(self.getWorkingDirectory(), "dammif.log"))
         for line in dammifLog:
             self.addExecutiveSummaryLine(line)

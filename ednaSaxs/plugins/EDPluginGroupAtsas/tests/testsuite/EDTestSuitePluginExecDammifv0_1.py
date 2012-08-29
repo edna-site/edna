@@ -35,7 +35,7 @@ class EDTestSuitePluginExecDammifv0_1(EDTestSuite):
     """
 
     def process(self):
-        #self.addTestCaseFromName("EDTestCasePluginUnitExecDammifv0_1")
+        self.addTestCaseFromName("EDTestCasePluginUnitExecDammifv0_1")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecDammifv0_1")
 
 
