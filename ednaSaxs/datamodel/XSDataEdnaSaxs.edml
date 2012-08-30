@@ -211,6 +211,7 @@ complex type XSDataInputGnom extends XSDataInput {
 	angularScale : XSDataInteger optional
 	mode : XSDataString optional
 }
+
 complex type XSDataResultGnom extends XSDataResult {
 	fitQuality : XSDataDouble
 	output : XSDataFile
@@ -226,6 +227,22 @@ complex type XSDataResultGnom extends XSDataResult {
 	arrayErr : XSDataArray optional
 	radiusOfCrossSection : XSDataDouble
 	radiusOfGyration : XSDataDouble
+}
+
+complex type XSDataInputDatGnom extends XSDataInput {
+	"Input file can be in 1/nm or 1/A, result will be in the same unit."
+	experimentalDataFile: XSDataFile
+	rg: XSDataLength optional
+	skip: XSDataInteger optional
+	output: XSDataFile optional
+}
+
+complex type XSDataResultDatGnom extends XSDataResult {
+	output : XSDataFile
+	rg : XSDataLength
+	gnom : XSDataLength
+	dmax: XSDataLength
+	fitQuality: XSDataDouble
 }
 
 

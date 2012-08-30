@@ -301,7 +301,7 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
             strErrorMessage = "EDPluginExecGnomv0_2: Unable to parse %s with numpy.loadtxt" % fileName
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
-            raise RuntimeError, strErrorMessage
+            raise RuntimeError(strErrorMessage)
         elif data.shape[1] == 3:
             self.npaExperimentalDataQ, self.npaExperimentalDataI, self.npaExperimentalDataStdDev = data.T
         elif data.shape[1] == 2:
@@ -310,6 +310,6 @@ class EDPluginExecGnomv0_2(EDPluginExecProcessScript):
             strErrorMessage = "EDPluginExecGnomv0_2: %s contains an numpy object of shape %s" % (fileName, data.shape)
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
-            raise RuntimeError, strErrorMessage
+            raise RuntimeError(strErrorMessage)
 
 
