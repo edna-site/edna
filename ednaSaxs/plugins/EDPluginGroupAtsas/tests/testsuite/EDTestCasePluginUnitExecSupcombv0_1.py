@@ -28,30 +28,27 @@ __copyright__ = "DLS"
 
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataSAS import XSDataInputGnom
-from XSDataCommon import XSDataDouble
+from XSDataEdnaSaxs import XSDataInputSupcomb
+from XSDataCommon import XSDataFile
 
-class EDTestCasePluginUnitExecGnomv0_1(EDTestCasePluginUnit):
+class EDTestCasePluginUnitExecSupcombv0_1(EDTestCasePluginUnit):
     """
-    Those are all units tests for the EDNA Exec plugin Gnomv0_1
+    Those are all units tests for the EDNA Exec plugin Supcombv0_1
     """
 
     def __init__(self, _strTestName=None):
         """
         """
-        EDTestCasePluginUnit.__init__(self, "EDPluginExecGnomv0_1")
-        #self.m_pyStrReferenceInputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataInputGnom_reference.xml")
-
+        EDTestCasePluginUnit.__init__(self, "EDPluginExecSupcombv0_1")
 
 
     def testCheckParameters(self):
-        xsDataInput = XSDataInputGnom()
-        edPluginExecGnom = self.createPlugin()
-        xsDataInput.rMax = XSDataDouble()
-        xsDataInput.experimentalDataQ = [XSDataDouble()]
-        xsDataInput.experimentalDataValues = [XSDataDouble()]
-        edPluginExecGnom.setDataInput(xsDataInput)
-        edPluginExecGnom.checkParameters()
+        xsDataInput = XSDataInputSupcomb()
+        xsDataInput.templateFile = XSDataFile()
+        xsDataInput.superimposeFile = XSDataFile()
+        edPluginExecSupcomb = self.createPlugin()
+        edPluginExecSupcomb.setDataInput(xsDataInput)
+        edPluginExecSupcomb.checkParameters()
 
 
 
@@ -62,5 +59,5 @@ class EDTestCasePluginUnitExecGnomv0_1(EDTestCasePluginUnit):
 
 if __name__ == '__main__':
 
-    edTestCasePluginUnitExecGnomv0_1 = EDTestCasePluginUnitExecGnomv0_1("EDTestCasePluginUnitExecGnomv0_1")
-    edTestCasePluginUnitExecGnomv0_1.execute()
+    edTestCasePluginUnitExecSupcombv0_1 = EDTestCasePluginUnitExecSupcombv0_1("EDTestCasePluginUnitExecSupcombv0_1")
+    edTestCasePluginUnitExecSupcombv0_1.execute()

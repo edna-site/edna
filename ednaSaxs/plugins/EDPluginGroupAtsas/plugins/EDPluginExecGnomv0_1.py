@@ -30,14 +30,13 @@ import os
 
 from matplotlib import pylab
 
-
 from EDVerbose import EDVerbose
 from EDUtilsFile                     import EDUtilsFile
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
-from XSDataSAS import XSDataInputGnom
-from XSDataSAS import XSDataResultGnom
-from XSDataSAS import XSDataFile, XSDataString, XSDataDouble
+from XSDataEdnaSaxs import XSDataInputGnom
+from XSDataEdnaSaxs import XSDataResultGnom
+from XSDataCommon import XSDataFile, XSDataString, XSDataDouble
 
 class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
     """

@@ -1,14 +1,12 @@
-# coding: utf8
 #
-#    Project: solution Scattering
+#    Project: PROJECT
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2011 DLS
-#                  2012 ESRF
+#    Copyright (C) DLS
+
 #    Principal author:       irakli
-#                            Jérôme Kieffer
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,24 +22,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__authors__ = ["irakli", "Jérôme Kieffer"]
+__author__ = "irakli"
 __license__ = "GPLv3+"
-__copyright__ = "2011 DLS, 2012 ESRF"
+__copyright__ = "DLS"
 
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataSAS import XSDataInputGnom
+from XSDataEdnaSaxs import XSDataInputGnom
 from XSDataCommon import XSDataDouble
 
-class EDTestCasePluginUnitExecGnomv0_2(EDTestCasePluginUnit):
+class EDTestCasePluginUnitExecGnomv0_1(EDTestCasePluginUnit):
     """
-    Those are all units tests for the EDNA Exec plugin Gnomv0_2
+    Those are all units tests for the EDNA Exec plugin Gnomv0_1
     """
 
     def __init__(self, _strTestName=None):
         """
         """
-        EDTestCasePluginUnit.__init__(self, "EDPluginExecGnomv0_2")
+        EDTestCasePluginUnit.__init__(self, "EDPluginExecGnomv0_1")
         #self.m_pyStrReferenceInputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataInputGnom_reference.xml")
 
 
@@ -64,5 +62,5 @@ class EDTestCasePluginUnitExecGnomv0_2(EDTestCasePluginUnit):
 
 if __name__ == '__main__':
 
-    edTestCasePluginUnitExecGnomv0_2 = EDTestCasePluginUnitExecGnomv0_2("EDTestCasePluginUnitExecGnomv0_2")
-    edTestCasePluginUnitExecGnomv0_2.execute()
+    edTestCasePluginUnitExecGnomv0_1 = EDTestCasePluginUnitExecGnomv0_1("EDTestCasePluginUnitExecGnomv0_1")
+    edTestCasePluginUnitExecGnomv0_1.execute()

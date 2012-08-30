@@ -37,7 +37,7 @@ from StringIO import StringIO
 from EDVerbose                 import EDVerbose
 from EDUtilsFile               import EDUtilsFile
 from EDPluginExecProcessScript import EDPluginExecProcessScript
-from XSDataSAS                 import XSDataInputGnom, XSDataResultGnom
+from XSDataEdnaSaxs            import XSDataInputGnom, XSDataResultGnom
 from XSDataCommon              import XSDataFile, XSDataString, XSDataDouble
 from EDUtilsPlatform           import  EDUtilsPlatform
 from EDUtilsPath               import EDUtilsPath

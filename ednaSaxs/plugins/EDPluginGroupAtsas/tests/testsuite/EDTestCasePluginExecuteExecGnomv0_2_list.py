@@ -33,7 +33,7 @@ import os
 
 from EDTestCasePluginExecute    import EDTestCasePluginExecute
 from EDUtilsFile                import EDUtilsFile
-from XSDataSAS                  import XSDataDouble
+from XSDataCommon               import XSDataDouble
 from EDDecorator                import timeit
 class EDTestCasePluginExecuteExecGnomv0_2_list(EDTestCasePluginExecute):
     """

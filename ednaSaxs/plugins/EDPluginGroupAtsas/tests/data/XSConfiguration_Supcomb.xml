@@ -2,7 +2,7 @@
 <XSConfiguration> 
 	<XSPluginList>
 		<XSPluginItem>
-			<name>EDPluginExecGnomv0_2</name>
+			<name>EDPluginExecSupcombv0_1</name>  
 		</XSPluginItem>
 	</XSPluginList> 
 </XSConfiguration> 
