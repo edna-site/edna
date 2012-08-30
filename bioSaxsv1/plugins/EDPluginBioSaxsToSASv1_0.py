@@ -60,6 +60,9 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
     size = None
     maxThreads = None
 
+    __strControlledPluginWait = "EDPluginWaitFile"
+    __strControlledPluginSAS = "EDPluginControlSolutionScatteringv0_4"
+    __strControlledPluginRsync = "EDPluginExecRsync"
 
     def __init__(self):
         """
@@ -67,9 +70,6 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsToSASv1_0)
 
-        self.__strControlledPluginWait = "EDPluginWaitFile"
-        self.__strControlledPluginSAS = "EDPluginControlSolutionScatteringv0_4"
-        self.__strControlledPluginRsync = "EDPluginExecRsync"
         self.__edPluginExecWait = None
         self.__edPluginExecSAS = None
         self.__edPluginExecRsync = None
