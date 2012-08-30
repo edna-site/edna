@@ -24,7 +24,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
-__author__ = "irakli, Jerome Kieffer"
+__authors__ = ["irakli", "Jérôme Kieffer"]
 __license__ = "GPLv3+"
 __copyright__ = "2012 DLS; 2012 ESRF"
 
