@@ -71,17 +71,17 @@ class EDTestCasePluginExecuteExecGnomv0_1(EDTestCasePluginExecute):
         tmpExperimentalDataQ = []
         tmpExperimentalDataValues = []
 
-        dataLines = EDUtilsFile.readFile(fileName).splitlines()[1:]
-        for line in dataLines:
-            tmpValue = XSDataDouble()
-            tmpQ = XSDataDouble()
-            lineList = line.split()
-            tmpQ.setValue(float(lineList[0]))
-            tmpValue.setValue(float(lineList[1]))
-            tmpExperimentalDataQ.append(tmpQ)
-            tmpExperimentalDataValues.append(tmpValue)
-        self.getPlugin().getDataInput().setExperimentalDataQ(tmpExperimentalDataQ)
-        self.getPlugin().getDataInput().setExperimentalDataValues(tmpExperimentalDataValues)
+        for line in open(fileName):
+            words = line.split()
+            try:
+                q = float(words[0])
+                I = float(words[1])
+            except (IndexError, ValueError):
+                continue
+            tmpExperimentalDataQ.append(XSDataDouble(q))
+            tmpExperimentalDataValues.append(XSDataDouble(I))
+        self.plugin.dataInput.experimentalDataQ = tmpExperimentalDataQ
+        self.plugin.dataInput.experimentalDataValues = tmpExperimentalDataValues
 
 
 

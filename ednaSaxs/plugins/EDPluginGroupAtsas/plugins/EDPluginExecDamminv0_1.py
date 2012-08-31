@@ -1,5 +1,5 @@
 #
-#    Project: PROJECT
+#    Project: EdnaSaxs/Atsas
 #             http://www.edna-site.org
 #
 #    File: "$Id$"

@@ -1,5 +1,5 @@
 #
-#    Project: PROJECT
+#    Project: EdnaSaxs/Atsas
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
@@ -56,9 +56,9 @@ class EDPluginExecGnomv0_1(EDPluginExecProcessScript):
         Checks the mandatory parameters.
         """
         EDVerbose.DEBUG("EDPluginExecGnomv0_1.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
-        self.checkMandatoryParameters(self.getDataInput().getExperimentalDataQ(), "Scattering vector values are missing")
-        self.checkMandatoryParameters(self.getDataInput().getExperimentalDataValues(), "Experimental intensity values are missing")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.experimentalDataQ, "Scattering vector values are missing")
+        self.checkMandatoryParameters(self.dataInput.experimentalDataValues, "Experimental intensity values are missing")
 
 
     def preProcess(self, _edObject=None):
