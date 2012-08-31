@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Aug 31 02:03::08 2012 by EDGenerateDS.
+# Generated Fri Aug 31 04:22::43 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -3460,6 +3460,103 @@ class XSDataInputGnom(XSDataInput):
     parseFile = staticmethod( parseFile )
 # end class XSDataInputGnom
 
+class XSDataInputSaxsAnalysis(XSDataInput):
+    """AutoRg -> Gnom -> Prod pipeline"""
+    def __init__(self, configuration=None, gnomFile=None, scatterCurve=None):
+        XSDataInput.__init__(self, configuration)
+    
+    
+        checkType("XSDataInputSaxsAnalysis", "Constructor of XSDataInputSaxsAnalysis", scatterCurve, "XSDataFile")
+        self._scatterCurve = scatterCurve
+        checkType("XSDataInputSaxsAnalysis", "Constructor of XSDataInputSaxsAnalysis", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+    def getScatterCurve(self): return self._scatterCurve
+    def setScatterCurve(self, scatterCurve):
+        checkType("XSDataInputSaxsAnalysis", "setScatterCurve", scatterCurve, "XSDataFile")
+        self._scatterCurve = scatterCurve
+    def delScatterCurve(self): self._scatterCurve = None
+    # Properties
+    scatterCurve = property(getScatterCurve, setScatterCurve, delScatterCurve, "Property for scatterCurve")
+    def getGnomFile(self): return self._gnomFile
+    def setGnomFile(self, gnomFile):
+        checkType("XSDataInputSaxsAnalysis", "setGnomFile", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+    def delGnomFile(self): self._gnomFile = None
+    # Properties
+    gnomFile = property(getGnomFile, setGnomFile, delGnomFile, "Property for gnomFile")
+    def export(self, outfile, level, name_='XSDataInputSaxsAnalysis'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataInputSaxsAnalysis'):
+        XSDataInput.exportChildren(self, outfile, level, name_)
+        if self._scatterCurve is not None:
+            self.scatterCurve.export(outfile, level, name_='scatterCurve')
+        else:
+            warnEmptyAttribute("scatterCurve", "XSDataFile")
+        if self._gnomFile is not None:
+            self.gnomFile.export(outfile, level, name_='gnomFile')
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'scatterCurve':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setScatterCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gnomFile':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setGnomFile(obj_)
+        XSDataInput.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataInputSaxsAnalysis" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataInputSaxsAnalysis' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataInputSaxsAnalysis is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataInputSaxsAnalysis.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputSaxsAnalysis()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataInputSaxsAnalysis" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputSaxsAnalysis()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataInputSaxsAnalysis
+
 class XSDataInputSaxsPipeline(XSDataInput):
     """Run ProcessOneFile on each file of a time time serie until autorg """
     def __init__(self, configuration=None, rawImageSize=None, relativeFidelity=None, absoluteFidelity=None, forceReprocess=None, directoryMisc=None, directory2D=None, directory1D=None, experimentSetup=None, sample=None, fileSerie=None):
@@ -5477,6 +5574,195 @@ class XSDataResultGnom(XSDataResult):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataResultGnom
+
+class XSDataResultSaxsAnalysis(XSDataResult):
+    """AutoRg -> Gnom -> Prod pipeline"""
+    def __init__(self, status=None, volume=None, total=None, dmax=None, rgGnom=None, rgGuinier=None, autorg=None, gnomFile=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", autorg, "XSDataAutoRg")
+        self._autorg = autorg
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", rgGuinier, "XSDataLength")
+        self._rgGuinier = rgGuinier
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", rgGnom, "XSDataLength")
+        self._rgGnom = rgGnom
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", dmax, "XSDataLength")
+        self._dmax = dmax
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", total, "XSDataDouble")
+        self._total = total
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
+    def getGnomFile(self): return self._gnomFile
+    def setGnomFile(self, gnomFile):
+        checkType("XSDataResultSaxsAnalysis", "setGnomFile", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+    def delGnomFile(self): self._gnomFile = None
+    # Properties
+    gnomFile = property(getGnomFile, setGnomFile, delGnomFile, "Property for gnomFile")
+    def getAutorg(self): return self._autorg
+    def setAutorg(self, autorg):
+        checkType("XSDataResultSaxsAnalysis", "setAutorg", autorg, "XSDataAutoRg")
+        self._autorg = autorg
+    def delAutorg(self): self._autorg = None
+    # Properties
+    autorg = property(getAutorg, setAutorg, delAutorg, "Property for autorg")
+    def getRgGuinier(self): return self._rgGuinier
+    def setRgGuinier(self, rgGuinier):
+        checkType("XSDataResultSaxsAnalysis", "setRgGuinier", rgGuinier, "XSDataLength")
+        self._rgGuinier = rgGuinier
+    def delRgGuinier(self): self._rgGuinier = None
+    # Properties
+    rgGuinier = property(getRgGuinier, setRgGuinier, delRgGuinier, "Property for rgGuinier")
+    def getRgGnom(self): return self._rgGnom
+    def setRgGnom(self, rgGnom):
+        checkType("XSDataResultSaxsAnalysis", "setRgGnom", rgGnom, "XSDataLength")
+        self._rgGnom = rgGnom
+    def delRgGnom(self): self._rgGnom = None
+    # Properties
+    rgGnom = property(getRgGnom, setRgGnom, delRgGnom, "Property for rgGnom")
+    def getDmax(self): return self._dmax
+    def setDmax(self, dmax):
+        checkType("XSDataResultSaxsAnalysis", "setDmax", dmax, "XSDataLength")
+        self._dmax = dmax
+    def delDmax(self): self._dmax = None
+    # Properties
+    dmax = property(getDmax, setDmax, delDmax, "Property for dmax")
+    def getTotal(self): return self._total
+    def setTotal(self, total):
+        checkType("XSDataResultSaxsAnalysis", "setTotal", total, "XSDataDouble")
+        self._total = total
+    def delTotal(self): self._total = None
+    # Properties
+    total = property(getTotal, setTotal, delTotal, "Property for total")
+    def getVolume(self): return self._volume
+    def setVolume(self, volume):
+        checkType("XSDataResultSaxsAnalysis", "setVolume", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
+    def delVolume(self): self._volume = None
+    # Properties
+    volume = property(getVolume, setVolume, delVolume, "Property for volume")
+    def export(self, outfile, level, name_='XSDataResultSaxsAnalysis'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataResultSaxsAnalysis'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._gnomFile is not None:
+            self.gnomFile.export(outfile, level, name_='gnomFile')
+        else:
+            warnEmptyAttribute("gnomFile", "XSDataFile")
+        if self._autorg is not None:
+            self.autorg.export(outfile, level, name_='autorg')
+        else:
+            warnEmptyAttribute("autorg", "XSDataAutoRg")
+        if self._rgGuinier is not None:
+            self.rgGuinier.export(outfile, level, name_='rgGuinier')
+        else:
+            warnEmptyAttribute("rgGuinier", "XSDataLength")
+        if self._rgGnom is not None:
+            self.rgGnom.export(outfile, level, name_='rgGnom')
+        else:
+            warnEmptyAttribute("rgGnom", "XSDataLength")
+        if self._dmax is not None:
+            self.dmax.export(outfile, level, name_='dmax')
+        else:
+            warnEmptyAttribute("dmax", "XSDataLength")
+        if self._total is not None:
+            self.total.export(outfile, level, name_='total')
+        else:
+            warnEmptyAttribute("total", "XSDataDouble")
+        if self._volume is not None:
+            self.volume.export(outfile, level, name_='volume')
+        else:
+            warnEmptyAttribute("volume", "XSDataDoubleWithUnit")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gnomFile':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setGnomFile(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'autorg':
+            obj_ = XSDataAutoRg()
+            obj_.build(child_)
+            self.setAutorg(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'rgGuinier':
+            obj_ = XSDataLength()
+            obj_.build(child_)
+            self.setRgGuinier(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'rgGnom':
+            obj_ = XSDataLength()
+            obj_.build(child_)
+            self.setRgGnom(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'dmax':
+            obj_ = XSDataLength()
+            obj_.build(child_)
+            self.setDmax(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'total':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setTotal(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'volume':
+            obj_ = XSDataDoubleWithUnit()
+            obj_.build(child_)
+            self.setVolume(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataResultSaxsAnalysis" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataResultSaxsAnalysis' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataResultSaxsAnalysis is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataResultSaxsAnalysis.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultSaxsAnalysis()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataResultSaxsAnalysis" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultSaxsAnalysis()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataResultSaxsAnalysis
 
 class XSDataResultSaxsPipeline(XSDataResult):
     def __init__(self, status=None, autoRgOut=None):

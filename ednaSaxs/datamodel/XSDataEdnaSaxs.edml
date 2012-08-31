@@ -146,10 +146,26 @@ complex type XSDataInputSaxsPipeline extends XSDataInput{
 	relativeFidelity: XSDataDouble optional
 	rawImageSize: XSDataInteger optional
 }
-
 complex type XSDataResultSaxsPipeline extends XSDataResult{
 	autoRgOut: XSDataAutoRg[]
 }
+
+complex type XSDataInputSaxsAnalysis extends XSDataInput{
+	"AutoRg -> Gnom -> Prod pipeline"
+	scatterCurve: XSDataFile
+	gnomFile: XSDataFile optional
+}
+complex type XSDataResultSaxsAnalysis extends XSDataResult{
+	"AutoRg -> Gnom -> Prod pipeline"
+	gnomFile: XSDataFile 
+	autorg: XSDataAutoRg
+	rgGuinier : XSDataLength
+	rgGnom : XSDataLength
+	dmax: XSDataLength
+	total: XSDataDouble
+	volume: XSDataDoubleWithUnit
+}
+
 
 complex type XSDataFileSeries extends XSData {
 	files : XSDataFile []
