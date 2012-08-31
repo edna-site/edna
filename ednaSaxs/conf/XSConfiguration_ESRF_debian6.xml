@@ -225,7 +225,7 @@
 					<value>python</value></XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/usr/bin/datprood</value>
+					<value>/usr/bin/datporod</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>

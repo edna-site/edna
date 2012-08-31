@@ -1,6 +1,6 @@
 # coding: utf8
 #
-#    Project: EdnaSaxs / 
+#    Project: EdnaSaxs / Atsas
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
@@ -33,31 +33,31 @@ import os
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
-from XSDataEdnaSaxs import XSDataInputDatGnom as  XSDataInput
-from XSDataEdnaSaxs import XSDataResultDatGnom as XSDataResult
+from XSDataEdnaSaxs import XSDataInputDatPorod as  XSDataInput
+from XSDataEdnaSaxs import XSDataResultDatPorod as XSDataResult
 
-class EDTestCasePluginExecuteExecDatGnomv1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecDatPorodv1_0(EDTestCasePluginExecute):
     """
-    Those are all execution tests for the EDNA Exec plugin DatGnomv1_0
+    Those are all execution tests for the EDNA Exec plugin DatPorod
     """
 
     def __init__(self, _strTestName=None):
         """
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginExecDatGnomv1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginExecDatPorodv1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
-#                                               "XSConfiguration_DatGnom.xml"))
+#                                               "XSConfiguration_DatPorod.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputDatGnom_reference.xml"))
+                                           "XSDataInputDatPorod_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultDatGnom_reference.xml"))
+                                                     "XSDataResultDatPorod_reference.xml"))
 
     def preProcess(self):
         """
         Download reference 1D curves
         """
         EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage(["autosubtracted.dat"])
+        self.loadTestImage(["datgnom.out"])
 
     def testExecute(self):
         """
@@ -75,8 +75,6 @@ class EDTestCasePluginExecuteExecDatGnomv1_0(EDTestCasePluginExecute):
         xsDataResultObtained = plugin.getDataOutput()
         EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
 
-        EDAssert.isFile(xsDataResultObtained.output.path.value, "Gnom file exists")
-
     def process(self):
         """
         """
@@ -86,5 +84,5 @@ class EDTestCasePluginExecuteExecDatGnomv1_0(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    testDatGnomv1_0instance = EDTestCasePluginExecuteControlDatGnomv1_0("EDTestCasePluginExecuteExecDatGnomv1_0")
-    testDatGnomv1_0instance.execute()
+    testDatPorodv1_0instance = EDTestCasePluginExecuteControlDatPorodv1_0("EDTestCasePluginExecuteExecDatPorodv1_0")
+    testDatPorodv1_0instance.execute()

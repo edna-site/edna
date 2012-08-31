@@ -5,7 +5,7 @@
 #
 #    File: "$Id$"
 #
-#    Copyright (C) 2011, ESRF Grenoble
+#    Copyright (C) 2012, ESRF Grenoble
 #
 #    Principal author:       Jérôme Kieffer
 #
@@ -22,7 +22,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from XSDataCommon import XSDataFile
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
@@ -37,8 +36,7 @@ from XSDataCommon import XSDataString, XSDataDouble, XSDataFile, XSDataLength
 
 class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
     """
-    Plugin that simply performs an operation on a (couple of) curves. 
-    operations can be  ADD, SUB, MUL, DIV 
+    Plugin that simply runs datgnom; a clever version of gnom; on a 1D curve.  
     """
 
 

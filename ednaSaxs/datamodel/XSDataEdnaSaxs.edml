@@ -247,11 +247,11 @@ complex type XSDataResultDatGnom extends XSDataResult {
 }
 
 complex type XSDataInputDatPorod extends XSDataInput {
-	"Input file can be in 1/nm or 1/A, result will be in the same unit."
+	"Input file can be in 1/nm or 1/A, result will be in the same unit(^3)."
 	gnomFile: XSDataFile optional
 }
 
-complex type XSDataResultDatGnom extends XSDataResult {
+complex type XSDataResultDatPorod extends XSDataResult {
 	volume: XSDataDoubleWithUnit
 }
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Aug 31 10:47::06 2012 by EDGenerateDS.
+# Generated Fri Aug 31 02:03::08 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -12,6 +12,7 @@ from xml.dom import Node
 strEdnaHome = os.environ.get("EDNA_HOME", None)
 
 dictLocation = { \
+ "XSDataCommon": "kernel/datamodel", \
  "XSDataCommon": "kernel/datamodel", \
  "XSDataCommon": "kernel/datamodel", \
  "XSDataCommon": "kernel/datamodel", \
@@ -40,6 +41,7 @@ try:
     from XSDataCommon import XSDataRotation
     from XSDataCommon import XSDataString
     from XSDataCommon import XSDataVectorDouble
+    from XSDataCommon import XSDataDoubleWithUnit
     from XSDataCommon import XSDataImage
     from XSDataCommon import XSDataLength
     from XSDataCommon import XSDataWavelength
@@ -64,6 +66,7 @@ from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataRotation
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataVectorDouble
+from XSDataCommon import XSDataDoubleWithUnit
 from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataWavelength
@@ -2787,6 +2790,85 @@ class XSDataInputDatGnom(XSDataInput):
     parseFile = staticmethod( parseFile )
 # end class XSDataInputDatGnom
 
+class XSDataInputDatPorod(XSDataInput):
+    """Input file can be in 1/nm or 1/A, result will be in the same unit(^3)."""
+    def __init__(self, configuration=None, gnomFile=None):
+        XSDataInput.__init__(self, configuration)
+    
+    
+        checkType("XSDataInputDatPorod", "Constructor of XSDataInputDatPorod", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+    def getGnomFile(self): return self._gnomFile
+    def setGnomFile(self, gnomFile):
+        checkType("XSDataInputDatPorod", "setGnomFile", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+    def delGnomFile(self): self._gnomFile = None
+    # Properties
+    gnomFile = property(getGnomFile, setGnomFile, delGnomFile, "Property for gnomFile")
+    def export(self, outfile, level, name_='XSDataInputDatPorod'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataInputDatPorod'):
+        XSDataInput.exportChildren(self, outfile, level, name_)
+        if self._gnomFile is not None:
+            self.gnomFile.export(outfile, level, name_='gnomFile')
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gnomFile':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setGnomFile(obj_)
+        XSDataInput.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataInputDatPorod" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataInputDatPorod' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataInputDatPorod is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataInputDatPorod.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputDatPorod()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataInputDatPorod" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputDatPorod()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataInputDatPorod
+
 class XSDataInputDataver(XSDataInput):
     """dataver averages two or more curves from files"""
     def __init__(self, configuration=None, outputCurve=None, inputCurve=None):
@@ -4712,6 +4794,86 @@ class XSDataResultDatGnom(XSDataResult):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataResultDatGnom
+
+class XSDataResultDatPorod(XSDataResult):
+    def __init__(self, status=None, volume=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        checkType("XSDataResultDatPorod", "Constructor of XSDataResultDatPorod", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
+    def getVolume(self): return self._volume
+    def setVolume(self, volume):
+        checkType("XSDataResultDatPorod", "setVolume", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
+    def delVolume(self): self._volume = None
+    # Properties
+    volume = property(getVolume, setVolume, delVolume, "Property for volume")
+    def export(self, outfile, level, name_='XSDataResultDatPorod'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataResultDatPorod'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._volume is not None:
+            self.volume.export(outfile, level, name_='volume')
+        else:
+            warnEmptyAttribute("volume", "XSDataDoubleWithUnit")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'volume':
+            obj_ = XSDataDoubleWithUnit()
+            obj_.build(child_)
+            self.setVolume(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataResultDatPorod" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataResultDatPorod' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataResultDatPorod is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataResultDatPorod.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultDatPorod()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataResultDatPorod" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultDatPorod()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataResultDatPorod
 
 class XSDataResultDataver(XSDataResult):
     """Result of Dataver 	"""
