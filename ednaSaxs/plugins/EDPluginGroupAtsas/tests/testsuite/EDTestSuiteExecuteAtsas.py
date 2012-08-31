@@ -49,7 +49,8 @@ class EDTestSuiteExecuteAtsas(EDTestSuite):
                  'EDTestCasePluginExecuteExecGnomv0_2_list',
                  'EDTestCasePluginExecuteExecDamaverv0_1',
                  'EDTestCasePluginExecuteExecDamfiltv0_1',
-                 'EDTestCasePluginExecuteExecDammifv0_1']
+                 'EDTestCasePluginExecuteExecDammifv0_1',
+                 'EDTestCasePluginExecuteExecDatGnomv1_0']
         for test in tests:
             self.addTestCaseFromName(test)
 

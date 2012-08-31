@@ -33,7 +33,7 @@ __status__ = "Development"
 import os
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from XSDataEdnaSaxs import XSDataInputDatGnom, XSDataResultDatGnom
-
+from XSDataCommon import XSDataString, XSDataDouble, XSDataFile, XSDataLength
 
 class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
     """
@@ -58,12 +58,12 @@ class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
         """
         self.DEBUG("EDPluginExecDatGnomv1_0.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
-        self.checkMandatoryParameters(self.dataInput.experimentalDataFile, "No input Curve file provided")
+        self.checkMandatoryParameters(self.dataInput.inputCurve, "No input Curve file provided")
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
         self.DEBUG("EDPluginExecDatGnomv1_0.preProcess")
-        self.datFile = self.dataInput.experimentalDataFile.path.value
+        self.datFile = self.dataInput.inputCurve.path.value
         if self.dataInput.output is not None:
             self.outFile = self.dataInput.output.path.value
         else:
@@ -71,7 +71,7 @@ class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
         if self.dataInput.rg is not None:
             self.rg = self.dataInput.rg.value
         if self.dataInput.skip is not None:
-            self.skip = self.dataInput.skip
+            self.skip = self.dataInput.skip.value
 
         self.generateCommandLineOptions()
 
@@ -84,7 +84,18 @@ class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
             self.error("EDPluginExecDatGnomv1_0 did not produce output file %s as expected !" % self.outFile)
             self.setFailure()
         xsDataResult = XSDataResultDatGnom(output=XSDataFile(XSDataString(self.outFile)))
-        self.getScriptLogFileName()
+        logfile = os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())
+        out = open(logfile, "r").read().split()
+        for key, val, typ in (("Dmax", "dmax", XSDataLength),
+                            ("Guinier", "rgGuinier", XSDataLength),
+                            ("Gnom", "rgGnom", XSDataLength),
+                            ("Total", "total", XSDataDouble)):
+            idx = out.index(key)
+            if idx == -1:
+                self.error("No key %s in file %s" % (key, logfile))
+                self.setFailure()
+            res = out[idx + 2]
+            xsDataResult.__setattr__(val, typ(float(res)))
         self.setDataOutput(xsDataResult)
 
     def generateCommandLineOptions(self):

@@ -32,24 +32,24 @@ import os
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
-from XSDataEdnaSaxs import XSDataInputAutoRg as XSDataInput
-from XSDataEdnaSaxs import XSDataResultAutoRg as XSDataResult
+from XSDataEdnaSaxs import XSDataInputDatGnom as  XSDataInput
+from XSDataEdnaSaxs import XSDataResultDatGnom as XSDataResult
 
-class EDTestCasePluginExecuteExecAutoRgv1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecDatGnomv1_0(EDTestCasePluginExecute):
     """
-    Those are all execution tests for the EDNA Exec plugin AutoRgv1_0
+    Those are all execution tests for the EDNA Exec plugin DatGnomv1_0
     """
 
     def __init__(self, _strTestName=None):
         """
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginExecAutoRgv1_0")
+        EDTestCasePluginExecute.__init__(self, "EDPluginExecDatGnomv1_0")
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
-#                                               "XSConfiguration_AutoRg.xml"))
+#                                               "XSConfiguration_DatGnom.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputAutoRg_reference.xml"))
+                                           "XSDataInputDatGnom_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultAutoRg_reference.xml"))
+                                                     "XSDataResultDatGnom_reference.xml"))
 
     def preProcess(self):
         """
@@ -74,6 +74,7 @@ class EDTestCasePluginExecuteExecAutoRgv1_0(EDTestCasePluginExecute):
         xsDataResultObtained = plugin.getDataOutput()
         EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
 
+        EDAssert.isFile(xsDataResultObtained.output.path.value, "Gnom file exists")
 
     def process(self):
         """
@@ -84,5 +85,5 @@ class EDTestCasePluginExecuteExecAutoRgv1_0(EDTestCasePluginExecute):
 
 if __name__ == '__main__':
 
-    testAutoRgv1_0instance = EDTestCasePluginExecuteControlAutoRgv1_0("EDTestCasePluginExecuteExecAutoRgv1_0")
-    testAutoRgv1_0instance.execute()
+    testDatGnomv1_0instance = EDTestCasePluginExecuteControlDatGnomv1_0("EDTestCasePluginExecuteExecDatGnomv1_0")
+    testDatGnomv1_0instance.execute()

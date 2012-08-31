@@ -202,5 +202,35 @@
 					<name>timeOut</name>
 					<value>60</value></XSParamItem></XSParamList>
 		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecDatGnomv1_0</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value></XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/datgnom</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>200</value></XSParamItem>
+				</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecDatPorodv1_0</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>python</value></XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/usr/bin/datprood</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>60</value></XSParamItem>
+				</XSParamList>
+		</XSPluginItem>
 </XSPluginList> 
 </XSConfiguration>

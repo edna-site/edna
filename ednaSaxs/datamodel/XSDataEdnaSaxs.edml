@@ -16,6 +16,7 @@ import XSDataCommon.XSDataWavelength
 import XSDataCommon.XSDataRotation
 import XSDataCommon.XSDataVectorDouble
 import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataDoubleWithUnit
 /*******************************************
   *  Common types used only in EdnaSaxs
   ********************************************/
@@ -231,7 +232,7 @@ complex type XSDataResultGnom extends XSDataResult {
 
 complex type XSDataInputDatGnom extends XSDataInput {
 	"Input file can be in 1/nm or 1/A, result will be in the same unit."
-	experimentalDataFile: XSDataFile
+	inputCurve: XSDataFile
 	rg: XSDataLength optional
 	skip: XSDataInteger optional
 	output: XSDataFile optional
@@ -239,10 +240,19 @@ complex type XSDataInputDatGnom extends XSDataInput {
 
 complex type XSDataResultDatGnom extends XSDataResult {
 	output : XSDataFile
-	rg : XSDataLength
-	gnom : XSDataLength
+	rgGuinier : XSDataLength
+	rgGnom : XSDataLength
 	dmax: XSDataLength
-	fitQuality: XSDataDouble
+	total: XSDataDouble
+}
+
+complex type XSDataInputDatPorod extends XSDataInput {
+	"Input file can be in 1/nm or 1/A, result will be in the same unit."
+	gnomFile: XSDataFile optional
+}
+
+complex type XSDataResultDatGnom extends XSDataResult {
+	volume: XSDataDoubleWithUnit
 }
 
 
