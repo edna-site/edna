@@ -1,0 +1,9 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataBoolean
+
+
+complex type testBoolean extends XSData {
+	b : XSDataBoolean
+}
