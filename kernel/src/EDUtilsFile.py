@@ -63,7 +63,7 @@ class EDUtilsFile(object):
         """
         try:
             with open(_strFileName, "wb") as myFile:
-                myFile.write(_strContent)
+                myFile.write(_strContent.encode('utf-8'))
                 myFile.flush()
 
         except Exception, e:
