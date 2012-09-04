@@ -36,7 +36,7 @@ from EDUtilsSymmetry import EDUtilsSymmetry
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 
 from XSDataCommon import XSDataString
-from XSDataCommon import XSDataFloat
+from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataLength
@@ -118,7 +118,7 @@ class EDHandlerXSDataLabelitv10:
         #xsDataSpaceGroupSelected.setITNumber( XSDataInteger( iSelectedSpaceGroupNumber ) )
         xsDataCrystalSelected.setSpaceGroup(xsDataSpaceGroupSelected)
         xsDataCrystalSelected.setCell(xsDataCellSelected)
-        xsDataCrystalSelected.setMosaicity(XSDataFloat(xsDataLabelitScreenOutput.getMosaicity().getValue()))
+        xsDataCrystalSelected.setMosaicity(XSDataDouble(xsDataLabelitScreenOutput.getMosaicity().getValue()))
         xsDataIndexingSolutionSelected.setCrystal(xsDataCrystalSelected)
 
         xsDataOrientation = XSDataOrientation()
