@@ -65,7 +65,14 @@ class EDTestCasePluginExecuteExecGnomv0_1(EDTestCasePluginExecute):
     def postProcess(self):
         """
         """
-        self.getPlugin().plotFittingResults()
+        try:
+            self.getPlugin().plotFittingResults()
+        except Exception as error:
+            if "display" in str(error):
+                self.warning("This is probably an error due to display not set: %s" % error)
+            else:
+                raise error
+
 
     def readGnomDataFile(self, fileName):
         tmpExperimentalDataQ = []
