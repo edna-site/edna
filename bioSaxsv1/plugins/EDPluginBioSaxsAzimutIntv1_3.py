@@ -228,7 +228,8 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
 
 
     def integrate(self):
-        if self.integrator.getPyFAI() != self.integrator_config:
+        if (self.integrator.getPyFAI() != self.integrator_config) or \
+           (self.integrator.wavelength != self.experimentSetup.wavelength.value):
             self.screen("Resting PyFAI integrator")
             self.integrator.setPyFAI(**self.integrator_config)
             self.integrator.wavelength = self.experimentSetup.wavelength.value
