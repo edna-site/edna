@@ -47,6 +47,7 @@ numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3
 matplotlibPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "Matplotlib-1.0.1", architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 matplotlib = EDFactoryPluginStatic.preImport("matplotlib", matplotlibPath)
+matplotlib.use('Agg')
 pyplot = EDFactoryPluginStatic.preImport("matplotlib.pyplot", matplotlibPath)
 
 class EDPluginExecGnomv0_2(EDPluginExecProcessScript):

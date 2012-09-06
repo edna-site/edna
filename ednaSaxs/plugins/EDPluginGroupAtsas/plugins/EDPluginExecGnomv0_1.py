@@ -27,7 +27,8 @@ __license__ = "GPLv3+"
 __copyright__ = "DLS"
 
 import os
-
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pylab
 
 from EDVerbose import EDVerbose
