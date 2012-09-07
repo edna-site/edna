@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<experimentalDataFile>
+		<path>
+			<value>${EDNA_PLUGIN_TESTS_DATA_HOME}/lyzexp.dat</value>
+		</path>
+	</experimentalDataFile>
+	<rMaxSearchSettings>
+		<rMaxStart>
+			<value>20</value></rMaxStart>
+		<rMaxStop>
+			<value>100</value></rMaxStop>
+		<rMaxAbsTol>
+			<value>0.1</value></rMaxAbsTol>
+		<rMaxIntervals>
+			<value>10</value></rMaxIntervals></rMaxSearchSettings>
+	<mode>
+		<value>Fast</value></mode></XSDataInput>

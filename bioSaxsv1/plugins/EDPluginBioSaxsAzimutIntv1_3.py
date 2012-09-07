@@ -356,5 +356,6 @@ s-vector Intensity Error
                 data = ["%14.6e %14.6e %14.6e" % (q, I, std)
                         for q, I, std in zip(npaQ, npaI, npaStd)
                         if abs(I - self.dummy) > self.delta_dummy]
+            data.append("")
             f.writelines(linesep.join(data))
             f.flush()
