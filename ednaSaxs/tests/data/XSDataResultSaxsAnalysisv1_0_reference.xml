@@ -1,14 +1,20 @@
 <?xml version="1.0" ?>
 <XSDataResultSaxsAnalysis>
-    <gnomFile>
-        <path>
-            <value>/tmp/edna-${USER}/autosubtracted.out</value>
-        </path>
-    </gnomFile>
-    <autorg>
+    <status>
+        <executiveSummary>
+            <value>Rg   =   2.797210 +/- 0.013210 
+I(0) =   3.193220e+06 +/- 1.303990e+03
+Points   10 to 46 
+Quality: 93.53%     Aggregated: False
+Dmax    =        9.370653       Total =       0.706510     
+Guinier =        2.797210       Gnom =        2.926209     
+Volume  =      106.701000</value>
+        </executiveSummary>
+    </status>
+    <autoRg>
         <filename>
             <path>
-                <value>/scisoft/users/kieffer/workspace/edna/tests/data/images/autosubtracted.dat</value>
+                <value>${EDNA_TESTIMAGES}/autosubtracted.dat</value>
             </path>
         </filename>
         <rg>
@@ -35,20 +41,27 @@
         <isagregated>
             <value>false</value>
         </isagregated>
-    </autorg>
-    <rgGuinier>
-        <value>2.797210e+00</value>
-    </rgGuinier>
-    <rgGnom>
-        <value>2.926180e+00</value>
-    </rgGnom>
-    <dmax>
-        <value>9.370653e+00</value>
-    </dmax>
-    <total>
-        <value>7.064705e-01</value>
-    </total>
+    </autoRg>
+    <gnom>
+        <gnomFile>
+            <path>
+                <value>/tmp/edna-${USER}/autosubtracted.out</value>
+            </path>
+        </gnomFile>
+        <rgGuinier>
+            <value>2.797210e+00</value>
+        </rgGuinier>
+        <rgGnom>
+            <value>2.926209e+00</value>
+        </rgGnom>
+        <dmax>
+            <value>9.370653e+00</value>
+        </dmax>
+        <total>
+            <value>7.065105e-01</value>
+        </total>
+    </gnom>
     <volume>
-    	<value>106.7</value>
+        <value>1.067010e+02</value>
     </volume>
 </XSDataResultSaxsAnalysis>
