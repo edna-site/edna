@@ -153,16 +153,13 @@ complex type XSDataResultSaxsPipeline extends XSDataResult{
 complex type XSDataInputSaxsAnalysis extends XSDataInput{
 	"AutoRg -> Gnom -> Prod pipeline"
 	scatterCurve: XSDataFile
+	autoRg: XSDataAutoRg optional
 	gnomFile: XSDataFile optional
 }
 complex type XSDataResultSaxsAnalysis extends XSDataResult{
 	"AutoRg -> Gnom -> Prod pipeline"
-	gnomFile: XSDataFile 
-	autorg: XSDataAutoRg
-	rgGuinier : XSDataLength
-	rgGnom : XSDataLength
-	dmax: XSDataLength
-	total: XSDataDouble
+	autoRg: XSDataAutoRg
+	gnom: XSDataGnom
 	volume: XSDataDoubleWithUnit
 }
 
@@ -254,12 +251,17 @@ complex type XSDataInputDatGnom extends XSDataInput {
 	output: XSDataFile optional
 }
 
-complex type XSDataResultDatGnom extends XSDataResult {
-	output : XSDataFile
+complex type XSDataGnom extends XSData {
+	gnomFile : XSDataFile
 	rgGuinier : XSDataLength
 	rgGnom : XSDataLength
 	dmax: XSDataLength
 	total: XSDataDouble
+}
+
+
+complex type XSDataResultDatGnom extends XSDataResult {
+	gnom: XSDataGnom
 }
 
 complex type XSDataInputDatPorod extends XSDataInput {

@@ -75,7 +75,7 @@ class EDTestCasePluginExecuteExecDatGnomv1_0(EDTestCasePluginExecute):
         xsDataResultObtained = plugin.getDataOutput()
         EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
 
-        EDAssert.isFile(xsDataResultObtained.output.path.value, "Gnom file exists")
+        EDAssert.isFile(xsDataResultObtained.gnom.gnomFile.path.value, "Gnom file exists")
 
     def process(self):
         """

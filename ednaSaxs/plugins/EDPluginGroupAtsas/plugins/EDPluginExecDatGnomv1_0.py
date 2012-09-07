@@ -31,7 +31,7 @@ __status__ = "Development"
 
 import os
 from EDPluginExecProcessScript import EDPluginExecProcessScript
-from XSDataEdnaSaxs import XSDataInputDatGnom, XSDataResultDatGnom
+from XSDataEdnaSaxs import XSDataInputDatGnom, XSDataResultDatGnom, XSDataGnom
 from XSDataCommon import XSDataString, XSDataDouble, XSDataFile, XSDataLength
 
 class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
@@ -81,7 +81,9 @@ class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
         if not os.path.isfile(self.outFile):
             self.error("EDPluginExecDatGnomv1_0 did not produce output file %s as expected !" % self.outFile)
             self.setFailure()
-        xsDataResult = XSDataResultDatGnom(output=XSDataFile(XSDataString(self.outFile)))
+
+
+        gnom = XSDataGnom(gnomFile=XSDataFile(XSDataString(self.outFile)))
         logfile = os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())
         out = open(logfile, "r").read().split()
         for key, val, typ in (("Dmax", "dmax", XSDataLength),
@@ -93,8 +95,8 @@ class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
                 self.error("No key %s in file %s" % (key, logfile))
                 self.setFailure()
             res = out[idx + 2]
-            xsDataResult.__setattr__(val, typ(float(res)))
-        self.setDataOutput(xsDataResult)
+            gnom.__setattr__(val, typ(float(res)))
+        self.dataOutput = XSDataResultDatGnom(gnom=gnom)
 
     def generateCommandLineOptions(self):
         lstArg = [self.datFile, "-o", self.outFile]

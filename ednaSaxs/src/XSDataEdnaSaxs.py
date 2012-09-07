@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Aug 31 04:22::43 2012 by EDGenerateDS.
+# Generated Fri Sep 7 02:23::26 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -1546,6 +1546,158 @@ class XSDataFileSeries(XSData):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataFileSeries
+
+class XSDataGnom(XSData):
+    def __init__(self, total=None, dmax=None, rgGnom=None, rgGuinier=None, gnomFile=None):
+        XSData.__init__(self, )
+    
+    
+        checkType("XSDataGnom", "Constructor of XSDataGnom", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+        checkType("XSDataGnom", "Constructor of XSDataGnom", rgGuinier, "XSDataLength")
+        self._rgGuinier = rgGuinier
+        checkType("XSDataGnom", "Constructor of XSDataGnom", rgGnom, "XSDataLength")
+        self._rgGnom = rgGnom
+        checkType("XSDataGnom", "Constructor of XSDataGnom", dmax, "XSDataLength")
+        self._dmax = dmax
+        checkType("XSDataGnom", "Constructor of XSDataGnom", total, "XSDataDouble")
+        self._total = total
+    def getGnomFile(self): return self._gnomFile
+    def setGnomFile(self, gnomFile):
+        checkType("XSDataGnom", "setGnomFile", gnomFile, "XSDataFile")
+        self._gnomFile = gnomFile
+    def delGnomFile(self): self._gnomFile = None
+    # Properties
+    gnomFile = property(getGnomFile, setGnomFile, delGnomFile, "Property for gnomFile")
+    def getRgGuinier(self): return self._rgGuinier
+    def setRgGuinier(self, rgGuinier):
+        checkType("XSDataGnom", "setRgGuinier", rgGuinier, "XSDataLength")
+        self._rgGuinier = rgGuinier
+    def delRgGuinier(self): self._rgGuinier = None
+    # Properties
+    rgGuinier = property(getRgGuinier, setRgGuinier, delRgGuinier, "Property for rgGuinier")
+    def getRgGnom(self): return self._rgGnom
+    def setRgGnom(self, rgGnom):
+        checkType("XSDataGnom", "setRgGnom", rgGnom, "XSDataLength")
+        self._rgGnom = rgGnom
+    def delRgGnom(self): self._rgGnom = None
+    # Properties
+    rgGnom = property(getRgGnom, setRgGnom, delRgGnom, "Property for rgGnom")
+    def getDmax(self): return self._dmax
+    def setDmax(self, dmax):
+        checkType("XSDataGnom", "setDmax", dmax, "XSDataLength")
+        self._dmax = dmax
+    def delDmax(self): self._dmax = None
+    # Properties
+    dmax = property(getDmax, setDmax, delDmax, "Property for dmax")
+    def getTotal(self): return self._total
+    def setTotal(self, total):
+        checkType("XSDataGnom", "setTotal", total, "XSDataDouble")
+        self._total = total
+    def delTotal(self): self._total = None
+    # Properties
+    total = property(getTotal, setTotal, delTotal, "Property for total")
+    def export(self, outfile, level, name_='XSDataGnom'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataGnom'):
+        XSData.exportChildren(self, outfile, level, name_)
+        if self._gnomFile is not None:
+            self.gnomFile.export(outfile, level, name_='gnomFile')
+        else:
+            warnEmptyAttribute("gnomFile", "XSDataFile")
+        if self._rgGuinier is not None:
+            self.rgGuinier.export(outfile, level, name_='rgGuinier')
+        else:
+            warnEmptyAttribute("rgGuinier", "XSDataLength")
+        if self._rgGnom is not None:
+            self.rgGnom.export(outfile, level, name_='rgGnom')
+        else:
+            warnEmptyAttribute("rgGnom", "XSDataLength")
+        if self._dmax is not None:
+            self.dmax.export(outfile, level, name_='dmax')
+        else:
+            warnEmptyAttribute("dmax", "XSDataLength")
+        if self._total is not None:
+            self.total.export(outfile, level, name_='total')
+        else:
+            warnEmptyAttribute("total", "XSDataDouble")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gnomFile':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setGnomFile(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'rgGuinier':
+            obj_ = XSDataLength()
+            obj_.build(child_)
+            self.setRgGuinier(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'rgGnom':
+            obj_ = XSDataLength()
+            obj_.build(child_)
+            self.setRgGnom(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'dmax':
+            obj_ = XSDataLength()
+            obj_.build(child_)
+            self.setDmax(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'total':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setTotal(obj_)
+        XSData.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataGnom" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataGnom' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataGnom is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataGnom.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataGnom()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataGnom" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataGnom()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataGnom
 
 class XSDataSaxsSample(XSData):
     """Everything describing the sample"""
@@ -3462,12 +3614,14 @@ class XSDataInputGnom(XSDataInput):
 
 class XSDataInputSaxsAnalysis(XSDataInput):
     """AutoRg -> Gnom -> Prod pipeline"""
-    def __init__(self, configuration=None, gnomFile=None, scatterCurve=None):
+    def __init__(self, configuration=None, gnomFile=None, autoRg=None, scatterCurve=None):
         XSDataInput.__init__(self, configuration)
     
     
         checkType("XSDataInputSaxsAnalysis", "Constructor of XSDataInputSaxsAnalysis", scatterCurve, "XSDataFile")
         self._scatterCurve = scatterCurve
+        checkType("XSDataInputSaxsAnalysis", "Constructor of XSDataInputSaxsAnalysis", autoRg, "XSDataAutoRg")
+        self._autoRg = autoRg
         checkType("XSDataInputSaxsAnalysis", "Constructor of XSDataInputSaxsAnalysis", gnomFile, "XSDataFile")
         self._gnomFile = gnomFile
     def getScatterCurve(self): return self._scatterCurve
@@ -3477,6 +3631,13 @@ class XSDataInputSaxsAnalysis(XSDataInput):
     def delScatterCurve(self): self._scatterCurve = None
     # Properties
     scatterCurve = property(getScatterCurve, setScatterCurve, delScatterCurve, "Property for scatterCurve")
+    def getAutoRg(self): return self._autoRg
+    def setAutoRg(self, autoRg):
+        checkType("XSDataInputSaxsAnalysis", "setAutoRg", autoRg, "XSDataAutoRg")
+        self._autoRg = autoRg
+    def delAutoRg(self): self._autoRg = None
+    # Properties
+    autoRg = property(getAutoRg, setAutoRg, delAutoRg, "Property for autoRg")
     def getGnomFile(self): return self._gnomFile
     def setGnomFile(self, gnomFile):
         checkType("XSDataInputSaxsAnalysis", "setGnomFile", gnomFile, "XSDataFile")
@@ -3496,6 +3657,8 @@ class XSDataInputSaxsAnalysis(XSDataInput):
             self.scatterCurve.export(outfile, level, name_='scatterCurve')
         else:
             warnEmptyAttribute("scatterCurve", "XSDataFile")
+        if self._autoRg is not None:
+            self.autoRg.export(outfile, level, name_='autoRg')
         if self._gnomFile is not None:
             self.gnomFile.export(outfile, level, name_='gnomFile')
     def build(self, node_):
@@ -3508,6 +3671,11 @@ class XSDataInputSaxsAnalysis(XSDataInput):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setScatterCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'autoRg':
+            obj_ = XSDataAutoRg()
+            obj_.build(child_)
+            self.setAutoRg(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'gnomFile':
             obj_ = XSDataFile()
@@ -4741,55 +4909,19 @@ class XSDataResultDamstart(XSDataResult):
 # end class XSDataResultDamstart
 
 class XSDataResultDatGnom(XSDataResult):
-    def __init__(self, status=None, total=None, dmax=None, rgGnom=None, rgGuinier=None, output=None):
+    def __init__(self, status=None, gnom=None):
         XSDataResult.__init__(self, status)
     
     
-        checkType("XSDataResultDatGnom", "Constructor of XSDataResultDatGnom", output, "XSDataFile")
-        self._output = output
-        checkType("XSDataResultDatGnom", "Constructor of XSDataResultDatGnom", rgGuinier, "XSDataLength")
-        self._rgGuinier = rgGuinier
-        checkType("XSDataResultDatGnom", "Constructor of XSDataResultDatGnom", rgGnom, "XSDataLength")
-        self._rgGnom = rgGnom
-        checkType("XSDataResultDatGnom", "Constructor of XSDataResultDatGnom", dmax, "XSDataLength")
-        self._dmax = dmax
-        checkType("XSDataResultDatGnom", "Constructor of XSDataResultDatGnom", total, "XSDataDouble")
-        self._total = total
-    def getOutput(self): return self._output
-    def setOutput(self, output):
-        checkType("XSDataResultDatGnom", "setOutput", output, "XSDataFile")
-        self._output = output
-    def delOutput(self): self._output = None
+        checkType("XSDataResultDatGnom", "Constructor of XSDataResultDatGnom", gnom, "XSDataGnom")
+        self._gnom = gnom
+    def getGnom(self): return self._gnom
+    def setGnom(self, gnom):
+        checkType("XSDataResultDatGnom", "setGnom", gnom, "XSDataGnom")
+        self._gnom = gnom
+    def delGnom(self): self._gnom = None
     # Properties
-    output = property(getOutput, setOutput, delOutput, "Property for output")
-    def getRgGuinier(self): return self._rgGuinier
-    def setRgGuinier(self, rgGuinier):
-        checkType("XSDataResultDatGnom", "setRgGuinier", rgGuinier, "XSDataLength")
-        self._rgGuinier = rgGuinier
-    def delRgGuinier(self): self._rgGuinier = None
-    # Properties
-    rgGuinier = property(getRgGuinier, setRgGuinier, delRgGuinier, "Property for rgGuinier")
-    def getRgGnom(self): return self._rgGnom
-    def setRgGnom(self, rgGnom):
-        checkType("XSDataResultDatGnom", "setRgGnom", rgGnom, "XSDataLength")
-        self._rgGnom = rgGnom
-    def delRgGnom(self): self._rgGnom = None
-    # Properties
-    rgGnom = property(getRgGnom, setRgGnom, delRgGnom, "Property for rgGnom")
-    def getDmax(self): return self._dmax
-    def setDmax(self, dmax):
-        checkType("XSDataResultDatGnom", "setDmax", dmax, "XSDataLength")
-        self._dmax = dmax
-    def delDmax(self): self._dmax = None
-    # Properties
-    dmax = property(getDmax, setDmax, delDmax, "Property for dmax")
-    def getTotal(self): return self._total
-    def setTotal(self, total):
-        checkType("XSDataResultDatGnom", "setTotal", total, "XSDataDouble")
-        self._total = total
-    def delTotal(self): self._total = None
-    # Properties
-    total = property(getTotal, setTotal, delTotal, "Property for total")
+    gnom = property(getGnom, setGnom, delGnom, "Property for gnom")
     def export(self, outfile, level, name_='XSDataResultDatGnom'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -4798,56 +4930,20 @@ class XSDataResultDatGnom(XSDataResult):
         outfile.write(unicode('</%s>\n' % name_))
     def exportChildren(self, outfile, level, name_='XSDataResultDatGnom'):
         XSDataResult.exportChildren(self, outfile, level, name_)
-        if self._output is not None:
-            self.output.export(outfile, level, name_='output')
+        if self._gnom is not None:
+            self.gnom.export(outfile, level, name_='gnom')
         else:
-            warnEmptyAttribute("output", "XSDataFile")
-        if self._rgGuinier is not None:
-            self.rgGuinier.export(outfile, level, name_='rgGuinier')
-        else:
-            warnEmptyAttribute("rgGuinier", "XSDataLength")
-        if self._rgGnom is not None:
-            self.rgGnom.export(outfile, level, name_='rgGnom')
-        else:
-            warnEmptyAttribute("rgGnom", "XSDataLength")
-        if self._dmax is not None:
-            self.dmax.export(outfile, level, name_='dmax')
-        else:
-            warnEmptyAttribute("dmax", "XSDataLength")
-        if self._total is not None:
-            self.total.export(outfile, level, name_='total')
-        else:
-            warnEmptyAttribute("total", "XSDataDouble")
+            warnEmptyAttribute("gnom", "XSDataGnom")
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
             self.buildChildren(child_, nodeName_)
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'output':
-            obj_ = XSDataFile()
+            nodeName_ == 'gnom':
+            obj_ = XSDataGnom()
             obj_.build(child_)
-            self.setOutput(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'rgGuinier':
-            obj_ = XSDataLength()
-            obj_.build(child_)
-            self.setRgGuinier(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'rgGnom':
-            obj_ = XSDataLength()
-            obj_.build(child_)
-            self.setRgGnom(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'dmax':
-            obj_ = XSDataLength()
-            obj_.build(child_)
-            self.setDmax(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'total':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setTotal(obj_)
+            self.setGnom(obj_)
         XSDataResult.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
@@ -5577,66 +5673,30 @@ class XSDataResultGnom(XSDataResult):
 
 class XSDataResultSaxsAnalysis(XSDataResult):
     """AutoRg -> Gnom -> Prod pipeline"""
-    def __init__(self, status=None, volume=None, total=None, dmax=None, rgGnom=None, rgGuinier=None, autorg=None, gnomFile=None):
+    def __init__(self, status=None, volume=None, gnom=None, autoRg=None):
         XSDataResult.__init__(self, status)
     
     
-        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", gnomFile, "XSDataFile")
-        self._gnomFile = gnomFile
-        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", autorg, "XSDataAutoRg")
-        self._autorg = autorg
-        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", rgGuinier, "XSDataLength")
-        self._rgGuinier = rgGuinier
-        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", rgGnom, "XSDataLength")
-        self._rgGnom = rgGnom
-        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", dmax, "XSDataLength")
-        self._dmax = dmax
-        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", total, "XSDataDouble")
-        self._total = total
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", autoRg, "XSDataAutoRg")
+        self._autoRg = autoRg
+        checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", gnom, "XSDataGnom")
+        self._gnom = gnom
         checkType("XSDataResultSaxsAnalysis", "Constructor of XSDataResultSaxsAnalysis", volume, "XSDataDoubleWithUnit")
         self._volume = volume
-    def getGnomFile(self): return self._gnomFile
-    def setGnomFile(self, gnomFile):
-        checkType("XSDataResultSaxsAnalysis", "setGnomFile", gnomFile, "XSDataFile")
-        self._gnomFile = gnomFile
-    def delGnomFile(self): self._gnomFile = None
+    def getAutoRg(self): return self._autoRg
+    def setAutoRg(self, autoRg):
+        checkType("XSDataResultSaxsAnalysis", "setAutoRg", autoRg, "XSDataAutoRg")
+        self._autoRg = autoRg
+    def delAutoRg(self): self._autoRg = None
     # Properties
-    gnomFile = property(getGnomFile, setGnomFile, delGnomFile, "Property for gnomFile")
-    def getAutorg(self): return self._autorg
-    def setAutorg(self, autorg):
-        checkType("XSDataResultSaxsAnalysis", "setAutorg", autorg, "XSDataAutoRg")
-        self._autorg = autorg
-    def delAutorg(self): self._autorg = None
+    autoRg = property(getAutoRg, setAutoRg, delAutoRg, "Property for autoRg")
+    def getGnom(self): return self._gnom
+    def setGnom(self, gnom):
+        checkType("XSDataResultSaxsAnalysis", "setGnom", gnom, "XSDataGnom")
+        self._gnom = gnom
+    def delGnom(self): self._gnom = None
     # Properties
-    autorg = property(getAutorg, setAutorg, delAutorg, "Property for autorg")
-    def getRgGuinier(self): return self._rgGuinier
-    def setRgGuinier(self, rgGuinier):
-        checkType("XSDataResultSaxsAnalysis", "setRgGuinier", rgGuinier, "XSDataLength")
-        self._rgGuinier = rgGuinier
-    def delRgGuinier(self): self._rgGuinier = None
-    # Properties
-    rgGuinier = property(getRgGuinier, setRgGuinier, delRgGuinier, "Property for rgGuinier")
-    def getRgGnom(self): return self._rgGnom
-    def setRgGnom(self, rgGnom):
-        checkType("XSDataResultSaxsAnalysis", "setRgGnom", rgGnom, "XSDataLength")
-        self._rgGnom = rgGnom
-    def delRgGnom(self): self._rgGnom = None
-    # Properties
-    rgGnom = property(getRgGnom, setRgGnom, delRgGnom, "Property for rgGnom")
-    def getDmax(self): return self._dmax
-    def setDmax(self, dmax):
-        checkType("XSDataResultSaxsAnalysis", "setDmax", dmax, "XSDataLength")
-        self._dmax = dmax
-    def delDmax(self): self._dmax = None
-    # Properties
-    dmax = property(getDmax, setDmax, delDmax, "Property for dmax")
-    def getTotal(self): return self._total
-    def setTotal(self, total):
-        checkType("XSDataResultSaxsAnalysis", "setTotal", total, "XSDataDouble")
-        self._total = total
-    def delTotal(self): self._total = None
-    # Properties
-    total = property(getTotal, setTotal, delTotal, "Property for total")
+    gnom = property(getGnom, setGnom, delGnom, "Property for gnom")
     def getVolume(self): return self._volume
     def setVolume(self, volume):
         checkType("XSDataResultSaxsAnalysis", "setVolume", volume, "XSDataDoubleWithUnit")
@@ -5652,30 +5712,14 @@ class XSDataResultSaxsAnalysis(XSDataResult):
         outfile.write(unicode('</%s>\n' % name_))
     def exportChildren(self, outfile, level, name_='XSDataResultSaxsAnalysis'):
         XSDataResult.exportChildren(self, outfile, level, name_)
-        if self._gnomFile is not None:
-            self.gnomFile.export(outfile, level, name_='gnomFile')
+        if self._autoRg is not None:
+            self.autoRg.export(outfile, level, name_='autoRg')
         else:
-            warnEmptyAttribute("gnomFile", "XSDataFile")
-        if self._autorg is not None:
-            self.autorg.export(outfile, level, name_='autorg')
+            warnEmptyAttribute("autoRg", "XSDataAutoRg")
+        if self._gnom is not None:
+            self.gnom.export(outfile, level, name_='gnom')
         else:
-            warnEmptyAttribute("autorg", "XSDataAutoRg")
-        if self._rgGuinier is not None:
-            self.rgGuinier.export(outfile, level, name_='rgGuinier')
-        else:
-            warnEmptyAttribute("rgGuinier", "XSDataLength")
-        if self._rgGnom is not None:
-            self.rgGnom.export(outfile, level, name_='rgGnom')
-        else:
-            warnEmptyAttribute("rgGnom", "XSDataLength")
-        if self._dmax is not None:
-            self.dmax.export(outfile, level, name_='dmax')
-        else:
-            warnEmptyAttribute("dmax", "XSDataLength")
-        if self._total is not None:
-            self.total.export(outfile, level, name_='total')
-        else:
-            warnEmptyAttribute("total", "XSDataDouble")
+            warnEmptyAttribute("gnom", "XSDataGnom")
         if self._volume is not None:
             self.volume.export(outfile, level, name_='volume')
         else:
@@ -5686,35 +5730,15 @@ class XSDataResultSaxsAnalysis(XSDataResult):
             self.buildChildren(child_, nodeName_)
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'gnomFile':
-            obj_ = XSDataFile()
-            obj_.build(child_)
-            self.setGnomFile(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'autorg':
+            nodeName_ == 'autoRg':
             obj_ = XSDataAutoRg()
             obj_.build(child_)
-            self.setAutorg(obj_)
+            self.setAutoRg(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'rgGuinier':
-            obj_ = XSDataLength()
+            nodeName_ == 'gnom':
+            obj_ = XSDataGnom()
             obj_.build(child_)
-            self.setRgGuinier(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'rgGnom':
-            obj_ = XSDataLength()
-            obj_.build(child_)
-            self.setRgGnom(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'dmax':
-            obj_ = XSDataLength()
-            obj_.build(child_)
-            self.setDmax(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'total':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setTotal(obj_)
+            self.setGnom(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'volume':
             obj_ = XSDataDoubleWithUnit()
