@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+    <inputCurves>
+    	<path>
+    		<value>${EDNA_TESTIMAGES}/buffer_after.dat</value>
+    	</path>
+    </inputCurves>
+	<absoluteFidelity>
+		<value>0.0001</value>
+	</absoluteFidelity>
+    <relativeFidelity>
+    	<value>0.1</value>
+    </relativeFidelity>
+    <mergedCurve>
+    	<path>
+    		<value>/tmp/edna-${USER}/bioSaxsBufferAfter.dat</value>
+    	</path>
+    </mergedCurve>
+</XSDataInput>

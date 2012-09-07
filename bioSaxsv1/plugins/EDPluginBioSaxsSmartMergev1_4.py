@@ -88,7 +88,7 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         self.__edPluginExecDataver = None
         self.__edPluginExecWaitFile = None
         self.__edPluginExecAutoSub = None
-        self.__edPluginExecDataop = None
+        self.__edPluginSaxsAnalysis = None
         self.setXSDataInputClass(XSDataInputBioSaxsSmartMergev1_0)
         self.__edPluginExecDatCmp = None
         self.lstInput = []
@@ -99,11 +99,11 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         self.dictSimilarities = {} #key: 2-tuple of images, similarities
         self.lstSummary = []
         self.lstStrInput = []
-#        self.sample = XSDataSample()
         self.autoRg = None
+        self.gnom = None
+        self.volume = None
         self.strRadiationDamage = None
         self.strMergedFile = None
-#        self.tKey = (None,)
         self.lstSub = []
         self.strSubFile = None
         self.fConcentration = None
@@ -252,14 +252,25 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
                     base = "_".join(os.path.basename(self.__class__.lastSample.path.value).split("_")[:-1])
                     suff = os.path.basename(self.strSubFile).split("_")[-1]
                     sub = os.path.join(os.path.dirname(self.strSubFile), base + "_" + suff)
-                    xsd = XSDataInputAutoSub(sampleCurve=self.__class__.lastSample,
+                    xsdSubtractedCurve = XSDataFile(XSDataString(sub))
+                    self.__edPluginExecAutoSub.dataInput = XSDataInputAutoSub(sampleCurve=self.__class__.lastSample,
                                              buffers=[self.__class__.lastBuffer, self.dataInput.mergedCurve],
-                                             subtractedCurve=XSDataFile(XSDataString(sub))
-                                             )
-                    self.__edPluginExecAutoSub.setDataInput(xsd)
+                                             subtractedCurve=xsdSubtractedCurve)
                     self.__edPluginExecAutoSub.connectSUCCESS(self.doSuccessExecAutoSub)
                     self.__edPluginExecAutoSub.connectFAILURE(self.doFailureExecAutoSub)
                     self.__edPluginExecAutoSub.executeSynchronous()
+
+                    if self.isFailure():
+                        return
+
+                    self.__edPluginSaxsAnalysis = self.loadPlugin(self.__strControlledPluginSaxsAnalysis)
+                    self.__edPluginSaxsAnalysis.dataInput = XSDataInputSaxsAnalysis(scatterCurve=xsdSubtractedCurve,
+                                                                                    autoRg=self.autoRg)
+                    self.__edPluginSaxsAnalysis.connectSUCCESS(self.doSuccessSaxsAnalysis)
+                    self.__edPluginSaxsAnalysis.connectFAILURE(self.doFailureSaxsAnalysis)
+                    self.__edPluginSaxsAnalysis.executeSynchronous()
+
+
                 self.__class__.lastBuffer = self.dataInput.mergedCurve
                 self.__class__.lastSample = None
             else:
@@ -441,3 +452,17 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         self.lstSummary.append(strErr)
         self.setFailure()
 
+    def doSuccessSaxsAnalysis(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_4.doSuccessSaxsAnalysis")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_4.doSuccessSaxsAnalysis")
+        self.gnom = _edPlugin.dataOutput.gnom
+        self.volume = _edPlugin.dataOutput.volume
+        self.lstSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+
+    def doFailureSaxsAnalysis(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsSmartMergev1_4.doFailureSaxsAnalysis")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_4.doFailureSaxsAnalysis")
+        strErr = "Error in Processing of EDNA SaxsAnalysis = AutoRg => datGnom => datPorod"
+        self.ERROR(strErr)
+        self.lstSummary.append(strErr)
+        self.setFailure()
