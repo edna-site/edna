@@ -70,7 +70,7 @@ class EDModule(EDLogging):
             try:
                 self.__module = __import__(self.__name)
                 self.DEBUG("preImport of %s from %s" % (self.__name, _strPath))
-            except ImportError:
+            except Exception:
                 self.__module = None
                 self.ERROR("Import error while preImporting %s from %s" % (self.__name, _strPath))
                 self.writeErrorTrace()
