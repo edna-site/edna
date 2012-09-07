@@ -36,6 +36,7 @@ class EDTestSuiteExecuteEdnaSaxs(EDTestSuite):
     """
 
     def process(self):
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlSaxsAnalysisv1_0")
         self.addTestSuiteFromName("EDTestSuiteExecuteAtsas")
 
 

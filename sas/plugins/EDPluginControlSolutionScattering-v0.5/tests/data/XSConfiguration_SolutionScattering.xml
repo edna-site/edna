@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlSolutionScatteringv0_3</name>  
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 
