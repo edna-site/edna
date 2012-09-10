@@ -86,7 +86,11 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         if self.strToolsForScreeningEDNAWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForScreeningEDNAWebServiceWsdl found in configuration!")
             self.setFailure()
-                
+        self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
+        if self.strToolsForCollectionWebServiceWsdl is None:
+            self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
+            self.setFailure()
+               
 
     def process(self, _edObject=None):
         """
@@ -100,6 +104,14 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         httpAuthenticatedToolsForAutoprocessingWebService2 = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
         clientToolsForScreeningEDNAWebServiceWsdl = Client(self.strToolsForScreeningEDNAWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService2)
         self.bContinue = True
+        # Data collection Id
+        if xsDataInputISPyBStoreScreening.screening.dataCollectionId is None:
+            xsDataISPyBImage = xsDataInputISPyBStoreScreening.image
+            if xsDataISPyBImage is not None:
+                httpAuthenticatedToolsForAutoprocessingWebService3 = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+                clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService3)
+                iDataCollectionId = self.findDataCollectionFromFileLocationAndFileName(clientToolsForCollectionWebService, xsDataISPyBImage.fileLocation.value, xsDataISPyBImage.fileName.value)
+                xsDataInputISPyBStoreScreening.screening.dataCollectionId = XSDataInteger(iDataCollectionId)
         # DiffractionPlan
         xsDataISPyBDiffractionPlan = xsDataInputISPyBStoreScreening.diffractionPlan
         iDiffractionPlanId = self.storeOrUpdateDiffractionPlan(clientToolsForBLSampleWebServiceWsdl, xsDataISPyBDiffractionPlan)
@@ -191,6 +203,25 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             except:
                 oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
         return oReturnValue
+    
+
+    def findDataCollectionFromFileLocationAndFileName(self, _clientToolsForCollectionWebService, _strDirName, _strFileName):   
+        """Returns the data collection id for an image path"""
+        if _strDirName.endswith(os.sep):
+            strDirName = _strDirName[:-1]
+        else:
+            strDirName = _strDirName
+        self.DEBUG("Looking for ISPyB data collection id for dir %s name %s" % (strDirName, _strFileName))
+        dataCollectionWS3VO = _clientToolsForCollectionWebService.service.findDataCollectionFromFileLocationAndFileName(
+                strDirName, \
+                _strFileName, \
+                )
+        iDataCollectionId = dataCollectionWS3VO.dataCollectionId
+        self.DEBUG("Data collection id for dir %s name %s is %d" % (strDirName, _strFileName, iDataCollectionId))
+        return iDataCollectionId
+
+    
+    
     
     def storeOrUpdateDiffractionPlan(self, _clientToolsForBLSampleWebServiceWsdl, _xsDataISPyBDiffractionPlan):
         """Creates an entry in ISPyB for the DiffractionPlan table"""
