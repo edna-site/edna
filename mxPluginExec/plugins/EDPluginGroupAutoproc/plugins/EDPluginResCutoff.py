@@ -166,9 +166,9 @@ def _calculate_res_from_bins(prev_isig, prev_res, outer_isig, outer_res, isig_cu
     diff_d = prev_res - outer_res
 
     hyp = math.sqrt((diff_i ** 2) + (diff_d ** 2))
-    alpha = math.atan(diff_i / diff_d)
+    alpha = diff_i / diff_d
 
     res_id = isig_cutoff - outer_isig
-    res_offset = res_id / math.tan(alpha)
+    res_offset = res_id / alpha
 
     return res_offset + outer_res
