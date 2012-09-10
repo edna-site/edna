@@ -29,6 +29,8 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
+
 from EDVerbose                          import EDVerbose
 from EDAssert                           import EDAssert
 from EDTestCasePluginExecute            import EDTestCasePluginExecute
