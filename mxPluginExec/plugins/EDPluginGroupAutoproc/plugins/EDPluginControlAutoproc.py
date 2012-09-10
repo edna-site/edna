@@ -207,6 +207,9 @@ class EDPluginControlAutoproc(EDPluginControl):
         EDVerbose.screen('first frame appeared on time')
         self.stats['wait_file'] = time.time()-t0
 
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
         # first XDS plugin run with supplied XDS file
         EDVerbose.screen('STARTING XDS run...')
         self.xds_first.executeSynchronous()
@@ -239,6 +242,10 @@ class EDPluginControlAutoproc(EDPluginControl):
             return
         EDVerbose.screen('FINISHED first resolution cutoff')
         self.stats['first_res_cutoff'] = time.time()-t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
         resolution = self.first_res_cutoff.dataOutput.res
 
         # for the generate w/ and w/out anom we have to specify where
@@ -254,6 +261,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         t0=time.time()
         self.generate.executeSynchronous()
         self.stats['anom/noanom_generation'] = time.time()-t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
         self.DEBUG('FINISHED anom/noanom generation')
 
         if self.generate.isFailure():
@@ -321,6 +332,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         t0=time.time()
         self.res_cutoff_anom.executeSynchronous()
         self.stats['res_cutoff_anom'] = time.time()-t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
         if self.res_cutoff_anom.isFailure():
             EDVerbose.ERROR('res cutoff for anom data failed')
         self.DEBUG('FINISHED anom res cutoff')
@@ -342,6 +357,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         t0=time.time()
         self.res_cutoff_noanom.executeSynchronous()
         self.stats['res_cutoff_noanom'] = time.time()-t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
         if self.res_cutoff_noanom.isFailure():
             EDVerbose.ERROR('res cutoff for non anom data failed')
         self.DEBUG('FINISHED noanom res cutoff')
@@ -367,6 +386,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         t0=time.time()
         self.xscale_anom.executeSynchronous()
         self.stats['xscale_anom']=time.time()-t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
         if self.xscale_anom.isFailure():
             EDVerbose.ERROR('xscale anom/merge generation failed')
 
@@ -390,6 +413,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         t0=time.time()
         self.xscale_noanom.executeSynchronous()
         self.stats['xscale_noanom'] = time.time()-t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
         if self.xscale_noanom.isFailure():
             EDVerbose.ERROR('xscale anom/merge generation failed')
 
@@ -517,11 +544,12 @@ class EDPluginControlAutoproc(EDPluginControl):
         t0=time.time()
         self.store_autoproc.executeSynchronous()
         self.stats['ispyb_upload'] = time.time() - t0
-        if self.store_autoproc.isFailure():
-            self.ERROR('could not send results to ispyb')
 
         with open(self.log_file_path, 'w') as f:
             json.dump(self.stats, f)
+
+        if self.store_autoproc.isFailure():
+            self.ERROR('could not send results to ispyb')
 
 def _create_scaling_stats(xscale_stats, stats_type, lowres, anom):
     stats = AutoProcScalingStatistics()
