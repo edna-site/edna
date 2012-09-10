@@ -62,7 +62,7 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputCharacterisationv2_0)
         self.setXSDataInputClass(XSDataInputCharacterisation, "mxv1InputCharacterisation")
         self.setXSDataInputClass(XSDataCollection, "mxv2DataCollection")
-        self.strPluginControlCharacterisation = "EDPluginControlCharacterisationv1_2"
+        self.strPluginControlCharacterisation = "EDPluginControlCharacterisationv1_3"
         self.edPluginControlCharacterisation = None
         self.mxv1InputCharacterisation = None
         self.mxv2DataCollection = None
@@ -147,7 +147,7 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
             xsDataInputStrategy.setBestFileContentDat(xsDataIntegrationSubWedgeResultList[0].getBestfileDat())
             xsDataInputStrategy.setBestFileContentPar(xsDataIntegrationSubWedgeResultList[0].getBestfilePar())
             xsDataInputStrategy.setExperimentalCondition(xsDataIntegrationSubWedgeResultList[0].getExperimentalConditionRefined())
-            #xsDataInputStrategy.setXdsBackgroundImage(xsDataFileXdsBackgroundImage)
+            xsDataInputStrategy.setXdsBackgroundImage(self.xsDataResultCharacterisation.getXdsBackgroundImage())
             for xsDataIntegrationSubWedgeResult in xsDataIntegrationSubWedgeResultList:
                 xsDataInputStrategy.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
             xsDataInputStrategy.setDiffractionPlan(self.xsDataResultCharacterisation.getDataCollection().getDiffractionPlan())
