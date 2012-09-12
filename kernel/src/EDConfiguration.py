@@ -62,11 +62,12 @@ class EDConfiguration(EDLogging):
         EDLogging.__init__(self)
         self.__semaphore = Semaphore()
         self.__dictXSConfiguration = {}
+        self.__dictPluginConfiguration = {}
         if _strXMLFileName is not None:
             self.addConfigurationFile(_strXMLFileName)
             
     
-    def addConfigurationFile(self, _strXMLFileName):
+    def addConfigurationFile(self, _strXMLFileName, _bReplace = True):
         """Loads an XML config file into the dictionary if not already loaded"""
         with self.__semaphore:
             strXMLFileName = os.path.abspath(_strXMLFileName)
@@ -75,10 +76,32 @@ class EDConfiguration(EDLogging):
                 strXMLConfiguration = EDUtilsFile.readFileAndParseVariables(strXMLFileName)
                 xsConfiguration = XSConfiguration.parseString(strXMLConfiguration)
                 self.__dictXSConfiguration[strXMLFileName] = xsConfiguration
+                # Load configurations into the plugin dictionary
+                for xsPluginItem in xsConfiguration.XSPluginList.XSPluginItem:
+                    strPluginName = xsPluginItem.name
+                    if strPluginName in self.__dictPluginConfiguration and not _bReplace:
+                        # Do nothing if the plugin exists and we shouldn't replace it
+                        pass
+                    else:
+                        self.__dictPluginConfiguration[strPluginName] = xsPluginItem
+                        
             else:
                 self.DEBUG("EDConfiguration.addConfigurationFile: File %s already parsed, in cache" % strXMLFileName)
         
     
+    def getXSConfigurationItem(self, _strPluginName):
+        xsConfigurationItem = None
+        # First check plugin dictionary:
+        if _strPluginName in self.__dictPluginConfiguration.keys():
+            xsConfigurationItem = self.__dictPluginConfiguration[_strPluginName]
+        else:
+            # Try to load "project" configuration
+            strPathToProjectConfigurationFile = EDFactoryPluginStatic.getPathToProjectConfigurationFile(_strPluginName)
+            self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=False)
+            if _strPluginName in self.__dictPluginConfiguration.keys():
+                xsConfigurationItem = self.__dictPluginConfiguration[_strPluginName]
+        return xsConfigurationItem
+        
     
 
 

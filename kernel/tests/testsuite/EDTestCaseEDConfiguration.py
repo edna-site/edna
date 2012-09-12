@@ -59,7 +59,20 @@ class EDTestCaseEDConfiguration(EDTestCase):
         edConfiguration.addConfigurationFile(strPath)
         edConfiguration.addConfigurationFile(strPath)
 
+    
+    def testGetXSConfigurationItem1(self):
+        strPath = os.path.join(self.___strDataPath, "XSConfiguration.xml")
+        edConfiguration = EDConfiguration()
+        edConfiguration.addConfigurationFile(strPath)
+        xsDataPluginItem = edConfiguration.getXSConfigurationItem("indexingMosflm")
+        print xsDataPluginItem.marshal()
 
+    def testGetXSConfigurationItem2(self):
+        edConfiguration = EDConfiguration()
+        strOldEdnaSite = EDUtilsPath.getEdnaSite()
+        EDUtilsPath.setEdnaSite("TestSite") 
+        xsDataPluginItem = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactory")
+        print xsDataPluginItem.marshal()
 #    def preProcess(self):
 #        """
 #        Constructs the utilitary EDConfiguration class
@@ -137,6 +150,8 @@ class EDTestCaseEDConfiguration(EDTestCase):
 
     def process(self):
         self.addTestMethod(self.testAddConfigFile)
+        self.addTestMethod(self.testGetXSConfigurationItem1)
+        self.addTestMethod(self.testGetXSConfigurationItem2)
 #        self.addTestMethod(self.testGetPluginList)
 #        self.addTestMethod(self.testGetPluginItem)
 #        self.addTestMethod(self.testGetPluginItemError)
