@@ -270,12 +270,12 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         return: array 
         """
         with cls.__sem:
-            if EDPluginExecMeasureOffsetv1_0.__npaMask == None:
-                self.screen("got Shape=%s and Sigma=%s" % (shape, sigma))
+            if cls.__npaMask == None:
+                EDVerbose.screen("got Shape=%s and Sigma=%s" % (shape, sigma))
                 npa1 = numpy.ones(shape)
                 npa2 = scipy.ndimage.interpolation.shift(npa1, (-2 * sigma[0], -2 * sigma[1]), mode='constant', cval=0.0 , order=0)
                 npa3 = scipy.ndimage.interpolation.shift(npa2, sigma, mode='constant', cval=0.0 , order=0)
                 npa4 = scipy.ndimage.gaussian_filter(npa3, sigma)
                 EDPluginExecMeasureOffsetv1_0.__npaMask = npa4
-                self.DEBUG("final matrix %s is %s" % (npa4.shape, npa4))
-        return EDPluginExecMeasureOffsetv1_0.__npaMask
+                EDVerbose.DEBUG("final matrix %s is %s" % (npa4.shape, npa4))
+        return cls.__npaMask
