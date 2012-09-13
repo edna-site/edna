@@ -200,7 +200,7 @@ class CudaCorrelate(object):
             self.ctx.pop()
         return res
 
-def measure_offset(img1, img2, method="fftw", withLog=False):
+def measure_offset(img1, img2, method="fftw", withLog=False, withCorr=False):
     """
     Measure the actual offset between 2 images
     @param img1: ndarray, first image
@@ -271,9 +271,15 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
     logs.append("MeasureOffset: fine result: %s %s" % offset)
     logs.append("MeasureOffset: execution time: %.3fs with %.3fs for FFTs" % (t2 - t0, t1 - t0))
     if withLog:
-        return offset, logs
+        if withCorr:
+            return offset, logs, new
+        else:
+            return offset, logs
     else:
-        return offset
+        if withCorr:
+            return offset, new
+        else:
+            return offset
 
 def merge3(a, b, c, ROI=None):
     """
@@ -364,15 +370,16 @@ def make_mask(shape, width):
             w0 = w1 = width
     except TypeError:
         w0 = w1 = width
-    if ((s0, s1), (w0, w1)) not in masks:
+    key = ((s0, s1), (w0, w1))
+    if key not in masks:
         g0 = gaussian(s0, w0)
         g1 = gaussian(s1, w1)
-        h0 = empty_like(g0)
-        h1 = empty_like(g1)
+        h0 = numpy.empty_like(g0)
+        h1 = numpy.empty_like(g1)
         h0[:s0 // 2] = g0[s0 - s0 // 2:]
         h0[s0 // 2:] = g0[:s0 - s0 // 2]
         h1[:s1 // 2] = g1[s1 - s1 // 2:]
         h1[s1 // 2:] = g1[:s1 - s1 // 2]
         mask = numpy.outer(1 - h0, 1 - h1)
-        masks[((s0, s1), (w0, w1))] = mask
-    return masks[((s0, s1), (w0, w1))]
+        masks[key] = mask
+    return masks[key]
