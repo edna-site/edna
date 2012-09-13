@@ -41,6 +41,7 @@ from EDUtilsTest             import EDUtilsTest
 from EDUtilsPath             import EDUtilsPath
 from EDTestCase              import EDTestCase
 
+from XSDataCommon import XSPluginItem
 
 class EDTestCaseEDConfiguration(EDTestCase):
 
@@ -57,6 +58,7 @@ class EDTestCaseEDConfiguration(EDTestCase):
         strPath = os.path.join(self.___strDataPath, "XSConfiguration.xml")
         edConfiguration = EDConfiguration()
         edConfiguration.addConfigurationFile(strPath)
+        # Load the config file again, this time the cache should be used
         edConfiguration.addConfigurationFile(strPath)
 
     
@@ -65,14 +67,28 @@ class EDTestCaseEDConfiguration(EDTestCase):
         edConfiguration = EDConfiguration()
         edConfiguration.addConfigurationFile(strPath)
         xsDataPluginItem = edConfiguration.getXSConfigurationItem("indexingMosflm")
-        print xsDataPluginItem.marshal()
+        EDAssert.equal(True, xsDataPluginItem is not None, "Obtanied configuration for indexingMosflm")
 
     def testGetXSConfigurationItem2(self):
         edConfiguration = EDConfiguration()
         strOldEdnaSite = EDUtilsPath.getEdnaSite()
         EDUtilsPath.setEdnaSite("TestSite") 
-        xsDataPluginItem = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactory")
+        xsDataPluginItem1 = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactory")
+        EDAssert.equal(True, xsDataPluginItem1 is not None, "Obtanied configuration for EDPluginTestPluginFactory")
+        xsDataPluginItem2 = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactoryImport1")
+        EDAssert.equal(True, xsDataPluginItem2 is not None, "Obtanied imported configuration for EDPluginTestPluginFactoryImport1")
+        xsDataPluginItem3 = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactoryImport2")
+        EDAssert.equal(True, xsDataPluginItem3 is not None, "Obtanied imported configuration for EDPluginTestPluginFactoryImport2")
+        
+        
+    def testSetXSConfigurationItem(self):
+        xsPluginItem = XSPluginItem()
+        xsPluginItem.name = "EDPluginTestSetConfig"
+        edConfiguration = EDConfiguration()
+        edConfiguration.setXSConfigurationItem(xsPluginItem)
+        xsDataPluginItem = edConfiguration.getXSConfigurationItem("EDPluginTestSetConfig")
         print xsDataPluginItem.marshal()
+         
 #    def preProcess(self):
 #        """
 #        Constructs the utilitary EDConfiguration class
@@ -152,6 +168,7 @@ class EDTestCaseEDConfiguration(EDTestCase):
         self.addTestMethod(self.testAddConfigFile)
         self.addTestMethod(self.testGetXSConfigurationItem1)
         self.addTestMethod(self.testGetXSConfigurationItem2)
+        self.addTestMethod(self.testSetXSConfigurationItem)
 #        self.addTestMethod(self.testGetPluginList)
 #        self.addTestMethod(self.testGetPluginItem)
 #        self.addTestMethod(self.testGetPluginItemError)

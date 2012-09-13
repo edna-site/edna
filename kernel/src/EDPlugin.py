@@ -93,6 +93,7 @@ class EDPlugin(EDAction):
         self.strPathDataInput = None
         self.strPathDataOutput = None
         self.__bUseWarningInsteadOfError = False
+        self.__edConfiguration = EDConfiguration()
 
 
     def preProcess(self, _edObject=None):
@@ -160,7 +161,7 @@ class EDPlugin(EDAction):
         Receives an XSPluginItem (Plugin Configuration) from the application
         """
         self.DEBUG("EDPlugin.setConfiguration")
-        self.__xsPluginItem = _xsPluginItem
+        self.__edConfiguration.setXSConfigurationItem(_xsPluginItem)
 
 
     def getConfiguration(self):
@@ -168,7 +169,8 @@ class EDPlugin(EDAction):
         Gets the Plugin Configuration as an XSPluginItem
         """
         self.DEBUG("EDPlugin.getConfiguration")
-        return self.__xsPluginItem
+        return self.__edConfiguration.getXSConfigurationItem(self.getPluginName())
+
     configuration = property(getConfiguration, setConfiguration)
 
 
@@ -247,6 +249,7 @@ class EDPlugin(EDAction):
             if (xsPluginItem is None):
                 self.DEBUG("EDPlugin.configure: No plugin configuration found for " + self.getPluginName())
                 xsPluginItem = XSPluginItem()
+                xsPluginItem.name = self.getName()
             else:
                 self.setConfiguration(xsPluginItem)
 

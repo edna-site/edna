@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <!-- EDPluginFactory test XML file -->
-<XSConfiguration> 	
+<XSConfiguration> 
+  <XSImportConfiguration>
+  	<name>XSConfiguration_TestImport1</name>
+  </XSImportConfiguration>	
   <XSPluginList>		
     <XSPluginItem> 			
       <name>EDPluginTestPluginFactory</name>  			
