@@ -27,8 +27,8 @@ from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
-__copyright__ = "2011, ESRF, Grenoble"
-__date__ = "20110905"
+__copyright__ = "2012, ESRF, Grenoble"
+__date__ = "20120914"
 
 import os, threading, time
 from EDVerbose              import EDVerbose
@@ -43,9 +43,6 @@ from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDUtilsPath            import EDUtilsPath
 from EDThreading            import Semaphore
-
-
-
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
