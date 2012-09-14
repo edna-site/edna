@@ -239,17 +239,13 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         """
         EDPluginExecProcess.configure(self)
         self.DEBUG("EDPluginExecProcessScript.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            self.warning("EDPluginExecProcessScript.configure: No plugin item defined.")
-            xsPluginItem = XSPluginItem()
-        strShell = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SHELL)
+        strShell = self.getStringConfigurationParameterValue(EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SHELL)
         if(strShell == None):
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
                             EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SHELL + ", using default value: " + self.getScriptShell())
         else:
             self.setScriptShell(strShell)
-        strScriptExecutor = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTOR)
+        strScriptExecutor = self.getStringConfigurationParameterValue(EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTOR)
         if(strScriptExecutor == None):
             self.setScriptExecutor(self.getScriptShell())
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
@@ -257,7 +253,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         else:
             self.setScriptExecutor(strScriptExecutor)
         if (self.__strScriptExecutable is None):
-            strScriptExecutable = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE)
+            strScriptExecutable = self.getStringConfigurationParameterValue(EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE)
             if(strScriptExecutable is None):
                 strErrorMessage = "Configuration parameter missing: " + EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE
                 self.error(strErrorMessage)
@@ -279,13 +275,13 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         if not self.__strScriptExecutable:
             self.error("Not Executable found for plugin %s with EDNA_SITE=%s" % (self.getClassName(), EDUtilsPath.EDNA_SITE))
 
-        strConfigSetupCCP4 = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SETUP_CCP4)
+        strConfigSetupCCP4 = self.getStringConfigurationParameterValue(EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SETUP_CCP4)
         if(strConfigSetupCCP4 == None):
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
                             EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SETUP_CCP4 + ", NO default value!")
         else:
             self.setSetupCCP4(strConfigSetupCCP4)
-        strVersion = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING)
+        strVersion = self.getStringConfigurationParameterValue(EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING)
         if(strVersion == None):
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
                             EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING + ", NO default value!")

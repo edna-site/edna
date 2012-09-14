@@ -34,7 +34,7 @@ import os, tempfile, stat, types
 
 from EDSlot             import EDSlot
 from EDApplication      import EDApplication
-from EDConfiguration    import EDConfiguration
+from EDConfigurationStatic import EDConfigurationStatic
 from EDUtilsFile        import EDUtilsFile
 from EDStatus           import EDStatus
 from EDAction           import EDAction
@@ -93,7 +93,7 @@ class EDPlugin(EDAction):
         self.strPathDataInput = None
         self.strPathDataOutput = None
         self.__bUseWarningInsteadOfError = False
-        self.__edConfiguration = EDConfiguration()
+        self.__edConfiguration = EDConfigurationStatic()
 
 
     def preProcess(self, _edObject=None):
@@ -187,32 +187,7 @@ class EDPlugin(EDAction):
           - Otherwise if a product-wide (e.g. "mxPluginExec") configuration value exists it will be used.         
         """
         self.DEBUG("EDPlugin.getConfigurationParameterValue")
-        strParameterValue = None
-        xsPluginItem = self.getConfiguration()
-        bFoundConfigurationParameter = False
-        if xsPluginItem:
-            xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
-            if xsDataValue:
-                strParameterValue = xsDataValue.getValue() 
-                if strParameterValue:
-                    bFoundConfigurationParameter = True
-
-        if not bFoundConfigurationParameter:
-            xsPluginItem = EDApplication.getApplicationPluginConfiguration(self.getPluginName())
-            if xsPluginItem:
-                xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
-                if xsDataValue:
-                    strParameterValue = xsDataValue.getValue()
-                    if strParameterValue:
-                        bFoundConfigurationParameter = True
-
-        if not bFoundConfigurationParameter:
-            xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
-            if xsPluginItem:
-                xsDataValue = EDConfiguration.getParamItem(xsPluginItem, _strConfigurationParameterName)
-                if xsDataValue:
-                    strParameterValue = xsDataValue.getValue()
-
+        strParameterValue = self.__edConfiguration.getStringValue(_strConfigurationParameterName, self.getPluginName())
         return strParameterValue
 
 
@@ -238,25 +213,11 @@ class EDPlugin(EDAction):
         This method should set its proper members attributes from a Plugin configuration Object
         """
         self.DEBUG("EDPlugin.configure : %s" % self.getClassName())
-        xsPluginItem = self.getConfiguration()
-
-        if xsPluginItem is None:
-            xsPluginItem = EDApplication.getApplicationPluginConfiguration(self.getPluginName())
-            if (xsPluginItem is None):
-                # No application wide configuration file found! Try to find a project specific config file:
-                xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
-
-            if (xsPluginItem is None):
-                self.DEBUG("EDPlugin.configure: No plugin configuration found for " + self.getPluginName())
-                xsPluginItem = XSPluginItem()
-                xsPluginItem.name = self.getName()
-            else:
-                self.setConfiguration(xsPluginItem)
 
         # set Timeout if different from default one
         if self.getTimeOut() == self.getDefaultTimeOut():
             # Try to get time out from plugin configuration
-            iTimeOut = EDConfiguration.getIntegerParamValue(xsPluginItem, EDPlugin.CONF_TIME_OUT)
+            iTimeOut = self.getIntegerConfigurationParameterValue(EDPlugin.CONF_TIME_OUT)
             if iTimeOut is not None:
                 self.DEBUG("EDPlugin.configure: Setting time out to %d s from plugin configuration." % iTimeOut)
                 self.setTimeOut(iTimeOut)
@@ -266,7 +227,7 @@ class EDPlugin(EDAction):
         strBaseDirectory = self.getBaseDirectory()
         if (strBaseDirectory is None):
             # Try to get base directory from plugin configuration
-            strBaseDirectory = EDConfiguration.getStringParamValue(xsPluginItem, EDPlugin.CONF_BASE_DIR_LABEL)
+            strBaseDirectory = self.getStringConfigurationParameterValue(EDPlugin.CONF_BASE_DIR_LABEL)
             if(strBaseDirectory is None):
                 # Try to get working directory from environment variable
                 strBaseDirectory = os.environ.get("EDNA_BASE_DIRECTORY")
@@ -289,7 +250,7 @@ class EDPlugin(EDAction):
         strWorkingDirectory = self.getWorkingDirectory()
         if (strWorkingDirectory is None):
             # Try to get working directory from plugin configuration
-            strWorkingDirectory = EDConfiguration.getStringParamValue(xsPluginItem, EDPlugin.CONF_WORKING_DIR_LABEL)
+            strWorkingDirectory = self.getStringConfigurationParameterValue(EDPlugin.CONF_WORKING_DIR_LABEL)
             if(strWorkingDirectory is not None):
                 self.DEBUG("EDPlugin.configure: Setting working directory from plugin configuration.")
             else:
@@ -299,20 +260,20 @@ class EDPlugin(EDAction):
         else:
             self.DEBUG("EDPlugin.configure: Working directory already set before plugin is configured.")
         #
-        strWriteXMLInputOutput = EDConfiguration.getStringParamValue(xsPluginItem, EDPlugin.CONF_WRITE_XML_INPUT_OUTPUT)
+        strWriteXMLInputOutput = self.getStringConfigurationParameterValue(EDPlugin.CONF_WRITE_XML_INPUT_OUTPUT)
         if strWriteXMLInputOutput != None:
             if strWriteXMLInputOutput.lower().strip() in ["false", "0"]:
                 self.__bWriteDataXMLInputOutput = False
             else:
                 self.__bWriteDataXMLInputOutput = True
 
-        strWriteXMLOutput = EDConfiguration.getStringParamValue(xsPluginItem, EDPlugin.CONF_WRITE_XML_OUTPUT)
+        strWriteXMLOutput = self.getStringConfigurationParameterValue(EDPlugin.CONF_WRITE_XML_OUTPUT)
         if strWriteXMLOutput != None:
             if strWriteXMLOutput.lower().strip()  in ["false", "0"]:
                 self.__bWriteDataXMLOutput = False
             else:
                 self.__bWriteDataXMLOutput = True
-        strWriteXMLInput = EDConfiguration.getStringParamValue(xsPluginItem, EDPlugin.CONF_WRITE_XML_INPUT)
+        strWriteXMLInput = self.getStringConfigurationParameterValue(EDPlugin.CONF_WRITE_XML_INPUT)
         if strWriteXMLInput != None:
             if strWriteXMLInput.lower().strip() in ["false", "0"]:
                 self.__bWriteDataXMLInput = False

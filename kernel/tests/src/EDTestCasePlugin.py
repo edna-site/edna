@@ -47,7 +47,7 @@ from EDTestCase         import EDTestCase
 from EDUtilsTest        import EDUtilsTest
 from EDUtilsFile        import EDUtilsFile
 from EDApplication      import EDApplication
-from EDConfiguration    import EDConfiguration
+from EDConfigurationStatic    import EDConfigurationStatic
 from EDFactoryPlugin    import EDFactoryPlugin
 
 iMAX_DOWNLOAD_TIME = 60
@@ -93,25 +93,11 @@ class EDTestCasePlugin(EDTestCase):
 
     def getPluginConfiguration(self, _strPluginName=None):
         # Load the configuration file if provided
-        if _strPluginName == None:
-            _strPluginName = self.getPluginName()
-        if _strPluginName in self._dictConfigurations :
-            xsConfiguration = self._dictConfigurations[_strPluginName]
+        if _strPluginName is None:
+            strPluginName = self.getPluginName()
         else:
-            xsConfiguration = None
-            if (self._strConfigurationFile is not None):
-                edConfigurationTest = EDConfiguration(self._strConfigurationFile)
-                edConfigurationTest.load()
-                if (edConfigurationTest is not None):
-                    xsConfiguration = edConfigurationTest.getPluginItem(_strPluginName)
-            if xsConfiguration is None:
-                xsConfiguration = EDApplication.getApplicationPluginConfiguration(_strPluginName)
-            if xsConfiguration is None:
-                # No application wide configuration file found! Try to find a project specific config file:
-                xsConfiguration = EDApplication.getProjectPluginConfiguration(_strPluginName)
-            if xsConfiguration is None:
-                EDVerbose.WARNING("EDTestCasePlugin.getPluginConfiguration: xsConfiguration is still None after all guesses: Expect to fail soon")
-            self._dictConfigurations[_strPluginName] = xsConfiguration
+            strPluginName = _strPluginName 
+        xsConfiguration = EDConfigurationStatic.getXSConfigurationItem(strPluginName)
         return xsConfiguration
 
 
