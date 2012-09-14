@@ -42,7 +42,6 @@ from EDAssert               import EDAssert
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDUtilsPath            import EDUtilsPath
-from EDThreading            import Semaphore
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
@@ -68,7 +67,6 @@ class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
 
     sift = feature.SiftAlignment()
     keyindex = {} #key = md5 of the image; value = idex of the keypoints of the image in the SIFT object
-    lock = Semaphore()
 
     def __init__(self):
         """
@@ -200,13 +198,9 @@ class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
         checksum1 = hashlib.md5(self.npaIm1).hexdigest()
         checksum2 = hashlib.md5(self.npaIm2).hexdigest()
         if checksum1 not in self.keyindex:
-            with self.lock:
-                if checksum1 not in self.keyindex:
-                    self.keyindex[checksum1] = self.sift.sift(self.npaIm1)
+            self.keyindex[checksum1] = self.sift.sift(self.npaIm1)
         if checksum2 not in self.keyindex:
-            with self.lock:
-                if checksum2 not in self.keyindex:
-                    self.keyindex[checksum2] = self.sift.sift(self.npaIm2)
+            self.keyindex[checksum2] = self.sift.sift(self.npaIm2)
         data = self.sift.match(self.keyindex[checksum1], self.keyindex[checksum2])
         v0 = data[:, 0] - data[:, 2]
         v1 = data[:, 1] - data[:, 3]
