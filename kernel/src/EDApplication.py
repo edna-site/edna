@@ -161,7 +161,6 @@ class EDApplication(object):
                 EDVerbose.screen("Loading Configuration file: %s" % self.__strConfigurationFileName)
                 edConfiguration = EDConfigurationStatic()
                 edConfiguration.addConfigurationFile(self.__strConfigurationFileName)
-                self.setConfiguration(edConfiguration)
                 EDVerbose.DEBUG("EDApplication.preProcess: Checking... Number of plugins...: %d" % edConfiguration.getPluginListSize())
                 pyDictionary = {}
                 pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
@@ -381,68 +380,6 @@ class EDApplication(object):
     def loadModule(cls, _strModuleName):
         EDVerbose.WARNING("The use of EDApplication.loadModule is deprecated. Please use EDFactoryPluginStatic.getFactoryPlugin instead.")
         EDFactoryPluginStatic.loadModule(_strModuleName)
-
-
-    @classmethod
-    def setConfiguration(cls, _edConfiguration):
-        """
-        """
-        EDVerbose.DEBUG("EDApplication.setConfiguration")
-        with cls.__semaphore:
-            if (_edConfiguration == None):
-                EDVerbose.warning("EDApplication.setConfiguration: Configuration is None!")
-            else:
-                cls.__edConfiguration = _edConfiguration
-
-
-    @classmethod
-    def getApplicationPluginConfiguration(cls, _pluginName):
-        """
-        """
-        EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration")
-        with cls.__semaphore:
-            pluginConfiguration = None
-            if (cls.__edConfiguration != None):
-                pluginConfiguration = EDApplication.__edConfiguration.getPluginItem(_pluginName)
-            if (pluginConfiguration is None):
-                EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: No application configuration found for %s " % _pluginName)
-            else:
-                EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: Reading %s configuration from %s" % (\
-                                 _pluginName, \
-                                 cls.__edConfiguration.getXmlFileName()))
-        return pluginConfiguration
-
-
-    @classmethod
-    def getProjectPluginConfiguration(cls, _pluginName):
-        """
-        """
-        EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration")
-        pluginConfiguration = None
-        strPathToProjectConfigurationFile = EDConfigurationStatic.getPathToProjectConfigurationFile(_pluginName)
-        with cls.__semaphore:
-            if (strPathToProjectConfigurationFile is not None):
-                edConfigurationProject = EDConfigurationStatic()
-                edConfigurationProject.addConfigurationFile(strPathToProjectConfigurationFile)
-                if (edConfigurationProject is not None):
-                    pluginConfiguration = edConfigurationProject.getXSConfigurationItem(_pluginName)
-            if (pluginConfiguration is None):
-                EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: No project configuration found for %s " % _pluginName)
-            else:
-                EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: Reading %s configuration from %s" % (\
-                                 _pluginName, \
-                                 strPathToProjectConfigurationFile))
-        return pluginConfiguration
-
-
-    @classmethod
-    def loadConfiguration(cls):
-        """
-        Loads the configuration file if not already loaded
-        """
-        if((cls.__edConfiguration != None) & (cls.__edConfiguration.isLoaded() == False)):
-            EDVerbose.DEBUG("EDApplication.loadConfiguration: Loading Configuration File...")
-            cls.__edConfiguration.load()
 
 
     @classmethod
