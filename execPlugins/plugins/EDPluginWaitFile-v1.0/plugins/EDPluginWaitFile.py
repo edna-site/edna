@@ -121,20 +121,8 @@ class EDPluginWaitFile(EDPlugin):
 
         """
         self.DEBUG("EDPluginWaitFile.configure : %s" % self.getClassName())
-        xsPluginItem = self.getConfiguration()
-        if xsPluginItem is None:
-            xsPluginItem = EDApplication.getApplicationPluginConfiguration(self.getPluginName())
-            if (xsPluginItem is None):
-                # No application wide configuration file found! Try to find a project specific config file:
-                xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
-
-            if (xsPluginItem is None):
-                self.DEBUG("EDPlugin.execute: No plugin configuration found for " + self.getPluginName())
-                xsPluginItem = XSPluginItem()
-            else:
-                self.setConfiguration(xsPluginItem)
         # Try to get time out from plugin configuration
-        iTimeOut = EDConfiguration.getIntegerParamValue(xsPluginItem, EDPlugin.CONF_TIME_OUT)
+        iTimeOut = self.getIntegerConfigurationParameterValue(EDPlugin.CONF_TIME_OUT)
         if iTimeOut is not None:
             self.DEBUG("EDPlugin.configure: Setting time out to %d s from plugin configuration." % iTimeOut)
             self.__timeout = iTimeOut
