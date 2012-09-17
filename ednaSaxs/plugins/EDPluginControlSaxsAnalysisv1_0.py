@@ -27,7 +27,7 @@
 __authors__ = ["Jérôme Kieffer"]
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
-__date__ = "2012-08-31"
+__date__ = "2012-09-17"
 __status__ = "Development"
 
 import os
@@ -128,12 +128,18 @@ Quality: %4.2f%%     Aggregated: %s"""%(self.autoRg.rg.value, self.autoRg.rgStde
                         self.autoRg.i0.value, self.autoRg.i0Stdev.value,
                         self.autoRg.firstPointUsed.value, self.autoRg.lastPointUsed.value,
                         self.autoRg.quality.value * 100., self.autoRg.isagregated.value)
-        if self.gnom is not None:
+        if self.gnom is None:
+            strLog += """
+datGnom failed"""
+        else:
             strLog += """
 Dmax    =    %12f       Total =   %12f     
 Guinier =    %12f       Gnom =    %12f"""%(self.gnom.dmax.value, self.gnom.total.value,
                         self.gnom.rgGuinier.value, self.gnom.rgGnom.value)
-        if self.xVolume is not None:
+        if self.xVolume is None:
+            strLog += """
+datPorod failed"""
+        else:
             strLog += """
 Volume  =    %12f""" % (self.xVolume.value)
 

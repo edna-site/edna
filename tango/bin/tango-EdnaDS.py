@@ -98,6 +98,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         self.get_device_properties(self.get_device_class())
         self.set_change_event("jobSuccess", True, False)
         self.set_change_event("jobFailure", True, False)
+        self.set_change_event("statisticsCollected", True, False)
 
     def always_executed_hook(self):
         pass
