@@ -156,7 +156,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>120</value>
+					<value>240</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -331,6 +331,27 @@
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>600</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem> 
+			<name>EDPluginExecMtz2Variousv1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/ccp4/ccp4-6.1.13/bin/mtz2various</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>600</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptSetupCCP4</name>
+					<value>/opt/ccp4/ccp4-6.1.13/include/ccp4.setup-bash</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

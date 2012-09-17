@@ -66,7 +66,6 @@ class EDTestCaseEDHandlerISPyBv1_4(EDTestCase):
         strXMLIndexingInput = EDUtilsFile.readFileAndParseVariables(strPath, self.dictReplace)
         xsDataInputControlISPyB = XSDataInputControlISPyB.parseString(strXMLIndexingInput)
         xsDataInputISPyB = EDHandlerXSDataISPyBv1_4.generateXSDataInputISPyBStoreScreening(xsDataInputControlISPyB)
-        print xsDataInputISPyB.marshal()
         strReferenceInputISPyBFile = EDUtilsPath.mergePath(self.strDataPath, "XSDataInputISPyB_reference.xml")
         strReferencePath = os.path.join(self.strDataPath, strReferenceInputISPyBFile)
         strXMLInputISPyBReference = EDUtilsFile.readFileAndParseVariables(strReferencePath, self.dictReplace)

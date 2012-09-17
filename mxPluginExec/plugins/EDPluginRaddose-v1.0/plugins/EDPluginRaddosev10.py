@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -30,10 +28,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
 
-from EDVerbose                    import EDVerbose
+
 from EDMessage                    import EDMessage
 from EDPluginExecProcessScript    import EDPluginExecProcessScript
 
@@ -155,18 +155,18 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginRaddosev10.configure")
+        self.DEBUG("EDPluginRaddosev10.configure")
         self.setRequireCCP4(True)
 
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginRaddosev10.preProcess")
+        self.DEBUG("EDPluginRaddosev10.preProcess")
         self.setScriptLogFileName("raddose.log")
         # Fix for bug 432: if flux is close to zero or negative failure
         if (self.getDataInput().getBeamFlux().getValue() < 0.1):
             strErrorMessage = "EDPluginRaddosev10.preProcess ERROR: Input flux is negative or close to zero. Execution of characterisation aborted."
-            EDVerbose.ERROR(strErrorMessage)
+            self.ERROR(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
         else:
@@ -213,7 +213,7 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
         strRaddoseError = self.readProcessErrorLogFile()
         if((strRaddoseError is not None) and (strRaddoseError != "")):
             errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginRaddosev10.postProcess', 'EDPluginRaddosev10', strRaddoseError)
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
             raise RuntimeError, errorMessage
 
@@ -230,13 +230,13 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
 
         if(strSolvent is None):
             errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginRaddosev10.postProcess', "Raddose", "No Result for Keyword [" + EDPluginRaddosev10.__strSOLVENT + "] see: " + self.getScriptLogFileName())
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
             raise RuntimeError, errorMessage
 
         if(strAbsorbedDose is None):
             errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginRaddosev10.postProcess', "Raddose", "No Result for Keyword [" + strAbsorbedDoseKeyword + "] see: " + self.getScriptLogFileName())
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
             raise RuntimeError, errorMessage
 
@@ -244,7 +244,7 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
         self.__fSolvent = float(strSolvent)
         if(self.__fSolvent < EDPluginRaddosev10.__iMIN_SOLVENT_PERCENTAGE or self.__fSolvent > EDPluginRaddosev10.__iMAX_SOLVENT_PERCENTAGE):
             warningMessage = "Inconsistent solvent percentage value: %.1f" % self.__fSolvent
-            EDVerbose.warning(warningMessage)
+            self.warning(warningMessage)
             self.addWarningMessage(warningMessage)
 
         iNumberOfImages = self.getDataInput().getNumberOfImages().getValue()
@@ -276,7 +276,7 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
             f = open(_strFileName)
         except:
             errorMessage = EDMessage.ERROR_CANNOT_READ_FILE_02 % ('EDPluginRaddosev10.analyseScriptLogFileName', self.getScriptLogFileName())
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
             raise RuntimeError, errorMessage
 
@@ -389,7 +389,7 @@ class EDPluginRaddosev10(EDPluginExecProcessScript):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("EDPluginRaddosev10.generateExecutiveSummary")
+        self.DEBUG("EDPluginRaddosev10.generateExecutiveSummary")
         if (self.getStringVersion() is not None):
             self.addExecutiveSummaryLine(self.getStringVersion())
         xsDataRaddoseInput = self.getDataInput()

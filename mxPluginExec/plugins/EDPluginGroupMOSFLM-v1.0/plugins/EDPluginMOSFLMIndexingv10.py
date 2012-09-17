@@ -29,10 +29,10 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
-
-from EDVerbose import EDVerbose
 
 from EDUtilsTable      import EDUtilsTable
 from EDPluginMOSFLMv10 import EDPluginMOSFLMv10
@@ -63,23 +63,23 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
 
     def preProcess(self, _edObject=None):
         EDPluginMOSFLMv10.preProcess(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.preProcess")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.preProcess")
         self.generateMOSFLMCommands()
 
 
     def finallyProcess(self, _edObject=None):
         EDPluginMOSFLMv10.finallyProcess(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.finallyProcess")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.finallyProcess")
         xsDataMOSFLMOutputIndexing = self.createDataMOSFLMOutputIndexing()
         self.setDataOutput(xsDataMOSFLMOutputIndexing)
 
 
     def configure(self):
         EDPluginMOSFLMv10.configure(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.configure")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.configure")
         xsPluginItem = self.getConfiguration()
         if (xsPluginItem == None):
-            EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.configure: xsPluginItem is None")
+            self.DEBUG("EDPluginMOSFLMIndexingv10.configure: xsPluginItem is None")
 
 
     def checkParameters(self):
@@ -87,7 +87,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         Checks the mandatory parameters for MOSLFM indexing
         """
         EDPluginMOSFLMv10.checkParameters(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.checkParameters")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.checkParameters")
         self.checkMandatoryParameters(self.getDataInput().getImage(), "image")
 
 
@@ -97,7 +97,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         XSDataMOSFLMIndexingingInput as self.getDataInput()
         """
         EDPluginMOSFLMv10.generateMOSFLMCommands(self)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.generateMOSFLMCommands")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.generateMOSFLMCommands")
 
         xsDataMOSFLMIndexingInput = self.getDataInput()
 
@@ -123,17 +123,17 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         # Force name of log file
         self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
 
-        EDVerbose.DEBUG("Finished EDPluginMOSFLMIndexingv10.generateMOSFLMIndexingCommands")
+        self.DEBUG("Finished EDPluginMOSFLMIndexingv10.generateMOSFLMIndexingCommands")
 
 
     def createDataMOSFLMOutputIndexing(self):
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
         xsDataMOSFLMOutputIndexing = XSDataMOSFLMOutputIndexing()
         # Read Newmat file
         xsDataMOSFLMNewmat = self.getDataMOSFLMNewmat()
         if (xsDataMOSFLMNewmat is None):
             strError = "MOSFLM indexing error : No solution was obtained!"
-            EDVerbose.ERROR(strError)
+            self.ERROR(strError)
             self.setFailure()
         else:
             xsDataMOSFLMOutputIndexing.setRefinedNewmat(xsDataMOSFLMNewmat)
@@ -156,7 +156,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
             xsTableRefinement = EDUtilsTable.getTableFromTables(xsDataDnaTables, "refinement")
             if (xsTableRefinement is None):
                 strError = "MOSFLM indexing error : No solution was refined!"
-                EDVerbose.ERROR(strError)
+                self.ERROR(strError)
                 self.setFailure()
             else:
                 xsListDeviations = EDUtilsTable.getListsFromTable(xsTableRefinement, "deviations")[0]
@@ -237,7 +237,7 @@ class EDPluginMOSFLMIndexingv10(EDPluginMOSFLMv10):
         Generates a summary of the execution of the plugin.
         """
         EDPluginMOSFLMv10.generateExecutiveSummary(self, _edPlugin)
-        EDVerbose.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
+        self.DEBUG("EDPluginMOSFLMIndexingv10.createDataMOSFLMOutputIndexing")
         xsDataMOSFLMInputIndexing = self.getDataInput()
         xsDataMOSFLMOutputIndexing = self.getDataOutput()
         if not self.isFailure():

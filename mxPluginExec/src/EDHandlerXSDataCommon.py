@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id: EDHandlerXSDataXDSv1_0.py 1516 2010-05-12 08:11:11Z svensson $"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -16,6 +14,8 @@ __authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
 from EDUtilsImage import EDUtilsImage

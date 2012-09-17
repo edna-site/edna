@@ -44,7 +44,7 @@ numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1
 pydictModulesBeforePIL = sys.modules.copy()
 try:
     import Image
-except:
+except Exception:
     if  os.path.isdir(imagingPath) and (imagingPath not in sys.path):
         sys.path.insert(1, imagingPath)
     else:
@@ -73,7 +73,7 @@ pydictModulesBeforeNumpy = sys.modules.copy()
 
 try:
     import numpy
-except:
+except Exception:
     if os.path.isdir(numpyPath)and (numpyPath not in sys.path):
         sys.path.insert(1, numpyPath)
     else:
@@ -99,7 +99,7 @@ print "Version of Numpy Library found: %s" % numpy.version.version
 ################################################################################
 try:
     import fabio
-except:
+except Exception:
     if os.path.isdir(fabioPath) and (fabioPath not in sys.path):
         sys.path.insert(1, fabioPath)
         import fabio

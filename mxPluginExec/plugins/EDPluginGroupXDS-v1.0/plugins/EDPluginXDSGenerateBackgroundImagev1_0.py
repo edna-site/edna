@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id: EDPluginXDSGenerateBackgroundImage.py 1505 2010-05-10 10:18:00Z svensson $"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -29,11 +27,13 @@ __authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
 __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 
 import os
 
-from EDVerbose        import EDVerbose
+
 
 from EDPluginXDSv1_0 import EDPluginXDSv1_0
 
@@ -56,7 +56,7 @@ class EDPluginXDSGenerateBackgroundImagev1_0(EDPluginXDSv1_0):
 
     def postProcess(self, _edObject=None):
         EDPluginXDSv1_0.postProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginXDSGenerateBackgroundImagev1_0.postProcess")
+        self.DEBUG("EDPluginXDSGenerateBackgroundImagev1_0.postProcess")
         xsDataResultXDSGenerateBackgroundImage = XSDataResultXDSGenerateBackgroundImage()
         strPathToXdsBackgroundImage = os.path.join(self.getWorkingDirectory(), "BKGINIT.cbf")
         if os.path.exists(strPathToXdsBackgroundImage):

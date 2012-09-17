@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteBestv1_2_withAnomalousData.py 1504 2010-05-10 09:14:41Z svensson $"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -30,10 +28,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "deprecated"
 
 import os
 
-from EDVerbose                           import EDVerbose
+
 from EDAssert                            import EDAssert
 from EDUtilsTest                         import EDUtilsTest
 from EDUtilsPath                         import EDUtilsPath

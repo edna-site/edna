@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id: EDPluginSTACOrientationv2_0.py 2078 2010-09-20 13:07:41Z svensson $"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -11,9 +9,16 @@
 #
 #    
 
+__authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
+__contact__ = "svensson@esrf.fr"
+__license__ = "GPLv3+"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
 import os
 
-from EDVerbose          import EDVerbose
+
 from EDMessage          import EDMessage
 from EDUtilsFile        import EDUtilsFile
 from EDUtilsTable       import EDUtilsTable
@@ -65,7 +70,7 @@ class EDPluginSTACOrientationv2_0(EDPluginSTACv2_0):
                 else:
                     val += ' ' + option.getValue()
         except:
-            EDVerbose.DEBUG("ORIENTATION REQUEST COMMAND could not be found")
+            self.DEBUG("ORIENTATION REQUEST COMMAND could not be found")
             val = ''
 
 #        optstr=self.getDataInput("StrategyOption")[0].getValue()
@@ -82,7 +87,7 @@ class EDPluginSTACOrientationv2_0(EDPluginSTACv2_0):
 
     def preProcess(self, _oedObject=None):
         EDPluginSTACv2_0.preProcess(self)
-        EDVerbose.DEBUG("EDPluginSTACOrientationv2_0.preProcess")
+        self.DEBUG("EDPluginSTACOrientationv2_0.preProcess")
         #bestfile.par
         #EDUtilsFile.writeFile( EDDiskExplorer.mergePath( self.getWorkingDirectory(), "bestfile.par" ), self.m_xsDataInput.getBestFileContentPar().getValue())
         #self.writeBestfilePar( EDDiskExplorer.mergePath( self.getWorkingDirectory(), "bestfile.par" ), self.getDataInput()[0].getBestFileContentPar().getValue() )
@@ -115,7 +120,7 @@ class EDPluginSTACOrientationv2_0(EDPluginSTACv2_0):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("EDPluginSTACOrientationv2_0.generateExecutiveSummary")
+        self.DEBUG("EDPluginSTACOrientationv2_0.generateExecutiveSummary")
         self.addExecutiveSummaryLine("<!--SUMMARY_BEGIN-->")
         if (self.getStringVersion() is not None):
             self.addExecutiveSummaryLine(self.getStringVersion() + " by Sandor Brockhauser")

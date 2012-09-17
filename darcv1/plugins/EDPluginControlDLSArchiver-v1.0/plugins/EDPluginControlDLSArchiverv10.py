@@ -694,7 +694,7 @@ class EDPluginControlDLSArchiverv10( EDPluginControl ):
 #                
 #                #print '\nfile created    : ' + bigfilepath
 #    
-#            except:
+#            except Exception:
 #                print "\nCannot create " + bigfilepath + ': ', sys.exc_info()[0]
 #                raise
 #        
@@ -709,7 +709,7 @@ class EDPluginControlDLSArchiverv10( EDPluginControl ):
         # get the filename to load        
         try:
             self.localedTree = minidom.parse( edFileName )
-        except:
+        except Exception:
             EDVerbose.DEBUG( strftime("%Y-%m-%d %H:%M:%S") + "  *** EDPluginControlDLSArchiverv10.openXMLTree  Failed to parse file '%s' renaming it." % edFileName )
             
             edNewName = edFileName + ".invalid"

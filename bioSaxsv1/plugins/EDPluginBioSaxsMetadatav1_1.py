@@ -247,12 +247,16 @@ complex type XSDataBioSaxsSample extends XSData {
             xsdExperiment.detectorDistance = xsDataResult.detectorDistance = XSDataLength(self.detectorDistance)
         if self.pixelSize_1 is not None:
             xsDataResult.pixelSize_1 = XSDataLength(self.pixelSize_1)
+            xsdExperiment.pixelSize_1 = xsDataResult.pixelSize_1
         if self.pixelSize_2 is not None:
             xsDataResult.pixelSize_2 = XSDataLength(self.pixelSize_2)
+            xsdExperiment.pixelSize_2 = xsDataResult.pixelSize_2
         if self.beamCenter_1 is not None:
             xsDataResult.beamCenter_1 = XSDataDouble(self.beamCenter_1)
+            xsdExperiment.beamCenter_1 = xsDataResult.beamCenter_1
         if self.beamCenter_2 is not None:
             xsDataResult.beamCenter_2 = XSDataDouble(self.beamCenter_2)
+            xsdExperiment.beamCenter_2 = xsDataResult.beamCenter_2
         if self.beamStopDiode is not None:
             xsdExperiment.beamStopDiode = xsDataResult.beamStopDiode = XSDataDouble(self.beamStopDiode)
         if self.wavelength is not None:

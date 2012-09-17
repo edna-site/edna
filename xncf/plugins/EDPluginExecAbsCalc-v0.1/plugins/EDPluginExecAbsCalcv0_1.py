@@ -149,13 +149,13 @@ class EDPluginExecAbsCalcv0_1(EDPluginExecProcessScript ):
             if tuple(listLine[0:3]) == ('TRANSMISSION', 'BEFORE', 'EDGE'):
                 try:
                     _tmpTransBeforeEdge = float(listLine[-1])
-                except:
+                except Exception:
                     _tmpTransBeforeEdge = -1
                 
             if tuple(listLine[0:3]) == ('TRANSMISSION', 'AFTER', 'EDGE'):
                 try:
                     _tmpTransAfterEdge = float(listLine[-1])
-                except:
+                except Exception:
                     _tmpTransAfterEdge = -1
             if tuple(listLine[0:2]) == ('DISC', 'THICKNESS'):
                 _tmpDiskThickness = float(listLine[-1][1:-1])

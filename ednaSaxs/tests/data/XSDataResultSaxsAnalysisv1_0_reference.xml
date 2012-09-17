@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<XSDataResultSaxsAnalysis>
+    <status>
+        <executiveSummary>
+            <value>Rg   =   2.797210 +/- 0.013210 
+I(0) =   3.193220e+06 +/- 1.303990e+03
+Points   10 to 46 
+Quality: 93.53%     Aggregated: False
+Dmax    =        9.370653       Total =       0.706510     
+Guinier =        2.797210       Gnom =        2.926209     
+Volume  =      106.701000</value>
+        </executiveSummary>
+    </status>
+    <autoRg>
+        <filename>
+            <path>
+                <value>${EDNA_TESTIMAGES}/autosubtracted.dat</value>
+            </path>
+        </filename>
+        <rg>
+            <value>2.797210e+00</value>
+        </rg>
+        <rgStdev>
+            <value>1.320990e-02</value>
+        </rgStdev>
+        <i0>
+            <value>3.193220e+06</value>
+        </i0>
+        <i0Stdev>
+            <value>1.303990e+03</value>
+        </i0Stdev>
+        <firstPointUsed>
+            <value>10</value>
+        </firstPointUsed>
+        <lastPointUsed>
+            <value>46</value>
+        </lastPointUsed>
+        <quality>
+            <value>9.353350e-01</value>
+        </quality>
+        <isagregated>
+            <value>false</value>
+        </isagregated>
+    </autoRg>
+    <gnom>
+        <gnomFile>
+            <path>
+                <value>/tmp/edna-${USER}/autosubtracted.out</value>
+            </path>
+        </gnomFile>
+        <rgGuinier>
+            <value>2.797210e+00</value>
+        </rgGuinier>
+        <rgGnom>
+            <value>2.926209e+00</value>
+        </rgGnom>
+        <dmax>
+            <value>9.370653e+00</value>
+        </dmax>
+        <total>
+            <value>7.065105e-01</value>
+        </total>
+    </gnom>
+    <volume>
+        <value>1.067010e+02</value>
+    </volume>
+</XSDataResultSaxsAnalysis>

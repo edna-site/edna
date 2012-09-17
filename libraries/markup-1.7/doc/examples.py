@@ -12,7 +12,7 @@ import sys
 
 try:
     import markup
-except:
+except Exception:
     print __doc__
     sys.exit( 1 )
 

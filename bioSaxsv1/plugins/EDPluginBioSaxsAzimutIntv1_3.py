@@ -24,16 +24,15 @@
 #
 
 from __future__ import with_statement
-from EDUtilsArray import EDUtilsArray
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
-__date__ = "20120503"
-__status__ = "beta"
-
+__date__ = "20120824"
+__status__ = "development"
 
 import os
+from EDUtilsArray           import EDUtilsArray
 from EDPluginControl        import EDPluginControl
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
@@ -45,7 +44,8 @@ from XSDataBioSaxsv1_0      import XSDataInputBioSaxsAzimutIntv1_0, XSDataResult
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 EDFactoryPluginStatic.loadModule("XSDataPyFAIv1_0")
 from XSDataWaitFilev1_0     import XSDataInputWaitFile
-from XSDataPyFAIv1_0         import XSDataInputPyFAI, XSDataDetector, XSDataGeometryFit2D
+from XSDataPyFAIv1_0        import XSDataInputPyFAI, XSDataDetector, XSDataGeometryFit2D
+from EDUtilsParallel        import EDUtilsParallel
 architecture = EDUtilsPlatform.architecture
 fabioPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "FabIO-0.0.7", architecture)
 imagingPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20091115-PIL-1.1.7", architecture)
@@ -54,36 +54,31 @@ numpyPath = os.path.join(EDUtilsPath.EDNA_HOME, "libraries", "20090405-Numpy-1.3
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath)
 Image = EDFactoryPluginStatic.preImport("Image", imagingPath)
 fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
-
+import pyFAI
 
 class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
     """
     Control for Bio Saxs azimuthal integration; suppose the mask is already applied by BioSaxsNormalizev1.1 : 
     * wait for normalized file to arrive  (EDPluginWaitFile) 
     * retrieve and update metadata (EDPluginBioSaxsMetadatav1_0)
-    * integrate (EDPluginExecPyFai)
+    * integrate (directly vi pyFAI)
     * export as 3-column ascii-file is done here to allow more precise header      
     Changelog since v1.2: use PyFAI instead of saxs_angle from Peter Boesecke 
     """
-
-
+    cpWaitFile = "EDPluginWaitFile"
+    cpGetMetadata = "EDPluginBioSaxsMetadatav1_1"
+    integrator = pyFAI.AzimuthalIntegrator()
     def __init__(self):
         """
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsAzimutIntv1_0)
-        self.__strControlledPluginWaitFile = "EDPluginWaitFile"
-        self.__strControlledPluginPyFAI = "EDPluginExecPyFAIv1_0"
-        self.__strControlledPluginSaxsGetMetadata = "EDPluginBioSaxsMetadatav1_1"
         self.__edPluginWaitFile = None
-        self.__edPluginPyFAI = None
-        self.__edPluginSaxsGetMetadata = None
-
+        self.__edPluginMetadata = None
         self.xsdMetadata = None
         self.sample = None
         self.experimentSetup = None
         self.normalizedImage = None
-#        self.integratedImage = None
         self.integratedCurve = None
         self.normalizationFactor = None
 
@@ -92,7 +87,7 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         self.xsdResult = XSDataResultBioSaxsAzimutIntv1_0()
         self.dummy = -1
         self.delta_dummy = 0.1
-
+        self .integrator_config = {}
 
     def checkParameters(self):
         """
@@ -102,7 +97,6 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.normalizedImage, "Missing normalizedImage")
         self.checkMandatoryParameters(self.dataInput.normalizedImageSize, "Missing normalizedImageSize")
-#        self.checkMandatoryParameters(self.dataInput.integratedImage, "Missing integratedImage")
         self.checkMandatoryParameters(self.dataInput.integratedCurve, "Missing integratedCurve")
         self.checkMandatoryParameters(self.dataInput.sample, "Missing a sample description")
         self.checkMandatoryParameters(self.dataInput.experimentSetup, "Missing an experiment setup")
@@ -114,18 +108,14 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         # Load the execution plugins
         self.sample = self.dataInput.sample
         self.experimentSetup = self.dataInput.experimentSetup
-        self.__edPluginWaitFile = self.loadPlugin(self.__strControlledPluginWaitFile)
-        self.__edPluginPyFAI = self.loadPlugin(self.__strControlledPluginPyFAI)
-        self.__edPluginSaxsGetMetadata = self.loadPlugin(self.__strControlledPluginSaxsGetMetadata)
+        self.__edPluginWaitFile = self.loadPlugin(self.cpWaitFile)
+        self.__edPluginMetadata = self.loadPlugin(self.cpGetMetadata)
         self.normalizedImage = self.dataInput.normalizedImage.path.value
-#        self.integratedImage = self.dataInput.integratedImage.path.value
         self.integratedCurve = self.dataInput.integratedCurve.path.value
         curveDir = os.path.dirname(self.integratedCurve)
         if not os.path.isdir(curveDir):
             os.mkdir(curveDir)
-#        integDir = os.path.dirname(self.integratedImage)
-#        if not os.path.isdir(integDir):
-#            os.mkdir(integDir)
+
 
 
     def process(self, _edObject=None):
@@ -137,18 +127,19 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
         self.__edPluginWaitFile.connectFAILURE(self.doFailureWaitFile)
         self.__edPluginWaitFile.executeSynchronous()
+        if self.isFailure():
+            return
+        self.__edPluginMetadata.connectSUCCESS(self.doSuccessGetMetadata)
+        self.__edPluginMetadata.connectFAILURE(self.doFailureGetMetadata)
+        self.__edPluginMetadata.executeSynchronous()
+        if self.isFailure():
+            return
         if not self.isFailure():
-            self.__edPluginSaxsGetMetadata.connectSUCCESS(self.doSuccessGetMetadata)
-            self.__edPluginSaxsGetMetadata.connectFAILURE(self.doFailureGetMetadata)
-            self.__edPluginSaxsGetMetadata.executeSynchronous()
-        if not self.isFailure():
-            self.__edPluginPyFAI.connectSUCCESS(self.doSuccessPyFAI)
-            self.__edPluginPyFAI.connectFAILURE(self.doFailurePyFAI)
-            self.__edPluginPyFAI.executeSynchronous()
-        if not self.isFailure():
-            self.write3ColumnAscii(self.npaOut, self.integratedCurve)
-            self.lstProcessLog.append("Conversion to ascii --> '%s'" % (self.integratedCurve))
+            q, I, std = self.integrate()
+            self.write3ColumnAscii(q, I, std, self.integratedCurve)
+#            self.lstProcessLog.append("Conversion to ascii --> '%s'" % (self.integratedCurve))
             self.xsdResult.setIntegratedCurve(self.dataInput.integratedCurve)
+
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
@@ -182,7 +173,7 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         xsdiMetadata.maskFile = self.experimentSetup.maskFile
         xsdiMetadata.normalizationFactor = self.experimentSetup.normalizationFactor
         xsdiMetadata.beamStopDiode = self.experimentSetup.beamStopDiode
-        self.__edPluginSaxsGetMetadata.dataInput = xsdiMetadata
+        self.__edPluginMetadata.dataInput = xsdiMetadata
 
 
     def doFailureWaitFile(self, _edPlugin=None):
@@ -199,24 +190,34 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
             self.sample = self.xsdMetadata.sample
             self.experimentSetup = self.xsdMetadata.experimentSetup
 
-            self.lstProcessLog.append("Azimuthal integration of Corrected+Masked EDF image '%s'." % (self.normalizedImage))
-            detector = XSDataDetector(name=XSDataString(self.experimentSetup.detector.value.capitalize().replace(" ", "")),
-                                      pixelSizeX=self.xsdMetadata.pixelSize_1,
-                                      pixelSizeY=self.xsdMetadata.pixelSize_2,
-                                      )
-            geometry = XSDataGeometryFit2D(detector=detector,
-                                           distance=self.experimentSetup.detectorDistance,
-                                           beamCentreInPixelsX=self.xsdMetadata.beamCenter_1,
-                                           beamCentreInPixelsY=self.xsdMetadata.beamCenter_2,
-                                           tiltRotation=XSDataAngle(0.0),
-                                           angleOfTilt=XSDataAngle(0.0))
-            self.__edPluginPyFAI.dataInput = XSDataInputPyFAI(input=self.dataInput.normalizedImage,
-                                             dummy=XSDataDouble(self.dummy),
-                                             deltaDummy=XSDataDouble(self.delta_dummy),
-                                             geometryFit2D=geometry,
-                                             nbPt=XSDataInteger(500),
-                                             wavelength=self.experimentSetup.wavelength,
-                                             saxsWaxs=XSDataString("saxs"))
+            self.lstProcessLog.append("Azimuthal integration of Corrected+Masked EDF image -->'%s'." % (self.integratedCurve))
+            self .integrator_config = {'dist': self.experimentSetup.detectorDistance.value,
+                            'pixel1': self.experimentSetup.pixelSize_2.value, # flip X,Y
+                            'pixel2': self.experimentSetup.pixelSize_1.value, # flip X,Y
+                            'poni1': self.experimentSetup.beamCenter_2.value * self.experimentSetup.pixelSize_2.value,
+                            'poni2': self.experimentSetup.beamCenter_1.value * self.experimentSetup.pixelSize_1.value,
+                            'rot1': 0.0,
+                            'rot2': 0.0,
+                            'rot3': 0.0,
+                            'splineFile': None}
+#
+#            detector = XSDataDetector(name=XSDataString(self.experimentSetup.detector.value.capitalize().replace(" ", "")),
+#                                      pixelSizeX=self.xsdMetadata.pixelSize_1,
+#                                      pixelSizeY=self.xsdMetadata.pixelSize_2,
+#                                      )
+#            geometry = XSDataGeometryFit2D(detector=detector,
+#                                           distance=self.experimentSetup.detectorDistance,
+#                                           beamCentreInPixelsX=self.xsdMetadata.beamCenter_1,
+#                                           beamCentreInPixelsY=self.xsdMetadata.beamCenter_2,
+#                                           tiltRotation=XSDataAngle(0.0),
+#                                           angleOfTilt=XSDataAngle(0.0))
+#            self.__edPluginPyFAI.dataInput = XSDataInputPyFAI(input=self.dataInput.normalizedImage,
+#                                             dummy=XSDataDouble(self.dummy),
+#                                             deltaDummy=XSDataDouble(self.delta_dummy),
+#                                             geometryFit2D=geometry,
+#                                             nbPt=XSDataInteger(500),
+#                                             wavelength=self.experimentSetup.wavelength,
+#                                             saxsWaxs=XSDataString("saxs"))
 
 
     def doFailureGetMetadata(self, _edPlugin=None):
@@ -226,22 +227,24 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         self.setFailure()
 
 
-    def doSuccessPyFAI(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsAzimutIntv1_3.doSuccessPyFAI")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_3.doSuccessPyFAI")
-        self.npaOut = EDUtilsArray.getArray(_edPlugin.dataOutput.output)
-
-
-    def doFailurePyFAI(self, _edPlugin=None):
-        self.DEBUG("EDPluginBioSaxsAzimutIntv1_3.doFailurePyFAI")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsAzimutIntv1_3.doFailurePyFAI")
-        self.lstProcessLog.append("Error during integration with pyFAI on '%s'" % (self.normalizedImage))
-        self.setFailure()
-
-
-    def write3ColumnAscii(self, inputArray, outputCurve, hdr="#", linesep=os.linesep):
+    def integrate(self):
+        if (self.integrator.getPyFAI() != self.integrator_config) or \
+           (self.integrator.wavelength != self.experimentSetup.wavelength.value):
+            self.screen("Resting PyFAI integrator")
+            self.integrator.setPyFAI(**self.integrator_config)
+            self.integrator.wavelength = self.experimentSetup.wavelength.value
+        with EDUtilsParallel.getSemaphoreNbThreads():
+            img = fabio.open(self.normalizedImage)
+            variance = img.next()
+            q, I, std = self.integrator.saxs(data=img.data, nbPt=max(img.dim1, img.dim2),
+                                       correctSolidAngle=True,
+                                       variance=variance.data,
+                                       dummy= -2, delta_dummy=1.1,
+                                       method="splitBBox")
+        return q, I, std
+    def write3ColumnAscii(self, npaQ, npaI, npaStd=None, outputCurve="output.dat", hdr="#", linesep=os.linesep):
         """
-        @param inputArray: 3 column numpy array 
+        @param npaQ,npaI,npaStd: 3x 1d numpy array containing Scattering vector, Intensity and deviation 
         @param outputCurve: name of the 3-column ascii file to be written
         @param hdr: header mark, usually '#'
         
@@ -283,12 +286,6 @@ s-vector Intensity Error
 s-vector Intensity Error
         """
         hdr = str(hdr)
-        npaQ = inputArray[:, 0]
-        npaSignal = inputArray[:, 1]
-        try:
-            npaStd = inputArray[:, 2]
-        except:
-            npaStd = None
         headers = []
         if self.sample.comments is not None:
             headers.append(hdr + " " + self.sample.comments.value)
@@ -317,7 +314,7 @@ s-vector Intensity Error
         if self.experimentSetup.detectorDistance is not None:
             headers.append(hdr + " SampleDistance = %s" % self.experimentSetup.detectorDistance.value)
         if self.experimentSetup.wavelength is not None:
-            headers.append(hdr + " WaveLength = %s" % self.experimentSetup.wavelength)
+            headers.append(hdr + " WaveLength = %s" % self.experimentSetup.wavelength.value)
         if self.experimentSetup.normalizationFactor is not None:
             headers.append(hdr + " Normalization = %s" % self.experimentSetup.normalizationFactor.value)
         if self.experimentSetup.beamStopDiode is not None:
@@ -353,11 +350,12 @@ s-vector Intensity Error
             f.write(linesep)
             if npaStd is None:
                 data = ["%14.6e %14.6e " % (q, I)
-                        for q, I in zip(npaQ, npaSignal)
+                        for q, I in zip(npaQ, npaI)
                         if abs(I - self.dummy) > self.delta_dummy]
             else:
                 data = ["%14.6e %14.6e %14.6e" % (q, I, std)
-                        for q, I, std in zip(npaQ, npaSignal, npaStd)
+                        for q, I, std in zip(npaQ, npaI, npaStd)
                         if abs(I - self.dummy) > self.delta_dummy]
+            data.append("")
             f.writelines(linesep.join(data))
             f.flush()

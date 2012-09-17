@@ -99,7 +99,7 @@ class Date:
             month = int(month)
             day = int(day)
             return dt.date(year, month, day)
-        except:
+        except Exception:
             log.debug(s, exec_info=True)
             raise ValueError, 'Invalid format "%s"' % s
         
@@ -216,7 +216,7 @@ class Time:
                 return dt.time(hour, minute, second)
             else:
                 return dt.time(hour, minute, second, ms)
-        except:
+        except Exception:
             log.debug(s, exec_info=True)
             raise ValueError, 'Invalid format "%s"' % s
         

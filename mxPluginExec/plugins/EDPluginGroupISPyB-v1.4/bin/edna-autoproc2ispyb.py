@@ -25,6 +25,8 @@ __authors__ = ["Olof Svensson"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os, time, sys, threading, tempfile
 
@@ -47,6 +49,7 @@ os.environ["EDNA_SITE"] = "ESRF_ISPyB"
 sys.path.append(os.path.join(os.environ["EDNA_HOME"], "kernel", "src"))
 
 from EDVerbose import EDVerbose
+
 from EDUtilsFile import EDUtilsFile
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("EDPluginISPyBStoreAutoProcv1_4")

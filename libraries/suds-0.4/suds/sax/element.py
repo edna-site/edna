@@ -212,7 +212,7 @@ class Element:
         try:
             attr = self.getAttribute(name)
             self.attributes.remove(attr)
-        except:
+        except Exception:
             pass
         return self
             
@@ -979,7 +979,7 @@ class NodeIterator:
             child = self.children[self.pos]
             self.pos += 1
             return child
-        except:
+        except Exception:
             raise StopIteration()
 
 

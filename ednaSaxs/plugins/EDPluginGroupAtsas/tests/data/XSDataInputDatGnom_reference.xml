@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<inputCurve><path><value>${EDNA_TESTIMAGES}/autosubtracted.dat</value></path></inputCurve>
+	<rg><value>2.8</value></rg>
+	<skip><value>9</value></skip>
+	<output><path><value>/tmp/edna-${USER}/datgnom.out</value></path></output>
+</XSDataInput>
