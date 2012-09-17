@@ -106,7 +106,7 @@ class EDPluginControlSaxsAnalysisv1_0(EDPluginControl):
         self.edPluginDatGnom.connectFAILURE(self.doFailureGnom)
         self.edPluginDatGnom.executeSynchronous()
 
-        if self.isFailure():
+        if self.gnom is None:
             return
 
         self.edPluginDatPorod = self.loadPlugin(self.cpDatPorod)
@@ -124,16 +124,18 @@ class EDPluginControlSaxsAnalysisv1_0(EDPluginControl):
         strLog = """Rg   =   %f +/- %f 
 I(0) =   %e +/- %e
 Points   %i to %i 
-Quality: %4.2f%%     Aggregated: %s
-Dmax    =    %12f       Total =   %12f     
-Guinier =    %12f       Gnom =    %12f     
-Volume  =    %12f""" % (self.autoRg.rg.value, self.autoRg.rgStdev.value,
+Quality: %4.2f%%     Aggregated: %s"""%(self.autoRg.rg.value, self.autoRg.rgStdev.value,
                         self.autoRg.i0.value, self.autoRg.i0Stdev.value,
                         self.autoRg.firstPointUsed.value, self.autoRg.lastPointUsed.value,
-                        self.autoRg.quality.value * 100., self.autoRg.isagregated.value,
-                        self.gnom.dmax.value, self.gnom.total.value,
-                        self.gnom.rgGuinier.value, self.gnom.rgGnom.value,
-                        self.xVolume.value)
+                        self.autoRg.quality.value * 100., self.autoRg.isagregated.value)
+        if self.gnom is not None:
+            strLog += """
+Dmax    =    %12f       Total =   %12f     
+Guinier =    %12f       Gnom =    %12f"""%(self.gnom.dmax.value, self.gnom.total.value,
+                        self.gnom.rgGuinier.value, self.gnom.rgGnom.value)
+        if self.xVolume is not None:
+            strLog += """
+Volume  =    %12f""" % (self.xVolume.value)
 
         xsDataResult = XSDataResultSaxsAnalysis(autoRg=self.autoRg,
                                                 gnom=self.gnom,
@@ -161,7 +163,7 @@ Volume  =    %12f""" % (self.autoRg.rg.value, self.autoRg.rgStdev.value,
     def doFailureGnom(self, _edPlugin=None):
         self.DEBUG("EDPluginControlSaxsAnalysisv1_0.doFailureGnom")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlSaxsAnalysisv1_0.doFailureGnom")
-        self.setFailure()
+        #self.setFailure()
 
     def doSuccessPorod(self, _edPlugin=None):
         self.DEBUG("EDPluginControlSaxsAnalysisv1_0.doSuccessPorod")
@@ -171,4 +173,4 @@ Volume  =    %12f""" % (self.autoRg.rg.value, self.autoRg.rgStdev.value,
     def doFailurePorod(self, _edPlugin=None):
         self.DEBUG("EDPluginControlSaxsAnalysisv1_0.doFailurePorod")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlSaxsAnalysisv1_0.doFailurePorod")
-        self.setFailure()
+        #self.setFailure()
