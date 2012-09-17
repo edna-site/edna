@@ -47,12 +47,12 @@ except ImportError:
 import numpy
 from math import ceil, floor
 sem = threading.Semaphore()
-
+masks = {}
 def shift(input, shift):
     """
     Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order=0) but faster
     @param input: 2d numpy array
-    @param shift: 2-tuple of integers 
+    @param shift: 2-tuple of integers
     @return: shifted image
     """
     re = numpy.zeros_like(input)
@@ -72,9 +72,9 @@ def shiftFFT(inp, shift, method="fftw"):
     Do shift using FFTs
     Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order="infinity") but faster
     @param input: 2d numpy array
-    @param shift: 2-tuple of float 
+    @param shift: 2-tuple of float
     @return: shifted image
-    
+
     """
     d0, d1 = inp.shape
     v0, v1 = shift
@@ -106,7 +106,7 @@ def maximum_position(img):
     Find the position of the maximum of the values of the array.
 
     @param img: 2-D image
-    @return: 2-tuple of int with the position of the maximum  
+    @return: 2-tuple of int with the position of the maximum
     """
     maxarg = numpy.argmax(img)
     s0, s1 = img.shape
@@ -117,7 +117,7 @@ def center_of_mass(img):
     Calculate the center of mass of of the array.
     Like scipy.ndimage.measurements.center_of_mass
     @param img: 2-D array
-    @return: 2-tuple of float with the center of mass 
+    @return: 2-tuple of float with the center of mass
     """
     d0, d1 = img.shape
     a0, a1 = numpy.ogrid[:d0, :d1]
@@ -200,13 +200,13 @@ class CudaCorrelate(object):
             self.ctx.pop()
         return res
 
-def measure_offset(img1, img2, method="fftw", withLog=False):
+def measure_offset(img1, img2, method="fftw", withLog=False, withCorr=False):
     """
     Measure the actual offset between 2 images
-    @param img1: ndarray, first image 
+    @param img1: ndarray, first image
     @param img2: ndarray, second image, same shape as img1
     @param withLog: shall we return logs as well ? boolean
-    @param _shared: DO NOT USE !!! 
+    @param _shared: DO NOT USE !!!
     @return: tuple of floats with the offsets
     """
     method = str(method)
@@ -271,9 +271,15 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
     logs.append("MeasureOffset: fine result: %s %s" % offset)
     logs.append("MeasureOffset: execution time: %.3fs with %.3fs for FFTs" % (t2 - t0, t1 - t0))
     if withLog:
-        return offset, logs
+        if withCorr:
+            return offset, logs, new
+        else:
+            return offset, logs
     else:
-        return offset
+        if withCorr:
+            return offset, new
+        else:
+            return offset
 
 def merge3(a, b, c, ROI=None):
     """
@@ -333,5 +339,47 @@ def patch(*arrays):
     out[idx == 0] = 0
     return out
 
+def gaussian(M, std, sym=True):
+    """Return a Gaussian window of length M with standard-deviation std.
 
+    """
+    if M < 1:
+        return numpy.array([])
+    if M == 1:
+        return numpy.ones(1, 'd')
+    odd = M % 2
+    if not sym and not odd:
+        M = M + 1
+    n = numpy.arange(0, M) - (M - 1.0) / 2.0
+    sig2 = 2 * std * std
+    w = numpy.exp(-n ** 2 / sig2)
+    if not sym and not odd:
+        w = w[:-1]
+    return w
 
+def make_mask(shape, width):
+    """
+    Create a 2D mask with 1 in the center and fades-out to 0 on the border.
+    """
+    assert len(shape) == 2
+    s0, s1 = shape
+    try:
+        if len(width) == 2:
+            w0, w1 = width
+        else:
+            w0 = w1 = width
+    except TypeError:
+        w0 = w1 = width
+    key = ((s0, s1), (w0, w1))
+    if key not in masks:
+        g0 = gaussian(s0, w0)
+        g1 = gaussian(s1, w1)
+        h0 = numpy.empty_like(g0)
+        h1 = numpy.empty_like(g1)
+        h0[:s0 // 2] = g0[s0 - s0 // 2:]
+        h0[s0 // 2:] = g0[:s0 - s0 // 2]
+        h1[:s1 // 2] = g1[s1 - s1 // 2:]
+        h1[s1 // 2:] = g1[:s1 - s1 // 2]
+        mask = numpy.outer(1 - h0, 1 - h1)
+        masks[key] = mask
+    return masks[key]
