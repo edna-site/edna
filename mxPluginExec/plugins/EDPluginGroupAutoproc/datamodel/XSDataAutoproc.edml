@@ -263,17 +263,14 @@ complex type XSDataFileConversion extends XSDataInput {
 }
 
 complex type XSDataAutoprocImport extends XSDataInput {
-	input_anom_anom		: XSDataString
-	input_anom_noanom	: XSDataString
-	input_noanom_anom	: XSDataString
-	input_noanom_noanom	: XSDataString
+	input_anom		: XSDataString
+	input_noanom		: XSDataString
 	output_directory	: XSDataString
 	dataCollectionID	: XSDataInteger
 	start_image		: XSDataInteger
         end_image		: XSDataInteger
         res			: XSDataFloat
         nres			: XSDataFloat
-        anom			: XSDataBoolean
 }
 
 complex type XSDataAutoprocImportOut extends XSDataResult {
