@@ -36,7 +36,6 @@ This class handles the EDNA configuration XML files.
 import os
 
 from EDLogging import EDLogging
-from EDVerbose import EDVerbose
 from EDUtilsFile import EDUtilsFile
 from EDUtilsPath import EDUtilsPath
 from EDFactoryPluginStatic import EDFactoryPluginStatic
@@ -104,6 +103,39 @@ class EDConfiguration(EDLogging):
                             self.DEBUG("EDConfiguration.addConfigurationFile: adding plugin configuration for %s." % strPluginName)
                             self.__dictPluginConfiguration[strPluginName] = xsPluginItem                        
         
+
+    def getPathToProjectConfigurationFile(self, _strPluginName):
+        """
+        This method returns the path to the Project configuration file.
+
+        @param _strPluginName: Name of the module
+        @type _strPluginName: python string
+        
+        @return: The path to the project configuration file
+        @type: python string
+        """
+        strCurrentDirectory = EDFactoryPluginStatic.getModuleLocation(_strPluginName)
+        if strCurrentDirectory is None:
+            self.WARNING("Cannot find path to configuration for plugin %s" % _strPluginName)
+        else:
+            with self.__semaphore:
+                bConfFileFound = False
+                strPathToProjectConfigurationFile = None
+                strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.EDNA_SITE
+                while not bConfFileFound:
+                    strPreviousDirectory = strCurrentDirectory
+                    strCurrentDirectory = os.path.dirname(strCurrentDirectory)
+                    strPathToConfigurationDirectory = os.path.abspath(os.path.join(strCurrentDirectory, "conf"))
+                    strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
+                                                                                    strConfigurationFileName))
+                    self.DEBUG("Looking for configuration file for %s in %s" %
+                                    (_strPluginName, strPathToProjectConfigurationFile))
+                    bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
+                    if strCurrentDirectory in (EDUtilsPath.EDNA_HOME, strPreviousDirectory):
+                        strPathToProjectConfigurationFile = None
+                        break
+        return strPathToProjectConfigurationFile
+
     
     def getXSConfigurationItem(self, _strPluginName):
         xsConfigurationItem = None
@@ -112,7 +144,7 @@ class EDConfiguration(EDLogging):
             xsConfigurationItem = self.__dictPluginConfiguration[_strPluginName]
         else:
             # Try to load "project" configuration
-            strPathToProjectConfigurationFile = EDFactoryPluginStatic.getPathToProjectConfigurationFile(_strPluginName)
+            strPathToProjectConfigurationFile = self.getPathToProjectConfigurationFile(_strPluginName)
             if strPathToProjectConfigurationFile is not None:
                 self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=False)
                 if _strPluginName in self.__dictPluginConfiguration.keys():
@@ -132,7 +164,7 @@ class EDConfiguration(EDLogging):
                     self.__dictPluginConfiguration[strPluginName] = _xsPluginItem
 
 
-    def getStringValue(self,  _strConfigurationName, _strPluginName ):
+    def getStringValue(self, _strPluginName, _strConfigurationName ):
         strValue = None
         xsPluginItem = self.getXSConfigurationItem(_strPluginName)
         if xsPluginItem is not None:
