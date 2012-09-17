@@ -290,7 +290,11 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
             xsDataResult.autoRg = self.autoRg
         if self.strSubFile is not None and os.path.isfile(self.strSubFile):
             xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.strSubFile))
-        self.setDataOutput(xsDataResult)
+        if self.gnom is not None:
+            xsDataResult.gnom = self.gnom
+        if self.volume is not None:
+            xsDataResult.volume = self.volume
+        self.dataOutput = xsDataResult
 #        self.DEBUG(executiveSummary)
 
 
@@ -431,7 +435,7 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
             if fidelity==0:
                logFid = "infinity"
             else:
-               logFid = str(-log(fidelity))
+               logFid = "%.2f"%(-log(fidelity))
             self.lstSummary.append("-log(Fidelity) between %s and %s is %s" % (os.path.basename(file0), os.path.basename(file1), logFid))
 
 
