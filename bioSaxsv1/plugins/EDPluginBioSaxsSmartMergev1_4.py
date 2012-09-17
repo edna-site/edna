@@ -32,6 +32,7 @@ __date__ = "20120829"
 __status__ = "Production"
 
 import os, shutil
+from math import log
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("XSDataEdnaSaxs")
@@ -289,7 +290,11 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
             xsDataResult.autoRg = self.autoRg
         if self.strSubFile is not None and os.path.isfile(self.strSubFile):
             xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.strSubFile))
-        self.setDataOutput(xsDataResult)
+        if self.gnom is not None:
+            xsDataResult.gnom = self.gnom
+        if self.volume is not None:
+            xsDataResult.volume = self.volume
+        self.dataOutput = xsDataResult
 #        self.DEBUG(executiveSummary)
 
 
@@ -427,7 +432,11 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
             self.dictSimilarities[tuple(lstIdx)] = fidelity
             lstIdx.reverse()
             self.dictSimilarities[tuple(lstIdx)] = fidelity
-            self.lstSummary.append("Fidelity between %s and %s is %s" % (os.path.basename(file0), os.path.basename(file1), fidelity))
+            if fidelity==0:
+               logFid = "infinity"
+            else:
+               logFid = "%.2f"%(-log(fidelity))
+            self.lstSummary.append("-log(Fidelity) between %s and %s is %s" % (os.path.basename(file0), os.path.basename(file1), logFid))
 
 
     def doFailureExecDatcmp(self, _edPlugin=None):
@@ -441,6 +450,10 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_4.doSuccessExecAutoSub")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_4.doSuccessExecAutoSub")
         self.autoRg = _edPlugin.dataOutput.autoRg
+        if _edPlugin.dataOutput.subtractedCurve is not None:
+             subcurve = _edPlugin.dataOutput.subtractedCurve
+             if os.path.exists(subcurve.path.value):
+                 self.strSubFile = subcurve.path.value
         self.lstSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
 
 
