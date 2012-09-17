@@ -154,14 +154,9 @@ class EDApplication(object):
             EDVerbose.DEBUG("EDApplication.PLUGIN_PARAM_LABEL: " + EDApplication.PLUGIN_PARAM_LABEL)
 
             # Load the configuration file
-            if(self.__strConfigurationFileName is None):
-                self.__strConfigurationHome = EDApplication.getConfigurationHome(self.__strPluginName)
-                self.__strConfigurationFileName = os.path.abspath(os.path.join(self.__strConfigurationHome, "XSConfiguration_%s.xml" % EDUtilsPath.getEdnaSite()))
             if (os.path.exists(self.__strConfigurationFileName)):
                 EDVerbose.screen("Loading Configuration file: %s" % self.__strConfigurationFileName)
-                edConfiguration = EDConfigurationStatic()
-                edConfiguration.addConfigurationFile(self.__strConfigurationFileName)
-                EDVerbose.DEBUG("EDApplication.preProcess: Checking... Number of plugins...: %d" % edConfiguration.getPluginListSize())
+                EDConfigurationStatic.addConfigurationFile(self.__strConfigurationFileName, _bReplace=True)
                 pyDictionary = {}
                 pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
                 if self.getDataInputFilePath() is not None:
@@ -382,19 +377,7 @@ class EDApplication(object):
         EDFactoryPluginStatic.loadModule(_strModuleName)
 
 
-    @classmethod
-    def getConfigurationHome(cls, _strPluginName):
-        """
-        Returns the configuration directory path for a given test module
-        """
-        strModuleLocation = EDFactoryPluginStatic.getFactoryPlugin().getModuleLocation(_strPluginName)
-        strConfigurationHome = EDUtilsPath.appendListOfPaths(strModuleLocation, [ "..", "..", "..", "conf" ])
-        return strConfigurationHome
-
-
     def getDataInputFilePath(self):
-        """
-        """
         return self.__strDataInputFilePath
 
 
@@ -469,8 +452,6 @@ class EDApplication(object):
 
 
     def doFailureActionPlugin(self, _edPlugin):
-        """
-        """
         EDVerbose.DEBUG("EDApplication.doFailureActionPlugin")
 
         # Print the potential Warnings and Errors
@@ -491,26 +472,18 @@ class EDApplication(object):
 
 
     def getPlugin(self):
-        """
-        """
         return self.__edPlugin
 
 
     def getPluginOutputData(self):
-        """
-        """
         return self.__xsDataOutput
 
 
     def getWarningMessages(self):
-        """
-        """
         return self.__listWarningMessages
 
 
     def getErrorMessages(self):
-        """
-        """
         return self.__listErrorMessages
 
 
