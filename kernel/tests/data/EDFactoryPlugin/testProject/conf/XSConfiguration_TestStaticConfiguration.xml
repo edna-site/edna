@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!-- EDPluginFactory test XML file -->
+<XSConfiguration> 
+  <XSPluginList>		
+    <XSPluginItem> 			
+      <name>EDPluginTestPluginFactory</name>  			
+      <XSParamList>				
+        <XSParamItem>					
+          <name>testItemName</name>					
+          <value>anotherTestValue</value>				
+        </XSParamItem>			
+      </XSParamList>		
+    </XSPluginItem>	
+  </XSPluginList>
+</XSConfiguration>

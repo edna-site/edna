@@ -37,6 +37,7 @@ import os
 
 from EDAssert                import EDAssert
 from EDConfiguration         import EDConfiguration
+from EDConfigurationStatic   import EDConfigurationStatic
 from EDUtilsTest             import EDUtilsTest
 from EDUtilsPath             import EDUtilsPath
 from EDTestCase              import EDTestCase
@@ -50,12 +51,18 @@ class EDTestCaseEDConfiguration(EDTestCase):
         EDTestCase.__init__(self, "EDTestCaseEDConfiguration")
         strKernelDataHome = EDUtilsTest.getPluginTestDataDirectory(self.getClassName())
         strDataDir = "EDConfiguration"
-        self.___strDataPath = EDUtilsPath.mergePath(strKernelDataHome, strDataDir)
+        self.strDataPath = EDUtilsPath.mergePath(strKernelDataHome, strDataDir)
+        self.strEdnaSiteOrig = EDUtilsPath.getEdnaSite()
+        
+
+    def preProcess(self):
+        """Set EDNA_SITE to TestSite for these tests"""
+        EDUtilsPath.setEdnaSite("TestSite") 
 
 
     def testAddConfigFile(self):
         # Tests adding a config file
-        strPath = os.path.join(self.___strDataPath, "XSConfiguration.xml")
+        strPath = os.path.join(self.strDataPath, "XSConfiguration.xml")
         edConfiguration = EDConfiguration()
         edConfiguration.addConfigurationFile(strPath)
         # Load the config file again, this time the cache should be used
@@ -63,7 +70,7 @@ class EDTestCaseEDConfiguration(EDTestCase):
 
     
     def testGetXSConfigurationItem1(self):
-        strPath = os.path.join(self.___strDataPath, "XSConfiguration.xml")
+        strPath = os.path.join(self.strDataPath, "XSConfiguration.xml")
         edConfiguration = EDConfiguration()
         edConfiguration.addConfigurationFile(strPath)
         xsDataPluginItem = edConfiguration.getXSConfigurationItem("indexingMosflm")
@@ -71,14 +78,14 @@ class EDTestCaseEDConfiguration(EDTestCase):
 
     def testGetXSConfigurationItem2(self):
         edConfiguration = EDConfiguration()
-        strOldEdnaSite = EDUtilsPath.getEdnaSite()
-        EDUtilsPath.setEdnaSite("TestSite") 
         xsDataPluginItem1 = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactory")
         EDAssert.equal(True, xsDataPluginItem1 is not None, "Obtanied configuration for EDPluginTestPluginFactory")
         xsDataPluginItem2 = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactoryImport1")
         EDAssert.equal(True, xsDataPluginItem2 is not None, "Obtanied imported configuration for EDPluginTestPluginFactoryImport1")
         xsDataPluginItem3 = edConfiguration.getXSConfigurationItem("EDPluginTestPluginFactoryImport2")
         EDAssert.equal(True, xsDataPluginItem3 is not None, "Obtanied imported configuration for EDPluginTestPluginFactoryImport2")
+        # Since this is a static variable we need to reset it in order not to break any other tests...
+        EDUtilsPath.setEdnaSite(strOldEdnaSite) 
         
         
     def testSetXSConfigurationItem(self):
@@ -87,16 +94,38 @@ class EDTestCaseEDConfiguration(EDTestCase):
         edConfiguration = EDConfiguration()
         edConfiguration.setXSConfigurationItem(xsPluginItem)
         xsDataPluginItem = edConfiguration.getXSConfigurationItem("EDPluginTestSetConfig")
-        print xsDataPluginItem.marshal()
-         
-#    def preProcess(self):
-#        """
-#        Constructs the utilitary EDConfiguration class
-#        """
-#        #Loads py module directly using xml configuration file
-#        self.___edConfiguration = EDConfiguration(os.path.join(self.___strDataPath, "XSConfiguration.xml"))
-#        self.___edConfiguration.load()
+        EDAssert.equal(True, xsDataPluginItem is not None, "Obtanied set configuration")
 
+
+    def testGetPathToProjectConfigurationFile(self):
+        edConfiguration = EDConfiguration()
+        strPathToConfigurationFile1 = edConfiguration.getPathToProjectConfigurationFile("EDPluginTestPluginFactory")
+        strPathToConfigurationFileReference1 = EDUtilsPath.appendListOfPaths(EDUtilsPath.getEdnaHome(),
+                                                                                  [ "kernel", "tests", "data", "EDFactoryPlugin", \
+                                                                                   "testProject", "conf", "XSConfiguration_TestSite.xml" ])
+        EDAssert.equal(strPathToConfigurationFileReference1, strPathToConfigurationFile1)
+        EDUtilsPath.setEdnaSite("NonexistingTestSite")
+        strPathToConfigurationFile2 = edConfiguration.getPathToProjectConfigurationFile("EDPluginTestPluginFactory")
+        strPathToConfigurationFileReference2 = None
+        EDAssert.equal(strPathToConfigurationFileReference2, strPathToConfigurationFile2)
+
+
+    def testStaticEDConfiguration(self):
+        # This test make sure that changing an instatiation of EDConfiguration does not change the
+        # corresponding plugin configuration for EDConfigurationStatic
+        strPathToTestConfigFile = os.path.join(self.strDataPath, "XSConfiguration_testNonStatic.xml")
+        edConfiguration = EDConfiguration(strPathToTestConfigFile)
+        strParam2 = edConfiguration.getStringValue("EDPluginTestPluginFactory", "testItemName")
+        EDUtilsPath.setEdnaSite("TestStaticConfiguration") 
+        strParam3 = EDConfigurationStatic.getStringValue("EDPluginTestPluginFactory", "testItemName")
+        print strParam2, strParam3
+        
+
+    def finallyProcess(self):
+        """Restores EDNA_SITE"""
+        EDUtilsPath.setEdnaSite(self.strEdnaSiteOrig) 
+
+         
 
 #    def testGetPluginList(self):
 #        """
@@ -165,10 +194,12 @@ class EDTestCaseEDConfiguration(EDTestCase):
 
 
     def process(self):
-        self.addTestMethod(self.testAddConfigFile)
-        self.addTestMethod(self.testGetXSConfigurationItem1)
-        self.addTestMethod(self.testGetXSConfigurationItem2)
-        self.addTestMethod(self.testSetXSConfigurationItem)
+#        self.addTestMethod(self.testAddConfigFile)
+#        self.addTestMethod(self.testGetXSConfigurationItem1)
+#        self.addTestMethod(self.testGetXSConfigurationItem2)
+#        self.addTestMethod(self.testSetXSConfigurationItem)
+#        self.addTestMethod(self.testGetPathToProjectConfigurationFile)
+        self.addTestMethod(self.testStaticEDConfiguration)
 #        self.addTestMethod(self.testGetPluginList)
 #        self.addTestMethod(self.testGetPluginItem)
 #        self.addTestMethod(self.testGetPluginItemError)
