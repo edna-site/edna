@@ -187,7 +187,7 @@ class EDPlugin(EDAction):
           - Otherwise if a product-wide (e.g. "mxPluginExec") configuration value exists it will be used.         
         """
         self.DEBUG("EDPlugin.getConfigurationParameterValue")
-        strParameterValue = self.__edConfiguration.getStringValue(_strConfigurationParameterName, self.getPluginName())
+        strParameterValue = self.__edConfiguration.getStringValue(self.getPluginName(), _strConfigurationParameterName)
         return strParameterValue
 
 
