@@ -41,14 +41,13 @@ __date__ = "20120131"
 
 import sys, os, threading, urllib2
 
-from EDVerbose          import EDVerbose
-from EDUtilsPath        import EDUtilsPath
-from EDTestCase         import EDTestCase
-from EDUtilsTest        import EDUtilsTest
-from EDUtilsFile        import EDUtilsFile
-from EDApplication      import EDApplication
-from EDConfigurationStatic    import EDConfigurationStatic
-from EDFactoryPlugin    import EDFactoryPlugin
+from EDVerbose             import EDVerbose
+from EDUtilsPath           import EDUtilsPath
+from EDTestCase            import EDTestCase
+from EDUtilsTest           import EDUtilsTest
+from EDUtilsFile           import EDUtilsFile
+from EDConfigurationStatic import EDConfigurationStatic
+from EDFactoryPlugin       import EDFactoryPlugin
 
 iMAX_DOWNLOAD_TIME = 60
 
