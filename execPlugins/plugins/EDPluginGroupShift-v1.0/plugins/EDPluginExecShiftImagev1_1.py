@@ -23,7 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
-from EDShare import EDShare
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
@@ -42,6 +41,8 @@ from EDUtilsPath        import EDUtilsPath
 from EDThreading import Semaphore
 from XSDataShiftv1_0    import XSDataInputShiftImage, XSDataResultShiftImage
 from XSDataCommon       import XSDataImageExt, XSDataString, XSPluginItem
+from EDShare import EDShare
+
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################

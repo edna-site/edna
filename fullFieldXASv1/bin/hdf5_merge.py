@@ -34,6 +34,7 @@ Merge and Crop HDF5 stacks of FullField Xanes/Exafs data
 """
 
 import sys, logging, os, time
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("hdf5merge")
 import numpy
 import h5py
@@ -75,7 +76,7 @@ class MergeFFX(object):
         res = {}
         for h in inputs:
             if ":" not in h:
-                logger.warning("Input %s does not look like a HDF5 path" % h)
+                logger.error("Input %s does not look like a HDF5 path: /path/to/file.h5:Aligned" % h)
             else:
                 filepath, h5path = h.split(":", 1)
                 if os.path.isfile(filepath):
@@ -112,7 +113,7 @@ class MergeFFX(object):
 
     def create_output(self):
         if ":" not in self.output:
-            logger.warning("Input %s does not look like a HDF5 path" % self.output)
+            logger.error("Input %s does not look like a HDF5 path: /path/to/file.h5:Aligned" % self.output)
         else:
             filepath, h5path = self.output.split(":", 1)
             self.h5file = h5py.File(filepath)
@@ -168,7 +169,7 @@ class MergeFFX(object):
 
 
     def merge_dataset(self):
-        print self.crop_region
+        print('Crop region: %s %s'% self.crop_region)
         dim1 = self.crop_region[0].stop - self.crop_region[0].start
         dim2 = self.crop_region[1].stop - self.crop_region[1].start
         if not self.ENERGY in self.h5grp:
@@ -226,7 +227,7 @@ if __name__ == "__main__":
     from optparse import OptionParser
     parser = OptionParser()
     parser.add_option("-o", "--output", dest="h5path",
-                      help="write result to HDF5 file with given path")
+                      help="write result to HDF5 file with given path: path/to/file.h5:Aligned")
     parser.add_option("-c", "--crop", dest="crop",
                       help="Shall we crop the dataset to valid area", default=True)
     parser.add_option("-k", "--check", dest="recheck",
@@ -243,8 +244,17 @@ if __name__ == "__main__":
 
 
     (options, args) = parser.parse_args()
-    print options
-    print args
+    print("")
+    print("Options:")
+    print('========')
+    for k,v in options.__dict__.items():
+        print("    %s: %s"%(k,v))
+    print("")
+    print("Input files and HDF5 path:")
+    print("==========================")
+    for f in list(args): 
+        print("    %s"%f)
+    print(" ")
     mfx = MergeFFX(args, options.h5path, crop=options.crop, check=options.recheck, normalize=options.normalize, logarithm=options.ln)
     mfx.create_output()
     mfx.get_offsets()

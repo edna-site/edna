@@ -377,8 +377,7 @@ class EDPluginControlAlignStackv1_0(EDPluginControl):
                 if accType == "raw":
                     listFrame = [self.getFrameRef(i) for i in listInt]
 
-                    xsdata = XSDataInputMeasureOffset()
-                    xsdata.setImage(listFrame)
+                    xsdata = XSDataInputMeasureOffset(image=listFrame)
                     doSIFT = False
                     if self.xsdMeasureOffset is not None:
                         xsdata.setCropBorders(self.xsdMeasureOffset.getCropBorders())
