@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Sep 11 02:41::21 2012 by EDGenerateDS.
+# Generated Mon Sep 17 10:39::47 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -5610,14 +5610,21 @@ class XSDataXscaleGeneratedFiles(XSDataResult):
 
 
 class XSDataXscaleInputFile(XSDataInput):
-    def __init__(self, configuration=None, res=None, path=None):
+    def __init__(self, configuration=None, res=None, path_noanom=None, path_anom=None):
         XSDataInput.__init__(self, configuration)
-        if path is None:
-            self._path = None
-        elif path.__class__.__name__ == "XSDataString":
-            self._path = path
+        if path_anom is None:
+            self._path_anom = None
+        elif path_anom.__class__.__name__ == "XSDataString":
+            self._path_anom = path_anom
         else:
-            strMessage = "ERROR! XSDataXscaleInputFile constructor argument 'path' is not XSDataString but %s" % self._path.__class__.__name__
+            strMessage = "ERROR! XSDataXscaleInputFile constructor argument 'path_anom' is not XSDataString but %s" % self._path_anom.__class__.__name__
+            raise BaseException(strMessage)
+        if path_noanom is None:
+            self._path_noanom = None
+        elif path_noanom.__class__.__name__ == "XSDataString":
+            self._path_noanom = path_noanom
+        else:
+            strMessage = "ERROR! XSDataXscaleInputFile constructor argument 'path_noanom' is not XSDataString but %s" % self._path_noanom.__class__.__name__
             raise BaseException(strMessage)
         if res is None:
             self._res = None
@@ -5626,18 +5633,30 @@ class XSDataXscaleInputFile(XSDataInput):
         else:
             strMessage = "ERROR! XSDataXscaleInputFile constructor argument 'res' is not XSDataFloat but %s" % self._res.__class__.__name__
             raise BaseException(strMessage)
-    # Methods and properties for the 'path' attribute
-    def getPath(self): return self._path
-    def setPath(self, path):
-        if path is None:
-            self._path = None
-        elif path.__class__.__name__ == "XSDataString":
-            self._path = path
+    # Methods and properties for the 'path_anom' attribute
+    def getPath_anom(self): return self._path_anom
+    def setPath_anom(self, path_anom):
+        if path_anom is None:
+            self._path_anom = None
+        elif path_anom.__class__.__name__ == "XSDataString":
+            self._path_anom = path_anom
         else:
-            strMessage = "ERROR! XSDataXscaleInputFile.setPath argument is not XSDataString but %s" % path.__class__.__name__
+            strMessage = "ERROR! XSDataXscaleInputFile.setPath_anom argument is not XSDataString but %s" % path_anom.__class__.__name__
             raise BaseException(strMessage)
-    def delPath(self): self._path = None
-    path = property(getPath, setPath, delPath, "Property for path")
+    def delPath_anom(self): self._path_anom = None
+    path_anom = property(getPath_anom, setPath_anom, delPath_anom, "Property for path_anom")
+    # Methods and properties for the 'path_noanom' attribute
+    def getPath_noanom(self): return self._path_noanom
+    def setPath_noanom(self, path_noanom):
+        if path_noanom is None:
+            self._path_noanom = None
+        elif path_noanom.__class__.__name__ == "XSDataString":
+            self._path_noanom = path_noanom
+        else:
+            strMessage = "ERROR! XSDataXscaleInputFile.setPath_noanom argument is not XSDataString but %s" % path_noanom.__class__.__name__
+            raise BaseException(strMessage)
+    def delPath_noanom(self): self._path_noanom = None
+    path_noanom = property(getPath_noanom, setPath_noanom, delPath_noanom, "Property for path_noanom")
     # Methods and properties for the 'res' attribute
     def getRes(self): return self._res
     def setRes(self, res):
@@ -5658,10 +5677,10 @@ class XSDataXscaleInputFile(XSDataInput):
         outfile.write(unicode('</%s>\n' % name_))
     def exportChildren(self, outfile, level, name_='XSDataXscaleInputFile'):
         XSDataInput.exportChildren(self, outfile, level, name_)
-        if self._path is not None:
-            self.path.export(outfile, level, name_='path')
-        else:
-            warnEmptyAttribute("path", "XSDataString")
+        if self._path_anom is not None:
+            self.path_anom.export(outfile, level, name_='path_anom')
+        if self._path_noanom is not None:
+            self.path_noanom.export(outfile, level, name_='path_noanom')
         if self._res is not None:
             self.res.export(outfile, level, name_='res')
         else:
@@ -5672,10 +5691,15 @@ class XSDataXscaleInputFile(XSDataInput):
             self.buildChildren(child_, nodeName_)
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'path':
+            nodeName_ == 'path_anom':
             obj_ = XSDataString()
             obj_.build(child_)
-            self.setPath(obj_)
+            self.setPath_anom(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'path_noanom':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setPath_noanom(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'res':
             obj_ = XSDataFloat()

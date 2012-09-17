@@ -82,7 +82,8 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
             self.setFailure()
         # check existence of the input files
         for f in self.dataInput.xds_files:
-            path = f.path.value
+            # check which of the anom or noanom file we have to use
+            path = f.path_anom.value if self.dataInput.friedels_law.value else f.path_noanom.value
             if not os.path.isfile(path):
                 EDVerbose.ERROR('missing input file {0}'.format(path))
                 self.setFailure()
@@ -104,7 +105,10 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
             inputfile.write("OUTPUT_FILE= {0}\n".format(self.hkl_file))
             inputfile.write("MERGE= {0}\n".format("TRUE" if merged else "FALSE"))
             for xds_file in self.dataInput.xds_files:
-                path = os.path.abspath(xds_file.path.value)
+                if self.dataInput.friedels_law.value:
+                    path = os.path.abspath(xds_file.path_anom.value)
+                else:
+                    path = os.path.abspath(xds_file.path_noanom.value)
                 # make a symlink so we do not hit the 50char limit
                 sympath = os.path.abspath(os.path.join(self.getWorkingDirectory(),
                                                        os.path.basename(path)))

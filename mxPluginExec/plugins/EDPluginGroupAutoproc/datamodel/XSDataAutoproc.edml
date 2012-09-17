@@ -123,8 +123,11 @@ complex type XSDataResCutoffResult extends XSDataResult {
 }
 
 complex type XSDataXscaleInputFile extends XSDataInput {
-        path : XSDataString
-        res  : XSDataFloat
+	// usually one of the path will be None depending on whether
+	// we're on the anom or noanom path
+        path_anom	: XSDataString optional
+	path_noanom	: XSDataString optional
+        res		: XSDataFloat
 }
 
 complex type XSDataXscaleGeneratedFiles extends XSDataResult {

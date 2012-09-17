@@ -372,7 +372,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         xscale_anom_in = XSDataXscaleInput()
 
         input_file = XSDataXscaleInputFile()
-        input_file.path = self.generate.dataOutput.hkl_anom
+        input_file.path_anom = self.generate.dataOutput.hkl_anom
+        input_file.path_noanom = self.generate.dataOutput.hkl_noanom
         input_file.res = self.res_cutoff_anom.dataOutput.res
 
         xscale_anom_in.xds_files = [input_file]
@@ -394,34 +395,6 @@ class EDPluginControlAutoproc(EDPluginControl):
             EDVerbose.ERROR('xscale anom/merge generation failed')
 
         self.DEBUG('FINISHED anom xscale')
-
-        # same for non anom code path
-
-        xscale_noanom_in = XSDataXscaleInput()
-
-        input_file = XSDataXscaleInputFile()
-        input_file.path = self.generate.dataOutput.hkl_anom
-        input_file.res = self.res_cutoff_anom.dataOutput.res
-
-        xscale_noanom_in.xds_files = [input_file]
-        xscale_noanom_in.unit_cell_constants = self.parse_xds_noanom.dataOutput.unit_cell_constants
-        xscale_noanom_in.sg_number = self.parse_xds_noanom.dataOutput.sg_number
-        xscale_noanom_in.bins = self.res_cutoff_noanom.dataOutput.bins
-
-        self.xscale_noanom.dataInput = xscale_noanom_in
-        self.DEBUG('STARTING noanom xscale')
-        t0=time.time()
-        self.xscale_noanom.executeSynchronous()
-        self.stats['xscale_noanom'] = time.time()-t0
-
-        with open(self.log_file_path, 'w') as f:
-            json.dump(self.stats, f)
-
-        if self.xscale_noanom.isFailure():
-            EDVerbose.ERROR('xscale anom/merge generation failed')
-
-        self.DEBUG('FINISHED noanom xscale')
-
 
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
