@@ -186,8 +186,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.parse_xds_anom = self.loadPlugin("EDPluginParseXdsOutput")
         self.parse_xds_noanom = self.loadPlugin("EDPluginParseXdsOutput")
 
-        self.xscale_anom = self.loadPlugin("EDPluginControlXscaleGenerate")
-        self.xscale_noanom = self.loadPlugin("EDPluginControlXscaleGenerate")
+        self.xscale_generate = self.loadPlugin("EDPluginControlXscaleGenerate")
 
         self.store_autoproc = self.loadPlugin('EDPluginISPyBStoreAutoProcv1_4')
 
@@ -383,7 +382,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
 
         self.xscale_anom.dataInput = xscale_anom_in
-        self.DEBUG('STARTING anom xscale')
+        self.DEBUG('STARTING xscale generation')
         t0=time.time()
         self.xscale_anom.executeSynchronous()
         self.stats['xscale_anom']=time.time()-t0
@@ -392,9 +391,9 @@ class EDPluginControlAutoproc(EDPluginControl):
             json.dump(self.stats, f)
 
         if self.xscale_anom.isFailure():
-            EDVerbose.ERROR('xscale anom/merge generation failed')
+            EDVerbose.ERROR('xscale  generation failed')
 
-        self.DEBUG('FINISHED anom xscale')
+        self.DEBUG('FINISHED xscale generation')
 
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
@@ -428,7 +427,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         scaling_container.AutoProcScaling = scaling
 
         # NOANOM PATH
-        xscale_stats_noanom = self.xscale_noanom.dataOutput.stats_noanom_merged
+        xscale_stats_noanom = self.xscale_generate.dataOutput.stats_noanom_merged
         inner_stats_noanom = xscale_stats_noanom.completeness_entries[0]
         outer_stats_noanom = xscale_stats_noanom.completeness_entries[-1]
 
@@ -452,7 +451,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         # ANOM PATH
-        xscale_stats_anom = self.xscale_anom.dataOutput.stats_anom_merged
+        xscale_stats_anom = self.xscale_generate.dataOutput.stats_anom_merged
         inner_stats_anom = xscale_stats_anom.completeness_entries[0]
         outer_stats_anom = xscale_stats_anom.completeness_entries[-1]
 
