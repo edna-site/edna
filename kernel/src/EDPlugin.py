@@ -32,15 +32,15 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os, tempfile, stat, types
 
-from EDSlot             import EDSlot
-from EDApplication      import EDApplication
+from EDSlot                import EDSlot
+from EDUtilsPath           import EDUtilsPath
+from EDConfiguration       import EDConfiguration
 from EDConfigurationStatic import EDConfigurationStatic
-from EDUtilsFile        import EDUtilsFile
-from EDStatus           import EDStatus
-from EDAction           import EDAction
+from EDUtilsFile           import EDUtilsFile
+from EDStatus              import EDStatus
+from EDAction              import EDAction
 
-from XSDataCommon       import XSPluginItem
-from XSDataCommon       import XSDataResult
+from XSDataCommon          import XSDataResult
 
 
 class EDPlugin(EDAction):
@@ -158,12 +158,16 @@ class EDPlugin(EDAction):
 
     def setConfiguration(self, _xsPluginItem):
         """
-        Receives an XSPluginItem (Plugin Configuration) from the application
+        Receives an XSPluginItem (Plugin Configuration) from the application.
+        The global (static) EDConfigurationStatic instance is replaced with
+        a local instance in order to not change the configuration for other
+        plugin instances.
         """
         self.DEBUG("EDPlugin.setConfiguration")
+        self.__edConfiguration = EDConfiguration()
         self.__edConfiguration.setXSConfigurationItem(_xsPluginItem)
 
-
+    
     def getConfiguration(self):
         """
         Gets the Plugin Configuration as an XSPluginItem
@@ -172,7 +176,6 @@ class EDPlugin(EDAction):
         return self.__edConfiguration.getXSConfigurationItem(self.getPluginName())
 
     configuration = property(getConfiguration, setConfiguration)
-
 
     def getStringConfigurationParameterValue(self, _strConfigurationParameterName):
         """
@@ -186,8 +189,10 @@ class EDPlugin(EDAction):
           - If a plugin configuration item exists and the configration parameter name is present it will be used.
           - Otherwise if a product-wide (e.g. "mxPluginExec") configuration value exists it will be used.         
         """
-        self.DEBUG("EDPlugin.getConfigurationParameterValue")
         strParameterValue = self.__edConfiguration.getStringValue(self.getPluginName(), _strConfigurationParameterName)
+        self.DEBUG("EDPlugin.getConfigurationParameterValue: %s, %s = %s" % (self.getPluginName(), 
+                                                                             _strConfigurationParameterName,
+                                                                             strParameterValue))
         return strParameterValue
 
 
@@ -212,7 +217,7 @@ class EDPlugin(EDAction):
         Should be overridden by the Final Plugin If needed
         This method should set its proper members attributes from a Plugin configuration Object
         """
-        self.DEBUG("EDPlugin.configure : %s" % self.getClassName())
+        self.DEBUG("EDPlugin.configure : plugin name = %s, EDNA_SITE = %s" % (self.getPluginName(), EDUtilsPath.EDNA_SITE))
 
         # set Timeout if different from default one
         if self.getTimeOut() == self.getDefaultTimeOut():
