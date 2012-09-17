@@ -27,27 +27,43 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-from EDVerbose              import EDVerbose
-from EDTestCasePluginUnit   import EDTestCasePluginUnit
-from XSDataMXv1             import XSDataInputControlISPyB
-from XSDataMXv1             import XSDataResultCharacterisation
+import os
 
-class EDTestCasePluginUnitControlISPyBv1_4(EDTestCasePluginUnit):
+from EDVerbose                          import EDVerbose
+from EDAssert                           import EDAssert
+from EDTestCasePluginExecute            import EDTestCasePluginExecute
+from XSDataMXv1                         import XSDataResultControlISPyB
+
+
+class EDTestCasePluginExecuteControlISPyBv1_4_withoutDataCollectionId(EDTestCasePluginExecute):
+
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlISPyBv1_4")
+        EDTestCasePluginExecute.__init__(self, "EDPluginControlISPyBv1_4")
+
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
+                                                      "XSDataInputControlISPyB_withoutDataCollectionId.xml"))
 
 
-    def testCheckParameters(self):
-        xsDataInputControlISPyB = XSDataInputControlISPyB()
-        xsDataResultCharacterisation = XSDataResultCharacterisation()
-        xsDataInputControlISPyB.setCharacterisationResult(xsDataResultCharacterisation)
-        edPluginControlISPyB = self.createPlugin()
-        edPluginControlISPyB.setDataInput(xsDataInputControlISPyB)
-        edPluginControlISPyB.checkParameters()
 
+
+    def testExecute(self):
+        self.run()
+
+        # Checks that there are no error messages
+        plugin = self.getPlugin()
+
+        # Checks the expected result
+        EDVerbose.DEBUG("Checking obtained result...")
+
+        xsDataResultControlISPyB = plugin.dataOutput
+        bExistScreeningId = False
+        if xsDataResultControlISPyB.screeningId is not None:
+            bExistScreeningId = True
+        EDAssert.equal(True, bExistScreeningId, "Screening id generated")
 
 
     def process(self):
-        self.addTestMethod(self.testCheckParameters)
+        self.addTestMethod(self.testExecute)
+
 

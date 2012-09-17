@@ -27,27 +27,11 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-from EDVerbose              import EDVerbose
-from EDTestCasePluginUnit   import EDTestCasePluginUnit
-from XSDataMXv1             import XSDataInputControlISPyB
-from XSDataMXv1             import XSDataResultCharacterisation
+from EDTestSuite  import EDTestSuite
 
-class EDTestCasePluginUnitControlISPyBv1_4(EDTestCasePluginUnit):
-
-    def __init__(self, _edStringTestName=None):
-        EDTestCasePluginUnit.__init__(self, "EDPluginControlISPyBv1_4")
-
-
-    def testCheckParameters(self):
-        xsDataInputControlISPyB = XSDataInputControlISPyB()
-        xsDataResultCharacterisation = XSDataResultCharacterisation()
-        xsDataInputControlISPyB.setCharacterisationResult(xsDataResultCharacterisation)
-        edPluginControlISPyB = self.createPlugin()
-        edPluginControlISPyB.setDataInput(xsDataInputControlISPyB)
-        edPluginControlISPyB.checkParameters()
-
-
+class EDTestSuitePluginControlISPyBv1_4(EDTestSuite):
 
     def process(self):
-        self.addTestMethod(self.testCheckParameters)
+        self.addTestSuiteFromName("EDTestSuitePluginUnitControlISPyBv1_4")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteControlISPyBv1_4")
 

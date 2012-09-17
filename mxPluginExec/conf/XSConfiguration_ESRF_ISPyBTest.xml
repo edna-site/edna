@@ -369,6 +369,10 @@
 					<name>toolsForScreeningEDNAWebServiceWsdl</name>
 					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForScreeningEDNAWebService?wsdl</value>
 				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem> 

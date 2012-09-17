@@ -178,13 +178,10 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
 
     
     def getDateValue(self, _strValue, _strFormat, _oDefaultValue):
-        if _strValue is None:
+        if _strValue is None or _strValue == "None":
             oReturnValue = _oDefaultValue
         else:
-            try:
-                oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
-            except:
-                oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
+            oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
         return oReturnValue
     
 
@@ -197,7 +194,7 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         bProcessingStatus        = self.getXSValue(_xsDataAutoProcProgram.getProcessingStatus(), True)
         strProcessingMessage     = self.getXSValue(_xsDataAutoProcProgram.getProcessingMessage())
         processingStartTime      = self.getDateValue(_xsDataAutoProcProgram.getProcessingStartTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-        processingEndTime        = self.getDateValue(_xsDataAutoProcProgram.getProcessingEndTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
+        processingEndTime        = self.getDateValue(_xsDataAutoProcProgram.getProcessingEndTime(),    "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
         strProcessingEnvironment = self.getXSValue(_xsDataAutoProcProgram.getProcessingEnvironment())
         recordTimeStamp          = self.getDateValue(None,  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
         iAutoProcProgramId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcProgram(

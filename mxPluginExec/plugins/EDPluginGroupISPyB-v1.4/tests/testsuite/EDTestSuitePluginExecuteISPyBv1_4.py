@@ -45,7 +45,7 @@ class EDTestSuitePluginExecuteISPyBv1_4(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_4")
 #        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreDataCollectionv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreScreeningv1_4")
-
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreScreeningv1_4_withoutDataCollectionId")
 
 ##############################################################################
 if __name__ == '__main__':
