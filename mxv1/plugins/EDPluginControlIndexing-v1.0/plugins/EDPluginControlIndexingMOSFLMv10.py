@@ -31,6 +31,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 from EDPluginControlIndexingv10 import EDPluginControlIndexingv10
 
+from XSDataCommon import XSDataBoolean
 
 class EDPluginControlIndexingMOSFLMv10(EDPluginControlIndexingv10):
     """
@@ -71,5 +72,6 @@ class EDPluginControlIndexingMOSFLMv10(EDPluginControlIndexingv10):
         xsDataMOSFLMOutputIndexing = _edPlugin.getDataOutput()
         from EDHandlerXSDataMOSFLMv10 import EDHandlerXSDataMOSFLMv10
         xsDataIndexingResult = EDHandlerXSDataMOSFLMv10.generateXSDataIndexingResult(xsDataMOSFLMOutputIndexing, self.getExperimentalCondition())
+        xsDataIndexingResult.setLabelitIndexing(XSDataBoolean(False))
         return xsDataIndexingResult
 

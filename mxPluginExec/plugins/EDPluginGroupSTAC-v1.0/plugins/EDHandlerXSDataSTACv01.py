@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id: EDHandlerXSDataXDSv1_0.py 1516 2010-05-12 08:11:11Z svensson $"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #

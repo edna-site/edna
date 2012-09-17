@@ -42,7 +42,7 @@ class EDTestCasePluginExecuteControlCharacterisationv1_2(EDTestCasePluginExecute
         self.setRequiredPluginConfiguration("EDPluginMOSFLMGeneratePredictionv10")
         self.setRequiredPluginConfiguration("EDPluginLabelitIndexingv1_1")
         self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
-        self.setRequiredPluginConfiguration("EDPluginBestv1_1")
+        self.setRequiredPluginConfiguration("EDPluginBestv1_2")
         self.setRequiredPluginConfiguration("EDPluginRaddosev10")
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
                                                "XSConfiguration_Characterisation.xml"))

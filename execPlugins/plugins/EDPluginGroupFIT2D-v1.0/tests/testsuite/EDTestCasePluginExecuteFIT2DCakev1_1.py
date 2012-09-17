@@ -109,7 +109,7 @@ class EDTestCasePluginExecuteFIT2DCakev1_1(EDTestCasePluginExecute):
                         try:
                             r = float(lstDataReference[i])
                             o = float(lstDataObtained[i])
-                        except:
+                        except Exception:
                             bEqual = False
                             break
                         if (2 * abs(r - o) / (o + r) > self.EPSILON_REL) and abs(r - o) > self.EPSILON_ABS:

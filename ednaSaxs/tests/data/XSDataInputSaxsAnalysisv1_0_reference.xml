@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<XSDataInputSaxsAnalysis>
+<scatterCurve><path><value>${EDNA_TESTIMAGES}/autosubtracted.dat</value></path></scatterCurve>
+    <gnomFile>
+        <path>
+            <value>/tmp/edna-${USER}/autosubtracted.out</value>
+        </path>
+    </gnomFile>
+
+</XSDataInputSaxsAnalysis>

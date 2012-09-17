@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -30,9 +28,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
+import os
 
 
-from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDUtilsTest                         import EDUtilsTest
 from EDUtilsPath                         import EDUtilsPath
@@ -50,8 +51,8 @@ class EDTestCasePluginExecuteBestv1_2_withDamPar(EDTestCasePluginExecuteBestv1_2
         EDTestCasePluginExecuteBestv1_2.__init__(self, "EDPluginBestv1_2")
 
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputBest_withDamPar.xml"))
-        self.setReferenceDataOutputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataResultBest_withDamPar.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputBest_withDamPar.xml"))
+        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBest_withDamPar.xml"))
 
 
     def process(self):

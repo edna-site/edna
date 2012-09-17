@@ -14,8 +14,6 @@ import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataString
 import XSDataCommon.XSDataWavelength
 
-complex type Class1 {
-}
 
 complex type XSDataCell extends XSData {
 	angle_alpha : XSDataAngle
@@ -57,9 +55,9 @@ complex type XSDataMOSFLMInput extends XSDataInput {
 	detector : XSDataMOSFLMDetector
 	directory : XSDataString
 	distance : XSDataLength
-	matrix : XSDataMOSFLMNewmat
-	mosaicity : XSDataDouble
-	symmetry : XSDataString
+	matrix : XSDataMOSFLMNewmat optional
+	mosaicity : XSDataDouble optional
+	symmetry : XSDataString optional
 	template : XSDataString
 	wavelength : XSDataWavelength
 }
@@ -95,8 +93,8 @@ complex type XSDataMOSFLMIntegrationStatisticsPerReflectionType extends XSData {
 }
 
 complex type XSDataMOSFLMIntegrationStatisticsPerResolutionBin extends XSData {
-	maxResolution : XSDataFloat
-	minResolution : XSDataFloat
+	maxResolution : XSDataFloat optional
+	minResolution : XSDataFloat optional
 	profileFitted : XSDataMOSFLMIntegrationStatisticsPerReflectionType
 	summation : XSDataMOSFLMIntegrationStatisticsPerReflectionType
 }
@@ -118,10 +116,12 @@ complex type XSDataMOSFLMOutput extends XSDataResult {
 	refinedBeam : XSDataMOSFLMBeamPosition
 	refinedDistance : XSDataLength
 	refinedNewmat : XSDataMOSFLMNewmat
+	pathToLogFile : XSDataFile optional
 }
 
 complex type XSDataMOSFLMOutputGeneratePrediction extends XSData {
 	predictionImage : XSDataImage
+	pathToLogFile : XSDataFile optional	
 }
 
 complex type XSDataMOSFLMOutputIndexing extends XSDataMOSFLMOutput {
@@ -139,7 +139,7 @@ complex type XSDataMOSFLMOutputIndexing extends XSDataMOSFLMOutput {
 
 complex type XSDataMOSFLMOutputIntegration extends XSDataMOSFLMOutput {
 	bestfileDat : XSDataString
-	bestfileHKL : XSDataString
+	bestfileHKL : XSDataString optional
 	bestfilePar : XSDataString
 	generatedMTZFile : XSDataFile
 	highestResolutionIOverSigma : XSDataFloat
@@ -148,10 +148,10 @@ complex type XSDataMOSFLMOutputIntegration extends XSDataMOSFLMOutput {
 	numberOfNegativeReflections : XSDataInteger
 	numberOfOverlappedReflections : XSDataInteger
 	numberOfPartialReflections : XSDataInteger
-	numberOfReflectionsGenerated : XSDataInteger
+	numberOfReflectionsGenerated : XSDataInteger optional
 	overallIOverSigma : XSDataFloat
 	overallStatistics : XSDataMOSFLMIntegrationStatisticsPerResolutionBin
-	refinedMosaicity : XSDataFloat
+	refinedMosaicity : XSDataFloat optional
 	refinedYScale : XSDataFloat
 	RMSSpotDeviation : XSDataLength
 	statisticsPerResolutionBin : XSDataMOSFLMIntegrationStatisticsPerResolutionBin []

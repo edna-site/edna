@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -27,6 +25,13 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
+__authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
+__contact__ = "svensson@esrf.fr"
+__license__ = "LGPLv3+"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
 import os
 
 from EDAssert             import EDAssert
@@ -36,6 +41,7 @@ from XSDataCommon import XSDataAngle
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataWavelength
 
 
@@ -125,6 +131,8 @@ class EDTestCasePluginUnitMOSFLMGeneratePredictionv10(EDTestCasePluginUnit):
         xsDataImage = xsDataMOSFLMOutputGeneratePredictionReference.getPredictionImage()
         xsDataImage.setPath(XSDataString(stringImagePath))
         xsDataMOSFLMOutputGeneratePredictionReference.setPredictionImage(xsDataImage)
+        # Replace path to log file since it cannot be determined by the unit test
+        xsDataMOSFLMOutputGeneratePrediction.setPathToLogFile(XSDataFile(XSDataString("MOSFLMGeneratePredictionv10.log")))        
         EDAssert.equal(xsDataMOSFLMOutputGeneratePredictionReference.marshal(), xsDataMOSFLMOutputGeneratePrediction.marshal())
 
         self.cleanUp(pluginGeneratePrediction)

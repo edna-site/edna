@@ -66,7 +66,7 @@ fftw3 = EDFactoryPluginStatic.preImport("fftw3", fftw3Path)
 
 try:
     import scipy.ndimage, scipy.interpolate
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
@@ -89,7 +89,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
 
     CONF_CONVOLUTION = None
     CONF_CONVOLUTION_KEY = "convolution"
-    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "fftw". signal is no more possible
+    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "fftw", "cuda" or simply falls back on numpy.fftpack
 
     def __init__(self):
         """
@@ -126,16 +126,16 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             with self.__class__.__sem:
                 self.DEBUG("EDPluginExecMeasureOffsetv1_0.configure")
                 xsPluginItem = self.getConfiguration()
-                if (xsPluginItem == None):
+                if xsPluginItem is None:
                     self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No plugin item defined.")
                     xsPluginItem = XSPluginItem()
                 strCONVOLUTION = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_CONVOLUTION_KEY)
-                if(strCONVOLUTION == None):
+                if strCONVOLUTION is None:
                     self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
                                 % (self.CONF_CONVOLUTION_KEY, self.CONF_CONVOLUTION_DEFAULT, xsPluginItem.marshal()))
-                    self.CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
+                    self.__class__CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
                 else:
-                    self.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
+                    self.__class__.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
 
 
     def preProcess(self, _edObject=None):
@@ -239,6 +239,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
 
+        self.DEBUG("Doing ffts using %s" % self.CONF_CONVOLUTION)
         offset, logs = MeasureOffset.measure_offset(self.npaIm1, self.npaIm2,
                                                     self.CONF_CONVOLUTION, withLog=True)
 

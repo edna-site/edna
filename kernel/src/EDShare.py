@@ -113,7 +113,7 @@ class EDShare(EDLogging, EDSession):
             self.initialize()
         with self.locked():
             if key in self._listKeys:
-                self.ERROR("EDShare: Redefinition of elements is forbidden ")
+                self.ERROR("EDShare: Redefinition of elements is forbidden key=%s, mean value=%s " % (key, value.mean()))
             else:
                 self._listKeys.append(key)
                 self._storage[key] = value

@@ -30,11 +30,20 @@ __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF, Grenoble"
 __date__ = "20120112"
 __doc__ = "This is a python module to measure image offsets using pyfftw3 or fftpack"
-import os, threading, time
+import os, threading, time, gc
 try:
     import fftw3
 except ImportError:
     fftw3 = None
+try:
+    import pycuda
+    import pycuda.autoinit
+    import pycuda.elementwise
+    import pycuda.gpuarray as gpuarray
+    import scikits.cuda.fft as cu_fft
+except ImportError:
+    cu_fft = None
+
 import numpy
 from math import ceil, floor
 sem = threading.Semaphore()
@@ -119,13 +128,88 @@ def center_of_mass(img):
 
 
 
+class CudaCorrelate(object):
+    plans = {}
+    data1_gpus = {}
+    data2_gpus = {}
+    multconj = None
+    ctx = None
+#    pycuda.autoinit.context.pop()
+#    ctx.pop()
+    sem = threading.Semaphore()
+    initsem = threading.Semaphore()
+
+    def __init__(self, shape):
+        self.shape = tuple(shape)
+
+    def init(self):
+        if self.ctx is None:
+            with self.__class__.initsem:
+                if self.ctx is None:
+                    self.__class__.ctx = pycuda.autoinit.context
+        if not self.shape in self.plans:
+            with self.__class__.initsem:
+                if not self.shape in self.plans:
+                    self.ctx.push()
+                    if not self.__class__.multconj:
+                        self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
+                    if self.shape not in self.__class__.data1_gpus:
+                        self.__class__.data1_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if self.shape not in self.__class__.data2_gpus:
+                        self.__class__.data2_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if self.shape not in self.__class__.plans:
+                        self.__class__.plans[self.shape] = cu_fft.Plan(self.shape, numpy.complex128, numpy.complex128)
+                    self.ctx.synchronize()
+                    self.ctx.pop()
+    @classmethod
+    def clean(cls):
+        with initsem:
+            with sem:
+                if self.ctx:
+                    cls.ctx.push()
+                    for plan_name in list(cls.plans.keys()):
+                        plan = cls.plans.pop(plan_name)
+                        del plan
+                    for plan_name in list(cls.data1_gpus.keys()):
+                        data = cls.data1_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    for plan_name in cls.data2_gpus.copy():
+                        data = cls.data2_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    cls.ctx.pop()
+                    cls.ctx = None
+
+    def correlate(self, data1, data2):
+        self.init()
+        with self.__class__.sem:
+            self.ctx.push()
+            plan = self.__class__.plans[self.shape]
+            data1_gpu = self.__class__.data1_gpus[self.shape]
+            data2_gpu = self.__class__.data2_gpus[self.shape]
+            data1_gpu.set(data1.astype(numpy.complex128))
+            cu_fft.fft(data1_gpu, data1_gpu, plan)
+            data2_gpu.set(data2.astype(numpy.complex128))
+            cu_fft.fft(data2_gpu, data2_gpu, plan)
+    #            data1_gpu *= data2_gpu.conj()
+            self.multconj(data1_gpu, data2_gpu)
+            cu_fft.ifft(data1_gpu, data1_gpu, plan, True)
+#            self.ctx.synchronize()
+            res = data1_gpu.get().real
+            self.ctx.pop()
+        return res
+
 def measure_offset(img1, img2, method="fftw", withLog=False):
     """
     Measure the actual offset between 2 images
     @param img1: ndarray, first image 
     @param img2: ndarray, second image, same shape as img1
+    @param withLog: shall we return logs as well ? boolean
+    @param _shared: DO NOT USE !!! 
     @return: tuple of floats with the offsets
     """
+    method = str(method)
     ################################################################################
     # Start convolutions
     ################################################################################
@@ -147,7 +231,10 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         output *= temp
         ifft()
         res = input.real / input.size
-
+    if method[:4] == "cuda" and (cu_fft is not None):
+        with sem:
+            cuda_correlate = CudaCorrelate(shape)
+            res = cuda_correlate.correlate(img1, img2)
     else:#use numpy fftpack
         i1f = numpy.fft.fft2(img1)
         i2f = numpy.fft.fft2(img2)

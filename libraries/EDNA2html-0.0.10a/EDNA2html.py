@@ -868,7 +868,7 @@ class EDNARunBuilder:
                 self.setDiffractionPlan(input_xml)
                 self.setSample(input_xml)
                 self.__edna_run.input_xml_ok = True
-            except:
+            except Exception:
                 # Some error extracting data from input XML
                 print "*** WARNING exception raised when processing input XML"
                 print "    Some data may be missing"
@@ -887,7 +887,7 @@ class EDNARunBuilder:
                        self.__edna_run.has_prediction_result and \
                        self.__edna_run.has_strategy_result:
                     self.__edna_run.output_xml_ok = True
-            except:
+            except Exception:
                 # Some error extracting data from output XML
                 print "*** WARNING exception raised when processing output XML"
                 print "    Some data may be missing:"
@@ -910,7 +910,7 @@ class EDNARunBuilder:
                     # Collect any missing integration stats from log file
                     self.setIntegrationStatsFromLog(output_log)
                 self.__edna_run.log_file_ok = True
-            except:
+            except Exception:
                 # Some error extracting data from output XML
                 print "*** WARNING exception raised when processing output XML"
                 print "    Some data may be missing"
@@ -1033,7 +1033,7 @@ class EDNARunBuilder:
             penalty_value = None
             try:
                 penalty_value = int(soln.penalty.value)
-            except:
+            except Exception:
                 penalty_value = -1
             self.__edna_run.indexing_results.addSolution(
                 int(soln.number.value),
@@ -1072,7 +1072,7 @@ class EDNARunBuilder:
         spot_deviation_angular = None
         try:
             spot_deviation_angular = float(statistics.spotDeviationAngular.value)
-        except:
+        except Exception:
             spot_deviation_angular = -1.0
         self.__edna_run.indexing_results.spot_deviation_angular = \
             float(statistics.spotDeviationAngular.value)
@@ -2075,7 +2075,7 @@ def CopyFile(source, target):
     # Copy file 'source' to 'target'
     try:
         shutil.copy(source, target)
-    except:
+    except Exception:
         print "CopyFile: copy operation " + \
             str(source) + " -> " + str(target) + " failed"
 
@@ -2217,7 +2217,7 @@ def populateStrategySummaryTable(doc,
                                multi_sweep,
                                "'" + str(edna_run.title) + "'",
                                tab_ids[irun - 1]))
-        except:
+        except Exception:
             print "*** Failed to add summary info to the sortable table"
             strategy_js.write("addFailedStrategy(%d,%s);\n" % \
                               (irun, tab_ids[irun - 1]))
@@ -3391,7 +3391,7 @@ if __name__ == "__main__":
         try:
             addStrategySummary(strategy, edna_run, ranking_mode, edna_html_dir,
                                help)
-        except:
+        except Exception:
             print "*** Failed to add strategy summary ***"
         tab_list.append(tab.id())
         strategy.addCSSClass("strategy_summary")

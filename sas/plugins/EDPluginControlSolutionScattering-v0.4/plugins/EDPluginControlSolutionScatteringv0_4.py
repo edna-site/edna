@@ -46,9 +46,10 @@ from EDConfiguration import EDConfiguration
 from EDParallelJobLauncher import EDParallelJobLauncher
 from EDUtilsArray import EDUtilsArray
 from EDPDBFilter import EDPDBFilter
-
-from XSDataSAS import XSDataInputSolutionScattering, XSDataResultSolutionScattering, XSDataInputGnom, \
-                    XSDataInputDammif, XSDataInputSupcomb, XSDataInputDamaver, XSDataInputDamfilt, \
+from EDFactoryPlugin import edFactoryPlugin
+edFactoryPlugin.loadModule("XSDataEdnaSaxs")
+from XSDataSAS import XSDataInputSolutionScattering, XSDataResultSolutionScattering
+from XSDataEdnaSaxs import XSDataInputGnom, XSDataInputDammif, XSDataInputSupcomb, XSDataInputDamaver, XSDataInputDamfilt, \
                     XSDataInputDamstart
 from XSDataCommon import XSDataDouble, XSDataInteger, XSDataString, XSDataBoolean
 

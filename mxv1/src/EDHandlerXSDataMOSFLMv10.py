@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -252,6 +250,8 @@ class EDHandlerXSDataMOSFLMv10:
         xsDataIndexingSolutionSelected.setExperimentalConditionRefined(xsDataExperimentalConditionRefined)
 
         xsDataIndexingResult.setSelectedSolution(xsDataIndexingSolutionSelected)
+        
+        xsDataIndexingResult.setIndexingLogFile(_xsDataMOSFLMIndexingOutput.getPathToLogFile())
 
         return xsDataIndexingResult
     generateXSDataIndexingResult = staticmethod(generateXSDataIndexingResult)
@@ -503,6 +503,8 @@ class EDHandlerXSDataMOSFLMv10:
             xsDataStatisticsIntegrationPerResolutionBin.setSummation(EDHandlerXSDataMOSFLMv10.generateXSDataIntegrationStatisticsPerReflectionType(xsDataMOSFLMIntegrationStatisticsPerResolutionBin.getSummation()))
 
             xsDataIntegrationSubWedgeResult.addStatisticsPerResolutionBin(xsDataStatisticsIntegrationPerResolutionBin)
+
+        xsDataIntegrationSubWedgeResult.setIntegrationLogFile(_xsDataMOSFLMOutputIntegration.getPathToLogFile())
 
         return xsDataIntegrationSubWedgeResult
     generateXSDataIntegrationSubWedgeResult = staticmethod(generateXSDataIntegrationSubWedgeResult)

@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -28,6 +26,7 @@
 #
 
 
+import os
 
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 from EDUtilsPath          import EDUtilsPath
@@ -38,7 +37,7 @@ class EDTestCasePluginUnitSTACv2_0(EDTestCasePluginUnit):
     def __init__(self, _strTestName=None):
         EDTestCasePluginUnit.__init__(self, "EDPluginSTACv2_0")
         strPluginTestDataHome = self.getPluginTestsDataHome()
-        self.strUnitTestDataHome = EDUtilsPath.mergePath(strPluginTestDataHome, "unitTest")
+        self.strUnitTestDataHome = os.path.join(strPluginTestDataHome, "unitTest")
 
 
 

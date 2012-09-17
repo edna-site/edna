@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -29,10 +27,12 @@ __authors__ = ["Marie-Francoise Incardona", "Olof Svensson"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
 
-from EDVerbose                           import EDVerbose
+
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from EDUtilsTest                         import EDUtilsTest
@@ -47,7 +47,7 @@ class EDTestCasePluginExecuteBestv1_2(EDTestCasePluginExecute):
     def __init__(self, _oalStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginBestv1_2")
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataInputBest_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputBest_reference.xml"))
         #
         # If on Linux, check if run on Intel processor
         #
@@ -62,9 +62,9 @@ class EDTestCasePluginExecuteBestv1_2(EDTestCasePluginExecute):
                     if (pyStrLine.find("GenuineIntel") != -1):
                          self.m_bRunOnIntel = True
         if (self.m_bRunOnIntel):
-            self.setReferenceDataOutputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataResultBest_referenceForIntel.xml"))
+            self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBest_referenceForIntel.xml"))
         else:
-            self.setReferenceDataOutputFile(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "XSDataResultBest_reference.xml"))
+            self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBest_reference.xml"))
 
 
     def testExecute(self):

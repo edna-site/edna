@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
@@ -29,7 +27,7 @@
 
 import os
 
-from EDVerbose                           import EDVerbose
+
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from EDUtilsTest                         import EDUtilsTest
@@ -43,8 +41,8 @@ class EDTestCasePluginExecuteSTACAlignmentv2_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginSTACAlignmentv2_0")
 
         edStringPluginTestDataHome = self.getPluginTestsDataHome()
-        self.m_edStringExecutionTestDataInputHome = EDUtilsPath.mergePath(edStringPluginTestDataHome, "executionTestInput")
-        self.m_edStringExecutionTestDataResultHome = EDUtilsPath.mergePath(edStringPluginTestDataHome, "executionTestResult")
+        self.m_edStringExecutionTestDataInputHome = os.path.join(edStringPluginTestDataHome, "executionTestInput")
+        self.m_edStringExecutionTestDataResultHome = os.path.join(edStringPluginTestDataHome, "executionTestResult")
 
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.m_edStringExecutionTestDataInputHome, "EDPluginSTACAlignmentv2_0_dataInputBest_reference.xml"), "inputBest")

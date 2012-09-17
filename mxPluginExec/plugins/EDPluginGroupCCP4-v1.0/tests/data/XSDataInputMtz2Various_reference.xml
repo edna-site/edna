@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<XSDataInputMtz2Various>
+  <mtzfile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/process_1_1.mtz</value>
+    </path>
+  </mtzfile>
+  <labin>
+    <value>I=I</value>
+  </labin>
+  <labin>
+    <value>SIGI=SIGI</value>
+  </labin>
+  <output>
+    <value>USER *</value>
+  </output>
+</XSDataInputMtz2Various>

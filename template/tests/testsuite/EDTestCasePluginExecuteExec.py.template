@@ -32,6 +32,8 @@ import os
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from <xsDataBaseName> 					 import <xsDataInputName> as XSDataInput
+from <xsDataBaseName>                    import <xsDataResultName> as XSDataResult
 
 
 class EDTestCasePluginExecuteExec<pluginName>(EDTestCasePluginExecute):
@@ -50,11 +52,28 @@ class EDTestCasePluginExecuteExec<pluginName>(EDTestCasePluginExecute):
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResult<basePluginName>_reference.xml"))
                  
+    def preProcess(self):
+        """
+        Download reference files
+        """
+        EDTestCasePluginExecute.preProcess(self)
+        #self.loadTestImage(["inputfile.ext"])
         
     def testExecute(self):
         """
         """ 
         self.run()
+        plugin = self.getPlugin()
+
+################################################################################
+# Compare XSDataResults
+################################################################################
+
+        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
+        EDVerbose.DEBUG("Checking obtained result...")
+        xsDataResultReference = XSDataResult.parseString(strExpectedOutput)
+        xsDataResultObtained = plugin.getDataOutput()
+        EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
         
 
     def process(self):

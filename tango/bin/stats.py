@@ -62,7 +62,7 @@ def parseLogFile(filename):
                 continue
             try:
                 time = float(words[6])
-            except:
+            except Exception:
                 continue
             ret[pluginName][id] = time
     return ret

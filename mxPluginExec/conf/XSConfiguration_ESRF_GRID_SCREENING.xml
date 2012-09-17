@@ -109,7 +109,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>30</value>
+					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -134,7 +134,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>30</value>
+					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -159,7 +159,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>30</value>
+					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem> 
@@ -188,7 +188,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>30</value>
+					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -213,7 +213,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>30</value>
+					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -27,7 +25,7 @@
 #
 
 import os.path
-from EDVerbose                      import EDVerbose
+
 from EDAssert                       import EDAssert
 from EDUtilsFile                    import EDUtilsFile
 from EDTestCasePluginUnit           import EDTestCasePluginUnit
@@ -47,7 +45,6 @@ from XSDataISPyBv1_1                import XSDataISPyBScreeningOutputLattice
 from XSDataISPyBv1_1                import XSDataISPyBScreeningRank
 from XSDataISPyBv1_1                import XSDataISPyBScreeningRankSet
 from XSDataISPyBv1_1                import XSDataISPyBScreeningStrategy
-from XSDataISPyBv1_1                import XSDataISPyBv1_1
 from XSDataISPyBv1_1                import XSDataResultISPyB
 from XSDataISPyBv1_1                import XSDatadbstatus
 from XSDataISPyBv1_1                import XSDataISPyBScreeningOutputContainer
@@ -161,7 +158,7 @@ class EDTestCasePluginUnitISPyBv1_1(EDTestCasePluginUnit):
        """
        List of test methods
        """
-       EDVerbose.DEBUG("*** EDTestCasePluginUnitISPyBv1_1.process")
+       self.DEBUG("*** EDTestCasePluginUnitISPyBv1_1.process")
        self.addTestMethod(self.testConfigureOK)
        self.addTestMethod(self.testSetDataModelInput)
 

@@ -58,7 +58,7 @@ EDFactoryPluginStatic.preImport("Image", imagingPath)
 try:
     import numpy
     from fabio.openimage import openimage
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy,\n\
     Please re-run the test suite for EDTestSuitePluginExecThumbnailv10 \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")

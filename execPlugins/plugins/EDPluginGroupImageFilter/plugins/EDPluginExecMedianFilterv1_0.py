@@ -57,7 +57,7 @@ try:
     import fabio
     import scipy
     import numpy
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginFilterImage \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
@@ -111,7 +111,7 @@ class ImageCache(dict):
         self.__sem.acquire()
         try:
             index = self.__ordered.index(key)
-        except:
+        except Exception:
             raise KeyError
         self.__ordered.pop(index)
         myData = self.imageDict.pop(key)
@@ -247,7 +247,7 @@ class ImageCache(dict):
         self.__sem.acquire()
         try:
             index = self.__ordered.index(key)
-        except:
+        except Exception:
             raise KeyError
         self.__ordered.pop(index)
         myData = self.imageDict.pop(key)

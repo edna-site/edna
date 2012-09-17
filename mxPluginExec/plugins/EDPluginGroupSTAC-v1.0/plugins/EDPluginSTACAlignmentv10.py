@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -64,7 +62,7 @@ class EDPluginSTACAlignmentv10( EDPluginSTACv10 ):
 
     def preProcess( self, _oedObject = None ):
         EDPluginSTACv10.preProcess( self )
-        EDVerbose.DEBUG( "EDPluginSTACalignmentv01.preProcess")
+        self.DEBUG( "EDPluginSTACalignmentv01.preProcess")
         #bestfile.par
         EDUtilsFile.writeFile( EDDiskExplorer.mergePath( self.getWorkingDirectory(), "bestfile.par" ), self.m_xsDataInput.getBestFileContentPar().getValue())
         #self.writeAlignmentRequest() - for now use a predefined request
@@ -78,16 +76,16 @@ class EDPluginSTACAlignmentv10( EDPluginSTACv10 ):
         _dataInput could be either an String XML or an XSData
         The XML String should be parsed as an Output Object by the final Plugin
         """
-        EDVerbose.DEBUG( "EDPluginSTACv10Alignment.setDataInput" )
+        self.DEBUG( "EDPluginSTACv10Alignment.setDataInput" )
         # Check the type
         if( isinstance( _dataInput, EDString ) ):
-            EDVerbose.DEBUG( "EDPluginSTACv10.setDataInput: Input Data is of EDString " )
+            self.DEBUG( "EDPluginSTACv10.setDataInput: Input Data is of EDString " )
             self.m_xsDataInput = XSDataInputBest.parseString( _dataInput )
         elif ( isinstance( _dataInput, XSDataInputBest ) ):
             self.m_xsDataInput = _dataInput
         else:
             errorMessage = EDMessage.ERROR_WRONG_DATA_TYPE_02 % ('EDPluginSTACv10.setDataInput', "XMLString or XSDataBestv01Input expected" )
-            EDVerbose.error( errorMessage )
+            self.error( errorMessage )
             self.addErrorMessage( errorMessage )  
             raise RuntimeError, errorMessage
 
@@ -109,7 +107,7 @@ class EDPluginSTACAlignmentv10( EDPluginSTACv10 ):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG( "EDPluginSTACv10Alignment.generateExecutiveSummary" )
+        self.DEBUG( "EDPluginSTACv10Alignment.generateExecutiveSummary" )
         self.addExecutiveSummaryLine( "<!--SUMMARY_BEGIN-->" )
         if ( self.getStringVersion() is not None ):
             self.addExecutiveSummaryLine( self.getStringVersion()+" by Sandor Brockhauser" )

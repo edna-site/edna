@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+#    Project: Tango
+#             http://www.edna-site.org
+#
+#    Copyright (C) 2012      European Synchrotron Radiation Facility
+#                            Grenoble, France
+#
+#    Principal authors: Olof Svensson (svensson@esrf.fr)
+#					   
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    and the GNU Lesser General Public License  along with this program.  
+#    If not, see <http://www.gnu.org/licenses/>.
+#
+
+# This code is inspired by the startup script for biosaxs written by Jerome:
+# edna/bioSaxsv1/bin/stop-tango-server
+
+# Check that TANGO_HOST is set
+if [ -z $TANGO_HOST ]; then
+    echo "TANGO_HOST not set! Please set TANGO_HOST before running $(basename $0)"
+    exit 1
+fi
+
+# Check that we have one and only one argument: the name of the edna tango server
+if [ $# -ne 1 ]; then
+    echo "Usage: $(basename $0) name-of-edna-tango-server"
+    exit 1
+fi
+
+# Find the process id of tango-EdnaDS running the enda server name given as argument
+processId=`ps aux |grep tango-EdnaDS | grep $1 | grep -v grep | awk '{print $2}'`
+if [ "$processId" = "" ];then
+  echo "EDNA tango server '$1' is not running!" 
+else 
+  kill $processId
+  sleep 1
+  # Check that the process is terminated
+  processId2=`ps aux |grep tango-EdnaDS | grep $1 | grep -v grep | awk '{print $2}'`
+  if [ "$processId2" = "" ];then
+	echo "EDNA tango device server '$1' with process id $processId terminated"
+  else
+    # Kill it with the big hammer
+    kill -9 $processId
+	echo "EDNA tango device server '$1' with process id $processId terminated with signal 9"
+  fi
+fi

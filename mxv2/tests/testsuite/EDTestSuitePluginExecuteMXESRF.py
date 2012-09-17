@@ -2,9 +2,7 @@
 #    Project: EDNA MXv2
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestSuitePluginExecuteMXv2.py 3162 2011-03-29 13:45:37Z svensson $"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -40,10 +38,13 @@ class EDTestSuitePluginExecuteMXESRF(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginExecuteWaitFile")
         self.addTestSuiteFromName("EDTestSuitePluginExecThumbnailv10")
         # From mxPluginExec:
+        self.addTestSuiteFromName("EDTestSuitePluginUnitMXPluginExec")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXPluginExec")
-        self.addTestSuiteFromName("EDTestSuitePluginExecuteISPyBv1_3")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteISPyBv1_4")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteSTACv2_0")
         # From mxv1:
+        self.addTestSuiteFromName("EDTestSuitePluginUnitMXv1")
+        self.addTestCaseFromName("EDTestCaseEDHandlerISPyBv1_4")
         self.addTestSuiteFromName("EDTestSuitePluginControlPyarchThumbnailGeneratorv1_0")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXv1")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlCharacterisationv1_3")

@@ -41,7 +41,7 @@ from EDFactoryPlugin    import edFactoryPlugin as  EDFactoryPluginStatic
 from EDUtilsPath        import EDUtilsPath
 from EDThreading import Semaphore
 from XSDataShiftv1_0    import XSDataInputShiftImage, XSDataResultShiftImage
-from XSDataCommon       import XSDataImageExt, XSDataString
+from XSDataCommon       import XSDataImageExt, XSDataString, XSPluginItem
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
@@ -60,7 +60,7 @@ fabio = EDFactoryPluginStatic.preImport("fabio", fabioPath)
 try:
     from fabio.edfimage import edfimage
     import  scipy.ndimage
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy, Scipy, PIL or Fabio,\n\
     Please re-run the test suite for EDTestSuitePluginExecShift \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")

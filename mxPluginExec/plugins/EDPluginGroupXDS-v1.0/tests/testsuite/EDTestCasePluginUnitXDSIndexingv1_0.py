@@ -2,8 +2,6 @@
 #    Project: EDNA mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
 #    Principal authors: Sandor Brockhauser (brockhauser@embl-grenoble.fr)
@@ -29,10 +27,12 @@ __authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
 __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
+__date__ = "20120712"
+__status__ = "alpha"
 
 import os
 
-from EDVerbose      import EDVerbose
+
 from EDUtilsPath      import EDUtilsPath
 from EDTestCasePluginUnit     import EDTestCasePluginUnit
 
@@ -51,7 +51,7 @@ class EDTestCasePluginUnitXDSIndexingv1_0(EDTestCasePluginUnit):
         """
         """
         edPluginXDSIndexingv1_0 = self.createPlugin()
-        xsPluginItemGood01 = self.getPluginConfiguration(EDUtilsPath.mergePath(self.getPluginTestsDataHome(), "EDPluginXDSIndexingv1_0_configuration_OK_01.xml"))
+        xsPluginItemGood01 = self.getPluginConfiguration(os.path.join(self.getPluginTestsDataHome(), "EDPluginXDSIndexingv1_0_configuration_OK_01.xml"))
         edPluginXDSIndexingv1_0.setConfiguration(xsPluginItemGood01)
         edPluginXDSIndexingv1_0.setScriptExecutable("cat")
         edPluginXDSIndexingv1_0.configure()
@@ -59,11 +59,11 @@ class EDTestCasePluginUnitXDSIndexingv1_0(EDTestCasePluginUnit):
         from XSDataXDSv1_0 import XSDataInputXDSIndexing
         xmlInput = self.readAndParseFile(self.strReferenceInputFile)
         xsDataXDSIndexingInputReference = XSDataInputXDSIndexing.parseString(xmlInput)
-        xsDataXDSIndexingInputReference.outputFile("XSDataInputXDSIndexing_reference.xml")
+        xsDataXDSIndexingInputReference.exportToFile("XSDataInputXDSIndexing_reference.xml")
         edPluginXDSIndexingv1_0.setDataInput(xmlInput)
 
         xsDataXDSIndexingInput = edPluginXDSIndexingv1_0.getDataInput()
-        xsDataXDSIndexingInput.outputFile("XSDataInputXDSIndexing.xml")
+        xsDataXDSIndexingInput.exportToFile("XSDataInputXDSIndexing.xml")
         EDAssert.equal(xsDataXDSIndexingInputReference.marshal(), xsDataXDSIndexingInput.marshal())
 
         self.cleanUp(edPluginXDSIndexingv1_0)

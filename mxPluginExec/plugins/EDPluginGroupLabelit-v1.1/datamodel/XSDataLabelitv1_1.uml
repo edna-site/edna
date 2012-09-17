@@ -197,6 +197,9 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9iFm1l6fEeC3aNe1z0uECw" value="1"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iFm116fEeC3aNe1z0uECw" value="1"/>
     </ownedAttribute>
+    <ownedAttribute xmi:id="_MijiUJUJEeGqP6tVHfftbw" name="pathToLogFile">
+      <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+    </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_9iFm2F6fEeC3aNe1z0uECw" name="XSDataLabelitScreenSolution">
     <generalization xmi:id="_9iFm2V6fEeC3aNe1z0uECw">

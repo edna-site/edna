@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -40,8 +38,6 @@ class EDTestSuitePluginUnitMXPluginExec(EDTestSuite):
 
 
     def process(self):
-        self.addTestSuiteFromName("EDTestSuitePluginUnitBestv10")
-        self.addTestSuiteFromName("EDTestSuitePluginUnitBestv1_1")
         self.addTestSuiteFromName("EDTestSuitePluginUnitBestv1_2")
         self.addTestSuiteFromName("EDTestSuitePluginUnitISPyBv10")
         self.addTestSuiteFromName("EDTestSuitePluginUnitISPyBv1_1")

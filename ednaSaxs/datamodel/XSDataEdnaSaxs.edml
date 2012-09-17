@@ -13,7 +13,10 @@ import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataImage
 import XSDataCommon.XSDataLength
 import XSDataCommon.XSDataWavelength
-
+import XSDataCommon.XSDataRotation
+import XSDataCommon.XSDataVectorDouble
+import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataDoubleWithUnit
 /*******************************************
   *  Common types used only in EdnaSaxs
   ********************************************/
@@ -143,12 +146,206 @@ complex type XSDataInputSaxsPipeline extends XSDataInput{
 	relativeFidelity: XSDataDouble optional
 	rawImageSize: XSDataInteger optional
 }
-
 complex type XSDataResultSaxsPipeline extends XSDataResult{
 	autoRgOut: XSDataAutoRg[]
 }
+
+complex type XSDataInputSaxsAnalysis extends XSDataInput{
+	"AutoRg -> Gnom -> Prod pipeline"
+	scatterCurve: XSDataFile
+	autoRg: XSDataAutoRg optional
+	gnomFile: XSDataFile optional
+}
+complex type XSDataResultSaxsAnalysis extends XSDataResult{
+	"AutoRg -> Gnom -> Prod pipeline"
+	autoRg: XSDataAutoRg
+	gnom: XSDataGnom
+	volume: XSDataDoubleWithUnit
+}
+
 
 complex type XSDataFileSeries extends XSData {
 	files : XSDataFile []
 }
 
+/*******************************************
+  *  Classes moved from SAS
+  ********************************************/
+  complex type XSDataConfigGnom extends XSData {
+	printer : XSDataString [] optional
+	forfac : XSDataFile optional
+	expert : XSDataFile optional
+	input1 : XSDataFile
+	input2 : XSDataFile optional
+	nskip1 : XSDataInteger optional
+	nskip2 : XSDataInteger optional
+	output : XSDataFile optional
+	iscale : XSDataInteger optional
+	plonp : XSDataBoolean
+	plores : XSDataBoolean
+	evaerr : XSDataBoolean optional
+	ploerr : XSDataBoolean
+	lkern : XSDataBoolean optional
+	jobtyp : XSDataInteger optional
+	rmin : XSDataDouble optional
+	rmax : XSDataDouble optional
+	lzrmin : XSDataBoolean optional
+	lzrmax : XSDataBoolean optional
+	kernel : XSDataFile optional
+	deviat : XSDataDouble
+	idet : XSDataInteger optional
+	fwhm1 : XSDataDouble optional
+	fwhm2 : XSDataDouble optional
+	ah1 : XSDataDouble optional
+	lh1 : XSDataDouble optional
+	aw1 : XSDataDouble optional
+	lw1 : XSDataDouble optional
+	ah2 : XSDataDouble optional
+	lh2 : XSDataDouble optional
+	aw2 : XSDataDouble optional
+	lw2 : XSDataDouble optional
+	spot1 : XSDataFile optional
+	spot2 : XSDataFile optional
+	alpha : XSDataDouble
+	nreal : XSDataInteger
+	coef : XSDataDouble optional
+	rad56 : XSDataDouble optional
+	nextjob : XSDataBoolean optional
+}
+complex type XSDataInputGnom extends XSDataInput {
+	"Input data can be provided either as a list of doubles, as Arrays or as a filename"
+	rMax : XSDataDouble
+	experimentalDataQ : XSDataDouble [] optional
+	experimentalDataQArray : XSDataArray optional
+	experimentalDataValues : XSDataDouble [] optional
+	experimentalDataIArray : XSDataArray optional
+	experimentalDataStdDev : XSDataDouble [] optional
+	experimentalDataStdArray : XSDataArray optional
+	experimentalDataFile: XSDataFile optional
+	angularScale : XSDataInteger optional
+	mode : XSDataString optional
+}
+
+complex type XSDataResultGnom extends XSDataResult {
+	fitQuality : XSDataDouble
+	output : XSDataFile
+	scatteringFitQ : XSDataDouble [] optional
+	scatteringFitValues : XSDataDouble [] optional
+	scatteringFitQArray : XSDataArray optional
+	scatteringFitIArray : XSDataArray optional
+	distributionR : XSDataDouble [] optional
+	distributionPr : XSDataDouble [] optional
+	distributionErr : XSDataDouble [] optional
+	arrayR : XSDataArray optional
+	arrayPr : XSDataArray optional
+	arrayErr : XSDataArray optional
+	radiusOfCrossSection : XSDataDouble
+	radiusOfGyration : XSDataDouble
+}
+
+complex type XSDataInputDatGnom extends XSDataInput {
+	"Input file can be in 1/nm or 1/A, result will be in the same unit."
+	inputCurve: XSDataFile
+	rg: XSDataLength optional
+	skip: XSDataInteger optional
+	output: XSDataFile optional
+}
+
+complex type XSDataGnom extends XSData {
+	gnomFile : XSDataFile
+	rgGuinier : XSDataLength
+	rgGnom : XSDataLength
+	dmax: XSDataLength
+	total: XSDataDouble
+}
+
+
+complex type XSDataResultDatGnom extends XSDataResult {
+	gnom: XSDataGnom
+}
+
+complex type XSDataInputDatPorod extends XSDataInput {
+	"Input file can be in 1/nm or 1/A, result will be in the same unit(^3)."
+	gnomFile: XSDataFile optional
+}
+
+complex type XSDataResultDatPorod extends XSDataResult {
+	volume: XSDataDoubleWithUnit
+}
+
+
+complex type XSDataInputDamaver extends XSDataInput {
+	pdbInputFiles : XSDataFile []
+	symmetry : XSDataString optional
+	automatic : XSDataBoolean optional
+}
+complex type XSDataResultDamaver extends XSDataResult {
+	meanNSD : XSDataDouble optional
+	variationNSD : XSDataDouble optional
+	damaverPdbFile : XSDataFile optional
+	damfilterPdbFile : XSDataFile optional
+	damstartPdbFile : XSDataFile optional
+}
+
+complex type XSDataInputDamfilt extends XSDataInput {
+	inputPdbFile : XSDataFile
+}
+complex type XSDataResultDamfilt extends XSDataResult {
+	outputPdbFile : XSDataFile optional
+}
+
+complex type XSDataInputDammif extends XSDataInput {
+	expectedParticleShape : XSDataInteger
+	gnomOutputFile : XSDataFile
+	unit : XSDataString optional
+	symmetry : XSDataString
+	mode : XSDataString optional
+	chained : XSDataBoolean optional
+	constant : XSDataDouble optional
+}
+complex type XSDataResultDammif extends XSDataResult {
+	fitFile : XSDataFile
+	logFile : XSDataFile
+	pdbMoleculeFile : XSDataFile
+	pdbSolventFile : XSDataFile
+	rfactor : XSDataDouble optional
+	chiSqrt : XSDataDouble optional
+}
+
+complex type XSDataInputDammin extends XSDataInput {
+	expectedParticleShape : XSDataInteger
+	gnomOutputFile : XSDataFile
+	initialDummyAtomModel : XSDataInteger
+	pdbInputFile : XSDataFile
+	symmetry : XSDataString
+	mode : XSDataString optional
+}
+complex type XSDataResultDammin extends XSDataResult {
+	fitFile : XSDataFile
+	logFile : XSDataFile
+	pdbMoleculeFile : XSDataFile
+	pdbSolventFile : XSDataFile
+	rfactor : XSDataDouble optional
+	chiSqrt : XSDataDouble optional
+}
+
+complex type XSDataInputDamstart extends XSDataInput {
+	inputPdbFile : XSDataFile
+}
+complex type XSDataResultDamstart extends XSDataResult {
+	outputPdbFile : XSDataFile optional
+}
+
+
+complex type XSDataInputSupcomb extends XSDataInput {
+	templateFile : XSDataFile
+	superimposeFile : XSDataFile
+	enantiomorphs : XSDataBoolean optional
+	backbone : XSDataBoolean optional
+}
+complex type XSDataResultSupcomb extends XSDataResult {
+	outputFilename : XSDataFile
+	rot : XSDataRotation
+	trns : XSDataVectorDouble
+	NSD : XSDataDouble
+}

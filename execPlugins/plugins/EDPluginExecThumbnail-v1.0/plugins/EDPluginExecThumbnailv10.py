@@ -57,7 +57,7 @@ EDFactoryPluginStatic.preImport("scipy.ndimage.morphology", scipyPath)
 
 try:
     import numpy, Image, fabio, scipy, scipy.ndimage.morphology
-except:
+except Exception:
     EDVerbose.ERROR("Error in loading numpy, PIL, fabio or scipy,\n\
     Please re-run the test suite for EDTestSuitePluginExecThumbnailv10 \
     to ensure that all modules are compiled for you computer as they don't seem to be installed")
@@ -272,7 +272,7 @@ class EDPluginExecThumbnailv10(EDPluginExec):
         EDVerbose.DEBUG("EDPluginExecThumbnailv10.process")
 
 #        try:
-#        except:
+#        except Exception:
 #        edfImage = EDF(self.inputFilename)
 #        self.npaImage = edfImage.GetData(0)
 
@@ -283,7 +283,7 @@ class EDPluginExecThumbnailv10(EDPluginExec):
             try:
                 fabioImage = openimage(self.inputFilename)
                 self.npaImage = fabioImage.data
-            except:
+            except Exception:
                 pilInputImage = Image.open(self.inputFilename)
                 x, y = pilInputImage.size
                 ImageFile.MAXBLOCK = x * y

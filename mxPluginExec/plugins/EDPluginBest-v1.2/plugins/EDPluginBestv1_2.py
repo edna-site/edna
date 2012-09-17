@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -30,10 +28,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
 
-from EDVerbose                       import EDVerbose
+
 from EDUtilsPath                     import EDUtilsPath
 from EDMessage                       import EDMessage
 from EDUtilsFile                     import EDUtilsFile
@@ -169,10 +169,10 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginBestv1_2.configure")
+        self.DEBUG("EDPluginBestv1_2.configure")
         self.setRequireCCP4(True)
         strScriptExecutable = self.getScriptExecutable()
-        EDVerbose.DEBUG("EDPluginBestv1_2.configure: Script Executable: " + strScriptExecutable)
+        self.DEBUG("EDPluginBestv1_2.configure: Script Executable: " + strScriptExecutable)
         strBestScriptHome = EDUtilsPath.getFolderName(strScriptExecutable)
         strBestHome = None
 
@@ -186,18 +186,18 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
                 strBestHome = strBestScriptHome
 
         self.setBestHome(strBestHome)
-        EDVerbose.DEBUG("EDPluginBestv1_2.configure: Best Home: " + strBestHome)
+        self.DEBUG("EDPluginBestv1_2.configure: Best Home: " + strBestHome)
         self.setCommandBestHome("export besthome=" + self.getBestHome())
 
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginBestv1_2.preProcess")
+        self.DEBUG("EDPluginBestv1_2.preProcess")
 
         self.setScriptLogFileName("best.log")
 
-        self.setFileBestDat(EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile.dat"))
-        self.setFileBestPar(EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile.par"))
+        self.setFileBestDat(os.path.join(self.getWorkingDirectory(), "bestfile.dat"))
+        self.setFileBestPar(os.path.join(self.getWorkingDirectory(), "bestfile.par"))
 
         EDUtilsFile.writeFile(self.getFileBestDat(), self.getDataInput().getBestFileContentDat().getValue())
         EDUtilsFile.writeFile(self.getFileBestPar(), self.getDataInput().getBestFileContentPar().getValue())
@@ -207,7 +207,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         iterator = 0
         for bestFileContentHKL in listBestFileContentHKL:
             iterator = iterator + 1
-            bestFileHKL = EDUtilsPath.mergePath(self.getWorkingDirectory(), "bestfile" + str(iterator) + ".hkl")
+            bestFileHKL = os.path.join(self.getWorkingDirectory(), "bestfile" + str(iterator) + ".hkl")
             self.__listFileBestHKL.append(bestFileHKL)
             EDUtilsFile.writeFile(bestFileHKL, bestFileContentHKL.getValue())
 
@@ -310,7 +310,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
         self.__strCommandBest = self.__strCommandBest + "-T " + str(fMaxExposureTime) + " " + \
                                      "-dna " + self.getScriptBaseName() + "_dnaTables.xml" + " " + \
-                                     "-o " + EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv ") + \
+                                     "-o " + os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv ") + \
                                      "-e " + self.getComplexity() + " "
                                      
         if self.getDataInput().getXdsBackgroundImage():
@@ -324,18 +324,20 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
     def finallyProcess(self, _edObject=None):
         EDPluginExecProcessScript.finallyProcess(self)
-        EDVerbose.DEBUG("EDPluginBestv1_2.finallyProcess")
+        self.DEBUG("EDPluginBestv1_2.finallyProcess")
         strError = self.readProcessErrorLogFile()
         if((strError is not None) and (strError != "")):
             strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_2.postProcess', 'EDPluginBestv1_2', strError)
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setDataOutput(XSDataResultBest())
             self.setFailure()
         else:
-            xsDataResultBest = self.getOutputDataFromDNATableFile(EDUtilsPath.mergePath(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
+            xsDataResultBest = self.getOutputDataFromDNATableFile(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
             xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
             xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
+            xsDataFilePathToPlotMtv = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv")))
+            xsDataResultBest.setPathToPlotMtvFile(xsDataFilePathToPlotMtv)
             self.setDataOutput(xsDataResultBest)
 
 
@@ -644,7 +646,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         """
         Generates a summary of the execution of the plugin.
         """
-        EDVerbose.DEBUG("EDPluginBestv1_2.generateExecutiveSummary")
+        self.DEBUG("EDPluginBestv1_2.generateExecutiveSummary")
         strBestLog = self.readProcessLogFile()
         listBestLogLines = strBestLog.split("\n")
         for strLine in listBestLogLines:

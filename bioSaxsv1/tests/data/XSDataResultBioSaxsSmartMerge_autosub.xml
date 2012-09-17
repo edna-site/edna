@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataResultBioSaxsSmartMergev1_0>
+    <mergedCurve>
+        <path>
+            <value>/tmp/edna-${USER}/bioSaxsBufferAfter.dat</value>
+        </path>
+    </mergedCurve>
+</XSDataResultBioSaxsSmartMergev1_0>

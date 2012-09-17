@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
@@ -32,8 +30,10 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "deprecated"
 
-from EDVerbose import EDVerbose
+
 
 from EDConfiguration           import EDConfiguration
 from EDMessage                 import EDMessage
@@ -74,15 +74,15 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginControlLabelitv10.configure")
+        self.DEBUG("EDPluginControlLabelitv10.configure")
         xsPluginItem = self.getConfiguration()
         if (xsPluginItem == None):
-            EDVerbose.warning("EDPluginControlLabelitv10.configure: No Labelit plugin item defined.")
+            self.warning("EDPluginControlLabelitv10.configure: No Labelit plugin item defined.")
             xsPluginItem = XSPluginItem()
         strPathToLabelitSetpathScript = EDConfiguration.getStringParamValue(xsPluginItem, self.strCONF_PATH_TO_LABELIT_SETPATH_SCRIPT)
         if(strPathToLabelitSetpathScript == None):
             errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlLabelitv10.configure', self.getClassName(), "Configuration parameter missing: " + self.strCONF_PATH_TO_LABELIT_SETPATH_SCRIPT)
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
             raise RuntimeError, errorMessage
         else:
@@ -102,7 +102,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
         Sets up the Labelit command line
         """
         EDPluginExecProcessScript.preProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginLabelitv10.preProcess...")
+        self.DEBUG("EDPluginLabelitv10.preProcess...")
 
         self.setScriptExecutable("labelit.screen")
 
@@ -119,18 +119,18 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
         Parses the labelit.screen log file and the generated MOSFLM script
         """
         EDPluginExecProcessScript.postProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginLabelitv10.postProcess...")
+        self.DEBUG("EDPluginLabelitv10.postProcess...")
         strLabelitLog = self.readProcessLogFile()
         if (strLabelitLog is None):
             errorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginLabelitv10.postProcess", self.getClassName(), "Could not read the Labelit log file")
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
         else:
             xsDataLabelitScreenOutput = self.parseLabelitScreenOutput(strLabelitLog)
             xsDataIntegerSelectedSolutionNumber = xsDataLabelitScreenOutput.getSelectedSolutionNumber()
             if (xsDataIntegerSelectedSolutionNumber is None):
                 errorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginLabelitv10.postProcess", self.getClassName(), "No selected solution")
-                EDVerbose.error(errorMessage)
+                self.error(errorMessage)
                 self.addErrorMessage(errorMessage)
             else:
                 strLabelitMosflmScriptsOutput = self.readProcessFile(self.generateMosflmScriptName(xsDataIntegerSelectedSolutionNumber.getValue()))
@@ -145,7 +145,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
         """
         Initialises the Labelit.screen command line
         """
-        EDVerbose.DEBUG("EDPluginLabelitv10.initaliseLabelitCommandLine")
+        self.DEBUG("EDPluginLabelitv10.initaliseLabelitCommandLine")
 
         strCommandLabelit = "--index_only"
         xsDataInputLabelit = self.getDataInput()
@@ -160,7 +160,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
         This method parses the labelit.screen log and populates the relevant
         parts of the XSDataLabelitScreenOutput object which is then returned.
         """
-        EDVerbose.DEBUG("EDPluginLabelitv10.parseLabelitLogText")
+        self.DEBUG("EDPluginLabelitv10.parseLabelitLogText")
         xsDataLabelitScreenOutput = None
 
         iIndex = 0
@@ -180,7 +180,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
 
         if (bFoundLabelitIndexingResults == False):
             errorMessage = EDMessage.ERROR_EXECUTION_03 % ("EDPluginLabelitv10.parseLabelitLogText", self.getClassName(), "Labelit log message: %s" % _strLabelitLogText)
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
         else:
             # We found some indexing results!
@@ -268,7 +268,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
         This method parses the MOSFLM script generated by Labelit and populates
         the A- and U-matrices in the XSDataLabelitMosflmScriptsOutput object.
         """
-        EDVerbose.DEBUG("EDPluginLabelitv10.parseMOSFLMMatrices")
+        self.DEBUG("EDPluginLabelitv10.parseMOSFLMMatrices")
         xsDataLabelitMosflmScriptsOutput = XSDataLabelitMosflmScriptsOutput()
         listMOSFLMScriptLines = _strMOSFLMScript.split("\n")
 
@@ -322,7 +322,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
         """
         This method generates the name of the MOSFLM script given a solution number.
         """
-        EDVerbose.DEBUG("EDPluginLabelitv10.generateMOSFLMScriptName")
+        self.DEBUG("EDPluginLabelitv10.generateMOSFLMScriptName")
         return "integration%02d.csh" % _iSelectedSolutionNumber
 
 
@@ -330,7 +330,7 @@ class EDPluginLabelitv10(EDPluginExecProcessScript):
         """
         Generates a summary of the execution of the Labelit plugin.
         """
-        EDVerbose.DEBUG("EDPluginLabelitv10.generateExecutiveSummary")
+        self.DEBUG("EDPluginLabelitv10.generateExecutiveSummary")
         xsDataInputLabelit = self.getDataInput()
         xsDataResultLabelit = self.getDataOutput()
         xsDataLabelitScreenOutput = xsDataResultLabelit.getLabelitScreenOutput()

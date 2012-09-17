@@ -33,6 +33,10 @@ from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 
+EDFactoryPluginStatic.loadModule("EDHandlerESRFPyarchv1_0")
+
+from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
+
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
@@ -127,7 +131,7 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
                     self.strOutputPathWithoutExtension = os.path.join(strForcedOutputDirectory, strImageNameWithoutExt)
             else:
                 # Try to store in the ESRF pyarch directory
-                strOutputDirname = self.createPyarchFilePath(strImageDirname)
+                strOutputDirname = EDHandlerESRFPyarchv1_0.createPyarchFilePath(strImageDirname)
                 # Check that output pyarch path exists and is writeable:
                 bIsOk = False
                 if strOutputDirname:
@@ -231,36 +235,4 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlPyarchThumbnailGeneratorv1_0.doFailureExecThumbnail2")
         # To be removed if failure of the exec plugin shouldn't make the control plugin to fail:
         self.setFailure()
-
-
-    def createPyarchFilePath(self, _strDNAFileDirectoryPath):
-        """
-        This method translates from a "visitor" path to a "pyarch" path:
-        /data/visitor/mx415/id14eh1/20100209 -> /data/pyarch/id14eh1/mx415/20100209
-        """
-        strPyarchDNAFilePath = None
-        listOfDirectories = _strDNAFileDirectoryPath.split(os.sep)
-        listBeamlines = ["id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2", "id29"]
-        # Check that we have at least four levels of directories:
-        if (len(listOfDirectories) > 4):
-            strDataDirectory = listOfDirectories[ 1 ]
-            strSecondDirectory = listOfDirectories[ 2 ]
-            strProposal = None
-            strBeamline = None
-            if ((strDataDirectory == "data") and (strSecondDirectory == "visitor")):
-                strProposal = listOfDirectories[ 3 ]
-                strBeamline = listOfDirectories[ 4 ]
-            elif ((strDataDirectory == "data") and (strSecondDirectory in listBeamlines)):
-                strBeamline = strSecondDirectory
-                strProposal = listOfDirectories[ 4 ]
-            if (strProposal != None) and (strBeamline != None):
-                strPyarchDNAFilePath = os.path.join(os.sep, "data")
-                strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, "pyarch")
-                strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, strBeamline)
-                strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, strProposal)
-                for strDirectory in listOfDirectories[ 5: ]:
-                    strPyarchDNAFilePath = os.path.join(strPyarchDNAFilePath, strDirectory)
-        if (strPyarchDNAFilePath is None):
-            EDVerbose.WARNING("EDPluginControlPyarchThumbnailGeneratorv1_0.createPyArchFilePath: path not converted for pyarch: %s " % _strDNAFileDirectoryPath)
-        return strPyarchDNAFilePath
 

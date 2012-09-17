@@ -55,7 +55,7 @@ fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "Fabio-r5080", ED
 ################################################################################
 try:
     import fabio
-except:
+except Exception:
     if os.path.isdir(fabioPath) and (fabioPath not in sys.path):
         sys.path.insert(1, fabioPath)
         import fabio

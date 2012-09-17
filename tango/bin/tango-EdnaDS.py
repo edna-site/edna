@@ -83,10 +83,10 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
             self.__semaphoreNbThreads = threading.Semaphore(EDUtilsParallel.detectNumberOfCPUs())
         self.jobQueue = Queue()
         self.processingSem = threading.Semaphore()
-        self.lastStatistics = "No statistics collected yet, please use the 'collectStatistics' method first"
         self.statLock = threading.Lock()
-        self.lastFailure = None
-        self.lastSuccess = None
+        self.lastStatistics = "No statistics collected yet, please use the 'collectStatistics' method first"
+        self.lastFailure = "No job Failed (yet)"
+        self.lastSuccess = "No job succeeded (yet)"
 
     def delete_device(self):
         self.DEBUG("[Device delete_device method] for device %s" % self.get_name())
@@ -98,6 +98,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         self.get_device_properties(self.get_device_class())
         self.set_change_event("jobSuccess", True, False)
         self.set_change_event("jobFailure", True, False)
+        self.set_change_event("statisticsCollected", True, False)
 
     def always_executed_hook(self):
         pass
@@ -106,18 +107,10 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         self.DEBUG("In %s.read_attr_hardware()" % self.get_name())
 
     def read_jobSuccess(self, attr):
-        self.DEBUG("In %s.read_jobSuccess()" % self.get_name())
-        if self.lastSuccess is None:
-            attr.set_value("No job succeeded (yet)")
-        else:
-            attr.set_value("Last success job: %s%s%s" % (self.lastSuccess, os.linesep, EDJob.getDataOutputFromId(self.lastSuccess)))
+        attr.set_value(self.lastSuccess)
 
     def read_jobFailure(self, attr):
-        self.DEBUG("In %s.read_jobFailure()" % self.get_name())
-        if self.lastFailure is None:
-            attr.set_value("No job Failed (yet)")
-        else:
-            attr.set_value("Last failed job: %s%s%s" % (self.lastFailure, os.linesep, EDJob.getDataOutputFromId(self.lastFailure)))
+        attr.set_value(self.lastFailure)
 
     def read_statisticsCollected(self, attr):
         attr.set_value(self.lastStatistics)
@@ -165,7 +158,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
 
     def startProcessing(self):
         """
-        Process all jobs in the queue.  
+        Process all jobs in the queue.
         """
         with self.processingSem:
             while not self.jobQueue.empty():
@@ -235,15 +228,15 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
 
     def getStatistics(self):
         """
-        just return statistics previously calculated 
+        just return statistics previously calculated
         """
-        return  self.lastStatistics
+        return self.lastStatistics
 
     def getJobOutput(self, jobId):
         """
         Retrieve XML output form a job
         @param jobId: name of the job
-        @return: output from a job        
+        @return: output from a job
         """
         return EDJob.getDataOutputFromId(jobId)
 
@@ -251,7 +244,7 @@ class EdnaDS(PyTango.Device_4Impl, EDLogging):
         """
         Retrieve XML input from a job
         @param jobId: name of the job
-        @return: xml input from a job        
+        @return: xml input from a job
         """
         return EDJob.getDataInputFromId(jobId)
 

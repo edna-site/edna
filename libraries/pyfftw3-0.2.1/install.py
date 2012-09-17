@@ -88,21 +88,21 @@ if __name__ == "__main__":
 #        if pthreadPath is None:
 #            try:
 #                installer.configure("--prefix=%s" % (installer.getDestinationDirectory()))
-#            except:
+#            except Exception:
 #                EDVerbose.ERROR("Error in the configure step, no pthread")
 #        else:
 #            try:
 #                installer.configure("--prefix=%s --enable-threadsafe --with-pthread=%s" % (installer.getDestinationDirectory(), pthreadPath))
-#            except:
+#            except Exception:
 #                EDVerbose.ERROR("Error in the configure step, with pthread")
 #        try:
 #            installer.make("-j %i" % EDUtilsParallel.detectNumberOfCPUs())
-#        except:
+#        except Exception:
 #            EDVerbose.ERROR("Error in the 'make' step")
 #
 #        try:
 #            installer.make("install")
-#        except:
+#        except Exception:
 #            EDVerbose.ERROR("Error in the 'make install' step")
 #        pathClib = installer.getDestinationDirectory()
 #        installer.cleanSources()
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 #    install.unZipArchive()
 #    try:
 #        install.buildSources("--hdf5=%s" % pathClib)
-#    except:
+#    except Exception:
 #        EDVerbose.ERROR("Error in the building of %s" % (h5pyLibrary))
 #        sys.exit(0)
 #    install.installBuilt()
