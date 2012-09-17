@@ -171,8 +171,9 @@ class EDPluginExecMeasureOffsetv2_0(EDPluginExec):
             shape = (d0max - d0min, d1max - d1min)
         if shape != self.npaIm1.shape:
             self.DEBUG("Redefining ROI to %s - %s ; %s - %s as crop=%s, center=%s and width=%s" % (d0min, d0max, d1min, d1max, self.tCrop, self.tCenter, self.tWidth))
-            self.npaIm1 = self.npaIm1[d0min:d0max, d1min:d1max]
-            self.npaIm2 = self.npaIm2[ d0min:d0max, d1min:d1max]
+            #array contiguity is needed for checksum calculation
+            self.npaIm1 = numpy.ascontiguousarray(self.npaIm1[d0min:d0max, d1min:d1max])
+            self.npaIm2 = numpy.ascontiguousarray(self.npaIm2[ d0min:d0max, d1min:d1max])
             shape = self.npaIm1.shape
             self.DEBUG("After Crop, images have shape : %s and %s " % (self.npaIm1.shape, self.npaIm2.shape))
 
