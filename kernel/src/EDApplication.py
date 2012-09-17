@@ -33,7 +33,7 @@ import os, sys, time
 from EDThreading            import Semaphore
 from EDCommandLine          import EDCommandLine
 from EDVerbose              import EDVerbose
-from EDConfiguration        import EDConfiguration
+from EDConfigurationStatic  import EDConfigurationStatic
 from EDMessage              import EDMessage
 from EDUtilsPath            import EDUtilsPath
 from EDUtilsFile            import EDUtilsFile
@@ -159,9 +159,9 @@ class EDApplication(object):
                 self.__strConfigurationFileName = os.path.abspath(os.path.join(self.__strConfigurationHome, "XSConfiguration_%s.xml" % EDUtilsPath.getEdnaSite()))
             if (os.path.exists(self.__strConfigurationFileName)):
                 EDVerbose.screen("Loading Configuration file: %s" % self.__strConfigurationFileName)
-                edConfiguration = EDConfiguration(self.__strConfigurationFileName)
+                edConfiguration = EDConfigurationStatic()
+                edConfiguration.addConfigurationFile(self.__strConfigurationFileName)
                 self.setConfiguration(edConfiguration)
-                self.loadConfiguration()
                 EDVerbose.DEBUG("EDApplication.preProcess: Checking... Number of plugins...: %d" % edConfiguration.getPluginListSize())
                 pyDictionary = {}
                 pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
@@ -419,13 +419,13 @@ class EDApplication(object):
         """
         EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration")
         pluginConfiguration = None
-        strPathToProjectConfigurationFile = EDFactoryPluginStatic.getPathToProjectConfigurationFile(_pluginName)
+        strPathToProjectConfigurationFile = EDConfigurationStatic.getPathToProjectConfigurationFile(_pluginName)
         with cls.__semaphore:
             if (strPathToProjectConfigurationFile is not None):
-                edConfigurationProject = EDConfiguration(strPathToProjectConfigurationFile)
-                edConfigurationProject.load()
+                edConfigurationProject = EDConfigurationStatic()
+                edConfigurationProject.addConfigurationFile(strPathToProjectConfigurationFile)
                 if (edConfigurationProject is not None):
-                    pluginConfiguration = edConfigurationProject.getPluginItem(_pluginName)
+                    pluginConfiguration = edConfigurationProject.getXSConfigurationItem(_pluginName)
             if (pluginConfiguration is None):
                 EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: No project configuration found for %s " % _pluginName)
             else:
