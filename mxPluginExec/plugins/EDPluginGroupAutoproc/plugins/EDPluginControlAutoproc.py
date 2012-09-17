@@ -4,7 +4,7 @@
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
-#
+nnn#
 #    Copyright (C) ESRF
 #
 #    Principal author: Thomas Boeglin
@@ -48,6 +48,7 @@ from XSDataAutoproc import XSDataXdsGenerateInput
 from XSDataAutoproc import XSDataXdsOutputFile
 from XSDataAutoproc import XSDataXscaleInput
 from XSDataAutoproc import XSDataXscaleInputFile
+from XSDataAutoproc import XSDataAutoprocInput
 
 
 edFactoryPlugin.loadModule('XSDataWaitFilev1_0')
@@ -143,6 +144,8 @@ class EDPluginControlAutoproc(EDPluginControl):
 
 
         data_range = conf.get('DATA_RANGE=')
+        # we'll need that for the very last part ( file import )
+        self.data_range = data_range
         if data_range is not None:
             start_image = data_range[0]
             end_image = data_range[1]
@@ -189,6 +192,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.xscale_generate = self.loadPlugin("EDPluginControlXscaleGenerate")
 
         self.store_autoproc = self.loadPlugin('EDPluginISPyBStoreAutoProcv1_4')
+
+        self.file_conversion = self.loadPlugin('EDPluginControlAutoprocImport')
 
         self.DEBUG('EDPluginControlAutoproc.preProcess finished')
 
@@ -394,6 +399,37 @@ class EDPluginControlAutoproc(EDPluginControl):
             EDVerbose.ERROR('xscale  generation failed')
 
         self.DEBUG('FINISHED xscale generation')
+
+        import_in = XSDataAutoprocImport()
+        import_in.input_anom = self.xds_generate.dataOutput.hkl_anom_merged
+        import_in.input_noanom = self.xds_generate.dataOutput.hkl_noanom_merged
+        import_in.dataCollectionId = self.dataInput.dataCollectionId
+        import_in.start_image = self.data_range[0]
+        import_in.end_image = self.data_range[1]
+
+        # XXX: is this the right place to get the res from?
+        import_in.res = self.res_cutoff_anom.dataOutput.res
+        # create a timestamped directory for the imported files at the
+        # same level as the initial XDS input file
+        timestamped = time.strftime('edna-autoproc-import-%H:%M:%S')
+        outdir = os.path.join(os.path.dirname(self.dataInput.input_file),
+                              timestamped)
+        os.mkdir(outdir)
+
+        import_in.output_directory = XSDataString(outdir)
+
+        self.file_conversion.dataInput = import_in
+
+        t0 = time.time()
+        self.file_conversion.executeSynchronous()
+        self.stats['autoproc_import']=time.time()-t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
+        if self.file_conversion.isFailure():
+            EDVerbose.ERROR("file import failed")
+
 
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
