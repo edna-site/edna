@@ -389,9 +389,10 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_4.doSuccessExecWait")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_4.doSuccessExecWait")
         xsdo = _edPlugin.dataOutput
-        #self.error("ExecWait Output:%s"%xsdo.marshal())
+        self.error("ExecWait Output:%s"%xsdo.marshal())
         if (xsdo.timedOut is not None) and  bool(xsdo.timedOut.value):
             strErr = "Error in waiting for all input files to arrive"
+            self.lstSummary.append("EDPluginBioSaxsSmartMergev1_4.doSuccessExecWait :"+strErr)
             self.ERROR(strErr)
             self.setFailure()
 
@@ -401,7 +402,7 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_4.doFailureExecWait")
         strErr = "Error in waiting for all input files to arrive"
         self.ERROR(strErr)
-        self.lstSummary.append(self.ERROR)
+        self.lstSummary.append(strErr)
         self.setFailure()
 
 
