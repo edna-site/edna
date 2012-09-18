@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Sep 7 03:07::46 2012 by EDGenerateDS.
+# Generated Tue Sep 18 04:01::06 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -892,8 +892,6 @@ class XSDataInputBioSaxsAzimutIntv1_0(XSDataInput):
             self.normalizedImageSize.export(outfile, level, name_='normalizedImageSize')
         if self._integratedImage is not None:
             self.integratedImage.export(outfile, level, name_='integratedImage')
-        else:
-            warnEmptyAttribute("integratedImage", "XSDataImage")
         if self._integratedCurve is not None:
             self.integratedCurve.export(outfile, level, name_='integratedCurve')
         else:
@@ -1162,7 +1160,7 @@ class XSDataInputBioSaxsNormalizev1_0(XSDataInput):
 
 class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
     """Plugin that runs subsequently Normalize and Azimuthal integration"""
-    def __init__(self, configuration=None, integratedCurve=None, integratedImage=None, normalizedImage=None, logFile=None, rawImageSize=None, experimentSetup=None, sample=None, rawImage=None):
+    def __init__(self, configuration=None, frameId=None, runId=None, integratedCurve=None, integratedImage=None, normalizedImage=None, logFile=None, rawImageSize=None, experimentSetup=None, sample=None, rawImage=None):
         XSDataInput.__init__(self, configuration)
     
     
@@ -1182,6 +1180,10 @@ class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
         self._integratedImage = integratedImage
         checkType("XSDataInputBioSaxsProcessOneFilev1_0", "Constructor of XSDataInputBioSaxsProcessOneFilev1_0", integratedCurve, "XSDataFile")
         self._integratedCurve = integratedCurve
+        checkType("XSDataInputBioSaxsProcessOneFilev1_0", "Constructor of XSDataInputBioSaxsProcessOneFilev1_0", runId, "XSDataString")
+        self._runId = runId
+        checkType("XSDataInputBioSaxsProcessOneFilev1_0", "Constructor of XSDataInputBioSaxsProcessOneFilev1_0", frameId, "XSDataInteger")
+        self._frameId = frameId
     def getRawImage(self): return self._rawImage
     def setRawImage(self, rawImage):
         checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRawImage", rawImage, "XSDataImage")
@@ -1238,6 +1240,20 @@ class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
     def delIntegratedCurve(self): self._integratedCurve = None
     # Properties
     integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
+    def getRunId(self): return self._runId
+    def setRunId(self, runId):
+        checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setRunId", runId, "XSDataString")
+        self._runId = runId
+    def delRunId(self): self._runId = None
+    # Properties
+    runId = property(getRunId, setRunId, delRunId, "Property for runId")
+    def getFrameId(self): return self._frameId
+    def setFrameId(self, frameId):
+        checkType("XSDataInputBioSaxsProcessOneFilev1_0", "setFrameId", frameId, "XSDataInteger")
+        self._frameId = frameId
+    def delFrameId(self): self._frameId = None
+    # Properties
+    frameId = property(getFrameId, setFrameId, delFrameId, "Property for frameId")
     def export(self, outfile, level, name_='XSDataInputBioSaxsProcessOneFilev1_0'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -1268,6 +1284,10 @@ class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
             self.integratedImage.export(outfile, level, name_='integratedImage')
         if self._integratedCurve is not None:
             self.integratedCurve.export(outfile, level, name_='integratedCurve')
+        if self._runId is not None:
+            self.runId.export(outfile, level, name_='runId')
+        if self._frameId is not None:
+            self.frameId.export(outfile, level, name_='frameId')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -1313,6 +1333,16 @@ class XSDataInputBioSaxsProcessOneFilev1_0(XSDataInput):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setIntegratedCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'runId':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setRunId(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'frameId':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setFrameId(obj_)
         XSDataInput.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
@@ -1704,7 +1734,7 @@ class XSDataInputBioSaxsSample(XSDataInput):
 # end class XSDataInputBioSaxsSample
 
 class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
-    def __init__(self, configuration=None, subtractedCurve=None, mergedCurve=None, sample=None, relativeFidelity=None, absoluteFidelity=None, inputCurves=None):
+    def __init__(self, configuration=None, bufferCurves=None, runId=None, subtractedCurve=None, mergedCurve=None, sample=None, relativeFidelity=None, absoluteFidelity=None, inputCurves=None):
         XSDataInput.__init__(self, configuration)
     
     
@@ -1723,6 +1753,13 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
         self._mergedCurve = mergedCurve
         checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", subtractedCurve, "XSDataFile")
         self._subtractedCurve = subtractedCurve
+        checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", runId, "XSDataString")
+        self._runId = runId
+        if bufferCurves is None:
+            self._bufferCurves = []
+        else:
+            checkType("XSDataInputBioSaxsSmartMergev1_0", "Constructor of XSDataInputBioSaxsSmartMergev1_0", bufferCurves, "list")
+            self._bufferCurves = bufferCurves
     def getInputCurves(self): return self._inputCurves
     def setInputCurves(self, inputCurves):
         checkType("XSDataInputBioSaxsSmartMergev1_0", "setInputCurves", inputCurves, "list")
@@ -1771,6 +1808,26 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
     def delSubtractedCurve(self): self._subtractedCurve = None
     # Properties
     subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
+    def getRunId(self): return self._runId
+    def setRunId(self, runId):
+        checkType("XSDataInputBioSaxsSmartMergev1_0", "setRunId", runId, "XSDataString")
+        self._runId = runId
+    def delRunId(self): self._runId = None
+    # Properties
+    runId = property(getRunId, setRunId, delRunId, "Property for runId")
+    def getBufferCurves(self): return self._bufferCurves
+    def setBufferCurves(self, bufferCurves):
+        checkType("XSDataInputBioSaxsSmartMergev1_0", "setBufferCurves", bufferCurves, "list")
+        self._bufferCurves = bufferCurves
+    def delBufferCurves(self): self._bufferCurves = None
+    # Properties
+    bufferCurves = property(getBufferCurves, setBufferCurves, delBufferCurves, "Property for bufferCurves")
+    def addBufferCurves(self, value):
+        checkType("XSDataInputBioSaxsSmartMergev1_0", "setBufferCurves", value, "XSDataFile")
+        self._bufferCurves.append(value)
+    def insertBufferCurves(self, index, value):
+        checkType("XSDataInputBioSaxsSmartMergev1_0", "setBufferCurves", value, "XSDataFile")
+        self._bufferCurves[index] = value
     def export(self, outfile, level, name_='XSDataInputBioSaxsSmartMergev1_0'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -1795,6 +1852,10 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
             warnEmptyAttribute("mergedCurve", "XSDataFile")
         if self._subtractedCurve is not None:
             self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
+        if self._runId is not None:
+            self.runId.export(outfile, level, name_='runId')
+        for bufferCurves_ in self.getBufferCurves():
+            bufferCurves_.export(outfile, level, name_='bufferCurves')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -1830,6 +1891,16 @@ class XSDataInputBioSaxsSmartMergev1_0(XSDataInput):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setSubtractedCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'runId':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setRunId(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'bufferCurves':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.bufferCurves.append(obj_)
         XSDataInput.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
@@ -2683,8 +2754,6 @@ class XSDataResultBioSaxsProcessOneFilev1_0(XSDataResult):
             warnEmptyAttribute("normalizedImage", "XSDataImage")
         if self._integratedImage is not None:
             self.integratedImage.export(outfile, level, name_='integratedImage')
-        else:
-            warnEmptyAttribute("integratedImage", "XSDataImage")
         if self._integratedCurve is not None:
             self.integratedCurve.export(outfile, level, name_='integratedCurve')
         else:
@@ -3260,12 +3329,18 @@ class XSDataResultBioSaxsSmartMergev1_0(XSDataResult):
 # end class XSDataResultBioSaxsSmartMergev1_0
 
 class XSDataResultBioSaxsSubtractv1_0(XSDataResult):
-    def __init__(self, status=None, subtractedCurve=None):
+    def __init__(self, status=None, volume=None, gnom=None, autorg=None, subtractedCurve=None):
         XSDataResult.__init__(self, status)
     
     
         checkType("XSDataResultBioSaxsSubtractv1_0", "Constructor of XSDataResultBioSaxsSubtractv1_0", subtractedCurve, "XSDataFile")
         self._subtractedCurve = subtractedCurve
+        checkType("XSDataResultBioSaxsSubtractv1_0", "Constructor of XSDataResultBioSaxsSubtractv1_0", autorg, "XSDataAutoRg")
+        self._autorg = autorg
+        checkType("XSDataResultBioSaxsSubtractv1_0", "Constructor of XSDataResultBioSaxsSubtractv1_0", gnom, "XSDataGnom")
+        self._gnom = gnom
+        checkType("XSDataResultBioSaxsSubtractv1_0", "Constructor of XSDataResultBioSaxsSubtractv1_0", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
     def getSubtractedCurve(self): return self._subtractedCurve
     def setSubtractedCurve(self, subtractedCurve):
         checkType("XSDataResultBioSaxsSubtractv1_0", "setSubtractedCurve", subtractedCurve, "XSDataFile")
@@ -3273,6 +3348,27 @@ class XSDataResultBioSaxsSubtractv1_0(XSDataResult):
     def delSubtractedCurve(self): self._subtractedCurve = None
     # Properties
     subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
+    def getAutorg(self): return self._autorg
+    def setAutorg(self, autorg):
+        checkType("XSDataResultBioSaxsSubtractv1_0", "setAutorg", autorg, "XSDataAutoRg")
+        self._autorg = autorg
+    def delAutorg(self): self._autorg = None
+    # Properties
+    autorg = property(getAutorg, setAutorg, delAutorg, "Property for autorg")
+    def getGnom(self): return self._gnom
+    def setGnom(self, gnom):
+        checkType("XSDataResultBioSaxsSubtractv1_0", "setGnom", gnom, "XSDataGnom")
+        self._gnom = gnom
+    def delGnom(self): self._gnom = None
+    # Properties
+    gnom = property(getGnom, setGnom, delGnom, "Property for gnom")
+    def getVolume(self): return self._volume
+    def setVolume(self, volume):
+        checkType("XSDataResultBioSaxsSubtractv1_0", "setVolume", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
+    def delVolume(self): self._volume = None
+    # Properties
+    volume = property(getVolume, setVolume, delVolume, "Property for volume")
     def export(self, outfile, level, name_='XSDataResultBioSaxsSubtractv1_0'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -3285,6 +3381,12 @@ class XSDataResultBioSaxsSubtractv1_0(XSDataResult):
             self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
         else:
             warnEmptyAttribute("subtractedCurve", "XSDataFile")
+        if self._autorg is not None:
+            self.autorg.export(outfile, level, name_='autorg')
+        if self._gnom is not None:
+            self.gnom.export(outfile, level, name_='gnom')
+        if self._volume is not None:
+            self.volume.export(outfile, level, name_='volume')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -3295,6 +3397,21 @@ class XSDataResultBioSaxsSubtractv1_0(XSDataResult):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setSubtractedCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'autorg':
+            obj_ = XSDataAutoRg()
+            obj_.build(child_)
+            self.setAutorg(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gnom':
+            obj_ = XSDataGnom()
+            obj_.build(child_)
+            self.setGnom(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'volume':
+            obj_ = XSDataDoubleWithUnit()
+            obj_.build(child_)
+            self.setVolume(obj_)
         XSDataResult.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
@@ -3421,8 +3538,8 @@ class XSDataResultBioSaxsToSASv1_0(XSDataResult):
 
 class XSDataInputBioSaxsHPLCv1_0(XSDataInputBioSaxsProcessOneFilev1_0):
     """Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"""
-    def __init__(self, configuration=None, integratedCurve=None, integratedImage=None, normalizedImage=None, logFile=None, rawImageSize=None, experimentSetup=None, sample=None, rawImage=None, gnomFile=None, subtractedCurve=None, bufferCurve=None):
-        XSDataInputBioSaxsProcessOneFilev1_0.__init__(self, configuration, integratedCurve, integratedImage, normalizedImage, logFile, rawImageSize, experimentSetup, sample, rawImage)
+    def __init__(self, configuration=None, frameId=None, runId=None, integratedCurve=None, integratedImage=None, normalizedImage=None, logFile=None, rawImageSize=None, experimentSetup=None, sample=None, rawImage=None, gnomFile=None, subtractedCurve=None, bufferCurve=None):
+        XSDataInputBioSaxsProcessOneFilev1_0.__init__(self, configuration, frameId, runId, integratedCurve, integratedImage, normalizedImage, logFile, rawImageSize, experimentSetup, sample, rawImage)
     
     
         checkType("XSDataInputBioSaxsHPLCv1_0", "Constructor of XSDataInputBioSaxsHPLCv1_0", bufferCurve, "XSDataFile")
@@ -3851,12 +3968,14 @@ class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
 
 class XSDataResultBioSaxsHPLCv1_0(XSDataResultBioSaxsSubtractv1_0):
     """Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"""
-    def __init__(self, status=None, subtractedCurve=None, integratedCurve=None):
-        XSDataResultBioSaxsSubtractv1_0.__init__(self, status, subtractedCurve)
+    def __init__(self, status=None, volume=None, gnom=None, autorg=None, subtractedCurve=None, bufferCurve=None, integratedCurve=None):
+        XSDataResultBioSaxsSubtractv1_0.__init__(self, status, volume, gnom, autorg, subtractedCurve)
     
     
         checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", integratedCurve, "XSDataFile")
         self._integratedCurve = integratedCurve
+        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", bufferCurve, "XSDataFile")
+        self._bufferCurve = bufferCurve
     def getIntegratedCurve(self): return self._integratedCurve
     def setIntegratedCurve(self, integratedCurve):
         checkType("XSDataResultBioSaxsHPLCv1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
@@ -3864,6 +3983,13 @@ class XSDataResultBioSaxsHPLCv1_0(XSDataResultBioSaxsSubtractv1_0):
     def delIntegratedCurve(self): self._integratedCurve = None
     # Properties
     integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
+    def getBufferCurve(self): return self._bufferCurve
+    def setBufferCurve(self, bufferCurve):
+        checkType("XSDataResultBioSaxsHPLCv1_0", "setBufferCurve", bufferCurve, "XSDataFile")
+        self._bufferCurve = bufferCurve
+    def delBufferCurve(self): self._bufferCurve = None
+    # Properties
+    bufferCurve = property(getBufferCurve, setBufferCurve, delBufferCurve, "Property for bufferCurve")
     def export(self, outfile, level, name_='XSDataResultBioSaxsHPLCv1_0'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -3876,6 +4002,8 @@ class XSDataResultBioSaxsHPLCv1_0(XSDataResultBioSaxsSubtractv1_0):
             self.integratedCurve.export(outfile, level, name_='integratedCurve')
         else:
             warnEmptyAttribute("integratedCurve", "XSDataFile")
+        if self._bufferCurve is not None:
+            self.bufferCurve.export(outfile, level, name_='bufferCurve')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -3886,6 +4014,11 @@ class XSDataResultBioSaxsHPLCv1_0(XSDataResultBioSaxsSubtractv1_0):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setIntegratedCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'bufferCurve':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setBufferCurve(obj_)
         XSDataResultBioSaxsSubtractv1_0.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):

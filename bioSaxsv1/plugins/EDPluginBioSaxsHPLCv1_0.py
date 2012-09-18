@@ -1,19 +1,317 @@
-"""complex type XSDataInputBioSaxsHPLCv1_0 extends XSDataInputBioSaxsProcessOneFilev1_0{
-    "Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"
-//    rawImage : XSDataImage
-//    sample: XSDataBioSaxsSample
-//    experimentSetup: XSDataBioSaxsExperimentSetup
-//    rawImageSize : XSDataInteger optional
-//    logFile : XSDataFile optional
-//    normalizedImage : XSDataImage optional
-//    integratedCurve : XSDataFile optional
-//    runId: XSDataString optional
-//    frameId: XSDataInteger optional
-    bufferCurve : XSDataFile optional
-    subtractedCurve: XSDataFile optional
-    gnomFile: XSDataFile optional
-}
+# coding: utf8
+#
+#    Project: <projectName>
+#             http://www.edna-site.org
+#
+#    File: "$Id$"
+#
+#    Copyright (C) 2012 ESRF
+#
+#    Principal author:        Jerome Kieffer
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+from __future__ import with_statement
 
+__author__ = "Jerome Kieffer"
+__license__ = "GPLv3+"
+__copyright__ = "2012 ESRF"
+__date__ = "20120918"
+__status__ = "development"
+
+import os
+from EDPluginControl import EDPluginControl
+from EDThreading import Semaphore
+from EDFactoryPlugin import edFactoryPlugin
+edFactoryPlugin.loadModule("XSDataEdnaSaxs")
+
+from XSDataBioSaxsV1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0, \
+                            XSDataInputBioSaxsProcessOneFilev1_0
+from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver
+from XSDataCommon import XSDataFile, XSDataStatus, XSDataString, XSDataInteger, XSDataStatus
+
+class HPLCrun(object):
+    def __init__(self, runId, first_curve=None):
+        self.id = runId
+        self.buffer = None
+        self.first_curve = first_curve
+        self.frames = []
+        self.curves = []
+        self.for_buffer = []
+        if first_curve:
+            self.files.append(first_curve)
+
+class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
+    """
+    plugin for processing Saxs data coming from HPLC
+    
+    runs subsequently:
+    *ProcessOneFile, 
+    *subtraction of buffer 
+    *SaxsAnalysis
+    """
+
+    strControlledPluginProcessOneFile = "EDPluginBioSaxsProcessOneFilev1_2"
+    strControlledPluginSubtract = "EDPluginBioSaxsSubtractv1_0"
+#    strControlledPluginSaxsAnalysis = "EDPluginControlSaxsAnalysisv1_0"
+    strControlledPluginDatCmp = "EDPluginExecDatcmpv1_0"
+    strControlledPluginDatAver = "EDPluginExecDataverv1_0"
+    dictHPLC = {} #key=runId, value= HPLCrun instance
+    _sem = Semaphore()
+
+    def __init__(self):
+        """
+        """
+        EDPluginControl.__init__(self)
+        self.setXSDataInputClass(XSDataInputBioSaxsHPLCv1_0)
+        self.__edPluginProcessOneFile = None
+        self.__edPluginSubtract = None
+#        self.__edPluginSaxsAnalysis = None
+        self.__edPluginDatCmp = None
+        self.xsDataResult = XSDataResultBioSaxsHPLCv1_0()
+        self.runId = None
+        self.FrameId = None
+        self.hplc_run = None
+        self.curve = None
+        self.subtracted = None
+        self.lstExecutiveSummary = []
+
+    def checkParameters(self):
+        """
+        Checks the mandatory parameters.
+        """
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.checkParameters")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.rawImage, "No raw image")
+        self.checkMandatoryParameters(self.dataInput.sample, "no Sample parameter")
+        self.checkMandatoryParameters(self.dataInput.experimentSetup, "No experimental setup parameter")
+
+
+    def preProcess(self, _edObject=None):
+        EDPluginControl.preProcess(self)
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.preProcess")
+        sdi = self.dataInput
+        if sdi.runId is not None:
+            self.runId = sdi.runId.value
+        else:
+            self.runId = sdi.rawImage[::-1].split("_", 1)[1][::-1]
+        with self._sem:
+            if self.runId not in self.dictHPLC:
+                self.dictHPLC[self.runId] = HPLCrun(self.runId)
+        self.hplc_run = self.dictHPLC[self.runId]
+        if sdi.frameId is not None:
+            self.FrameId = sdi.frameId.value
+        else:
+            digits = os.path.splitext(os.path.basename(sdi.rawImage))[0].split("_")[1]
+            try:
+                self.FrameId = int(digits)
+            except ValueError:
+                self.WARNING("FrameId is supposed to be an integer, I got %s" % digits)
+                self.FrameId = digits
+        self.hplc_run.frames.append(self.FrameId)
+
+        if sdi.bufferCurve and os.path.exists(sdi.bufferCurve.path.value):
+            self.hplc_run.buffer = sdi.bufferCurve.path.value
+
+    def process(self, _edObject=None):
+        EDPluginControl.process(self)
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.process")
+
+        xsdIn = XSDataInputBioSaxsProcessOneFilev1_0(rawImage=self.datainput.rawImage,
+                                                    sample=self.datainput.sample,
+                                                    experimentSetup=self.datainput.experimentSetup,
+                                                    rawImageSize=self.datainput.rawImageSize,
+                                                    normalizedImage=self.datainput.normalizedImage,
+                                                    integratedCurve=self.datainput.integratedCurve,
+                                                    runId=self.datainput.runId,
+                                                    frameId=self.datainput.frameId)
+        self.__edPluginProcessOneFile = self.loadPlugin(self.strControlledPluginProcessOneFile)
+        self.__edPluginProcessOneFile.connectSUCCESS(self.doSuccessProcessOneFile)
+        self.__edPluginProcessOneFile.connectFAILURE(self.doFailureProcessOneFile)
+        self.__edPluginProcessOneFile.executeSynchronous()
+
+        if self.isFailure():
+            return
+
+        if self.hplc_run.buffer is None:
+            xsdIn = XSDataInputDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
+                                                  XSDataFile(XSDataString(self.curve))])
+            self.__edPluginDatCmp = self.loadPlugin(self.strControlledPluginDatCmp)
+            self.__edPluginDatCmp.connectSUCCESS(self.doSuccessDatCmp)
+            self.__edPluginDatCmp.connectFAILURE(self.doFailureDatCmp)
+            self.__edPluginDatCmp.executeSynchronous()
+        if self.isFailure():
+            return
+
+        if self.hplc_run.buffer is None:
+            return
+        xsdIn = XSDataInputSaxsSuDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
+                                              XSDataFile(XSDataString(self.curve))])
+        self.__edPluginDatCmp = self.loadPlugin(self.strControlledPluginDatCmp)
+        self.__edPluginDatCmp.connectSUCCESS(self.doSuccessDatCmp)
+        self.__edPluginDatCmp.connectFAILURE(self.doFailureDatCmp)
+        self.__edPluginDatCmp.executeSynchronous()
+
+
+    def postProcess(self, _edObject=None):
+        EDPluginControl.postProcess(self)
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.postProcess")
+        if self.hplc_run.buffer:
+            self.xsDataResult.bufferCurve = XSDataFile(XSDataString(self.hplc_run.buffer))
+        if self.curve:
+            self.xsDataResult.integratedCurve = XSDataFile(XSDataString(self.curve))
+        if self.subtracted:
+             self.xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.subtracted))
+
+    def finallyProcess(self, _edObject=None):
+        EDPluginControl.finallyProcess(self)
+        executiveSummary = os.linesep.join(self.lstSummary)
+        self.xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
+        self.dataOutput = self.xsDataResult
+
+    def average_buffers(self):
+        """
+        Average out all buffers
+        """
+        self.lstExecutiveSummary.append("Averaging out buffer files: " + ", ".join(self.hplc_run.for_buffer))
+        xsdIn = XSDataInputDataver(inputCurve=[XSDataFile(XSDataString(i)) for i in self.hplc_run.for_buffer])
+        if self.dataInput.bufferCurve:
+            xsdIn.outputCurve = self.dataInput.bufferCurve
+        else:
+            xsdIn.outputCurve = XSDataFile(XSDataSring(self.hplc_run.first_curve[::-1].split("_", 1)[1][::-1] + "_buffer_aver%02i.dat" % len(self.hplc_run.for_buffer)))
+        self.__edPluginDatAver = self.loadPlugin(self.strControlledPluginDatCmp)
+        self.__edPluginDatAver.connectSUCCESS(self.doSuccessDatAver)
+        self.__edPluginDatAver.connectFAILURE(self.doFailureDatAver)
+        self.__edPluginDatAver.executeSynchronous()
+
+    def doSuccessProcessOneFile(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doSuccessProcessOneFile")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doSuccessProcessOneFile")
+        output = _edPlugin.dataOutput
+        if not output.integratedCurve:
+            strErr = "Edna plugin ProcessOneFile did not produce integrated curve"
+            self.ERROR(strErr)
+            self.lstExecutiveSummary.append(strErr)
+            self.setFailure()
+            return
+        self.curve = output.integratedCurve.path.value
+        if not os.path.exists(self.curve):
+            strErr = "Edna plugin ProcessOneFile: integrated curve not on disk !!"
+            self.ERROR(strErr)
+            self.lstExecutiveSummary.append(strErr)
+            self.setFailure()
+            return
+        self.xsDataResult.integratedCurve = output.integratedCurve
+        self.xsDataResult.normalizedImage = output.normalizedImage
+        with self._sem:
+            if not self.hplc_run.first_curve:
+                 self.hplc_run.first_curve = self.curve
+                 self.hplc_run.for_buffer.append(self.curve)
+            self.hplc_run.curves.append(self.curve)
+
+
+    def doFailureProcessOneFile(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureProcessOneFile")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doFailureProcessOneFile")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
+            self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+        else:
+            self.lstExecutiveSummary.append("Edna plugin ProcessOneFile failed.")
+        self.setFailure()
+
+    def doSuccessSubtract(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doSuccessSubtract")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doSuccessSubtract")
+
+    def doFailureSubtract(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureSubtract")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doFailureSubtract")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
+            self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+        else:
+            self.lstExecutiveSummary.append("Edna plugin Subtract failed.")
+        self.setFailure()
+#
+#
+#    def doSuccessSaxsAnalysis(self, _edPlugin=None):
+#        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doSuccessSaxsAnalysis")
+#        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doSuccessSaxsAnalysis")
+#
+#    def doFailureSaxsAnalysis(self, _edPlugin=None):
+#        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureSaxsAnalysis")
+#        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doFailureSaxsAnalysis")
+#        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
+#            self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+#        else:
+#            self.lstExecutiveSummary.append("Edna plugin SaxsAnalysis failed.")
+#        self.setFailure()
+
+    def doSuccessDatCmp(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doSuccessDatCmp")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doSuccessDatCmp")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.fidelity:
+            fidelity = _edPlugin.dataOutput.fidelity.value
+        else:
+            strErr = "No fidelity in output of datcmp"
+            self.error(strErr)
+            self.lstExecutiveSummary.append(strErr)
+            self.setFailure()
+        if fidelity > 0:
+            self.hplc_run.for_buffer.append(self.curve)
+        else:
+            self.average_buffers()
+#complex type XSDataResultDatcmp extends XSDataResult {
+#    "Higher chi-values indicate dis-similarities in the input.\n
+#     Fidelity gives the likelihood of the two data sets being identical.
+#    "
+#    chi: XSDataDouble 
+#    fidelity: XSDataDouble
+#}
+    def doFailureDatCmp(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureDatCmp")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doFailureDatCmp")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
+            self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+        else:
+            self.lstExecutiveSummary.append("Edna plugin DatCmp failed.")
+        self.setFailure()
+
+
+    def doSuccessDatAver(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doSuccessDatAver")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doSuccessDatAver")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.outputCurve:
+            buffer = _edPlugin.dataOutput.outputCurve.path.value
+            if os.path.exists(buffer):
+                self.hplc_run.buffer = buffer
+            else:
+                strErr = "DatAver claimed buffer is in %s but no such file !!!" % buffer
+                self.ERROR(strError)
+                self.lstExecutiveSummary.append(strError)
+                self.setFailure()
+
+    def doFailureDatAver(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureDatAver")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doFailureDatAver")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
+            self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+        else:
+            self.lstExecutiveSummary.append("Edna plugin DatAver failed.")
+        self.setFailure()
+
+
+"""
 complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsSubtractv1_0{
     "Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"
     integratedCurve: XSDataFile
@@ -23,3 +321,16 @@ complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsSubtractv1_0
 //  gnom: XSDataGnom
 //    volume: XSDataDoubleWithUnit
 }"""
+#complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
+#    normalizedImage: XSDataImage
+#    integratedImage: XSDataImage optional
+#    integratedCurve: XSDataFile
+
+#complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsSubtractv1_0{
+#    "Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"
+#    integratedCurve: XSDataFile
+#    bufferCurve: XSDataFile optional
+#//    subtractedCurve : XSDataFile
+#//    autorg: XSDataAutoRg
+#//  gnom: XSDataGnom
+#//    volume: XSDataDoubleWithUnit

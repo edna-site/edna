@@ -144,7 +144,7 @@ complex type XSDataResultBioSaxsAveragev1_0 extends XSDataResult {
 complex type XSDataInputBioSaxsAzimutIntv1_0 extends XSDataInput{
 	normalizedImage : XSDataImage
 	normalizedImageSize : XSDataInteger optional
-	integratedImage : XSDataImage
+	integratedImage : XSDataImage optional
 	integratedCurve : XSDataFile
 	correctedImage : XSDataImage optional
 	sample: XSDataBioSaxsSample
@@ -196,12 +196,13 @@ complex type XSDataInputBioSaxsProcessOneFilev1_0 extends XSDataInput{
 	normalizedImage : XSDataImage optional
 	integratedImage : XSDataImage optional
 	integratedCurve : XSDataFile optional
-	
+	runId: XSDataString optional
+	frameId: XSDataInteger optional
 }
 
 complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
 	normalizedImage: XSDataImage
-	integratedImage: XSDataImage
+	integratedImage: XSDataImage optional
 	integratedCurve: XSDataFile
 	//logFile : XSDataFile
 //	processLog : XSDataString => use executive summary
@@ -215,6 +216,8 @@ complex type XSDataInputBioSaxsSmartMergev1_0 extends XSDataInput  {
 	sample: XSDataBioSaxsSample optional
 	mergedCurve: XSDataFile
 	subtractedCurve: XSDataFile optional
+	runId: XSDataString optional
+	bufferCurves: XSDataFile [] optional
 }
 
 complex type XSDataResultBioSaxsSmartMergev1_0 extends XSDataResult {
@@ -237,13 +240,9 @@ complex type XSDataInputBioSaxsSubtractv1_0 extends XSDataInput  {
 
 complex type XSDataResultBioSaxsSubtractv1_0 extends XSDataResult {
 	subtractedCurve : XSDataFile
-//	gnomFile: XSDataFile  
-//	autorg: XSDataAutoRg
-//	rgGuinier : XSDataLength
-//	rgGnom : XSDataLength
-//	dmax: XSDataLength
-//	total: XSDataDouble
-//	volume: XSDataDoubleWithUnit
+	autorg: XSDataAutoRg optional
+	gnom: XSDataGnom optional
+	volume: XSDataDoubleWithUnit optional
 	}
 
 
@@ -256,6 +255,8 @@ complex type XSDataInputBioSaxsHPLCv1_0 extends XSDataInputBioSaxsProcessOneFile
 //	logFile : XSDataFile optional
 //	normalizedImage : XSDataImage optional
 //	integratedCurve : XSDataFile optional
+//	runId: XSDataString optional
+//	frameId: XSDataInteger optional
 	bufferCurve : XSDataFile optional
 	subtractedCurve: XSDataFile optional
 	gnomFile: XSDataFile optional
@@ -264,13 +265,10 @@ complex type XSDataInputBioSaxsHPLCv1_0 extends XSDataInputBioSaxsProcessOneFile
 complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsSubtractv1_0{
 	"Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"
 	integratedCurve: XSDataFile
+	bufferCurve: XSDataFile optional
 //	subtractedCurve : XSDataFile
-//	gnomFile: XSDataFile  
 //	autorg: XSDataAutoRg
-//	rgGuinier : XSDataLength
-//	rgGnom : XSDataLength
-//	dmax: XSDataLength
-//	total: XSDataDouble
+//  gnom: XSDataGnom
 //	volume: XSDataDoubleWithUnit
 }
 
