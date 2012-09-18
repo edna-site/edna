@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
-__date__ = "20120829"
+__date__ = "20120918"
 __status__ = "Production"
 
 import os, shutil
@@ -108,6 +108,7 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         self.lstSub = []
         self.strSubFile = None
         self.fConcentration = None
+        self.xsDataResult = XSDataResultBioSaxsSmartMergev1_0()
 
     def checkParameters(self):
         """
@@ -282,20 +283,21 @@ class EDPluginBioSaxsSmartMergev1_4(EDPluginControl):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginBioSaxsSmartMergev1_4.postProcess")
         # Create some output data
-        xsDataResult = XSDataResultBioSaxsSmartMergev1_0()
-        xsDataResult.mergedCurve = self.dataInput.mergedCurve
-        executiveSummary = os.linesep.join(self.lstSummary)
-        xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
+        self.xsDataResult.mergedCurve = self.dataInput.mergedCurve
         if self.autoRg is not None:
-            xsDataResult.autoRg = self.autoRg
+            self.xsDataResult.autoRg = self.autoRg
         if self.strSubFile is not None and os.path.isfile(self.strSubFile):
-            xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.strSubFile))
+            self.xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.strSubFile))
         if self.gnom is not None:
-            xsDataResult.gnom = self.gnom
+            self.xsDataResult.gnom = self.gnom
         if self.volume is not None:
-            xsDataResult.volume = self.volume
-        self.dataOutput = xsDataResult
-#        self.DEBUG(executiveSummary)
+            self.xsDataResult.volume = self.volume
+
+    def finallyProcess(self, _edObject=None):
+        EDPluginControl.finallyProcess(self)
+        executiveSummary = os.linesep.join(self.lstSummary)
+        self.xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
+        self.dataOutput = self.xsDataResult
 
 
     def rewriteHeader(self, infile=None, output=None, hdr="#", linesep=os.linesep):
