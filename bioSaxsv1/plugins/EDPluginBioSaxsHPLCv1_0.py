@@ -233,6 +233,11 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
     def doSuccessSubtract(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsHPLCv1_0.doSuccessSubtract")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doSuccessSubtract")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
+            self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+        self.xsDataResult.gnom = _edPlugin.dataOutput.gnom
+        self.xsDataResult.volume = _edPlugin.dataOutput.volume
+        self.xsDataResult.autorg = _edPlugin.dataOutput.autorg
 
     def doFailureSubtract(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureSubtract")
