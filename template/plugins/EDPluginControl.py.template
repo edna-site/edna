@@ -36,14 +36,13 @@ class EDPluginControl<pluginName>( EDPluginControl ):
     """
     [To be replaced with a description of EDPluginControlTemplatev10]
     """
-    
+	self.__strControlledPluginName = "<controledPluginName>"
 
     def __init__( self ):
         """
         """
         EDPluginControl.__init__(self)
-        self.setXSDataInputClass(<xsDataInputName>)
-        self.__strControlledPluginName = "<controledPluginName>"
+        self.setXSDataInputClass(<xsDataInputName>)   
         self.__edPluginExecTemplate = None
 
 

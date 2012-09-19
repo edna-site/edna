@@ -102,6 +102,6 @@ class EDPluginExecDatGnomv1_0(EDPluginExecProcessScript):
         lstArg = [self.datFile, "-o", self.outFile]
         if self.rg:
             lstArg += ["-r", str(self.rg)]
-        if self.skip:
+        if self.skip and self.skip > 0:
             lstArg += ["-s", str(self.skip)]
         self.setScriptCommandline(" ".join(lstArg))
