@@ -34,6 +34,7 @@ import os
 from EDPluginControl import EDPluginControl
 from EDThreading import Semaphore
 from EDFactoryPlugin import edFactoryPlugin
+edFactoryPlugin.loadModule("XSDataBioSaxsv1_0")
 edFactoryPlugin.loadModule("XSDataEdnaSaxs")
 
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0, \
@@ -179,8 +180,8 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
             subtracted = self.dataInput.subtractedCurve.path.value
         else:
             subtracted = os.path.splitext(self.curve)[0] + "_sub.dat"
-        xsdIn = XSDataInputDatop(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
-                                              XSDataFile(XSDataString(self.curve))],
+        xsdIn = XSDataInputDatop(inputCurve=[XSDataFile(XSDataString(self.curve)),
+                                              XSDataFile(XSDataString(self.hplc_run.first_curve))],
                                  outputCurve=XSDataFile(XSDataString(subtracted)),
                                  operation=XSDataString("sub"))
         self.__edPluginDatop = self.loadPlugin(self.strControlledPluginDatop)
@@ -225,8 +226,8 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         if self.dataInput.bufferCurve:
             xsdIn.outputCurve = self.dataInput.bufferCurve
         else:
-            xsdIn.outputCurve = XSDataFile(XSDataSring(self.hplc_run.first_curve[::-1].split("_", 1)[1][::-1] + "_buffer_aver%02i.dat" % len(self.hplc_run.for_buffer)))
-        self.__edPluginDatAver = self.loadPlugin(self.strControlledPluginDatCmp)
+            xsdIn.outputCurve = XSDataFile(XSDataString(self.hplc_run.first_curve[::-1].split("_", 1)[1][::-1] + "_buffer_aver%02i.dat" % len(self.hplc_run.for_buffer)))
+        self.__edPluginDatAver = self.loadPlugin(self.strControlledPluginDatAver)
         self.__edPluginDatAver.dataInput = xsdIn
         self.__edPluginDatAver.connectSUCCESS(self.doSuccessDatAver)
         self.__edPluginDatAver.connectFAILURE(self.doFailureDatAver)
