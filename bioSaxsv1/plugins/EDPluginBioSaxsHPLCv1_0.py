@@ -120,7 +120,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         else:
             path = sdi.rawImage.path.value
             if "_" in path:
-                digits = os.path.splitext(os.path.basename(path))[0].split("_")[1]
+                digits = os.path.splitext(os.path.basename(path))[0].split("_")[0]
                 try:
                     self.FrameId = int(digits)
                 except ValueError:
