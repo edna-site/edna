@@ -33,18 +33,17 @@ from EDVerbose                          import EDVerbose
 from EDAssert                           import EDAssert
 from EDTestCasePluginExecute            import EDTestCasePluginExecute
 from XSDataBioSaxsv1_0                  import XSDataResultBioSaxsHPLCv1_0
-from EDFactoryPluginStatic              import EDFactoryPluginStatic
+from EDFactoryPlugin                    import edFactoryPlugin
 from EDUtilsParallel                    import EDUtilsParallel
 # Needed for loading the plugin...
-EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
-EDFactoryPluginStatic.loadModule("EDInstallPILv1_1_7")
-EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
-
+edFactoryPlugin.loadModule("EDInstallNumpyv1_3")
+edFactoryPlugin.loadModule("EDInstallPILv1_1_7")
+edFactoryPlugin.loadModule("EDInstallFabio_v0_0_7")
 import numpy
 from fabio.openimage import openimage
 
 
-class EDTestCasePluginExecuteBioSaxsHPLCv1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteBioSaxsHPLCv1_0_autosub(EDTestCasePluginExecute):
 
 
     def __init__(self, _strTestName=None):
@@ -52,9 +51,9 @@ class EDTestCasePluginExecuteBioSaxsHPLCv1_0(EDTestCasePluginExecute):
 #        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
 #                                               "XSConfiguration_BioSaxsHPLC.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputBioSaxsHPLC_reference.xml"))
+                                           "XSDataInputBioSaxsHPLC_autosub.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultBioSaxsHPLC_reference_v1_0.xml"))
+                                                     "XSDataResultBioSaxsHPLC_autosub_v1_0.xml"))
 
     def preProcess(self):
         """
@@ -64,7 +63,7 @@ class EDTestCasePluginExecuteBioSaxsHPLCv1_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.preProcess(self)
         self.loadTestImage(["bioSaxsRaw.edf", "bioSaxsMask.edf",
                             "bioSaxsCorrected.edf", "bioSaxsProcessNormalized.edf",
-                            "bioSaxsProcessIntegrated.edf", "bioSaxsProcessIntegrated1_2.dat"])
+                            "bioSaxsProcessIntegrated.edf", "bioSaxsProcessIntegrated1_2.dat", "averbuffer.dat"])
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsHPLCv1_0.parseString(strExpectedOutput)

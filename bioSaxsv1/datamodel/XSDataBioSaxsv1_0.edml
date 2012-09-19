@@ -262,12 +262,11 @@ complex type XSDataInputBioSaxsHPLCv1_0 extends XSDataInputBioSaxsProcessOneFile
 	gnomFile: XSDataFile optional
 }
 
-complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResult{
+complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsProcessOneFilev1_0{
 	"Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"
-	integratedCurve: XSDataFile
 	bufferCurve: XSDataFile optional
 	subtractedCurve : XSDataFile optional
-	autorg: XSDataAutoRg optional
+	autoRg: XSDataAutoRg optional
 	gnom: XSDataGnom optional
 	volume: XSDataDoubleWithUnit optional
 }

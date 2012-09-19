@@ -105,7 +105,11 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         if sdi.runId is not None:
             self.runId = sdi.runId.value
         else:
-            self.runId = sdi.rawImage[::-1].split("_", 1)[1][::-1]
+            path = sdi.rawImage.path.value
+            if "_" in path:
+                self.runId = path[::-1].split("_", 1)[1][::-1]
+            else:
+                self.runId = path
         with self._sem:
             if self.runId not in self.dictHPLC:
                 self.dictHPLC[self.runId] = HPLCrun(self.runId)
@@ -113,29 +117,36 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         if sdi.frameId is not None:
             self.FrameId = sdi.frameId.value
         else:
-            digits = os.path.splitext(os.path.basename(sdi.rawImage))[0].split("_")[1]
-            try:
-                self.FrameId = int(digits)
-            except ValueError:
-                self.WARNING("FrameId is supposed to be an integer, I got %s" % digits)
-                self.FrameId = digits
-        self.hplc_run.frames.append(self.FrameId)
+            path = sdi.rawImage.path.value
+            if "_" in path:
+                digits = os.path.splitext(os.path.basename(path))[0].split("_")[1]
+                try:
+                    self.FrameId = int(digits)
+                except ValueError:
+                    self.WARNING("FrameId is supposed to be an integer, I got %s" % digits)
+                    self.FrameId = digits
+            else:
+                self.warning("using frameID=0 in tests, only")
+                self.FrameId = 0
+        with self._sem:
+            self.hplc_run.frames.append(self.FrameId)
 
         if sdi.bufferCurve and os.path.exists(sdi.bufferCurve.path.value):
-            self.hplc_run.buffer = sdi.bufferCurve.path.value
+            with self._sem:
+                self.hplc_run.buffer = sdi.bufferCurve.path.value
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginBioSaxsHPLCv1_0.process")
 
-        xsdIn = XSDataInputBioSaxsProcessOneFilev1_0(rawImage=self.datainput.rawImage,
-                                                    sample=self.datainput.sample,
-                                                    experimentSetup=self.datainput.experimentSetup,
-                                                    rawImageSize=self.datainput.rawImageSize,
-                                                    normalizedImage=self.datainput.normalizedImage,
-                                                    integratedCurve=self.datainput.integratedCurve,
-                                                    runId=self.datainput.runId,
-                                                    frameId=self.datainput.frameId)
+        xsdIn = XSDataInputBioSaxsProcessOneFilev1_0(rawImage=self.dataInput.rawImage,
+                                                    sample=self.dataInput.sample,
+                                                    experimentSetup=self.dataInput.experimentSetup,
+                                                    rawImageSize=self.dataInput.rawImageSize,
+                                                    normalizedImage=self.dataInput.normalizedImage,
+                                                    integratedCurve=self.dataInput.integratedCurve,
+                                                    runId=self.dataInput.runId,
+                                                    frameId=self.dataInput.frameId)
         self.__edPluginProcessOneFile = self.loadPlugin(self.strControlledPluginProcessOneFile)
         self.__edPluginProcessOneFile.dataInput = xsdIn
         self.__edPluginProcessOneFile.connectSUCCESS(self.doSuccessProcessOneFile)
@@ -164,13 +175,14 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
 #    outputCurve: XSDataFile
 #    operation: XSDataString
 #    constant: XSDataDouble optional}
-        if self.dataInput.subtracted is not None:
-            subtracted = self.dataInput.subtracted.path.value
+        if self.dataInput.subtractedCurve is not None:
+            subtracted = self.dataInput.subtractedCurve.path.value
         else:
-            subtracted = os.path.split_ext(self.curve)[0] + "_sub.dat"
+            subtracted = os.path.splitext(self.curve)[0] + "_sub.dat"
         xsdIn = XSDataInputDatop(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
                                               XSDataFile(XSDataString(self.curve))],
-                                 outputCurve=XSDataFile(XSdataString(subtracted)))
+                                 outputCurve=XSDataFile(XSDataString(subtracted)),
+                                 operation=XSDataString("sub"))
         self.__edPluginDatop = self.loadPlugin(self.strControlledPluginDatop)
         self.__edPluginDatop.dataInput = xsdIn
         self.__edPluginDatop.connectSUCCESS(self.doSuccessDatop)
@@ -178,7 +190,8 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         self.__edPluginDatop.executeSynchronous()
 
         if self.subtracted and os.path.exists(self.subtracted):
-            xsdIn = XSDa
+            xsdIn = XSDataInputSaxsAnalysis(scatterCurve=XSDataFile(XSDataString(self.subtracted)),
+                                            gnomFile=XSDataFile(XSDataString(os.path.splitext(self.subtracted)[0] + ".out")))
             self.__edPluginSaxsAnalysis = self.loadPlugin(self.strControlledPluginSaxsAnalysis)
             self.__edPluginSaxsAnalysis.dataInput = xsdIn
             self.__edPluginSaxsAnalysis.connectSUCCESS(self.doSuccessSaxsAnalysis)
@@ -199,7 +212,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
 
     def finallyProcess(self, _edObject=None):
         EDPluginControl.finallyProcess(self)
-        executiveSummary = os.linesep.join(self.lstSummary)
+        executiveSummary = os.linesep.join(self.lstExecutiveSummary)
         self.xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         self.dataOutput = self.xsDataResult
 
@@ -291,7 +304,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
             self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
         self.xsDataResult.gnom = _edPlugin.dataOutput.gnom
         self.xsDataResult.volume = _edPlugin.dataOutput.volume
-        self.xsDataResult.autorg = _edPlugin.dataOutput.autorg
+        self.xsDataResult.autoRg = _edPlugin.dataOutput.autoRg
 
     def doFailureSaxsAnalysis(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureSaxsAnalysis")
@@ -316,7 +329,8 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
             self.lstExecutiveSummary.append(strErr)
             self.setFailure()
         if fidelity > 0:
-            self.hplc_run.for_buffer.append(self.curve)
+            with self._sem:
+                self.hplc_run.for_buffer.append(self.curve)
         else:
             self.average_buffers()
 #complex type XSDataResultDatcmp extends XSDataResult {
@@ -342,7 +356,8 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.outputCurve:
             buffer = _edPlugin.dataOutput.outputCurve.path.value
             if os.path.exists(buffer):
-                self.hplc_run.buffer = buffer
+                with self._sem:
+                    self.hplc_run.buffer = buffer
             else:
                 strErr = "DatAver claimed buffer is in %s but no such file !!!" % buffer
                 self.ERROR(strError)
