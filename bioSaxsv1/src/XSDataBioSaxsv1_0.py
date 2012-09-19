@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Sep 18 04:01::06 2012 by EDGenerateDS.
+# Generated Wed Sep 19 11:27::48 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -2592,6 +2592,167 @@ class XSDataResultBioSaxsAzimutIntv1_0(XSDataResult):
     parseFile = staticmethod( parseFile )
 # end class XSDataResultBioSaxsAzimutIntv1_0
 
+class XSDataResultBioSaxsHPLCv1_0(XSDataResult):
+    """Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"""
+    def __init__(self, status=None, volume=None, gnom=None, autorg=None, subtractedCurve=None, bufferCurve=None, integratedCurve=None):
+        XSDataResult.__init__(self, status)
+    
+    
+        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", integratedCurve, "XSDataFile")
+        self._integratedCurve = integratedCurve
+        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", bufferCurve, "XSDataFile")
+        self._bufferCurve = bufferCurve
+        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", subtractedCurve, "XSDataFile")
+        self._subtractedCurve = subtractedCurve
+        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", autorg, "XSDataAutoRg")
+        self._autorg = autorg
+        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", gnom, "XSDataGnom")
+        self._gnom = gnom
+        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
+    def getIntegratedCurve(self): return self._integratedCurve
+    def setIntegratedCurve(self, integratedCurve):
+        checkType("XSDataResultBioSaxsHPLCv1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
+        self._integratedCurve = integratedCurve
+    def delIntegratedCurve(self): self._integratedCurve = None
+    # Properties
+    integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
+    def getBufferCurve(self): return self._bufferCurve
+    def setBufferCurve(self, bufferCurve):
+        checkType("XSDataResultBioSaxsHPLCv1_0", "setBufferCurve", bufferCurve, "XSDataFile")
+        self._bufferCurve = bufferCurve
+    def delBufferCurve(self): self._bufferCurve = None
+    # Properties
+    bufferCurve = property(getBufferCurve, setBufferCurve, delBufferCurve, "Property for bufferCurve")
+    def getSubtractedCurve(self): return self._subtractedCurve
+    def setSubtractedCurve(self, subtractedCurve):
+        checkType("XSDataResultBioSaxsHPLCv1_0", "setSubtractedCurve", subtractedCurve, "XSDataFile")
+        self._subtractedCurve = subtractedCurve
+    def delSubtractedCurve(self): self._subtractedCurve = None
+    # Properties
+    subtractedCurve = property(getSubtractedCurve, setSubtractedCurve, delSubtractedCurve, "Property for subtractedCurve")
+    def getAutorg(self): return self._autorg
+    def setAutorg(self, autorg):
+        checkType("XSDataResultBioSaxsHPLCv1_0", "setAutorg", autorg, "XSDataAutoRg")
+        self._autorg = autorg
+    def delAutorg(self): self._autorg = None
+    # Properties
+    autorg = property(getAutorg, setAutorg, delAutorg, "Property for autorg")
+    def getGnom(self): return self._gnom
+    def setGnom(self, gnom):
+        checkType("XSDataResultBioSaxsHPLCv1_0", "setGnom", gnom, "XSDataGnom")
+        self._gnom = gnom
+    def delGnom(self): self._gnom = None
+    # Properties
+    gnom = property(getGnom, setGnom, delGnom, "Property for gnom")
+    def getVolume(self): return self._volume
+    def setVolume(self, volume):
+        checkType("XSDataResultBioSaxsHPLCv1_0", "setVolume", volume, "XSDataDoubleWithUnit")
+        self._volume = volume
+    def delVolume(self): self._volume = None
+    # Properties
+    volume = property(getVolume, setVolume, delVolume, "Property for volume")
+    def export(self, outfile, level, name_='XSDataResultBioSaxsHPLCv1_0'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsHPLCv1_0'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._integratedCurve is not None:
+            self.integratedCurve.export(outfile, level, name_='integratedCurve')
+        else:
+            warnEmptyAttribute("integratedCurve", "XSDataFile")
+        if self._bufferCurve is not None:
+            self.bufferCurve.export(outfile, level, name_='bufferCurve')
+        if self._subtractedCurve is not None:
+            self.subtractedCurve.export(outfile, level, name_='subtractedCurve')
+        if self._autorg is not None:
+            self.autorg.export(outfile, level, name_='autorg')
+        if self._gnom is not None:
+            self.gnom.export(outfile, level, name_='gnom')
+        if self._volume is not None:
+            self.volume.export(outfile, level, name_='volume')
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'integratedCurve':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setIntegratedCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'bufferCurve':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setBufferCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'subtractedCurve':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setSubtractedCurve(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'autorg':
+            obj_ = XSDataAutoRg()
+            obj_.build(child_)
+            self.setAutorg(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gnom':
+            obj_ = XSDataGnom()
+            obj_.build(child_)
+            self.setGnom(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'volume':
+            obj_ = XSDataDoubleWithUnit()
+            obj_.build(child_)
+            self.setVolume(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataResultBioSaxsHPLCv1_0" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataResultBioSaxsHPLCv1_0' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataResultBioSaxsHPLCv1_0 is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataResultBioSaxsHPLCv1_0.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultBioSaxsHPLCv1_0()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsHPLCv1_0" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultBioSaxsHPLCv1_0()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataResultBioSaxsHPLCv1_0
+
 class XSDataResultBioSaxsNormalizev1_0(XSDataResult):
     def __init__(self, status=None, processLog=None, logFile=None, normalizedImage=None):
         XSDataResult.__init__(self, status)
@@ -3965,103 +4126,6 @@ class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataInputBioSaxsSampleExperiment
-
-class XSDataResultBioSaxsHPLCv1_0(XSDataResultBioSaxsSubtractv1_0):
-    """Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"""
-    def __init__(self, status=None, volume=None, gnom=None, autorg=None, subtractedCurve=None, bufferCurve=None, integratedCurve=None):
-        XSDataResultBioSaxsSubtractv1_0.__init__(self, status, volume, gnom, autorg, subtractedCurve)
-    
-    
-        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", integratedCurve, "XSDataFile")
-        self._integratedCurve = integratedCurve
-        checkType("XSDataResultBioSaxsHPLCv1_0", "Constructor of XSDataResultBioSaxsHPLCv1_0", bufferCurve, "XSDataFile")
-        self._bufferCurve = bufferCurve
-    def getIntegratedCurve(self): return self._integratedCurve
-    def setIntegratedCurve(self, integratedCurve):
-        checkType("XSDataResultBioSaxsHPLCv1_0", "setIntegratedCurve", integratedCurve, "XSDataFile")
-        self._integratedCurve = integratedCurve
-    def delIntegratedCurve(self): self._integratedCurve = None
-    # Properties
-    integratedCurve = property(getIntegratedCurve, setIntegratedCurve, delIntegratedCurve, "Property for integratedCurve")
-    def getBufferCurve(self): return self._bufferCurve
-    def setBufferCurve(self, bufferCurve):
-        checkType("XSDataResultBioSaxsHPLCv1_0", "setBufferCurve", bufferCurve, "XSDataFile")
-        self._bufferCurve = bufferCurve
-    def delBufferCurve(self): self._bufferCurve = None
-    # Properties
-    bufferCurve = property(getBufferCurve, setBufferCurve, delBufferCurve, "Property for bufferCurve")
-    def export(self, outfile, level, name_='XSDataResultBioSaxsHPLCv1_0'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataResultBioSaxsHPLCv1_0'):
-        XSDataResultBioSaxsSubtractv1_0.exportChildren(self, outfile, level, name_)
-        if self._integratedCurve is not None:
-            self.integratedCurve.export(outfile, level, name_='integratedCurve')
-        else:
-            warnEmptyAttribute("integratedCurve", "XSDataFile")
-        if self._bufferCurve is not None:
-            self.bufferCurve.export(outfile, level, name_='bufferCurve')
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'integratedCurve':
-            obj_ = XSDataFile()
-            obj_.build(child_)
-            self.setIntegratedCurve(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'bufferCurve':
-            obj_ = XSDataFile()
-            obj_.build(child_)
-            self.setBufferCurve(obj_)
-        XSDataResultBioSaxsSubtractv1_0.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataResultBioSaxsHPLCv1_0" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataResultBioSaxsHPLCv1_0' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataResultBioSaxsHPLCv1_0 is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataResultBioSaxsHPLCv1_0.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataResultBioSaxsHPLCv1_0()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataResultBioSaxsHPLCv1_0" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataResultBioSaxsHPLCv1_0()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataResultBioSaxsHPLCv1_0
 
 class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
     """temporary class for multiple inhertitance emulation"""
