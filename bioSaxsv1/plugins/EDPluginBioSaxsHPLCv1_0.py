@@ -27,16 +27,16 @@ from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2012 ESRF"
-__date__ = "20120918"
+__date__ = "20120920"
 __status__ = "development"
 
-import os
+import os, h5py, fabio, numpy
 from EDPluginControl import EDPluginControl
 from EDThreading import Semaphore
+from EDVerbose import EDVerbose
 from EDFactoryPlugin import edFactoryPlugin
 edFactoryPlugin.loadModule("XSDataBioSaxsv1_0")
 edFactoryPlugin.loadModule("XSDataEdnaSaxs")
-
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0, \
                             XSDataInputBioSaxsProcessOneFilev1_0
 from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
@@ -50,8 +50,108 @@ class HPLCrun(object):
         self.frames = []
         self.curves = []
         self.for_buffer = []
+        self.hdf5_filename = None
+        self.hdf5 = None
+        self.start_time = None
+        self.chunk_size = 100
+        self.lock = Semaphore()
         if first_curve:
             self.files.append(first_curve)
+
+    def reset(self):
+        self.frames = []
+        self.curves = []
+        self.for_buffer = []
+
+    def init_hdf5(self, filename):
+        if self.hdf5_filename is None:
+            with self.lock:
+                if self.hdf5_filename is None:
+                    self.hdf5_filename = filename
+        if self.hdf5 is None:
+            with self.lock:
+                if self.hdf5 is None:
+                    self.hdf5 = h5py.File(self.hdf5_filename)
+        else:
+            try:
+                fn = self.hdf5.filename
+            except IOError:
+                with self.lock:
+                    self.hdf5 = h5py.File(self.hdf5_filename)
+
+    def close_hdf5(self):
+        with self.lock:
+            if self.hdf5:
+                try:
+                    self.hdf5.close()
+                except IOError:
+                    EDVerbose.WARNING("HDF5 file already closed")
+                    pass
+
+    def calc_size(self, id):
+        return (1 + (id // self.chunk_size)) * self.chunk_size
+
+    def set_scal(self, frameId, data, key="time"):
+        with self.lock:
+            if key not in self.hdf5:
+                ds = self.hdf5.create_dataset(key, (self.calc_size(frameId),), "float32", chunks=(self.chunk_size,))
+            else:
+                ds = self.hdf5[key]
+            if ds.shape[0] <= frameId:
+                ds.reshape((self.calc_size(frameId),))
+            ds[frameId] = data
+
+    def set_time(self, frameId, rawfilename):
+        if not os.path.isfile(rawfilename):
+            EDVerbose.WARNING("Raw file not on disk: %s" % rawfilename)
+            return
+        header = fabio.open(rawfilename).header
+        if "time_of_day" in header:
+            try:
+                tt = float(header["time_of_day"])
+            except:
+                EDVerbose.WARNING("time_of_day not a float in %s" % rawfilename)
+                return
+            if self.start_time is None:
+                with self.lock:
+                    if self.start_time is None:
+                        self.start_time = tt
+            self.set_scal(frameId, tt - self.start_time, key="time")
+
+
+    def set_2D(self, frameId, datfilename, kind="scattering"):
+        if not os.path.isfile(datfilename):
+            EDVerbose.WARNING("Ascii file not on disk: %s" % datfilename)
+            return
+        data = numpy.loadtxt(datfilename)
+        size = data.shape[0]
+        q = data[:, 0]
+        I = data[:, 1]
+        s = data[:, 2]
+        with self.lock:
+            key = kind + "_q"
+            if key not in self.hdf5:
+                self.hdf5[key] = q.astype("float32")
+
+            key = kind + "_I"
+            if key not in self.hdf5:
+                ds = self.hdf5.create_dataset(key, (self.calc_size(frameId), size), "float32", chunks=(self.chunk_size, size))
+            else:
+                ds = self.hdf5[key]
+            if ds.shape[0] <= frameId:
+                time_ds.reshape((self.calc_size(frameId), size))
+            ds[frameId, :] = I
+
+            key = kind + "_Stdev"
+            if key not in self.hdf5:
+                ds = self.hdf5.create_dataset(key, (self.calc_size(frameId), size), "float32", chunks=(self.chunk_size, size))
+            else:
+                ds = self.hdf5[key]
+            if ds.shape[0] <= frameId:
+                time_ds.reshape((self.calc_size(frameId), size))
+            ds[frameId, :] = s
+
+
 
 class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
     """
@@ -82,7 +182,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         self.__edPluginDatCmp = None
         self.xsDataResult = XSDataResultBioSaxsHPLCv1_0()
         self.runId = None
-        self.FrameId = None
+        self.frameId = None
         self.hplc_run = None
         self.curve = None
         self.subtracted = None
@@ -116,25 +216,42 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
                 self.dictHPLC[self.runId] = HPLCrun(self.runId)
         self.hplc_run = self.dictHPLC[self.runId]
         if sdi.frameId is not None:
-            self.FrameId = sdi.frameId.value
+            self.frameId = sdi.frameId.value
         else:
             path = sdi.rawImage.path.value
             if "_" in path:
                 digits = os.path.splitext(os.path.basename(path))[0].split("_")[0]
                 try:
-                    self.FrameId = int(digits)
+                    self.frameId = int(digits)
                 except ValueError:
-                    self.WARNING("FrameId is supposed to be an integer, I got %s" % digits)
-                    self.FrameId = digits
+                    self.WARNING("frameId is supposed to be an integer, I got %s" % digits)
+                    self.frameId = digits
             else:
                 self.warning("using frameID=0 in tests, only")
-                self.FrameId = 0
+                self.frameId = 0
         with self._sem:
-            self.hplc_run.frames.append(self.FrameId)
+            self.hplc_run.frames.append(self.frameId)
 
         if sdi.bufferCurve and os.path.exists(sdi.bufferCurve.path.value):
             with self._sem:
                 self.hplc_run.buffer = sdi.bufferCurve.path.value
+
+        if self.hplc_run.hdf5_filename:
+            hplc = self.hplc_run.hdf5_filename
+        elif sdi.hplcFile:
+            hplc = sdi.hplcFile.path.value
+        else:
+            path = sdi.rawImage.path.value
+            if "_" in path:
+                hplc = "_".join(os.path.splitext(path)[0].split("_")[:-1]) + ".h5"
+            else:
+                hplc = os.path.splitext(path)[0] + ".h5"
+
+        if not self.hplc_run.hdf5_filename:
+            with self._sem:
+                self.hplc_run.init_hdf5(hplc)
+
+        self.xsDataResult.hplcFile = XSDataFile(XSDataString(hplc))
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
@@ -157,6 +274,9 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         if self.isFailure():
             return
 
+        self.hplc_run.set_time(self.frameId, self.dataInput.rawImage.path.value)
+        self.hplc_run.set_2D(self.frameId, self.curve, kind="scattering")
+
         if self.hplc_run.buffer is None:
             xsdIn = XSDataInputDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
                                                   XSDataFile(XSDataString(self.curve))])
@@ -170,12 +290,6 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
 
         if self.hplc_run.buffer is None:
             return
-#    complex type XSDataInputDatop extends XSDataInput {
-#    "datop makes an operation on curves"
-#    inputCurve: XSDataFile []
-#    outputCurve: XSDataFile
-#    operation: XSDataString
-#    constant: XSDataDouble optional}
         if self.dataInput.subtractedCurve is not None:
             subtracted = self.dataInput.subtractedCurve.path.value
         else:
@@ -281,6 +395,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
                 self.subtracted = output.outputCurve.path.value
                 if os.path.exists(self.subtracted):
                     self.xsDataResult.subtractedCurve = output.outputCurve
+                    self.hplc_run.set_2D(self.frameId, self.curve, kind="subtracted")
                 else:
                     strErr = "Edna plugin datop did not produce subtracted file %s" % subtracted
                     self.ERROR(strErr)
@@ -303,9 +418,33 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsHPLCv1_0.doSuccessSaxsAnalysis")
         if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
             self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
-        self.xsDataResult.gnom = _edPlugin.dataOutput.gnom
-        self.xsDataResult.volume = _edPlugin.dataOutput.volume
-        self.xsDataResult.autoRg = _edPlugin.dataOutput.autoRg
+        gnom = _edPlugin.dataOutput.gnom
+        if gnom:
+            if gnom.rgGnom:
+                self.hplc_run.set_scal(self.frameId, gnom.rgGnom.value, key="gnom")
+            if gnom.dmax:
+                self.hplc_run.set_scal(self.frameId, gnom.dmax.value, key="Dmax")
+            if gnom.total:
+                self.hplc_run.set_scal(self.frameId, gnom.total.value, key="total")
+            self.xsDataResult.gnom = gnom
+
+        volume = _edPlugin.dataOutput.volume
+        if volume:
+            self.hplc_run.set_scal(self.frameId, volume.value, key="volume")
+            self.xsDataResult.volume = volume
+        rg = _edPlugin.dataOutput.autoRg
+        if rg:
+            if rg.rg:
+                self.hplc_run.set_scal(self.frameId, rg.rg.value, key="Rg")
+            if rg.rgStdev:
+                self.hplc_run.set_scal(self.frameId, rg.rgStdev.value, key="Rg_Stdev")
+            if rg.i0:
+                self.hplc_run.set_scal(self.frameId, rg.i0.value, key="I0")
+            if rg.i0Stdev:
+                self.hplc_run.set_scal(self.frameId, rg.i0Stdev.value, key="I0_Stdev")
+            if rg.quality:
+                self.hplc_run.set_scal(self.frameId, rg.quality.value, key="quality")
+            self.xsDataResult.autoRg = rg
 
     def doFailureSaxsAnalysis(self, _edPlugin=None):
         self.DEBUG("EDPluginBioSaxsHPLCv1_0.doFailureSaxsAnalysis")
@@ -375,26 +514,3 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         self.setFailure()
 
 
-"""
-complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsSubtractv1_0{
-    "Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"
-    integratedCurve: XSDataFile
-    bufferCurve: XSDataFile optional
-//    subtractedCurve : XSDataFile
-//    autorg: XSDataAutoRg
-//  gnom: XSDataGnom
-//    volume: XSDataDoubleWithUnit
-}"""
-#complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
-#    normalizedImage: XSDataImage
-#    integratedImage: XSDataImage optional
-#    integratedCurve: XSDataFile
-
-#complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsSubtractv1_0{
-#    "Plugin that runs subsequently ProcessOneFile, subtraction of buffer and SaxsAnalysis"
-#    integratedCurve: XSDataFile
-#    bufferCurve: XSDataFile optional
-#//    subtractedCurve : XSDataFile
-#//    autorg: XSDataAutoRg
-#//  gnom: XSDataGnom
-#//    volume: XSDataDoubleWithUnit
