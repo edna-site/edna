@@ -92,16 +92,18 @@ class EDConfiguration(EDLogging):
                 # Make sure we are thread safe when manipulating the cache
                 with self.__semaphore:
                     # Load configurations into the plugin dictionary
-                    for xsPluginItem in xsConfiguration.XSPluginList.XSPluginItem:
-                        strPluginName = xsPluginItem.name
-                        if strPluginName in self.__dictPluginConfiguration:
-                            if _bReplace:
-                                self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and is replaced." % strPluginName)                                
+                    if xsConfiguration.XSPluginList is not None:
+                        for xsPluginItem in xsConfiguration.XSPluginList.XSPluginItem:
+                            strPluginName = xsPluginItem.name
+                            if strPluginName in self.__dictPluginConfiguration:
+                                if _bReplace:
+                                    self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will be replaced." % strPluginName)                                
+                                    self.__dictPluginConfiguration[strPluginName] = xsPluginItem                        
+                                else:
+                                    self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will not be replaced." % strPluginName)
                             else:
-                                self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will not be replaced." % strPluginName)
-                        else:
-                            self.DEBUG("EDConfiguration.addConfigurationFile: adding plugin configuration for %s." % strPluginName)
-                            self.__dictPluginConfiguration[strPluginName] = xsPluginItem                        
+                                self.DEBUG("EDConfiguration.addConfigurationFile: adding plugin configuration for %s." % strPluginName)
+                                self.__dictPluginConfiguration[strPluginName] = xsPluginItem                        
         
 
     def getPathToProjectConfigurationFile(self, _strPluginName):
@@ -114,6 +116,7 @@ class EDConfiguration(EDLogging):
         @return: The path to the project configuration file
         @type: python string
         """
+        strPathToProjectConfigurationFile = None
         strCurrentDirectory = EDFactoryPluginStatic.getModuleLocation(_strPluginName)
         if strCurrentDirectory is None:
             self.WARNING("Cannot find path to configuration for plugin %s" % _strPluginName)
@@ -146,7 +149,7 @@ class EDConfiguration(EDLogging):
             # Try to load "project" configuration
             strPathToProjectConfigurationFile = self.getPathToProjectConfigurationFile(_strPluginName)
             if strPathToProjectConfigurationFile is not None:
-                self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=False)
+                self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=True)
                 if _strPluginName in self.__dictPluginConfiguration.keys():
                     xsConfigurationItem = self.__dictPluginConfiguration[_strPluginName]
         return xsConfigurationItem
@@ -175,6 +178,15 @@ class EDConfiguration(EDLogging):
                     strValue = xsParamItem.value
         return strValue
 
+
+    def getPluginListSize(self):
+        """
+        Returns the number of plugins configured
+        """
+        iSize = len(self.__dictPluginConfiguration)
+        return iSize
+
+    
     def getStringParamValue(_xsPluginItem, _pyStrParamName):
         """
         Returns the parameter value in a string format
@@ -203,9 +215,3 @@ class EDConfiguration(EDLogging):
     getIntegerParamValue = staticmethod(getIntegerParamValue)
 
 
-    def getPluginListSize(self):
-        """
-        Returns the size of the XSPluginItem list
-        """
-        iSize = len(self.getPluginList().getXSPluginItem())
-        return iSize
