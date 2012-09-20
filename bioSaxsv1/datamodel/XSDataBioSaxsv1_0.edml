@@ -260,6 +260,7 @@ complex type XSDataInputBioSaxsHPLCv1_0 extends XSDataInputBioSaxsProcessOneFile
 	bufferCurve : XSDataFile optional
 	subtractedCurve: XSDataFile optional
 	gnomFile: XSDataFile optional
+	hplcFile: XSDataFile optional
 }
 
 complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsProcessOneFilev1_0{
@@ -269,6 +270,7 @@ complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsProcessOneFi
 	autoRg: XSDataAutoRg optional
 	gnom: XSDataGnom optional
 	volume: XSDataDoubleWithUnit optional
+	hplcFile: XSDataFile optional
 }
 
 
