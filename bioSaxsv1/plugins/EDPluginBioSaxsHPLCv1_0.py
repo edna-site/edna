@@ -71,11 +71,13 @@ class HPLCrun(object):
         if self.hdf5 is None:
             with self.lock:
                 if self.hdf5 is None:
+                    if os.path.exists(self.hdf5_filename):
+                        os.unlink(self.hdf5_filename)
                     self.hdf5 = h5py.File(self.hdf5_filename)
         else:
-            try:
+            try:# the HDF5 file exist but could be closed
                 fn = self.hdf5.filename
-            except IOError:
+            except IOError: #if closed: reopen it without erasing it
                 with self.lock:
                     self.hdf5 = h5py.File(self.hdf5_filename)
 
@@ -92,13 +94,17 @@ class HPLCrun(object):
         return (1 + (id // self.chunk_size)) * self.chunk_size
 
     def set_scal(self, frameId, data, key="time"):
+        if not self.hdf5:
+            EDVerbose.WARNING("HDF5 is not initialized")
+            if self.hdf5_filename :
+                self.init_hdf5(self.hdf5_filename)
         with self.lock:
             if key not in self.hdf5:
                 ds = self.hdf5.create_dataset(key, (self.calc_size(frameId),), "float32", chunks=(self.chunk_size,))
             else:
                 ds = self.hdf5[key]
             if ds.shape[0] <= frameId:
-                ds.reshape((self.calc_size(frameId),))
+                ds.resize((self.calc_size(frameId),))
             ds[frameId] = data
 
     def set_time(self, frameId, rawfilename):
@@ -120,6 +126,10 @@ class HPLCrun(object):
 
 
     def set_2D(self, frameId, datfilename, kind="scattering"):
+        if not self.hdf5:
+            EDVerbose.WARNING("HDF5 is not initialized")
+            if self.hdf5_filename :
+                self.init_hdf5(self.hdf5_filename)
         if not os.path.isfile(datfilename):
             EDVerbose.WARNING("Ascii file not on disk: %s" % datfilename)
             return
@@ -139,7 +149,7 @@ class HPLCrun(object):
             else:
                 ds = self.hdf5[key]
             if ds.shape[0] <= frameId:
-                time_ds.reshape((self.calc_size(frameId), size))
+                ds.resize((self.calc_size(frameId), size))
             ds[frameId, :] = I
 
             key = kind + "_Stdev"
@@ -148,7 +158,7 @@ class HPLCrun(object):
             else:
                 ds = self.hdf5[key]
             if ds.shape[0] <= frameId:
-                time_ds.reshape((self.calc_size(frameId), size))
+                ds.resize((self.calc_size(frameId), size))
             ds[frameId, :] = s
 
 
@@ -187,6 +197,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         self.curve = None
         self.subtracted = None
         self.lstExecutiveSummary = []
+        self.isBuffer = False
 
     def checkParameters(self):
         """
@@ -220,7 +231,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         else:
             path = sdi.rawImage.path.value
             if "_" in path:
-                digits = os.path.splitext(os.path.basename(path))[0].split("_")[0]
+                digits = os.path.splitext(os.path.basename(path))[0].split("_")[-1]
                 try:
                     self.frameId = int(digits)
                 except ValueError:
@@ -277,7 +288,7 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
         self.hplc_run.set_time(self.frameId, self.dataInput.rawImage.path.value)
         self.hplc_run.set_2D(self.frameId, self.curve, kind="scattering")
 
-        if self.hplc_run.buffer is None:
+        if True:#self.hplc_run.buffer is None: always compare to first
             xsdIn = XSDataInputDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
                                                   XSDataFile(XSDataString(self.curve))])
             self.__edPluginDatCmp = self.loadPlugin(self.strControlledPluginDatCmp)
@@ -285,11 +296,18 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
             self.__edPluginDatCmp.connectSUCCESS(self.doSuccessDatCmp)
             self.__edPluginDatCmp.connectFAILURE(self.doFailureDatCmp)
             self.__edPluginDatCmp.executeSynchronous()
-        if self.isFailure():
+        else: #not executed
+            xsdIn = XSDataInputDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.buffer)),
+                                                  XSDataFile(XSDataString(self.curve))])
+            self.__edPluginDatCmp = self.loadPlugin(self.strControlledPluginDatCmp)
+            self.__edPluginDatCmp.dataInput = xsdIn
+            self.__edPluginDatCmp.connectSUCCESS(self.doSuccessDatCmp)
+            self.__edPluginDatCmp.connectFAILURE(self.doFailureDatCmp)
+            self.__edPluginDatCmp.executeSynchronous()
+
+        if self.isFailure() or self.isBuffer:
             return
 
-        if self.hplc_run.buffer is None:
-            return
         if self.dataInput.subtractedCurve is not None:
             subtracted = self.dataInput.subtractedCurve.path.value
         else:
@@ -468,11 +486,16 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
             self.error(strErr)
             self.lstExecutiveSummary.append(strErr)
             self.setFailure()
-        if fidelity > 0:
-            with self._sem:
-                self.hplc_run.for_buffer.append(self.curve)
+        if self.hplc_run.buffer is None:
+            if fidelity > 0:
+                self.isBuffer = True
+                with self._sem:
+                    self.hplc_run.for_buffer.append(self.curve)
+            else :
+                self.average_buffers()
         else:
-            self.average_buffers()
+            self.isBuffer = True
+            
 #complex type XSDataResultDatcmp extends XSDataResult {
 #    "Higher chi-values indicate dis-similarities in the input.\n
 #     Fidelity gives the likelihood of the two data sets being identical.
