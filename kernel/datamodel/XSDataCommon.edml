@@ -97,15 +97,6 @@ package XSDataCommon {
 			name : string
 		}
 
-		complex type XSOptionItem {
-			enabled : boolean
-			name : string
-		}
-
-		complex type XSOptionList {
-			XSOptionItem : XSOptionItem []
-		}
-
 		complex type XSParamItem {
 			name : string
 			value : string
@@ -116,7 +107,6 @@ package XSDataCommon {
 		}
 
 		complex type XSPluginItem {
-			XSOptionList : XSOptionList optional
 			XSParamList : XSParamList optional
 			name : string
 		}
@@ -246,7 +236,7 @@ package XSDataCommon {
 		}
 
 		complex type XSDataDisplacement {
-			"Normally XSDataDisplacement should be derived from XSDataDoubleWithUnit. However a bug in generateDS prevent us for doing this for the moment (see bug #690)."
+			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
 			error : XSDataDouble optional
 			unit : XSDataString optional
 			value : double

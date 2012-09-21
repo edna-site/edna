@@ -89,15 +89,6 @@
           <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_d_pQ0OdEEd-jKbXLtzGSgw" name="XSOptionList"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_dIg0gOdEEd-jKbXLtzGSgw" name="XSOptionItem">
-        <ownedAttribute xmi:id="_MN-JgudFEd-jKbXLtzGSgw" name="enabled">
-          <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_MRnlYOZ_Ed-EdKKHX-lwYA"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_PV8nEudFEd-jKbXLtzGSgw" name="name">
-          <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
-        </ownedAttribute>
-      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_duqOgOdEEd-jKbXLtzGSgw" name="XSParamItem">
         <ownedAttribute xmi:id="_V9b4cudFEd-jKbXLtzGSgw" name="name">
           <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
@@ -134,26 +125,6 @@
         <ownedEnd xmi:id="_3DcPhANeEeCYyZX6pxguzQ" name="XSParamList" type="_dbbwgOdEEd-jKbXLtzGSgw" isUnique="false" association="_3DcPgANeEeCYyZX6pxguzQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3DcPhQNeEeCYyZX6pxguzQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3DcPhgNeEeCYyZX6pxguzQ"/>
-        </ownedEnd>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_40q8kANeEeCYyZX6pxguzQ" name="A_&lt;xSPluginItem>_&lt;xSOptionList>" memberEnd="_40q8kQNeEeCYyZX6pxguzQ _40q8lANeEeCYyZX6pxguzQ" navigableOwnedEnd="_40q8lANeEeCYyZX6pxguzQ">
-        <ownedEnd xmi:id="_40q8kQNeEeCYyZX6pxguzQ" name="" type="_c3YBMOdEEd-jKbXLtzGSgw" association="_40q8kANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_40q8kgNeEeCYyZX6pxguzQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_40q8kwNeEeCYyZX6pxguzQ" value="1"/>
-        </ownedEnd>
-        <ownedEnd xmi:id="_40q8lANeEeCYyZX6pxguzQ" name="XSOptionList" type="_d_pQ0OdEEd-jKbXLtzGSgw" isUnique="false" association="_40q8kANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_40q8lQNeEeCYyZX6pxguzQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_40q8lgNeEeCYyZX6pxguzQ"/>
-        </ownedEnd>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_6VZIcANeEeCYyZX6pxguzQ" name="A_&lt;xSOptionList>_&lt;xSOptionItem>" memberEnd="_6VZIcQNeEeCYyZX6pxguzQ _6VZIdANeEeCYyZX6pxguzQ" navigableOwnedEnd="_6VZIdANeEeCYyZX6pxguzQ">
-        <ownedEnd xmi:id="_6VZIcQNeEeCYyZX6pxguzQ" name="xSOptionList" type="_d_pQ0OdEEd-jKbXLtzGSgw" association="_6VZIcANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6VZIcgNeEeCYyZX6pxguzQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6VZIcwNeEeCYyZX6pxguzQ" value="1"/>
-        </ownedEnd>
-        <ownedEnd xmi:id="_6VZIdANeEeCYyZX6pxguzQ" name="XSOptionItem" type="_dIg0gOdEEd-jKbXLtzGSgw" isUnique="false" association="_6VZIcANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6VZIdQNeEeCYyZX6pxguzQ" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6VZIdgNeEeCYyZX6pxguzQ" value="1"/>
         </ownedEnd>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_9bOQ-gNeEeCYyZX6pxguzQ" name="A_&lt;xSParamList>_&lt;xSParamItem>" memberEnd="_9bOQ-wNeEeCYyZX6pxguzQ _9bOQ_gNeEeCYyZX6pxguzQ" navigableOwnedEnd="_9bOQ_gNeEeCYyZX6pxguzQ">

@@ -2,23 +2,6 @@
 <XSConfiguration> 
 	<XSPluginList>
 		<XSPluginItem> 
-			<name>indexing</name>  
-			<XSOptionList>		
-				<XSOptionItem> 
-					<name>indexingMosflm</name> 
-					<enabled>true</enabled>  
-				</XSOptionItem> 
-				<XSOptionItem> 
-					<name>indexingXds</name> 
-					<enabled>false</enabled>  
-				</XSOptionItem> 
-				<XSOptionItem> 
-					<name>indexingLabelit</name> 
-					<enabled>false</enabled>  
-				</XSOptionItem> 
-			</XSOptionList>
-		</XSPluginItem>
-		<XSPluginItem> 
 			<name>indexingMosflm</name> 
 			<XSParamList>
 				<XSParamItem>

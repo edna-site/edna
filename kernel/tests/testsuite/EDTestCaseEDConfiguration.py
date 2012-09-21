@@ -125,14 +125,15 @@ class EDTestCaseEDConfiguration(EDTestCase):
 
          
 
-    def testGetPluginList(self):
+    def testGetPluginListSize(self):
         """
-        Testing the retrieved XSPluginList from configuration
+        Testing the retrieved XSPluginList size from configuration
         """
         strPath = os.path.join(self.strDataPath, "XSConfiguration.xml")
         edConfiguration = EDConfiguration()
         edConfiguration.addConfigurationFile(strPath)
-        EDAssert.equal(2, edConfiguration.getPluginListSize())
+        iPluginListSize = edConfiguration.getPluginListSize()
+        EDAssert.equal(1, iPluginListSize)
 
 
     def testGetPluginItem(self):
@@ -190,24 +191,6 @@ class EDTestCaseEDConfiguration(EDTestCase):
         EDAssert.equal(3, EDConfiguration.getIntegerParamValue(xsPluginItem, "number"))
 
 
-    def testGetOptionItem(self):
-        """
-        Testing the XSOptionItem inside an XSPluginItem
-        """
-        strPath = os.path.join(self.strDataPath, "XSConfiguration.xml")
-        edConfiguration = EDConfiguration()
-        edConfiguration.addConfigurationFile(strPath)
-        xsPluginItem = edConfiguration.getXSConfigurationItem("indexingMosflm")
-        xsOptionItemMosflm = edConfiguration.getOptionItem(xsPluginItem, "indexingMosflm")
-        EDAssert.equal(True, xsOptionItemMosflm.getEnabled())
-
-        xsOptionItemXds = edConfiguration.getOptionItem(xsPluginItem, "indexingXds")
-        EDAssert.equal(False, xsOptionItemXds.getEnabled())
-
-        xsOptionItemLabelit = edConfiguration.getOptionItem(xsPluginItem, "indexingLabelit")
-        EDAssert.equal(False, xsOptionItemLabelit.getEnabled())
-
-
     def process(self):
         self.addTestMethod(self.testAddConfigFile)
         self.addTestMethod(self.testGetXSConfigurationItem1)
@@ -215,12 +198,11 @@ class EDTestCaseEDConfiguration(EDTestCase):
         self.addTestMethod(self.testSetXSConfigurationItem)
         self.addTestMethod(self.testGetPathToProjectConfigurationFile)
         self.addTestMethod(self.testStaticEDConfiguration)
-        self.addTestMethod(self.testGetPluginList)
+        self.addTestMethod(self.testGetPluginListSize)
         self.addTestMethod(self.testGetPluginItem)
         self.addTestMethod(self.testGetPluginItemError)
         self.addTestMethod(self.testGetParamItem)
         self.addTestMethod(self.testGetParamValue)
-        self.addTestMethod(self.testGetOptionItem)
 
 
 if __name__ == '__main__':
