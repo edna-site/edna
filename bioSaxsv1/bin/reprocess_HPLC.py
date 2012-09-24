@@ -246,9 +246,8 @@ if __name__ == "__main__":
     os.makedirs(working_dir)
     os.chdir(working_dir)
     if yappi: yappi.start()
-    for i in args:
-        if i.endswith(".xml"):
-            reprocess.startJob(i)
+    for i in fullargs:
+        reprocess.startJob(i)
     print("All %i jobs queued after %.3fs" % (len(args), time.time() - reprocess.startTime))
     reprocess.join()
     if yappi: yappi.stop()
