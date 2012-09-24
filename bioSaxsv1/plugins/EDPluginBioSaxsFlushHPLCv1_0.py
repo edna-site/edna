@@ -95,7 +95,7 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
             time.sleep(1)
         with EDPluginBioSaxsHPLCv1_0._sem:
             if self.runId in EDPluginBioSaxsHPLCv1_0.dictHPLC:
-                run = EDPluginBioSaxsHPLCv1_0.dictHPLC.pop(self.runId)
+                run = EDPluginBioSaxsHPLCv1_0.dictHPLC[self.runId]
                 run.close_hdf5()
                 run.reset()
 
