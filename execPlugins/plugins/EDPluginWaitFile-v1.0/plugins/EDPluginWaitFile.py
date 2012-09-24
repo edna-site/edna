@@ -82,7 +82,7 @@ class EDPluginWaitFile(EDPlugin):
         """
         if self.__class__.actual_timeout is None:
             with self.__class__.sem:
-                if self.__class__.actual_timeout is None:
+                if self.__class__.config_timeout is None:
                     self.DEBUG("EDPluginWaitFile.configure : %s" % self.getClassName())
                     xsPluginItem = self.getConfiguration()
                     if xsPluginItem is None:
