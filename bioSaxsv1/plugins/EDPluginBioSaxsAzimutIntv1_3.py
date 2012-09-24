@@ -58,12 +58,12 @@ import pyFAI
 
 class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
     """
-    Control for Bio Saxs azimuthal integration; suppose the mask is already applied by BioSaxsNormalizev1.1 : 
-    * wait for normalized file to arrive  (EDPluginWaitFile) 
+    Control for Bio Saxs azimuthal integration; suppose the mask is already applied by BioSaxsNormalizev1.1 :
+    * wait for normalized file to arrive  (EDPluginWaitFile)
     * retrieve and update metadata (EDPluginBioSaxsMetadatav1_0)
     * integrate (directly vi pyFAI)
-    * export as 3-column ascii-file is done here to allow more precise header      
-    Changelog since v1.2: use PyFAI instead of saxs_angle from Peter Boesecke 
+    * export as 3-column ascii-file is done here to allow more precise header
+    Changelog since v1.2: use PyFAI instead of saxs_angle from Peter Boesecke
     """
     cpWaitFile = "EDPluginWaitFile"
     cpGetMetadata = "EDPluginBioSaxsMetadatav1_1"
@@ -233,7 +233,7 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
     def integrate(self):
         if (self.integrator.getPyFAI() != self.integrator_config) or \
            (self.integrator.wavelength != self.experimentSetup.wavelength.value):
-            self.screen("Resting PyFAI integrator")
+            self.screen("Resetting PyFAI integrator")
             self.integrator.setPyFAI(**self.integrator_config)
             self.integrator.wavelength = self.experimentSetup.wavelength.value
         with EDUtilsParallel.getSemaphoreNbThreads():
@@ -247,37 +247,37 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         return q, I, std
     def write3ColumnAscii(self, npaQ, npaI, npaStd=None, outputCurve="output.dat", hdr="#", linesep=os.linesep):
         """
-        @param npaQ,npaI,npaStd: 3x 1d numpy array containing Scattering vector, Intensity and deviation 
+        @param npaQ,npaI,npaStd: 3x 1d numpy array containing Scattering vector, Intensity and deviation
         @param outputCurve: name of the 3-column ascii file to be written
         @param hdr: header mark, usually '#'
-        
-         
+
+
 Adam Round explicitelly asked for (email from Date: Tue, 04 Oct 2011 15:22:29 +0200) :
-Modification from: 
-        
-# BSA buffer 
+Modification from:
+
+# BSA buffer
 # Sample c= 0.0 mg/ml (these two lines are required for current DOS pipeline and can be cleaned up once we use EDNA to get to ab-initio models)
-# 
+#
 # Sample environment:
 # Detector = Pilatus 1M
-# PixelSize_1 = 0.000172 
+# PixelSize_1 = 0.000172
 # PixelSize_2 = 6.283185 (I think it could avoid confusion if we give teh actual pixel size as 0.000172 for X and Y and not to give the integrated sizes. Also could there also be a modification for PixelSize_1 as on the diagonal wont it be the hypotenuse (0.000243)? and thus will be on average a bit bigger than 0.000172)
 #
-# title = BSA buffer 
+# title = BSA buffer
 # Frame 7 of 10
 # Time per frame (s) = 10
-# SampleDistance = 2.43 
-# WaveLength = 9.31e-11 
-# Normalization = 0.0004885 
-# History-1 = saxs_angle +pass -omod n -rsys normal -da 360_deg -odim = 1 /data/id14eh3/inhouse/saxs_pilatus/Adam/EDNAtests/2d/dumdum_008_07.edf/data/id14eh3/inhouse/saxs_pilatus/Adam/EDNAtests/misc/dumdum_008_07.ang 
-# DiodeCurr = 0.0001592934 
-# MachCurr = 163.3938 
-# Mask = /data/id14eh3/archive/CALIBRATION/MASK/Pcon_01Jun_msk.edf 
-# SaxsDataVersion = 2.40 
-#  
-# N 3 
-# L q*nm  I_BSA buffer  stddev 
-# 
+# SampleDistance = 2.43
+# WaveLength = 9.31e-11
+# Normalization = 0.0004885
+# History-1 = saxs_angle +pass -omod n -rsys normal -da 360_deg -odim = 1 /data/id14eh3/inhouse/saxs_pilatus/Adam/EDNAtests/2d/dumdum_008_07.edf/data/id14eh3/inhouse/saxs_pilatus/Adam/EDNAtests/misc/dumdum_008_07.ang
+# DiodeCurr = 0.0001592934
+# MachCurr = 163.3938
+# Mask = /data/id14eh3/archive/CALIBRATION/MASK/Pcon_01Jun_msk.edf
+# SaxsDataVersion = 2.40
+#
+# N 3
+# L q*nm  I_BSA buffer  stddev
+#
 # Sample Information:
 # Storage Temperature (degrees C): 4
 # Measurement Temperature (degrees C): 10
