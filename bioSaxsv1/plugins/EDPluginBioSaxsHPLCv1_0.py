@@ -42,12 +42,31 @@ from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPL
 from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
 from XSDataCommon import XSDataFile, XSDataStatus, XSDataString, XSDataInteger, XSDataStatus
 
+class HPLCframe(object):
+    def __init__(self, runID, frameId=None):
+        self.runID = runID
+        self.frameId = frameId
+        self.curve = None
+        self.subtracted = None
+        self.processing = True
+        self.time = None
+        self.gnom = None
+        self.Dmax = None
+        self.total = None
+        self.volume = None
+        self.Rg = None
+        self.Rg_Stdev = None
+        self.I0 = None
+        self.I0_Stdev = None
+        self.quality = None
+
+
 class HPLCrun(object):
     def __init__(self, runId, first_curve=None):
         self.id = runId
         self.buffer = None
         self.first_curve = first_curve
-        self.frames = []
+        self.frames = {} #key: id, value: HPLCframe instance
         self.curves = []
         self.for_buffer = []
         self.hdf5_filename = None
@@ -63,6 +82,12 @@ class HPLCrun(object):
         self.curves = []
         self.for_buffer = []
 
+    def dump_json(self):
+        import json
+        dico = {}
+        for i in self.frames:
+            dico[i] = self.frames[i].__dict__()
+        json.dump(dico, open(self.hdf5_filename, "w"), indent=1)
     def init_hdf5(self, filename):
         if self.hdf5_filename is None:
             with self.lock:
@@ -196,6 +221,7 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
         self.xsDataResult = XSDataResultBioSaxsHPLCv1_0()
         self.runId = None
         self.frameId = None
+        self.frame = None
         self.hplc_run = None
         self.curve = None
         self.subtracted = None
@@ -244,7 +270,8 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
                 self.warning("using frameID=0 in tests, only")
                 self.frameId = 0
         with self._sem:
-            self.hplc_run.frames.append(self.frameId)
+            self.frame = HPLCframe(self.runId, self.frameId)
+            self.hplc_run.frames[self.frameId] = self.frame
 
         if sdi.bufferCurve and os.path.exists(sdi.bufferCurve.path.value):
             with self._sem:
@@ -261,11 +288,10 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
             else:
                 hplc = os.path.splitext(path)[0] + ".h5"
 
-        if not self.hplc_run.hdf5_filename:
-            with self._sem:
-                self.hplc_run.init_hdf5(hplc)
-
-        self.xsDataResult.hplcFile = XSDataFile(XSDataString(hplc))
+#        if not self.hplc_run.hdf5_filename:
+#            with self._sem:
+#                self.hplc_run.init_hdf5(hplc)
+#        self.xsDataResult.hplcFile = XSDataFile(XSDataString(hplc))
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
@@ -288,25 +314,14 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
         if self.isFailure():
             return
 
-        self.hplc_run.set_time(self.frameId, self.dataInput.rawImage.path.value)
-        self.hplc_run.set_2D(self.frameId, self.curve, kind="scattering")
 
-        if True:#self.hplc_run.buffer is None: always compare to first
-            xsdIn = XSDataInputDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
-                                                  XSDataFile(XSDataString(self.curve))])
-            self.__edPluginDatCmp = self.loadPlugin(self.strControlledPluginDatCmp)
-            self.__edPluginDatCmp.dataInput = xsdIn
-            self.__edPluginDatCmp.connectSUCCESS(self.doSuccessDatCmp)
-            self.__edPluginDatCmp.connectFAILURE(self.doFailureDatCmp)
-            self.__edPluginDatCmp.executeSynchronous()
-        else: #not executed
-            xsdIn = XSDataInputDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.buffer)),
-                                                  XSDataFile(XSDataString(self.curve))])
-            self.__edPluginDatCmp = self.loadPlugin(self.strControlledPluginDatCmp)
-            self.__edPluginDatCmp.dataInput = xsdIn
-            self.__edPluginDatCmp.connectSUCCESS(self.doSuccessDatCmp)
-            self.__edPluginDatCmp.connectFAILURE(self.doFailureDatCmp)
-            self.__edPluginDatCmp.executeSynchronous()
+        xsdIn = XSDataInputDatcmp(inputCurve=[XSDataFile(XSDataString(self.hplc_run.first_curve)),
+                                              XSDataFile(XSDataString(self.curve))])
+        self.__edPluginDatCmp = self.loadPlugin(self.strControlledPluginDatCmp)
+        self.__edPluginDatCmp.dataInput = xsdIn
+        self.__edPluginDatCmp.connectSUCCESS(self.doSuccessDatCmp)
+        self.__edPluginDatCmp.connectFAILURE(self.doFailureDatCmp)
+        self.__edPluginDatCmp.executeSynchronous()
 
         if self.isFailure() or self.isBuffer:
             return
@@ -351,6 +366,8 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
         executiveSummary = os.linesep.join(self.lstExecutiveSummary)
         self.xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         self.dataOutput = self.xsDataResult
+        if self.frame:
+            self.frame.processing = False
 
     def average_buffers(self):
         """
@@ -389,11 +406,17 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
             return
         self.xsDataResult.integratedCurve = output.integratedCurve
         self.xsDataResult.normalizedImage = output.normalizedImage
+        if output.experimentSetup and output.experimentSetup.timeOfFrame:
+            startTime = output.experimentSetup.timeOfFrame.value
+        else:
+            startTime = None
         with self._sem:
             if not self.hplc_run.first_curve:
                  self.hplc_run.first_curve = self.curve
-                 self.hplc_run.for_buffer.append(self.curve)
-            self.hplc_run.curves.append(self.curve)
+                 self.hplc_run.start_time = startTime
+#                 self.hplc_run.for_buffer.append(self.curve)
+        self.frame.curve = self.curve
+        self.frame.time = startTime
 
 
     def doFailureProcessOneFile(self, _edPlugin=None):
@@ -416,7 +439,7 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
                 self.subtracted = output.outputCurve.path.value
                 if os.path.exists(self.subtracted):
                     self.xsDataResult.subtractedCurve = output.outputCurve
-                    self.hplc_run.set_2D(self.frameId, self.curve, kind="subtracted")
+                    self.frame.subtracted = self.subtracted
                 else:
                     strErr = "Edna plugin datop did not produce subtracted file %s" % subtracted
                     self.ERROR(strErr)
@@ -442,29 +465,29 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
         gnom = _edPlugin.dataOutput.gnom
         if gnom:
             if gnom.rgGnom:
-                self.hplc_run.set_scal(self.frameId, gnom.rgGnom.value, key="gnom")
+                self.frame.gnom = gnom.rgGnom.value
             if gnom.dmax:
-                self.hplc_run.set_scal(self.frameId, gnom.dmax.value, key="Dmax")
+                self.frame.Dmax = gnom.dmax.value
             if gnom.total:
-                self.hplc_run.set_scal(self.frameId, gnom.total.value, key="total")
+                self.frame.total = gnom.total.value
             self.xsDataResult.gnom = gnom
 
         volume = _edPlugin.dataOutput.volume
         if volume:
-            self.hplc_run.set_scal(self.frameId, volume.value, key="volume")
+            self.frame.volume = volume.value
             self.xsDataResult.volume = volume
         rg = _edPlugin.dataOutput.autoRg
         if rg:
             if rg.rg:
-                self.hplc_run.set_scal(self.frameId, rg.rg.value, key="Rg")
+                self.frame.Rg = rg.rg.value
             if rg.rgStdev:
-                self.hplc_run.set_scal(self.frameId, rg.rgStdev.value, key="Rg_Stdev")
+                self.frame.Rg_Stdev = rg.rgStdev.value
             if rg.i0:
-                self.hplc_run.set_scal(self.frameId, rg.i0.value, key="I0")
+                self.frame.I0 = rg.i0.value
             if rg.i0Stdev:
-                self.hplc_run.set_scal(self.frameId, rg.i0Stdev.value, key="I0_Stdev")
+                self.frame.I0_Stdev = rg.i0Stdev.value
             if rg.quality:
-                self.hplc_run.set_scal(self.frameId, rg.quality.value, key="quality")
+                self.frame.quality = rg.quality.value
             self.xsDataResult.autoRg = rg
 
     def doFailureSaxsAnalysis(self, _edPlugin=None):
@@ -499,7 +522,7 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
                 self.average_buffers()
         elif fidelity > 0:
             self.isBuffer = True
-            
+
 #complex type XSDataResultDatcmp extends XSDataResult {
 #    "Higher chi-values indicate dis-similarities in the input.\n
 #     Fidelity gives the likelihood of the two data sets being identical.

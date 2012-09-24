@@ -65,6 +65,8 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         self.integratedCurve = None
         self.integratedImage = None
         self.lstExecutiveSummary = []
+        self.sample = None
+        self.experimentSetup = None
 
     def checkParameters(self):
         """
@@ -85,6 +87,9 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         self.__edPluginIntegrate = self.loadPlugin(self.__strControlledPluginIntegrate)
         if self.dataInput.rawImageSize is not None:
             self.rawImageSize = self.dataInput.rawImageSize
+        self.sample = self.dataInput.sample
+        self.experimentSetup = self.dataInput.experimentSetup
+
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
@@ -96,8 +101,8 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         xsd.rawImage = self.dataInput.rawImage
         xsd.normalizedImage = self.dataInput.normalizedImage
         xsd.rawImageSize = (self.rawImageSize)
-        xsd.experimentSetup = self.dataInput.experimentSetup
-        xsd.sample = self.dataInput.sample
+        xsd.experimentSetup = self.experimentSetup
+        xsd.sample = self.sample
         self.__edPluginNormalize.dataInput = xsd
         self.__edPluginNormalize.executeSynchronous()
 
@@ -111,8 +116,8 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         xsd.normalizedImageSize = (self.rawImageSize)
         xsd.integratedImage = self.dataInput.integratedImage
         xsd.integratedCurve = self.dataInput.integratedCurve
-        xsd.experimentSetup = self.dataInput.experimentSetup
-        xsd.sample = self.dataInput.sample
+        xsd.experimentSetup = self.experimentSetup
+        xsd.sample = self.sample
         self.__edPluginIntegrate.dataInput = xsd
         self.__edPluginIntegrate.executeSynchronous()
 
@@ -126,6 +131,9 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         xsDataResult.normalizedImage = self.normalizedImage
         xsDataResult.integratedImage = self.integratedImage
         xsDataResult.integratedCurve = self.integratedCurve
+        xsDataResult.sample = self.sample
+        xsDataResult.experimentSetup = self.experimentSetup
+
         xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(os.linesep.join(self.lstExecutiveSummary)))
         self.setDataOutput(xsDataResult)
 
@@ -153,6 +161,8 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         xsdOut = _edPlugin.dataOutput
         self.integratedImage = xsdOut.integratedImage
         self.integratedCurve = xsdOut.integratedCurve
+        self.sample = xsdOut.sample
+        self.experimentSetup = xsdOut.experimentSetup
         self.lstExecutiveSummary.append(xsdOut.status.executiveSummary.value)
 
 
@@ -161,6 +171,10 @@ class EDPluginBioSaxsProcessOneFilev1_2(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsProcessOneFilev1_2.doFailureIntegrate")
         try:
             xsdOut = _edPlugin.dataOutput
+            if xsdOut.experimentSetup:
+                self.experimentSetup = xsdOut.experimentSetup
+            if xsdOut.sample:
+                self.sample = xsdOut.sample
             self.strExecutiveSummary.append(xsdOut.status.executiveSummary.value)
             self.integratedImage = xsdOut.integratedImage
             self.integratedCurve = xsdOut.integratedCurve

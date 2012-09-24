@@ -53,6 +53,7 @@ complex type XSDataInputBioSaxsSampleExperiment extends XSDataInputBioSaxsSample
 	exposureTime: XSDataTime optional
 	frameNumber: XSDataInteger optional
 	frameMax: XSDataInteger optional
+	timeOfFrame: XSDataTime  optional
 	}
 
 complex type XSDataResultBioSaxsSample extends XSDataResult{
@@ -80,6 +81,7 @@ complex type XSDataResultBioSaxsSampleExperiment extends XSDataResultBioSaxsSamp
 	exposureTime: XSDataTime optional
 	frameNumber: XSDataInteger optional
 	frameMax: XSDataInteger optional
+	timeOfFrame: XSDataTime  optional
 	}
 
 
@@ -100,7 +102,7 @@ complex type XSDataBioSaxsExperimentSetup extends XSData{
 	exposureTime: XSDataTime optional
 	frameNumber: XSDataInteger optional
 	frameMax: XSDataInteger optional
-	
+	timeOfFrame: XSDataTime  optional
 }
 
 complex type XSDataBioSaxsSample extends XSData {
@@ -157,6 +159,9 @@ complex type XSDataResultBioSaxsAzimutIntv1_0 extends XSDataResult {
 	integratedImage : XSDataImage
 	integratedCurve : XSDataFile
 //	processLog : XSDataString
+    sample: XSDataBioSaxsSample	optional
+	experimentSetup: XSDataBioSaxsExperimentSetup optional
+    
 }
 
 complex type XSDataInputBioSaxsMetadatav1_0 extends XSDataInputBioSaxsSampleExperiment{
@@ -206,6 +211,8 @@ complex type XSDataResultBioSaxsProcessOneFilev1_0 extends XSDataResult {
 	integratedCurve: XSDataFile
 	//logFile : XSDataFile
 //	processLog : XSDataString => use executive summary
+    sample: XSDataBioSaxsSample	optional
+	experimentSetup: XSDataBioSaxsExperimentSetup optional
 }
 
 

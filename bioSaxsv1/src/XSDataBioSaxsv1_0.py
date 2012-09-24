@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Sep 20 04:34::13 2012 by EDGenerateDS.
+# Generated Mon Sep 24 01:41::55 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -11,10 +11,8 @@ from xml.dom import Node
 
 strEdnaHome = os.environ.get("EDNA_HOME", None)
 
-dictLocation = { \
- "XSDataEdnaSaxs": "ednaSaxs/datamodel", \
- "XSDataCommon": "kernel/datamodel", \
-}
+dictLocation = {  "XSDataEdnaSaxs": "ednaSaxs/datamodel", \
+ "XSDataCommon": "kernel/datamodel" }
 
 try:
     from XSDataCommon import XSData
@@ -137,7 +135,7 @@ class MixedContainer(object):
 
 
 class XSDataBioSaxsExperimentSetup(XSData):
-    def __init__(self, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
+    def __init__(self, timeOfFrame=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
         XSData.__init__(self,)
         if detector is None:
             self._detector = None
@@ -250,6 +248,13 @@ class XSDataBioSaxsExperimentSetup(XSData):
             self._frameMax = frameMax
         else:
             strMessage = "ERROR! XSDataBioSaxsExperimentSetup constructor argument 'frameMax' is not XSDataInteger but %s" % self._frameMax.__class__.__name__
+            raise BaseException(strMessage)
+        if timeOfFrame is None:
+            self._timeOfFrame = None
+        elif timeOfFrame.__class__.__name__ == "XSDataTime":
+            self._timeOfFrame = timeOfFrame
+        else:
+            strMessage = "ERROR! XSDataBioSaxsExperimentSetup constructor argument 'timeOfFrame' is not XSDataTime but %s" % self._timeOfFrame.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'detector' attribute
     def getDetector(self): return self._detector
@@ -443,6 +448,18 @@ class XSDataBioSaxsExperimentSetup(XSData):
             raise BaseException(strMessage)
     def delFrameMax(self): self._frameMax = None
     frameMax = property(getFrameMax, setFrameMax, delFrameMax, "Property for frameMax")
+    # Methods and properties for the 'timeOfFrame' attribute
+    def getTimeOfFrame(self): return self._timeOfFrame
+    def setTimeOfFrame(self, timeOfFrame):
+        if timeOfFrame is None:
+            self._timeOfFrame = None
+        elif timeOfFrame.__class__.__name__ == "XSDataTime":
+            self._timeOfFrame = timeOfFrame
+        else:
+            strMessage = "ERROR! XSDataBioSaxsExperimentSetup.setTimeOfFrame argument is not XSDataTime but %s" % timeOfFrame.__class__.__name__
+            raise BaseException(strMessage)
+    def delTimeOfFrame(self): self._timeOfFrame = None
+    timeOfFrame = property(getTimeOfFrame, setTimeOfFrame, delTimeOfFrame, "Property for timeOfFrame")
     def export(self, outfile, level, name_='XSDataBioSaxsExperimentSetup'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -483,6 +500,8 @@ class XSDataBioSaxsExperimentSetup(XSData):
             self.frameNumber.export(outfile, level, name_='frameNumber')
         if self._frameMax is not None:
             self.frameMax.export(outfile, level, name_='frameMax')
+        if self._timeOfFrame is not None:
+            self.timeOfFrame.export(outfile, level, name_='timeOfFrame')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -568,6 +587,11 @@ class XSDataBioSaxsExperimentSetup(XSData):
             obj_ = XSDataInteger()
             obj_.build(child_)
             self.setFrameMax(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'timeOfFrame':
+            obj_ = XSDataTime()
+            obj_.build(child_)
+            self.setTimeOfFrame(obj_)
         XSData.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal(self):
@@ -4834,7 +4858,7 @@ class XSDataInputBioSaxsHPLCv1_0(XSDataInputBioSaxsProcessOneFilev1_0):
 
 class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
     """temporary class for multiple inhertitance emulation"""
-    def __init__(self, configuration=None, code=None, comments=None, concentration=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
+    def __init__(self, configuration=None, code=None, comments=None, concentration=None, timeOfFrame=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
         XSDataInputBioSaxsSample.__init__(self, configuration, code, comments, concentration)
         if detector is None:
             self._detector = None
@@ -4947,6 +4971,13 @@ class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
             self._frameMax = frameMax
         else:
             strMessage = "ERROR! XSDataInputBioSaxsSampleExperiment constructor argument 'frameMax' is not XSDataInteger but %s" % self._frameMax.__class__.__name__
+            raise BaseException(strMessage)
+        if timeOfFrame is None:
+            self._timeOfFrame = None
+        elif timeOfFrame.__class__.__name__ == "XSDataTime":
+            self._timeOfFrame = timeOfFrame
+        else:
+            strMessage = "ERROR! XSDataInputBioSaxsSampleExperiment constructor argument 'timeOfFrame' is not XSDataTime but %s" % self._timeOfFrame.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'detector' attribute
     def getDetector(self): return self._detector
@@ -5140,6 +5171,18 @@ class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
             raise BaseException(strMessage)
     def delFrameMax(self): self._frameMax = None
     frameMax = property(getFrameMax, setFrameMax, delFrameMax, "Property for frameMax")
+    # Methods and properties for the 'timeOfFrame' attribute
+    def getTimeOfFrame(self): return self._timeOfFrame
+    def setTimeOfFrame(self, timeOfFrame):
+        if timeOfFrame is None:
+            self._timeOfFrame = None
+        elif timeOfFrame.__class__.__name__ == "XSDataTime":
+            self._timeOfFrame = timeOfFrame
+        else:
+            strMessage = "ERROR! XSDataInputBioSaxsSampleExperiment.setTimeOfFrame argument is not XSDataTime but %s" % timeOfFrame.__class__.__name__
+            raise BaseException(strMessage)
+    def delTimeOfFrame(self): self._timeOfFrame = None
+    timeOfFrame = property(getTimeOfFrame, setTimeOfFrame, delTimeOfFrame, "Property for timeOfFrame")
     def export(self, outfile, level, name_='XSDataInputBioSaxsSampleExperiment'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -5180,6 +5223,8 @@ class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
             self.frameNumber.export(outfile, level, name_='frameNumber')
         if self._frameMax is not None:
             self.frameMax.export(outfile, level, name_='frameMax')
+        if self._timeOfFrame is not None:
+            self.timeOfFrame.export(outfile, level, name_='timeOfFrame')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -5265,6 +5310,11 @@ class XSDataInputBioSaxsSampleExperiment(XSDataInputBioSaxsSample):
             obj_ = XSDataInteger()
             obj_.build(child_)
             self.setFrameMax(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'timeOfFrame':
+            obj_ = XSDataTime()
+            obj_.build(child_)
+            self.setTimeOfFrame(obj_)
         XSDataInputBioSaxsSample.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal(self):
@@ -5530,7 +5580,7 @@ class XSDataResultBioSaxsHPLCv1_0(XSDataResultBioSaxsProcessOneFilev1_0):
 
 class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
     """temporary class for multiple inhertitance emulation"""
-    def __init__(self, status=None, code=None, comments=None, concentration=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
+    def __init__(self, status=None, code=None, comments=None, concentration=None, timeOfFrame=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None):
         XSDataResultBioSaxsSample.__init__(self, status, code, comments, concentration)
         if detector is None:
             self._detector = None
@@ -5643,6 +5693,13 @@ class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
             self._frameMax = frameMax
         else:
             strMessage = "ERROR! XSDataResultBioSaxsSampleExperiment constructor argument 'frameMax' is not XSDataInteger but %s" % self._frameMax.__class__.__name__
+            raise BaseException(strMessage)
+        if timeOfFrame is None:
+            self._timeOfFrame = None
+        elif timeOfFrame.__class__.__name__ == "XSDataTime":
+            self._timeOfFrame = timeOfFrame
+        else:
+            strMessage = "ERROR! XSDataResultBioSaxsSampleExperiment constructor argument 'timeOfFrame' is not XSDataTime but %s" % self._timeOfFrame.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'detector' attribute
     def getDetector(self): return self._detector
@@ -5836,6 +5893,18 @@ class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
             raise BaseException(strMessage)
     def delFrameMax(self): self._frameMax = None
     frameMax = property(getFrameMax, setFrameMax, delFrameMax, "Property for frameMax")
+    # Methods and properties for the 'timeOfFrame' attribute
+    def getTimeOfFrame(self): return self._timeOfFrame
+    def setTimeOfFrame(self, timeOfFrame):
+        if timeOfFrame is None:
+            self._timeOfFrame = None
+        elif timeOfFrame.__class__.__name__ == "XSDataTime":
+            self._timeOfFrame = timeOfFrame
+        else:
+            strMessage = "ERROR! XSDataResultBioSaxsSampleExperiment.setTimeOfFrame argument is not XSDataTime but %s" % timeOfFrame.__class__.__name__
+            raise BaseException(strMessage)
+    def delTimeOfFrame(self): self._timeOfFrame = None
+    timeOfFrame = property(getTimeOfFrame, setTimeOfFrame, delTimeOfFrame, "Property for timeOfFrame")
     def export(self, outfile, level, name_='XSDataResultBioSaxsSampleExperiment'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -5876,6 +5945,8 @@ class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
             self.frameNumber.export(outfile, level, name_='frameNumber')
         if self._frameMax is not None:
             self.frameMax.export(outfile, level, name_='frameMax')
+        if self._timeOfFrame is not None:
+            self.timeOfFrame.export(outfile, level, name_='timeOfFrame')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -5961,6 +6032,11 @@ class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
             obj_ = XSDataInteger()
             obj_.build(child_)
             self.setFrameMax(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'timeOfFrame':
+            obj_ = XSDataTime()
+            obj_.build(child_)
+            self.setTimeOfFrame(obj_)
         XSDataResultBioSaxsSample.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal(self):
@@ -6007,8 +6083,8 @@ class XSDataResultBioSaxsSampleExperiment(XSDataResultBioSaxsSample):
 
 
 class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
-    def __init__(self, configuration=None, code=None, comments=None, concentration=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, logFile=None, averagedCurve=None, averagedImage=None, integratedImageSize=None, integratedImage=None):
-        XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, code, comments, concentration, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
+    def __init__(self, configuration=None, code=None, comments=None, concentration=None, timeOfFrame=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, logFile=None, averagedCurve=None, averagedImage=None, integratedImageSize=None, integratedImage=None):
+        XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, code, comments, concentration, timeOfFrame, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
         if integratedImage is None:
             self._integratedImage = []
         elif integratedImage.__class__.__name__ == "list":
@@ -6229,8 +6305,8 @@ class XSDataInputBioSaxsAveragev1_0(XSDataInputBioSaxsSampleExperiment):
 
 
 class XSDataInputBioSaxsMetadatav1_0(XSDataInputBioSaxsSampleExperiment):
-    def __init__(self, configuration=None, code=None, comments=None, concentration=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, outputImage=None, inputImage=None):
-        XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, code, comments, concentration, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
+    def __init__(self, configuration=None, code=None, comments=None, concentration=None, timeOfFrame=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, outputImage=None, inputImage=None):
+        XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, code, comments, concentration, timeOfFrame, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
         if inputImage is None:
             self._inputImage = None
         elif inputImage.__class__.__name__ == "XSDataImage":
@@ -6345,8 +6421,8 @@ class XSDataInputBioSaxsMetadatav1_0(XSDataInputBioSaxsSampleExperiment):
 
 class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
     """Class for precessing a single sample (at 1 single concentration)"""
-    def __init__(self, configuration=None, code=None, comments=None, concentration=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, forceReprocess=None, sampleSeries=None, bufferSeries=None, directoryMisc=None, directory2D=None, directory1D=None):
-        XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, code, comments, concentration, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
+    def __init__(self, configuration=None, code=None, comments=None, concentration=None, timeOfFrame=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, forceReprocess=None, sampleSeries=None, bufferSeries=None, directoryMisc=None, directory2D=None, directory1D=None):
+        XSDataInputBioSaxsSampleExperiment.__init__(self, configuration, code, comments, concentration, timeOfFrame, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
         if directory1D is None:
             self._directory1D = None
         elif directory1D.__class__.__name__ == "XSDataFile":
@@ -6614,8 +6690,8 @@ class XSDataInputBioSaxsSingleSamplev1_0(XSDataInputBioSaxsSampleExperiment):
 
 
 class XSDataResultBioSaxsMetadatav1_0(XSDataResultBioSaxsSampleExperiment):
-    def __init__(self, status=None, code=None, comments=None, concentration=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, outputImage=None, experimentSetup=None, sample=None):
-        XSDataResultBioSaxsSampleExperiment.__init__(self, status, code, comments, concentration, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
+    def __init__(self, status=None, code=None, comments=None, concentration=None, timeOfFrame=None, frameMax=None, frameNumber=None, exposureTime=None, exposureTemperature=None, storageTemperature=None, normalizationFactor=None, maskFile=None, machineCurrent=None, wavelength=None, beamStopDiode=None, beamCenter_2=None, beamCenter_1=None, pixelSize_2=None, pixelSize_1=None, detectorDistance=None, detector=None, outputImage=None, experimentSetup=None, sample=None):
+        XSDataResultBioSaxsSampleExperiment.__init__(self, status, code, comments, concentration, timeOfFrame, frameMax, frameNumber, exposureTime, exposureTemperature, storageTemperature, normalizationFactor, maskFile, machineCurrent, wavelength, beamStopDiode, beamCenter_2, beamCenter_1, pixelSize_2, pixelSize_1, detectorDistance, detector)
         if sample is None:
             self._sample = None
         elif sample.__class__.__name__ == "XSDataBioSaxsSample":

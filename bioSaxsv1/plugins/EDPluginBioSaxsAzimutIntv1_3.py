@@ -151,6 +151,9 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         # Create some output data
         strLog = os.linesep.join(self.lstProcessLog)
         self.xsdResult.status = XSDataStatus(executiveSummary=XSDataString(strLog))
+        self.xsdResult.sample = self.sample
+        self.xsdResult.experimentSetup = self.experimentSetup
+
         self.setDataOutput(self.xsdResult)
         self.DEBUG("EDPluginBioSaxsAzimutIntv1_3.postProces: Comments generated: " + os.linesep + strLog)
 
