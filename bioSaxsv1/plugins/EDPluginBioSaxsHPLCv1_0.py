@@ -86,7 +86,7 @@ class HPLCrun(object):
         import json
         dico = {}
         for i in self.frames:
-            dico[i] = self.frames[i].__dict__()
+            dico[i] = self.frames[i].__dict__
         json.dump(dico, open(self.hdf5_filename, "w"), indent=1)
     def init_hdf5(self, filename):
         if self.hdf5_filename is None:
@@ -191,14 +191,14 @@ class HPLCrun(object):
 class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
     """
     plugin for processing Saxs data coming from HPLC
-    
+
     runs subsequently:
-    *ProcessOneFile, 
-    *subtraction of buffer 
+    *ProcessOneFile,
+    *subtraction of buffer
     *SaxsAnalysis
-    
+
     todo:
-    only store references: Wait for flush to construct HDF5 file and (possibly) web pages with PNG graphs  
+    only store references: Wait for flush to construct HDF5 file and (possibly) web pages with PNG graphs
     """
 
     strControlledPluginProcessOneFile = "EDPluginBioSaxsProcessOneFilev1_2"
@@ -526,7 +526,7 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
 #    "Higher chi-values indicate dis-similarities in the input.\n
 #     Fidelity gives the likelihood of the two data sets being identical.
 #    "
-#    chi: XSDataDouble 
+#    chi: XSDataDouble
 #    fidelity: XSDataDouble
 #}
     def doFailureDatCmp(self, _edPlugin=None):
