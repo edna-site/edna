@@ -80,7 +80,7 @@ class EDPluginWaitFile(EDPlugin):
         Configuration step of the plugin: mainly extend the timeout by 5 seconds to let the plugin finish.
 
         """
-        if self.__class__.actual_timeout is None:
+        if self.__class__.config_timeout is None:
             with self.__class__.sem:
                 if self.__class__.config_timeout is None:
                     self.DEBUG("EDPluginWaitFile.configure : %s" % self.getClassName())
