@@ -44,7 +44,10 @@ if  os.path.isdir(specClientPath) and (specClientPath not in sys.path):
 from EDVerbose          import EDVerbose
 #from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from EDObject           import EDObject
-from SpecClient         import SpecVariable
+#try:
+#    from SpecClient         import SpecVariable
+#except:
+#    SpecClient = None
 
 
 class EDUtilsBioSaxs(EDObject):
@@ -70,10 +73,11 @@ class EDUtilsBioSaxs(EDObject):
                    "exposureTime":"exposureTime",
                    "frameNumber":"frameNumber",
                    "frameMax":"frameMax",
+                   "timeOfFrame":"time_of_day"
                    }
     FLOAT_KEYS = ["beamStopDiode", "machineCurrent", "concentration", "normalizationFactor",
                   "beamCenter_1", "beamCenter_2", "pixelSize_1", "pixelSize_2",
-                  "detectorDistance", "wavelength",
+                  "detectorDistance", "wavelength", "timeOfFrame",
                   "storageTemperature", "exposureTemperature", "exposureTime"]
     INT_KEYS = [ "frameNumber", "frameMax"]
 

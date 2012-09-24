@@ -191,7 +191,7 @@ class Reprocess(EDLogging):
         """
         wait for all jobs to finish
         """
-        while not (self.jobQueue.empty and \
+        while not (self.jobQueue.empty() and \
                 (self.__semaphoreNbThreads._Semaphore__value == self.iNbCpu) and \
                 (EDUtilsParallel.getNbRunning() == self.iNbCpu) and \
                 (self.processingSem._Semaphore__value == 1) and\
