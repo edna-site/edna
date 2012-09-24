@@ -236,9 +236,9 @@ if __name__ == "__main__":
             import yappi
         except ImportError:
             print("Sorry, I was not able to import Yappi")
-            yappi=None
+            yappi = None
     else:
-        yappi=None
+        yappi = None
     if options.verbose:
         reprocess.setVerboseDebugOn()
     if yappi: yappi.start()
@@ -250,6 +250,12 @@ if __name__ == "__main__":
     if yappi: yappi.stop()
     print("All %i jobs processed after %.3fs" % (len(args), time.time() - reprocess.startTime))
     print reprocess.statistics()
-    if yappi: yappi.print_stats(open("yappi.out","w"),yappi.SORTTYPE_TTOT)
+    if yappi:
+        stat = yappi.get_stats(sort_type=yappi.SORTTYPE_TTOT)
+        with open("yappi.out", "w") as f:
+            f.write("ncall\ttotal\tpercall\tfunction%s" % (os.linesep))
+            for i in stat.func_stats:
+                f.write("%s\t%s\t%s\t%s%s" % (i[1], i[2], i[4], i[0], os.linesep))
+        print("Profiling information written in yappi.out")
 
 
