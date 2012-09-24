@@ -202,7 +202,7 @@ if __name__ == "__main__":
     from optparse import OptionParser
     parser = OptionParser(usage="%prog reprocess on SAXS-HPLC experiment", version="%prog 1.0")
 #    parser.add_option("-o", "--output", dest="h5path",
-#                      help="write result to HDF5 file with given path: path/to/file.h5:Aligned")
+#                      help="put loh information to ")
 #    parser.add_option("-c", "--crop", dest="crop",
 #                      help="Shall we crop the dataset to valid area", default=True)
 #    parser.add_option("-k", "--check", dest="recheck",
@@ -241,6 +241,10 @@ if __name__ == "__main__":
         yappi = None
     if options.verbose:
         reprocess.setVerboseDebugOn()
+    fullargs = [os.path.abspath(i) for i in args if os.path.exists(i) and i.endswith(".xml")]
+    working_dir = "Reprocess-HPLC-%s" % time.strftime("%Y%m%d-%H%M%S")
+    os.makedirs(working_dir)
+    os.chdir(working_dir)
     if yappi: yappi.start()
     for i in args:
         if i.endswith(".xml"):
