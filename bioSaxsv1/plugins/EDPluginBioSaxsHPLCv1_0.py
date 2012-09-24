@@ -163,7 +163,7 @@ class HPLCrun(object):
 
 
 
-class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
+class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
     """
     plugin for processing Saxs data coming from HPLC
     
@@ -171,6 +171,9 @@ class EDPluginBioSaxsHPLCv1_0 (EDPluginControl):
     *ProcessOneFile, 
     *subtraction of buffer 
     *SaxsAnalysis
+    
+    todo:
+    only store references: Wait for flush to construct HDF5 file and (possibly) web pages with PNG graphs  
     """
 
     strControlledPluginProcessOneFile = "EDPluginBioSaxsProcessOneFilev1_2"
