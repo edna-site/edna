@@ -193,7 +193,7 @@ class Reprocess(EDLogging):
         """
         while not (self.jobQueue.empty() and \
                 (self.__semaphoreNbThreads._Semaphore__value == self.iNbCpu) and \
-                (EDUtilsParallel.getNbRunning() == self.iNbCpu) and \
+                (EDUtilsParallel.getNbRunning() == 0) and \
                 (self.processingSem._Semaphore__value == 1) and\
                 (len(EDStatus.getRunning()) == 0)):
             time.sleep(1)
@@ -215,6 +215,9 @@ if __name__ == "__main__":
     parser.add_option("-p", "--plugin", action="store", type="string",
                       dest="plugin", default="EDPluginBioSaxsHPLCv1_0",
                       help="use an alternative plugin")
+    parser.add_option("-y", "--yappi", action="store_true",
+                      dest="yappi", default=False,
+                      help="use an multi-threaded profiler named 'YAPPI'")
     (options, args) = parser.parse_args()
     print("")
     print("Options:")
@@ -228,14 +231,25 @@ if __name__ == "__main__":
         print("Input XML files: " + ", ".join([f for f in list(args) if f.endswith(".xml")]))
     print(" ")
     reprocess = Reprocess(options.plugin, options.ncpu)
+    if options.yappi:
+        try:
+            import yappi
+        except ImportError:
+            print("Sorry, I was not able to import Yappi")
+            yappi=None
+    else:
+        yappi=None
     if options.verbose:
         reprocess.setVerboseDebugOn()
+    if yappi: yappi.start()
     for i in args:
         if i.endswith(".xml"):
             reprocess.startJob(i)
     print("All %i jobs queued after %.3fs" % (len(args), time.time() - reprocess.startTime))
     reprocess.join()
+    if yappi: yappi.stop()
     print("All %i jobs processed after %.3fs" % (len(args), time.time() - reprocess.startTime))
     print reprocess.statistics()
+    if yappi: yappi.print_stats(open("yappi.out","w"),yappi.SORTTYPE_TTOT)
 
 
