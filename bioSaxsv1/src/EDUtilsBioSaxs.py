@@ -308,7 +308,7 @@ class HPLCrun(object):
             frame = HPLCframe(self.id)
             for k, v in dico.items():
                 frame.__setattr__(k, v)
-            self.frames[i] = frame
+            self.frames[int(i)] = frame
 
     def init_hdf5(self, filename):
         if self.hdf5_filename is None:
