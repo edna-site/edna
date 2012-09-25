@@ -40,8 +40,10 @@ class EDTestSuitePluginExecuteISPyBv1_4(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_4_failedProcessing")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcStatusv1_4")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcStatusv1_4_withIntegrationId")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBRetrieveDataCollectionv1_4")
-        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreDataCollectionv1_4")
+#        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreDataCollectionv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreScreeningv1_4")
 
 

@@ -74,23 +74,19 @@ class EDPluginControl(EDPlugin):
         Gets the EDPluginControl parameters from the configuration file and stores them in class member attributes.
         """
         EDPlugin.configure(self)
-        pluginConfiguration = self.getConfiguration()
-        if(pluginConfiguration == None):
-            EDVerbose.DEBUG("EDPluginControl.configure: pluginConfiguration is None, using default settings")
-        else:
-            EDVerbose.DEBUG("EDPluginControl.configure: pluginConfiguration found, using settings from there")
-            strControlledPlugins = EDConfiguration.getStringParamValue(pluginConfiguration, "controlledPlugins")
-            if (strControlledPlugins != None):
-                pyListControlledPlugins = strControlledPlugins.split(",")
-                for strControlledPlugin in pyListControlledPlugins:
-                    strControlledPluginName = EDConfiguration.getStringParamValue(pluginConfiguration, strControlledPlugin)
-                    if strControlledPluginName != None:
-                        self.setControlledPluginName(strControlledPlugin, strControlledPluginName)
-                        EDVerbose.DEBUG("EDPluginControl.configure: setting controlled plugin %s to specific plugin %s" % (strControlledPlugin, strControlledPluginName))
-            strClusterSize = EDConfiguration.getStringParamValue(pluginConfiguration, "clusterSize")
-            if (strClusterSize != None):
-                self.__iClusterSize = int(strClusterSize)
-                EDVerbose.DEBUG("EDPluginControl.configure: setting cluster size to %d" % self.__iClusterSize)
+        EDVerbose.DEBUG("EDPluginControl.configure")
+        strControlledPlugins = self.getStringConfigurationParameterValue("controlledPlugins")
+        if (strControlledPlugins != None):
+            pyListControlledPlugins = strControlledPlugins.split(",")
+            for strControlledPlugin in pyListControlledPlugins:
+                strControlledPluginName = self.getStringConfigurationParameterValue(strControlledPlugin)
+                if strControlledPluginName != None:
+                    self.setControlledPluginName(strControlledPlugin, strControlledPluginName)
+                    EDVerbose.DEBUG("EDPluginControl.configure: setting controlled plugin %s to specific plugin %s" % (strControlledPlugin, strControlledPluginName))
+        strClusterSize = self.getStringConfigurationParameterValue("clusterSize")
+        if (strClusterSize != None):
+            self.__iClusterSize = int(strClusterSize)
+            EDVerbose.DEBUG("EDPluginControl.configure: setting cluster size to %d" % self.__iClusterSize)
 
 
     def emptyListOfLoadedPlugin(self):

@@ -158,8 +158,7 @@ class EDTestCasePluginUnitMOSFLMv10(EDTestCasePluginUnit):
     def testReversephiConfiguration(self):
         strPathToTestConfigFile = os.path.join(self.strUnitTestDataHome, "XSConfiguration_reversephi.xml")
         edConfiguration = EDConfiguration(strPathToTestConfigFile)
-        edConfiguration.load()
-        xsPluginItem = edConfiguration.getPluginItem("EDPluginMOSFLMv10")
+        xsPluginItem = edConfiguration.getXSConfigurationItem("EDPluginMOSFLMv10")
         xsDataMOSFLMInput = XSDataMOSFLMInput()
         xsDataMOSFLMBeam = XSDataMOSFLMBeamPosition()
         xsDataMOSFLMBeam.setX(XSDataLength(1.0))
@@ -187,8 +186,7 @@ class EDTestCasePluginUnitMOSFLMv10(EDTestCasePluginUnit):
     def testRasterConfiguration(self):
         strPathToTestConfigFile = os.path.join(self.strUnitTestDataHome, "XSConfiguration_raster.xml")
         edConfiguration = EDConfiguration(strPathToTestConfigFile)
-        edConfiguration.load()
-        xsPluginItem = edConfiguration.getPluginItem("EDPluginMOSFLMv10")
+        xsPluginItem = edConfiguration.getXSConfigurationItem("EDPluginMOSFLMv10")
         xsDataMOSFLMInput = XSDataMOSFLMInput()
         xsDataMOSFLMBeam = XSDataMOSFLMBeamPosition()
         xsDataMOSFLMBeam.setX(XSDataLength(1.0))

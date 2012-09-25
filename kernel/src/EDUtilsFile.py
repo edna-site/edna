@@ -41,11 +41,14 @@ from EDVerbose import EDVerbose
 
 
 class EDUtilsFile(object):
-    """
-    """
+
+    
     @staticmethod
     def readFile(_strFileName):
         """
+        Reads and returns the content of a file.
+        @param _strFileName: Path to the file
+        @return: String containing the contents of the file.
         """
         strContent = None
         try:
@@ -60,12 +63,18 @@ class EDUtilsFile(object):
     @staticmethod
     def writeFile(_strFileName, _strContent):
         """
+        Writes a string to a file. If the string is not already in unicode
+        format it will be converted to unicode.
+        @param _strFileName: Path to file, will be created if not existing
+        @param _strContent: String content to be written to the file
         """
         try:
             with open(_strFileName, "wb") as myFile:
-                myFile.write(_strContent.encode('utf-8'))
+                if type(_strContent) == unicode:
+                    myFile.write(_strContent)
+                else:
+                    myFile.write(unicode(_strContent, errors='ignore'))
                 myFile.flush()
-
         except Exception, e:
             strError = "EDUtilsFile.writeFile: Writing %s: %s" % (_strFileName, str(e))
             EDVerbose.ERROR(strError)
@@ -78,6 +87,8 @@ class EDUtilsFile(object):
         Returns the content of this file as a string.
         Any environment variables present in the file are substituted, as well as
         any occurrences of strings in the optional dictionary.
+        @param _strFileName: Path to the file
+        @param _dict: Optional dictoionary
         """
         strContent = cls.readFile(_strFileName)
         # Substitute environment variables 
@@ -94,6 +105,7 @@ class EDUtilsFile(object):
     def getFileExtension(_strFileName):
         """
         Returns the file extension, e.g. "img" for "testscale_1_001.img"
+        @param _strFileName: String containing the file name
         """
         strFileExtension = None
         strFileSplit = os.path.splitext(_strFileName)

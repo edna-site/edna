@@ -193,11 +193,7 @@ class EDPluginExecProcess(EDPluginExec):
         """
         EDPluginExec.configure(self)
         EDVerbose.DEBUG("EDPluginExecProcess.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            EDVerbose.warning("EDPluginExecProcess.configure: No plugin item defined.")
-            xsPluginItem = XSPluginItem()
-        strExecutable = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcess.CONF_EXEC_PROCESS_EXECUTABLE)
+        strExecutable = self.getStringConfigurationParameterValue(EDPluginExecProcess.CONF_EXEC_PROCESS_EXECUTABLE)
         if(strExecutable == None):
             EDVerbose.DEBUG("EDPluginExecProcess.configure: No configuration parameter found for: %s , using default value: %s"\
                             % (EDPluginExecProcess.CONF_EXEC_PROCESS_EXECUTABLE, self.getExecutable()))
@@ -222,7 +218,7 @@ class EDPluginExecProcess(EDPluginExec):
                 self._oar_poll_interval = oar_poll
 
         # The execProcessTimeOut is deprecated, see bug #563
-        strTimeOut = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcess.CONF_EXEC_PROCESS_TIME_OUT)
+        strTimeOut = self.getStringConfigurationParameterValue(EDPluginExecProcess.CONF_EXEC_PROCESS_TIME_OUT)
         if strTimeOut is not None:
             EDVerbose.WARNING("Use of %s in plugin configuration is deprecated" % EDPluginExecProcess.CONF_EXEC_PROCESS_TIME_OUT)
             EDVerbose.WARNING("Please use %s instead." % EDPlugin.CONF_TIME_OUT)

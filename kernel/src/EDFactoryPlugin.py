@@ -419,40 +419,6 @@ class EDFactoryPlugin(EDLogging):
         return strProjectName
 
 
-    def getPathToProjectConfigurationFile(self, _strModuleName):
-        """
-        This method returns the path to the Project configuration file.
-
-        @param _strModuleName: Name of the module
-        @type _strModuleName: python string
-        
-        @return: The path to the project configuration file
-        @type: python string
-        """
-
-        strCurrentDirectory = self.getModuleLocation(_strModuleName)
-        if not strCurrentDirectory in self.__dictConfFiles:
-            with self.__semaphoreStatic:
-                if not strCurrentDirectory in self.__dictConfFiles:
-                    bConfFileFound = False
-                    strPathToProjectConfigurationFile = None
-                    while not bConfFileFound:
-                        strPreviousDirectory = strCurrentDirectory
-                        strCurrentDirectory = os.path.dirname(strCurrentDirectory)
-                        strPathToConfigurationDirectory = os.path.abspath(os.path.join(strCurrentDirectory, "conf"))
-                        strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.EDNA_SITE
-                        strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
-                                                                                        strConfigurationFileName))
-                        self.DEBUG("Looking for configuration file for %s in %s" %
-                                        (_strModuleName, strPathToProjectConfigurationFile))
-                        bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
-                        if strCurrentDirectory in (EDUtilsPath.EDNA_HOME, strPreviousDirectory):
-                            strPathToProjectConfigurationFile = None
-                            break
-                    self.__dictConfFiles[strCurrentDirectory] = strPathToProjectConfigurationFile
-        return self.__dictConfFiles[strCurrentDirectory]
-
-
     @classmethod
     def preImport(cls, _strModuleName, _strPath=None, _strForceVersion=None, _strMethodVersion=None):
         """

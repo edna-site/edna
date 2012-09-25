@@ -2,9 +2,7 @@
 #    Project: The EDNA Kernel
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
@@ -24,7 +22,7 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 
 __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
@@ -37,11 +35,15 @@ This class handles the EDNA configuration XML files.
 
 import os
 
-from EDVerbose import EDVerbose
+from EDLogging import EDLogging
 from EDUtilsFile import EDUtilsFile
+from EDUtilsPath import EDUtilsPath
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDThreading            import Semaphore
 
+from XSDataCommon import XSConfiguration
 
-class EDConfiguration:
+class EDConfiguration(EDLogging):
     """
     This class handles the EDNA configuration XML files. The structure of
     the XML is described in the XSDataCommon data model.
@@ -53,98 +55,136 @@ class EDConfiguration:
     content.
     """
 
-    def __init__(self, _strXMLFileName):
-        """
-        The Constructor initializes the files (xsd and xml) objects
-        The Configuration will be fully constructed after the load method
-        """
-        # Configuration File
-        self.__strXmlFileName = os.path.abspath(_strXMLFileName)
-        # XSConfiguration object
-        self.__xsConfiguration = None
-        self.__bLoaded = False
+
+    def __init__(self, _strXMLFileName=None):
+        """"Set  up semaphore for thread safeness and dictionary for config files"""
+        EDLogging.__init__(self)
+        self.__semaphore = Semaphore()
+        self.__dictXSConfiguration = {}
+        self.__dictPluginConfiguration = {}
+        if _strXMLFileName is not None:
+            self.addConfigurationFile(_strXMLFileName)
 
 
-    def load(self):
-        """
-        Loads a configuration file. Any environment variables present
-        in the XML file are substituted.
-        """
-        EDVerbose.DEBUG("EDConfiguration.load: importing %s configuration file" % self.__strXmlFileName)
-        from XSDataCommon import XSConfiguration
-        strXMLConfiguration = EDUtilsFile.readFileAndParseVariables(self.__strXmlFileName)
-        self.__xsConfiguration = XSConfiguration.parseString(strXMLConfiguration)
-        self.__bLoaded = True
+    def addConfigurationFile(self, _strXMLFileName, _bReplace=True):
+        """Loads an XML config file into the dictionary if not already loaded"""
+        strXMLFileName = os.path.abspath(_strXMLFileName)
+        if not os.path.exists(strXMLFileName):
+            self.WARNING("Trying to add configuration file but file %s doesn't exist!" % _strXMLFileName)
+        else:
+            if strXMLFileName in self.__dictXSConfiguration.keys():
+                self.DEBUG("EDConfiguration.addConfigurationFile: File %s already parsed, in cache" % strXMLFileName)
+            else:
+                self.DEBUG("EDConfiguration.addConfigurationFile: Parsing file %s" % strXMLFileName)
+                strXMLConfiguration = EDUtilsFile.readFileAndParseVariables(strXMLFileName)
+                xsConfiguration = XSConfiguration.parseString(strXMLConfiguration)
+                # Make sure we are thread safe when manipulating the cache
+                with self.__semaphore:
+                    self.__dictXSConfiguration[strXMLFileName] = xsConfiguration
+                # First look for configuration imports
+                for xsImportConfiguration in xsConfiguration.XSImportConfiguration:
+                    if xsImportConfiguration.directory is None or xsImportConfiguration.directory == "None":
+                        strImportPath = os.path.join(os.path.dirname(strXMLFileName), xsImportConfiguration.name + ".xml")
+                    else:
+                        strImportPath = os.path.join(xsImportConfiguration.directory, xsImportConfiguration.name + ".xml")
+                    self.DEBUG("Importing configuration file : %s" % strImportPath)
+                    self.addConfigurationFile(strImportPath, True)
+                # Make sure we are thread safe when manipulating the cache
+                with self.__semaphore:
+                    # Load configurations into the plugin dictionary
+                    if xsConfiguration.XSPluginList is not None:
+                        for xsPluginItem in xsConfiguration.XSPluginList.XSPluginItem:
+                            strPluginName = xsPluginItem.name
+                            if strPluginName in self.__dictPluginConfiguration:
+                                if _bReplace:
+                                    self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will be replaced." % strPluginName)
+                                    self.__dictPluginConfiguration[strPluginName] = xsPluginItem
+                                else:
+                                    self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will not be replaced." % strPluginName)
+                            else:
+                                self.DEBUG("EDConfiguration.addConfigurationFile: adding plugin configuration for %s." % strPluginName)
+                                self.__dictPluginConfiguration[strPluginName] = xsPluginItem
 
 
-    def isLoaded(self):
+    def getPathToProjectConfigurationFile(self, _strPluginName):
         """
-        Returns true if the configuration file has been loaded
+        This method returns the path to the Project configuration file.
+
+        @param _strPluginName: Name of the module
+        @type _strPluginName: python string
+        
+        @return: The path to the project configuration file
+        @type: python string
         """
-        return self.__bLoaded
+        strPathToProjectConfigurationFile = None
+        strCurrentDirectory = EDFactoryPluginStatic.getModuleLocation(_strPluginName)
+        if strCurrentDirectory is None:
+            self.WARNING("Cannot find path to configuration for plugin %s" % _strPluginName)
+        else:
+            with self.__semaphore:
+                bConfFileFound = False
+                strPathToProjectConfigurationFile = None
+                strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.EDNA_SITE
+                while not bConfFileFound:
+                    strPreviousDirectory = strCurrentDirectory
+                    strCurrentDirectory = os.path.dirname(strCurrentDirectory)
+                    strPathToConfigurationDirectory = os.path.abspath(os.path.join(strCurrentDirectory, "conf"))
+                    strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
+                                                                                    strConfigurationFileName))
+                    self.DEBUG("Looking for configuration file for %s in %s" %
+                                    (_strPluginName, strPathToProjectConfigurationFile))
+                    bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
+                    if strCurrentDirectory in (EDUtilsPath.EDNA_HOME, strPreviousDirectory):
+                        strPathToProjectConfigurationFile = None
+                        break
+        return strPathToProjectConfigurationFile
 
 
-    def getXmlFileName(self):
-        """
-        Returns the absolute path of the XML file
-        """
-        return self.__strXmlFileName
+    def getXSConfigurationItem(self, _strPluginName):
+        xsConfigurationItem = None
+        # First check plugin dictionary:
+        if _strPluginName in self.__dictPluginConfiguration.keys():
+            xsConfigurationItem = self.__dictPluginConfiguration[_strPluginName]
+        else:
+            # Try to load "project" configuration
+            strPathToProjectConfigurationFile = self.getPathToProjectConfigurationFile(_strPluginName)
+            if strPathToProjectConfigurationFile is not None:
+                self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=True)
+                if _strPluginName in self.__dictPluginConfiguration.keys():
+                    xsConfigurationItem = self.__dictPluginConfiguration[_strPluginName]
+        return xsConfigurationItem
 
 
-    def getXSConfiguration(self):
-        """
-        Gets the auto-generated XSConfiguration module
-        """
-        return self.__xsConfiguration
+    def setXSConfigurationItem(self, _xsPluginItem):
+        if _xsPluginItem is not None:
+            if _xsPluginItem.name is not None:
+                strPluginName = _xsPluginItem.name
+                if strPluginName in self.__dictPluginConfiguration.keys():
+                    self.DEBUG("Replacing configuration for plugin %s" % strPluginName)
+                else:
+                    self.DEBUG("Setting configuration for plugin %s" % strPluginName)
+                with self.__semaphore:
+                    self.__dictPluginConfiguration[strPluginName] = _xsPluginItem
 
 
-    def getPluginList(self):
-        """
-        Returns an XSPluginList object that encapsulates a list of XSPluginItem
-        """
-        pluginList = self.__xsConfiguration.getXSPluginList()
-        return pluginList
+    def getStringValue(self, _strPluginName, _strConfigurationName):
+        strValue = None
+        xsPluginItem = self.getXSConfigurationItem(_strPluginName)
+        if xsPluginItem is not None:
+            xsParamList = xsPluginItem.getXSParamList()
+            xsParamItems = xsParamList.getXSParamItem()
+            for xsParamItem in xsParamItems:
+                if (xsParamItem.getName() == _strConfigurationName):
+                    strValue = xsParamItem.value
+        return strValue
 
 
-    def getPluginItem(self, _edStrPluginName):
+    def getPluginListSize(self):
         """
-        Returns a particular XSPluginItem given its name
+        Returns the number of plugins configured
         """
-        xsPluginList = self.__xsConfiguration.getXSPluginList()
-        xsPluginItems = xsPluginList.getXSPluginItem()
-        pluginItem = None
-        for xsPluginItem in xsPluginItems:
-            if (xsPluginItem.getName() == _edStrPluginName):
-                pluginItem = xsPluginItem
-        return pluginItem
-
-
-    def getOptionItem(_xsPluginItem, _pyStrOptionName):
-        """
-        Returns a XSOptionItem given an option name
-        """
-        xsOptionList = _xsPluginItem.getXSOptionList()
-        xsOptionItems = xsOptionList.getXSOptionItem()
-        optionItem = None
-        for xsOptionItem in xsOptionItems:
-            if (xsOptionItem.getName() == _pyStrOptionName):
-                optionItem = xsOptionItem
-        return optionItem
-    getOptionItem = staticmethod(getOptionItem)
-
-
-    def getParamItem(_xsPluginItem, _pyStrParamName):
-        """
-        Returns a XSParamItem given a param name
-        """
-        xsParamList = _xsPluginItem.getXSParamList()
-        xsParamItems = xsParamList.getXSParamItem()
-        paramItem = None
-        for xsParamItem in xsParamItems:
-            if (xsParamItem.getName() == _pyStrParamName):
-                paramItem = xsParamItem
-        return paramItem
-    getParamItem = staticmethod(getParamItem)
+        iSize = len(self.__dictPluginConfiguration)
+        return iSize
 
 
     def getStringParamValue(_xsPluginItem, _pyStrParamName):
@@ -173,13 +213,5 @@ class EDConfiguration:
             intParamValue = int(strParamValue)
         return intParamValue
     getIntegerParamValue = staticmethod(getIntegerParamValue)
-
-
-    def getPluginListSize(self):
-        """
-        Returns the size of the XSPluginItem list
-        """
-        iSize = len(self.getPluginList().getXSPluginItem())
-        return iSize
 
 

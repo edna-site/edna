@@ -257,7 +257,7 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
             EDVerbose.warning(strWarningMessage)
             self.addWarningMessage(strWarningMessage)
         else:
-            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, self._strCONF_SYMOP_HOME)
+            strSymopHome = self.getStringConfigurationParameterValue(self._strCONF_SYMOP_HOME)
             if(strSymopHome == None):
                 strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlStrategyv1_2.configure', self._strCONF_SYMOP_HOME, self.getPluginName())
                 EDVerbose.warning(strWarningMessage)
@@ -307,6 +307,8 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         if not self._edPluginPlotGle.isFailure():
             listFileGraph = self._edPluginPlotGle.dataOutput.fileGraph
             xsDataResultStrategy.bestGraphFile = listFileGraph
+        # Sample
+        xsDataResultStrategy.setSample(self._xsDataSampleCopy)
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
         
