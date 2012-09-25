@@ -198,7 +198,15 @@ class Reprocess(EDLogging):
                 (len(EDStatus.getRunning()) == 0)):
             time.sleep(1)
 
+
 if __name__ == "__main__":
+    res = {}
+    def sortn(a, b):
+        if res[a][1] < res[b][1]:
+            return 1
+        else:
+            return -1
+
     from optparse import OptionParser
     parser = OptionParser(usage="%prog reprocess on SAXS-HPLC experiment", version="%prog 1.0")
 #    parser.add_option("-o", "--output", dest="h5path",
@@ -255,10 +263,19 @@ if __name__ == "__main__":
     print reprocess.statistics()
     if yappi:
         stat = yappi.get_stats(sort_type=yappi.SORTTYPE_TTOT)
+        res = {}
+        for i in stat.func_stats:
+            if i[0] in res:
+                res[i[0]][0] += i[1]
+                res[i[0]][1] += i[2]
+            else:
+                res[i[0]] = [i[1], i[2]]
+        keys = res.keys()
+        keys.sort(sortn)
         with open("yappi.out", "w") as f:
             f.write("ncall\t\ttotal\t\tpercall\t\tfunction%s" % (os.linesep))
-            for i in stat.func_stats:
-                f.write("%8s\t%16s\t%16s\t%s%s" % (i[1], i[2], i[4], i[0], os.linesep))
+            for i in keys:
+                f.write("%8s\t%16s\t%16s\t%s%s" % (res[i][0], res[i][1], res[i][1] / res[i][0], i, os.linesep))
         print("Profiling information written in yappi.out")
 
 
