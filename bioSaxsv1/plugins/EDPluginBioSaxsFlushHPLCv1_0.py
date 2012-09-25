@@ -32,24 +32,23 @@ __status__ = "development"
 
 import os, time
 from EDPluginControl import EDPluginControl
-from EDThreading import Semaphore
+#from EDThreading import Semaphore
 from EDUtilsParallel import EDUtilsParallel
 from EDFactoryPlugin import edFactoryPlugin
 edFactoryPlugin.loadModule("XSDataBioSaxsv1_0")
 edFactoryPlugin.loadModule("XSDataEdnaSaxs")
 
-from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0, \
-                            XSDataInputBioSaxsProcessOneFilev1_0
-from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
+from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0#, \
+#                            XSDataInputBioSaxsProcessOneFilev1_0
+#from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
 from XSDataCommon import XSDataFile, XSDataStatus, XSDataString, XSDataInteger, XSDataStatus
 from EDPluginBioSaxsHPLCv1_0 import EDPluginBioSaxsHPLCv1_0
-import matplotlib
-matplotlib.use('Agg')
-from matplotlib import pylab
+#from EDUtilsBioSaxs import HPLCframe, HPLCrun
+
 
 class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
     """
-    plugin that just flushes the HPLC data to disk 
+    plugin that just flushes the HPLC data to disk
     """
 
     def __init__(self):
@@ -114,27 +113,5 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
     def processRun(self, run):
         run.dump_json()
         run.save_hdf5()
-        fig = pylab.plt.figure()
-        sp0 = fig.add_subplot(511)
-        sp1 = fig.add_subplot(512)
-        sp2 = fig.add_subplot(513)
-        sp3 = fig.add_subplot(514)
-        sp4 = fig.add_subplot(515)
-        sp0.plot(run.hdf5["time"][:], run.hdf5["scattering_I"][:].sum(axis= -1), label="Total Scattering")
-        sp1.errorbar(run.hdf5["time"][:], run.hdf5["Rg"][:], run.hdf5["Rg_Stdev"][:], label="Guinier_Rg")
-        sp1.plot(run.hdf5["time"][:], run.hdf5["gnom"][:], label="Gnom_Rg")
-        sp1.plot(run.hdf5["time"][:], run.hdf5["Dmax"][:], label="Gnom_Dmax")
-        sp1.set_ylabel("Radius/Distance (nm)")
-        sp2.errorbar(run.hdf5["time"][:], run.hdf5["I0"][:], run.hdf5["I0_Stdev"][:], label="I0")
-        sp2.set_ylabel("Intensity")
-        sp3.plot(run.hdf5["time"][:], 100 * run.hdf5["quality"][:], label="Quality")
-        sp3.set_ylabel("%%")
-        sp4.plot(run.hdf5["time"][:], 100 * run.hdf5["volume"][:], label="Volume")
-        sp4.set_ylabel("nm³")
-        sp4.set_xlabel("time (sec)")
-        sp0.legend()
-        sp1.legend()
-        sp2.legend()
-        sp3.legend()
-        sp4.legend()
-        fig.savefig(os.path.splitext(run.hdf5_filename)[0] + ".png")
+        run.make_plot()
+        run.analyse()
