@@ -100,7 +100,6 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
             if self.runId in EDPluginBioSaxsHPLCv1_0.dictHPLC:
                 self.processRun(EDPluginBioSaxsHPLCv1_0.dictHPLC[self.runId])
 
-
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginBioSaxsFlushHPLCv1_0.postProcess")
