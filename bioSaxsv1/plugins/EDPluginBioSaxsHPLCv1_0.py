@@ -1,6 +1,6 @@
 # coding: utf8
 #
-#    Project: <projectName>
+#    Project:BioSaxs
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
@@ -30,10 +30,8 @@ __copyright__ = "2012 ESRF"
 __date__ = "20120920"
 __status__ = "development"
 
-import os, h5py, fabio, numpy
+import os
 from EDPluginControl import EDPluginControl
-from EDThreading import Semaphore
-from EDVerbose import EDVerbose
 from EDThreading import Semaphore
 
 from EDFactoryPlugin import edFactoryPlugin
@@ -42,7 +40,7 @@ edFactoryPlugin.loadModule("XSDataEdnaSaxs")
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0, \
                             XSDataInputBioSaxsProcessOneFilev1_0
 from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
-from XSDataCommon import XSDataFile, XSDataStatus, XSDataString, XSDataInteger, XSDataStatus
+from XSDataCommon import XSDataFile, XSDataString, XSDataStatus
 
 from EDUtilsBioSaxs import HPLCframe, HPLCrun
 
