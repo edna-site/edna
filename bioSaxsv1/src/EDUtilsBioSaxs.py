@@ -303,7 +303,7 @@ class HPLCrun(object):
     def load_json(self, filename=None):
         if not filename and self.hdf5_filename:
             filename = os.path.splitext(self.hdf5_filename)[0] + ".json"
-        dico = json.load(filename, "w")
+        dico = json.load(open(filename, "r"))
         for i in dico:
             frame = HPLCframe(self.id)
             for k, v in dico.items():
