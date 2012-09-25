@@ -353,7 +353,7 @@ class HPLCrun(object):
             self.I0_Stdev[i] = frame.I0_Stdev or 0
             self.quality[i] = frame.quality or 0
             if frame.curve and os.path.exists(frame.curve):
-                data = numpy.loadtxt(self.frame.curve)
+                data = numpy.loadtxt(frame.curve)
                 self.scattering_I[i, :] = data[:, 1]
                 self.scattering_Stdev[i, :] = data[:, 2]
             if frame.subtracted and os.path.exists(frame.subtracted):
@@ -366,12 +366,12 @@ class HPLCrun(object):
         self.time -= self.time.min()
 
     def save_hdf5(self):
+        if not self.size:
+            self.extract_data()
         with self.lock:
             if os.path.exists(self.hdf5_filename):
                 os.unlink(self.hdf5_filename)
             self.hdf5 = h5py.File(self.hdf5_filename)
-            if not self.size:
-                self.extract_data()
             self.hdf5.create_dataset("q", shape=(self.size,), dtype=numpy.float32, data=self.q)
             self.hdf5.create_dataset(name="time", shape=(self.max_size,), dtype=numpy.float32, data=self.time, chunks=(self.chunk_size,))
             self.hdf5.create_dataset(name="gnom", shape=(self.max_size,), dtype=numpy.float32, data=self.gnom, chunks=(self.chunk_size,))
