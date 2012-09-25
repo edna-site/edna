@@ -43,6 +43,9 @@ from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPL
 from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
 from XSDataCommon import XSDataFile, XSDataStatus, XSDataString, XSDataInteger, XSDataStatus
 from EDPluginBioSaxsHPLCv1_0 import EDPluginBioSaxsHPLCv1_0
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pylab
 
 class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
     """
@@ -95,9 +98,8 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
             time.sleep(1)
         with EDPluginBioSaxsHPLCv1_0._sem:
             if self.runId in EDPluginBioSaxsHPLCv1_0.dictHPLC:
-                run = EDPluginBioSaxsHPLCv1_0.dictHPLC.pop(self.runId)
-                run.close_hdf5()
-                run.reset()
+                self.processRun(EDPluginBioSaxsHPLCv1_0.dictHPLC[self.runId])
+
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
@@ -109,3 +111,30 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
         self.xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(executiveSummary))
         self.dataOutput = self.xsDataResult
 
+    def processRun(self, run):
+        run.dump_json()
+        run.save_hdf5()
+        fig = pylab.plt.figure()
+        sp0 = fig.add_subplot(511)
+        sp1 = fig.add_subplot(512)
+        sp2 = fig.add_subplot(513)
+        sp3 = fig.add_subplot(514)
+        sp4 = fig.add_subplot(515)
+        sp0.plot(run.hdf5["time"][:], run.hdf5["scattering_I"][:].sum(axis= -1), label="Total Scattering")
+        sp1.errorbar(run.hdf5["time"][:], run.hdf5["Rg"][:], run.hdf5["Rg_Stdev"][:], label="Guinier_Rg")
+        sp1.plot(run.hdf5["time"][:], run.hdf5["gnom"][:], label="Gnom_Rg")
+        sp1.plot(run.hdf5["time"][:], run.hdf5["Dmax"][:], label="Gnom_Dmax")
+        sp1.set_ylabel("Radius/Distance (nm)")
+        sp2.errorbar(run.hdf5["time"][:], run.hdf5["I0"][:], run.hdf5["I0_Stdev"][:], label="I0")
+        sp2.set_ylabel("Intensity")
+        sp3.plot(run.hdf5["time"][:], 100 * run.hdf5["quality"][:], label="Quality")
+        sp3.set_ylabel("%%")
+        sp4.plot(run.hdf5["time"][:], 100 * run.hdf5["volume"][:], label="Volume")
+        sp4.set_ylabel("nm³")
+        sp4.set_xlabel("time (sec)")
+        sp0.legend()
+        sp1.legend()
+        sp2.legend()
+        sp3.legend()
+        sp4.legend()
+        fig.savefig(os.path.splitext(run.hdf5_filename)[0] + ".png")

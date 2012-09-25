@@ -72,7 +72,7 @@ class HPLCrun(object):
         self.hdf5_filename = None
         self.hdf5 = None
         self.start_time = None
-        self.chunk_size = 100
+        self.chunk_size = 250
         self.lock = Semaphore()
         if first_curve:
             self.files.append(first_curve)
@@ -82,109 +82,97 @@ class HPLCrun(object):
         self.curves = []
         self.for_buffer = []
 
-    def dump_json(self):
+    def dump_json(self, filename=None):
         import json
         dico = {}
         for i in self.frames:
             dico[i] = self.frames[i].__dict__
-        json.dump(dico, open(self.hdf5_filename, "w"), indent=1)
+        if not filename and self.hdf5_filename:
+            filename = os.path.splitext(self.hdf5_filename)[0] + ".json"
+        json.dump(dico, open(filename, "w"), indent=1)
+
+    def load_json(self, filename=None):
+        import json
+        if not filename and self.hdf5_filename:
+            filename = os.path.splitext(self.hdf5_filename)[0] + ".json"
+        dico = json.open(filename, "w")
+        for i in dico:
+            frame = HPLCframe(self.id)
+            for k, v in dico.items():
+                frame.__setattr__(k, v)
+            self.frames[i] = frame
+
     def init_hdf5(self, filename):
         if self.hdf5_filename is None:
             with self.lock:
                 if self.hdf5_filename is None:
                     self.hdf5_filename = filename
-        if self.hdf5 is None:
-            with self.lock:
-                if self.hdf5 is None:
-                    if os.path.exists(self.hdf5_filename):
-                        os.unlink(self.hdf5_filename)
-                    self.hdf5 = h5py.File(self.hdf5_filename)
-        else:
-            try:# the HDF5 file exist but could be closed
-                fn = self.hdf5.filename
-            except IOError: #if closed: reopen it without erasing it
-                with self.lock:
-                    self.hdf5 = h5py.File(self.hdf5_filename)
-
-    def close_hdf5(self):
-        with self.lock:
-            if self.hdf5:
-                try:
-                    self.hdf5.close()
-                except IOError:
-                    EDVerbose.WARNING("HDF5 file already closed")
-                    pass
 
     def calc_size(self, id):
         return (1 + (id // self.chunk_size)) * self.chunk_size
 
-    def set_scal(self, frameId, data, key="time"):
-        if not self.hdf5:
-            EDVerbose.WARNING("HDF5 is not initialized")
-            if self.hdf5_filename :
-                self.init_hdf5(self.hdf5_filename)
+    def save_hdf5(self):
         with self.lock:
-            if key not in self.hdf5:
-                ds = self.hdf5.create_dataset(key, (self.calc_size(frameId),), "float32", chunks=(self.chunk_size,))
-            else:
-                ds = self.hdf5[key]
-            if ds.shape[0] <= frameId:
-                ds.resize((self.calc_size(frameId),))
-            ds[frameId] = data
+            if os.path.exists(self.hdf5_filename):
+                os.unlink(self.hdf5_filename)
+            self.hdf5 = h5py.File(self.hdf5_filename)
+            max_size = self.calc_size(max(self.frames.keys()) + 1)
+            time = numpy.zeros(max_size, dtype=numpy.float32)
+            gnom = numpy.zeros(max_size, dtype=numpy.float32)
+            Dmax = numpy.zeros(max_size, dtype=numpy.float32)
+            total = numpy.zeros(max_size, dtype=numpy.float32)
+            volume = numpy.zeros(max_size, dtype=numpy.float32)
+            Rg = numpy.zeros(max_size, dtype=numpy.float32)
+            Rg_Stdev = numpy.zeros(max_size, dtype=numpy.float32)
+            I0 = numpy.zeros(max_size, dtype=numpy.float32)
+            I0_Stdev = numpy.zeros(max_size, dtype=numpy.float32)
+            quality = numpy.zeros(max_size, dtype=numpy.float32)
+            data = numpy.loadtxt(self.frames[self.frames.keys()[0]].curve)
+            q = data[:, 0]
+            size = q.size
+            scattering_I = numpy.zeros((max_size, size), dtype=numpy.float32)
+            scattering_Stdev = numpy.zeros((max_size, size), dtype=numpy.float32)
+            subtracted_I = numpy.zeros((max_size, size), dtype=numpy.float32)
+            subtracted_Stdev = numpy.zeros((max_size, size), dtype=numpy.float32)
+            for i, frame in self.frames.items():
+                while frame.processing:
+                    time.sleep(1)
+                time[i] = frame.time or 0
+                gnom[i] = frame.gnom or 0
+                Dmax[i] = frame.Dmax or 0
+                total[i] = frame.total or 0
+                volume[i] = frame.volume or 0
+                Rg[i] = frame.Rg or 0
+                Rg_Stdev[i] = frame.Rg_Stdev or 0
+                I0[i] = frame.I0 or 0
+                I0_Stdev[i] = frame.I0_Stdev or 0
+                quality[i] = frame.quality or 0
+                if frame.curve and os.path.exists(frame.curve):
+                    data = numpy.loadtxt(frame.curve)
+                    scattering_I[i, :] = data[:, 1]
+                    scattering_Stdev[i, :] = data[:, 2]
+                if frame.subtracted and os.path.exists(frame.subtracted):
+                    data = numpy.loadtxt(frame.subtracted)
+                    subtracted_I[i, :] = data[:, 1]
+                    subtracted_Stdev[i, :] = data[:, 2]
+            t0 = time[time > 0].min()
+            self.hdf5.create_dataset("q", shape=(size,), dtype=numpy.float32, data=q)
+            self.hdf5.create_dataset(name="time", shape=(max_size,), dtype=numpy.float32, data=(time - t0), chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="gnom", shape=(max_size,), dtype=numpy.float32, data=gnom, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="Dmax", shape=(max_size,), dtype=numpy.float32, data=Dmax, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="total", shape=(max_size,), dtype=numpy.float32, data=total, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="volume", shape=(max_size,), dtype=numpy.float32, data=volume, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="Rg", shape=(max_size,), dtype=numpy.float32, data=Rg, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="Rg_Stdev", shape=(max_size,), dtype=numpy.float32, data=Rg_Stdev, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="I0", shape=(max_size,), dtype=numpy.float32, data=I0, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="I0_Stdev", shape=(max_size,), dtype=numpy.float32, data=I0_Stdev, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="quality", shape=(max_size,), dtype=numpy.float32, data=quality, chunks=(self.chunk_size,))
+            self.hdf5.create_dataset(name="scattering_I", shape=(max_size, size), dtype=numpy.float32, data=scattering_I, chunks=(self.chunk_size, size))
+            self.hdf5.create_dataset(name="scattering_Stdev", shape=(max_size, size), dtype=numpy.float32, data=scattering_Stdev, chunks=(self.chunk_size, size))
+            self.hdf5.create_dataset(name="subtracted_I", shape=(max_size, size), dtype=numpy.float32, data=subtracted_I, chunks=(self.chunk_size, size))
+            self.hdf5.create_dataset(name="subtracted_Stdev", shape=(max_size, size), dtype=numpy.float32, data=subtracted_Stdev, chunks=(self.chunk_size, size))
 
-    def set_time(self, frameId, rawfilename):
-        if not os.path.isfile(rawfilename):
-            EDVerbose.WARNING("Raw file not on disk: %s" % rawfilename)
-            return
-        header = fabio.open(rawfilename).header
-        if "time_of_day" in header:
-            try:
-                tt = float(header["time_of_day"])
-            except:
-                EDVerbose.WARNING("time_of_day not a float in %s" % rawfilename)
-                return
-            if self.start_time is None:
-                with self.lock:
-                    if self.start_time is None:
-                        self.start_time = tt
-            self.set_scal(frameId, tt - self.start_time, key="time")
 
-
-    def set_2D(self, frameId, datfilename, kind="scattering"):
-        if not self.hdf5:
-            EDVerbose.WARNING("HDF5 is not initialized")
-            if self.hdf5_filename :
-                self.init_hdf5(self.hdf5_filename)
-        if not os.path.isfile(datfilename):
-            EDVerbose.WARNING("Ascii file not on disk: %s" % datfilename)
-            return
-        data = numpy.loadtxt(datfilename)
-        size = data.shape[0]
-        q = data[:, 0]
-        I = data[:, 1]
-        s = data[:, 2]
-        with self.lock:
-            key = kind + "_q"
-            if key not in self.hdf5:
-                self.hdf5[key] = q.astype("float32")
-
-            key = kind + "_I"
-            if key not in self.hdf5:
-                ds = self.hdf5.create_dataset(key, (self.calc_size(frameId), size), "float32", chunks=(self.chunk_size, size))
-            else:
-                ds = self.hdf5[key]
-            if ds.shape[0] <= frameId:
-                ds.resize((self.calc_size(frameId), size))
-            ds[frameId, :] = I
-
-            key = kind + "_Stdev"
-            if key not in self.hdf5:
-                ds = self.hdf5.create_dataset(key, (self.calc_size(frameId), size), "float32", chunks=(self.chunk_size, size))
-            else:
-                ds = self.hdf5[key]
-            if ds.shape[0] <= frameId:
-                ds.resize((self.calc_size(frameId), size))
-            ds[frameId, :] = s
 
 
 
@@ -288,9 +276,9 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
             else:
                 hplc = os.path.splitext(path)[0] + ".h5"
 
-#        if not self.hplc_run.hdf5_filename:
-#            with self._sem:
-#                self.hplc_run.init_hdf5(hplc)
+        if not self.hplc_run.hdf5_filename:
+            with self._sem:
+                self.hplc_run.init_hdf5(hplc)
 #        self.xsDataResult.hplcFile = XSDataFile(XSDataString(hplc))
 
     def process(self, _edObject=None):

@@ -58,10 +58,46 @@
 
 		<XSPluginItem>
 			<name>EDPluginBioSaxsReprocessv1_0</name>
+                <XSParamItem>
+                	<name>writeXMLInputOutput</name>
+                	<value>0</value>
+                </XSParamItem>
+
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginBioSaxsNormalizev1_0</name>
-
+                <XSParamItem>
+                	<name>writeXMLInputOutput</name>
+                	<value>0</value>
+                </XSParamItem>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBioSaxsAzimutIntv1_0</name>
+                <XSParamItem>
+                	<name>writeXMLInputOutput</name>
+                	<value>0</value>
+                </XSParamItem>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBioSaxsAzimutIntv1_1</name>
+                <XSParamItem>
+                	<name>writeXMLInputOutput</name>
+                	<value>0</value>
+                </XSParamItem>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBioSaxsAzimutIntv1_2</name>
+                <XSParamItem>
+                	<name>writeXMLInputOutput</name>
+                	<value>0</value>
+                </XSParamItem>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginBioSaxsAzimutIntv1_3</name>
+                <XSParamItem>
+                	<name>writeXMLInputOutput</name>
+                	<value>0</value>
+                </XSParamItem>
 		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginBioSaxsToSASv1_0</name>

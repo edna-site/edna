@@ -277,5 +277,7 @@ if __name__ == "__main__":
             for i in keys:
                 f.write("%8s\t%16s\t%16s\t%s%s" % (res[i][0], res[i][1], res[i][1] / res[i][0], i, os.linesep))
         print("Profiling information written in yappi.out")
-
+    edJob = EDJob("EDPluginBioSaxsFlushHPLCv1_0")
+    edJob.setDataInput(open(fullargs[-1], "r").read())
+    edJob.execute()
 

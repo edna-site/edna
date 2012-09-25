@@ -50,6 +50,7 @@ class EDPluginWaitFile(EDPlugin):
     DELTA_TIME = 1
     DEFAULT_TIMEOUT = 2
     config_timeout = None
+    writeXmlInOut = True
     sem = Semaphore()
 
     def __init__(self):
@@ -89,9 +90,15 @@ class EDPluginWaitFile(EDPlugin):
                         self.__class__.config_timeout = iTimeOut
                     else:
                         self.__class__.config_timeout = self.getDefaultTimeOut()
+                    strWriteXMLInputOutput = self.getStringConfigurationParameterValue(EDPlugin.CONF_WRITE_XML_INPUT_OUTPUT)
+                    if strWriteXMLInputOutput is not  None:
+                        if strWriteXMLInputOutput.lower().strip() in ["false", "0"]:
+                            self.__class__.writeXmlInOut = False
+                        else:
+                            self.__class__.writeXmlInOut = True
         self.__timeout = self.__class__.config_timeout
         self.setTimeOut(self.__class__.config_timeout + EDPluginWaitFile.EXTRA_TIME)
-
+        self.setWriteXMLInputOutput(self.writeXmlInOut)
 
 
     def preProcess(self, _edObject=None):
