@@ -370,7 +370,9 @@ class HPLCrun(object):
             if os.path.exists(self.hdf5_filename):
                 os.unlink(self.hdf5_filename)
             self.hdf5 = h5py.File(self.hdf5_filename)
-            self.hdf5["q"] = self.q
+            if not self.size:
+                self.extract_data()
+            self.hdf5.create_dataset("q", shape=(self.size,), dtype=numpy.float32, data=self.q)
             self.hdf5.create_dataset(name="time", shape=(self.max_size,), dtype=numpy.float32, data=self.time, chunks=(self.chunk_size,))
             self.hdf5.create_dataset(name="gnom", shape=(self.max_size,), dtype=numpy.float32, data=self.gnom, chunks=(self.chunk_size,))
             self.hdf5.create_dataset(name="Dmax", shape=(self.max_size,), dtype=numpy.float32, data=self.Dmax, chunks=(self.chunk_size,))
