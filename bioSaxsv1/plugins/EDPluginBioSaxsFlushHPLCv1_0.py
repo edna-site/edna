@@ -41,7 +41,7 @@ edFactoryPlugin.loadModule("XSDataEdnaSaxs")
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0#, \
 #                            XSDataInputBioSaxsProcessOneFilev1_0
 #from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
-from XSDataCommon import XSDataFile, XSDataStatus, XSDataString, XSDataInteger, XSDataStatus
+from XSDataCommon import XSDataString, XSDataStatus
 from EDPluginBioSaxsHPLCv1_0 import EDPluginBioSaxsHPLCv1_0
 #from EDUtilsBioSaxs import HPLCframe, HPLCrun
 
