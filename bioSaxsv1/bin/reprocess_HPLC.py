@@ -258,7 +258,7 @@ if __name__ == "__main__":
         with open("yappi.out", "w") as f:
             f.write("ncall\t\ttotal\t\tpercall\t\tfunction%s" % (os.linesep))
             for i in stat.func_stats:
-                f.write("%8s\t%8s\t%8s\t%s%s" % (i[1], i[2], i[4], i[0], os.linesep))
+                f.write("%8s\t%16s\t%16s\t%s%s" % (i[1], i[2], i[4], i[0], os.linesep))
         print("Profiling information written in yappi.out")
 
 
