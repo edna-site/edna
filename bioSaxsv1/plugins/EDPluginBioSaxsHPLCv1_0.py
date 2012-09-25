@@ -377,8 +377,8 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
         if self.hplc_run.buffer is None:
             if fidelity > 0:
                 self.isBuffer = True
-                #with self._sem:
-                self.hplc_run.for_buffer.append(self.curve)
+                if fidelity > 0.1:
+                    self.hplc_run.for_buffer.append(self.curve)
             else :
                 self.average_buffers()
         elif fidelity > 0:
