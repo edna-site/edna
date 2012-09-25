@@ -234,7 +234,7 @@ class EDPlugin(EDAction):
                 self.DEBUG("EDPlugin.configure: Setting time out to %d s from plugin configuration." % iTimeOut)
                 self.setTimeOut(iTimeOut)
         else:
-            self.DEBUG("EDPlugin.configure: Working directory already set before plugin is configured.")
+            self.DEBUG("EDPlugin.configure: timeout already set before plugin is configured.")
         # Base directory
         strBaseDirectory = self.getBaseDirectory()
         if (strBaseDirectory is None):
