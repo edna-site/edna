@@ -226,12 +226,12 @@ class EDFactoryPlugin(EDLogging):
         bContinueSearching = True
         strCurrentDirectory = _strDirectory
         while bContinueSearching:
-            if self.IGNORE_FILE in os.listdir(strCurrentDirectory):
+            if os.path.exists(os.path.join(strCurrentDirectory, self.IGNORE_FILE)):
                 strDirectoryIgnored = strCurrentDirectory
                 bContinueSearching = False
             # Move up a directory
             strPreviousDirectory = strCurrentDirectory
-            strCurrentDirectory = os.path.abspath(os.path.join(strCurrentDirectory, ".."))
+            strCurrentDirectory = os.path.dirname(strCurrentDirectory)
             if strCurrentDirectory == EDUtilsPath.EDNA_HOME or strCurrentDirectory == strPreviousDirectory:
                 bContinueSearching = False
         return strDirectoryIgnored
