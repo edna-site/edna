@@ -372,15 +372,16 @@ class EDPluginBioSaxsHPLCv1_0(EDPluginControl):
             strErr = "No fidelity in output of datcmp"
             self.error(strErr)
             self.lstExecutiveSummary.append(strErr)
-            self.setFailure()
+            #self.setFailure()
+            fidelity = 0
         if self.hplc_run.buffer is None:
             if fidelity > 0:
                 self.isBuffer = True
-                with self._sem:
-                    self.hplc_run.for_buffer.append(self.curve)
+                #with self._sem:
+                self.hplc_run.for_buffer.append(self.curve)
             else :
                 self.average_buffers()
-        else:
+        elif fidelity > 0:
             self.isBuffer = True
 
     def doFailureDatCmp(self, _edPlugin=None):

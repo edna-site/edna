@@ -114,7 +114,10 @@ class EDPluginBioSaxsAzimutIntv1_3(EDPluginControl):
         self.integratedCurve = self.dataInput.integratedCurve.path.value
         curveDir = os.path.dirname(self.integratedCurve)
         if not os.path.isdir(curveDir):
-            os.mkdir(curveDir)
+            try:
+                os.mkdir(curveDir)
+            except OSError:
+                pass
 
 
 
