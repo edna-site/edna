@@ -331,9 +331,10 @@ class HPLCrun(object):
         self.I0 = numpy.zeros(self.max_size, dtype=numpy.float32)
         self.I0_Stdev = numpy.zeros(self.max_size, dtype=numpy.float32)
         self.quality = numpy.zeros(self.max_size, dtype=numpy.float32)
-        data = numpy.loadtxt(self.frames[self.frames.keys()[0]].curve)
+        data = numpy.loadtxt(self.first_curve)
         self.q = data[:, 0]
         self.size = self.q.size
+        print self.size
         self.scattering_I = numpy.zeros((self.max_size, self.size), dtype=numpy.float32)
         self.scattering_Stdev = numpy.zeros((self.max_size, self.size), dtype=numpy.float32)
         self.subtracted_I = numpy.zeros((self.max_size, self.size), dtype=numpy.float32)
@@ -352,7 +353,7 @@ class HPLCrun(object):
             self.I0_Stdev[i] = frame.I0_Stdev or 0
             self.quality[i] = frame.quality or 0
             if frame.curve and os.path.exists(frame.curve):
-                data = numpy.loadtxt(frame.curve)
+                data = numpy.loadtxt(self.frame.curve)
                 self.scattering_I[i, :] = data[:, 1]
                 self.scattering_Stdev[i, :] = data[:, 2]
             if frame.subtracted and os.path.exists(frame.subtracted):
@@ -369,7 +370,7 @@ class HPLCrun(object):
             if os.path.exists(self.hdf5_filename):
                 os.unlink(self.hdf5_filename)
             self.hdf5 = h5py.File(self.hdf5_filename)
-            self.hdf5.create_dataset("q", shape=(self.size,), dtype=numpy.float32, data=self.q)
+            self.hdf5["q"] = self.q
             self.hdf5.create_dataset(name="time", shape=(self.max_size,), dtype=numpy.float32, data=self.time, chunks=(self.chunk_size,))
             self.hdf5.create_dataset(name="gnom", shape=(self.max_size,), dtype=numpy.float32, data=self.gnom, chunks=(self.chunk_size,))
             self.hdf5.create_dataset(name="Dmax", shape=(self.max_size,), dtype=numpy.float32, data=self.Dmax, chunks=(self.chunk_size,))
