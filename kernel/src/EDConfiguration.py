@@ -22,7 +22,7 @@
 #    and the GNU Lesser General Public License  along with this program.  
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-
+from __future__ import with_statement
 
 __authors__ = [ "Marie-Francoise Incardona", "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
@@ -56,7 +56,7 @@ class EDConfiguration(EDLogging):
     """
 
 
-    def __init__(self, _strXMLFileName = None):
+    def __init__(self, _strXMLFileName=None):
         """"Set  up semaphore for thread safeness and dictionary for config files"""
         EDLogging.__init__(self)
         self.__semaphore = Semaphore()
@@ -64,9 +64,9 @@ class EDConfiguration(EDLogging):
         self.__dictPluginConfiguration = {}
         if _strXMLFileName is not None:
             self.addConfigurationFile(_strXMLFileName)
-            
-    
-    def addConfigurationFile(self, _strXMLFileName, _bReplace = True):
+
+
+    def addConfigurationFile(self, _strXMLFileName, _bReplace=True):
         """Loads an XML config file into the dictionary if not already loaded"""
         strXMLFileName = os.path.abspath(_strXMLFileName)
         if not os.path.exists(strXMLFileName):
@@ -84,9 +84,9 @@ class EDConfiguration(EDLogging):
                 # First look for configuration imports
                 for xsImportConfiguration in xsConfiguration.XSImportConfiguration:
                     if xsImportConfiguration.directory is None or xsImportConfiguration.directory == "None":
-                        strImportPath = os.path.join(os.path.dirname(strXMLFileName), xsImportConfiguration.name+".xml")
+                        strImportPath = os.path.join(os.path.dirname(strXMLFileName), xsImportConfiguration.name + ".xml")
                     else:
-                        strImportPath = os.path.join(xsImportConfiguration.directory, xsImportConfiguration.name+".xml")
+                        strImportPath = os.path.join(xsImportConfiguration.directory, xsImportConfiguration.name + ".xml")
                     self.DEBUG("Importing configuration file : %s" % strImportPath)
                     self.addConfigurationFile(strImportPath, True)
                 # Make sure we are thread safe when manipulating the cache
@@ -97,14 +97,14 @@ class EDConfiguration(EDLogging):
                             strPluginName = xsPluginItem.name
                             if strPluginName in self.__dictPluginConfiguration:
                                 if _bReplace:
-                                    self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will be replaced." % strPluginName)                                
-                                    self.__dictPluginConfiguration[strPluginName] = xsPluginItem                        
+                                    self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will be replaced." % strPluginName)
+                                    self.__dictPluginConfiguration[strPluginName] = xsPluginItem
                                 else:
                                     self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will not be replaced." % strPluginName)
                             else:
                                 self.DEBUG("EDConfiguration.addConfigurationFile: adding plugin configuration for %s." % strPluginName)
-                                self.__dictPluginConfiguration[strPluginName] = xsPluginItem                        
-        
+                                self.__dictPluginConfiguration[strPluginName] = xsPluginItem
+
 
     def getPathToProjectConfigurationFile(self, _strPluginName):
         """
@@ -139,7 +139,7 @@ class EDConfiguration(EDLogging):
                         break
         return strPathToProjectConfigurationFile
 
-    
+
     def getXSConfigurationItem(self, _strPluginName):
         xsConfigurationItem = None
         # First check plugin dictionary:
@@ -153,8 +153,8 @@ class EDConfiguration(EDLogging):
                 if _strPluginName in self.__dictPluginConfiguration.keys():
                     xsConfigurationItem = self.__dictPluginConfiguration[_strPluginName]
         return xsConfigurationItem
-        
-    
+
+
     def setXSConfigurationItem(self, _xsPluginItem):
         if _xsPluginItem is not None:
             if _xsPluginItem.name is not None:
@@ -167,7 +167,7 @@ class EDConfiguration(EDLogging):
                     self.__dictPluginConfiguration[strPluginName] = _xsPluginItem
 
 
-    def getStringValue(self, _strPluginName, _strConfigurationName ):
+    def getStringValue(self, _strPluginName, _strConfigurationName):
         strValue = None
         xsPluginItem = self.getXSConfigurationItem(_strPluginName)
         if xsPluginItem is not None:
@@ -186,7 +186,7 @@ class EDConfiguration(EDLogging):
         iSize = len(self.__dictPluginConfiguration)
         return iSize
 
-    
+
     def getStringParamValue(_xsPluginItem, _pyStrParamName):
         """
         Returns the parameter value in a string format
