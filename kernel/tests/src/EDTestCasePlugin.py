@@ -46,7 +46,7 @@ from EDUtilsPath           import EDUtilsPath
 from EDTestCase            import EDTestCase
 from EDUtilsTest           import EDUtilsTest
 from EDUtilsFile           import EDUtilsFile
-from EDConfigurationStatic import EDConfigurationStatic
+from EDConfigurationStatic import EDConfigurationStatic, EDConfiguration
 from EDFactoryPlugin       import EDFactoryPlugin
 
 iMAX_DOWNLOAD_TIME = 60
@@ -69,8 +69,7 @@ class EDTestCasePlugin(EDTestCase):
         self._strPluginTestsDataHome = EDUtilsTest.getPluginTestDataDirectory(self.getClassName())
         self._listRequiredConfigurationPluginNames = []
         self._strConfigurationFile = None
-        self._dictConfigurations = {} #key=pluginName ; value=config
-
+        self._oldConfig = None
 
     def preProcess(self):
         # Check if the plugin to be tested requires configuration
@@ -89,13 +88,20 @@ class EDTestCasePlugin(EDTestCase):
             else:
                 EDVerbose.DEBUG("EDTestCasePlugin.preProcess: plugin configuration found for plugin %s" % strPluginName)
 
+    def postProcess(self):
+        EDTestCase.postProcess(self)
+        EDConfigurationStatic.setXSConfigurationItem(self._oldConfig)
 
     def getPluginConfiguration(self, _strPluginName=None):
         # Load the configuration file if provided
         if _strPluginName is None:
             strPluginName = self.getPluginName()
         else:
-            strPluginName = _strPluginName 
+            strPluginName = _strPluginName
+        self._oldConfig = EDConfigurationStatic.getXSConfigurationItem(strPluginName)
+        if self._strConfigurationFile is not None:
+            edConfig = EDConfiguration(self._strConfigurationFile)
+            EDConfigurationStatic.setXSConfigurationItem(edConfig.getXSConfigurationItem(strPluginName))
         xsConfiguration = EDConfigurationStatic.getXSConfigurationItem(strPluginName)
         return xsConfiguration
 

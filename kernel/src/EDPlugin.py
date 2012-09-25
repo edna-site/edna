@@ -65,6 +65,7 @@ class EDPlugin(EDAction):
     CONF_WRITE_XML_INPUT_OUTPUT = "writeXMLInputOutput"
     CONF_WRITE_XML_OUTPUT = "writeXMLOutput"
     CONF_WRITE_XML_INPUT = "writeXMLInput"
+    __edConfiguration = EDConfigurationStatic()
 
     def __init__ (self):
         """
@@ -93,7 +94,7 @@ class EDPlugin(EDAction):
         self.strPathDataInput = None
         self.strPathDataOutput = None
         self.__bUseWarningInsteadOfError = False
-        self.__edConfiguration = EDConfigurationStatic()
+
 
 
     def preProcess(self, _edObject=None):
@@ -164,10 +165,9 @@ class EDPlugin(EDAction):
         plugin instances.
         """
         self.DEBUG("EDPlugin.setConfiguration")
-        self.__edConfiguration = EDConfiguration()
         self.__edConfiguration.setXSConfigurationItem(_xsPluginItem)
 
-    
+
     def getConfiguration(self):
         """
         Gets the Plugin Configuration as an XSPluginItem
@@ -190,7 +190,7 @@ class EDPlugin(EDAction):
           - Otherwise if a product-wide (e.g. "mxPluginExec") configuration value exists it will be used.         
         """
         strParameterValue = self.__edConfiguration.getStringValue(self.getPluginName(), _strConfigurationParameterName)
-        self.DEBUG("EDPlugin.getConfigurationParameterValue: %s, %s = %s" % (self.getPluginName(), 
+        self.DEBUG("EDPlugin.getConfigurationParameterValue: %s, %s = %s" % (self.getPluginName(),
                                                                              _strConfigurationParameterName,
                                                                              strParameterValue))
         return strParameterValue
@@ -199,17 +199,24 @@ class EDPlugin(EDAction):
     def getDoubleConfigurationParameterValue(self, _strConfigurationParameterName):
         fParameterValue = None
         strParameterValue = self.getStringConfigurationParameterValue(_strConfigurationParameterName)
-        if strParameterValue:
-            fParameterValue = float(strParameterValue)
-        return fParameterValue
+        try:
+            return float(strParameterValue)
+        except TypeError:
+            return
+        except ValueError:
+            self.ERROR("float() argument must be a string or a number, got %s" % strParameterValue)
+
 
 
     def getIntegerConfigurationParameterValue(self, _strConfigurationParameterName):
         iParameterValue = None
         strParameterValue = self.getStringConfigurationParameterValue(_strConfigurationParameterName)
-        if strParameterValue:
-            iParameterValue = int(strParameterValue)
-        return iParameterValue
+        try:
+            return int(strParameterValue)
+        except TypeError:
+            return
+        except ValueError:
+            self.ERROR("float() argument must be a string or a number, got %s" % strParameterValue)
 
 
     def configure(self):
@@ -842,15 +849,15 @@ class EDPlugin(EDAction):
         @type: boolean
         """
         self.__bWriteDataXMLInputOutput = _bValue
-        
-    def setUseWarningInsteadOfError(self, _bValue = True):
+
+    def setUseWarningInsteadOfError(self, _bValue=True):
         """
         Sets or unsets the plugin to use warning messages also for error messages.
         @param _bValue: UseWarningInsteadOfError
         @type: boolean
         """
         self.__bUseWarningInsteadOfError = _bValue
-        
+
     def error(self, _strErrorMessage):
         """
         Overloaded from EDLogging. If self.__bUseWarningInsteadOfError is True
@@ -860,7 +867,7 @@ class EDPlugin(EDAction):
             self.warning(_strErrorMessage)
         else:
             EDAction.error(self, _strErrorMessage)
-            
+
     def ERROR(self, _strErrorMessage):
         """
         Uses the overloaded self.error method above.

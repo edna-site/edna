@@ -186,7 +186,7 @@ class EDConfiguration(EDLogging):
         iSize = len(self.__dictPluginConfiguration)
         return iSize
 
-
+    @staticmethod
     def getStringParamValue(_xsPluginItem, _pyStrParamName):
         """
         Returns the parameter value in a string format
@@ -200,18 +200,21 @@ class EDConfiguration(EDLogging):
                 if (xsParamItem.getName() == _pyStrParamName):
                     paramValue = xsParamItem.getValue()
         return paramValue
-    getStringParamValue = staticmethod(getStringParamValue)
 
 
-    def getIntegerParamValue(_xsPluginItem, _pyStrParamName):
+    @classmethod
+    def getIntegerParamValue(cls, _xsPluginItem, _pyStrParamName):
         """
         Returns the parameter value in a integer format
         """
-        strParamValue = EDConfiguration.getStringParamValue(_xsPluginItem, _pyStrParamName)
+        strParamValue = cls.getStringParamValue(_xsPluginItem, _pyStrParamName)
         intParamValue = None
-        if strParamValue is not None:
-            intParamValue = int(strParamValue)
-        return intParamValue
-    getIntegerParamValue = staticmethod(getIntegerParamValue)
+        try:
+            return int(strParamValue)
+        except TypeError:
+            return
+        except ValueError:
+            self.ERROR("invalid literal for int(), got %s" % strParamValue)
+
 
 

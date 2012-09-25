@@ -28,11 +28,8 @@
 from EDConfiguration import EDConfiguration
 
 class EDConfigurationStatic(EDConfiguration):
-    
-    def __init__(self, _strXMLFileName = None):
-        EDConfiguration.__init__(self, _strXMLFileName)
-        
+
     def __call__(self):
         return self
-    
+
 EDConfigurationStatic = EDConfigurationStatic()
