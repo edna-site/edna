@@ -87,6 +87,8 @@ class EDPluginWaitFile(EDPlugin):
                     if iTimeOut is not None:
                         self.DEBUG("EDPlugin.configure: Setting time out to %d s from plugin configuration." % iTimeOut)
                         self.__class__.config_timeout = iTimeOut
+                    else:
+                        self.__class__.config_timeout = self.getDefaultTimeOut()
         self.__timeout = self.__class__.config_timeout
         self.setTimeOut(self.__class__.config_timeout + EDPluginWaitFile.EXTRA_TIME)
 
