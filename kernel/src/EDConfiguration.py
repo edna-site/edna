@@ -172,10 +172,11 @@ class EDConfiguration(EDLogging):
         xsPluginItem = self.getXSConfigurationItem(_strPluginName)
         if xsPluginItem is not None:
             xsParamList = xsPluginItem.getXSParamList()
-            xsParamItems = xsParamList.getXSParamItem()
-            for xsParamItem in xsParamItems:
-                if (xsParamItem.getName() == _strConfigurationName):
-                    strValue = xsParamItem.value
+            if xsParamList is not None:
+                xsParamItems = xsParamList.getXSParamItem()
+                for xsParamItem in xsParamItems:
+                    if (xsParamItem.getName() == _strConfigurationName):
+                        strValue = xsParamItem.value
         return strValue
 
 
