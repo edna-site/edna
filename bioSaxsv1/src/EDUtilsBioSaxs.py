@@ -321,7 +321,7 @@ class HPLCrun(object):
 
     def extract_data(self):
         self.max_size = self.calc_size(max(self.frames.keys()) + 1)
-        self.time = numpy.zeros(self.max_size, dtype=numpy.float32)
+        self.time = numpy.zeros(self.max_size, dtype=numpy.float64)
         self.gnom = numpy.zeros(self.max_size, dtype=numpy.float32)
         self.Dmax = numpy.zeros(self.max_size, dtype=numpy.float32)
         self.total = numpy.zeros(self.max_size, dtype=numpy.float32)
