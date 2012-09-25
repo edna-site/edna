@@ -83,6 +83,10 @@ class EDShare(EDLogging, EDSession):
         """
         getter for a key:
         """
+        try:
+            unicode(key)
+        except UnicodeDecodeError:
+            self.ERROR("EDShare.__getitem__: Unicode Error %s" % key)
         if self.isInitialized():
             with self.locked():
                 if key in self._listKeys:
@@ -98,7 +102,8 @@ class EDShare(EDLogging, EDSession):
             self.WARNING("EDShare is uninitialized: initializing")
             self.initialize()
             value = None
-        return value[:]
+        if value is not None:
+            return value[:]
     get = __getitem__
 
 
