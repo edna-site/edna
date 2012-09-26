@@ -267,6 +267,20 @@ def median_filt(a, width=3):
     out = numpy.zeros_like(a)
     out[width // 2:-width + width // 2] = numpy.median(big, axis= -1)
     return out
+def label(a):
+    "Simple labaling algo for non zero regions"
+    last = 0
+    cnt = 1
+    out = numpy.zeros_like(a)
+    for i in range(a.size):
+        if a[i] == 0:
+            if last != 0:
+                cnt += 1
+            last = 0
+        else:
+            out[i] = cnt
+            last = cnt
+    return out
 
 class HPLCrun(object):
     def __init__(self, runId, first_curve=None):
@@ -461,4 +475,20 @@ class HPLCrun(object):
         """
         Look for curves to merge...
         """
-        pass
+        lab = label(self.I0)
+        #count = [(lab == i).sum() for i in range(lab.max() + 1)]
+        res = []
+        for i in range(1, lab.max() + 1):
+            loc = (lab == i)
+            c = loc.sum()
+            if c > 10:
+                idx = np.where(loc)[0]
+                res.append((idx[0], idx[-1]))
+                maxi = self.I0[idx[0]: idx[-1]].argmax() + idx[0]
+                rg0 = self.Rg[maxi]
+                sg0 = self.Rg_Stdev[maxi]
+                good = (abs(h.Rg - rg0) < sg0)
+                good[:idx[0]] = 0
+                good[idx - 1:] = 0
+
+        return lab, res
