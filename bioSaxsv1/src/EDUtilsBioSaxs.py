@@ -257,6 +257,16 @@ class HPLCframe(object):
         self.I0_Stdev = None
         self.quality = None
 
+def median_filt(a, width=3):
+    """
+    Simple 1D median filter (not processing correctly the border
+    """
+    big = numpy.zeros((a.size - width, width), dtype=a.dtype)
+    for i in range(a.size - width):
+        big[i, :] = a[i:i + width]
+    out = numpy.zeros_like(a)
+    out[width // 2:-width + width // 2] = numpy.median(big, axis= -1)
+    return out
 
 class HPLCrun(object):
     def __init__(self, runId, first_curve=None):
@@ -268,7 +278,6 @@ class HPLCrun(object):
         self.for_buffer = []
         self.hdf5_filename = None
         self.hdf5 = None
-        self.start_time = None
         self.chunk_size = 250
         self.lock = Semaphore()
         if first_curve:
@@ -293,9 +302,19 @@ class HPLCrun(object):
         self.for_buffer = []
 
     def dump_json(self, filename=None):
+
         dico = {}
+        dico["id"] = self.id
+        dico["buffer"] = self.buffer
+        dico["first_curve"] = self.first_curve
+        dico["frames"] = {}
+        dico["curves"] = self.curves
+        dico["for_buffer"] = self.for_buffer
+        dico["hdf5_filename"] = self.hdf5_filename
+        dico["chunk_size"] = self.chunk_size
+
         for i in self.frames:
-            dico[i] = self.frames[i].__dict__
+            dico["frames"][i] = self.frames[i].__dict__
         if not filename and self.hdf5_filename:
             filename = os.path.splitext(self.hdf5_filename)[0] + ".json"
         json.dump(dico, open(filename, "w"), indent=1)
@@ -305,8 +324,12 @@ class HPLCrun(object):
             filename = os.path.splitext(self.hdf5_filename)[0] + ".json"
         dico = json.load(open(filename, "r"))
         for i in dico:
+            if i != "frames":
+                self.__setattr__(i, dico[i])
+        frames = dico["frames"]
+        for i in frames:
             frame = HPLCframe(self.id)
-            for k, v in dico.items():
+            for k, v in frames[i].items():
                 frame.__setattr__(k, v)
             self.frames[int(i)] = frame
 
@@ -390,30 +413,49 @@ class HPLCrun(object):
 
     def make_plot(self):
         fig = pylab.plt.figure()
+        fig_size = fig.get_size_inches()
+        fig.set_size_inches([fig_size[0], 2 * fig_size[1]])
+
         sp0 = fig.add_subplot(511)
-        sp1 = fig.add_subplot(512)
-        sp2 = fig.add_subplot(513)
-        sp3 = fig.add_subplot(514)
-        sp4 = fig.add_subplot(515)
-        sp0.plot(self.time, self.scattering_I.sum(axis= -1))#, label="Total Scattering")
+        data = self.scattering_I.sum(axis= -1)
+        sp0.plot(self.time, data)#, label="Total Scattering")
         sp0.set_ylabel("Scattering")
+        sp0.set_ylim((data[data > 0]).min(), data.max())
+        sp0.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
+        sp0.legend()
+
+        sp1 = fig.add_subplot(512)
         sp1.errorbar(self.time, self.Rg, self.Rg_Stdev, label="Rg")
         sp1.plot(self.time, self.gnom, label="Gnom")
         sp1.plot(self.time, self.Dmax, label="Dmax")
-        sp1.set_ylabel("Rad. nm")
-        sp2.errorbar(self.time, self.I0, self.I0_Stdev, label="I0")
-        sp2.set_ylabel("Int.")
+        sp1.set_ylabel("Radius nm")
+        sp1.set_ylim(0, median_filt(self.Dmax, 5).max())
+        sp1.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
+        sp1.legend()
+
+        sp2 = fig.add_subplot(513)
+        sp2.errorbar(self.time, self.I0, self.I0_Stdev)#, label="I0")
+        sp2.set_ylabel("I0")
+        sp2.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
+        sp2.legend()
+
+        sp3 = fig.add_subplot(514)
         sp3.plot(self.time, 100 * self.quality)#, label="Quality")
         sp3.set_ylabel("Qual. %")
+        sp3.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
+        sp3.legend()
+
+        sp4 = fig.add_subplot(515)
         sp4.plot(self.time, self.volume)#, label="Volume")
         sp4.set_ylabel("Vol. nm^3")
-        sp4.set_xlabel("time (sec)")
-        sp0.legend()
-        sp1.legend()
-        sp2.legend()
-        sp3.legend()
+        sp4.set_xlabel("time (seconds)")
+        sp4.set_ylim(0, median_filt(self.volume, 5).max())
+        sp4.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
         sp4.legend()
+
         fig.savefig(os.path.splitext(self.hdf5_filename)[0] + ".png")
+        fig.savefig(os.path.splitext(self.hdf5_filename)[0] + ".svg", transparent=True, bbox_inches='tight', pad_inches=0)
+        return fig
 
     def analyse(self):
         """
