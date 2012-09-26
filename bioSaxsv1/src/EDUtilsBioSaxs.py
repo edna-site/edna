@@ -476,19 +476,22 @@ class HPLCrun(object):
         Look for curves to merge...
         """
         lab = label(self.I0)
-        #count = [(lab == i).sum() for i in range(lab.max() + 1)]
         res = []
         for i in range(1, lab.max() + 1):
             loc = (lab == i)
             c = loc.sum()
             if c > 10:
-                idx = np.where(loc)[0]
-                res.append((idx[0], idx[-1]))
-                maxi = self.I0[idx[0]: idx[-1]].argmax() + idx[0]
+                idx = numpy.where(loc)[0]
+                start = idx[0]
+                stop = idx[-1]
+                maxi = self.I0[start: stop + 1].argmax() + start
                 rg0 = self.Rg[maxi]
                 sg0 = self.Rg_Stdev[maxi]
-                good = (abs(h.Rg - rg0) < sg0)
-                good[:idx[0]] = 0
-                good[idx - 1:] = 0
-
-        return lab, res
+                good = (abs(self.Rg - rg0) < 2 * sg0) #keep curves with same Rg within +/- 2 stdev
+                good[:start] = 0
+                good[stop:] = 0
+                lg = label(good[start:stop + 1])
+                lv = lg[maxi - start]
+                ref = numpy.where(lg == lv)[0]
+                res.append((ref[0], ref[-1]))
+        return res
