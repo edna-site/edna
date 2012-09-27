@@ -39,7 +39,6 @@ from EDLogging import EDLogging
 from EDUtilsFile import EDUtilsFile
 from EDUtilsPath import EDUtilsPath
 from EDFactoryPluginStatic import EDFactoryPluginStatic
-from EDThreading            import Semaphore
 
 from XSDataCommon import XSConfiguration
 
@@ -59,7 +58,6 @@ class EDConfiguration(EDLogging):
     def __init__(self, _strXMLFileName=None):
         """"Set  up semaphore for thread safeness and dictionary for config files"""
         EDLogging.__init__(self)
-        self.__semaphore = Semaphore()
         self.__dictXSConfiguration = {}
         self.__dictPluginConfiguration = {}
         if _strXMLFileName is not None:
@@ -79,7 +77,7 @@ class EDConfiguration(EDLogging):
                 strXMLConfiguration = EDUtilsFile.readFileAndParseVariables(strXMLFileName)
                 xsConfiguration = XSConfiguration.parseString(strXMLConfiguration)
                 # Make sure we are thread safe when manipulating the cache
-                with self.__semaphore:
+                with self.locked():
                     self.__dictXSConfiguration[strXMLFileName] = xsConfiguration
                 # First look for configuration imports
                 for xsImportConfiguration in xsConfiguration.XSImportConfiguration:
@@ -90,7 +88,7 @@ class EDConfiguration(EDLogging):
                     self.DEBUG("Importing configuration file : %s" % strImportPath)
                     self.addConfigurationFile(strImportPath, True)
                 # Make sure we are thread safe when manipulating the cache
-                with self.__semaphore:
+                with self.locked():
                     # Load configurations into the plugin dictionary
                     if xsConfiguration.XSPluginList is not None:
                         for xsPluginItem in xsConfiguration.XSPluginList.XSPluginItem:
@@ -121,7 +119,7 @@ class EDConfiguration(EDLogging):
         if strCurrentDirectory is None:
             self.WARNING("Cannot find path to configuration for plugin %s" % _strPluginName)
         else:
-            with self.__semaphore:
+            with self.locked():
                 bConfFileFound = False
                 strPathToProjectConfigurationFile = None
                 strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.EDNA_SITE
@@ -163,7 +161,7 @@ class EDConfiguration(EDLogging):
                     self.DEBUG("Replacing configuration for plugin %s" % strPluginName)
                 else:
                     self.DEBUG("Setting configuration for plugin %s" % strPluginName)
-                with self.__semaphore:
+                with self.locked():
                     self.__dictPluginConfiguration[strPluginName] = _xsPluginItem
 
 
