@@ -42,7 +42,7 @@ from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from EDUtilsPath                import EDUtilsPath
 from XSDataCommon               import XSDataString, XSDataImage, \
                          XSDataDouble, XSDataLength, XSDataWavelength, \
-                         XSDataTime, XSDataInteger
+                         XSDataTime, XSDataInteger, XSDataTime
 from XSDataBioSaxsv1_0          import XSDataInputBioSaxsMetadatav1_0, \
                                      XSDataResultBioSaxsMetadatav1_0, \
                                      XSDataBioSaxsExperimentSetup, \
@@ -91,6 +91,7 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
         self.exposureTime = None
         self.frameNumber = None
         self.frameMax = None
+        self.timeOfFrame = None
         #
         self.code = None
         self.comments = None
@@ -279,6 +280,8 @@ complex type XSDataBioSaxsSample extends XSData {
             xsdExperiment.frameNumber = xsDataResult.frameNumber = XSDataInteger(self.frameNumber)
         if self.frameMax is not None:
             xsdExperiment.frameMax = xsDataResult.frameMax = XSDataInteger(self.frameMax)
+        if self.timeOfFrame is not None:
+            xsdExperiment.timeOfFrame = xsDataResult.timeOfFrame = XSDataTime(self.timeOfFrame)
         if self.code is not None:
             xsdSample.code = xsDataResult.code = XSDataString(self.code)
         if self.comments is not None:

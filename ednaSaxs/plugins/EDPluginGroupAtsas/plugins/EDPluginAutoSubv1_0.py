@@ -29,7 +29,7 @@ __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011 ESRF"
 __status__ = "production"
-__date__ = "20120619"
+__date__ = "20120917"
 
 import os, shutil
 from EDPluginControl import EDPluginControl
@@ -192,7 +192,8 @@ class EDPluginAutoSubv1_0(EDPluginControl):
         # Create some output data
 
         self.xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(os.linesep.join(self.lstProcessLog)))
-        self.setDataOutput(self.xsDataResult)
+        self.xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.subtractedCurve))        
+        self.dataOutput = self.xsDataResult
 
 
     def doSuccessExecDatop(self, _edPlugin=None):

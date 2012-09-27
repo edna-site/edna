@@ -300,7 +300,7 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
             if dataset.len() < (iMaxSize + 1):
                 dataset.resize((iMaxSize + 1,) + npaArray.shape)
 
-            dataset[iMaxSize] = npaArray
+            dataset[iMaxSize, :, :] = npaArray
             if self.HDF5_DATASET_DATA in dSizeOfDataSets:
                 dSizeOfDataSets.pop(self.HDF5_DATASET_DATA)
 

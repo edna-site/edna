@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<XSDataInputAutoProcStatus>
+	<autoProcIntegrationId>126020</autoProcIntegrationId>
+	<AutoProcStatus>
+		<step>Integration</step>
+		<status>Failed</status>
+		<comments>Another completely useless comment only put here for testing purposes.</comments>
+	</AutoProcStatus>
+</XSDataInputAutoProcStatus>

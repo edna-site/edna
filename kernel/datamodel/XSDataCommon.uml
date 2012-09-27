@@ -89,15 +89,6 @@
           <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_d_pQ0OdEEd-jKbXLtzGSgw" name="XSOptionList"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_dIg0gOdEEd-jKbXLtzGSgw" name="XSOptionItem">
-        <ownedAttribute xmi:id="_MN-JgudFEd-jKbXLtzGSgw" name="enabled">
-          <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_MRnlYOZ_Ed-EdKKHX-lwYA"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_PV8nEudFEd-jKbXLtzGSgw" name="name">
-          <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
-        </ownedAttribute>
-      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_duqOgOdEEd-jKbXLtzGSgw" name="XSParamItem">
         <ownedAttribute xmi:id="_V9b4cudFEd-jKbXLtzGSgw" name="name">
           <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
@@ -136,26 +127,6 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3DcPhgNeEeCYyZX6pxguzQ"/>
         </ownedEnd>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_40q8kANeEeCYyZX6pxguzQ" name="A_&lt;xSPluginItem>_&lt;xSOptionList>" memberEnd="_40q8kQNeEeCYyZX6pxguzQ _40q8lANeEeCYyZX6pxguzQ" navigableOwnedEnd="_40q8lANeEeCYyZX6pxguzQ">
-        <ownedEnd xmi:id="_40q8kQNeEeCYyZX6pxguzQ" name="" type="_c3YBMOdEEd-jKbXLtzGSgw" association="_40q8kANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_40q8kgNeEeCYyZX6pxguzQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_40q8kwNeEeCYyZX6pxguzQ" value="1"/>
-        </ownedEnd>
-        <ownedEnd xmi:id="_40q8lANeEeCYyZX6pxguzQ" name="XSOptionList" type="_d_pQ0OdEEd-jKbXLtzGSgw" isUnique="false" association="_40q8kANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_40q8lQNeEeCYyZX6pxguzQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_40q8lgNeEeCYyZX6pxguzQ"/>
-        </ownedEnd>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_6VZIcANeEeCYyZX6pxguzQ" name="A_&lt;xSOptionList>_&lt;xSOptionItem>" memberEnd="_6VZIcQNeEeCYyZX6pxguzQ _6VZIdANeEeCYyZX6pxguzQ" navigableOwnedEnd="_6VZIdANeEeCYyZX6pxguzQ">
-        <ownedEnd xmi:id="_6VZIcQNeEeCYyZX6pxguzQ" name="xSOptionList" type="_d_pQ0OdEEd-jKbXLtzGSgw" association="_6VZIcANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6VZIcgNeEeCYyZX6pxguzQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6VZIcwNeEeCYyZX6pxguzQ" value="1"/>
-        </ownedEnd>
-        <ownedEnd xmi:id="_6VZIdANeEeCYyZX6pxguzQ" name="XSOptionItem" type="_dIg0gOdEEd-jKbXLtzGSgw" isUnique="false" association="_6VZIcANeEeCYyZX6pxguzQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6VZIdQNeEeCYyZX6pxguzQ" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6VZIdgNeEeCYyZX6pxguzQ" value="1"/>
-        </ownedEnd>
-      </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_9bOQ-gNeEeCYyZX6pxguzQ" name="A_&lt;xSParamList>_&lt;xSParamItem>" memberEnd="_9bOQ-wNeEeCYyZX6pxguzQ _9bOQ_gNeEeCYyZX6pxguzQ" navigableOwnedEnd="_9bOQ_gNeEeCYyZX6pxguzQ">
         <ownedEnd xmi:id="_9bOQ-wNeEeCYyZX6pxguzQ" name="" type="_dbbwgOdEEd-jKbXLtzGSgw" isUnique="false" association="_9bOQ-gNeEeCYyZX6pxguzQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9bOQ_ANeEeCYyZX6pxguzQ" value="1"/>
@@ -164,6 +135,25 @@
         <ownedEnd xmi:id="_9bOQ_gNeEeCYyZX6pxguzQ" name="XSParamItem" type="_duqOgOdEEd-jKbXLtzGSgw" isUnique="false" association="_9bOQ-gNeEeCYyZX6pxguzQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9bOQ_wNeEeCYyZX6pxguzQ" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9bORAANeEeCYyZX6pxguzQ" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_5KeRkP16EeGT1-DXHLzJCg" name="XSImportConfiguration">
+        <ownedAttribute xmi:id="_A-sb0P17EeGT1-DXHLzJCg" name="name">
+          <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_BXKJsP18EeGT1-DXHLzJCg" name="directory" isUnique="false">
+          <type xmi:type="uml:PrimitiveType" href="XSDPrimitiveTypes.uml#_D3ClwOZ_Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Eh2kEP18EeGT1-DXHLzJCg"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_F8cIMP17EeGT1-DXHLzJCg" name="A_&lt;xSConfiguration>_&lt;xSImportConfiguration>" memberEnd="_F8cIMf17EeGT1-DXHLzJCg _F8cINP17EeGT1-DXHLzJCg" navigableOwnedEnd="_F8cINP17EeGT1-DXHLzJCg">
+        <ownedEnd xmi:id="_F8cIMf17EeGT1-DXHLzJCg" name="" type="_Be370OdAEd-jKbXLtzGSgw" isUnique="false" association="_F8cIMP17EeGT1-DXHLzJCg">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F8cIMv17EeGT1-DXHLzJCg" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F8cIM_17EeGT1-DXHLzJCg" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_F8cINP17EeGT1-DXHLzJCg" name="XSImportConfiguration" type="_5KeRkP16EeGT1-DXHLzJCg" isUnique="false" association="_F8cIMP17EeGT1-DXHLzJCg">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F8cINf17EeGT1-DXHLzJCg" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F8cINv17EeGT1-DXHLzJCg"/>
         </ownedEnd>
       </packagedElement>
     </packagedElement>
@@ -360,6 +350,9 @@
       <ownedComment xmi:id="_tngOIOdSEd-jKbXLtzGSgw" annotatedElement="_BaSOIOftEd-TcNOGyxZYYg">
         <body>md5 checksum has to be calculated on the decoded data, not the encoded one. Default encoding is &quot;base64&quot; default byte order is &quot;little-endian&quot; (intel) not &quot;big-endian&quot; (java)</body>
       </ownedComment>
+      <ownedComment xmi:id="__LBoUP2GEeGGDasRpwWJtg" annotatedElement="_kMC5YP2GEeGGDasRpwWJtg">
+        <body>Represents an image that can either be in a file (path), either inside the XML (array) or as a reference for EDShare (shared) </body>
+      </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_BaSOIOftEd-TcNOGyxZYYg" name="XSDataArray">
         <generalization xmi:id="_oNagkOftEd-TcNOGyxZYYg" general="_sY590OZyEd-zkMBEigHSXg"/>
         <ownedAttribute xmi:id="_CgdzEuftEd-TcNOGyxZYYg" name="shape" isOrdered="true" isUnique="false">
@@ -416,6 +409,18 @@
         <ownedAttribute xmi:id="_5cCDoOjoEd--tcW-wtvCkg" name="key" type="_0UpFUOZyEd-zkMBEigHSXg"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_34enIOcwEd-jKbXLtzGSgw" name="XSDataDictionary"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_kMC5YP2GEeGGDasRpwWJtg" name="XSDataImageExt">
+        <generalization xmi:id="_5bsG8P2GEeGGDasRpwWJtg" general="_ZxzoEOfsEd-TcNOGyxZYYg"/>
+        <ownedAttribute xmi:id="_nic0gP2GEeGGDasRpwWJtg" name="array" type="_BaSOIOftEd-TcNOGyxZYYg" isUnique="false">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_q0GygP2GEeGGDasRpwWJtg"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_sRU-cP2GEeGGDasRpwWJtg" name="shared" type="_0UpFUOZyEd-zkMBEigHSXg" isUnique="false">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vIoiwP2GEeGGDasRpwWJtg"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_vnoL4P2GEeGGDasRpwWJtg" name="exposureTime" type="_u_N84OcvEd-jKbXLtzGSgw" isUnique="false">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zcIYQP2GEeGGDasRpwWJtg"/>
+        </ownedAttribute>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_JdpjQAA5EeCD1O9xtWfELw" name="Common Basic Types">
       <ownedComment xmi:id="_fG15gOcwEd-jKbXLtzGSgw" annotatedElement="_mXtQYOZyEd-zkMBEigHSXg _AWAkcOZ-Ed-EdKKHX-lwYA _0UpFUOZyEd-zkMBEigHSXg _Fpu-QOc2Ed-jKbXLtzGSgw _p1pMQOc1Ed-jKbXLtzGSgw _XYulAOc1Ed-jKbXLtzGSgw _6daFMOc0Ed-jKbXLtzGSgw _p3QLQOc0Ed-jKbXLtzGSgw _Z1wdkOc0Ed-jKbXLtzGSgw _u_N84OcvEd-jKbXLtzGSgw _G1m4UOcyEd-jKbXLtzGSgw _rlMJMOczEd-jKbXLtzGSgw _-zIkwOczEd-jKbXLtzGSgw _JJ8AgOc0Ed-jKbXLtzGSgw">

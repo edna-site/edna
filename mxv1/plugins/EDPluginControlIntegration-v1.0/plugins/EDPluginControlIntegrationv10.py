@@ -86,7 +86,7 @@ class EDPluginControlIntegrationv10(EDPluginControl):
         if (xsPluginItem == None):
             EDVerbose.DEBUG("EDPluginControlIntegrationv10.configure: No plugin item defined.")
             xsPluginItem = XSPluginItem()
-        strMaxRMSSpotDeviation = EDConfiguration.getStringParamValue(xsPluginItem, self.__strCONF_CONTROL_INTEGRATION_MAX_RMS)
+        strMaxRMSSpotDeviation = self.getStringConfigurationParameterValue(self.__strCONF_CONTROL_INTEGRATION_MAX_RMS)
         if(strMaxRMSSpotDeviation == None):
             EDVerbose.DEBUG("EDPluginControlIntegrationv10.configure: No configuration parameter found for: " + self.__strCONF_CONTROL_INTEGRATION_MAX_RMS + ", no default value.")
         else:

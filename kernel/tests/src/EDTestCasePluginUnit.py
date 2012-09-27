@@ -75,8 +75,7 @@ class EDTestCasePluginUnit(EDTestCasePlugin):
         xsPluginItem = None
         edConfiguration = EDConfiguration(_strConfigurationFileName)
         if(edConfiguration != None):
-            edConfiguration.load()
-            xsPluginItem = edConfiguration.getPluginItem(self.getPluginName())
+            xsPluginItem = edConfiguration.getXSConfigurationItem(self.getPluginName())
             if(xsPluginItem == None):
                 EDVerbose.warning("EDTestCasePluginUnit.getPluginConfiguration: Could not get configuration plugin item for: " + self.getPluginName())
         else:
