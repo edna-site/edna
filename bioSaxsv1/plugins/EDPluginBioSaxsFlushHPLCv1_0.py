@@ -27,39 +27,32 @@ from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2012 ESRF"
-__date__ = "20120918"
+__date__ = "20120927"
 __status__ = "development"
 
 import os, time
 from EDPluginControl import EDPluginControl
-#from EDThreading import Semaphore
 from EDUtilsParallel import EDUtilsParallel
 from EDFactoryPlugin import edFactoryPlugin
 edFactoryPlugin.loadModule("XSDataBioSaxsv1_0")
 edFactoryPlugin.loadModule("XSDataEdnaSaxs")
 
 from XSDataBioSaxsv1_0 import XSDataInputBioSaxsHPLCv1_0, XSDataResultBioSaxsHPLCv1_0#, \
-#                            XSDataInputBioSaxsProcessOneFilev1_0
-#from XSDataEdnaSaxs import XSDataInputDatcmp, XSDataInputDataver, XSDataInputDatop, XSDataInputSaxsAnalysis
-from XSDataCommon import XSDataString, XSDataStatus
+from XSDataEdnaSaxs import XSDataInputDataver
+from XSDataCommon import XSDataString, XSDataStatus, XSDataFile
 from EDPluginBioSaxsHPLCv1_0 import EDPluginBioSaxsHPLCv1_0
-#from EDUtilsBioSaxs import HPLCframe, HPLCrun
 
 
 class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
     """
     plugin that just flushes the HPLC data to disk
     """
-
+    strControlledPluginDatAver = "EDPluginExecDataverv1_0"
     def __init__(self):
         """
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsHPLCv1_0)
-        self.__edPluginProcessOneFile = None
-        self.__edPluginSubtract = None
-        self.__edPluginSaxsAnalysis = None
-        self.__edPluginDatCmp = None
         self.xsDataResult = XSDataResultBioSaxsHPLCv1_0()
         self.runId = None
         self.FrameId = None
@@ -92,16 +85,14 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginBioSaxsFlushHPLCv1_0.process")
-        while EDUtilsParallel.getNbRunning() != 0:
-            self.DEBUG("Waiting for all process to finish...%i remaining" % EDUtilsParallel.getNbRunning())
-            time.sleep(1)
-        with EDPluginBioSaxsHPLCv1_0._sem:
-            if self.runId in EDPluginBioSaxsHPLCv1_0.dictHPLC:
-                self.processRun(EDPluginBioSaxsHPLCv1_0.dictHPLC[self.runId])
+        if self.runId in EDPluginBioSaxsHPLCv1_0.dictHPLC:
+            res = self.processRun(EDPluginBioSaxsHPLCv1_0.dictHPLC[self.runId])
+
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginBioSaxsFlushHPLCv1_0.postProcess")
+        self.synchronizePlugins()
 
     def finallyProcess(self, _edObject=None):
         EDPluginControl.finallyProcess(self)
@@ -111,6 +102,40 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
 
     def processRun(self, run):
         run.dump_json()
-        run.save_hdf5()
-        run.make_plot()
-        run.analyse()
+        self.xsDataResult.hplcFile = XSDataFile(XSDataString(run.save_hdf5()))
+        self.xsDataResult.hplcImage = XSDataFile(XSDataString(run.make_plot()))
+        for group in run.analyse():
+            print group
+            self.lstExecutiveSummary.append("Merging frames from %s to %s" % (group[0], group[-1]))
+            xsdFrames = [XSDataFile(XSDataString(run.frames[i].subtracted)) for i in group]
+            outname = os.path.splitext(run.frames[group[0]].subtracted)[0] + "_aver_%s.dat" % group[-1]
+            edpugin = self.loadPlugin(self.strControlledPluginDatAver)
+            edpugin.dataInput = XSDataInputDataver(outputCurve=XSDataFile(XSDataString(outname)), inputCurve=xsdFrames)
+            edpugin.connectSUCCESS(self.doSuccessDatAver)
+            edpugin.connectFAILURE(self.doFailureDatAver)
+            edpugin.execute()
+
+
+    def doSuccessDatAver(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsFlushHPLCv1_0.doSuccessDatAver")
+        self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsFlushHPLCv1_0.doSuccessDatAver")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.outputCurve:
+            outCurve = _edPlugin.dataOutput.outputCurve.path.value
+            if os.path.exists(outCurve):
+                self.xsDataResult.mergedCurves += [_edPlugin.dataOutput.outputCurve]
+            else:
+                strErr = "DatAver claimed merged curve is in %s but no such file !!!" % outCurve
+                self.ERROR(strErr)
+                self.lstExecutiveSummary.append(strErr)
+                self.setFailure()
+
+
+    def doFailureDatAver(self, _edPlugin=None):
+        self.DEBUG("EDPluginBioSaxsFlushHPLCv1_0.doFailureDatAver")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginBioSaxsFlushHPLCv1_0.doFailureDatAver")
+        if _edPlugin and _edPlugin.dataOutput and _edPlugin.dataOutput.status and  _edPlugin.dataOutput.status.executiveSummary:
+            self.lstExecutiveSummary.append(_edPlugin.dataOutput.status.executiveSummary.value)
+        else:
+            self.lstExecutiveSummary.append("Edna plugin DatAver failed.")
+        self.setFailure()
+

@@ -424,6 +424,7 @@ class HPLCrun(object):
             self.hdf5.create_dataset(name="scattering_Stdev", shape=(self.max_size, self.size), dtype=numpy.float32, data=self.scattering_Stdev, chunks=(self.chunk_size, self.size))
             self.hdf5.create_dataset(name="subtracted_I", shape=(self.max_size, self.size), dtype=numpy.float32, data=self.subtracted_I, chunks=(self.chunk_size, self.size))
             self.hdf5.create_dataset(name="subtracted_Stdev", shape=(self.max_size, self.size), dtype=numpy.float32, data=self.subtracted_Stdev, chunks=(self.chunk_size, self.size))
+        return self.hdf5_filename
 
     def make_plot(self):
         fig = pylab.plt.figure()
@@ -466,10 +467,10 @@ class HPLCrun(object):
         sp4.set_ylim(0, median_filt(self.volume, 5).max())
         sp4.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
         sp4.legend()
-
-        fig.savefig(os.path.splitext(self.hdf5_filename)[0] + ".png")
+        pngFile = os.path.splitext(self.hdf5_filename)[0] + ".png"
+        fig.savefig(pngFile)
         fig.savefig(os.path.splitext(self.hdf5_filename)[0] + ".svg", transparent=True, bbox_inches='tight', pad_inches=0)
-        return fig
+        return pngFile
 
     def analyse(self):
         """
@@ -477,7 +478,7 @@ class HPLCrun(object):
         """
         lab = label(self.I0)
         res = []
-        for i in range(1, lab.max() + 1):
+        for i in range(1, int(lab.max() + 1)):
             loc = (lab == i)
             c = loc.sum()
             if c > 10:
@@ -487,11 +488,10 @@ class HPLCrun(object):
                 maxi = self.I0[start: stop + 1].argmax() + start
                 rg0 = self.Rg[maxi]
                 sg0 = self.Rg_Stdev[maxi]
-                good = (abs(self.Rg - rg0) < 2 * sg0) #keep curves with same Rg within +/- 2 stdev
+                good = (abs(self.Rg - rg0) < sg0) #keep curves with same Rg within +/- 1 stdev
                 good[:start] = 0
                 good[stop:] = 0
                 lg = label(good[start:stop + 1])
                 lv = lg[maxi - start]
-                ref = numpy.where(lg == lv)[0]
-                res.append((ref[0], ref[-1]))
+                res.append(numpy.where(lg == lv)[0] + start)
         return res
