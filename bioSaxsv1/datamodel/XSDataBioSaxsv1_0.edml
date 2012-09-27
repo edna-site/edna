@@ -278,6 +278,8 @@ complex type XSDataResultBioSaxsHPLCv1_0 extends XSDataResultBioSaxsProcessOneFi
 	gnom: XSDataGnom optional
 	volume: XSDataDoubleWithUnit optional
 	hplcFile: XSDataFile optional
+	mergedCurves: XSDataFile [] optional
+	hplcImage:XSDataFile optional
 }
 
 

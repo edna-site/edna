@@ -105,7 +105,6 @@ class EDPluginBioSaxsFlushHPLCv1_0 (EDPluginControl):
         self.xsDataResult.hplcFile = XSDataFile(XSDataString(run.save_hdf5()))
         self.xsDataResult.hplcImage = XSDataFile(XSDataString(run.make_plot()))
         for group in run.analyse():
-            print group
             self.lstExecutiveSummary.append("Merging frames from %s to %s" % (group[0], group[-1]))
             xsdFrames = [XSDataFile(XSDataString(run.frames[i].subtracted)) for i in group]
             outname = os.path.splitext(run.frames[group[0]].subtracted)[0] + "_aver_%s.dat" % group[-1]
