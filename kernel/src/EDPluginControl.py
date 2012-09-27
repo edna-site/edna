@@ -25,6 +25,8 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import with_statement
+
 __authors__ = ["Marie-Francoise Incardona", "Olof Svensson"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
@@ -109,9 +111,8 @@ class EDPluginControl(EDPlugin):
         @type _plugin: instance of the class EDPlugin
         """
         if _plugin in self.__listOfLoadedPlugins:
-            self.synchronizeOn()
-            self.__listOfLoadedPlugins.remove(_plugin)
-            self.synchronizeOff()
+            with self.locked():
+                self.__listOfLoadedPlugins.remove(_plugin)
             self.DEBUG("EDPluginControl.removeLoadedPlugin: Caught, removed %s unreferenced objects. currently there are %i plugins" % (gc.get_count(), len(self.__listOfLoadedPlugins)))
             gc.collect()
         else:
@@ -127,9 +128,9 @@ class EDPluginControl(EDPlugin):
                 if edPlugin.isStarted() and (not edPlugin.isEnded()):
                     edPlugin.synchronize()
             time.sleep(0.01)
-            self.synchronizeOn()
-            bSynchronized = (self.__listOfLoadedPlugins == listPluginOrig)
-            self.synchronizeOff()
+            with self.locked():
+                bSynchronized = (self.__listOfLoadedPlugins == listPluginOrig)
+
 
     def loadPlugins(self):
         """
