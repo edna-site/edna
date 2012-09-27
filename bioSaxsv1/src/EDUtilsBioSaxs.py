@@ -444,7 +444,7 @@ class HPLCrun(object):
         sp1.plot(self.time, self.gnom, label="Gnom")
         sp1.plot(self.time, self.Dmax, label="Dmax")
         sp1.set_ylabel("Radius nm")
-        sp1.set_ylim(0, median_filt(self.Dmax, 5).max())
+        sp1.set_ylim(0, median_filt(self.Dmax, 9).max())
         sp1.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
         sp1.legend()
 
@@ -464,7 +464,7 @@ class HPLCrun(object):
         sp4.plot(self.time, self.volume)#, label="Volume")
         sp4.set_ylabel("Vol. nm^3")
         sp4.set_xlabel("time (seconds)")
-        sp4.set_ylim(0, median_filt(self.volume, 5).max())
+        sp4.set_ylim(0, median_filt(self.volume, 9).max())
         sp4.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(4))
         sp4.legend()
         pngFile = os.path.splitext(self.hdf5_filename)[0] + ".png"
