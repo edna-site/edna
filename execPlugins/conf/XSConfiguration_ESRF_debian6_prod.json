@@ -1,4 +1,4 @@
-{
+{   "__extend__": [], 
     "EDPluginExecSaxsCurvesv1_0": {
         "execProcessScriptExecutable": "/sware/exp/saxs/edf/ubuntu1004/saxs_curves", 
         "execProcessScriptShell": "/bin/bash", 
@@ -41,7 +41,6 @@
         "execProcessScriptShell": "/bin/bash", 
         "timeOut": 6000
     }, 
-    "__extend__": [], 
     "EDPluginExecDatcmpv1_0": {
         "execProcessScriptExecutable": "/usr/bin/datcmp", 
         "execProcessScriptShell": "python"

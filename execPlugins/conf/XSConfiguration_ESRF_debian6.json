@@ -1,12 +1,12 @@
 {
     "EDPluginExecSaxsCurvesv1_0": {
         "execProcessScriptExecutable": "/sware/exp/saxs/edf/ubuntu1004/saxs_curves", 
-        "execProcessScriptShell": "/bin/bash", 
+        "execProcessScriptShell": "/bin/dash", 
         "timeOut": 6000
     }, 
     "EDPluginExecRsync": {
         "execProcessScriptExecutable": "/usr/bin/rsync", 
-        "execProcessScriptShell": "/bin/sh"
+        "execProcessScriptShell": "/bin/dash"
     }, 
     "EDPluginExecShiftImagev1_0": {
         "writeXMLOutput": 0
@@ -17,14 +17,14 @@
         "fill": "mean"
     }, 
     "EDPluginSPDCakev1_0": {
-        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.1/spd"
+        "execProcessScriptExecutable": "/usr/bin/spd"
     }, 
     "EDPluginSPDCakev1_1": {
-        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.1/spd"
+        "execProcessScriptExecutable": "/usr/bin/spd"
     }, 
     "EDPluginExecSaxsAddv1_0": {
         "execProcessScriptExecutable": "/sware/exp/saxs/edf/ubuntu1004/saxs_add", 
-        "execProcessScriptShell": "/bin/bash", 
+        "execProcessScriptShell": "/bin/dash", 
         "timeOut": 6000
     }, 
     "EDPluginExecSaxsAnglev1_0": {
@@ -38,20 +38,20 @@
     }, 
     "EDPluginExecSaxsMacv1_0": {
         "execProcessScriptExecutable": "/sware/exp/saxs/edf/ubuntu1004/saxs_mac", 
-        "execProcessScriptShell": "/bin/bash", 
+        "execProcessScriptShell": "/bin/dash", 
         "timeOut": 6000
     }, 
     "__extend__": [], 
     "EDPluginExecDatcmpv1_0": {
         "execProcessScriptExecutable": "/usr/bin/datcmp", 
-        "execProcessScriptShell": "python"
+        "execProcessScriptShell": "/bin/dash"
     }, 
     "EDPluginWaitFile": {
         "timeOut": 30
     }, 
     "EDPluginExecDatopv1_0": {
         "execProcessScriptExecutable": "/usr/bin/datop", 
-        "execProcessScriptShell": "python"
+        "execProcessScriptShell": "/bin/dash"
     }, 
     "EDPluginExecNormalizeImagev1_1": {
         "dtype": "float32", 
@@ -94,17 +94,17 @@
     }, 
     "EDPluginExecEpydocv1_0": {
         "execProcessScriptExecutable": "/usr/bin/epydoc", 
-        "execProcessScriptShell": "python"
+        "execProcessScriptShell": "/bin/dash"
     }, 
     "EDPluginExecStitchOffsetedImagev1_0": {}, 
     "EDPluginExecVideov10": {
-        "execProcessScriptExecutable": "/sware/exp/scisoft/bin/mencoder", 
-        "execProcessScriptShell": "/bin/bash", 
+        "execProcessScriptExecutable": "/usr/bin/mencoder", 
+        "execProcessScriptShell": "/bin/dash", 
         "timeOut": 6000
     }, 
     "EDPluginExecDataverv1_0": {
         "execProcessScriptExecutable": "/usr/bin/dataver", 
-        "execProcessScriptShell": "python"
+        "execProcessScriptShell": "/bin/dash"
     }, 
     "EDPluginExport1DPowderv1_0": {
         "timeOut": 10
@@ -114,12 +114,12 @@
     }, 
     "EDPluginExecSaxsDelMetadatav1_0": {
         "execProcessScriptExecutable": "/sware/exp/saxs/edf/ubuntu1004/edfheaderdelkey", 
-        "execProcessScriptShell": "/bin/bash", 
+        "execProcessScriptShell": "/bin/dash", 
         "timeOut": 60
     }, 
     "EDPluginExecSaxsAddMetadatav1_0": {
         "execProcessScriptExecutable": "/sware/exp/saxs/edf/ubuntu1004/edfheaderaddkey", 
-        "execProcessScriptShell": "/bin/bash", 
+        "execProcessScriptShell": "/bin/dash", 
         "timeOut": 60
     }
 }

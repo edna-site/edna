@@ -1,4 +1,4 @@
-{
+{    "__extend__": [], 
     "EDPluginExecDatcmpv1_0": {
         "execProcessScriptExecutable": "/usr/bin/datcmp", 
         "execProcessScriptShell": "python"
@@ -78,7 +78,6 @@
         "execProcessScriptShell": "/bin/bash", 
         "timeOut": 60
     }, 
-    "__extend__": [], 
     "EDPluginExecEDPluginHDFImageWriterv10": {}, 
     "EDPluginExecCommandLinev10": {
         "timeOut": 60
