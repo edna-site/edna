@@ -216,7 +216,7 @@ class EDPlugin(EDAction):
         except TypeError:
             return
         except ValueError:
-            self.ERROR("float() argument must be a string or a number, got %s" % strParameterValue)
+            self.ERROR("int() argument must be a string or a number, got %s" % strParameterValue)
 
 
     def configure(self):
