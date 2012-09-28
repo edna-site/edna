@@ -7,32 +7,7 @@ __author__ = "Jérôme Kieffer"
 
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
 from XSDataCommon import XSConfiguration
-
-def bestType(a):
-    """
-    convert a string to it's typed version
-    """
-    if a.lower() in ["true", "on"]:
-        return True
-    if a.lower() in ["false", "off"]:
-        return False
-    if a.lower() in ["none", "nul", "null"]:
-        return None
-    try:
-        ia = int(a)
-    except:
-        ia = None
-    try:
-        fa = float(a)
-    except:
-        fa = None
-    if ia is not None and fa is not None:
-        if ia == fa:
-            return ia
-        else:
-            return fa
-    else:
-        return str(a)
+from EDConfiguration import bestType
 
 def convert(infile, outfile):
     dico = {"__extend__":[]}

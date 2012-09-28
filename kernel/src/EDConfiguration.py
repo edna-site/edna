@@ -7,7 +7,7 @@
 #                            Grenoble, France
 #
 #    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
-#                       Olof Svensson (svensson@esrf.fr) 
+#                       Olof Svensson (svensson@esrf.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published
@@ -20,7 +20,7 @@
 #    GNU Lesser General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    and the GNU Lesser General Public License  along with this program.  
+#    and the GNU Lesser General Public License  along with this program.
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 from __future__ import with_statement
@@ -35,13 +35,13 @@ This class handles the EDNA configuration XML/JSON files.
 """
 
 import os, json
-
+from EDVerbose import EDVerbose
 from EDLogging import EDLogging
 from EDUtilsFile import EDUtilsFile
 from EDUtilsPath import EDUtilsPath
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from EDDecorator import deprecated
-from XSDataCommon import XSConfiguration, XSPluginList, XSPluginItem, XSParamList, XSParamItem
+from XSDataCommon import XSConfiguration, XSPluginItem, XSParamList, XSParamItem
 
 def bestType(a):
     """
@@ -74,7 +74,7 @@ class EDConfiguration(EDLogging):
     """
     This class handles the EDNA configuration XML files. The structure of
     the XML is described in the XSDataCommon data model.
-    
+
     If environment variable strings like "$XXX" or "${XXX}" is present in the
     configuration file, the strings are replaced with the corresponding
     environment variable content. For example, if "${CCP4} is present in the
@@ -131,7 +131,7 @@ class EDConfiguration(EDLogging):
                 for importConfiguration in dictConfig["__extend__"]:
                     if importConfiguration.startswith(os.sep):
                         for ext in ["", ".json", ".xml" ]:
-                            if os.isfile(importConfiguration + ext):
+                            if os.path.isfile(importConfiguration + ext):
                                 strImportPath = importConfiguration + ext
                                 break
                     else:
@@ -166,7 +166,7 @@ class EDConfiguration(EDLogging):
 
         @param _strPluginName: Name of the module
         @type _strPluginName: python string
-        
+
         @return: The path to the project configuration file
         @type: python string
         """
@@ -198,8 +198,8 @@ class EDConfiguration(EDLogging):
 
     def loadPluginConfig(self, _strPluginName):
         """
-        load the configuration for a given plugin and return it's configuration 
-        
+        load the configuration for a given plugin and return it's configuration
+
         @param _strPluginName: name of the plugin
         @return: configuration as a dict (or None)
         """
@@ -229,12 +229,12 @@ class EDConfiguration(EDLogging):
     def __setitem__(self, _strPluginName, plugin_config={}):
         """
         edConfig["myPlugin"]= {"timeout":5}
-        
+
         @param _strPluginName: name of the plugin as a string
         @param plugin_config: configuration of a whole plugin as a dict
         """
         with self.locked():
-            self.__dictPluginConfiguration[_strPluginName] = config
+            self.__dictPluginConfiguration[_strPluginName] = plugin_config
 
     def __len__(self):
         return len(self.__dictPluginConfiguration)
@@ -319,13 +319,12 @@ class EDConfiguration(EDLogging):
         -> Deprecated
         """
         strParamValue = cls.getStringParamValue(_xsPluginItem, _pyStrParamName)
-        intParamValue = None
         try:
             return int(strParamValue)
         except TypeError:
             return
         except ValueError:
-            self.ERROR("invalid literal for int(), got %s" % strParamValue)
+            EDVerbose.ERROR("invalid literal for int(), got %s" % strParamValue)
 
 
 
