@@ -193,23 +193,20 @@ class EDPluginExecProcess(EDPluginExec):
         """
         EDPluginExec.configure(self)
         EDVerbose.DEBUG("EDPluginExecProcess.configure")
-        strExecutable = self.getStringConfigurationParameterValue(EDPluginExecProcess.CONF_EXEC_PROCESS_EXECUTABLE)
-        if(strExecutable == None):
+        strExecutable = self.config.get(self.CONF_EXEC_PROCESS_EXECUTABLE, None)
+        if strExecutable is None:
             EDVerbose.DEBUG("EDPluginExecProcess.configure: No configuration parameter found for: %s , using default value: %s"\
-                            % (EDPluginExecProcess.CONF_EXEC_PROCESS_EXECUTABLE, self.getExecutable()))
+                            % (self.CONF_EXEC_PROCESS_EXECUTABLE, self.getExecutable()))
         else:
             self.setExecutable(strExecutable)
 
         # test if we're to use oar and check for additional config
         if strExecutable == "oarsub":
-            oar_options = EDConfiguration.getStringParamValue(xsPluginItem, "oarOptions")
+            oar_options = self.config.get("oarOptions", None)
             if oar_options is None:
                 EDVerbose.DEBUG('EDPluginExecProcess.configure: no additional options were specified for oarsub')
             self._oar_options = oar_options
-            try:
-                oar_poll = EDConfiguration.getIntegerParamValue(xsPluginItem, "oarPollInterval")
-            except ValueError:
-                oar_poll = None
+            oar_poll = self.config.get("oarPollInterval", None)
             if oar_poll is None:
                 EDVerbose.DEBUG('EDPluginExecProcess.configure: oar polling interval not configured')
                 EDVerbose.DEBUG('EDPluginExecProcess.configure: using default version of {0}'.format(DEFAULT_OAR_POLL_INTERVAL))
@@ -218,11 +215,11 @@ class EDPluginExecProcess(EDPluginExec):
                 self._oar_poll_interval = oar_poll
 
         # The execProcessTimeOut is deprecated, see bug #563
-        strTimeOut = self.getStringConfigurationParameterValue(EDPluginExecProcess.CONF_EXEC_PROCESS_TIME_OUT)
-        if strTimeOut is not None:
-            EDVerbose.WARNING("Use of %s in plugin configuration is deprecated" % EDPluginExecProcess.CONF_EXEC_PROCESS_TIME_OUT)
+        timeOut = self.config.get(self.CONF_EXEC_PROCESS_TIME_OUT, None)
+        if timeOut is not None:
+            EDVerbose.WARNING("Use of %s in plugin configuration is deprecated" % self.CONF_EXEC_PROCESS_TIME_OUT)
             EDVerbose.WARNING("Please use %s instead." % EDPlugin.CONF_TIME_OUT)
-            self.setTimeOut(strTimeOut)
+            self.setTimeOut(timeOut)
 
 
     def setExecutable(self, _strExecutable):

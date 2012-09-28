@@ -849,6 +849,23 @@ class EDPlugin(EDAction):
         """
         self.__bWriteDataXMLInputOutput = _bValue
 
+    def setWriteXMLInput(self, _bValue=True):
+        """
+        Sets or unsets the plugin to write XML input  files.
+        @param _bValue: WriteDataXMLInput
+        @type: boolean
+        """
+        self.__bWriteDataXMLInput = _bValue
+
+    def setWriteXMLOutput(self, _bValue=True):
+        """
+        Sets or unsets the plugin to write XML  output files.
+        @param _bValue: WriteDataXMLOutput
+        @type: boolean
+        """
+        self.__bWriteDataXMLOutput = _bValue
+
+
     def setUseWarningInsteadOfError(self, _bValue=True):
         """
         Sets or unsets the plugin to use warning messages also for error messages.

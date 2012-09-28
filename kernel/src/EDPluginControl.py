@@ -77,7 +77,7 @@ class EDPluginControl(EDPlugin):
         """
         EDPlugin.configure(self)
         EDVerbose.DEBUG("EDPluginControl.configure")
-        strControlledPlugins = self.getStringConfigurationParameterValue("controlledPlugins")
+        strControlledPlugins = self.config.get("controlledPlugins", None)
         if (strControlledPlugins != None):
             pyListControlledPlugins = strControlledPlugins.split(",")
             for strControlledPlugin in pyListControlledPlugins:
@@ -85,8 +85,8 @@ class EDPluginControl(EDPlugin):
                 if strControlledPluginName != None:
                     self.setControlledPluginName(strControlledPlugin, strControlledPluginName)
                     EDVerbose.DEBUG("EDPluginControl.configure: setting controlled plugin %s to specific plugin %s" % (strControlledPlugin, strControlledPluginName))
-        strClusterSize = self.getStringConfigurationParameterValue("clusterSize")
-        if (strClusterSize != None):
+        clusterSize = self.config.get("clusterSize", None)
+        if (clusterSize != None):
             self.__iClusterSize = int(strClusterSize)
             EDVerbose.DEBUG("EDPluginControl.configure: setting cluster size to %d" % self.__iClusterSize)
 
