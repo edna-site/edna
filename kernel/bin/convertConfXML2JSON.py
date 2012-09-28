@@ -35,17 +35,25 @@ def bestType(a):
         return str(a)
 
 def convert(infile, outfile):
-    dico = {"__extend__":None}
+    dico = {"__extend__":[]}
     xml = XSConfiguration.parseFile(infile)
+    for other in xml.XSImportConfiguration:
+        print type(other.directory)
+        if other.directory not in [None, "None"]:
+            dico["__extend__"].append(os.path.join(other.directory, other.name))
+        else:
+            dico["__extend__"].append(other.name)
+
     xsPluginList = xml.getXSPluginList()
-    for pluginItem in xsPluginList.getXSPluginItem():
-        plugin_conf = {}
-        plugin_name = pluginItem.name
-        paramList = pluginItem.getXSParamList()
-        if paramList:
-            for paramItem in paramList.getXSParamItem():
-                plugin_conf[paramItem.name] = bestType(paramItem.value)
-        dico[plugin_name] = plugin_conf
+    if xsPluginList is not None:
+        for pluginItem in xsPluginList.getXSPluginItem():
+            plugin_conf = {}
+            plugin_name = pluginItem.name
+            paramList = pluginItem.getXSParamList()
+            if paramList:
+                for paramItem in paramList.getXSParamItem():
+                    plugin_conf[paramItem.name] = bestType(paramItem.value)
+            dico[plugin_name] = plugin_conf
     with open(outfile, "w") as f:
         f.write(json.dumps(dico, indent=4))
 
