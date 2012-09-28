@@ -34,12 +34,11 @@ import os, tempfile, stat, types
 
 from EDSlot                import EDSlot
 from EDUtilsPath           import EDUtilsPath
-from EDConfiguration       import EDConfiguration
 from EDConfigurationStatic import EDConfigurationStatic
 from EDUtilsFile           import EDUtilsFile
 from EDStatus              import EDStatus
 from EDAction              import EDAction
-
+from EDDecorator           import deprecated
 from XSDataCommon          import XSDataResult
 
 
@@ -156,16 +155,16 @@ class EDPlugin(EDAction):
             strErrorMessage = "Timeout when waiting for %s to terminate." % self.getClassName()
             self.addErrorMessage(strErrorMessage)
 
-
+#    @deprecated
     def setConfiguration(self, _xsPluginItem):
         """
-        Receives an XSPluginItem (Plugin Configuration) from the application.
-        The global (static) EDConfigurationStatic instance is replaced with
-        a local instance in order to not change the configuration for other
-        plugin instances.
+        Receives a Plugin Configuration as XSPluginItem or python dict from the application.
         """
         self.DEBUG("EDPlugin.setConfiguration")
-        self.__edConfiguration.setXSConfigurationItem(_xsPluginItem)
+        if isinstance(_xsPluginItem, dict):
+            self.__edConfiguration[self.getPluginName()] = _xsPluginItem
+        else:
+            self.__edConfiguration.setXSConfigurationItem(_xsPluginItem)
 
 
     def getConfiguration(self):
@@ -174,9 +173,25 @@ class EDPlugin(EDAction):
         """
         self.DEBUG("EDPlugin.getConfiguration")
         return self.__edConfiguration.getXSConfigurationItem(self.getPluginName())
-
     configuration = property(getConfiguration, setConfiguration)
 
+    def getConfig(self):
+        """
+        Gets the Plugin Configuration as a dictionary
+        """
+        self.DEBUG("EDPlugin.getConfig")
+        return self.__edConfiguration.get(self.getPluginName(), {})
+
+    def setConfig(self, _dict):
+        """
+        Receives a dictionary (Plugin Configuration) from the application.
+        """
+        self.DEBUG("EDPlugin.setConfiguration")
+        self.__edConfiguration[self.getPluginName()] = _dict
+    config = property(getConfig, setConfig)
+
+
+#    @deprecated
     def getStringConfigurationParameterValue(self, _strConfigurationParameterName):
         """
         This method returns a configuration parameter value if a corresponding configuration
@@ -195,7 +210,7 @@ class EDPlugin(EDAction):
                                                                              strParameterValue))
         return strParameterValue
 
-
+#    @deprecated
     def getDoubleConfigurationParameterValue(self, _strConfigurationParameterName):
         fParameterValue = None
         strParameterValue = self.getStringConfigurationParameterValue(_strConfigurationParameterName)
@@ -207,7 +222,7 @@ class EDPlugin(EDAction):
             self.ERROR("float() argument must be a string or a number, got %s" % strParameterValue)
 
 
-
+#    @deprecated
     def getIntegerConfigurationParameterValue(self, _strConfigurationParameterName):
         iParameterValue = None
         strParameterValue = self.getStringConfigurationParameterValue(_strConfigurationParameterName)
@@ -229,7 +244,7 @@ class EDPlugin(EDAction):
         # set Timeout if different from default one
         if self.getTimeOut() == self.getDefaultTimeOut():
             # Try to get time out from plugin configuration
-            iTimeOut = self.getIntegerConfigurationParameterValue(EDPlugin.CONF_TIME_OUT)
+            iTimeOut = self.config.get(EDPlugin.CONF_TIME_OUT, None)
             if iTimeOut is not None:
                 self.DEBUG("EDPlugin.configure: Setting time out to %d s from plugin configuration." % iTimeOut)
                 self.setTimeOut(iTimeOut)
@@ -239,7 +254,7 @@ class EDPlugin(EDAction):
         strBaseDirectory = self.getBaseDirectory()
         if (strBaseDirectory is None):
             # Try to get base directory from plugin configuration
-            strBaseDirectory = self.getStringConfigurationParameterValue(EDPlugin.CONF_BASE_DIR_LABEL)
+            strBaseDirectory = self.config.get(EDPlugin.CONF_BASE_DIR_LABEL, None)
             if(strBaseDirectory is None):
                 # Try to get working directory from environment variable
                 strBaseDirectory = os.environ.get("EDNA_BASE_DIRECTORY")
@@ -262,7 +277,7 @@ class EDPlugin(EDAction):
         strWorkingDirectory = self.getWorkingDirectory()
         if (strWorkingDirectory is None):
             # Try to get working directory from plugin configuration
-            strWorkingDirectory = self.getStringConfigurationParameterValue(EDPlugin.CONF_WORKING_DIR_LABEL)
+            strWorkingDirectory = self.config.get(EDPlugin.CONF_WORKING_DIR_LABEL, None)
             if(strWorkingDirectory is not None):
                 self.DEBUG("EDPlugin.configure: Setting working directory from plugin configuration.")
             else:
@@ -272,25 +287,9 @@ class EDPlugin(EDAction):
         else:
             self.DEBUG("EDPlugin.configure: Working directory already set before plugin is configured.")
         #
-        strWriteXMLInputOutput = self.getStringConfigurationParameterValue(EDPlugin.CONF_WRITE_XML_INPUT_OUTPUT)
-        if strWriteXMLInputOutput != None:
-            if strWriteXMLInputOutput.lower().strip() in ["false", "0"]:
-                self.__bWriteDataXMLInputOutput = False
-            else:
-                self.__bWriteDataXMLInputOutput = True
-
-        strWriteXMLOutput = self.getStringConfigurationParameterValue(EDPlugin.CONF_WRITE_XML_OUTPUT)
-        if strWriteXMLOutput != None:
-            if strWriteXMLOutput.lower().strip()  in ["false", "0"]:
-                self.__bWriteDataXMLOutput = False
-            else:
-                self.__bWriteDataXMLOutput = True
-        strWriteXMLInput = self.getStringConfigurationParameterValue(EDPlugin.CONF_WRITE_XML_INPUT)
-        if strWriteXMLInput != None:
-            if strWriteXMLInput.lower().strip() in ["false", "0"]:
-                self.__bWriteDataXMLInput = False
-            else:
-                self.__bWriteDataXMLInput = True
+        self.__bWriteDataXMLInputOutput = bool(self.config.get(self.CONF_WRITE_XML_INPUT_OUTPUT, True))
+        self.__bWriteDataXMLOutput = bool(self.config.get(self.CONF_WRITE_XML_OUTPUT, True))
+        self.__bWriteDataXMLInput = bool(self.config.get(self.CONF_WRITE_XML_INPUT, True))
 
 
     def execute(self, _edObject=None):

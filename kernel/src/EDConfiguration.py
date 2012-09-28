@@ -31,7 +31,7 @@ __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 """
-This class handles the EDNA configuration XML files.
+This class handles the EDNA configuration XML/JSON files.
 """
 
 import os, json
@@ -141,9 +141,8 @@ class EDConfiguration(EDLogging):
                                 strImportPath = path
                                 break
                     self.DEBUG("Importing configuration file : %s" % strImportPath)
-#                    self.addConfigurationFile(strImportPath, True)
-                    self.addConfigurationFile(strImportPath, _bReplace)
-                    #But WHY ??? 
+                    self.addConfigurationFile(strImportPath, _bReplace) #Was True, why?
+
                 # Make sure we are thread safe when manipulating the cache
                 with self.locked():
                     # Load configurations into the plugin dictionary
@@ -179,19 +178,22 @@ class EDConfiguration(EDLogging):
             with self.locked():
                 bConfFileFound = False
                 strPathToProjectConfigurationFile = None
-                strConfigurationFileName = "XSConfiguration_%s.xml" % EDUtilsPath.EDNA_SITE
+                strConfigurationFileBaseName = "XSConfiguration_%s" % EDUtilsPath.EDNA_SITE
                 while not bConfFileFound:
                     strPreviousDirectory = strCurrentDirectory
                     strCurrentDirectory = os.path.dirname(strCurrentDirectory)
-                    strPathToConfigurationDirectory = os.path.abspath(os.path.join(strCurrentDirectory, "conf"))
-                    strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
-                                                                                    strConfigurationFileName))
-                    self.DEBUG("Looking for configuration file for %s in %s" %
-                                    (_strPluginName, strPathToProjectConfigurationFile))
-                    bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
                     if strCurrentDirectory in (EDUtilsPath.EDNA_HOME, strPreviousDirectory):
                         strPathToProjectConfigurationFile = None
                         break
+                    strPathToConfigurationDirectory = os.path.abspath(os.path.join(strCurrentDirectory, "conf"))
+                    for ext in [".json", ".xml"]:
+                        strPathToProjectConfigurationFile = os.path.abspath(os.path.join(strPathToConfigurationDirectory, \
+                                                                                    strConfigurationFileBaseName + ext))
+                        self.DEBUG("Looking for configuration file for %s in %s" %
+                                    (_strPluginName, strPathToProjectConfigurationFile))
+                        bConfFileFound = os.path.isfile(strPathToProjectConfigurationFile)
+                        if bConfFileFound:
+                            break
         return strPathToProjectConfigurationFile
 
     def loadPluginConfig(self, _strPluginName):
@@ -208,6 +210,16 @@ class EDConfiguration(EDLogging):
                 return self.__dictPluginConfiguration[_strPluginName]
 
 
+    ############################################################################
+    # Dictionary like interface
+    ############################################################################
+
+    def get(self, _strPluginName, default=None):
+        return self.__dictPluginConfiguration.get(_strPluginName, default)
+
+    def __contains__(self, key):
+        return (key in self.__dictPluginConfiguration)
+
     def __getitem__(self, _strPluginName):
         """
         edConfig["myPlugin"] -> {}
@@ -223,6 +235,19 @@ class EDConfiguration(EDLogging):
         """
         with self.locked():
             self.__dictPluginConfiguration[_strPluginName] = config
+
+    def __len__(self):
+        return len(self.__dictPluginConfiguration)
+
+    def getPluginListSize(self):
+        """
+        Returns the number of plugins configured
+        """
+        return len(self.__dictPluginConfiguration)
+
+################################################################################
+# #    Deprecation zone
+################################################################################
 
 #    @deprecated
     def getXSConfigurationItem(self, _strPluginName):
@@ -268,11 +293,6 @@ class EDConfiguration(EDLogging):
 
 
 
-    def getPluginListSize(self):
-        """
-        Returns the number of plugins configured
-        """
-        return len(self.__dictPluginConfiguration)
 
 #    @deprected
     @staticmethod
