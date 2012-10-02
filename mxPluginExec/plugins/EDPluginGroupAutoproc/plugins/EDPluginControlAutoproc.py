@@ -404,8 +404,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         import_in.input_anom = self.xscale_generate.dataOutput.hkl_anom_merged
         import_in.input_noanom = self.xscale_generate.dataOutput.hkl_noanom_merged
         import_in.dataCollectionId = self.dataInput.data_collection_id
-        import_in.start_image = self.data_range[0]
-        import_in.end_image = self.data_range[1]
+        import_in.start_image = XSDataInteger(self.data_range[0])
+        import_in.end_image = XSDataInteger(self.data_range[1])
 
         # XXX: is this the right place to get the res from?
         import_in.res = self.res_cutoff_anom.dataOutput.res
