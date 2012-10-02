@@ -402,8 +402,10 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         import_in = XSDataAutoprocImport()
         xscalepath = os.path.abspath(self.xscale_generate.getWorkingDirectory())
-        import_in.input_anom = os.path.join(xscalepath, self.xscale_generate.dataOutput.hkl_anom_merged)
-        import_in.input_noanom = os.path.join(xscalepath, self.xscale_generate.dataOutput.hkl_noanom_merged)
+        import_in.input_anom = XSDataString(os.path.join(xscalepath,
+                                            self.xscale_generate.dataOutput.hkl_anom_merged.value))
+        import_in.input_noanom = XSDataString(os.path.join(xscalepath,
+                                              self.xscale_generate.dataOutput.hkl_noanom_merged.value))
         import_in.dataCollectionId = self.dataInput.data_collection_id
         import_in.start_image = XSDataInteger(self.data_range[0])
         import_in.end_image = XSDataInteger(self.data_range[1])
