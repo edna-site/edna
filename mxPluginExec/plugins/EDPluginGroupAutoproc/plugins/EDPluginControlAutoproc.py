@@ -403,7 +403,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         import_in = XSDataAutoprocImport()
         import_in.input_anom = self.xscale_generate.dataOutput.hkl_anom_merged
         import_in.input_noanom = self.xscale_generate.dataOutput.hkl_noanom_merged
-        import_in.dataCollectionId = self.dataInput.dataCollectionID
+        import_in.dataCollectionId = self.dataInput.data_collection_id
         import_in.start_image = self.data_range[0]
         import_in.end_image = self.data_range[1]
 
