@@ -4,7 +4,7 @@
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
-nnn#
+#
 #    Copyright (C) ESRF
 #
 #    Principal author: Thomas Boeglin
@@ -49,7 +49,7 @@ from XSDataAutoproc import XSDataXdsOutputFile
 from XSDataAutoproc import XSDataXscaleInput
 from XSDataAutoproc import XSDataXscaleInputFile
 from XSDataAutoproc import XSDataAutoprocInput
-
+from XSDataAutoproc import XSDataAutoprocImport
 
 edFactoryPlugin.loadModule('XSDataWaitFilev1_0')
 from XSDataWaitFilev1_0 import XSDataInputWaitFile

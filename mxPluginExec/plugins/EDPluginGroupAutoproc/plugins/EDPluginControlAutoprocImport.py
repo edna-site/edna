@@ -61,7 +61,7 @@ class EDPluginControlAutoprocImport(EDPluginControl):
 
         # copy the common attributes from our data model to the subplugins'
         for a in tocopy:
-            for dm in anom_in, noanom_in
+            for dm in anom_in, noanom_in:
                 setattr(dm, a, getattr(self.dataInput, a))
 
         # now set the specific bits
