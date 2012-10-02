@@ -128,7 +128,7 @@ class DefaultClusterDriver(DefaultDriver):
 
         try:
             self._script_status = int(open(xstatus_file, 'r').read())
-        except:
+        except Exception:
             self._script_status = 0
 
         # set this up for reading the "standard output" of the job.

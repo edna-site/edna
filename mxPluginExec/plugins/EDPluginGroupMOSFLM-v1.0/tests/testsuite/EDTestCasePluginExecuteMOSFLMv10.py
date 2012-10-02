@@ -46,19 +46,6 @@ class EDTestCasePluginExecuteMOSFLMv10(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, _strTestName)
         self.setConfigurationFile(self.getRefConfigFile())
         edPluginMOSFLM = self.createPlugin()
-        xsPluginItem = edPluginMOSFLM.getConfiguration()
-        if xsPluginItem is None:
-            xsPluginItem = EDApplication.getApplicationPluginConfiguration(self.getPluginName())
-            if (xsPluginItem is None):
-                # No application wide configuration file found! Try to find a project specific config file:
-                xsPluginItem = EDApplication.getProjectPluginConfiguration(self.getPluginName())
-
-            if (xsPluginItem is None):
-                self.DEBUG("EDPlugin.configure: No plugin configuration found for " + self.getPluginName())
-                xsPluginItem = XSPluginItem()
-            else:
-                edPluginMOSFLM.setConfiguration(xsPluginItem)
-        #edPluginMOSFLM.configure()
         strResultDir = "executionTestResult"
         strPluginTestDataHome = self.getPluginTestsDataHome()
         self.strExecutionTestDataInputHome = os.path.join(strPluginTestDataHome, "executionTestInput")

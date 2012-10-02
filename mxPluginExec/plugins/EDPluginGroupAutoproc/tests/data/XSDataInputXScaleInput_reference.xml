@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<XSDataXscaleInput>
+    <merge>
+        <value>true</value>
+    </merge>
+    <friedels_law>
+        <value>false</value>
+    </friedels_law>
+    <xds_files>
+        <path>
+            <value>/tmp/plop</value>
+        </path>
+        <res>
+            <value>5.400000e+00</value>
+        </res>
+    </xds_files>
+    <unit_cell_constants>
+        <value>1.100000e+00</value>
+    </unit_cell_constants>
+    <unit_cell_constants>
+        <value>2.200000e+00</value>
+    </unit_cell_constants>
+    <unit_cell_constants>
+        <value>3.300000e+00</value>
+    </unit_cell_constants>
+    <unit_cell_constants>
+        <value>4.400000e+00</value>
+    </unit_cell_constants>
+    <unit_cell_constants>
+        <value>5.500000e+00</value>
+    </unit_cell_constants>
+    <unit_cell_constants>
+        <value>6.600000e+00</value>
+    </unit_cell_constants>
+    <sg_number>
+        <value>3</value>
+    </sg_number>
+    <bins>
+        <value>1.100000e+00</value>
+    </bins>
+    <bins>
+        <value>2.200000e+00</value>
+    </bins>
+    <bins>
+        <value>3.300000e+00</value>
+    </bins>
+    <bins>
+        <value>4.400000e+00</value>
+    </bins>
+</XSDataXscaleInput>
+
+<!--
+
+<?xml version="1.0" ?>
+<XSDataXscaleInput>
+    <merge>
+        <value>true</value>
+    </merge>
+    <friedels_law>
+        <value>true</value>
+    </friedels_law>
+    <xds_files>
+        <path>
+            <value>/tmp/plop</value>
+        </path>
+        <res>
+            <value>3.140000e+00</value>
+        </res>
+    </xds_files>
+    <sg_number>
+        <value>3</value>
+    </sg_number>
+    <input_cell_constants>
+        <value>1 2 3 4 5 6</value>
+    </input_cell_constants>
+</XSDataXscaleInput>
+-->

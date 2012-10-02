@@ -94,7 +94,7 @@ class Borg2DImageWriter():
                 self.edf [ filename ] = EdfFile(fullFilename)
                 self.data[ filename ] = self.edf[ filename ].GetData(0)
                 self.headers [ filename ] = self.edf[ filename ].GetHeader(0)
-            except:
+            except Exception:
                 EDVerbose.error("[ERROR] in reading file %s" % filename)
             self.synchronizeOff()
             if self.data[ filename ].shape != size :
@@ -105,7 +105,7 @@ class Borg2DImageWriter():
             try:
                 self.edf[ filename ] = EdfFile(fullFilename)
                 self.edf[ filename ].WriteImage(self.headers [ filename ] , self.data [ filename ] , Append=0)
-            except:
+            except Exception:
                 EDVerbose.error("[ERROR] in opening and creating file %s" % filename)
             self.synchronizeOff()
 
@@ -151,7 +151,7 @@ class Borg2DImageWriter():
                         XxY = onefile.split("Size")[-1][:-4]
                         try:
                             size = tuple([ int(i) for i in tuple(XxY.split("x"))])
-                        except:
+                        except Exception:
                             size = None
                         if size:
                             fileInDir.append(onefile)
@@ -170,7 +170,7 @@ class Borg2DImageWriter():
                     self.edf[ filename ] = EdfFile(fullFilename)
                     self.headers[ filename ] = self.edf[ filename ].GetHeader(0)
                     self.data[ filename ] = self.edf[ filename ].GetData(0)
-                except:
+                except Exception:
                         EDVerbose.warning("ERROR in reading file %s: Reintializing it" % filename)
                         self.edf[ filename ] = EdfFile(fullFilename)
                         self.data[ filename ] = numpy.zeros(size , dtype="float32")
@@ -195,7 +195,7 @@ class Borg2DImageWriter():
         self.synchronizeOn()
         try:
             self.edf[ filename ].WriteImage(self.headers [ filename ], self.data[ filename ] , Append=0)
-        except:
+        except Exception:
             EDVerbose.error("ERROR in writing image %s at position %s" % (filename, position))
         self.synchronizeOff()
 

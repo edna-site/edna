@@ -46,9 +46,10 @@ from EDConfiguration import EDConfiguration
 from EDParallelJobLauncher import EDParallelJobLauncher
 from EDUtilsArray import EDUtilsArray
 from EDPDBFilter import EDPDBFilter
-
-from XSDataSAS import XSDataInputSolutionScattering, XSDataResultSolutionScattering, XSDataInputGnom, \
-                    XSDataInputDammif, XSDataInputSupcomb, XSDataInputDamaver, XSDataInputDamfilt, \
+from EDFactoryPlugin import edFactoryPlugin
+edFactoryPlugin.loadModule("XSDataEdnaSaxs")
+from XSDataSAS import XSDataInputSolutionScattering, XSDataResultSolutionScattering
+from XSDataEdnaSaxs import XSDataInputGnom, XSDataInputDammif, XSDataInputSupcomb, XSDataInputDamaver, XSDataInputDamfilt, \
                     XSDataInputDamstart
 from XSDataCommon import XSDataDouble, XSDataInteger, XSDataString, XSDataBoolean
 
@@ -205,6 +206,8 @@ class EDPluginControlSolutionScatteringv0_4(EDPluginControl):
 
     def checkJMol(self):
         self.__pluginConfiguration = self.getConfiguration()
+        if self.__pluginConfiguration is None:
+            return
         self.__strPathToJMol = EDConfiguration.getStringParamValue(self.__pluginConfiguration, 'jMol')
         if os.path.isdir(self.__strPathToJMol):
             distutils.dir_util.copy_tree(self.__strPathToJMol, os.path.join(self.getWorkingDirectory(), "jmol"))

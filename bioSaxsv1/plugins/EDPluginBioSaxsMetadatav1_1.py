@@ -42,7 +42,7 @@ from EDFactoryPluginStatic      import EDFactoryPluginStatic
 from EDUtilsPath                import EDUtilsPath
 from XSDataCommon               import XSDataString, XSDataImage, \
                          XSDataDouble, XSDataLength, XSDataWavelength, \
-                         XSDataTime, XSDataInteger
+                         XSDataTime, XSDataInteger, XSDataTime
 from XSDataBioSaxsv1_0          import XSDataInputBioSaxsMetadatav1_0, \
                                      XSDataResultBioSaxsMetadatav1_0, \
                                      XSDataBioSaxsExperimentSetup, \
@@ -91,6 +91,7 @@ class EDPluginBioSaxsMetadatav1_1(EDPluginExec):
         self.exposureTime = None
         self.frameNumber = None
         self.frameMax = None
+        self.timeOfFrame = None
         #
         self.code = None
         self.comments = None
@@ -247,12 +248,16 @@ complex type XSDataBioSaxsSample extends XSData {
             xsdExperiment.detectorDistance = xsDataResult.detectorDistance = XSDataLength(self.detectorDistance)
         if self.pixelSize_1 is not None:
             xsDataResult.pixelSize_1 = XSDataLength(self.pixelSize_1)
+            xsdExperiment.pixelSize_1 = xsDataResult.pixelSize_1
         if self.pixelSize_2 is not None:
             xsDataResult.pixelSize_2 = XSDataLength(self.pixelSize_2)
+            xsdExperiment.pixelSize_2 = xsDataResult.pixelSize_2
         if self.beamCenter_1 is not None:
             xsDataResult.beamCenter_1 = XSDataDouble(self.beamCenter_1)
+            xsdExperiment.beamCenter_1 = xsDataResult.beamCenter_1
         if self.beamCenter_2 is not None:
             xsDataResult.beamCenter_2 = XSDataDouble(self.beamCenter_2)
+            xsdExperiment.beamCenter_2 = xsDataResult.beamCenter_2
         if self.beamStopDiode is not None:
             xsdExperiment.beamStopDiode = xsDataResult.beamStopDiode = XSDataDouble(self.beamStopDiode)
         if self.wavelength is not None:
@@ -275,6 +280,8 @@ complex type XSDataBioSaxsSample extends XSData {
             xsdExperiment.frameNumber = xsDataResult.frameNumber = XSDataInteger(self.frameNumber)
         if self.frameMax is not None:
             xsdExperiment.frameMax = xsDataResult.frameMax = XSDataInteger(self.frameMax)
+        if self.timeOfFrame is not None:
+            xsdExperiment.timeOfFrame = xsDataResult.timeOfFrame = XSDataTime(self.timeOfFrame)
         if self.code is not None:
             xsdSample.code = xsDataResult.code = XSDataString(self.code)
         if self.comments is not None:

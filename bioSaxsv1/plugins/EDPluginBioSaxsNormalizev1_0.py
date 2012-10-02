@@ -23,13 +23,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import shutil
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-import os
+__status__ = "deprecated"
+
+import os, shutil
 from EDPluginControl    import EDPluginControl
 from XSDataCommon       import XSDataDouble, XSDataImage, XSDataFile, XSDataString, XSDataStatus, XSDataTime
 from XSDataBioSaxsv1_0  import XSDataInputBioSaxsNormalizev1_0, XSDataResultBioSaxsNormalizev1_0, \
@@ -47,18 +48,17 @@ class EDPluginBioSaxsNormalizev1_0(EDPluginControl):
     do the normalization of the raw data by ring current and BeamStopDiode 
     Finally append all metadata to the file (in post-processing).
     """
-
-
+    __strPluginNameSaxsMac = "EDPluginExecSaxsMacv1_0"
+    __strPluginNameWaitFile = "EDPluginWaitFile"
+    __strPluginNameMetadata = "EDPluginBioSaxsMetadatav1_0"
     def __init__(self):
         """
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsNormalizev1_0)
-        self.__strPluginNameSaxsMac = "EDPluginExecSaxsMacv1_0"
+
         self.__edPluginExecSaxsMac = None
-        self.__strPluginNameWaitFile = "EDPluginWaitFile"
         self.__edPluginExecWaitFile = None
-        self.__strPluginNameMetadata = "EDPluginBioSaxsMetadatav1_1"
         self.__edPluginExecMetadata = None
 
 
@@ -148,6 +148,20 @@ class EDPluginBioSaxsNormalizev1_0(EDPluginControl):
         self.__edPluginExecWaitFile.executeSynchronous()
 
 
+        if self.isFailure():
+            return
+        self.__edPluginExecSaxsMac.connectSUCCESS(self.doSuccessExecSaxsMac)
+        self.__edPluginExecSaxsMac.connectFAILURE(self.doFailureExecSaxsMac)
+        self.__edPluginExecSaxsMac.executeSynchronous()
+
+        if self.isFailure():
+            return
+
+        self.__edPluginExecMetadata.connectSUCCESS(self.doSuccessExecMetadata)
+        self.__edPluginExecMetadata.connectFAILURE(self.doFailureExecMetadata)
+        self.__edPluginExecMetadata.executeSynchronous()
+
+
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
         self.DEBUG("EDPluginBioSaxsNormalizev1_0.postProcess")
@@ -175,9 +189,6 @@ class EDPluginBioSaxsNormalizev1_0(EDPluginControl):
         (title, self.detectorDistance, self.waveLength, self.pixelSize_1, self.pixelSize_2, self.beamCenter_1, self.beamCenter_2, self.normalizationFactor / self.beamStopDiode)
         xsdiSaxsMac.setOptions(XSDataString(saxsMacOptions))
         self.__edPluginExecSaxsMac.setDataInput(xsdiSaxsMac)
-        self.__edPluginExecSaxsMac.connectSUCCESS(self.doSuccessExecSaxsMac)
-        self.__edPluginExecSaxsMac.connectFAILURE(self.doFailureExecSaxsMac)
-        self.__edPluginExecSaxsMac.executeSynchronous()
 
 
     def doFailureExecWaitFile(self, _edPlugin=None):
@@ -219,9 +230,6 @@ class EDPluginBioSaxsNormalizev1_0(EDPluginControl):
         xsdiMetadata.setCode(self.xsdInput.sample.code)
 
         self.__edPluginExecMetadata.setDataInput(xsdiMetadata)
-        self.__edPluginExecMetadata.connectSUCCESS(self.doSuccessExecMetadata)
-        self.__edPluginExecMetadata.connectFAILURE(self.doFailureExecMetadata)
-        self.__edPluginExecMetadata.executeSynchronous()
 
 
 

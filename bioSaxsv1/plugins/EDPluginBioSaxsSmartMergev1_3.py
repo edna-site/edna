@@ -28,7 +28,7 @@ __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF Grenoble"
-__date__ = "20120105"
+__date__ = "20120829"
 __status__ = "Production"
 
 import os, shutil
@@ -155,7 +155,15 @@ class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
         if self.isFailure():
             return
         if len(self.lstInput) == 1:
-            shutil.copyfile(self.lstInput[0].path.value, self.dataInput.mergedCurve.path.value)
+            inp = self.lstInput[0].path.value
+            dst = self.dataInput.mergedCurve.path.value
+            if not os.path.isdir(os.path.dirname(dst)):
+                 self.error("Output directory for %s does not exist"%dst)
+                 os.makedirs(os.path.dirname(dst))
+            if not os.path.exists(inp):
+                 self.warning("Input %s does not (yet?) exist"%inp)
+                 time.sleep(1.0)
+            shutil.copyfile(inp, dst)
         else:
             self.lstMerged = []
             if (self.absoluteFidelity is not None) or (self.relativeFidelity is not None):
@@ -361,6 +369,7 @@ class EDPluginBioSaxsSmartMergev1_3(EDPluginControl):
         self.DEBUG("EDPluginBioSaxsSmartMergev1_3.doSuccessExecWait")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginBioSaxsSmartMergev1_3.doSuccessExecWait")
         xsdo = _edPlugin.dataOutput
+        #self.error("ExecWait Output:%s"%xsdo.marshal())
         if (xsdo.timedOut is not None) and  bool(xsdo.timedOut.value):
             strErr = "Error in waiting for all input files to arrive"
             self.ERROR(strErr)

@@ -3,12 +3,6 @@
 	<XSPluginList>
 		<XSPluginItem>
 			<name>EDPluginControlIntegrationv01</name>  
-			<XSParamList>
-			    <XSOptionItem>
-			        <name>EDPluginMOSFLMv01Integration</name>
-			        <enabled>true</enabled>
-			    </XSOptionItem>
-			</XSParamList>
 		</XSPluginItem>
 	</XSPluginList> 
 </XSConfiguration> 

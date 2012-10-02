@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
 <XSDataInput>
 <sample><name><value>test</value></name></sample>
-<inputCurve><path><value>${EDNA_TESTIMAGES}/bioSaxsMerged.dat</value></path></inputCurve>
+<inputCurve><path><value>${EDNA_TESTIMAGES}/autosubtracted.dat</value></path></inputCurve>
 </XSDataInput>

@@ -7,7 +7,6 @@ dist
 build
 eggs
 parts
-bin
 var
 sdist
 develop-eggs
@@ -32,3 +31,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#EDNA/eclipse specific
+/.XSDataDictionaryModule.xml
+/.project
+/.pydevproject

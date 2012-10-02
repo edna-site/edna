@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<XSConfiguration> 
-	<XSPluginList>
-		<XSPluginItem>
-			<name>EDPluginExecGnomv0_2</name>
-		</XSPluginItem>
-	</XSPluginList> 
-</XSConfiguration> 

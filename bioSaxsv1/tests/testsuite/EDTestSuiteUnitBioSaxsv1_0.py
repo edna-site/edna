@@ -54,6 +54,7 @@ class EDTestSuiteUnitBioSaxsv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsReduceFileSeriev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsSingleSamplev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsToSAS")
+        self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsHPLCv1_0")
 
 
 ##############################################################################

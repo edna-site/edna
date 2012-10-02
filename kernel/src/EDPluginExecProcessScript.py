@@ -140,35 +140,35 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
             self.hasTimedOut(True)
 
         bTimeOut = self.isTimeOut()
-        if (bTimeOut == True):
+        if bTimeOut == True:
             self.DEBUG("EDPluginExecProcessScript.process ========================================= ERROR! ================")
             strErrorMessage = "%s execution timed out ( > %.1f s)!" % (self.__strScriptExecutable, float(self.getTimeOut()))
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
             strExecutionStatus = "timeout"
-            if (self.isVerboseDebug()):
+            if self.isVerboseDebug():
                 raise RuntimeError(strErrorMessage)
         else:
             strExecutionStatus = self.getExecutionStatus()
             # Report an error if the result is not "0" and the result is not an empty string
-            if (not strExecutionStatus == "0" and not strExecutionStatus == ""):
+            if not strExecutionStatus == "0" and not strExecutionStatus == "":
                 self.DEBUG("EDPluginExecProcessScript.process ========================================= ERROR! ================")
                 # Add any messages in the error log file (.err) to the list of error messages
                 strErrorLog = self.readProcessErrorLogFile()
-                if (strErrorLog is None):
+                if strErrorLog is None:
                     strErrorMessage = "%s execution error - status : %s" % (self.getClassName(), strExecutionStatus)
                     self.error(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
                     self.setFailure()
-                    if (self.isVerboseDebug()):
+                    if self.isVerboseDebug():
                         raise RuntimeError(strErrorMessage)
                 else:
                     strErrorMessage = "%s execution error : %s" % (self.getClassName(), strErrorLog)
                     self.error(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
                     self.setFailure()
-                    if (self.isVerboseDebug()):
+                    if self.isVerboseDebug():
                         raise RuntimeError(strErrorMessage)
                 # Add any messages in the log file (.log) to the list of error messages
                 strLog = self.readProcessLogFile()
@@ -223,7 +223,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
                 self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 self.setFailure()
-                if (self.isVerboseDebug()):
+                if self.isVerboseDebug():
                     raise RuntimeError, strErrorMessage
 
 
@@ -239,68 +239,69 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         """
         EDPluginExecProcess.configure(self)
         self.DEBUG("EDPluginExecProcessScript.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            self.warning("EDPluginExecProcessScript.configure: No plugin item defined.")
-            xsPluginItem = XSPluginItem()
-        strShell = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SHELL)
-        if(strShell == None):
+        strShell = self.config.get(self.CONF_EXEC_PROCESS_SCRIPT_SHELL)
+        if strShell is None:
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
-                            EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SHELL + ", using default value: " + self.getScriptShell())
+                            self.CONF_EXEC_PROCESS_SCRIPT_SHELL + ", using default value: " + self.getScriptShell())
         else:
             self.setScriptShell(strShell)
-        strScriptExecutor = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTOR)
-        if(strScriptExecutor == None):
+        strScriptExecutor = self.config.get(self.CONF_EXEC_PROCESS_SCRIPT_EXECUTOR)
+        if strScriptExecutor is None:
             self.setScriptExecutor(self.getScriptShell())
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
-                            EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTOR + ", using script shell: " + self.getScriptShell())
+                            self.CONF_EXEC_PROCESS_SCRIPT_EXECUTOR + ", using script shell: " + self.getScriptShell())
         else:
             self.setScriptExecutor(strScriptExecutor)
-        if (self.__strScriptExecutable is None):
-            strScriptExecutable = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE)
-            if(strScriptExecutable is None):
-                strErrorMessage = "Configuration parameter missing: " + EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE
+        if self.__strScriptExecutable is None:
+            strScriptExecutable = self.config.get(self.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE)
+            if strScriptExecutable is None:
+                strErrorMessage = "Configuration parameter %s missing for plugin %s with EDNA_SITE=%s" % \
+                                    (self.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE, \
+                                      self.getPluginName(), EDUtilsPath.EDNA_SITE)
                 self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 self.setFailure()
-                if (self.isVerboseDebug()):
+                if self.isVerboseDebug():
                     raise RuntimeError, strErrorMessage
             else:
                 # Check that the executable file exists
-                if (not os.path.exists(strScriptExecutable)):
-                    strErrorMessage = "Cannot find configured %s: %s" % (EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE, strScriptExecutable)
+                if not os.path.exists(strScriptExecutable):
+                    strErrorMessage = "Cannot find configured executable %s: %s for plugin %s with EDNA_SITE=%s" % \
+                                    (self.CONF_EXEC_PROCESS_SCRIPT_EXECUTABLE, strScriptExecutable, \
+                                      self.getPluginName(), EDUtilsPath.EDNA_SITE)
                     self.error(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
                     self.setFailure()
-                    if (self.isVerboseDebug()):
+                    if self.isVerboseDebug():
                         raise RuntimeError, strErrorMessage
                 else:
                     self.setScriptExecutable(strScriptExecutable)
         if not self.__strScriptExecutable:
-            self.error("Not Executable found for plugin %s with EDNA_SITE=%s" % (self.getClassName(), EDUtilsPath.EDNA_SITE))
+            self.error("No executable found for plugin %s with EDNA_SITE=%s" % (self.getClassName(), EDUtilsPath.EDNA_SITE))
 
-        strConfigSetupCCP4 = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SETUP_CCP4)
-        if(strConfigSetupCCP4 == None):
+        strConfigSetupCCP4 = self.config.get(self.CONF_EXEC_PROCESS_SCRIPT_SETUP_CCP4)
+        if strConfigSetupCCP4 is None:
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
-                            EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_SETUP_CCP4 + ", NO default value!")
+                            self.CONF_EXEC_PROCESS_SCRIPT_SETUP_CCP4 + ", NO default value!")
         else:
             self.setSetupCCP4(strConfigSetupCCP4)
-        strVersion = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING)
-        if(strVersion == None):
+        strVersion = self.config.get(self.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING)
+        if strVersion is None:
             self.DEBUG("EDPluginExecProcessScript.configure: No configuration parameter found for: " + \
-                            EDPluginExecProcessScript.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING + ", NO default value!")
+                            self.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING + ", NO default value!")
         else:
             self.setStringVersion(strVersion)
 
-        if (self.__strScriptBaseName == None):
+        if self.__strScriptBaseName is None:
             self.setScriptBaseName(self.getBaseName())
-        if (self.__strScriptFileName == None):
+        if self.__strScriptFileName is None:
             self.setScriptFileName(self.__strScriptBaseName + ".sh")
-        if (self.__strScriptLogFileName == None):
+        if self.__strScriptLogFileName is None:
             self.setScriptLogFileName(self.__strScriptBaseName + ".log")
-        if (self.__strScriptErrorLogFileName == None):
+        if self.__strScriptErrorLogFileName is None:
             self.setScriptErrorLogFileName(self.__strScriptBaseName + ".err")
-        self.__strPathToHostNamePidFile = os.path.join(self.getWorkingDirectory(), os.path.basename(self.__strScriptExecutable) + "_hostNamePid.txt")
+        if self.__strScriptExecutable is not None:
+            self.__strPathToHostNamePidFile = os.path.join(self.getWorkingDirectory(), os.path.basename(self.__strScriptExecutable) + "_hostNamePid.txt")
 
 
     def prepareScript(self):
@@ -328,8 +329,8 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         self.DEBUG("EDPluginExecProcessScript.prepareShellScript")
         listScript = ["#!%s" % self.getScriptShell(),
                       "cd " + self.getWorkingDirectory()]
-        if (self.__bRequireCCP4):
-            if (self.__strConfigSetupCCP4 == None or self.__strConfigSetupCCP4 == ""):
+        if self.__bRequireCCP4:
+            if self.__strConfigSetupCCP4 == None or self.__strConfigSetupCCP4 == "":
                 self.DEBUG("EDPluginExecProcessScript.prepareShellScript : CCP4 setup script not defined.")
             else:
                 listScript.append(". " + self.__strConfigSetupCCP4)
@@ -339,7 +340,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         # Execution
         strScript = self.__strScriptExecutable + " " + self.__strScriptCommandline + " > " + self.__strScriptLogFileName + " 2> " + self.__strScriptErrorLogFileName
         # Add execution commands - if any
-        if (self.__listCommandExecution == []):
+        if self.__listCommandExecution == []:
             strScript += " &"
             listScript.append(strScript)
         else:
@@ -394,8 +395,8 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
 
         # Add pre-execution commands - if any
         cmdline = ""
-        if (self.__bRequireCCP4):
-            if (self.__strConfigSetupCCP4 == None or self.__strConfigSetupCCP4 == ""):
+        if self.__bRequireCCP4:
+            if self.__strConfigSetupCCP4 == None or self.__strConfigSetupCCP4 == "":
                 self.DEBUG("EDPluginExecProcessScript.preparePythonScript : CCP4 setup script not defined.")
             else:
                 cmdline += ". %s %s" % (self.__strConfigSetupCCP4, EDUtilsPlatform.cmdSep)
@@ -443,7 +444,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
             EDUtilsPlatform.escape(self.__strScriptCommandline))
 
         listCommandLine = shlex.split(str(strcmd))
-        if (self.__listCommandExecution == []):
+        if self.__listCommandExecution == []:
             listScript.append('subP = subprocess.Popen(%s,stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=dictEnv)' % listCommandLine)
         else:
             listScript.append('subP = subprocess.Popen(%s, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=dictEnv)' % listCommandLine)
@@ -509,7 +510,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
             strExecutable = "@CALL " + self.__strScriptExecutable
         else:
             strExecutable = self.__strScriptExecutable
-        if (self.__listCommandExecution == []):
+        if self.__listCommandExecution == []:
             listScript.append("'%s' '%s' > '%s' 2> '%s' &" % (strExecutable , self.__strScriptCommandline , self.__strScriptLogFileName, self.__strScriptErrorLogFileName))
         else:
             for  strCommandExecution in self.__listCommandExecution:
@@ -574,7 +575,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Sets the list of execution commands
         """
         self.synchronizeOn()
-        if (_listCommandExecution is not None):
+        if _listCommandExecution is not None:
             self.__listCommandExecution = list(_listCommandExecution)
         self.synchronizeOff()
 
@@ -584,7 +585,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Adds an execution command to the list
         """
         self.synchronizeOn()
-        if (_strCommandExecution is not None):
+        if _strCommandExecution is not None:
             self.__listCommandExecution.append(_strCommandExecution)
         self.synchronizeOff()
 
@@ -595,7 +596,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         """
         self.synchronizeOn()
         edObject = None
-        if (self.__listCommandExecution is not None):
+        if self.__listCommandExecution is not None:
             edObject = list(self.__listCommandExecution)
         self.synchronizeOff()
         return edObject
@@ -606,7 +607,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Sets the list of pre execution commands
         """
         self.synchronizeOn()
-        if (_listCommandPreExecution is not None):
+        if _listCommandPreExecution is not None:
             self.__listCommandPreExecution = list(_listCommandPreExecution)
         self.synchronizeOff()
 
@@ -616,7 +617,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Adds a pre execution command to the list
         """
         self.synchronizeOn()
-        if (_strCommandPreExecution is not None):
+        if _strCommandPreExecution is not None:
             self.__listCommandPreExecution.append(_strCommandPreExecution)
         self.synchronizeOff()
 
@@ -627,7 +628,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         """
         self.synchronizeOn()
         edObject = None
-        if (self.__listCommandPreExecution != None):
+        if self.__listCommandPreExecution != None:
             edObject = list(self.__listCommandPreExecution)
         self.synchronizeOff()
         return edObject
@@ -638,7 +639,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Sets the list of post execution commands
         """
         self.synchronizeOn()
-        if (_listCommandPostExecution is not None):
+        if _listCommandPostExecution is not None:
             self.__listCommandPostExecution = list(_listCommandPostExecution)
         self.synchronizeOff()
 
@@ -648,7 +649,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Adds a post execution command to the list
         """
         self.synchronizeOn()
-        if (_strCommandPostExecution is not None):
+        if _strCommandPostExecution is not None:
             self.__listCommandPostExecution.append(_strCommandPostExecution)
         self.synchronizeOff()
 
@@ -659,7 +660,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         """
         self.synchronizeOn()
         edObject = None
-        if (self.__listCommandPostExecution != None):
+        if self.__listCommandPostExecution != None:
             edObject = list(self.__listCommandPostExecution)
         self.synchronizeOff()
         return edObject
@@ -727,7 +728,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Returns the script name 
         if None, create it: <date>-<random number>-<base name>
         """
-        if (self.__strScriptBaseName is None):
+        if self.__strScriptBaseName is None:
             self.__strScriptBaseName = self.createBaseName()
         return self.__strScriptBaseName
 
@@ -831,7 +832,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         Returns the executable version
         """
         returnValue = None
-        if (self.__strVersion is not None):
+        if self.__strVersion is not None:
             returnValue = self.__strVersion
         return returnValue
 
@@ -869,7 +870,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         self.DEBUG("EDPluginExecProcessScript.findStringInLog")
         bTestSuccess = False
         strLogFileContent = self.readProcessLogFile()
-        if (strLogFileContent.find(_strInput) != -1):
+        if strLogFileContent.find(_strInput) != -1:
             bTestSuccess = True
         return bTestSuccess
 
@@ -881,7 +882,7 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         """
         self.DEBUG("EDPluginExecProcessScript.testVersion")
         bCorrectVersion = False
-        if (self.findStringInLog(self.__strVersion) != None):
+        if self.findStringInLog(self.__strVersion) != None:
             bCorrectVersion = True
         return bCorrectVersion
 
@@ -926,4 +927,3 @@ class EDPluginExecProcessScript(EDPluginExecProcess):
         self.DEBUG("EDPluginExecProcessScript.readProcessErrorLogFile")
         strErrorLogFileContent = self.readProcessFile(self.getScriptErrorLogFileName())
         return strErrorLogFileContent
-

@@ -171,6 +171,8 @@ class EDPluginBioSaxsNormalizev1_1(EDPluginControl):
             return
 #        Small Numpy processing:
         fabIn = fabio.open(self.strRawImage)
+        if "time_of_day" in fabIn.header:
+            self.dictOutputHeader["time_of_day"] = fabIn.header["time_of_day"]
         if "Mask" in self.dictOutputHeader:
             mask = self.getMask(self.dictOutputHeader["Mask"])
             npaMaskedData = numpy.ma.masked_array(fabIn.data.astype("float32"),

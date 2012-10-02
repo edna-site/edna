@@ -2,6 +2,7 @@ targetNamespace "http://www.edna-site.org"
 
 package XSDataCommon {
 	package CommonBasicTypes {
+
 		complex type XSData {
 		}
 
@@ -37,6 +38,7 @@ package XSDataCommon {
 	}
 
 	package CommonComplexTypes {
+
 		complex type XSDataArray extends XSData {
 			"md5 checksum has to be calculated on the decoded data, not the encoded one. Default encoding is \"base64\" default byte order is \"little-endian\" (intel) not \"big-endian\" (java)"
 			coding : XSDataString optional
@@ -61,12 +63,14 @@ package XSDataCommon {
 			date : XSDataString optional
 			number : XSDataInteger optional
 		}
+
 		complex type XSDataImageExt extends XSDataImage {
 			"Represents an image that can either be in a file (path), either inside the XML (array) or as a reference for EDShare (shared) "
 			array : XSDataArray optional
-			shared: XSDataString optional
 			exposureTime : XSDataTime optional
+			shared : XSDataString optional
 		}
+
 		complex type XSDataKeyValuePair {
 			key : XSDataString
 			value : XSDataString
@@ -82,17 +86,15 @@ package XSDataCommon {
 	}
 
 	package CommonConfiguration {
+
 		complex type XSConfiguration {
+			XSImportConfiguration : XSImportConfiguration [] optional
 			XSPluginList : XSPluginList optional
 		}
 
-		complex type XSOptionItem {
-			enabled : boolean
+		complex type XSImportConfiguration {
+			directory : string optional
 			name : string
-		}
-
-		complex type XSOptionList {
-			XSOptionItem : XSOptionItem []
 		}
 
 		complex type XSParamItem {
@@ -105,7 +107,6 @@ package XSDataCommon {
 		}
 
 		complex type XSPluginItem {
-			XSOptionList : XSOptionList optional
 			XSParamList : XSParamList optional
 			name : string
 		}
@@ -117,6 +118,7 @@ package XSDataCommon {
 	}
 
 	package CommonInputAndResult {
+
 		complex type XSDataExecutionInfo {
 			"This class contains details of the execution of a particular plugin."
 			baseDirectory : XSDataFile
@@ -169,6 +171,7 @@ package XSDataCommon {
 	}
 
 	package CommonLinearAlgebra {
+
 		complex type XSDataMatrix extends XSDataMatrixDouble {
 			"XSDataMatrix is deprecated and should be replaced with XSDataMatrixDouble."
 		}
@@ -220,6 +223,7 @@ package XSDataCommon {
 	}
 
 	package CommonTypesWithUnits {
+
 		complex type XSDataAbsorbedDoseRate extends XSDataDoubleWithUnit {
 			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
 		}
@@ -231,11 +235,8 @@ package XSDataCommon {
 			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
 		}
 
-		complex type XSDataDisplacement {
+		complex type XSDataDisplacement extends XSDataDoubleWithUnit {
 			"These simple objects that use built-in types are basically aimed to be used by the rest of the data model objects."
-			error : XSDataDouble optional
-			unit : XSDataString optional
-			value : double
 		}
 
 		complex type XSDataDoubleWithUnit extends XSDataDouble {
