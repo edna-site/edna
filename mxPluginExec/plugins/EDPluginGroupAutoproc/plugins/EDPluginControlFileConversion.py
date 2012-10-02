@@ -65,13 +65,12 @@ class EDPluginControlFileConversion(EDPluginControl):
 
     def checkParameters(self):
         self.DEBUG('FileConversion: checkParameters')
-        data_input = self.getDataInput()
-        self.checkMandatoryParameters(data_input.input_file, 'no input file')
-        self.checkMandatoryParameters(data_input.output_file, 'no output file')
+        self.checkMandatoryParameters(self.dataInput.input_file, 'no input file')
+        self.checkMandatoryParameters(self.dataInput.output_file, 'no output file')
 
         # now really check the parameters
-        if data_input.input_file is not None:
-            path = data_input.input_file.value
+        if self.dataInput.input_file is not None:
+            path = self.dataInput.input_file.value
             if not os.path.exists(path):
                 self.ERROR('input file {0} does not exist'.format(path))
                 self.setFailure()
