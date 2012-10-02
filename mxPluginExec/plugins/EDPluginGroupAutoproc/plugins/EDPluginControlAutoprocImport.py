@@ -84,7 +84,7 @@ class EDPluginControlAutoprocImport(EDPluginControl):
             return
 
         self.outdir = outdir.value
-        if not os.path.exists(outdir) and not os.path.isdir(outdir):
+        if not os.path.exists(self.outdir) and not os.path.isdir(self.outdir):
             self.ERROR('File Import: output directory is not a directory')
             self.setFailure()
             return
