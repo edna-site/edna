@@ -67,11 +67,11 @@ class EDPluginControlAutoprocImport(EDPluginControl):
         # now set the specific bits
         anom_in.anom = XSDataBoolean(True)
         anom_in.input_file = self.dataInput.input_anom
-        anom_in.output_file = os.path.join(self.outdir, OUTFILE_TEMPLATE.format('anom'))
+        anom_in.output_file = XSDataString(os.path.join(self.outdir, OUTFILE_TEMPLATE.format('anom')))
 
         noanom_in.anom = XSDataBoolean(False)
         noanom_in.input_file = self.dataInput.input_noanom
-        noanom_in.output_file = os.path.join(self.outdir, OUTFILE_TEMPLATE.format('noanom'))
+        noanom_in.output_file = XSDataString(os.path.join(self.outdir, OUTFILE_TEMPLATE.format('noanom')))
 
     def checkParameters(self):
         # NB. we'll only check for the output directory existence for
