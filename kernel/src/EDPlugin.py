@@ -34,6 +34,7 @@ import os, tempfile, stat, types
 
 from EDSlot                import EDSlot
 from EDUtilsPath           import EDUtilsPath
+from EDConfiguration       import EDConfiguration
 from EDConfigurationStatic import EDConfigurationStatic
 from EDUtilsFile           import EDUtilsFile
 from EDStatus              import EDStatus
@@ -64,7 +65,6 @@ class EDPlugin(EDAction):
     CONF_WRITE_XML_INPUT_OUTPUT = "writeXMLInputOutput"
     CONF_WRITE_XML_OUTPUT = "writeXMLOutput"
     CONF_WRITE_XML_INPUT = "writeXMLInput"
-    __edConfiguration = EDConfigurationStatic()
 
     def __init__ (self):
         """
@@ -93,7 +93,7 @@ class EDPlugin(EDAction):
         self.strPathDataInput = None
         self.strPathDataOutput = None
         self.__bUseWarningInsteadOfError = False
-
+        self.__edConfiguration = EDConfigurationStatic()
 
 
     def preProcess(self, _edObject=None):
@@ -161,6 +161,7 @@ class EDPlugin(EDAction):
         Receives a Plugin Configuration as XSPluginItem or python dict from the application.
         """
         self.DEBUG("EDPlugin.setConfiguration")
+        self.__edConfiguration = EDConfiguration()
         if isinstance(_xsPluginItem, dict):
             self.__edConfiguration[self.getPluginName()] = _xsPluginItem
         else:

@@ -211,7 +211,7 @@ class EDTestCasePluginUnitRaddosev10(EDTestCasePluginUnit):
     def process(self):
         """
         """
-#        self.addTestMethod(self.testConfigureOK)
+        self.addTestMethod(self.testConfigureOK)
         self.addTestMethod(self.testSetDataModelInput)
         self.addTestMethod(self.testSetDataInput)
         self.addTestMethod(self.testDictionnaryResults)
