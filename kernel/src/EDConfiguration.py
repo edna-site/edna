@@ -293,25 +293,39 @@ class EDConfiguration(EDLogging):
 
 
 
-
-#    @deprected
+#    @deprecated
     @staticmethod
-    def getStringParamValue(_xsPluginItem, _pyStrParamName):
+    def getParamItem(_xsPluginItem, _pyStrParamName):
         """
-        Returns the parameter value in a string format
+        Returns the corresponding 'paramItem' for a given plugin name
         -> Deprecated
         """
         xsParamList = _xsPluginItem.getXSParamList()
-        paramValue = None
+        xsParamItemReturn = None
 
         if (xsParamList != None):
             xsParamItems = xsParamList.getXSParamItem()
             for xsParamItem in xsParamItems:
                 if (xsParamItem.getName() == _pyStrParamName):
-                    paramValue = xsParamItem.getValue()
-        return paramValue
+                    xsParamItemReturn = xsParamItem
+                    break
+        return xsParamItemReturn
 
-#    @deprected
+#    @deprecated
+    @classmethod
+    def getStringParamValue(cls, _xsPluginItem, _pyStrParamName):
+        """
+        Returns the parameter value in a string format
+        -> Deprecated
+        """
+        strParamValue = None
+        xsParamItem = cls.getParamItem(_xsPluginItem, _pyStrParamName)
+        if xsParamItem is not None:
+            strParamValue = xsParamItem.getValue()
+        return strParamValue
+    
+
+#    @deprecated
     @classmethod
     def getIntegerParamValue(cls, _xsPluginItem, _pyStrParamName):
         """
