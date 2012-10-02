@@ -257,16 +257,20 @@ class HPLCframe(object):
         self.I0_Stdev = None
         self.quality = None
 
-def median_filt(a, width=3):
+def median_filt(input_array, width=3):
     """
-    Simple 1D median filter (not processing correctly the border
+    Simple 1D median filter (with reflect mode)
     """
-    big = numpy.zeros((a.size - width, width), dtype=a.dtype)
-    for i in range(a.size - width):
-        big[i, :] = a[i:i + width]
-    out = numpy.zeros_like(a)
-    out[width // 2:-width + width // 2] = numpy.median(big, axis= -1)
-    return out
+    b = numpy.zeros(input_array.size + width, dtype=input_array.dtype)
+    b[:width // 2] = input_array[width // 2 - 1::-1]
+    b[-width + width // 2:] = input_array[-1:-width + width // 2 - 1:-1]
+    b[width // 2:-width + width // 2] = input_array
+    c = numpy.outer(b, numpy.ones(width, dtype=input_array.dtype))
+    c.strides = c.strides[0], c.strides[0]
+    d = numpy.median(c, axis= -1)
+    return d[:-width]
+
+
 def label(a):
     "Simple labaling algo for non zero regions"
     last = 0

@@ -1,0 +1,6 @@
+{
+    "__extend__": [], 
+    "EDPluginWaitFile": {
+        "timeOut": 20
+    }
+}

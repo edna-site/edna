@@ -1,0 +1,13 @@
+{
+    "EDPluginBioSaxsToSASv1_0": {
+        "fileSize": 1000, 
+        "timeOut": 1000
+    }, 
+    "EDPluginExecBioSaxsReprocessv1_0": {}, 
+    "EDPluginBioSaxsReprocessv1_0": {}, 
+    "__extend__": null, 
+    "EDPluginBioSaxsNormalizev1_0": {}, 
+    "EDPluginBioSaxsNormalizev1_1": {
+        "DummyPixelValue": -1
+    }
+}
