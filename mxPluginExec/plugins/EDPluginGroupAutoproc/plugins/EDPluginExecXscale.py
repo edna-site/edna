@@ -169,6 +169,7 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
                 data_output.succeeded = XSDataBoolean(success)
 
         # also add the hkl file to our output
-        data_output.hkl_file = XSDataString(self.hkl_file)
+        data_output.hkl_file = XSDataString(os.path.join(self.getWorkingDirectory(),
+                                                         self.hkl_file))
 
         self.dataOutput = data_output
