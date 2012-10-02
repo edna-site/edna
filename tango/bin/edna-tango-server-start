@@ -86,7 +86,7 @@ sleep 1
 datetime=$(date +"%Y%m%dT-%H%M%S")
 
 # Put the log files in ${HOME}/log/edna-tango-server_$datetime.log
-logdir=${HOME}/lo
+logdir=${HOME}/log
 if [ ! -d $logdir ];
 then
   mkdir $logdir
