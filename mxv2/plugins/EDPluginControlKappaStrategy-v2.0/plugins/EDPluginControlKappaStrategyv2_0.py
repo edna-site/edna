@@ -294,8 +294,8 @@ class EDPluginControlKappaStrategyv2_0(EDPluginControl):
                 strSymopHomeNorm = os.path.normpath(strSymopHome)
                 self.setSymopHome(strSymopHomeNorm)
 
-            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, "KAPPA")
-            if(strSymopHome == None or strSymopHome != "ON"):
+            strKappaOn = EDConfiguration.getStringParamValue(pluginConfiguration, "KAPPA")
+            if(strKappaOn == None or strKappaOn != "True"):
                 #self.strPluginStrategyName = "EDPluginControlStrategyv10"
                 #self.strPluginStrategyName = "EDPluginControlStrategyv2_0"
                 self.KappaStrategy = 0
