@@ -377,7 +377,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         input_file = XSDataXscaleInputFile()
         input_file.path_anom = self.generate.dataOutput.hkl_anom
-        input_file.path_noanom = self.generate.dataOutput.hkl_noanom
+        input_file.path_noanom = self.generate.dataOutput.hkl_no_anom
         input_file.res = self.res_cutoff_anom.dataOutput.res
 
         xscale_anom_in.xds_files = [input_file]
