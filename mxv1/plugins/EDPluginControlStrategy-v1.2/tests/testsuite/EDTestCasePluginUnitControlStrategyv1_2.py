@@ -283,7 +283,7 @@ class EDTestCasePluginUnitControlStrategyv1_2(EDTestCasePluginUnit):
 
 
     def process(self):
-        self.addTestMethod(self.testConfigureOK)
+#        self.addTestMethod(self.testConfigureOK)
         self.addTestMethod(self.testSetDataModelInput)
         self.addTestMethod(self.testDefaultChemicalComposition)
         self.addTestMethod(self.testUpdateChemicalCompositionWithNativeSulfurAtom)

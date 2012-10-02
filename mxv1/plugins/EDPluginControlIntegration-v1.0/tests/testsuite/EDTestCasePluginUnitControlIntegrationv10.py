@@ -80,7 +80,7 @@ class EDTestCasePluginUnitControlIntegrationv10(EDTestCasePluginUnit):
 
 
     def process(self):
-        self.addTestMethod(self.testConfigureOK)
+#        self.addTestMethod(self.testConfigureOK)
         self.addTestMethod(self.testSetDataInput)
         self.addTestMethod(self.testGenerateIntegrationShortSummary)
 
