@@ -219,7 +219,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if xsDataResultStrategy.getRaddoseLogFile():
                 strPathToRaddoseLogFile = xsDataResultStrategy.getRaddoseLogFile().getPath().getValue()
                 strPageRaddoseLog = os.path.join(self.getWorkingDirectory(), "raddose_log.html")
-                if os.path.exists(strPageRaddoseLog):
+                if os.path.exists(strPathToRaddoseLogFile):
                     pageRaddoseLog = markupv1_7.page()
                     pageRaddoseLog.h1("RADDOSE Log")
                     pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
