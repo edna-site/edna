@@ -373,36 +373,36 @@ class EDPluginControlAutoproc(EDPluginControl):
         # anom, merged and unmerged
 
         # We use another control plugin for that to isolate the whole thing
-        xscale_anom_in = XSDataXscaleInput()
+        xscale_generate_in = XSDataXscaleInput()
 
         input_file = XSDataXscaleInputFile()
         input_file.path_anom = self.generate.dataOutput.hkl_anom
         input_file.path_noanom = self.generate.dataOutput.hkl_no_anom
         input_file.res = self.res_cutoff_anom.dataOutput.res
 
-        xscale_anom_in.xds_files = [input_file]
-        xscale_anom_in.unit_cell_constants = self.parse_xds_anom.dataOutput.unit_cell_constants
-        xscale_anom_in.sg_number = self.parse_xds_anom.dataOutput.sg_number
-        xscale_anom_in.bins = self.res_cutoff_anom.dataOutput.bins
+        xscale_generate_in.xds_files = [input_file]
+        xscale_generate_in.unit_cell_constants = self.parse_xds_anom.dataOutput.unit_cell_constants
+        xscale_generate_in.sg_number = self.parse_xds_anom.dataOutput.sg_number
+        xscale_generate_in.bins = self.res_cutoff_anom.dataOutput.bins
 
 
-        self.xscale_anom.dataInput = xscale_anom_in
+        self.xscale_generate.dataInput = xscale_generate_in
         self.DEBUG('STARTING xscale generation')
         t0=time.time()
-        self.xscale_anom.executeSynchronous()
-        self.stats['xscale_anom']=time.time()-t0
+        self.xscale_generate.executeSynchronous()
+        self.stats['xscale_generate']=time.time()-t0
 
         with open(self.log_file_path, 'w') as f:
             json.dump(self.stats, f)
 
-        if self.xscale_anom.isFailure():
+        if self.xscale_generate.isFailure():
             EDVerbose.ERROR('xscale  generation failed')
 
         self.DEBUG('FINISHED xscale generation')
 
         import_in = XSDataAutoprocImport()
-        import_in.input_anom = self.xds_generate.dataOutput.hkl_anom_merged
-        import_in.input_noanom = self.xds_generate.dataOutput.hkl_noanom_merged
+        import_in.input_anom = self.xscale_generate.dataOutput.hkl_anom_merged
+        import_in.input_noanom = self.xscale_generate.dataOutput.hkl_noanom_merged
         import_in.dataCollectionId = self.dataInput.dataCollectionId
         import_in.start_image = self.data_range[0]
         import_in.end_image = self.data_range[1]
