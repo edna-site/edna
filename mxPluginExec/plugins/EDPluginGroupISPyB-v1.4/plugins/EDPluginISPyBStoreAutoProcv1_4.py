@@ -107,8 +107,8 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
             listAutoProcProgramAttachment = xsDataAutoProcContainer.getAutoProcProgramContainer().getAutoProcProgramAttachment()
             for xsDataAutoProcProgramAttachment in listAutoProcProgramAttachment:
                 self.storeOrUpdateAutoProcProgramAttachment(clientToolsForAutoprocessingWebService, xsDataAutoProcProgramAttachment)
-            if xsDataAutoProcProgram.getProcessingStatus() == False:
-                self.bContinue = False
+            #if xsDataAutoProcProgram.getProcessingStatus() == False:
+            #    self.bContinue = False
         if self.bContinue:
             # AutoProcIntegration
             xsDataAutoProcIntegrationContainer = xsDataAutoProcScalingContainer.getAutoProcIntegrationContainer()
@@ -358,12 +358,12 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
                 comments = strComments, \
                 resolutionLimitLow = fResolutionLimitLow, \
                 resolutionLimitHigh = fResolutionLimitHigh, \
-                rRmerge = fRmerge, \
+                rmerge = fRmerge, \
                 rmeasWithinIplusIminus = fRmeasWithinIplusIminus, \
                 rmeasAllIplusIminus = fRmeasAllIplusIminus, \
                 rpimWithinIplusIminus = fRpimWithinIplusIminus, \
                 rpimAllIplusIminus = fRpimAllIplusIminus, \
-                fFractionalPartialBias = fFractionalPartialBias, \
+                fractionalPartialBias = fFractionalPartialBias, \
                 ntotalObservations = iNtotalObservations, \
                 ntotalUniqueObservations = iNtotalUniqueObservations, \
                 meanIoverSigI = fMeanIoverSigI, \
