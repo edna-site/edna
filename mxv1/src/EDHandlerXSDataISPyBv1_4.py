@@ -89,9 +89,6 @@ class EDHandlerXSDataISPyBv1_4(object):
         xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningOutputContainer(xsDataResultCharacterisation, \
                                                                                                                    _strStatusMessage)
 
-        # Legacy strategy - everything stored in a list of XSDataISPyBStrategy entries
-        EDHandlerXSDataISPyBv1_4.generateLegacyXSDataISPyBStrategy(xsDataResultCharacterisation, xsDataISPyBScreeningOutputContainer)
-
         # Assemble the input
         xsDataISPyBScreening.dataCollectionId = xsDataIntegerDataCollectionId
         xsDataInputISPyBStoreScreening.image = xsDataISPyBImage
@@ -280,7 +277,7 @@ class EDHandlerXSDataISPyBv1_4(object):
                                 numberOfImagesWedge += numberOfImagesSubWedge
                         xsDataISPyBScreeningStrategySubWedge.exposureTime = xsDataSubWedge.experimentalCondition.beam.exposureTime
                         xsDataISPyBScreeningStrategySubWedge.transmission = xsDataSubWedge.experimentalCondition.beam.transmission
-                    xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
+                        xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
                 if numberOfImagesWedge is not None:
                     xsDataISPyBScreeningStrategyWedge.numberOfImages = XSDataInteger(numberOfImagesWedge)
                 xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge = xsDataISPyBScreeningStrategyWedge
