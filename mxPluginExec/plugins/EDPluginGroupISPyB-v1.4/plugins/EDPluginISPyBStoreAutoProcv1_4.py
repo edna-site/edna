@@ -107,7 +107,7 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
             listAutoProcProgramAttachment = xsDataAutoProcContainer.getAutoProcProgramContainer().getAutoProcProgramAttachment()
             for xsDataAutoProcProgramAttachment in listAutoProcProgramAttachment:
                 self.storeOrUpdateAutoProcProgramAttachment(clientToolsForAutoprocessingWebService, xsDataAutoProcProgramAttachment)
-            if (xsDataAutoProcProgram.getProcessingStatus() == False) or (xsDataAutoProcIntegrationContainer is None):
+            if (xsDataAutoProcProgram.getProcessingStatus() == False) or (xsDataAutoProcScalingContainer is None):
                 self.bContinue = False
         if self.bContinue:
             # AutoProcIntegration
