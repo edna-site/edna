@@ -2,8 +2,6 @@
 #    Project: EDNA mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDTestCasePluginExecuteXDSGenerateBackgroundImagev1_0.py 1505 2010-05-10 10:18:00Z svensson $"
-#
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
 #    Principal authors: Sandor Brockhauser (brockhauser@embl-grenoble.fr)
@@ -29,10 +27,12 @@ __authors__ = [ "Sandor Brockhauser", "Olof Svensson", "Pierre Legrand" ]
 __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os
 
-from EDVerbose                        import EDVerbose
+
 from EDAssert                         import EDAssert
 from EDUtilsPath                      import EDUtilsPath
 from EDTestCasePluginExecute          import EDTestCasePluginExecute

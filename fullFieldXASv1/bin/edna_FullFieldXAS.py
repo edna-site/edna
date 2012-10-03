@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python
 #-*- coding: utf8 -*-
 from __future__ import with_statement
 
@@ -8,8 +8,7 @@ __license__ = "GPLv3+"
 __copyright__ = "2011, European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120313"
 
-import os, time, sys, tempfile, string, shlex, socket
-
+import os, time, sys, tempfile, string, shlex, socket, json
 # Append the EDNA kernel source directory to the python path
 if "EDNA_HOME" not in  os.environ:
     pyStrProgramPath = os.path.realpath(os.path.abspath(sys.argv[0]))
@@ -39,6 +38,7 @@ from EDParallelExecute      import EDParallelExecute
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDJob                  import EDJob
+from EDShare                import EDShare
 numpyPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20090405-Numpy-1.3", EDUtilsPlatform.architecture)
 numpy = EDFactoryPluginStatic.preImport("numpy", numpyPath, _strMethodVersion="version.version")
 fabioPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "FabIO-0.0.7", EDUtilsPlatform.architecture)
@@ -48,6 +48,8 @@ h5py = EDFactoryPluginStatic.preImport("h5py", h5pyPath, _strMethodVersion="vers
 from EDShare                import EDShare
 EDFactoryPluginStatic.loadModule('EDPluginHDF5StackImagesv10')
 EDFactoryPluginStatic.loadModule('EDPluginControlAlignStackv1_0')
+EDFactoryPluginStatic.loadModule("EDPluginAccumulatorv1_0")
+from EDPluginAccumulatorv1_0            import EDPluginAccumulatorv1_0
 from EDPluginControlAlignStackv1_0      import EDPluginControlAlignStackv1_0
 from EDPluginControlFullFieldXASv1_0    import EDPluginControlFullFieldXASv1_0
 from EDPluginHDF5StackImagesv10         import EDPluginHDF5StackImagesv10
@@ -69,50 +71,63 @@ else:
 
 
 
-
 EDNAPluginName = "EDPluginControlFullFieldXASv1_0"
 class FullFieldXas(object):
     """
     class for the definition and the storage of the metadata as well as the XML generation. 
     """
+    REFERENCE_FRAME_NAME = "reference_frame"
 
     def __init__(self):
         """Constructor of the class"""
         self.pluginName = "EDPluginControlFullFieldXASv1_0"
-        self.xsdHDF5 = None #
-        self.xsdInternalHdf5 = None #
-        self.xsdMeasureOffset = None
-        self.xsdReference = None #
-        self.xsdDarks = []
-        self.dirname = None #
+        self.HDF5 = None #
+        self.internalHdf5 = None #
+        self.measureOffset = None
+        self.reference = None #
+        self.darks = []
         self.prefix = None #
         self.suffix = ".edf" #
         self.headers = {}
-        self.exposureTime = {}
         self.normalizedSuffix = None#""#"_norm.edf"
         self.flatPrefix = None
-        self.iLinewidth = 50
+        self._iLinewidth = 50
         self.listInput = []
         self.bNewerOnly = False
         self.strMode = "OffLine"
         self.dontAlign = None
-        self.iErrCount = 0
+        self._lstErrorFile = []
         self.lstSubscanSize = None
-        self.fScaleData = 1.0
-        self.fScaleDark = 1.0
-        self.fScaleFlat = 1.0
-
+        self.fScaleData = None
+        self.fScaleDark = None
+        self.fScaleFlat = None
+        self._xsdDataMeasureOffset = None
+        self._xsDataDark = None
 
     def load(self, filename):
         """
         Retrieve information from XML file
         """
         xsdi = XSDataInputFullFieldXAS.parseFile(filename)
-        self.xsdHDF5 = xsdi.getHDF5File()
-        self.xsdInternalHdf5 = xsdi.getInternalHDF5Path()
-        self.xsdMeasureOffset = xsdi.getMeasureOffset()
-        self.xsdReference = xsdi.getReference()
-        self.xsdDarks = xsdi.getDark()
+        self.HDF5 = xsdi.HDF5File.path.value
+        self.internalHdf5 = xsdi.internalHDF5Path.value
+        self.measureOffset = {}
+        mo = xsdi.measureOffset
+        if mo:
+            if mo.alwaysVersusRef:
+                self.measureOffset["alwaysVersusRef"] = mo.alwaysVersusRef.value
+            if mo.cropBorders:
+                self.measureOffset["cropBorders"] = [i.value for i in mo.cropBorders]
+            if mo.smoothBorders :
+                self.measureOffset["smoothBorders"] = [i.value for i in mo.smoothBorders]
+            if mo.sobelFilter :
+                self.measureOffset["sobelFilter"] = mo.sobelFilter.value
+            if mo.useSift :
+                self.measureOffset["useSift"] = mo.useSift.value
+            if mo.removeBackground :
+                self.measureOffset["removeBackground"] = mo.removeBackground.value
+        self.reference = xsdi.reference.value
+        self.darks = [{"path":i.path.value, "exposureTime":i.exposureTime.value} for i in xsdi.dark]
 #        if xsdi.dontAlign is not None:
 #            self.dontAlign = bool(xsdi.dontAlign.value)
 
@@ -121,13 +136,49 @@ class FullFieldXas(object):
         """
         Save configuration to file
         """
-        xsdi = XSDataInputFullFieldXAS()
-        xsdi.setHDF5File(self.xsdHDF5)
-        xsdi.setInternalHDF5Path(self.xsdInternalHdf5)
-        xsdi.setMeasureOffset(self.xsdMeasureOffset)
-        xsdi.setReference(self.xsdReference)
-        xsdi.setDark(self.xsdDarks)
-        open(filename, "wb").write(xsdi.marshal())
+        if isinstance(self.reference, int):
+            reference = self.reference
+        else:
+            reference = -1
+        xsdi = XSDataInputFullFieldXAS(HDF5File=XSDataFile(XSDataString(self.HDF5)),
+                                       internalHDF5Path=XSDataString(self.internalHdf5),
+                                       measureOffset=self.getXSDMeasureOffset(),
+                                       reference=XSDataInteger(reference),
+                                       dark=self.getXsdDark())
+        with open(filename, "wb") as xmlFile:
+            xmlFile.write(xsdi.marshal())
+
+    def dump(self, filename):
+        """
+        dump state of the instance into a file using JSON
+        """
+        dumpdic = {}
+        for k, v in self.__dict__.items():
+            if k == "headers":
+                dumpdic[k] = {}
+            elif k.startswith("_") or ("__call__" in dir(v)):
+                continue
+            else:
+                dumpdic[k] = v
+        with open(filename, "w") as dumpfile:
+            json.dump(dumpdic, dumpfile, indent=2)
+
+    @classmethod
+    def replay_from(cls, filename):
+        """
+        Create an instance from a previous JSON dump 
+        """
+        dumpdic = {}
+        with open(filename, "r") as dumpfile:
+            dumpdic = json.load(dumpfile)
+        self = cls()
+        for k, v in dumpdic.items():
+            if k == "headers":
+                self.__dict__[k] = {}
+            else:
+                self.__dict__[k] = v
+        return self
+
 
 
     def setup(self, _listInput=[], _mode="offline"):
@@ -152,10 +203,10 @@ class FullFieldXas(object):
         @param txt: text to be displayed
         @return: string
         """
-        if len(txt) > self.iLinewidth:
-            self.iLinewidth = len(txt)
+        if len(txt) > self._iLinewidth:
+            self._iLinewidth = len(txt)
         else:
-            txt = txt.ljust(self.iLinewidth)
+            txt = txt.ljust(self._iLinewidth)
         return raw_input(txt).strip()
 
     def readInputDir(self, _listInput):
@@ -204,8 +255,8 @@ class FullFieldXas(object):
 
 
     def readHDF5(self):
-        if self.xsdHDF5 is not None:
-            tmpHDF5 = self.xsdHDF5.path.value
+        if self.HDF5 is not None:
+            tmpHDF5 = self.HDF5
         else:
             common = "".join([i for  i, j in zip(self.prefix, self.flatPrefix) if i == j])
             if len(common) < 3:
@@ -217,10 +268,10 @@ class FullFieldXas(object):
             if strtmp == "":
                 strtmp = tmpHDF5
             if (strtmp is not None) and os.path.isdir(os.path.dirname(strtmp)):
-                self.xsdHDF5 = XSDataFile(path=XSDataString(os.path.abspath(strtmp)))
+                self.HDF5 = os.path.abspath(strtmp)
                 bOK = True
-        if self.xsdInternalHdf5 is not None:
-            tmpHDF5 = self.xsdInternalHdf5.value
+        if self.internalHdf5 is not None:
+            tmpHDF5 = self.internalHdf5
         elif self.dontAlign:
             tmpHDF5 = "unAligned"
         else:
@@ -231,7 +282,7 @@ class FullFieldXas(object):
             if strtmp == "":
                 strtmp = tmpHDF5
             if isinstance(strtmp, (str, unicode)):
-                self.xsdInternalHdf5 = XSDataString(strtmp)
+                self.internalHdf5 = strtmp
                 bOK = True
 
     def readPrefix(self):
@@ -270,8 +321,8 @@ class FullFieldXas(object):
 
 
     def readReference(self):
-        if self.xsdReference is not None:
-            tmpRef = self.xsdReference.value
+        if self.reference is not None:
+            tmpRef = self.reference
         else:
             tmpRef = None
         bOK = False
@@ -280,93 +331,90 @@ class FullFieldXas(object):
             if strtmp != "":
                 try:
                     tmpRef = int(strtmp)
-                except:
-                    tmpRef = None
-            if isinstance(tmpRef, int):
-                self.xsdReference = XSDataInteger(tmpRef)
+                except ValueError:
+                    tmpRef = strtmp
+            if isinstance(tmpRef, int) or os.path.isfile(tmpRef.split(":")[0]):
+                self.reference = tmpRef
                 bOK = True
 
 
     def readMeasureOffset(self):
-        if self.xsdMeasureOffset is not None:
+        if self.measureOffset:
             print("Currently the offset is measured according to this :")
-            print self.xsdMeasureOffset.marshal()
+            print self.measureOffset
         else:
             print("No settings are available for measuring offset")
         strtmp = self.raw_input("Do you want to change them [N|y] ").lower()
         if strtmp.find("y") == 0:
-            if self.xsdMeasureOffset is None :
-                 self.xsdMeasureOffset = MeasureOffset()
+            if self.measureOffset is None :
+                 self.measureOffset = {}
             strtmp = self.raw_input("Measure Offset versus reference (not versus the next) [0|1]: ")
             if len(strtmp) > 0:
-                self.xsdMeasureOffset.setAlwaysVersusRef(XSDataBoolean(int(strtmp)))
+                self.measureOffset["alwaysVersusRef"] = int(strtmp)
             strtmp = self.raw_input("Remove background for measuring offset [0|1]: ")
             if len(strtmp) > 0:
-                self.xsdMeasureOffset.setRemoveBackground(XSDataBoolean(int(strtmp)))
+                self.measureOffset["removeBackground"] = int(strtmp)
             strtmp = self.raw_input("Crop borders before measuring offset (0, 1 or 2 integers): ")
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
-                except:
+                except Exception:
                     print("error in reading integers from %s" % strtmp)
                 else:
                     if ints == [0]:
-                        self.xsdMeasureOffset.smoothBorders = []
+                        self.measureOffset["cropBorders"] = []
                     else:
-                        self.xsdMeasureOffset.setCropBorders([XSDataInteger(i) for i in ints])
+                        self.measureOffset["cropBorders"] = ints
             strtmp = self.raw_input("Smooth borders before measuring offset (0, 1 or 2 integers): ")
             if len(strtmp) > 0:
                 try:
                     ints = [int(i) for i in strtmp.split()]
-                except:
+                except Exception:
                     print("error in reading integers from %s" % strtmp)
                 else:
                     if ints == [0]:
-                        self.xsdMeasureOffset.smoothBorders = []
+                        self.measureOffset["smoothBorders"] = []
                     else:
-                        self.xsdMeasureOffset.smoothBorders([XSDataInteger(i) for i in ints])
+                        self.measureOffset["smoothBorders"] = ints
             strtmp = self.raw_input("Use Sobel filter to enhance feature detections [0|1]: ")
             if len(strtmp) > 0:
                 if strtmp != "0":
-                    self.xsdMeasureOffset.setSobelFilter(XSDataBoolean(int(strtmp)))
+                    self.measureOffset.sobelFilter = int(strtmp)
             strtmp = self.raw_input("Use SIFT instead of FFT correlation [0|1]: ")
             if len(strtmp) > 0:
                 if strtmp[0] not in ["0", "n", "N"]:
                     try:
                         import feature
-                    except:
+                    except Exception:
                         print("Unable to import feature: fall back on FFT")
-                        self.xsdMeasureOffset.setUseSift(XSDataBoolean(False))
+                        self.measureOffset["useSift"] = False
                     else:
-                        self.xsdMeasureOffset.setUseSift(XSDataBoolean(True))
+                        self.measureOffset["useSift"] = True
                 else:
-                    self.xsdMeasureOffset.setUseSift(XSDataBoolean(False))
+                    self.measureOffset["useSift"] = False
 
 
     def readDark(self):
-        if len(self.xsdDarks) > 0:
+        if len(self.darks) > 0:
             print("List of dark images with exposure times:")
-            for oneXSDark in self.xsdDarks:
-                print("%s\t\t%s" % (oneXSDark.path.value, oneXSDark.getExposureTime().value))
+            for oneXSDark in self.darks:
+                print("%s\t\t%s" % (oneXSDark["path"], oneXSDark["exposureTime"]))
         else:
             print("No dark images are defined, you should define some !")
         strtmp = self.raw_input("Do you want to change anything [N|y]: ").lower()
         if  strtmp.find("y") == 0:
-            self.xsdDarks = []
+            self.darks = []
             strtmp = self.raw_input("Enter the list of all dark images, spaces separated: ")
             for oneFile in shlex.split(strtmp):
                 if os.path.isfile(oneFile):
-                    xsdata = XSDataImageExt()
-                    xsdata.setPath(XSDataString(os.path.abspath(oneFile)))
                     expTime = self.getExposureTime(oneFile)
                     while expTime is None:
                         strtmp = self.raw_input("What is the exposure time of %s: " % os.path.basename(oneFile))
                         try:
                             expTime = float(strtmp)
-                        except:
+                        except Exception:
                             print("Unable to understand this %s !!" % strtmp)
-                    xsdata.setExposureTime(XSDataTime(expTime))
-                    self.xsdDarks.append(xsdata)
+                    self.darks.append({"path":os.path.abspath(oneFile), "exposureTime":expTime})
 
     def readSubscanSize(self):
         """
@@ -375,27 +423,29 @@ class FullFieldXas(object):
         strtmp = self.raw_input("Size of the sub-scans (space separated):")
         try:
             self.lstSubscanSize = [int(i) for i in strtmp.split()]
-        except:
+        except Exception:
             self.lstSubscanSize = None
-        else:
-            print("Setting scan size to %s" % self.lstSubscanSize)
+        print("Setting scan size to %s" % self.lstSubscanSize)
 
+    #
     def readScale(self):
-        strtmp = self.raw_input("Scale factor for data frames (division):")
-        try:
-            self.fScaleData = float(strtmp)
-        except:
-            self.fScaleData = 1
-        strtmp = self.raw_input("Scale factor for ref frames (division):")
-        try:
-            self.fScaleFlat = float(strtmp)
-        except:
-            self.fScaleFlat = 1
-        strtmp = self.raw_input("Scale factor for dark frames (division):")
-        try:
-            self.fScaleDark = float(strtmp)
-        except:
-            self.fScaleDark = 1
+        strtmp = self.raw_input("OVERRIDE the scale factor found in files? [N|y]: ").lower()
+        if  strtmp.find("y") == 0:
+            strtmp = self.raw_input("Scale factor for data frames (division):")
+            try:
+                self.fScaleData = float(strtmp)
+            except Exception:
+                self.fScaleData = None
+            strtmp = self.raw_input("Scale factor for ref frames (division):")
+            try:
+                self.fScaleFlat = float(strtmp)
+            except Exception:
+                self.fScaleFlat = None
+            strtmp = self.raw_input("Scale factor for dark frames (division):")
+            try:
+                self.fScaleDark = float(strtmp)
+            except Exception:
+                self.fScaleDark = None
 
 
     def getHeaders(self, filename):
@@ -413,12 +463,12 @@ class FullFieldXas(object):
         if "exposure_time" in header:
             try:
                 value = float(header["exposure_time"])
-            except:
+            except Exception:
                 value = None
         elif "count_time" in header:
             try:
                 value = float(header["count_time"])
-            except:
+            except Exception:
                 value = None
         else:
             EDVerbose.WARNING("No exposure time in file %s" % filename)
@@ -431,12 +481,24 @@ class FullFieldXas(object):
         if "energy" in header:
             try:
                 value = float(header["energy"])
-            except:
+            except Exception:
                 value = None
         else:
-            EDVerbose.WARNING("No energyin file %s" % filename)
+            EDVerbose.WARNING("No energy in file %s" % filename)
         return value
 
+
+    def getNbFrames(self, filename):
+        header = self.getHeaders(filename)
+        value = None
+        if "nb_frames" in header:
+            try:
+                value = float(header["nb_frames"])
+            except Exception:
+                value = 1
+        else:
+            EDVerbose.WARNING("No 'nb_frames' in file %s" % filename)
+        return value
 
 
     def makeXML(self, filename):
@@ -448,7 +510,6 @@ class FullFieldXas(object):
         @rtype: XML string
         @return: python string  
         """
-    #Ti_slow_data_0000_0000_0000.edf
         self.header = None
         dirname, basename = os.path.split(filename)
         if not basename.startswith(self.prefix):
@@ -460,7 +521,35 @@ class FullFieldXas(object):
         if not basename.endswith(self.suffix):
             return
 
-        xsd = XSDataInputFullFieldXAS()
+        if self.fScaleData:
+            fScaleData = self.fScaleData
+        else:
+             fScaleData = self.getNbFrames(filename)
+        if not fScaleData:
+            fScaleData = 1.0
+
+        if self.fScaleDark:
+            fScaleDark = self.fScaleDark
+        else:
+             fScaleDark = self.getNbFrames(self.darks[0]["path"])
+        if not fScaleDark:
+            fScaleDark = 1.0
+
+        if isinstance(self.reference, int):
+            reference = self.reference
+        else:
+            reference = -1
+
+        xsd = XSDataInputFullFieldXAS(HDF5File=XSDataFile(path=XSDataString(self.HDF5)),
+                                      internalHDF5Path=XSDataString(self.internalHdf5),
+                                      measureOffset=self.getXSDMeasureOffset(),
+                                      dark=self.getXsdDark(),
+                                      reference=XSDataInteger(reference),
+                                      data=[XSDataImageExt(path=XSDataString(filename),
+                                                             exposureTime=XSDataTime(self.getExposureTime(filename)))],
+                                      dataScaleFactor=XSDataDouble(fScaleData),
+                                      darkScaleFactor=XSDataDouble(fScaleDark),
+                                      )
         if self.dontAlign:
             xsd.dontAlign = XSDataBoolean(self.dontAlign)
         extendedPrefix = ""
@@ -469,31 +558,35 @@ class FullFieldXas(object):
         if self.lstSubscanSize:
             subScanDigit = []
             for i in basename[len(self.prefix):]:
-                extendedPrefix += i
                 if started and i == "_":
                     if len(number) > 0:
-                        subScanDigit.append(int(number))
+                        subScanDigit.append(number)
                         number = ""
                     continue
                 if started and not i.isdigit():
                     if number:
-                        subScanDigit.append(int(number))
+                        subScanDigit.append(number)
                     number = ""
                     break
-                if not started and i.isdigit():
-                    started = True
+                if not started:
+                    if i.isdigit():
+                        started = True
+                    else:
+                        extendedPrefix += i
                 if started:
                     number += i
+
             if not subScanDigit:
                 print("ERROR: no index guessed !!!")
                 return ""
             elif len(subScanDigit) == 1:
-                index = subScanDigit[0]
+                index = int(subScanDigit[0])
             else:# len(subScanDigit) > 1:
                 index = 0
-                for i in range(subScanDigit[0]):
+                for i in range(int(subScanDigit[0])):
                     index += self.lstSubscanSize[i]
-                index += subScanDigit[1]
+                index += int(subScanDigit[1])
+                extendedPrefix += "_".join(subScanDigit[:2])
         else:
             for i in basename[len(self.prefix):]:
                 extendedPrefix += i
@@ -503,37 +596,37 @@ class FullFieldXas(object):
                     started = True
                 if started:
                     number += i
-                index = int(number)
+            index = int(number)
+        xsd.index = XSDataInteger(index)
 
-        xsd.setIndex(XSDataInteger(index))
-
-        xsd.HDF5File = self.xsdHDF5
-        xsd.internalHDF5Path = self.xsdInternalHdf5
-        xsd.reference = self.xsdReference
-        xsd.measureOffset = self.xsdMeasureOffset
-        xsd.data = [XSDataImageExt(path=XSDataString(filename),
-                                   exposureTime=XSDataTime(self.getExposureTime(filename)))]
-        xsd.dataScaleFactor = XSDataDouble(self.fScaleData)
-        xsd.darkScaleFactor = XSDataDouble(self.fScaleDark)
-        xsd.flatScaleFactor = XSDataDouble(self.fScaleFlat)
         if self.normalizedSuffix:
             pr = os.path.splitext(os.path.abspath(filename))[0]
             xsd.saveNormalized = XSDataFile(path=XSDataString(pr + self.normalizedSuffix))
         energy = self.getEnergy(filename)
         if energy is not None:
             xsd.energy = XSDataDouble(energy)
-        xsd.dark = self.xsdDarks
+
 
         flatprefix = self.flatPrefix + extendedPrefix
-        listFlats = [  ]
+        listFlats = []
         for oneFile in os.listdir(dirname):
             if oneFile.startswith(flatprefix) and oneFile.endswith(self.suffix):
                 oneCompleteFile = os.path.abspath(os.path.join(dirname, oneFile))
                 xsdFileFlat1 = XSDataImageExt(path=XSDataString(oneCompleteFile),
                                               exposureTime=XSDataTime(self.getExposureTime(oneCompleteFile)))
                 listFlats.append(xsdFileFlat1)
-        xsd.setFlat(listFlats)
+        xsd.flat = listFlats
+        if len(listFlats) != 2:
+            EDVerbose.WARNING("Not exactly 2 flats were found:" + " ".join([a.path.value for a in listFlats ]))
+            EDVerbose.WARNING("Those are the flat prefix ans suffix: %s\t%s" % (flatprefix, self.suffix))
 
+        if self.fScaleFlat:
+            fScaleFlat = self.fScaleFlat
+        else:
+             fScaleFlat = self.getNbFrames(oneCompleteFile)
+        if not fScaleFlat:
+            fScaleFlat = 1.0
+        xsd.flatScaleFactor = XSDataDouble(fScaleFlat)
         return xsd.marshal()
 
 
@@ -551,9 +644,83 @@ class FullFieldXas(object):
             xsd = strXMLin
         filenames = [ i.path.value for i in xsd.getData()]
         EDVerbose.ERROR("Error in the processing of: \n %s" % "\n".join(filenames))
-        self.iErrCount += 1
+        self._lstErrorFile.append(filenames)
 
 
+    def getXSDMeasureOffset(self):
+        """
+        return MeasureOffset XSData object
+        """
+        if self._xsdDataMeasureOffset is None:
+            mo = MeasureOffset()
+            for key in ["alwaysVersusRef", "removeBackground", "sobelFilter" , "useSift"]:
+                if key in self.measureOffset:
+                    setattr(mo, key, XSDataBoolean(self.measureOffset[key]))
+            for key in ["cropBorders", "smoothBorders"]:
+                if key in self.measureOffset:
+                    setattr(mo, key, [XSDataInteger(i) for i in self.measureOffset[key]])
+            self._xsdDataMeasureOffset = mo
+        return self._xsdDataMeasureOffset
+
+    def getXsdDark(self):
+        """
+        return XSDataDark object
+        """
+
+        if self._xsDataDark is None:
+            self._xsDataDark = [XSDataImageExt(path=XSDataString(i["path"]),
+                               exposureTime=XSDataTime(i["exposureTime"]))
+                              for i in self.darks]
+        return self._xsDataDark
+
+    def getNrErrors(self):
+        if self._lstErrorFile != []:
+            EDVerbose.WARNING("Error processing those files:" + os.linesep.join(["\t".join(i) for i in self._lstErrorFile]))
+        return len(self._lstErrorFile)
+
+    def uploadReferenceFrame(self, entry):
+        paths = entry.split(":")
+        if len(paths) == 1 and os.path.isfile(paths[0]):
+            obj = fabio.open(paths[0]).data
+            EDVerbose.WARNING("Got reference frame %s via fabio" % entry)
+            EDPluginControlAlignStackv1_0.addFrame(-1, obj)
+            EDPluginAccumulatorv1_0.addItem(XSDataString("raw -001"))
+            self.updateAttrRefImage(obj)
+        elif len(paths) == 2 and os.path.isfile(paths[0]):
+            hdf = h5py.File(paths[0])
+            if paths[1] in hdf:
+                obj = hdf[paths[1]]
+                if obj.__class__.__name__ == "Group":
+                    if self.REFERENCE_FRAME_NAME in obj:
+                        data = obj[self.REFERENCE_FRAME_NAME][:]
+                        EDPluginControlAlignStackv1_0.addFrame(-1, data)
+                        EDPluginAccumulatorv1_0.addItem("raw -001")
+                        self.updateAttrRefImage(data)
+                    else:
+                        EDVerbose.ERROR("HDF5: No '%s' in group %s from %s" % (self.REFERENCE_FRAME_NAME, paths[1], paths[0]))
+                elif obj.__class__.__name__ == "Dataset":
+                    data = obj[:]
+                    EDPluginControlAlignStackv1_0.addFrame(-1, data)
+                    EDPluginAccumulatorv1_0.addItem(XSDataString("raw -001"))
+                    self.updateAttrRefImage(data)
+            else:
+                EDVerbose.ERROR("HDF5: No such internal path %s in %s" % (paths[1], paths[0]))
+        else:
+            EDVerbose.ERROR("No such entry %s" % entry)
+
+    def updateAttrRefImage(self, data=None):
+        h5grp = EDPluginHDF5StackImagesv10.createStructure(ffx.HDF5, str(self.internalHdf5))
+        with EDPluginHDF5StackImagesv10.getFileLock(ffx.HDF5):
+            if (self.REFERENCE_FRAME_NAME not in h5grp) and (data is not None):
+                h5grp[self.REFERENCE_FRAME_NAME] = data
+            if self.REFERENCE_FRAME_NAME  in h5grp:
+                referenceDS = h5grp[self.REFERENCE_FRAME_NAME ]
+                if isinstance(self.reference, int):
+                    referenceDS.attrs["origin"] = self.reference
+                else:
+                    referenceDS.attrs["origin"] = str(self.reference)
+            else:
+                EDVerbose.WARNING("Reference frame is not in %s:%s attr not updated" % (self.HDF5, self.internalHdf5))
 
 
 
@@ -564,6 +731,8 @@ if __name__ == '__main__':
     debug = False
     iNbCPU = None
     dontAlign = None
+    replay = None
+    keepShare = False
     for i in sys.argv[1:]:
         if i.lower().find("-online") in [0, 1]:
             mode = "dirwatch"
@@ -576,37 +745,52 @@ if __name__ == '__main__':
             iNbCPU = int(i.split("=", 1)[1])
         elif i.lower().find("-dontalign") in [0, 1]:
             dontAlign = True
+        elif i.lower().find("-replay=") in [0, 1]:
+            path = i.split("=", 1)[1]
+            if os.path.isfile(path):
+                replay = path
+        elif i.lower().find("-keep") in [0, 1]:
+            keepShare = True
         elif i.lower().find("-h") in [0, 1]:
             print "This is the DiffractionCTv1 application of EDNA %s, \nplease give a path to process offline or the option:\n\
             --online to process online incoming data in the given directory.\n\
             --all to process all existing files (unless they will be excluded)\n\
             --debug to turn on debugging mode in EDNA\n\
             --nCPU=xxx to specify the number of CPUs to use. Usually EDNA autodetects the number of processors.\n\
-            --dontAlign to allow the constitution an unaligned stack " % EDNAPluginName
+            --dontAlign to allow the constitution an unaligned stack \n\
+            --replay=filename to replay a former processing\n\
+            --keep retain temporary HDF5 shared data file" % EDNAPluginName
+
             sys.exit()
         elif os.path.exists(i):
             paths.append(os.path.abspath(i))
 
+    if replay:
+        ffx = FullFieldXas.replay_from(replay)
+    else:
+        ffx = FullFieldXas()
+        if os.path.isfile(".XSDataInputFullFieldXAS.xml"):
+            ffx.load(".XSDataInputFullFieldXAS.xml")
 
-    ffx = FullFieldXas()
-    if os.path.isfile(".XSDataInputFullFieldXAS.xml"):
-        ffx.load(".XSDataInputFullFieldXAS.xml")
-
-    ffx.dontAlign = dontAlign
-    if  dontAlign:
-        print("*"*80)
-        print("*" + "Skipping image alignement part".center(78) + "*")
-        print("*"*80)
-    ffx.setup(_listInput=paths, _mode=mode)
-
+        ffx.dontAlign = dontAlign
+        if  dontAlign:
+            print("*"*80)
+            print("*" + "Skipping image alignement part".center(78) + "*")
+            print("*"*80)
+        ffx.setup(_listInput=paths, _mode=mode)
+    if not isinstance(ffx.reference, int):
+        ffx.uploadReferenceFrame(ffx.reference)
     ffx.save(".XSDataInputFullFieldXAS.xml")
-
+    ffx.dump("analysis-%s.json" % time.strftime("%Y%m%d-%Hh%Mm%Ss"))
     edna = EDParallelExecute(ffx.pluginName, ffx.makeXML, _functXMLerr=ffx.error, _bVerbose=True, _bDebug=debug, _iNbThreads=iNbCPU)
     edna.runEDNA(ffx.listInput, ffx.strMode , ffx.bNewerOnly)
     EDVerbose.WARNING("Back to main !")
     EDJob.synchronizeAll()
+    ffx.updateAttrRefImage()
     EDPluginControlAlignStackv1_0.showData()
-    if (ffx.iErrCount == 0) and (not EDVerbose.isVerboseDebug()):
+    if keepShare:
+        EDShare.close()
+    elif (ffx.getNrErrors() == 0) and (not EDVerbose.isVerboseDebug()):
         EDVerbose.WARNING("All processing finished successfully: Remove EDShare's big HDF5 file")
         EDShare.close(remove=True)
     else:

@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2010 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -31,9 +29,12 @@ __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona", "Karl Levik" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
+
+import os
 
 
-from EDVerbose import EDVerbose
 from EDPluginLabelitv1_1 import EDPluginLabelitv1_1
 
 from XSDataCommon import XSDataLength
@@ -42,6 +43,7 @@ from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataMatrixDouble
 
 from XSDataLabelitv1_1 import XSDataCell
@@ -70,7 +72,7 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         Sets up the Labelit command line
         """
         EDPluginLabelitv1_1.preProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginLabelitIndexingv1_1.preProcess...")
+        self.DEBUG("EDPluginLabelitIndexingv1_1.preProcess...")
         self.setScriptExecutable("labelit.screen")
         self.initaliseLabelitCommandLine()
         if self.hasDataInput("forcedSpaceGroup"):
@@ -80,6 +82,8 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         self.addListCommandPreExecution("export PYTHONPATH=\"\" ")
         self.addListCommandPreExecution(". %s" % self.getPathToLabelitSetpathScript())
         self.addListCommandPostExecution("[ -f \"LABELIT_possible\" ] && labelit.mosflm_scripts")
+        # Force name of log file
+        self.setScriptLogFileName(self.compactPluginName(self.getClassName())+".log")
 
 
     def postProcess(self, _edObject=None):
@@ -87,30 +91,32 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         Parses the labelit.screen log file and the generated MOSFLM script
         """
         EDPluginLabelitv1_1.postProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginLabelitIndexingv1_1.postProcess...")
+        self.DEBUG("EDPluginLabelitIndexingv1_1.postProcess...")
         strLabelitLog = self.readProcessLogFile()
         if (strLabelitLog is None):
             strErrorMessage = "EDPluginLabelitIndexingv1_1.postProcess : Could not read the Labelit log file"
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
         else:
             xsDataLabelitScreenOutput = self.parseLabelitScreenOutput(strLabelitLog)
             if xsDataLabelitScreenOutput is None:
                 strErrorMessage = "EDPluginLabelitIndexingv1_1.postProcess : Cannot parse output"
-                EDVerbose.error(strErrorMessage)
+                self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 self.setFailure()
             else:
                 xsDataIntegerSelectedSolutionNumber = xsDataLabelitScreenOutput.getSelectedSolutionNumber()
                 if (xsDataIntegerSelectedSolutionNumber is None):
                     strErrorMessage = "EDPluginLabelitIndexingv1_1.postProcess : No selected solution"
-                    EDVerbose.error(strErrorMessage)
+                    self.error(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
                     self.setFailure()
                 else:
                     strLabelitMosflmScriptsOutput = self.readProcessFile(self.generateMosflmScriptName(xsDataIntegerSelectedSolutionNumber.getValue()))
                     xsDataLabelitMosflmScriptsOutput = self.parseMosflmScriptsOutput(strLabelitMosflmScriptsOutput)
+                    # Path to log file
+                    xsDataLabelitScreenOutput.setPathToLogFile(XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName()))))
                     self.setDataOutput(xsDataLabelitScreenOutput, "labelitScreenOutput")
                     self.setDataOutput(xsDataLabelitMosflmScriptsOutput, "mosflmScriptsOutput")
 
@@ -122,7 +128,7 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         This method parses the labelit.screen log and populates the relevant
         parts of the XSDataLabelitScreenOutput object which is then returned.
         """
-        EDVerbose.DEBUG("EDPluginLabelitIndexingv1_1.parseLabelitLogText")
+        self.DEBUG("EDPluginLabelitIndexingv1_1.parseLabelitLogText")
         xsDataLabelitScreenOutput = None
 
         iIndex = 0
@@ -141,7 +147,7 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
 
         if (bFoundLabelitIndexingResults == False):
             strErrorMessage = "EDPluginLabelitIndexingv1_1.parseLabelitLogText : Labelit log message: %s" % _strLabelitLogText
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
         else:
@@ -182,9 +188,9 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
                 else:
                     # We have an error...
                     strErrorMessage = "Indexing with labelit.screen failed! Log file:"
-                    EDVerbose.ERROR(strErrorMessage)
+                    self.ERROR(strErrorMessage)
                     self.addErrorMessage(strErrorMessage)
-                    EDVerbose.ERROR(_strLabelitLogText)
+                    self.ERROR(_strLabelitLogText)
                     self.addErrorMessage(_strLabelitLogText)
                     self.setFailure()
                     bContinue = False
@@ -252,7 +258,7 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         This method parses the MOSFLM script generated by Labelit and populates
         the A- and U-matrices in the XSDataLabelitMosflmScriptsOutput object.
         """
-        EDVerbose.DEBUG("EDPluginLabelitIndexingv1_1.parseMOSFLMMatrices")
+        self.DEBUG("EDPluginLabelitIndexingv1_1.parseMOSFLMMatrices")
         xsDataLabelitMosflmScriptsOutput = XSDataLabelitMosflmScriptsOutput()
         listMOSFLMScriptLines = _strMOSFLMScript.split("\n")
 
@@ -306,7 +312,7 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         """
         This method generates the name of the MOSFLM script given a solution number.
         """
-        EDVerbose.DEBUG("EDPluginLabelitIndexingv1_1.generateMOSFLMScriptName")
+        self.DEBUG("EDPluginLabelitIndexingv1_1.generateMOSFLMScriptName")
         return "integration%02d.csh" % _iSelectedSolutionNumber
 
 
@@ -314,7 +320,7 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         """
         Generates a summary of the execution of the Labelit plugin.
         """
-        EDVerbose.DEBUG("EDPluginLabelitIndexingv1_1.generateExecutiveSummary")
+        self.DEBUG("EDPluginLabelitIndexingv1_1.generateExecutiveSummary")
         #xsDataInputLabelit = self.getDataInput()
         #xsDataResultLabelit = self.getDataOutput()
         if self.hasDataOutput("labelitScreenOutput"):

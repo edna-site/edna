@@ -1,6 +1,6 @@
 # coding: utf8
 #
-#    Project: <projectName>
+#    Project: EdnaSaxs/Atsas
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
@@ -28,8 +28,8 @@ from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "2011 ESRF"
-__status__ = "development"
-__date__ = "20111115"
+__status__ = "production"
+__date__ = "20120917"
 
 import os, shutil
 from EDPluginControl import EDPluginControl
@@ -37,17 +37,25 @@ from XSDataCommon import XSDataFile, XSDataString, XSDataStatus
 from XSDataEdnaSaxs import XSDataInputAutoSub, XSDataInputDataver, \
     XSDataInputDatcmp, XSDataInputAutoRg, XSDataInputDatop
 from XSDataEdnaSaxs import XSDataResultAutoSub
+from EDThreading import Semaphore
+_sem = Semaphore()
 
 def copy(src, dst):
-    if os.path.exists(src):
-        if os.name == "posix":
-            if os.path.islink(dst):
-                os.unlink(dst)
-            os.symlink(src, dst)
-        else:
-            if os.path.exists(dst):
-                os.unlink(dst)
-            shutil.copyfile(src, dst)
+    """
+    Operating system independent copy that does symbolic links on posix system.
+    
+    This implements a lock to be extremely thread-safe as BsxCube call many times the same plugin ... at the same time 
+    """
+    with _sem:
+        if os.path.exists(src):
+            if os.name == "posix":
+                if os.path.islink(dst):
+                    os.unlink(dst)
+                os.symlink(src, dst)
+            else:
+                if os.path.exists(dst):
+                    os.unlink(dst)
+                shutil.copyfile(src, dst)
 
 
 class EDPluginAutoSubv1_0(EDPluginControl):
@@ -184,7 +192,8 @@ class EDPluginAutoSubv1_0(EDPluginControl):
         # Create some output data
 
         self.xsDataResult.status = XSDataStatus(executiveSummary=XSDataString(os.linesep.join(self.lstProcessLog)))
-        self.setDataOutput(self.xsDataResult)
+        self.xsDataResult.subtractedCurve = XSDataFile(XSDataString(self.subtractedCurve))        
+        self.dataOutput = self.xsDataResult
 
 
     def doSuccessExecDatop(self, _edPlugin=None):

@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
@@ -30,10 +28,12 @@ __authors__ = [ "Olof Svensson", "Sandor Brockhauser", "Gleb Bourenkov" ]
 __contact__ = "brockhauser@embl-grenoble.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "EMBL-Grenoble, Grenoble, France"
+__date__ = "20120712"
+__status__ = "alpha"
 
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
-from EDVerbose import EDVerbose
+
 
 
 from XSDataXDSv1_1 import XSDataDouble
@@ -53,7 +53,7 @@ class EDPluginXDSSpotSearchv1_1(EDPluginExecProcessScript):
         """
         Checks the mandatory parameters.
         """
-        EDVerbose.DEBUG("EDPluginFIT2DCakev1_0.checkParameters")
+        self.DEBUG("EDPluginFIT2DCakev1_0.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
         self.checkMandatoryParameters(self.getDataInput().getDetector(), "inputFile is None")
         self.checkMandatoryParameters(self.getDataInput().getSubWedge(), "subWedge is None")
@@ -67,7 +67,7 @@ class EDPluginXDSSpotSearchv1_1(EDPluginExecProcessScript):
 
     def preProcess(self, _edPlugin=None):
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginXDSSpotSearchv1_0.preProcess")
+        self.DEBUG("EDPluginXDSSpotSearchv1_0.preProcess")
         self.createXDSInput()
         self.writeProcessFile("XDS.INP", self.m_pyStrXDSInput)
 
@@ -136,12 +136,12 @@ class EDPluginXDSSpotSearchv1_1(EDPluginExecProcessScript):
 
     def postProcess(self, _edPlugin=None):
         EDPluginExecProcessScript.postProcess(self)
-        EDVerbose.DEBUG("EDPluginXDSSpotSearchv1_0.postProcess")
+        self.DEBUG("EDPluginXDSSpotSearchv1_0.postProcess")
         xsDataResultXDSSpotSearch = None
         pyStrSpots = self.readProcessFile("SPOT.XDS")
         if (pyStrSpots is None):
             errorMessage = "EDPluginXDSSpotSearchv01.postProcess : Cannot read file SPOT.XDS"
-            EDVerbose.error(errorMessage)
+            self.error(errorMessage)
             self.addErrorMessage(errorMessage)
         else:
             pyListSpotLines = pyStrSpots.split("\n")

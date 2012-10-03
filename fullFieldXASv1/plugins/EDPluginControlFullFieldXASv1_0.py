@@ -29,7 +29,7 @@ __copyright__ = "2011, ESRF, Grenoble"
 __contact__ = "jerome.kieffer@esrf.eu"
 __date__ = "20120301"
 
-import threading, os, time
+import threading, os, time, posixpath
 from EDPluginControl        import EDPluginControl
 from EDUtilsPath            import EDUtilsPath
 from EDFactoryPluginStatic  import EDFactoryPluginStatic
@@ -66,6 +66,10 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
     Plugin to control  Full Field XRay Absorption Spectroscopy Experiment, ID21 ESRF
     """
     _semaphore = Semaphore()
+    TITLE = "FullField XANES mapping"
+    start_time = time.time()
+    DSenergy = "energy"
+    DSstack = "data"
     energyAttr = {"unit":"keV",
                   "long_name": "Energy of the monochromated beam",
                   "interpretation": "scalar",
@@ -75,8 +79,15 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
                   "interpretation": "scalar",
                   "monitor": "1"
                   }
-    TITLE = "FullField XANES mapping"
-    start_time = time.time()
+    dataAttr = {"axes":DSenergy,
+                "long_name":TITLE,
+                "interpretation":"image",
+                "signal":1}
+    NXdataAttr = {"NX_class":"NXdata"}
+    NXdata = "NXdata"
+    NXentryAttr = {"NX_class":"NXentry",
+                   "index":"1"}
+
 
     def __init__(self):
         """
@@ -133,14 +144,13 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         edPluginExecNormalize = self.loadPlugin(self.__strControlledNormalize)
         edPluginExecNormalize.connectSUCCESS(self.doSuccessExecNormalize)
         edPluginExecNormalize.connectFAILURE(self.doFailureExecNormalize)
-        xsdInNorm = XSDataInputNormalize()
         sdi = self.dataInput
-        xsdInNorm.data = sdi.data
-        xsdInNorm.flat = sdi.flat
-        xsdInNorm.dark = sdi.dark
-        xsdInNorm.dataScaleFactor = sdi.dataScaleFactor
-        xsdInNorm.darkScaleFactor = sdi.darkScaleFactor
-        xsdInNorm.flatScaleFactor = sdi.flatScaleFactor
+        xsdInNorm = XSDataInputNormalize(data=sdi.data,
+                                         flat=sdi.flat,
+                                         dark=sdi.dark,
+                                         dataScaleFactor=sdi.dataScaleFactor,
+                                         darkScaleFactor=sdi.darkScaleFactor,
+                                         flatScaleFactor=sdi.flatScaleFactor)
         if self.xsdNormalizedFilename is not None:
             xsdInNorm.output = XSDataImageExt(path=self.xsdNormalizedFilename.path)
         else:
@@ -185,25 +195,27 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
             self.xsdAlignStack.index = [XSDataInteger(self.index)]
             self.xsdAlignStack.frameReference = XSDataInteger(self.reference)
             self.xsdAlignStack.HDF5File = self.dataInput.getHDF5File()
-            self.xsdAlignStack.internalHDF5Path = self.dataInput.getInternalHDF5Path()
+            self.xsdAlignStack.internalHDF5Path = self.internalHDF5Path
 
-            keyValuePair1 = XSDataKeyValuePair(key=XSDataString("axes"), value=XSDataString("energy"))
+            internalHDF5Path = self.internalHDF5Path.value
+            if not internalHDF5Path.startswith("/"):
+                internalHDF5Path = "/" + internalHDF5Path
+            keyValuePair1 = XSDataKeyValuePair(key=XSDataString("axes"), value=XSDataString(self.DSenergy))
             keyValuePair2 = XSDataKeyValuePair(key=XSDataString("long_name"), value=XSDataString(self.TITLE))
             keyValuePair3 = XSDataKeyValuePair(key=XSDataString("interpretation"), value=XSDataString("image"))
             keyValuePair4 = XSDataKeyValuePair(key=XSDataString("signal"), value=XSDataString("1"))
 
-            xsAttrDataset = XSDataHDF5Attributes(h5path=XSDataString(self.internalHDF5Path.value.rstrip("/") + "/data"),
-                            metadata=XSDataDictionary([keyValuePair1, keyValuePair2, keyValuePair3, keyValuePair4]))
-            xsAttrData = XSDataHDF5Attributes(h5path=self.internalHDF5Path, \
-                            metadata=XSDataDictionary([XSDataKeyValuePair(key=XSDataString("NX_class"), value=XSDataString("NXdata")),
-                                                       ]),
-                                               )
-            xsAttrEntry = XSDataHDF5Attributes(h5path=XSDataString("/".join(self.internalHDF5Path.value.split("/")[:2])),
-                            metadata=XSDataDictionary([XSDataKeyValuePair(key=XSDataString("NX_class"), value=XSDataString("NXentry")),
-                                                       XSDataKeyValuePair(key=XSDataString("index"), value=XSDataString("1"))]),
-                                               )
+            xsAttrDataset = XSDataHDF5Attributes(h5path=XSDataString(posixpath.join(internalHDF5Path, self.DSstack)),
+                            metadata=XSDataDictionary([XSDataKeyValuePair(key=XSDataString(k), value=XSDataString(v)) for k, v in self.dataAttr.items()]))
 
-            self.xsdAlignStack.extraAttributes = [xsAttrDataset, xsAttrData, xsAttrEntry]
+#            NXdata is treated in this file not in HDF5 plugins
+#            xsAttrNXdata = XSDataHDF5Attributes(h5path=XSDataString(posixpath.join(internalHDF5Path, "NXdata")), \
+#                            metadata=XSDataDictionary([XSDataKeyValuePair(key=XSDataString(k), value=XSDataString(v)) for k, v in self.NXdataAttr.items()]))
+
+            xsAttrEntry = XSDataHDF5Attributes(h5path=XSDataString(internalHDF5Path),
+                            metadata=XSDataDictionary([XSDataKeyValuePair(key=XSDataString(k), value=XSDataString(v)) for k, v in self.NXentryAttr.items()]))
+
+            self.xsdAlignStack.extraAttributes = [xsAttrDataset, xsAttrEntry]
 
             ########################################################################
             # Selecte the mean of last centile
@@ -233,10 +245,10 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5EnergyStructure")
         h5Grp = EDPluginHDF5.createStructure(self.HDF5filename.path.value, self.internalHDF5Path.value)
         with EDPluginHDF5.getFileLock(self.HDF5filename.path.value):
-            if "energy" in h5Grp:
-                dataset = h5Grp["energy"]
+            if self.DSenergy in h5Grp:
+                dataset = h5Grp[self.DSenergy]
             else:
-                dataset = h5Grp.create_dataset("energy", shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
+                dataset = h5Grp.create_dataset(self.DSenergy, shape=(1 + max(self.index, self.reference),), dtype="float32", maxshape=(None,), chunks=(1,))
                 for key in  EDPluginControlFullFieldXASv1_0.energyAttr:
                     dataset.attrs.create(key, EDPluginControlFullFieldXASv1_0.energyAttr[key])
             if self.index >= dataset.shape[0]:
@@ -265,8 +277,7 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
         self.DEBUG("EDPluginControlFullFieldXASv1_0.makeHDF5NeXus")
         with EDPluginHDF5.getFileLock(self.HDF5filename.path.value):
             #Seems strange to redefine h5Grp but if there is a flush in between: h5Grp could be closed 
-            h5Grp = EDPluginHDF5.getHDF5File(self.HDF5filename.path.value)[self.internalHDF5Path.value]
-            entry = h5Grp.parent
+            entry = EDPluginHDF5.getHDF5File(self.HDF5filename.path.value)[self.internalHDF5Path.value]
             if not "title" in  entry:
                 entry.create_dataset("title", data=self.TITLE)
             if not "program" in  entry:
@@ -279,11 +290,21 @@ class EDPluginControlFullFieldXASv1_0(EDPluginControl):
             if "end_time" in  entry:
                 entry["end_time"][()] = EDPluginHDF5.getIsoTime()
             else:
-                entry.create_dataset("end_time", data=EDPluginHDF5.getIsoTime(), dtype=h5py.special_dtype(vlen=str))
+                entry.create_dataset("end_time", data=EDPluginHDF5.getIsoTime())
             if "duration" in  entry:
                 entry["duration"][()] = time.time() - self.start_time
             else:
                 entry.create_dataset("duration", data=time.time() - self.start_time, dtype="float")
+            if self.NXdata not in entry:
+                nxdata = entry.create_group(self.NXdata)
+                for k, v in self.NXdataAttr.items():
+                     nxdata.attrs[k] = v
+            else:
+                nxdata = entry[self.NXdata]
+            for ds in [self.DSstack, self.DSenergy]:
+                if (ds in entry) and (ds not in  nxdata):
+                    nxdata[ds] = entry[ds]
+
 
 
     def makeHDF5OffsetStructure(self):

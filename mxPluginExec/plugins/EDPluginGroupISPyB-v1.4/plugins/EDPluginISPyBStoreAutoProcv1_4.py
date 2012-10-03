@@ -27,6 +27,8 @@ __author__ = "Olof Svensson"
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
 import os, datetime
 
@@ -61,7 +63,7 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         self.iAutoProcId = None
         self.iAutoProcProgramId = None
         self.bContinue = True
-        self.iAutoProcScaling_has_IntId = None
+        self.iAutoProcScalingHasIntId = None
         
     
     def configure(self):
@@ -96,7 +98,7 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         xsDataAutoProcScalingContainer = xsDataAutoProcContainer.getAutoProcScalingContainer()
         xsDataAutoProcProgram = xsDataAutoProcContainer.getAutoProcProgramContainer().getAutoProcProgram()
         # AutoProcProgram
-        self.iAutoProcProgramId = self.storeAutoProcProgram(clientToolsForAutoprocessingWebService, xsDataAutoProcProgram)
+        self.iAutoProcProgramId = self.storeOrUpdateAutoProcProgram(clientToolsForAutoprocessingWebService, xsDataAutoProcProgram)
         if self.iAutoProcProgramId is None:
             self.ERROR("Couldn't create entry for AutoProcProgram in ISPyB!")
             self.setFailure()
@@ -104,19 +106,19 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         else:
             listAutoProcProgramAttachment = xsDataAutoProcContainer.getAutoProcProgramContainer().getAutoProcProgramAttachment()
             for xsDataAutoProcProgramAttachment in listAutoProcProgramAttachment:
-                self.storeAutoProcProgramAttachment(clientToolsForAutoprocessingWebService, xsDataAutoProcProgramAttachment)
-            if xsDataAutoProcProgram.getProcessingStatus() == False:
+                self.storeOrUpdateAutoProcProgramAttachment(clientToolsForAutoprocessingWebService, xsDataAutoProcProgramAttachment)
+            if (xsDataAutoProcProgram.getProcessingStatus() == False) or (xsDataAutoProcScalingContainer is None):
                 self.bContinue = False
         if self.bContinue:
             # AutoProcIntegration
             xsDataAutoProcIntegrationContainer = xsDataAutoProcScalingContainer.getAutoProcIntegrationContainer()
-            self.iAutoProcIntegrationId = self.storeAutoProcIntegration(clientToolsForAutoprocessingWebService, xsDataAutoProcIntegrationContainer)
+            self.iAutoProcIntegrationId = self.storeOrUpdateAutoProcIntegration(clientToolsForAutoprocessingWebService, xsDataAutoProcIntegrationContainer)
             if self.iAutoProcIntegrationId is None:
                 self.WARNING("Couldn't create entry for AutoProcIntegration in ISPyB!")
         if self.bContinue:
             # AutoProc
             xsDataAutoProc = xsDataAutoProcContainer.getAutoProc()
-            self.iAutoProcId = self.storeAutoProc(clientToolsForAutoprocessingWebService, xsDataAutoProc)
+            self.iAutoProcId = self.storeOrUpdateAutoProc(clientToolsForAutoprocessingWebService, xsDataAutoProc)
             if self.iAutoProcId is None:
                 self.ERROR("Couldn't create entry for AutoProc in ISPyB!")
                 self.setFailure()
@@ -124,22 +126,22 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         if self.bContinue:
             # AutoProcScaling
             xsDataAutoProcScaling = xsDataAutoProcScalingContainer.getAutoProcScaling()
-            self.iAutoProcScalingId = self.storeAutoProcScaling(clientToolsForAutoprocessingWebService, xsDataAutoProcScaling)
+            self.iAutoProcScalingId = self.storeOrUpdateAutoProcScaling(clientToolsForAutoprocessingWebService, xsDataAutoProcScaling)
             if self.iAutoProcScalingId is None:
                 self.ERROR("Couldn't create entry for AutoProcScaling in ISPyB!")
                 self.setFailure()
                 self.bContinue = False
         if self.bContinue:
-            # AutoProcScaling_has_IntId
-            self.iAutoProcScaling_has_IntId = self.storeAutoProcScaling_has_IntId(clientToolsForAutoprocessingWebService)
-            if self.iAutoProcScaling_has_IntId is None:
-                self.ERROR("Couldn't create entry for AutoProcScaling_has_IntId in ISPyB!")
+            # AutoProcScalingHasIntId
+            self.iAutoProcScalingHasIntId = self.storeOrUpdateAutoProcScalingHasIntId(clientToolsForAutoprocessingWebService)
+            if self.iAutoProcScalingHasIntId is None:
+                self.ERROR("Couldn't create entry for AutoProcScalingHasIntId in ISPyB!")
                 self.setFailure()
                 self.bContinue = False
         if self.bContinue:
             # AutoProcScalingStatistics
             for xsDataAutoProcScalingStatistics in xsDataAutoProcScalingContainer.getAutoProcScalingStatistics():
-                iAutoProcScalingStatisticsId = self.storeAutoProcScalingStatistics(clientToolsForAutoprocessingWebService, xsDataAutoProcScalingStatistics)
+                iAutoProcScalingStatisticsId = self.storeOrUpdateAutoProcScalingStatistics(clientToolsForAutoprocessingWebService, xsDataAutoProcScalingStatistics)
                 if iAutoProcScalingStatisticsId is None:
                     self.ERROR("Couldn't create entry for AutoProcScalingStatistics in ISPyB!")
                     self.setFailure()
@@ -148,8 +150,6 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
 
 
     def postProcess(self, _edObject=None):
-        """
-        """
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginISPyBStoreAutoProcv1_4.postProcess")
         xsDataResultStoreAutoProc = XSDataResultStoreAutoProc()
@@ -158,215 +158,238 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
         self.setDataOutput(xsDataResultStoreAutoProc)
 
 
-    def getValue(self, _oValue, _oDefaultValue):
-        if _oValue is None:
+    def getXSValue(self, _xsData, _oDefaultValue=None, _iMaxStringLength=255):
+        if _xsData is None:
             oReturnValue = _oDefaultValue
         else:
-            oReturnValue = _oValue
+            oReturnValue = _xsData
+        if type(oReturnValue) == bool:
+            if oReturnValue:
+                oReturnValue = "1"
+            else:
+                oReturnValue = "0"
+        elif (type(oReturnValue) == str) or (type(oReturnValue) == unicode):
+            if len(oReturnValue) > _iMaxStringLength:
+                strOldString = oReturnValue
+                oReturnValue = oReturnValue[0:_iMaxStringLength-3]+"..."
+                self.warning("String truncated to %d characters for ISPyB! Original string: %s" % (_iMaxStringLength, strOldString))
+                self.warning("Truncated string: %s" % oReturnValue)
         return oReturnValue
 
     
     def getDateValue(self, _strValue, _strFormat, _oDefaultValue):
-        if _strValue is None:
+        if _strValue is None or _strValue == "None":
             oReturnValue = _oDefaultValue
         else:
-            try:
-                oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
-            except:
-                oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
+            oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
         return oReturnValue
     
 
-    def storeAutoProcProgram(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcProgram):
+    def storeOrUpdateAutoProcProgram(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcProgram):
         """Creates an entry in the ISPyB AutoProcProgram table"""
-        self.DEBUG("EDPluginISPyBStoreAutoProcv1_4.storeAutoProcProgram")
-        strProcessingCommandLine = self.getValue(_xsDataAutoProcProgram.getProcessingCommandLine(), None)
-        strProcessingPrograms    = self.getValue(_xsDataAutoProcProgram.getProcessingPrograms(), None)
-        bProcessingStatus        = self.getValue(_xsDataAutoProcProgram.getProcessingStatus(), True)
-        strProcessingMessage     = self.getValue(_xsDataAutoProcProgram.getProcessingMessage(), None)
+        self.DEBUG("EDPluginISPyBStoreAutoProcv1_4.storeOrUpdateAutoProcProgram")
+        iAutoProcProgramId       = self.getXSValue(_xsDataAutoProcProgram.getAutoProcProgramId())
+        strProcessingCommandLine = self.getXSValue(_xsDataAutoProcProgram.getProcessingCommandLine())
+        strProcessingPrograms    = self.getXSValue(_xsDataAutoProcProgram.getProcessingPrograms())
+        bProcessingStatus        = self.getXSValue(_xsDataAutoProcProgram.getProcessingStatus(), True)
+        strProcessingMessage     = self.getXSValue(_xsDataAutoProcProgram.getProcessingMessage())
         processingStartTime      = self.getDateValue(_xsDataAutoProcProgram.getProcessingStartTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-        processingEndTime        = self.getDateValue(_xsDataAutoProcProgram.getProcessingEndTime(),  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-        strProcessingEnvironment = self.getValue(_xsDataAutoProcProgram.getProcessingEnvironment(), None)
+        processingEndTime        = self.getDateValue(_xsDataAutoProcProgram.getProcessingEndTime(),    "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
+        strProcessingEnvironment = self.getXSValue(_xsDataAutoProcProgram.getProcessingEnvironment())
         recordTimeStamp          = self.getDateValue(None,  "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
-        iAutoProcProgramId = _clientToolsForAutoprocessingWebService.service.storeAutoProcProgram(
-                strProcessingCommandLine, \
-                strProcessingPrograms, \
-                bProcessingStatus, \
-                strProcessingMessage, \
-                processingStartTime, \
-                processingEndTime, \
-                strProcessingEnvironment, \
-                recordTimeStamp
+        iAutoProcProgramId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcProgram(
+                arg0 = iAutoProcProgramId, \
+                processingCommandLine = strProcessingCommandLine, \
+                processingPrograms = strProcessingPrograms, \
+                processingStatus = bProcessingStatus, \
+                processingMessage = strProcessingMessage, \
+                processingStartTime = processingStartTime, \
+                processingEndTime = processingEndTime, \
+                processingEnvironment = strProcessingEnvironment, \
+                recordTimeStamp = recordTimeStamp
                 )
         self.DEBUG("AutoProcProgramId: %r" % iAutoProcProgramId)
         return iAutoProcProgramId
 
 
-    def storeAutoProcProgramAttachment(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcProgramAttachment):
+    def storeOrUpdateAutoProcProgramAttachment(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcProgramAttachment):
         """Creates an entry in the ISPyB AutoProcProgramAttachment table"""
-        iAutoProcProgramId = self.iAutoProcProgramId
-        strFileType = self.getValue(_xsDataAutoProcProgramAttachment.getFileType(), None)
-        strFileName = self.getValue(_xsDataAutoProcProgramAttachment.getFileName(), None)
-        strFilePath = self.getValue(_xsDataAutoProcProgramAttachment.getFilePath(), None)
+        iAutoProcProgramAttachmentId = self.getXSValue(_xsDataAutoProcProgramAttachment.getAutoProcProgramAttachmentId())
+        strFileType = self.getXSValue(_xsDataAutoProcProgramAttachment.getFileType())
+        strFileName = self.getXSValue(_xsDataAutoProcProgramAttachment.getFileName())
+        strFilePath = self.getXSValue(_xsDataAutoProcProgramAttachment.getFilePath())
         recordTimeStamp          = DateTime(datetime.datetime.now())
-        iAutoProcProgramAttachmentId = _clientToolsForAutoprocessingWebService.service.storeAutoProcProgramAttachment(
-                strFileType, \
-                strFileName, \
-                strFilePath, \
-                recordTimeStamp, \
-                iAutoProcProgramId
+        iAutoProcProgramId = self.iAutoProcProgramId
+        iAutoProcProgramAttachmentId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcProgramAttachment(
+                arg0 = iAutoProcProgramAttachmentId, \
+                fileType = strFileType, \
+                fileName = strFileName, \
+                filePath = strFilePath, \
+                recordTimeStamp = recordTimeStamp, \
+                autoProcProgramId = iAutoProcProgramId
                 )
         self.DEBUG("AutoProcProgramAttachmentId: %r" % iAutoProcProgramAttachmentId)
         return iAutoProcProgramAttachmentId
 
 
-    def storeAutoProcIntegration(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcIntegrationContainer):
+    def storeOrUpdateAutoProcIntegration(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcIntegrationContainer):
         """Creates an entry in the ISPyB AutoProcIntegration table"""
         xsDataProcIntegration = _xsDataAutoProcIntegrationContainer.getAutoProcIntegration()
+        iAutoProcIntegrationId = self.getXSValue(xsDataProcIntegration.getAutoProcIntegrationId())
         iAutoProcProgramId = self.iAutoProcProgramId
-        iStartImageNumber  = self.getValue(xsDataProcIntegration.getStartImageNumber(), None)
-        iEndImageNumber    = self.getValue(xsDataProcIntegration.getEndImageNumber(), None)
-        fRefinedDetectorDistance = self.getValue(xsDataProcIntegration.getRefinedDetectorDistance(), None)
-        fRefinedXbeam      = self.getValue(xsDataProcIntegration.getRefinedXbeam(), None)
-        fRefinedYbeam      = self.getValue(xsDataProcIntegration.getRefinedYbeam(), None)
-        fRotationAxisX     = self.getValue(xsDataProcIntegration.getRotationAxisX(), None)
-        fRotationAxisY     = self.getValue(xsDataProcIntegration.getRotationAxisY(), None)
-        fRotationAxisZ     = self.getValue(xsDataProcIntegration.getRotationAxisZ(), None)
-        fBeamVectorX       = self.getValue(xsDataProcIntegration.getBeamVectorX(), None)
-        fBeamVectorY       = self.getValue(xsDataProcIntegration.getBeamVectorY(), None)
-        fBeamVectorZ       = self.getValue(xsDataProcIntegration.getBeamVectorZ(), None)
-        fCellA             = self.getValue(xsDataProcIntegration.getCell_a(), None)
-        fCellB             = self.getValue(xsDataProcIntegration.getCell_b(), None)
-        fCellC             = self.getValue(xsDataProcIntegration.getCell_c(), None)
-        fCellAlpha         = self.getValue(xsDataProcIntegration.getCell_alpha(), None)
-        fCellBeta          = self.getValue(xsDataProcIntegration.getCell_beta(), None)
-        fCellGamma         = self.getValue(xsDataProcIntegration.getCell_gamma(), None)
-        bAnomalous         = self.getValue(xsDataProcIntegration.getAnomalous(), False)
+        iStartImageNumber  = self.getXSValue(xsDataProcIntegration.getStartImageNumber())
+        iEndImageNumber    = self.getXSValue(xsDataProcIntegration.getEndImageNumber())
+        fRefinedDetectorDistance = self.getXSValue(xsDataProcIntegration.getRefinedDetectorDistance())
+        fRefinedXbeam      = self.getXSValue(xsDataProcIntegration.getRefinedXbeam())
+        fRefinedYbeam      = self.getXSValue(xsDataProcIntegration.getRefinedYbeam())
+        fRotationAxisX     = self.getXSValue(xsDataProcIntegration.getRotationAxisX())
+        fRotationAxisY     = self.getXSValue(xsDataProcIntegration.getRotationAxisY())
+        fRotationAxisZ     = self.getXSValue(xsDataProcIntegration.getRotationAxisZ())
+        fBeamVectorX       = self.getXSValue(xsDataProcIntegration.getBeamVectorX())
+        fBeamVectorY       = self.getXSValue(xsDataProcIntegration.getBeamVectorY())
+        fBeamVectorZ       = self.getXSValue(xsDataProcIntegration.getBeamVectorZ())
+        fCellA             = self.getXSValue(xsDataProcIntegration.getCell_a())
+        fCellB             = self.getXSValue(xsDataProcIntegration.getCell_b())
+        fCellC             = self.getXSValue(xsDataProcIntegration.getCell_c())
+        fCellAlpha         = self.getXSValue(xsDataProcIntegration.getCell_alpha())
+        fCellBeta          = self.getXSValue(xsDataProcIntegration.getCell_beta())
+        fCellGamma         = self.getXSValue(xsDataProcIntegration.getCell_gamma())
+        bAnomalous         = self.getXSValue(xsDataProcIntegration.getAnomalous(), False)
         iDataCollectionId = _xsDataAutoProcIntegrationContainer.getImage().getDataCollectionId()        
         recordTimeStamp          = DateTime(datetime.datetime.now())
-        iAutoProcIntegrationId = _clientToolsForAutoprocessingWebService.service.storeAutoProcIntegration(
-                iAutoProcProgramId, \
-                iStartImageNumber, \
-                iEndImageNumber, \
-                fRefinedDetectorDistance, \
-                fRefinedXbeam, \
-                fRefinedYbeam, \
-                fRotationAxisX, \
-                fRotationAxisY, \
-                fRotationAxisZ, \
-                fBeamVectorX, \
-                fBeamVectorY, \
-                fBeamVectorZ, \
-                fCellA, \
-                fCellB, \
-                fCellC, \
-                fCellAlpha, \
-                fCellBeta, \
-                fCellGamma, \
-                recordTimeStamp, \
-                bAnomalous, \
-                iDataCollectionId \
+        iAutoProcIntegrationId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcIntegration(
+                arg0 = iAutoProcIntegrationId, \
+                autoProcProgramId = iAutoProcProgramId, \
+                startImageNumber = iStartImageNumber, \
+                endImageNumber = iEndImageNumber, \
+                refinedDetectorDistance = fRefinedDetectorDistance, \
+                refinedXbeam = fRefinedXbeam, \
+                refinedYbeam = fRefinedYbeam, \
+                rotationAxisX = fRotationAxisX, \
+                rotationAxisY = fRotationAxisY, \
+                rotationAxisZ = fRotationAxisZ, \
+                beamVectorX = fBeamVectorX, \
+                beamVectorY = fBeamVectorY, \
+                beamVectorZ = fBeamVectorZ, \
+                cellA = fCellA, \
+                cellB = fCellB, \
+                cellC = fCellC, \
+                cellAlpha = fCellAlpha, \
+                cellBeta = fCellBeta, \
+                cellGamma = fCellGamma, \
+                recordTimeStamp= recordTimeStamp, \
+                anomalous = bAnomalous, \
+                dataCollectionId = iDataCollectionId \
                 )
         self.DEBUG("AutoProcProgramIntegrationId: %r" % iAutoProcIntegrationId)
         return iAutoProcIntegrationId
 
 
-    def storeAutoProc(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProc):
+    def storeOrUpdateAutoProc(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProc):
         """Creates an entry in the ISPyB AutoProc table"""
+        iAutoProcId = self.getXSValue(_xsDataAutoProc.getAutoProcId())
         iAutoProcProgramId = self.iAutoProcProgramId
-        strSpaceGroup = self.getValue(_xsDataAutoProc.getSpaceGroup(), None)
-        fRefinedCellA = self.getValue(_xsDataAutoProc.getRefinedCell_a(), None)
-        fRefinedCellB = self.getValue(_xsDataAutoProc.getRefinedCell_b(), None)
-        fRefinedCellC = self.getValue(_xsDataAutoProc.getRefinedCell_c(), None)
-        fRefinedCellAlpha =self.getValue( _xsDataAutoProc.getRefinedCell_alpha(), None)
-        fRefinedCellBeta = self.getValue(_xsDataAutoProc.getRefinedCell_beta(), None)
-        fRefinedCellGamma = self.getValue(_xsDataAutoProc.getRefinedCell_gamma(), None)
+        strSpaceGroup = self.getXSValue(_xsDataAutoProc.getSpaceGroup())
+        fRefinedCellA = self.getXSValue(_xsDataAutoProc.getRefinedCell_a())
+        fRefinedCellB = self.getXSValue(_xsDataAutoProc.getRefinedCell_b())
+        fRefinedCellC = self.getXSValue(_xsDataAutoProc.getRefinedCell_c())
+        fRefinedCellAlpha =self.getXSValue( _xsDataAutoProc.getRefinedCell_alpha())
+        fRefinedCellBeta = self.getXSValue(_xsDataAutoProc.getRefinedCell_beta())
+        fRefinedCellGamma = self.getXSValue(_xsDataAutoProc.getRefinedCell_gamma())
         recordTimeStamp = DateTime(datetime.datetime.now())
-        iAutoProcId = _clientToolsForAutoprocessingWebService.service.storeAutoProc(
-                iAutoProcProgramId, \
-                strSpaceGroup, \
-                fRefinedCellA, \
-                fRefinedCellB, \
-                fRefinedCellC, \
-                fRefinedCellAlpha, \
-                fRefinedCellBeta, \
-                fRefinedCellGamma, \
-                recordTimeStamp \
+        iAutoProcId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProc(
+                arg0 = iAutoProcId, \
+                autoProcProgramId = iAutoProcProgramId, \
+                spaceGroup = strSpaceGroup, \
+                refinedCellA = fRefinedCellA, \
+                refinedCellB = fRefinedCellB, \
+                refinedCellC = fRefinedCellC, \
+                refinedCellAlpha = fRefinedCellAlpha, \
+                refinedCellBeta = fRefinedCellBeta, \
+                refinedCellGamma = fRefinedCellGamma, \
+                recordTimeStamp = recordTimeStamp \
                 )
         self.DEBUG("AutoProcId: %r" % iAutoProcId)
         return iAutoProcId
     
     
-    def storeAutoProcScaling(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcScaling):
+    def storeOrUpdateAutoProcScaling(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcScaling):
         """Creates an entry in the ISPyB AutoProcScaling table"""
+        iAutoProcScalingId = self.getXSValue(_xsDataAutoProcScaling.getAutoProcScalingId())
         iAutoProcId = self.iAutoProcId
         recordTimeStamp = self.getDateValue(_xsDataAutoProcScaling.getRecordTimeStamp(), "%Y-%m-%d %H:%M:%S", DateTime(datetime.datetime.now()))
-        iAutoProcScalingId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScaling(
-                iAutoProcId, \
-                recordTimeStamp \
+        iAutoProcScalingId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcScaling(
+                arg0 = iAutoProcScalingId, \
+                autoProcId = iAutoProcId, \
+                recordTimeStamp = recordTimeStamp \
                 )
         self.DEBUG("AutoProcScalingId: %r" % iAutoProcScalingId)
         return iAutoProcScalingId
         
     
     
-    def storeAutoProcScalingStatistics(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcScalingStatistics):
+    def storeOrUpdateAutoProcScalingStatistics(self, _clientToolsForAutoprocessingWebService, _xsDataAutoProcScalingStatistics):
         """Creates an entry in the ISPyB AutoProcScalingStatistics table"""
-        strScalingStatisticsType = _xsDataAutoProcScalingStatistics.getScalingStatisticsType()
-        strComments = ""
-        fResolutionLimitLow = self.getValue(_xsDataAutoProcScalingStatistics.getResolutionLimitLow(), None)
-        fResolutionLimitHigh = self.getValue(_xsDataAutoProcScalingStatistics.getResolutionLimitHigh(), None)
-        fRmerge = self.getValue(_xsDataAutoProcScalingStatistics.getRMerge(), None)
-        fRmeasWithinIplusIminus = self.getValue(_xsDataAutoProcScalingStatistics.getRmeasWithinIplusIminus(), None)
-        fRmeasAllIplusIminus = self.getValue(_xsDataAutoProcScalingStatistics.getRmeasAllIplusIminus(), None)
-        fRpimWithinIplusIminus = self.getValue(_xsDataAutoProcScalingStatistics.getRpimWithinIplusIminus(), None)
-        fRpimAllIplusIminus = self.getValue(_xsDataAutoProcScalingStatistics.getRpimAllIplusIminus(), None)
-        fFractionalPartialBias = self.getValue(_xsDataAutoProcScalingStatistics.getFractionalPartialBias(), None)
-        iNtotalObservations = self.getValue(_xsDataAutoProcScalingStatistics.getNTotalObservations(), None)
-        iNtotalUniqueObservations = self.getValue(_xsDataAutoProcScalingStatistics.getNtotalUniqueObservations(), None)
-        fMeanIoverSigI = self.getValue(_xsDataAutoProcScalingStatistics.getMeanIOverSigI(), None)
-        fCompleteness = self.getValue(_xsDataAutoProcScalingStatistics.getCompleteness(), None)
-        fMultiplicity = self.getValue(_xsDataAutoProcScalingStatistics.getMultiplicity(), None)
-        fAnomalousCompleteness = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalousCompleteness(), None)
-        fAnomalousMultiplicity = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalousMultiplicity(), None)
+        iAutoProcScalingStatisticsId = self.getXSValue(_xsDataAutoProcScalingStatistics.getAutoProcScalingStatisticsId())
+        strScalingStatisticsType = self.getXSValue(_xsDataAutoProcScalingStatistics.getScalingStatisticsType())
+        strComments = self.getXSValue(_xsDataAutoProcScalingStatistics.getComments())
+        fResolutionLimitLow = self.getXSValue(_xsDataAutoProcScalingStatistics.getResolutionLimitLow())
+        fResolutionLimitHigh = self.getXSValue(_xsDataAutoProcScalingStatistics.getResolutionLimitHigh())
+        fRmerge = self.getXSValue(_xsDataAutoProcScalingStatistics.getRMerge())
+        fRmeasWithinIplusIminus = self.getXSValue(_xsDataAutoProcScalingStatistics.getRmeasWithinIplusIminus())
+        fRmeasAllIplusIminus = self.getXSValue(_xsDataAutoProcScalingStatistics.getRmeasAllIplusIminus())
+        fRpimWithinIplusIminus = self.getXSValue(_xsDataAutoProcScalingStatistics.getRpimWithinIplusIminus())
+        fRpimAllIplusIminus = self.getXSValue(_xsDataAutoProcScalingStatistics.getRpimAllIplusIminus())
+        fFractionalPartialBias = self.getXSValue(_xsDataAutoProcScalingStatistics.getFractionalPartialBias())
+        iNtotalObservations = self.getXSValue(_xsDataAutoProcScalingStatistics.getNTotalObservations())
+        iNtotalUniqueObservations = self.getXSValue(_xsDataAutoProcScalingStatistics.getNtotalUniqueObservations())
+        fMeanIoverSigI = self.getXSValue(_xsDataAutoProcScalingStatistics.getMeanIOverSigI())
+        fCompleteness = self.getXSValue(_xsDataAutoProcScalingStatistics.getCompleteness())
+        fMultiplicity = self.getXSValue(_xsDataAutoProcScalingStatistics.getMultiplicity())
+        fAnomalousCompleteness = self.getXSValue(_xsDataAutoProcScalingStatistics.getAnomalousCompleteness())
+        fAnomalousMultiplicity = self.getXSValue(_xsDataAutoProcScalingStatistics.getAnomalousMultiplicity())
         recordTimeStamp = DateTime(datetime.datetime.now())
-        bAnomalous = self.getValue(_xsDataAutoProcScalingStatistics.getAnomalous(), False)
+        bAnomalous = self.getXSValue(_xsDataAutoProcScalingStatistics.getAnomalous(), False)
         iAutoProcScalingId = self.iAutoProcScalingId
-        iAutoProcScalingStatisticsId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScalingStatistics(
-                strScalingStatisticsType, \
-                strComments, \
-                fResolutionLimitLow, \
-                fResolutionLimitHigh, \
-                fRmerge, \
-                fRmeasWithinIplusIminus, \
-                fRmeasAllIplusIminus, \
-                fRpimWithinIplusIminus, \
-                fRpimAllIplusIminus, \
-                fFractionalPartialBias, \
-                iNtotalObservations, \
-                iNtotalUniqueObservations, \
-                fMeanIoverSigI, \
-                fCompleteness, \
-                fMultiplicity, \
-                fAnomalousCompleteness, \
-                fAnomalousMultiplicity, \
-                recordTimeStamp, \
-                bAnomalous, \
-                iAutoProcScalingId \
+        fCcHalf = self.getXSValue(_xsDataAutoProcScalingStatistics.getCcHalf())
+        iAutoProcScalingStatisticsId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcScalingStatistics(
+                arg0 = iAutoProcScalingStatisticsId, \
+                scalingStatisticsType = strScalingStatisticsType, \
+                comments = strComments, \
+                resolutionLimitLow = fResolutionLimitLow, \
+                resolutionLimitHigh = fResolutionLimitHigh, \
+                rmerge = fRmerge, \
+                rmeasWithinIplusIminus = fRmeasWithinIplusIminus, \
+                rmeasAllIplusIminus = fRmeasAllIplusIminus, \
+                rpimWithinIplusIminus = fRpimWithinIplusIminus, \
+                rpimAllIplusIminus = fRpimAllIplusIminus, \
+                fractionalPartialBias = fFractionalPartialBias, \
+                ntotalObservations = iNtotalObservations, \
+                ntotalUniqueObservations = iNtotalUniqueObservations, \
+                meanIoverSigI = fMeanIoverSigI, \
+                completeness = fCompleteness, \
+                multiplicity = fMultiplicity, \
+                anomalousCompleteness = fAnomalousCompleteness, \
+                anomalousMultiplicity = fAnomalousMultiplicity, \
+                recordTimeStamp = recordTimeStamp, \
+                anomalous = bAnomalous, \
+                autoProcScalingId = iAutoProcScalingId, \
+                ccHalf = fCcHalf, \
                 )
         self.DEBUG("AutoProcScalingStatisticsId: %r" % iAutoProcScalingStatisticsId)
         return iAutoProcScalingStatisticsId
 
 
-    def storeAutoProcScaling_has_IntId(self, _clientToolsForAutoprocessingWebService):
-        """Creates an entry in the ISPyB storeAutoProcScaling_has_IntId table"""
+    def storeOrUpdateAutoProcScalingHasIntId(self, _clientToolsForAutoprocessingWebService):
+        """Creates an entry in the ISPyB storeOrUpdateAutoProcScalingHasIntId table"""
         iAutoProcIntegrationId = self.iAutoProcIntegrationId
         iAutoProcScalingId = self.iAutoProcScalingId
         recordTimeStamp = DateTime(datetime.datetime.now())
-        iAutoProcScaling_has_intId = _clientToolsForAutoprocessingWebService.service.storeAutoProcScalingHasInt(                                                                                                          
-                iAutoProcIntegrationId, \
-                iAutoProcScalingId, \
-                recordTimeStamp \
+        iAutoProcScalingHasIntId = _clientToolsForAutoprocessingWebService.service.storeOrUpdateAutoProcScalingHasInt(
+                arg0 = None, \
+                autoProcIntegrationId = iAutoProcIntegrationId, \
+                autoProcScalingId = iAutoProcScalingId, \
+                recordTimeStamp = recordTimeStamp \
                 )
-        self.DEBUG("AutoProcScaling_has_IntId: %r" % iAutoProcScaling_has_intId)
-        return iAutoProcScaling_has_intId
+        self.DEBUG("AutoProcScalingHasIntId: %r" % iAutoProcScalingHasIntId)
+        return iAutoProcScalingHasIntId

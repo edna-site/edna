@@ -3,8 +3,6 @@
 #    Project: <projectName>
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) ESRF
 #
 #    Principal author:       Olof Svensson
@@ -26,6 +24,8 @@
 __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__date__ = "20120712"
+__status__ = "production"
 
 import os, tempfile, numpy, threading, shlex
 
@@ -33,7 +33,7 @@ from EDPluginExec import EDPluginExec
 from EDUtilsFile import EDUtilsFile
 from EDUtilsArray import EDUtilsArray
 from EDUtilsPlatform import EDUtilsPlatform
-from EDVerbose import EDVerbose
+
 
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataFile
@@ -121,11 +121,11 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             timer.cancel()            
 
     def kill(self):
-        EDVerbose.WARNING("I will kill subprocess %s pid= %s" % (self.__subprocess, self.__iPID))
+        self.WARNING("I will kill subprocess %s pid= %s" % (self.__subprocess, self.__iPID))
         EDUtilsPlatform.kill(self.__iPID)
-        EDVerbose.DEBUG("EDPluginExecProcess.process ========================================= ERROR! ================")
+        self.DEBUG("EDPluginExecProcess.process ========================================= ERROR! ================")
         errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginExecProcess.process', self.getClassName(), "Timeout ")
-        EDVerbose.error(errorMessage)
+        self.error(errorMessage)
         self.addErrorMessage(errorMessage)
         raise RuntimeError, errorMessage
 

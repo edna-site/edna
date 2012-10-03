@@ -34,6 +34,7 @@ __date__ = "2011-07-26"
 # HDF5 does not like unicode string and crashes with cryptic error messages
 ###############################################################################
 import os
+import posixpath
 from EDAssert                   import EDAssert
 from EDPluginHDF5               import EDPluginHDF5
 from XSDataHDF5v1_0             import XSDataInputHDF5StackImages, XSDataResultHDF5StackImages
@@ -79,6 +80,10 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
         self.DEBUG("EDPluginHDF5StackImagesv10.preProcess")
 
         for onefile in self.dataInput.inputImageFile:
+            if onefile is None:
+                self.ERROR("Please investigate why  EDPluginHDF5StackImagesv10.dataInput.inputImageFile is a list containing None !!!!")
+                self.setFailure()
+                continue
             if onefile.path is not None:
                 self.listImageFilenames.append(onefile.path.value)
             if onefile.date is not None:
@@ -196,7 +201,7 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
                     subgroup = self.hdf5group[oneItem]
                     if "HDF5 group" in str(subgroup):
                         for oneHeader in self.hdf5group[oneItem]:
-                            path = oneItem + "/" + oneHeader
+                            path = posixpath.join(oneItem, oneHeader)
                             subdataset = self.hdf5group[path]
                             if "HDF5 dataset" in str(subdataset):
                                 size = subdataset.len()
@@ -295,7 +300,7 @@ class EDPluginHDF5StackImagesv10(EDPluginHDF5):
             if dataset.len() < (iMaxSize + 1):
                 dataset.resize((iMaxSize + 1,) + npaArray.shape)
 
-            dataset[iMaxSize] = npaArray
+            dataset[iMaxSize, :, :] = npaArray
             if self.HDF5_DATASET_DATA in dSizeOfDataSets:
                 dSizeOfDataSets.pop(self.HDF5_DATASET_DATA)
 

@@ -1,8 +1,6 @@
 #
-#    Project: PROJECT
+#    Project: mxv1
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) ESRF
 #
@@ -25,6 +23,9 @@
 __author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__date__ = "20120711"
+__status__ = "production"
+
 
 """
 This control plugin will launch in parallel indexing with MOSFLM (EDPluginControlIndexingMOSFLMv1_0) 
@@ -36,11 +37,11 @@ for obtaining the image quality indicators.
 
 import os
 
-from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
 from EDActionCluster import EDActionCluster
 
 from XSDataCommon import XSDataImage
+from XSDataCommon import XSDataBoolean
 
 from XSDataMXv1 import XSDataCollection
 from XSDataMXv1 import XSDataCrystal
@@ -84,15 +85,16 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
         """
         Checks the mandatory parameter dataCollection
         """
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.checkParameters")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.checkParameters")
         self.checkMandatoryParameters(self.getDataInput("dataCollection")[0], "dataCollection")
 
 
     def preProcess(self, _edObject=None):
         EDPluginControl.preProcess(self)
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.preProcess")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.preProcess")
         # Load and prepare the execution plugin
         self.__edPluginMOSFLMIndexing = self.loadPlugin(self.__strMOSFLMIndexingPluginName)
+        self.__edPluginMOSFLMIndexing.setUseWarningInsteadOfError(True)
         xsDataIndexingInput = XSDataIndexingInput()
         xsDataIndexingInput.setDataCollection(self.getDataInput("dataCollection")[0])
         if self.hasDataInput("crystal"):
@@ -115,7 +117,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.process")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.process")
         edActionCluster = EDActionCluster()
         edActionCluster.addAction(self.__edPluginMOSFLMIndexing)
         edActionCluster.addAction(self.__edPluginControlIndicators)
@@ -129,7 +131,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.postProcess")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.postProcess")
         # Retrieve the image quality indicators
         if not self.__edPluginControlIndicators.isFailure():
             if self.__edPluginControlIndicators.hasDataOutput():
@@ -138,7 +140,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
 
 
     def doSuccessMOSFLMIndexing(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.doSuccessMOSFLMIndexing")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.doSuccessMOSFLMIndexing")
         self.synchronizeOn()
         xsDataMOSFLMIndexingOutput = self.__edPluginMOSFLMIndexing.getDataOutput()
         xsDataExperimentalConditionRefined = None
@@ -153,6 +155,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
         xsDataCollection = self.getDataInput("dataCollection")[0]
         xsDataListImage = self.generateImageList(xsDataCollection)
         xsDataIndexingResult.setImage(xsDataListImage)
+        xsDataIndexingResult.setLabelitIndexing(XSDataBoolean(False))
         self.setDataOutput(xsDataIndexingResult, "indexingResult")
 #        self.generateExecutiveSummaryMOSFLM(_edPlugin)
         self.addExecutiveSummarySeparator()
@@ -165,7 +168,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
 
 
     def doFailureMOSFLMIndexing(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.doFailureMOSFLMIndexing")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.doFailureMOSFLMIndexing")
         self.synchronizeOn()
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlIndexingIndicatorsv10.doFailureMOSFLMIndexing")
         self.addErrorWarningMessagesToExecutiveSummary("MOSFLM indexing failure! Error messages: ")
@@ -173,7 +176,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
         self.synchronizeOff()
 
     def doSuccessControlIndicators(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.doSuccessControlIndicators")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.doSuccessControlIndicators")
         self.synchronizeOn()
         self.generateExecutiveSummaryIndicators(self.__edPluginControlIndicators)
         self.generateIndicatorsShortSummary(self.__edPluginControlIndicators)
@@ -181,7 +184,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
 
 
     def doFailureControlIndicators(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlIndexingIndicatorsv10.doFailureControlIndicators")
+        self.DEBUG("EDPluginControlIndexingIndicatorsv10.doFailureControlIndicators")
         self.synchronizeOn()
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlIndexingIndicatorsv10.doFailureControlIndicators")
         self.addErrorWarningMessagesToExecutiveSummary("Image quality indicator failure! Error messages: ")
@@ -266,7 +269,7 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
         else:
             strIndexingShortSummary += "Indexing failed."
         for strLine in strIndexingShortSummary.split("\n"):
-            EDVerbose.screen(strLine)
+            self.screen(strLine)
         self.setDataOutput(XSDataString(strIndexingShortSummary), "indexingShortSummary")
 
 
@@ -295,5 +298,5 @@ class EDPluginControlIndexingIndicatorsv10(EDPluginControl):
                     fTotalIntegratedSignal = xsDataQualityIndicators.getTotalIntegratedSignal().getValue()
                     strIndicatorsShortSummary += ", total integrated signal %.0f\n" % fTotalIntegratedSignal
             for strLine in strIndicatorsShortSummary.split("\n"):
-                EDVerbose.screen(strLine)
+                self.screen(strLine)
             self.setDataOutput(XSDataString(strIndicatorsShortSummary), "indicatorsShortSummary")

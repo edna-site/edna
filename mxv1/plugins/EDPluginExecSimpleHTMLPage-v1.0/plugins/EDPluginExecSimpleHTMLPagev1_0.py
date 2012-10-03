@@ -3,9 +3,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDPluginExecSimpleHTMLPagev1_0.py.py 2100 2010-09-27 09:17:13Z svensson $"
-#
-#    Copyright (C) 2008-2011 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal author:       Olof Svensson (svensson@esrf.fr) 
@@ -103,11 +101,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.h1.close()
             self.page.div.close()
             self.diffractionPlan()
-            self.page.hr()
             self.strategyResults()
             self.graphs()
-            self.page.hr()
             self.indexingResults()
+            self.integrationResults()
             self.imageQualityIndicatorResults()
         
 
@@ -123,7 +120,9 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         xsDataResultSimpleHTMLPage.setPathToHTMLDirectory(XSDataFile(XSDataString(os.path.dirname(self.strPath))))
         self.setDataOutput(xsDataResultSimpleHTMLPage)
         # Store in Pyarch
-        strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
+        strPyarchPath = None
+        if self.xsDataResultCharacterisation is not None:
+            strPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchHtmlDirectoryPath(self.xsDataResultCharacterisation.getDataCollection())
         if strPyarchPath is None:
             # For debugging purposes
             strPyarchPath = EDUtilsPath.getEdnaUserTempFolder()
@@ -139,7 +138,6 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup is not None:
                 strForcedSpaceGroup = self.xsDataResultCharacterisation.dataCollection.diffractionPlan.forcedSpaceGroup.value
         if xsDataResultIndexing:
-            self.page.hr()
             # Table containg indexing results and thumbnail images
             self.page.table( class_='indexResultsAndThumbnails', border_="0", cellpadding_="0")
             self.page.tr( align_="CENTER" )
@@ -155,10 +153,33 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.table.close()
 
     
+    def integrationResults(self):
+        # Was the integration successful?
+        xsDataResultIntegration = self.xsDataResultCharacterisation.getIntegrationResult()
+        if xsDataResultIntegration:
+            iIntegration = 1
+            for xsDataIntegrationSubWedgeResult in xsDataResultIntegration.getIntegrationSubWedgeResult():
+                if xsDataIntegrationSubWedgeResult.getIntegrationLogFile() is not None:
+                    strPathToIntegrationLogFile = xsDataIntegrationSubWedgeResult.getIntegrationLogFile().getPath().getValue()
+                    strIntegrationHtmlPageName = "integration_%d_log.html" % iIntegration
+                    strPageIntegrationLog = os.path.join(self.getWorkingDirectory(), strIntegrationHtmlPageName)
+                    pageIntegrationLog = markupv1_7.page()
+                    pageIntegrationLog.h1("Integration Log No %d" % iIntegration)
+                    pageIntegrationLog.a("Back to previous page", href_=self.strHtmlFileName)
+                    pageIntegrationLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToIntegrationLogFile)))
+                    pageIntegrationLog.a("Back to previous page", href_=self.strHtmlFileName)
+                    EDUtilsFile.writeFile(strPageIntegrationLog, str(pageIntegrationLog))
+                    self.page.a("Integration log file %d" % iIntegration, href=strIntegrationHtmlPageName) 
+                    self.page.br()
+                    iIntegration += 1               
+
+
+
+
+    
     def strategyResults(self):
         # Was the strategy successful?
         xsDataResultStrategy = self.xsDataResultCharacterisation.getStrategyResult()
-        self.page.hr()
         if xsDataResultStrategy is None:
             # Check if indexing and integration results
             xsDataResultIntegration = self.xsDataResultCharacterisation.getIntegrationResult()
@@ -185,24 +206,26 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             # Add link to BEST log file:
             if xsDataResultStrategy.getBestLogFile():
                 strPathToBestLogFile = xsDataResultStrategy.getBestLogFile().getPath().getValue()
-                strPageBestLog = os.path.join(self.getWorkingDirectory(), "best_log.html")
-                pageBestLog = markupv1_7.page()
-                pageBestLog.h1("BEST Log")
-                pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
-                pageBestLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToBestLogFile)))
-                pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
-                EDUtilsFile.writeFile(strPageBestLog, str(pageBestLog))
+                if os.path.exists(strPathToBestLogFile):
+                    strPageBestLog = os.path.join(self.getWorkingDirectory(), "best_log.html")
+                    pageBestLog = markupv1_7.page()
+                    pageBestLog.h1("BEST Log")
+                    pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
+                    pageBestLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToBestLogFile)))
+                    pageBestLog.a("Back to previous page", href_=self.strHtmlFileName)
+                    EDUtilsFile.writeFile(strPageBestLog, str(pageBestLog))
             # Add link to RADDOSE log file:
             strPageRaddoseLog = None
             if xsDataResultStrategy.getRaddoseLogFile():
                 strPathToRaddoseLogFile = xsDataResultStrategy.getRaddoseLogFile().getPath().getValue()
                 strPageRaddoseLog = os.path.join(self.getWorkingDirectory(), "raddose_log.html")
-                pageRaddoseLog = markupv1_7.page()
-                pageRaddoseLog.h1("RADDOSE Log")
-                pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
-                pageRaddoseLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToRaddoseLogFile)))
-                pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
-                EDUtilsFile.writeFile(strPageRaddoseLog, str(pageRaddoseLog))
+                if os.path.exists(strPathToRaddoseLogFile):
+                    pageRaddoseLog = markupv1_7.page()
+                    pageRaddoseLog.h1("RADDOSE Log")
+                    pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
+                    pageRaddoseLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToRaddoseLogFile)))
+                    pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
+                    EDUtilsFile.writeFile(strPageRaddoseLog, str(pageRaddoseLog))
             listXSDataCollectionPlan = xsDataResultStrategy.getCollectionPlan()
             iNoSubWedges = len(listXSDataCollectionPlan)
             self.page.h2()
@@ -380,31 +403,32 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if strReferenceFileName is None:
                 strReferenceFileName = strFileName
             strLocalPath = os.path.join(self.getWorkingDirectory(), strFileName)
-            shutil.copyfile(strPathToPredictionImage, strLocalPath)
-            listPaths.append(strLocalPath)
-            self.page.table( class_='image' )
-            self.page.tr( align_="CENTER" )
-            self.page.td()
-            strPageReferenceImage = os.path.splitext(strFileName)[0]+".html"
-            pageReferenceImage = markupv1_7.page()
-            pageReferenceImage.init( title=strReferenceFileName, 
-                   footer="Generated on %s" % time.asctime())
-            pageReferenceImage.h1(strReferenceFileName)
-            pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
-            pageReferenceImage.img(src=strFileName, title=strReferenceFileName)
-            pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
-            EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(),strPageReferenceImage), str(pageReferenceImage))
-            self.page.a( href=strPageReferenceImage)
-            self.page.img( src=strFileName, width=128, height=128, title=strFileName )
-            self.page.a.close()
-            self.page.td.close()
-            self.page.tr.close()
-            self.page.tr( align_="CENTER" )
-            self.page.td( strReferenceFileName, class_="caption")
-            self.page.td.close()
-            self.page.tr.close()
-            self.page.table.close()
-            self.page.td.close()
+            if os.path.exists(strPathToPredictionImage):
+                shutil.copyfile(strPathToPredictionImage, strLocalPath)
+                listPaths.append(strLocalPath)
+                self.page.table( class_='image' )
+                self.page.tr( align_="CENTER" )
+                self.page.td()
+                strPageReferenceImage = os.path.splitext(strFileName)[0]+".html"
+                pageReferenceImage = markupv1_7.page()
+                pageReferenceImage.init( title=strReferenceFileName, 
+                       footer="Generated on %s" % time.asctime())
+                pageReferenceImage.h1(strReferenceFileName)
+                pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
+                pageReferenceImage.img(src=strFileName, title=strReferenceFileName)
+                pageReferenceImage.a("Back to previous page", href_=self.strHtmlFileName)
+                EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(),strPageReferenceImage), str(pageReferenceImage))
+                self.page.a( href=strPageReferenceImage)
+                self.page.img( src=strFileName, width=128, height=128, title=strFileName )
+                self.page.a.close()
+                self.page.td.close()
+                self.page.tr.close()
+                self.page.tr( align_="CENTER" )
+                self.page.td( strReferenceFileName, class_="caption")
+                self.page.td.close()
+                self.page.tr.close()
+                self.page.table.close()
+                self.page.td.close()
         self.page.table.close()
         self.page.div.close()
 
@@ -420,7 +444,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if strSpaceGroup.upper() == _strForcedSpaceGroup.upper():
                 self.page.h3("Indexing summary: Forced spacegroup: %s" % strSpaceGroup)
             else:
-                self.page.h3("Indexing summary: Selected spacegroup: %s, forced space group: %s" % strSpaceGroup, _strForcedSpaceGroup)
+                self.page.h3("Indexing summary: Selected spacegroup: %s, forced space group: %s" % (strSpaceGroup, _strForcedSpaceGroup))
         self.page.table( class_='indexResults', border_="1", cellpadding_="0" )
         self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle1 )
         self.page.th("Refined unit cell parameters (&Aring;/degrees)", colspan_="6")
@@ -443,6 +467,16 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.page.td.close()
         self.page.tr.close()
         self.page.table.close()
+        if _xsDataResultIndexing.getIndexingLogFile():
+            strPathToIndexingLogFile = _xsDataResultIndexing.getIndexingLogFile().getPath().getValue()
+            strPageIndexingLog = os.path.join(self.getWorkingDirectory(), "indexing_log.html")
+            pageIndexingLog = markupv1_7.page()
+            pageIndexingLog.h1("Indexing Log")
+            pageIndexingLog.a("Back to previous page", href_=self.strHtmlFileName)
+            pageIndexingLog.pre(cgi.escape(EDUtilsFile.readFile(strPathToIndexingLogFile)))
+            pageIndexingLog.a("Back to previous page", href_=self.strHtmlFileName)
+            EDUtilsFile.writeFile(strPageIndexingLog, str(pageIndexingLog))
+            self.page.a("Indexing log file", href="indexing_log.html")
         
 
         
@@ -518,8 +552,10 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.tr( align_="CENTER" )
             iIndex = 1
             # If -damPar is used only three plots are available:
-            if len(listXSDataFile) > 4:
+            if len(listXSDataFile) >= 7:
                 listPlotsToDisplay = [0, 1, 3, 6]
+            elif len(listXSDataFile) >= 4:
+                listPlotsToDisplay = [0, 1, 3]
             else:
                 listPlotsToDisplay = range(len(listXSDataFile))
             for iIndexPlot in listPlotsToDisplay:

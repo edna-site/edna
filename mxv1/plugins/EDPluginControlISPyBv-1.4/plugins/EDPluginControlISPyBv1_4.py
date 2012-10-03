@@ -83,6 +83,7 @@ class EDPluginControlISPyBv1_4(EDPluginControl):
                                                                                                              self.strShortComments, \
                                                                                                              self.strComments)
         except Exception, error:
+            raise
             # This exception handling needs to be rethought, see bug #43.
             errorMessage = "EDPluginControlISPyBv1_4.preProcess: Unexpected error in ISPyB handler: %r" % error
             EDVerbose.error(errorMessage)
@@ -98,19 +99,19 @@ class EDPluginControlISPyBv1_4(EDPluginControl):
         EDPluginControl.process(self, _edObject)
         EDVerbose.DEBUG("EDPluginControlISPyBv1_4.process")
         if (self.edPluginExecISPyB is not None):
-            self.edPluginExecISPyB.connectSUCCESS(self.doSuccessGeneratePrediction)
-            self.edPluginExecISPyB.connectFAILURE(self.doFailureGeneratePrediction)
+            self.edPluginExecISPyB.connectSUCCESS(self.doSuccessExecISPyB)
+            self.edPluginExecISPyB.connectFAILURE(self.doFailureExecISPyB)
             self.edPluginExecISPyB.executeSynchronous()
 
 
-    def doSuccessGeneratePrediction(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlISPyBv1_4.doSuccessGeneratePrediction")
-        self.retrieveSuccessMessages(self.edPluginExecISPyB, "EDPluginControlISPyBv1_4.doSuccessGeneratePrediction")
+    def doSuccessExecISPyB(self, _edPlugin=None):
+        EDVerbose.DEBUG("EDPluginControlISPyBv1_4.doSuccessExecISPyB")
+        self.retrieveSuccessMessages(self.edPluginExecISPyB, "EDPluginControlISPyBv1_4.doSuccessExecISPyB")
 
 
-    def doFailureGeneratePrediction(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlISPyBv1_4.doFailureGeneratePrediction")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlISPyBv1_4.doFailureGeneratePrediction")
+    def doFailureExecISPyB(self, _edPlugin=None):
+        EDVerbose.DEBUG("EDPluginControlISPyBv1_4.doFailureExecISPyB")
+        self.retrieveFailureMessages(_edPlugin, "EDPluginControlISPyBv1_4.doFailureExecISPyB")
 
 
     def postProcess(self, _edPlugin=None):

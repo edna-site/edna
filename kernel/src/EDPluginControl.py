@@ -25,6 +25,8 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import with_statement
+
 __authors__ = ["Marie-Francoise Incardona", "Olof Svensson"]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
@@ -74,23 +76,19 @@ class EDPluginControl(EDPlugin):
         Gets the EDPluginControl parameters from the configuration file and stores them in class member attributes.
         """
         EDPlugin.configure(self)
-        pluginConfiguration = self.getConfiguration()
-        if(pluginConfiguration == None):
-            EDVerbose.DEBUG("EDPluginControl.configure: pluginConfiguration is None, using default settings")
-        else:
-            EDVerbose.DEBUG("EDPluginControl.configure: pluginConfiguration found, using settings from there")
-            strControlledPlugins = EDConfiguration.getStringParamValue(pluginConfiguration, "controlledPlugins")
-            if (strControlledPlugins != None):
-                pyListControlledPlugins = strControlledPlugins.split(",")
-                for strControlledPlugin in pyListControlledPlugins:
-                    strControlledPluginName = EDConfiguration.getStringParamValue(pluginConfiguration, strControlledPlugin)
-                    if strControlledPluginName != None:
-                        self.setControlledPluginName(strControlledPlugin, strControlledPluginName)
-                        EDVerbose.DEBUG("EDPluginControl.configure: setting controlled plugin %s to specific plugin %s" % (strControlledPlugin, strControlledPluginName))
-            strClusterSize = EDConfiguration.getStringParamValue(pluginConfiguration, "clusterSize")
-            if (strClusterSize != None):
-                self.__iClusterSize = int(strClusterSize)
-                EDVerbose.DEBUG("EDPluginControl.configure: setting cluster size to %d" % self.__iClusterSize)
+        EDVerbose.DEBUG("EDPluginControl.configure")
+        strControlledPlugins = self.config.get("controlledPlugins", None)
+        if (strControlledPlugins != None):
+            pyListControlledPlugins = strControlledPlugins.split(",")
+            for strControlledPlugin in pyListControlledPlugins:
+                strControlledPluginName = self.getStringConfigurationParameterValue(strControlledPlugin)
+                if strControlledPluginName != None:
+                    self.setControlledPluginName(strControlledPlugin, strControlledPluginName)
+                    EDVerbose.DEBUG("EDPluginControl.configure: setting controlled plugin %s to specific plugin %s" % (strControlledPlugin, strControlledPluginName))
+        clusterSize = self.config.get("clusterSize", None)
+        if (clusterSize != None):
+            self.__iClusterSize = int(strClusterSize)
+            EDVerbose.DEBUG("EDPluginControl.configure: setting cluster size to %d" % self.__iClusterSize)
 
 
     def emptyListOfLoadedPlugin(self):
@@ -113,9 +111,8 @@ class EDPluginControl(EDPlugin):
         @type _plugin: instance of the class EDPlugin
         """
         if _plugin in self.__listOfLoadedPlugins:
-            self.synchronizeOn()
-            self.__listOfLoadedPlugins.remove(_plugin)
-            self.synchronizeOff()
+            with self.locked():
+                self.__listOfLoadedPlugins.remove(_plugin)
             self.DEBUG("EDPluginControl.removeLoadedPlugin: Caught, removed %s unreferenced objects. currently there are %i plugins" % (gc.get_count(), len(self.__listOfLoadedPlugins)))
             gc.collect()
         else:
@@ -131,9 +128,9 @@ class EDPluginControl(EDPlugin):
                 if edPlugin.isStarted() and (not edPlugin.isEnded()):
                     edPlugin.synchronize()
             time.sleep(0.01)
-            self.synchronizeOn()
-            bSynchronized = (self.__listOfLoadedPlugins == listPluginOrig)
-            self.synchronizeOff()
+            with self.locked():
+                bSynchronized = (self.__listOfLoadedPlugins == listPluginOrig)
+
 
     def loadPlugins(self):
         """

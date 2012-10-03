@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+  <input_file>
+    <path>
+      <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/XDS.INP</value>
+    </path>
+  </input_file>
+  <!-- not used yet
+  <completeness_cutoff>
+    <value></value>
+  </completeness_cutoff>
+  <res_override>
+    <value></value>
+  </res_override>
+  <isig_cutoff>
+    <value></value>
+  </isig_cutoff>
+  -->
+</XSDataInput>

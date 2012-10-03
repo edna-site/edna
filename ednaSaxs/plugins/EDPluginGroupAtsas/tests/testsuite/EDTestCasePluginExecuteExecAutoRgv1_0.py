@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Al, Irakli, Alun, Jerome, Olof, Peter and Claudio"
+__author__ = "Al, Irakli, Alun, Jerome, Olof, Peter and Claudio"
 __license__ = "GPLv3+"
 __copyright__ = "EMBL + ESRF + DLS"
 
@@ -32,14 +32,15 @@ import os
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
-
+from XSDataEdnaSaxs import XSDataInputAutoRg as XSDataInput
+from XSDataEdnaSaxs import XSDataResultAutoRg as XSDataResult
 
 class EDTestCasePluginExecuteExecAutoRgv1_0(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin AutoRgv1_0
     """
-    
-    def __init__(self, _strTestName = None):
+
+    def __init__(self, _strTestName=None):
         """
         """
         EDTestCasePluginExecute.__init__(self, "EDPluginExecAutoRgv1_0")
@@ -49,20 +50,37 @@ class EDTestCasePluginExecuteExecAutoRgv1_0(EDTestCasePluginExecute):
                                            "XSDataInputAutoRg_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultAutoRg_reference.xml"))
-                 
-        
+
+    def preProcess(self):
+        """
+        Download reference 1D curves
+        """
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage(["autosubtracted.dat"])
+
     def testExecute(self):
         """
-        """ 
+        """
         self.run()
-        
+        plugin = self.getPlugin()
+
+################################################################################
+# Compare XSDataResults
+################################################################################
+
+        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
+        EDVerbose.DEBUG("Checking obtained result...")
+        xsDataResultReference = XSDataResult.parseString(strExpectedOutput)
+        xsDataResultObtained = plugin.getDataOutput()
+        EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
+
 
     def process(self):
         """
         """
         self.addTestMethod(self.testExecute)
 
-        
+
 
 if __name__ == '__main__':
 

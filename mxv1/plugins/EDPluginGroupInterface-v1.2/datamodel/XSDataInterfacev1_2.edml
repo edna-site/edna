@@ -14,12 +14,12 @@ import XSDataMXv1.XSDataExperimentalCondition
 import XSDataMXv1.XSDataInputCharacterisation
 import XSDataMXv1.XSDataResultCharacterisation
 import XSDataMXv1.XSDataResultControlISPyB
-import XSDataMXv1.XSDataSample
+import XSDataMXv1.XSDataSampleCrystalMM
 
 complex type XSDataInputInterface {
 	experimentalCondition : XSDataExperimentalCondition optional
 	diffractionPlan : XSDataDiffractionPlan optional
-	sample : XSDataSample optional
+	sample : XSDataSampleCrystalMM optional
 	imagePath : XSDataFile [] optional
 	flux : XSDataFloat optional
 	minExposureTimePerImage : XSDataTime optional

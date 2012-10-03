@@ -1,8 +1,6 @@
 #
-#    Project: The EDNA Prototype
+#    Project: mxPluginExec
 #             http://www.edna-site.org
-#
-#    File: "$Id$"
 #
 #    Copyright (C) 2008 EMBL-Grenoble, Grenoble, France
 #
@@ -32,7 +30,7 @@ class EDPluginSTACv10(EDPluginExecProcessScript):
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
-        EDVerbose.DEBUG("EDPluginSTACv10.preProcess")
+        self.DEBUG("EDPluginSTACv10.preProcess")
         xsPluginItem = self.getConfiguration()
         self.addListCommandPreExecution("export STACDIR=%s" % EDConfiguration.getStringParamValue(xsPluginItem, "STACDIR"))
         self.addListCommandPreExecution("export BCMDEF=%s" % EDConfiguration.getStringParamValue(xsPluginItem, "BCMDEF"))
@@ -76,7 +74,7 @@ class EDPluginSTACv10(EDPluginExecProcessScript):
 
     def process(self, _edObject=None):
         EDPluginExecProcessScript.process(self)
-        EDVerbose.DEBUG("EDPluginSTACv10.process")
+        self.DEBUG("EDPluginSTACv10.process")
         # It should not be possible to execute this abstract plugin
         if (self.getPluginName() == "EDPluginSTACv10"):
              raise ExectuteAbstractPluginError
@@ -91,17 +89,17 @@ class EDPluginSTACv10(EDPluginExecProcessScript):
         """
         Checks the mandatory parameters for all XDS plugins
         """
-        EDVerbose.DEBUG("EDPluginSTACv10.checkParameters")
+        self.DEBUG("EDPluginSTACv10.checkParameters")
 
     def postProcess(self, _edObject=None):
         """
         reading back and genericly process the output
         """
         EDPluginExecProcessScript.postProcess(self)
-        EDVerbose.DEBUG("EDPluginSTACv10.postProcess")
+        self.DEBUG("EDPluginSTACv10.postProcess")
         OutputData = self.fetchOutput()
 
-        EDVerbose.DEBUG("EDPluginSTACv10.postProcess: " + EDString(OutputData))
+        self.DEBUG("EDPluginSTACv10.postProcess: " + EDString(OutputData))
         if (OutputData is not None):
             self.setDataOutput(OutputData)
 

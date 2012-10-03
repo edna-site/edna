@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Karl Levik (karl.levik@diamond.ac.uk)
@@ -53,10 +51,3 @@ class EDTestCasePluginUnitControlISPyBv1_4(EDTestCasePluginUnit):
     def process(self):
         self.addTestMethod(self.testCheckParameters)
 
-
-
-
-if __name__ == '__main__':
-
-    edTestCasePluginUnitControlISPyBv1_4 = EDTestCasePluginUnitControlISPyBv1_4("EDTestCasePluginUnitControlISPyBv1_4")
-    edTestCasePluginUnitControlISPyBv1_4.execute()

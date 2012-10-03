@@ -364,6 +364,9 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         <ownedAttribute xmi:id="_Ijn9ougUEd-TcNOGyxZYYg" name="predictionResult" type="_wLcbIOi-Ed-7o_3d0R29SQ">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_HMg9AAdeEeCIqPjmQLbFcg"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_MyDmoJT4EeGz5667jSekjg" name="labelitIndexing">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_ucgWsOgGEd-TcNOGyxZYYg" name="XSDataIndexingInput">
         <generalization xmi:id="_tq06sOjNEd-7o_3d0R29SQ">
@@ -965,14 +968,11 @@ This structure is also defined by its number in the asymmetric unit.</body>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_1vszUAfKEeCHfoTkpt3vnQ" name="MXv1 Strategy">
-      <ownedComment xmi:id="_PpR5AOjVEd-7o_3d0R29SQ" annotatedElement="_DMWC0OgHEd-TcNOGyxZYYg _GG1iIOjEEd-7o_3d0R29SQ">
+      <ownedComment xmi:id="_PpR5AOjVEd-7o_3d0R29SQ" annotatedElement="_DMWC0OgHEd-TcNOGyxZYYg">
         <body>Several collection plans could be present in case of multi-sweep strategy</body>
       </ownedComment>
       <ownedComment xmi:id="_hDlMsOjVEd-7o_3d0R29SQ" annotatedElement="_FogjQOgHEd-TcNOGyxZYYg">
         <body>The comment can be used for describing exotic data collections, for example without collecting any images.</body>
-      </ownedComment>
-      <ownedComment xmi:id="_hWRNQOjXEd-7o_3d0R29SQ" annotatedElement="_GG1iIOjEEd-7o_3d0R29SQ _2sgXkOjCEd-7o_3d0R29SQ _P6th4OjCEd-7o_3d0R29SQ">
-        <body>These classes are deprecated and will be removed once the corresponding plugins that use them have been removed.</body>
       </ownedComment>
       <ownedComment xmi:id="_xIgo4OjVEd-7o_3d0R29SQ" annotatedElement="_IOgVIOgHEd-TcNOGyxZYYg">
         <body>OBS! The attribute &quot;attenuation&quot; in XSDataStrategySummary is deprecated, see bug #379. Please use instead &quot;transmission&quot; in XSDataBeam.</body>
@@ -1017,6 +1017,9 @@ This structure is also defined by its number in the asymmetric unit.</body>
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6zMZcI4JEeGjvvGrlGkoIg" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8BD6wI4JEeGjvvGrlGkoIg"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_j1fKUMHMEeGK-uP4AiHHCQ" name="sample" type="_qQbKEOgBEd-TcNOGyxZYYg" isUnique="false">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nleqIMHMEeGK-uP4AiHHCQ"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_FogjQOgHEd-TcNOGyxZYYg" name="XSDataCollectionPlan">
@@ -1113,34 +1116,6 @@ This structure is also defined by its number in the asymmetric unit.</body>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P5kkAI4PEeGjvvGrlGkoIg"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_2sgXkOjCEd-7o_3d0R29SQ" name="XSDataStrategyInput">
-        <generalization xmi:id="_uOvgEOjNEd-7o_3d0R29SQ">
-          <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_9orwkOdDEd-jKbXLtzGSgw"/>
-        </generalization>
-        <ownedAttribute xmi:id="_4lWIgujCEd-7o_3d0R29SQ" name="bestFileContentDat">
-          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_8kmzYOjCEd-7o_3d0R29SQ" name="bestFileContentHKL" isUnique="false">
-          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CaeakOjDEd-7o_3d0R29SQ" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BW-WMOjDEd-7o_3d0R29SQ" value="1"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_De320ujDEd-7o_3d0R29SQ" name="bestFileContentPar">
-          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_0UpFUOZyEd-zkMBEigHSXg"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_GGgncujDEd-7o_3d0R29SQ" name="crystalRefined" type="_je82QOgBEd-TcNOGyxZYYg"/>
-        <ownedAttribute xmi:id="_JMjLUujDEd-7o_3d0R29SQ" name="diffractionPlan" type="_KJYS8OfyEd-TcNOGyxZYYg"/>
-        <ownedAttribute xmi:id="_LrZMUOjDEd-7o_3d0R29SQ" name="experimentalCondition" type="_haUQkOf3Ed-TcNOGyxZYYg"/>
-        <ownedAttribute xmi:id="_6XrMUujDEd-7o_3d0R29SQ" name="sample" type="_qQbKEOgBEd-TcNOGyxZYYg"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_GG1iIOjEEd-7o_3d0R29SQ" name="XSDataStrategyResult">
-        <generalization xmi:id="_M6kUMOjOEd-7o_3d0R29SQ">
-          <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
-        </generalization>
-        <ownedAttribute xmi:id="_Hka6cujEEd-7o_3d0R29SQ" name="collectionPlan" type="_FogjQOgHEd-TcNOGyxZYYg" isUnique="false">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KxwZIOjEEd-7o_3d0R29SQ" value="*"/>
-        </ownedAttribute>
-      </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_tVmC4AfMEeCHfoTkpt3vnQ" name="A_&lt;xSDataResultStrategy>_&lt;xSDataCollectionPlan>" memberEnd="_tVmC4QfMEeCHfoTkpt3vnQ _tVmC5AfMEeCHfoTkpt3vnQ" navigableOwnedEnd="_tVmC5AfMEeCHfoTkpt3vnQ">
         <ownedEnd xmi:id="_tVmC4QfMEeCHfoTkpt3vnQ" name="" type="_DMWC0OgHEd-TcNOGyxZYYg" isUnique="false" association="_tVmC4AfMEeCHfoTkpt3vnQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_tVmC4gfMEeCHfoTkpt3vnQ" value="1"/>
@@ -1193,10 +1168,6 @@ This structure is also defined by its number in the asymmetric unit.</body>
       </ownedComment>
       <ownedComment xmi:id="_3ZRKYOjXEd-7o_3d0R29SQ" annotatedElement="_U5PxEOjFEd-7o_3d0R29SQ">
         <body>No attributes - the return value is XSDataStatus provided by XSDataResult</body>
-      </ownedComment>
-      <ownedComment xmi:id="_znXF0AgiEeC2H-UR8vd0nQ" annotatedElement="_P6th4OjCEd-7o_3d0R29SQ">
-        <body>Deprecated - only used by EDPluginControlCharacterisationv10
-</body>
       </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_FURVYOjHEd-7o_3d0R29SQ" name="XSDataResultReadImageHeader">
         <generalization xmi:id="_P7r70OjOEd-7o_3d0R29SQ">
@@ -1282,21 +1253,6 @@ This structure is also defined by its number in the asymmetric unit.</body>
         </generalization>
         <ownedAttribute xmi:id="_T7XpAujEEd-7o_3d0R29SQ" name="characterisationResult" type="_e0pnEOjBEd-7o_3d0R29SQ"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_P6th4OjCEd-7o_3d0R29SQ" name="XSDataCharacterisation">
-        <generalization xmi:id="_mwql8OjCEd-7o_3d0R29SQ">
-          <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_sY590OZyEd-zkMBEigHSXg"/>
-        </generalization>
-        <ownedAttribute xmi:id="_TE60EujCEd-7o_3d0R29SQ" name="dataCollection" type="_BF4f4Of3Ed-TcNOGyxZYYg"/>
-        <ownedAttribute xmi:id="_VRSlAujCEd-7o_3d0R29SQ" name="indexingResult" type="_583voOgTEd-TcNOGyxZYYg" isUnique="false">
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YXeS0OjCEd-7o_3d0R29SQ"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_YyASsujCEd-7o_3d0R29SQ" name="integrationResult" type="_Z4TVAOgVEd-TcNOGyxZYYg" isUnique="false">
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dHwyAOjCEd-7o_3d0R29SQ"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_d6RNAujCEd-7o_3d0R29SQ" name="strategyResult" type="_GG1iIOjEEd-7o_3d0R29SQ" isUnique="false">
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7yZhEOjHEd-7o_3d0R29SQ"/>
-        </ownedAttribute>
-      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_e0pnEOjBEd-7o_3d0R29SQ" name="XSDataResultCharacterisation">
         <generalization xmi:id="_LJdi8OjOEd-7o_3d0R29SQ">
           <general xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_IuuQ4OdEEd-jKbXLtzGSgw"/>
@@ -1323,6 +1279,10 @@ This structure is also defined by its number in the asymmetric unit.</body>
         </ownedAttribute>
         <ownedAttribute xmi:id="_rpaTAujBEd-7o_3d0R29SQ" name="indexingResult" type="_583voOgTEd-TcNOGyxZYYg" isUnique="false">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wOqm4OjBEd-7o_3d0R29SQ"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_xCaocNTBEeGqZ8d-U-q81Q" name="xdsBackgroundImage" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_341GoNTBEeGqZ8d-U-q81Q"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_UuiSsOjBEd-7o_3d0R29SQ" name="XSDataInputCharacterisation">

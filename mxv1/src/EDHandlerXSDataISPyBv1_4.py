@@ -36,14 +36,13 @@ from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataDouble
 
 
-import time
+import os, time
 
 EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
 
 from XSDataISPyBv1_4 import XSDataInputISPyBStoreScreening
 from XSDataISPyBv1_4 import XSDataISPyBDiffractionPlan
 from XSDataISPyBv1_4 import XSDataISPyBScreening
-from XSDataISPyBv1_4 import XSDataISPyBScreeningInput
 from XSDataISPyBv1_4 import XSDataISPyBScreeningOutput
 from XSDataISPyBv1_4 import XSDataISPyBScreeningOutputContainer
 from XSDataISPyBv1_4 import XSDataISPyBScreeningOutputLattice
@@ -52,6 +51,7 @@ from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategyContainer
 from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategyWedgeContainer
 from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategyWedge
 from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategySubWedge
+from XSDataISPyBv1_4 import XSDataISPyBImage
 
 
 class EDHandlerXSDataISPyBv1_4(object):
@@ -64,33 +64,64 @@ class EDHandlerXSDataISPyBv1_4(object):
         xsDataResultCharacterisation = _xsDataInputControlISPyB.getCharacterisationResult()
         xsDataIntegerDataCollectionId = _xsDataInputControlISPyB.getDataCollectionId()
 
+        # ISPyB image
+        xsDataISPyBImage = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBImage(xsDataResultCharacterisation)
+
         # Diffraction plan
         xsDataISPyBDiffractionPlan = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBDiffractionPlan(xsDataResultCharacterisation)
 
         # Screening
-        xsDataISPyBScreening = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreening(_strShortComments, _strComments)
-
-        # ScreeningInput
-        xsDataISPyBScreeningInput = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningInput(xsDataResultCharacterisation)
+        # Temporary fix for mxsup717, while waiting for a change of the ISPyB web service
+        strComments = _strComments
+#        if xsDataResultCharacterisation.getIndexingResult() is not None:
+#            if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing():
+#                if strComments is None:
+#                    strComments = ""
+#                else:
+#                    strComments += " "
+#                if xsDataResultCharacterisation.getIndexingResult().getLabelitIndexing().getValue():
+#                    strComments += "Labelit indexing"
+#                else:
+#                    strComments += "MOSFLM indexing"
+        xsDataISPyBScreening = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreening(_strShortComments, strComments)
 
         # ScreeningOutputContainer
         xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningOutputContainer(xsDataResultCharacterisation, \
                                                                                                                    _strStatusMessage)
 
-        # Legacy strategy - everything stored in a list of XSDataISPyBStrategy entries
-        EDHandlerXSDataISPyBv1_4.generateLegacyXSDataISPyBStrategy(xsDataResultCharacterisation, xsDataISPyBScreeningOutputContainer)
-
         # Assemble the input
         xsDataISPyBScreening.dataCollectionId = xsDataIntegerDataCollectionId
+        xsDataInputISPyBStoreScreening.image = xsDataISPyBImage
         xsDataInputISPyBStoreScreening.diffractionPlan = xsDataISPyBDiffractionPlan
         xsDataInputISPyBStoreScreening.screening = xsDataISPyBScreening
-        xsDataInputISPyBStoreScreening.screeningInput = xsDataISPyBScreeningInput
         xsDataInputISPyBStoreScreening.addScreeningOutputContainer(xsDataISPyBScreeningOutputContainer)
-
 
         return xsDataInputISPyBStoreScreening
 
 
+    def generateXSDataISPyBImage(_xsDataResultCharacterisation):
+        xsDataISPyBImage = None
+        # Find path to first image from data collection information
+        strPathToFirstImage = None
+        xsDataCollection = _xsDataResultCharacterisation.getDataCollection()
+        if (xsDataCollection is not None):
+            lXSDataSubWedge = xsDataCollection.getSubWedge()
+            if (lXSDataSubWedge is not None):
+                xsDataSubWedgeFirst = lXSDataSubWedge[0]
+                lXSDataImage = xsDataSubWedgeFirst.getImage()
+                if (lXSDataImage is not None):
+                    xsDataImageFirst = lXSDataImage[ 0 ]
+                    strPathToFirstImage = xsDataImageFirst.getPath().getValue()
+
+            # Add an image path if the dataCollectionId is not present...
+            if (strPathToFirstImage is not None):
+                xsDataISPyBImage = XSDataISPyBImage()
+                strImageBaseName = os.path.basename(strPathToFirstImage)
+                strDirectoryName = os.path.dirname(strPathToFirstImage)
+                xsDataISPyBImage.setFileName(XSDataString(strImageBaseName))
+                xsDataISPyBImage.setFileLocation(XSDataString(strDirectoryName))
+        return xsDataISPyBImage
+    generateXSDataISPyBImage = staticmethod(generateXSDataISPyBImage)
 
     @staticmethod
     def generateXSDataISPyBDiffractionPlan(_xsDataResultCharacterisation):
@@ -113,8 +144,11 @@ class EDHandlerXSDataISPyBv1_4(object):
                 xsDataISPyBDiffractionPlan.goniostatMaxOscillationSpeed = xsDataDiffractionPlan.goniostatMaxOscillationSpeed
                 xsDataISPyBDiffractionPlan.goniostatMinOscillationWidth = xsDataDiffractionPlan.goniostatMinOscillationWidth
                 strAllKappaStrategyOptions = ""
-                for strKappaStrategyOption in xsDataDiffractionPlan.kappaStrategyOption:
-                    strAllKappaStrategyOptions += strKappaStrategyOption + ", "
+                for kappaStrategyOption in xsDataDiffractionPlan.kappaStrategyOption:
+                    strAllKappaStrategyOptions += kappaStrategyOption.value
+                    # Add a comma to separate entries except for the last item
+                    if kappaStrategyOption != xsDataDiffractionPlan.kappaStrategyOption[-1]:
+                        strAllKappaStrategyOptions += ", "
                 if strAllKappaStrategyOptions != "":
                     xsDataISPyBDiffractionPlan.kappaStrategyOption = XSDataString(strAllKappaStrategyOptions)
                 xsDataISPyBDiffractionPlan.maxExposureTimePerDataCollection = xsDataDiffractionPlan.maxExposureTimePerDataCollection
@@ -128,7 +162,7 @@ class EDHandlerXSDataISPyBv1_4(object):
         return xsDataISPyBDiffractionPlan
     
     @staticmethod
-    def generateXSDataISPyBScreening(_strShortComments=None, _strComments=None):
+    def generateXSDataISPyBScreening(_xsDataSample=None, _strShortComments=None, _strComments=None):
         xsDataISPyBScreening = XSDataISPyBScreening()
         xsDataISPyBScreening.setProgramVersion(XSDataString("EDNA MX"))
         xsDataStringTimeStamp = XSDataString(time.strftime("%Y-%m-%d %H:%M:%S"))
@@ -139,35 +173,18 @@ class EDHandlerXSDataISPyBv1_4(object):
             xsDataISPyBScreening.comments = XSDataString(_strComments)
         return xsDataISPyBScreening
     
-    
-    @staticmethod
-    def generateXSDataISPyBScreeningInput(_xsDataResultCharacterisation):
-        xsDataISPyBScreeningInput = XSDataISPyBScreeningInput()
-        xsDataCollection = _xsDataResultCharacterisation.dataCollection
-        if xsDataCollection is not None:
-            xsDataSubWedgeList = xsDataCollection.getSubWedge()
-            if (xsDataSubWedgeList is not None):
-                xsDataSubWedgeFirst = xsDataSubWedgeList[0]
-                xsDataExperimentalCondition = xsDataSubWedgeFirst.getExperimentalCondition()
-                if (xsDataExperimentalCondition is not None):
-                    xsDataDetector = xsDataExperimentalCondition.getDetector()
-                    if (xsDataDetector is not None):
-                        xsDataISPyBScreeningInput.setBeamX(xsDataDetector.beamPositionX)
-                        xsDataISPyBScreeningInput.setBeamY(xsDataDetector.beamPositionY)
-        return xsDataISPyBScreeningInput
-    
+        
     @staticmethod
     def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage):
         xsDataISPyBScreeningOutput = XSDataISPyBScreeningOutput()
-        xsDataISPyBScreeningOutputLattice = XSDataISPyBScreeningOutputLattice()
-        xsDataISPyBScreeningOutputContainer = XSDataISPyBScreeningOutputContainer()
-        xsDataISPyBScreeningStrategyContainer = XSDataISPyBScreeningStrategyContainer()
+        xsDataISPyBScreeningOutputLattice = None
         # Indexing information
         bSuccessfulIndexing = False
         xsDataIndexingResult = _xsDataResultCharacterisation.getIndexingResult()
         if (xsDataIndexingResult is not None):
             xsDataIndexingSolutionSelected = xsDataIndexingResult.getSelectedSolution()
             if (xsDataIndexingSolutionSelected is not None):
+                xsDataISPyBScreeningOutputLattice = XSDataISPyBScreeningOutputLattice()
                 bSuccessfulIndexing = True
                 xsDataStatisticsIndexing = xsDataIndexingSolutionSelected.getStatistics()
                 if (xsDataStatisticsIndexing is not None):
@@ -199,13 +216,13 @@ class EDHandlerXSDataISPyBv1_4(object):
                     if xsDataSpaceGroup is not None:
                         xsDataISPyBScreeningOutputLattice.spaceGroup = xsDataSpaceGroup.name
         if (bSuccessfulIndexing):
-            xsDataISPyBScreeningOutput.setScreeningSuccess(XSDataBoolean(True))
+            xsDataISPyBScreeningOutput.setIndexingSuccess(XSDataBoolean(True))
             if _strStatusMessage:
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
             else:
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString("Indexing successful"))
         else:
-            xsDataISPyBScreeningOutput.setScreeningSuccess(XSDataBoolean(False))
+            xsDataISPyBScreeningOutput.setIndexingSuccess(XSDataBoolean(False))
             if _strStatusMessage:
                 xsDataISPyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
             else:
@@ -214,8 +231,13 @@ class EDHandlerXSDataISPyBv1_4(object):
 
         # Strategy information
         xsDataResultStrategy = _xsDataResultCharacterisation.strategyResult
+        xsDataISPyBScreeningStrategyContainer = None
         xsDataISPyBScreeningStrategyWedgeContainer = None
-        if xsDataResultStrategy is not None:
+        if xsDataResultStrategy is None:
+            xsDataISPyBScreeningOutput.setStrategySuccess(XSDataBoolean(False))
+        else:
+            xsDataISPyBScreeningOutput.setStrategySuccess(XSDataBoolean(True))
+            xsDataISPyBScreeningStrategyContainer = XSDataISPyBScreeningStrategyContainer()
             xsDataISPyBScreeningStrategy = XSDataISPyBScreeningStrategy()
             listXSDataCollectionPlan = xsDataResultStrategy.collectionPlan
             for xsDataCollectionPlan in listXSDataCollectionPlan:
@@ -255,16 +277,19 @@ class EDHandlerXSDataISPyBv1_4(object):
                                 numberOfImagesWedge += numberOfImagesSubWedge
                         xsDataISPyBScreeningStrategySubWedge.exposureTime = xsDataSubWedge.experimentalCondition.beam.exposureTime
                         xsDataISPyBScreeningStrategySubWedge.transmission = xsDataSubWedge.experimentalCondition.beam.transmission
-                    xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
+                        xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
                 if numberOfImagesWedge is not None:
                     xsDataISPyBScreeningStrategyWedge.numberOfImages = XSDataInteger(numberOfImagesWedge)
                 xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge = xsDataISPyBScreeningStrategyWedge
                 xsDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer(xsDataISPyBScreeningStrategyWedgeContainer)   
             xsDataISPyBScreeningStrategyContainer.screeningStrategy = xsDataISPyBScreeningStrategy
         # Assembly
+        xsDataISPyBScreeningOutputContainer = XSDataISPyBScreeningOutputContainer()
         xsDataISPyBScreeningOutputContainer.screeningOutput = xsDataISPyBScreeningOutput
-        xsDataISPyBScreeningOutputContainer.addScreeningOutputLattice(xsDataISPyBScreeningOutputLattice)
-        xsDataISPyBScreeningOutputContainer.addScreeningStrategyContainer(xsDataISPyBScreeningStrategyContainer)
+        if xsDataISPyBScreeningOutputLattice is not None:
+            xsDataISPyBScreeningOutputContainer.addScreeningOutputLattice(xsDataISPyBScreeningOutputLattice)
+        if xsDataISPyBScreeningStrategyContainer is not None:
+            xsDataISPyBScreeningOutputContainer.addScreeningStrategyContainer(xsDataISPyBScreeningStrategyContainer)
         
         return xsDataISPyBScreeningOutputContainer
 

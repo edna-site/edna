@@ -131,7 +131,7 @@ if __name__ == "__main__":
         makeFile.close()
         try:
             installBlas.make("-j %i" % EDUtilsParallel.detectNumberOfCPUs())
-        except:
+        except Exception:
             EDVerbose.ERROR("Error for BLAS in the 'make' step")
         if not os.path.isdir(os.path.join(installBlas.getDestinationDirectory(), "lib")):
             os.makedirs(os.path.join(installBlas.getDestinationDirectory(), "lib"))
@@ -178,7 +178,7 @@ if __name__ == "__main__":
         makeFile.close()
         try:
             installLapack.make("-j %i" % EDUtilsParallel.detectNumberOfCPUs())
-        except:
+        except Exception:
             EDVerbose.ERROR("Error for LAPACK in the 'make' step")
         if not os.path.isdir(os.path.join(installLapack.getDestinationDirectory(), "lib")):
             os.makedirs(os.path.join(installLapack.getDestinationDirectory(), "lib"))

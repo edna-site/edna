@@ -1,0 +1,133 @@
+{
+    "EDPluginExecSaxsCurvesv1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_curves", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginExecRsync": {
+        "execProcessScriptExecutable": "/usr/bin/rsync", 
+        "execProcessScriptShell": "/bin/sh"
+    }, 
+    "EDPluginExecShiftImagev1_0": {
+        "writeXMLInputOutput": 0
+    }, 
+    "EDPluginExecShiftImagev1_1": {
+        "maxOffset": 10, 
+        "fill": "min"
+    }, 
+    "EDPluginSPDCakev1_0": {
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.1/spd"
+    }, 
+    "EDPluginSPDCakev1_1": {
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.1/spd"
+    }, 
+    "EDPluginExecSaxsAddv1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_add", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginExecSaxsAnglev1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_angle"
+    }, 
+    "EDPluginSPDCakev1_5": {
+        "maxNumberOfWorkers": 8, 
+        "version": "spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.2/LINUX64/spd", 
+        "timeOut": 30
+    }, 
+    "EDPluginExecSaxsMacv1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_mac", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "__extend__": [], 
+    "EDPluginExecThumbnailv10": {
+        "writeXMLInputOutput": false, 
+        "timeOut": 600
+    }, 
+    "EDPluginExecSiftOffsetv1_0": {
+        "execProcessScriptExecutable": "/opt/autopano/autopano", 
+        "timeOut": 600
+    }, 
+    "EDPluginExecDatcmpv1_0": {
+        "execProcessScriptExecutable": "/usr/bin/datcmp", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginWaitFile": {
+        "timeOut": 20
+    }, 
+    "EDPluginExecDatopv1_0": {
+        "execProcessScriptExecutable": "/usr/bin/datop", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginExecSiftDescriptorv1_0": {
+        "execProcessScriptExecutable": "/opt/autopano/generatekeys", 
+        "timeOut": 60
+    }, 
+    "EDPluginExecNormalizeImagev1_0": {
+        "writeXMLInputOutput": 0, 
+        "timeOut": 600
+    }, 
+    "EDPluginSPDCorrectv10": {
+        "maxNumberOfWorkers": 8, 
+        "version": "spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.2/LINUX64/spd", 
+        "timeOut": 30
+    }, 
+    "EDPluginHDF5StackImagesv10": {
+        "writeXMLInput": 0, 
+        "timeOut": 600
+    }, 
+    "EDPluginHDF5MapOfSpectrav10": {
+        "writeXMLInputOutput": false, 
+        "timeOut": 600
+    }, 
+    "EDPluginFIT2DCakev1_0": {
+        "pathToXvfb": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/Xvfb", 
+        "argumentsForXvfb": "-fp tcp/fontserv.esrf.fr:7100 -ac", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/fit2d"
+    }, 
+    "EDPluginFIT2DCakev1_1": {
+        "pathToXvfb": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/Xvfb", 
+        "argumentsForXvfb": "-fp tcp/fontserv.esrf.fr:7100 -ac", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/fit2d"
+    }, 
+    "EDPluginExecMeasureOffsetv1_0": {
+        "writeXMLInput": 0, 
+        "timeOut": 600, 
+        "convolution": "fftpack"
+    }, 
+    "EDPluginExecEpydocv1_0": {
+        "execProcessScriptExecutable": "/usr/bin/epydoc", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginExecVideov10": {
+        "execProcessScriptExecutable": "/usr/bin/mencoder", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginExecDataverv1_0": {
+        "execProcessScriptExecutable": "/usr/bin/dataver", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginExport1DPowderv1_0": {
+        "timeOut": 10
+    }, 
+    "EDPluginExecCommandLinev10": {
+        "timeOut": 60
+    }, 
+    "EDPluginExecMeasureOffsetv2_0": {
+        "writeXMLInputOutput": false, 
+        "timeOut": 600
+    }, 
+    "EDPluginExecSaxsDelMetadatav1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/edfheaderdelkey", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 60
+    }, 
+    "EDPluginExecSaxsAddMetadatav1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/edfheaderaddkey", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 60
+    }
+}

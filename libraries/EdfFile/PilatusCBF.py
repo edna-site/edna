@@ -161,7 +161,7 @@ class PilatusCBF(object):
         try:
             self.dim1 = int(self.__header['X-Binary-Size-Fastest-Dimension'])
             self.dim2 = int(self.__header['X-Binary-Size-Second-Dimension'])
-        except:
+        except Exception:
             raise Exception(IOError, "CBF file %s is corrupt, no dimensions in it" % fname)
         try:
             bytecode = DATA_TYPES[self.__header['X-Binary-Element-Type']]

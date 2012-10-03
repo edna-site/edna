@@ -52,6 +52,7 @@ complex type XSDataResultStoreAutoProc extends XSDataResult {
 
 
 complex type AutoProc {
+	autoProcId : integer optional
 	spaceGroup : string
 	refinedCell_a : string
 	refinedCell_b : string
@@ -68,10 +69,12 @@ complex type AutoProcScalingContainer {
 }
 
 complex type AutoProcScaling {
+	autoProcScalingId : integer optional
 	recordTimeStamp : string
 }
 
 complex type AutoProcScalingStatistics {
+	autoProcScalingStatisticsId : integer optional
 	scalingStatisticsType : string
 	comments : string
 	resolutionLimitLow : float
@@ -89,7 +92,9 @@ complex type AutoProcScalingStatistics {
 	multiplicity : float
 	anomalousCompleteness : float
 	anomalousMultiplicity : float
+	recordTimeStamp : string
 	anomalous : boolean
+	ccHalf : float
 }
 
 complex type Image {
@@ -97,6 +102,7 @@ complex type Image {
 }
 
 complex type AutoProcIntegration {
+	autoProcIntegrationId : integer optional
 	startImageNumber : integer
 	endImageNumber : integer
 	refinedDetectorDistance : float
@@ -123,6 +129,7 @@ complex type AutoProcIntegrationContainer {
 }
 
 complex type AutoProcProgram {
+	autoProcProgramId : integer optional
 	processingCommandLine : string
 	processingPrograms : string
 	processingStatus : boolean
@@ -133,9 +140,11 @@ complex type AutoProcProgram {
 }
 
 complex type AutoProcProgramAttachment {
+	autoProcProgramAttachmentId : integer optional
 	fileType : string
 	fileName : string
 	filePath : string
+	recordTimeStamp : string
 }
 
 complex type AutoProcProgramContainer {
@@ -147,6 +156,28 @@ complex type AutoProcContainer {
 	AutoProc : AutoProc
 	AutoProcScalingContainer : AutoProcScalingContainer
 	AutoProcProgramContainer : AutoProcProgramContainer
+}
+
+
+complex type XSDataInputStoreAutoProcStatus extends XSDataInput {
+	dataCollectionId : integer optional
+	autoProcIntegrationId : integer optional
+	autoProcStatusId : integer optional
+	AutoProcStatus : AutoProcStatus
+} 
+
+complex type XSDataResultStoreAutoProcStatus extends XSDataResult {
+	autoProcIntegrationId : integer
+	autoProcStatusId : integer
+} 
+
+complex type AutoProcStatus {
+	autoProcStatusId : integer optional
+	autoProcIntegrationId : integer
+	step : string
+	status : string
+	comments : string
+	bltimeStamp : string
 }
 
 complex type XSDataInputStoreDataCollection extends XSDataInput {
@@ -166,57 +197,56 @@ complex type XSDataResultRetrieveDataCollection extends XSDataResult {
 }
 
 complex type XSDataISPyBDataCollection {
-	dataCollectionId : integer
-	blSampleId : integer
-	sessionId : integer
-	experimentType : string
-	dataCollectionNumber : integer
-	startDate : string
-	endDate : string
-	runStatus : string
-	rotationAxis : string
-	phiStart : float
-	kappaStart : float
-	omegaStart : float
-	axisStart : float
+	actualCenteringPosition : string
+	averageTemperature : float
 	axisEnd : float
 	axisRange : float
-	overlap : float
-	numberOfImages : integer
-	startImageNumber : integer
-	numberOfPasses : integer
+	axisStart : float
+	beamShape : string
+	beamSizeAtSampleX : float
+	beamSizeAtSampleY : float
+	centeringMethod : string
+	comments : string
+	dataCollectionId : integer
+	dataCollectionNumber : integer
+	detector2theta : float
+	detectorDistance : float
+	detectorMode : string
+	endTime : string
 	exposureTime : float
+	fileTemplate : string
+	flux : float
 	imageDirectory : string
 	imagePrefix : string
 	imageSuffix : string
-	fileTemplate : string
-	wavelength : float
+	kappaStart : float
+	numberOfImages : integer
+	numberOfPasses : integer
+	omegaStart : float
+	overlap : float
+	phiStart : float
+	printableForReport : boolean
 	resolution : float
 	resolutionAtCorner : float
-	detectorDistance : float
-	detector2theta : float
-	detectorMode : string
+	rotationAxis : string
+	runStatus : string
+	slitGapVertical : float
+	slitGapHorizontal : float
+	startImageNumber : integer
+	strategySubWedgeOrigId : integer optional
+	startTime : string
+	synchrotronMode : string
+	transmission : float
 	undulatorGap1 : float
 	undulatorGap2 : float
 	undulatorGap3 : float
+	wavelength : float
 	xbeam : float
-	ybeam : float
-	crystalClass : string
-	slitGapVertical : float
-	slitGapHorizontal : float
-	beamSizeAtSampleX : float
-	beamSizeAtSampleY : float
-	transmission : float
-	synchrotronMode : string
-	centeringMethod : string
-	averageTemperature : float
-	comments : string
-	printableForReport : boolean
 	xtalSnapshotFullPath1 : string
 	xtalSnapshotFullPath2 : string
 	xtalSnapshotFullPath3 : string
 	xtalSnapshotFullPath4 : string
-	beamShape : string
+	ybeam : float
 }
 
 
@@ -254,10 +284,12 @@ complex type XSDataISPyBDiffractionPlan extends XSData {
 complex type XSDataISPyBScreening extends XSData {
 	screeningId : XSDataInteger optional
 	dataCollectionId : XSDataInteger
+	diffractionplanId : XSDataInteger
 	timeStamp : XSDataString
 	programVersion : XSDataString optional
 	comments : XSDataString optional
 	shortComments : XSDataString optional
+	xmlSampleInformation : XSDataString optional
 }
 
 complex type XSDataISPyBScreeningFile extends XSData {
@@ -302,8 +334,16 @@ complex type XSDataISPyBScreeningOutput extends XSData {
 	mosaicity : XSDataDouble optional
 	iOverSigma : XSDataDouble optional
 	diffractionRings : XSDataBoolean optional
-	screeningSuccess : XSDataBoolean
+	indexingSuccess : XSDataBoolean
+	strategySuccess : XSDataBoolean
 	mosaicityEstimated : XSDataBoolean optional
+	rankingResolution : XSDataDouble optional
+	program : XSDataString optional
+	doseTotal : XSDataDouble optional
+	totalExposureTime : XSDataDouble optional
+	totalRotationRange : XSDataDouble optional
+	totalNumberOfImages : XSDataInteger optional
+	rFriedel : XSDataDouble optional
 }
 
 complex type XSDataISPyBScreeningOutputLattice extends XSData {
@@ -328,6 +368,7 @@ complex type XSDataISPyBScreeningOutputLattice extends XSData {
 	unitCell_c : XSDataLength
 	unitCell_gamma : XSDataAngle
 	timeStamp : XSDataLength
+	labelitIndexing : XSDataBoolean optional
 }
 
 complex type XSDataISPyBScreeningStrategy extends XSData {
@@ -350,6 +391,7 @@ complex type XSDataISPyBScreeningStrategy extends XSData {
 complex type XSDataISPyBScreeningStrategyWedge extends XSData {
 	screeningStrategyWedgeId : XSDataInteger optional
 	screeningStrategyId : XSDataInteger
+	screeningStrategyOutputId : XSDataInteger
 	wedgeNumber : XSDataInteger
 	resolution : XSDataDouble
 	completeness : XSDataDouble
@@ -358,6 +400,8 @@ complex type XSDataISPyBScreeningStrategyWedge extends XSData {
 	numberOfImages : XSDataInteger
 	phi : XSDataDouble optional
 	kappa : XSDataDouble optional
+	comments : XSDataString optional
+	wavelength : XSDataDouble optional
 }
 
 
@@ -373,44 +417,25 @@ complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
 	oscillationRange : XSDataAngle
 	completeness : XSDataDouble optional
 	multiplicity : XSDataDouble optional
-	resolution : XSDataDouble optional
 	doseTotal : XSDataDouble optional
 	numberOfImages : XSDataInteger
+	comments : XSDataString optional
 }
-
-
-complex type XSDataISPyBScreeningInput extends XSData {
-	screeningInputId : XSDataInteger optional
-	screeningId : XSDataInteger optional
-	diffractionPlanId : XSDataInteger optional
-	beamX : XSDataLength optional
-	beamY : XSDataLength optional
-	rmsErrorLimits : XSDataDouble optional
-	minimumFractionIndexed : XSDataDouble optional
-	maximumFractionRejected : XSDataDouble optional
-	minimumSignalToNoise : XSDataDouble optional
-	xmlSampleInformation : XSDataString optional
-}
-
 
 
 complex type XSDataISPyBImage extends XSData {
-	comments : XSDataString
-	cumulativeIntensity : XSDataDouble
 	fileLocation : XSDataString
 	fileName : XSDataString
-	imageId : XSDataInteger
-	imageNumber : XSDataInteger
-	jpegFileFullPath : XSDataString
-	jpegThumbnailFileFullPath : XSDataString
-	machineMessage : XSDataString
-	measuredIntensity : XSDataDouble
-	synchrotronCurrent : XSDataDouble
-	temperature : XSDataDouble
-}
-
-complex type XSDataISPyBScreeningInputContainer extends XSData {
-	screeningInput : XSDataISPyBScreeningInput
+	comments : XSDataString optional
+	cumulativeIntensity : XSDataDouble optional
+	imageId : XSDataInteger optional
+	imageNumber : XSDataInteger optional
+	jpegFileFullPath : XSDataString optional
+	jpegThumbnailFileFullPath : XSDataString optional
+	machineMessage : XSDataString optional
+	measuredIntensity : XSDataDouble optional
+	synchrotronCurrent : XSDataDouble optional
+	temperature : XSDataDouble optional
 }
 
 
@@ -437,7 +462,6 @@ complex type XSDataInputISPyBStoreScreening extends XSDataInput {
 	file : XSDataISPyBScreeningFile [] optional
 	image : XSDataISPyBImage optional
 	screening : XSDataISPyBScreening optional
-	screeningInput : XSDataISPyBScreeningInput optional
 	screeningOutputContainer : XSDataISPyBScreeningOutputContainer [] optional
 	screeningRank : XSDataISPyBScreeningRank [] optional
 	screeningRankSet : XSDataISPyBScreeningRankSet optional

@@ -767,7 +767,7 @@ class Binding(NamedObject):
         """
         try:
             return self.operations[name]
-        except:
+        except Exception:
             raise MethodNotFound(name)
             
     def __gt__(self, other):

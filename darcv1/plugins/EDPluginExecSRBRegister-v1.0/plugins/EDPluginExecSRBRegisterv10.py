@@ -166,7 +166,7 @@ class EDPluginExecSRBRegisterv10( EDPluginExec ):
         
         try:
             self.edTree = minidom.parse( edFileName )
-        except:
+        except Exception:
             # This is to make the tests pass, and it is during the postprocess step where the data is returned from the plugin.
             EDVerbose.DEBUG( strftime("%Y-%m-%d %H:%M:%S") + " *** EDPluginExecSRBRegisterv10.openXMLTree  Failed to parse file '%s' renaming it." % edFileName )
             #os.rename( edFileName, edFileName + '.invalid' )
@@ -329,7 +329,7 @@ class EDPluginExecSRBRegisterv10( EDPluginExec ):
         try:
             edVisitId = ( self.edTree.getElementsByTagName( "visit_id" )[0].childNodes[0].nodeValue )
             #print '\nedVisitId = ' + str( edVisitId )
-        except:
+        except Exception:
             print "Unexpected error:", sys.exc_info()[0]
             raise    
                       

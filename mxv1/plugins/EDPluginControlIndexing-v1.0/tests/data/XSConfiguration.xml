@@ -4,10 +4,6 @@
 		<XSPluginItem>
 			<name>EDPluginControlIndexingv10</name>  
 			<XSParamList>
-			    <XSOptionItem>
-			        <name>EDPluginMOSFLMv01Indexing</name>
-			        <enabled>true</enabled>
-			    </XSOptionItem>
 				<XSParamItem>
 					<name>controlledPlugins</name>
 					<value>indexingPlugin,generatePredictionPlugin</value>

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<XSDataInputAutoProcStatus>
+	<dataCollectionId>12345</dataCollectionId>
+	<AutoProcStatus>
+		<step>Indexing</step>
+		<status>Successful</status>
+		<comments>This is a rather long and useless comment.</comments>
+	</AutoProcStatus>
+</XSDataInputAutoProcStatus>

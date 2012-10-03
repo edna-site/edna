@@ -27,8 +27,8 @@ from __future__ import with_statement
 __author__ = "Jérôme Kieffer"
 __contact__ = "Jerome.Kieffer@esrf.eu"
 __license__ = "GPLv3+"
-__copyright__ = "2011, ESRF, Grenoble"
-__date__ = "20110905"
+__copyright__ = "2012, ESRF, Grenoble"
+__date__ = "20120914"
 
 import os, threading, time
 from EDVerbose              import EDVerbose
@@ -43,9 +43,6 @@ from EDFactoryPluginStatic  import EDFactoryPluginStatic
 from EDUtilsPlatform        import EDUtilsPlatform
 from EDUtilsPath            import EDUtilsPath
 from EDThreading            import Semaphore
-
-
-
 ################################################################################
 # AutoBuilder for Numpy, PIL and Fabio
 ################################################################################
@@ -85,11 +82,10 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
     An exec plugin that taked two images and measures the offset between the two.
     """
     __sem = Semaphore()
-    __npaMask = None
 
     CONF_CONVOLUTION = None
     CONF_CONVOLUTION_KEY = "convolution"
-    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "numpy", "scipy, "fftpack" or "fftw". signal is no more possible
+    CONF_CONVOLUTION_DEFAULT = "numpy" #can be "fftw", "cuda" or simply falls back on numpy.fftpack
 
     def __init__(self):
         """
@@ -114,7 +110,7 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginExecMeasureOffsetv1_0.checkParameters")
-        self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
 
     def configure(self):
         """
@@ -126,24 +122,24 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             with self.__class__.__sem:
                 self.DEBUG("EDPluginExecMeasureOffsetv1_0.configure")
                 xsPluginItem = self.getConfiguration()
-                if (xsPluginItem == None):
+                if xsPluginItem is None:
                     self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No plugin item defined.")
                     xsPluginItem = XSPluginItem()
                 strCONVOLUTION = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_CONVOLUTION_KEY)
-                if(strCONVOLUTION == None):
+                if strCONVOLUTION is None:
                     self.WARNING("EDPluginExecMeasureOffsetv1_0.configure: No configuration parameter found for: %s using default value: %s\n%s"\
                                 % (self.CONF_CONVOLUTION_KEY, self.CONF_CONVOLUTION_DEFAULT, xsPluginItem.marshal()))
-                    self.CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
+                    self.__class__CONF_CONVOLUTION = self.CONF_CONVOLUTION_DEFAULT
                 else:
-                    self.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
+                    self.__class__.CONF_CONVOLUTION = strCONVOLUTION.strip().lower()
 
 
     def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
         self.DEBUG("EDPluginExecMeasureOffsetv1_0.preProcess")
-        sdi = self.getDataInput()
-        images = sdi.getImage()
-        arrays = sdi.getArray()
+        sdi = self.dataInput
+        images = sdi.image
+        arrays = sdi.array
 
         if len(images) == 2:
             self.npaIm1 = numpy.array(EDUtilsArray.getArray(images[0]))
@@ -157,35 +153,35 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             self.setFailure()
             raise RuntimeError(strError)
 
-        crop = sdi.getCropBorders()
+        crop = sdi.cropBorders
         if len(crop) > 1 :
-            self.tCrop = tuple([ i.getValue() for i in crop ])
+            self.tCrop = tuple([ i.value for i in crop ])
         elif len(crop) == 1:
-            self.tCrop = (crop[0].getValue(), crop[0].getValue())
+            self.tCrop = (crop[0].value, crop[0].value)
 
-        center = sdi.getCenter()
+        center = sdi.center
         if len(center) > 1:
-            self.tCenter = tuple([ i.getValue() for i in center ])
+            self.tCenter = tuple([ i.value for i in center ])
         elif len(center) == 1:
-            self.tCenter = (center[0].getValue(), center[0].getValue())
+            self.tCenter = (center[0].value, center[0].value)
 
-        width = sdi.getWidth()
+        width = sdi.width
         if len(width) > 1 :
-            self.tWidth = tuple([i.getValue() for i in width])
+            self.tWidth = tuple([i.value for i in width])
         elif len(width) == 1:
-            self.tWidth = (width[0].getValue(), width[0].getValue())
+            self.tWidth = (width[0].value, width[0].value)
 
-        smooth = sdi.getSmoothBorders()
+        smooth = sdi.smoothBorders
         if len(smooth) == 2:
-            self.tSmooth = (smooth[0].getValue(), smooth[1].getValue())
+            self.tSmooth = (smooth[0].value, smooth[1].value)
         elif len(smooth) == 1:
-            self.tSmooth = (smooth[0].getValue(), smooth[0].getValue())
+            self.tSmooth = (smooth[0].value, smooth[0].value)
 
-        if sdi.getBackgroundSubtraction() is not None:
-            self.bBackgroundsubtraction = (sdi.getBackgroundSubtraction().getValue() in [1, True, "true"])
+        if sdi.backgroundSubtraction is not None:
+            self.bBackgroundsubtraction = (sdi.backgroundSubtraction.value in [1, True, "true"])
 
-        if sdi.getSobelFilter() is not None:
-            self.sobel = (sdi.getSobelFilter() in [1, True, "true"])
+        if sdi.sobelFilter is not None:
+            self.sobel = (sdi.sobelFilter in [1, True, "true"])
         EDAssert.equal(self.npaIm1.shape , self.npaIm2.shape, "Images have the same size")
 
     def process(self, _edObject=None):
@@ -232,13 +228,14 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
             self.npaIm2 -= spline2(range(shape[0]), range(shape[1]))
 
         if self.tSmooth is not None:
-            self.npaIm1 *= EDPluginExecMeasureOffsetv1_0.getMask(shape, self.tSmooth)
-            self.npaIm2 *= EDPluginExecMeasureOffsetv1_0.getMask(shape, self.tSmooth)
+            self.npaIm1 *= MeasureOffset.make_mask(shape, self.tSmooth)
+            self.npaIm2 *= MeasureOffset.make_mask(shape, self.tSmooth)
 
         if self.sobel:
             self.npaIm1 = scipy.ndimage.sobel(self.npaIm1)
             self.npaIm2 = scipy.ndimage.sobel(self.npaIm2)
 
+        self.DEBUG("Doing ffts using %s" % self.CONF_CONVOLUTION)
         offset, logs = MeasureOffset.measure_offset(self.npaIm1, self.npaIm2,
                                                     self.CONF_CONVOLUTION, withLog=True)
 
@@ -253,28 +250,5 @@ class EDPluginExecMeasureOffsetv1_0(EDPluginExec):
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginExecMeasureOffsetv1_0.postProcess")
         # Create some output data
-        xsDataResult = XSDataResultMeasureOffset()
-        xsDataResult.setOffset(self.tOffset)
-        self.setDataOutput(xsDataResult)
+        self.setDataOutput(XSDataResultMeasureOffset(offset=self.tOffset))
 
-
-
-    @classmethod
-    def getMask(cls, shape, sigma):
-        """
-        Generate a mask with 1 in the center and 0 on the border.
-        
-        @param shape: 2-tuple of integers: the shape of the final image
-        @param sigma: 2-tuple of floats with the width of the border
-        return: array 
-        """
-        with cls.__sem:
-            if EDPluginExecMeasureOffsetv1_0.__npaMask == None:
-                self.screen("got Shape=%s and Sigma=%s" % (shape, sigma))
-                npa1 = numpy.ones(shape)
-                npa2 = scipy.ndimage.interpolation.shift(npa1, (-2 * sigma[0], -2 * sigma[1]), mode='constant', cval=0.0 , order=0)
-                npa3 = scipy.ndimage.interpolation.shift(npa2, sigma, mode='constant', cval=0.0 , order=0)
-                npa4 = scipy.ndimage.gaussian_filter(npa3, sigma)
-                EDPluginExecMeasureOffsetv1_0.__npaMask = npa4
-                self.DEBUG("final matrix %s is %s" % (npa4.shape, npa4))
-        return EDPluginExecMeasureOffsetv1_0.__npaMask

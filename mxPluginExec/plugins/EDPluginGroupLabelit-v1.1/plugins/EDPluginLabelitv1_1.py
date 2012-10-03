@@ -2,9 +2,7 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2010 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -31,8 +29,10 @@ __authors__ = [ "Olof Svensson" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+__date__ = "20120712"
+__status__ = "production"
 
-from EDVerbose                 import EDVerbose
+
 from EDConfiguration           import EDConfiguration
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from XSDataCommon import XSPluginItem
@@ -54,17 +54,17 @@ class EDPluginLabelitv1_1(EDPluginExecProcessScript):
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        EDVerbose.DEBUG("EDPluginLabelitv1_1.configure")
+        self.DEBUG("EDPluginLabelitv1_1.configure")
         xsPluginItem = self.getConfiguration()
         if (xsPluginItem == None):
-            EDVerbose.warning("EDPluginLabelitv1_1.configure: No Labelit plugin item defined.")
+            self.warning("EDPluginLabelitv1_1.configure: No Labelit plugin item defined.")
             xsPluginItem = XSPluginItem()
         strPathToLabelitSetpathScript = EDConfiguration.getStringParamValue(xsPluginItem, \
                                                                             EDPluginLabelitv1_1.CONF_PATH_TO_LABELIT_SETPATH_SCRIPT)
         if(strPathToLabelitSetpathScript == None):
             strErrorMessage = "EDPluginLabelitv1_1.configure : Configuration parameter missing: " + \
                                 EDPluginLabelitv1_1.CONF_PATH_TO_LABELIT_SETPATH_SCRIPT
-            EDVerbose.error(strErrorMessage)
+            self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
         else:
@@ -83,7 +83,7 @@ class EDPluginLabelitv1_1(EDPluginExecProcessScript):
         """
         Initialises the Labelit command line
         """
-        EDVerbose.DEBUG("EDPluginLabelitv1_1.initaliseLabelitCommandLine")
+        self.DEBUG("EDPluginLabelitv1_1.initaliseLabelitCommandLine")
         strCommandLabelit = "--index_only"
         xsDataImageList = self.getDataInput("referenceImage")
         for xsDataImage in xsDataImageList:

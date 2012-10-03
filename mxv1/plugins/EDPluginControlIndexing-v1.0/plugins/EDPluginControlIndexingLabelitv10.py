@@ -33,6 +33,8 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 from EDVerbose import EDVerbose
 from EDPluginControlIndexingv10 import EDPluginControlIndexingv10
 
+from XSDataCommon import XSDataBoolean
+
 class EDPluginControlIndexingLabelitv10(EDPluginControlIndexingv10):
     """
     This plugin is derived from EDPluginControlIndexingv10, and implements
@@ -84,4 +86,5 @@ class EDPluginControlIndexingLabelitv10(EDPluginControlIndexingv10):
         xsDataIndexingResult = EDHandlerXSDataLabelitv1_1.generateXSDataIndexingResult(xsDataLabelitScreenOutput,
                                                                                        xsDataLabelitMosflmScriptsOutput,
                                                                                        self.getExperimentalCondition())
+        xsDataIndexingResult.setLabelitIndexing(XSDataBoolean(True))
         return xsDataIndexingResult

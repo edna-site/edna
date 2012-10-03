@@ -49,7 +49,7 @@ imagingPath = os.path.join(os.environ["EDNA_HOME"], "libraries", "20091115-PIL-1
 pydictModulesBeforePIL = sys.modules.copy()
 try:
     import Image
-except:
+except Exception:
     if  os.path.isdir(imagingPath) and (imagingPath not in sys.path):
         sys.path.insert(1, imagingPath)
     else:

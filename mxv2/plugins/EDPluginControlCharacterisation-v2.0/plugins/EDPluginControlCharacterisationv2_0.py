@@ -199,6 +199,7 @@ class EDPluginControlCharacterisationv2_0(EDPluginControl):
             xsDataInputStrategyOLD.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
 
         xsDataInputStrategyOLD.setDiffractionPlan(self.xsDataResultCharacterisation.getDataCollection().getDiffractionPlan())
+        xsDataInputStrategyOLD.setXdsBackgroundImage(self.xsDataResultCharacterisation.getXdsBackgroundImage())
 
         #print xsDataInputStrategy.marshal()
         self.edPluginStrategy.setDataInput(xsDataInputStrategyOLD, "mxv1InputStrategy")
@@ -247,16 +248,16 @@ class EDPluginControlCharacterisationv2_0(EDPluginControl):
 
         self.strPluginStrategyName = "EDPluginControlKappaStrategyv2_0"
         if(pluginConfiguration != None):
-            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, "KAPPA")
-#            if(strSymopHome == None or strSymopHome != "ON"):
+            strKappaOn = EDConfiguration.getStringParamValue(pluginConfiguration, "KAPPA")
+#            if(strKappaOn == None or strKappaOn != "ON"):
 #                #self.strPluginStrategyName = "EDPluginControlStrategyv10"
 #                #self.strPluginStrategyName = "EDPluginControlStrategyv2_0"
 #                self.strPluginStrategyName = "EDPluginControlKappaStrategyv2_0"
 #            else:
 #                self.strPluginStrategyName = "EDPluginControlKappaStrategyv2_0"
 
-            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, "POINTLESS")
-            if(strSymopHome == None or strSymopHome != "ON"):
+            strPointlessOn = EDConfiguration.getStringParamValue(pluginConfiguration, "POINTLESS")
+            if(strPointlessOn == None or strPointlessOn != "True"):
                 self.strPluginIntegrationName = "EDPluginControlIntegrationv10"
             else:
                 self.strPluginIntegrationName = "EDPluginControlIntegrationPointlessv10"

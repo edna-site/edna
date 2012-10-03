@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id: EDPluginControlInterfaceToMXCuBEv1_3.py 2100 2010-09-27 09:17:13Z svensson $"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal author:       Olof Svensson (svensson@esrf.fr) 
@@ -50,6 +48,8 @@ from XSDataMXCuBEv1_3 import XSDataResultMXCuBE
 EDFactoryPluginStatic.loadModule("XSDataSimpleHTMLPagev1_0")
 from XSDataSimpleHTMLPagev1_0 import XSDataInputSimpleHTMLPage
 
+EDFactoryPluginStatic.loadModule("XSDataInterfacev1_2")
+from XSDataInterfacev1_2 import XSDataInputInterface
 
 
 class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
@@ -73,7 +73,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.setXSDataInputClass(XSDataInputMXCuBE)
         self.strPluginControlInterface = "EDPluginControlInterfacev1_2"
         self.edPluginControlInterface = None
-        self.strPluginControlISPyB = "EDPluginControlISPyBv1_1"
+        self.strPluginControlISPyB = "EDPluginControlISPyBv1_4"
         self.edPluginControlISPyB = None
         self.xsDataResultMXCuBE = None
         self.xsDataIntegerDataCollectionId = None
@@ -123,23 +123,19 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.tStart = time.time()
 
         xsDataInputMXCuBE = self.getDataInput()
-
+        xsDataInputInterface = XSDataInputInterface()
         self.edPluginControlInterface = self.loadPlugin(self.strPluginControlInterface)
         for xsDataSetMXCuBE in xsDataInputMXCuBE.getDataSet():
             for xsDataFile in xsDataSetMXCuBE.getImageFile():
-                strPath = xsDataFile.getPath().getValue()
-                self.edPluginControlInterface.setDataInput(XSDataString(strPath), "imagePaths")
+                xsDataInputInterface.addImagePath(xsDataFile)
 
-        if xsDataInputMXCuBE.getExperimentalCondition() != None:
-            self.edPluginControlInterface.setDataInput(str(xsDataInputMXCuBE.getExperimentalCondition().marshal()), "experimentalCondition")
-        if xsDataInputMXCuBE.getDiffractionPlan() != None:
-            self.edPluginControlInterface.setDataInput(str(xsDataInputMXCuBE.getDiffractionPlan().marshal()), "diffractionPlan")
-        if xsDataInputMXCuBE.getSample() != None:
-            self.edPluginControlInterface.setDataInput(xsDataInputMXCuBE.getSample().marshal(), "sample")
-        if xsDataInputMXCuBE.getDataCollectionId() != None:
-            self.edPluginControlInterface.setDataInput(xsDataInputMXCuBE.getDataCollectionId().marshal(), "dataCollectionId")
+        xsDataInputInterface.setExperimentalCondition(xsDataInputMXCuBE.getExperimentalCondition())
+        xsDataInputInterface.setDiffractionPlan(xsDataInputMXCuBE.getDiffractionPlan())
+        xsDataInputInterface.setSample(xsDataInputMXCuBE.getSample())
+        xsDataInputInterface.setDataCollectionId(xsDataInputMXCuBE.getDataCollectionId())
+        self.edPluginControlInterface.setDataInput(xsDataInputInterface)
 
-        self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
+        #self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
         self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
         self.xsDataResultMXCuBE = XSDataResultMXCuBE()
 
@@ -163,9 +159,12 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def doSuccessActionInterface(self, _edPlugin=None):
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface...")
         self.retrieveSuccessMessages(self.edPluginControlInterface, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface")
-        if self.edPluginControlInterface.hasDataOutput("characterisation"):
-            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
-            self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
+        xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput().getResultCharacterisation()
+        self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
+        xsDataResultControlISPyB = self.edPluginControlInterface.getDataOutput().getResultControlISPyB()
+        if xsDataResultControlISPyB != None:
+            self.xsDataResultMXCuBE.setScreeningId(xsDataResultControlISPyB.getScreeningId())
+        if xsDataResultCharacterisation != None:
             strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
             xsDataResultCharacterisation.exportToFile(strPathCharacterisationResult)
             self.xsDataResultMXCuBE.setListOfOutputFiles(XSDataString(strPathCharacterisationResult))
@@ -293,7 +292,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         """
         strPyarchDNAFilePath = None
         listOfDirectories = _strDNAFileDirectoryPath.split(os.sep)
-        listBeamlines = ["id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2", "id29"]
+        listBeamlines = ["bm14", "id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2", "id29"]
         # Check that we have at least four levels of directories:
         if (len(listOfDirectories) > 4):
             strDataDirectory = listOfDirectories[ 1 ]

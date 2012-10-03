@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<XSDataInputPyFAI>
+    <nbPt>
+        <value>500</value>
+    </nbPt>
+    <input>
+        <path>
+            <value>${EDNA_TESTIMAGES}/AgBe_SAXS.cbf</value>
+        </path>
+    </input>
+    <output>
+        <path>
+            <value>/tmp/edna-${USER}/AgBe_SAXS.dat</value>
+        </path>
+    </output>
+    <wavelength>
+        <value>1.033000e-10</value>
+    </wavelength>
+    <geometryPyFAI>
+        <sampleDetectorDistance>
+            <value>1.580954e+00</value>
+        </sampleDetectorDistance>
+        <pointOfNormalIncidence1>
+            <value>1.808653e-02</value>
+        </pointOfNormalIncidence1>
+        <pointOfNormalIncidence2>
+            <value>3.198807e-02</value>
+        </pointOfNormalIncidence2>
+        <rotation1>
+            <value>6.329018e-04</value>
+        </rotation1>
+        <rotation2>
+            <value>1.727551e-02</value>
+        </rotation2>
+        <rotation3>
+            <value>-1.824682e-02</value>
+        </rotation3>
+	    <detector>
+	    	<name><value>Pilatus1M</value></name>
+	<!--         <pixelSizeX> -->
+	<!--             <value>1.720000e-04</value> -->
+	<!--         </pixelSizeX> -->
+	<!--         <pixelSizeY> -->
+	<!--             <value>1.720000e-04</value> -->
+	<!--         </pixelSizeY> -->
+	    </detector>
+    </geometryPyFAI>
+
+    <saxsWaxs>
+        <value>saxs</value>
+    </saxsWaxs>
+    <dummy>
+        <value>-2.000000e+00</value>
+    </dummy>
+    <deltaDummy>
+        <value>1.100000e+00</value>
+    </deltaDummy>
+
+</XSDataInputPyFAI>

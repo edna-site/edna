@@ -136,7 +136,7 @@ def tostr(object, encoding=None):
         return ''.join(s)
     try:
         return unicode(object)
-    except:
+    except Exception:
         return str(object)
     
 class null:

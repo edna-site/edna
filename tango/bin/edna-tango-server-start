@@ -1,0 +1,126 @@
+#!/bin/bash
+#
+#    Project: Tango
+#             http://www.edna-site.org
+#
+#    Copyright (C) 2012      European Synchrotron Radiation Facility
+#                            Grenoble, France
+#
+#    Principal authors: Olof Svensson (svensson@esrf.fr)
+#					   
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    and the GNU Lesser General Public License  along with this program.  
+#    If not, see <http://www.gnu.org/licenses/>.
+#
+
+# This code is inspired by the startup script for biosaxs written by Jerome:
+# edna/bioSaxsv1/bin/edna-tango-server
+
+# Check that we have at least one argument: the name of the edna tango server
+if [ $# -lt 1 ]; then
+    echo "Usage: $(basename $0) name-of-edna-tango-server [--DEBUG]"
+    exit 1
+fi
+
+# Find the process id of tango-EdnaDS running the enda server name given as argument
+processId=`ps aux |grep tango-EdnaDS | grep $1 | grep -v grep | awk '{print $2}'`
+if [ "$processId" != "" ];then
+  echo "EDNA tango server '$1' is already running!"
+  exit 0
+fi
+
+# Check that TANGO_HOST is set
+if [ -z $TANGO_HOST ]; then
+    echo "TANGO_HOST not set! Please set TANGO_HOST before running $(basename $0)"
+    exit 1
+fi
+
+# Check that EDNA_SITE is set, if not set to ESRF
+if [ -z $EDNA_SITE ]; then
+	export EDNA_SITE=ESRF
+fi
+echo "Warning! EDNA_SITE set to $EDNA_SITE - will not work for a beamline"
+
+if [ -z $PYTHON ]; then
+    export PYTHON=$(which python)
+    echo "\$PYTHON = $PYTHON" 
+fi
+
+# Check if notifd is started - needed for TANGO events
+testit=$(pgrep notifd)
+if [ "$testit" = "" ]; then
+  # Check if notifd is installed
+  pathToNotifd=$(command -v notifd)
+  if [ "$pathToNotifd" = "" ]; then
+    echo "ERROR! Cannot locate notifd needed for TANGO events!"
+    exit 1
+  fi
+  notifd -n >>/dev/null 2>&1 & 
+  sleep 1
+fi
+# Run notifd2db
+pathToNotifd2db=$(command -v notifd2db)
+if [ "$pathToNotifd2db" = "" ]; then
+  # Try local TANGO installation
+  export PATH=/usr/lib/tango:$PATH
+  pathToNotifd2db=$(command -v notifd2db)
+  if [ "$pathToNotifd2db" = "" ]; then
+    echo "ERROR! Cannot locate notifd2db needed for TANGO events!"
+    exit 1
+  fi
+fi
+notifd2db
+sleep 1
+
+# Current date and time
+datetime=$(date +"%Y%m%dT-%H%M%S")
+
+# Put the log files in ${HOME}/log/edna-tango-server_$datetime.log
+logdir=${HOME}/log
+if [ ! -d $logdir ];
+then
+  mkdir $logdir
+fi
+logfile=$logdir/edna-tango-server_$datetime.log
+
+# Use /tmp/edna-$USER/edna-tango-server_$datetime as working dir
+workingdir=/tmp/edna-$USER/edna-tango-server_$datetime
+if [ ! -d $workingdir ]; then
+  mkdir $workingdir
+fi
+
+ednatangobindir=$(dirname $0)
+if [ $ednatangobindir = "." ]; then
+  ednatangobindir=`pwd`
+fi
+
+ednatangoserver=$ednatangobindir/tango-EdnaDS.py
+cd $workingdir
+nohup $PYTHON -u $ednatangoserver ${1:+"$@"} > $logfile 2>&1 &
+sleep 1
+if [ $? -gt 0 ]; then
+  echo "Problem when starting EDNA Tango server!"
+  echo "Please inspect the log file:"
+  cat $logfile
+else
+  processId=`ps aux |grep tango-EdnaDS | grep $1 | grep -v grep | awk '{print $2}'`
+  if [ "$processId" != "" ];then
+    echo "EDNA tango server '$1' is now up and running!"
+    exit 0
+  else
+    echo "Problem when starting EDNA Tango server!"
+    echo "Please inspect the log file:"
+    cat $logfile
+  fi
+fi
+

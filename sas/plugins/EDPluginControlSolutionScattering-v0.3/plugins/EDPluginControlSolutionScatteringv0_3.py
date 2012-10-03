@@ -43,17 +43,20 @@ from EDConfiguration import EDConfiguration
 from EDParallelJobLauncher import EDParallelJobLauncher
 
 from EDPDBFilter import EDPDBFilter
+from EDFactoryPlugin import edFactoryPlugin
+edFactoryPlugin.loadModule("XSDataEdnaSaxs")
 
 from XSDataSAS import XSDataInputSolutionScattering
 from XSDataSAS import XSDataResultSolutionScattering
-from XSDataSAS import XSDataInputGnom
-from XSDataSAS import XSDataInputDammif
-from XSDataSAS import XSDataInputSupcomb
-from XSDataSAS import XSDataInputDamaver
-from XSDataSAS import XSDataInputDamfilt
-from XSDataSAS import XSDataInputDamstart
+from XSDataEdnaSaxs import XSDataInputGnom
+from XSDataEdnaSaxs import XSDataInputDammif
+from XSDataEdnaSaxs import XSDataInputSupcomb
+from XSDataEdnaSaxs import XSDataInputDamaver
+from XSDataEdnaSaxs import XSDataInputDamfilt
+from XSDataEdnaSaxs import XSDataInputDamstart
 
-from XSDataSAS import XSDataDouble, XSDataInteger, XSDataString, XSDataBoolean
+from XSDataCommon import XSDataFloat, XSDataInteger, XSDataString, XSDataBoolean, XSDataDouble
+
 
 
 def try_float(tmpStr):

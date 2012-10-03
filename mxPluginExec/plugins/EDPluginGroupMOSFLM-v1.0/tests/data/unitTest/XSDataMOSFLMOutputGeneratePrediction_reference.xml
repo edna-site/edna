@@ -8,4 +8,9 @@
             <value>prediction.jpg</value>
         </path>
     </predictionImage>
+    <pathToLogFile>
+        <path>
+            <value>MOSFLMGeneratePredictionv10.log</value>
+        </path>
+    </pathToLogFile>    
 </XSDataMOSFLMOutputGeneratePrediction>

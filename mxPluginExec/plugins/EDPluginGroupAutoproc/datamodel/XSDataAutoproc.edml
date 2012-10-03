@@ -1,0 +1,166 @@
+targetNamespace "http://www.edna-site.org"
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataVectorDouble
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+
+complex type XSDataMatthewsCoeffIn extends XSDataInput {
+	a : XSDataDouble
+	b : XSDataDouble
+	c : XSDataDouble
+	alpha : XSDataDouble
+	beta : XSDataDouble
+	gamma : XSDataDouble
+	symm : XSDataString
+}
+
+complex type XSDataMatthewsCoeffOut extends XSDataResult {
+	best_p : XSDataDouble
+	best_sol : XSDataString
+}
+
+complex type XSDataRBinsIn extends XSDataInput {
+	low : XSDataDouble
+	high : XSDataDouble
+}
+
+complex type XSDataRBinsOut extends XSDataResult {
+	bins : XSDataDouble[]
+}
+
+complex type XSDataMinimalXdsIn extends XSDataInput {
+	input_file : XSDataString
+	job : XSDataString optional
+	maxproc : XSDataInteger optional
+	maxjobs : XSDataInteger optional
+	friedels_law : XSDataBoolean optional
+	resolution_range : XSDataFloat [] optional
+}
+
+complex type XSDataMinimalXdsOut extends XSDataResult {
+	succeeded : XSDataBoolean
+}
+
+complex type XSDataXdsOutputFile extends XSDataInput {
+	correct_lp : XSDataFile
+	gxparm : XSDataFile optional
+}
+
+complex type XSDataXdsCompletenessEntry {
+	outer_res : XSDataFloat
+	outer_complete : XSDataFloat
+	outer_rfactor : XSDataFloat
+	outer_isig : XSDataFloat
+	half_dataset_correlation : XSDataFloat
+}
+
+complex type XSData2DCoordinates {
+	x : XSDataFloat
+	y : XSDataFloat
+}
+
+complex type XSDataXdsOutput extends XSDataResult {
+	completeness_entries : XSDataXdsCompletenessEntry []
+	total_completeness : XSDataXdsCompletenessEntry
+	crystal_mosaicity : XSDataFloat
+	direct_beam_coordinates : XSDataVectorDouble
+	direct_beam_detector_coordinates : XSData2DCoordinates
+	detector_origin : XSData2DCoordinates
+	crystal_to_detector_distance : XSDataFloat
+	coordinates_of_unit_cell_a_axis : XSDataVectorDouble
+	coordinates_of_unit_cell_b_axis : XSDataVectorDouble
+	coordinates_of_unit_cell_c_axis : XSDataVectorDouble
+	cell_a : XSDataFloat
+	cell_b : XSDataFloat
+	cell_c : XSDataFloat
+	cell_alpha : XSDataFloat
+	cell_beta : XSDataFloat
+	cell_gamma : XSDataFloat
+	unit_cell_constants : XSDataFloat [] optional
+	sg_number : XSDataInteger optional
+	/* the XDS run and the parsing are in separate plugins we
+	cannot use getWorkingDirectory to find where XDS ran so we
+	include that here. Yes, this is not pretty. */
+	xds_run_directory : XSDataString
+}
+
+complex type XSDataResCutoff extends XSDataInput {
+	xds_res : XSDataXdsOutput
+	completeness_entries : XSDataXdsCompletenessEntry []
+	//XXX: remove from model as it is only pass through?
+	total_completeness : XSDataXdsCompletenessEntry
+	res_override : XSDataFloat optional
+
+	// the parameters we can use for cutoff
+	completeness_cutoff : XSDataFloat optional
+	isig_cutoff : XSDataFloat optional
+	r_value_cutoff : XSDataFloat optional
+	cc_half_cutoff : XSDataFloat optional
+}
+
+complex type XSDataResCutoffResult extends XSDataResult {
+	res : XSDataFloat
+	bins : XSDataFloat []
+	//XXX: those 3 vars are only pass-through. Remove?
+	total_complete : XSDataFloat
+	total_rfactor : XSDataFloat
+	total_isig : XSDataFloat
+}
+
+complex type XSDataXscaleInputFile {
+	path : XSDataString
+	res : XSDataFloat
+}
+
+complex type XSDataXscaleGeneratedFiles {
+	anom_merged : XSDataString
+	noanom_merged : XSDataString
+	anom_unmerged : XSDataString
+	noanom_unmerged : XSDataString
+}
+
+complex type XSDataXscaleInput {
+	merge : XSDataBoolean
+	friedels_law : XSDataBoolean
+	xds_files : XSDataXscaleInputFile []
+	unit_cell_constants : XSDataFloat []
+	sg_number : XSDataInteger
+	bins : XSDataDouble [] optional
+}
+
+complex type XSDataXscaleOutput {
+	succeeded : XSDataBoolean
+	output_file : XSDataString optional
+}
+
+
+/* In the original pipeline XDS is simply rerun in the same dir since
+edna insists on running each plugin into its separate directory we
+will simply require where the previous run take place and link the
+useful files from there. Yes, this is not pretty */
+
+complex type XSDataXdsGenerateInput extends XSDataInput {
+	previous_run_dir : XSDataString
+	resolution : XSDataFloat
+}
+
+// we are only interested in that one file
+complex type XSDataXdsGenerateOutput extends XSDataResult {
+	hkl_anom : XSDataString
+	hkl_no_anom : XSDataString
+	correct_lp_anom : XSDataString
+	correct_lp_no_anom : XSDataString
+}
+
+complex type XSDataAutoprocInput extends XSDataInput {
+	input_file : XSDataFile
+	completeness_cutoff : XSDataFloat optional
+	res_override : XSDataFloat optional
+	isig_cutoff : XSDataFloat optional
+	data_collection_id : XSDataInteger optional
+}

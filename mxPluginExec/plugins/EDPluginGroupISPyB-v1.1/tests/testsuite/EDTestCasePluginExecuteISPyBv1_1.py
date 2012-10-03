@@ -2,8 +2,6 @@
 #    Project: mxPluginExec
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) 2008 Diamond Light Source
 #                       Chilton, Didcot, UK
 #
@@ -28,7 +26,7 @@
 
 import os.path
 
-from EDVerbose                        import EDVerbose
+
 from EDAssert                         import EDAssert
 from EDTestCasePluginExecute          import EDTestCasePluginExecute
 from EDUtilsTest                      import EDUtilsTest
@@ -72,7 +70,7 @@ class EDTestCasePluginExecuteISPyBv1_1(EDTestCasePluginExecute):
         strXML = '<?xml version="1.0" encoding="UTF-8"?><Proposal><code>nt</code><number>20</number></Proposal>'
         edStringResponse = edPluginISPyB.httpPost(edPluginISPyB.getDbserverHost(), edPluginISPyB.getDbserverPort(), '/proposal_request', strXML)
         if edStringResponse != None:
-            EDVerbose.DEBUG("*** EDTestCasePluginExecuteISPyBv1_1.testHttpPost response: " + edStringResponse)
+            self.DEBUG("*** EDTestCasePluginExecuteISPyBv1_1.testHttpPost response: " + edStringResponse)
 
         EDAssert.equal(edStringResponse != None, True)
 
@@ -90,7 +88,7 @@ class EDTestCasePluginExecuteISPyBv1_1(EDTestCasePluginExecute):
         xsDataResultISPyBExpected = XSDataResultISPyB.parseString(edStringExpectedOutput)
         xsDataResultISPyBObtained = XSDataResultISPyB.parseString(edStringObtainedOutput)
 
-        EDVerbose.DEBUG("Checking obtained result...")
+        self.DEBUG("Checking obtained result...")
 
         xsDataIntegerExpDataCollectionId = xsDataResultISPyBExpected.getDataCollectionId()
         xsDataResultStatusExpScreening = xsDataResultISPyBExpected.getScreeningStatus()
@@ -111,45 +109,45 @@ class EDTestCasePluginExecuteISPyBv1_1(EDTestCasePluginExecute):
         xsDataResultStatusScreeningRankSet = xsDataResultISPyBObtained.getScreeningRankSetStatus()
 
         if xsDataIntegerExpDataCollectionId != None:
-            EDVerbose.DEBUG("Checking dataCollectionId ...")
+            self.DEBUG("Checking dataCollectionId ...")
             EDAssert.equal(xsDataIntegerDataCollectionId.getValue(), xsDataIntegerExpDataCollectionId.getValue())
         if xsDataResultStatusExpScreening != None:
-            EDVerbose.DEBUG("Checking screening ...")
+            self.DEBUG("Checking screening ...")
             EDAssert.equal(xsDataResultStatusScreening.getCode().getValue(), "ok")
             iId = xsDataResultStatusScreening.getId().getValue()
             EDAssert.equal((iId >= 0), True)
         if xsDataResultStatusExpScreeningInputs != None:
-            EDVerbose.DEBUG("Checking inputs...")
+            self.DEBUG("Checking inputs...")
             for xsDataResultStatusScreeningInput in xsDataResultStatusScreeningInputs:
                 EDAssert.equal(xsDataResultStatusScreeningInput.getCode().getValue(), "ok")
                 iId = xsDataResultStatusScreeningInput.getId().getValue()
                 EDAssert.equal((iId >= 0), True)
         if xsDataResultStatusExpScreeningOutputs != None:
-            EDVerbose.DEBUG("Checking outputs ...")
+            self.DEBUG("Checking outputs ...")
             for xsDataResultStatusScreeningOutput in xsDataResultStatusScreeningOutputs:
                 EDAssert.equal(xsDataResultStatusScreeningOutput.getCode().getValue(), "ok")
                 iId = xsDataResultStatusScreeningOutput.getId().getValue()
                 EDAssert.equal((iId >= 0), True)
         if xsDataResultStatusExpScreeningOutputLattices != None:
-            EDVerbose.DEBUG("Checking output lattices...")
+            self.DEBUG("Checking output lattices...")
             for xsDataResultStatusScreeningOutputLattice in xsDataResultStatusScreeningOutputLattices:
                 EDAssert.equal(xsDataResultStatusScreeningOutputLattice.getCode().getValue(), "ok")
                 iId = xsDataResultStatusScreeningOutputLattice.getId().getValue()
                 EDAssert.equal((iId >= 0), True)
         if xsDataResultStatusExpScreeningStrategies != None:
-            EDVerbose.DEBUG("Checking strategies...")
+            self.DEBUG("Checking strategies...")
             for xsDataResultStatusScreeningStrategy in xsDataResultStatusScreeningStrategies:
                 EDAssert.equal(xsDataResultStatusScreeningStrategy.getCode().getValue(), "ok")
                 iId = xsDataResultStatusScreeningStrategy.getId().getValue()
                 EDAssert.equal((iId >= 0), True)
         if xsDataResultStatusExpScreeningRanks != None:
-            EDVerbose.DEBUG("Checking ranks...")
+            self.DEBUG("Checking ranks...")
             for xsDataResultStatusScreeningRank in xsDataResultStatusScreeningRanks:
                 EDAssert.equal(xsDataResultStatusScreeningRank.getCode().getValue(), "ok")
                 iId = xsDataResultStatusScreeningRank.getId().getValue()
                 EDAssert.equal((iId >= 0), True)
         if xsDataResultStatusScreeningRankSet != None:
-            EDVerbose.DEBUG("Checking rank sets...")
+            self.DEBUG("Checking rank sets...")
             EDAssert.equal(xsDataResultStatusScreeningRankSet.getCode().getValue(), "ok")
             iId = xsDataResultStatusScreeningRankSet.getId().getValue()
             EDAssert.equal((iId >= 0), True)

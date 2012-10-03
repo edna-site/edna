@@ -83,6 +83,10 @@ class EDShare(EDLogging, EDSession):
         """
         getter for a key:
         """
+        try:
+            unicode(key)
+        except UnicodeDecodeError:
+            self.ERROR("EDShare.__getitem__: Unicode Error %s" % key)
         if self.isInitialized():
             with self.locked():
                 if key in self._listKeys:
@@ -98,7 +102,8 @@ class EDShare(EDLogging, EDSession):
             self.WARNING("EDShare is uninitialized: initializing")
             self.initialize()
             value = None
-        return value[:]
+        if value is not None:
+            return value[:]
     get = __getitem__
 
 
@@ -113,7 +118,7 @@ class EDShare(EDLogging, EDSession):
             self.initialize()
         with self.locked():
             if key in self._listKeys:
-                self.ERROR("EDShare: Redefinition of elements is forbidden ")
+                self.ERROR("EDShare: Redefinition of elements is forbidden key=%s, mean value=%s " % (key, value.mean()))
             else:
                 self._listKeys.append(key)
                 self._storage[key] = value
