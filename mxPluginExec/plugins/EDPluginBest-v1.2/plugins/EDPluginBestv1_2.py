@@ -79,6 +79,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         self.addCompatibleVersion("Version 3.4.2 //  05.03.2011")
         self.addCompatibleVersion("Version 3.4.3 //  06.05.2011")
         self.addCompatibleVersion("Version 3.4.4 //  10.06.2011")
+        self.addCompatibleVersion("Version 4.1.0 //  02.10.2012")
 
         self.__strCONF_BEST_HOME_LABEL = "besthome"
 
@@ -232,6 +233,9 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         fMaxExposureTime = self.getDataInput().getBeamMaxExposureTime().getValue()
 
         self.__strCommandBest = "-f " + strDetectorName + " " + "-t " + str(fExposureTime) + " "
+
+        # Add output of gle files
+        self.__strCommandBest = self.__strCommandBest + "-g "
 
         if(self.getDataInput().getBeamMinExposureTime() is not None):
             strBeamMinExposureTime = str(self.getDataInput().getBeamMinExposureTime().getValue())
