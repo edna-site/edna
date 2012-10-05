@@ -1,0 +1,87 @@
+{
+    "EDPluginExecSaxsMacv1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_mac", 
+        "execProcessScriptShell": "python", 
+        "timeOut": 6000
+    }, 
+    "EDPluginFIT2DCakev1_0": {
+        "pathToXvfb": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/Xvfb", 
+        "argumentsForXvfb": "-fp tcp/fontserv.esrf.fr:7100 -ac", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/fit2d", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginFIT2DCakev1_1": {
+        "pathToXvfb": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/Xvfb", 
+        "argumentsForXvfb": "-fp tcp/fontserv.esrf.fr:7100 -ac", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/fit2d/v15.095/linux/bin/fit2d", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginWaitFile": {
+        "timeOut": 20
+    }, 
+    "EDPluginExecVideov10": {
+        "execProcessScriptExecutable": "/usr/bin/mencoder", 
+        "execProcessScriptShell": "python", 
+        "timeOut": 6000
+    }, 
+    "EDPluginSPDCakev1_0": {
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.1/spd", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginSPDCakev1_1": {
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.1/spd", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginExecSaxsAddv1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_add", 
+        "execProcessScriptShell": "python", 
+        "timeOut": 6000
+    }, 
+    "EDPluginSPDCorrectv10": {
+        "maxNumberOfWorkers": 8, 
+        "version": "spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.2/spd", 
+        "timeOut": 30
+    }, 
+    "EDPluginExecSaxsAnglev1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_angle", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginSPDCakev1_5": {
+        "maxNumberOfWorkers": 8, 
+        "version": "spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171", 
+        "execProcessScriptExecutable": "/sware/exp/scisoft/spd/v1.2/LINUX64/spd", 
+        "timeOut": 30
+    }, 
+    "EDPluginExecSaxsCurvesv1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/saxs_curves", 
+        "execProcessScriptShell": "python", 
+        "timeOut": 6000
+    }, 
+    "EDPluginExecSaxsDelMetadatav1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/edfheaderdelkey", 
+        "execProcessScriptShell": "python", 
+        "timeOut": 60
+    }, 
+    "EDPluginHDF5StackImagesv10": {
+        "compression": "gzip", 
+        "timeOut": 200
+    }, 
+    "EDPluginExport1DPowderv1_0": {
+        "timeOut": 10
+    }, 
+    "__extend__": [], 
+    "EDPluginHDF5MapOfSpectrav10": {
+        "compression": "gzip", 
+        "timeOut": 200
+    }, 
+    "EDPluginExecSaxsAddMetadatav1_0": {
+        "execProcessScriptExecutable": "/sware/exp/saxs/bin/edfheaderaddkey", 
+        "execProcessScriptShell": "python", 
+        "timeOut": 60
+    }, 
+    "EDPluginExecCommandLinev10": {
+        "execProcessScriptShell": "python", 
+        "timeOut": 60
+    }
+}

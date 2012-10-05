@@ -168,18 +168,21 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlCharacterisationv2_0.doStrategySuccess")
         xsDataResultStrategy = self.edPluginControlStrategy.getDataOutput()
         self.xsDataResultCharacterisation.setStrategyResult(xsDataResultStrategy)
+        self.suggestedStrategy = None
+        self.newpossibleOrientations = None
         if self.edPluginControlStrategy.hasDataOutput("possibleOrientations"):
             EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.doStrategySuccess: With possible orientations")
             #get the next orientation
             #create new ref data coll plan at new orirntation
             #remove the currently offered orientation from the list            
             Orients = self.edPluginControlStrategy.getDataOutput("possibleOrientations")[0].getPossible_orientation()
-            omega = Orients[0].getOmega()
-            kappa = Orients[0].getKappa()
-            phi = Orients[0].getPhi()
-            self.suggestedStrategy=EDHandlerXSDataMXv1v1_0.mergeStrategyToNewOrientation(xsDataResultStrategy,self.mxv1InputCharacterisation.getDataCollection(),omega,kappa,phi)
-            self.newpossibleOrientations=EDHandlerXSDataSTACv2_0.removeOrientation(self.edPluginControlStrategy.getDataOutput("possibleOrientations")[0],kappa,phi)
-        else:
+            if Orients != []:
+                omega = Orients[0].getOmega()
+                kappa = Orients[0].getKappa()
+                phi = Orients[0].getPhi()
+                self.suggestedStrategy=EDHandlerXSDataMXv1v1_0.mergeStrategyToNewOrientation(xsDataResultStrategy,self.mxv1InputCharacterisation.getDataCollection(),omega,kappa,phi)
+                self.newpossibleOrientations=EDHandlerXSDataSTACv2_0.removeOrientation(self.edPluginControlStrategy.getDataOutput("possibleOrientations")[0],kappa,phi)
+        if self.suggestedStrategy is None:
             EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.doStrategySuccess: Without possible orientations")
             #set the orientation for the actual strategy
             #we suggest the currently calculated strategy

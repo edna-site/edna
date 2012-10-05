@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2012 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Karl Levik (karl.levik@diamond.ac.uk)
@@ -31,18 +29,8 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 from EDTestSuite  import EDTestSuite
 
-class EDTestSuitePluginUnitControlISPyBv1_1(EDTestSuite):
+class EDTestSuitePluginUnitControlISPyBv1_4(EDTestSuite):
 
     def process(self):
-        """
-        """
-        self.addTestCaseFromName("EDTestCasePluginUnitControlISPyBv1_1")
+        self.addTestCaseFromName("EDTestCasePluginUnitControlISPyBv1_4")
 
-
-##############################################################################
-if __name__ == '__main__':
-
-    edTestSuitePluginUnitControlISPyBv1_1 = EDTestSuitePluginUnitControlISPyBv1_1("EDTestSuitePlugin<basName>DCTPowderIntegrationv1_1")
-    edTestSuitePluginUnitControlISPyBv1_1.execute()
-
-##############################################################################

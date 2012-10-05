@@ -409,7 +409,7 @@ AtomicVolume = {
 #check for the existance of Booleans : this is only if your python is too old
 try:
         True
-except:
+except Exception:
     True = (1 == 1)
     False = (1 == 0)
 
@@ -829,13 +829,13 @@ class CIF(dict):
 #TODO We should definitly handle exception here   
         try:
             fFile = open(_strFilename, "w")
-        except:
+        except Exception:
             print "Error during the opening of file for write : %s" % _strFilename
             return
         fFile.write(self._cif2str(_strFilename))
         try:
             fFile.close()
-        except:
+        except Exception:
             print "Error during the opening of file for write : %s" % _strFilename
 
 
@@ -954,7 +954,7 @@ class CIF(dict):
             self["_pd_spec_description"] = lInFile[0].strip()
             try:
                 iLenData = int(lInFile[3])
-            except:
+            except Exception:
                 iLenData = None
             lOneLoop = []
             try:
@@ -966,7 +966,7 @@ class CIF(dict):
                 f2ThetaMax = float(last.split()[0])
                 limitsOK = True
 
-            except:
+            except Exception:
                 limitsOK = False
                 f2ThetaMin = 180.0
                 f2ThetaMax = 0
@@ -1003,7 +1003,7 @@ def LoopHasKey(loop, key):
     try:
         loop.index(key)
         return True
-    except:
+    except Exception:
         return False
 
 

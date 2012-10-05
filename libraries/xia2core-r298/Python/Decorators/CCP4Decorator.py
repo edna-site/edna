@@ -274,7 +274,7 @@ def CCP4DecoratorFactory(DriverInstance):
                     self.add_scratch_directory(directory)
                     try:
                         os.mkdir(directory)
-                    except:
+                    except Exception:
                         pass
 
             if not self._hklin is None:

@@ -1,5 +1,10 @@
 <?xml version="1.0" ?>
 <XSConfiguration>
+
+  <XSImportConfiguration>
+  	<name>XSConfiguration_ESRF_Common</name>
+  </XSImportConfiguration>	
+
   <XSPluginList>
     <XSPluginItem>
       <name>EDPluginLabelitv10</name>
@@ -570,4 +575,5 @@
     </XSPluginItem>
 
   </XSPluginList>
-</XSConfiguration>
+
+</XSConfiguration> 

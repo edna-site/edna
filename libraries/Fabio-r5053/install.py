@@ -65,7 +65,7 @@ if __name__ == "__main__":
     install.unZipArchive()
     try:
         install.buildSources()
-    except:
+    except Exception:
         print "Error in the build"
     install.installBuilt()
     install.cleanSources()

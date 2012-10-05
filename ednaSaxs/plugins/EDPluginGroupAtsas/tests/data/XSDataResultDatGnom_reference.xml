@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<gnom>
+<gnomFile><path><value>/tmp/edna-${USER}/datgnom.out</value></path></gnomFile>
+<rgGuinier><value>2.7999999999999998</value></rgGuinier>
+<rgGnom><value>2.9264641485385918</value></rgGnom>
+<dmax><value>9.3799999999999990</value></dmax>
+<total><value>0.70727850819318183</value></total>
+</gnom>
+</XSDataResult>

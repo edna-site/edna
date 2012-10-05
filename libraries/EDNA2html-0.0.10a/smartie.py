@@ -327,7 +327,7 @@ class logfile:
         Note that i counts up from zero."""
         try:
             return self.__fragments[i]
-        except:
+        except Exception:
             raise
 
     def addprogram(self):
@@ -348,7 +348,7 @@ class logfile:
         Note that i counts up starting from zero."""
         try:
             return self.__programs[i]
-        except:
+        except Exception:
             raise
 
     def addtable(self,thistable=False,tabletext=""):
@@ -388,7 +388,7 @@ class logfile:
         Note that i counts up starting from zero."""
         try:
             return self.__tables[i]
-        except:
+        except Exception:
             raise
 
     def findtable(self,title_pattern,index=0):
@@ -461,7 +461,7 @@ class logfile:
         Note that i counts up starting from zero."""
         try:
             return self.__keytexts[i]
-        except:
+        except Exception:
             raise
 
     def addccp4i_info(self):
@@ -488,7 +488,7 @@ class logfile:
         Note that i counts up starting from zero."""
         try:
             return self.__ccp4i_info[i]
-        except:
+        except Exception:
             raise
 
     def addsummary(self,start_line=-1):
@@ -512,7 +512,7 @@ class logfile:
         Note that i counts up starting from zero."""
         try:
             return self.__summaries[i]
-        except:
+        except Exception:
             raise
 
     def set_fragment_start(self,line_no):
@@ -789,7 +789,7 @@ class fragment:
         objects associated with the fragment."""
         try:
             return self.__tables[i]
-        except:
+        except Exception:
             raise
 
     def findtable(self,title_pattern,index=0):
@@ -869,7 +869,7 @@ class fragment:
         keytext objects associated with the program/fragment."""
         try:
             return self.__keytexts[i]
-        except:
+        except Exception:
             raise
 
     def set_startline(self,line_no):
@@ -1596,7 +1596,7 @@ class table:
         column of data as a Python list."""
         try:
             return self.__column_list[i]
-        except:
+        except Exception:
             raise
 
     def col(self,name):
@@ -1646,7 +1646,7 @@ class table:
         zero.)"""
         try:
             return self.__graph_list[i]
-        except:
+        except Exception:
             raise
 
     def jloggraph(self,codebase="",width=400,height=300):
@@ -3307,7 +3307,7 @@ def find_table_by_title(table_list,title_pattern,index=0):
     rtable_list = find_tables_by_title(table_list,title_pattern)
     try:
        return rtable_list[index]
-    except:
+    except Exception:
        return None
 
 def find_tables_by_title(table_list,title_pattern):
@@ -3514,7 +3514,7 @@ def retrieve(filen,start,end):
             for i in range(start,end+1):
                 text = text+str(linecache.getline(filen,i))
             return text
-        except:
+        except Exception:
             print "Exception raised in retrieve method:"
             print "\tSource file  = \""+str(filen)+"\""
             print "\tStart line   = "+str(start)

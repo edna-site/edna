@@ -40,6 +40,7 @@ class EDTestSuitePluginBioSaxsProcessOneFilev1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitBioSaxsProcessOneFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsProcessOneFilev1_1")
+        self.addTestCaseFromName("EDTestCasePluginExecuteBioSaxsProcessOneFilev1_2")
 
 
 

@@ -137,7 +137,7 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_1(EDTestCasePluginExecute):
         asciiRef = os.linesep.join([i.strip() for i in  open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated1_1.dat")) if "Raster" not in i])
 
         EDAssert.strAlmostEqual(asciiRef, asciiObt, _strComment="3 column ascii files are the same", _fRelError=0.1, _strExcluded=os.environ["USER"])
-
+        EDVerbose.screen("Execution time for %s: %.3fs" % (plugin.getClassName(), plugin.getRunTime()))
     def process(self):
         """
         """

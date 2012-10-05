@@ -1,0 +1,85 @@
+{    "__extend__": [], 
+    "EDPluginExecDatcmpv1_0": {
+        "execProcessScriptExecutable": "/usr/bin/datcmp", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginExecEpydocv1_0": {
+        "execProcessScriptExecutable": "/usr/bin/epydoc", 
+        "execProcessScriptShell": "python", 
+        "timeOut": 2000
+    }, 
+    "EDPluginExecSaxsMacv1_0": {
+        "execProcessScriptExecutable": "/opt/saxs/saxs_mac", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginFIT2DCakev1_0": {
+        "pathToXvfb": "/usr/bin/Xvfb", 
+        "argumentsForXvfb": "-ac", 
+        "execProcessScriptExecutable": "/opt/fit2dfit2d"
+    }, 
+    "EDPluginFIT2DCakev1_1": {
+        "pathToXvfb": "/usr/bin/Xvfb", 
+        "argumentsForXvfb": "-ac", 
+        "execProcessScriptExecutable": "/opt/fit2d/fit2d"
+    }, 
+    "EDPluginWaitFile": {
+        "timeOut": 20
+    }, 
+    "EDPluginExecDataverv1_0": {
+        "execProcessScriptExecutable": "/usr/bin/dataver", 
+        "execProcessScriptShell": "python"
+    }, 
+    "EDPluginExecVideov10": {
+        "execProcessScriptExecutable": "/usr/bin/mencoder", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginSPDCakev1_0": {
+        "execProcessScriptExecutable": "/opt/spd/spd"
+    }, 
+    "EDPluginSPDCakev1_1": {
+        "execProcessScriptExecutable": "/opt/spd/spd"
+    }, 
+    "EDPluginExecSaxsAddv1_0": {
+        "execProcessScriptExecutable": "/opt/saxs/saxs_add", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginSPDCorrectv10": {
+        "maxNumberOfWorkers": 1, 
+        "version": "spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171", 
+        "execProcessScriptExecutable": "/opt/spd/spd", 
+        "timeOut": 200
+    }, 
+    "EDPluginExecSaxsAnglev1_0": {
+        "execProcessScriptExecutable": "/opt/saxs/saxs_angle", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginSPDCakev1_5": {
+        "maxNumberOfWorkers": 1, 
+        "version": "spd version SPD = 1.2 SAXS = 2.436 EDF = 2.171", 
+        "execProcessScriptExecutable": "/opt/spd/spd", 
+        "timeOut": 200
+    }, 
+    "EDPluginExecSaxsCurvesv1_0": {
+        "execProcessScriptExecutable": "/opt/saxs/saxs_curves", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 6000
+    }, 
+    "EDPluginExecSaxsDelMetadatav1_0": {
+        "execProcessScriptExecutable": "/opt/saxs/edfheaderdelkey", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 60
+    }, 
+    "EDPluginExecSaxsAddMetadatav1_0": {
+        "execProcessScriptExecutable": "/opt/saxs/edfheaderaddkey", 
+        "execProcessScriptShell": "/bin/bash", 
+        "timeOut": 60
+    }, 
+    "EDPluginExecEDPluginHDFImageWriterv10": {}, 
+    "EDPluginExecCommandLinev10": {
+        "timeOut": 60
+    }
+}

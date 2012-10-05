@@ -575,7 +575,7 @@ class DocumentStore:
         try:
             content = self.store[location]
             return StringIO(content)
-        except:
+        except Exception:
             reason = 'location "%s" not in document store' % location
             raise Exception, reason
         

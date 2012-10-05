@@ -107,7 +107,7 @@ import os.path #, tempfile, shutil
 try:
     from FastEdf import extended_fread
     CAN_USE_FASTEDF = 1
-except:
+except Exception:
     CAN_USE_FASTEDF = 0
 
 ################################################################################
@@ -202,10 +202,10 @@ class  EdfFile:
                         raise IOError("CBF support not implemented")
                     if twoChars[0] != "{":
                         self.PILATUS_CBF = True
-        except:
+        except Exception:
             try:
                 self.File.close()
-            except:
+            except Exception:
                 pass
             raise IOError, "EdfFile: Error opening file"
 
@@ -308,7 +308,7 @@ class  EdfFile:
                         header[key.strip()] = val.strip(' ;\n')
                     line = infile.readline()
                     bytesread = bytesread + len(line)
-            except:
+            except Exception:
                 raise Exception("Error processing adsc header")
             # banned by bzip/gzip???
             try:
@@ -805,7 +805,7 @@ class  EdfFile:
     def __del__(self):
         try:
             self.File.close()
-        except:
+        except Exception:
             pass
 
     def GetDefaultNumpyType(self, EdfType, index=None):

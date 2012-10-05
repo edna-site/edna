@@ -424,18 +424,18 @@ complex type XSDataISPyBScreeningStrategySubWedge extends XSData {
 
 
 complex type XSDataISPyBImage extends XSData {
-	comments : XSDataString
-	cumulativeIntensity : XSDataDouble
 	fileLocation : XSDataString
 	fileName : XSDataString
-	imageId : XSDataInteger
-	imageNumber : XSDataInteger
-	jpegFileFullPath : XSDataString
-	jpegThumbnailFileFullPath : XSDataString
-	machineMessage : XSDataString
-	measuredIntensity : XSDataDouble
-	synchrotronCurrent : XSDataDouble
-	temperature : XSDataDouble
+	comments : XSDataString optional
+	cumulativeIntensity : XSDataDouble optional
+	imageId : XSDataInteger optional
+	imageNumber : XSDataInteger optional
+	jpegFileFullPath : XSDataString optional
+	jpegThumbnailFileFullPath : XSDataString optional
+	machineMessage : XSDataString optional
+	measuredIntensity : XSDataDouble optional
+	synchrotronCurrent : XSDataDouble optional
+	temperature : XSDataDouble optional
 }
 
 

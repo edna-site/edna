@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<XSDataResult>
+<integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsIntegrated.dat</value></path></integratedCurve>
+<status>
+	<executiveSummary>
+	<value>Retrieve metadata from file ${EDNA_TESTIMAGES}/bioSaxsCorrected.edf
+Azimuthal integration of Corrected+Masked EDF image -->'/tmp/edna-${USER}/bioSaxsIntegrated.dat'
+</value>
+	</executiveSummary></status>
+</XSDataResult>

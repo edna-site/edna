@@ -59,14 +59,5 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginControlIndexing</name> 
-			<XSOptionList>
-			    <XSOptionItem>
-			        <name>EDPluginMessage</name>
-			        <enabled>true</enabled>
-			    </XSOptionItem>
-			</XSOptionList>
-		</XSPluginItem> 
 	</XSPluginList> 
 </XSConfiguration> 

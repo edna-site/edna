@@ -67,23 +67,6 @@ class EDTestCaseEDFactoryPlugin(EDTestCase):
         EDAssert.equal("TestReturnValue", edPluginTest.getTestValue())
 
 
-    def testGetPathToProjectConfigurationFile(self):
-        EDUtilsPath.setEdnaSite("TestSite")
-        edFactoryPlugin = EDFactoryPlugin()
-        strPathToConfigurationFile1 = edFactoryPlugin.getPathToProjectConfigurationFile("EDPluginTestPluginFactory")
-        strPathToConfigurationFileReference1 = EDUtilsPath.appendListOfPaths(EDUtilsPath.getEdnaHome(),
-                                                                                  [ "kernel", "tests", "data", "EDFactoryPlugin", \
-                                                                                   "testProject", "conf", "XSConfiguration_TestSite.xml" ])
-        EDAssert.equal(strPathToConfigurationFileReference1, strPathToConfigurationFile1)
-        EDUtilsPath.setEdnaSite("NonexistingTestSite")
-        strPathToConfigurationFile2 = edFactoryPlugin.getPathToProjectConfigurationFile("EDPluginTestPluginFactory")
-        strPathToConfigurationFileReference2 = None
-        EDAssert.equal(strPathToConfigurationFileReference2, strPathToConfigurationFile2)
-        # Since this is a static variable we need to reset it to None in order not to break any other tests...
-        EDUtilsPath.setEdnaSite(None)
-
-
-
     def testSaveModuleDictionaryToDisk(self):
         edFactoryPlugin = EDFactoryPlugin()
         edPluginTest = edFactoryPlugin.loadPlugin("EDPluginTestPluginFactory")
@@ -106,7 +89,6 @@ class EDTestCaseEDFactoryPlugin(EDTestCase):
         self.addTestMethod(self.testGetProjectRootDirectory)
         self.addTestMethod(self.testGetProjectName)
         self.addTestMethod(self.testLoadPlugin)
-        self.addTestMethod(self.testGetPathToProjectConfigurationFile)
         self.addTestMethod(self.testSaveModuleDictionaryToDisk)
         self.addTestMethod(self.testLoadModuleDictionaryFromDisk)
 

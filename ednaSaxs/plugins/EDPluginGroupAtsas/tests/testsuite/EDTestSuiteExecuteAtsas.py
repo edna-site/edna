@@ -36,11 +36,25 @@ class EDTestSuiteExecuteAtsas(EDTestSuite):
     """
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecDatcmpv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecDataverv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecDatopv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecAutoRgv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteAutoSubv1_0")
+        tests = ['EDTestCasePluginExecuteExecDataverv1_0',
+                 'EDTestCasePluginExecuteExecSupcombv0_1',
+                 'EDTestCasePluginExecuteExecDamminv0_1',
+                 'EDTestCasePluginExecuteExecDatopv1_0',
+                 'EDTestCasePluginExecuteExecDatcmpv1_0',
+                 'EDTestCasePluginExecuteExecAutoRgv1_0',
+                 'EDTestCasePluginExecuteExecDamstartv0_1',
+                 'EDTestCasePluginExecuteExecGnomv0_1',
+                 'EDTestCasePluginExecuteExecGnomv0_2',
+                 'EDTestCasePluginExecuteExecGnomv0_2_file',
+                 'EDTestCasePluginExecuteExecGnomv0_2_list',
+                 'EDTestCasePluginExecuteExecDamaverv0_1',
+                 'EDTestCasePluginExecuteExecDamfiltv0_1',
+                 'EDTestCasePluginExecuteExecDammifv0_1',
+                 'EDTestCasePluginExecuteExecDatGnomv1_0',
+                 'EDTestCasePluginExecuteExecDatPorodv1_0',
+                 ]
+        for test in tests:
+            self.addTestCaseFromName(test)
 
 
 

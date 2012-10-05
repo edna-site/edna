@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<gnomFile><path><value>${EDNA_TESTIMAGES}/datgnom.out</value></path></gnomFile>
+</XSDataInput>

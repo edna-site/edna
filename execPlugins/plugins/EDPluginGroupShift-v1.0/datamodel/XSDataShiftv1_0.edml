@@ -33,7 +33,7 @@ package XSDataShiftv10 {
 		backgroundSubtraction : XSDataBoolean optional
 		center : XSDataInteger [] optional
 		cropBorders : XSDataInteger [] optional
-		image : XSDataImage [] optional
+		image : XSDataImageExt [] optional
 		index : XSDataInteger [] optional
 		smoothBorders : XSDataInteger [] optional
 		sobelFilter : XSDataBoolean optional

@@ -1,0 +1,14 @@
+{
+    "EDPluginExecWaitFile": {
+        "timeOut": 20
+    }, 
+    "__extend__": [], 
+    "EDPluginFIT2DCakev1_0": {
+        "pathToXvfb": "/usr/bin/Xvfb", 
+        "argumentsForXvfb": "-ac", 
+        "execProcessScriptExecutable": "/home/svensson/Library/FIT2D/fit2d"
+    }, 
+    "EDPluginFIT2DCakev1_1": {
+        "execProcessScriptExecutable": "/home/svensson/Library/FIT2D/fit2d"
+    }
+}
