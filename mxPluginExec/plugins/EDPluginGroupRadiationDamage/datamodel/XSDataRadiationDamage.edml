@@ -1,0 +1,23 @@
+targetNamespace "http://www.edna-site.org"
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataVectorDouble
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+
+complex type XSDataInputXdsBest extends XSDataInput {
+	detector_type	: XSDataString
+	exposure_time	: XSDataDouble
+	cell_a          : XSDataFloat
+        cell_b          : XSDataFloat
+        cell_c          : XSDataFloat
+        cell_alpha      : XSDataFloat
+        cell_beta       : XSDataFloat
+        cell_gamma      : XSDataFloat
+        sg_number       : XSDataInteger
+	ref_dataset	: XSDataString // path to a ref dataset
+}
