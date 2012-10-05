@@ -86,8 +86,8 @@ class EDConfiguration(EDLogging):
     def __init__(self, _strFileName=None):
         """"Set  up semaphore for thread safeness and dictionary for config files"""
         EDLogging.__init__(self)
-        self.__dictConfigurationFiles = {}
-        self.__dictPluginConfiguration = {}
+        self._dictConfigurationFiles = {}
+        self._dictPluginConfiguration = {}
         if _strFileName is not None:
             self.addConfigurationFile(_strFileName)
 
@@ -97,7 +97,7 @@ class EDConfiguration(EDLogging):
         if not os.path.exists(strFileName):
             self.WARNING("Trying to add configuration file but file %s doesn't exist!" % _strFileName)
         else:
-            if strFileName in self.__dictConfigurationFiles:
+            if strFileName in self._dictConfigurationFiles:
                 self.DEBUG("EDConfiguration.addConfigurationFile: File %s already parsed, in cache" % strFileName)
             else:
                 self.DEBUG("EDConfiguration.addConfigurationFile: Parsing file %s" % strFileName)
@@ -126,7 +126,7 @@ class EDConfiguration(EDLogging):
                     dictConfig = json.loads(strConfiguration)
                 # Make sure we are thread safe when manipulating the cache
                 with self.locked():
-                    self.__dictConfigurationFiles[strFileName] = dictConfig
+                    self._dictConfigurationFiles[strFileName] = dictConfig
                 # First look for configuration imports
                 for importConfiguration in dictConfig["__extend__"]:
                     if importConfiguration.startswith(os.sep):
@@ -149,15 +149,15 @@ class EDConfiguration(EDLogging):
                     for strPluginName in dictConfig:
                         if strPluginName == "__extend__":
                             continue
-                        if strPluginName in self.__dictPluginConfiguration:
+                        if strPluginName in self._dictPluginConfiguration:
                             if _bReplace:
                                 self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will be replaced." % strPluginName)
-                                self.__dictPluginConfiguration[strPluginName] = dictConfig[strPluginName]
+                                self._dictPluginConfiguration[strPluginName] = dictConfig[strPluginName]
                             else:
                                 self.DEBUG("EDConfiguration.addConfigurationFile: plugin configuration for %s already exists and will not be replaced." % strPluginName)
                         else:
                             self.DEBUG("EDConfiguration.addConfigurationFile: adding plugin configuration for %s." % strPluginName)
-                            self.__dictPluginConfiguration[strPluginName] = dictConfig[strPluginName]
+                            self._dictPluginConfiguration[strPluginName] = dictConfig[strPluginName]
 
 
     def getPathToProjectConfigurationFile(self, _strPluginName):
@@ -206,8 +206,8 @@ class EDConfiguration(EDLogging):
         strPathToProjectConfigurationFile = self.getPathToProjectConfigurationFile(_strPluginName)
         if strPathToProjectConfigurationFile is not None:
             self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=True)
-            if _strPluginName in self.__dictPluginConfiguration:
-                return self.__dictPluginConfiguration[_strPluginName]
+            if _strPluginName in self._dictPluginConfiguration:
+                return self._dictPluginConfiguration[_strPluginName]
 
 
     ############################################################################
@@ -215,16 +215,16 @@ class EDConfiguration(EDLogging):
     ############################################################################
 
     def get(self, _strPluginName, default=None):
-        return self.__dictPluginConfiguration.get(_strPluginName, default)
+        return self._dictPluginConfiguration.get(_strPluginName, default)
 
     def __contains__(self, key):
-        return (key in self.__dictPluginConfiguration)
+        return (key in self._dictPluginConfiguration)
 
     def __getitem__(self, _strPluginName):
         """
         edConfig["myPlugin"] -> {}
         """
-        return self.__dictPluginConfiguration.get(_strPluginName, {})
+        return self._dictPluginConfiguration.get(_strPluginName, {})
 
     def __setitem__(self, _strPluginName, plugin_config={}):
         """
@@ -234,16 +234,16 @@ class EDConfiguration(EDLogging):
         @param plugin_config: configuration of a whole plugin as a dict
         """
         with self.locked():
-            self.__dictPluginConfiguration[_strPluginName] = plugin_config
+            self._dictPluginConfiguration[_strPluginName] = plugin_config
 
     def __len__(self):
-        return len(self.__dictPluginConfiguration)
+        return len(self._dictPluginConfiguration)
 
     def getPluginListSize(self):
         """
         Returns the number of plugins configured
         """
-        return len(self.__dictPluginConfiguration)
+        return len(self._dictPluginConfiguration)
 
 ################################################################################
 # #    Deprecation zone
@@ -253,8 +253,8 @@ class EDConfiguration(EDLogging):
     def getXSConfigurationItem(self, _strPluginName):
         "Method offering compatibility with XML structure: deprecated !!!"
         config = None
-        if _strPluginName  in self.__dictPluginConfiguration:
-            config = self.__dictPluginConfiguration[_strPluginName]
+        if _strPluginName  in self._dictPluginConfiguration:
+            config = self._dictPluginConfiguration[_strPluginName]
         else: # Try to load "project" configuration
             config = self.loadPluginConfig(_strPluginName)
         if config is not None:
@@ -273,19 +273,19 @@ class EDConfiguration(EDLogging):
                 if paramList:
                     for paramItem in paramList.getXSParamItem():
                         plugin_conf[paramItem.name] = bestType(paramItem.value)
-                if strPluginName in self.__dictPluginConfiguration.keys():
+                if strPluginName in self._dictPluginConfiguration.keys():
                     self.DEBUG("Replacing configuration for plugin %s" % strPluginName)
                 else:
                     self.DEBUG("Setting configuration for plugin %s" % strPluginName)
                 with self.locked():
-                    self.__dictPluginConfiguration[strPluginName] = plugin_conf
+                    self._dictPluginConfiguration[strPluginName] = plugin_conf
 
 
     def getStringValue(self, _strPluginName, _strConfigurationName):
         "Get the configuration for one plugin and one config parameter, as a string"
         config = None
-        if _strPluginName in self.__dictPluginConfiguration:
-            config = self.__dictPluginConfiguration[_strPluginName]
+        if _strPluginName in self._dictPluginConfiguration:
+            config = self._dictPluginConfiguration[_strPluginName]
         else: # Try to load "project" configuration
             config = self.loadPluginConfig(_strPluginName)
         if (config is not None) and (_strConfigurationName in config):

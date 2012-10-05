@@ -191,7 +191,7 @@ class EDPlugin(EDAction):
     config = property(getConfig, setConfig)
 
 
-#    @deprecated
+    @deprecated
     def getStringConfigurationParameterValue(self, _strConfigurationParameterName):
         """
         This method returns a configuration parameter value if a corresponding configuration
@@ -210,7 +210,7 @@ class EDPlugin(EDAction):
                                                                              strParameterValue))
         return strParameterValue
 
-#    @deprecated
+    @deprecated
     def getDoubleConfigurationParameterValue(self, _strConfigurationParameterName):
         fParameterValue = None
         strParameterValue = self.getStringConfigurationParameterValue(_strConfigurationParameterName)
@@ -222,7 +222,7 @@ class EDPlugin(EDAction):
             self.ERROR("float() argument must be a string or a number, got %s" % strParameterValue)
 
 
-#    @deprecated
+    @deprecated
     def getIntegerConfigurationParameterValue(self, _strConfigurationParameterName):
         iParameterValue = None
         strParameterValue = self.getStringConfigurationParameterValue(_strConfigurationParameterName)
@@ -240,6 +240,9 @@ class EDPlugin(EDAction):
         This method should set its proper members attributes from a Plugin configuration Object
         """
         self.DEBUG("EDPlugin.configure : plugin name = %s, EDNA_SITE = %s" % (self.getPluginName(), EDUtilsPath.EDNA_SITE))
+
+        if self.__class__.__name__ not in self.__edConfiguration._dictPluginConfiguration:
+            self.__edConfiguration.loadPluginConfig(self.__class__.__name__)
 
         # set Timeout if different from default one
         if self.getTimeOut() == self.getDefaultTimeOut():
