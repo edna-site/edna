@@ -22,10 +22,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from EDUtilsFile import EDUtilsFile
+from EDUtilsPath import EDUtilsPath
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
+__status__ = "deprecated"
 
 import os, sys
 
@@ -134,7 +137,7 @@ class EDTestCasePluginExecuteBioSaxsProcessOneFilev1_0(EDTestCasePluginExecute):
 # Compare Ascii files
 ################################################################################
         asciiObt = os.linesep.join([i.strip() for i in  open(xsDataResultObtained.integratedCurve.path.value) if "RasterOrientation" not in i])
-        asciiRef = os.linesep.join([i.strip() for i in  open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.dat")) if "RasterOrientation" not in i])
+        asciiRef = os.linesep.join([i.strip() for i in  EDUtilsFile.readFileAndParseVariables(os.path.join(self.getTestsDataImagesHome(), "bioSaxsProcessIntegrated.dat"), EDUtilsPath.getDictOfPaths()).split(os.linesep) if "RasterOrientation" not in i])
         EDAssert.strAlmostEqual(asciiRef, asciiObt, _strComment="3 column ascii files are the same", _fRelError=0.1, _strExcluded=os.environ["USER"])
 
     def process(self):
