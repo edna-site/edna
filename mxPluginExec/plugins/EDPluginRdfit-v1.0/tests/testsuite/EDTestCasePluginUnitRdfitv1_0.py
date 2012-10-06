@@ -40,12 +40,14 @@ from XSDataCommon import XSDataString
 from XSDataCommon import XSDataDouble
 
 from XSDataRdfitv1_0 import XSDataInputRdfit
+from XSDataRdfitv1_0 import XSDataResultRdfit
 
 class EDTestCasePluginUnitRdfitv1_0(EDTestCasePluginUnit):
 
 
     def __init__(self, _strTestName=None):
         EDTestCasePluginUnit.__init__(self, "EDPluginRdfitv1_0")
+        self.strDataPath = self.getPluginTestsDataHome()
 
         self.strDataPath = self.getPluginTestsDataHome()
         self.strObtainedInputFile = "XSDataInputRaddosev10.xml"
@@ -53,8 +55,8 @@ class EDTestCasePluginUnitRdfitv1_0(EDTestCasePluginUnit):
         self.strReferenceInputFile = os.path.join(self.strDataPath, "XSDataRaddosev10Input_reference.xml")
         self.strReferenceInputFile2 = os.path.join(self.strDataPath, "XSDataRaddosev10Input_reference_02.xml")
 
-        self.strReferenceScriptLogFileName = os.path.join(self.strDataPath, "EDPluginRaddosev10.log")
-        self.strReferenceScriptLogFileNamev2 = os.path.join(self.strDataPath, "EDPluginRaddosev10_Raddosev2.log")
+        self.strReferenceScriptLogFileName = os.path.join(self.strDataPath, "edPluginRdfitv10.log")
+        self.strReferenceScriptLogFileNamev2 = os.path.join(self.strDataPath, "edPluginRdfitv10_Raddosev2.log")
 
 
     def createTestDataInput(self):
@@ -76,20 +78,28 @@ class EDTestCasePluginUnitRdfitv1_0(EDTestCasePluginUnit):
     
     
     def testSetDataInput(self):
-        edPluginRaddose = self.createPlugin()
+        edPluginRdfit = self.createPlugin()
         xsDataInputRdfit = self.createTestDataInput()
-        edPluginRaddose.setDataInput(xsDataInputRdfit)
-        edPluginRaddose.checkParameters()
+        edPluginRdfit.setDataInput(xsDataInputRdfit)
+        edPluginRdfit.checkParameters()
         
     def testGenerateCommands(self):
-        edPluginRaddose = self.createPlugin()
+        edPluginRdfit = self.createPlugin()
         xsDataInputRdfit = self.createTestDataInput()
-        strCommandLine = edPluginRaddose.generateCommands(xsDataInputRdfit)
+        strCommandLine = edPluginRdfit.generateCommands(xsDataInputRdfit)
         strCommandLineReference = " -d 1.xml -dmin 1.000000 -beta 2.000000 -gama 3.000000 -gb 2 -glb 3 -glr 4 -result 5 -xml 6 xds_1.hkl xds_2.hkl xds_3.hkl xds_4.hkl"
         EDAssert.equal(strCommandLineReference, strCommandLine, "Command line")
 
 
+    def testGetOutputDataFromDNATableFile(self):
+        edPluginRdfit = self.createPlugin()
+        strPathToTableFile = os.path.join(self.strDataPath, "rdfit.xml")
+        xsDataResultRdfit = edPluginRdfit.getOutputDataFromDNATableFile(strPathToTableFile)
+        strPathToReference = os.path.join(self.strDataPath, "XSDataResultRdfit_reference.xml")
+        xsDataResultRdfitReference = XSDataResultRdfit.parseFile(strPathToReference)
+        EDAssert.equal(xsDataResultRdfitReference.marshal(), xsDataResultRdfit.marshal(), "Test parsing result 'DNA' xml file")
 
     def process(self):
         self.addTestMethod(self.testSetDataInput)
         self.addTestMethod(self.testGenerateCommands)
+        self.addTestMethod(self.testGetOutputDataFromDNATableFile)

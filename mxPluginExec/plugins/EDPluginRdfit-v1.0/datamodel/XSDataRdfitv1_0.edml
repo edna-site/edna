@@ -22,4 +22,8 @@ complex type XSDataInputRdfit extends XSDataInput {
 complex type XSDataResultRdfit extends XSDataResult {
 	beta : XSDataDouble optional
 	gama : XSDataDouble optional
+	dose_half_th : XSDataDouble optional
+	dose_half : XSDataDouble optional
+	relative_radiation_sensitivity : XSDataDouble optional
+	
 }

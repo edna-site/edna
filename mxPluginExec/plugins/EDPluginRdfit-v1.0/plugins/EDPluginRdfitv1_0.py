@@ -25,9 +25,12 @@ __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-
 from EDPluginExecProcessScript import EDPluginExecProcessScript
+from EDUtilsTable              import EDUtilsTable
 
+from XSDataCommon import XSDataDouble
+
+from XSDataDnaTables import dna_tables
 
 from XSDataRdfitv1_0 import XSDataInputRdfit
 from XSDataRdfitv1_0 import XSDataResultRdfit
@@ -81,7 +84,7 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
     def finallyProcess(self, _edObject = None):
         EDPluginExecProcessScript.finallyProcess(self)
         self.DEBUG("EDPluginExecMtz2Variousv1_0.finallyProcess")
-        xsDataResult = XSDataResultRdfit()
+        xsDataResult = self.getOutputDataFromDNATableFile("rdfit.xml")
         self.setDataOutput(xsDataResult)
     
     def generateCommands(self, _xsDataInputRdfit):
@@ -118,11 +121,43 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
             if _xsDataInputRdfit.resultsFile is not None:
                 strScriptCommandLine += " -result " + _xsDataInputRdfit.resultsFile.path.value
             
-            if _xsDataInputRdfit.resultsXmlFile is not None:
+            if _xsDataInputRdfit.resultsXmlFile is None:
+                strScriptCommandLine += " -xml rdfit.xml"
+            else:
                 strScriptCommandLine += " -xml " + _xsDataInputRdfit.resultsXmlFile.path.value
                 
             for xsDataFile in _xsDataInputRdfit.xdsHklFile:
                 strScriptCommandLine += " " + xsDataFile.path.value
             
             return strScriptCommandLine
-        
+
+    
+    def getOutputDataFromDNATableFile(self, _strFileName):
+        """Parses the result 'DNA'-type XML file"""
+        xsDataResultRdfit = XSDataResultRdfit()
+        strDnaTablesXML = self.readProcessFile(_strFileName)
+        xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
+        # Loop through all the tables and fill in the relevant parts of xsDataResultBest
+        xsDataRDFIT_Results = EDUtilsTable.getTableListFromTables(xsDataDnaTables, "RDFIT_Results")[0]
+        xsDataListGeneral = EDUtilsTable.getListsFromTable(xsDataRDFIT_Results, "general")[0]
+        xsDataItemBeta = EDUtilsTable.getItemFromList(xsDataListGeneral, "beta")
+        if xsDataItemBeta is not None:
+            beta = xsDataItemBeta.getValueOf_()
+            xsDataResultRdfit.setBeta(XSDataDouble(beta))
+        xsDataItemGama = EDUtilsTable.getItemFromList(xsDataListGeneral, "gama")
+        if xsDataItemGama is not None:
+            gama = xsDataItemGama.getValueOf_()
+            xsDataResultRdfit.setGama(XSDataDouble(gama))
+        xsDataItemDose_half_th = EDUtilsTable.getItemFromList(xsDataListGeneral, "Dose_1/2_th")
+        if xsDataItemDose_half_th is not None:
+            dose_half_th = xsDataItemDose_half_th.getValueOf_()
+            xsDataResultRdfit.setDose_half_th(XSDataDouble(dose_half_th))
+        xsDataItemDose_half = EDUtilsTable.getItemFromList(xsDataListGeneral, "Dose_1/2")
+        if xsDataItemDose_half is not None:
+            dose_half = xsDataItemDose_half.getValueOf_()
+            xsDataResultRdfit.setDose_half(XSDataDouble(dose_half))
+        xsDataItemRelative_radiation_sensitivity = EDUtilsTable.getItemFromList(xsDataListGeneral, "Relative_Radiation_Sensitivity")
+        if xsDataItemRelative_radiation_sensitivity is not None:
+            relative_radiation_sensitivity = xsDataItemRelative_radiation_sensitivity.getValueOf_()
+            xsDataResultRdfit.setRelative_radiation_sensitivity(XSDataDouble(relative_radiation_sensitivity))
+        return xsDataResultRdfit

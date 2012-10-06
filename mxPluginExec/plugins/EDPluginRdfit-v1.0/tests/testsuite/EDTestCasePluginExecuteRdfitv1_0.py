@@ -37,37 +37,24 @@ from EDTestCasePluginExecute          import EDTestCasePluginExecute
 
 
 
-class EDTestCasePluginExecuteRaddosev10(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteRdfitv1_0(EDTestCasePluginExecute):
 
     def __init__(self, _oalStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginRdfitv1_0")
         self.setConfigurationFile(self.getRefConfigFile())
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataRaddosev10Input_reference.xml"))
-        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataRaddosev10Output_reference.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputRdfit_reference.xml"))
+        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultRdfit_reference.xml"))
 
+    def preProcess(self):
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([ "rdfit_01.HKL", "rdfit_03.HKL", "rdfit_05.HKL", "rdfit_07.HKL", \
+                             "rdfit_09.HKL", "rdfit_11.HKL", "rdfit_13.HKL", "rdfit_15.HKL", \
+                             "rdfit_17.HKL", "rdfit_19.HKL", "rdfit_21.HKL" ])
 
     def testExecute(self):
         self.run()
-
-        if self.getPlugin().findStringInLog("version 2"):
-            self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataRaddosev10Output_reference_Raddosev2.xml"))
-
-        # Checks the expected result
-        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
-
-        from XSDataRaddosev10 import XSDataRaddoseOutput
-        xsDataOutputExpected = XSDataRaddoseOutput.parseString(strExpectedOutput)
-        xsDataOutputObtained = self.getPlugin().getDataOutput()
-
-        EDAssert.equal(xsDataOutputExpected.marshal(), xsDataOutputObtained.marshal())
 
 
     def process(self):
         self.addTestMethod(self.testExecute)
 
-
-
-if __name__ == '__main__':
-
-    edTestCasePluginExecuteRaddosev10 = EDTestCasePluginExecuteRaddosev10("EDTestCasePluginExecuteRaddosev10")
-    edTestCasePluginExecuteRaddosev10.execute()

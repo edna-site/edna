@@ -2,61 +2,62 @@
 <XSDataInputRdfit>
     <bestXmlFile>
         <path>
-            <value>1.xml</value>
+            <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/best.xml</value>
         </path>
     </bestXmlFile>
     <xdsHklFile>
         <path>
-            <value>xds_1.hkl</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_01.HKL</value>
         </path>
     </xdsHklFile>
     <xdsHklFile>
         <path>
-            <value>xds_2.hkl</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_03.HKL</value>
         </path>
     </xdsHklFile>
     <xdsHklFile>
         <path>
-            <value>xds_3.hkl</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_05.HKL</value>
         </path>
     </xdsHklFile>
     <xdsHklFile>
         <path>
-            <value>xds_4.hkl</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_07.HKL</value>
         </path>
     </xdsHklFile>
-    <dmin>
-        <value>1.000000e+00</value>
-    </dmin>
-    <defaultBeta>
-        <value>2.000000e+00</value>
-    </defaultBeta>
-    <defaultGama>
-        <value>3.000000e+00</value>
-    </defaultGama>
-    <bFactorMtvplotFile>
+    <xdsHklFile>
         <path>
-            <value>2</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_09.HKL</value>
         </path>
-    </bFactorMtvplotFile>
-    <bScaleIntensityMtvPlotFile>
+    </xdsHklFile>
+    <xdsHklFile>
         <path>
-            <value>3</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_11.HKL</value>
         </path>
-    </bScaleIntensityMtvPlotFile>
-    <bScaleIntensityGleFile>
+    </xdsHklFile>
+    <xdsHklFile>
         <path>
-            <value>4</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_13.HKL</value>
         </path>
-    </bScaleIntensityGleFile>
-    <resultsFile>
+    </xdsHklFile>
+    <xdsHklFile>
         <path>
-            <value>5</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_15.HKL</value>
         </path>
-    </resultsFile>
-    <resultsXmlFile>
+    </xdsHklFile>
+    <xdsHklFile>
         <path>
-            <value>6</value>
+            <value>${EDNA_TESTIMAGES}/rdfit_17.HKL</value>
         </path>
-    </resultsXmlFile>
+    </xdsHklFile>
+    <xdsHklFile>
+        <path>
+            <value>${EDNA_TESTIMAGES}/rdfit_19.HKL</value>
+        </path>
+    </xdsHklFile>
+    <xdsHklFile>
+        <path>
+            <value>${EDNA_TESTIMAGES}/rdfit_21.HKL</value>
+        </path>
+    </xdsHklFile>
 </XSDataInputRdfit>

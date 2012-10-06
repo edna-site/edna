@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Oct 4 03:20::35 2012 by EDGenerateDS.
+# Generated Sat Oct 6 06:51::46 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -379,7 +379,7 @@ class XSDataInputRdfit(XSDataInput):
 # end class XSDataInputRdfit
 
 class XSDataResultRdfit(XSDataResult):
-	def __init__(self, status=None, gama=None, beta=None):
+	def __init__(self, status=None, relative_radiation_sensitivity=None, dose_half=None, dose_half_th=None, gama=None, beta=None):
 		XSDataResult.__init__(self, status)
 	
 	
@@ -387,6 +387,12 @@ class XSDataResultRdfit(XSDataResult):
 		self._beta = beta
 		checkType("XSDataResultRdfit", "Constructor of XSDataResultRdfit", gama, "XSDataDouble")
 		self._gama = gama
+		checkType("XSDataResultRdfit", "Constructor of XSDataResultRdfit", dose_half_th, "XSDataDouble")
+		self._dose_half_th = dose_half_th
+		checkType("XSDataResultRdfit", "Constructor of XSDataResultRdfit", dose_half, "XSDataDouble")
+		self._dose_half = dose_half
+		checkType("XSDataResultRdfit", "Constructor of XSDataResultRdfit", relative_radiation_sensitivity, "XSDataDouble")
+		self._relative_radiation_sensitivity = relative_radiation_sensitivity
 	def getBeta(self): return self._beta
 	def setBeta(self, beta):
 		checkType("XSDataResultRdfit", "setBeta", beta, "XSDataDouble")
@@ -401,6 +407,27 @@ class XSDataResultRdfit(XSDataResult):
 	def delGama(self): self._gama = None
 	# Properties
 	gama = property(getGama, setGama, delGama, "Property for gama")
+	def getDose_half_th(self): return self._dose_half_th
+	def setDose_half_th(self, dose_half_th):
+		checkType("XSDataResultRdfit", "setDose_half_th", dose_half_th, "XSDataDouble")
+		self._dose_half_th = dose_half_th
+	def delDose_half_th(self): self._dose_half_th = None
+	# Properties
+	dose_half_th = property(getDose_half_th, setDose_half_th, delDose_half_th, "Property for dose_half_th")
+	def getDose_half(self): return self._dose_half
+	def setDose_half(self, dose_half):
+		checkType("XSDataResultRdfit", "setDose_half", dose_half, "XSDataDouble")
+		self._dose_half = dose_half
+	def delDose_half(self): self._dose_half = None
+	# Properties
+	dose_half = property(getDose_half, setDose_half, delDose_half, "Property for dose_half")
+	def getRelative_radiation_sensitivity(self): return self._relative_radiation_sensitivity
+	def setRelative_radiation_sensitivity(self, relative_radiation_sensitivity):
+		checkType("XSDataResultRdfit", "setRelative_radiation_sensitivity", relative_radiation_sensitivity, "XSDataDouble")
+		self._relative_radiation_sensitivity = relative_radiation_sensitivity
+	def delRelative_radiation_sensitivity(self): self._relative_radiation_sensitivity = None
+	# Properties
+	relative_radiation_sensitivity = property(getRelative_radiation_sensitivity, setRelative_radiation_sensitivity, delRelative_radiation_sensitivity, "Property for relative_radiation_sensitivity")
 	def export(self, outfile, level, name_='XSDataResultRdfit'):
 		showIndent(outfile, level)
 		outfile.write(unicode('<%s>\n' % name_))
@@ -413,6 +440,12 @@ class XSDataResultRdfit(XSDataResult):
 			self.beta.export(outfile, level, name_='beta')
 		if self._gama is not None:
 			self.gama.export(outfile, level, name_='gama')
+		if self._dose_half_th is not None:
+			self.dose_half_th.export(outfile, level, name_='dose_half_th')
+		if self._dose_half is not None:
+			self.dose_half.export(outfile, level, name_='dose_half')
+		if self._relative_radiation_sensitivity is not None:
+			self.relative_radiation_sensitivity.export(outfile, level, name_='relative_radiation_sensitivity')
 	def build(self, node_):
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
@@ -428,6 +461,21 @@ class XSDataResultRdfit(XSDataResult):
 			obj_ = XSDataDouble()
 			obj_.build(child_)
 			self.setGama(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dose_half_th':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDose_half_th(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'dose_half':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setDose_half(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'relative_radiation_sensitivity':
+			obj_ = XSDataDouble()
+			obj_.build(child_)
+			self.setRelative_radiation_sensitivity(obj_)
 		XSDataResult.buildChildren(self, child_, nodeName_)
 	#Method for marshalling an object
 	def marshal( self ):
