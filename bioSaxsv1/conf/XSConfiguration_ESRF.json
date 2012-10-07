@@ -1,4 +1,4 @@
-{
+{    "__extend__": [], 
     "EDPluginBioSaxsSmartMergev1_0": {}, 
     "EDPluginBioSaxsToSASv1_0": {
         "maxThreads": 5, 
@@ -9,7 +9,6 @@
     "EDPluginBioSaxsAzimutIntv1_0": {}, 
     "EDPluginBioSaxsReprocessv1_0": {}, 
     "EDPluginBioSaxsAveragev1_0": {}, 
-    "__extend__": null, 
     "EDPluginBioSaxsNormalizev1_0": {}, 
     "EDPluginBioSaxsNormalizev1_1": {
         "DummyPixelValue": -1
