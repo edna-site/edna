@@ -94,12 +94,8 @@ class EDPluginExecOutputHTMLv1_0(EDPluginExec):
     def configure(self):
         EDPluginExec.configure(self)
         EDVerbose.DEBUG("EDPluginExecOutputHTMLv1_0.configure")
-        pluginConfiguration = self.getConfiguration()
-
-        if pluginConfiguration != None:
-            self.strEDNA2html = EDConfiguration.getStringParamValue(pluginConfiguration, \
-                                                               EDPluginExecOutputHTMLv1_0.CONF_EDNA2html)
-        elif os.environ.has_key("EDNA2html"):
+        self.strEDNA2html = self.config.get(self.CONF_EDNA2html)
+        if self.strEDNA2html is None and os.environ.has_key("EDNA2html"):
             self.strEDNA2html = os.environ["EDNA2html"]
         else:
             self.strEDNA2html = EDFactoryPluginStatic.getModuleLocation("EDNA2html")
