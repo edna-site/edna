@@ -43,10 +43,9 @@ class EDPluginSTACv2_0(EDPluginExecProcessScript):
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
         self.DEBUG("EDPluginSTACv2_0.preProcess")
-        xsPluginItem = self.getConfiguration()
-        self.addListCommandPreExecution("export STACDIR=%s" % EDConfiguration.getStringParamValue(xsPluginItem, "STACDIR"))
+        self.addListCommandPreExecution("export STACDIR=%s" % self.config.get("STACDIR"))
         if (self.__pyStrBCMDEF is None):
-            self.__pyStrBCMDEF = EDConfiguration.getStringParamValue(xsPluginItem, "BCMDEF")
+            self.__pyStrBCMDEF = self.config.get("BCMDEF")
         self.DEBUG("EDPluginSTACv2_0.preProcess: BCMDEF set to %s" % self.__pyStrBCMDEF)
         self.addListCommandPreExecution("export BCMDEF=%s" % self.__pyStrBCMDEF)
         self.addListCommandPreExecution("export RUNDIR=%s" % self.getWorkingDirectory())

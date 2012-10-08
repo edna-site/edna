@@ -152,19 +152,18 @@ class EDPluginBioSaxsMetadatav1_0(EDPluginControl):
         else:
             header = EdfFile(self.strInputImage).GetHeader(0)
             for key in EDUtilsBioSaxs.TRANSLATION:
-                if eval("self.%s is None" % key):
+                if key in dir(self) and  self.__getattribute__(key) is None:
                     if EDUtilsBioSaxs.TRANSLATION[key] in header:
                         if key in EDUtilsBioSaxs.FLOAT_KEYS:
                             setattr(self, key, float(header[EDUtilsBioSaxs.TRANSLATION[key]]))
                         else:
                             setattr(self, key, header[EDUtilsBioSaxs.TRANSLATION[key]])
-
         if self.strOutputImage is not None:
             if os.path.abspath(self.strOutputImage) != os.path.abspath(self.strInputImage):
                 shutil.copy(self.strInputImage, self.strOutputImage)
             keyToUpgrade = []
             for key in EDUtilsBioSaxs.TRANSLATION:
-                if eval("self.%s is not None" % key):
+                if key in dir(self) and  self.__getattribute__(key) is None:
                     if EDUtilsBioSaxs.TRANSLATION[key] not in header:
                         keyToUpgrade.append(key)
                     else:
@@ -196,7 +195,7 @@ class EDPluginBioSaxsMetadatav1_0(EDPluginControl):
                 data = [edf.GetData(i) for i in xrange(edf.GetNumImages())]
                 del edf
                 for key in EDUtilsBioSaxs.TRANSLATION:
-                    if eval("self.%s is not None" % key):
+                    if key in dir(self) and  self.__getattribute__(key) is None:
                         header[EDUtilsBioSaxs.TRANSLATION[key]] = eval("self.%s" % key)
 
                 edf = EdfFile(self.strOutputImage)

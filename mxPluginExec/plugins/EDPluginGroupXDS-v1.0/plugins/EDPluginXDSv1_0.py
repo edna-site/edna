@@ -54,8 +54,8 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
 
     def configure(self):
         EDPluginExecProcessScript.configure(self)
-        self.__strPathToXGeoCorr = self.getStringConfigurationParameterValue("x-geo_corr")
-        self.__strPathToYGeoCorr = self.getStringConfigurationParameterValue("y-geo_corr")
+        self.__strPathToXGeoCorr = self.config.get("x-geo_corr", None)
+        self.__strPathToYGeoCorr = self.config.get("y-geo_corr", None)
 
 
 

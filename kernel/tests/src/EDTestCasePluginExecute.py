@@ -98,7 +98,7 @@ class EDTestCasePluginExecute(EDTestCasePlugin):
         else:
             EDVerbose.ERROR("Cannot load plugin: %s" % self.getPluginName())
             raise RuntimeError
-        self._edPlugin.setConfiguration(self.getPluginConfiguration())
+        self._edPlugin.setConfig(self.getPluginConfig())
 
 
     def testExecute(self):

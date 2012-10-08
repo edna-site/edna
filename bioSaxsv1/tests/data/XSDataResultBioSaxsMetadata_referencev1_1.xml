@@ -36,6 +36,9 @@
     <machineCurrent>
         <value>8.557550e+01</value>
     </machineCurrent>
+    <timeOfFrame>
+        <value>1.2736735960000000e+09</value>
+    </timeOfFrame>    
     <maskFile>
         <path>
             <value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value>
@@ -91,6 +94,10 @@
         <normalizationFactor>
             <value>1.000000e+00</value>
         </normalizationFactor>
+        <timeOfFrame>
+        	<value>1.2736735960000000e+09</value>
+    	</timeOfFrame>    
+        
     </experimentSetup>
     <outputImage>
         <path>

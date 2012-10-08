@@ -48,6 +48,7 @@ from EDUtilsTest           import EDUtilsTest
 from EDUtilsFile           import EDUtilsFile
 from EDConfigurationStatic import EDConfigurationStatic, EDConfiguration
 from EDFactoryPlugin       import EDFactoryPlugin
+from EDDecorator           import deprecated
 
 iMAX_DOWNLOAD_TIME = 60
 
@@ -69,7 +70,7 @@ class EDTestCasePlugin(EDTestCase):
         self._strPluginTestsDataHome = EDUtilsTest.getPluginTestDataDirectory(self.getClassName())
         self._listRequiredConfigurationPluginNames = []
         self._strConfigurationFile = None
-        self._oldConfig = None
+
 
     def preProcess(self):
         # Check if the plugin to be tested requires configuration
@@ -82,27 +83,40 @@ class EDTestCasePlugin(EDTestCase):
             self._listRequiredConfigurationPluginNames.append(self.getPluginName())
         # Check if the required plugin parameters are available
         for strPluginName in self._listRequiredConfigurationPluginNames:
-            if self.getPluginConfiguration(strPluginName) is None:
+            if self.getPluginConfig(strPluginName) is None:
                 EDVerbose.DEBUG("EDTestCasePlugin.preProcess: plugin configuration NOT found for plugin %s" % strPluginName)
                 self.setReasonForNotBeingExectuted("Missing configuration for %s" % strPluginName)
             else:
                 EDVerbose.DEBUG("EDTestCasePlugin.preProcess: plugin configuration found for plugin %s" % strPluginName)
 
-    def postProcess(self):
-        EDTestCase.postProcess(self)
-        EDConfigurationStatic.setXSConfigurationItem(self._oldConfig)
 
-    def getPluginConfiguration(self, _strPluginName=None):
+    def getPluginConfig(self, _strPluginName=None):
         # Load the configuration file if provided
+        dictConfig = None
         if _strPluginName is None:
             strPluginName = self.getPluginName()
         else:
             strPluginName = _strPluginName
-        self._oldConfig = EDConfigurationStatic.getXSConfigurationItem(strPluginName)
         if self._strConfigurationFile is not None:
             edConfig = EDConfiguration(self._strConfigurationFile)
-            EDConfigurationStatic.setXSConfigurationItem(edConfig.getXSConfigurationItem(strPluginName))
-        xsConfiguration = EDConfigurationStatic.getXSConfigurationItem(strPluginName)
+            dictConfig = edConfig.get(strPluginName)
+        else:
+            dictConfig = EDConfigurationStatic.loadPluginConfig(strPluginName)
+        return dictConfig
+
+    @deprecated
+    def getPluginConfiguration(self, _strPluginName=None):
+        # Load the configuration file if provided
+        xsConfiguration = None
+        if _strPluginName is None:
+            strPluginName = self.getPluginName()
+        else:
+            strPluginName = _strPluginName
+        if self._strConfigurationFile is not None:
+            edConfig = EDConfiguration(self._strConfigurationFile)
+            xsConfiguration = edConfig.getXSConfigurationItem(strPluginName)
+        else:
+            xsConfiguration = EDConfigurationStatic.getXSConfigurationItem(strPluginName)
         return xsConfiguration
 
 

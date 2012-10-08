@@ -1,5 +1,5 @@
 {
-    "__extend__": null, 
+    "__extend__": [], 
     "EDPluginBioSaxsAzimutIntv1_0": {}, 
     "EDPluginBioSaxsReprocessv1_0": {}, 
     "EDPluginBioSaxsNormalizev1_0": {}, 

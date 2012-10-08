@@ -174,17 +174,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         strScriptExecutable = self.getScriptExecutable()
         self.DEBUG("EDPluginBestv1_2.configure: Script Executable: " + strScriptExecutable)
         strBestScriptHome = EDUtilsPath.getFolderName(strScriptExecutable)
-        strBestHome = None
-
-        pluginConfiguration = self.getConfiguration()
-
-        if(pluginConfiguration == None):
-            strBestHome = strBestScriptHome
-        else:
-            strBestHome = EDConfiguration.getStringParamValue(pluginConfiguration, self.__strCONF_BEST_HOME_LABEL)
-            if(strBestHome == None):
-                strBestHome = strBestScriptHome
-
+        strBestHome = self.config.get(self.__strCONF_BEST_HOME_LABEL, strBestScriptHome)
         self.setBestHome(strBestHome)
         self.DEBUG("EDPluginBestv1_2.configure: Best Home: " + strBestHome)
         self.setCommandBestHome("export besthome=" + self.getBestHome())

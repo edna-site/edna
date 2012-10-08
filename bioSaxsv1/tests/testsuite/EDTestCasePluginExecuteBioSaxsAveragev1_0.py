@@ -125,7 +125,7 @@ class EDTestCasePluginExecuteBioSaxsAveragev1_0(EDTestCasePluginExecute):
         keysObt = headerObt.keys()
         keysRef.sort()
         keysObt.sort()
-        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation" ]:
+        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation", "History-1", "History-1~1" ]:
             if key in keysObt: keysObt.remove(key)
             if key in keysRef: keysRef.remove(key)
         EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary for Corrected Images")

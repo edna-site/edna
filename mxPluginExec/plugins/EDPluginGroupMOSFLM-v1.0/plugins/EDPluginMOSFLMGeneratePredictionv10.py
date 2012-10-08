@@ -74,9 +74,6 @@ class EDPluginMOSFLMGeneratePredictionv10(EDPluginMOSFLMv10):
     def configure(self):
         EDPluginMOSFLMv10.configure(self)
         self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            self.DEBUG("EDPluginMOSFLMGeneratePredictionv10.configure: xsPluginItem is None")
         self.createPredictionImageFileName()
 
 

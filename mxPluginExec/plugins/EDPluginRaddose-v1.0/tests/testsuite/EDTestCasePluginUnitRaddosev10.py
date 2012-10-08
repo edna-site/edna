@@ -35,6 +35,7 @@ import os
 
 from EDAssert                        import EDAssert
 from EDTestCasePluginUnit            import EDTestCasePluginUnit
+from EDConfiguration                 import EDConfiguration
 
 
 class EDTestCasePluginUnitRaddosev10(EDTestCasePluginUnit):
@@ -57,9 +58,9 @@ class EDTestCasePluginUnitRaddosev10(EDTestCasePluginUnit):
 
     def testConfigureOK(self):
         edPluginRaddose = self.createPlugin()
-        edStringConfigurationFile = os.path.join(self.strDataPath, "XSConfiguration.xml")
-        xsPluginItemGood01 = self.getPluginConfiguration(edStringConfigurationFile)
-        edPluginRaddose.setConfiguration(xsPluginItemGood01)
+        edConfigurationGood01 = EDConfiguration(os.path.join(self.strDataPath, "XSConfiguration.xml"))
+        dictItemGood01 = edConfigurationGood01.get(self.getPluginName())
+        edPluginRaddose.setConfig(dictItemGood01, _bLocal = True)
         edPluginRaddose.setScriptExecutable("cat")
         edPluginRaddose.configure()
         EDAssert.equal("/bin/bash", edPluginRaddose.getScriptShell())

@@ -181,7 +181,10 @@ class EDAssert:
                             else:
                                 EDVerbose.DEBUG("Checking for similarity on %i th word: obtained %.4f%% >= %.4f%%" % (i, fSimilarity * 100.0, _fStrSimilar * 100.0))
                             continue
-                        if (2 * abs(fRefValue - fObtValue) / (fObtValue + fRefValue) > _fRelError) and abs(fRefValue - fObtValue) > _fAbsError:
+                        if  (fObtValue != fRefValue) and \
+                            (2 * abs(fRefValue - fObtValue) / (fObtValue + fRefValue) > _fRelError) and \
+                            abs(fRefValue - fObtValue) > _fAbsError:
+
                             ERROR_ASSERT_MESSAGE += "\nMismatch on word %i between ref: %s, and obt: %s." % (i, fRefValue, fObtValue)
                             bAlmostEqual = False
                             break

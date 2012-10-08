@@ -115,7 +115,7 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_0(EDTestCasePluginExecute):
             elif oneline.startswith("factor"):referenceData += oneLine
             elif oneline.startswith("constant"):referenceData += oneLine
 
-        EDAssert.strAlmostEqual(referenceData, outputData, _strComment="LogFiles are the same", _fRelError=0.1, _fAbsError=0.1)
+        EDAssert.strAlmostEqual(referenceData, outputData, _strComment="LogFiles are the same", _fAbsError=0.1)
 
 
 ################################################################################
@@ -123,19 +123,23 @@ class EDTestCasePluginExecuteBioSaxsNormalizev1_0(EDTestCasePluginExecute):
 ################################################################################
         edfRef = EdfFile.EdfFile(xsDataResultObtained.normalizedImage.getPath().value)
         edfObt = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsNormalized.edf"))
-        headerRef = edfRef.GetHeader(0)
-        headerObt = edfObt.GetHeader(0)
-        keysRef = headerRef.keys()
-        keysObt = headerObt.keys()
-        keysRef.sort()
-        keysObt.sort()
-        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation" ]:
-            if key in keysObt: keysObt.remove(key)
-            if key in keysRef: keysRef.remove(key)
-        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dict")
-        for key in keysRef:
-            if not key.startswith("History"):
-                EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value %s are the same" % key, _strExcluded="bioSaxs")
+
+        ########################################################################
+        # Deprected plugin => deprected test
+        ########################################################################
+#        headerRef = edfRef.GetHeader(0)
+#        headerObt = edfObt.GetHeader(0)
+#        keysRef = headerRef.keys()
+#        keysObt = headerObt.keys()
+#        keysRef.sort()
+#        keysObt.sort()
+#        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation", "time_of_day" ]:
+#            if key in keysObt: keysObt.remove(key)
+#            if key in keysRef: keysRef.remove(key)
+#        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dict")
+#        for key in keysRef:
+#            if not key.startswith("History"):
+#                EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value %s are the same" % key, _strExcluded="bioSaxs")
 
 
 ################################################################################

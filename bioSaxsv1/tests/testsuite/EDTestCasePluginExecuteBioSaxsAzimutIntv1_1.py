@@ -33,8 +33,8 @@ from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
-
-
+from EDUtilsFile import EDUtilsFile
+from EDUtilsPath import EDUtilsPath
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
 EDFactoryPluginStatic.loadModule("EDInstallSpecClient")
 EDFactoryPluginStatic.loadModule("EDInstallEdfFile")
@@ -112,8 +112,10 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_1(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = os.linesep.join([i.strip() for i in open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb") if "RasterOrientation" not in i])
-        referenceData = os.linesep.join([i.strip() for i in open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_1.dat"), "rb") if "RasterOrientation" not in i])
+        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read().split(os.linesep)
+        referenceData = EDUtilsFile.readFileAndParseVariables(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_1.dat"), EDUtilsPath.getDictOfPaths()).split(os.linesep)
+        outputData = os.linesep.join([i for i in outputData if not (i.startswith("# History") or i.startswith("# Raster"))])
+        referenceData = os.linesep.join([i for i in referenceData if not (i.startswith("# History") or i.startswith("# Raster")) ])
 
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")
 
@@ -148,7 +150,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_1(EDTestCasePluginExecute):
         keysObt = headerObt.keys()
         keysRef.sort()
         keysObt.sort()
-        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation" ]:
+        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation", "History-1", "History-1~1", "History-2" ]:
             if key in keysObt: keysObt.remove(key)
             if key in keysRef: keysRef.remove(key)
         EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary for Integrated Images")

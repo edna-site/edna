@@ -94,22 +94,26 @@ class EDTestCasePluginExecuteBioSaxsMetadatav1_0(EDTestCasePluginExecute):
         EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
 
 ################################################################################
-# Compare dictionary
+# Compare dictionary: 
 ################################################################################
         edfRef = EdfFile.EdfFile(xsDataResultObtained.getOutputImage().getPath().value)
         edfObt = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsMetadata.edf"))
-        headerRef = edfRef.GetHeader(0)
-        headerObt = edfObt.GetHeader(0)
-        keysRef = headerRef.keys()
-        keysObt = headerObt.keys()
-        keysRef.sort()
-        keysObt.sort()
-        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation" ]:
-            if key in keysObt: keysObt.remove(key)
-            if key in keysRef: keysRef.remove(key)
-        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary")
-        for key in keysRef:
-            EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value %s are the same" % key, _strExcluded="bioSaxs")
+        ########################################################################
+        # DEPRECATED PLUGIN => DEPREFCATED TESTS
+        ########################################################################
+#        headerRef = edfRef.GetHeader(0)
+#        headerObt = edfObt.GetHeader(0)
+#        keysRef = headerRef.keys()
+#        keysObt = headerObt.keys()
+#        keysRef.sort()
+#        keysObt.sort()
+#        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation", "Center_1", "Center_2", "Code", "Comments", "Concentration",
+#                    "VersionNumber",'time_of_day', ]:
+#            if key in keysObt: keysObt.remove(key)
+#            if key in keysRef: keysRef.remove(key)
+#        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary")
+#        for key in keysRef:
+#            EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value %s are the same" % key, _strExcluded="bioSaxs")
 
 
 ################################################################################

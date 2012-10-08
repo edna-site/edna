@@ -84,11 +84,8 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
         self.setRequireCCP4(True)
         self.setScriptCommandline(" DNA " + self.getScriptBaseName() + "_dnaTables.xml")
         # Check for reversephi configuration option
-        strReversephi = self.getStringConfigurationParameterValue("reversephi")
-        if  strReversephi is not None:
-            if strReversephi.lower() == "true":
-                self.bReversephi = True
-        self.strRaster = self.getStringConfigurationParameterValue("raster")
+        self.bReversephi = self.config.get("reversephi")
+        self.strRaster = self.config.get("raster")
 
 
     def checkParameters(self):
