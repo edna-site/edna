@@ -155,7 +155,7 @@ class EDPlugin(EDAction):
             strErrorMessage = "Timeout when waiting for %s to terminate." % self.getClassName()
             self.addErrorMessage(strErrorMessage)
 
-#    @deprecated
+    @deprecated
     def setConfiguration(self, _xsPluginItem):
         """
         Receives a Plugin Configuration as XSPluginItem or python dict from the application.
@@ -168,6 +168,7 @@ class EDPlugin(EDAction):
             self.__edConfiguration.setXSConfigurationItem(_xsPluginItem)
 
 
+    @deprecated
     def getConfiguration(self):
         """
         Gets the Plugin Configuration as an XSPluginItem
@@ -176,6 +177,7 @@ class EDPlugin(EDAction):
         return self.__edConfiguration.getXSConfigurationItem(self.getPluginName())
     configuration = property(getConfiguration, setConfiguration)
 
+
     def getConfig(self):
         """
         Gets the Plugin Configuration as a dictionary
@@ -183,12 +185,17 @@ class EDPlugin(EDAction):
         self.DEBUG("EDPlugin.getConfig")
         return self.__edConfiguration.get(self.getPluginName(), {})
 
-    def setConfig(self, _dict):
+    def setConfig(self, _dict, _bLocal = False):
         """
         Receives a dictionary (Plugin Configuration) from the application.
         """
         self.DEBUG("EDPlugin.setConfiguration")
-        self.__edConfiguration[self.getPluginName()] = _dict
+        if _bLocal:
+            self.__edConfiguration = EDConfiguration()
+        if _dict is not None:
+            self.__edConfiguration[self.getPluginName()] = _dict
+        else:
+            self.__edConfiguration[self.getPluginName()] = {}
     config = property(getConfig, setConfig)
 
 
