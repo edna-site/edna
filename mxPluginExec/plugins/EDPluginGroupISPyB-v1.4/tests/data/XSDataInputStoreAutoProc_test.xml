@@ -3,12 +3,12 @@
 	<AutoProcContainer>
 		<AutoProc>
 			<spaceGroup> P 2 3 </spaceGroup>
-			<refinedCell_a>87.6</refinedCell_a>
-			<refinedCell_b>87.6</refinedCell_b>
-			<refinedCell_c>87.6</refinedCell_c>
-			<refinedCell_alpha>90.0</refinedCell_alpha>
-			<refinedCell_beta>90.0</refinedCell_beta>
-			<refinedCell_gamma>90.0</refinedCell_gamma>
+			<refinedCell_a>81</refinedCell_a>
+			<refinedCell_b>82</refinedCell_b>
+			<refinedCell_c>83</refinedCell_c>
+			<refinedCell_alpha>91.0</refinedCell_alpha>
+			<refinedCell_beta>92.0</refinedCell_beta>
+			<refinedCell_gamma>93.0</refinedCell_gamma>
 		</AutoProc>
 		<AutoProcScalingContainer>
 			<AutoProcScaling>
@@ -17,7 +17,8 @@
 	
 			<AutoProcScalingStatistics>
 				<scalingStatisticsType>overall</scalingStatisticsType>
-				<meanIOverSigI>9.73</meanIOverSigI>
+				<comments>A test comment</comments>
+				<meanIOverSigI>1.73</meanIOverSigI>
 				<completeness>98.0</completeness>
 				<multiplicity>6.96</multiplicity>
 				<resolutionLimitLow>60.000</resolutionLimitLow>
@@ -25,6 +26,16 @@
 				<nTotalObservations>24973</nTotalObservations>
 				<rMerge>21.8</rMerge>
 				<anomalous>1</anomalous>
+				<rmeasWithinIplusIminus>10</rmeasWithinIplusIminus>
+				<rmeasAllIplusIminus>11</rmeasAllIplusIminus>
+				<rpimWithinIplusIminus>12</rpimWithinIplusIminus>
+				<rpimAllIplusIminus>13</rpimAllIplusIminus>
+				<fractionalPartialBias>14</fractionalPartialBias>
+				<ntotalUniqueObservations>15</ntotalUniqueObservations>
+				<anomalousCompleteness>16</anomalousCompleteness>
+				<anomalousMultiplicity>17</anomalousMultiplicity>
+				<recordTimeStamp>2011-04-20 11:36:46</recordTimeStamp>
+				<ccHalf>18</ccHalf>
 			</AutoProcScalingStatistics>
 	
 			<AutoProcScalingStatistics>
@@ -37,6 +48,16 @@
 				<nTotalObservations>992</nTotalObservations>
 				<rMerge>3.7</rMerge>
 				<anomalous>1</anomalous>
+				<rmeasWithinIplusIminus>10</rmeasWithinIplusIminus>
+				<rmeasAllIplusIminus>11</rmeasAllIplusIminus>
+				<rpimWithinIplusIminus>12</rpimWithinIplusIminus>
+				<rpimAllIplusIminus>13</rpimAllIplusIminus>
+				<fractionalPartialBias>14</fractionalPartialBias>
+				<ntotalUniqueObservations>15</ntotalUniqueObservations>
+				<anomalousCompleteness>16</anomalousCompleteness>
+				<anomalousMultiplicity>17</anomalousMultiplicity>
+				<recordTimeStamp>2011-04-20 11:36:46</recordTimeStamp>
+				<ccHalf>18</ccHalf>
 			</AutoProcScalingStatistics>
 	
 			<AutoProcScalingStatistics>
@@ -49,6 +70,16 @@
 				<nTotalObservations>4023</nTotalObservations>
 				<rMerge>67.7</rMerge>
 				<anomalous>1</anomalous>
+				<rmeasWithinIplusIminus>10</rmeasWithinIplusIminus>
+				<rmeasAllIplusIminus>11</rmeasAllIplusIminus>
+				<rpimWithinIplusIminus>12</rpimWithinIplusIminus>
+				<rpimAllIplusIminus>13</rpimAllIplusIminus>
+				<fractionalPartialBias>14</fractionalPartialBias>
+				<ntotalUniqueObservations>15</ntotalUniqueObservations>
+				<anomalousCompleteness>16</anomalousCompleteness>
+				<anomalousMultiplicity>17</anomalousMultiplicity>
+				<recordTimeStamp>2011-04-20 11:36:46</recordTimeStamp>
+				<ccHalf>18</ccHalf>
 			</AutoProcScalingStatistics>
 	
 			<AutoProcIntegrationContainer>
@@ -57,18 +88,24 @@
 				</Image>
 	
 				<AutoProcIntegration>
-					<cell_a>87.6</cell_a>
-					<cell_b>87.6</cell_b>
-					<cell_c>87.6</cell_c>
-					<cell_alpha>90.0</cell_alpha>
-					<cell_beta>90.0</cell_beta>
-					<cell_gamma>90.0</cell_gamma>
-					<StartImageNumber>1</StartImageNumber>
-					<EndImageNumber>40</EndImageNumber>
-					<RefinedDetectorDistance>399.763550</RefinedDetectorDistance>
-					<RefinedXbeam>1542.950195</RefinedXbeam>
-					<RefinedYbeam>1504.663696</RefinedYbeam>
+					<cell_a>85</cell_a>
+					<cell_b>86</cell_b>
+					<cell_c>87</cell_c>
+					<cell_alpha>98.0</cell_alpha>
+					<cell_beta>99.0</cell_beta>
+					<cell_gamma>100.0</cell_gamma>
+					<startImageNumber>1</startImageNumber>
+					<endImageNumber>40</endImageNumber>
+					<refinedDetectorDistance>399.763550</refinedDetectorDistance>
+					<refinedXbeam>1542.950195</refinedXbeam>
+					<refinedYbeam>1504.663696</refinedYbeam>
 					<anomalous>1</anomalous>
+					<rotationAxisX>10</rotationAxisX>
+					<rotationAxisY>11</rotationAxisY>
+					<rotationAxisZ>12</rotationAxisZ>
+					<beamVectorX>13</beamVectorX>
+					<beamVectorY>14</beamVectorY>
+					<beamVectorZ>15</beamVectorZ>
 				</AutoProcIntegration>
 			</AutoProcIntegrationContainer>
 		</AutoProcScalingContainer>
@@ -81,6 +118,7 @@
 				<processingMessage>Success</processingMessage>
 				<processingStartTime>Wed Apr 20 11:28:43 2011</processingStartTime>
 				<processingEndTime>Wed Apr 20 11:32:02 2011</processingEndTime>
+				<processingEnvironment>A test environment</processingEnvironment>
 			</AutoProcProgram>
 	
 			<AutoProcProgramAttachment>

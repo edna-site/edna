@@ -1,4 +1,6 @@
 {
+    "__extend__": [], 
+
     "EDPluginBioSaxsSmartMergev1_4": {
         "writeXMLInputOutput": 0
     }, 
@@ -18,7 +20,6 @@
     "EDPluginBioSaxsHPLCv1_0": {
         "writeXMLInputOutput": 0
     }, 
-    "__extend__": null, 
     "EDPluginBioSaxsMetadatav1_1": {
         "writeXMLInputOutput": 0
     }, 

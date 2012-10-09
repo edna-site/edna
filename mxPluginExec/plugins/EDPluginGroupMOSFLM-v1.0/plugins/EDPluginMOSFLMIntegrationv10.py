@@ -81,14 +81,6 @@ class EDPluginMOSFLMIntegrationv10(EDPluginMOSFLMv10):
             self.setDataOutput(xsDataMOSFLMOutputIntegration)
 
 
-    def configure(self):
-        EDPluginMOSFLMv10.configure(self)
-        self.DEBUG("EDPluginMOSFLMIntegrationv10.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            self.DEBUG("EDPluginMOSFLMIntegrationv10.configure: xsPluginItem is None")
-
-
     def checkParameters(self):
         """
         Checks the mandatory parameters for MOSLFM indexing

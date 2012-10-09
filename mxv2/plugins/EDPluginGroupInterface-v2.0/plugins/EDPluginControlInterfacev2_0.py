@@ -129,21 +129,14 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         """
         EDPluginControl.configure(self)
         EDVerbose.DEBUG("EDPluginControlInterfacev2_0.configure")
-        pluginConfiguration = self.getConfiguration()
-        strUseISPyBPlugin = "false"
-
-        if (pluginConfiguration is None):
-            EDVerbose.DEBUG("No plugin configuration found for EDPluginControlInterfacev2_0.")
-        else:
-            if (self.getControlledPluginName("subWedgeAssemblePlugin") is not None):
-                self.strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
-            if (self.getControlledPluginName("characterisationPlugin") is not None):
-                self.strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
-            if (self.getControlledPluginName("ispybPlugin") is not None):
-                self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
-            strUseISPyBPlugin = EDConfiguration.getStringParamValue(pluginConfiguration, "useISPyBPlugin")
-
-        if (strUseISPyBPlugin.lower() != "true"):
+        if (self.getControlledPluginName("subWedgeAssemblePlugin") is not None):
+            self.strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
+        if (self.getControlledPluginName("characterisationPlugin") is not None):
+            self.strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
+        if (self.getControlledPluginName("ispybPlugin") is not None):
+            self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
+        bUseISPyBPlugin = self.config.get("useISPyBPlugin", False)
+        if not bUseISPyBPlugin:
             self.strEDPluginControlISPyBName = None
 
 
@@ -283,7 +276,7 @@ class EDPluginControlInterfacev2_0(EDPluginControl):
         if (self.edPluginControlISPyB is not None):
             # Execute the ISPyB control plugin
             xsDataInputControlISPyB = XSDataInputControlISPyB()
-            xsDataInputControlISPyB.setCharacterisationResult(self.edPluginControlCharacterisation.getDataOutput())
+            xsDataInputControlISPyB.setCharacterisationResult(self.edPluginControlCharacterisation.getDataOutput().getMxv1ResultCharacterisation())
             if (not self.iDataCollectionId is None):
                 xsDataInputControlISPyB.setDataCollectionId(XSDataInteger(self.iDataCollectionId))
             if (not self.strShortComments is None):

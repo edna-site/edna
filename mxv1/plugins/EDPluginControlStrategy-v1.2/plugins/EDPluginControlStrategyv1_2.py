@@ -250,20 +250,13 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
     def configure(self):
         EDPluginControl.configure(self)
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.configure")
-        pluginConfiguration = self.getConfiguration()
-
-        if(pluginConfiguration == None):
-            strWarningMessage = EDMessage.WARNING_NO_PLUGIN_CONFIGURATION_ITEM_FOUND_02 % ('EDPluginControlStrategyv1_2.configure', self.getPluginName())
+        strSymopHome = self.config.get(self._strCONF_SYMOP_HOME)
+        if strSymopHome is None:
+            strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlStrategyv1_2.configure', self._strCONF_SYMOP_HOME, self.getPluginName())
             EDVerbose.warning(strWarningMessage)
             self.addWarningMessage(strWarningMessage)
         else:
-            strSymopHome = self.getStringConfigurationParameterValue(self._strCONF_SYMOP_HOME)
-            if(strSymopHome == None):
-                strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlStrategyv1_2.configure', self._strCONF_SYMOP_HOME, self.getPluginName())
-                EDVerbose.warning(strWarningMessage)
-                self.addWarningMessage(strWarningMessage)
-            else:
-                self.setSymopHome(strSymopHome)
+            self.setSymopHome(strSymopHome)
 
 
     def process(self, _edObject=None):

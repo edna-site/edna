@@ -42,7 +42,6 @@ class EDTestCasePluginExecuteControlImageQualityIndicatorsv1_1_timeOut(EDTestCas
     def __init__(self, _edStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlImageQualityIndicatorsv1_1")
         self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
-        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputControlImageQualityIndicators_timeOut.xml"))
         self.setNoExpectedErrorMessages(1)
         self.setAcceptPluginFailure(True)

@@ -40,6 +40,7 @@ from EDUtilsFile                         import EDUtilsFile
 from EDTestCasePluginUnit                import EDTestCasePluginUnit
 from EDUtilsTest                         import EDUtilsTest
 from EDUtilsPath                         import EDUtilsPath
+from EDConfiguration                     import EDConfiguration
 
 
 class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
@@ -57,9 +58,9 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
 
     def testConfigureOK(self):
         edPluginBest = self.createPlugin()
-        pyStrConfigPath = os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml")
-        xsPluginItemGood01 = self.getPluginConfiguration(pyStrConfigPath)
-        edPluginBest.setConfiguration(xsPluginItemGood01)
+        edConfigurationGood01 = EDConfiguration(os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml"))
+        dictItemGood01 = edConfigurationGood01.get(self.getPluginName())
+        edPluginBest.setConfig(dictItemGood01, _bLocal = True)
         edPluginBest.setScriptExecutable("cat")
         edPluginBest.configure()
         EDAssert.equal("/bin/bash", edPluginBest.getScriptShell())
@@ -74,8 +75,9 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
 
     def testSetDataModelInput(self):
         edPluginBest = self.createPlugin()
-        xsPluginItemGood01 = self.getPluginConfiguration(os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml"))
-        edPluginBest.setConfiguration(xsPluginItemGood01)
+        edConfigurationGood01 = EDConfiguration(os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml"))
+        dictItemGood01 = edConfigurationGood01.get(self.getPluginName())
+        edPluginBest.setConfig(dictItemGood01, _bLocal = True)
         edPluginBest.setScriptExecutable("cat")
         edPluginBest.configure()
 
