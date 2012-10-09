@@ -364,8 +364,8 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
                 rpimWithinIplusIminus = fRpimWithinIplusIminus, \
                 rpimAllIplusIminus = fRpimAllIplusIminus, \
                 fractionalPartialBias = fFractionalPartialBias, \
-                ntotalObservations = iNtotalObservations, \
-                ntotalUniqueObservations = iNtotalUniqueObservations, \
+                nTotalObservations = iNtotalObservations, \
+                nTotalUniqueObservations = iNtotalUniqueObservations, \
                 meanIoverSigI = fMeanIoverSigI, \
                 completeness = fCompleteness, \
                 multiplicity = fMultiplicity, \
