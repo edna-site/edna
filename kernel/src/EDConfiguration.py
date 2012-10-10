@@ -196,18 +196,24 @@ class EDConfiguration(EDLogging):
                             break
         return strPathToProjectConfigurationFile
 
-    def loadPluginConfig(self, _strPluginName):
+    def loadPluginConfig(self, _strPluginName, default=None):
         """
         load the configuration for a given plugin and return it's configuration
 
         @param _strPluginName: name of the plugin
-        @return: configuration as a dict (or None)
+        @param default: optional default return value if plugin not loaded (e.g. {})
+        @return: configuration as a dict (or default value)
         """
-        strPathToProjectConfigurationFile = self.getPathToProjectConfigurationFile(_strPluginName)
-        if strPathToProjectConfigurationFile is not None:
-            self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=True)
-            if _strPluginName in self._dictPluginConfiguration:
-                return self._dictPluginConfiguration[_strPluginName]
+        dictPluginConfiguration = default
+        if _strPluginName in self._dictPluginConfiguration:
+            dictPluginConfiguration = self._dictPluginConfiguration[_strPluginName]
+        else:
+            strPathToProjectConfigurationFile = self.getPathToProjectConfigurationFile(_strPluginName)
+            if strPathToProjectConfigurationFile is not None:
+                self.addConfigurationFile(strPathToProjectConfigurationFile, _bReplace=True)
+                if _strPluginName in self._dictPluginConfiguration:
+                    dictPluginConfiguration = self._dictPluginConfiguration[_strPluginName]
+        return dictPluginConfiguration
 
 
     ############################################################################
@@ -215,7 +221,7 @@ class EDConfiguration(EDLogging):
     ############################################################################
 
     def get(self, _strPluginName, default=None):
-        return self._dictPluginConfiguration.get(_strPluginName, default)
+        return self.loadPluginConfig(_strPluginName, default)
 
     def __contains__(self, key):
         return (key in self._dictPluginConfiguration)
