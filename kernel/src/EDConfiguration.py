@@ -196,10 +196,20 @@ class EDConfiguration(EDLogging):
                             break
         return strPathToProjectConfigurationFile
 
-    def loadPluginConfig(self, _strPluginName, default=None):
-        """
-        load the configuration for a given plugin and return it's configuration
 
+    ############################################################################
+    # Dictionary like interface
+    ############################################################################
+
+    def get(self, _strPluginName, default=None):
+        """
+        Returns the configuration for a given plugin as a dictionary. 
+        
+        If the plugin configuration is not in the cache the methods
+        'getPathToProjectConfigurationFile' and 'addConfigurationFile'
+        are called for attempting to load the plugin configuration
+        from a file (lazy loading).
+        
         @param _strPluginName: name of the plugin
         @param default: optional default return value if plugin not loaded (e.g. {})
         @return: configuration as a dict (or default value)
@@ -214,14 +224,6 @@ class EDConfiguration(EDLogging):
                 if _strPluginName in self._dictPluginConfiguration:
                     dictPluginConfiguration = self._dictPluginConfiguration[_strPluginName]
         return dictPluginConfiguration
-
-
-    ############################################################################
-    # Dictionary like interface
-    ############################################################################
-
-    def get(self, _strPluginName, default=None):
-        return self.loadPluginConfig(_strPluginName, default)
 
     def __contains__(self, key):
         return (key in self._dictPluginConfiguration)
@@ -262,7 +264,7 @@ class EDConfiguration(EDLogging):
         if _strPluginName  in self._dictPluginConfiguration:
             config = self._dictPluginConfiguration[_strPluginName]
         else: # Try to load "project" configuration
-            config = self.loadPluginConfig(_strPluginName)
+            config = self.get(_strPluginName)
         if config is not None:
             return  XSPluginItem(name=_strPluginName,
                              XSParamList=XSParamList([XSParamItem(name=i, value=str(config[i])) for i in config]))
@@ -293,7 +295,7 @@ class EDConfiguration(EDLogging):
         if _strPluginName in self._dictPluginConfiguration:
             config = self._dictPluginConfiguration[_strPluginName]
         else: # Try to load "project" configuration
-            config = self.loadPluginConfig(_strPluginName)
+            config = self.get(_strPluginName)
         if (config is not None) and (_strConfigurationName in config):
             return str(config[_strConfigurationName])
 
