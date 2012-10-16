@@ -249,9 +249,6 @@ class EDPlugin(EDAction):
         """
         self.DEBUG("EDPlugin.configure : plugin name = %s, EDNA_SITE = %s" % (self.getPluginName(), EDUtilsPath.EDNA_SITE))
 
-        if self.__class__.__name__ not in self.__edConfiguration._dictPluginConfiguration:
-            self.__edConfiguration.loadPluginConfig(self.__class__.__name__)
-
         # set Timeout if different from default one
         if self.getTimeOut() == self.getDefaultTimeOut():
             # Try to get time out from plugin configuration
