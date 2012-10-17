@@ -101,15 +101,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def configure(self):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure")
-        xsPluginItem = self.getConfiguration()
-        if xsPluginItem == None:
-            self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: No plugin item defined.")
-        else:
-            self.strEDNAContactEmail = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginControlInterfaceToMXCuBEv1_3.EDNA_CONTACT_EMAIL)
-            self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: EDNAContactEmail = %s" % self.strEDNAContactEmail)
-            strEDNAEmailSender = EDConfiguration.getStringParamValue(xsPluginItem, self.EDNA_EMAIL_SENDER)
-            if strEDNAEmailSender:
-                self.strEDNAEmailSender = strEDNAEmailSender
+        strEDNAEmailSender = self.config.get(self.EDNA_EMAIL_SENDER, self.strEDNAEmailSender)
 
 
 
@@ -333,9 +325,10 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             if (_strDNAFileDirectoryPath is not None):
                 # Check if directory one level up is writeable
                 strDNAFileBaseDirectory = os.path.split(_strDNAFileDirectoryPath)[0]
-                if (os.access(strDNAFileBaseDirectory, os.W_OK)):
-                    self.DEBUG("Creating DNA files directory: %s" % _strDNAFileDirectoryPath)
-                    os.mkdir(_strDNAFileDirectoryPath)
+                if os.access(strDNAFileBaseDirectory, os.W_OK):
+                    if not os.path.exists(strDNAFileBaseDirectory):
+                        self.DEBUG("Creating DNA files directory: %s" % _strDNAFileDirectoryPath)
+                        os.mkdir(_strDNAFileDirectoryPath)
                     bSuccess = True
                 else:
                     self.warning("Cannot create DNA files directory: %s" % _strDNAFileDirectoryPath)
@@ -387,8 +380,11 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             if (_strPathToLogFileDirectory is not None):
                 strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
                 strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
-                EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
-                xsDataStringValue = XSDataString(strNewPredictionImagePath)
+                if os.access(strNewPredictionImagePath, os.W_OK):
+                    EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
+                    xsDataStringValue = XSDataString(strNewPredictionImagePath)
+                else:
+                    xsDataStringValue = XSDataString(strPredictionImageFileName)
             else:
                 xsDataStringValue = XSDataString(strPredictionImageFileName)
             xsDataKeyValuePair.setKey(xsDataStringKey)
@@ -404,7 +400,8 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             xsDataStringValue = None
             if (_strPathToLogFileDirectory is not None):
                 strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
-                EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
+                if not os.path.exists(strPathToBESTLogFile):
+                    EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
                 xsDataStringValue = XSDataString(strNewBestLogPath)
             else:
                 xsDataStringValue = XSDataString(strPathToBESTLogFile)
