@@ -101,7 +101,7 @@ class EDTestCasePlugin(EDTestCase):
             edConfig = EDConfiguration(self._strConfigurationFile)
             dictConfig = edConfig.get(strPluginName)
         else:
-            dictConfig = EDConfigurationStatic.loadPluginConfig(strPluginName)
+            dictConfig = EDConfigurationStatic.get(strPluginName)
         return dictConfig
 
     @deprecated
