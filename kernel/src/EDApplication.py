@@ -153,16 +153,17 @@ class EDApplication(object):
         if (not self.__bIsFailure):
             EDVerbose.DEBUG("EDApplication.PLUGIN_PARAM_LABEL: " + EDApplication.PLUGIN_PARAM_LABEL)
 
-            # Load the configuration file
-            if (os.path.exists(self.__strConfigurationFileName)):
-                EDVerbose.screen("Loading Configuration file: %s" % self.__strConfigurationFileName)
-                EDConfigurationStatic.addConfigurationFile(self.__strConfigurationFileName, _bReplace=True)
-                pyDictionary = {}
-                pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
-                if self.getDataInputFilePath() is not None:
-                    self.__strXMLData = EDUtilsFile.readFileAndParseVariables(self.getDataInputFilePath(), pyDictionary)
-            else:
-                EDVerbose.warning("Cannot find configuration file: %s" % self.__strConfigurationFileName)
+            if self.__strConfigurationFileName is not None:
+                # Load the configuration file
+                if (os.path.exists(self.__strConfigurationFileName)):
+                    EDVerbose.screen("Loading Configuration file: %s" % self.__strConfigurationFileName)
+                    EDConfigurationStatic.addConfigurationFile(self.__strConfigurationFileName, _bReplace=True)
+                else:
+                    EDVerbose.warning("Cannot find configuration file: %s" % self.__strConfigurationFileName)
+            pyDictionary = {}
+            pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
+            if self.getDataInputFilePath() is not None:
+                self.__strXMLData = EDUtilsFile.readFileAndParseVariables(self.getDataInputFilePath(), pyDictionary)
             # Create the application working directory    
             if(self.__strWorkingDir is None):
                 self.__strWorkingDir = self.__strApplicationInstanceName
