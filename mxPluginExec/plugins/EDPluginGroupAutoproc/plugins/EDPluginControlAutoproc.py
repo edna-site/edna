@@ -222,6 +222,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         status_data.status = 'starting'
         status_input.AutoProcStatus = status_data
 
+        self.autoproc_status.dataInput = status_input
         # get our autoproc status id
         self.autoproc_status.executeSynchronous()
 
