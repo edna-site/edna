@@ -660,7 +660,7 @@ def log_to_ispyb(integration_id, step, status):
     if integration_id is None:
         EDVerbose.ERROR('could not log to ispyb: no integration id')
         return
-    autoproc_status = self.loadPlugin('EDPluginISPyBStoreAutoProcStatusv1_4')
+    autoproc_status = edFactoryPlugin.loadPlugin('EDPluginISPyBStoreAutoProcStatusv1_4')
     status_input = XSDataInputStoreAutoProcStatus()
     status_input.autoProcIntegrationId = integration_id
     status_data = AutoProcStatus()
@@ -673,7 +673,7 @@ def log_to_ispyb(integration_id, step, status):
     autoproc_status.executeSynchronous()
 
 def create_integration_id(datacollect_id):
-    autoproc_status = self.loadPlugin('EDPluginISPyBStoreAutoProcStatusv1_4')
+    autoproc_status = edFactoryPlugin.loadPlugin('EDPluginISPyBStoreAutoProcStatusv1_4')
     status_input = XSDataInputStoreAutoProcStatus()
     status_input.dataCollectionId = datacollect_id
 
