@@ -680,7 +680,7 @@ def create_integration_id(datacollect_id):
     autoproc_status.dataInput = status_input
     # get our autoproc status id
     autoproc_status.executeSynchronous()
-    return autoproc_stats.autoProcIntegrationId
+    return autoproc_status.autoProcIntegrationId
 
 def _create_scaling_stats(xscale_stats, stats_type, lowres, anom):
     stats = AutoProcScalingStatistics()
