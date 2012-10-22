@@ -32,6 +32,7 @@ import os.path
 import time
 import sys
 import json
+import traceback
 
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
@@ -218,7 +219,8 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         try:
             self.integration_id = create_integration_id(self.dataInput.dataCollectionId)
-        except Exception:
+        except Exception, e:
+            EDVerbose.ERROR('could not get integration ID: \n{0}'.format(traceback.format_exc(e)))
             self.integration_id = None
         # wait for the first frame
         t0=time.time()
