@@ -218,7 +218,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
 
         try:
-            self.integration_id = create_integration_id(self.dataInput.dataCollectionId)
+            self.integration_id = create_integration_id(self.dataInput.data_collection_id.value)
         except Exception, e:
             EDVerbose.ERROR('could not get integration ID: \n{0}'.format(traceback.format_exc(e)))
             self.integration_id = None
