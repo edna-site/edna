@@ -655,7 +655,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         if self.store_autoproc.isFailure():
             self.ERROR('could not send results to ispyb')
 
-def log_to_ispyb(integration_id, step, status):
+def log_to_ispyb(integration_id, step, status, comments=""):
     # hack in the event we could not create an integration ID
     if integration_id is None:
         EDVerbose.ERROR('could not log to ispyb: no integration id')
@@ -666,6 +666,7 @@ def log_to_ispyb(integration_id, step, status):
     status_data = AutoProcStatus()
     status_data.step = step
     status_data.status = status
+    status_data.comments = comments
     status_input.AutoProcStatus = status_data
 
     autoproc_status.dataInput = status_input
@@ -676,6 +677,13 @@ def create_integration_id(datacollect_id):
     autoproc_status = edFactoryPlugin.loadPlugin('EDPluginISPyBStoreAutoProcStatusv1_4')
     status_input = XSDataInputStoreAutoProcStatus()
     status_input.dataCollectionId = datacollect_id
+
+    # needed even if we only want to get an integration ID?
+    status_data = AutoProcStatus()
+    status_data.step = "getting integration ID"
+    status_data.status = ""
+    status_data.comments = ""
+    status_input.AutoProcStatus = status_data
 
     autoproc_status.dataInput = status_input
     # get our autoproc status id
