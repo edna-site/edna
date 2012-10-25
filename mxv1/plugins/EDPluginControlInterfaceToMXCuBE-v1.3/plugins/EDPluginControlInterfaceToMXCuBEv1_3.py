@@ -101,15 +101,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def configure(self):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure")
-        xsPluginItem = self.getConfiguration()
-        if xsPluginItem == None:
-            self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: No plugin item defined.")
-        else:
-            self.strEDNAContactEmail = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginControlInterfaceToMXCuBEv1_3.EDNA_CONTACT_EMAIL)
-            self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: EDNAContactEmail = %s" % self.strEDNAContactEmail)
-            strEDNAEmailSender = EDConfiguration.getStringParamValue(xsPluginItem, self.EDNA_EMAIL_SENDER)
-            if strEDNAEmailSender:
-                self.strEDNAEmailSender = strEDNAEmailSender
+        strEDNAEmailSender = self.config.get(self.EDNA_EMAIL_SENDER, self.strEDNAEmailSender)
 
 
 
