@@ -32,6 +32,8 @@ import os.path
 import time
 import sys
 import json
+import traceback
+import shutil
 
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
@@ -92,6 +94,9 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.input_file, "No XDS input file")
 
+        # save the root path (where the initial xds.inp is) for later use
+        self.root_dir = os.path.abspath(os.path.dirname(self.dataInput.input_file.path.value))
+
         # at least check for the xds input file existence before
         # trying to start anything even if the first xds run does it
         # anyway
@@ -99,17 +104,24 @@ class EDPluginControlAutoproc(EDPluginControl):
             EDVerbose.ERROR('the specified input file does not exist')
             self.setFailure()
             return
+        else:
+            # copy it to our dir and modify our input
+            newpath = os.path.join(self.getWorkingDirectory(),
+                                   os.path.basename(self.dataInput.input_file.path.value))
+            shutil.copyfile(self.dataInput.input_file.path.value,
+                            newpath)
+            self.dataInput.input_file.path = XSDataString(newpath)
 
     def preProcess(self, _edObject = None):
         EDPluginControl.preProcess(self)
         self.DEBUG('EDPluginControlAutoproc.preProcess starting')
+        self.DEBUG('failure state is currently {0}'.format(self.isFailure()))
 
         data_in = self.dataInput
         xds_in = XSDataMinimalXdsIn()
         xds_in.input_file = data_in.input_file.path
 
-        self.log_file_path = os.path.join(os.path.abspath(os.path.dirname(data_in.input_file.path.value)),
-                                          'stats.json')
+        self.log_file_path = os.path.join(self.root_dir, 'stats.json')
         self.DEBUG('will log timing information to {0}'.format(self.log_file_path))
         self.stats = dict()
 
@@ -157,8 +169,11 @@ class EDPluginControlAutoproc(EDPluginControl):
         if not os.path.isabs(template):
             self.DEBUG('file template {0} is not absolute'.format(template))
             base_dir = os.path.abspath(os.path.dirname(data_in.input_file.path.value))
-            template = os.path.normpath(os.path.join(base_dir, template))
+            template = os.path.normpath(os.path.join(self.root_dir, template))
+            conf['NAME_TEMPLATE_OF_DATA_FRAMES=']=template
             self.DEBUG('file template fixed to {0}'.format(template))
+            self.DEBUG('dumping back the file to {0}'.format(data_in.input_file.path.value))
+            dump_xds_file(data_in.input_file.path.value, conf)
 
         first_image = _template_to_image(template, start_image)
 
