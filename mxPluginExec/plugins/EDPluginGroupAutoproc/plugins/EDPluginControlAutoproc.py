@@ -103,7 +103,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         if not os.path.isfile(self.dataInput.input_file.path.value):
             EDVerbose.ERROR('the specified input file does not exist')
             self.setFailure()
-            return
+            # setFailure does not prevent preProcess/process/etc from running
+            raise Exception('EDNA FAILURE')
         else:
             # copy it to our dir and modify our input
             newpath = os.path.join(self.getWorkingDirectory(),
