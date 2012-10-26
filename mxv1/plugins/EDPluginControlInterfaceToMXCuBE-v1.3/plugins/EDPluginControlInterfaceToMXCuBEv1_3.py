@@ -36,6 +36,7 @@ from EDUtilsPath import EDUtilsPath
 
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataFile
+from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataDictionary
 from XSDataCommon import XSDataKeyValuePair
 
@@ -51,6 +52,8 @@ from XSDataSimpleHTMLPagev1_0 import XSDataInputSimpleHTMLPage
 EDFactoryPluginStatic.loadModule("XSDataInterfacev1_2")
 from XSDataInterfacev1_2 import XSDataInputInterface
 
+EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
+from XSDataISPyBv1_4 import XSDataInputRetrieveDataCollection
 
 class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     """
@@ -81,10 +84,13 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.edPluginExecOutputHTML = None
         self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
         self.edPluginExecSimpleHTML = None
+        self.strPluginISPyBRetrieveDataCollection = "EDPluginISPyBRetrieveDataCollectionv1_4"
+        self.edPluginISPyBRetrieveDataCollection= None
         self.strEDNAContactEmail = None
         self.strEDNAEmailSender = "edna-support@esrf.fr"
         self.tStart = None
         self.tStop = None
+        self.fFluxThreshold = 1e3
 
 
     def checkParameters(self):
@@ -101,7 +107,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def configure(self):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure")
-        strEDNAEmailSender = self.config.get(self.EDNA_EMAIL_SENDER, self.strEDNAEmailSender)
+        self.strEDNAEmailSender = self.config.get(self.EDNA_EMAIL_SENDER, self.strEDNAEmailSender)
 
 
 
@@ -114,27 +120,36 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
 
         self.tStart = time.time()
 
-        xsDataInputMXCuBE = self.getDataInput()
-        xsDataInputInterface = XSDataInputInterface()
-        self.edPluginControlInterface = self.loadPlugin(self.strPluginControlInterface)
-        for xsDataSetMXCuBE in xsDataInputMXCuBE.getDataSet():
-            for xsDataFile in xsDataSetMXCuBE.getImageFile():
-                xsDataInputInterface.addImagePath(xsDataFile)
-
-        xsDataInputInterface.setExperimentalCondition(xsDataInputMXCuBE.getExperimentalCondition())
-        xsDataInputInterface.setDiffractionPlan(xsDataInputMXCuBE.getDiffractionPlan())
-        xsDataInputInterface.setSample(xsDataInputMXCuBE.getSample())
-        xsDataInputInterface.setDataCollectionId(xsDataInputMXCuBE.getDataCollectionId())
-        self.edPluginControlInterface.setDataInput(xsDataInputInterface)
-
         #self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
         self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
+        self.edPluginISPyBRetrieveDataCollection = self.loadPlugin(self.strPluginISPyBRetrieveDataCollection, \
+                                                                   "ISPyBRetrieveDataCollection")
         self.xsDataResultMXCuBE = XSDataResultMXCuBE()
+
 
 
     def process(self, _edPlugin=None):
         EDPluginControl.process(self, _edPlugin)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.process...")
+
+        xsDataInputMXCuBE = self.getDataInput()
+        xsDataInputInterface = XSDataInputInterface()
+        self.edPluginControlInterface = self.loadPlugin(self.strPluginControlInterface)
+        xsDataFirstImage = None
+        for xsDataSetMXCuBE in xsDataInputMXCuBE.getDataSet():
+            for xsDataFile in xsDataSetMXCuBE.getImageFile():
+                xsDataInputInterface.addImagePath(xsDataFile)
+                if xsDataFirstImage is None:
+                    xsDataFirstImage = xsDataFile
+        
+        xsDataExperimentalCondition = self.getFluxFromISPyB(xsDataFirstImage, \
+                                                            xsDataInputMXCuBE.getExperimentalCondition())
+        
+        xsDataInputInterface.setExperimentalCondition(xsDataExperimentalCondition)
+        xsDataInputInterface.setDiffractionPlan(xsDataInputMXCuBE.getDiffractionPlan())
+        xsDataInputInterface.setSample(xsDataInputMXCuBE.getSample())
+        xsDataInputInterface.setDataCollectionId(xsDataInputMXCuBE.getDataCollectionId())
+        self.edPluginControlInterface.setDataInput(xsDataInputInterface)
 
         if self.edPluginControlInterface is not None:
             self.connectProcess(self.edPluginControlInterface.executeSynchronous)
@@ -439,6 +454,48 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
         strMessage = "Characterisation FAILURE!"
         self.sendEmail(strSubject, strMessage)
+
+
+    def getFluxFromISPyB(self, _xsDataFirstImage, _xsDataExperimentalCondition):
+        """
+        This method retrieves the flux from ISPyB
+        """
+        xsDataExperimentalCondition = None
+        if (_xsDataExperimentalCondition is not None):
+            xsDataExperimentalCondition = _xsDataExperimentalCondition.copy()
+            bFoundValidFlux = False
+            xsDataBeam = xsDataExperimentalCondition.getBeam()
+            if xsDataBeam is None:
+                xsDataBeam = XSDataBeam()    
+            xsDataBeamFlux = xsDataBeam.getFlux()
+            if xsDataBeamFlux is not None:
+                fFluxMXCuBE = xsDataBeamFlux.getValue()
+                self.screen("MXCuBE reports flux to be: %g photons/sec" % fFluxMXCuBE)
+                if fFluxMXCuBE > self.fFluxThreshold:
+                    bFoundValidFlux = True
+                else:
+                    self.screen("MXCuBE flux invalid! Trying to obtain flux from ISPyB.")
+            if not bFoundValidFlux:
+                # Here we try to retrieve the flux from ISPyB
+                xsDataInputRetrieveDataCollection = XSDataInputRetrieveDataCollection()
+                xsDataInputRetrieveDataCollection.setImage(XSDataImage(_xsDataFirstImage.getPath()))
+                self.edPluginISPyBRetrieveDataCollection.setDataInput(xsDataInputRetrieveDataCollection)
+                self.edPluginISPyBRetrieveDataCollection.executeSynchronous()
+                xsDataResultRetrieveDataCollection = self.edPluginISPyBRetrieveDataCollection.getDataOutput()
+                if xsDataResultRetrieveDataCollection is not None:
+                    xsDataISPyBDataCollection = xsDataResultRetrieveDataCollection.getDataCollection()
+                    if xsDataISPyBDataCollection is not None:
+                        fFlux = xsDataISPyBDataCollection.getFlux()
+                        if fFlux is not None:
+                            self.screen("ISPyB reports flux to be: %g photons/sec" % fFlux)
+                            xsDataSubWedge.getExperimentalCondition().getBeam().setFlux(XSDataFlux(fFlux))
+                            bFoundValidFlux = True
+                if not bFoundValidFlux:
+                    self.screen("No valid flux could be retrieved from ISPyB!")
+        return xsDataExperimentalCondition
+                            
+                            
+
 
 
 
