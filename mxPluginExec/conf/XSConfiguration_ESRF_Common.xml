@@ -218,15 +218,15 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/BEST/v3.4.4_20110610/linux/best</value>
+					<value>/opt/pxsoft/bin/best__v4.1.0_20121002</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.3.0/linux-x86_64/include/ccp4.setup-bash</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Version 3.4.4 //  10.06.2011</value>
+					<value>Version 4.1.0 //  02.10.2012</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
