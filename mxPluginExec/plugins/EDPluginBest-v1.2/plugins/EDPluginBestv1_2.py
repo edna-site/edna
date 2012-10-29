@@ -58,6 +58,7 @@ from XSDataBestv1_2 import XSDataBestCollectionRun
 from XSDataBestv1_2 import XSDataBestStrategySummary
 from XSDataBestv1_2 import XSDataBestResolutionBin
 from XSDataBestv1_2 import XSDataCrystalScale
+from XSDataBestv1_2 import XSDataBestGlePlot
 
 from XSDataDnaTablesBestv1_2 import dna_tables
 
@@ -344,7 +345,16 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
             # Check for .gle files
             for strPath in os.listdir(self.getWorkingDirectory()):
                 if strPath.endswith(".gle"):
-                    xsDataResultBest.addPathToGleFile(XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strPath))))
+                    xsDataBestGlePlot = XSDataBestGlePlot()
+                    xsDataBestGlePlot.script = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strPath)))
+                    strDataPath = strPath[:-4]+".dat"
+                    if os.path.exists(os.path.join(self.getWorkingDirectory(),strDataPath)):
+                        xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strDataPath)))
+                    else:
+                        strDataPath = strPath[:-4]+".data"
+                        if os.path.exists(os.path.join(self.getWorkingDirectory(),strDataPath)):
+                            xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strDataPath)))
+                    xsDataResultBest.addGlePlot(xsDataBestGlePlot)
             self.setDataOutput(xsDataResultBest)
 
 

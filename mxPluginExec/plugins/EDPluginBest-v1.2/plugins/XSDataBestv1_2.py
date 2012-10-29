@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Oct 29 04:16::51 2012 by EDGenerateDS.
+# Generated Mon Oct 29 04:34::48 2012 by EDGenerateDS.
 #
 
 import os, sys
@@ -29,11 +29,11 @@ dictLocation = { \
 try:
     from XSDataCommon import XSDataBoolean
     from XSDataCommon import XSDataDouble
-    from XSDataCommon import XSDataFile
     from XSDataCommon import XSDataInput
     from XSDataCommon import XSDataInteger
     from XSDataCommon import XSDataResult
     from XSDataCommon import XSDataString
+    from XSDataCommon import XSDataFile
     from XSDataCommon import XSDataAbsorbedDoseRate
     from XSDataCommon import XSDataAngularSpeed
     from XSDataCommon import XSDataLength
@@ -51,11 +51,11 @@ except ImportError as error:
         raise error
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
-from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataAbsorbedDoseRate
 from XSDataCommon import XSDataAngularSpeed
 from XSDataCommon import XSDataLength
@@ -441,6 +441,484 @@ class XSDataBestCollectionRun(object):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataBestCollectionRun
+
+
+class XSDataBestGlePlot(object):
+    def __init__(self, script=None, data=None):
+        if data is None:
+            self._data = None
+        elif data.__class__.__name__ == "XSDataFile":
+            self._data = data
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot constructor argument 'data' is not XSDataFile but %s" % self._data.__class__.__name__
+            raise BaseException(strMessage)
+        if script is None:
+            self._script = None
+        elif script.__class__.__name__ == "XSDataFile":
+            self._script = script
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot constructor argument 'script' is not XSDataFile but %s" % self._script.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'data' attribute
+    def getData(self): return self._data
+    def setData(self, data):
+        if data is None:
+            self._data = None
+        elif data.__class__.__name__ == "XSDataFile":
+            self._data = data
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot.setData argument is not XSDataFile but %s" % data.__class__.__name__
+            raise BaseException(strMessage)
+    def delData(self): self._data = None
+    data = property(getData, setData, delData, "Property for data")
+    # Methods and properties for the 'script' attribute
+    def getScript(self): return self._script
+    def setScript(self, script):
+        if script is None:
+            self._script = None
+        elif script.__class__.__name__ == "XSDataFile":
+            self._script = script
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot.setScript argument is not XSDataFile but %s" % script.__class__.__name__
+            raise BaseException(strMessage)
+    def delScript(self): self._script = None
+    script = property(getScript, setScript, delScript, "Property for script")
+    def export(self, outfile, level, name_='XSDataBestGlePlot'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataBestGlePlot'):
+        pass
+        if self._data is not None:
+            self.data.export(outfile, level, name_='data')
+        else:
+            warnEmptyAttribute("data", "XSDataFile")
+        if self._script is not None:
+            self.script.export(outfile, level, name_='script')
+        else:
+            warnEmptyAttribute("script", "XSDataFile")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'data':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setData(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'script':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setScript(obj_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataBestGlePlot" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataBestGlePlot' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataBestGlePlot is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataBestGlePlot.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataBestGlePlot()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataBestGlePlot" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataBestGlePlot()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataBestGlePlot
+
+
+class XSDataBestResolutionBin(object):
+    def __init__(self, redundancy=None, rFriedel=None, rFactor=None, percentageOverload=None, minResolution=None, maxResolution=None, completeness=None, averageSigma=None, averageIntensityOverAverageSigma=None, averageIntensity=None, IOverSigma=None):
+        if IOverSigma is None:
+            self._IOverSigma = None
+        elif IOverSigma.__class__.__name__ == "XSDataDouble":
+            self._IOverSigma = IOverSigma
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'IOverSigma' is not XSDataDouble but %s" % self._IOverSigma.__class__.__name__
+            raise BaseException(strMessage)
+        if averageIntensity is None:
+            self._averageIntensity = None
+        elif averageIntensity.__class__.__name__ == "XSDataDouble":
+            self._averageIntensity = averageIntensity
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'averageIntensity' is not XSDataDouble but %s" % self._averageIntensity.__class__.__name__
+            raise BaseException(strMessage)
+        if averageIntensityOverAverageSigma is None:
+            self._averageIntensityOverAverageSigma = None
+        elif averageIntensityOverAverageSigma.__class__.__name__ == "XSDataDouble":
+            self._averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'averageIntensityOverAverageSigma' is not XSDataDouble but %s" % self._averageIntensityOverAverageSigma.__class__.__name__
+            raise BaseException(strMessage)
+        if averageSigma is None:
+            self._averageSigma = None
+        elif averageSigma.__class__.__name__ == "XSDataDouble":
+            self._averageSigma = averageSigma
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'averageSigma' is not XSDataDouble but %s" % self._averageSigma.__class__.__name__
+            raise BaseException(strMessage)
+        if completeness is None:
+            self._completeness = None
+        elif completeness.__class__.__name__ == "XSDataDouble":
+            self._completeness = completeness
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'completeness' is not XSDataDouble but %s" % self._completeness.__class__.__name__
+            raise BaseException(strMessage)
+        if maxResolution is None:
+            self._maxResolution = None
+        elif maxResolution.__class__.__name__ == "XSDataDouble":
+            self._maxResolution = maxResolution
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'maxResolution' is not XSDataDouble but %s" % self._maxResolution.__class__.__name__
+            raise BaseException(strMessage)
+        if minResolution is None:
+            self._minResolution = None
+        elif minResolution.__class__.__name__ == "XSDataDouble":
+            self._minResolution = minResolution
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'minResolution' is not XSDataDouble but %s" % self._minResolution.__class__.__name__
+            raise BaseException(strMessage)
+        if percentageOverload is None:
+            self._percentageOverload = None
+        elif percentageOverload.__class__.__name__ == "XSDataDouble":
+            self._percentageOverload = percentageOverload
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'percentageOverload' is not XSDataDouble but %s" % self._percentageOverload.__class__.__name__
+            raise BaseException(strMessage)
+        if rFactor is None:
+            self._rFactor = None
+        elif rFactor.__class__.__name__ == "XSDataDouble":
+            self._rFactor = rFactor
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'rFactor' is not XSDataDouble but %s" % self._rFactor.__class__.__name__
+            raise BaseException(strMessage)
+        if rFriedel is None:
+            self._rFriedel = None
+        elif rFriedel.__class__.__name__ == "XSDataDouble":
+            self._rFriedel = rFriedel
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'rFriedel' is not XSDataDouble but %s" % self._rFriedel.__class__.__name__
+            raise BaseException(strMessage)
+        if redundancy is None:
+            self._redundancy = None
+        elif redundancy.__class__.__name__ == "XSDataDouble":
+            self._redundancy = redundancy
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'redundancy' is not XSDataDouble but %s" % self._redundancy.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'IOverSigma' attribute
+    def getIOverSigma(self): return self._IOverSigma
+    def setIOverSigma(self, IOverSigma):
+        if IOverSigma is None:
+            self._IOverSigma = None
+        elif IOverSigma.__class__.__name__ == "XSDataDouble":
+            self._IOverSigma = IOverSigma
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setIOverSigma argument is not XSDataDouble but %s" % IOverSigma.__class__.__name__
+            raise BaseException(strMessage)
+    def delIOverSigma(self): self._IOverSigma = None
+    IOverSigma = property(getIOverSigma, setIOverSigma, delIOverSigma, "Property for IOverSigma")
+    # Methods and properties for the 'averageIntensity' attribute
+    def getAverageIntensity(self): return self._averageIntensity
+    def setAverageIntensity(self, averageIntensity):
+        if averageIntensity is None:
+            self._averageIntensity = None
+        elif averageIntensity.__class__.__name__ == "XSDataDouble":
+            self._averageIntensity = averageIntensity
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setAverageIntensity argument is not XSDataDouble but %s" % averageIntensity.__class__.__name__
+            raise BaseException(strMessage)
+    def delAverageIntensity(self): self._averageIntensity = None
+    averageIntensity = property(getAverageIntensity, setAverageIntensity, delAverageIntensity, "Property for averageIntensity")
+    # Methods and properties for the 'averageIntensityOverAverageSigma' attribute
+    def getAverageIntensityOverAverageSigma(self): return self._averageIntensityOverAverageSigma
+    def setAverageIntensityOverAverageSigma(self, averageIntensityOverAverageSigma):
+        if averageIntensityOverAverageSigma is None:
+            self._averageIntensityOverAverageSigma = None
+        elif averageIntensityOverAverageSigma.__class__.__name__ == "XSDataDouble":
+            self._averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setAverageIntensityOverAverageSigma argument is not XSDataDouble but %s" % averageIntensityOverAverageSigma.__class__.__name__
+            raise BaseException(strMessage)
+    def delAverageIntensityOverAverageSigma(self): self._averageIntensityOverAverageSigma = None
+    averageIntensityOverAverageSigma = property(getAverageIntensityOverAverageSigma, setAverageIntensityOverAverageSigma, delAverageIntensityOverAverageSigma, "Property for averageIntensityOverAverageSigma")
+    # Methods and properties for the 'averageSigma' attribute
+    def getAverageSigma(self): return self._averageSigma
+    def setAverageSigma(self, averageSigma):
+        if averageSigma is None:
+            self._averageSigma = None
+        elif averageSigma.__class__.__name__ == "XSDataDouble":
+            self._averageSigma = averageSigma
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setAverageSigma argument is not XSDataDouble but %s" % averageSigma.__class__.__name__
+            raise BaseException(strMessage)
+    def delAverageSigma(self): self._averageSigma = None
+    averageSigma = property(getAverageSigma, setAverageSigma, delAverageSigma, "Property for averageSigma")
+    # Methods and properties for the 'completeness' attribute
+    def getCompleteness(self): return self._completeness
+    def setCompleteness(self, completeness):
+        if completeness is None:
+            self._completeness = None
+        elif completeness.__class__.__name__ == "XSDataDouble":
+            self._completeness = completeness
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setCompleteness argument is not XSDataDouble but %s" % completeness.__class__.__name__
+            raise BaseException(strMessage)
+    def delCompleteness(self): self._completeness = None
+    completeness = property(getCompleteness, setCompleteness, delCompleteness, "Property for completeness")
+    # Methods and properties for the 'maxResolution' attribute
+    def getMaxResolution(self): return self._maxResolution
+    def setMaxResolution(self, maxResolution):
+        if maxResolution is None:
+            self._maxResolution = None
+        elif maxResolution.__class__.__name__ == "XSDataDouble":
+            self._maxResolution = maxResolution
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setMaxResolution argument is not XSDataDouble but %s" % maxResolution.__class__.__name__
+            raise BaseException(strMessage)
+    def delMaxResolution(self): self._maxResolution = None
+    maxResolution = property(getMaxResolution, setMaxResolution, delMaxResolution, "Property for maxResolution")
+    # Methods and properties for the 'minResolution' attribute
+    def getMinResolution(self): return self._minResolution
+    def setMinResolution(self, minResolution):
+        if minResolution is None:
+            self._minResolution = None
+        elif minResolution.__class__.__name__ == "XSDataDouble":
+            self._minResolution = minResolution
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setMinResolution argument is not XSDataDouble but %s" % minResolution.__class__.__name__
+            raise BaseException(strMessage)
+    def delMinResolution(self): self._minResolution = None
+    minResolution = property(getMinResolution, setMinResolution, delMinResolution, "Property for minResolution")
+    # Methods and properties for the 'percentageOverload' attribute
+    def getPercentageOverload(self): return self._percentageOverload
+    def setPercentageOverload(self, percentageOverload):
+        if percentageOverload is None:
+            self._percentageOverload = None
+        elif percentageOverload.__class__.__name__ == "XSDataDouble":
+            self._percentageOverload = percentageOverload
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setPercentageOverload argument is not XSDataDouble but %s" % percentageOverload.__class__.__name__
+            raise BaseException(strMessage)
+    def delPercentageOverload(self): self._percentageOverload = None
+    percentageOverload = property(getPercentageOverload, setPercentageOverload, delPercentageOverload, "Property for percentageOverload")
+    # Methods and properties for the 'rFactor' attribute
+    def getRFactor(self): return self._rFactor
+    def setRFactor(self, rFactor):
+        if rFactor is None:
+            self._rFactor = None
+        elif rFactor.__class__.__name__ == "XSDataDouble":
+            self._rFactor = rFactor
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setRFactor argument is not XSDataDouble but %s" % rFactor.__class__.__name__
+            raise BaseException(strMessage)
+    def delRFactor(self): self._rFactor = None
+    rFactor = property(getRFactor, setRFactor, delRFactor, "Property for rFactor")
+    # Methods and properties for the 'rFriedel' attribute
+    def getRFriedel(self): return self._rFriedel
+    def setRFriedel(self, rFriedel):
+        if rFriedel is None:
+            self._rFriedel = None
+        elif rFriedel.__class__.__name__ == "XSDataDouble":
+            self._rFriedel = rFriedel
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setRFriedel argument is not XSDataDouble but %s" % rFriedel.__class__.__name__
+            raise BaseException(strMessage)
+    def delRFriedel(self): self._rFriedel = None
+    rFriedel = property(getRFriedel, setRFriedel, delRFriedel, "Property for rFriedel")
+    # Methods and properties for the 'redundancy' attribute
+    def getRedundancy(self): return self._redundancy
+    def setRedundancy(self, redundancy):
+        if redundancy is None:
+            self._redundancy = None
+        elif redundancy.__class__.__name__ == "XSDataDouble":
+            self._redundancy = redundancy
+        else:
+            strMessage = "ERROR! XSDataBestResolutionBin.setRedundancy argument is not XSDataDouble but %s" % redundancy.__class__.__name__
+            raise BaseException(strMessage)
+    def delRedundancy(self): self._redundancy = None
+    redundancy = property(getRedundancy, setRedundancy, delRedundancy, "Property for redundancy")
+    def export(self, outfile, level, name_='XSDataBestResolutionBin'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataBestResolutionBin'):
+        pass
+        if self._IOverSigma is not None:
+            self.IOverSigma.export(outfile, level, name_='IOverSigma')
+        else:
+            warnEmptyAttribute("IOverSigma", "XSDataDouble")
+        if self._averageIntensity is not None:
+            self.averageIntensity.export(outfile, level, name_='averageIntensity')
+        else:
+            warnEmptyAttribute("averageIntensity", "XSDataDouble")
+        if self._averageIntensityOverAverageSigma is not None:
+            self.averageIntensityOverAverageSigma.export(outfile, level, name_='averageIntensityOverAverageSigma')
+        if self._averageSigma is not None:
+            self.averageSigma.export(outfile, level, name_='averageSigma')
+        else:
+            warnEmptyAttribute("averageSigma", "XSDataDouble")
+        if self._completeness is not None:
+            self.completeness.export(outfile, level, name_='completeness')
+        else:
+            warnEmptyAttribute("completeness", "XSDataDouble")
+        if self._maxResolution is not None:
+            self.maxResolution.export(outfile, level, name_='maxResolution')
+        else:
+            warnEmptyAttribute("maxResolution", "XSDataDouble")
+        if self._minResolution is not None:
+            self.minResolution.export(outfile, level, name_='minResolution')
+        else:
+            warnEmptyAttribute("minResolution", "XSDataDouble")
+        if self._percentageOverload is not None:
+            self.percentageOverload.export(outfile, level, name_='percentageOverload')
+        else:
+            warnEmptyAttribute("percentageOverload", "XSDataDouble")
+        if self._rFactor is not None:
+            self.rFactor.export(outfile, level, name_='rFactor')
+        else:
+            warnEmptyAttribute("rFactor", "XSDataDouble")
+        if self._rFriedel is not None:
+            self.rFriedel.export(outfile, level, name_='rFriedel')
+        if self._redundancy is not None:
+            self.redundancy.export(outfile, level, name_='redundancy')
+        else:
+            warnEmptyAttribute("redundancy", "XSDataDouble")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'IOverSigma':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setIOverSigma(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'averageIntensity':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setAverageIntensity(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'averageIntensityOverAverageSigma':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setAverageIntensityOverAverageSigma(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'averageSigma':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setAverageSigma(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'completeness':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setCompleteness(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'maxResolution':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setMaxResolution(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'minResolution':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setMinResolution(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'percentageOverload':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setPercentageOverload(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'rFactor':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setRFactor(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'rFriedel':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setRFriedel(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'redundancy':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setRedundancy(obj_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataBestResolutionBin' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataBestResolutionBin is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataBestResolutionBin.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataBestResolutionBin()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataBestResolutionBin()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataBestResolutionBin
 
 
 class XSDataBestStatisticalPrediction(object):
@@ -1223,369 +1701,6 @@ class XSDataBestCollectionPlan(object):
 # end class XSDataBestCollectionPlan
 
 
-class XSDataBestResolutionBin(object):
-    def __init__(self, redundancy=None, rFriedel=None, rFactor=None, percentageOverload=None, minResolution=None, maxResolution=None, completeness=None, averageSigma=None, averageIntensityOverAverageSigma=None, averageIntensity=None, IOverSigma=None):
-        if IOverSigma is None:
-            self._IOverSigma = None
-        elif IOverSigma.__class__.__name__ == "XSDataDouble":
-            self._IOverSigma = IOverSigma
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'IOverSigma' is not XSDataDouble but %s" % self._IOverSigma.__class__.__name__
-            raise BaseException(strMessage)
-        if averageIntensity is None:
-            self._averageIntensity = None
-        elif averageIntensity.__class__.__name__ == "XSDataDouble":
-            self._averageIntensity = averageIntensity
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'averageIntensity' is not XSDataDouble but %s" % self._averageIntensity.__class__.__name__
-            raise BaseException(strMessage)
-        if averageIntensityOverAverageSigma is None:
-            self._averageIntensityOverAverageSigma = None
-        elif averageIntensityOverAverageSigma.__class__.__name__ == "XSDataDouble":
-            self._averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'averageIntensityOverAverageSigma' is not XSDataDouble but %s" % self._averageIntensityOverAverageSigma.__class__.__name__
-            raise BaseException(strMessage)
-        if averageSigma is None:
-            self._averageSigma = None
-        elif averageSigma.__class__.__name__ == "XSDataDouble":
-            self._averageSigma = averageSigma
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'averageSigma' is not XSDataDouble but %s" % self._averageSigma.__class__.__name__
-            raise BaseException(strMessage)
-        if completeness is None:
-            self._completeness = None
-        elif completeness.__class__.__name__ == "XSDataDouble":
-            self._completeness = completeness
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'completeness' is not XSDataDouble but %s" % self._completeness.__class__.__name__
-            raise BaseException(strMessage)
-        if maxResolution is None:
-            self._maxResolution = None
-        elif maxResolution.__class__.__name__ == "XSDataDouble":
-            self._maxResolution = maxResolution
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'maxResolution' is not XSDataDouble but %s" % self._maxResolution.__class__.__name__
-            raise BaseException(strMessage)
-        if minResolution is None:
-            self._minResolution = None
-        elif minResolution.__class__.__name__ == "XSDataDouble":
-            self._minResolution = minResolution
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'minResolution' is not XSDataDouble but %s" % self._minResolution.__class__.__name__
-            raise BaseException(strMessage)
-        if percentageOverload is None:
-            self._percentageOverload = None
-        elif percentageOverload.__class__.__name__ == "XSDataDouble":
-            self._percentageOverload = percentageOverload
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'percentageOverload' is not XSDataDouble but %s" % self._percentageOverload.__class__.__name__
-            raise BaseException(strMessage)
-        if rFactor is None:
-            self._rFactor = None
-        elif rFactor.__class__.__name__ == "XSDataDouble":
-            self._rFactor = rFactor
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'rFactor' is not XSDataDouble but %s" % self._rFactor.__class__.__name__
-            raise BaseException(strMessage)
-        if rFriedel is None:
-            self._rFriedel = None
-        elif rFriedel.__class__.__name__ == "XSDataDouble":
-            self._rFriedel = rFriedel
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'rFriedel' is not XSDataDouble but %s" % self._rFriedel.__class__.__name__
-            raise BaseException(strMessage)
-        if redundancy is None:
-            self._redundancy = None
-        elif redundancy.__class__.__name__ == "XSDataDouble":
-            self._redundancy = redundancy
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin constructor argument 'redundancy' is not XSDataDouble but %s" % self._redundancy.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'IOverSigma' attribute
-    def getIOverSigma(self): return self._IOverSigma
-    def setIOverSigma(self, IOverSigma):
-        if IOverSigma is None:
-            self._IOverSigma = None
-        elif IOverSigma.__class__.__name__ == "XSDataDouble":
-            self._IOverSigma = IOverSigma
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setIOverSigma argument is not XSDataDouble but %s" % IOverSigma.__class__.__name__
-            raise BaseException(strMessage)
-    def delIOverSigma(self): self._IOverSigma = None
-    IOverSigma = property(getIOverSigma, setIOverSigma, delIOverSigma, "Property for IOverSigma")
-    # Methods and properties for the 'averageIntensity' attribute
-    def getAverageIntensity(self): return self._averageIntensity
-    def setAverageIntensity(self, averageIntensity):
-        if averageIntensity is None:
-            self._averageIntensity = None
-        elif averageIntensity.__class__.__name__ == "XSDataDouble":
-            self._averageIntensity = averageIntensity
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setAverageIntensity argument is not XSDataDouble but %s" % averageIntensity.__class__.__name__
-            raise BaseException(strMessage)
-    def delAverageIntensity(self): self._averageIntensity = None
-    averageIntensity = property(getAverageIntensity, setAverageIntensity, delAverageIntensity, "Property for averageIntensity")
-    # Methods and properties for the 'averageIntensityOverAverageSigma' attribute
-    def getAverageIntensityOverAverageSigma(self): return self._averageIntensityOverAverageSigma
-    def setAverageIntensityOverAverageSigma(self, averageIntensityOverAverageSigma):
-        if averageIntensityOverAverageSigma is None:
-            self._averageIntensityOverAverageSigma = None
-        elif averageIntensityOverAverageSigma.__class__.__name__ == "XSDataDouble":
-            self._averageIntensityOverAverageSigma = averageIntensityOverAverageSigma
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setAverageIntensityOverAverageSigma argument is not XSDataDouble but %s" % averageIntensityOverAverageSigma.__class__.__name__
-            raise BaseException(strMessage)
-    def delAverageIntensityOverAverageSigma(self): self._averageIntensityOverAverageSigma = None
-    averageIntensityOverAverageSigma = property(getAverageIntensityOverAverageSigma, setAverageIntensityOverAverageSigma, delAverageIntensityOverAverageSigma, "Property for averageIntensityOverAverageSigma")
-    # Methods and properties for the 'averageSigma' attribute
-    def getAverageSigma(self): return self._averageSigma
-    def setAverageSigma(self, averageSigma):
-        if averageSigma is None:
-            self._averageSigma = None
-        elif averageSigma.__class__.__name__ == "XSDataDouble":
-            self._averageSigma = averageSigma
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setAverageSigma argument is not XSDataDouble but %s" % averageSigma.__class__.__name__
-            raise BaseException(strMessage)
-    def delAverageSigma(self): self._averageSigma = None
-    averageSigma = property(getAverageSigma, setAverageSigma, delAverageSigma, "Property for averageSigma")
-    # Methods and properties for the 'completeness' attribute
-    def getCompleteness(self): return self._completeness
-    def setCompleteness(self, completeness):
-        if completeness is None:
-            self._completeness = None
-        elif completeness.__class__.__name__ == "XSDataDouble":
-            self._completeness = completeness
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setCompleteness argument is not XSDataDouble but %s" % completeness.__class__.__name__
-            raise BaseException(strMessage)
-    def delCompleteness(self): self._completeness = None
-    completeness = property(getCompleteness, setCompleteness, delCompleteness, "Property for completeness")
-    # Methods and properties for the 'maxResolution' attribute
-    def getMaxResolution(self): return self._maxResolution
-    def setMaxResolution(self, maxResolution):
-        if maxResolution is None:
-            self._maxResolution = None
-        elif maxResolution.__class__.__name__ == "XSDataDouble":
-            self._maxResolution = maxResolution
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setMaxResolution argument is not XSDataDouble but %s" % maxResolution.__class__.__name__
-            raise BaseException(strMessage)
-    def delMaxResolution(self): self._maxResolution = None
-    maxResolution = property(getMaxResolution, setMaxResolution, delMaxResolution, "Property for maxResolution")
-    # Methods and properties for the 'minResolution' attribute
-    def getMinResolution(self): return self._minResolution
-    def setMinResolution(self, minResolution):
-        if minResolution is None:
-            self._minResolution = None
-        elif minResolution.__class__.__name__ == "XSDataDouble":
-            self._minResolution = minResolution
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setMinResolution argument is not XSDataDouble but %s" % minResolution.__class__.__name__
-            raise BaseException(strMessage)
-    def delMinResolution(self): self._minResolution = None
-    minResolution = property(getMinResolution, setMinResolution, delMinResolution, "Property for minResolution")
-    # Methods and properties for the 'percentageOverload' attribute
-    def getPercentageOverload(self): return self._percentageOverload
-    def setPercentageOverload(self, percentageOverload):
-        if percentageOverload is None:
-            self._percentageOverload = None
-        elif percentageOverload.__class__.__name__ == "XSDataDouble":
-            self._percentageOverload = percentageOverload
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setPercentageOverload argument is not XSDataDouble but %s" % percentageOverload.__class__.__name__
-            raise BaseException(strMessage)
-    def delPercentageOverload(self): self._percentageOverload = None
-    percentageOverload = property(getPercentageOverload, setPercentageOverload, delPercentageOverload, "Property for percentageOverload")
-    # Methods and properties for the 'rFactor' attribute
-    def getRFactor(self): return self._rFactor
-    def setRFactor(self, rFactor):
-        if rFactor is None:
-            self._rFactor = None
-        elif rFactor.__class__.__name__ == "XSDataDouble":
-            self._rFactor = rFactor
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setRFactor argument is not XSDataDouble but %s" % rFactor.__class__.__name__
-            raise BaseException(strMessage)
-    def delRFactor(self): self._rFactor = None
-    rFactor = property(getRFactor, setRFactor, delRFactor, "Property for rFactor")
-    # Methods and properties for the 'rFriedel' attribute
-    def getRFriedel(self): return self._rFriedel
-    def setRFriedel(self, rFriedel):
-        if rFriedel is None:
-            self._rFriedel = None
-        elif rFriedel.__class__.__name__ == "XSDataDouble":
-            self._rFriedel = rFriedel
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setRFriedel argument is not XSDataDouble but %s" % rFriedel.__class__.__name__
-            raise BaseException(strMessage)
-    def delRFriedel(self): self._rFriedel = None
-    rFriedel = property(getRFriedel, setRFriedel, delRFriedel, "Property for rFriedel")
-    # Methods and properties for the 'redundancy' attribute
-    def getRedundancy(self): return self._redundancy
-    def setRedundancy(self, redundancy):
-        if redundancy is None:
-            self._redundancy = None
-        elif redundancy.__class__.__name__ == "XSDataDouble":
-            self._redundancy = redundancy
-        else:
-            strMessage = "ERROR! XSDataBestResolutionBin.setRedundancy argument is not XSDataDouble but %s" % redundancy.__class__.__name__
-            raise BaseException(strMessage)
-    def delRedundancy(self): self._redundancy = None
-    redundancy = property(getRedundancy, setRedundancy, delRedundancy, "Property for redundancy")
-    def export(self, outfile, level, name_='XSDataBestResolutionBin'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataBestResolutionBin'):
-        pass
-        if self._IOverSigma is not None:
-            self.IOverSigma.export(outfile, level, name_='IOverSigma')
-        else:
-            warnEmptyAttribute("IOverSigma", "XSDataDouble")
-        if self._averageIntensity is not None:
-            self.averageIntensity.export(outfile, level, name_='averageIntensity')
-        else:
-            warnEmptyAttribute("averageIntensity", "XSDataDouble")
-        if self._averageIntensityOverAverageSigma is not None:
-            self.averageIntensityOverAverageSigma.export(outfile, level, name_='averageIntensityOverAverageSigma')
-        if self._averageSigma is not None:
-            self.averageSigma.export(outfile, level, name_='averageSigma')
-        else:
-            warnEmptyAttribute("averageSigma", "XSDataDouble")
-        if self._completeness is not None:
-            self.completeness.export(outfile, level, name_='completeness')
-        else:
-            warnEmptyAttribute("completeness", "XSDataDouble")
-        if self._maxResolution is not None:
-            self.maxResolution.export(outfile, level, name_='maxResolution')
-        else:
-            warnEmptyAttribute("maxResolution", "XSDataDouble")
-        if self._minResolution is not None:
-            self.minResolution.export(outfile, level, name_='minResolution')
-        else:
-            warnEmptyAttribute("minResolution", "XSDataDouble")
-        if self._percentageOverload is not None:
-            self.percentageOverload.export(outfile, level, name_='percentageOverload')
-        else:
-            warnEmptyAttribute("percentageOverload", "XSDataDouble")
-        if self._rFactor is not None:
-            self.rFactor.export(outfile, level, name_='rFactor')
-        else:
-            warnEmptyAttribute("rFactor", "XSDataDouble")
-        if self._rFriedel is not None:
-            self.rFriedel.export(outfile, level, name_='rFriedel')
-        if self._redundancy is not None:
-            self.redundancy.export(outfile, level, name_='redundancy')
-        else:
-            warnEmptyAttribute("redundancy", "XSDataDouble")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'IOverSigma':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setIOverSigma(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'averageIntensity':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setAverageIntensity(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'averageIntensityOverAverageSigma':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setAverageIntensityOverAverageSigma(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'averageSigma':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setAverageSigma(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'completeness':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setCompleteness(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'maxResolution':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setMaxResolution(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'minResolution':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setMinResolution(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'percentageOverload':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setPercentageOverload(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'rFactor':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setRFactor(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'rFriedel':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setRFriedel(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'redundancy':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setRedundancy(obj_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataBestResolutionBin' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataBestResolutionBin is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataBestResolutionBin.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataBestResolutionBin()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataBestResolutionBin" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataBestResolutionBin()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataBestResolutionBin
-
-
 class XSDataInputBest(XSDataInput):
     """- anomalousData is deprecated, please use strategyOption instead.
 
@@ -2337,7 +2452,7 @@ class XSDataInputBest(XSDataInput):
 
 
 class XSDataResultBest(XSDataResult):
-    def __init__(self, status=None, pathToPlotMtvFile=None, pathToLogFile=None, pathToGleFile=None, collectionPlan=None):
+    def __init__(self, status=None, pathToPlotMtvFile=None, pathToLogFile=None, glePlot=None, collectionPlan=None):
         XSDataResult.__init__(self, status)
         if collectionPlan is None:
             self._collectionPlan = []
@@ -2346,12 +2461,12 @@ class XSDataResultBest(XSDataResult):
         else:
             strMessage = "ERROR! XSDataResultBest constructor argument 'collectionPlan' is not list but %s" % self._collectionPlan.__class__.__name__
             raise BaseException(strMessage)
-        if pathToGleFile is None:
-            self._pathToGleFile = []
-        elif pathToGleFile.__class__.__name__ == "list":
-            self._pathToGleFile = pathToGleFile
+        if glePlot is None:
+            self._glePlot = []
+        elif glePlot.__class__.__name__ == "list":
+            self._glePlot = glePlot
         else:
-            strMessage = "ERROR! XSDataResultBest constructor argument 'pathToGleFile' is not list but %s" % self._pathToGleFile.__class__.__name__
+            strMessage = "ERROR! XSDataResultBest constructor argument 'glePlot' is not list but %s" % self._glePlot.__class__.__name__
             raise BaseException(strMessage)
         if pathToLogFile is None:
             self._pathToLogFile = None
@@ -2400,38 +2515,38 @@ class XSDataResultBest(XSDataResult):
         else:
             strMessage = "ERROR! XSDataResultBest.addCollectionPlan argument is not XSDataBestCollectionPlan but %s" % value.__class__.__name__
             raise BaseException(strMessage)
-    # Methods and properties for the 'pathToGleFile' attribute
-    def getPathToGleFile(self): return self._pathToGleFile
-    def setPathToGleFile(self, pathToGleFile):
-        if pathToGleFile is None:
-            self._pathToGleFile = []
-        elif pathToGleFile.__class__.__name__ == "list":
-            self._pathToGleFile = pathToGleFile
+    # Methods and properties for the 'glePlot' attribute
+    def getGlePlot(self): return self._glePlot
+    def setGlePlot(self, glePlot):
+        if glePlot is None:
+            self._glePlot = []
+        elif glePlot.__class__.__name__ == "list":
+            self._glePlot = glePlot
         else:
-            strMessage = "ERROR! XSDataResultBest.setPathToGleFile argument is not list but %s" % pathToGleFile.__class__.__name__
+            strMessage = "ERROR! XSDataResultBest.setGlePlot argument is not list but %s" % glePlot.__class__.__name__
             raise BaseException(strMessage)
-    def delPathToGleFile(self): self._pathToGleFile = None
-    pathToGleFile = property(getPathToGleFile, setPathToGleFile, delPathToGleFile, "Property for pathToGleFile")
-    def addPathToGleFile(self, value):
+    def delGlePlot(self): self._glePlot = None
+    glePlot = property(getGlePlot, setGlePlot, delGlePlot, "Property for glePlot")
+    def addGlePlot(self, value):
         if value is None:
-            strMessage = "ERROR! XSDataResultBest.addPathToGleFile argument is None"
+            strMessage = "ERROR! XSDataResultBest.addGlePlot argument is None"
             raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataFile":
-            self._pathToGleFile.append(value)
+        elif value.__class__.__name__ == "XSDataBestGlePlot":
+            self._glePlot.append(value)
         else:
-            strMessage = "ERROR! XSDataResultBest.addPathToGleFile argument is not XSDataFile but %s" % value.__class__.__name__
+            strMessage = "ERROR! XSDataResultBest.addGlePlot argument is not XSDataBestGlePlot but %s" % value.__class__.__name__
             raise BaseException(strMessage)
-    def insertPathToGleFile(self, index, value):
+    def insertGlePlot(self, index, value):
         if index is None:
-            strMessage = "ERROR! XSDataResultBest.insertPathToGleFile argument 'index' is None"
+            strMessage = "ERROR! XSDataResultBest.insertGlePlot argument 'index' is None"
             raise BaseException(strMessage)            
         if value is None:
-            strMessage = "ERROR! XSDataResultBest.insertPathToGleFile argument 'value' is None"
+            strMessage = "ERROR! XSDataResultBest.insertGlePlot argument 'value' is None"
             raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataFile":
-            self._pathToGleFile[index] = value
+        elif value.__class__.__name__ == "XSDataBestGlePlot":
+            self._glePlot[index] = value
         else:
-            strMessage = "ERROR! XSDataResultBest.addPathToGleFile argument is not XSDataFile but %s" % value.__class__.__name__
+            strMessage = "ERROR! XSDataResultBest.addGlePlot argument is not XSDataBestGlePlot but %s" % value.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'pathToLogFile' attribute
     def getPathToLogFile(self): return self._pathToLogFile
@@ -2467,8 +2582,8 @@ class XSDataResultBest(XSDataResult):
         XSDataResult.exportChildren(self, outfile, level, name_)
         for collectionPlan_ in self.getCollectionPlan():
             collectionPlan_.export(outfile, level, name_='collectionPlan')
-        for pathToGleFile_ in self.getPathToGleFile():
-            pathToGleFile_.export(outfile, level, name_='pathToGleFile')
+        for glePlot_ in self.getGlePlot():
+            glePlot_.export(outfile, level, name_='glePlot')
         if self._pathToLogFile is not None:
             self.pathToLogFile.export(outfile, level, name_='pathToLogFile')
         else:
@@ -2486,10 +2601,10 @@ class XSDataResultBest(XSDataResult):
             obj_.build(child_)
             self.collectionPlan.append(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'pathToGleFile':
-            obj_ = XSDataFile()
+            nodeName_ == 'glePlot':
+            obj_ = XSDataBestGlePlot()
             obj_.build(child_)
-            self.pathToGleFile.append(obj_)
+            self.glePlot.append(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'pathToLogFile':
             obj_ = XSDataFile()
