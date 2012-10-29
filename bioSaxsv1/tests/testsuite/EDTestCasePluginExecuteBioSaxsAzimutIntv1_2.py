@@ -22,7 +22,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from XSDataBioSaxsv1_0 import XSDataResultBioSaxsAzimutIntv1_0
+from EDUtilsFile import EDUtilsFile
+from EDUtilsPath import EDUtilsPath
 
 __author__ = "Jérôme Kieffer"
 __license__ = "GPLv3+"
@@ -33,6 +34,7 @@ from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
+from XSDataBioSaxsv1_0 import XSDataResultBioSaxsAzimutIntv1_0
 
 
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
@@ -112,9 +114,10 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_2(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read()
-        referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_2.dat"), "rb").read()
-
+        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read().split(os.linesep)
+        referenceData = EDUtilsFile.readFileAndParseVariables(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_2.dat"), EDUtilsPath.getDictOfPaths()).split(os.linesep)
+        outputData = os.linesep.join([i for i in outputData if not i.startswith("# History")])
+        referenceData = os.linesep.join([i for i in referenceData if not i.startswith("# History")])
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")
 
 ################################################################################
@@ -148,7 +151,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_2(EDTestCasePluginExecute):
         keysObt = headerObt.keys()
         keysRef.sort()
         keysObt.sort()
-        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation" ]:
+        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation", "History-1", "History-1~1"]:
             if key in keysObt: keysObt.remove(key)
             if key in keysRef: keysRef.remove(key)
         EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary for Integrated Images")

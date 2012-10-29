@@ -3,7 +3,7 @@
     <status>
         <executiveSummary>
             <value>
-Normalizing EDF frame '/home/${USER}/workspace/edna/tests/data/images/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsProcessNormalized.edf'
+Normalizing EDF frame '${EDNA_TESTIMAGES}/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsProcessNormalized.edf'
 Normalized image by factor 49082.886 
 Retrieve metadata from file /tmp/edna-${USER}/bioSaxsProcessNormalized.edf
 Azimuthal integration of Corrected+Masked EDF image --> '/tmp/edna-${USER}/bioSaxsProcessIntegrated.dat'</value>
@@ -19,4 +19,10 @@ Azimuthal integration of Corrected+Masked EDF image --> '/tmp/edna-${USER}/bioSa
             <value>/tmp/edna-${USER}/bioSaxsProcessIntegrated.dat</value>
         </path>
     </integratedCurve>
+    <bufferCurve>
+    	<path>
+            <value>/scisoft/users/kieffer/workspace/edna/tests/data/images/averbuffer.dat</value>
+        </path>
+    </bufferCurve>
+    
 </XSDataResult>

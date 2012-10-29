@@ -70,23 +70,23 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         Gets the web servise wdsl parameters from the config file and stores them in class member attributes.
         """
         EDPluginExec.configure(self)
-        self.strUserName = self.getStringConfigurationParameterValue("userName")
+        self.strUserName = self.config.get("userName")
         if self.strUserName is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No user name found in configuration!")
             self.setFailure()
-        self.strPassWord = self.getStringConfigurationParameterValue("passWord")
+        self.strPassWord = self.config.get("passWord")
         if self.strPassWord is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No pass word found in configuration!")
             self.setFailure()
-        self.strToolsForBLSampleWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForBLSampleWebServiceWsdl")
+        self.strToolsForBLSampleWebServiceWsdl = self.config.get("toolsForBLSampleWebServiceWsdl")
         if self.strToolsForBLSampleWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForBLSampleWebServiceWsdl found in configuration!")
             self.setFailure()
-        self.strToolsForScreeningEDNAWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForScreeningEDNAWebServiceWsdl")
+        self.strToolsForScreeningEDNAWebServiceWsdl = self.config.get("toolsForScreeningEDNAWebServiceWsdl")
         if self.strToolsForScreeningEDNAWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForScreeningEDNAWebServiceWsdl found in configuration!")
             self.setFailure()
-        self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
+        self.strToolsForCollectionWebServiceWsdl = self.config.get("toolsForCollectionWebServiceWsdl")
         if self.strToolsForCollectionWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
             self.setFailure()

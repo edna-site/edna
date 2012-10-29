@@ -65,15 +65,15 @@ class EDPluginISPyBStoreDataCollectionv1_4(EDPluginExec):
         Gets the web servise wdsl parameters from the config file and stores them in class member attributes.
         """
         EDPluginExec.configure(self)
-        self.strUserName = self.getStringConfigurationParameterValue("userName")
+        self.strUserName = self.config.get("userName")
         if self.strUserName is None:
             self.ERROR("EDPluginISPyBStoreDataCollectionv1_4.configure: No user name found in configuration!")
             self.setFailure()
-        self.strPassWord = self.getStringConfigurationParameterValue("passWord")
+        self.strPassWord = self.config.get("passWord")
         if self.strPassWord is None:
             self.ERROR("EDPluginISPyBStoreDataCollectionv1_4.configure: No pass word found in configuration!")
             self.setFailure()
-        self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
+        self.strToolsForCollectionWebServiceWsdl = self.config.get("toolsForCollectionWebServiceWsdl")
         if self.strToolsForCollectionWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreDataCollectionv1_4.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
             self.setFailure()

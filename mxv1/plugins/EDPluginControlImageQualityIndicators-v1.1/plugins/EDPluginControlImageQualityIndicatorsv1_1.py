@@ -78,10 +78,7 @@ class EDPluginControlImageQualityIndicatorsv1_1(EDPluginControl):
     def configure(self, _edPlugin = None):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlReadImageHeaderv10.configure")
-        if self.getConfiguration():
-            xsDataStringParameter = EDConfiguration.getParamItem(self.getConfiguration(), "waitFileTimeOut")
-            if xsDataStringParameter:
-                self.fWaitFileTimeOut = float(xsDataStringParameter.getValue())
+        self.fWaitFileTimeOut = float(self.config.get("waitFileTimeOut", self.fWaitFileTimeOut))
 
     
     def preProcess(self, _edPlugin=None):
