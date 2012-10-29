@@ -38,6 +38,7 @@ class EDTestSuitePluginPlotGlev1_0(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitPlotGlev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecutePlotGlev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecutePlotGlev1_0_glePlotInput")
         
 
 

@@ -42,8 +42,14 @@ complex type XSDataGraph extends XSData {
 complex type XSDataInputPlotGle extends XSDataInput {
 	plotSet : XSDataPlotSet optional
 	filePlotMtv : XSDataFile optional
+	glePlot : XSDataGlePlot [] optional
 }
 
 complex type XSDataResultPlotGle extends XSDataResult {
 	fileGraph : XSDataFile []
+}
+
+complex type XSDataGlePlot extends XSData {
+	script : XSDataFile
+	data : XSDataFile
 }
