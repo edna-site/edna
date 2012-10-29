@@ -106,9 +106,9 @@ package XSDataBestv12 {
 
 	complex type XSDataResultBest extends XSDataResult {
 		collectionPlan : XSDataBestCollectionPlan [] optional
+		pathToGleFile : XSDataFile [] optional
 		pathToLogFile : XSDataFile
-		pathToPlotMtvFile : XSDataFile
-		optional
+		pathToPlotMtvFile : XSDataFile optional
 	}
 
 }

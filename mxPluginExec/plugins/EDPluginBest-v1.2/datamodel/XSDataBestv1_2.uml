@@ -123,6 +123,11 @@
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9r8gQI6uEeGAm7ix7ynmIQ"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_ivb4cCHYEeK59LFrKzu_lw" name="pathToGleFile" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3rNu0CHYEeKzk7ud4FfP4g" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4uphwCHYEeKzk7ud4FfP4g"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_1SCFIOwZEd-YN87dLY1EOA" name="XSDataBestCollectionPlan">
       <ownedAttribute xmi:id="_4CO74OwZEd-YN87dLY1EOA" name="collectionPlanNumber" isUnique="false">
