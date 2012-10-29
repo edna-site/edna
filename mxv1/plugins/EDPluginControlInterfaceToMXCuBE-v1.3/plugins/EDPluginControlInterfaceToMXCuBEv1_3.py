@@ -36,6 +36,7 @@ from EDUtilsPath import EDUtilsPath
 
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataFile
+from XSDataCommon import XSDataFlux
 from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataDictionary
 from XSDataCommon import XSDataKeyValuePair
@@ -467,6 +468,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             xsDataBeam = xsDataExperimentalCondition.getBeam()
             if xsDataBeam is None:
                 xsDataBeam = XSDataBeam()    
+                xsDataExperimentalCondition.setBeam(xsDataBeam)
             xsDataBeamFlux = xsDataBeam.getFlux()
             if xsDataBeamFlux is not None:
                 fFluxMXCuBE = xsDataBeamFlux.getValue()
@@ -488,7 +490,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                         fFlux = xsDataISPyBDataCollection.getFlux()
                         if fFlux is not None:
                             self.screen("ISPyB reports flux to be: %g photons/sec" % fFlux)
-                            xsDataSubWedge.getExperimentalCondition().getBeam().setFlux(XSDataFlux(fFlux))
+                            xsDataExperimentalCondition.getBeam().setFlux(XSDataFlux(fFlux))
                             bFoundValidFlux = True
                 if not bFoundValidFlux:
                     self.screen("No valid flux could be retrieved from ISPyB!")
