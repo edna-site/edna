@@ -184,8 +184,11 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         self.setCommandBestHome("export besthome=" + self.getBestHome())
         strVersion = self.config.get(self.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING, "Unknown")
         # Check if version is higher than 4.1:
-        if float(strVersion[8:11]) > 4.0:
-            self.bVersionHigherThan4_0 = True 
+        try:
+            if float(strVersion[8:11]) > 4.0:
+                self.bVersionHigherThan4_0 = True
+        except Exception, e:
+            pass 
 
 
     def preProcess(self, _edObject=None):
