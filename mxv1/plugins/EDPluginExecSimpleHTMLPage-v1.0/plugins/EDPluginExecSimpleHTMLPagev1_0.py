@@ -555,7 +555,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if len(listXSDataFile) >= 7:
                 listPlotsToDisplay = [0, 1, 3, 6]
             elif len(listXSDataFile) >= 4:
-                listPlotsToDisplay = [0, 1, 3]
+                listPlotsToDisplay = [0, 1, 2, 3]
             else:
                 listPlotsToDisplay = range(len(listXSDataFile))
             for iIndexPlot in listPlotsToDisplay:
@@ -569,14 +569,12 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 pageGraph = markupv1_7.page()
                 pageGraph.init( title=strFileName, 
                        footer="Generated on %s" % time.asctime())
-                pageGraph.h1(strFileName)
-                pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
-                pageGraph.br()
                 pageGraph.img(src=strFileName, title=strFileName)
+                pageGraph.br()
                 pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageGraphPath, str(pageGraph))
                 self.page.a( href=strPageGraphFileName)
-                self.page.img( src=strFileName, width=175, height=175, title=strFileName )
+                self.page.img( src=strFileName, width=250, height=175, title=strFileName )
                 self.page.a.close()
                 self.page.td.close()
                 iIndex += 1

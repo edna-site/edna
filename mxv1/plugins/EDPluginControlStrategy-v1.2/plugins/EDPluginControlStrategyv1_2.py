@@ -55,6 +55,7 @@ from XSDataMXv1                        import XSDataChemicalCompositionMM
 
 EDFactoryPluginStatic.loadModule("XSDataPlotGlev1_0")
 from XSDataPlotGlev1_0 import XSDataInputPlotGle
+from XSDataPlotGlev1_0 import XSDataGlePlot
 
 class EDPluginControlStrategyv1_2(EDPluginControl):
     """
@@ -281,8 +282,16 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         #
         # Create the BEST graphs from the plot mtv file
         #
+        # Check if we have GLE files from BEST:
         xsDataInputPlotGle = XSDataInputPlotGle()
-        xsDataInputPlotGle.filePlotMtv = xsDataResultBest.pathToPlotMtvFile
+        if xsDataResultBest.glePlot != []:
+            for xsDataBestGlePlot in xsDataResultBest.glePlot:
+                xsDataGlePlot = XSDataGlePlot()
+                xsDataGlePlot.script = xsDataBestGlePlot.script
+                xsDataGlePlot.data = xsDataBestGlePlot.data
+                xsDataInputPlotGle.addGlePlot(xsDataGlePlot)
+        else:
+            xsDataInputPlotGle.filePlotMtv = xsDataResultBest.pathToPlotMtvFile
         self._edPluginPlotGle.dataInput = xsDataInputPlotGle
         self._edPluginPlotGle.executeSynchronous()
         # TODO
