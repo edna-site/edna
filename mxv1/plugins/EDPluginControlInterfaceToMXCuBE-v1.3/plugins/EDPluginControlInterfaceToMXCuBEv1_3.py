@@ -109,6 +109,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure")
         self.strEDNAEmailSender = self.config.get(self.EDNA_EMAIL_SENDER, self.strEDNAEmailSender)
+        self.strEDNAContactEmail = self.config.get(self.EDNA_CONTACT_EMAIL, self.strEDNAContactEmail)
 
 
 
