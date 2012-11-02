@@ -228,12 +228,17 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # first XDS plugin run with supplied XDS file
         EDVerbose.screen('STARTING XDS run...')
+        t0=time.time()
         self.xds_first.executeSynchronous()
         if self.xds_first.isFailure():
             EDVerbose.ERROR('first XDS run failed')
             self.setFailure()
             return
         EDVerbose.screen('FINISHED first XDS run')
+
+        self.stats['first_xds'] = time.time() - t0
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
 
         # apply the first res cutoff with the res extracted from the first XDS run
         EDVerbose.screen('STARTING first resolution cutoff')
