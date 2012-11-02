@@ -102,8 +102,8 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         real_data_dir = os.path.dirname(os.path.realpath(first_image))
 
         # create a link to this dir in our dir
-        os.symlink(os.path.join(self.getWorkingDirectory(), 'i'),
-                   real_data_dir)
+        os.symlink(real_data_dir,
+                   os.path.join(self.getWorkingDirectory(), 'i'))
 
         # and update the config to refer to this dir
         new_template = os.path.join('i', os.path.basename(file_template))
