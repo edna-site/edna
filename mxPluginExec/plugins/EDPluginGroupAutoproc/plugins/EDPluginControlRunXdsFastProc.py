@@ -29,6 +29,7 @@ __copyright__ = "ESRF"
 
 import sys
 import os.path
+import shutil
 
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
