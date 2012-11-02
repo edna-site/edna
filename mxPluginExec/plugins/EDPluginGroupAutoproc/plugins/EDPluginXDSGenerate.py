@@ -102,8 +102,9 @@ class EDPluginXDSGenerate(EDPluginControl):
         # to not be relative anymore. We'll copy it to our own dir
         # beforehand to avoid clobbering it
         xdsinp = os.path.join(path, 'XDS.INP')
-        copyfile(xdsinp, self.getWorkingDirectory())
         new_xdsinp = os.path.join(self.getWorkingDirectory(), 'XDS.INP')
+        copyfile(xdsinp, new_xdsinp)
+
 
         parsed_config = parse_xds_file(new_xdsinp)
         file_template = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES=']
