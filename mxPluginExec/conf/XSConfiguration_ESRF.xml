@@ -3,7 +3,7 @@
 
   <XSImportConfiguration>
   	<name>XSConfiguration_ESRF_Common</name>
-  </XSImportConfiguration>	
+  </XSImportConfiguration>
 
   <XSPluginList>
     <XSPluginItem>
@@ -452,7 +452,7 @@
 	</XSParamItem>
 	<XSParamItem>
 	  <name>timeOut</name>
-	  <value>1200</value>
+	  <value>1800</value>
 	</XSParamItem>
       </XSParamList>
     </XSPluginItem>
@@ -495,7 +495,7 @@
       <XSParamList>
 	<XSParamItem>
 	  <name>timeOut</name>
-	  <value>1200</value>
+	  <value>1800</value>
 	</XSParamItem>
       </XSParamList>
     </XSPluginItem>
@@ -576,4 +576,4 @@
 
   </XSPluginList>
 
-</XSConfiguration> 
+</XSConfiguration>
