@@ -107,7 +107,7 @@ class EDPluginXDSGenerate(EDPluginControl):
 
 
         parsed_config = parse_xds_file(new_xdsinp)
-        file_template = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES=']
+        file_template = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
         parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = os.path.abspath(os.path.join(path, file_template))
         dump_xds_file(new_xdsinp, parsed_config)
 
