@@ -144,6 +144,16 @@ class EDPluginControlAutoproc(EDPluginControl):
         # image name to wait for. Also modify the XDS.INP file to
         # reflect these values, if specified
         conf = parse_xds_file(data_in.input_file.path.value)
+
+        # XXX: delete the xgeo/ygeo correction files path, as a
+        # temporary fix until I fix their path somehow.
+        if 'X-GEO_CORR=' in conf:
+            del conf['X-GEO_CORR=']
+        if 'Y-GEO_CORR=' in conf:
+            del conf['Y-GEO_CORR=']
+        dump_xds_file(data_in.input_file.path.value, conf)
+
+
         resrange = conf.get('INCLUDE_RESOLUTION_RANGE=')
 
         if resrange is not None:
