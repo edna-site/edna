@@ -89,7 +89,7 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         from XSDataCommon import XSDataString
         from XSDataCommon import XSDataTime
         from XSDataCommon import XSDataFile
-        from XSDataCommon import XSDataSpeed
+        from XSDataCommon import XSDataAngularSpeed
         from XSDataCommon import XSDataString
         from XSDataCommon import XSDataAngle
         from XSDataCommon import XSDataBoolean
@@ -102,7 +102,7 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         xsDataInputBest.setBeamMaxExposureTime(XSDataTime(10000))
         xsDataInputBest.setBeamMinExposureTime(XSDataTime(0.1))
         xsDataInputBest.setGoniostatMinRotationWidth(XSDataAngle(0.1))
-        xsDataInputBest.setGoniostatMaxRotationSpeed(XSDataSpeed(10))
+        xsDataInputBest.setGoniostatMaxRotationSpeed(XSDataAngularSpeed(10))
         xsDataInputBest.setAimedResolution(XSDataDouble(2))
         xsDataInputBest.setAimedRedundancy(XSDataDouble(6.5))
         xsDataInputBest.setAimedCompleteness(XSDataDouble(0.9))

@@ -115,11 +115,11 @@ class EDPluginISPyBRetrieveDataCollectionv1_4(EDPluginExec):
                 self.collectParameters.dataCollection = res
 
 
-    def postProcess(self, _edObject=None):
-        """
-        """
+    def finallyProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBRetrieveDataCollectionv1_4.postProcess")
+        self.DEBUG("EDPluginISPyBRetrieveDataCollectionv1_4.finallyProcess")
+        if self.collectParameters is None:
+            self.collectParameters = XSDataResultRetrieveDataCollection()            
         self.setDataOutput(self.collectParameters)
 
 
