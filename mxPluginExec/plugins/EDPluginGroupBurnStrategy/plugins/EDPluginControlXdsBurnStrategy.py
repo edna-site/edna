@@ -33,7 +33,7 @@ import shutil
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
 
-from XSDataCommon import XSDataString, XSDataBoolean
+from XSDataCommon import XSDataString, XSDataBoolean, XSDataStatus
 from XSDataBurnStrategy import XSDataInputXdsBurnStrategy, XSDataOutputXdsBurnStrategy
 from EDFactoryPlugin import edFactoryPlugin
 
@@ -119,10 +119,11 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         self.DEBUG("EDPluginControlXdsBest.postProcess")
 
         self.dataOutput = XSDataOutputXdsBurnStrategy()
+        self.dataOutput.status = XSDataStatus()
         # check if a XDS.HKL file has been generated
         expected = os.path.join(self._xds.getWorkingDirectory(), 'XDS.HKL')
         if os.path.exists(expected):
-            self.dataOutput.succeeded = XSDataBoolean(True)
+            self.dataOutput.status.isSuccess = XSDataBoolean(True)
             self.dataOutput.xds_hkl = XSDataString(expected)
         else:
-            self.dataOutput.succeeded = XSDataBoolean(False)
+            self.dataOutput.status.isSuccess = XSDataBoolean(False)
