@@ -32,6 +32,8 @@ import os.path
 import time
 import sys
 import json
+import traceback
+import shutil
 
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
@@ -93,24 +95,35 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.input_file, "No XDS input file")
 
+        # save the root path (where the initial xds.inp is) for later use
+        self.root_dir = os.path.abspath(os.path.dirname(self.dataInput.input_file.path.value))
+
         # at least check for the xds input file existence before
         # trying to start anything even if the first xds run does it
         # anyway
         if not os.path.isfile(self.dataInput.input_file.path.value):
             EDVerbose.ERROR('the specified input file does not exist')
             self.setFailure()
-            return
+            # setFailure does not prevent preProcess/process/etc from running
+            raise Exception('EDNA FAILURE')
+        else:
+            # copy it to our dir and modify our input
+            newpath = os.path.join(self.getWorkingDirectory(),
+                                   os.path.basename(self.dataInput.input_file.path.value))
+            shutil.copyfile(self.dataInput.input_file.path.value,
+                            newpath)
+            self.dataInput.input_file.path = XSDataString(newpath)
 
     def preProcess(self, _edObject = None):
         EDPluginControl.preProcess(self)
         self.DEBUG('EDPluginControlAutoproc.preProcess starting')
+        self.DEBUG('failure state is currently {0}'.format(self.isFailure()))
 
         data_in = self.dataInput
         xds_in = XSDataMinimalXdsIn()
         xds_in.input_file = data_in.input_file.path
 
-        self.log_file_path = os.path.join(os.path.abspath(os.path.dirname(data_in.input_file.path.value)),
-                                          'stats.json')
+        self.log_file_path = os.path.join(self.root_dir, 'stats.json')
         self.DEBUG('will log timing information to {0}'.format(self.log_file_path))
         self.stats = dict()
 
@@ -132,6 +145,16 @@ class EDPluginControlAutoproc(EDPluginControl):
         # image name to wait for. Also modify the XDS.INP file to
         # reflect these values, if specified
         conf = parse_xds_file(data_in.input_file.path.value)
+
+        # XXX: delete the xgeo/ygeo correction files path, as a
+        # temporary fix until I fix their path somehow.
+        if 'X-GEO_CORR=' in conf:
+            del conf['X-GEO_CORR=']
+        if 'Y-GEO_CORR=' in conf:
+            del conf['Y-GEO_CORR=']
+        dump_xds_file(data_in.input_file.path.value, conf)
+
+
         resrange = conf.get('INCLUDE_RESOLUTION_RANGE=')
 
         if resrange is not None:
@@ -160,8 +183,11 @@ class EDPluginControlAutoproc(EDPluginControl):
         if not os.path.isabs(template):
             self.DEBUG('file template {0} is not absolute'.format(template))
             base_dir = os.path.abspath(os.path.dirname(data_in.input_file.path.value))
-            template = os.path.normpath(os.path.join(base_dir, template))
+            template = os.path.normpath(os.path.join(self.root_dir, template))
+            conf['NAME_TEMPLATE_OF_DATA_FRAMES=']=template
             self.DEBUG('file template fixed to {0}'.format(template))
+            self.DEBUG('dumping back the file to {0}'.format(data_in.input_file.path.value))
+            dump_xds_file(data_in.input_file.path.value, conf)
 
         first_image = _template_to_image(template, start_image)
 
@@ -216,12 +242,17 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # first XDS plugin run with supplied XDS file
         EDVerbose.screen('STARTING XDS run...')
+        t0=time.time()
         self.xds_first.executeSynchronous()
         if self.xds_first.isFailure():
             EDVerbose.ERROR('first XDS run failed')
             self.setFailure()
             return
         EDVerbose.screen('FINISHED first XDS run')
+
+        self.stats['first_xds'] = time.time() - t0
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
 
         # apply the first res cutoff with the res extracted from the first XDS run
         EDVerbose.screen('STARTING first resolution cutoff')

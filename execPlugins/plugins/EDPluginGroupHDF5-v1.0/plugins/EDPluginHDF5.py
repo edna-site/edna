@@ -432,7 +432,6 @@ class EDPluginHDF5(EDPlugin):
         @return: the piece of data wanted  
         @rtype: numpy array
         """
-        EDVerbose.WARNING("What about unicode and hdf5 bug ? please fixe this !")
         npArray = None
         if filename in cls.__dictHDF5:
             h5file = cls.__dictHDF5[filename]

@@ -30,20 +30,29 @@ __license__ = "GPLv3+"
 __copyright__ = "2011, ESRF, Grenoble"
 __date__ = "20120112"
 __doc__ = "This is a python module to measure image offsets using pyfftw3 or fftpack"
-import os, threading, time
+import os, threading, time, gc
 try:
     import fftw3
 except ImportError:
     fftw3 = None
+try:
+    import pycuda
+    import pycuda.autoinit
+    import pycuda.elementwise
+    import pycuda.gpuarray as gpuarray
+    import scikits.cuda.fft as cu_fft
+except ImportError:
+    cu_fft = None
+
 import numpy
 from math import ceil, floor
 sem = threading.Semaphore()
-
+masks = {}
 def shift(input, shift):
     """
     Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order=0) but faster
     @param input: 2d numpy array
-    @param shift: 2-tuple of integers 
+    @param shift: 2-tuple of integers
     @return: shifted image
     """
     re = numpy.zeros_like(input)
@@ -63,9 +72,9 @@ def shiftFFT(inp, shift, method="fftw"):
     Do shift using FFTs
     Shift an array like  scipy.ndimage.interpolation.shift(input, shift, mode="wrap", order="infinity") but faster
     @param input: 2d numpy array
-    @param shift: 2-tuple of float 
+    @param shift: 2-tuple of float
     @return: shifted image
-    
+
     """
     d0, d1 = inp.shape
     v0, v1 = shift
@@ -97,7 +106,7 @@ def maximum_position(img):
     Find the position of the maximum of the values of the array.
 
     @param img: 2-D image
-    @return: 2-tuple of int with the position of the maximum  
+    @return: 2-tuple of int with the position of the maximum
     """
     maxarg = numpy.argmax(img)
     s0, s1 = img.shape
@@ -108,7 +117,7 @@ def center_of_mass(img):
     Calculate the center of mass of of the array.
     Like scipy.ndimage.measurements.center_of_mass
     @param img: 2-D array
-    @return: 2-tuple of float with the center of mass 
+    @return: 2-tuple of float with the center of mass
     """
     d0, d1 = img.shape
     a0, a1 = numpy.ogrid[:d0, :d1]
@@ -119,13 +128,88 @@ def center_of_mass(img):
 
 
 
-def measure_offset(img1, img2, method="fftw", withLog=False):
+class CudaCorrelate(object):
+    plans = {}
+    data1_gpus = {}
+    data2_gpus = {}
+    multconj = None
+    ctx = None
+#    pycuda.autoinit.context.pop()
+#    ctx.pop()
+    sem = threading.Semaphore()
+    initsem = threading.Semaphore()
+
+    def __init__(self, shape):
+        self.shape = tuple(shape)
+
+    def init(self):
+        if self.ctx is None:
+            with self.__class__.initsem:
+                if self.ctx is None:
+                    self.__class__.ctx = pycuda.autoinit.context
+        if not self.shape in self.plans:
+            with self.__class__.initsem:
+                if not self.shape in self.plans:
+                    self.ctx.push()
+                    if not self.__class__.multconj:
+                        self.__class__.multconj = pycuda.elementwise.ElementwiseKernel("pycuda::complex<double> *a, pycuda::complex<double> *b", "a[i]*=conj(b[i])")
+                    if self.shape not in self.__class__.data1_gpus:
+                        self.__class__.data1_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if self.shape not in self.__class__.data2_gpus:
+                        self.__class__.data2_gpus[self.shape] = gpuarray.empty(self.shape, numpy.complex128)
+                    if self.shape not in self.__class__.plans:
+                        self.__class__.plans[self.shape] = cu_fft.Plan(self.shape, numpy.complex128, numpy.complex128)
+                    self.ctx.synchronize()
+                    self.ctx.pop()
+    @classmethod
+    def clean(cls):
+        with initsem:
+            with sem:
+                if self.ctx:
+                    cls.ctx.push()
+                    for plan_name in list(cls.plans.keys()):
+                        plan = cls.plans.pop(plan_name)
+                        del plan
+                    for plan_name in list(cls.data1_gpus.keys()):
+                        data = cls.data1_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    for plan_name in cls.data2_gpus.copy():
+                        data = cls.data2_gpus.pop(plan_name)
+                        data.gpudata.free()
+                        del data
+                    cls.ctx.pop()
+                    cls.ctx = None
+
+    def correlate(self, data1, data2):
+        self.init()
+        with self.__class__.sem:
+            self.ctx.push()
+            plan = self.__class__.plans[self.shape]
+            data1_gpu = self.__class__.data1_gpus[self.shape]
+            data2_gpu = self.__class__.data2_gpus[self.shape]
+            data1_gpu.set(data1.astype(numpy.complex128))
+            cu_fft.fft(data1_gpu, data1_gpu, plan)
+            data2_gpu.set(data2.astype(numpy.complex128))
+            cu_fft.fft(data2_gpu, data2_gpu, plan)
+    #            data1_gpu *= data2_gpu.conj()
+            self.multconj(data1_gpu, data2_gpu)
+            cu_fft.ifft(data1_gpu, data1_gpu, plan, True)
+#            self.ctx.synchronize()
+            res = data1_gpu.get().real
+            self.ctx.pop()
+        return res
+
+def measure_offset(img1, img2, method="fftw", withLog=False, withCorr=False):
     """
     Measure the actual offset between 2 images
-    @param img1: ndarray, first image 
+    @param img1: ndarray, first image
     @param img2: ndarray, second image, same shape as img1
+    @param withLog: shall we return logs as well ? boolean
+    @param _shared: DO NOT USE !!!
     @return: tuple of floats with the offsets
     """
+    method = str(method)
     ################################################################################
     # Start convolutions
     ################################################################################
@@ -147,7 +231,10 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
         output *= temp
         ifft()
         res = input.real / input.size
-
+    if method[:4] == "cuda" and (cu_fft is not None):
+        with sem:
+            cuda_correlate = CudaCorrelate(shape)
+            res = cuda_correlate.correlate(img1, img2)
     else:#use numpy fftpack
         i1f = numpy.fft.fft2(img1)
         i2f = numpy.fft.fft2(img2)
@@ -184,9 +271,15 @@ def measure_offset(img1, img2, method="fftw", withLog=False):
     logs.append("MeasureOffset: fine result: %s %s" % offset)
     logs.append("MeasureOffset: execution time: %.3fs with %.3fs for FFTs" % (t2 - t0, t1 - t0))
     if withLog:
-        return offset, logs
+        if withCorr:
+            return offset, logs, new
+        else:
+            return offset, logs
     else:
-        return offset
+        if withCorr:
+            return offset, new
+        else:
+            return offset
 
 def merge3(a, b, c, ROI=None):
     """
@@ -246,5 +339,47 @@ def patch(*arrays):
     out[idx == 0] = 0
     return out
 
+def gaussian(M, std, sym=True):
+    """Return a Gaussian window of length M with standard-deviation std.
 
+    """
+    if M < 1:
+        return numpy.array([])
+    if M == 1:
+        return numpy.ones(1, 'd')
+    odd = M % 2
+    if not sym and not odd:
+        M = M + 1
+    n = numpy.arange(0, M) - (M - 1.0) / 2.0
+    sig2 = 2 * std * std
+    w = numpy.exp(-n ** 2 / sig2)
+    if not sym and not odd:
+        w = w[:-1]
+    return w
 
+def make_mask(shape, width):
+    """
+    Create a 2D mask with 1 in the center and fades-out to 0 on the border.
+    """
+    assert len(shape) == 2
+    s0, s1 = shape
+    try:
+        if len(width) == 2:
+            w0, w1 = width
+        else:
+            w0 = w1 = width
+    except TypeError:
+        w0 = w1 = width
+    key = ((s0, s1), (w0, w1))
+    if key not in masks:
+        g0 = gaussian(s0, w0)
+        g1 = gaussian(s1, w1)
+        h0 = numpy.empty_like(g0)
+        h1 = numpy.empty_like(g1)
+        h0[:s0 // 2] = g0[s0 - s0 // 2:]
+        h0[s0 // 2:] = g0[:s0 - s0 // 2]
+        h1[:s1 // 2] = g1[s1 - s1 // 2:]
+        h1[s1 // 2:] = g1[:s1 - s1 // 2]
+        mask = numpy.outer(1 - h0, 1 - h1)
+        masks[key] = mask
+    return masks[key]

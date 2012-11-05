@@ -41,14 +41,14 @@ __date__ = "20120131"
 
 import sys, os, threading, urllib2
 
-from EDVerbose          import EDVerbose
-from EDUtilsPath        import EDUtilsPath
-from EDTestCase         import EDTestCase
-from EDUtilsTest        import EDUtilsTest
-from EDUtilsFile        import EDUtilsFile
-from EDApplication      import EDApplication
-from EDConfiguration    import EDConfiguration
-from EDFactoryPlugin    import EDFactoryPlugin
+from EDVerbose             import EDVerbose
+from EDUtilsPath           import EDUtilsPath
+from EDTestCase            import EDTestCase
+from EDUtilsTest           import EDUtilsTest
+from EDUtilsFile           import EDUtilsFile
+from EDConfigurationStatic import EDConfigurationStatic, EDConfiguration
+from EDFactoryPlugin       import EDFactoryPlugin
+from EDDecorator           import deprecated
 
 iMAX_DOWNLOAD_TIME = 60
 
@@ -70,7 +70,6 @@ class EDTestCasePlugin(EDTestCase):
         self._strPluginTestsDataHome = EDUtilsTest.getPluginTestDataDirectory(self.getClassName())
         self._listRequiredConfigurationPluginNames = []
         self._strConfigurationFile = None
-        self._dictConfigurations = {} #key=pluginName ; value=config
 
 
     def preProcess(self):
@@ -84,34 +83,40 @@ class EDTestCasePlugin(EDTestCase):
             self._listRequiredConfigurationPluginNames.append(self.getPluginName())
         # Check if the required plugin parameters are available
         for strPluginName in self._listRequiredConfigurationPluginNames:
-            if self.getPluginConfiguration(strPluginName) is None:
+            if self.getPluginConfig(strPluginName) is None:
                 EDVerbose.DEBUG("EDTestCasePlugin.preProcess: plugin configuration NOT found for plugin %s" % strPluginName)
                 self.setReasonForNotBeingExectuted("Missing configuration for %s" % strPluginName)
             else:
                 EDVerbose.DEBUG("EDTestCasePlugin.preProcess: plugin configuration found for plugin %s" % strPluginName)
 
 
+    def getPluginConfig(self, _strPluginName=None):
+        # Load the configuration file if provided
+        dictConfig = None
+        if _strPluginName is None:
+            strPluginName = self.getPluginName()
+        else:
+            strPluginName = _strPluginName
+        if self._strConfigurationFile is not None:
+            edConfig = EDConfiguration(self._strConfigurationFile)
+            dictConfig = edConfig.get(strPluginName)
+        else:
+            dictConfig = EDConfigurationStatic.get(strPluginName)
+        return dictConfig
+
+    @deprecated
     def getPluginConfiguration(self, _strPluginName=None):
         # Load the configuration file if provided
-        if _strPluginName == None:
-            _strPluginName = self.getPluginName()
-        if _strPluginName in self._dictConfigurations :
-            xsConfiguration = self._dictConfigurations[_strPluginName]
+        xsConfiguration = None
+        if _strPluginName is None:
+            strPluginName = self.getPluginName()
         else:
-            xsConfiguration = None
-            if (self._strConfigurationFile is not None):
-                edConfigurationTest = EDConfiguration(self._strConfigurationFile)
-                edConfigurationTest.load()
-                if (edConfigurationTest is not None):
-                    xsConfiguration = edConfigurationTest.getPluginItem(_strPluginName)
-            if xsConfiguration is None:
-                xsConfiguration = EDApplication.getApplicationPluginConfiguration(_strPluginName)
-            if xsConfiguration is None:
-                # No application wide configuration file found! Try to find a project specific config file:
-                xsConfiguration = EDApplication.getProjectPluginConfiguration(_strPluginName)
-            if xsConfiguration is None:
-                EDVerbose.WARNING("EDTestCasePlugin.getPluginConfiguration: xsConfiguration is still None after all guesses: Expect to fail soon")
-            self._dictConfigurations[_strPluginName] = xsConfiguration
+            strPluginName = _strPluginName
+        if self._strConfigurationFile is not None:
+            edConfig = EDConfiguration(self._strConfigurationFile)
+            xsConfiguration = edConfig.getXSConfigurationItem(strPluginName)
+        else:
+            xsConfiguration = EDConfigurationStatic.getXSConfigurationItem(strPluginName)
         return xsConfiguration
 
 

@@ -7,7 +7,7 @@ dist
 build
 eggs
 parts
-bin
+
 # except this thing I had to write for start the autoproc
 !mxPluginExec/plugins/EDPluginGroupAutoproc/plugins/bin
 
@@ -15,8 +15,6 @@ var
 sdist
 develop-eggs
 .installed.cfg
-
-
 
 # the libraries dir may contain stuff that is downloaded, so we ignore archives
 *.gz
@@ -37,3 +35,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#EDNA/eclipse specific
+/.XSDataDictionaryModule.xml
+/.project
+/.pydevproject

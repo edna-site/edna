@@ -60,6 +60,10 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
     size = None
     maxThreads = None
 
+    __strControlledPluginWait = "EDPluginWaitFile"
+    __strControlledPluginSAS = "EDPluginControlSolutionScatteringv0_4"
+    __strControlledPluginRsync = "EDPluginExecRsync"
+
 
     def __init__(self):
         """
@@ -67,9 +71,6 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputBioSaxsToSASv1_0)
 
-        self.__strControlledPluginWait = "EDPluginWaitFile"
-        self.__strControlledPluginSAS = "EDPluginControlSolutionScatteringv0_4"
-        self.__strControlledPluginRsync = "EDPluginExecRsync"
         self.__edPluginExecWait = None
         self.__edPluginExecSAS = None
         self.__edPluginExecRsync = None
@@ -95,12 +96,13 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
         """
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginBioSaxsToSASv1_0.configure")
+
         if (self.__class__.size is None) or (self.__class__.maxThreads is None):
             xsPluginItem = self.getConfiguration()
             if (xsPluginItem == None):
                 self.warning("EDPluginBioSaxsToSASv1_0.configure: No plugin item defined.")
                 xsPluginItem = XSPluginItem()
-            conf_size = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_FILE_SIZE)
+            conf_size = self.config.get(self.CONF_FILE_SIZE, None)
             if conf_size is None:
                 strMessage = 'EDPluginBioSaxsToSASv1_0.configure: Configuration parameter missing: \
     %s for %s, defaulting to "1000"' % (self.CONF_FILE_SIZE, EDUtilsPath.EDNA_SITE)
@@ -109,7 +111,7 @@ class EDPluginBioSaxsToSASv1_0(EDPluginControl):
                 self.__class__.size = 1000
             else:
                 self.__class__.size = int(conf_size)
-            maxThreads = EDConfiguration.getStringParamValue(xsPluginItem, self.CONF_MAX_THREAD)
+            maxThreads = self.config.get(self.CONF_MAX_THREAD, None)
             if maxThreads is None:
                 strMessage = 'EDPluginBioSaxsToSASv1_0.configure: Configuration parameter missing: \
     %s for %s, defaulting to "max"' % (self.CONF_MAX_THREAD, EDUtilsPath.EDNA_SITE)

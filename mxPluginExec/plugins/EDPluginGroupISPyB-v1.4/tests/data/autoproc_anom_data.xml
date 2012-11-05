@@ -1,0 +1,132 @@
+<AutoProcContainer>
+<AutoProc>
+  <spaceGroup> P 1 2 1 </spaceGroup>
+  <refinedCell_a>58.5</refinedCell_a>
+  <refinedCell_b>88.1</refinedCell_b>
+  <refinedCell_c>59.5</refinedCell_c>
+  <refinedCell_alpha>90.0</refinedCell_alpha>
+  <refinedCell_beta>101.8</refinedCell_beta>
+  <refinedCell_gamma>90.0</refinedCell_gamma>
+  </AutoProc>
+<AutoProcScalingContainer>
+  <AutoProcScaling>
+  <recordTimeStamp>2012-09-26 13:19:38</recordTimeStamp>
+  </AutoProcScaling>
+
+<AutoProcScalingStatistics>
+  <scalingStatisticsType>overall</scalingStatisticsType>
+  <meanIOverSigI>17.51</meanIOverSigI>
+  <completeness>98.3</completeness>
+  <multiplicity>3.32</multiplicity>
+  <resolutionLimitLow>100</resolutionLimitLow>
+  <resolutionLimitHigh>2.35</resolutionLimitHigh>
+  <nTotalObservations>82052</nTotalObservations>
+  <rMerge>4.0</rMerge>
+  <anomalous>1</anomalous>
+  </AutoProcScalingStatistics>
+
+<AutoProcScalingStatistics>
+  <scalingStatisticsType>innerShell</scalingStatisticsType>
+  <meanIOverSigI>47.05</meanIOverSigI>
+  <completeness>98.0</completeness>
+  <multiplicity>3.27</multiplicity>
+  <resolutionLimitLow>100</resolutionLimitLow>
+  <resolutionLimitHigh>5.06</resolutionLimitHigh>
+  <nTotalObservations>8317</nTotalObservations>
+  <rMerge>1.9</rMerge>
+  <anomalous>1</anomalous>
+  </AutoProcScalingStatistics>
+
+<AutoProcScalingStatistics>
+  <scalingStatisticsType>outerShell</scalingStatisticsType>
+  <meanIOverSigI>1.50</meanIOverSigI>
+  <completeness>97.7</completeness>
+  <multiplicity>3.06</multiplicity>
+  <resolutionLimitLow>2.43</resolutionLimitLow>
+  <resolutionLimitHigh>2.35</resolutionLimitHigh>
+  <nTotalObservations>7078</nTotalObservations>
+  <rMerge>75.7</rMerge>
+  <anomalous>1</anomalous>
+  </AutoProcScalingStatistics>
+
+     <AutoProcIntegrationContainer>
+       <Image>
+          <dataCollectionId>1029106</dataCollectionId>
+       </Image>
+
+       <AutoProcIntegration>
+         <cell_a>58.5</cell_a>
+         <cell_b>88.1</cell_b>
+         <cell_c>59.5</cell_c>
+         <cell_alpha>90.0</cell_alpha>
+         <cell_beta>101.8</cell_beta>
+         <cell_gamma>90.0</cell_gamma>
+         <anomalous>1</anomalous>
+       </AutoProcIntegration>
+    </AutoProcIntegrationContainer>
+  </AutoProcScalingContainer>
+<AutoProcProgramContainer>
+
+       <AutoProcProgram>
+         <processingCommandLine>fastproc</processingCommandLine>
+         <processingPrograms>fastproc</processingPrograms>
+       </AutoProcProgram>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>merged_anom_sc2mtz.mtz.gz</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>merged_anom_pointless_multirecord.mtz.gz</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>merged_anom_pointless.mtz.gz</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>merged_anom.sca.gz</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>unmerged_anom.sca.gz</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>merged_anom_pointless.mtz_scala.log</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>merged_anom_XSCALE.LP</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>XDS.INP</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+
+        <AutoProcProgramAttachment>
+          <fileType>Result</fileType>
+          <fileName>scala_anom.inp</fileName>
+          <filePath>/data/pyarch/id29/fx1/20120926/RAW_DATA/AVD022/MD5896/xds_AVD022-MD5896_run37_1/xds_fastproc</filePath>
+        </AutoProcProgramAttachment>
+      </AutoProcProgramContainer>
+
+</AutoProcContainer>
+
+

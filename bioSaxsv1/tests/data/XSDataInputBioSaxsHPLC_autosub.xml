@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+	<rawImage><path><value>${EDNA_TESTIMAGES}/bioSaxsRaw.edf</value></path></rawImage>
+	<logFile><path><value>/tmp/edna-${USER}/bioSaxsNormalized.log</value></path></logFile>
+	<normalizedImage><path><value>/tmp/edna-${USER}/bioSaxsProcessNormalized.edf</value></path></normalizedImage>
+	<integratedImage><path><value>/tmp/edna-${USER}/bioSaxsProcessIntegrated.edf</value></path></integratedImage>
+	<integratedCurve><path><value>/tmp/edna-${USER}/bioSaxsProcessIntegrated.dat</value></path></integratedCurve>
+	<bufferCurve><path><value>${EDNA_TESTIMAGES}/averbuffer.dat</value></path></bufferCurve>
+	<rawImageSize><path><value>4090000</value></path></rawImageSize>
+	<experimentSetup>
+		<detector><value>pilatus</value></detector>
+		<detectorDistance><value>2.425</value></detectorDistance>
+		<pixelSize_1><value>172.0e-6</value></pixelSize_1>
+		<pixelSize_2><value>172.0e-6</value></pixelSize_2>
+		<beamCenter_1><value>871.0</value></beamCenter_1>
+		<beamCenter_2><value>105.0</value></beamCenter_2>
+		<beamStopDiode><value>2.03737e-05</value></beamStopDiode>
+		<machineCurrent><value>85.5755</value></machineCurrent>
+		<maskFile><path><value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value></path></maskFile>
+		<wavelength><value>9.31e-11</value><unit>m</unit></wavelength>
+		<normalizationFactor><value>1.0</value></normalizationFactor>
+	</experimentSetup>
+	<sample>
+		<concentration><value>5.77</value></concentration>
+		<comments><value>bsa2</value></comments>
+		<code><value>BSA</value></code>
+	</sample>
+</XSDataInput>

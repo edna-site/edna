@@ -66,8 +66,3 @@ class EDTestCasePluginExecuteControlISPyBv1_4(EDTestCasePluginExecute):
     def process(self):
         self.addTestMethod(self.testExecute)
 
-
-
-if __name__ == '__main__':
-    edTestCasePluginExecuteControlISPyBv1_4 = EDTestCasePluginExecuteControlISPyBv1_4("EDTestCasePluginExecuteControlISPyBv1_4")
-    edTestCasePluginExecuteControlISPyBv1_4.execute()

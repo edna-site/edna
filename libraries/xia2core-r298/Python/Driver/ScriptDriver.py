@@ -147,7 +147,7 @@ class ScriptDriver(DefaultDriver):
             xstatus_file = os.path.join(self._working_directory,
                                         '%s.xstatus' % self._script_name)
             self._script_status = int(open(xstatus_file, 'r').read())
-        except:
+        except Exception:
             # this could happen on windows if the program in question
             # is a batch file...
             self._script_status = 0

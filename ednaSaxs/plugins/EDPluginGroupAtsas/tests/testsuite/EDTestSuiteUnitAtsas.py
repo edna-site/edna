@@ -36,13 +36,20 @@ class EDTestSuiteUnitAtsas(EDTestSuite):
     """
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitExecDatcmpv1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitExecDataverv1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitExecDatopv1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitExecAutoRgv1_0")
-        self.addTestCaseFromName("EDTestCasePluginUnitAutoSubv1_0")
-
-
+        tests = ['EDTestCasePluginUnitExecGnomv0_1',
+                 'EDTestCasePluginUnitExecDamaverv0_1',
+                 'EDTestCasePluginUnitExecSupcombv0_1',
+                 'EDTestCasePluginUnitExecGnomv0_2',
+                 'EDTestCasePluginUnitExecAutoRgv1_0',
+                 'EDTestCasePluginUnitExecDammifv0_1',
+                 'EDTestCasePluginUnitExecDamstartv0_1',
+                 'EDTestCasePluginUnitExecDamminv0_1',
+                 'EDTestCasePluginUnitExecDatopv1_0',
+                 'EDTestCasePluginUnitExecDamfiltv0_1',
+                 'EDTestCasePluginUnitExecDataverv1_0',
+                 'EDTestCasePluginUnitExecDatcmpv1_0']
+        for test in tests:
+            self.addTestCaseFromName(test)
 
 if __name__ == '__main__':
 

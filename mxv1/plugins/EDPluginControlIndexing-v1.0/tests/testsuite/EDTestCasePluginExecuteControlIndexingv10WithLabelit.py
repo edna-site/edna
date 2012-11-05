@@ -42,9 +42,6 @@ class EDTestCasePluginExecuteControlIndexingv10WithLabelit(EDTestCasePluginExecu
     def __init__(self, _edStringTestName=None):
         EDTestCasePluginExecuteControlIndexingv10.__init__(self, _edStringTestName)
         self.setRequiredPluginConfiguration("EDPluginLabelitIndexingv1_1")
-        edStringConfigurationLabelit = os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_IndexingWithLabelit.xml")
-        self.setConfigurationFile(edStringConfigurationLabelit)
-
 
 
 

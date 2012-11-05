@@ -1,5 +1,10 @@
 <?xml version="1.0" ?>
 <XSConfiguration>
+
+  <XSImportConfiguration>
+  	<name>XSConfiguration_ESRF_Common</name>
+  </XSImportConfiguration>
+
   <XSPluginList>
     <XSPluginItem>
       <name>EDPluginLabelitv10</name>
@@ -447,7 +452,7 @@
 	</XSParamItem>
 	<XSParamItem>
 	  <name>timeOut</name>
-	  <value>1200</value>
+	  <value>1800</value>
 	</XSParamItem>
       </XSParamList>
     </XSPluginItem>
@@ -490,7 +495,7 @@
       <XSParamList>
 	<XSParamItem>
 	  <name>timeOut</name>
-	  <value>1200</value>
+	  <value>1800</value>
 	</XSParamItem>
       </XSParamList>
     </XSPluginItem>
@@ -570,4 +575,5 @@
     </XSPluginItem>
 
   </XSPluginList>
+
 </XSConfiguration>

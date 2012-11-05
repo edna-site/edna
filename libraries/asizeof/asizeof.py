@@ -703,7 +703,7 @@ def _weak_refs(obj, unused): # named unused for PyChecker
     '''
     try: # ignore 'key' of KeyedRef
         return (obj(),)
-    except: # XXX ReferenceError
+    except Exception: # XXX ReferenceError
         return () #PYCHOK OK
 
 _all_refs = (None, _class_refs, _co_refs, _dict_refs, _enum_refs,
@@ -1223,7 +1223,7 @@ except NameError: # missing
 
 try: # Exception is type in Python 3.0
     _typedef_both(Exception, refs=_exc_refs)
-except: # missing
+except Exception: # missing
     pass #PYCHOK OK
 
 try:

@@ -46,7 +46,7 @@ pydictModulesBeforePIL = sys.modules.copy()
 
 try:
     import Image
-except:
+except Exception:
     if  os.path.isdir(imagingPath) and (imagingPath not in sys.path):
         sys.path.insert(1, imagingPath)
     else:
@@ -84,7 +84,7 @@ def installNumpy():
 
 try:
     import numpy
-except:
+except Exception:
     if os.path.isdir(numpyPath)and (numpyPath not in sys.path):
         sys.path = [".", numpyPath] + sys.path[1:]
     else:
@@ -121,7 +121,7 @@ def installFabio():
 
 try:
     import fabio
-except:
+except Exception:
     if os.path.isdir(fabioPath) and (fabioPath not in sys.path):
         sys.path = [".", fabioPath] + sys.path[1:]
         import fabio

@@ -1,0 +1,31 @@
+{
+    "__extend__": [], 
+
+    "EDPluginBioSaxsSmartMergev1_4": {
+        "writeXMLInputOutput": 0
+    }, 
+    "EDPluginBioSaxsProcessOneFilev1_2": {
+        "writeXMLInputOutput": 0
+    }, 
+    "EDPluginBioSaxsAzimutIntv1_1": {}, 
+    "EDPluginExecBioSaxsReprocessv1_0": {}, 
+    "EDPluginBioSaxsToSASv1_0": {
+        "fileSize": 1000, 
+        "timeOut": 1000
+    }, 
+    "EDPluginBioSaxsAzimutIntv1_0": {}, 
+    "EDPluginBioSaxsReprocessv1_0": {}, 
+    "EDPluginBioSaxsAzimutIntv1_2": {}, 
+    "EDPluginBioSaxsAzimutIntv1_3": {}, 
+    "EDPluginBioSaxsHPLCv1_0": {
+        "writeXMLInputOutput": 0
+    }, 
+    "EDPluginBioSaxsMetadatav1_1": {
+        "writeXMLInputOutput": 0
+    }, 
+    "EDPluginBioSaxsNormalizev1_0": {}, 
+    "EDPluginBioSaxsNormalizev1_1": {
+        "DummyPixelValue": -1, 
+        "writeXMLInputOutput": 0
+    }
+}

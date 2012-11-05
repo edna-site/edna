@@ -1,0 +1,9 @@
+{
+    "__extend__": [], 
+    "EDPluginBioSaxsAzimutIntv1_0": {}, 
+    "EDPluginBioSaxsReprocessv1_0": {}, 
+    "EDPluginBioSaxsNormalizev1_0": {}, 
+    "EDPluginBioSaxsNormalizev1_1": {
+        "DummyPixelValue": -1
+    }
+}

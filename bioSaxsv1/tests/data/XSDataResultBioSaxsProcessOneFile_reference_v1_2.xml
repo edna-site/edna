@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<XSDataResultBioSaxsProcessOneFilev1_0>
+    <normalizedImage>
+        <path>
+            <value>/tmp/edna-${USER}/bioSaxsProcessNormalized.edf</value>
+        </path>
+    </normalizedImage>
+    <integratedCurve>
+        <path>
+            <value>/tmp/edna-${USER}/bioSaxsProcessIntegrated.dat</value>
+        </path>
+    </integratedCurve>    
+    <status>
+        <executiveSummary>
+            <value>Normalizing EDF frame '${EDNA_TESTIMAGES}/bioSaxsRaw.edf' -> '/tmp/edna-${USER}/bioSaxsProcessNormalized.edf'
+Normalized image by factor 49082.886 
+Retrieve metadata from file /tmp/edna-${USER}/bioSaxsProcessNormalized.edf
+Azimuthal integration of Corrected+Masked EDF image -->'/tmp/edna-${USER}/bioSaxsProcessIntegrated.dat'.</value>
+        </executiveSummary>
+    </status>
+    <sample>
+        <concentration>
+            <value>5.7699999999999996e+00</value>
+        </concentration>
+        <comments>
+            <value>bsa2</value>
+        </comments>
+        <code>
+            <value>BSA</value>
+        </code>
+    </sample>
+    <experimentSetup>
+        <detector>
+            <value>pilatus</value>
+        </detector>
+        <detectorDistance>
+            <value>2.4249999999999998e+00</value>
+        </detectorDistance>
+        <pixelSize_1>
+            <value>1.7200000000000001e-04</value>
+        </pixelSize_1>
+        <pixelSize_2>
+            <value>1.7200000000000001e-04</value>
+        </pixelSize_2>
+        <beamCenter_1>
+            <value>8.7100000000000000e+02</value>
+        </beamCenter_1>
+        <beamCenter_2>
+            <value>1.0500000000000000e+02</value>
+        </beamCenter_2>
+        <beamStopDiode>
+            <value>2.0373700000000001e-05</value>
+        </beamStopDiode>
+        <wavelength>
+            <value>9.3099999999999994e-11</value>
+        </wavelength>
+        <machineCurrent>
+            <value>8.5575500000000005e+01</value>
+        </machineCurrent>
+        <maskFile>
+            <path>
+                <value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value>
+            </path>
+        </maskFile>
+        <normalizationFactor>
+            <value>1.0000000000000000e+00</value>
+        </normalizationFactor>
+        <timeOfFrame>
+            <value>1.2736735960000000e+09</value>
+        </timeOfFrame>
+    </experimentSetup>
+    
+</XSDataResultBioSaxsProcessOneFilev1_0>

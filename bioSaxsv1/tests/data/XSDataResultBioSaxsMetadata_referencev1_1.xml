@@ -36,6 +36,9 @@
     <machineCurrent>
         <value>8.557550e+01</value>
     </machineCurrent>
+    <timeOfFrame>
+        <value>1.2736735960000000e+09</value>
+    </timeOfFrame>    
     <maskFile>
         <path>
             <value>${EDNA_TESTIMAGES}/bioSaxsMask.edf</value>
@@ -62,6 +65,18 @@
         <detectorDistance>
             <value>2.425000e+00</value>
         </detectorDistance>
+	    <pixelSize_1>
+	        <value>1.720000e-04</value>
+	    </pixelSize_1>
+	    <pixelSize_2>
+	        <value>1.720000e-04</value>
+	    </pixelSize_2>
+	    <beamCenter_1>
+	        <value>8.710000e+02</value>
+	    </beamCenter_1>
+	    <beamCenter_2>
+	        <value>1.050000e+02</value>
+	    </beamCenter_2>
         <beamStopDiode>
             <value>2.037370e-05</value>
         </beamStopDiode>
@@ -79,6 +94,10 @@
         <normalizationFactor>
             <value>1.000000e+00</value>
         </normalizationFactor>
+        <timeOfFrame>
+        	<value>1.2736735960000000e+09</value>
+    	</timeOfFrame>    
+        
     </experimentSetup>
     <outputImage>
         <path>

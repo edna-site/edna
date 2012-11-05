@@ -282,25 +282,22 @@ class EDPluginControlKappaStrategyv2_0(EDPluginControl):
     def configure(self):
         EDPluginControl.configure(self)
         EDVerbose.DEBUG("EDPluginControlKappaStrategyv2_0.configure")
-        pluginConfiguration = self.getConfiguration()
+        strSymopHome = self.config.get(self.strCONF_SYMOP_HOME)
+        if strSymopHome is None:
+            strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlKappaStrategyv2_0.configure', self.strCONF_SYMOP_HOME, self.getPluginName())
+            EDVerbose.warning(strWarningMessage)
+            self.addWarningMessage(strWarningMessage)
+        else:
+            strSymopHomeNorm = os.path.normpath(strSymopHome)
+            self.setSymopHome(strSymopHomeNorm)
 
-        if pluginConfiguration != None:
-            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, self.strCONF_SYMOP_HOME)
-            if(strSymopHome == None):
-                strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlKappaStrategyv2_0.configure', self.strCONF_SYMOP_HOME, self.getPluginName())
-                EDVerbose.warning(strWarningMessage)
-                self.addWarningMessage(strWarningMessage)
-            else:
-                strSymopHomeNorm = os.path.normpath(strSymopHome)
-                self.setSymopHome(strSymopHomeNorm)
-
-            strSymopHome = EDConfiguration.getStringParamValue(pluginConfiguration, "KAPPA")
-            if(strSymopHome == None or strSymopHome != "ON"):
-                #self.strPluginStrategyName = "EDPluginControlStrategyv10"
-                #self.strPluginStrategyName = "EDPluginControlStrategyv2_0"
-                self.KappaStrategy = 0
-            else:
-                self.KappaStrategy = 1
+        bKappaOn = self.config.get("KAPPA")
+        if bKappaOn:
+            #self.strPluginStrategyName = "EDPluginControlStrategyv10"
+            #self.strPluginStrategyName = "EDPluginControlStrategyv2_0"
+            self.KappaStrategy = 1
+        else:
+            self.KappaStrategy = 0
 
 
     def process(self, _edObject=None):

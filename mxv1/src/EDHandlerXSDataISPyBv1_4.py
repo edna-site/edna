@@ -36,7 +36,7 @@ from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataDouble
 
 
-import time
+import os, time
 
 EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
 
@@ -51,6 +51,7 @@ from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategyContainer
 from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategyWedgeContainer
 from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategyWedge
 from XSDataISPyBv1_4 import XSDataISPyBScreeningStrategySubWedge
+from XSDataISPyBv1_4 import XSDataISPyBImage
 
 
 class EDHandlerXSDataISPyBv1_4(object):
@@ -62,6 +63,9 @@ class EDHandlerXSDataISPyBv1_4(object):
 
         xsDataResultCharacterisation = _xsDataInputControlISPyB.getCharacterisationResult()
         xsDataIntegerDataCollectionId = _xsDataInputControlISPyB.getDataCollectionId()
+
+        # ISPyB image
+        xsDataISPyBImage = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBImage(xsDataResultCharacterisation)
 
         # Diffraction plan
         xsDataISPyBDiffractionPlan = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBDiffractionPlan(xsDataResultCharacterisation)
@@ -85,11 +89,9 @@ class EDHandlerXSDataISPyBv1_4(object):
         xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningOutputContainer(xsDataResultCharacterisation, \
                                                                                                                    _strStatusMessage)
 
-        # Legacy strategy - everything stored in a list of XSDataISPyBStrategy entries
-        EDHandlerXSDataISPyBv1_4.generateLegacyXSDataISPyBStrategy(xsDataResultCharacterisation, xsDataISPyBScreeningOutputContainer)
-
         # Assemble the input
         xsDataISPyBScreening.dataCollectionId = xsDataIntegerDataCollectionId
+        xsDataInputISPyBStoreScreening.image = xsDataISPyBImage
         xsDataInputISPyBStoreScreening.diffractionPlan = xsDataISPyBDiffractionPlan
         xsDataInputISPyBStoreScreening.screening = xsDataISPyBScreening
         xsDataInputISPyBStoreScreening.addScreeningOutputContainer(xsDataISPyBScreeningOutputContainer)
@@ -97,6 +99,29 @@ class EDHandlerXSDataISPyBv1_4(object):
         return xsDataInputISPyBStoreScreening
 
 
+    def generateXSDataISPyBImage(_xsDataResultCharacterisation):
+        xsDataISPyBImage = None
+        # Find path to first image from data collection information
+        strPathToFirstImage = None
+        xsDataCollection = _xsDataResultCharacterisation.getDataCollection()
+        if (xsDataCollection is not None):
+            lXSDataSubWedge = xsDataCollection.getSubWedge()
+            if (lXSDataSubWedge is not None):
+                xsDataSubWedgeFirst = lXSDataSubWedge[0]
+                lXSDataImage = xsDataSubWedgeFirst.getImage()
+                if (lXSDataImage is not None):
+                    xsDataImageFirst = lXSDataImage[ 0 ]
+                    strPathToFirstImage = xsDataImageFirst.getPath().getValue()
+
+            # Add an image path if the dataCollectionId is not present...
+            if (strPathToFirstImage is not None):
+                xsDataISPyBImage = XSDataISPyBImage()
+                strImageBaseName = os.path.basename(strPathToFirstImage)
+                strDirectoryName = os.path.dirname(strPathToFirstImage)
+                xsDataISPyBImage.setFileName(XSDataString(strImageBaseName))
+                xsDataISPyBImage.setFileLocation(XSDataString(strDirectoryName))
+        return xsDataISPyBImage
+    generateXSDataISPyBImage = staticmethod(generateXSDataISPyBImage)
 
     @staticmethod
     def generateXSDataISPyBDiffractionPlan(_xsDataResultCharacterisation):
@@ -252,7 +277,7 @@ class EDHandlerXSDataISPyBv1_4(object):
                                 numberOfImagesWedge += numberOfImagesSubWedge
                         xsDataISPyBScreeningStrategySubWedge.exposureTime = xsDataSubWedge.experimentalCondition.beam.exposureTime
                         xsDataISPyBScreeningStrategySubWedge.transmission = xsDataSubWedge.experimentalCondition.beam.transmission
-                    xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
+                        xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
                 if numberOfImagesWedge is not None:
                     xsDataISPyBScreeningStrategyWedge.numberOfImages = XSDataInteger(numberOfImagesWedge)
                 xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge = xsDataISPyBScreeningStrategyWedge

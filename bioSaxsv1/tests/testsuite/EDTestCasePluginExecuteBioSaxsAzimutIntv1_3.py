@@ -32,8 +32,10 @@ from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 from EDFactoryPluginStatic               import EDFactoryPluginStatic
+from EDUtilsParallel                     import EDUtilsParallel
 from XSDataBioSaxsv1_0 import XSDataResultBioSaxsAzimutIntv1_0
-
+from EDUtilsFile import EDUtilsFile
+from EDUtilsPath import  EDUtilsPath
 
 EDFactoryPluginStatic.loadModule("EDInstallNumpyv1_3")
 EDFactoryPluginStatic.loadModule("EDInstallSpecClient")
@@ -42,7 +44,7 @@ EDFactoryPluginStatic.loadModule("EDInstallPILv1_1_7")
 EDFactoryPluginStatic.loadModule("EDInstallFabio_v0_0_7")
 
 
-import EdfFile
+import fabio
 
 
 class EDTestCasePluginExecuteBioSaxsAzimutIntv1_3(EDTestCasePluginExecute):
@@ -55,7 +57,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_3(EDTestCasePluginExecute):
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputBioSaxsAzimutIntv1_1_reference.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                                     "XSDataResultBioSaxsAzimutIntv1_2_reference.xml"))
+                                                     "XSDataResultBioSaxsAzimutIntv1_3_reference.xml"))
 
     def preProcess(self):
         """
@@ -63,7 +65,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_3(EDTestCasePluginExecute):
         and remove any existing output file 
         """
         EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage([ "bioSaxsMask.edf", "bioSaxsNormalized.edf", "bioSaxsIntegratedv1_2.dat", "bioSaxsIntegrated.edf", "bioSaxsCorrected.edf"])
+        self.loadTestImage([ "bioSaxsMask.edf", "bioSaxsNormalized.edf", "bioSaxsIntegratedv1_3.dat", "bioSaxsCorrected.edf"])
         strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
         EDVerbose.DEBUG("strExpectedOutput:" + strExpectedOutput)
         xsDataResultReference = XSDataResultBioSaxsAzimutIntv1_0.parseString(strExpectedOutput)
@@ -75,14 +77,7 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_3(EDTestCasePluginExecute):
             EDVerbose.DEBUG(" Output Integrated Curve file exists %s, I will remove it" % self.integratedCurve)
             os.remove(self.integratedCurve)
 
-        self.integratedImage = xsDataResultReference.getIntegratedImage().getPath().value
-        EDVerbose.DEBUG("Output Integrated Image file is %s" % self.integratedImage)
-        if not os.path.isdir(os.path.dirname(self.integratedImage)):
-            os.makedirs(os.path.dirname(self.integratedImage))
-        if os.path.isfile(self.integratedImage):
-            EDVerbose.DEBUG(" Output Integrated Image file exists %s, I will remove it" % self.integratedImage)
-            os.remove(self.integratedImage)
-
+        EDUtilsParallel.initializeNbThread()
 #        self.correctedImage = xsDataResultReference.getCorrectedImage().getPath().value
 #        EDVerbose.DEBUG("Output Corrected Image file is %s" % self.correctedImage)
 #        if not os.path.isdir(os.path.dirname(self.correctedImage)):
@@ -112,50 +107,11 @@ class EDTestCasePluginExecuteBioSaxsAzimutIntv1_3(EDTestCasePluginExecute):
 # Compare spectrum ascii Files
 ################################################################################
 
-        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read()
-        referenceData = open(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_2.dat"), "rb").read()
-
+        outputData = open(xsDataResultObtained.getIntegratedCurve().getPath().value, "rb").read().split(os.linesep)
+        referenceData = EDUtilsFile.readFileAndParseVariables(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegratedv1_3.dat"), EDUtilsPath.getDictOfPaths()).split(os.linesep)
+        outputData = os.linesep.join([i for i in outputData if not i.startswith("# History")])
+        referenceData = os.linesep.join([i for i in referenceData if not i.startswith("# History")])
         EDAssert.strAlmostEqual(referenceData, outputData, _strComment="3column ascii spectra files are the same", _fRelError=0.1, _fAbsError=0.1, _strExcluded="bioSaxs")
-
-################################################################################
-# Compare images 
-################################################################################
-#        edfObt = EdfFile.EdfFile(xsDataResultObtained.getCorrectedImage().getPath().value)
-#        edfRef = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsCorrected.edf"))
-#        outputData = edfObt.GetData(0)
-#        referenceData = edfRef.GetData(0)
-#        EDAssert.arraySimilar(outputData, referenceData , _fAbsMaxDelta=0.1, _fScaledMaxDelta=0.05, _strComment="Corrected images are the same")
-
-#        headerRef = edfRef.GetHeader(0)
-#        headerObt = edfObt.GetHeader(0)
-#        keysRef = headerRef.keys()
-#        keysObt = headerObt.keys()
-#        keysRef.sort()
-#        keysObt.sort()
-#        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary for Corrected Images")
-#        for key in keysRef:
-#            EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value in Corrected %s are the same" % key, _strExcluded="bioSaxs")
-
-        edfObt = EdfFile.EdfFile(os.path.join(self.getTestsDataImagesHome(), "bioSaxsIntegrated.edf"))
-        edfRef = EdfFile.EdfFile(xsDataResultObtained.getIntegratedImage().getPath().value)
-        outputData = edfObt.GetData(0)
-        referenceData = edfRef.GetData(0)
-        EDAssert.arraySimilar(outputData, referenceData , _fScaledMaxDelta=0.05, _strComment="Integrated images are the same")
-
-        headerRef = edfRef.GetHeader(0)
-        headerObt = edfObt.GetHeader(0)
-        keysRef = headerRef.keys()
-        keysObt = headerObt.keys()
-        keysRef.sort()
-        keysObt.sort()
-        for key in ["HeaderID", "Image", 'EDF_BinarySize', "EDF_DataBlockID", "EDF_HeaderSize", "filename", "RasterOrientation" ]:
-            if key in keysObt: keysObt.remove(key)
-            if key in keysRef: keysRef.remove(key)
-        EDAssert.equal(keysRef, keysObt, _strComment="Same keys in the header dictionary for Integrated Images")
-        for key in keysRef:
-            EDAssert.strAlmostEqual(headerRef[key], headerObt[key], _strComment="header value in Integrated %s are the same" % key, _strExcluded="bioSaxs")
-
-
 
 
     def process(self):

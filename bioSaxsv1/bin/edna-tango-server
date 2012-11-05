@@ -27,10 +27,16 @@
 #
 testit=$(pgrep notifd)
 if [ "$testit" = "" ]; then
-  LD_LIBRARY_PATH=/segfs/tango/release/centos5/lib/:$LD_LIBRARY_PATH /segfs/tango/release/centos5_64/bin/notifd -n >>/dev/null 2>&1 & 
-  sleep 3 
-  LD_LIBRARY_PATH=/segfs/tango/release/centos5/lib/:$LD_LIBRARY_PATH /segfs/tango/release/centos5_64/bin/notifd2db
-  sleep 3
+  if [ -x /usr/lib/tango/notify_daemon ];
+    then
+        /usr/lib/tango/notify_daemon
+    else
+       LD_LIBRARY_PATH=/segfs/tango/release/debian6/lib/
+       $LD_LIBRARY_PATH /segfs/tango/release/debian6/bin/notifd -n >>/dev/null 2>&1 & 
+       sleep 3 
+       $LD_LIBRARY_PATH /segfs/tango/release/debian6/bin/notifd2db
+       sleep 3
+    fi
 fi
 
 if [ ! -d ${HOME}/log ];
@@ -39,9 +45,16 @@ then
 fi
 now=$(date +"%Y%m%dT%H%M%S")
 
-if [ -d /buffer/$(hostname)1 ]
+if [ -d /nobackup ]
 then
-   baseLog=/buffer/$(hostname)1
+   buffer="nobackup"
+else
+   buffer="buffer"
+fi
+hostname=$(hostname)
+if [ -d /${buffer}/${hostname}1 ]
+then
+   baseLog=/${buffer}/${hostname}1
 else
    baseLog=/tmp
 fi 
@@ -54,15 +67,11 @@ then
 PythonProg=${EDNA_HOME}/tango/bin/tango-EdnaDS.py
 echo "Server Mode"
 cd $TestSpace
-HOSTNAME=$(hostname)
-if [ "$HOSTNAME" = "slavia" ]
+if [ ${hostname} = "slavia" ]
 then
    ds="DAU_slavia"
-fi
-if [ "$HOSTNAME" = "sparta" ]
-then
+else
    ds="DAU_sparta"
 fi
-
-nohup $PYTHON $PythonProg $ds -v2 > ${HOME}/log/edna-tango-$(date +"%Y%m%dT%H%M%S").log 2>&1 &
+nohup python -u $PythonProg $ds -v2 > ${HOME}/log/edna-tango-$(date +"%Y%m%dT%H%M%S").log 2>&1 &
 

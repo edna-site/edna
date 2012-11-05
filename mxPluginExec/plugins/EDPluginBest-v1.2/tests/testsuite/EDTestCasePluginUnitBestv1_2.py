@@ -40,6 +40,7 @@ from EDUtilsFile                         import EDUtilsFile
 from EDTestCasePluginUnit                import EDTestCasePluginUnit
 from EDUtilsTest                         import EDUtilsTest
 from EDUtilsPath                         import EDUtilsPath
+from EDConfiguration                     import EDConfiguration
 
 
 class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
@@ -57,9 +58,9 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
 
     def testConfigureOK(self):
         edPluginBest = self.createPlugin()
-        pyStrConfigPath = os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml")
-        xsPluginItemGood01 = self.getPluginConfiguration(pyStrConfigPath)
-        edPluginBest.setConfiguration(xsPluginItemGood01)
+        edConfigurationGood01 = EDConfiguration(os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml"))
+        dictItemGood01 = edConfigurationGood01.get(self.getPluginName())
+        edPluginBest.setConfig(dictItemGood01, _bLocal = True)
         edPluginBest.setScriptExecutable("cat")
         edPluginBest.configure()
         EDAssert.equal("/bin/bash", edPluginBest.getScriptShell())
@@ -74,8 +75,9 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
 
     def testSetDataModelInput(self):
         edPluginBest = self.createPlugin()
-        xsPluginItemGood01 = self.getPluginConfiguration(os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml"))
-        edPluginBest.setConfiguration(xsPluginItemGood01)
+        edConfigurationGood01 = EDConfiguration(os.path.join(self.m_pyStrDataPath, "XSConfiguration.xml"))
+        dictItemGood01 = edConfigurationGood01.get(self.getPluginName())
+        edPluginBest.setConfig(dictItemGood01, _bLocal = True)
         edPluginBest.setScriptExecutable("cat")
         edPluginBest.configure()
 
@@ -87,7 +89,7 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         from XSDataCommon import XSDataString
         from XSDataCommon import XSDataTime
         from XSDataCommon import XSDataFile
-        from XSDataCommon import XSDataSpeed
+        from XSDataCommon import XSDataAngularSpeed
         from XSDataCommon import XSDataString
         from XSDataCommon import XSDataAngle
         from XSDataCommon import XSDataBoolean
@@ -100,7 +102,7 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         xsDataInputBest.setBeamMaxExposureTime(XSDataTime(10000))
         xsDataInputBest.setBeamMinExposureTime(XSDataTime(0.1))
         xsDataInputBest.setGoniostatMinRotationWidth(XSDataAngle(0.1))
-        xsDataInputBest.setGoniostatMaxRotationSpeed(XSDataSpeed(10))
+        xsDataInputBest.setGoniostatMaxRotationSpeed(XSDataAngularSpeed(10))
         xsDataInputBest.setAimedResolution(XSDataDouble(2))
         xsDataInputBest.setAimedRedundancy(XSDataDouble(6.5))
         xsDataInputBest.setAimedCompleteness(XSDataDouble(0.9))

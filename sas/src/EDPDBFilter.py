@@ -1,12 +1,14 @@
-#
-#    Project: PROJECT
+#coding: utf8
+#    Project: Solution scattering pipeline
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) DLS
+#    Copyright (C) 2010 DLS
+#                  2012 ESRF
 #
 #    Principal author:        irakli
+#                             Jerome Kieffer
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,70 +23,62 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-__author__ = "irakli"
+from __future__ import with_statement
+__authors__ = ["irakli", "Jérôme Kieffer"]
 __license__ = "GPLv3+"
-__copyright__ = "DLS"
+__copyright__ = "2012 DLS; 2012 ESRF"
 
-from EDUtilsFile import EDUtilsFile
-
-class EDPDBFilter:
+class EDPDBFilter(object):
     """
     Class for verifying validity of input PDB file
     """
-    
-    def __init__(self):
-        """
-        Initialize keywork list and input pdb file
-        @param _inputPDB: Input PDB file
-        """
-        self.__lPDBKeywords = ['HEADER', \
-                                'TITLE', \
-                                'COMPND', \
-                                'SOURCE', \
-                                'KEYWDS', \
-                                'EXPDTA', \
-                                'AUTHOR', \
-                                'REVDAT', \
-                                'JRNL', \
-                                'REMARK', \
-                                'DBREF', \
-                                'SEQADV', \
-                                'SEQRES', \
-                                'MODRES', \
-                                'HET', \
-                                'HETNAM', \
-                                'FORMUL', \
-                                'HELIX', \
-                                'SHEET', \
-                                'CRYST1', \
-                                'ORIGX1', \
-                                'ORIGX2', \
-                                'ORIGX3', \
-                                'SCALE1', \
-                                'SCALE2', \
-                                'SCALE3', \
-                                'ATOM', \
-                                'TER', \
-                                'HETATM', \
-                                'CONECT', \
-                                'MASTER', \
-                                'END']
-        
-    def filterPDBFile(self, _inputPDB, _outputPDB):
+    __lPDBKeywords = [  'HEADER',
+                        'TITLE',
+                        'COMPND',
+                        'SOURCE',
+                        'KEYWDS',
+                        'EXPDTA',
+                        'AUTHOR',
+                        'REVDAT',
+                        'JRNL',
+                        'REMARK',
+                        'DBREF',
+                        'SEQADV',
+                        'SEQRES',
+                        'MODRES',
+                        'HET',
+                        'HETNAM',
+                        'FORMUL',
+                        'HELIX',
+                        'SHEET',
+                        'CRYST1',
+                        'ORIGX1',
+                        'ORIGX2',
+                        'ORIGX3',
+                        'SCALE1',
+                        'SCALE2',
+                        'SCALE3',
+                        'ATOM',
+                        'TER',
+                        'HETATM',
+                        'CONECT',
+                        'MASTER',
+                        'END']
+    @classmethod
+    def filterPDBFile(cls, _inputPDB, _outputPDB):
         """
         Put REMARK keyword in front of the comment lines
         """
         _linesOutput = []
-        _linesPDB = EDUtilsFile.readFile(_inputPDB).split('\n')
-        for line in _linesPDB:
+        for line in open(_inputPDB):
             data = line.split()
             if data:
-                if data[0] in self.__lPDBKeywords:
+                if data[0] in cls.__lPDBKeywords:
                     _linesOutput.append(line)
                 else:
                     _linesOutput.append('REMARK ' + line)
             else:
-                _linesOutput.append('REMARK')
-                
-        EDUtilsFile.writeFile(_outputPDB, '\n'.join(_linesOutput)) 
+                _linesOutput.append('REMARK ' + line)
+        with open(_outputPDB, "w") as f:
+            f.writelines(_linesOutput)
+

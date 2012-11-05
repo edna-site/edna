@@ -33,7 +33,7 @@ import os, sys, time
 from EDThreading            import Semaphore
 from EDCommandLine          import EDCommandLine
 from EDVerbose              import EDVerbose
-from EDConfiguration        import EDConfiguration
+from EDConfigurationStatic  import EDConfigurationStatic
 from EDMessage              import EDMessage
 from EDUtilsPath            import EDUtilsPath
 from EDUtilsFile            import EDUtilsFile
@@ -153,22 +153,17 @@ class EDApplication(object):
         if (not self.__bIsFailure):
             EDVerbose.DEBUG("EDApplication.PLUGIN_PARAM_LABEL: " + EDApplication.PLUGIN_PARAM_LABEL)
 
-            # Load the configuration file
-            if(self.__strConfigurationFileName is None):
-                self.__strConfigurationHome = EDApplication.getConfigurationHome(self.__strPluginName)
-                self.__strConfigurationFileName = os.path.abspath(os.path.join(self.__strConfigurationHome, "XSConfiguration_%s.xml" % EDUtilsPath.getEdnaSite()))
-            if (os.path.exists(self.__strConfigurationFileName)):
-                EDVerbose.screen("Loading Configuration file: %s" % self.__strConfigurationFileName)
-                edConfiguration = EDConfiguration(self.__strConfigurationFileName)
-                self.setConfiguration(edConfiguration)
-                self.loadConfiguration()
-                EDVerbose.DEBUG("EDApplication.preProcess: Checking... Number of plugins...: %d" % edConfiguration.getPluginListSize())
-                pyDictionary = {}
-                pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
-                if self.getDataInputFilePath() is not None:
-                    self.__strXMLData = EDUtilsFile.readFileAndParseVariables(self.getDataInputFilePath(), pyDictionary)
-            else:
-                EDVerbose.warning("Cannot find configuration file: %s" % self.__strConfigurationFileName)
+            if self.__strConfigurationFileName is not None:
+                # Load the configuration file
+                if (os.path.exists(self.__strConfigurationFileName)):
+                    EDVerbose.screen("Loading Configuration file: %s" % self.__strConfigurationFileName)
+                    EDConfigurationStatic.addConfigurationFile(self.__strConfigurationFileName, _bReplace=True)
+                else:
+                    EDVerbose.warning("Cannot find configuration file: %s" % self.__strConfigurationFileName)
+            pyDictionary = {}
+            pyDictionary[ "${EDNA_HOME}" ] = EDUtilsPath.getEdnaHome()
+            if self.getDataInputFilePath() is not None:
+                self.__strXMLData = EDUtilsFile.readFileAndParseVariables(self.getDataInputFilePath(), pyDictionary)
             # Create the application working directory    
             if(self.__strWorkingDir is None):
                 self.__strWorkingDir = self.__strApplicationInstanceName
@@ -383,81 +378,7 @@ class EDApplication(object):
         EDFactoryPluginStatic.loadModule(_strModuleName)
 
 
-    @classmethod
-    def setConfiguration(cls, _edConfiguration):
-        """
-        """
-        EDVerbose.DEBUG("EDApplication.setConfiguration")
-        with cls.__semaphore:
-            if (_edConfiguration == None):
-                EDVerbose.warning("EDApplication.setConfiguration: Configuration is None!")
-            else:
-                cls.__edConfiguration = _edConfiguration
-
-
-    @classmethod
-    def getApplicationPluginConfiguration(cls, _pluginName):
-        """
-        """
-        EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration")
-        with cls.__semaphore:
-            pluginConfiguration = None
-            if (cls.__edConfiguration != None):
-                pluginConfiguration = EDApplication.__edConfiguration.getPluginItem(_pluginName)
-            if (pluginConfiguration is None):
-                EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: No application configuration found for %s " % _pluginName)
-            else:
-                EDVerbose.DEBUG("EDApplication.getApplicationPluginConfiguration: Reading %s configuration from %s" % (\
-                                 _pluginName, \
-                                 cls.__edConfiguration.getXmlFileName()))
-        return pluginConfiguration
-
-
-    @classmethod
-    def getProjectPluginConfiguration(cls, _pluginName):
-        """
-        """
-        EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration")
-        pluginConfiguration = None
-        strPathToProjectConfigurationFile = EDFactoryPluginStatic.getPathToProjectConfigurationFile(_pluginName)
-        with cls.__semaphore:
-            if (strPathToProjectConfigurationFile is not None):
-                edConfigurationProject = EDConfiguration(strPathToProjectConfigurationFile)
-                edConfigurationProject.load()
-                if (edConfigurationProject is not None):
-                    pluginConfiguration = edConfigurationProject.getPluginItem(_pluginName)
-            if (pluginConfiguration is None):
-                EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: No project configuration found for %s " % _pluginName)
-            else:
-                EDVerbose.DEBUG("EDApplication.getProjectPluginConfiguration: Reading %s configuration from %s" % (\
-                                 _pluginName, \
-                                 strPathToProjectConfigurationFile))
-        return pluginConfiguration
-
-
-    @classmethod
-    def loadConfiguration(cls):
-        """
-        Loads the configuration file if not already loaded
-        """
-        if((cls.__edConfiguration != None) & (cls.__edConfiguration.isLoaded() == False)):
-            EDVerbose.DEBUG("EDApplication.loadConfiguration: Loading Configuration File...")
-            cls.__edConfiguration.load()
-
-
-    @classmethod
-    def getConfigurationHome(cls, _strPluginName):
-        """
-        Returns the configuration directory path for a given test module
-        """
-        strModuleLocation = EDFactoryPluginStatic.getFactoryPlugin().getModuleLocation(_strPluginName)
-        strConfigurationHome = EDUtilsPath.appendListOfPaths(strModuleLocation, [ "..", "..", "..", "conf" ])
-        return strConfigurationHome
-
-
     def getDataInputFilePath(self):
-        """
-        """
         return self.__strDataInputFilePath
 
 
@@ -532,8 +453,6 @@ class EDApplication(object):
 
 
     def doFailureActionPlugin(self, _edPlugin):
-        """
-        """
         EDVerbose.DEBUG("EDApplication.doFailureActionPlugin")
 
         # Print the potential Warnings and Errors
@@ -554,26 +473,18 @@ class EDApplication(object):
 
 
     def getPlugin(self):
-        """
-        """
         return self.__edPlugin
 
 
     def getPluginOutputData(self):
-        """
-        """
         return self.__xsDataOutput
 
 
     def getWarningMessages(self):
-        """
-        """
         return self.__listWarningMessages
 
 
     def getErrorMessages(self):
-        """
-        """
         return self.__listErrorMessages
 
 

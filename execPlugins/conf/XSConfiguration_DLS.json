@@ -1,0 +1,8 @@
+{
+    "EDPluginExecWaitFile": {
+        "timeOut": 20
+    }, 
+    "__extend__": [], 
+    "EDPluginExecEpydocv1_0": {}, 
+    "EDPluginExecAccumulatorv1_0": {}
+}
