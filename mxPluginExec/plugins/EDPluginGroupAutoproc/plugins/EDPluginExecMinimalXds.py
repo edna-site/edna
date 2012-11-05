@@ -93,35 +93,21 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # limitation of xds
         # TODO: don't even try if not on Unix
 
-        # XXX: why did i make this config item a list instead of a
-        # regular string?
         file_template = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
 
-        # the files location can be a relative pathname, in this case
-        # make it absolute
-        directory = os.path.dirname(file_template)
-        self.DEBUG('files are in {0}'.format(directory))
-        xds_input_directory = os.path.dirname(xds_input)
-        if not os.path.isabs(directory):
-            directory = os.path.normpath(os.path.join(xds_input_directory, directory))
-            self.DEBUG('relative path has been normalized to {0}\n(xds file path was {1}'.format(directory, xds_input_directory))
+        # get the real directory the files are in by getting the real
+        # path of the first image
+        first_image_no = parsed_config['DATA_RANGE='][0]
+        first_image = _template_to_image(file_template, first_image_no)
+        real_data_dir = os.path.dirname(os.path.realpath(first_image))
 
-        filename = os.path.basename(file_template)
+        # create a link to this dir in our dir
+        os.symlink(real_data_dir,
+                   os.path.join(self.getWorkingDirectory(), 'i'))
 
-        matches = fnmatch.filter(os.listdir(directory), filename)
-        our_dir = self.getWorkingDirectory()
-        for f in matches:
-            source = os.path.join(directory, f)
-            dest = os.path.join(our_dir, f)
-            self.DEBUG('symlinking {0} -> {1}'.format(source, dest))
-
-            try:
-                os.symlink(os.path.join(directory, f),
-                           os.path.join(our_dir, f))
-            except OSError:
-                self.DEBUG('failed, the destination file probably  already exists')
-        # patch the template in the config by stripping the whole prefix
-        parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = filename
+        # and update the config to refer to this dir
+        new_template = os.path.join('i', os.path.basename(file_template))
+        parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = new_template
 
         # perhaps modify some params
         job = self.dataInput.job
@@ -178,3 +164,27 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         self.DEBUG('succeeded is {0} and succeeded.value is {1}'.format(xsDataResult.succeeded,
                                                                         xsDataResult.succeeded.value))
         self.setDataOutput(xsDataResult)
+
+
+
+# XXX: This is the third file I copy this function to: extract it
+# somewhere
+def _template_to_image(fmt, num):
+    # for simplicity we will assume the template to contain only one
+    # sequence of '?' characters. max's code uses a regexp so this
+    # further restrict the possible templates.
+    start = fmt.find('?')
+    end = fmt.rfind('?')
+    if start == -1 or end == -1:
+        # the caller test for the file existence and an empty path
+        # does not exist
+        return ''
+    prefix = fmt[:start]
+    suffix = fmt[end+1:]
+    length = end - start + 1
+
+    # this is essentially the python format string equivalent to the
+    # template string
+    fmt_string = prefix + '{0:0' + str(length) + 'd}' + suffix
+
+    return fmt_string.format(num)
