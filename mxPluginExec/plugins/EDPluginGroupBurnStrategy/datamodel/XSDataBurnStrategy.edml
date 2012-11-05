@@ -1,0 +1,25 @@
+targetNamespace "http://www.edna-site.org"
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataVectorDouble
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataFile
+
+complex type XSDataInputXdsBurnStrategy extends XSDataInput {
+	input_file : XSDataString
+	space_group : XSDataInteger
+	unit_cell_a : XSDataDouble
+	unit_cell_b : XSDataDouble
+	unit_cell_c : XSDataDouble
+	unit_cell_alpha : XSDataDouble
+	unit_cell_beta : XSDataDouble
+	unit_cell_gamma : XSDataDouble
+}
+
+complex type XSDataOutputXdsBurnStrategy extends XSDataResult {
+	xds_hkl : XSDataString
+}
