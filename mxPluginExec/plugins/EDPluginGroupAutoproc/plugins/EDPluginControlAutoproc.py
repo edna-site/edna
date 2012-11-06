@@ -446,7 +446,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # create a timestamped directory for the imported files at the
         # same level as the initial XDS input file
-        timestamped = time.strftime('edna-autoproc-import-%H:%M:%S')
+        timestamped = time.strftime('edna-autoproc-import-%H-%M-%S')
         outdir = os.path.join(self.root_dir, timestamped)
         os.mkdir(outdir)
 
