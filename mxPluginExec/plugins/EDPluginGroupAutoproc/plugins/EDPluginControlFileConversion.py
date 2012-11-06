@@ -82,7 +82,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         # first we generate the intermediary file name
         pointless_in = XSDataPointless()
         pointless_in.input_file = self.dataInput.input_file
-        pointless_out = os.path.join(os.path.dirname(self.dataInput.input_file.value),
+        pointless_out = os.path.join(os.path.dirname(self.dataInput.output_file.value),
                                      "{0}_multirecord.mtz".format(self.output_basename))
         pointless_in.output_file = XSDataString(pointless_out)
         self.pointless.dataInput = pointless_in
