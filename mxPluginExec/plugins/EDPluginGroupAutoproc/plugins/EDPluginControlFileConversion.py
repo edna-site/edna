@@ -60,7 +60,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         self.uniqueify = self.loadPlugin("EDPluginExecUniqueify")
 
         anom = "anom" if self.dataInput.anom.value else "noanom"
-        self.output_basename = "merged_{0}_pointless".format(anom)
+        self.output_basename = "unmerged_{0}_pointless".format(anom)
 
 
     def checkParameters(self):
@@ -82,7 +82,9 @@ class EDPluginControlFileConversion(EDPluginControl):
         # first we generate the intermediary file name
         pointless_in = XSDataPointless()
         pointless_in.input_file = self.dataInput.input_file
-        pointless_in.output_file = XSDataString(os.path.abspath("{0}_multirecord.mtz".format(self.output_basename)))
+        pointless_out = os.path.join(os.path.dirname(self.dataInput.input_file.value),
+                                     "{0}_multirecord.mtz".format(self.output_basename))
+        pointless_in.output_file = XSDataString(pointless_out)
         self.pointless.dataInput = pointless_in
         self.DEBUG("Pointless")
         self.pointless.executeSynchronous()
@@ -140,7 +142,9 @@ class EDPluginControlFileConversion(EDPluginControl):
         # and finally uniqueify
         uniqueify_in = XSDataUniqueify()
         uniqueify_in.input_file = truncate_in.output_file
-        uniqueify_in.output_file = XSDataString(self.output_basename + ".mtz")
+        uniqueify_out = os.path.join(os.path.dirname(self.dataInput.output_file.value),
+                                     self.output_basename + ".mtz")
+        uniqueify_in.output_file = XSDataString(uniqueify_out)
 
         self.uniqueify.dataInput = uniqueify_in
 
