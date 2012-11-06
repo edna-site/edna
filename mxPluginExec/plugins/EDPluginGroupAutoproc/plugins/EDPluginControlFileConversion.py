@@ -60,7 +60,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         self.uniqueify = self.loadPlugin("EDPluginExecUniqueify")
 
         anom = "anom" if self.dataInput.anom.value else "noanom"
-        self.output_basename = "unmerged_{0}_pointless".format(anom)
+        self.output_basename = "unmerged_{0}".format(anom)
 
 
     def checkParameters(self):
@@ -83,7 +83,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         pointless_in = XSDataPointless()
         pointless_in.input_file = self.dataInput.input_file
         pointless_out = os.path.join(os.path.dirname(self.dataInput.output_file.value),
-                                     "{0}_multirecord.mtz".format(self.output_basename))
+                                     "{0}_pointless_multirecord.mtz".format(self.output_basename))
         pointless_in.output_file = XSDataString(pointless_out)
         self.pointless.dataInput = pointless_in
         self.DEBUG("Pointless")
