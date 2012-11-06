@@ -440,6 +440,10 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # XXX: is this the right place to get the res from?
         import_in.res = self.res_cutoff_anom.dataOutput.res
+
+        # XXX: This is optional but seems required by aimless
+        import_in.nres = self.dataInput.nres
+
         # create a timestamped directory for the imported files at the
         # same level as the initial XDS input file
         timestamped = time.strftime('edna-autoproc-import-%H:%M:%S')
