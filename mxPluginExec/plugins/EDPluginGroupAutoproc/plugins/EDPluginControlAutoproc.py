@@ -434,7 +434,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         import_in = XSDataAutoprocImport()
         import_in.input_anom = self.xscale_generate.dataOutput.hkl_anom_unmerged
         import_in.input_noanom = self.xscale_generate.dataOutput.hkl_noanom_unmerged
-        import_in.dataCollectionId = self.dataInput.data_collection_id
+        import_in.dataCollectionID = self.dataInput.data_collection_id
         import_in.start_image = XSDataInteger(self.data_range[0])
         import_in.end_image = XSDataInteger(self.data_range[1])
 
