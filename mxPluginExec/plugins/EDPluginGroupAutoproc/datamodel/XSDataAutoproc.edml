@@ -224,7 +224,13 @@ complex type XSDataXdsToSca extends XSDataInput {
 // control plugin
 complex type XSDataPointless extends XSDataInput {
         input_file      : XSDataString // XDS HKL file
-        output_file : XSDataString
+        output_file	: XSDataString
+
+}
+
+complex type XSDataPointlessOut extends XSDataResult {
+	sgnumber	: XSDataInteger optional
+	sgstr		: XSDataString optional
 }
 
 complex type XSDataAimless extends XSDataInput {
