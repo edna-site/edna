@@ -36,7 +36,8 @@ from EDVerbose import EDVerbose
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 
 from XSDataCommon import XSDataStatus, XSDataBoolean, XSDataResult
-from XSDataAutoproc import XSDataPointless
+from XSDataCommon import XSDataInteger, XSDataString
+from XSDataAutoproc import XSDataPointless, XSDataPointlessOut
 
 class EDPluginExecPointless(EDPluginExecProcessScript):
     def __init__(self):
@@ -83,7 +84,25 @@ class EDPluginExecPointless(EDPluginExecProcessScript):
         EDPluginExecProcessScript.postProcess(self)
         output_file = self.dataInput.output_file.value
 
-        res = XSDataResult()
+        sgre = re.compile(""" \* Space group = '(?P<sgstr>.*)' \(number\s+(?P<sgnumber>\d+)\)""")
+
+        sgnumber = sgstr = None
+        # returns None if the file does not exist...
+        log = self.readProcessLogFile()
+        if log is not None:
+            # we'll apply the regexp to the whole file contents which
+            # hopefully won't be that long.
+            m = sgre.match(log)
+            if m is not None:
+                d = m.groupdict()
+                sgnumber = d['sgnumber']
+                sgstr = d['sgstr']
+
+        res = XSDataPointlessOut()
+        if sgnumber is not None:
+            res.sgnumber = XSDataInteger(sgnumber)
+        if sgstr is not None:
+            res.sgstr = XSDataString(sgstr)
         status = XSDataStatus()
         status.isSuccess = XSDataBoolean(os.path.exists(output_file))
         res.status = status
