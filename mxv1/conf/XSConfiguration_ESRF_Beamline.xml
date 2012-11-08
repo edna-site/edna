@@ -1,8 +1,59 @@
 <?xml version="1.0" ?>
-<XSConfiguration>
-	<XSImportConfiguration>
-		<name>XSConfiguration_ESRF</name>
-	</XSImportConfiguration>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlStrategyv1_2</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>symopHome</name>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/lib/data</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem> 
+			<name>EDPluginControlIntegrationv10</name> 
+			<XSParamList>
+			    <XSParamItem>
+			        <name>maxRMSSpotDeviation</name>
+			        <value>0.8</value>
+			    </XSParamItem>
+			</XSParamList>
+		</XSPluginItem> 
+		<XSPluginItem>
+			<name>EDPluginControlInducedRadiationProcessv10</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>symopHome</name>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/lib/data</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlCharacterisationv1_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>controlledPlugins</name>
+					<value>strategyPlugin</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>strategyPlugin</name>
+					<value>EDPluginControlStrategyv1_2</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlCCP4iv1_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>controlledPlugins</name>
+					<value>characterisationPlugin</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>characterisationPlugin</name>
+					<value>EDPluginControlCharacterisationv1_2</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 	<XSPluginItem>
 		<name>EDPluginControlInterfacev1_2</name>
 		<XSParamList>
@@ -24,4 +75,23 @@
 			</XSParamItem>
 		</XSParamList>
 	</XSPluginItem>
+		<XSPluginItem>
+            <name>EDPluginExecOutputHTMLv1_0</name>
+            <XSParamList>
+                <XSParamItem>
+                    <name>EDNA2html</name>
+                    <value>/opt/pxsoft/EDNA2html/v0.0.9b/linux</value>
+                </XSParamItem>
+            </XSParamList>
+        </XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlInterfaceToMXCuBEv1_3</name>  
+			<XSParamList>
+			    <XSParamItem>
+			        <name>contactEmail</name>
+			        <value>svensson@esrf.fr</value>
+			    </XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
 </XSConfiguration> 

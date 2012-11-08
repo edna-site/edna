@@ -168,6 +168,39 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def doSuccessActionInterface(self, _edPlugin=None):
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface...")
         self.retrieveSuccessMessages(self.edPluginControlInterface, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface")
+        # Send success email message (MXSUP-183):
+        self.tStop = time.time()
+        strSubject = "%s : SUCCESS! (%.1f s)" % (EDUtilsPath.getEdnaSite(), self.tStop-self.tStart)
+        strMessage = "Characterisation success!"
+        self.storeResultsInISPyB(strSubject, strMessage)
+        
+    def doFailureActionInterface(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doFailureActionInterface...")
+        # Send failure email message (MXSUP-183):
+        strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
+        strMessage = "Characterisation FAILURE!"
+        self.storeResultsInISPyB(strSubject, strMessage)
+        #self.setFailure()
+#        xsDataResultCharacterisation = None
+#        if self.edPluginControlInterface.hasDataOutput("characterisation"):
+#            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
+#        # Execute plugin which creates a simple HTML page
+#        self.executeSimpleHTML(xsDataResultCharacterisation)            
+#        xsDataResultCharacterisation = self.edPluginControlInterface.dataOutput.resultCharacterisation
+#        if xsDataResultCharacterisation is not None:
+#            self.xsDataResultMXCuBE.characterisationResult = xsDataResultCharacterisation
+#            if xsDataResultCharacterisation.getStatusMessage():
+#                strMessage += "\n\n"
+#                strMessage += xsDataResultCharacterisation.getStatusMessage().getValue()
+#            if xsDataResultCharacterisation.getShortSummary():
+#                strMessage += "\n\n"
+#                strMessage += xsDataResultCharacterisation.getShortSummary().getValue()
+#        self.sendEmail(strSubject, strMessage)
+        
+        
+    def storeResultsInISPyB(self, _strSubject, _strMessage):
+        strSubject = _strSubject
+        strMessage = _strMessage
         xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput().getResultCharacterisation()
         self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
         xsDataResultControlISPyB = self.edPluginControlInterface.getDataOutput().getResultControlISPyB()
@@ -187,10 +220,6 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             if (self.createDNAFileDirectory(strPyArchPathToDNAFileDirectory)):
                 xsDataDictionaryLogFile = self.createOutputFileDictionary(xsDataResultCharacterisation, strPyArchPathToDNAFileDirectory)
             self.xsDataResultMXCuBE.setOutputFileDictionary(xsDataDictionaryLogFile)
-            # Send success email message (MXSUP-183):
-            self.tStop = time.time()
-            strSubject = "%s : SUCCESS! (%.1f s)" % (EDUtilsPath.getEdnaSite(), self.tStop-self.tStart)
-            strMessage = "Characterisation success!"
             if xsDataResultCharacterisation.getStatusMessage():
                 strMessage += "\n\n"
                 strMessage += xsDataResultCharacterisation.getStatusMessage().getValue()
@@ -226,27 +255,6 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
 
 
 
-    def doFailureActionInterface(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doFailureActionInterface...")
-        self.setFailure()
-        xsDataResultCharacterisation = None
-        if self.edPluginControlInterface.hasDataOutput("characterisation"):
-            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
-        # Execute plugin which creates a simple HTML page
-        self.executeSimpleHTML(xsDataResultCharacterisation)            
-        # Send failure email message (MXSUP-183):
-        strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
-        strMessage = "Characterisation FAILURE!"
-        xsDataResultCharacterisation = self.edPluginControlInterface.dataOutput.resultCharacterisation
-        if xsDataResultCharacterisation is not None:
-            self.xsDataResultMXCuBE.characterisationResult = xsDataResultCharacterisation
-            if xsDataResultCharacterisation.getStatusMessage():
-                strMessage += "\n\n"
-                strMessage += xsDataResultCharacterisation.getStatusMessage().getValue()
-            if xsDataResultCharacterisation.getShortSummary():
-                strMessage += "\n\n"
-                strMessage += xsDataResultCharacterisation.getShortSummary().getValue()
-        self.sendEmail(strSubject, strMessage)
 
 
     def doSuccessActionISPyB(self, _edPlugin):
