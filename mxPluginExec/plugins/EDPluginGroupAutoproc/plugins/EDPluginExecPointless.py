@@ -54,7 +54,8 @@ class EDPluginExecPointless(EDPluginExecProcessScript):
         self.DEBUG('Pointless: preprocess')
         if self.output_file is not None and self.input_file is not None:
             # TODO: ask Max why he forces the version to 6.2.0
-            options = '-copy xdsin {0} hklout {1}'.format(self.input_file, self.output_file)
+            options = 'xdsin {0} hklout {1}'.format(self.input_file,
+                                                    self.output_file)
             self.setScriptCommandline(options)
             self.DEBUG('command line options set to {0}'.format(options))
 
