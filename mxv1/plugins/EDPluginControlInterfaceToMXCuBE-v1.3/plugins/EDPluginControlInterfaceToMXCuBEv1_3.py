@@ -395,59 +395,62 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         xsDataDictionaryLogFile = XSDataDictionary()
         # Start with the prediction images
         xsDataIndexingResult = _xsDataResultCharacterisation.getIndexingResult()
-        xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
-        listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
-        for xsDataImagePrediction in listXSDataImagePrediction:
-            xsDataKeyValuePair = XSDataKeyValuePair()
-            iPredictionImageNumber = xsDataImagePrediction.getNumber().getValue()
-            xsDataStringKey = XSDataString("predictionImage_%d" % iPredictionImageNumber)
-            xsDataStringValue = None
-            strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
-            if (_strPathToLogFileDirectory is not None):
-                strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
-                strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
-                EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
-                xsDataStringValue = XSDataString(strNewPredictionImagePath)
-            else:
-                xsDataStringValue = XSDataString(strPredictionImageFileName)
-            xsDataKeyValuePair.setKey(xsDataStringKey)
-            xsDataKeyValuePair.setValue(xsDataStringValue)
-            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+        if xsDataIndexingResult is not None:
+            xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
+            if xsDataGeneratePredictionResult is not None:
+                listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
+                for xsDataImagePrediction in listXSDataImagePrediction:
+                    xsDataKeyValuePair = XSDataKeyValuePair()
+                    iPredictionImageNumber = xsDataImagePrediction.getNumber().getValue()
+                    xsDataStringKey = XSDataString("predictionImage_%d" % iPredictionImageNumber)
+                    xsDataStringValue = None
+                    strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
+                    if (_strPathToLogFileDirectory is not None):
+                        strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
+                        strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
+                        EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
+                        xsDataStringValue = XSDataString(strNewPredictionImagePath)
+                    else:
+                        xsDataStringValue = XSDataString(strPredictionImageFileName)
+                    xsDataKeyValuePair.setKey(xsDataStringKey)
+                    xsDataKeyValuePair.setValue(xsDataStringValue)
+                    xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
         # Best log file
         strPathToBESTLogFile = None
         strPathToExecutiveSummary = None
-        if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
-            strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
-        if strPathToBESTLogFile is not None:
-            xsDataStringKey = XSDataString("logFileBest")
-            xsDataStringValue = None
-            if (_strPathToLogFileDirectory is not None):
-                strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
-                EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
-                xsDataStringValue = XSDataString(strNewBestLogPath)
-            else:
-                xsDataStringValue = XSDataString(strPathToBESTLogFile)
-            xsDataKeyValuePair = XSDataKeyValuePair()
-            xsDataKeyValuePair.setKey(xsDataStringKey)
-            xsDataKeyValuePair.setValue(xsDataStringValue)
-            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
-        if (strPathToExecutiveSummary is not None):
-            xsDataStringKey = XSDataString("executiveSummary")
-            xsDataStringValue = None
-            if (_strPathToLogFileDirectory is not None):
-                strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
-                xsDataStringValue = XSDataString(strNewExecutiveSummaryPath)
-                # Copy also the executive summary file to "dna_log.txt"...
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
-            else:
-                xsDataStringValue = XSDataString(strPathToExecutiveSummary)
-            xsDataKeyValuePair = XSDataKeyValuePair()
-            xsDataKeyValuePair.setKey(xsDataStringKey)
-            xsDataKeyValuePair.setValue(xsDataStringValue)
-            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+        if _xsDataResultCharacterisation.getStrategyResult() is not None:
+            if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
+                strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
+            if strPathToBESTLogFile is not None:
+                xsDataStringKey = XSDataString("logFileBest")
+                xsDataStringValue = None
+                if (_strPathToLogFileDirectory is not None):
+                    strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
+                    EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
+                    xsDataStringValue = XSDataString(strNewBestLogPath)
+                else:
+                    xsDataStringValue = XSDataString(strPathToBESTLogFile)
+                xsDataKeyValuePair = XSDataKeyValuePair()
+                xsDataKeyValuePair.setKey(xsDataStringKey)
+                xsDataKeyValuePair.setValue(xsDataStringValue)
+                xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+            if (strPathToExecutiveSummary is not None):
+                xsDataStringKey = XSDataString("executiveSummary")
+                xsDataStringValue = None
+                if (_strPathToLogFileDirectory is not None):
+                    strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+                    xsDataStringValue = XSDataString(strNewExecutiveSummaryPath)
+                    # Copy also the executive summary file to "dna_log.txt"...
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+                else:
+                    xsDataStringValue = XSDataString(strPathToExecutiveSummary)
+                xsDataKeyValuePair = XSDataKeyValuePair()
+                xsDataKeyValuePair.setKey(xsDataStringKey)
+                xsDataKeyValuePair.setValue(xsDataStringValue)
+                xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
 
         return xsDataDictionaryLogFile
 
