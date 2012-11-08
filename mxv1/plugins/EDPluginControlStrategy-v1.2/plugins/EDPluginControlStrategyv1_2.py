@@ -278,11 +278,11 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         EDPluginControl.postProcess(self, _edObject)
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.postProcess...")
 
-        xsDataResultBest = self._edPluginBest.getDataOutput()
         #
         # Create the BEST graphs from the plot mtv file
         #
         # Check if we have GLE files from BEST:
+        xsDataResultBest = self._edPluginBest.getDataOutput()
         xsDataInputPlotGle = XSDataInputPlotGle()
         if xsDataResultBest.glePlot != []:
             for xsDataBestGlePlot in xsDataResultBest.glePlot:
@@ -294,9 +294,14 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
             xsDataInputPlotGle.filePlotMtv = xsDataResultBest.pathToPlotMtvFile
         self._edPluginPlotGle.dataInput = xsDataInputPlotGle
         self._edPluginPlotGle.executeSynchronous()
-        # TODO
-        # Temporary! Otherwise fails Model from -bonly is different
+        
+
+
+    def finallyProcess(self, _edObject=None):
+        EDPluginControl.finallyProcess(self, _edObject)
+        EDVerbose.DEBUG("EDPluginControlStrategyv1_2.finallyProcess")
         xsDataResultStrategy = None
+        xsDataResultBest = self._edPluginBest.getDataOutput()
         if(xsDataResultBest is not None and self.getDataInput().getDiffractionPlan().getStrategyOption() is not None):
             if (self.getDataInput().getDiffractionPlan().getStrategyOption().getValue() != "-Bonly"):
                 xsDataResultStrategy = self._edHandlerXSDataBest.getXSDataResultStrategy(xsDataResultBest, self.getDataInput().getExperimentalCondition(), self._xsDataSampleCopy)
@@ -306,21 +311,13 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         if self.xsDataFileRaddoseLog is not None:
             xsDataResultStrategy.setRaddoseLogFile(self.xsDataFileRaddoseLog)
         # Plots
-        if not self._edPluginPlotGle.isFailure():
+        if not self._edPluginPlotGle.isFailure() and self._edPluginPlotGle.dataOutput is not None:
             listFileGraph = self._edPluginPlotGle.dataOutput.fileGraph
             xsDataResultStrategy.bestGraphFile = listFileGraph
         # Sample
         xsDataResultStrategy.setSample(self._xsDataSampleCopy)
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
-        
-
-
-    def finallyProcess(self, _edObject=None):
-        EDPluginControl.finallyProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginControlStrategyv1_2.finallyProcess")
-        if not self.hasDataOutput():
-            self.setDataOutput(XSDataResultStrategy())
 
 
     def doRaddoseToBestTransition(self, _edPlugin):

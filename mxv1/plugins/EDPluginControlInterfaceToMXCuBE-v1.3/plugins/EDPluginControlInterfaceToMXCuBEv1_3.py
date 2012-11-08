@@ -174,6 +174,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         if xsDataResultControlISPyB != None:
             self.xsDataResultMXCuBE.setScreeningId(xsDataResultControlISPyB.getScreeningId())
         if xsDataResultCharacterisation != None:
+            self.xsDataResultMXCuBE.characterisationResult = xsDataResultCharacterisation
             strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
             xsDataResultCharacterisation.exportToFile(strPathCharacterisationResult)
             self.xsDataResultMXCuBE.setListOfOutputFiles(XSDataString(strPathCharacterisationResult))
@@ -235,9 +236,10 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.executeSimpleHTML(xsDataResultCharacterisation)            
         # Send failure email message (MXSUP-183):
         strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
-        strMessage = "Interface FAILURE!"
-        if self.edPluginControlInterface.hasDataOutput("characterisation"):
-            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
+        strMessage = "Characterisation FAILURE!"
+        xsDataResultCharacterisation = self.edPluginControlInterface.dataOutput.resultCharacterisation
+        if xsDataResultCharacterisation is not None:
+            self.xsDataResultMXCuBE.characterisationResult = xsDataResultCharacterisation
             if xsDataResultCharacterisation.getStatusMessage():
                 strMessage += "\n\n"
                 strMessage += xsDataResultCharacterisation.getStatusMessage().getValue()
