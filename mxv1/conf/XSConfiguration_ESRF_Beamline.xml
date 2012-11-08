@@ -29,19 +29,6 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginControlCharacterisationv1_1</name>  
-			<XSParamList>
-				<XSParamItem>
-					<name>controlledPlugins</name>
-					<value>strategyPlugin</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>strategyPlugin</name>
-					<value>EDPluginControlStrategyv1_2</value>
-				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
-		<XSPluginItem>
 			<name>EDPluginControlCCP4iv1_1</name>  
 			<XSParamList>
 				<XSParamItem>
@@ -50,7 +37,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>characterisationPlugin</name>
-					<value>EDPluginControlCharacterisationv1_2</value>
+					<value>EDPluginControlCharacterisationv1_3</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -63,7 +50,7 @@
 			</XSParamItem>
 			<XSParamItem>
 				<name>characterisationPlugin</name>
-				<value>EDPluginControlCharacterisationv1_2</value>
+				<value>EDPluginControlCharacterisationv1_3</value>
 			</XSParamItem>
 			<XSParamItem>
 				<name>ispybPlugin</name>
