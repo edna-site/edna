@@ -185,23 +185,29 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             xsDataResultIntegration = self.xsDataResultCharacterisation.getIntegrationResult()
             xsDataResultIndexing = self.xsDataResultCharacterisation.getIndexingResult()
             if xsDataResultIndexing is None:
+                self.page.font(_color="red", size="+2")
                 self.page.h2()
                 self.page.strong("Strategy calculation not performed due to indexing failure, see the " )  
                 self.page.a("EDNA log file", href=self.strPageEDNALog)
                 self.page.strong(" for more details" )  
                 self.page.h2.close()
+                self.page.font.close()                
             elif xsDataResultIntegration is None:
+                self.page.font(_color="red", size="+2")
                 self.page.h2()
                 self.page.strong("Strategy calculation not performed due to integration failure, see the " )  
                 self.page.a("EDNA log file", href=self.strPageEDNALog)
                 self.page.strong(" for more details" )  
                 self.page.h2.close()
+                self.page.font.close()                
             else:
+                self.page.font(_color="red", size="+2")
                 self.page.h2()
                 self.page.strong( "Strategy calculation failed, see the " )
                 self.page.a("EDNA log file", href=self.strPageEDNALog)
                 self.page.strong(" for more details" )  
                 self.page.h2.close()
+                self.page.font.close()                
         else:
             # Add link to BEST log file:
             if xsDataResultStrategy.getBestLogFile():
@@ -228,13 +234,15 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                     EDUtilsFile.writeFile(strPageRaddoseLog, str(pageRaddoseLog))
             listXSDataCollectionPlan = xsDataResultStrategy.getCollectionPlan()
             if listXSDataCollectionPlan == []:
+                self.page.font(_color="red", size="+2")
                 self.page.h2()
                 self.page.strong("Strategy calculation failed, see the ")
                 self.page.a("BEST log file", href="best_log.html")
                 self.page.strong(" for more details")
                 if strPageRaddoseLog is not None:
                     self.page.a(" (RADDOSE log file)", href="raddose_log.html")
-                self.page.h2.close()                
+                self.page.h2.close()
+                self.page.font.close()                
             else:
                 iNoSubWedges = len(listXSDataCollectionPlan)
                 self.page.h2()
