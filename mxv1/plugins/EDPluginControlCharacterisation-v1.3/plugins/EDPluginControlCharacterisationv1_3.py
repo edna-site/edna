@@ -480,6 +480,10 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
         strErrorMessage = "Execution of strategy plugin failed."
         EDVerbose.ERROR(strErrorMessage)
         self.addErrorMessage(strErrorMessage)
+        xsDataStrategyResult = self._edPluginControlStrategy.getDataOutput()
+        self._xsDataResultCharacterisation.setStrategyResult(xsDataStrategyResult)
+        if self._edPluginControlStrategy.hasDataOutput("strategyShortSummary"):
+            self._strCharacterisationShortSummary += self._edPluginControlStrategy.getDataOutput("strategyShortSummary")[0].getValue()
         if self._xsDataResultCharacterisation is not None:
             self.setDataOutput(self._xsDataResultCharacterisation)
         self.addStatusMessage("Strategy calculation FAILURE.")

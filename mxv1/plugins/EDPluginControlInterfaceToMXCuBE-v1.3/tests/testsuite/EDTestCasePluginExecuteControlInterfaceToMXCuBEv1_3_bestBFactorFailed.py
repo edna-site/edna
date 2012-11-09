@@ -31,25 +31,22 @@ import os
 from EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3             import EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3
 from EDAssert import EDAssert
 
-class EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_characterisationFailure(EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3):
+class EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_bestBFactorFailed(EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3):
 
 
     def __init__(self, _edStringTestName=None):
         EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3.__init__(self, "EDPluginControlInterfaceToMXCuBEv1_3")
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputMXCuBE_characterisationFailure.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputMXCuBE_bestBFactorFailed.xml"))
 
 
     def preProcess(self):
         EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3.preProcess(self)
-        self.loadTestImage([ "fewSpots_1_001.img" ])
+        self.loadTestImage([ "bestBFactorFailed_2_001.img" ])
 
 
     def testExecute(self):
         self.run()
 
-        edPlugin = self.getPlugin()
-        strWorkingDirectory = edPlugin.getWorkingDirectory()
-        EDAssert.equal(True, os.path.exists(os.path.join(strWorkingDirectory, "ControlInterfaceToMXCuBEv1_3_dataOutput.xml")))
 
 
 
@@ -61,5 +58,5 @@ class EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_characterisationFailur
 
 if __name__ == '__main__':
 
-    edTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_characterisationFailure = EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_characterisationFailure")
-    edTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_characterisationFailure.execute()
+    EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_bestBFactorFailed = EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_bestBFactorFailed")
+    EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_bestBFactorFailed.execute()

@@ -330,17 +330,21 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
     def finallyProcess(self, _edObject=None):
         EDPluginExecProcessScript.finallyProcess(self)
         self.DEBUG("EDPluginBestv1_2.finallyProcess")
+        xsDataResultBest = self.getOutputDataFromDNATableFile(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
+        xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
+        xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
         strError = self.readProcessErrorLogFile()
         if((strError is not None) and (strError != "")):
-            strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_2.postProcess', 'EDPluginBestv1_2', strError)
+            strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_2.finallyProcess', 'EDPluginBestv1_2', strError)
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
-            self.setDataOutput(XSDataResultBest())
+            # Append error message to best log
+            strLog = self.readProcessLogFile()
+            strLog += "\n"+strError
+            EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(),self.getScriptLogFileName()), strLog)
+            self.setDataOutput(xsDataResultBest)
             self.setFailure()
         else:
-            xsDataResultBest = self.getOutputDataFromDNATableFile(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
-            xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
-            xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
             strPathToPlotMtv = os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv")
             if os.path.exists(strPathToPlotMtv):
                 xsDataFilePathToPlotMtv = XSDataFile(XSDataString(strPathToPlotMtv))
@@ -362,22 +366,23 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
 
     def getOutputDataFromDNATableFile(self, _strFileName):
-        strDnaTablesXML = self.readProcessFile(_strFileName)
-        xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
         xsDataResultBest = XSDataResultBest()
-        # Loop through all the tables and fill in the relevant parts of xsDataResultBest
-
-        xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
-        if (xsDataStringStrategyOption is not None):
-            strStrategyOption = xsDataStringStrategyOption.getValue()
-            if (strStrategyOption.find("-DamPar") != -1 ):
-                xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
-            elif (strStrategyOption.find("-Bonly") != -1 ):
-                xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
+        if os.path.exists(_strFileName):
+            strDnaTablesXML = self.readProcessFile(_strFileName)
+            xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
+            # Loop through all the tables and fill in the relevant parts of xsDataResultBest
+        
+            xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
+            if (xsDataStringStrategyOption is not None):
+                strStrategyOption = xsDataStringStrategyOption.getValue()
+                if (strStrategyOption.find("-DamPar") != -1 ):
+                    xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
+                elif (strStrategyOption.find("-Bonly") != -1 ):
+                    xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
+                else:
+                    xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
             else:
                 xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
-        else:
-            xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
 
         return xsDataResultBest
 
