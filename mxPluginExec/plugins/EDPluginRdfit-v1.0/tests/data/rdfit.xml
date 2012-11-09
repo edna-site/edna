@@ -1,0 +1,12 @@
+<?xml version='1.0'?><!DOCTYPE edna_tables>
+<edna_tables program='RDFIT' version='1.0.0  02.10.2012'>
+   <table name="RDFIT_Results" index="1">                                                           
+     <list name="general" index="1">                                                                
+       <item name="beta">1.38</item>                                                                
+       <item name="gama">0.07</item>                                                                
+       <item name="Dose_1/2_th">7.176</item>                                                        
+       <item name="Dose_1/2">7.790</item>                                                           
+       <item name="Relative_Radiation_Sensitivity">1.24</item>                                      
+     </list>                                                                                        
+   </table>                                                                                         
+</edna_tables>

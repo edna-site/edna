@@ -1,0 +1,29 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+
+complex type XSDataInputRdfit extends XSDataInput {
+	bestXmlFile : XSDataFile
+	xdsHklFile : XSDataFile []
+	dmin : XSDataDouble optional
+	defaultBeta : XSDataDouble optional
+	defaultGama : XSDataDouble optional
+	bFactorMtvplotFile : XSDataFile optional
+	bFactorGlePlotFile : XSDataFile optional
+	bScaleIntensityMtvPlotFile : XSDataFile optional
+	bScaleIntensityGleFile : XSDataFile optional
+	resultsFile : XSDataFile optional
+	resultsXmlFile : XSDataFile optional
+}
+
+complex type XSDataResultRdfit extends XSDataResult {
+	beta : XSDataDouble optional
+	gama : XSDataDouble optional
+	dose_half_th : XSDataDouble optional
+	dose_half : XSDataDouble optional
+	relative_radiation_sensitivity : XSDataDouble optional
+	
+}

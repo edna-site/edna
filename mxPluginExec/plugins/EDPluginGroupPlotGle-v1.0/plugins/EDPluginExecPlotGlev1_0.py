@@ -27,7 +27,7 @@ __copyright__ = "ESRF"
 __date__ = "20120712"
 __status__ = "production"
 
-import os, tempfile, numpy, threading, shlex
+import os, tempfile, numpy, threading, shlex, shutil
 
 from EDPluginExec import EDPluginExec
 from EDUtilsFile import EDUtilsFile
@@ -69,8 +69,14 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
     def preProcess(self, _edObject = None):
         EDPluginExec.preProcess(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.preProcess")
+        FileGle = None
         # Check if we have a plotmtv input file
         xsDataInput = self.getDataInput()
+        for xsDataGlePlot in xsDataInput.glePlot:
+            dictPlot = {}
+            dictPlot["script"] = xsDataGlePlot.script.path.value
+            dictPlot["data"] = [xsDataGlePlot.data.path.value]
+            self.listPlot.append(dictPlot)
         if xsDataInput.filePlotMtv is not None:
             strPlotMtvPath = xsDataInput.filePlotMtv.path.value
             if os.path.exists(strPlotMtvPath):
@@ -84,32 +90,43 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             xsDataPlotSet = xsDataInput.plotSet
         # Prepare input script
         iIndex = 1
-        for xsDataPlot in xsDataPlotSet.plot:
-            if xsDataPlot.xsize is None:
-                xsDataPlot.xsize = 10
-            if xsDataPlot.ysize is None:
-                xsDataPlot.ysize = 10
-            if iIndex in [1,5,8]:
-                xsDataPlot.keypos = "tl"
-            elif iIndex in [2,4,6]:
-                xsDataPlot.keypos = "tr"
-            elif iIndex in [3]:
-                xsDataPlot.keypos = "br"
-            elif iIndex in [7]:
-                xsDataPlot.keypos = "bl"
-            if iIndex == 4:
-                xsDataPlot.xmax = 500
-            strPlotFile = os.path.join(self.getWorkingDirectory(), "plot%d" % iIndex)
-            strGle = self.prepareGleGraph(xsDataPlot)
-            EDUtilsFile.writeFile(strPlotFile+".gle", strGle)
-            self.listPlot.append(strPlotFile)
-            iIndex += 1
+        if xsDataPlotSet is not None:
+            for xsDataPlot in xsDataPlotSet.plot:
+                if xsDataPlot.xsize is None:
+                    xsDataPlot.xsize = 10
+                if xsDataPlot.ysize is None:
+                    xsDataPlot.ysize = 10
+                if iIndex in [1,5,8]:
+                    xsDataPlot.keypos = "tl"
+                elif iIndex in [2,4,6]:
+                    xsDataPlot.keypos = "tr"
+                elif iIndex in [3]:
+                    xsDataPlot.keypos = "br"
+                elif iIndex in [7]:
+                    xsDataPlot.keypos = "bl"
+                if iIndex == 4:
+                    xsDataPlot.xmax = 500
+                strPlotFile = os.path.join(self.getWorkingDirectory(), "plot%d" % iIndex)
+                (strGle, listDataFiles) = self.prepareGleGraph(xsDataPlot)
+                EDUtilsFile.writeFile(strPlotFile+".gle", strGle)
+                dictPlot = {}
+                dictPlot["script"] = strPlotFile+".gle"
+                dictPlot["data"] = listDataFiles
+                self.listPlot.append(dictPlot)
+                iIndex += 1
         
     def process(self, _edObject = None):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.process")
-        for strPath in self.listPlot:
-            strCommand = "gle -verbosity 0 -r 150 -d jpg %s.gle" % strPath
+        for dictPlot in self.listPlot:
+            if os.path.dirname(dictPlot["script"]) != self.getWorkingDirectory():
+                shutil.copy(dictPlot["script"], self.getWorkingDirectory())
+            listDataFiles = dictPlot["data"]
+            for strDataFileFullPath in listDataFiles:
+                strDataFile = os.path.basename(strDataFileFullPath)
+                if not os.path.exists(os.path.join(self.getWorkingDirectory(),strDataFile)):
+                    shutil.copy(strDataFileFullPath, self.getWorkingDirectory())
+            strCommand = "gle -verbosity 0 -r 150 -d jpg %s" % os.path.basename(dictPlot["script"])
             # Copied from EDPluginExecProcess
             self.DEBUG(self.getBaseName() + ": Processing")
             timer = threading.Timer(float(self.getTimeOut()), self.kill)
@@ -135,8 +152,8 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         self.DEBUG("EDPluginExecPlotGlev1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultPlotGle()
-        for strPath in self.listPlot:
-            strPathJpg = strPath + ".jpg"
+        for dictPlot in self.listPlot:
+            strPathJpg = os.path.join(self.getWorkingDirectory(), os.path.basename(dictPlot["script"])[:-4] + ".jpg")
             if os.path.exists(strPathJpg):
                 xsDataResult.addFileGraph(XSDataFile(XSDataString(strPathJpg)))
         self.setDataOutput(xsDataResult)
@@ -170,30 +187,32 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         else:
             strGraph += "  key pos %s hei 0.25\n" % _xsDataPlot.keypos
         iIndex = 1
+        listDataFiles = []
         for xsDataGraph in _xsDataPlot.graph:
             strTmpDataPath = tempfile.mkstemp(prefix="data_", suffix=".dat", \
                                               dir=self.getWorkingDirectory(), text=True)[1]
             numpyData = EDUtilsArray.xsDataToArray(xsDataGraph.data, _bForceNoNumpy=True)
             numpy.savetxt(strTmpDataPath, numpyData, delimiter=" ")
+            listDataFiles.append(strTmpDataPath)
             #EDUtilsFile.writeFile(strTmpDataPath, strData)
             strGraph += "  data %s\n" % strTmpDataPath
             strGraph += "  d%d line " % iIndex
-            if xsDataGraph.lineColor != None:
+            if xsDataGraph.lineColor != None and xsDataGraph.lineColor != "None":
                 strGraph += " color %s " % xsDataGraph.lineColor
-            if xsDataGraph.lineStyle != None:
-                strGraph += " lstyle %d " % xsDataGraph.lineStyle
+            if xsDataGraph.lineStyle != None and xsDataGraph.lineStyle != "None":
+                strGraph += " lstyle %s " % xsDataGraph.lineStyle
             if xsDataGraph.lineWidth != None:
                 strGraph += " lwidth %f " % xsDataGraph.lineWidth
-            if xsDataGraph.markerType != None:
+            if xsDataGraph.markerType != None and xsDataGraph.markerType != "None":
                 strGraph += " marker %s " % xsDataGraph.markerType
-            if xsDataGraph.markerColor != None:
+            if xsDataGraph.markerColor != None and xsDataGraph.markerColor != "None":
                 strGraph += " color %s " % xsDataGraph.markerColor
-            if xsDataGraph.label != None:
+            if xsDataGraph.label != None and xsDataGraph.label != "None":
                 strGraph += " key \"%s\" " % xsDataGraph.label
             strGraph += "\n"
             iIndex+=1
         strGraph += "end graph\n"
-        return strGraph
+        return (strGraph, listDataFiles)
 
 
     def readPlotMtv(self, _strPlotMtv):
