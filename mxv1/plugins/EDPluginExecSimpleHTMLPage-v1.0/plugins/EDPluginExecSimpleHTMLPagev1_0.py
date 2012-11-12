@@ -100,6 +100,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 self.page.strong(")")
             self.page.h1.close()
             self.page.div.close()
+            self.dataCollectionInfo()
             self.diffractionPlan()
             self.strategyResults()
             self.graphs()
@@ -338,6 +339,38 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                         self.page.th("%.2f" % fDistance)
                         self.page.tr.close()
                     self.page.table.close()
+
+
+    def dataCollectionInfo(self):
+        self.page.h2( "Data collection info" )
+        xsDataCollection = self.xsDataResultCharacterisation.getDataCollection()
+        firstSubWedge = xsDataCollection.subWedge[0]
+        firstImage = firstSubWedge.image[0]
+        strDate = firstImage.date.value
+        strDirName = os.path.dirname(firstImage.path.value)
+        strImages = os.path.basename(firstImage.path.value)
+        bFirstImage = True
+        for xsDataSubwedge in xsDataCollection.subWedge:
+            for xsDataImage in xsDataSubwedge.image:
+                if bFirstImage:
+                    strImages = os.path.basename(xsDataImage.path.value)
+                    bFirstImage = False                
+                else:
+                    strImages += ", " + os.path.basename(xsDataImage.path.value)
+        self.page.table( class_='dataCollectionInfo', border_="1", cellpadding_="0")
+        self.page.tr( align_="CENTER")
+        self.page.th("Data collection date", bgcolor_=self.strTableColourTitle2)
+        self.page.th(strDate, bgcolor_=self.strTableColourRows)
+        self.page.tr.close()
+        self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+        self.page.th("Images", bgcolor_=self.strTableColourTitle2)
+        self.page.th(strImages, bgcolor_=self.strTableColourRows)
+        self.page.tr.close()
+        self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+        self.page.th("Directory", bgcolor_=self.strTableColourTitle2)
+        self.page.th(strDirName, bgcolor_=self.strTableColourRows)
+        self.page.tr.close()
+        self.page.table.close()     
 
 
     def diffractionPlan(self):
