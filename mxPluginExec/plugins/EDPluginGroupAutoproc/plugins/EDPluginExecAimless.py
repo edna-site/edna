@@ -55,7 +55,7 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
         self.DEBUG('Aimless: preprocess')
         input_file = self.dataInput.input_file.value
         output_file = self.dataInput.output_file.value
-        symdb = self.getStringConfigurationParameterValue('symdb_path')
+        symdb = self.config.get('symdb_path')
         if symdb is None:
             self.ERROR('no symdb in configuration, aborting')
             self.setFailure()
