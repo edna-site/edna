@@ -72,19 +72,7 @@ from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
 
 # status updates
 from XSDataISPyBv1_4 import AutoProcStatus
-
-#	autoProcStatusId : integer optional
-#	autoProcIntegrationId : integer
-#	step : string
-#	status : string
-#	comments : string
-#	bltimeStamp : string
 from XSDataISPyBv1_4 import  XSDataInputStoreAutoProcStatus
-#	dataCollectionId : integer optional
-#	autoProcIntegrationId : integer optional
-#	autoProcStatusId : integer optional
-#	AutoProcStatus : AutoProcStatus
-
 
 from xdscfgparser import parse_xds_file, dump_xds_file
 
@@ -324,12 +312,12 @@ class EDPluginControlAutoproc(EDPluginControl):
             self.setFailure()
             return
         else:
+            EDVerbose.screen('FINISHED first resolution cutoff')
             log_to_ispyb(self.integration_id,
                          'Indexing',
                          'Successful',
                          'res cutoff finished in {0}s'.format(self.stats['first_res_cutoff']))
 
-        EDVerbose.screen('FINISHED first resolution cutoff')
 
         with open(self.log_file_path, 'w') as f:
             json.dump(self.stats, f)
@@ -366,6 +354,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                          'anom/noanom generation failed in {0}s'.format(self.stats['anom/noanom_generation']))
             return
         else:
+            EDVerbose.screen('generating w/ and w/out anom finished')
             log_to_ispyb(self.integration_id,
                          'Scaling',
                          'Successful',
@@ -472,12 +461,13 @@ class EDPluginControlAutoproc(EDPluginControl):
                          'anom/noanom resolution cutoffs failed in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
             return
         else:
+            self.screen('FINISHED noanom res cutoff')
             log_to_ispyb(self.integration_id,
                          'Scaling',
                          'Successful',
                          'anom/noanom resolution cutoffs finished in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
 
-        self.DEBUG('FINISHED noanom res cutoff')
+
 
         # now we just have to run XScale to generate w/ and w/out
         # anom, merged and unmerged
@@ -511,12 +501,13 @@ class EDPluginControlAutoproc(EDPluginControl):
             EDVerbose.ERROR('xscale  generation failed')
 
         if self.xscale_generate.isFailure():
+            EDVerbose.ERROR('xscale anom/merge generation failed')
             log_to_ispyb(self.integration_id,
                          'Scaling',
                          'Failed',
                          'xscale generation failed in {0}s'.format(self.stats['first_res_cutoff']))
-            EDVerbose.ERROR('xscale anom/merge generation failed')
         else:
+            EDVerbose.screen('xscale anom/merge generation finished')
             log_to_ispyb(self.integration_id,
                          'Scaling',
                          'Successful',
