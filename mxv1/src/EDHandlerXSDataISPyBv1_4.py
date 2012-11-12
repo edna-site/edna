@@ -177,6 +177,7 @@ class EDHandlerXSDataISPyBv1_4(object):
     @staticmethod
     def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage):
         xsDataISPyBScreeningOutput = XSDataISPyBScreeningOutput()
+        xsDataISPyBScreeningOutput.program = XSDataString("EDNA MXv1")
         xsDataISPyBScreeningOutputLattice = None
         # Indexing information
         bSuccessfulIndexing = False
@@ -240,6 +241,9 @@ class EDHandlerXSDataISPyBv1_4(object):
             xsDataISPyBScreeningStrategyContainer = XSDataISPyBScreeningStrategyContainer()
             xsDataISPyBScreeningStrategy = XSDataISPyBScreeningStrategy()
             listXSDataCollectionPlan = xsDataResultStrategy.collectionPlan
+            fTotalExposureTime = 0.0
+            iTotalNumberOfImages = 0
+            fTotalRotationRange = 0.0
             for xsDataCollectionPlan in listXSDataCollectionPlan:
                 numberOfImagesWedge = None
                 xsDataISPyBScreeningStrategyWedge = XSDataISPyBScreeningStrategyWedge()
@@ -253,7 +257,8 @@ class EDHandlerXSDataISPyBv1_4(object):
                     xsDataISPyBScreeningStrategyWedge.completeness = xsDataStrategySummary.completeness
                     xsDataISPyBScreeningStrategyWedge.resolution   = xsDataStrategySummary.resolution
                     xsDataISPyBScreeningStrategyWedge.multiplicity = xsDataStrategySummary.redundancy
-                    xsDataISPyBScreeningStrategy.rankingResolution = xsDataStrategySummary.rankingResolution
+                    xsDataISPyBScreeningOutput.rankingResolution = xsDataStrategySummary.rankingResolution
+                    fTotalExposureTime += xsDataStrategySummary.totalExposureTime.value
                 xsDataCollectionStrategy = xsDataCollectionPlan.collectionStrategy
                 if xsDataCollectionStrategy is not None:
                     for xsDataSubWedge in xsDataCollectionStrategy.subWedge:
@@ -275,13 +280,18 @@ class EDHandlerXSDataISPyBv1_4(object):
                                 numberOfImagesWedge = numberOfImagesSubWedge
                             else:
                                 numberOfImagesWedge += numberOfImagesSubWedge
+                            fTotalRotationRange += xsDataSubWedge.experimentalCondition.goniostat.oscillationWidth.value * numberOfImagesSubWedge
                         xsDataISPyBScreeningStrategySubWedge.exposureTime = xsDataSubWedge.experimentalCondition.beam.exposureTime
                         xsDataISPyBScreeningStrategySubWedge.transmission = xsDataSubWedge.experimentalCondition.beam.transmission
                         xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
                 if numberOfImagesWedge is not None:
                     xsDataISPyBScreeningStrategyWedge.numberOfImages = XSDataInteger(numberOfImagesWedge)
+                    iTotalNumberOfImages +=  numberOfImagesWedge
                 xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge = xsDataISPyBScreeningStrategyWedge
-                xsDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer(xsDataISPyBScreeningStrategyWedgeContainer)   
+                xsDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer(xsDataISPyBScreeningStrategyWedgeContainer)
+            xsDataISPyBScreeningOutput.totalExposureTime = XSDataDouble(fTotalExposureTime)   
+            xsDataISPyBScreeningOutput.totalNumberOfImages = XSDataInteger(iTotalNumberOfImages)
+            xsDataISPyBScreeningOutput.totalRotationRange = XSDataDouble(fTotalRotationRange)
             xsDataISPyBScreeningStrategyContainer.screeningStrategy = xsDataISPyBScreeningStrategy
         # Assembly
         xsDataISPyBScreeningOutputContainer = XSDataISPyBScreeningOutputContainer()
