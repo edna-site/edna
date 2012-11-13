@@ -51,7 +51,7 @@ class EDTestCasePluginExecuteExecSimpleHTMLPagev1_0_withQt3Render(EDTestCasePlug
 
     def preProcess(self):
         EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage([ "ref-testscale_1_001_pred.jpg", "ref-testscale_1_002_pred.jpg" ])
+        self.loadTestImage([ "B.jpg", "I2D.jpg", "phi_overlap.jpg", "compl.jpg", "ref-testscale_1_001_pred.jpg", "ref-testscale_1_002_pred.jpg" ])
 
 
     def testExecute(self):
@@ -62,6 +62,8 @@ class EDTestCasePluginExecuteExecSimpleHTMLPagev1_0_withQt3Render(EDTestCasePlug
         mainwin.setMinimumSize(800,600)
         w = QTextBrowser(mainwin)
         mainwin.setCentralWidget(w)
+        print(os.path.dirname(xsDataResultSimpleHTMLPage.getPathToHTMLFile().getPath().getValue()))
+        os.chdir(os.path.dirname(xsDataResultSimpleHTMLPage.getPathToHTMLFile().getPath().getValue()))
         contents=open(xsDataResultSimpleHTMLPage.getPathToHTMLFile().getPath().getValue(),"r")
         w.setText(contents.read())
         contents.close()
