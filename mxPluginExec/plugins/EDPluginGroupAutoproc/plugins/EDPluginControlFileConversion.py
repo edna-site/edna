@@ -33,6 +33,9 @@ import re
 import os.path
 import tempfile
 
+# for the chmod constants
+from stat import *
+
 from EDPluginControl import EDPluginControl
 
 from XSDataCommon import XSDataStatus, XSDataBoolean, XSDataResult, XSDataString
@@ -100,6 +103,7 @@ class EDPluginControlFileConversion(EDPluginControl):
                                                 delete=False)
         aimless_out = os.path.abspath(temp_file.name)
         temp_file.close()
+        os.chmod(aimless_out, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
 
         aimless_in = XSDataAimless()
         aimless_in.input_file = pointless_in.output_file
@@ -125,8 +129,11 @@ class EDPluginControlFileConversion(EDPluginControl):
                                                 prefix='tmp2-',
                                                 dir=self.aimless.getWorkingDirectory(),
                                                 delete=False)
-        truncate_in.output_file = XSDataString(temp_file.name)
+        truncate_out = temp_file.name
         temp_file.close()
+        os.chmod(truncate_out, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
+        truncate_in.output_file = XSDataString(truncate_out)
+
         truncate_in.nres = self.dataInput.nres
         truncate_in.anom = self.dataInput.anom
         truncate_in.res = self.dataInput.res
