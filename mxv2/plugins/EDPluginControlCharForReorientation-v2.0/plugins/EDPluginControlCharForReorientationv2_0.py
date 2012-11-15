@@ -161,6 +161,8 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
     def doCharacterisationFailure(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.doCharacterisationFailure")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlCharacterisationv2_0.doFailureActionIndexing")
+        self.xsDataResultCharacterisation = self.edPluginControlCharacterisation.getDataOutput()
+
     
             
     def doStrategySuccess(self, _edPlugin=None):
