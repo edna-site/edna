@@ -572,6 +572,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         program_container.AutoProcProgram = AutoProcProgram()
         program_container.AutoProcProgram.processingCommandLine = ' '.join(sys.argv)
         program_container.AutoProcProgram.processingPrograms = 'edna-fastproc'
+        program_container.AutoProcProgram.processingStatus = True
 
         output.AutoProcProgramContainer = program_container
 
