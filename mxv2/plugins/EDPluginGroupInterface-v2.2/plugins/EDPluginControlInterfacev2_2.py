@@ -171,21 +171,16 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         """
         EDPluginControl.configure(self)
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.configure")
-        pluginConfiguration = self.getConfiguration()
+        if (self.getControlledPluginName("subWedgeAssemblePlugin") is not None):
+            self.strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
+        if (self.getControlledPluginName("characterisationPlugin") is not None):
+            self.strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
+        if (self.getControlledPluginName("ispybPlugin") is not None):
+            self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
 
-        if (pluginConfiguration is None):
-            EDVerbose.DEBUG("No plugin configuration found for EDPluginControlInterfacev2_2.")
-        else:
-            if (self.getControlledPluginName("subWedgeAssemblePlugin") is not None):
-                self.strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
-            if (self.getControlledPluginName("characterisationPlugin") is not None):
-                self.strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
-            if (self.getControlledPluginName("ispybPlugin") is not None):
-                self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
-
-            bUseISPyBPlugin = EDConfiguration.getStringParamValue(pluginConfiguration, "useISPyBPlugin")
-            if (bUseISPyBPlugin.lower() != "true"):
-                self.strEDPluginControlISPyBName = None
+        bUseISPyBPlugin = self.config.get("useISPyBPlugin")
+        if not bUseISPyBPlugin:
+            self.strEDPluginControlISPyBName = None
 
 
     def preProcess(self, _edPlugin=None):
@@ -497,7 +492,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
 
         self.xsDataInputCharacterisationv2_0 = XSDataMXv2.XSDataInputCharacterisationv2_0()
         # Check if we should create simple HTML and store to ISPyB
-        self.strCreateSimpleHTMLPageForISPyB = self.getStringConfigurationParameterValue("createSimpleHTMLPageForISPyB")
+        self.strCreateSimpleHTMLPageForISPyB = self.config.get("createSimpleHTMLPageForISPyB")
         if self.strCreateSimpleHTMLPageForISPyB == "True":
             self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
 
