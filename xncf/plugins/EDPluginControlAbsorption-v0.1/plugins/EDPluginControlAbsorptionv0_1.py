@@ -32,6 +32,9 @@ from math import fabs, exp
 
 from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+
+EDFactoryPluginStatic.loadModule("EDParallelJobLauncher")
 from EDParallelJobLauncher import EDParallelJobLauncher
 
 from XSDataAbsCalc import XSDataInputAbsorption
