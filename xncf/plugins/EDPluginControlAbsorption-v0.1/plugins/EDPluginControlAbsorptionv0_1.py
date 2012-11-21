@@ -67,7 +67,7 @@ class EDPluginControlAbsorptionv0_1( EDPluginControl ):
         self.__refAbsCalc = None
         self.__deltaMuT = None
         
-        self.__iNbThreads = 10
+        self.__iNbThreads = 1
                         
         self.__edPluginRefSample = None
         self.__edPluginFinalAbsCalc = None
