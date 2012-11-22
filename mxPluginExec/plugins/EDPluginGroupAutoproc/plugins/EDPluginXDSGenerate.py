@@ -114,7 +114,7 @@ class EDPluginXDSGenerate(EDPluginControl):
         # create the data inputs now we know the files are here
         input_anom = XSDataMinimalXdsIn()
         input_anom.input_file = XSDataString(new_xdsinp)
-        input_anom.friedels_law = XSDataBoolean(True)
+        input_anom.friedels_law = XSDataBoolean(False)
         input_anom.job = XSDataString('CORRECT')
         input_anom.resolution = self.dataInput.resolution
         input_anom.resolution_range = [XSDataFloat(60), self.dataInput.resolution]
@@ -122,7 +122,7 @@ class EDPluginXDSGenerate(EDPluginControl):
 
         input_noanom = XSDataMinimalXdsIn()
         input_noanom.input_file = XSDataString(new_xdsinp)
-        input_noanom.friedels_law = XSDataBoolean(False)
+        input_noanom.friedels_law = XSDataBoolean(True)
         input_noanom.job = XSDataString('CORRECT')
         input_noanom.resolution_range = [XSDataFloat(60), self.dataInput.resolution]
         self.xds_noanom.dataInput = input_noanom
