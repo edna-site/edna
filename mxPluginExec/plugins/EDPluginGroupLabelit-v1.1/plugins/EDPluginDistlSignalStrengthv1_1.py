@@ -70,7 +70,7 @@ class EDPluginDistlSignalStrengthv1_1(EDPluginExecProcessScript):
         EDPluginExecProcessScript.postProcess(self, _edObject)
         self.DEBUG("EDPluginDistlSignalStrengthv1_1.postProcess")
         strLabelitDistlLog = self.readProcessLogFile()
-        if (strLabelitDistlLog is None):
+        if (strLabelitDistlLog is None or strLabelitDistlLog.strip() == ""):
             strErrorMessage = "EDPluginDistlSignalStrengthv1_1.postProcess : Could not read the Labelit log file"
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
