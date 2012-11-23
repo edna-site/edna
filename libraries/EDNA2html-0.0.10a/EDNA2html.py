@@ -2752,7 +2752,7 @@ def addIndexingSummary(edna_run, section, edna_html_dir, help):
     # Refined cell
     solution_cell_tbl = indexing_summary.addTable(
         ["Refined unit cell parameters (&Aring;/degrees)"])
-    solution_cell_tbl.addRow(["a", "b", "c", "&alpha", "&beta", "&gamma"],
+    solution_cell_tbl.addRow(["a", "b", "c", "&alpha;", "&beta;", "&gamma;"],
                              css_classes="table_header")
     solution_cell_tbl.addRow(['%.2f' % indexing_results.cell_a,
                               '%.2f' % indexing_results.cell_b,
