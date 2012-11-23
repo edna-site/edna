@@ -159,7 +159,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.fKappa = None
         self.fOmega = None
         self.fPhi = None
-        self.strCreateSimpleHTMLPageForISPyB = None
+        self.bCreateSimpleHTMLPageForISPyB = None
         self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
         self.edPluginExecSimpleHTML = None        
 
@@ -492,8 +492,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
 
         self.xsDataInputCharacterisationv2_0 = XSDataMXv2.XSDataInputCharacterisationv2_0()
         # Check if we should create simple HTML and store to ISPyB
-        self.strCreateSimpleHTMLPageForISPyB = self.config.get("createSimpleHTMLPageForISPyB")
-        if self.strCreateSimpleHTMLPageForISPyB == "True":
+        self.bCreateSimpleHTMLPageForISPyB = self.config.get("createSimpleHTMLPageForISPyB")
+        if self.bCreateSimpleHTMLPageForISPyB:
             self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
 
 
@@ -736,7 +736,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
     def doSuccessActionISPyB(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doSuccessActionISPyB...")
         self.retrieveSuccessMessages(self.edPluginControlISPyB, "EDPluginControlInterfacev2_2.doSuccessActionISPyB")
-        if self.strCreateSimpleHTMLPageForISPyB == "True":
+        if self.bCreateSimpleHTMLPageForISPyB:
             # Copy the files to PyArch
             xsDataResultCharacterisation = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
             strPathToDNAFileDirectory = self.createDNAFileDirectoryPath(xsDataResultCharacterisation)
