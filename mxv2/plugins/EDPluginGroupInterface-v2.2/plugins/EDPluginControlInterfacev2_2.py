@@ -1009,30 +1009,31 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         """
         # Start with the prediction images
         xsDataIndexingResult = _xsDataResultCharacterisation.getIndexingResult()
-        xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
-        listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
-        for xsDataImagePrediction in listXSDataImagePrediction:
-            strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
-            if (_strPathToLogFileDirectory is not None):
-                strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
-                strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
-                EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
-        # Best log file
-        strPathToBESTLogFile = None
-        strPathToExecutiveSummary = None
-        if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
-            strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
-        if strPathToBESTLogFile is not None:
-            if (_strPathToLogFileDirectory is not None):
-                strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
-                EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
-        if (strPathToExecutiveSummary is not None):
-            if (_strPathToLogFileDirectory is not None):
-                strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
-                # Copy also the executive summary file to "dna_log.txt"...
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+        if xsDataIndexingResult is not None:
+            xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
+            listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
+            for xsDataImagePrediction in listXSDataImagePrediction:
+                strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
+                if (_strPathToLogFileDirectory is not None):
+                    strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
+                    strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
+                    EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
+            # Best log file
+            strPathToBESTLogFile = None
+            strPathToExecutiveSummary = None
+            if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
+                strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
+            if strPathToBESTLogFile is not None:
+                if (_strPathToLogFileDirectory is not None):
+                    strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
+                    EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
+            if (strPathToExecutiveSummary is not None):
+                if (_strPathToLogFileDirectory is not None):
+                    strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+                    # Copy also the executive summary file to "dna_log.txt"...
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
 
 
