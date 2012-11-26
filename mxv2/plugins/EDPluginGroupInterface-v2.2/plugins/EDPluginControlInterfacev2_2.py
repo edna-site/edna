@@ -160,6 +160,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.fOmega = None
         self.fPhi = None
         self.bCreateSimpleHTMLPageForISPyB = None
+        self.bUseISPyBPlugin = False
         self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
         self.edPluginExecSimpleHTML = None        
 
@@ -178,8 +179,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         if (self.getControlledPluginName("ispybPlugin") is not None):
             self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
 
-        bUseISPyBPlugin = self.config.get("useISPyBPlugin")
-        if not bUseISPyBPlugin:
+        self.bUseISPyBPlugin = self.config.get("useISPyBPlugin")
+        if not self.bUseISPyBPlugin:
             self.strEDPluginControlISPyBName = None
 
 
@@ -732,6 +733,16 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         if _edPlugin.hasDataOutput("statusMessage"):
             self.strStatusMessage = _edPlugin.getDataOutput("statusMessage")[0].getValue()
         self.storeResultsInISPyB(_edPlugin)
+        if self.bCreateSimpleHTMLPageForISPyB and not self.bUseISPyBPlugin:
+            xsDataResultCharacterisation = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
+            self.runSimpleHTMLPlugin(xsDataResultCharacterisation)
+
+    def runSimpleHTMLPlugin(self, _xsDataResultCharacterisation):
+        EDVerbose.DEBUG("EDPluginControlInterfacev2_2.runSimpleHTMLPlugin")
+        xsDataInputSimpleHTMLPage = XSDataInputSimpleHTMLPage()
+        xsDataInputSimpleHTMLPage.setCharacterisationResult(_xsDataResultCharacterisation)
+        self.edPluginExecSimpleHTML.setDataInput(xsDataInputSimpleHTMLPage)
+        self.executePluginSynchronous(self.edPluginExecSimpleHTML)
 
     def doSuccessActionISPyB(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doSuccessActionISPyB...")
@@ -746,10 +757,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             if self.createDNAFileDirectory(strPyArchPathToDNAFileDirectory):
                 self.copyFilesToPyArch(xsDataResultCharacterisation, strPyArchPathToDNAFileDirectory)
             # Execute plugin which creates a simple HTML page
-            xsDataInputSimpleHTMLPage = XSDataInputSimpleHTMLPage()
-            xsDataInputSimpleHTMLPage.setCharacterisationResult(xsDataResultCharacterisation)
-            self.edPluginExecSimpleHTML.setDataInput(xsDataInputSimpleHTMLPage)
-            self.executePluginSynchronous(self.edPluginExecSimpleHTML)
+            self.runSimpleHTMLPlugin(xsDataResultCharacterisation)
+
         
 
     def doFailureActionISPyB(self, _edPlugin=None):
