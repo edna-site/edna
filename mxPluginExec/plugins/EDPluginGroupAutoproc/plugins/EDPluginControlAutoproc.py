@@ -41,7 +41,7 @@ from EDVerbose import EDVerbose
 from EDFactoryPlugin import edFactoryPlugin
 
 from XSDataCommon import XSDataFile, XSDataBoolean, XSDataString
-from XSDataCommon import  XSDataInteger, XSDataTime
+from XSDataCommon import  XSDataInteger, XSDataTime, XSDataFloat
 
 from XSDataAutoproc import XSDataAutoprocInput
 from XSDataAutoproc import XSDataResCutoff
