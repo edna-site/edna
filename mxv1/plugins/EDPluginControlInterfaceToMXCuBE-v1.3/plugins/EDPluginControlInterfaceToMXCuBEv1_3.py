@@ -25,6 +25,7 @@ import os
 import shutil
 import smtplib
 import time
+import string
 
 from EDMessage import EDMessage
 from EDPluginControl import EDPluginControl
@@ -92,6 +93,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.tStart = None
         self.tStop = None
         self.fFluxThreshold = 1e3
+        self.strCurrentWorkingDirectory = None
 
 
     def checkParameters(self):
@@ -115,8 +117,23 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
 
     def preProcess(self, _edPlugin=None):
         """
-        This method prepares the input for the CCP4i plugin and loads it.
+        This method prepares the input for the MXCuBE plugin
         """
+        # Check that if image path contains RAW_DATA the current working directory should be PROCESSED_DATA
+        xsDataMXCuBEDataSet = self.getDataInput().getDataSet()[0]
+        strFirstImagePath = xsDataMXCuBEDataSet.getImageFile()[0].getPath().getValue()
+        if strFirstImagePath.find("RAW_DATA") != -1:
+            self.strCurrentWorkingDirectory = os.getcwd()
+            strCurrentProcessedDataDir = os.path.dirname(self.strCurrentWorkingDirectory)
+            strProcessedDataDir = os.path.dirname(string.replace(strFirstImagePath, "RAW_DATA", "PROCESSED_DATA"))
+            if strCurrentProcessedDataDir != strProcessedDataDir:
+                strEDAppliDir = "EDApplication_" + time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))
+                strNewLogFileName = os.path.join(strProcessedDataDir, strEDAppliDir + ".log")
+                strWorkingDir = os.path.join(strProcessedDataDir, strEDAppliDir, self.getBaseName())
+                if not os.path.exists(strWorkingDir):
+                    os.makedirs(strWorkingDir, 0755)
+                self.setWorkingDirectory(strWorkingDir)
+                self.setLogFileName(strNewLogFileName)
         EDPluginControl.preProcess(self, _edPlugin)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.preProcess...")
 
