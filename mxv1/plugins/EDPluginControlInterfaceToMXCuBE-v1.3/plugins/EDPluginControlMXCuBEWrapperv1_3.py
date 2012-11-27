@@ -27,7 +27,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, time
+import os, time, string, random
 
 from EDPluginControl import EDPluginControl
 from EDUtilsFile import EDUtilsFile
@@ -61,8 +61,9 @@ class EDPluginControlMXCuBEWrapperv1_3( EDPluginControl ):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlMXCuBEWrapperv1_3.process")
         # Check that if image path contains RAW_DATA the current working directory should be PROCESSED_DATA
-        strTimeString = time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))
+        strTimeString = time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time())) + "-%06d" % random.randint(0,1000000)
         strWorkingDir = self.getWorkingDirectory()
+        strProcessedDataDir = strWorkingDir
         xsDataMXCuBEDataSet = self.getDataInput().getDataSet()[0]
         strFirstImagePath = xsDataMXCuBEDataSet.getImageFile()[0].getPath().getValue()
         if strFirstImagePath.find("RAW_DATA") != -1:
@@ -72,22 +73,22 @@ class EDPluginControlMXCuBEWrapperv1_3( EDPluginControl ):
             if strCurrentProcessedDataDir != strProcessedDataDir:
                 strEDAppliDir = "EDApplication_" + strTimeString
                 strNewLogFileName = os.path.join(strProcessedDataDir, strEDAppliDir + ".log")
-                strWorkingDir = os.path.join(strProcessedDataDir, strEDAppliDir, getBaseName())
+                strWorkingDir = os.path.join(strProcessedDataDir, strEDAppliDir, self.getBaseName())
                 if not os.path.exists(strWorkingDir):
                     os.makedirs(strWorkingDir, 0755)
         # Write out input XML file
-        strPathToInputFile = os.path.join(strWorkingDir, "EDNA_Input_%s.xml" % strTimeString)
-        strPathToOutputFile = os.path.join(strWorkingDir, "EDNA_Output_%s.xml" % strTimeString)
+        strPathToInputFile = os.path.join(strProcessedDataDir, "EDNA_Input_%s.xml" % strTimeString)
+        strPathToOutputFile = os.path.join(strProcessedDataDir, "EDNA_Output_%s.xml" % strTimeString)
         EDUtilsFile.writeFile(strPathToInputFile, self.getDataInput().marshal())
         strScript = "export EDNA_SITE=%s\n" % EDUtilsPath.getEdnaSite()
         strScript += "/opt/pxsoft/bin/edna-plugin-launcher"
         strScript += " --execute %s" % self.strMXCuBEPlugin
         strScript += " --inputFile %s" % strPathToInputFile
         strScript += " --outputFile %s" % strPathToOutputFile
-        strScript += " --basedir %s" % strWorkingDir
+        strScript += " --basedir %s" % strProcessedDataDir
         strScript += " 2>&1\n"
         strScriptFileName = "edna_start_%s" % strTimeString
-        strScriptPath = os.path.join(strWorkingDir, strScriptFileName)
+        strScriptPath = os.path.join(strProcessedDataDir, strScriptFileName)
         EDUtilsFile.writeFile(strScriptPath, strScript)
         os.system("bash %s" % strScriptPath)
         xsDataResultMXCuBE = XSDataResultMXCuBE()
