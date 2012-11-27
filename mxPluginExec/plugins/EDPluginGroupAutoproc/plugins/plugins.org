@@ -40,7 +40,7 @@ Encapsulate a run of XScale, like EDPluginExecMinimalXds does for XDS.
 Parses XScale's output to extract information (the bins.)
 
 ** EDPluginRBins.py
-Encapsulate a run of the rbin binary.
+Encapsulate a run of the rbin binary. Not used for the fastproc.
 
 ** EDPluginResCutoff.py
 Cuts of data according to the specified i/sigma value. Will probably
