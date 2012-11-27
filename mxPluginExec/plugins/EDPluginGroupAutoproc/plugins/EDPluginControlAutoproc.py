@@ -41,7 +41,7 @@ from EDVerbose import EDVerbose
 from EDFactoryPlugin import edFactoryPlugin
 
 from XSDataCommon import XSDataFile, XSDataBoolean, XSDataString
-from XSDataCommon import  XSDataInteger, XSDataTime
+from XSDataCommon import  XSDataInteger, XSDataTime, XSDataFloat
 
 from XSDataAutoproc import XSDataAutoprocInput
 from XSDataAutoproc import XSDataResCutoff
@@ -577,10 +577,52 @@ class EDPluginControlAutoproc(EDPluginControl):
         program_container.AutoProcProgram.processingPrograms = 'edna-fastproc'
         program_container.AutoProcProgram.processingStatus = True
 
+        # now for the generated files. There's some magic to do with
+        # their paths to determine where to put them on pyarch
+        pyarch_path = None
+        # Note: the path is in the form /data/whatever
+
+        # remove the edna-autoproc-import suffix
+        files_dir, _ = os.path.split(self.file_conversion.dataInput.output_directory.value)
+
+        # the whole transformation is fragile!
+        if files_dir.startswith('/data/visitor'):
+            # We might get empty elements at the head/tail of the list
+            tokens = [elem for elem in files_dir.split(os.path.sep)
+                      if len(elem) > 0]
+            pyarch_path = os.path.join('/data/pyarch',
+                                       tokens[3], tokens[2],
+                                       *tokens[3:])
+        else:
+            tokens = files_dir.split(os.path.sep)
+            if tokens[2] == 'inhouse':
+                pyarch_path = os.path.join('/data/pyarch', tokens[1],
+                                           *tokens[3:])
+        if pyarch_path is not None:
+            pyarch_path.replace('PROCESSED_DATA', 'RAW_DATA')
+
+            file_list = []
+            # we can now copy the files to this dir
+            for f in os.path.listdir(files_dir):
+                new_path = os.path.join(pyarch_path, f)
+                file_list.append(new_path)
+                shutil.copyfile(os.path.join(files_dir, f),
+                                new_path)
+            # now add those to the ispyb upload
+            for f in file_list:
+                d, f = os.path.split(f)
+                attach = AutoProcProgramAttachment()
+                attach.fileType = "result"
+                attach.fileName = f
+                attach.fileDir = d
+                program_container.AutoProcProgramAttachment.append(attach)
+
+
         output.AutoProcProgramContainer = program_container
 
         ispyb_input = XSDataInputStoreAutoProc()
         ispyb_input.AutoProcContainer = output
+
 
         with open(self.dataInput.output_file.path.value, 'w') as f:
             f.write(ispyb_input.marshal())
