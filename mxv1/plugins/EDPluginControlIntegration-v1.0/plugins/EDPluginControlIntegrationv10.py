@@ -218,7 +218,8 @@ class EDPluginControlIntegrationv10(EDPluginControl):
                             self.__xsDataIntegrationResult = XSDataIntegrationResult()
                         self.__xsDataIntegrationResult.addIntegrationSubWedgeResult(xsDataIntegrationSubWedgeResult)
         self.setDataOutput(self.__xsDataIntegrationResult)
-        self.generateIntegrationShortSummary(self.__xsDataIntegrationResult)
+        if self.__xsDataIntegrationResult is not None:
+            self.generateIntegrationShortSummary(self.__xsDataIntegrationResult)
 
 
     def generateExecutiveSummary(self, _edPlugin):
