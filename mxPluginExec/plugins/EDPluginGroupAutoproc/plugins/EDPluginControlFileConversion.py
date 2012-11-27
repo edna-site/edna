@@ -63,7 +63,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         self.uniqueify = self.loadPlugin("EDPluginExecUniqueify")
 
         anom = "anom" if self.dataInput.anom.value else "noanom"
-        self.output_basename = "unmerged_{0}".format(anom)
+        self.output_basename = "edna_unmerged_{0}".format(anom)
 
 
     def checkParameters(self):
