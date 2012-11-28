@@ -159,7 +159,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.fKappa = None
         self.fOmega = None
         self.fPhi = None
-        self.strCreateSimpleHTMLPageForISPyB = None
+        self.bCreateSimpleHTMLPageForISPyB = None
         self.bUseISPyBPlugin = False
         self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
         self.edPluginExecSimpleHTML = None        

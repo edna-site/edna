@@ -258,7 +258,8 @@ class EDHandlerXSDataISPyBv1_4(object):
                     xsDataISPyBScreeningStrategyWedge.resolution   = xsDataStrategySummary.resolution
                     xsDataISPyBScreeningStrategyWedge.multiplicity = xsDataStrategySummary.redundancy
                     xsDataISPyBScreeningOutput.rankingResolution = xsDataStrategySummary.rankingResolution
-                    fTotalExposureTime += xsDataStrategySummary.totalExposureTime.value
+                    if xsDataStrategySummary.totalExposureTime is not None:
+                        fTotalExposureTime += xsDataStrategySummary.totalExposureTime.value
                 xsDataCollectionStrategy = xsDataCollectionPlan.collectionStrategy
                 if xsDataCollectionStrategy is not None:
                     for xsDataSubWedge in xsDataCollectionStrategy.subWedge:
