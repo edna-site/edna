@@ -618,12 +618,12 @@ class EDPluginControlAutoproc(EDPluginControl):
                 shutil.copyfile(os.path.join(original_files_dir, f),
                                 new_path)
             # now add those to the ispyb upload
-            for f in file_list:
-                d, f = os.path.split(f)
+            for path in file_list:
+                dirname, filename = os.path.split(path)
                 attach = AutoProcProgramAttachment()
                 attach.fileType = "result"
-                attach.fileName = f
-                attach.fileDir = d
+                attach.fileName = filename
+                attach.filePath = path
                 program_container.AutoProcProgramAttachment.append(attach)
 
 
