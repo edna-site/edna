@@ -592,7 +592,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                       if len(elem) > 0]
             pyarch_path = os.path.join('/data/pyarch',
                                        tokens[3], tokens[2],
-                                       *tokens[3:])
+                                       *tokens[4:])
         else:
             tokens = files_dir.split(os.path.sep)
             if tokens[2] == 'inhouse':
@@ -600,6 +600,8 @@ class EDPluginControlAutoproc(EDPluginControl):
                                            *tokens[3:])
         if pyarch_path is not None:
             pyarch_path.replace('PROCESSED_DATA', 'RAW_DATA')
+            pyarch_path = os.path.join(pyarch_path, 'edna-fastproc')
+            os.mkdir(pyarch_path)
 
             file_list = []
             # we can now copy the files to this dir
