@@ -603,7 +603,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
             file_list = []
             # we can now copy the files to this dir
-            for f in os.path.listdir(files_dir):
+            for f in os.listdir(files_dir):
                 new_path = os.path.join(pyarch_path, f)
                 file_list.append(new_path)
                 shutil.copyfile(os.path.join(files_dir, f),
