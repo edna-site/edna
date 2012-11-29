@@ -606,7 +606,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                 os.mkdir(pyarch_path)
             except OSError:
                 # dir already exists, may happen when testing
-                EDVerbose.INFO('Target directory on pyarch ({0}) already exists, ignoring'.format(pyarch_path))
+                EDVerbose.screen('Target directory on pyarch ({0}) already exists, ignoring'.format(pyarch_path))
 
             file_list = []
             # we can now copy the files to this dir
