@@ -602,7 +602,11 @@ class EDPluginControlAutoproc(EDPluginControl):
         if pyarch_path is not None:
             pyarch_path = pyarch_path.replace('PROCESSED_DATA', 'RAW_DATA')
             pyarch_path = os.path.join(pyarch_path, 'edna-fastproc')
-            os.mkdir(pyarch_path)
+            try:
+                os.mkdir(pyarch_path)
+            except OSError:
+                # dir already exists, may happen when testing
+                EDVerbose.INFO('Target directory on pyarch ({0}) already exists, ignoring'.format(pyarch_path))
 
             file_list = []
             # we can now copy the files to this dir
