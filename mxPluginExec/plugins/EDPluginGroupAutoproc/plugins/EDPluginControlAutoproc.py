@@ -615,7 +615,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                     next
                 new_path = os.path.join(pyarch_path, f)
                 file_list.append(new_path)
-                shutil.copyfile(os.path.join(files_dir, f),
+                shutil.copyfile(os.path.join(original_files_dir, f),
                                 new_path)
             # now add those to the ispyb upload
             for f in file_list:
