@@ -583,7 +583,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         # Note: the path is in the form /data/whatever
 
         # remove the edna-autoproc-import suffix
-        files_dir, _ = os.path.split(self.file_conversion.dataInput.output_directory.value)
+        original_files_dir = self.file_conversion.dataInput.output_directory.value
+        files_dir, _ = os.path.split(original_files_dir)
 
         # the whole transformation is fragile!
         if files_dir.startswith('/data/visitor'):
@@ -605,7 +606,9 @@ class EDPluginControlAutoproc(EDPluginControl):
 
             file_list = []
             # we can now copy the files to this dir
-            for f in os.listdir(files_dir):
+            for f in os.listdir(original_files_dir):
+                if not os.path.isfile(f):
+                    next
                 new_path = os.path.join(pyarch_path, f)
                 file_list.append(new_path)
                 shutil.copyfile(os.path.join(files_dir, f),
