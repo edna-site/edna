@@ -709,7 +709,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             pyarch_path = pyarch_path.replace('PROCESSED_DATA', 'RAW_DATA')
             pyarch_path = os.path.join(pyarch_path, 'edna-fastproc')
             try:
-                os.mkdir(pyarch_path)
+                os.makedirs(pyarch_path)
             except OSError:
                 # dir already exists, may happen when testing
                 EDVerbose.screen('Target directory on pyarch ({0}) already exists, ignoring'.format(pyarch_path))
