@@ -573,8 +573,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.custom_stats['total_time']=time.time() - process_start
         try:
             autoproclog.log(**self.custom_stats)
-        except Exception:
+        except Exception, e:
             EDVerbose.screen('could not logs stats to custom log server')
+            EDVerbose.screen(traceback.format_exc())
+
 
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
