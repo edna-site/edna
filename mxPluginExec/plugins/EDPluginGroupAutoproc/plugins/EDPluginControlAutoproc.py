@@ -550,7 +550,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         # store the resulting files in an edna_fastproc dir created in
         # the toplevel dir
         outdir = os.path.join(self.root_dir, 'edna_fastproc')
-        os.mkdir(outdir)
+        try:
+            os.mkdir(outdir)
+        except OSError:# dir exists
+            EDVerbose.screen('output dir edna_fastproc already exists!')
 
         import_in.output_directory = XSDataString(outdir)
 
