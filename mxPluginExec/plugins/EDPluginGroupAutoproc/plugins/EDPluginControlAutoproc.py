@@ -621,7 +621,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             for path in file_list:
                 dirname, filename = os.path.split(path)
                 attach = AutoProcProgramAttachment()
-                attach.fileType = "result"
+                attach.fileType = "Result"
                 attach.fileName = filename
                 attach.filePath = path
                 program_container.AutoProcProgramAttachment.append(attach)
