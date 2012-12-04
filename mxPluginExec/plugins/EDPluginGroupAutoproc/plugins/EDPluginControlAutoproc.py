@@ -300,12 +300,12 @@ class EDPluginControlAutoproc(EDPluginControl):
         xdsresult = self.xds_first.dataOutput
 
         # for the custom stats
-        self.custom_stats['overall_i_over_sigma']=xdsresult.total_completeness.outer_isig
-        self.custom_stats['overall_r_value']=xdsresult.total_completeness.outer_rfactor
-        self.custom_stats['inner_i_over_sigma']=xdsresult.completeness_entries[0].outer_isig
-        self.custom_stats['inner_i_r_value']=xdsresult.completeness_entries[0].outer_rfactor
-        self.custom_stats['outer_i_over_sigma']=xdsresult.completeness_entries[-1].outer_isig
-        self.custom_stats['outer_i_r_value']=xdsresult.completeness_entries[-1].outer_rfactor
+        self.custom_stats['overall_i_over_sigma']=xdsresult.total_completeness.outer_isig.value
+        self.custom_stats['overall_r_value']=xdsresult.total_completeness.outer_rfactor.value
+        self.custom_stats['inner_i_over_sigma']=xdsresult.completeness_entries[0].outer_isig.value
+        self.custom_stats['inner_r_value']=xdsresult.completeness_entries[0].outer_rfactor.value
+        self.custom_stats['outer_i_over_sigma']=xdsresult.completeness_entries[-1].outer_isig.value
+        self.custom_stats['outer_r_value']=xdsresult.completeness_entries[-1].outer_rfactor.value
 
 
         res_cutoff_in = XSDataResCutoff()
