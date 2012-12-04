@@ -41,7 +41,7 @@ from EDVerbose import EDVerbose
 from EDFactoryPlugin import edFactoryPlugin
 
 from XSDataCommon import XSDataFile, XSDataBoolean, XSDataString
-from XSDataCommon import  XSDataInteger, XSDataTime, XSDataFloat
+from XSDataCommon import  XSDataInteger, XSDataTime
 
 from XSDataAutoproc import XSDataAutoprocInput
 from XSDataAutoproc import XSDataResCutoff
@@ -69,6 +69,10 @@ from XSDataISPyBv1_4 import AutoProcProgramContainer, AutoProcProgram
 from XSDataISPyBv1_4 import AutoProcProgramAttachment
 from XSDataISPyBv1_4 import Image
 from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
+
+# status updates
+from XSDataISPyBv1_4 import AutoProcStatus
+from XSDataISPyBv1_4 import  XSDataInputStoreAutoProcStatus
 
 from xdscfgparser import parse_xds_file, dump_xds_file
 
@@ -227,6 +231,13 @@ class EDPluginControlAutoproc(EDPluginControl):
         EDPluginControl.process(self)
         self.DEBUG('EDPluginControlAutoproc.process starting')
 
+
+        try:
+            self.integration_id = create_integration_id(self.dataInput.data_collection_id.value)
+        except Exception, e:
+            EDVerbose.ERROR('could not get integration ID: \n{0}'.format(traceback.format_exc(e)))
+            self.integration_id = None
+
         # wait for the first frame
         t0=time.time()
         self.wait_file.executeSynchronous()
@@ -242,17 +253,35 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # first XDS plugin run with supplied XDS file
         EDVerbose.screen('STARTING XDS run...')
+
         t0=time.time()
         self.xds_first.executeSynchronous()
+
+        self.stats['first_xds'] = time.time()-t0
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
+
+        log_to_ispyb(self.integration_id, 'Indexing', 'Launched', 'first xds run')
+
+
         if self.xds_first.isFailure():
             EDVerbose.ERROR('first XDS run failed')
             self.setFailure()
+            log_to_ispyb(self.integration_id,
+                         'Indexing',
+                         'Failed',
+                         'first xds run failed after {0}s'.format(self.stats['first_xds']))
             return
+        else:
+            EDVerbose.screen('FINISHED first XDS run')
+            log_to_ispyb(self.integration_id,
+                         'Indexing',
+                         'Successful',
+                         'first xds run finished after {0}s'.format(self.stats['first_xds']))
         EDVerbose.screen('FINISHED first XDS run')
 
-        self.stats['first_xds'] = time.time() - t0
-        with open(self.log_file_path, 'w') as f:
-            json.dump(self.stats, f)
+        log_to_ispyb(self.integration_id, 'Indexing', 'Launched', 'start of res cutoff')
 
         # apply the first res cutoff with the res extracted from the first XDS run
         EDVerbose.screen('STARTING first resolution cutoff')
@@ -266,18 +295,29 @@ class EDPluginControlAutoproc(EDPluginControl):
         #XXX: remove from the data model as it is just pass-through?
         res_cutoff_in.total_completeness = xdsresult.total_completeness
         res_cutoff_in.completeness_cutoff = self.dataInput.completeness_cutoff
-        res_cutoff_in.isig_cutoff = XSDataFloat(1.0)
-        #res_cutoff_in.isig_cutoff = self.dataInput.isig_cutoff
+        res_cutoff_in.isig_cutoff = self.dataInput.isig_cutoff
         res_cutoff_in.r_value_cutoff = self.dataInput.r_value_cutoff
         res_cutoff_in.cc_half_cutoff = self.dataInput.cc_half_cutoff
         self.first_res_cutoff.dataInput = res_cutoff_in
         self.first_res_cutoff.executeSynchronous()
+
+        self.stats['first_res_cutoff'] = time.time()-t0
+
         if self.first_res_cutoff.isFailure():
             EDVerbose.ERROR("res cutoff failed")
+            log_to_ispyb(self.integration_id,
+                         'Indexing',
+                         'Failed',
+                         'res cutoff failed in {0}s'.format(self.stats['first_res_cutoff']))
             self.setFailure()
             return
-        EDVerbose.screen('FINISHED first resolution cutoff')
-        self.stats['first_res_cutoff'] = time.time()-t0
+        else:
+            EDVerbose.screen('FINISHED first resolution cutoff')
+            log_to_ispyb(self.integration_id,
+                         'Indexing',
+                         'Successful',
+                         'res cutoff finished in {0}s'.format(self.stats['first_res_cutoff']))
+
 
         with open(self.log_file_path, 'w') as f:
             json.dump(self.stats, f)
@@ -293,6 +333,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         generate_input.previous_run_dir = XSDataString(xds_run_directory)
         self.generate.dataInput = generate_input
 
+        log_to_ispyb(self.integration_id, 'Scaling', 'Launched', 'start of anom/noanom generation')
+
         self.DEBUG('STARTING anom/noanom generation')
         t0=time.time()
         self.generate.executeSynchronous()
@@ -306,7 +348,17 @@ class EDPluginControlAutoproc(EDPluginControl):
         if self.generate.isFailure():
             EDVerbose.ERROR('generating w/ and w/out anom failed')
             self.setFailure()
+            log_to_ispyb(self.integration_id,
+                         'Scaling',
+                         'Failed',
+                         'anom/noanom generation failed in {0}s'.format(self.stats['anom/noanom_generation']))
             return
+        else:
+            EDVerbose.screen('generating w/ and w/out anom finished')
+            log_to_ispyb(self.integration_id,
+                         'Scaling',
+                         'Successful',
+                         'anom/noanom generation finished in {0}s'.format(self.stats['anom/noanom_generation']))
 
         # we can now use the xds output parser on the two correct.lp
         # files, w/ and w/out anom
@@ -350,6 +402,9 @@ class EDPluginControlAutoproc(EDPluginControl):
         # outputs. Note that this is not done in parallel, like the
         # xds parsing
 
+
+        log_to_ispyb(self.integration_id, 'Scaling', 'Launched', 'start of anom/noanom resolution cutoffs')
+
         # XXX completeness_cutoff/res_override and isig_cutoff still
         # missing
         res_cutoff_anom_in = XSDataResCutoff()
@@ -359,8 +414,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         res_cutoff_anom_in.total_completeness = self.parse_xds_anom.dataOutput.total_completeness
         # pass in global cutoffs
         res_cutoff_anom_in.completeness_cutoff = self.dataInput.completeness_cutoff
-        res_cutoff_anom_in.isig_cutoff = XSDataFloat(1.0)
-        #res_cutoff_anom_in.isig_cutoff = self.dataInput.isig_cutoff
+        res_cutoff_anom_in.isig_cutoff = self.dataInput.isig_cutoff
         res_cutoff_anom_in.r_value_cutoff = self.dataInput.r_value_cutoff
         res_cutoff_anom_in.cc_half_cutoff = self.dataInput.cc_half_cutoff
         self.res_cutoff_anom.dataInput = res_cutoff_anom_in
@@ -385,8 +439,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         res_cutoff_noanom_in.total_completeness = self.parse_xds_noanom.dataOutput.total_completeness
         # pass in global cutoffs
         res_cutoff_noanom_in.completeness_cutoff = self.dataInput.completeness_cutoff
-        res_cutoff_noanom_in.isig_cutoff = XSDataFloat(1.0)
-        #res_cutoff_noanom_in.isig_cutoff = self.dataInput.isig_cutoff
+        res_cutoff_noanom_in.isig_cutoff = self.dataInput.isig_cutoff
         res_cutoff_noanom_in.r_value_cutoff = self.dataInput.r_value_cutoff
         res_cutoff_noanom_in.cc_half_cutoff = self.dataInput.cc_half_cutoff
         self.res_cutoff_noanom.dataInput = res_cutoff_noanom_in
@@ -401,7 +454,20 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         if self.res_cutoff_noanom.isFailure():
             EDVerbose.ERROR('res cutoff for non anom data failed')
-        self.DEBUG('FINISHED noanom res cutoff')
+            self.setFailure()
+            log_to_ispyb(self.integration_id,
+                         'Scaling',
+                         'Failed',
+                         'anom/noanom resolution cutoffs failed in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
+            return
+        else:
+            self.screen('FINISHED noanom res cutoff')
+            log_to_ispyb(self.integration_id,
+                         'Scaling',
+                         'Successful',
+                         'anom/noanom resolution cutoffs finished in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
+
+
 
         # now we just have to run XScale to generate w/ and w/out
         # anom, merged and unmerged
@@ -422,6 +488,8 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         self.xscale_generate.dataInput = xscale_generate_in
         self.DEBUG('STARTING xscale generation')
+        log_to_ispyb(self.integration_id, 'Scaling', 'Launched', 'start of anom xscale')
+
         t0=time.time()
         self.xscale_generate.executeSynchronous()
         self.stats['xscale_generate']=time.time()-t0
@@ -432,7 +500,18 @@ class EDPluginControlAutoproc(EDPluginControl):
         if self.xscale_generate.isFailure():
             EDVerbose.ERROR('xscale  generation failed')
 
-        self.DEBUG('FINISHED xscale generation')
+        if self.xscale_generate.isFailure():
+            EDVerbose.ERROR('xscale anom/merge generation failed')
+            log_to_ispyb(self.integration_id,
+                         'Scaling',
+                         'Failed',
+                         'xscale generation failed in {0}s'.format(self.stats['first_res_cutoff']))
+        else:
+            EDVerbose.screen('xscale anom/merge generation finished')
+            log_to_ispyb(self.integration_id,
+                         'Scaling',
+                         'Successful',
+                         'xscale generation finished in {0}s'.format(self.stats['first_res_cutoff']))
 
         import_in = XSDataAutoprocImport()
         import_in.input_anom = self.xscale_generate.dataOutput.hkl_anom_unmerged
@@ -574,7 +653,6 @@ class EDPluginControlAutoproc(EDPluginControl):
         program_container.AutoProcProgram = AutoProcProgram()
         program_container.AutoProcProgram.processingCommandLine = ' '.join(sys.argv)
         program_container.AutoProcProgram.processingPrograms = 'edna-fastproc'
-        program_container.AutoProcProgram.processingStatus = True
 
         # now for the generated files. There's some magic to do with
         # their paths to determine where to put them on pyarch
@@ -646,6 +724,41 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         if self.store_autoproc.isFailure():
             self.ERROR('could not send results to ispyb')
+
+def log_to_ispyb(integration_id, step, status, comments=""):
+    # hack in the event we could not create an integration ID
+    if integration_id is None:
+        EDVerbose.ERROR('could not log to ispyb: no integration id')
+        return
+    autoproc_status = edFactoryPlugin.loadPlugin('EDPluginISPyBStoreAutoProcStatusv1_4')
+    status_input = XSDataInputStoreAutoProcStatus()
+    status_input.autoProcIntegrationId = integration_id
+    status_data = AutoProcStatus()
+    status_data.step = step
+    status_data.status = status
+    status_data.comments = comments
+    status_input.AutoProcStatus = status_data
+
+    autoproc_status.dataInput = status_input
+
+    autoproc_status.executeSynchronous()
+
+def create_integration_id(datacollect_id):
+    autoproc_status = edFactoryPlugin.loadPlugin('EDPluginISPyBStoreAutoProcStatusv1_4')
+    status_input = XSDataInputStoreAutoProcStatus()
+    status_input.dataCollectionId = datacollect_id
+
+    # needed even if we only want to get an integration ID?
+    status_data = AutoProcStatus()
+    status_data.step = "Indexing"
+    status_data.status = "Launched"
+    status_data.comments = "Getting integration ID"
+    status_input.AutoProcStatus = status_data
+
+    autoproc_status.dataInput = status_input
+    # get our autoproc status id
+    autoproc_status.executeSynchronous()
+    return autoproc_status.dataOutput.autoProcIntegrationId
 
 def _create_scaling_stats(xscale_stats, stats_type, lowres, anom):
     stats = AutoProcScalingStatistics()

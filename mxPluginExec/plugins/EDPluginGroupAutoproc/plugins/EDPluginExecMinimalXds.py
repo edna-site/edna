@@ -127,7 +127,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         if resolution_range is not None and len(resolution_range) != 0:
             parsed_config["INCLUDE_RESOLUTION_RANGE="] = [x.value for x in resolution_range]
         if friedels_law is not None:
-            if friedels_law.value:
+            if friedels_law:
                 parsed_config["FRIEDEL'S_LAW="] = "TRUE"
             else:
                 parsed_config["FRIEDEL'S_LAW="] = "FALSE"
