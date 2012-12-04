@@ -632,6 +632,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         integration_container.Image = image
 
         integration = AutoProcIntegration()
+        if self.integration_id is not None:
+            integration.autoProcIntegrationId = self.integration_id
         crystal_stats =  self.parse_xds_noanom.dataOutput
         integration.cell_a = crystal_stats.cell_a.value
         integration.cell_b = crystal_stats.cell_b.value
