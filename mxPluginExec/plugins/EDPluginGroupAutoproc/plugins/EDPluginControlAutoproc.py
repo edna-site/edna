@@ -129,6 +129,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # for info to send to the autoproc stats server
         self.custom_stats = dict(creation_time=time.time(),
+                                 processing_type='edna fastproc',
                                  datacollect_id=self.dataInput.data_collection_id.value,
                                  comments='running on {0}'.format(socket.gethostname()))
 
