@@ -447,10 +447,9 @@ class EDPluginControlAutoproc(EDPluginControl):
         # XXX: This is optional but seems required by aimless
         import_in.nres = self.dataInput.nres
 
-        # create a timestamped directory for the imported files at the
-        # same level as the initial XDS input file
-        timestamped = time.strftime('edna-autoproc-import-%H-%M-%S')
-        outdir = os.path.join(self.root_dir, timestamped)
+        # store the resulting files in an edna_fastproc dir created in
+        # the toplevel dir
+        outdir = os.path.join(self.root_dir, 'edna_fastproc')
         os.mkdir(outdir)
 
         import_in.output_directory = XSDataString(outdir)
