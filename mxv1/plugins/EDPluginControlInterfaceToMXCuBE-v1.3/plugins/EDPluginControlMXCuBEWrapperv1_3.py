@@ -87,9 +87,10 @@ class EDPluginControlMXCuBEWrapperv1_3( EDPluginControl ):
         strScript += " --outputFile %s" % strPathToOutputFile
         strScript += " --basedir %s" % strProcessedDataDir
         strScript += " 2>&1\n"
-        strScriptFileName = "edna_start_%s" % strTimeString
+        strScriptFileName = "edna_start_%s.sh" % strTimeString
         strScriptPath = os.path.join(strProcessedDataDir, strScriptFileName)
         EDUtilsFile.writeFile(strScriptPath, strScript)
+        # TODO: Make the script executable
         os.system("bash %s" % strScriptPath)
         xsDataResultMXCuBE = XSDataResultMXCuBE()
         if os.path.exists(strPathToOutputFile):
