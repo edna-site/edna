@@ -567,21 +567,24 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
 
     def findEDNALogFile(self):
         """Trying to locate the EDNA plugin launcher log file..."""
-        strBaseDir = self.getWorkingDirectory()
+        strWorkingDir = self.getWorkingDirectory()
+        strBaseDir = strWorkingDir
         strPathToLogFile = None
         for iLevels in range(4):
             strBaseDir = os.path.dirname(strBaseDir)
-            self.DEBUG("Searching in strBaseDir: " + strBaseDir)
             # Now search for a ED*.log file...
             for strFileName in os.listdir(strBaseDir):
-                if strFileName.startswith("ED") and strFileName.endswith(".log"):
-                    # Check that the corresponding direcory exists...
-                    strDirectoryName = strFileName[:-4]
-                    if os.path.isdir(os.path.join(strBaseDir, strDirectoryName)):
-                        # Final check - is the directory name in the working dir
-                        if self.getWorkingDirectory().find(strDirectoryName) != -1:
-                            # Ok, we found it!
-                            strPathToLogFile = os.path.join(strBaseDir, strFileName)
+                if strFileName.startswith("ED") and strFileName.endswith(".log") and not os.path.isdir(os.path.join(strBaseDir,strFileName)):
+                    # Check that the corresponding directory exists...
+                    strStrippedFileName = strFileName.replace("EDPlugin", "")
+                    strStrippedFileName = strStrippedFileName.replace(".log", "")                      
+                    for strDirName in os.listdir(strBaseDir):
+                        if os.path.isdir(os.path.join(strBaseDir, strDirName)):
+                            if strDirName.find(strStrippedFileName) != -1:
+                                # Final check - is the directory name in the working dir
+                                if strWorkingDir.find(strDirName) != -1:
+                                    # Ok, we found it!
+                                    strPathToLogFile = os.path.join(strBaseDir, strFileName)
         return strPathToLogFile
 
 
