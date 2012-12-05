@@ -1,0 +1,18 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataMXv1.XSDataResultCharacterisation
+import XSDataMXv2.XSDataResultCharacterisationv2_0
+
+complex type XSDataInputSimpleHTMLPage extends XSDataInput {
+	characterisationResult : XSDataResultCharacterisation optional
+	characterisationResultv2_0 : XSDataResultCharacterisationv2_0 optional
+	fileGraph : XSDataFile [] optional
+}
+
+complex type XSDataResultSimpleHTMLPage extends XSDataResult {
+	pathToHTMLFile : XSDataFile
+	pathToHTMLDirectory : XSDataFile
+}

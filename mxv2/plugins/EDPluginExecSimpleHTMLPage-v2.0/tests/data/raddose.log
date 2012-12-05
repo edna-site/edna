@@ -1,0 +1,78 @@
+
+RADDOSE - version 2 
+
+Questions/comments:
+elspeth.garman@bioch.ox.ac.uk
+
+For this program cite:
+...............................................
+Absorbed dose calculations for macromolecular 
+crystals: improvements to RADDOSE
+Paithankar, K.S., Owen, R.L and Garman, E.F
+J. Syn. Rad. (2009), 16, 152-162
+
+X-ray absorption by macromolecular crystals:
+the effects of wavelength and crystal composition                                                           n
+on absorbed dose
+Murray, J.W., Garman, E.F., and Ravelli, R.B.G
+J. Appl. Cryst. (2004) 37, 513-522
+...............................................
+
+  
+Element % contribution to TOTAL absorbed energy
+C      5.9
+N      3.3
+O     17.7
+NA     0.9
+S      4.5
+CL     5.5
+FE     4.3
+SE    58.1
+
+Energy (keV)    13.27
+Beam non-uniformity intensity correction    1.000
+Protein Monomer Concentration (mM)        30.6
+Unit Cell Volume (A^3)   216955.2
+Crystal Density (g/cm^3)          1.28
+Solvent Content (%)               36.2
+No. Water Molecules /cell         2503
+ 
+Total absorbed dose (Gy)           0.654E+05
+Absorbed dose per image (Gy)       0.654E+05
+Diffracted intensity per absorbed dose (arbitrary units)     1.27
+Attenuation Coefficient (mm^-1)    0.683
+ 
+Cross-section due to Photoelectric effect (mm^-1)                   0.639
+                     Inelastic X-ray (Compton) scattering (mm^-1)   0.021
+                     Elastic X-ray (Rayleigh) scattering (mm^-1)     0.023
+Absorption Coefficient (mm^-1)    0.64
+ 
+Fraction of beam absorbed by the crystal  8.6%
+Fraction of beam seen by the crystal     100%
+Fraction of crystal seen by the beam      84%
+Absorbed photons per unit cell per dataset      0.01
+Absorbed photons per unit cell for experimental dose limit     5.53
+System temperature time constant (sec)     0.04
+* Temperature rise in the crystal (K)     4.78
+  
+Number of atoms by type in the unit cell:
+  Z  NAME  PROTEIN   SOLVENT  TOTAL
+  1   H     8192      5007     13199
+  6   C     5120         0      5120
+  7   N     1382         0      1382
+  8   O     1536      2503      4039
+ 11   NA       0        47        47
+ 16   S       52         0        52
+ 17   CL       0        47        47
+ 26   FE       8         0         8
+ 34   SE      48         0        48
+ 
+DOSE LIMITS:
+   Time in sec to reach Henderson limit (20 MGy)                                                                      calculated from electron diffraction      305
+** Time in sec to reach experimental dose limit                                                                       (30 MGy)      458
+
+Related publications:
+* Heating model for temperature rise calculation                                                            
+Kuzay, T.M., Kazmierczak, M. & Hsieh, B.J. (2001                                                            ) Acta Cryst D57, 69-81
+** Experimental dose limit
+Owen, R.L., Rudiño-Piñera, E & Garman, E.F. (200                                                            6) PNAS 103, 4912-4917
