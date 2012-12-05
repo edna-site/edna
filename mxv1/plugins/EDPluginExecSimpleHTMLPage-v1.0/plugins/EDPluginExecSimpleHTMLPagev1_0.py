@@ -572,6 +572,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         strPathToLogFile = None
         for iLevels in range(4):
             strBaseDir = os.path.dirname(strBaseDir)
+            self.DEBUG("Searching in strBaseDir: " + strBaseDir)
             # Now search for a ED*.log file...
             for strFileName in os.listdir(strBaseDir):
                 if strFileName.startswith("ED") and strFileName.endswith(".log") and not os.path.isdir(os.path.join(strBaseDir,strFileName)):
