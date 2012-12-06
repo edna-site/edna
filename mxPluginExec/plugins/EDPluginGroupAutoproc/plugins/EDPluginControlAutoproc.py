@@ -739,6 +739,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                 program_container.AutoProcProgramAttachment.append(attach)
 
 
+        program_container.AutoProcProgram.processingStatus = True
         output.AutoProcProgramContainer = program_container
 
         ispyb_input = XSDataInputStoreAutoProc()
