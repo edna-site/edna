@@ -653,9 +653,11 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         stats = _create_scaling_stats(outer_stats_anom, 'outerShell',
                                       prev_res, True)
+        overall_high = stats.resolutionLimitHigh
         scaling_container.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_anom, 'overall',
                                       self.low_resolution_limit, True)
+        stats.resolutionLimitHigh = overall_high
         scaling_container.AutoProcScalingStatistics.append(stats)
 
 
