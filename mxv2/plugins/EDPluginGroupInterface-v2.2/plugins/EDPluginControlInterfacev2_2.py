@@ -871,7 +871,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         rotexp.setExposuretime(XSDataMXv2.XSDataTime(exposuretime))
         rotexp.setImagewidth(XSDataMXv2.XSDataAngle(imagewidth))
         rotexp.setNumberimages(XSDataMXv2.XSDataInteger(numberimages))
-        rotexp.setXSGoniostatAxis(omega)
+        rotexp.setXSGoniostatAxis(XSDataMXv2.XSGoniostatAxis.parseString(omega.marshal()))
         sw.setXSRotationExposure(rotexp)
         #Beamsetting
         beams = XSDataMXv2.XSBeamSetting()
