@@ -1234,6 +1234,14 @@ This structure is also defined by its number in the asymmetric unit.</body>
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8S8JsOjEEd-7o_3d0R29SQ"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_1s6ZAD96EeKuItB_N2T92g" name="kappa" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_54RmMD96EeKuItB_N2T92g"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_6cl0MD96EeKuItB_N2T92g" name="phi" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_88Y3cD96EeKuItB_N2T92g"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_cc6MQOjEEd-7o_3d0R29SQ" name="XSDataResultInducedRadiationProcess">
         <generalization xmi:id="_NYqlcOjOEd-7o_3d0R29SQ">
