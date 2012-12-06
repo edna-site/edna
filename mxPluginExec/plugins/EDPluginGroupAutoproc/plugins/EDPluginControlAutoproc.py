@@ -740,7 +740,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                 attach = AutoProcProgramAttachment()
                 attach.fileType = "Result"
                 attach.fileName = filename
-                attach.filePath = path
+                attach.filePath = dirname
                 program_container.AutoProcProgramAttachment.append(attach)
 
 
