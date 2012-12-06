@@ -36,7 +36,7 @@ class EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_characterisationFailure")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_withDamPar")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_bestBFactorFailed")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlMXCuBEWrapperv1_3.py")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlMXCuBEWrapperv1_3")
 
 if __name__ == '__main__':
 
