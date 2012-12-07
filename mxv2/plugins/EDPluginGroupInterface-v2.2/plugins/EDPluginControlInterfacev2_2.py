@@ -739,6 +739,29 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         retrieve the potential warning messages
         """
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doSuccessActionCharacterisation")
+        # Update kappa angles in mxv2 data collection
+        if _edPlugin.getDataOutput().suggestedStrategy is not None:
+            strComment = _edPlugin.getDataOutput().suggestedStrategy.collectionPlan[0].comment.value
+            listValues = strComment.split(" ")
+            calibDate = '2009-12-10'
+            omegaR = (0, 0, 1)
+            kappaR = (0, 0.707106781187, 0.707106781187)
+            phiR = (0, 0, 1)
+            beamD = (1, 0, 0)
+            polarisationP = (0, 1, 0)
+            # We don't update these parameters as they are not used for mxv2 data collection
+            exposuretime = 1.0
+            imagewidth = 1.0
+            numberimages = 1
+            wavelength = 1.0
+            # Kappa angles to be updated
+            OmegaV = float(listValues[0].split("=")[1])
+            KappaV = float(listValues[1].split("=")[1])
+            PhiV   = float(listValues[2].split("=")[1])
+            imgFnames = []
+            for xsDataImage in self.listImagePaths:
+                imgFnames.append(xsDataImage.getValue())
+            self.mxv2DataCollection = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
         # Store the results if requested
         if (self.strResultsFilePath is not None):
             xsDataCharacterisationResultv2_0 = _edPlugin.getDataOutput()
