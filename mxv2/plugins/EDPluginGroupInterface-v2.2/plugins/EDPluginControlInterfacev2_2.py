@@ -161,7 +161,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.fPhi = None
         self.bCreateSimpleHTMLPageForISPyB = None
         self.bUseISPyBPlugin = False
-        self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
+        self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev2_0"
         self.edPluginExecSimpleHTML = None        
 
 
@@ -734,13 +734,13 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             self.strStatusMessage = _edPlugin.getDataOutput("statusMessage")[0].getValue()
         self.storeResultsInISPyB(_edPlugin)
         if self.bCreateSimpleHTMLPageForISPyB and not self.bUseISPyBPlugin:
-            xsDataResultCharacterisation = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
-            self.runSimpleHTMLPlugin(xsDataResultCharacterisation)
+            xsDataCharacterisationResultv2_0 = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
+            self.runSimpleHTMLPlugin(xsDataCharacterisationResultv2_0)
 
-    def runSimpleHTMLPlugin(self, _xsDataResultCharacterisation):
+    def runSimpleHTMLPlugin(self, _xsDataCharacterisationResultv2_0):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.runSimpleHTMLPlugin")
         xsDataInputSimpleHTMLPage = XSDataInputSimpleHTMLPage()
-        xsDataInputSimpleHTMLPage.setCharacterisationResult(_xsDataResultCharacterisation)
+        xsDataInputSimpleHTMLPage.setCharacterisationResultv2_0(_xsDataCharacterisationResultv2_0)
         self.edPluginExecSimpleHTML.setDataInput(xsDataInputSimpleHTMLPage)
         self.executePluginSynchronous(self.edPluginExecSimpleHTML)
 
