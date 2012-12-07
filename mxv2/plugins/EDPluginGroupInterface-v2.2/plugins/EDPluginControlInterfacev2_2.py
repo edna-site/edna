@@ -590,6 +590,20 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             # Execute the ISPyB control plugin
             xsDataInputControlISPyB = XSDataMXv1.XSDataInputControlISPyB()
             xsDataInputControlISPyB.setCharacterisationResult(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
+            # Get kappa angles from strategy comment
+            xsDataSuggestedStrategy = self.edPluginControlCharacterisationv2.getDataOutput().suggestedStrategy
+            fKappa = None
+            fPhi = None
+            if xsDataSuggestedStrategy is not None:
+                xsDataStringComment = xsDataSuggestedStrategy.collectionPlan[0].comment
+                if xsDataStringComment is not None:
+                    listValues = xsDataStringComment.value.split(" ")
+                    kap1 = float(listValues[1].split("=")[1])
+                    kap2 = float(listValues[2].split("=")[1])
+                    fKappa = kap1
+                    fPhi = kap2
+                    xsDataInputControlISPyB.kappa = XSDataAngle(fKappa)
+                    xsDataInputControlISPyB.phi = XSDataAngle(fPhi)
             if (not self.iDataCollectionId is None):
                 xsDataInputControlISPyB.setDataCollectionId(XSDataInteger(self.iDataCollectionId))
             if (not self.strShortComments is None):
@@ -871,7 +885,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         rotexp.setExposuretime(XSDataMXv2.XSDataTime(exposuretime))
         rotexp.setImagewidth(XSDataMXv2.XSDataAngle(imagewidth))
         rotexp.setNumberimages(XSDataMXv2.XSDataInteger(numberimages))
-        rotexp.setXSGoniostatAxis(omega)
+        rotexp.setXSGoniostatAxis(XSDataMXv2.XSGoniostatAxis.parseString(omega.marshal()))
         sw.setXSRotationExposure(rotexp)
         #Beamsetting
         beams = XSDataMXv2.XSBeamSetting()
