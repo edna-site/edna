@@ -204,12 +204,10 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         Generates a summary of the execution of the plugin.
         """
         EDPluginControl.generateExecutiveSummary(self, _edPlugin)
-        EDVerbose.DEBUG("EDPluginControlKappaReorientationStrategyv2_0.generateExecutiveSummary")
+        EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.generateExecutiveSummary")
         if (self.edPluginControlCharacterisation is not None):
-            #if ( self.edPluginAlignment.getDataOutput() is not None ):
             self.appendExecutiveSummary(self.edPluginControlCharacterisation, "Strategy : ")
             self.addExecutiveSummaryLine("") 
         if (self.edPluginControlStrategy is not None):
-            #if ( self.edPluginAlignment.getDataOutput() is not None ):
             self.appendExecutiveSummary(self.edPluginControlStrategy, "Kappa strategy : ")
             self.addExecutiveSummaryLine("")          
