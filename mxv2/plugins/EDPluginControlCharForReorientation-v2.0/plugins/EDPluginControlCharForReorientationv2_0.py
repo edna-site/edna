@@ -199,4 +199,17 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlCharacterisationv2_0.doFailureActionIndexing")
     
     
-            
+    def generateExecutiveSummary(self, _edPlugin):
+        """
+        Generates a summary of the execution of the plugin.
+        """
+        EDPluginControl.generateExecutiveSummary(self, _edPlugin)
+        EDVerbose.DEBUG("EDPluginControlKappaReorientationStrategyv2_0.generateExecutiveSummary")
+        if (self.edPluginControlCharacterisation is not None):
+            #if ( self.edPluginAlignment.getDataOutput() is not None ):
+            self.appendExecutiveSummary(self.edPluginControlCharacterisation, "Strategy : ")
+            self.addExecutiveSummaryLine("") 
+        if (self.edPluginControlStrategy is not None):
+            #if ( self.edPluginAlignment.getDataOutput() is not None ):
+            self.appendExecutiveSummary(self.edPluginControlStrategy, "Kappa strategy : ")
+            self.addExecutiveSummaryLine("")          

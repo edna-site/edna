@@ -762,6 +762,15 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             for xsDataImage in self.listImagePaths:
                 imgFnames.append(xsDataImage.getValue())
             self.mxv2DataCollection = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
+        # Create executive summary before we run ISPyB and HTML plugins
+        if (self.edPluginControlSubWedgeAssemble is not None):
+            if self.edPluginControlSubWedgeAssemble.getListExecutiveSummaryLines() != []:
+                self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlSubWedgeAssembleName)
+                self.appendExecutiveSummary(self.edPluginControlSubWedgeAssemble)
+        if (self.edPluginControlCharacterisationv2 is not None):
+            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlCharacterisationName)
+            self.appendExecutiveSummary(self.edPluginControlCharacterisationv2)
+        self.verboseScreenExecutiveSummary()
         # Store the results if requested
         if (self.strResultsFilePath is not None):
             xsDataCharacterisationResultv2_0 = _edPlugin.getDataOutput()
@@ -802,23 +811,6 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doFailureActionISpyB...")
         self.generateExecutiveSummary(self)
         self.setFailure()
-
-    def generateExecutiveSummary(self, _edPlugin=None):
-        """
-        Prints the executive summary from the plugin
-        """
-        EDVerbose.DEBUG("EDPluginControlInterfacev2_2.generateExecutiveSummary")
-        if (self.edPluginControlSubWedgeAssemble is not None):
-            if self.edPluginControlSubWedgeAssemble.getListExecutiveSummaryLines() != []:
-                self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlSubWedgeAssembleName)
-                self.appendExecutiveSummary(self.edPluginControlSubWedgeAssemble)
-        if (self.edPluginControlCharacterisationv2 is not None):
-            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlCharacterisationName)
-            self.appendExecutiveSummary(self.edPluginControlCharacterisationv2)
-        if (self.edPluginControlISPyB is not None):
-            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlISPyBName)
-            self.appendExecutiveSummary(self.edPluginControlISPyB)
-        self.verboseScreenExecutiveSummary()
 
 
     def generateDataCollectionDescriptorForSubWedge(self, calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames):

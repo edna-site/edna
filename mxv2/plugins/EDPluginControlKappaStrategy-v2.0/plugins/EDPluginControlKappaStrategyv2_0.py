@@ -570,7 +570,7 @@ class EDPluginControlKappaStrategyv2_0(EDPluginControl):
         Generates a summary of the execution of the plugin.
         """
         EDVerbose.DEBUG("EDPluginControlKappaStrategyv2_0.generateExecutiveSummary")
-        self.addExecutiveSummaryLine("Summary of Strategy:")
+        self.addExecutiveSummaryLine("Summary of kappa strategy:")
         self.addErrorWarningMessagesToExecutiveSummary()
 
         xsDataResultStrategy = self.getDataOutput()
