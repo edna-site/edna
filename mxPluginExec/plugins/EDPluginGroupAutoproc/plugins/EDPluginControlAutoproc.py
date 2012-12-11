@@ -628,13 +628,17 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         stats = _create_scaling_stats(inner_stats_noanom, 'innerShell',
                                       self.low_resolution_limit, False)
+        overall_low = stats.resolutionLimitLow
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_noanom, 'outerShell',
                                       prev_res, False)
+        overall_high = stats.resolutionLimitHigh
         scaling_container.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_noanom, 'overall',
                                       self.low_resolution_limit, False)
+        stats.resolutionLimitLow = overall_low
+        stats.resolutionLimitHigh = overall_high
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         # ANOM PATH
@@ -652,6 +656,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         stats = _create_scaling_stats(inner_stats_anom, 'innerShell',
                                       self.low_resolution_limit, True)
+        overall_low = stats.resolutionLimitLow
         scaling_container.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_anom, 'outerShell',
@@ -660,6 +665,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         scaling_container.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_anom, 'overall',
                                       self.low_resolution_limit, True)
+        stats.resolutionLimitLow = overall_low
         stats.resolutionLimitHigh = overall_high
         scaling_container.AutoProcScalingStatistics.append(stats)
 
