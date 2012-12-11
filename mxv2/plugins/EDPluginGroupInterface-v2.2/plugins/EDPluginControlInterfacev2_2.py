@@ -889,12 +889,13 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         ##SUBWEDGE
         sw = XSDataMXv2.XSSubWedge()
         # template
-        sw.setImagefilenametemplate(XSDataMXv2.XSDataString(EDUtilsImage.getTemplate(imgFnames[0], "#")))
-        # images
-        for imgFname in imgFnames:
-            img = XSDataMXv2.XSDiffractionImages()
-            img.setFilename(XSDataMXv2.XSDataString(imgFname))
-            sw.addXSDiffractionImages(img)
+        if imgFnames != []:
+            sw.setImagefilenametemplate(XSDataMXv2.XSDataString(EDUtilsImage.getTemplate(imgFnames[0], "#")))
+            # images
+            for imgFname in imgFnames:
+                img = XSDataMXv2.XSDiffractionImages()
+                img.setFilename(XSDataMXv2.XSDataString(imgFname))
+                sw.addXSDiffractionImages(img)
         #RotationExposure
         rotexp = XSDataMXv2.XSRotationExposure()
         rotexp.setExposuretime(XSDataMXv2.XSDataTime(exposuretime))
