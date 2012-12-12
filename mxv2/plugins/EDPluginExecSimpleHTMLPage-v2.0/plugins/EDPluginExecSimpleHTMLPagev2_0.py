@@ -56,6 +56,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
         self.edPluginExecOutputHTML = None
         self.strHTML = None
         self.xsDataResultCharacterisation = None
+        self.xsDataPossibleOrientations = None
         self.page = None
         self.strPath = None
         self.strTableColourTitle1 = "#F5F5FF"
@@ -71,6 +72,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
         if self.xsDataResultCharacterisation is None:
             if not self.getDataInput().getCharacterisationResultv2_0() is None:
                 self.xsDataResultCharacterisation = self.getDataInput().getCharacterisationResultv2_0().getMxv1ResultCharacterisation()
+                self.xsDataPossibleOrientations = self.getDataInput().getCharacterisationResultv2_0().getPossibleOrientations()
         self.strHtmlFileName = "index.html"
         self.strPath = os.path.join(self.getWorkingDirectory(), self.strHtmlFileName)
 
@@ -108,6 +110,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
             self.diffractionPlan()
             self.strategyResults()
             self.graphs()
+            self.stacResults()
             self.indexingResults()
             self.integrationResults()
             self.imageQualityIndicatorResults()
@@ -636,3 +639,23 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
             self.page.tr.close()
             self.page.table.close()
             
+            
+    def stacResults(self):
+        self.page.h2( "Kappa goniostat calculation results (STAC):" )
+        self.page.table( class_='stacResults', border_="1", cellpadding_="0")
+        self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+        self.page.th("v1")
+        self.page.th("v2")
+        self.page.th("O")
+        self.page.th("K")
+        self.page.th("P")
+        self.page.tr.close()
+        for xsDataPossibleOrientation in self.xsDataPossibleOrientations:
+            self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+            self.page.th(xsDataPossibleOrientation.getV1())
+            self.page.th(xsDataPossibleOrientation.getV2())
+            self.page.th(xsDataPossibleOrientation.getOmega())
+            self.page.th(xsDataPossibleOrientation.getKappa())
+            self.page.th(xsDataPossibleOrientation.getPhi())
+            self.page.tr.close()
+        self.page.table.close()
