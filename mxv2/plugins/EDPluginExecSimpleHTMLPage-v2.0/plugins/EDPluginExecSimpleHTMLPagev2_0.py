@@ -643,7 +643,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
     def stacResults(self):
         if self.xsDataKappa_alignment_response is not None:
             self.page.h3( "Kappa goniostat calculation results (STAC):" )
-            self.page.table( class_='stacResults', border_="1", cellpadding_="0")
+            self.page.table( class_='stacResults', border_="1", cellpadding_="1")
             self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
             self.page.th("Vector 1")
             self.page.th("Vector 2")
@@ -653,11 +653,11 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
             self.page.tr.close()
             for xsDataPossibleOrientation in self.xsDataKappa_alignment_response.getPossible_orientation():
                 self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
-                self.page.th(xsDataPossibleOrientation.getV1())
-                self.page.th(xsDataPossibleOrientation.getV2())
-                self.page.th(xsDataPossibleOrientation.getOmega())
-                self.page.th(xsDataPossibleOrientation.getKappa())
-                self.page.th(xsDataPossibleOrientation.getPhi())
+                self.page.th(" %s " % xsDataPossibleOrientation.getV1())
+                self.page.th(" %s " % xsDataPossibleOrientation.getV2())
+                self.page.th(" %.2f " % float(xsDataPossibleOrientation.getOmega()))
+                self.page.th(" %.2f " % float(xsDataPossibleOrientation.getKappa()))
+                self.page.th(" %.2f " % float(xsDataPossibleOrientation.getPhi()))
                 self.page.tr.close()
             self.page.table.close()
             self.page.br()

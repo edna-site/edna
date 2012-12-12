@@ -783,10 +783,10 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             xsDataCharacterisationResult = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
             self.runSimpleHTMLPlugin(xsDataCharacterisationResult)
 
-    def runSimpleHTMLPlugin(self, _xsDataCharacterisationResult):
+    def runSimpleHTMLPlugin(self, _xsDataCharacterisationResultv2_0):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.runSimpleHTMLPlugin")
         xsDataInputSimpleHTMLPage = XSDataInputSimpleHTMLPage()
-        xsDataInputSimpleHTMLPage.setCharacterisationResult(_xsDataCharacterisationResult)
+        xsDataInputSimpleHTMLPage.setCharacterisationResultv2_0(_xsDataCharacterisationResultv2_0)
         self.edPluginExecSimpleHTML.setDataInput(xsDataInputSimpleHTMLPage)
         self.executePluginSynchronous(self.edPluginExecSimpleHTML)
 
@@ -795,7 +795,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.retrieveSuccessMessages(self.edPluginControlISPyB, "EDPluginControlInterfacev2_2.doSuccessActionISPyB")
         if self.bCreateSimpleHTMLPageForISPyB:
             # Copy the files to PyArch
-            xsDataResultCharacterisation = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
+            xsDataResultCharacterisationv2_0 = self.edPluginControlCharacterisationv2.getDataOutput()
+            xsDataResultCharacterisation = xsDataResultCharacterisationv2_0.getMxv1ResultCharacterisation()
             strPathToDNAFileDirectory = self.createDNAFileDirectoryPath(xsDataResultCharacterisation)
             if self.createDNAFileDirectory(strPathToDNAFileDirectory):
                 self.copyFilesToPyArch(xsDataResultCharacterisation, strPathToDNAFileDirectory)
@@ -803,7 +804,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             if self.createDNAFileDirectory(strPyArchPathToDNAFileDirectory):
                 self.copyFilesToPyArch(xsDataResultCharacterisation, strPyArchPathToDNAFileDirectory)
             # Execute plugin which creates a simple HTML page
-            self.runSimpleHTMLPlugin(xsDataResultCharacterisation)
+            self.runSimpleHTMLPlugin(xsDataResultCharacterisationv2_0)
 
         
 
