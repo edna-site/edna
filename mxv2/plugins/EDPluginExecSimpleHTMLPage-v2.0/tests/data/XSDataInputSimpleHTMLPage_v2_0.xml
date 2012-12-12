@@ -336,7 +336,7 @@
 	            </image>
 	            <indexingLogFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv1Characterisation/Indexing/MOSFLMIndexingv10/MOSFLMIndexingv10.log</value>
+	                    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/MOSFLMIndexingv10.log</value>
 	                </path>
 	            </indexingLogFile>
 	            <labelitIndexing>
@@ -345,7 +345,7 @@
 	            <predictionResult>
 	                <predictionImage>
 	                    <path>
-	                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv1Characterisation/GeneratePrediction/MOSFLMGeneratePredictionv10-01/ref-edna_6_0001_pred.jpg</value>
+	                        <value>${EDNA_TESTIMAGES}/ref-testscale_1_001_pred.jpg</value>
 	                    </path>
 	                    <number>
 	                        <value>1</value>
@@ -353,7 +353,7 @@
 	                </predictionImage>
 	                <predictionImage>
 	                    <path>
-	                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv1Characterisation/GeneratePrediction/MOSFLMGeneratePredictionv10-02/ref-edna_6_0002_pred.jpg</value>
+	                        <value>${EDNA_TESTIMAGES}/ref-testscale_1_002_pred.jpg</value>
 	                    </path>
 	                    <number>
 	                        <value>2</value>
@@ -2801,7 +2801,7 @@
 	                </generatedMTZFile>
 	                <integrationLogFile>
 	                    <path>
-	                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv1Characterisation/Integration/MOSFLMIntegrationv10-01/MOSFLMIntegrationv10.log</value>
+	                        <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/MOSFLMIntegrationv10.log</value>
 	                    </path>
 	                </integrationLogFile>
 	                <statistics>
@@ -4097,7 +4097,7 @@
 	                </generatedMTZFile>
 	                <integrationLogFile>
 	                    <path>
-	                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv1Characterisation/Integration/MOSFLMIntegrationv10-02/MOSFLMIntegrationv10.log</value>
+	                        <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/MOSFLMIntegrationv10.log</value>
 	                    </path>
 	                </integrationLogFile>
 	                <statistics>
@@ -4690,22 +4690,22 @@
 	        <strategyResult>
 	            <bestGraphFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/B.jpg</value>
+	                    <value>${EDNA_TESTIMAGES}/B.jpg</value>
 	                </path>
 	            </bestGraphFile>
 	            <bestGraphFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/phi_overlap.jpg</value>
+	                    <value>${EDNA_TESTIMAGES}/phi_overlap.jpg</value>
 	                </path>
 	            </bestGraphFile>
 	            <bestGraphFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/compl.jpg</value>
+	                    <value>${EDNA_TESTIMAGES}/compl.jpg</value>
 	                </path>
 	            </bestGraphFile>
 	            <bestLogFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/Bestv1_2/best.log</value>
+	                    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/best.log</value>
 	                </path>
 	            </bestLogFile>
 	            <collectionPlan>
@@ -6786,7 +6786,7 @@
 	            <predictionResult>
 	                <predictionImage>
 	                    <path>
-	                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv1Characterisation/GeneratePrediction/MOSFLMGeneratePredictionv10-01/ref-edna_6_0001_pred.jpg</value>
+	                        <value>${EDNA_TESTIMAGES}/ref-testscale_1_001_pred.jpg</value>
 	                    </path>
 	                    <number>
 	                        <value>1</value>
@@ -6794,7 +6794,7 @@
 	                </predictionImage>
 	                <predictionImage>
 	                    <path>
-	                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv1Characterisation/GeneratePrediction/MOSFLMGeneratePredictionv10-02/ref-edna_6_0002_pred.jpg</value>
+	                        <value>${EDNA_TESTIMAGES}/ref-testscale_1_002_pred.jpg</value>
 	                    </path>
 	                    <number>
 	                        <value>2</value>
@@ -11131,22 +11131,22 @@
 	        <strategyResult>
 	            <bestGraphFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/B.jpg</value>
+	                    <value>${EDNA_TESTIMAGES}/B.jpg</value>
 	                </path>
 	            </bestGraphFile>
 	            <bestGraphFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/phi_overlap.jpg</value>
+	                    <value>${EDNA_TESTIMAGES}/phi_overlap.jpg</value>
 	                </path>
 	            </bestGraphFile>
 	            <bestGraphFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/compl.jpg</value>
+	                    <value>${EDNA_TESTIMAGES}/compl.jpg</value>
 	                </path>
 	            </bestGraphFile>
 	            <bestLogFile>
 	                <path>
-	                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/Bestv1_2/best.log</value>
+	                    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/best.log</value>
 	                </path>
 	            </bestLogFile>
 	            <collectionPlan>
@@ -12886,22 +12886,22 @@
 	    <suggestedStrategy>
 	        <bestGraphFile>
 	            <path>
-	                <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/B.jpg</value>
+	                <value>${EDNA_TESTIMAGES}/B.jpg</value>
 	            </path>
 	        </bestGraphFile>
 	        <bestGraphFile>
 	            <path>
-	                <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/phi_overlap.jpg</value>
+	                <value>${EDNA_TESTIMAGES}/phi_overlap.jpg</value>
 	            </path>
 	        </bestGraphFile>
 	        <bestGraphFile>
 	            <path>
-	                <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/PlotGlev1_0/compl.jpg</value>
+	                <value>${EDNA_TESTIMAGES}/compl.jpg</value>
 	            </path>
 	        </bestGraphFile>
 	        <bestLogFile>
 	            <path>
-	                <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestCasePluginExecuteInterfacev2_2_kappaCELL_20121203-135829/ControlInterfacev2_2-00000003/Characterisation/MXv2KappaStrategy/ControlStrategyv1_2/Bestv1_2/best.log</value>
+	                <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/best.log</value>
 	            </path>
 	        </bestLogFile>
 	        <collectionPlan>

@@ -56,7 +56,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
         self.edPluginExecOutputHTML = None
         self.strHTML = None
         self.xsDataResultCharacterisation = None
-        self.xsDataPossibleOrientations = None
+        self.xsDataKappa_alignment_response = None
         self.page = None
         self.strPath = None
         self.strTableColourTitle1 = "#F5F5FF"
@@ -72,7 +72,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
         if self.xsDataResultCharacterisation is None:
             if not self.getDataInput().getCharacterisationResultv2_0() is None:
                 self.xsDataResultCharacterisation = self.getDataInput().getCharacterisationResultv2_0().getMxv1ResultCharacterisation()
-                self.xsDataPossibleOrientations = self.getDataInput().getCharacterisationResultv2_0().getPossibleOrientations()
+                self.xsDataKappa_alignment_response = self.getDataInput().getCharacterisationResultv2_0().getPossibleOrientations()
         self.strHtmlFileName = "index.html"
         self.strPath = os.path.join(self.getWorkingDirectory(), self.strHtmlFileName)
 
@@ -489,12 +489,12 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
         xsDataCell = xsDataCrystal.getCell()
         strSpaceGroup = xsDataCrystal.spaceGroup.name.value
         if _strForcedSpaceGroup is None:
-            self.page.h3("Indexing summary: Selected spacegroup: %s" % strSpaceGroup)
+            self.page.h3("Indexing summary: Selected spacegroup: %s" % strSpaceGroup, align_="LEFT")
         else:
             if strSpaceGroup.upper() == _strForcedSpaceGroup.upper():
-                self.page.h3("Indexing summary: Forced spacegroup: %s" % strSpaceGroup)
+                self.page.h3("Indexing summary: Forced spacegroup: %s" % strSpaceGroup, align_="LEFT")
             else:
-                self.page.h3("Indexing summary: Selected spacegroup: %s, forced space group: %s" % (strSpaceGroup, _strForcedSpaceGroup))
+                self.page.h3("Indexing summary: Selected spacegroup: %s, forced space group: %s" % (strSpaceGroup, _strForcedSpaceGroup), align_="LEFT")
         self.page.table( class_='indexResults', border_="1", cellpadding_="0" )
         self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle1 )
         self.page.th("Refined unit cell parameters (&Aring;/degrees)", colspan_="6")
@@ -641,21 +641,25 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
             
             
     def stacResults(self):
-        self.page.h2( "Kappa goniostat calculation results (STAC):" )
-        self.page.table( class_='stacResults', border_="1", cellpadding_="0")
-        self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
-        self.page.th("v1")
-        self.page.th("v2")
-        self.page.th("O")
-        self.page.th("K")
-        self.page.th("P")
-        self.page.tr.close()
-        for xsDataPossibleOrientation in self.xsDataPossibleOrientations:
+        if self.xsDataKappa_alignment_response is not None:
+            self.page.h3( "Kappa goniostat calculation results (STAC):" )
+            self.page.table( class_='stacResults', border_="1", cellpadding_="0")
             self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
-            self.page.th(xsDataPossibleOrientation.getV1())
-            self.page.th(xsDataPossibleOrientation.getV2())
-            self.page.th(xsDataPossibleOrientation.getOmega())
-            self.page.th(xsDataPossibleOrientation.getKappa())
-            self.page.th(xsDataPossibleOrientation.getPhi())
+            self.page.th("Vector 1")
+            self.page.th("Vector 2")
+            self.page.th("Omega")
+            self.page.th("Kappa")
+            self.page.th("Phi")
             self.page.tr.close()
-        self.page.table.close()
+            for xsDataPossibleOrientation in self.xsDataKappa_alignment_response.getPossible_orientation():
+                self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
+                self.page.th(xsDataPossibleOrientation.getV1())
+                self.page.th(xsDataPossibleOrientation.getV2())
+                self.page.th(xsDataPossibleOrientation.getOmega())
+                self.page.th(xsDataPossibleOrientation.getKappa())
+                self.page.th(xsDataPossibleOrientation.getPhi())
+                self.page.tr.close()
+            self.page.table.close()
+            self.page.br()
+            self.page.strong(" ")
+            self.page.br()
