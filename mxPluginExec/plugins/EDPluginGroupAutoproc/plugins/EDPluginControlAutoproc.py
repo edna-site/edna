@@ -232,7 +232,8 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         self.xscale_generate = self.loadPlugin("EDPluginControlXscaleGenerate")
 
-        self.store_autoproc = self.loadPlugin('EDPluginISPyBStoreAutoProcv1_4')
+        self.store_autoproc_anom = self.loadPlugin('EDPluginISPyBStoreAutoProcv1_4')
+        self.store_autoproc_noanom = self.loadPlugin('EDPluginISPyBStoreAutoProcv1_4')
 
         self.file_conversion = self.loadPlugin('EDPluginControlAutoprocImport')
 
@@ -607,11 +608,11 @@ class EDPluginControlAutoproc(EDPluginControl):
         output.AutoProc = autoproc
 
         # scaling container and all the things that go in
-        scaling_container = AutoProcScalingContainer()
+        scaling_container_noanom = AutoProcScalingContainer()
         scaling = AutoProcScaling()
         scaling.recordTimeStamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-        scaling_container.AutoProcScaling = scaling
+        scaling_container_noanom.AutoProcScaling = scaling
 
         # NOANOM PATH
         xscale_stats_noanom = self.xscale_generate.dataOutput.stats_noanom_merged
@@ -629,19 +630,46 @@ class EDPluginControlAutoproc(EDPluginControl):
         stats = _create_scaling_stats(inner_stats_noanom, 'innerShell',
                                       self.low_resolution_limit, False)
         overall_low = stats.resolutionLimitLow
-        scaling_container.AutoProcScalingStatistics.append(stats)
+        scaling_container_noanom.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_noanom, 'outerShell',
                                       prev_res, False)
         overall_high = stats.resolutionLimitHigh
-        scaling_container.AutoProcScalingStatistics.append(stats)
+        scaling_container_noanom.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_noanom, 'overall',
                                       self.low_resolution_limit, False)
         stats.resolutionLimitLow = overall_low
         stats.resolutionLimitHigh = overall_high
-        scaling_container.AutoProcScalingStatistics.append(stats)
+        scaling_container_noanom.AutoProcScalingStatistics.append(stats)
+
+        integration_container_noanom = AutoProcIntegrationContainer()
+        image = Image()
+        image.dataCollectionId = self.dataInput.data_collection_id.value
+        integration_container_noanom.Image = image
+
+        integration_noanom = AutoProcIntegration()
+        if self.integration_id is not None:
+            integration_noanom.autoProcIntegrationId = self.integration_id
+        crystal_stats =  self.parse_xds_noanom.dataOutput
+        integration_noanom.cell_a = crystal_stats.cell_a.value
+        integration_noanom.cell_b = crystal_stats.cell_b.value
+        integration_noanom.cell_c = crystal_stats.cell_c.value
+        integration_noanom.cell_alpha = crystal_stats.cell_alpha.value
+        integration_noanom.cell_beta = crystal_stats.cell_beta.value
+        integration_noanom.cell_gamma = crystal_stats.cell_gamma.value
+        integration_noanom.anomalous = 0
+
+        # done with the integration
+        integration_container_noanom.AutoProcIntegration = integration_noanom
+        scaling_container_noanom.AutoProcIntegrationContainer = integration_container_noanom
 
         # ANOM PATH
+        scaling_container_anom = AutoProcScalingContainer()
+        scaling = AutoProcScaling()
+        scaling.recordTimeStamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+        scaling_container_anom.AutoProcScaling = scaling
+
         xscale_stats_anom = self.xscale_generate.dataOutput.stats_anom_merged
         inner_stats_anom = xscale_stats_anom.completeness_entries[0]
         outer_stats_anom = xscale_stats_anom.completeness_entries[-1]
@@ -649,7 +677,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         # use the previous shell's res as low res if available
         prev_res = self.low_resolution_limit
         try:
-            prev_res = xscale_stats_noanom.completeness_entries[-2].outer_res.value
+            prev_res = xscale_stats_anom.completeness_entries[-2].outer_res.value
         except IndexError:
             pass
         total_stats_anom = xscale_stats_anom.total_completeness
@@ -657,43 +685,44 @@ class EDPluginControlAutoproc(EDPluginControl):
         stats = _create_scaling_stats(inner_stats_anom, 'innerShell',
                                       self.low_resolution_limit, True)
         overall_low = stats.resolutionLimitLow
-        scaling_container.AutoProcScalingStatistics.append(stats)
+        scaling_container_anom.AutoProcScalingStatistics.append(stats)
 
         stats = _create_scaling_stats(outer_stats_anom, 'outerShell',
                                       prev_res, True)
         overall_high = stats.resolutionLimitHigh
-        scaling_container.AutoProcScalingStatistics.append(stats)
+        scaling_container_anom.AutoProcScalingStatistics.append(stats)
         stats = _create_scaling_stats(total_stats_anom, 'overall',
                                       self.low_resolution_limit, True)
         stats.resolutionLimitLow = overall_low
         stats.resolutionLimitHigh = overall_high
-        scaling_container.AutoProcScalingStatistics.append(stats)
+        scaling_container_anom.AutoProcScalingStatistics.append(stats)
 
 
-        integration_container = AutoProcIntegrationContainer()
+        integration_container_anom = AutoProcIntegrationContainer()
         image = Image()
         image.dataCollectionId = self.dataInput.data_collection_id.value
-        integration_container.Image = image
+        integration_container_anom.Image = image
 
-        integration = AutoProcIntegration()
+        integration_anom = AutoProcIntegration()
         if self.integration_id is not None:
-            integration.autoProcIntegrationId = self.integration_id
+            integration_anom.autoProcIntegrationId = self.integration_id
         crystal_stats =  self.parse_xds_noanom.dataOutput
-        integration.cell_a = crystal_stats.cell_a.value
-        integration.cell_b = crystal_stats.cell_b.value
-        integration.cell_c = crystal_stats.cell_c.value
-        integration.cell_alpha = crystal_stats.cell_alpha.value
-        integration.cell_beta = crystal_stats.cell_beta.value
-        integration.cell_gamma = crystal_stats.cell_gamma.value
-        integration.anomalous = 0
+        integration_anom.cell_a = crystal_stats.cell_a.value
+        integration_anom.cell_b = crystal_stats.cell_b.value
+        integration_anom.cell_c = crystal_stats.cell_c.value
+        integration_anom.cell_alpha = crystal_stats.cell_alpha.value
+        integration_anom.cell_beta = crystal_stats.cell_beta.value
+        integration_anom.cell_gamma = crystal_stats.cell_gamma.value
+        integration_anom.anomalous = 1
 
         # done with the integration
-        integration_container.AutoProcIntegration = integration
-        scaling_container.AutoProcIntegrationContainer = integration_container
+        integration_container_anom.AutoProcIntegration = integration_anom
+        scaling_container_anom.AutoProcIntegrationContainer = integration_container_anom
 
-        # done with the autoproc scaling container, add it to the main
-        # output container
-        output.AutoProcScalingContainer = scaling_container
+
+        # ------ NO ANOM / ANOM end
+
+
 
         program_container = AutoProcProgramContainer()
         program_container.AutoProcProgram = AutoProcProgram()
@@ -753,6 +782,10 @@ class EDPluginControlAutoproc(EDPluginControl):
         program_container.AutoProcProgram.processingStatus = True
         output.AutoProcProgramContainer = program_container
 
+        # first with anom
+
+        output.AutoProcScalingContainer = scaling_container_anom
+
         ispyb_input = XSDataInputStoreAutoProc()
         ispyb_input.AutoProcContainer = output
 
@@ -761,15 +794,38 @@ class EDPluginControlAutoproc(EDPluginControl):
             f.write(ispyb_input.marshal())
 
         # store results in ispyb
-        self.store_autoproc.dataInput = ispyb_input
+        self.store_autoproc_anom.dataInput = ispyb_input
         t0=time.time()
-        self.store_autoproc.executeSynchronous()
+        self.store_autoproc_anom.executeSynchronous()
         self.stats['ispyb_upload'] = time.time() - t0
 
         with open(self.log_file_path, 'w') as f:
             json.dump(self.stats, f)
 
-        if self.store_autoproc.isFailure():
+        if self.store_autoproc_anom.isFailure():
+            self.ERROR('could not send results to ispyb')
+
+        # then noanom stats
+
+        output.AutoProcScalingContainer = scaling_container_noanom
+
+        ispyb_input = XSDataInputStoreAutoProc()
+        ispyb_input.AutoProcContainer = output
+
+
+        with open(self.dataInput.output_file.path.value, 'w') as f:
+            f.write(ispyb_input.marshal())
+
+        # store results in ispyb
+        self.store_autoproc_noanom.dataInput = ispyb_input
+        t0=time.time()
+        self.store_autoproc_noanom.executeSynchronous()
+        self.stats['ispyb_upload'] = time.time() - t0
+
+        with open(self.log_file_path, 'w') as f:
+            json.dump(self.stats, f)
+
+        if self.store_autoproc_noanom.isFailure():
             self.ERROR('could not send results to ispyb')
 
 def log_to_ispyb(integration_id, step, status, comments=""):
