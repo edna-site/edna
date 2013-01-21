@@ -556,13 +556,13 @@ class EDPluginControlAutoproc(EDPluginControl):
             log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Scaling',
                          'Failed',
-                         'xscale generation failed in {0}s'.format(self.stats['first_res_cutoff']))
+                         'xscale generation failed in {0}s'.format(self.stats['xscale_generate']))
         else:
             EDVerbose.screen('xscale anom/merge generation finished')
             log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Scaling',
                          'Successful',
-                         'xscale generation finished in {0}s'.format(self.stats['first_res_cutoff']))
+                         'xscale generation finished in {0}s'.format(self.stats['xscale_generate']))
 
         import_in = XSDataAutoprocImport()
         import_in.input_anom = self.xscale_generate.dataOutput.hkl_anom_unmerged
