@@ -245,11 +245,19 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         process_start = time.time()
 
+
+        # get our two integration IDs
         try:
-            self.integration_id = create_integration_id(self.dataInput.data_collection_id.value)
+            self.integration_id_noanom = create_integration_id(self.dataInput.data_collection_id.value)
         except Exception, e:
             EDVerbose.ERROR('could not get integration ID: \n{0}'.format(traceback.format_exc(e)))
-            self.integration_id = None
+            self.integration_id_noanom = None
+
+        try:
+            self.integration_id_anom = create_integration_id(self.dataInput.data_collection_id.value)
+        except Exception, e:
+            EDVerbose.ERROR('could not get integration ID: \n{0}'.format(traceback.format_exc(e)))
+            self.integration_id_anom = None
 
         # wait for the first frame
         t0=time.time()
