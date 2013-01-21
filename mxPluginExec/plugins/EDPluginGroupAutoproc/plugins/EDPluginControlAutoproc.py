@@ -283,26 +283,27 @@ class EDPluginControlAutoproc(EDPluginControl):
             json.dump(self.stats, f)
         self.custom_stats['xds_runtime']=self.stats['first_xds']
 
-        log_to_ispyb(self.integration_id, 'Indexing', 'Launched', 'first xds run')
-
+        log_to_ispyb([self.integration_id_noanom, self.integration_id_anom],
+                     'Indexing', 'Launched', 'first xds run')
 
         if self.xds_first.isFailure():
             EDVerbose.ERROR('first XDS run failed')
             self.setFailure()
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb([self.integration_id_noanom, self.integration_id_anom],
                          'Indexing',
                          'Failed',
                          'first xds run failed after {0}s'.format(self.stats['first_xds']))
             return
         else:
             EDVerbose.screen('FINISHED first XDS run')
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb([self.integration_id_noanom, self.integration_id_anom],
                          'Indexing',
                          'Successful',
                          'first xds run finished after {0}s'.format(self.stats['first_xds']))
         EDVerbose.screen('FINISHED first XDS run')
 
-        log_to_ispyb(self.integration_id, 'Indexing', 'Launched', 'start of res cutoff')
+        log_to_ispyb([self.integration_id_noanom, self.integration_id_anom],
+                     'Indexing', 'Launched', 'start of res cutoff')
 
         # apply the first res cutoff with the res extracted from the first XDS run
         EDVerbose.screen('STARTING first resolution cutoff')
@@ -337,7 +338,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         if self.first_res_cutoff.isFailure():
             EDVerbose.ERROR("res cutoff failed")
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb([self.integration_id_noanom, self.integration_id_anom],
                          'Indexing',
                          'Failed',
                          'res cutoff failed in {0}s'.format(self.stats['first_res_cutoff']))
@@ -345,7 +346,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             return
         else:
             EDVerbose.screen('FINISHED first resolution cutoff')
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Indexing',
                          'Successful',
                          'res cutoff finished in {0}s'.format(self.stats['first_res_cutoff']))
@@ -365,7 +366,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         generate_input.previous_run_dir = XSDataString(xds_run_directory)
         self.generate.dataInput = generate_input
 
-        log_to_ispyb(self.integration_id, 'Scaling', 'Launched', 'start of anom/noanom generation')
+        log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
+                     'Scaling', 'Launched', 'start of anom/noanom generation')
 
         self.DEBUG('STARTING anom/noanom generation')
         t0=time.time()
@@ -380,14 +382,14 @@ class EDPluginControlAutoproc(EDPluginControl):
         if self.generate.isFailure():
             EDVerbose.ERROR('generating w/ and w/out anom failed')
             self.setFailure()
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Scaling',
                          'Failed',
                          'anom/noanom generation failed in {0}s'.format(self.stats['anom/noanom_generation']))
             return
         else:
             EDVerbose.screen('generating w/ and w/out anom finished')
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Scaling',
                          'Successful',
                          'anom/noanom generation finished in {0}s'.format(self.stats['anom/noanom_generation']))
@@ -435,7 +437,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         # xds parsing
 
 
-        log_to_ispyb(self.integration_id, 'Scaling', 'Launched', 'start of anom/noanom resolution cutoffs')
+        log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
+                     'Scaling', 'Launched', 'start of anom/noanom resolution cutoffs')
 
         # XXX completeness_cutoff/res_override and isig_cutoff still
         # missing
@@ -462,6 +465,19 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         if self.res_cutoff_anom.isFailure():
             EDVerbose.ERROR('res cutoff for anom data failed')
+            self.setFailure()
+            log_to_ispyb(self.integration_id_anom,
+                         'Scaling',
+                         'Failed',
+                         'anom resolution cutoffs failed in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_anom']))
+            return
+        else:
+            self.screen('FINISHED anom res cutoff')
+            log_to_ispyb(self.integration_id_anom,
+                         'Scaling',
+                         'Successful',
+                         'anom resolution cutoffs finished in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_anom']))
+
         self.DEBUG('FINISHED anom res cutoff')
 
         # same for non anom
@@ -489,17 +505,17 @@ class EDPluginControlAutoproc(EDPluginControl):
         if self.res_cutoff_noanom.isFailure():
             EDVerbose.ERROR('res cutoff for non anom data failed')
             self.setFailure()
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb(self.integration_id_noanom,
                          'Scaling',
                          'Failed',
-                         'anom/noanom resolution cutoffs failed in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
+                         'noanom resolution cutoffs failed in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
             return
         else:
             self.screen('FINISHED noanom res cutoff')
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb(self.integration_id_noanom,
                          'Scaling',
                          'Successful',
-                         'anom/noanom resolution cutoffs finished in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
+                         'noanom resolution cutoffs finished in {0}s'.format(self.stats['res_cutoff_anom'] + self.stats['res_cutoff_noanom']))
 
 
 
@@ -522,7 +538,8 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         self.xscale_generate.dataInput = xscale_generate_in
         self.DEBUG('STARTING xscale generation')
-        log_to_ispyb(self.integration_id, 'Scaling', 'Launched', 'start of anom xscale')
+        log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
+                     'Scaling', 'Launched', 'start of xscale generation')
 
         t0=time.time()
         self.xscale_generate.executeSynchronous()
@@ -532,17 +549,17 @@ class EDPluginControlAutoproc(EDPluginControl):
             json.dump(self.stats, f)
 
         if self.xscale_generate.isFailure():
-            EDVerbose.ERROR('xscale  generation failed')
+            EDVerbose.ERROR('xscale generation failed')
 
         if self.xscale_generate.isFailure():
-            EDVerbose.ERROR('xscale anom/merge generation failed')
-            log_to_ispyb(self.integration_id,
+            EDVerbose.ERROR('xscale generation failed')
+            log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Scaling',
                          'Failed',
                          'xscale generation failed in {0}s'.format(self.stats['first_res_cutoff']))
         else:
             EDVerbose.screen('xscale anom/merge generation finished')
-            log_to_ispyb(self.integration_id,
+            log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Scaling',
                          'Successful',
                          'xscale generation finished in {0}s'.format(self.stats['first_res_cutoff']))
