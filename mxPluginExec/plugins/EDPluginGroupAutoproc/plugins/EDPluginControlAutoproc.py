@@ -673,8 +673,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         integration_container_noanom.Image = image
 
         integration_noanom = AutoProcIntegration()
-        if self.integration_id is not None:
-            integration_noanom.autoProcIntegrationId = self.integration_id
+        if self.integration_id_noanom is not None:
+            integration_noanom.autoProcIntegrationId = self.integration_id_noanom
         crystal_stats =  self.parse_xds_noanom.dataOutput
         integration_noanom.cell_a = crystal_stats.cell_a.value
         integration_noanom.cell_b = crystal_stats.cell_b.value
@@ -729,9 +729,9 @@ class EDPluginControlAutoproc(EDPluginControl):
         integration_container_anom.Image = image
 
         integration_anom = AutoProcIntegration()
-        if self.integration_id is not None:
-            integration_anom.autoProcIntegrationId = self.integration_id
         crystal_stats =  self.parse_xds_noanom.dataOutput
+        if self.integration_id_anom is not None:
+            integration_anom.autoProcIntegrationId = self.integration_id_anom
         integration_anom.cell_a = crystal_stats.cell_a.value
         integration_anom.cell_b = crystal_stats.cell_b.value
         integration_anom.cell_c = crystal_stats.cell_c.value
