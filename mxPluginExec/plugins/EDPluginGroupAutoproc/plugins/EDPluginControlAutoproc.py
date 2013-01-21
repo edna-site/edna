@@ -828,7 +828,15 @@ class EDPluginControlAutoproc(EDPluginControl):
         if self.store_autoproc_noanom.isFailure():
             self.ERROR('could not send results to ispyb')
 
+# Proxy since the API changed and we can now log to several ids
 def log_to_ispyb(integration_id, step, status, comments=""):
+    if type(integration_id) is list:
+        for item in integration_id:
+            log_to_ispyb_impl(item, step, status, comments)
+    else:
+        log_to_ispyb_impl(integration_id, step, status, comments)
+
+def log_to_ispyb_impl(integration_id, step, status, comments=""):
     # hack in the event we could not create an integration ID
     if integration_id is None:
         EDVerbose.ERROR('could not log to ispyb: no integration id')
