@@ -796,7 +796,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             for f in os.listdir(original_files_dir):
                 current = os.path.join(original_files_dir, f)
                 if not os.path.isfile(current):
-                    next
+                    continue
                 new_path = os.path.join(pyarch_path, f)
                 file_list.append(new_path)
                 shutil.copyfile(current,
