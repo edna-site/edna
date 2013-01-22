@@ -142,10 +142,16 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.DEBUG('will log timing information to {0}'.format(self.log_file_path))
         self.stats = dict()
 
-        # Ensure the autoproc ids directory is there
-        self.autoproc_ids_dir = os.path.join(self.root_dir, 'fastproc_integration_ids')
+        self.results_dir = os.path.join(self.root_dir, 'results')
         try:
-            os.mkdir(self.autoproc_ids_dir)
+            os.makedirs(self.results_dir)
+        except OSError: # it most likely exists
+            pass
+
+        # Ensure the autoproc ids directory is there
+        self.autoproc_ids_dir = os.path.join(self.results_dir, 'fastproc_integration_ids')
+        try:
+            os.makedirs(self.autoproc_ids_dir)
         except OSError: # it's there
             pass
 
@@ -587,7 +593,7 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # store the resulting files in an edna_fastproc dir created in
         # the toplevel dir
-        outdir = os.path.join(self.root_dir, 'results', 'fast_processing')
+        outdir = os.path.join(self.results_dir, 'fast_processing')
         try:
             os.makedirs(outdir)
         except OSError:# dir exists
