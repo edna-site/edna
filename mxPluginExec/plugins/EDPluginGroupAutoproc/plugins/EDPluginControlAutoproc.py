@@ -142,6 +142,14 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.DEBUG('will log timing information to {0}'.format(self.log_file_path))
         self.stats = dict()
 
+        # Ensure the autoproc ids directory is there
+        self.autoproc_ids_dir = os.path.join(self.root_dir, 'fastproc_integration_ids')
+        try:
+            os.mkdir(self.autoproc_ids_dir)
+        except OSError: # it's there
+            pass
+
+
         # we'll need the low res limit later on
         lowres = data_in.low_resolution_limit
         if lowres is not None:
@@ -829,7 +837,10 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         if self.store_autoproc_anom.isFailure():
             self.ERROR('could not send results to ispyb')
-
+        else:
+            # store the autoproc ID as a filename in the
+            # fastproc_integration_ids directory
+            os.mknod(os.path.join(self.autoproc_ids_dir, str(self.integration_id_anom)))
         # then noanom stats
 
         output.AutoProcScalingContainer = scaling_container_noanom
@@ -852,6 +863,9 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         if self.store_autoproc_noanom.isFailure():
             self.ERROR('could not send results to ispyb')
+        else:
+            # store the autoproc id
+            os.mknod(os.path.join(self.autoproc_ids_dir, str(self.integration_id_noanom)))
 
 # Proxy since the API changed and we can now log to several ids
 def log_to_ispyb(integration_id, step, status, comments=""):
