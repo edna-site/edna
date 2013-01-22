@@ -794,11 +794,12 @@ class EDPluginControlAutoproc(EDPluginControl):
             file_list = []
             # we can now copy the files to this dir
             for f in os.listdir(original_files_dir):
-                if not os.path.isfile(f):
+                current = os.path.join(original_files_dir, f)
+                if not os.path.isfile(current):
                     next
                 new_path = os.path.join(pyarch_path, f)
                 file_list.append(new_path)
-                shutil.copyfile(os.path.join(original_files_dir, f),
+                shutil.copyfile(current,
                                 new_path)
             # now add those to the ispyb upload
             for path in file_list:
