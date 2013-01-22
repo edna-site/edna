@@ -142,7 +142,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.DEBUG('will log timing information to {0}'.format(self.log_file_path))
         self.stats = dict()
 
-        self.results_dir = os.path.join(self.root_dir, 'results')
+        self.results_dir = os.path.join(self.root_dir, 'results', 'fast_processing')
         try:
             os.makedirs(self.results_dir)
         except OSError: # it most likely exists
@@ -591,15 +591,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         # XXX: This is optional but seems required by aimless
         import_in.nres = self.dataInput.nres
 
-        # store the resulting files in an edna_fastproc dir created in
-        # the toplevel dir
-        outdir = os.path.join(self.results_dir, 'fast_processing')
-        try:
-            os.makedirs(outdir)
-        except OSError:# dir exists
-            EDVerbose.screen('output dir "{0}" already exists!'.format(outdir))
-
-        import_in.output_directory = XSDataString(outdir)
+        import_in.output_directory = XSDataString(self.results_dir)
 
         self.file_conversion.dataInput = import_in
 
