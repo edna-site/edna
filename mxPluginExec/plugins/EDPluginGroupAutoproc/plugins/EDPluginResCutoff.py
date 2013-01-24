@@ -139,6 +139,8 @@ incorrect parameters in XDS.INP like distance, X beam, Y beam, etc.
 Stopping""")
             self.setFailure()
             return
+        if res is None:
+            res = sorted(bins)[0]
         if res_override is not None:
             res = res_override.value
         # remove last bin (see why w/ max)
