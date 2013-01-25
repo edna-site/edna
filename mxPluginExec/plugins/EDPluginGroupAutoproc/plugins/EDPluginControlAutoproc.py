@@ -787,7 +787,6 @@ class EDPluginControlAutoproc(EDPluginControl):
                                            *tokens[3:])
         if pyarch_path is not None:
             pyarch_path = pyarch_path.replace('PROCESSED_DATA', 'RAW_DATA')
-            pyarch_path = os.path.join(pyarch_path, 'edna-fastproc')
             try:
                 os.makedirs(pyarch_path)
             except OSError:
