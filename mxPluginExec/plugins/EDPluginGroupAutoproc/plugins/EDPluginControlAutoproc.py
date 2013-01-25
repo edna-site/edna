@@ -767,7 +767,8 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # remove the edna-autoproc-import suffix
         original_files_dir = self.file_conversion.dataInput.output_directory.value
-        files_dir, _ = os.path.split(original_files_dir)
+        #files_dir, _ = os.path.split(original_files_dir)
+        files_dir = original_files_dir
 
         # the whole transformation is fragile!
         if files_dir.startswith('/data/visitor'):
@@ -778,7 +779,9 @@ class EDPluginControlAutoproc(EDPluginControl):
                                        tokens[3], tokens[2],
                                        *tokens[4:])
         else:
-            tokens = files_dir.split(os.path.sep)
+            # We might get empty elements at the head/tail of the list
+            tokens = [elem for elem in files_dir.split(os.path.sep)
+                      if len(elem) > 0]
             if tokens[2] == 'inhouse':
                 pyarch_path = os.path.join('/data/pyarch', tokens[1],
                                            *tokens[3:])
