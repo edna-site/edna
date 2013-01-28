@@ -71,6 +71,8 @@ class EDPluginExecAimless(EDPluginExecProcessScript):
         end_image = self.dataInput.end_image.value
         dcid = self.dataInput.dataCollectionID.value
         resolution = self.dataInput.res.value
+        if resolution is None:
+            resolution = 0
         anom = self.dataInput.anom.value
 
         self.addListCommandExecution('bins 15')
