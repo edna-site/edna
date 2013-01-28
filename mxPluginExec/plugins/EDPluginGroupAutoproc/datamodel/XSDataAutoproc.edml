@@ -196,23 +196,24 @@ complex type XSDataXdsGenerateOutput extends XSDataResult {
         gxparm             : XSDataString
 }
 
-complex type XSDataAutoprocMasterInput extends XSDataInput {
-        input_file           : XSDataFile
-        res_override         : XSDataFloat optional
+complex type XSDataAutoprocInput extends XSDataInput {
+        input_file		: XSDataFile
+        res_override		: XSDataFloat optional
         //cutoffs
-        completeness_cutoff  : XSDataFloat optional
-        isig_cutoff          : XSDataFloat optional
-        r_value_cutoff       : XSDataFloat optional
-        cc_half_cutoff       : XSDataFloat optional
+        completeness_cutoff	: XSDataFloat optional
+        isig_cutoff		: XSDataFloat optional
+        r_value_cutoff		: XSDataFloat optional
+        cc_half_cutoff		: XSDataFloat optional
 
-        data_collection_id   : XSDataInteger optional
-        detector_max_res     : XSDataFloat optional
-        low_resolution_limit : XSDataFloat optional
-        nres                 : XSDataFloat optional
-}
+        data_collection_id	: XSDataInteger optional
+        detector_max_res	: XSDataFloat optional
+        low_resolution_limit	: XSDataFloat optional
+        nres			: XSDataFloat optional
 
-complex type XSDataAutoprocInput extends XSDataAutoprocMasterInput {
-        output_file : XSDataFile
+	spacegroup		: XSDataInteger
+	unit_cell		: XSDataString // space separated numerical values
+
+        output_file		: XSDataFile
 }
 
 complex type XSDataXdsToSca extends XSDataInput {
