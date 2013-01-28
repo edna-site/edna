@@ -39,13 +39,15 @@ complex type XSDataRange {
 }
 
 complex type XSDataMinimalXdsIn extends XSDataInput {
-        input_file       : XSDataString
-        job              : XSDataString optional
-        maxproc          : XSDataInteger optional
-        maxjobs          : XSDataInteger optional
-        friedels_law     : XSDataBoolean optional
-        resolution_range : XSDataFloat [] optional
-        spot_range       : XSDataRange [] optional
+        input_file		: XSDataString
+        job			: XSDataString optional
+        maxproc			: XSDataInteger optional
+        maxjobs			: XSDataInteger optional
+        friedels_law		: XSDataBoolean optional
+        resolution_range	: XSDataFloat [] optional
+        spot_range		: XSDataRange [] optional
+	spacegroup		: XSDataInteger optional
+	unit_cell		: XSDataString optional
 }
 
 complex type XSDataMinimalXdsOut extends XSDataResult {
@@ -210,8 +212,8 @@ complex type XSDataAutoprocInput extends XSDataInput {
         low_resolution_limit	: XSDataFloat optional
         nres			: XSDataFloat optional
 
-	spacegroup		: XSDataInteger
-	unit_cell		: XSDataString // space separated numerical values
+	spacegroup		: XSDataInteger optional
+	unit_cell		: XSDataString optional // space separated numerical values
 
         output_file		: XSDataFile
 }
