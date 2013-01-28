@@ -137,6 +137,8 @@ class EDPluginControlAutoproc(EDPluginControl):
         data_in = self.dataInput
         xds_in = XSDataMinimalXdsIn()
         xds_in.input_file = data_in.input_file.path
+        xds_in.spacegroup = data_in.spacegroup
+        xds_in.unit_cell = data_in.unit_cell
 
         self.log_file_path = os.path.join(self.root_dir, 'stats.json')
         self.DEBUG('will log timing information to {0}'.format(self.log_file_path))

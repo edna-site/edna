@@ -116,6 +116,9 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         resolution_range = self.dataInput.resolution_range
         friedels_law = self.dataInput.friedels_law
         spot_range = self.dataInput.spot_range
+        spacegroup = self.dataInput.spacegroup
+        unit_cell = self.dataInput.unit_cell
+
         self.DEBUG('requested spot range is {0}'.format(spot_range))
 
         if job is not None:
@@ -137,6 +140,14 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                 spot_range_list.append('{0} {1}'.format(srange.begin, srange.end))
             self.DEBUG('setting the spot range to {0} as requested'.format(spot_range_list))
             parsed_config['SPOT_RANGE='] = spot_range_list
+        # both need to be specified
+        if spacegroup is not None and unit_cell is not None:
+            self.DEBUG('specific spacegroup requested: {0}'.format(spacegroup))
+            self.DEBUG('specific unit cell requested: {0}'.format(unit_cell))
+            parsed_config['SPACE_GROUP_NUMBER='] = str(spacegroup.value)
+            parsed_config['UNIT_CELL_CONSTANTS='] = unit_cell.value
+
+        # Save back the changes
         dump_xds_file(xds_file, parsed_config)
 
     def process(self, _edObject = None):

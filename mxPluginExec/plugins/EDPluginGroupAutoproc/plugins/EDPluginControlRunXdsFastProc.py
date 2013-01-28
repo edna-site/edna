@@ -99,6 +99,8 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
         # First run is vanilla without any modification
         params = XSDataMinimalXdsIn()
         params.input_file = self.dataInput.input_file
+        params.spacegroup = self.dataInput.spacegroup
+        params.unit_cell = self.dataInput.unit_cell
         self.first_run.dataInput = params
         self.first_run.executeSynchronous()
 
@@ -120,6 +122,8 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
             params.job = XSDataString('DEFPIX INTEGRATE CORRECT')
+            params.spacegroup = self.dataInput.spacegroup
+            params.unit_cell = self.dataInput.unit_cell
 
             # increase all the spot ranges end by 20, constrained to
             # the data range upper limit
@@ -157,6 +161,8 @@ class EDPluginControlRunXdsFastProc( EDPluginControl ):
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
             params.job = XSDataString('DEFPIX INTEGRATE CORRECT')
+            params.spacegroup = self.dataInput.spacegroup
+            params.unit_cell = self.dataInput.unit_cell
             spot_range = list()
             for srange in self.spot_range:
                 range_begin = srange[0]
