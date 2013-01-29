@@ -140,6 +140,18 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                 spot_range_list.append('{0} {1}'.format(srange.begin, srange.end))
             self.DEBUG('setting the spot range to {0} as requested'.format(spot_range_list))
             parsed_config['SPOT_RANGE='] = spot_range_list
+        # unit cell might be an empty string or some other crazy stuff
+        # we need 6 floats/ints
+        if unit_cell is not None:
+            ucells = unit_cell.split()
+            if len(ucells) != 6:
+                unit_cell = None
+            else:
+                try:
+                    for u in ucells:
+                        float(u)
+                except ValueError:
+                    unit_cell = None
         # both need to be specified
         if spacegroup is not None and unit_cell is not None:
             self.DEBUG('specific spacegroup requested: {0}'.format(spacegroup))
