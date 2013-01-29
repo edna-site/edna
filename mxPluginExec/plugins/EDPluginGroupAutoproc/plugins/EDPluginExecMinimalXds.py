@@ -152,6 +152,9 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                         float(u)
                 except ValueError:
                     unit_cell = None
+        # Check spacegroup as it might be empty, we need a number
+        if spacegroup is not None and not spacegroup.strip().isdigit():
+            spacegroup = None
         # both need to be specified
         if spacegroup is not None and unit_cell is not None:
             self.DEBUG('specific spacegroup requested: {0}'.format(spacegroup))
