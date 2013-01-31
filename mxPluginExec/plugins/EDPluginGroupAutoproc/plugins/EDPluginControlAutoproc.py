@@ -609,6 +609,14 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         import_in.output_directory = XSDataString(self.results_dir)
 
+        # Use the directory name to find out the image prefix,
+        # removing the xds_ prefix and _num suffix
+        # XXX: this is absolutely horrible
+        try:
+            import_in.image_prefix = XSDataString('_'.join(os.path.basename(self.root_dir).split('_')[1:-1]))
+        except:
+            self.DEBUG('could not determine image prefix from directory "{0}"'.format(self.root_dir))
+
         self.file_conversion.dataInput = import_in
 
         t0 = time.time()

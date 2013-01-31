@@ -269,6 +269,8 @@ complex type XSDataFileConversion extends XSDataInput {
         res              : XSDataFloat
         nres             : XSDataFloat
         anom             : XSDataBoolean
+	// optional because the way we get it is fragile and may break
+	image_prefix     : XSDataString optional
 }
 
 complex type XSDataAutoprocImport extends XSDataInput {
@@ -280,6 +282,7 @@ complex type XSDataAutoprocImport extends XSDataInput {
         end_image		: XSDataInteger
         res			: XSDataFloat
         nres			: XSDataFloat
+	image_prefix            : XSDataString optional
 }
 
 complex type XSDataAutoprocImportOut extends XSDataResult {

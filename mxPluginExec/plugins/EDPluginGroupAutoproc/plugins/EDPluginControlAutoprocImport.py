@@ -54,7 +54,8 @@ class EDPluginControlAutoprocImport(EDPluginControl):
         self.DEBUG('Import : preprocess')
         self.anom = self.loadPlugin('EDPluginControlFileConversion')
         self.noanom = self.loadPlugin('EDPluginControlFileConversion')
-        tocopy = ['dataCollectionID', 'start_image', 'end_image', 'res', 'nres']
+        tocopy = ['dataCollectionID', 'start_image', 'end_image',
+                  'res', 'nres', 'image_prefix']
 
         anom_in = XSDataFileConversion()
         noanom_in = XSDataFileConversion()

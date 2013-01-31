@@ -63,8 +63,13 @@ class EDPluginControlFileConversion(EDPluginControl):
         self.uniqueify = self.loadPlugin("EDPluginExecUniqueify")
 
         anom = "anom" if self.dataInput.anom.value else "noanom"
-        self.pointless_out = "edna_unmerged_{0}_pointless_multirecord.mtz".format(anom)
-        self.truncate_out = 'edna_{0}_truncate.mtz'.format(anom)
+        if self.dataInput.image_prefix is not None:
+            image_prefix = self.dataInput.image_prefix.value + '_'
+        else:
+            image_prefix = ''
+        self.pointless_out = "{0}edna_unmerged_{1}_pointless_multirecord.mtz".format(image_prefix, anom)
+        self.truncate_out = '{0}edna_{1}_truncate.mtz'.format(image_prefix, anom)
+
 
 
     def checkParameters(self):

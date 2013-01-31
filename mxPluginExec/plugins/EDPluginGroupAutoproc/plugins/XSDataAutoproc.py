@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jan 28 02:45::50 2013 by EDGenerateDS.
+# Generated Thu Jan 31 02:24::34 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -989,7 +989,7 @@ class XSDataAimless(XSDataInput):
 
 
 class XSDataAutoprocImport(XSDataInput):
-    def __init__(self, configuration=None, nres=None, res=None, end_image=None, start_image=None, dataCollectionID=None, output_directory=None, input_noanom=None, input_anom=None):
+    def __init__(self, configuration=None, image_prefix=None, nres=None, res=None, end_image=None, start_image=None, dataCollectionID=None, output_directory=None, input_noanom=None, input_anom=None):
         XSDataInput.__init__(self, configuration)
         if input_anom is None:
             self._input_anom = None
@@ -1046,6 +1046,13 @@ class XSDataAutoprocImport(XSDataInput):
             self._nres = nres
         else:
             strMessage = "ERROR! XSDataAutoprocImport constructor argument 'nres' is not XSDataFloat but %s" % self._nres.__class__.__name__
+            raise BaseException(strMessage)
+        if image_prefix is None:
+            self._image_prefix = None
+        elif image_prefix.__class__.__name__ == "XSDataString":
+            self._image_prefix = image_prefix
+        else:
+            strMessage = "ERROR! XSDataAutoprocImport constructor argument 'image_prefix' is not XSDataString but %s" % self._image_prefix.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'input_anom' attribute
     def getInput_anom(self): return self._input_anom
@@ -1143,6 +1150,18 @@ class XSDataAutoprocImport(XSDataInput):
             raise BaseException(strMessage)
     def delNres(self): self._nres = None
     nres = property(getNres, setNres, delNres, "Property for nres")
+    # Methods and properties for the 'image_prefix' attribute
+    def getImage_prefix(self): return self._image_prefix
+    def setImage_prefix(self, image_prefix):
+        if image_prefix is None:
+            self._image_prefix = None
+        elif image_prefix.__class__.__name__ == "XSDataString":
+            self._image_prefix = image_prefix
+        else:
+            strMessage = "ERROR! XSDataAutoprocImport.setImage_prefix argument is not XSDataString but %s" % image_prefix.__class__.__name__
+            raise BaseException(strMessage)
+    def delImage_prefix(self): self._image_prefix = None
+    image_prefix = property(getImage_prefix, setImage_prefix, delImage_prefix, "Property for image_prefix")
     def export(self, outfile, level, name_='XSDataAutoprocImport'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -1183,6 +1202,8 @@ class XSDataAutoprocImport(XSDataInput):
             self.nres.export(outfile, level, name_='nres')
         else:
             warnEmptyAttribute("nres", "XSDataFloat")
+        if self._image_prefix is not None:
+            self.image_prefix.export(outfile, level, name_='image_prefix')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -1228,6 +1249,11 @@ class XSDataAutoprocImport(XSDataInput):
             obj_ = XSDataFloat()
             obj_.build(child_)
             self.setNres(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'image_prefix':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setImage_prefix(obj_)
         XSDataInput.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
@@ -1787,7 +1813,7 @@ class XSDataAutoprocInput(XSDataInput):
 
 
 class XSDataFileConversion(XSDataInput):
-    def __init__(self, configuration=None, anom=None, nres=None, res=None, end_image=None, start_image=None, dataCollectionID=None, output_file=None, input_file=None):
+    def __init__(self, configuration=None, image_prefix=None, anom=None, nres=None, res=None, end_image=None, start_image=None, dataCollectionID=None, output_file=None, input_file=None):
         XSDataInput.__init__(self, configuration)
         if input_file is None:
             self._input_file = None
@@ -1844,6 +1870,13 @@ class XSDataFileConversion(XSDataInput):
             self._anom = anom
         else:
             strMessage = "ERROR! XSDataFileConversion constructor argument 'anom' is not XSDataBoolean but %s" % self._anom.__class__.__name__
+            raise BaseException(strMessage)
+        if image_prefix is None:
+            self._image_prefix = None
+        elif image_prefix.__class__.__name__ == "XSDataString":
+            self._image_prefix = image_prefix
+        else:
+            strMessage = "ERROR! XSDataFileConversion constructor argument 'image_prefix' is not XSDataString but %s" % self._image_prefix.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'input_file' attribute
     def getInput_file(self): return self._input_file
@@ -1941,6 +1974,18 @@ class XSDataFileConversion(XSDataInput):
             raise BaseException(strMessage)
     def delAnom(self): self._anom = None
     anom = property(getAnom, setAnom, delAnom, "Property for anom")
+    # Methods and properties for the 'image_prefix' attribute
+    def getImage_prefix(self): return self._image_prefix
+    def setImage_prefix(self, image_prefix):
+        if image_prefix is None:
+            self._image_prefix = None
+        elif image_prefix.__class__.__name__ == "XSDataString":
+            self._image_prefix = image_prefix
+        else:
+            strMessage = "ERROR! XSDataFileConversion.setImage_prefix argument is not XSDataString but %s" % image_prefix.__class__.__name__
+            raise BaseException(strMessage)
+    def delImage_prefix(self): self._image_prefix = None
+    image_prefix = property(getImage_prefix, setImage_prefix, delImage_prefix, "Property for image_prefix")
     def export(self, outfile, level, name_='XSDataFileConversion'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -1981,6 +2026,8 @@ class XSDataFileConversion(XSDataInput):
             self.anom.export(outfile, level, name_='anom')
         else:
             warnEmptyAttribute("anom", "XSDataBoolean")
+        if self._image_prefix is not None:
+            self.image_prefix.export(outfile, level, name_='image_prefix')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -2026,6 +2073,11 @@ class XSDataFileConversion(XSDataInput):
             obj_ = XSDataBoolean()
             obj_.build(child_)
             self.setAnom(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'image_prefix':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setImage_prefix(obj_)
         XSDataInput.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
