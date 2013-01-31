@@ -63,7 +63,8 @@ class EDPluginControlFileConversion(EDPluginControl):
         self.uniqueify = self.loadPlugin("EDPluginExecUniqueify")
 
         anom = "anom" if self.dataInput.anom.value else "noanom"
-        self.output_basename = "edna_unmerged_{0}".format(anom)
+        self.pointless_out = "edna_unmerged_{0}_pointless_multirecord.mtz".format(anom)
+        self.truncate_out = 'edna_{0}_truncate.mtz'.format(anom)
 
 
     def checkParameters(self):
@@ -86,7 +87,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         pointless_in = XSDataPointless()
         pointless_in.input_file = self.dataInput.input_file
         pointless_out = os.path.join(os.path.dirname(self.dataInput.output_file.value),
-                                     "{0}_pointless_multirecord.mtz".format(self.output_basename))
+                                     self.pointless_out)
         pointless_in.output_file = XSDataString(pointless_out)
         self.pointless.dataInput = pointless_in
         self.DEBUG("Pointless")
@@ -150,7 +151,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         uniqueify_in = XSDataUniqueify()
         uniqueify_in.input_file = truncate_in.output_file
         uniqueify_out = os.path.join(os.path.dirname(self.dataInput.output_file.value),
-                                     self.output_basename + ".mtz")
+                                     self.truncate_out)
         uniqueify_in.output_file = XSDataString(uniqueify_out)
 
         self.uniqueify.dataInput = uniqueify_in
