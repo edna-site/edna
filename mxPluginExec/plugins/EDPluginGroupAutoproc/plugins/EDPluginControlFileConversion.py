@@ -67,9 +67,11 @@ class EDPluginControlFileConversion(EDPluginControl):
             image_prefix = self.dataInput.image_prefix.value + '_'
         else:
             image_prefix = ''
+
+        #TODO: change that to a directory in the data model
+        self.ouput_directory = os.path.join(os.path.dirname(self.dataInput.output_file.value))
         self.pointless_out = "{0}edna_unmerged_{1}_pointless_multirecord.mtz".format(image_prefix, anom)
         self.truncate_out = '{0}edna_{1}_truncate.mtz'.format(image_prefix, anom)
-
 
 
     def checkParameters(self):
@@ -155,7 +157,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         # and finally uniqueify
         uniqueify_in = XSDataUniqueify()
         uniqueify_in.input_file = truncate_in.output_file
-        uniqueify_out = os.path.join(os.path.dirname(self.dataInput.output_file.value),
+        uniqueify_out = os.path.join(self.output_directory,
                                      self.truncate_out)
         uniqueify_in.output_file = XSDataString(uniqueify_out)
 
