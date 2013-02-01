@@ -607,7 +607,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         xscale_logs = [log.value for log in xscale_logs if log is not None]
         for log in xscale_logs:
             target = os.path.join(self.results_dir,
-                                  self.image_prefix + os.path.basename(log))
+                                  '_'.join([self.image_prefix, os.path.basename(log)]))
             try:
                 shutil.copyfile(log, target)
             except IOError:
