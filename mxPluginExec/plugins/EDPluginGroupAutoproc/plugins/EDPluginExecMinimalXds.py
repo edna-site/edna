@@ -143,7 +143,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # unit cell might be an empty string or some other crazy stuff
         # we need 6 floats/ints
         if unit_cell is not None:
-            ucells = unit_cell.split()
+            ucells = unit_cell.value.split()
             if len(ucells) != 6:
                 unit_cell = None
             else:
@@ -154,8 +154,8 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                     unit_cell = None
         # both need to be specified
         if spacegroup is not None and unit_cell is not None:
-            self.DEBUG('specific spacegroup requested: {0}'.format(spacegroup))
-            self.DEBUG('specific unit cell requested: {0}'.format(unit_cell))
+            self.DEBUG('specific spacegroup requested: {0}'.format(spacegroup.value))
+            self.DEBUG('specific unit cell requested: {0}'.format(unit_cell.value))
             parsed_config['SPACE_GROUP_NUMBER='] = str(spacegroup.value)
             parsed_config['UNIT_CELL_CONSTANTS='] = unit_cell.value
 
