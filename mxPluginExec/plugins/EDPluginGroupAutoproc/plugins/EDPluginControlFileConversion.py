@@ -70,7 +70,7 @@ class EDPluginControlFileConversion(EDPluginControl):
             image_prefix = ''
 
         #TODO: change that to a directory in the data model
-        self.ouput_directory = os.path.join(os.path.dirname(self.dataInput.output_file.value))
+        self.results_dir = os.path.join(os.path.dirname(self.dataInput.output_file.value))
         self.pointless_out = "{0}edna_unmerged_{1}_pointless_multirecord.mtz".format(image_prefix, anom)
         self.truncate_out = '{0}edna_{1}_truncate.mtz'.format(image_prefix, anom)
 
