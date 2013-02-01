@@ -181,7 +181,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         # and finally uniqueify
         uniqueify_in = XSDataUniqueify()
         uniqueify_in.input_file = truncate_in.output_file
-        uniqueify_out = os.path.join(self.output_directory,
+        uniqueify_out = os.path.join(self.results_dir,
                                      self.truncate_out)
         uniqueify_in.output_file = XSDataString(uniqueify_out)
 
