@@ -580,13 +580,11 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         if self.xscale_generate.isFailure():
             EDVerbose.ERROR('xscale generation failed')
-
-        if self.xscale_generate.isFailure():
-            EDVerbose.ERROR('xscale generation failed')
             log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
                          'Scaling',
                          'Failed',
                          'xscale generation failed in {0}s'.format(self.stats['xscale_generate']))
+            return
         else:
             EDVerbose.screen('xscale anom/merge generation finished')
             log_to_ispyb([self.integration_id_anom, self.integration_id_noanom],
