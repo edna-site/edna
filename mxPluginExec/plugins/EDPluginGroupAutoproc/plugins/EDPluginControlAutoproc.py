@@ -144,6 +144,13 @@ class EDPluginControlAutoproc(EDPluginControl):
         self.DEBUG('will log timing information to {0}'.format(self.log_file_path))
         self.stats = dict()
 
+        # Get the image prefix from the directory name
+        # XXX: This is horrible
+        try:
+            self.image_prefix = '_'.join(os.path.basename(self.root_dir).split('_')[1:-1])
+        except Exception:
+            self.image_prefix = ''
+
         self.results_dir = os.path.join(self.root_dir, 'results', 'fast_processing')
         try:
             os.makedirs(self.results_dir)
@@ -599,8 +606,10 @@ class EDPluginControlAutoproc(EDPluginControl):
                        for attr in attrs]
         xscale_logs = [log.value for log in xscale_logs if log is not None]
         for log in xscale_logs:
+            target = os.path.join(self.results_dir,
+                                  self.image_prefix + os.path.basename(log))
             try:
-                shutil.copy(log, self.results_dir)
+                shutil.copyfile(log, target)
             except IOError:
                 self.ERROR('Could not copy {0} to {1}'.format(log, target))
 
@@ -621,11 +630,8 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         import_in.output_directory = XSDataString(self.results_dir)
 
-        # Use the directory name to find out the image prefix,
-        # removing the xds_ prefix and _num suffix
-        # XXX: this is absolutely horrible
         try:
-            import_in.image_prefix = XSDataString('_'.join(os.path.basename(self.root_dir).split('_')[1:-1]))
+            import_in.image_prefix = XSDataString(self.image_prefix)
         except:
             self.DEBUG('could not determine image prefix from directory "{0}"'.format(self.root_dir))
 
