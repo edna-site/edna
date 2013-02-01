@@ -175,7 +175,7 @@ class EDPluginControlFileConversion(EDPluginControl):
 
         res = XSDataResult()
         status = XSDataStatus()
-        status.isSuccess = XSDataBoolean(os.path.exists(output_file))
+        status.isSuccess = XSDataBoolean(os.path.exists(self.uniqueify.dataInput.output_file.value))
         res.status = status
 
         self.dataOutput = res
