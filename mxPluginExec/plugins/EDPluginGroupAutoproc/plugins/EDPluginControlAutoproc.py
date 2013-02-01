@@ -321,13 +321,13 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # use the cell dimensions and spacegroup from XDS to create a
         # file in the results directory
-        filename = '_'.join(str(self.xds_first.dataOutput.sg_number.value),
-                            str(self.xds_first.dataOutput.cell_a.value),
-                            str(self.xds_first.dataOutput.cell_b.value),
-                            str(self.xds_first.dataOutput.cell_c.value),
-                            str(self.xds_first.dataOutput.cell_alpha.value),
-                            str(self.xds_first.dataOutput.cell_beta.value),
-                            str(self.xds_first.dataOutput.cell_gamma.value))
+        filename = '_'.join([str(self.xds_first.dataOutput.sg_number.value),
+                             str(self.xds_first.dataOutput.cell_a.value),
+                             str(self.xds_first.dataOutput.cell_b.value),
+                             str(self.xds_first.dataOutput.cell_c.value),
+                             str(self.xds_first.dataOutput.cell_alpha.value),
+                             str(self.xds_first.dataOutput.cell_beta.value),
+                             str(self.xds_first.dataOutput.cell_gamma.value)])
         os.mknod(os.path.join(self.results_dir, filename))
 
 
