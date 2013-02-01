@@ -599,10 +599,8 @@ class EDPluginControlAutoproc(EDPluginControl):
                        for attr in attrs]
         xscale_logs = [log.value for log in xscale_logs if log is not None]
         for log in xscale_logs:
-            target = os.path.join(self.results_dir,
-                                  os.path.basename(log))
             try:
-                shutil.copyfile(log, target)
+                shutil.copy(log, self.results_dir)
             except IOError:
                 self.ERROR('Could not copy {0} to {1}'.format(log, target))
 
