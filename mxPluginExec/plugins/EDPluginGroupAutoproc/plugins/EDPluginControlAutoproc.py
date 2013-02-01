@@ -594,6 +594,22 @@ class EDPluginControlAutoproc(EDPluginControl):
                          'Successful',
                          'xscale generation finished in {0}s'.format(self.stats['xscale_generate']))
 
+        # Copy the generated files to the results dir
+        attrs = ['lp_anom_merged', 'lp_noanom_merged',
+                 'lp_anom_unmerged', 'lp_noanom_unmerged']
+        xscale_logs = [getattr(self.xscale_generate.dataOutput, attr)
+                       for attr in attrs]
+        xscale_logs = [log.value for log in xscale_logs if log is not None]
+        for log in xscale_logs:
+            target = os.path.join(self.results_dir,
+                                  os.path.basename(log))
+            try:
+                shutil.copyfile(log, target)
+            except IOError:
+                self.ERROR('Could not copy {0} to {1}'.format(log, target))
+
+
+
         import_in = XSDataAutoprocImport()
         import_in.input_anom = self.xscale_generate.dataOutput.hkl_anom_unmerged
         import_in.input_noanom = self.xscale_generate.dataOutput.hkl_noanom_unmerged
