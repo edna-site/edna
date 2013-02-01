@@ -65,14 +65,14 @@ class EDPluginControlFileConversion(EDPluginControl):
 
         anom = "anom" if self.dataInput.anom.value else "noanom"
         if self.dataInput.image_prefix is not None:
-            image_prefix = self.dataInput.image_prefix.value + '_'
+            self.image_prefix = self.dataInput.image_prefix.value + '_'
         else:
-            image_prefix = ''
+            self.image_prefix = ''
 
         #TODO: change that to a directory in the data model
         self.results_dir = os.path.join(os.path.dirname(self.dataInput.output_file.value))
-        self.pointless_out = "{0}edna_unmerged_{1}_pointless_multirecord.mtz".format(image_prefix, anom)
-        self.truncate_out = '{0}edna_{1}_truncate.mtz'.format(image_prefix, anom)
+        self.pointless_out = "{0}edna_unmerged_{1}_pointless_multirecord.mtz".format(self.image_prefix, anom)
+        self.truncate_out = '{0}edna_{1}_truncate.mtz'.format(self.image_prefix, anom)
 
 
     def checkParameters(self):
@@ -135,7 +135,8 @@ class EDPluginControlFileConversion(EDPluginControl):
         source_log = os.path.join(self.aimless.getWorkingDirectory(),
                                   self.aimless.getScriptLogFileName())
         target_log = os.path.join(self.results_dir,
-                                  'aimless_{0}.log'.format("anom" if self.dataInput.anom.value else "noanom"))
+                                  '{0}aimless_{1}.log'.format(self.image_prefix,
+                                                              "anom" if self.dataInput.anom.value else "noanom"))
         try:
             shutil.copyfile(source_log, target_log)
         except IOError:
@@ -170,7 +171,8 @@ class EDPluginControlFileConversion(EDPluginControl):
         source_log = os.path.join(self.truncate.getWorkingDirectory(),
                                   self.truncate.getScriptLogFileName())
         target_log = os.path.join(self.results_dir,
-                                  'truncate_{0}.log'.format("anom" if self.dataInput.anom.value else "noanom"))
+                                  '{0}truncate_{1}.log'.format(self.image_prefix,
+                                                               "anom" if self.dataInput.anom.value else "noanom"))
         try:
             shutil.copyfile(source_log,
                             target_log)
