@@ -32,6 +32,7 @@ __copyright__ = "ESRF"
 import re
 import os.path
 import tempfile
+import shutil
 
 # for the chmod constants
 from stat import *
@@ -130,6 +131,17 @@ class EDPluginControlFileConversion(EDPluginControl):
             self.setFailure()
             return
 
+        # copy the aimless log where the results files are
+        source_log = os.path.join(self.aimless.getWorkingDirectory(),
+                                  self.aimless.getScriptLogFileName())
+        target_log = os.path.join(self.results_dir,
+                                  'aimless_{0}.log'.format("anom" if self.dataInput.anom.value else "noanom"))
+        try:
+            shutil.copyfile(source_log, target_log)
+        except IOError:
+            self.ERROR('Could not copy aimless log file from {0} to {1}'.format(source_log,
+                                                                                target_log))
+
         # now truncate
         truncate_in = XSDataTruncate()
         truncate_in.input_file = self.aimless.dataInput.output_file
@@ -153,6 +165,18 @@ class EDPluginControlFileConversion(EDPluginControl):
             self.DEBUG("...failed")
             self.setFailure()
             return
+
+        # copy the truncate log where the results files are
+        source_log = os.path.join(self.truncate.getWorkingDirectory(),
+                                  self.truncate.getScriptLogFileName())
+        target_log = os.path.join(self.results_dir,
+                                  'truncate_{0}.log'.format("anom" if self.dataInput.anom.value else "noanom"))
+        try:
+            shutil.copyfile(source_log,
+                            target_log)
+        except IOError:
+            self.ERROR('Could not copy truncate log file from {0} to {1}'.format(source_log,
+                                                                                 target_log))
 
         # and finally uniqueify
         uniqueify_in = XSDataUniqueify()
