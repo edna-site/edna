@@ -82,6 +82,11 @@ autoproclog.LOG_SERVER='rnice655:5000'
 
 WAIT_FOR_FRAME_TIMEOUT=240 #max uses 50*5
 
+# We used to go through the results directory and add all files to the
+# ispyb upload. Now some files should not be uploaded, so we'll
+# discriminate by extension for now
+ISPYB_UPLOAD_EXTENSIONS=['.lp', '.mtz', '.log']
+
 class EDPluginControlAutoproc(EDPluginControl):
     """
     Runs the part of the autoproc pipeline that has to be run on the
@@ -840,6 +845,8 @@ class EDPluginControlAutoproc(EDPluginControl):
             for f in os.listdir(original_files_dir):
                 current = os.path.join(original_files_dir, f)
                 if not os.path.isfile(current):
+                    continue
+                if not os.path.splitext(current) in ISPYB_UPLOAD_EXTENSIONS:
                     continue
                 new_path = os.path.join(pyarch_path, f)
                 file_list.append(new_path)
