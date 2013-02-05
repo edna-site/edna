@@ -148,8 +148,8 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                 unit_cell = None
             else:
                 try:
-                    for u in ucells:
-                        float(u)
+                    if any(float(x) == 0 for x in ucells):
+                        unit_cell = None
                 except ValueError:
                     unit_cell = None
         # both need to be specified
