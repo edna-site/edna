@@ -340,7 +340,10 @@ class EDPluginControlAutoproc(EDPluginControl):
                              str(self.xds_first.dataOutput.cell_alpha.value),
                              str(self.xds_first.dataOutput.cell_beta.value),
                              str(self.xds_first.dataOutput.cell_gamma.value)])
-        os.mknod(os.path.join(self.results_dir, filename))
+        try:
+            os.mknod(os.path.join(self.results_dir, filename))
+        except OSError: #file exists
+            pass
 
 
 
