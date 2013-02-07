@@ -849,7 +849,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                 current = os.path.join(original_files_dir, f)
                 if not os.path.isfile(current):
                     continue
-                if not os.path.splitext(current) in ISPYB_UPLOAD_EXTENSIONS:
+                if not os.path.splitext(current)[1] in ISPYB_UPLOAD_EXTENSIONS:
                     continue
                 new_path = os.path.join(pyarch_path, f)
                 file_list.append(new_path)
