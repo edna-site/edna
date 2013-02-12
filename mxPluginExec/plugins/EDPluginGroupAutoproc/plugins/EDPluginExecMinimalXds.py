@@ -161,12 +161,12 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
 
         # For [XY]-GEO_CORR files, link them in the cwd and fix their paths
         if 'X-GEO_CORR=' in parsed_config:
-            xgeo = parsed_config['X-GEO_CORR=']
+            xgeo = parsed_config['X-GEO_CORR='][0]
             os.symlink(xgeo,
                        os.path.join(self.getWorkingDirectory(), os.path.basename(xgeo)))
             parsed_config['X-GEO_CORR='] = os.path.basename(xgeo)
         if 'Y-GEO_CORR=' in parsed_config:
-            ygeo = parsed_config['Y-GEO_CORR=']
+            ygeo = parsed_config['Y-GEO_CORR='][0]
             os.symlink(ygeo,
                        os.path.join(self.getWorkingDirectory(), os.path.basename(ygeo)))
             parsed_config['Y-GEO_CORR='] = os.path.basename(ygeo)
