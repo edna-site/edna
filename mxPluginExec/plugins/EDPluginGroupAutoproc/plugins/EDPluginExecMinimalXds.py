@@ -159,6 +159,18 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
             parsed_config['SPACE_GROUP_NUMBER='] = str(spacegroup.value)
             parsed_config['UNIT_CELL_CONSTANTS='] = unit_cell.value
 
+        # For [XY]-GEO_CORR files, link them in the cwd and fix their paths
+        if 'X-GEO_CORR=' in parsed_config:
+            xgeo = parsed_config['X-GEO_CORR=']
+            os.symlink(xgeo,
+                       os.path.join(self.getWorkingDirectory(), os.path.basename(xgeo)))
+            parsed_config['X-GEO_CORR='] = os.path.basename(xgeo)
+        if 'Y-GEO_CORR=' in parsed_config:
+            ygeo = parsed_config['Y-GEO_CORR=']
+            os.symlink(ygeo,
+                       os.path.join(self.getWorkingDirectory(), os.path.basename(ygeo)))
+            parsed_config['Y-GEO_CORR='] = os.path.basename(ygeo)
+
         # Save back the changes
         dump_xds_file(xds_file, parsed_config)
 

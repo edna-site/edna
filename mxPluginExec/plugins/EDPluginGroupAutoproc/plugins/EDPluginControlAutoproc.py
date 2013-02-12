@@ -189,14 +189,17 @@ class EDPluginControlAutoproc(EDPluginControl):
         # reflect these values, if specified
         conf = parse_xds_file(data_in.input_file.path.value)
 
-        # XXX: delete the xgeo/ygeo correction files path, as a
-        # temporary fix until I fix their path somehow.
-        if 'X-GEO_CORR=' in conf:
-            del conf['X-GEO_CORR=']
-        if 'Y-GEO_CORR=' in conf:
-            del conf['Y-GEO_CORR=']
-        dump_xds_file(data_in.input_file.path.value, conf)
 
+        # Make the [XY]-GEO_CORR paths absolute
+        if 'X-GEO_CORR=' in conf:
+            xgeo = conf['X-GEO_CORR=']
+            conf['X-GEO_CORR='] = os.path.abspath(os.path.join(self.root_dir,
+                                                               xgeo))
+        if 'Y-GEO_CORR=' in conf:
+            ygeo = conf['Y-GEO_CORR=']
+            conf['Y-GEO_CORR='] = os.path.abspath(os.path.join(self.root_dir,
+                                                               ygeo))
+        dump_xds_file(data_in.input_file.path.value, conf)
 
         resrange = conf.get('INCLUDE_RESOLUTION_RANGE=')
 
