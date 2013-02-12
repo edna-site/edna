@@ -85,7 +85,7 @@ WAIT_FOR_FRAME_TIMEOUT=240 #max uses 50*5
 # We used to go through the results directory and add all files to the
 # ispyb upload. Now some files should not be uploaded, so we'll
 # discriminate by extension for now
-ISPYB_UPLOAD_EXTENSIONS=['.lp', '.mtz', '.log']
+ISPYB_UPLOAD_EXTENSIONS=['.lp', '.mtz', '.log', '.INP']
 
 class EDPluginControlAutoproc(EDPluginControl):
     """
@@ -161,6 +161,11 @@ class EDPluginControlAutoproc(EDPluginControl):
             os.makedirs(self.results_dir)
         except OSError: # it most likely exists
             pass
+
+        # Copy the vanilla XDS input file to the results dir
+        infile_dest = os.path.join(self.results_dir, self.image_prefix + '_input_XDS.INP')
+        shutil.copy(self.dataInput.input_file.path.value,
+                    infile_dest)
 
         # Ensure the autoproc ids directory is there
         self.autoproc_ids_dir = os.path.join(self.results_dir, 'fastproc_integration_ids')
@@ -348,7 +353,11 @@ class EDPluginControlAutoproc(EDPluginControl):
         except OSError: #file exists
             pass
 
-
+        # Copy the XDS.INP file that was used for the successful run
+        # to the results directory
+        tmppath = os.path.join(self.results_dir, self.image_prefix + '_successful_XDS.INP')
+        shutil.copy(os.path.join(self.xds_first.dataOutput.xds_run_directory.value, 'XDS.INP'),
+                    tmppath)
 
         log_to_ispyb([self.integration_id_noanom, self.integration_id_anom],
                      'Indexing', 'Launched', 'start of res cutoff')
