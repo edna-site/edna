@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Oct 29 04:34::48 2012 by EDGenerateDS.
+# Generated Tue Feb 12 04:30::05 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -29,11 +29,11 @@ dictLocation = { \
 try:
     from XSDataCommon import XSDataBoolean
     from XSDataCommon import XSDataDouble
+    from XSDataCommon import XSDataFile
     from XSDataCommon import XSDataInput
     from XSDataCommon import XSDataInteger
     from XSDataCommon import XSDataResult
     from XSDataCommon import XSDataString
-    from XSDataCommon import XSDataFile
     from XSDataCommon import XSDataAbsorbedDoseRate
     from XSDataCommon import XSDataAngularSpeed
     from XSDataCommon import XSDataLength
@@ -51,11 +51,11 @@ except ImportError as error:
         raise error
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
 from XSDataCommon import XSDataString
-from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataAbsorbedDoseRate
 from XSDataCommon import XSDataAngularSpeed
 from XSDataCommon import XSDataLength
@@ -441,121 +441,6 @@ class XSDataBestCollectionRun(object):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataBestCollectionRun
-
-
-class XSDataBestGlePlot(object):
-    def __init__(self, script=None, data=None):
-        if data is None:
-            self._data = None
-        elif data.__class__.__name__ == "XSDataFile":
-            self._data = data
-        else:
-            strMessage = "ERROR! XSDataBestGlePlot constructor argument 'data' is not XSDataFile but %s" % self._data.__class__.__name__
-            raise BaseException(strMessage)
-        if script is None:
-            self._script = None
-        elif script.__class__.__name__ == "XSDataFile":
-            self._script = script
-        else:
-            strMessage = "ERROR! XSDataBestGlePlot constructor argument 'script' is not XSDataFile but %s" % self._script.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'data' attribute
-    def getData(self): return self._data
-    def setData(self, data):
-        if data is None:
-            self._data = None
-        elif data.__class__.__name__ == "XSDataFile":
-            self._data = data
-        else:
-            strMessage = "ERROR! XSDataBestGlePlot.setData argument is not XSDataFile but %s" % data.__class__.__name__
-            raise BaseException(strMessage)
-    def delData(self): self._data = None
-    data = property(getData, setData, delData, "Property for data")
-    # Methods and properties for the 'script' attribute
-    def getScript(self): return self._script
-    def setScript(self, script):
-        if script is None:
-            self._script = None
-        elif script.__class__.__name__ == "XSDataFile":
-            self._script = script
-        else:
-            strMessage = "ERROR! XSDataBestGlePlot.setScript argument is not XSDataFile but %s" % script.__class__.__name__
-            raise BaseException(strMessage)
-    def delScript(self): self._script = None
-    script = property(getScript, setScript, delScript, "Property for script")
-    def export(self, outfile, level, name_='XSDataBestGlePlot'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataBestGlePlot'):
-        pass
-        if self._data is not None:
-            self.data.export(outfile, level, name_='data')
-        else:
-            warnEmptyAttribute("data", "XSDataFile")
-        if self._script is not None:
-            self.script.export(outfile, level, name_='script')
-        else:
-            warnEmptyAttribute("script", "XSDataFile")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'data':
-            obj_ = XSDataFile()
-            obj_.build(child_)
-            self.setData(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'script':
-            obj_ = XSDataFile()
-            obj_.build(child_)
-            self.setScript(obj_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataBestGlePlot" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataBestGlePlot' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataBestGlePlot is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataBestGlePlot.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataBestGlePlot()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataBestGlePlot" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataBestGlePlot()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataBestGlePlot
 
 
 class XSDataBestResolutionBin(object):
@@ -1701,6 +1586,121 @@ class XSDataBestCollectionPlan(object):
 # end class XSDataBestCollectionPlan
 
 
+class XSDataBestGlePlot(object):
+    def __init__(self, script=None, data=None):
+        if data is None:
+            self._data = None
+        elif data.__class__.__name__ == "XSDataFile":
+            self._data = data
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot constructor argument 'data' is not XSDataFile but %s" % self._data.__class__.__name__
+            raise BaseException(strMessage)
+        if script is None:
+            self._script = None
+        elif script.__class__.__name__ == "XSDataFile":
+            self._script = script
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot constructor argument 'script' is not XSDataFile but %s" % self._script.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'data' attribute
+    def getData(self): return self._data
+    def setData(self, data):
+        if data is None:
+            self._data = None
+        elif data.__class__.__name__ == "XSDataFile":
+            self._data = data
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot.setData argument is not XSDataFile but %s" % data.__class__.__name__
+            raise BaseException(strMessage)
+    def delData(self): self._data = None
+    data = property(getData, setData, delData, "Property for data")
+    # Methods and properties for the 'script' attribute
+    def getScript(self): return self._script
+    def setScript(self, script):
+        if script is None:
+            self._script = None
+        elif script.__class__.__name__ == "XSDataFile":
+            self._script = script
+        else:
+            strMessage = "ERROR! XSDataBestGlePlot.setScript argument is not XSDataFile but %s" % script.__class__.__name__
+            raise BaseException(strMessage)
+    def delScript(self): self._script = None
+    script = property(getScript, setScript, delScript, "Property for script")
+    def export(self, outfile, level, name_='XSDataBestGlePlot'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataBestGlePlot'):
+        pass
+        if self._data is not None:
+            self.data.export(outfile, level, name_='data')
+        else:
+            warnEmptyAttribute("data", "XSDataFile")
+        if self._script is not None:
+            self.script.export(outfile, level, name_='script')
+        else:
+            warnEmptyAttribute("script", "XSDataFile")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'data':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setData(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'script':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setScript(obj_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataBestGlePlot" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataBestGlePlot' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataBestGlePlot is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataBestGlePlot.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataBestGlePlot()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataBestGlePlot" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataBestGlePlot()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataBestGlePlot
+
+
 class XSDataInputBest(XSDataInput):
     """- anomalousData is deprecated, please use strategyOption instead.
 
@@ -1710,7 +1710,7 @@ class XSDataInputBest(XSDataInput):
 
 - detectorDistanceMin and detectorDistanceMax (in mm) will work only with version v3.4.3 or higher of Best
 """
-    def __init__(self, configuration=None, xdsBackgroundImage=None, transmission=None, strategyOption=None, numberOfCrystalPositions=None, minTransmission=None, goniostatMinRotationWidth=None, goniostatMaxRotationSpeed=None, detectorType=None, detectorDistanceMin=None, detectorDistanceMax=None, crystalSusceptibility=None, crystalShape=None, crystalAbsorbedDoseRate=None, complexity=None, bestFileContentPar=None, bestFileContentHKL=None, bestFileContentDat=None, beamMinExposureTime=None, beamMaxExposureTime=None, beamExposureTime=None, anomalousData=None, aimedResolution=None, aimedRedundancy=None, aimedIOverSigma=None, aimedCompleteness=None):
+    def __init__(self, configuration=None, xdsBackgroundImage=None, userDefinedRotationStart=None, userDefinedRotationRange=None, transmission=None, strategyOption=None, radiationDamageModelGamma=None, radiationDamageModelBeta=None, numberOfCrystalPositions=None, minTransmission=None, goniostatMinRotationWidth=None, goniostatMaxRotationSpeed=None, detectorType=None, detectorDistanceMin=None, detectorDistanceMax=None, crystalSusceptibility=None, crystalShape=None, crystalAbsorbedDoseRate=None, complexity=None, bestFileContentPar=None, bestFileContentHKL=None, bestFileContentDat=None, beamMinExposureTime=None, beamMaxExposureTime=None, beamExposureTime=None, anomalousData=None, aimedResolution=None, aimedRedundancy=None, aimedIOverSigma=None, aimedCompleteness=None):
         XSDataInput.__init__(self, configuration)
         if aimedCompleteness is None:
             self._aimedCompleteness = None
@@ -1866,6 +1866,20 @@ class XSDataInputBest(XSDataInput):
         else:
             strMessage = "ERROR! XSDataInputBest constructor argument 'numberOfCrystalPositions' is not XSDataInteger but %s" % self._numberOfCrystalPositions.__class__.__name__
             raise BaseException(strMessage)
+        if radiationDamageModelBeta is None:
+            self._radiationDamageModelBeta = None
+        elif radiationDamageModelBeta.__class__.__name__ == "XSDataDouble":
+            self._radiationDamageModelBeta = radiationDamageModelBeta
+        else:
+            strMessage = "ERROR! XSDataInputBest constructor argument 'radiationDamageModelBeta' is not XSDataDouble but %s" % self._radiationDamageModelBeta.__class__.__name__
+            raise BaseException(strMessage)
+        if radiationDamageModelGamma is None:
+            self._radiationDamageModelGamma = None
+        elif radiationDamageModelGamma.__class__.__name__ == "XSDataDouble":
+            self._radiationDamageModelGamma = radiationDamageModelGamma
+        else:
+            strMessage = "ERROR! XSDataInputBest constructor argument 'radiationDamageModelGamma' is not XSDataDouble but %s" % self._radiationDamageModelGamma.__class__.__name__
+            raise BaseException(strMessage)
         if strategyOption is None:
             self._strategyOption = None
         elif strategyOption.__class__.__name__ == "XSDataString":
@@ -1879,6 +1893,20 @@ class XSDataInputBest(XSDataInput):
             self._transmission = transmission
         else:
             strMessage = "ERROR! XSDataInputBest constructor argument 'transmission' is not XSDataDouble but %s" % self._transmission.__class__.__name__
+            raise BaseException(strMessage)
+        if userDefinedRotationRange is None:
+            self._userDefinedRotationRange = None
+        elif userDefinedRotationRange.__class__.__name__ == "XSDataAngle":
+            self._userDefinedRotationRange = userDefinedRotationRange
+        else:
+            strMessage = "ERROR! XSDataInputBest constructor argument 'userDefinedRotationRange' is not XSDataAngle but %s" % self._userDefinedRotationRange.__class__.__name__
+            raise BaseException(strMessage)
+        if userDefinedRotationStart is None:
+            self._userDefinedRotationStart = None
+        elif userDefinedRotationStart.__class__.__name__ == "XSDataAngle":
+            self._userDefinedRotationStart = userDefinedRotationStart
+        else:
+            strMessage = "ERROR! XSDataInputBest constructor argument 'userDefinedRotationStart' is not XSDataAngle but %s" % self._userDefinedRotationStart.__class__.__name__
             raise BaseException(strMessage)
         if xdsBackgroundImage is None:
             self._xdsBackgroundImage = None
@@ -2172,6 +2200,30 @@ class XSDataInputBest(XSDataInput):
             raise BaseException(strMessage)
     def delNumberOfCrystalPositions(self): self._numberOfCrystalPositions = None
     numberOfCrystalPositions = property(getNumberOfCrystalPositions, setNumberOfCrystalPositions, delNumberOfCrystalPositions, "Property for numberOfCrystalPositions")
+    # Methods and properties for the 'radiationDamageModelBeta' attribute
+    def getRadiationDamageModelBeta(self): return self._radiationDamageModelBeta
+    def setRadiationDamageModelBeta(self, radiationDamageModelBeta):
+        if radiationDamageModelBeta is None:
+            self._radiationDamageModelBeta = None
+        elif radiationDamageModelBeta.__class__.__name__ == "XSDataDouble":
+            self._radiationDamageModelBeta = radiationDamageModelBeta
+        else:
+            strMessage = "ERROR! XSDataInputBest.setRadiationDamageModelBeta argument is not XSDataDouble but %s" % radiationDamageModelBeta.__class__.__name__
+            raise BaseException(strMessage)
+    def delRadiationDamageModelBeta(self): self._radiationDamageModelBeta = None
+    radiationDamageModelBeta = property(getRadiationDamageModelBeta, setRadiationDamageModelBeta, delRadiationDamageModelBeta, "Property for radiationDamageModelBeta")
+    # Methods and properties for the 'radiationDamageModelGamma' attribute
+    def getRadiationDamageModelGamma(self): return self._radiationDamageModelGamma
+    def setRadiationDamageModelGamma(self, radiationDamageModelGamma):
+        if radiationDamageModelGamma is None:
+            self._radiationDamageModelGamma = None
+        elif radiationDamageModelGamma.__class__.__name__ == "XSDataDouble":
+            self._radiationDamageModelGamma = radiationDamageModelGamma
+        else:
+            strMessage = "ERROR! XSDataInputBest.setRadiationDamageModelGamma argument is not XSDataDouble but %s" % radiationDamageModelGamma.__class__.__name__
+            raise BaseException(strMessage)
+    def delRadiationDamageModelGamma(self): self._radiationDamageModelGamma = None
+    radiationDamageModelGamma = property(getRadiationDamageModelGamma, setRadiationDamageModelGamma, delRadiationDamageModelGamma, "Property for radiationDamageModelGamma")
     # Methods and properties for the 'strategyOption' attribute
     def getStrategyOption(self): return self._strategyOption
     def setStrategyOption(self, strategyOption):
@@ -2196,6 +2248,30 @@ class XSDataInputBest(XSDataInput):
             raise BaseException(strMessage)
     def delTransmission(self): self._transmission = None
     transmission = property(getTransmission, setTransmission, delTransmission, "Property for transmission")
+    # Methods and properties for the 'userDefinedRotationRange' attribute
+    def getUserDefinedRotationRange(self): return self._userDefinedRotationRange
+    def setUserDefinedRotationRange(self, userDefinedRotationRange):
+        if userDefinedRotationRange is None:
+            self._userDefinedRotationRange = None
+        elif userDefinedRotationRange.__class__.__name__ == "XSDataAngle":
+            self._userDefinedRotationRange = userDefinedRotationRange
+        else:
+            strMessage = "ERROR! XSDataInputBest.setUserDefinedRotationRange argument is not XSDataAngle but %s" % userDefinedRotationRange.__class__.__name__
+            raise BaseException(strMessage)
+    def delUserDefinedRotationRange(self): self._userDefinedRotationRange = None
+    userDefinedRotationRange = property(getUserDefinedRotationRange, setUserDefinedRotationRange, delUserDefinedRotationRange, "Property for userDefinedRotationRange")
+    # Methods and properties for the 'userDefinedRotationStart' attribute
+    def getUserDefinedRotationStart(self): return self._userDefinedRotationStart
+    def setUserDefinedRotationStart(self, userDefinedRotationStart):
+        if userDefinedRotationStart is None:
+            self._userDefinedRotationStart = None
+        elif userDefinedRotationStart.__class__.__name__ == "XSDataAngle":
+            self._userDefinedRotationStart = userDefinedRotationStart
+        else:
+            strMessage = "ERROR! XSDataInputBest.setUserDefinedRotationStart argument is not XSDataAngle but %s" % userDefinedRotationStart.__class__.__name__
+            raise BaseException(strMessage)
+    def delUserDefinedRotationStart(self): self._userDefinedRotationStart = None
+    userDefinedRotationStart = property(getUserDefinedRotationStart, setUserDefinedRotationStart, delUserDefinedRotationStart, "Property for userDefinedRotationStart")
     # Methods and properties for the 'xdsBackgroundImage' attribute
     def getXdsBackgroundImage(self): return self._xdsBackgroundImage
     def setXdsBackgroundImage(self, xdsBackgroundImage):
@@ -2270,10 +2346,18 @@ class XSDataInputBest(XSDataInput):
             self.minTransmission.export(outfile, level, name_='minTransmission')
         if self._numberOfCrystalPositions is not None:
             self.numberOfCrystalPositions.export(outfile, level, name_='numberOfCrystalPositions')
+        if self._radiationDamageModelBeta is not None:
+            self.radiationDamageModelBeta.export(outfile, level, name_='radiationDamageModelBeta')
+        if self._radiationDamageModelGamma is not None:
+            self.radiationDamageModelGamma.export(outfile, level, name_='radiationDamageModelGamma')
         if self._strategyOption is not None:
             self.strategyOption.export(outfile, level, name_='strategyOption')
         if self._transmission is not None:
             self.transmission.export(outfile, level, name_='transmission')
+        if self._userDefinedRotationRange is not None:
+            self.userDefinedRotationRange.export(outfile, level, name_='userDefinedRotationRange')
+        if self._userDefinedRotationStart is not None:
+            self.userDefinedRotationStart.export(outfile, level, name_='userDefinedRotationStart')
         if self._xdsBackgroundImage is not None:
             self.xdsBackgroundImage.export(outfile, level, name_='xdsBackgroundImage')
     def build(self, node_):
@@ -2392,6 +2476,16 @@ class XSDataInputBest(XSDataInput):
             obj_.build(child_)
             self.setNumberOfCrystalPositions(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'radiationDamageModelBeta':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setRadiationDamageModelBeta(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'radiationDamageModelGamma':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setRadiationDamageModelGamma(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'strategyOption':
             obj_ = XSDataString()
             obj_.build(child_)
@@ -2401,6 +2495,16 @@ class XSDataInputBest(XSDataInput):
             obj_ = XSDataDouble()
             obj_.build(child_)
             self.setTransmission(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'userDefinedRotationRange':
+            obj_ = XSDataAngle()
+            obj_.build(child_)
+            self.setUserDefinedRotationRange(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'userDefinedRotationStart':
+            obj_ = XSDataAngle()
+            obj_.build(child_)
+            self.setUserDefinedRotationStart(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'xdsBackgroundImage':
             obj_ = XSDataFile()
