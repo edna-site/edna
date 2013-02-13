@@ -253,6 +253,8 @@ package XSDataMXv1 {
 			requiredMultiplicity : XSDataDouble optional
 			requiredResolution : XSDataDouble optional
 			strategyOption : XSDataString optional
+			userDefinedRotationRange : XSDataAngle optional
+			userDefinedRotationStart : XSDataAngle optional
 		}
 
 	}
@@ -412,6 +414,8 @@ package XSDataMXv1 {
 		complex type XSDataSample extends XSData {
 			"This defines the main properties of a sample:\r\n- absorbed dose rate in Gray/sec\r\n- shape: the factor that is related to the sample and the beam size (1 if crystal smaller than beam size or = to the ratio of crystal size to the beam size if the beam is smaller then crystal).\r\n- sample size\r\n- the susceptibility of the sample to radiation damage."
 			absorbedDoseRate : XSDataAbsorbedDoseRate optional
+			radiationDamageModelBeta : XSDataDouble optional
+			radiationDamageModelGamma : XSDataDouble optional
 			shape : XSDataDouble optional
 			size : XSDataSize optional
 			susceptibility : XSDataDouble optional
