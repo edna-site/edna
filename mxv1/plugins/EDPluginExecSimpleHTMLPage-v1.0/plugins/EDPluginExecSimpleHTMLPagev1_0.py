@@ -62,6 +62,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.strTableColourTitle2 = "#F0F0FF" 
         self.strTableColourRows   = "#FFFFA0"
         self.strPageEDNALog = None
+        self.fMinTransmission = 10 # %
 
 
     def preProcess(self, _edPlugin=None):
@@ -345,8 +346,20 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
     def dataCollectionInfo(self):
         xsDataCollection = self.xsDataResultCharacterisation.getDataCollection()
         if xsDataCollection is not None:
-            self.page.h2( "Data collection info" )
             firstSubWedge = xsDataCollection.subWedge[0]
+            # MXSUP-1445: Check if transmission is less than 10% and warn if it's the case
+            xsDataBeam = firstSubWedge.getExperimentalCondition().getBeam()
+            if xsDataBeam.getTransmission() is not None:
+                fTransmission = xsDataBeam.getTransmission().getValue()
+                if fTransmission < self.fMinTransmission:
+                    strWarningMessage1 = "WARNING! Transmission for characterisation set to %.1f %%" % fTransmission
+                    strWarningMessage2 = "Please consider re-characterising with transmission set to 100 %" 
+                    self.page.font(_color="red", size="+2")
+                    self.page.i()
+                    self.page.h2(strWarningMessage1+"<br>"+strWarningMessage2)
+                    self.page.i.close()
+                    self.page.font.close()
+            self.page.h2( "Data collection info" )
             firstImage = firstSubWedge.image[0]
             strDate = firstImage.date.value
             strPrefix = EDUtilsImage.getPrefix(firstImage.path.value)
@@ -365,6 +378,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             self.page.th(strDirName, bgcolor_=self.strTableColourRows)
             self.page.tr.close()
             self.page.table.close()     
+            
 
 
     def diffractionPlan(self):
