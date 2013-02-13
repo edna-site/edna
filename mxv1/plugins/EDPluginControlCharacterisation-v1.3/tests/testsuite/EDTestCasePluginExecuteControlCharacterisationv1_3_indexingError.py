@@ -47,7 +47,7 @@ class EDTestCasePluginExecuteControlCharacterisationv1_3_indexingError(EDTestCas
         EDTestCasePluginExecuteControlCharacterisationv1_3.__init__(self, "EDTestCasePluginExecuteControlCharacterisationv1_3_indexingError")
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputCharacterisation_indexingError.xml"))
-        self.setNoExpectedWarningMessages(0)
+        self.setNoExpectedWarningMessages(4)
         self.setNoExpectedErrorMessages(1)
         self.setAcceptPluginFailure(True)
 
@@ -65,6 +65,9 @@ class EDTestCasePluginExecuteControlCharacterisationv1_3_indexingError(EDTestCas
         if edPlugin.hasDataOutput("statusMessage"):
             strStatusMessage = edPlugin.getDataOutput("statusMessage")[0].getValue()
         EDAssert.equal(True, strStatusMessage.find("Indexing FAILURE") != -1, "Status message contains 'Indexing FAILURE'")
+        
+        edPlugin.generateExecutiveSummary(edPlugin)
+        edPlugin.verboseScreenExecutiveSummary()
 
 
 

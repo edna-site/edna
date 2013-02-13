@@ -15,6 +15,9 @@
 	                <wavelength>
 	                    <value>9.334000e-01</value>
 	                </wavelength>
+	                <transmission>
+	                	<value>5.0</value>
+	                </transmission>
 	            </beam>
 	            <detector>
 	                <beamPositionX>
