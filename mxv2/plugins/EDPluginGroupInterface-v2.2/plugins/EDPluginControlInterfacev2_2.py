@@ -780,8 +780,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             self.strStatusMessage = _edPlugin.getDataOutput("statusMessage")[0].getValue()
         self.storeResultsInISPyB(_edPlugin)
         if self.bCreateSimpleHTMLPageForISPyB and not self.bUseISPyBPlugin:
-            xsDataCharacterisationResult = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
-            self.runSimpleHTMLPlugin(xsDataCharacterisationResult)
+            xsDataCharacterisationResultv2_0 = self.edPluginControlCharacterisationv2.getDataOutput()
+            self.runSimpleHTMLPlugin(xsDataCharacterisationResultv2_0)
 
     def runSimpleHTMLPlugin(self, _xsDataCharacterisationResultv2_0):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.runSimpleHTMLPlugin")

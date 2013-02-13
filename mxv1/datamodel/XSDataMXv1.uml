@@ -108,6 +108,14 @@
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jMjskFk9EeC5jZa-WsrVzA"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_Sa4PwHUlEeK5bdpB5A9cLA" name="userDefinedRotationStart" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Z-73EHUlEeK5bdpB5A9cLA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_afipwHUlEeK5bdpB5A9cLA" name="userDefinedRotationRange" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eAqAEHUlEeK5bdpB5A9cLA"/>
+        </ownedAttribute>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_MXvtYAb-EeCgXqAcTKGwDQ" name="MXv1 Data Collection">
@@ -788,6 +796,14 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_RJz1gugCEd-TcNOGyxZYYg" name="susceptibility">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UtNDwOgCEd-TcNOGyxZYYg"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_Y3VyUHUkEeK5bdpB5A9cLA" name="radiationDamageModelBeta" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fPK3EHUkEeK5bdpB5A9cLA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_f3yWQHUkEeK5bdpB5A9cLA" name="radiationDamageModelGamma" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_iEh6oHUkEeK5bdpB5A9cLA"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_mnq6sOgBEd-TcNOGyxZYYg" name="XSDataSampleCrystal">

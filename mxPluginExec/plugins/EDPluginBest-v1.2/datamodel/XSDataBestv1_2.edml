@@ -104,8 +104,12 @@ package XSDataBestv12 {
 		goniostatMinRotationWidth : XSDataAngle optional
 		minTransmission : XSDataDouble optional
 		numberOfCrystalPositions : XSDataInteger optional
+		radiationDamageModelBeta : XSDataDouble optional
+		radiationDamageModelGamma : XSDataDouble optional
 		strategyOption : XSDataString optional
 		transmission : XSDataDouble optional
+		userDefinedRotationRange : XSDataAngle optional
+		userDefinedRotationStart : XSDataAngle optional
 		xdsBackgroundImage : XSDataFile optional
 	}
 

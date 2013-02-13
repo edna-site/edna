@@ -31,27 +31,30 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20120712"
 __status__ = "production"
 
+import os
 
-from EDTestSuite                                  import EDTestSuite
 
-class EDTestSuitePluginExecuteBestv1_2(EDTestSuite):
+from EDAssert                            import EDAssert
+from EDUtilsTest                         import EDUtilsTest
+from EDUtilsPath                         import EDUtilsPath
+from EDTestCasePluginExecuteBestv1_2     import EDTestCasePluginExecuteBestv1_2
+
+
+
+class EDTestCasePluginExecuteBestv1_2_withRadiationDamageModelBetaGamma(EDTestCasePluginExecuteBestv1_2):
+
+    def __init__(self, _oalStringTestName=None):
+        EDTestCasePluginExecuteBestv1_2.__init__(self, "EDPluginBestv1_2")
+
+        self.setConfigurationFile(self.getRefConfigFile())
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputBest_withRadiationDamageModelBetaGamma.xml"))
 
 
     def process(self):
-        """
-        """
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2_withAnomalousData")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2_withTransmissionInput")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2_withDamPar")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2_withBonly")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2_withNumberOfCrystalPositions")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2_withUserDefinedRotationRange")
-        self.addTestCaseFromName("EDTestCasePluginExecuteBestv1_2_withRadiationDamageModelBetaGamma")
+        self.addTestMethod(self.testExecute)
 
 
 if __name__ == '__main__':
 
-    edTestSuitePluginExecuteBestv1_2 = EDTestSuitePluginExecuteBestv1_2("EDTestSuitePluginExecuteBestv1_2")
-    edTestSuitePluginExecuteBestv1_2.execute()
-
+    edTestCasePluginExecuteBestv1_2_withRadiationDamageModelBetaGamma = EDTestCasePluginExecuteBestv1_2_withRadiationDamageModelBetaGamma("EDTestCasePluginExecuteBestv1_2_withRadiationDamageModelBetaGamma")
+    edTestCasePluginExecuteBestv1_2_withRadiationDamageModelBetaGamma.execute()

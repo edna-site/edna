@@ -111,6 +111,22 @@
         <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_p3QLQOc0Ed-jKbXLtzGSgw"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4QX5kHfGEeCvH5kLARtJaQ"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_msHw0HUkEeK5bdpB5A9cLA" name="radiationDamageModelBeta" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_okBGkHUkEeK5bdpB5A9cLA"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_pEZPwHUkEeK5bdpB5A9cLA" name="radiationDamageModelGamma" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rF7CoHUkEeK5bdpB5A9cLA"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_hX_IQHUlEeK5bdpB5A9cLA" name="userDefinedRotationStart" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_l2SfkHUlEeK5bdpB5A9cLA"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_iKVyQHUlEeK5bdpB5A9cLA" name="userDefinedRotationRange" isUnique="false">
+        <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_dqQtIOc4Ed-jKbXLtzGSgw"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oH7yEHUlEeK5bdpB5A9cLA"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_oMTlAOwZEd-YN87dLY1EOA" name="XSDataResultBest">
       <generalization xmi:id="_xQ1gkOwZEd-YN87dLY1EOA">
