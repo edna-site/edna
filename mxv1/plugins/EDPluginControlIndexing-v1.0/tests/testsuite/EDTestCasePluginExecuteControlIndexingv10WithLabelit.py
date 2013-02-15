@@ -33,15 +33,28 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os
 
-from EDTestCasePluginExecuteControlIndexingv10 import EDTestCasePluginExecuteControlIndexingv10
+from EDTestCasePluginExecute import EDTestCasePluginExecute
 
 
-class EDTestCasePluginExecuteControlIndexingv10WithLabelit(EDTestCasePluginExecuteControlIndexingv10):
+class EDTestCasePluginExecuteControlIndexingv10WithLabelit(EDTestCasePluginExecute):
 
 
-    def __init__(self, _edStringTestName=None):
-        EDTestCasePluginExecuteControlIndexingv10.__init__(self, _edStringTestName)
+    def __init__(self, _strTestName=None):
+        EDTestCasePluginExecute.__init__(self, "EDPluginControlIndexingLabelitv10")
         self.setRequiredPluginConfiguration("EDPluginLabelitIndexingv1_1")
+        self.setConfigurationFile(self.getRefConfigFile())
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataIndexingInput_reference.xml"))
+        self.strReferenceDataOutputFile = os.path.join(self.getPluginTestsDataHome(), "XSDataIndexingResult_reference.xml")
+
+
+
+    def preProcess(self):
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([ "ref-testscale_1_001.img", "ref-testscale_1_002.img" ])
+
+
+    def testExecute(self):
+        self.run()
 
 
 

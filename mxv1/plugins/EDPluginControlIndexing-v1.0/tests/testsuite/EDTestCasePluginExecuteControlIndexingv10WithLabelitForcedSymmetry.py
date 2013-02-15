@@ -33,14 +33,14 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os
 
-from EDTestCasePluginExecuteControlIndexingv10 import EDTestCasePluginExecuteControlIndexingv10
+from EDTestCasePluginExecuteControlIndexingv10WithLabelit import EDTestCasePluginExecuteControlIndexingv10WithLabelit
 
 
-class EDTestCasePluginExecuteControlIndexingv10WithLabelitForcedSymmetry(EDTestCasePluginExecuteControlIndexingv10):
+class EDTestCasePluginExecuteControlIndexingv10WithLabelitForcedSymmetry(EDTestCasePluginExecuteControlIndexingv10WithLabelit):
 
 
     def __init__(self, _edStringTestName=None):
-        EDTestCasePluginExecuteControlIndexingv10.__init__(self, _edStringTestName)
+        EDTestCasePluginExecuteControlIndexingv10WithLabelit.__init__(self, _edStringTestName)
         self.setRequiredPluginConfiguration("EDPluginLabelitIndexingv1_1")
         edStringConfigurationLabelit = os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_IndexingWithLabelit.xml")
         self.setConfigurationFile(edStringConfigurationLabelit)
