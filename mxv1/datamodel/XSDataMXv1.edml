@@ -30,10 +30,10 @@ package XSDataMXv1 {
 			image : XSDataImage
 			inResTotal : XSDataInteger
 			inResolutionOvrlSpots : XSDataInteger
-			maxUnitCell : XSDataDouble
+			maxUnitCell : XSDataDouble optional
 			method1Res : XSDataDouble
-			method2Res : XSDataDouble
-			pctSaturationTop50Peaks : XSDataDouble
+			method2Res : XSDataDouble optional
+			pctSaturationTop50Peaks : XSDataDouble optional
 			saturationRangeAverage : XSDataDouble optional
 			saturationRangeMax : XSDataDouble optional
 			saturationRangeMin : XSDataDouble optional
