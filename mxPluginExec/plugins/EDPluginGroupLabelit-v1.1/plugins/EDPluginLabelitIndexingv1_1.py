@@ -77,8 +77,9 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
         self.initaliseLabelitCommandLine()
         if self.hasDataInput("forcedSpaceGroup"):
             self.__strForcedSpaceGroup = self.getDataInput("forcedSpaceGroup")[0].getValue()
-            strScriptCommandline = self.getScriptCommandline()
-            self.setScriptCommandline("known_symmetry=%s %s" % (self.__strForcedSpaceGroup, strScriptCommandline))
+            if self.__strForcedSpaceGroup != "":
+                strScriptCommandline = self.getScriptCommandline()
+                self.setScriptCommandline("known_symmetry=%s %s" % (self.__strForcedSpaceGroup, strScriptCommandline))
         self.addListCommandPreExecution("export PYTHONPATH=\"\" ")
         self.addListCommandPreExecution(". %s" % self.getPathToLabelitSetpathScript())
         self.addListCommandPostExecution("[ -f \"LABELIT_possible\" ] && labelit.mosflm_scripts")
@@ -233,7 +234,7 @@ class EDPluginLabelitIndexingv1_1(EDPluginLabelitv1_1):
                     if (bFoundSelectedSolution == False):
                         if (xsDataLabelitScreenSolution.getHappy().getValue() == True):
                             # Check if forced space group
-                            if self.__strForcedSpaceGroup == None:
+                            if self.__strForcedSpaceGroup == None or self.__strForcedSpaceGroup == "":
                                 bFoundSelectedSolution = True
                                 xsDataLabelitScreenOutput.setSelectedSolutionNumber(XSDataInteger(iSolutionNumber))
                             else:

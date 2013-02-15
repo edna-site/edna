@@ -142,7 +142,8 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
             xsDataStringSymmetry = xsDataMOSFLMInput.getSymmetry()
             if (xsDataStringSymmetry is not None):
-                self.addListCommandExecution("SYMMETRY " + xsDataStringSymmetry.getValue())
+                if xsDataStringSymmetry.getValue() != "":
+                    self.addListCommandExecution("SYMMETRY " + xsDataStringSymmetry.getValue())
             strNewmatFileName = self.getNewmatFileName()
 
             xsDataNewmatMatrix = xsDataMOSFLMInput.getMatrix()
