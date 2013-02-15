@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_qlq6AAb9EeCgXqAcTKGwDQ">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_CwbIYOfyEd-TcNOGyxZYYg" activeDiagram="_OlxNoQfOEeCHfoTkpt3vnQ">
   <model href="XSDataMXv1.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_CwbIYefyEd-TcNOGyxZYYg" position="0,0" size="100,100" name="XSDataMXv1" zoom="0.75" viewport="0,0">
     <property xmi:id="_CwuDUOfyEd-TcNOGyxZYYg" key="pageFormatName" value="A4"/>
@@ -57,7 +57,7 @@
   </diagrams>
   <subdiagrams xmi:id="_qlpr4Ab9EeCgXqAcTKGwDQ">
     <model href="XSDataMXv1.uml#_nO5LcAb9EeCgXqAcTKGwDQ"/>
-    <diagrams xmi:id="_qlq6AAb9EeCgXqAcTKGwDQ" position="0,0" size="100,100" name="Diffraction Plan" viewport="0,139">
+    <diagrams xmi:id="_qlq6AAb9EeCgXqAcTKGwDQ" position="0,0" size="100,100" name="Diffraction Plan" viewport="0,0">
       <property xmi:id="_qnZYUAb9EeCgXqAcTKGwDQ" key="pageFormatName" value=""/>
       <property xmi:id="_qnZYUQb9EeCgXqAcTKGwDQ" key="diagramWidth" value="986"/>
       <property xmi:id="_qnZ_YAb9EeCgXqAcTKGwDQ" key="diagramHeight" value="671"/>
@@ -2369,7 +2369,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_OlxNoAfOEeCHfoTkpt3vnQ">
     <model href="XSDataMXv1.uml#_McKc0AfOEeCHfoTkpt3vnQ"/>
-    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,0">
+    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="177,0">
       <property xmi:id="_Om52EAfOEeCHfoTkpt3vnQ" key="pageFormatName" value=""/>
       <property xmi:id="_Om52EQfOEeCHfoTkpt3vnQ" key="diagramWidth" value="1144"/>
       <property xmi:id="_Om52EgfOEeCHfoTkpt3vnQ" key="diagramHeight" value="1498"/>

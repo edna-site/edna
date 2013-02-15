@@ -1337,17 +1337,20 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_pBwf0ui3Ed-7o_3d0R29SQ" name="inResTotal">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_rAkV4ui3Ed-7o_3d0R29SQ" name="maxUnitCell">
+        <ownedAttribute xmi:id="_rAkV4ui3Ed-7o_3d0R29SQ" name="maxUnitCell" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VCHQMHd0EeKjMMmtQoIwAg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_tclFUui3Ed-7o_3d0R29SQ" name="method1Res">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_w24pAui3Ed-7o_3d0R29SQ" name="method2Res">
+        <ownedAttribute xmi:id="_w24pAui3Ed-7o_3d0R29SQ" name="method2Res" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WBb_MHd0EeKjMMmtQoIwAg"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_zN_DQui3Ed-7o_3d0R29SQ" name="pctSaturationTop50Peaks">
+        <ownedAttribute xmi:id="_zN_DQui3Ed-7o_3d0R29SQ" name="pctSaturationTop50Peaks" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WxpUIHd0EeKjMMmtQoIwAg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_66Kr0ui3Ed-7o_3d0R29SQ" name="spotTotal">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>

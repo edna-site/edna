@@ -72,25 +72,25 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9iE_q16fEeC3aNe1z0uECw" value="1"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_rF6fEeC3aNe1z0uECw" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_9iE_rV6fEeC3aNe1z0uECw" name="maxUnitCell">
+    <ownedAttribute xmi:id="_9iE_rV6fEeC3aNe1z0uECw" name="maxUnitCell" isUnique="false">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9iE_rl6fEeC3aNe1z0uECw" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_r16fEeC3aNe1z0uECw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_r16fEeC3aNe1z0uECw"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_9iE_sF6fEeC3aNe1z0uECw" name="method1Res">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9iE_sV6fEeC3aNe1z0uECw" value="1"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_sl6fEeC3aNe1z0uECw" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_9iE_s16fEeC3aNe1z0uECw" name="method2Res">
+    <ownedAttribute xmi:id="_9iE_s16fEeC3aNe1z0uECw" name="method2Res" isUnique="false">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9iE_tF6fEeC3aNe1z0uECw" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_tV6fEeC3aNe1z0uECw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_tV6fEeC3aNe1z0uECw"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_9iE_tl6fEeC3aNe1z0uECw" name="pctSaturationTop50Peaks">
+    <ownedAttribute xmi:id="_9iE_tl6fEeC3aNe1z0uECw" name="pctSaturationTop50Peaks" isUnique="false">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9iE_t16fEeC3aNe1z0uECw" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_uF6fEeC3aNe1z0uECw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9iE_uF6fEeC3aNe1z0uECw"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_9iE_uV6fEeC3aNe1z0uECw" name="spotTotal">
       <type xmi:type="uml:Class" href="../../../../kernel/datamodel/XSDataCommon.uml#_-zIkwOczEd-jKbXLtzGSgw"/>
