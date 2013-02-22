@@ -349,7 +349,7 @@ class EDPluginControlAutoproc(EDPluginControl):
                              str(self.xds_first.dataOutput.cell_beta.value),
                              str(self.xds_first.dataOutput.cell_gamma.value)])
         try:
-            os.mknod(os.path.join(self.results_dir, filename), mode=0755)
+            os.mknod(os.path.join(self.results_dir, filename), 0755)
         except OSError: #file exists
             pass
 
@@ -905,7 +905,7 @@ class EDPluginControlAutoproc(EDPluginControl):
         else:
             # store the autoproc ID as a filename in the
             # fastproc_integration_ids directory
-            os.mknod(os.path.join(self.autoproc_ids_dir, str(self.integration_id_anom)), mode=0755)
+            os.mknod(os.path.join(self.autoproc_ids_dir, str(self.integration_id_anom)), 0755)
         # then noanom stats
 
         output.AutoProcScalingContainer = scaling_container_noanom
@@ -930,7 +930,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             self.ERROR('could not send results to ispyb')
         else:
             # store the autoproc id
-            os.mknod(os.path.join(self.autoproc_ids_dir, str(self.integration_id_noanom)), mode=0755)
+            os.mknod(os.path.join(self.autoproc_ids_dir, str(self.integration_id_noanom)), 0755)
 
 # Proxy since the API changed and we can now log to several ids
 def log_to_ispyb(integration_id, step, status, comments=""):
