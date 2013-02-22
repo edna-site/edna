@@ -73,6 +73,7 @@ class EDPluginControlFileConversion(EDPluginControl):
         self.results_dir = os.path.join(os.path.dirname(self.dataInput.output_file.value))
         self.pointless_out = "{0}edna_unmerged_{1}_pointless_multirecord.mtz".format(self.image_prefix, anom)
         self.truncate_out = '{0}edna_{1}_truncate.mtz'.format(self.image_prefix, anom)
+        self.aimless_out = '{0}edna_{1}_aimless.mtz'.format(self.image_prefix, anom)
 
 
     def checkParameters(self):
@@ -105,18 +106,10 @@ class EDPluginControlFileConversion(EDPluginControl):
             self.setFailure()
             return
 
-        # now aimless (was scala in max pipeline)
-        temp_file = tempfile.NamedTemporaryFile(suffix='.mtz',
-                                                prefix='tmp-',
-                                                dir=self.aimless.getWorkingDirectory(),
-                                                delete=False)
-        aimless_out = os.path.abspath(temp_file.name)
-        temp_file.close()
-        os.chmod(aimless_out, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
-
         aimless_in = XSDataAimless()
         aimless_in.input_file = pointless_in.output_file
-        aimless_in.output_file = XSDataString(aimless_out)
+        aimless_in.output_file = XSDataString(os.path.join(self.results_dir,
+                                                           self.aimless_out))
         aimless_in.dataCollectionID = self.dataInput.dataCollectionID
         aimless_in.start_image = self.dataInput.start_image
         aimless_in.end_image = self.dataInput.end_image
