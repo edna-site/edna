@@ -359,6 +359,16 @@ class EDPluginControlAutoproc(EDPluginControl):
         shutil.copy(os.path.join(self.xds_first.dataOutput.xds_run_directory.value, 'XDS.INP'),
                     tmppath)
 
+        # Copy the INTEGRATE.LP file as well
+        integrate_path = os.path.join(self.results_dir, self.image_prefix + '_INTEGRATE.LP')
+        try:
+            shutil.copy(os.path.join(self.xds_first.dataOutput.xds_run_directory.value,
+                                     'INTEGRATE.LP'),
+                        integrate_path)
+        except (IOError, OSError):
+            EDVerbose.ERROR('failed to copy INTEGRATE.LP file ({0}) to the results dir'.format(integrate_path))
+
+
         log_to_ispyb([self.integration_id_noanom, self.integration_id_anom],
                      'Indexing', 'Launched', 'start of res cutoff')
 
