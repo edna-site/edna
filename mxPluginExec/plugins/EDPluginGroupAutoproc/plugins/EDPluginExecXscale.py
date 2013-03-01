@@ -150,9 +150,9 @@ class EDPluginExecXscale(EDPluginExecProcessScript):
             merged = self.dataInput.merge.value
             new_lp_file = 'merged' if merged else 'unmerged'
             if anomalous:
-                new_lp_file += '_anom_XSCALE.lp'
+                new_lp_file += '_anom_XSCALE.LP'
             else:
-                new_lp_file += '_noanom_XSCALE.lp'
+                new_lp_file += '_noanom_XSCALE.LP'
             new_lp_file = os.path.join(self.getWorkingDirectory(), new_lp_file)
 
             shutil.copy(lp_file, new_lp_file)
