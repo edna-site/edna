@@ -200,6 +200,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             xgeo = os.path.abspath(os.path.join(self.root_dir,
                                                 conf['X-GEO_CORR='][0]))
             if not os.path.exists(xgeo):
+                self.DEBUG('geometry file {0} does not exist, removing'.format(xgeo))
                 del conf['X-GEO_CORR=']
             else:
                 conf['X-GEO_CORR='] = xgeo
@@ -208,6 +209,7 @@ class EDPluginControlAutoproc(EDPluginControl):
             ygeo = os.path.abspath(os.path.join(self.root_dir,
                                                 conf['Y-GEO_CORR='][0]))
             if not os.path.exists(ygeo):
+                self.DEBUG('geometry file {0} does not exist, removing'.format(ygeo))
                 del conf['Y-GEO_CORR=']
             else:
                 conf['Y-GEO_CORR='] = ygeo
