@@ -197,13 +197,21 @@ class EDPluginControlAutoproc(EDPluginControl):
 
         # Make the [XY]-GEO_CORR paths absolute
         if 'X-GEO_CORR=' in conf:
-            xgeo = conf['X-GEO_CORR='][0]
-            conf['X-GEO_CORR='] = os.path.abspath(os.path.join(self.root_dir,
-                                                               xgeo))
+            xgeo = os.path.abspath(os.path.join(self.root_dir,
+                                                conf['X-GEO_CORR='][0]))
+            if not os.path.exists(xgeo):
+                del conf['X-GEO_CORR=']
+            else:
+                conf['X-GEO_CORR='] = xgeo
+
         if 'Y-GEO_CORR=' in conf:
-            ygeo = conf['Y-GEO_CORR='][0]
-            conf['Y-GEO_CORR='] = os.path.abspath(os.path.join(self.root_dir,
-                                                               ygeo))
+            ygeo = os.path.abspath(os.path.join(self.root_dir,
+                                                conf['Y-GEO_CORR='][0]))
+            if not os.path.exists(ygeo):
+                del conf['Y-GEO_CORR=']
+            else:
+                conf['Y-GEO_CORR='] = ygeo
+
         dump_xds_file(data_in.input_file.path.value, conf)
 
         resrange = conf.get('INCLUDE_RESOLUTION_RANGE=')
