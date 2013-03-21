@@ -354,13 +354,16 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
             self.page.h2( "Data collection info" )
             firstSubWedge = xsDataCollection.subWedge[0]
             firstImage = firstSubWedge.image[0]
-            strDate = firstImage.date.value
+            strDate = None
+            if not firstImage.date is None:
+                strDate = firstImage.date.value
             strPrefix = EDUtilsImage.getPrefix(firstImage.path.value)
             strDirName = os.path.dirname(firstImage.path.value)
             self.page.table( class_='dataCollectionInfo', border_="1", cellpadding_="0")
             self.page.tr( align_="CENTER")
             self.page.th("Data collection date", bgcolor_=self.strTableColourTitle2)
-            self.page.th(strDate, bgcolor_=self.strTableColourRows)
+            if not strDate is None:
+                self.page.th(strDate, bgcolor_=self.strTableColourRows)
             self.page.tr.close()
             self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
             self.page.th("Image prefix", bgcolor_=self.strTableColourTitle2)
