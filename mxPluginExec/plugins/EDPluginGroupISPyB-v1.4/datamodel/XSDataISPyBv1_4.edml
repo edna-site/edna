@@ -11,6 +11,7 @@ import XSDataCommon.XSDataAngle
 import XSDataCommon.XSDataTime
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
 
 complex type XSDataISPyBImageQualityIndicators extends XSData {
 	binPopCutOffMethod2Res : XSDataDouble
@@ -491,4 +492,14 @@ complex type XSDataInputISPyBStoreWorkflow extends XSDataInput {
 
 complex type XSDataResultISPyBStoreWorkflow extends XSDataResult {
 	workflowId: XSDataInteger
+}
+
+complex type XSDataInputISPyBUpdateDataCollectionGroupWorkflow extends XSDataInput {
+	fileLocation: XSDataString
+	fileName: XSDataString
+	workflowId: XSDataInteger
+}
+
+complex type XSDataResultISPyBUpdateDataCollectionGroupWorkflow extends XSDataResult {
+	dataCollectionGroupId: XSDataInteger
 }
