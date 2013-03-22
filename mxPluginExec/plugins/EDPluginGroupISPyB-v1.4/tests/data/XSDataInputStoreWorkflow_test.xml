@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<XSDataInputStoreWorkflow>
+	<workflow>
+		<comments>
+			<value>A test comment...</value>
+		</comments>
+		<logFilePath>
+			<value>/tmp/test/log/file/path</value>
+		</logFilePath>
+		<resultFilePath>
+			<value>/tmp/test/result/file/path</value>
+		</resultFilePath>
+		<status>
+			<value>Test status</value>
+		</status>
+		<value1>
+			<value>-1.0</value>
+		</value1>
+		<value2>
+			<value>1.0</value>
+		</value2>
+		<workflowTitle>
+			<value>Test workflow</value>
+		</workflowTitle>
+		<workflowType>
+			<value>Undefined</value>
+		</workflowType>
+	</workflow>
+</XSDataInputStoreWorkflow>
