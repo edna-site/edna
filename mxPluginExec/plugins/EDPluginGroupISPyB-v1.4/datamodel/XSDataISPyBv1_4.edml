@@ -505,11 +505,10 @@ complex type XSDataResultISPyBUpdateDataCollectionGroupWorkflowId extends XSData
 }
 
 complex type XSDataInputISPyBGroupDataCollections extends XSDataInput {
-	fileLocation: XSDataString
-	fileName: XSDataString
-	workflowId: XSDataInteger
+	dataCollectionGroupId: XSDataInteger
+	filePath: XSDataString []
 }
 
 complex type XSDataResultISPyBGroupDataCollections extends XSDataResult {
-	dataCollectionGroupId: XSDataInteger
+	dataCollectionId: XSDataInteger [] optional
 }
