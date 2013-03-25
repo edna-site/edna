@@ -494,12 +494,22 @@ complex type XSDataResultISPyBStoreWorkflow extends XSDataResult {
 	workflowId: XSDataInteger
 }
 
-complex type XSDataInputISPyBUpdateDataCollectionGroupWorkflow extends XSDataInput {
+complex type XSDataInputISPyBUpdateDataCollectionGroupWorkflowId extends XSDataInput {
 	fileLocation: XSDataString
 	fileName: XSDataString
 	workflowId: XSDataInteger
 }
 
-complex type XSDataResultISPyBUpdateDataCollectionGroupWorkflow extends XSDataResult {
+complex type XSDataResultISPyBUpdateDataCollectionGroupWorkflowId extends XSDataResult {
+	dataCollectionGroupId: XSDataInteger
+}
+
+complex type XSDataInputISPyBGroupDataCollections extends XSDataInput {
+	fileLocation: XSDataString
+	fileName: XSDataString
+	workflowId: XSDataInteger
+}
+
+complex type XSDataResultISPyBGroupDataCollections extends XSDataResult {
 	dataCollectionGroupId: XSDataInteger
 }

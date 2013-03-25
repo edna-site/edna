@@ -35,17 +35,17 @@ from EDAssert import EDAssert
 from EDTestCasePluginExecute          import EDTestCasePluginExecute
 
 
-class EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowv1_4(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowIdv1_4(EDTestCasePluginExecute):
 
     def __init__(self, _edStringTestName=None):
         """
         Sets config file + input and output reference files. 
         """
-        EDTestCasePluginExecute.__init__(self, "EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4")
+        EDTestCasePluginExecute.__init__(self, "EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4")
 
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
         #self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_productionDataBase.xml"))
-        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputUpdateDataCollectionGroupWorkflow_test.xml"))
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputUpdateDataCollectionGroupWorkflowId_test.xml"))
 
 
     def testExecute(self):
@@ -71,5 +71,5 @@ class EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowv1_4(EDTestCa
 
 
 if __name__ == '__main__':
-    edTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowv1_4 = EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowv1_4("EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowv1_4")
-    edTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowv1_4.execute()
+    edTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowIdv1_4 = EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowIdv1_4("EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowIdv1_4")
+    edTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowIdv1_4.execute()

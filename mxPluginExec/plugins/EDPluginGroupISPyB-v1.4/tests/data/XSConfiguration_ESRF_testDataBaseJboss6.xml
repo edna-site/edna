@@ -137,7 +137,7 @@
 			</XSParamList>
 		</XSPluginItem>	
 		<XSPluginItem> 
-			<name>EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4</name>  
+			<name>EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4</name>  
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>

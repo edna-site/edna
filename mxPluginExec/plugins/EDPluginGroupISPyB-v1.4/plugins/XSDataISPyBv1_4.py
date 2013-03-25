@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Mar 22 05:01::28 2013 by EDGenerateDS.
+# Generated Mon Mar 25 11:01::32 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -8657,142 +8657,6 @@ class XSDataISPyBScreeningStrategy(XSData):
 # end class XSDataISPyBScreeningStrategy
 
 
-class XSDataISPyBScreeningStrategyContainer(XSData):
-    def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
-        XSData.__init__(self, )
-        if screeningStrategy is None:
-            self._screeningStrategy = None
-        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
-            self._screeningStrategy = screeningStrategy
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategy' is not XSDataISPyBScreeningStrategy but %s" % self._screeningStrategy.__class__.__name__
-            raise BaseException(strMessage)
-        if screeningStrategyWedgeContainer is None:
-            self._screeningStrategyWedgeContainer = []
-        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
-            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategyWedgeContainer' is not list but %s" % self._screeningStrategyWedgeContainer.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'screeningStrategy' attribute
-    def getScreeningStrategy(self): return self._screeningStrategy
-    def setScreeningStrategy(self, screeningStrategy):
-        if screeningStrategy is None:
-            self._screeningStrategy = None
-        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
-            self._screeningStrategy = screeningStrategy
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategy argument is not XSDataISPyBScreeningStrategy but %s" % screeningStrategy.__class__.__name__
-            raise BaseException(strMessage)
-    def delScreeningStrategy(self): self._screeningStrategy = None
-    screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
-    # Methods and properties for the 'screeningStrategyWedgeContainer' attribute
-    def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
-    def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
-        if screeningStrategyWedgeContainer is None:
-            self._screeningStrategyWedgeContainer = []
-        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
-            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategyWedgeContainer argument is not list but %s" % screeningStrategyWedgeContainer.__class__.__name__
-            raise BaseException(strMessage)
-    def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
-    screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
-    def addScreeningStrategyWedgeContainer(self, value):
-        if value is None:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is None"
-            raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
-            self._screeningStrategyWedgeContainer.append(value)
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
-            raise BaseException(strMessage)
-    def insertScreeningStrategyWedgeContainer(self, index, value):
-        if index is None:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'index' is None"
-            raise BaseException(strMessage)            
-        if value is None:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'value' is None"
-            raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
-            self._screeningStrategyWedgeContainer[index] = value
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
-            raise BaseException(strMessage)
-    def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-        XSData.exportChildren(self, outfile, level, name_)
-        if self._screeningStrategy is not None:
-            self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
-        else:
-            warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
-        for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
-            screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'screeningStrategy':
-            obj_ = XSDataISPyBScreeningStrategy()
-            obj_.build(child_)
-            self.setScreeningStrategy(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'screeningStrategyWedgeContainer':
-            obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
-            obj_.build(child_)
-            self.screeningStrategyWedgeContainer.append(obj_)
-        XSData.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBScreeningStrategyContainer()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBScreeningStrategyContainer()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataISPyBScreeningStrategyContainer
-
-
 class XSDataISPyBScreeningStrategySubWedge(XSData):
     def __init__(self, comments=None, numberOfImages=None, doseTotal=None, multiplicity=None, completeness=None, oscillationRange=None, transmission=None, exposureTime=None, axisEnd=None, axisStart=None, rotationAxis=None, subWedgeNumber=None, screeningStrategyWedgeId=None, screeningStrategySubWedgeId=None):
         XSData.__init__(self, )
@@ -9781,6 +9645,142 @@ class XSDataISPyBScreeningStrategyWedgeContainer(XSData):
 # end class XSDataISPyBScreeningStrategyWedgeContainer
 
 
+class XSDataISPyBScreeningStrategyContainer(XSData):
+    def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
+        XSData.__init__(self, )
+        if screeningStrategy is None:
+            self._screeningStrategy = None
+        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
+            self._screeningStrategy = screeningStrategy
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategy' is not XSDataISPyBScreeningStrategy but %s" % self._screeningStrategy.__class__.__name__
+            raise BaseException(strMessage)
+        if screeningStrategyWedgeContainer is None:
+            self._screeningStrategyWedgeContainer = []
+        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
+            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategyWedgeContainer' is not list but %s" % self._screeningStrategyWedgeContainer.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'screeningStrategy' attribute
+    def getScreeningStrategy(self): return self._screeningStrategy
+    def setScreeningStrategy(self, screeningStrategy):
+        if screeningStrategy is None:
+            self._screeningStrategy = None
+        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
+            self._screeningStrategy = screeningStrategy
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategy argument is not XSDataISPyBScreeningStrategy but %s" % screeningStrategy.__class__.__name__
+            raise BaseException(strMessage)
+    def delScreeningStrategy(self): self._screeningStrategy = None
+    screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
+    # Methods and properties for the 'screeningStrategyWedgeContainer' attribute
+    def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
+    def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
+        if screeningStrategyWedgeContainer is None:
+            self._screeningStrategyWedgeContainer = []
+        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
+            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategyWedgeContainer argument is not list but %s" % screeningStrategyWedgeContainer.__class__.__name__
+            raise BaseException(strMessage)
+    def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
+    screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
+    def addScreeningStrategyWedgeContainer(self, value):
+        if value is None:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is None"
+            raise BaseException(strMessage)            
+        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
+            self._screeningStrategyWedgeContainer.append(value)
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
+            raise BaseException(strMessage)
+    def insertScreeningStrategyWedgeContainer(self, index, value):
+        if index is None:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'index' is None"
+            raise BaseException(strMessage)            
+        if value is None:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'value' is None"
+            raise BaseException(strMessage)            
+        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
+            self._screeningStrategyWedgeContainer[index] = value
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
+            raise BaseException(strMessage)
+    def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+        XSData.exportChildren(self, outfile, level, name_)
+        if self._screeningStrategy is not None:
+            self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
+        else:
+            warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
+        for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
+            screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'screeningStrategy':
+            obj_ = XSDataISPyBScreeningStrategy()
+            obj_.build(child_)
+            self.setScreeningStrategy(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'screeningStrategyWedgeContainer':
+            obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
+            obj_.build(child_)
+            self.screeningStrategyWedgeContainer.append(obj_)
+        XSData.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBScreeningStrategyContainer()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBScreeningStrategyContainer()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataISPyBScreeningStrategyContainer
+
+
 class XSDataISPyBWorkflow(XSData):
     def __init__(self, workflowType=None, workflowTitle=None, workflowId=None, value2=None, value1=None, status=None, resultFilePath=None, recordTimeStamp=None, logFilePath=None, comments=None):
         XSData.__init__(self, )
@@ -10104,6 +10104,151 @@ class XSDataISPyBWorkflow(XSData):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataISPyBWorkflow
+
+
+class XSDataInputISPyBGroupDataCollections(XSDataInput):
+    def __init__(self, configuration=None, workflowId=None, fileName=None, fileLocation=None):
+        XSDataInput.__init__(self, configuration)
+        if fileLocation is None:
+            self._fileLocation = None
+        elif fileLocation.__class__.__name__ == "XSDataString":
+            self._fileLocation = fileLocation
+        else:
+            strMessage = "ERROR! XSDataInputISPyBGroupDataCollections constructor argument 'fileLocation' is not XSDataString but %s" % self._fileLocation.__class__.__name__
+            raise BaseException(strMessage)
+        if fileName is None:
+            self._fileName = None
+        elif fileName.__class__.__name__ == "XSDataString":
+            self._fileName = fileName
+        else:
+            strMessage = "ERROR! XSDataInputISPyBGroupDataCollections constructor argument 'fileName' is not XSDataString but %s" % self._fileName.__class__.__name__
+            raise BaseException(strMessage)
+        if workflowId is None:
+            self._workflowId = None
+        elif workflowId.__class__.__name__ == "XSDataInteger":
+            self._workflowId = workflowId
+        else:
+            strMessage = "ERROR! XSDataInputISPyBGroupDataCollections constructor argument 'workflowId' is not XSDataInteger but %s" % self._workflowId.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'fileLocation' attribute
+    def getFileLocation(self): return self._fileLocation
+    def setFileLocation(self, fileLocation):
+        if fileLocation is None:
+            self._fileLocation = None
+        elif fileLocation.__class__.__name__ == "XSDataString":
+            self._fileLocation = fileLocation
+        else:
+            strMessage = "ERROR! XSDataInputISPyBGroupDataCollections.setFileLocation argument is not XSDataString but %s" % fileLocation.__class__.__name__
+            raise BaseException(strMessage)
+    def delFileLocation(self): self._fileLocation = None
+    fileLocation = property(getFileLocation, setFileLocation, delFileLocation, "Property for fileLocation")
+    # Methods and properties for the 'fileName' attribute
+    def getFileName(self): return self._fileName
+    def setFileName(self, fileName):
+        if fileName is None:
+            self._fileName = None
+        elif fileName.__class__.__name__ == "XSDataString":
+            self._fileName = fileName
+        else:
+            strMessage = "ERROR! XSDataInputISPyBGroupDataCollections.setFileName argument is not XSDataString but %s" % fileName.__class__.__name__
+            raise BaseException(strMessage)
+    def delFileName(self): self._fileName = None
+    fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
+    # Methods and properties for the 'workflowId' attribute
+    def getWorkflowId(self): return self._workflowId
+    def setWorkflowId(self, workflowId):
+        if workflowId is None:
+            self._workflowId = None
+        elif workflowId.__class__.__name__ == "XSDataInteger":
+            self._workflowId = workflowId
+        else:
+            strMessage = "ERROR! XSDataInputISPyBGroupDataCollections.setWorkflowId argument is not XSDataInteger but %s" % workflowId.__class__.__name__
+            raise BaseException(strMessage)
+    def delWorkflowId(self): self._workflowId = None
+    workflowId = property(getWorkflowId, setWorkflowId, delWorkflowId, "Property for workflowId")
+    def export(self, outfile, level, name_='XSDataInputISPyBGroupDataCollections'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataInputISPyBGroupDataCollections'):
+        XSDataInput.exportChildren(self, outfile, level, name_)
+        if self._fileLocation is not None:
+            self.fileLocation.export(outfile, level, name_='fileLocation')
+        else:
+            warnEmptyAttribute("fileLocation", "XSDataString")
+        if self._fileName is not None:
+            self.fileName.export(outfile, level, name_='fileName')
+        else:
+            warnEmptyAttribute("fileName", "XSDataString")
+        if self._workflowId is not None:
+            self.workflowId.export(outfile, level, name_='workflowId')
+        else:
+            warnEmptyAttribute("workflowId", "XSDataInteger")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'fileLocation':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setFileLocation(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'fileName':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setFileName(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'workflowId':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setWorkflowId(obj_)
+        XSDataInput.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataInputISPyBGroupDataCollections" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataInputISPyBGroupDataCollections' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataInputISPyBGroupDataCollections is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataInputISPyBGroupDataCollections.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputISPyBGroupDataCollections()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataInputISPyBGroupDataCollections" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputISPyBGroupDataCollections()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataInputISPyBGroupDataCollections
 
 
 class XSDataInputISPyBStoreScreening(XSDataInput):
@@ -10501,7 +10646,7 @@ class XSDataInputISPyBStoreWorkflow(XSDataInput):
 # end class XSDataInputISPyBStoreWorkflow
 
 
-class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
+class XSDataInputISPyBUpdateDataCollectionGroupWorkflowId(XSDataInput):
     def __init__(self, configuration=None, workflowId=None, fileName=None, fileLocation=None):
         XSDataInput.__init__(self, configuration)
         if fileLocation is None:
@@ -10509,21 +10654,21 @@ class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
         elif fileLocation.__class__.__name__ == "XSDataString":
             self._fileLocation = fileLocation
         else:
-            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflow constructor argument 'fileLocation' is not XSDataString but %s" % self._fileLocation.__class__.__name__
+            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflowId constructor argument 'fileLocation' is not XSDataString but %s" % self._fileLocation.__class__.__name__
             raise BaseException(strMessage)
         if fileName is None:
             self._fileName = None
         elif fileName.__class__.__name__ == "XSDataString":
             self._fileName = fileName
         else:
-            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflow constructor argument 'fileName' is not XSDataString but %s" % self._fileName.__class__.__name__
+            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflowId constructor argument 'fileName' is not XSDataString but %s" % self._fileName.__class__.__name__
             raise BaseException(strMessage)
         if workflowId is None:
             self._workflowId = None
         elif workflowId.__class__.__name__ == "XSDataInteger":
             self._workflowId = workflowId
         else:
-            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflow constructor argument 'workflowId' is not XSDataInteger but %s" % self._workflowId.__class__.__name__
+            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflowId constructor argument 'workflowId' is not XSDataInteger but %s" % self._workflowId.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'fileLocation' attribute
     def getFileLocation(self): return self._fileLocation
@@ -10533,7 +10678,7 @@ class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
         elif fileLocation.__class__.__name__ == "XSDataString":
             self._fileLocation = fileLocation
         else:
-            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflow.setFileLocation argument is not XSDataString but %s" % fileLocation.__class__.__name__
+            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflowId.setFileLocation argument is not XSDataString but %s" % fileLocation.__class__.__name__
             raise BaseException(strMessage)
     def delFileLocation(self): self._fileLocation = None
     fileLocation = property(getFileLocation, setFileLocation, delFileLocation, "Property for fileLocation")
@@ -10545,7 +10690,7 @@ class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
         elif fileName.__class__.__name__ == "XSDataString":
             self._fileName = fileName
         else:
-            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflow.setFileName argument is not XSDataString but %s" % fileName.__class__.__name__
+            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflowId.setFileName argument is not XSDataString but %s" % fileName.__class__.__name__
             raise BaseException(strMessage)
     def delFileName(self): self._fileName = None
     fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
@@ -10557,17 +10702,17 @@ class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
         elif workflowId.__class__.__name__ == "XSDataInteger":
             self._workflowId = workflowId
         else:
-            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflow.setWorkflowId argument is not XSDataInteger but %s" % workflowId.__class__.__name__
+            strMessage = "ERROR! XSDataInputISPyBUpdateDataCollectionGroupWorkflowId.setWorkflowId argument is not XSDataInteger but %s" % workflowId.__class__.__name__
             raise BaseException(strMessage)
     def delWorkflowId(self): self._workflowId = None
     workflowId = property(getWorkflowId, setWorkflowId, delWorkflowId, "Property for workflowId")
-    def export(self, outfile, level, name_='XSDataInputISPyBUpdateDataCollectionGroupWorkflow'):
+    def export(self, outfile, level, name_='XSDataInputISPyBUpdateDataCollectionGroupWorkflowId'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
         self.exportChildren(outfile, level + 1, name_)
         showIndent(outfile, level)
         outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataInputISPyBUpdateDataCollectionGroupWorkflow'):
+    def exportChildren(self, outfile, level, name_='XSDataInputISPyBUpdateDataCollectionGroupWorkflowId'):
         XSDataInput.exportChildren(self, outfile, level, name_)
         if self._fileLocation is not None:
             self.fileLocation.export(outfile, level, name_='fileLocation')
@@ -10606,7 +10751,7 @@ class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
     def marshal( self ):
         oStreamString = StringIO()
         oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataInputISPyBUpdateDataCollectionGroupWorkflow" )
+        self.export( oStreamString, 0, name_="XSDataInputISPyBUpdateDataCollectionGroupWorkflowId" )
         oStringXML = oStreamString.getvalue()
         oStreamString.close()
         return oStringXML
@@ -10614,24 +10759,24 @@ class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
     def exportToFile( self, _outfileName ):
         outfile = open( _outfileName, "w" )
         outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataInputISPyBUpdateDataCollectionGroupWorkflow' )
+        self.export( outfile, 0, name_='XSDataInputISPyBUpdateDataCollectionGroupWorkflowId' )
         outfile.close()
     #Deprecated method, replaced by exportToFile
     def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataInputISPyBUpdateDataCollectionGroupWorkflow is deprecated, please use instead exportToFile!")
+        print("WARNING: Method outputFile in class XSDataInputISPyBUpdateDataCollectionGroupWorkflowId is deprecated, please use instead exportToFile!")
         self.exportToFile(_outfileName)
     #Method for making a copy in a new instance
     def copy( self ):
-        return XSDataInputISPyBUpdateDataCollectionGroupWorkflow.parseString(self.marshal())
+        return XSDataInputISPyBUpdateDataCollectionGroupWorkflowId.parseString(self.marshal())
     #Static method for parsing a string
     def parseString( _inString ):
         doc = minidom.parseString(_inString)
         rootNode = doc.documentElement
-        rootObj = XSDataInputISPyBUpdateDataCollectionGroupWorkflow()
+        rootObj = XSDataInputISPyBUpdateDataCollectionGroupWorkflowId()
         rootObj.build(rootNode)
         # Check that all minOccurs are obeyed by marshalling the created object
         oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataInputISPyBUpdateDataCollectionGroupWorkflow" )
+        rootObj.export( oStreamString, 0, name_="XSDataInputISPyBUpdateDataCollectionGroupWorkflowId" )
         oStreamString.close()
         return rootObj
     parseString = staticmethod( parseString )
@@ -10639,11 +10784,11 @@ class XSDataInputISPyBUpdateDataCollectionGroupWorkflow(XSDataInput):
     def parseFile( _inFilePath ):
         doc = minidom.parse(_inFilePath)
         rootNode = doc.documentElement
-        rootObj = XSDataInputISPyBUpdateDataCollectionGroupWorkflow()
+        rootObj = XSDataInputISPyBUpdateDataCollectionGroupWorkflowId()
         rootObj.build(rootNode)
         return rootObj
     parseFile = staticmethod( parseFile )
-# end class XSDataInputISPyBUpdateDataCollectionGroupWorkflow
+# end class XSDataInputISPyBUpdateDataCollectionGroupWorkflowId
 
 
 class XSDataInputRetrieveDataCollection(XSDataInput):
@@ -11166,6 +11311,95 @@ class XSDataInputStoreImageQualityIndicators(XSDataInput):
 # end class XSDataInputStoreImageQualityIndicators
 
 
+class XSDataResultISPyBGroupDataCollections(XSDataResult):
+    def __init__(self, status=None, dataCollectionGroupId=None):
+        XSDataResult.__init__(self, status)
+        if dataCollectionGroupId is None:
+            self._dataCollectionGroupId = None
+        elif dataCollectionGroupId.__class__.__name__ == "XSDataInteger":
+            self._dataCollectionGroupId = dataCollectionGroupId
+        else:
+            strMessage = "ERROR! XSDataResultISPyBGroupDataCollections constructor argument 'dataCollectionGroupId' is not XSDataInteger but %s" % self._dataCollectionGroupId.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'dataCollectionGroupId' attribute
+    def getDataCollectionGroupId(self): return self._dataCollectionGroupId
+    def setDataCollectionGroupId(self, dataCollectionGroupId):
+        if dataCollectionGroupId is None:
+            self._dataCollectionGroupId = None
+        elif dataCollectionGroupId.__class__.__name__ == "XSDataInteger":
+            self._dataCollectionGroupId = dataCollectionGroupId
+        else:
+            strMessage = "ERROR! XSDataResultISPyBGroupDataCollections.setDataCollectionGroupId argument is not XSDataInteger but %s" % dataCollectionGroupId.__class__.__name__
+            raise BaseException(strMessage)
+    def delDataCollectionGroupId(self): self._dataCollectionGroupId = None
+    dataCollectionGroupId = property(getDataCollectionGroupId, setDataCollectionGroupId, delDataCollectionGroupId, "Property for dataCollectionGroupId")
+    def export(self, outfile, level, name_='XSDataResultISPyBGroupDataCollections'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataResultISPyBGroupDataCollections'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._dataCollectionGroupId is not None:
+            self.dataCollectionGroupId.export(outfile, level, name_='dataCollectionGroupId')
+        else:
+            warnEmptyAttribute("dataCollectionGroupId", "XSDataInteger")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'dataCollectionGroupId':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setDataCollectionGroupId(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataResultISPyBGroupDataCollections" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataResultISPyBGroupDataCollections' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataResultISPyBGroupDataCollections is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataResultISPyBGroupDataCollections.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultISPyBGroupDataCollections()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataResultISPyBGroupDataCollections" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultISPyBGroupDataCollections()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataResultISPyBGroupDataCollections
+
+
 class XSDataResultISPyBStoreScreening(XSDataResult):
     def __init__(self, status=None, screeningId=None):
         XSDataResult.__init__(self, status)
@@ -11342,7 +11576,7 @@ class XSDataResultISPyBStoreWorkflow(XSDataResult):
 # end class XSDataResultISPyBStoreWorkflow
 
 
-class XSDataResultISPyBUpdateDataCollectionGroupWorkflow(XSDataResult):
+class XSDataResultISPyBUpdateDataCollectionGroupWorkflowId(XSDataResult):
     def __init__(self, status=None, dataCollectionGroupId=None):
         XSDataResult.__init__(self, status)
         if dataCollectionGroupId is None:
@@ -11350,7 +11584,7 @@ class XSDataResultISPyBUpdateDataCollectionGroupWorkflow(XSDataResult):
         elif dataCollectionGroupId.__class__.__name__ == "XSDataInteger":
             self._dataCollectionGroupId = dataCollectionGroupId
         else:
-            strMessage = "ERROR! XSDataResultISPyBUpdateDataCollectionGroupWorkflow constructor argument 'dataCollectionGroupId' is not XSDataInteger but %s" % self._dataCollectionGroupId.__class__.__name__
+            strMessage = "ERROR! XSDataResultISPyBUpdateDataCollectionGroupWorkflowId constructor argument 'dataCollectionGroupId' is not XSDataInteger but %s" % self._dataCollectionGroupId.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'dataCollectionGroupId' attribute
     def getDataCollectionGroupId(self): return self._dataCollectionGroupId
@@ -11360,17 +11594,17 @@ class XSDataResultISPyBUpdateDataCollectionGroupWorkflow(XSDataResult):
         elif dataCollectionGroupId.__class__.__name__ == "XSDataInteger":
             self._dataCollectionGroupId = dataCollectionGroupId
         else:
-            strMessage = "ERROR! XSDataResultISPyBUpdateDataCollectionGroupWorkflow.setDataCollectionGroupId argument is not XSDataInteger but %s" % dataCollectionGroupId.__class__.__name__
+            strMessage = "ERROR! XSDataResultISPyBUpdateDataCollectionGroupWorkflowId.setDataCollectionGroupId argument is not XSDataInteger but %s" % dataCollectionGroupId.__class__.__name__
             raise BaseException(strMessage)
     def delDataCollectionGroupId(self): self._dataCollectionGroupId = None
     dataCollectionGroupId = property(getDataCollectionGroupId, setDataCollectionGroupId, delDataCollectionGroupId, "Property for dataCollectionGroupId")
-    def export(self, outfile, level, name_='XSDataResultISPyBUpdateDataCollectionGroupWorkflow'):
+    def export(self, outfile, level, name_='XSDataResultISPyBUpdateDataCollectionGroupWorkflowId'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
         self.exportChildren(outfile, level + 1, name_)
         showIndent(outfile, level)
         outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataResultISPyBUpdateDataCollectionGroupWorkflow'):
+    def exportChildren(self, outfile, level, name_='XSDataResultISPyBUpdateDataCollectionGroupWorkflowId'):
         XSDataResult.exportChildren(self, outfile, level, name_)
         if self._dataCollectionGroupId is not None:
             self.dataCollectionGroupId.export(outfile, level, name_='dataCollectionGroupId')
@@ -11391,7 +11625,7 @@ class XSDataResultISPyBUpdateDataCollectionGroupWorkflow(XSDataResult):
     def marshal( self ):
         oStreamString = StringIO()
         oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataResultISPyBUpdateDataCollectionGroupWorkflow" )
+        self.export( oStreamString, 0, name_="XSDataResultISPyBUpdateDataCollectionGroupWorkflowId" )
         oStringXML = oStreamString.getvalue()
         oStreamString.close()
         return oStringXML
@@ -11399,24 +11633,24 @@ class XSDataResultISPyBUpdateDataCollectionGroupWorkflow(XSDataResult):
     def exportToFile( self, _outfileName ):
         outfile = open( _outfileName, "w" )
         outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataResultISPyBUpdateDataCollectionGroupWorkflow' )
+        self.export( outfile, 0, name_='XSDataResultISPyBUpdateDataCollectionGroupWorkflowId' )
         outfile.close()
     #Deprecated method, replaced by exportToFile
     def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataResultISPyBUpdateDataCollectionGroupWorkflow is deprecated, please use instead exportToFile!")
+        print("WARNING: Method outputFile in class XSDataResultISPyBUpdateDataCollectionGroupWorkflowId is deprecated, please use instead exportToFile!")
         self.exportToFile(_outfileName)
     #Method for making a copy in a new instance
     def copy( self ):
-        return XSDataResultISPyBUpdateDataCollectionGroupWorkflow.parseString(self.marshal())
+        return XSDataResultISPyBUpdateDataCollectionGroupWorkflowId.parseString(self.marshal())
     #Static method for parsing a string
     def parseString( _inString ):
         doc = minidom.parseString(_inString)
         rootNode = doc.documentElement
-        rootObj = XSDataResultISPyBUpdateDataCollectionGroupWorkflow()
+        rootObj = XSDataResultISPyBUpdateDataCollectionGroupWorkflowId()
         rootObj.build(rootNode)
         # Check that all minOccurs are obeyed by marshalling the created object
         oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataResultISPyBUpdateDataCollectionGroupWorkflow" )
+        rootObj.export( oStreamString, 0, name_="XSDataResultISPyBUpdateDataCollectionGroupWorkflowId" )
         oStreamString.close()
         return rootObj
     parseString = staticmethod( parseString )
@@ -11424,11 +11658,11 @@ class XSDataResultISPyBUpdateDataCollectionGroupWorkflow(XSDataResult):
     def parseFile( _inFilePath ):
         doc = minidom.parse(_inFilePath)
         rootNode = doc.documentElement
-        rootObj = XSDataResultISPyBUpdateDataCollectionGroupWorkflow()
+        rootObj = XSDataResultISPyBUpdateDataCollectionGroupWorkflowId()
         rootObj.build(rootNode)
         return rootObj
     parseFile = staticmethod( parseFile )
-# end class XSDataResultISPyBUpdateDataCollectionGroupWorkflow
+# end class XSDataResultISPyBUpdateDataCollectionGroupWorkflowId
 
 
 class XSDataResultRetrieveDataCollection(XSDataResult):

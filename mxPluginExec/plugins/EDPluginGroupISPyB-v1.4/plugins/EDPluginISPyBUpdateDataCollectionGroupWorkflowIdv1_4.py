@@ -42,11 +42,11 @@ from suds.sax.date import DateTime
 
 from XSDataCommon import XSDataInteger
 
-from XSDataISPyBv1_4 import XSDataInputISPyBUpdateDataCollectionGroupWorkflow
-from XSDataISPyBv1_4 import XSDataResultISPyBUpdateDataCollectionGroupWorkflow
+from XSDataISPyBv1_4 import XSDataInputISPyBUpdateDataCollectionGroupWorkflowId
+from XSDataISPyBv1_4 import XSDataResultISPyBUpdateDataCollectionGroupWorkflowId
 
 
-class EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4(EDPluginExec):
+class EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4(EDPluginExec):
     """
     Plugin to store workflow id status in a data collection group given an image path
     """
@@ -56,7 +56,7 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4(EDPluginExec):
         Sets default values for dbserver parameters 
         """
         EDPluginExec.__init__(self)
-        self.setXSDataInputClass(XSDataInputISPyBUpdateDataCollectionGroupWorkflow)
+        self.setXSDataInputClass(XSDataInputISPyBUpdateDataCollectionGroupWorkflowId)
         self.strUserName = None
         self.strPassWord = None
         self.strToolsForCollectionWebServiceWsdl = None
@@ -70,15 +70,15 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4(EDPluginExec):
         EDPluginExec.configure(self)
         self.strUserName = self.config.get("userName")
         if self.strUserName is None:
-            self.ERROR("EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4.configure: No user name found in configuration!")
+            self.ERROR("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.configure: No user name found in configuration!")
             self.setFailure()
         self.strPassWord = self.config.get("passWord")
         if self.strPassWord is None:
-            self.ERROR("EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4.configure: No pass word found in configuration!")
+            self.ERROR("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.configure: No pass word found in configuration!")
             self.setFailure()
         self.strToolsForCollectionWebServiceWsdl = self.config.get("toolsForCollectionWebServiceWsdl")
         if self.strToolsForCollectionWebServiceWsdl is None:
-            self.ERROR("EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
+            self.ERROR("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
             self.setFailure()
                 
     def getXSValue(self, _xsData, _oDefaultValue=None, _iMaxStringLength=255):
@@ -112,7 +112,7 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4(EDPluginExec):
         Uses ToolsForCollectionWebService for storing the workflow status
         """
         EDPluginExec.process(self)
-        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4.process")
+        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.process")
         # First get the image ID
         xsDataInput = self.getDataInput()
 #        print xsDataInput.marshal()
@@ -123,7 +123,7 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4(EDPluginExec):
                 fileName     = self.getXSValue(xsDataInput.fileName), \
                 workflowId   = self.getXSValue(xsDataInput.workflowId), \
                 )
-        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4.process: DataCollectionGroupId=%d" % self.iDataCollectionGroupId)
+        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.process: DataCollectionGroupId=%d" % self.iDataCollectionGroupId)
             
              
 
@@ -131,8 +131,8 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4(EDPluginExec):
 
     def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4.postProcess")
-        xsDataResultISPyBUpdateDataCollectionGroupWorkflow = XSDataResultISPyBUpdateDataCollectionGroupWorkflow()
+        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.postProcess")
+        xsDataResultISPyBUpdateDataCollectionGroupWorkflowId = XSDataResultISPyBUpdateDataCollectionGroupWorkflowId()
         if self.iDataCollectionGroupId is not None:
-            xsDataResultISPyBUpdateDataCollectionGroupWorkflow.dataCollectionGroupId = XSDataInteger(self.iDataCollectionGroupId)
-        self.setDataOutput(xsDataResultISPyBUpdateDataCollectionGroupWorkflow)
+            xsDataResultISPyBUpdateDataCollectionGroupWorkflowId.dataCollectionGroupId = XSDataInteger(self.iDataCollectionGroupId)
+        self.setDataOutput(xsDataResultISPyBUpdateDataCollectionGroupWorkflowId)
