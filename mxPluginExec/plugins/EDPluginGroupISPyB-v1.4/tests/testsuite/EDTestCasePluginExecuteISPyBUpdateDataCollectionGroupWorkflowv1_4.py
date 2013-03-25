@@ -58,7 +58,7 @@ class EDTestCasePluginExecuteISPyBUpdateDataCollectionGroupWorkflowv1_4(EDTestCa
         edPlugin = self.getPlugin()
         xsDataResult = edPlugin.getDataOutput()
         bAttributeExists = True
-        if xsDataResult.workflowId is None:
+        if xsDataResult.dataCollectionGroupId is None:
             bAttributeExists = False
         EDAssert.equal(True, bAttributeExists, "Attribute workflowId in the result")
 

@@ -115,7 +115,7 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4(EDPluginExec):
         self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowv1_4.process")
         # First get the image ID
         xsDataInput = self.getDataInput()
-        print xsDataInput.marshal()
+#        print xsDataInput.marshal()
         httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
         clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
         self.iDataCollectionGroupId = clientToolsForCollectionWebService.service.updateDataCollectionGroupWorkflowId( \
