@@ -1,13 +1,13 @@
 # coding: utf8
 #
-#    Project: <projectName>
+#    Project: Autoproc
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) <copyright>
+#    Copyright (C) ESRF
 #
-#    Principal author:       <author>
+#    Principal author: Thomas Boeglin
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="thomas boeglin"
+__author__="Thomas Boeglin"
 __license__ = "GPLv3+"
-__copyright__ = "<copyright>"
+__copyright__ = "ESRF"
 
 
 import os
@@ -73,7 +73,7 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
             # a non specified list input parameter has a default value
             # of [], seriously???
             if len(resrange) != 2:
-                EDVerbose.ERROR("resolution range must be 2 in length ({} given)".format(resrange))
+                EDVerbose.ERROR("resolution range must be 2 in length ({0} given)".format(resrange))
                 self.setFailure()
                 return
 
@@ -93,20 +93,21 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # limitation of xds
         # TODO: don't even try if not on Unix
 
-        # XXX: why did i make this config item a list instead of a
-        # regular string?
-        file_template = os.path.abspath(parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0])
+        file_template = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
 
-        directory = os.path.dirname(file_template)
-        filename = os.path.basename(file_template)
+        # get the real directory the files are in by getting the real
+        # path of the first image
+        first_image_no = parsed_config['DATA_RANGE='][0]
+        first_image = _template_to_image(file_template, first_image_no)
+        real_data_dir = os.path.dirname(os.path.realpath(first_image))
 
-        matches = fnmatch.filter(os.listdir(directory), filename)
-        our_dir = self.getWorkingDirectory()
-        for f in matches:
-            os.symlink(os.path.join(directory, f),
-                       os.path.join(our_dir, f))
-        # patch the template in the config by stripping the whole prefix
-        parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = filename
+        # create a link to this dir in our dir
+        os.symlink(real_data_dir,
+                   os.path.join(self.getWorkingDirectory(), 'i'))
+
+        # and update the config to refer to this dir
+        new_template = os.path.join('i', os.path.basename(file_template))
+        parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = new_template
 
         # perhaps modify some params
         job = self.dataInput.job
@@ -114,6 +115,11 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         maxjobs = self.dataInput.maxjobs
         resolution_range = self.dataInput.resolution_range
         friedels_law = self.dataInput.friedels_law
+        spot_range = self.dataInput.spot_range
+        spacegroup = self.dataInput.spacegroup
+        unit_cell = self.dataInput.unit_cell
+
+        self.DEBUG('requested spot range is {0}'.format(spot_range))
 
         if job is not None:
             parsed_config["JOB="] = job.value
@@ -128,8 +134,45 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
                 parsed_config["FRIEDEL'S_LAW="] = "TRUE"
             else:
                 parsed_config["FRIEDEL'S_LAW="] = "FALSE"
-        dump_xds_file(xds_file, parsed_config)
+        if spot_range is not None and len(spot_range) > 0:
+            spot_range_list = list()
+            for srange in spot_range:
+                spot_range_list.append('{0} {1}'.format(srange.begin, srange.end))
+            self.DEBUG('setting the spot range to {0} as requested'.format(spot_range_list))
+            parsed_config['SPOT_RANGE='] = spot_range_list
+        # unit cell might be an empty string or some other crazy stuff
+        # we need 6 floats/ints
+        if unit_cell is not None:
+            ucells = unit_cell.value.split()
+            if len(ucells) != 6:
+                unit_cell = None
+            else:
+                try:
+                    if any(float(x) == 0 for x in ucells):
+                        unit_cell = None
+                except ValueError:
+                    unit_cell = None
+        # both need to be specified
+        if spacegroup is not None and unit_cell is not None:
+            self.DEBUG('specific spacegroup requested: {0}'.format(spacegroup.value))
+            self.DEBUG('specific unit cell requested: {0}'.format(unit_cell.value))
+            parsed_config['SPACE_GROUP_NUMBER='] = str(spacegroup.value)
+            parsed_config['UNIT_CELL_CONSTANTS='] = unit_cell.value
 
+        # For [XY]-GEO_CORR files, link them in the cwd and fix their paths
+        if 'X-GEO_CORR=' in parsed_config:
+            xgeo = parsed_config['X-GEO_CORR='][0]
+            os.symlink(xgeo,
+                       os.path.join(self.getWorkingDirectory(), os.path.basename(xgeo)))
+            parsed_config['X-GEO_CORR='] = os.path.basename(xgeo)
+        if 'Y-GEO_CORR=' in parsed_config:
+            ygeo = parsed_config['Y-GEO_CORR='][0]
+            os.symlink(ygeo,
+                       os.path.join(self.getWorkingDirectory(), os.path.basename(ygeo)))
+            parsed_config['Y-GEO_CORR='] = os.path.basename(ygeo)
+
+        # Save back the changes
+        dump_xds_file(xds_file, parsed_config)
 
     def process(self, _edObject = None):
         EDPluginExecProcessScript.process(self)
@@ -145,9 +188,38 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
 
         # XDS is considered to have succeeded iff CORRECT.LP has been created
         outfile = os.path.join(self.getWorkingDirectory(), 'CORRECT.LP')
+        self.DEBUG('looking for {0}'.format(outfile))
         if not os.path.isfile(outfile):
+            self.DEBUG('NOT FOUND')
             xsDataResult.succeeded = XSDataBoolean(False)
             self.setFailure()
         else:
+            self.DEBUG('FOUND')
             xsDataResult.succeeded = XSDataBoolean(True)
+        self.DEBUG('succeeded is {0} and succeeded.value is {1}'.format(xsDataResult.succeeded,
+                                                                        xsDataResult.succeeded.value))
         self.setDataOutput(xsDataResult)
+
+
+
+# XXX: This is the third file I copy this function to: extract it
+# somewhere
+def _template_to_image(fmt, num):
+    # for simplicity we will assume the template to contain only one
+    # sequence of '?' characters. max's code uses a regexp so this
+    # further restrict the possible templates.
+    start = fmt.find('?')
+    end = fmt.rfind('?')
+    if start == -1 or end == -1:
+        # the caller test for the file existence and an empty path
+        # does not exist
+        return ''
+    prefix = fmt[:start]
+    suffix = fmt[end+1:]
+    length = end - start + 1
+
+    # this is essentially the python format string equivalent to the
+    # template string
+    fmt_string = prefix + '{0:0' + str(length) + 'd}' + suffix
+
+    return fmt_string.format(num)

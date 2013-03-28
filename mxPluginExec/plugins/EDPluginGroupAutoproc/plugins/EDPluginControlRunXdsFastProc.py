@@ -23,27 +23,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Thomsa Boeglin"
+__author__="Thomas Boeglin"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
+import sys
 import os.path
+import shutil
 
 from EDPluginControl import EDPluginControl
 from EDVerbose import EDVerbose
 
 from XSDataCommon import XSDataFile, XSDataString
 
-from XSDataAutoproc  import XSDataMinimalXdsIn, XSDataXdsOutputFile
+from XSDataAutoproc  import XSDataMinimalXdsIn, XSDataXdsOutputFile, XSDataRange
 
-class EDPluginControlRunXds( EDPluginControl ):
+from xdscfgparser import parse_xds_file
+
+class EDPluginControlRunXdsFastProc( EDPluginControl ):
     """
-    Runx XDS 3 times like Max's autoproc does.
-    1. First run is a vanilla run
-    2. Second run set JOB to DEFPIX INTEGRATE CORRECT
-    3. Third run set JOB to ALL, maxproc to 4 and maxjobs to 1
-    4. Final run set JOB to DEFPIX INTEGRATE CORRECT and maxproc and
-    maxjobs like the 3rd run
+    Run XDS up to three times, extending the SPOT_RANGE after each
+    failure.
     """
 
 
@@ -56,7 +56,6 @@ class EDPluginControlRunXds( EDPluginControl ):
         self.first_run = None
         self.second_run = None
         self.third_run = None
-        self.final_run = None
 
         # to hold a ref to the successful plugin
         self.successful_run = None
@@ -65,24 +64,43 @@ class EDPluginControlRunXds( EDPluginControl ):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginControlRunXds.checkParameters")
+        self.DEBUG("EDPluginControlRunXdsFastProc.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.input_file, "No XDS input file")
 
 
     def preProcess(self, _edObject = None):
         EDPluginControl.preProcess(self)
-        self.DEBUG("EDPluginControl<pluginName>.preProcess")
+        self.DEBUG("EDPluginControlRunXdsFastProc.preProcess")
         # Load the execution plugin
         self.first_run = self.loadPlugin(self.controlled_plugin_name)
 
+        cfg = parse_xds_file(self.dataInput.input_file.value)
+        spot_range = cfg.get('SPOT_RANGE=')
+        if spot_range is None:
+            self.ERROR('no SPOT_RANGE parameter')
+            self.setFailure()
+        else:
+            self.spot_range = spot_range
+
+        # we will use this value to constrain the upper bound of
+        # spot_range so it does not get past the last image number, so
+        # we use a default value that cannot be a constraint in case
+        # we cannot find it in the xds input file
+        self.end_image_no = sys.maxint
+
+        data_range = cfg.get('DATA_RANGE=')
+        if data_range is not None:
+            self.end_image_no = data_range[1]
 
     def process(self, _edObject = None):
         EDPluginControl.process(self)
-        self.DEBUG("EDPluginControlRunXds.process")
+        self.DEBUG("EDPluginControlRunXdsFastProc.process")
         # First run is vanilla without any modification
         params = XSDataMinimalXdsIn()
         params.input_file = self.dataInput.input_file
+        params.spacegroup = self.dataInput.spacegroup
+        params.unit_cell = self.dataInput.unit_cell
         self.first_run.dataInput = params
         self.first_run.executeSynchronous()
 
@@ -96,11 +114,33 @@ class EDPluginControlRunXds( EDPluginControl ):
 
 
         if not self.successful_run:
-            # second run w/ JOB set to DEFPIX INTEGRATE CORRECT
             self.second_run = self.loadPlugin(self.controlled_plugin_name)
+            self.DEBUG('retrying with increased SPOT_RANGE')
+            self.DEBUG('copying previously generated files to the new plugin dir')
+            copy_xds_files(self.first_run.getWorkingDirectory(),
+                           self.second_run.getWorkingDirectory())
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
-            params.jobs = 'DEFPIX INTEGRATE CORRECT'
+            params.job = XSDataString('DEFPIX INTEGRATE CORRECT')
+            params.spacegroup = self.dataInput.spacegroup
+            params.unit_cell = self.dataInput.unit_cell
+
+            # increase all the spot ranges end by 20, constrained to
+            # the data range upper limit
+            spot_range = list()
+            for srange in self.spot_range:
+                range_begin = srange[0]
+                range_end = srange[1] + 20
+                if range_end > self.end_image_no:
+                    self.DEBUG('End of range {0} would be past the last image {1}'.format(range_end,
+                                                                                          self.end_image_no))
+                    range_end = self.end_image_no
+                self.DEBUG('Changing spot range {0} to [{1} {2}]'.format(srange, range_begin, range_end))
+                r = XSDataRange(begin=range_begin, end=range_end)
+                spot_range.append(r)
+
+            params.spot_range = spot_range
+
             self.second_run.dataInput = params
             self.second_run.executeSynchronous()
 
@@ -113,13 +153,30 @@ class EDPluginControlRunXds( EDPluginControl ):
 
 
         if not self.successful_run:
-        # third run with JOB set to ALL and mxaprocs = 4 and maxjobs = 1
             self.third_run = self.loadPlugin(self.controlled_plugin_name)
+            self.DEBUG('retrying with increased SPOT_RANGE')
+            self.DEBUG('copying previously generated files to the new plugin dir')
+            copy_xds_files(self.second_run.getWorkingDirectory(),
+                           self.third_run.getWorkingDirectory())
             params = XSDataMinimalXdsIn()
             params.input_file = self.dataInput.input_file
-            params.jobs = 'ALL'
-            params.maxprocs = 4
-            params.maxjobs = 1
+            params.job = XSDataString('DEFPIX INTEGRATE CORRECT')
+            params.spacegroup = self.dataInput.spacegroup
+            params.unit_cell = self.dataInput.unit_cell
+            spot_range = list()
+            for srange in self.spot_range:
+                range_begin = srange[0]
+                range_end = srange[1] + 40
+                if range_end > self.end_image_no:
+                    self.DEBUG('End of range {0} would be past the last image {1}'.format(range_end,
+                                                                                          self.end_image_no))
+                    range_end = self.end_image_no
+                self.DEBUG('Changing spot range {0} to [{1} {2}]'.format(srange, range_begin, range_end))
+                r = XSDataRange(begin=range_begin, end=range_end)
+                spot_range.append(r)
+
+            params.spot_range = spot_range
+
             self.third_run.dataInput = params
             self.third_run.executeSynchronous()
 
@@ -127,25 +184,6 @@ class EDPluginControlRunXds( EDPluginControl ):
             if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded.value:
                 EDVerbose.DEBUG('... and it worked')
                 self.successful_run = self.third_run
-            else:
-                EDVerbose.DEBUG('... and it failed')
-
-
-        if not self.successful_run:
-        # final run with parallelism like 3 but JOB like 2
-            self.final_run = self.loadPlugin(self.controlled_plugin_name)
-            params = XSDataMinimalXdsIn()
-            params.input_file = self.dataInput.input_file
-            params.jobs = 'DEFPIX INTEGRATE CORRECT'
-            params.maxprocs = 4
-            params.maxjobs = 1
-            self.final_run.dataInput = params
-            self.final_run.executeSynchronous()
-
-            EDVerbose.DEBUG('final run completed')
-            if self.final_run.dataOutput is not None and self.final_run.dataOutput.succeeded:
-                EDVerbose.DEBUG('... and it worked')
-                self.successful_run = self.final_run
             else:
                 EDVerbose.DEBUG('... and it failed')
 
@@ -177,5 +215,25 @@ class EDPluginControlRunXds( EDPluginControl ):
 
     def postProcess(self, _edObject = None):
         EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginControlRunXds.postProcess")
+        self.DEBUG("EDPluginControlRunXdsFastProc.postProcess")
         # XXX: maybe move the XDS output parsing there?
+
+def copy_xds_files(source_dir, dest_dir):
+    # those files are generated by the first steps of XDS. When we try
+    # a re-run with JOB= DEFPIX INTEGRATE CORRECT we need them to be
+    # available in the current directory
+    FILES = [ 'X-CORRECTIONS.cbf',
+              'Y-CORRECTIONS.cbf',
+              'BKGINIT.cbf',
+              'XPARM.XDS',
+              'BLANK.cbf',
+              'GAIN.cbf',
+              'REMOVE.HKL'
+              ]
+    for f in FILES:
+        try:
+            shutil.copyfile(os.path.join(source_dir, f),
+                            os.path.join(dest_dir, f))
+        except IOError:
+            #file not found
+            pass
