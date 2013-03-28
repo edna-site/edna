@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataInputDexafs>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/data_debora.dat</value>
+    </path>
+  </inputFile>
+  <energyCalibration>
+    <a>
+      <value>11426.0</value>
+    </a>
+    <b>
+      <value>0.56</value>
+    </b>
+  </energyCalibration>
+</XSDataInputDexafs>
