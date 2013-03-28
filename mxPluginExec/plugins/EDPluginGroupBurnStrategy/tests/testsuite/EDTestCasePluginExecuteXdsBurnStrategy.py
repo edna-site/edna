@@ -31,13 +31,8 @@ __status__ = "production"
 
 import os
 
-
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
-from EDUtilsTest                         import EDUtilsTest
-from EDUtilsPath                         import EDUtilsPath
-
-
 
 
 class EDTestCasePluginExecuteXdsBurnStrategy(EDTestCasePluginExecute):
@@ -45,20 +40,16 @@ class EDTestCasePluginExecuteXdsBurnStrategy(EDTestCasePluginExecute):
 
     def __init__(self, _oalStringTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlXdsBurnStrategy")
-        self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputXdsBurnStrategy_reference.xml"))
 
 
     def testExecute(self):
         self.run()
+        # Check that we have result HKL file
+        xsDataOutput = self.getPlugin().dataOutput
+        EDAssert.equal(True, os.path.exists(xsDataOutput.xds_hkl.value), "XDS HKL file is present")
 
 
     def process(self):
         self.addTestMethod(self.testExecute)
 
-
-
-if __name__ == '__main__':
-
-    edTestCasePluginExecuteXdsBurnStrategy = EDTestCasePluginExecuteXdsBurnStrategy("EDTestCasePluginExecuteXdsBurnStrategy")
-    edTestCasePluginExecuteXdsBurnStrategy.execute()
