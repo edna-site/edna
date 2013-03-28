@@ -96,7 +96,7 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         # absolute as well. The underlying XDS template will take care
         # of creating the links in its dir
         imtemplate = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
-        basedir = os.path.abspath(self.dataInput.input_file.value)
+        basedir = os.path.abspath(os.path.dirname(self.dataInput.input_file.value))
         newpath = os.path.join(basedir, imtemplate)
         parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = newpath
 
@@ -121,7 +121,7 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         self.dataOutput = XSDataOutputXdsBurnStrategy()
         self.dataOutput.status = XSDataStatus()
         # check if a XDS.HKL file has been generated
-        expected = os.path.join(self._xds.getWorkingDirectory(), 'XDS.HKL')
+        expected = os.path.join(self._xds.getWorkingDirectory(), 'XDS_ASCII.HKL')
         if os.path.exists(expected):
             self.dataOutput.status.isSuccess = XSDataBoolean(True)
             self.dataOutput.xds_hkl = XSDataString(expected)
