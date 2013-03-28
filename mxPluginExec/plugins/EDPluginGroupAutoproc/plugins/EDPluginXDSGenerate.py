@@ -1,13 +1,13 @@
 # coding: utf8
 #
-#    Project: <projectName>
+#    Project: Autoproc
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) <copyright>
+#    Copyright (C) ESRF
 #
-#    Principal author:        <author>
+#    Principal author: Thomas Boeglin
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="<author>"
+__author__="Thomas Boeglin"
 __license__ = "GPLv3+"
-__copyright__ = "<copyright>"
+__copyright__ = "ESRF"
 
 
 from shutil import copyfile
@@ -82,7 +82,7 @@ class EDPluginXDSGenerate(EDPluginControl):
 
         for f in self._required:
             if not os.path.isfile(f):
-                EDVerbose.ERROR('missing required file {}'.format(f))
+                EDVerbose.ERROR('missing required file {0}'.format(f))
                 self.setFailure()
                 return
 
@@ -96,9 +96,24 @@ class EDPluginXDSGenerate(EDPluginControl):
 
         path = os.path.abspath(self.dataInput.previous_run_dir.value)
 
+        # The MinimalXds plugin takes care of creating determining the
+        # real images directory and creating a symlink to it so we
+        # only need to update the NAMED_TEMPLATE_OF_DATA_FILES keyword
+        # to not be relative anymore. We'll copy it to our own dir
+        # beforehand to avoid clobbering it
+        xdsinp = os.path.join(path, 'XDS.INP')
+        new_xdsinp = os.path.join(self.getWorkingDirectory(), 'XDS.INP')
+        copyfile(xdsinp, new_xdsinp)
+
+
+        parsed_config = parse_xds_file(new_xdsinp)
+        file_template = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
+        parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = os.path.abspath(os.path.join(path, file_template))
+        dump_xds_file(new_xdsinp, parsed_config)
+
         # create the data inputs now we know the files are here
         input_anom = XSDataMinimalXdsIn()
-        input_anom.input_file = XSDataString(os.path.join(path, 'XDS.INP'))
+        input_anom.input_file = XSDataString(new_xdsinp)
         input_anom.friedels_law = XSDataBoolean(True)
         input_anom.job = XSDataString('CORRECT')
         input_anom.resolution = self.dataInput.resolution
@@ -106,31 +121,20 @@ class EDPluginXDSGenerate(EDPluginControl):
         self.xds_anom.dataInput = input_anom
 
         input_noanom = XSDataMinimalXdsIn()
-        input_noanom.input_file = XSDataString(os.path.join(path, 'XDS.INP'))
-        input_noanom.fridels_law = XSDataBoolean(False)
+        input_noanom.input_file = XSDataString(new_xdsinp)
+        input_noanom.friedels_law = XSDataBoolean(False)
         input_noanom.job = XSDataString('CORRECT')
         input_noanom.resolution_range = [XSDataFloat(60), self.dataInput.resolution]
         self.xds_noanom.dataInput = input_noanom
 
         xds_anom_dir = os.path.abspath(self.xds_anom.getWorkingDirectory())
         xds_noanom_dir = os.path.abspath(self.xds_noanom.getWorkingDirectory())
+
+
         # let's make some links!
         for f in self._to_link:
             os.symlink(f, os.path.join(xds_anom_dir, os.path.basename(f)))
             os.symlink(f, os.path.join(xds_noanom_dir, os.path.basename(f)))
-        # now this is the horrible part, we need to make symlinks to
-        # the images also. for now we rely on the fact that the links
-        # in the previous run are most likely the links to the
-        # images. So we will make the same links and rely on the fact
-        # that in the input file the path to the images is already
-        # relative to the CWD
-        path = os.path.abspath(self.dataInput.previous_run_dir.value)
-        for f in os.listdir(path):
-            fullpath = os.path.join(path, f)
-            if os.path.islink(fullpath):
-                # symlink the symlink...
-                os.symlink(fullpath, os.path.join(xds_anom_dir, f))
-                os.symlink(fullpath, os.path.join(xds_noanom_dir, f))
 
 
     def process(self, _edObject = None):
@@ -169,7 +173,7 @@ class EDPluginXDSGenerate(EDPluginControl):
             return
 
         #Now backup the file
-        xds_run_directory= self.xds_anom.getWorkingDirectory()
+        xds_run_directory= self.xds_noanom.getWorkingDirectory()
         xds_output = os.path.join(xds_run_directory, 'XDS_ASCII.HKL')
         output_noanom = os.path.join(mydir, 'XDS_NOANOM.HKL')
         copyfile(xds_output, output_noanom)
@@ -180,12 +184,20 @@ class EDPluginXDSGenerate(EDPluginControl):
         correct_lp_noanom = os.path.join(mydir, 'CORRECT_NOANOM.LP')
         copyfile(correct_lp, correct_lp_noanom)
 
+        gxparm = os.path.join(xds_run_directory, 'GXPARM.XDS')
+
         # everything went fine
         data_output = XSDataXdsGenerateOutput()
         data_output.hkl_anom = XSDataString(output_anom)
         data_output.hkl_no_anom = XSDataString(output_noanom)
         data_output.correct_lp_no_anom = XSDataString(correct_lp_noanom)
         data_output.correct_lp_anom = XSDataString(correct_lp_anom)
+
+        if not os.path.isfile(gxparm):
+            EDVerbose.WARNING('No GXPARM.XDS in {0}'.format(xds_run_directory))
+            EDVerbose.WARNING('Things will probably crash soon')
+        else:
+            data_output.gxparm = XSDataString(gxparm)
         self.dataOutput = data_output
 
     def postProcess(self, _edObject = None):

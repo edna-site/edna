@@ -213,6 +213,7 @@ class EDPluginControlDIMPLEPipelineCalcDiffMapv10(EDPluginControl):
         hklin = hklout
         hklout = os.path.join(self.getWorkingDirectory(),
                               'prepared.mtz')     
+        preparedmtz = hklout
         
         
         self._prepare_mtz_plugin.setDataInput(
@@ -236,7 +237,7 @@ class EDPluginControlDIMPLEPipelineCalcDiffMapv10(EDPluginControl):
         self._prepare_pdb_plugin.setDataInput(
             CCP4DataInputControlCopyUnitCellMTZtoPDB(
             XYZIN = XYZ(self._xyzin),
-            HKLIN = HKL(self._hklin),
+            HKLIN = HKL(preparedmtz),
             XYZOUT = XYZ(xyzout)))
 
         self._prepare_pdb_plugin.connectSUCCESS(self._generic_success)
