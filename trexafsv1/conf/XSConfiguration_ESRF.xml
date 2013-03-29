@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecJesfv1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/sware/isdd/soft/jesf/vdefault/linux/jesf</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

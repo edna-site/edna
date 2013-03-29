@@ -1,0 +1,82 @@
+ ------------------------------
+  program JESF by A. Filipponi 
+ ------------------------------
+ INPUT FILE NAME?
+ >>> FILE NAME: spectra.dat                                                                               
+  ENERGY is in keV!
+  >>>  2047   DATA ENERGY POINTS!
+  energies are in eV
+ 11
+ 3 2 2 2 2 0 0 0 0 0
+ EDGE=  24365.283
+ SLOPE= 40.194695
+ JUMP=  1.6151865
+ EWL=   24379.71
+ hwl=   0.5027457
+  edge is at point  716
+ 1 656  r m s noise =  0.0059976196
+  noise evaluation from point  778
+  in  63   intervals
+ 778 798  r m s noise =  0.0051321913
+ 798 818  r m s noise =  0.004251033
+ 818 838  r m s noise =  0.0039574993
+ 838 858  r m s noise =  0.004616351
+ 858 878  r m s noise =  0.004859124
+ 878 898  r m s noise =  0.0037271273
+ 898 918  r m s noise =  0.0055888607
+ 918 938  r m s noise =  0.004326387
+ 938 958  r m s noise =  0.0045865434
+ 958 978  r m s noise =  0.0049311602
+ 978 998  r m s noise =  0.005568713
+ 998 1018  r m s noise =  0.003312679
+ 1018 1038  r m s noise =  0.004424581
+ 1038 1058  r m s noise =  0.0050354037
+ 1058 1078  r m s noise =  0.0037355677
+ 1078 1098  r m s noise =  0.0052209734
+ 1098 1118  r m s noise =  0.0033233482
+ 1118 1138  r m s noise =  0.004589425
+ 1138 1158  r m s noise =  0.0047759037
+ 1158 1178  r m s noise =  0.004624229
+ 1178 1198  r m s noise =  0.0029061579
+ 1198 1218  r m s noise =  0.0037225506
+ 1218 1238  r m s noise =  0.0052386
+ 1238 1258  r m s noise =  0.005593318
+ 1258 1278  r m s noise =  0.0030043153
+ 1278 1298  r m s noise =  0.0041528447
+ 1298 1318  r m s noise =  0.004277327
+ 1318 1338  r m s noise =  0.0029699376
+ 1338 1358  r m s noise =  0.0038828368
+ 1358 1378  r m s noise =  0.0038686981
+ 1378 1398  r m s noise =  0.003625267
+ 1398 1418  r m s noise =  0.0032253065
+ 1418 1438  r m s noise =  0.004302668
+ 1438 1458  r m s noise =  0.0035424589
+ 1458 1478  r m s noise =  0.0027447245
+ 1478 1498  r m s noise =  0.004875674
+ 1498 1518  r m s noise =  0.003854078
+ 1518 1538  r m s noise =  0.0030093407
+ 1538 1558  r m s noise =  0.0039427197
+ 1558 1578  r m s noise =  0.004974166
+ 1578 1598  r m s noise =  0.004720381
+ 1598 1618  r m s noise =  0.0045551746
+ 1618 1638  r m s noise =  0.005429481
+ 1638 1658  r m s noise =  0.003718931
+ 1658 1678  r m s noise =  0.0052822675
+ 1678 1698  r m s noise =  0.004898141
+ 1698 1718  r m s noise =  0.0053797825
+ 1718 1738  r m s noise =  0.005485478
+ 1738 1758  r m s noise =  0.0050091157
+ 1758 1778  r m s noise =  0.004236193
+ 1778 1798  r m s noise =  0.005087433
+ 1798 1818  r m s noise =  0.004019813
+ 1818 1838  r m s noise =  0.0042302674
+ 1838 1858  r m s noise =  0.0051979036
+ 1858 1878  r m s noise =  0.004176116
+ 1878 1898  r m s noise =  0.0037637942
+ 1898 1918  r m s noise =  0.004456035
+ 1918 1938  r m s noise =  0.0038503322
+ 1938 1958  r m s noise =  0.0042610797
+ 1958 1978  r m s noise =  0.0042886864
+ 1978 1998  r m s noise =  0.005366904
+ 1998 2018  r m s noise =  0.005082003
+ 2018 2047  r m s noise =  0.005572833
