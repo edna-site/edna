@@ -41,3 +41,4 @@ class EDTestSuiteTrexafsPluginExecutev1(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecReadDataID24v1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecWriteNexusFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlTRExafsv1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlTRExafsv1_0_debora")
