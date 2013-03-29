@@ -24,7 +24,7 @@
 
 
 
-__author__ = [ "Olof Svensson" ]
+__author__ = "Olof Svensson"
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
@@ -39,4 +39,5 @@ class EDTestSuiteTrexafsPluginUnitv1(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitExecJesfv1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitExecReadDataID24v1_0")
+        self.addTestCaseFromName("EDTestCasePluginUnitExecWriteNexusFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginUnitControlTRExafsv1_0")

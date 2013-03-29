@@ -22,16 +22,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="<author>"
+__author__ = "Olof Svensson"
+__contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
-__copyright__ = "<copyright>"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
 import numpy
 
 from EDPluginExec import EDPluginExec
 from EDUtilsFile import EDUtilsFile
-from EDFactoryPluginStatic import EDFactoryPluginStatic
 from EDUtilsArray import EDUtilsArray
 
 from XSDataReadDataID24v1_0 import XSDataInputReadDataID24
