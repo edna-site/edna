@@ -40,13 +40,8 @@ class EDTestCasePluginExecuteControlTRExafsv1_0(EDTestCasePluginExecute):
     
     def __init__(self, _strTestName = None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlTRExafsv1_0")
-#        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
-#                                               "XSConfiguration_<basePluginName>.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputTRExafs_pdfoil.xml"))
-#                                           "XSDataInputTRExafs_debora.xml"))
-#        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-#                                                     "XSDataResultJesfv1_0_reference.xml"))
                  
     def preProcess(self):
         """
@@ -56,25 +51,13 @@ class EDTestCasePluginExecuteControlTRExafsv1_0(EDTestCasePluginExecute):
         self.loadTestImage(["XSDataArrayEnergy_pdfoil.xml", "XSDataArrayData_pdfoil.xml"])
         
     def testExecute(self):
-        """
-        """ 
         self.run()
-#        plugin = self.getPlugin()
-#
-#################################################################################
-## Compare XSDataResults
-#################################################################################
-#
-#        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
-#        EDVerbose.DEBUG("Checking obtained result...")
-#        xsDataResultReference = XSDataResult.parseString(strExpectedOutput)
-#        xsDataResultObtained = plugin.getDataOutput()
-#        EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
+        plugin = self.getPlugin()
+        strPathToNexusFile = plugin.dataOutput.nexusFile.path.value
+        EDAssert.equal(True, os.path.exists(strPathToNexusFile), "Path to nexus file exists")
         
 
     def process(self):
-        """
-        """
         self.addTestMethod(self.testExecute)
 
         

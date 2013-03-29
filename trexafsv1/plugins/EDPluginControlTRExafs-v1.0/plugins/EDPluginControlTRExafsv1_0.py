@@ -27,7 +27,7 @@ __license__ = "GPLv3+"
 __copyright__ = "<copyright>"
 
 
-import numpy, pprint
+import numpy
 
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
@@ -120,6 +120,12 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         edPluginExecWriteNexusData = self.loadPlugin(self.strWriteNexusFilePluginName)
         edPluginExecWriteNexusData.dataInput = xsDataInputWriteNexusFile
         edPluginExecWriteNexusData.executeSynchronous()
+        xsDataResultTRExafs = XSDataResultTRExafs()
+        if not edPluginExecWriteNexusData.isFailure():
+            xsDataNexusFile =  edPluginExecWriteNexusData.dataOutput.outputFilePath
+            xsDataResultTRExafs.nexusFile = xsDataNexusFile
+        #
+        self.dataOutput = xsDataResultTRExafs
         
 
         
@@ -131,8 +137,6 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         for iColumn in range(iNoColumns):
             # Load the execution plugin
             edPluginExecJesf = self.loadPlugin(self.strJesfPluginName) 
-#            edPluginExecJesf.connectSUCCESS(self.doSuccessExecTemplate)
-#            edPluginExecJesf.connectFAILURE(self.doFailureExecTemplate)
             numpyArrayInputJesf = numpy.ndarray((iNoRows,2))
             numpyArrayInputJesf[:,0] = _numpyEnergyCalibrationArray
             numpyArrayInputJesf[:,1] = _numpyDataArray[:, iColumn]
@@ -202,42 +206,42 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
                         iMaxDimFort99 = iNelementsFort99
         # Create data arrays
         if iMaxDimFort92 > 0:
-            print "iMaxDimFort92: %d" % iMaxDimFort92
+#            print "iMaxDimFort92: %d" % iMaxDimFort92
             numpyDataAxis1Fort92 = numpy.arange((iNSpectra))
             numpyDataAxis2Fort92 = numpy.zeros((iMaxDimFort92))            
             numpyDataArrayFort92 = numpy.zeros((iMaxDimFort92,iNSpectra))
         else:
             numpyDataArrayFort92 = None
         if iMaxDimFort95 > 0:
-            print "iMaxDimFort95: %d" % iMaxDimFort95
+#            print "iMaxDimFort95: %d" % iMaxDimFort95
             numpyDataAxis1Fort95 = numpy.arange((iNSpectra))
             numpyDataAxis2Fort95 = numpy.zeros((iMaxDimFort95))            
             numpyDataArrayFort95 = numpy.zeros((iMaxDimFort95,iNSpectra))
         else:
             numpyDataArrayFort95 = None
         if iMaxDimFort96 > 0:
-            print "iMaxDimFort96: %d" % iMaxDimFort96
+#            print "iMaxDimFort96: %d" % iMaxDimFort96
             numpyDataAxis1Fort96 = numpy.arange((iNSpectra))
             numpyDataAxis2Fort96 = numpy.zeros((iMaxDimFort96))            
             numpyDataArrayFort96 = numpy.zeros((iMaxDimFort96,iNSpectra))
         else:
             numpyDataArrayFort96 = None
         if iMaxDimFort97 > 0:
-            print "iMaxDimFort97: %d" % iMaxDimFort97
+#            print "iMaxDimFort97: %d" % iMaxDimFort97
             numpyDataAxis1Fort97 = numpy.arange((iNSpectra))
             numpyDataAxis2Fort97 = numpy.zeros((iMaxDimFort97))            
             numpyDataArrayFort97 = numpy.zeros((iMaxDimFort97,iNSpectra))
         else:
             numpyDataArrayFort97 = None
         if iMaxDimFort98 > 0:
-            print "iMaxDimFort98: %d" % iMaxDimFort98
+#            print "iMaxDimFort98: %d" % iMaxDimFort98
             numpyDataAxis1Fort98 = numpy.arange((iNSpectra))
             numpyDataAxis2Fort98 = numpy.zeros((iMaxDimFort98))            
             numpyDataArrayFort98 = numpy.zeros((iMaxDimFort98,iNSpectra))
         else:
             numpyDataArrayFort98 = None
         if iMaxDimFort99 > 0:
-            print "iMaxDimFort99: %d" % iMaxDimFort99
+#            print "iMaxDimFort99: %d" % iMaxDimFort99
             numpyDataAxis1Fort99 = numpy.arange((iNSpectra))
             numpyDataAxis2Fort99 = numpy.zeros((iMaxDimFort99))            
             numpyDataArrayFort99 = numpy.zeros((iMaxDimFort99,iNSpectra))
@@ -313,9 +317,6 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
             dictArray["fort97"] = {"axis1" : numpyDataAxis1Fort97,
                                    "axis2" : numpyDataAxis2Fort97,
                                    "data"  : numpyDataArrayFort97}
-        print numpyDataAxis1Fort97
-        print numpyDataAxis2Fort97
-        print numpyDataArrayFort97
         if numpyDataArrayFort98 is not None:
             dictArray["fort98"] = {"axis1" : numpyDataAxis1Fort98,
                                    "axis2" : numpyDataAxis2Fort98,
@@ -327,25 +328,7 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
                                    "data"  : numpyDataArrayFort99}
         return dictArray
     
-    def postProcess(self, _edObject = None):
-        EDPluginControl.postProcess(self)
-        self.DEBUG("EDPluginControlTRExafsv1_0.postProcess")
-        # Create some output data
-        xsDataResult = XSDataResultTRExafs()
-        self.setDataOutput(xsDataResult)
     
-
-    def doSuccessExecTemplate(self,  _edPlugin = None):
-        self.DEBUG("EDPluginControlTRExafsv1_0.doSuccessExecTemplate")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlTRExafsv1_0.doSuccessExecTemplate")
-        self.screen("Run "+_edPlugin.getBaseName()+" ended with success!")
-
-
-    def doFailureExecTemplate(self,  _edPlugin = None):
-        self.DEBUG("EDPluginControlTRExafsv1_0.doFailureExecTemplate")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlTRExafsv1_0.doFailureExecTemplate")
-        self.screen("Run "+_edPlugin.getBaseName()+" ended with failure!")
-
 
     def createNexusGroup(self, _numpyDataArray,_groupTitle, _groupLongName, 
                          _numpyXAxisDataArray, _xAxisTitle, _xAxisLongName, _xAxisUnit,

@@ -30,52 +30,22 @@ import os
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
-from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from EDTestCasePluginExecuteControlTRExafsv1_0             import EDTestCasePluginExecuteControlTRExafsv1_0
 
 
-class EDTestCasePluginExecuteControlTRExafsv1_0_debora(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteControlTRExafsv1_0_debora(EDTestCasePluginExecuteControlTRExafsv1_0):
     """
     Those are all execution tests for the EDNA Exec plugin <pluginName>
     """
     
     def __init__(self, _strTestName = None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginControlTRExafsv1_0")
-#        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
-#                                               "XSConfiguration_<basePluginName>.xml"))
+        EDTestCasePluginExecuteControlTRExafsv1_0.__init__(self, "EDPluginControlTRExafsv1_0")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputTRExafs_debora.xml"))
-#                                           "XSDataInputTRExafs_debora.xml"))
-#        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-#                                                     "XSDataResultJesfv1_0_reference.xml"))
                  
     def preProcess(self):
         """
         Download reference files
         """
-        EDTestCasePluginExecute.preProcess(self)
+        EDTestCasePluginExecuteControlTRExafsv1_0.preProcess(self)
         self.loadTestImage(["XSDataArrayEnergy_debora.xml", "XSDataArrayData_debora.xml"])
-        
-    def testExecute(self):
-        """
-        """ 
-        self.run()
-#        plugin = self.getPlugin()
-#
-#################################################################################
-## Compare XSDataResults
-#################################################################################
-#
-#        strExpectedOutput = self.readAndParseFile (self.getReferenceDataOutputFile())
-#        EDVerbose.DEBUG("Checking obtained result...")
-#        xsDataResultReference = XSDataResult.parseString(strExpectedOutput)
-#        xsDataResultObtained = plugin.getDataOutput()
-#        EDAssert.strAlmostEqual(xsDataResultReference.marshal(), xsDataResultObtained.marshal(), "XSDataResult output are the same", _strExcluded="bioSaxs")
-        
-
-    def process(self):
-        """
-        """
-        self.addTestMethod(self.testExecute)
-
-        
-

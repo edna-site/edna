@@ -64,8 +64,8 @@ class EDTestCasePluginUnitExecReadDataID24v1_0(EDTestCasePluginUnit):
         strPath = os.path.join(self.getTestsDataImagesHome(), "data_debora.dat")
         edPluginExecReadDataID24 = self.createPlugin()
         numpyArray = edPluginExecReadDataID24.loadInputData(strPath)
-        print numpyArray.shape
-        print numpyArray
+#        print numpyArray.shape
+#        print numpyArray
         
     def testCreateEnergyCalibrationArray(self):
         xsDataEnergyCalibration = XSDataEnergyCalibration()
@@ -75,7 +75,7 @@ class EDTestCasePluginUnitExecReadDataID24v1_0(EDTestCasePluginUnit):
         xsDataEnergyCalibration.d = XSDataDouble(1.0e-3)
         edPluginExecReadDataID24 = self.createPlugin()
         numpyArray = edPluginExecReadDataID24.createEnergyCalibrationArray(100, xsDataEnergyCalibration)
-        print numpyArray
+#        print numpyArray
         
     
     def process(self):
