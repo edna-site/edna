@@ -72,9 +72,9 @@ class EDPluginExecWriteNexusFilev1_0( EDPluginExec ):
         # Write main data
         nxentry = self.makeGroup(nexusFile, "Result", "NXentryResult")
         for nexusGroup in xsDataInput.nexusGroup:
-            title = str(nexusGroup.title.value)
+            groupTitle = str(nexusGroup.title.value)
             long_name = str(nexusGroup.long_name.value)
-            nxdata = self.makeGroup(nxentry, title, "NXdata", long_name=long_name)
+            nxdata = self.makeGroup(nxentry, groupTitle, "NXdata", long_name=long_name)
             # First add the axes - if any...
             listAxisNames = []
             for xsDataNexusAxis in nexusGroup.axis:
@@ -96,7 +96,7 @@ class EDPluginExecWriteNexusFilev1_0( EDPluginExec ):
                     bFirst = False
                 else:
                     strAxisNames += ":"+strAxisName
-            self.makeDataset(nxdata, title, numpyDataArray.transpose(), units='counts',
+            self.makeDataset(nxdata, "data", numpyDataArray.transpose(), units='counts',
                 signal='1', # Y axis of default plot
                 axes=strAxisNames, # name of X and Y axes
                 long_name=long_name)
