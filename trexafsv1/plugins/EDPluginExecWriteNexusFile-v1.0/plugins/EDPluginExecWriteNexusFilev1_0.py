@@ -96,7 +96,7 @@ class EDPluginExecWriteNexusFilev1_0( EDPluginExec ):
                     bFirst = False
                 else:
                     strAxisNames += ":"+strAxisName
-            self.makeDataset(nxdata, "data", numpyDataArray.transpose(), units='counts',
+            self.makeDataset(nxdata, groupTitle, numpyDataArray.transpose(), 
                 signal='1', # Y axis of default plot
                 axes=strAxisNames, # name of X and Y axes
                 long_name=long_name)
