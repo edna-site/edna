@@ -103,7 +103,7 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         # Raw data
         xsDataNexusArrayGroupRawData = self.createNexusGroup(
             _numpyDataArray = numpyDataArray, 
-            _groupTitle = "data", 
+            _groupTitle = "Raw data", 
             _groupLongName = "Raw data", 
             _numpyXAxisDataArray = numpyEnergyCalibrationArray, 
             _xAxisTitle = "e", 
@@ -249,6 +249,11 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
             numpyDataArrayFort99 = numpy.zeros((iMaxDimFort99,iNSpectra))
         else:
             numpyDataArrayFort99 = None
+        numpyDataArrayEdge = numpy.zeros((iNSpectra))
+        numpyDataArraySlope = numpy.zeros((iNSpectra))
+        numpyDataArrayJump = numpy.zeros((iNSpectra))
+        numpyDataArrayHwl = numpy.zeros((iNSpectra))
+        numpyDataArrayEwl = numpy.zeros((iNSpectra))        
         # Second loop through results
         for listPlugin in _listEdPluginExecJesf:
             iSpectra = listPlugin[0]
@@ -299,6 +304,17 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
                     iSizeNumpyArrayTmp = numpyArrayTmp.shape[0]
                     numpyDataAxis2Fort99[0:iSizeNumpyArrayTmp] = numpyArrayTmp[:,0]
                     numpyDataArrayFort99[0:iSizeNumpyArrayTmp,iSpectra] = numpyArrayTmp[:,1]
+                # Edge
+                if xsDataResultJesf.edge is not None:
+                    numpyDataArrayEdge[iSpectra] = xsDataResultJesf.edge.value
+                if xsDataResultJesf.slope is not None:
+                    numpyDataArraySlope[iSpectra] = xsDataResultJesf.slope.value
+                if xsDataResultJesf.jump is not None:
+                    numpyDataArrayJump[iSpectra] = xsDataResultJesf.jump.value
+                if xsDataResultJesf.ewl is not None:
+                    numpyDataArrayEwl[iSpectra] = xsDataResultJesf.ewl.value
+                if xsDataResultJesf.hwl is not None:
+                    numpyDataArrayHwl[iSpectra] = xsDataResultJesf.hwl.value
                     
         if numpyDataArrayFort92 is not None:
             dictArray["fort92"] = {"axis1" : numpyDataAxis1Fort92,
@@ -328,13 +344,29 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
             dictArray["fort99"] = {"axis1" : numpyDataAxis1Fort99,
                                    "axis2" : numpyDataAxis2Fort99,
                                    "data"  : numpyDataArrayFort99}
+            
+        if numpyDataArrayEdge is not None:
+            dictArray["edge"]  = {"axis1" : numpy.arange((iNSpectra)),
+                                  "data"  : numpyDataArrayEdge}
+        if numpyDataArraySlope is not None:
+            dictArray["slope"] = {"axis1" : numpy.arange((iNSpectra)),
+                                  "data"  : numpyDataArraySlope}
+        if numpyDataArrayJump is not None:
+            dictArray["jump"]  = {"axis1" : numpy.arange((iNSpectra)),
+                                  "data"  : numpyDataArrayJump}
+        if numpyDataArrayEwl is not None:
+            dictArray["ewl"]   = {"axis1" : numpy.arange((iNSpectra)),
+                                  "data"  : numpyDataArrayEwl}
+        if numpyDataArrayHwl is not None:
+            dictArray["hwl"]   = {"axis1" : numpy.arange((iNSpectra)),
+                                  "data"  : numpyDataArrayHwl}
         return dictArray
     
     
 
     def createNexusGroup(self, _numpyDataArray,_groupTitle, _groupLongName, 
-                         _numpyXAxisDataArray, _xAxisTitle, _xAxisLongName, _xAxisUnit,
-                         _numpyYAxisDataArray, _yAxisTitle, _yAxisLongName, _yAxisUnit,
+                         _numpyXAxisDataArray=None, _xAxisTitle=None, _xAxisLongName=None, _xAxisUnit=None,
+                         _numpyYAxisDataArray=None, _yAxisTitle=None, _yAxisLongName=None, _yAxisUnit=None,
                          ):
         # Create entry for data arrays in nexus file
         xsDataNexusArrayGroup = XSDataNexusArrayGroup()
@@ -342,109 +374,119 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         xsDataNexusArrayGroup.long_name = XSDataString(_groupLongName)
         xsDataNexusArrayGroup.data = EDUtilsArray.arrayToXSData(_numpyDataArray)
         xsDataNexusArrayGroup.signal = XSDataInteger(1)
-        xsDataNexusAxisX = XSDataNexusAxis()
-        xsDataNexusAxisX.title = XSDataString(_xAxisTitle)
-        xsDataNexusAxisX.long_name = XSDataString(_xAxisLongName)
-        xsDataNexusAxisX.primary = XSDataInteger(1)
-        xsDataNexusAxisX.axis = XSDataInteger(0)
-        xsDataNexusAxisX.units = XSDataString(_xAxisUnit)
-        xsDataNexusAxisX.axisData = EDUtilsArray.arrayToXSData(_numpyXAxisDataArray)
-        xsDataNexusArrayGroup.addAxis(xsDataNexusAxisX)
-        xsDataNexusAxisY = XSDataNexusAxis()
-        xsDataNexusAxisY.title = XSDataString(_yAxisTitle)
-        xsDataNexusAxisY.long_name = XSDataString(_yAxisLongName)
-        xsDataNexusAxisY.primary = XSDataInteger(2)
-        xsDataNexusAxisY.axis = XSDataInteger(1)
-        xsDataNexusAxisY.units = XSDataString(_yAxisUnit)
-        xsDataNexusAxisY.axisData = EDUtilsArray.arrayToXSData(_numpyYAxisDataArray)
-        xsDataNexusArrayGroup.addAxis(xsDataNexusAxisY)
+        if _numpyXAxisDataArray is not None:
+            xsDataNexusAxisX = XSDataNexusAxis()
+            xsDataNexusAxisX.title = XSDataString(_xAxisTitle)
+            xsDataNexusAxisX.long_name = XSDataString(_xAxisLongName)
+            xsDataNexusAxisX.primary = XSDataInteger(1)
+            xsDataNexusAxisX.axis = XSDataInteger(0)
+            xsDataNexusAxisX.units = XSDataString(_xAxisUnit)
+            xsDataNexusAxisX.axisData = EDUtilsArray.arrayToXSData(_numpyXAxisDataArray)
+            xsDataNexusArrayGroup.addAxis(xsDataNexusAxisX)
+        if _numpyYAxisDataArray is not None:
+            xsDataNexusAxisY = XSDataNexusAxis()
+            xsDataNexusAxisY.title = XSDataString(_yAxisTitle)
+            xsDataNexusAxisY.long_name = XSDataString(_yAxisLongName)
+            xsDataNexusAxisY.primary = XSDataInteger(2)
+            xsDataNexusAxisY.axis = XSDataInteger(1)
+            xsDataNexusAxisY.units = XSDataString(_yAxisUnit)
+            xsDataNexusAxisY.axisData = EDUtilsArray.arrayToXSData(_numpyYAxisDataArray)
+            xsDataNexusArrayGroup.addAxis(xsDataNexusAxisY)
 #        print xsDataInputWriteNexusFile.marshal()
         return xsDataNexusArrayGroup
     
     
     def addResultArraysToNexusFile(self, _dictResultArrays, _xsDataInputWriteNexusFile):
-#        if "fort92" in _dictResultArrays.keys():
-#            xsDataNexusArrayGroupRawData = self.createNexusGroup(
-#                _numpyDataArray = _dictResultArrays["fort92"]["data"], 
-#                _groupTitle = "fort92", 
-#                _groupLongName = "Raw data", 
-#                _numpyXAxisDataArray = _dictResultArrays["fort92"]["axis1"], 
-#                _xAxisTitle = "e", 
-#                _xAxisLongName = "Energy", 
-#                _xAxisUnit = "kev", 
-#                _numpyYAxisDataArray = _dictResultArrays["fort92"]["axis2"], 
-#                _yAxisTitle = "n", 
-#                _yAxisLongName = "Spectra", 
-#                _yAxisUnit = "")
-#            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroupRawData)
         if "fort95" in _dictResultArrays.keys():
-            xsDataNexusArrayGroupRawData = self.createNexusGroup(
+            xsDataNexusArrayGroup = self.createNexusGroup(
                 _numpyDataArray = _dictResultArrays["fort95"]["data"], 
                 _groupTitle = "fort95", 
                 _groupLongName = "fort95", 
                 _numpyXAxisDataArray = _dictResultArrays["fort95"]["axis2"], 
-                _xAxisTitle = "x", 
-                _xAxisLongName = "Unknown", 
-                _xAxisUnit = "", 
+                _xAxisTitle = "k", 
+                _xAxisLongName = "Wavenumber", 
+                _xAxisUnit = "Å-1", 
                 _numpyYAxisDataArray = _dictResultArrays["fort95"]["axis1"], 
                 _yAxisTitle = "n", 
                 _yAxisLongName = "Spectra", 
                 _yAxisUnit = "")
-            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroupRawData)
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)
         if "fort96" in _dictResultArrays.keys():
-            xsDataNexusArrayGroupRawData = self.createNexusGroup(
+            xsDataNexusArrayGroup = self.createNexusGroup(
                 _numpyDataArray = _dictResultArrays["fort96"]["data"], 
-                _groupTitle = "fort96", 
-                _groupLongName = "fort96", 
+                _groupTitle = "K-weighted Chi", 
+                _groupLongName = "K-weighted Chi", 
                 _numpyXAxisDataArray = _dictResultArrays["fort96"]["axis2"], 
-                _xAxisTitle = "x", 
-                _xAxisLongName = "Unknown", 
+                _xAxisTitle = "chi", 
+                _xAxisLongName = "Chi", 
                 _xAxisUnit = "", 
                 _numpyYAxisDataArray = _dictResultArrays["fort96"]["axis1"], 
                 _yAxisTitle = "n", 
                 _yAxisLongName = "Spectra", 
                 _yAxisUnit = "")
-            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroupRawData)
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)
         if "fort97" in _dictResultArrays.keys():
-            xsDataNexusArrayGroupRawData = self.createNexusGroup(
+            xsDataNexusArrayGroup = self.createNexusGroup(
                 _numpyDataArray = _dictResultArrays["fort97"]["data"], 
-                _groupTitle = "fort97", 
-                _groupLongName = "fort97", 
+                _groupTitle = "Fourier transform", 
+                _groupLongName = "Fourier transform", 
                 _numpyXAxisDataArray = _dictResultArrays["fort97"]["axis2"], 
                 _xAxisTitle = "x", 
-                _xAxisLongName = "Unknown", 
+                _xAxisLongName = "", 
                 _xAxisUnit = "", 
                 _numpyYAxisDataArray = _dictResultArrays["fort97"]["axis1"], 
                 _yAxisTitle = "n", 
                 _yAxisLongName = "Spectra", 
                 _yAxisUnit = "")
-            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroupRawData)
-#        if "fort98" in _dictResultArrays.keys():
-#            xsDataNexusArrayGroupRawData = self.createNexusGroup(
-#                _numpyDataArray = _dictResultArrays["fort98"]["data"], 
-#                _groupTitle = "fort98", 
-#                _groupLongName = "Raw data", 
-#                _numpyXAxisDataArray = _dictResultArrays["fort98"]["axis1"], 
-#                _xAxisTitle = "e", 
-#                _xAxisLongName = "Energy", 
-#                _xAxisUnit = "kev", 
-#                _numpyYAxisDataArray = _dictResultArrays["fort98"]["axis2"], 
-#                _yAxisTitle = "n", 
-#                _yAxisLongName = "Spectra", 
-#                _yAxisUnit = "")
-#            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroupRawData)
-#        if "fort99" in _dictResultArrays.keys():
-#            xsDataNexusArrayGroupRawData = self.createNexusGroup(
-#                _numpyDataArray = _dictResultArrays["fort99"]["data"], 
-#                _groupTitle = "fort99", 
-#                _groupLongName = "Raw data", 
-#                _numpyXAxisDataArray = _dictResultArrays["fort99"]["axis1"], 
-#                _xAxisTitle = "e", 
-#                _xAxisLongName = "Energy", 
-#                _xAxisUnit = "kev", 
-#                _numpyYAxisDataArray = _dictResultArrays["fort99"]["axis2"], 
-#                _yAxisTitle = "n", 
-#                _yAxisLongName = "Spectra", 
-#                _yAxisUnit = "")
-#            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroupRawData)
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)
+        if "edge" in _dictResultArrays.keys():
+            xsDataNexusArrayGroup = self.createNexusGroup(
+                _numpyDataArray = _dictResultArrays["edge"]["data"], 
+                _groupTitle = "Edge", 
+                _groupLongName = "Edge", 
+                _numpyXAxisDataArray = _dictResultArrays["edge"]["axis1"], 
+                _xAxisTitle = "n", 
+                _xAxisLongName = "Spectra", 
+                _xAxisUnit = "")
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)            
+        if "slope" in _dictResultArrays.keys():
+            xsDataNexusArrayGroup = self.createNexusGroup(
+                _numpyDataArray = _dictResultArrays["slope"]["data"], 
+                _groupTitle = "Slope", 
+                _groupLongName = "Slope", 
+                _numpyXAxisDataArray = _dictResultArrays["slope"]["axis1"], 
+                _xAxisTitle = "n", 
+                _xAxisLongName = "Spectra", 
+                _xAxisUnit = "")
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)            
+        if "jump" in _dictResultArrays.keys():
+            xsDataNexusArrayGroup = self.createNexusGroup(
+                _numpyDataArray = _dictResultArrays["jump"]["data"], 
+                _groupTitle = "Jump", 
+                _groupLongName = "Jump", 
+                _numpyXAxisDataArray = _dictResultArrays["jump"]["axis1"], 
+                _xAxisTitle = "n", 
+                _xAxisLongName = "Spectra", 
+                _xAxisUnit = "")
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)            
+        if "ewl" in _dictResultArrays.keys():
+            xsDataNexusArrayGroup = self.createNexusGroup(
+                _numpyDataArray = _dictResultArrays["ewl"]["data"], 
+                _groupTitle = "Ewl", 
+                _groupLongName = "Ewl", 
+                _numpyXAxisDataArray = _dictResultArrays["ewl"]["axis1"], 
+                _xAxisTitle = "n", 
+                _xAxisLongName = "Spectra", 
+                _xAxisUnit = "")
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)            
+        if "hwl" in _dictResultArrays.keys():
+            xsDataNexusArrayGroup = self.createNexusGroup(
+                _numpyDataArray = _dictResultArrays["hwl"]["data"], 
+                _groupTitle = "Hwl", 
+                _groupLongName = "Hwl", 
+                _numpyXAxisDataArray = _dictResultArrays["hwl"]["axis1"], 
+                _xAxisTitle = "n", 
+                _xAxisLongName = "Spectra", 
+                _xAxisUnit = "")
+            _xsDataInputWriteNexusFile.addNexusGroup(xsDataNexusArrayGroup)            
 #            
