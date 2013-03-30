@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<XSDataInputTRExafs>
+    <pathToEnergyArray>
+    	<path>
+    		<value>${EDNA_TESTIMAGES}/XSDataArrayEnergy_bm23down.xml</value>
+    	</path>
+    </pathToEnergyArray>
+    <pathToDataArray>
+    	<path>
+    		<value>${EDNA_TESTIMAGES}/XSDataArrayData_bm23down.xml</value>
+    	</path>
+    </pathToDataArray>
+</XSDataInputTRExafs>
