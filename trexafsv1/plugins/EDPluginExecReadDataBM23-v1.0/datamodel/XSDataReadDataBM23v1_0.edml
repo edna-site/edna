@@ -1,0 +1,16 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataArray
+
+
+complex type XSDataInputReadDataBM23 extends XSDataInput {
+	inputFile : XSDataFile
+}
+
+complex type XSDataResultReadDataBM23 extends XSDataResult {
+	energy : XSDataArray optional
+	dataArray : XSDataArray optional
+}

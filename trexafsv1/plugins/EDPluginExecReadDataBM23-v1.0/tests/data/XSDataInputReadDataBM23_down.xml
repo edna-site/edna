@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<XSDataInputDexafs>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/BM23.down</value>
+    </path>
+  </inputFile>
+</XSDataInputDexafs>
