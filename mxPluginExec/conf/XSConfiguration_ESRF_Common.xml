@@ -1,12 +1,13 @@
 <?xml version="1.0" ?>
-<XSConfiguration> 
+<XSConfiguration>
 	<XSPluginList>
-		<XSPluginItem> 
-			<name>EDPluginLabelitv10</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/phenix_env.sh</value>
+					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/phenix_env.sh
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -14,11 +15,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.screen</value>
+					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.screen
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -30,12 +33,13 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginLabelitIndexingv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitIndexingv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/phenix_env.sh</value>
+					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/phenix_env.sh
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -43,11 +47,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.screen</value>
+					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.screen
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -59,8 +65,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginDistlSignalStrengthv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginDistlSignalStrengthv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -76,12 +82,13 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginLabelitDistlv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitDistlv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/phenix_env.sh</value>
+					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/phenix_env.sh
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -89,11 +96,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.distl</value>
+					<value>/opt/pxsoft/phenix/v1.7.3-928/centos5-x86_64/phenix-1.7.3-928/build/intel-linux-2.6-x86_64/bin/labelit.distl
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -105,8 +114,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginMOSFLMIndexingv10</name>  
+		<XSPluginItem>
+			<name>EDPluginMOSFLMIndexingv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -118,11 +127,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.0.9  for Image plate and CCD data 14th May 2012</value>
+					<value>Mosflm version 7.0.9 for Image plate and CCD data 14th May
+						2012</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -131,7 +142,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginMOSFLMIntegrationv10</name>  
+			<name>EDPluginMOSFLMIntegrationv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -143,11 +154,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.0.9  for Image plate and CCD data 14th May 2012</value>
+					<value>Mosflm version 7.0.9 for Image plate and CCD data 14th May
+						2012</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -155,8 +168,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginMOSFLMGeneratePredictionv10</name>  
+		<XSPluginItem>
+			<name>EDPluginMOSFLMGeneratePredictionv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -168,20 +181,22 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.0.9  for Image plate and CCD data 14th May 2012</value>
+					<value>Mosflm version 7.0.9 for Image plate and CCD data 14th May
+						2012</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem> 
+		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginRaddosev10</name>  
+			<name>EDPluginRaddosev10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -193,7 +208,8 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -210,7 +226,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginBestv1_2</name>  
+			<name>EDPluginBestv1_2</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -222,11 +238,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Version 4.1.0 //  02.10.2012</value>
+					<value>Version 4.1.0 // 02.10.2012</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -235,7 +252,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginRdfitv1_0</name>  
+			<name>EDPluginRdfitv1_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -251,8 +268,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginXDSGenerateBackgroundImagev1_0</name>  
+		<XSPluginItem>
+			<name>EDPluginXDSGenerateBackgroundImagev1_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -279,7 +296,7 @@
 					<value>/data/id29/inhouse/opid291/y_geo_corr.cbf</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem> 
+		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginSTACOrientationv2_0</name>
 			<XSParamList>
@@ -305,12 +322,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>BCMDEF</name>
-					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat</value>
+					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat
+					</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginSTACAlignmentv2_0</name>  
+		<XSPluginItem>
+			<name>EDPluginSTACAlignmentv2_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -334,12 +352,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>BCMDEF</name>
-					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat</value>
+					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat
+					</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginSTACStrategyv2_0</name>  
+		<XSPluginItem>
+			<name>EDPluginSTACStrategyv2_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -363,12 +382,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>BCMDEF</name>
-					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat</value>
+					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat
+					</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginExecMtz2Variousv1_0</name>  
+		<XSPluginItem>
+			<name>EDPluginExecMtz2Variousv1_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -384,9 +404,94 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash</value>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/include/ccp4.setup-bash
+					</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-	</XSPluginList> 
+
+		<XSPluginItem>
+			<name>EDPluginControlRunXdsFastProc</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>1800</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<!-- The autoproc control plugin itself. We use a loooong timeout value 
+			just in case -->
+
+		<XSPluginItem>
+			<name>EDPluginControlAutoproc</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>1800</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<!-- the plugins for the file conversion -->
+		<XSPluginItem>
+			<name>EDPluginExecPointless</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/pointless</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecAimless</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/aimless</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>symdb_path</name>
+					<value>/opt/pxsoft/ccp4-6.0.2/lib/data/syminfo.lib</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecTruncate</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/truncate</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecUniqueify</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/uniqueify</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList>
 </XSConfiguration> 
