@@ -64,12 +64,8 @@ class EDPluginDistlSignalStrengthThinClientv1_1(EDPluginExecProcessScript):
     def configure(self):
         EDPluginExecProcessScript.configure(self)
         self.DEBUG("EDPluginDistlSignalStrengthThinClientv1_1.configure")
-        strHostName = self.getStringConfigurationParameterValue(self.CONF_DISTL_SIGNAL_STRENGTH_SERVER_HOST)
-        if strHostName is not None:
-            self.strHostName = strHostName
-        iPortNumber = self.getIntegerConfigurationParameterValue(self.CONF_DISTL_SIGNAL_STRENGTH_SERVER_PORT)
-        if iPortNumber is not None:
-            self.iPortNumber = iPortNumber
+        strHostName = self.config.get(self.CONF_DISTL_SIGNAL_STRENGTH_SERVER_HOST, "localhost")
+        iPortNumber = self.config.get(self.CONF_DISTL_SIGNAL_STRENGTH_SERVER_PORT, 8125)
         
 
 
