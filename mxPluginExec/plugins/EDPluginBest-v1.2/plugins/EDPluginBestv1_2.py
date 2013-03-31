@@ -313,6 +313,20 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         if(strStrategyOption is not None):
             self.strCommandBest = self.strCommandBest + "%s " % strStrategyOption.getValue()
 
+        xsDataAngleUserDefinedRotationStart = self.getDataInput().getUserDefinedRotationStart()
+        xsDataAngleUserDefinedRotationRange = self.getDataInput().getUserDefinedRotationRange()
+        if(xsDataAngleUserDefinedRotationStart is not None):
+            self.strCommandBest = self.strCommandBest + "-phi %f %f " % \
+              (xsDataAngleUserDefinedRotationStart.getValue(), xsDataAngleUserDefinedRotationRange.getValue())
+
+        if(self.getDataInput().getRadiationDamageModelBeta() is not None):
+            fRadiationDamageModelBeta = str(self.getDataInput().getRadiationDamageModelBeta().getValue())
+            self.strCommandBest = self.strCommandBest + "-beta " + fRadiationDamageModelBeta + " "
+
+        if(self.getDataInput().getRadiationDamageModelGamma() is not None):
+            fRadiationDamageModelGamma = str(self.getDataInput().getRadiationDamageModelGamma().getValue())
+            self.strCommandBest = self.strCommandBest + "-gama " + fRadiationDamageModelGamma + " "
+
         self.strCommandBest = self.strCommandBest + "-T " + str(fMaxExposureTime) + " " + \
                                      "-dna " + self.getScriptBaseName() + "_dnaTables.xml" + " " + \
                                      "-o " + os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv ") + \

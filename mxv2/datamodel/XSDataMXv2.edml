@@ -1,5 +1,28 @@
 targetNamespace "http://www.edna-site.org"
 
+import XSDataCommon.XSData
+import XSDataCommon.XSDataUnitVector
+import XSDataCommon.XSDataDate
+import XSDataCommon.XSDataWavelength
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataAngle
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataVectorDouble
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDisplacement
+import XSDataCommon.XSDataRotation
+import XSDataCommon.XSDataTime
+import XSDataCommon.XSDataLength
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+
+import XSDataMXv1.XSDataInputCharacterisation
+import XSDataMXv1.XSDataResultCharacterisation
+import XSDataMXv1.XSDataResultStrategy
+
+
+
 complex type XSBeam extends XSData {
 	polarisatation : XSDataUnitVector
 	direction : XSDataUnitVector

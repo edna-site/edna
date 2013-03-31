@@ -11,6 +11,7 @@ import XSDataCommon.XSDataAngle
 import XSDataCommon.XSDataTime
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
 
 complex type XSDataISPyBImageQualityIndicators extends XSData {
 	binPopCutOffMethod2Res : XSDataDouble
@@ -19,10 +20,10 @@ complex type XSDataISPyBImageQualityIndicators extends XSData {
 	image : XSDataImage
 	inResTotal : XSDataInteger
 	inResolutionOvrlSpots : XSDataInteger
-	maxUnitCell : XSDataDouble
+	maxUnitCell : XSDataDouble optional
 	method1Res : XSDataDouble
-	method2Res : XSDataDouble
-	pctSaturationTop50Peaks : XSDataDouble
+	method2Res : XSDataDouble optional
+	pctSaturationTop50Peaks : XSDataDouble optional
 	saturationRangeAverage : XSDataDouble optional
 	saturationRangeMax : XSDataDouble optional
 	saturationRangeMin : XSDataDouble optional
@@ -472,3 +473,42 @@ complex type XSDataResultISPyBStoreScreening extends XSDataResult {
 	screeningId : XSDataInteger optional
 }
 
+complex type XSDataISPyBWorkflow extends XSData {
+	comments: XSDataString optional
+	logFilePath: XSDataString optional
+	recordTimeStamp: XSDataString
+	resultFilePath: XSDataString optional
+	status: XSDataString 
+	value1: XSDataString optional
+	value2: XSDataString optional
+	workflowId: XSDataInteger optional
+	workflowTitle: XSDataString optional
+	workflowType: XSDataString optional
+}
+
+complex type XSDataInputISPyBStoreWorkflow extends XSDataInput {
+	workflow: XSDataISPyBWorkflow
+}
+
+complex type XSDataResultISPyBStoreWorkflow extends XSDataResult {
+	workflowId: XSDataInteger
+}
+
+complex type XSDataInputISPyBUpdateDataCollectionGroupWorkflowId extends XSDataInput {
+	fileLocation: XSDataString
+	fileName: XSDataString
+	workflowId: XSDataInteger
+}
+
+complex type XSDataResultISPyBUpdateDataCollectionGroupWorkflowId extends XSDataResult {
+	dataCollectionGroupId: XSDataInteger
+}
+
+complex type XSDataInputISPyBGroupDataCollections extends XSDataInput {
+	dataCollectionGroupId: XSDataInteger
+	filePath: XSDataString []
+}
+
+complex type XSDataResultISPyBGroupDataCollections extends XSDataResult {
+	dataCollectionId: XSDataInteger [] optional
+}

@@ -2,14 +2,14 @@ from __future__ import with_statement
 
 # coding: utf8
 #
-#    Project: <projectName>
+#    Project: Autoproc
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) <copyright>
+#    Copyright (C) ESRF
 #
-#    Principal author:       <author>
+#    Principal author: Thomas Boeglin
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -27,9 +27,9 @@ from __future__ import with_statement
 
 
 
-__author__="thomas boeglin"
+__author__="Thomas Boeglin"
 __license__ = "GPLv3+"
-__copyright__ = "<copyright>"
+__copyright__ = "ESRF"
 
 
 
@@ -38,6 +38,7 @@ import os.path
 import shutil
 
 from EDPlugin import EDPlugin
+from EDVerbose import EDVerbose
 from XSDataCommon import XSDataBoolean, XSDataInteger, XSDataFloat
 from XSDataCommon import XSDataVectorDouble, XSDataString
 from XSDataAutoproc import XSDataXdsOutputFile, XSDataXdsOutput
@@ -272,6 +273,9 @@ def _extract_completeness_entries(lines, output):
             # totals
             infos = [float(x.replace('%', '').replace('*','')) for x in line.split()[1:]]
             output.total_completeness = XSDataXdsCompletenessEntry()
+            output.total_completeness.outer_observed = XSDataFloat(infos[0])
+            output.total_completeness.outer_unique = XSDataFloat(infos[1])
+            output.total_completeness.outer_possible = XSDataFloat(infos[2])
             output.total_completeness.outer_complete = XSDataFloat(infos[3])
             output.total_completeness.outer_rfactor = XSDataFloat(infos[4])
             output.total_completeness.outer_isig = XSDataFloat(infos[7])
@@ -282,6 +286,9 @@ def _extract_completeness_entries(lines, output):
             infos = [float(x.replace('%', '').replace('*','')) for x in line.split()]
             res = XSDataXdsCompletenessEntry()
             res.outer_res = XSDataFloat(infos[0])
+            res.outer_observed = XSDataFloat(infos[1])
+            res.outer_unique = XSDataFloat(infos[2])
+            res.outer_possible = XSDataFloat(infos[3])
             res.outer_complete = XSDataFloat(infos[4])
             res.outer_rfactor = XSDataFloat(infos[5])
             res.outer_isig = XSDataFloat(infos[8])

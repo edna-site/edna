@@ -32,6 +32,9 @@ from math import fabs, exp
 
 from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+
+EDFactoryPluginStatic.loadModule("EDParallelJobLauncher")
 from EDParallelJobLauncher import EDParallelJobLauncher
 
 from XSDataAbsCalc import XSDataInputAbsorption
@@ -64,7 +67,7 @@ class EDPluginControlAbsorptionv0_1( EDPluginControl ):
         self.__refAbsCalc = None
         self.__deltaMuT = None
         
-        self.__iNbThreads = 10
+        self.__iNbThreads = 1
                         
         self.__edPluginRefSample = None
         self.__edPluginFinalAbsCalc = None

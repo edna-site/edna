@@ -86,8 +86,14 @@ class EDHandlerXSDataISPyBv1_4(object):
         xsDataISPyBScreening = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreening(_strShortComments, strComments)
 
         # ScreeningOutputContainer
+        fKappa = None
+        if _xsDataInputControlISPyB.kappa is not None:
+            fKappa = _xsDataInputControlISPyB.kappa.value
+        fPhi = None
+        if _xsDataInputControlISPyB.phi is not None:
+            fPhi = _xsDataInputControlISPyB.phi.value
         xsDataISPyBScreeningOutputContainer = EDHandlerXSDataISPyBv1_4.generateXSDataISPyBScreeningOutputContainer(xsDataResultCharacterisation, \
-                                                                                                                   _strStatusMessage)
+                                                                                                                   _strStatusMessage, fKappa, fPhi)
 
         # Assemble the input
         xsDataISPyBScreening.dataCollectionId = xsDataIntegerDataCollectionId
@@ -175,7 +181,7 @@ class EDHandlerXSDataISPyBv1_4(object):
     
         
     @staticmethod
-    def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage):
+    def generateXSDataISPyBScreeningOutputContainer(_xsDataResultCharacterisation, _strStatusMessage, _fKappa, _fPhi):
         xsDataISPyBScreeningOutput = XSDataISPyBScreeningOutput()
         xsDataISPyBScreeningOutput.program = XSDataString("EDNA MXv1")
         xsDataISPyBScreeningOutputLattice = None
@@ -249,16 +255,23 @@ class EDHandlerXSDataISPyBv1_4(object):
                 xsDataISPyBScreeningStrategyWedge = XSDataISPyBScreeningStrategyWedge()
                 xsDataISPyBScreeningStrategyWedgeContainer = XSDataISPyBScreeningStrategyWedgeContainer()
                 xsDataISPyBScreeningStrategyWedge.wedgeNumber = xsDataCollectionPlan.collectionPlanNumber
-                strCollectionPlanComment = None
+                fWavelength = _xsDataResultCharacterisation.dataCollection.subWedge[0].experimentalCondition.beam.wavelength.value
+                xsDataISPyBScreeningStrategyWedge.wavelength = XSDataDouble(fWavelength)
+                if _fKappa is not None:
+                    xsDataISPyBScreeningStrategyWedge.kappa = XSDataDouble(_fKappa)
+                if _fPhi is not None:
+                    xsDataISPyBScreeningStrategyWedge.phi = XSDataDouble(_fPhi)                
                 if (xsDataCollectionPlan.getComment() is not None):
                     strCollectionPlanComment = xsDataCollectionPlan.getComment().getValue()
+                    xsDataISPyBScreeningStrategyWedge.comments = strCollectionPlanComment
                 xsDataStrategySummary = xsDataCollectionPlan.strategySummary
                 if xsDataStrategySummary is not None:
                     xsDataISPyBScreeningStrategyWedge.completeness = xsDataStrategySummary.completeness
                     xsDataISPyBScreeningStrategyWedge.resolution   = xsDataStrategySummary.resolution
                     xsDataISPyBScreeningStrategyWedge.multiplicity = xsDataStrategySummary.redundancy
                     xsDataISPyBScreeningOutput.rankingResolution = xsDataStrategySummary.rankingResolution
-                    fTotalExposureTime += xsDataStrategySummary.totalExposureTime.value
+                    if xsDataStrategySummary.totalExposureTime is not None:
+                        fTotalExposureTime += xsDataStrategySummary.totalExposureTime.value
                 xsDataCollectionStrategy = xsDataCollectionPlan.collectionStrategy
                 if xsDataCollectionStrategy is not None:
                     for xsDataSubWedge in xsDataCollectionStrategy.subWedge:

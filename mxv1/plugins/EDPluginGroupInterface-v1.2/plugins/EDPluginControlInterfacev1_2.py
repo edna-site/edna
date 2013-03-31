@@ -95,7 +95,7 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
         self.setXSDataInputClass(XSDataInputCharacterisation, "inputCharacterisation")
 
         self.strEDPluginControlSubWedgeAssembleName = "EDPluginControlSubWedgeAssemblev1_1"
-        self.strEDPluginControlCharacterisationName = "EDPluginControlCharacterisationv1_1"
+        self.strEDPluginControlCharacterisationName = "EDPluginControlCharacterisationv1_3"
         self.strEDPluginControlISPyBName = "EDPluginControlISPyBv1_1"
 
         self.edPluginControlSubWedgeAssemble = None
@@ -149,6 +149,7 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
 
         bUseISPyBPlugin = self.config.get("useISPyBPlugin")
         if not bUseISPyBPlugin:
+            self.DEBUG("EDPluginControlInterfacev1_2 configured to not use ISPyB")
             self.strEDPluginControlISPyBName = None
 
 

@@ -1,0 +1,39 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInteger
+
+
+complex type XSDataNexusAxis extends XSData {
+	title     : XSDataString
+	axis      : XSDataInteger
+	primary   : XSDataInteger
+	units     : XSDataString
+	long_name : XSDataString
+	axisData  : XSDataArray
+}
+
+complex type XSDataNexusArrayGroup extends XSData {
+	title  : XSDataString
+	long_name : XSDataString
+	axis   : XSDataNexusAxis []
+	data   : XSDataArray
+	signal : XSDataInteger
+}
+
+complex type XSDataInputWriteNexusFile extends XSDataInput {
+	instrument : XSDataString
+	outputFileName : XSDataString
+	outputFileDirectory : XSDataFile optional
+	nexusGroup : XSDataNexusArrayGroup []
+}
+
+complex type XSDataResultWriteNexusFile extends XSDataResult {
+	outputFilePath : XSDataFile
+}

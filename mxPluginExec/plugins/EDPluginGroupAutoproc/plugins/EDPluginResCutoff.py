@@ -2,14 +2,14 @@ from __future__ import with_statement
 
 # coding: utf8
 #
-#    Project: <projectName>
+#    Project: Autoproc
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) <copyright>
+#    Copyright (C) ESRF
 #
-#    Principal author:       <author>
+#    Principal author: Thomas Boeglin
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -27,15 +27,16 @@ from __future__ import with_statement
 
 
 
-__author__="thomas boeglin"
+__author__="Thomas Boeglin"
 __license__ = "GPLv3+"
-__copyright__ = "<copyright>"
+__copyright__ = "ESRF"
 
 
 
 
 import os.path
 import shutil
+import math
 
 from EDPlugin import EDPlugin
 from EDVerbose import EDVerbose
@@ -71,6 +72,10 @@ class EDPluginResCutoff(EDPlugin):
 
     def process(self, _edObject = None):
         EDPlugin.process(self)
+        detector_max_res = self.dataInput.detector_max_res
+        if detector_max_res is not None:
+            detector_max_res = detector_max_res.value
+
         completeness_cutoff_param = self.dataInput.completeness_cutoff
         if completeness_cutoff_param is None:
             completeness_cutoff = 80
@@ -97,6 +102,7 @@ class EDPluginResCutoff(EDPlugin):
         # detector_max_res, which we should somehow defined (in the
         # data model?) and used as the default value before we start
         # the processing
+        res = detector_max_res
 
         for entry in self.dataInput.completeness_entries:
             outer_res = entry.outer_res.value
@@ -111,7 +117,8 @@ class EDPluginResCutoff(EDPlugin):
                     res = prev_res
                 else:
                     res = _calculate_res_from_bins(prev_isig, prev_res,
-                                                   outer_isig, outer_res)
+                                                   outer_isig, outer_res,
+                                                   isig_cutoff)
                 bins.append(outer_res)
 
                 #NOTE: get out of the loop, see the value of `skip` in
@@ -132,6 +139,8 @@ incorrect parameters in XDS.INP like distance, X beam, Y beam, etc.
 Stopping""")
             self.setFailure()
             return
+        if res is None:
+            res = sorted(bins)[0]
         if res_override is not None:
             res = res_override.value
         # remove last bin (see why w/ max)
@@ -154,14 +163,14 @@ Stopping""")
 
 
 # straight port of max's code, reusing the same var names (pythonized)
-def _calculate_res_from_bins(prev_isig, prev_res, outer_isig, outer_res):
+def _calculate_res_from_bins(prev_isig, prev_res, outer_isig, outer_res, isig_cutoff):
     diff_i = prev_isig - outer_isig
     diff_d = prev_res - outer_res
 
     hyp = math.sqrt((diff_i ** 2) + (diff_d ** 2))
-    alpha = math.atan(diff_i / diff_d)
+    alpha = diff_i / diff_d
 
     res_id = isig_cutoff - outer_isig
-    res_offset = res_id / math.tan(alpha)
+    res_offset = res_id / alpha
 
     return res_offset + outer_res

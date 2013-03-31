@@ -1,6 +1,13 @@
 #some kw can be specified multiple times (values are accumulated in a
 #list I guess). Those are: EXCLUDE_RESOLUTION_RANGE, SPOT_RANGE
 
+REPEATABLE_PARAMS = ['UNTRUSTED_RECTANGLE=',
+                     'UNTRUSTED_ELLIPSE=',
+                     'UNTRUSTED_QUADRILATERAL=',
+                     'EXCLUDE_RESOLUTION_RANGE=',
+                     'SPOT_RANGE=']
+
+
 # parsers
 
 class List(object):

@@ -1,0 +1,433 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSData
+import XSDataCommon.XSDataFloat
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataString
+import XSDataCommon.XSParamList
+
+complex type CCP4DataInputBUCCANEER extends XSDataInput {
+	XYZINREF : XYZ
+	HKLINREF : HKL
+	HKLIN : HKL
+	XYZIN : XYZ
+	sequence : CCP4Sequence
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputCAD extends XSDataInput {
+	HKLIN : HKL []
+	columnLabels : XSDataListOfStrings []
+	HKLOUT : HKL
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputCheckValidHKL extends XSDataInput {
+	HKLIN : HKL
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputCheckValidXYZ extends XSDataInput {
+	XYZIN : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputControlCopySpaceGroupPDBtoMTZ extends XSDataInput {
+	HKLIN : HKL
+	HKLOUT : HKL
+	XYZIN : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputControlCopyUnitCellMTZtoPDB extends XSDataInput {
+	HKLIN : HKL
+	XYZIN : XYZ
+	XYZOUT : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputControlDIMPLES extends XSDataInput {
+	HKLIN : HKL
+	HKLOUT : HKL
+	XYZIN : XYZ []
+	XYZOUT : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputControlPipelineCalcDiffMap extends XSDataInput {
+	HKLIN : HKL
+	HKLOUT : HKL
+	XYZIN : XYZ
+	XYZOUT : XYZ
+	ColLabels : CCP4MTZColLabels
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputControlPrepareMTZFileForRefinement extends XSDataInput {
+	XYZIN : XYZ
+	HKLIN : HKL
+	HKLOUT : HKL
+	ColLabels : CCP4MTZColLabels
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputControlRefmacRigidBodyPhaser extends XSDataInput {
+	XYZIN : XYZ
+	HKLIN : HKL
+	XYZOUT : XYZ
+	ColLabels : CCP4MTZColLabels
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputFREERFLAG extends XSDataInput {
+	HKLIN : HKL
+	HKLOUT : HKL
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputMRBUMP extends XSDataInput {
+	HKLIN : HKL
+	sequence : CCP4Sequence
+	prepdir : XSDataString
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputMTZDUMP extends XSDataInput {
+	HKLIN : HKL
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputPDBDUMP extends XSDataInput {
+	XYZIN : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputPDBList extends XSDataInput {
+	HKLIN : HKL
+	XYZIN : XYZ []
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputPDBSET extends XSDataInput {
+	XYZIN : XYZ
+	XYZOUT : XYZ
+	unitCell : CCP4UnitCell
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputPhaser extends XSDataInput {
+	HKLIN : HKL
+	XYZIN : XYZ
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	ColLabels : CCP4MTZColLabels
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputPointlessOrigin extends XSDataInput {
+	HKLIN : HKL
+	XYZIN : XYZ
+	outputLogFile : CCP4LogFile
+	HKLOUT : HKL
+}
+
+complex type CCP4DataInputREFMACRestrainedRefinement extends XSDataInput {
+	HKLIN : HKL
+	XYZIN : XYZ
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	ColLabels : CCP4MTZColLabels
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputREFMACRigidBody extends XSDataInput {
+	HKLIN : HKL
+	XYZIN : XYZ
+	XYZOUT : XYZ
+	ColLabels : CCP4MTZColLabels
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputREINDEX extends XSDataInput {
+	HKLIN : HKL
+	HKLOUT : HKL
+	spaceGroup : CCP4SpaceGroup
+	reindexingOperation : CCP4SymmetryOperation
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputRefmacMonomerCheck extends XSDataInput {
+	XYZIN : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputTRUNCATE extends XSDataInput {
+	HKLIN : HKL
+	HKLOUT : HKL
+	sequence : CCP4Sequence
+	ColLabels : CCP4MTZColLabels
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataInputUNIQUE extends XSDataInput {
+	HKLOUT : HKL
+	spaceGroup : CCP4SpaceGroup
+	unitCell : CCP4UnitCell
+	resolutionLimit : CCP4ResolutionLimit
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultBUCCANEER extends XSDataResult {
+	XYZOUT : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultCAD extends XSDataResult {
+	HKLOUT : HKL
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultCheckValidHKL extends XSDataResult {
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultCheckValidXYZ extends XSDataResult {
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultControlCopySpaceGroupPDBtoMTZ extends XSDataResult {
+	HKLOUT : HKL
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultControlCopyUnitCellMTZtoPDB extends XSDataResult {
+	XYZOUT : XYZ
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultControlDIMPLES extends XSDataResult {
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultControlPipelineCalcDiffMap extends XSDataResult {
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	initialR : XSDataFloat
+	initialRFree : XSDataFloat
+	finalR : XSDataFloat
+	finalRFree : XSDataFloat
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultControlPrepareMTZFileForRefinement extends XSDataResult {
+	HKLOUT : HKL
+	ColLabels : CCP4MTZColLabels
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultControlRefmacRigidBodyPhaser extends XSDataResult {
+	XYZOUT : XYZ
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultFREERFLAG extends XSDataResult {
+	HKLOUT : HKL
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultMRBUMP extends XSDataResult {
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	outpuLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultMTZDUMP extends XSDataResult {
+	spaceGroup : CCP4SpaceGroup
+	unitCell : CCP4UnitCell
+	upperResolutionLimit : CCP4ResolutionLimit
+	lowerResolutionLimit : CCP4ResolutionLimit
+	listOfColumns : XSParamList []
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultPDBDUMP extends XSDataResult {
+	spaceGroup : CCP4SpaceGroup
+	unitCell : CCP4UnitCell
+	sequence : CCP4Sequence
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultPDBList extends XSDataResult {
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	spaceGroup : CCP4SpaceGroup
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultPDBSET extends XSDataResult {
+	XYZOUT : XYZ
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultPhaser extends XSDataResult {
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultPointlessOrigin extends XSDataResult {
+	HKLOUT : HKL
+	outputLogFile : CCP4LogFile
+	returnStatus : CCP4ReturnStatus
+}
+
+complex type CCP4DataResultREFMACRestrainedRefinement extends XSDataResult {
+	HKLOUT : HKL
+	XYZOUT : XYZ
+	initialR : XSDataFloat
+	initialRFree : XSDataFloat
+	finalR : XSDataFloat
+	finalRFree : XSDataFloat
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultREFMACRigidBody extends XSDataResult {
+	XYZOUT : XYZ
+	initialR : XSDataFloat
+	initialRFree : XSDataFloat
+	finalR : XSDataFloat
+	finalRFree : XSDataFloat
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultREINDEX extends XSDataResult {
+	HKLOUT : HKL
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultRefmacMonomerCheck extends XSDataResult {
+	fileStatus : XSDataString
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultTRUNCATE extends XSDataResult {
+	HKLOUT : HKL
+	ColLabels : CCP4MTZColLabels
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4DataResultUNIQUE extends XSDataResult {
+	HKLOUT : HKL
+	returnStatus : CCP4ReturnStatus
+	outputLogFile : CCP4LogFile
+}
+
+complex type CCP4LogFile extends XSData {
+	path : XSDataString
+}
+
+complex type CCP4MTZColLabels extends XSData {
+	F : XSDataString
+	SIGF : XSDataString
+	IMEAN : XSDataString
+	SIGIMEAN : XSDataString
+}
+
+complex type CCP4RTMatrix extends XSData {
+	e11 : XSDataFloat
+	e12 : XSDataFloat
+	e13 : XSDataFloat
+	e21 : XSDataFloat
+	e22 : XSDataFloat
+	e23 : XSDataFloat
+	e31 : XSDataFloat
+	e32 : XSDataFloat
+	e33 : XSDataFloat
+	e41 : XSDataFloat
+	e42 : XSDataFloat
+	e43 : XSDataFloat
+}
+
+complex type CCP4ReindexingOperation extends XSData {
+	ReindexingOperation : XSDataString
+	ReindexingMatrix : CCP4RTMatrix
+}
+
+complex type CCP4ResolutionLimit extends XSData {
+	resolution : XSDataFloat
+}
+
+complex type CCP4ReturnStatus extends XSData {
+	code : XSDataInteger
+	message : XSDataString
+}
+
+complex type CCP4Sequence extends XSData {
+	oneLetterCode : XSDataString
+	numberOfResidues : XSDataInteger
+	molecularMass : XSDataFloat
+}
+
+complex type CCP4SpaceGroup extends XSData {
+	name : XSDataString
+	number : XSDataInteger
+	symmetryOperations : CCP4SymmetryOperation []
+}
+
+complex type CCP4SymmetryOperation extends XSData {
+	symmetryOperation : XSDataString
+	symmetryMatrix : CCP4RTMatrix
+}
+
+complex type CCP4UnitCell extends XSData {
+	a : XSDataFloat
+	b : XSDataFloat
+	c : XSDataFloat
+	alpha : XSDataFloat
+	beta : XSDataFloat
+	gamma : XSDataFloat
+}
+
+complex type HKL extends XSData {
+	path : XSDataString
+}
+
+complex type XSDataListOfFloats extends XSData {
+	values : XSDataFloat [] optional
+}
+
+complex type XSDataListOfIntegers extends XSData {
+	values : XSDataInteger [] optional
+}
+
+complex type XSDataListOfLists extends XSData {
+}
+
+complex type XSDataListOfStrings extends XSData {
+	values : XSDataString [] optional
+}
+
+complex type XYZ extends XSData {
+	path : XSDataString
+}

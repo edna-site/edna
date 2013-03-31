@@ -1,0 +1,552 @@
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<html> <!-- CCP4 HTML LOGFILE -->
+<hr>
+<!--SUMMARY_END--></FONT></B>
+
+
+ ************ Mosflm version 7.0.9  for Image plate and CCD data 14th May 2012  ***********
+ Andrew Leslie and Harry Powell, MRC Laboratory of Molecular Biology,
+ Hills Road, Cambridge CB2 0QH, UK
+ E-mails: andrew@mrc-lmb.cam.ac.uk, harry@mrc-lmb.cam.ac.uk
+ References:
+ Mosflm: A.G.W. Leslie and H.R. Powell (2007), Evolving Methods for 
+         Macromolecular Crystallography, 245, 41-51 ISBN 978-1-4020-6314-5
+ New auto-indexing based on DPS: I. Steller R. Bolotovsky and M.G. Rossmann
+         (1997) J. Appl. Cryst. 30, 1036-1040
+ New iMosflm GUI:  T.G.G. Battye, L. Kontogiannis, O. Johnson, H.R. Powell 
+         and A.G.W. Leslie.(2011) Acta Cryst. D67, 271-281)
+--------------------------------------------------------------------------------
+ How much of this information is useful in diagnosing user problems?
+      Mosflm run on Tuesday, November 27 2012 at 10:13 by non chieda il mio nome!
+      Compiler command: /opt/intel/composer_xe_2011_sp1.11.339/bin/intel64/ifort
+      Compiler version: ifort version 12.1.5
+      Executable type: ELF 64-bit LSB executable, AMD x86-64, version 1 (SYSV), for GNU/Linux 2.6.9, dynamically linked (uses shared libs), for GNU/Linux 2.6.9, not stripped
+      This executable was built by harry on Thursday, June 28 2012 at 09:12
+--------------------------------------------------------------------------------
+ ===> WAVELENGTH 0.9341234
+ ===> DISTANCE 198.441
+ ===> BEAM 102.459 104.738
+ ===> DETECTOR ADSC
+ ===> DIRECTORY /mntdirect/_scisoft/users/svensson/git/edna/tests/data/images
+ ===> TEMPLATE ref-testscale_1_###.img
+ ===> SYMMETRY P222
+
+ Spacegroup information obtained from library file: 
+ Logical Name: SYMINFO   Filename: /opt/pxsoft/ccp4/v6.2.0/linux/lib/data/syminfo.lib
+
+ ===> NEWMAT MOSFLMIndexingv10_newmat.mat
+ ===> AUTOINDEX DPS REFINE IMAGE 1 PHI 0.0 1.0
+Using DPS code for background indexing
+Pre-refining solutions better than penalty of 200 prior to choosing a DPS solution
+ ===> AUTOINDEX DPS REFINE IMAGE 2 PHI 90.0 91.0
+Using DPS code for background indexing
+Pre-refining solutions better than penalty of 200 prior to choosing a DPS solution
+ ===> GO
+
+ Pixel size of 0.1024mm taken from image header.
+
+ Start and end phi values for image       0 from image header are     0.00 and    1.00 degrees.
+
+ Oscillation axis set as PHI from image header
+
+ Input beam coordinates  102.46mm  104.74mm will be used
+
+
+ Autoindexing using  2 images
+ Image numbers:     1    2
+ image FILENAME: /mntdirect/_scisoft/users/svensson/git/edna/tests/data/images/ref-testscale_1_001.img
+
+ Determining average spot size for spots in centre of image.
+ ==========================================================
+ Determining best threshold for spot finding.
+ Default parameters may be reset with SPOTS keyword.
+ Minimum radius   2.0mm, maximum radius 33.51mm, minimum number of spots 10
+
+ Background strip overlaps gap between detector tiles, so YOFFSET changed to   5.2mm
+ Number of spots with fewer than   6 pixels:      35
+ Number of spots with fewer than   6 pixels:      98
+
+ Based on a spot size of  4 by  5 pixels in X and Y, the measurement box 
+ parameters have been set to  15  17   9   5   5
+
+ Based on a spot size of  4 by  5 pixels in X and Y, the spot separation 
+ parameters (in X and Y) have been set to  0.61  0.71mm.
+ Closest possible spot separation is  0.00mm.
+ Determining best threshold for spot finding.
+ Default parameters may be reset with SPOTS keyword.
+ Minimum radius   2.0mm, maximum radius 33.51mm, minimum number of spots 10
+ Number of "spots" with more than 30 distinct peaks:       2
+ Number of spots with fewer than   6 pixels:   12470
+ Number of "spots" with more than 30 distinct peaks:       2
+ Number of spots with fewer than   6 pixels:   12470
+
+
+ Finding spots on image     1 (Midpoint of phi   0.500 degrees)
+ Calculating radial background..... 
+ The background is radial along the X (slow) direction
+ The average of  51 pixels, excluding outliers, is used
+ The scan is offset by 5.8mm from the image centre in Y to avoid any
+ backstop shadow
+ Radial Background calculation complete
+ RADIUS   2.0   2.5   2.9   3.3   3.7   4.1   4.5   4.9   5.3   5.7   6.1   6.6
+ BACKG     61    67    70    82    85    85    88    89    87    86    88    89
+ SIGMA      3     3     3     4     4     4     4     4     4     4     4     4
+ NREJ      34    36    42    29    30    32    33    35    35    37    32    27
+ RADIUS   7.0   7.4   7.8   8.2   8.6   9.0   9.4   9.8  10.2  10.6  11.1  11.5
+ BACKG     87    88    87    84    86    85    84    87    83    84    84    83
+ SIGMA      4     4     4     4     4     4     4     4     4     4     4     4
+ NREJ      32    30    31    31    28    25    32    26    33    33    32    30
+ RADIUS  11.9  12.3  12.7  13.1  13.5  13.9  14.3  14.7  15.2  15.6  16.0  16.4
+ BACKG     83    86    83    85    84    77    84    84    79    85    80    80
+ SIGMA      4     4     4     4     4     3     4     4     4     4     4     4
+ NREJ      29    30    34    32    34    38    32    29    35    28    33    34
+ RADIUS  16.8  17.2  17.6  18.0  18.4  18.8  19.3  19.7  20.1  20.5  20.9  21.3
+ BACKG     83    83    73    82    78    79    74    78    80    77    75    74
+ SIGMA      4     4     3     4     3     4     3     3     4     3     3     3
+ NREJ      30    34    40    37    38    33    38    33    34    34    39    38
+ RADIUS  21.7  22.1  22.5  22.9  23.3  23.8  24.2  24.6  25.0  25.4  25.8  26.2
+ BACKG     72    78    73    76    75    70    74    78    76    74    74    73
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      39    29    37    29    32    40    37    32    31    39    36    38
+ RADIUS  26.6  27.0  27.4  27.9  28.3  28.7  29.1  29.5  29.9  30.3  30.7  31.1
+ BACKG     75    75    78    74    76    77    77    76    79    74    76    81
+ SIGMA      3     3     3     3     3     3     3     3     4     3     3     4
+ NREJ      35    32    33    38    36    35    34    34    31    40    36    34
+ RADIUS  31.5  31.9  32.4  32.8  33.2  33.6  34.0  34.4  34.8  35.2  35.6  36.0
+ BACKG     79    81    81    81    81    83    82    77    84    88    86    88
+ SIGMA      3     4     4     4     4     4     4     3     4     4     4     4
+ NREJ      37    32    35    31    33    30    33    38    31    27    30    30
+ RADIUS  36.5  36.9  37.3  37.7  38.1  38.5  38.9  39.3  39.7  40.1  40.6  41.0
+ BACKG     88    90    88    94    93    93    94    95   101   104   103   107
+ SIGMA      4     4     4     4     4     4     4     4     4     4     4     4
+ NREJ      33    31    33    26    30    32    31    36    30    24    30    31
+ RADIUS  41.4  41.8  42.2  42.6  43.0  43.4  43.8  44.2  44.6  45.1  45.5  45.9
+ BACKG    111   116   123   122   120   124   125   130   118   133   141   143
+ SIGMA      4     5     5     5     5     5     5     5     5     5     5     5
+ NREJ      33    31    28    25    36    28    29    28    40    28    26    29
+ RADIUS  46.3  46.7  47.1  47.5  47.9  48.3  48.7  49.2  49.6  50.0  50.4  50.8
+ BACKG    144   144   148   154   159   158   166   169   170   172   179   182
+ SIGMA      5     5     5     5     5     5     6     6     6     6     6     6
+ NREJ      30    30    29    27    24    32    32    24    25    26    29    33
+ RADIUS  51.2  51.6  52.0  52.4  52.8  53.2  53.7  54.1  54.5  54.9  55.3  55.7
+ BACKG    183   186   180   177   185   189   184   183   187   182   184   181
+ SIGMA      6     6     6     6     6     6     6     6     6     6     6     6
+ NREJ      28    28    31    33    25    26    30    33    27    30    29    32
+ RADIUS  56.1  56.5  56.9  57.3  57.8  58.2  58.6  59.0  59.4  59.8  60.2  60.6
+ BACKG    183   182   178   175   170   173   166   161   157   153   151   143
+ SIGMA      6     6     6     6     6     6     6     6     5     5     5     5
+ NREJ      25    21    24    27    33    16    28    30    33    29    28    30
+ RADIUS  61.0  61.4  61.8  62.3  62.7  63.1  63.5  63.9  64.3  64.7  65.1  65.5
+ BACKG    143   140   140   127   127   120   120   117   116   117   113   104
+ SIGMA      5     5     5     5     5     5     5     5     5     5     4     4
+ NREJ      23    19    21    32    31    32    32    34    28    24    29    34
+ RADIUS  65.9  66.4  66.8  67.2  67.6  68.0  68.4  68.8  69.2  69.6  70.0  70.5
+ BACKG    105   104   102    97    94    96    89    95    89    85    86    89
+ SIGMA      4     4     4     4     4     4     4     4     4     4     4     4
+ NREJ      31    27    29    35    36    32    37    29    33    34    35    27
+ RADIUS  70.9  71.3  71.7  72.1  72.5  72.9  73.3  73.7  74.1  74.5  75.0  75.4
+ BACKG     86    82    85    82    84    82    84    85    81    80    86    78
+ SIGMA      4     4     4     4     4     4     4     4     4     4     4     3
+ NREJ      26    36    32    32    27    31    30    27    36    36    25    33
+ RADIUS  75.8  76.2  76.6  77.0  77.4  77.8  78.2  78.6  79.1  79.5  79.9  80.3
+ BACKG     83    83    80    76    82    82    79    82    81    78    83    81
+ SIGMA      4     4     4     3     4     4     4     4     4     3     4     4
+ NREJ      26    22    34    36    28    30    34    29    27    36    26    32
+ RADIUS  80.7  81.1  81.5  81.9  82.3  82.7  83.1  83.6  84.0  84.4  84.8  85.2
+ BACKG     72    77    82    78    79    83    79    74    81    74    76    84
+ SIGMA      3     3     4     3     4     4     4     3     4     3     3     4
+ NREJ      40    33    27    34    36    25    33    38    29    39    35    28
+ RADIUS  85.6  86.0  86.4  86.8  87.2  87.7  88.1  88.5  88.9  89.3  89.7  90.1
+ BACKG     82    80    87    87    83    85    79    83    87    83    89    88
+ SIGMA      4     4     4     4     4     4     4     4     4     4     4     4
+ NREJ      31    33    21    29    35    28    36    35    34    35    29    33
+ RADIUS  90.5  90.9  91.3  91.8  92.2  92.6  93.0  93.4  93.8  94.2
+ BACKG     86    89    87    86    89    91    85    86    84    62
+ SIGMA      4     4     4     4     4     4     4     4     4     3
+ NREJ      35    29    35    35    32    29    39    32    31    27
+
+ Starting spot search...
+ Number of spots excluded from possible ice rings:     249
+ Number of "spots" with more than 30 distinct peaks:       2
+ Number of spots with fewer than   6 pixels:   10636
+ Number of spots with anisotropy of spot size more than 5.0 :       1
+
+  Median spot size is   5 x   6 pixels, mode size is   6 by   4
+
+ A total of     0 spots have been rejected as lying on rings in  0 radial bins.
+ Some of these may also have been rejected by the criteria below.
+
+  Total number of spots found:1318
+  Number rejected as too small on X:  35
+  Number rejected as too small on Y:  19
+  Number rejected as too big on X:   0
+  Number rejected as too big on Y:   0
+  Number too close (SEPARATION keyword): 115
+  (currently SEPARATION   0.61  0.71)
+  Number rejected by resolution limit:   0
+  Number stored as OK:1162
+  highest resolution is     2.12 Angstrom
+  99% have resolution less than     2.19 Angstrom
+
+ I/sig(I) threshold for autoindexing set to: 20
+
+
+
+             Number of spots found in each bin
+              27   9  79  50  35  22  23  37
+              36  19  65  51  39  19  28  50
+              36  17  59  41  31  15  27  32
+              26  20  44  41  29  26  23  36
+              17  14  32  21  23  18  23  24
+ image FILENAME: /mntdirect/_scisoft/users/svensson/git/edna/tests/data/images/ref-testscale_1_002.img
+
+
+ Finding spots on image     2 (Midpoint of phi  90.500 degrees)
+ Calculating radial background..... 
+ The background is radial along the X (slow) direction
+ The average of  51 pixels, excluding outliers, is used
+ The scan is offset by 5.8mm from the image centre in Y to avoid any
+ backstop shadow
+ Radial Background calculation complete
+ RADIUS   2.0   2.5   2.9   3.3   3.7   4.1   4.5   4.9   5.3   5.7   6.1   6.6
+ BACKG     60    60    58    64    67    70    66    73    66    67    73    69
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      31    35    40    36    34    34    43    36    38    41    33    34
+ RADIUS   7.0   7.4   7.8   8.2   8.6   9.0   9.4   9.8  10.2  10.6  11.1  11.5
+ BACKG     71    70    70    67    71    70    70    70    70    69    62    72
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      34    36    32    36    37    35    35    33    35    37    44    28
+ RADIUS  11.9  12.3  12.7  13.1  13.5  13.9  14.3  14.7  15.2  15.6  16.0  16.4
+ BACKG     68    70    70    66    71    64    64    70    68    58    66    66
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      35    35    33    38    34    42    40    30    33    43    33    32
+ RADIUS  16.8  17.2  17.6  18.0  18.4  18.8  19.3  19.7  20.1  20.5  20.9  21.3
+ BACKG     69    66    66    67    60    63    65    66    62    65    64    62
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      30    33    34    30    41    35    31    28    36    24    31    35
+ RADIUS  21.7  22.1  22.5  22.9  23.3  23.8  24.2  24.6  25.0  25.4  25.8  26.2
+ BACKG     63    58    61    62    62    62    61    56    54    64    56    60
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      35    38    35    34    32    31    32    40    40    33    39    32
+ RADIUS  26.6  27.0  27.4  27.9  28.3  28.7  29.1  29.5  29.9  30.3  30.7  31.1
+ BACKG     59    57    54    58    60    62    59    59    57    59    59    62
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      32    37    42    36    32    32    35    35    39    35    37    32
+ RADIUS  31.5  31.9  32.4  32.8  33.2  33.6  34.0  34.4  34.8  35.2  35.6  36.0
+ BACKG     59    63    59    60    61    62    58    53    60    63    64    60
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      37    31    36    37    34    33    38    42    34    36    30    37
+ RADIUS  36.5  36.9  37.3  37.7  38.1  38.5  38.9  39.3  39.7  40.1  40.6  41.0
+ BACKG     62    63    63    67    65    62    64    65    68    67    66    66
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      38    37    40    31    33    36    35    37    28    33    39    37
+ RADIUS  41.4  41.8  42.2  42.6  43.0  43.4  43.8  44.2  44.6  45.1  45.5  45.9
+ BACKG     70    75    74    73    77    76    78    78    76    81    83    85
+ SIGMA      3     3     3     3     3     3     3     3     3     4     4     4
+ NREJ      38    25    33    34    35    35    35    30    35    33    29    28
+ RADIUS  46.3  46.7  47.1  47.5  47.9  48.3  48.7  49.2  49.6  50.0  50.4  50.8
+ BACKG     86    86    77    87    92    89    91    92    92    92    94    96
+ SIGMA      4     4     3     4     4     4     4     4     4     4     4     4
+ NREJ      33    35    39    35    34    32    32    33    35    35    36    37
+ RADIUS  51.2  51.6  52.0  52.4  52.8  53.2  53.7  54.1  54.5  54.9  55.3  55.7
+ BACKG     95    97    92    89    95   102   101    92    99   103    98    97
+ SIGMA      4     4     4     4     4     4     4     4     4     4     4     4
+ NREJ      33    28    36    42    38    27    22    39    31    24    36    35
+ RADIUS  56.1  56.5  56.9  57.3  57.8  58.2  58.6  59.0  59.4  59.8  60.2  60.6
+ BACKG    100    98    95    91    91    91    91    87    84    85    86    83
+ SIGMA      4     4     4     4     4     4     4     4     4     4     4     4
+ NREJ      34    37    35    36    31    28    30    29    33    30    31    34
+ RADIUS  61.0  61.4  61.8  62.3  62.7  63.1  63.5  63.9  64.3  64.7  65.1  65.5
+ BACKG     77    80    73    70    71    73    68    69    70    70    67    62
+ SIGMA      3     4     3     3     3     3     3     3     3     3     3     3
+ NREJ      35    31    38    37    37    31    34    34    34    34    33    34
+ RADIUS  65.9  66.4  66.8  67.2  67.6  68.0  68.4  68.8  69.2  69.6  70.0  70.5
+ BACKG     62    63    60    56    57    60    53    59    56    53    53    57
+ SIGMA      3     3     3     3     3     3     3     3     3     3     3     3
+ NREJ      32    26    35    37    35    31    41    30    36    37    40    32
+ RADIUS  70.9  71.3  71.7  72.1  72.5  72.9  73.3  73.7  74.1  74.5  75.0  75.4
+ BACKG     55    49    53    54    50    45    54    53    50    51    49    45
+ SIGMA      3     2     3     3     2     2     3     3     2     2     2     2
+ NREJ      35    40    36    29    38    42    35    36    35    36    34    40
+ RADIUS  75.8  76.2  76.6  77.0  77.4  77.8  78.2  78.6  79.1  79.5  79.9  80.3
+ BACKG     51    48    44    46    52    48    48    51    50    44    47    41
+ SIGMA      3     2     2     2     3     2     2     2     2     2     2     2
+ NREJ      39    35    39    40    28    37    37    39    37    42    37    43
+ RADIUS  80.7  81.1  81.5  81.9  82.3  82.7  83.1  83.6  84.0  84.4  84.8  85.2
+ BACKG     41    49    44    44    45    50    43    48    52    45    48    47
+ SIGMA      2     2     2     2     2     2     2     2     3     2     2     2
+ NREJ      42    32    38    36    39    34    41    38    36    40    37    38
+ RADIUS  85.6  86.0  86.4  86.8  87.2  87.7  88.1  88.5  88.9  89.3  89.7  90.1
+ BACKG     49    43    50    48    44    43    46    52    52    45    51    52
+ SIGMA      2     2     2     2     2     2     2     3     3     2     3     3
+ NREJ      34    43    34    40    42    44    40    34    34    42    36    33
+ RADIUS  90.5  90.9  91.3  91.8  92.2  92.6  93.0  93.4  93.8  94.2
+ BACKG     49    51    51    50    52    52    48    51    50    37
+ SIGMA      2     3     2     2     3     3     2     2     2     2
+ NREJ      38    37    38    34    37    36    41    37    33    29
+
+ Starting spot search...
+ Number of spots excluded from possible ice rings:     295
+ Number of "spots" with more than 30 distinct peaks:       3
+ Number of spots with fewer than   6 pixels:   13418
+
+  Median spot size is   7 x   5 pixels, mode size is   7 by   4
+
+ A total of     0 spots have been rejected as lying on rings in  0 radial bins.
+ Some of these may also have been rejected by the criteria below.
+
+  Total number of spots found:1383
+  Number rejected as too small on X: 150
+  Number rejected as too small on Y:  20
+  Number rejected as too big on X:   0
+  Number rejected as too big on Y:   0
+  Number too close (SEPARATION keyword): 110
+  (currently SEPARATION   0.61  0.71)
+  Number rejected by resolution limit:   0
+  Number stored as OK:1144
+  highest resolution is     2.13 Angstrom
+  99% have resolution less than     2.18 Angstrom
+
+ I/sig(I) threshold for autoindexing set to: 20
+
+
+
+             Number of spots found in each bin
+              23   5  69  54  23  20  18  32
+              25  20  63  54  31  22  22  53
+              33  22  41  39  37  19  34  40
+              35  24  27  33  34  26  32  31
+              24  13  24  22  25  17  18  29
+
+FORMATTED      UNKNOWN file opened on unit  10
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+Logical name: ref-testscale_1.spt, Filename: ref-testscale_1.spt
+<!--SUMMARY_END--></FONT></B>
+
+  1162 spots written for image    1
+  1144 spots written for image    2
+ A total of  2306 spots were written to file
+
+FORMATTED      OLD     file opened on unit  10
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+Logical name: ref-testscale_1.spt, Filename: ref-testscale_1.spt
+<!--SUMMARY_END--></FONT></B>
+
+ DPS Indexing using 1522 reflections with I >=  20 I/sigma(I)
+ DPS Indexing lattice 1 at Two-theta =    0.00 with 1522 reflections (minimum spot separation = 0.51mm,
+ Maximum expected cell edge  300.05, Beam position is  102.46  104.74
+Trying to index lattice 1 with 1522 reflections
+Generating direct lattice vectors (This may take some time):
+|--------------------------|
+..........................
+ Refining  30 direct space vectors:
+|----------------------------|
+..............................
+
+CELL(start) =   55.040  59.168  67.165  89.98  89.89  89.97
+
+CELL(finis) =   54.836  59.072  66.984  90.03  89.95  89.96
+   SD(cell) =    0.054   0.055   0.054  0.059  0.059  0.058
+    SD(phi) =    0.440
+     SD(xy) =    0.161mm
+Refined with 1365 out of 1522 reflections (round 1)
+ List of possible Laue groups, sorted on penalty index.
+ The lower the PENALTY, the better
+ No PENALTY SDCELL FRACN LATT      a        b        c     alpha  beta gamma  Possible spacegroups
+
+  44  999      unrefined  hR   146.39    89.33    54.84    90.0  68.1 101.0   H3,H32 (hexagonal settings of R3 and R32)
+ IN CONRHO, BAD ACOS ARG (TARRAY5)   -1.1328
+                               104.73    59.07    66.98    90.0  90.0 151.7   R3,R32 (primitive rhombohedral cell)
+  43  778      unrefined  cF   104.82   104.81   104.73   111.4 100.5 116.9   F23,F432,F4132
+  42  777      unrefined  cI    86.53    80.57    89.29    61.0  54.6  64.5   I23,I213,I432,I4132
+  41  742      unrefined  tI    89.29   104.81    54.84    58.5  89.9  96.1   I4,I41,I422,I4122
+  40  739      unrefined  mI    80.57   156.27    59.07   112.2 137.1  59.0   C2 (transformed from I2)
+  39  704      unrefined  hR    54.84    80.57   216.51    91.6 104.6 132.8   H3,H32 (hexagonal settings of R3 and R32)
+                                66.98    86.53    89.33    54.5  54.5  54.5   R3,R32 (primitive rhombohedral cell)
+  38  668      unrefined  oF    54.84   130.29   144.72    80.8 112.2 114.9   F222
+  37  590      unrefined  oI    80.57    86.53    89.29    54.6  61.0  64.5   I222,I212121
+  36  590      unrefined  tI    86.53    80.57    89.29    61.0  54.6  64.5   I4,I41,I422,I4122
+  35  590      unrefined  tI    89.29    86.53    80.57    64.5  61.0  54.6   I4,I41,I422,I4122
+  34  519      unrefined  oI    54.84    89.33   104.73    83.9  58.5  90.0   I222,I212121
+  33  516      unrefined  oF    80.57    80.63   156.27    92.2 121.0  85.7   F222
+  32  516      unrefined  mC    80.63    80.57    86.53    64.5 115.5  85.7   C2
+  31  481      unrefined  tI    54.84    59.07   156.27    67.8  69.5  90.0   I4,I41,I422,I4122
+  30  481      unrefined  oI    54.84    59.07   156.27   112.2 110.5  90.0   I222,I212121
+  29  445      unrefined  mC   130.21    54.84    89.33    90.0 126.9  65.1   C2
+  28  333      unrefined  hP    59.07    66.98    54.84    90.0  90.0  90.0   P3,P31,P32,P312,P321,P3112,P3121,P3212,P3221
+                                                                              P6,P61,P65,P62,P64,P63,P622,P6122,P6522,P6222,P6422,P6322
+  27  259      unrefined  hP    54.84    59.07    66.98    90.0  90.0  90.0   P3,P31,P32,P312,P321,P3112,P3121,P3212,P3221
+                                                                              P6,P61,P65,P62,P64,P63,P622,P6122,P6522,P6222,P6422,P6322
+  26  259      unrefined  mC    54.84   144.72    59.07    90.0  90.0  67.8   C2
+  25  259      unrefined  oC    54.84   144.72    59.07    90.0  90.0 112.2   C222,C2221
+  24  258      unrefined  mC   144.72    54.84    59.07    90.0  90.0  67.8   C2
+  23  223      unrefined  mC    54.84   144.72    59.07    90.0  90.0  67.8   C2
+  22  223      unrefined  oC    54.84   130.21    66.98    90.0  90.0 114.9   C222,C2221
+  21  223      unrefined  mC   130.21    54.84    66.98    90.0  90.0  65.1   C2
+  20  223      unrefined  oC    54.84   144.72    59.07    90.0  90.0 112.2   C222,C2221
+  19  223      unrefined  mC   144.72    54.84    59.07    90.0  90.0  67.8   C2
+  18  223      unrefined  mC    54.84   130.21    66.98    90.0  90.0  65.1   C2
+  17  110     0.877 0.98  hR    80.63    86.60   104.73    99.4  86.7 115.5   H3,H32 (hexagonal settings of R3 and R32)
+                                59.07    54.84    66.98    90.0  90.0  90.0   R3,R32 (primitive rhombohedral cell)
+  16  110     0.995 0.98  hR    80.63    86.53   104.82    99.4  86.7 115.5   H3,H32 (hexagonal settings of R3 and R32)
+                                59.07    54.84    66.98    90.0  90.0  90.0   R3,R32 (primitive rhombohedral cell)
+  15  110     1.310 0.99  cP    54.84    59.07    66.98    90.0  90.0  90.0   P23,P213,P432,P4232,P4332,P4132
+  14   74     0.555 0.99  mC    89.29    89.33    54.84    90.0  90.1  97.2   C2
+  13   74     0.996 0.98  tP    59.07    66.98    54.84    90.0  90.0  90.0   P4,P41,P42,P43,P422,P4212,P4122,P41212,P4222,P42212,P4322,P43212
+  12   74     0.558 0.99  oC    89.29    89.33    54.84    90.0  90.1  82.8   C222,C2221
+  11   74     0.555 0.99  mC    89.29    89.33    54.84    90.0  90.1  82.8   C2
+  10   36     0.706 0.99  mC    80.57    80.63    66.98    90.0  90.0  94.3   C2
+   9   36     1.150 0.99  tP    54.84    59.07    66.98    90.0  90.0  90.0   P4,P41,P42,P43,P422,P4212,P4122,P41212,P4222,P42212,P4322,P43212
+   8   36     0.710 0.99  oC    80.57    80.63    66.98    90.0  90.0  85.7   C222,C2221
+   7   36     0.706 0.99  mC    80.57    80.63    66.98    90.0  90.0  85.7   C2
+   6    1     0.149 0.90  oP    54.84    59.07    66.98    90.0  90.0  90.0   P222,P2221,P21212,P212121
+   5    0     0.148 0.90  aP    54.84    59.07    66.98    90.0  90.0  90.0   P1
+   4    0     0.147 0.90  mP    54.84    59.07    66.98    90.0  90.0  90.0   P2,P21
+   3    0     0.149 0.90  mP    54.84    66.98    59.07    90.0  90.0  90.0   P2,P21
+   2    0     0.150 0.90  mP    59.07    54.84    66.98    90.0  90.0  90.0   P2,P21
+   1    0     0.148 0.90  aP    54.84    59.07    66.98    90.0  90.0  90.0   P1
+ No PENALTY SDCELL FRACN LATT      a        b        c     alpha  beta gamma  Possible spacegroups
+
+ AMAT is now         -0.008254  0.008855  0.009366
+                      0.001268  0.012522 -0.008449
+                     -0.014853 -0.003859 -0.005939
+ CELL is         54.82   59.07   67.00   90.01   90.05   90.02
+ UMAT is now         -0.484945  0.559946  0.671780
+                      0.074903  0.791920 -0.606014
+                     -0.871331 -0.243565 -0.425980
+ Angles are:            119.01     55.95     47.80
+                         85.70     37.63    127.30
+                        150.61    104.10    115.21
+ Mosflm has chosen solution  6 from the list automatically. You may want to
+ re-run the autoindexing and choose a solution yourself.
+
+ The solution and direct beam position will now be refined; reflections which 
+ deviate by more than the sigma cutoff from their calculated position will
+ be excluded from the refinement.
+
+Refining solution # 6 with P222 (number   16) symmetry imposed
+
+Initial cell (before refinement) is   54.8365   59.0719   66.9838  90.000  90.000  90.000
+Using 1367 indexed reflections (out of 1522 spots used in indexing, {delta(XY) <= 2.5 sigma}),
+final sd in spot positions is 0.15mm and in phi 0.44 degrees
+Refined cell parameters   54.81   59.08   66.99  90.00  90.00  90.00
+Beam coordinates of 102.46 104.74 have been refined to 102.48 104.89
+This is a shift of  0.15mm or  0.054 times the minimum spot separation of ca  2.77mm.
+  Final cell (after refinement) is    54.8125   59.0812   66.9948  90.000  90.000  90.000
+
+FORMATTED      UNKNOWN file opened on unit  12
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+Logical name: MOSFLMIndexingv10_newmat.mat, Filename: MOSFLMIndexingv10_newmat.mat
+<!--SUMMARY_END--></FONT></B>
+
+ ===> MOSAIC ESTIMATE 1
+ ===> GO
+
+ Start and end phi values for image       1 from image header are     0.00 and    1.00 degrees.
+
+***** WARNING *****
+***** WARNING *****
+***** WARNING *****
+***** WARNING *****
+ Input beam coordinates  102.48mm  104.89mm DO NOT agree with 
+ those calculated from the image header ( 102.46mm  104.74mm)
+
+
+ Background strip overlaps gap between detector tiles, so XOFFSET changed to   5.2mm
+ image FILENAME: /mntdirect/_scisoft/users/svensson/git/edna/tests/data/images/ref-testscale_1_001.img
+ **** WARNING ****
+ Because input wavelength ( 0.9341) is not CuKa (1.5418) or Mo (0.7107),
+ source is assumed to be a synchrotron and synchrotron defaults for polarisation and beam divergence
+ will be used if these have not been defined explicitly (SYNCH POLAR and DIVH/DIVV keywords.
+
+
+
+ Title for MTZ and GENERATE Files (TITLE):
+ .
+ Crystal identifier (IDENT): ref-testscale_1
+
+ Warning: No PROTEIN NAME given by KeyWord PNAME
+ It has been set to "Unspecified"
+
+ Warning: No CRYSTAL NAME given by KeyWord XNAME
+ It has been set to "ref-testscale_1"
+
+
+ Warning: No DATASET NAME given by KeyWord DNAME
+ It has been set to "Unspecified"
+
+  PSIX changed by  0.00 Degrees and CCOMEGA set to 0.000
+
+  MAX. No. of Active Reflections=    32
+
+ Beam divergence refinement
+
+ Refining DIV  with stepsize  0.05 Degrees
+ Divergence      0.000 0.050 0.100 0.150 0.200 0.250 0.300 0.350 0.400 0.450 0.500 0.550 0.600 0.650 0.700 0.750 0.800 0.850 0.900
+ Divergence      0.950 1.000
+ No gained           0    74    60    62    64    68    54    64    72    79    78    67    65    73    51    72    85    75    72
+ No gained          69    74
+ Total intensity 71730 76487 79847 81411 83088 86570 87821 88770 90127 92691 93542 94774 95609 96928 97460 97795 98242 98873 99320
+ Total intensity 99612 99998
+ SD of intensity   362   367   372   372   375   379   380   380   381   389   389   390   390   391   391   391   391   392   392
+ SD of intensity   392   392
+  PSIX changed by  0.00 Degrees and CCOMEGA set to 0.000
+
+  MAX. No. of Active Reflections=    48
+
+ Beam divergence refinement
+
+ Refining DIV  with stepsize  0.10 Degrees
+ Divergence      0.000 0.100 0.200 0.300 0.400 0.500 0.600 0.700 0.800 0.900 1.000 1.100 1.200 1.300 1.400 1.500 1.600 1.700 1.800
+ Divergence      1.900 2.000
+ No gained          74   130   125   121   133   157   129   121   155   147   138   123   126   127   138   137   134   123   131
+ No gained         129   146
+ Total intensity 70308 77811 80972 85601 87966 91306 93519 95300 96063 97117 97886 98508 98705 98983 99172 99305 99463 99575 99746
+ Total intensity 99875 99999
+ SD of intensity   354   362   366   371   371   380   380   382   382   383   383   383   384   384   384   384   384   384   384
+ SD of intensity   384   384
+ The mosaicity has been estimated as ---> 1.00 <--- for this image only; 
+This value can be used cautiously as an initial estimate.
+ This estimate is affected by the background, which may show evidence of
+thermal diffuse scattering
+ ===> MOSAIC ESTIMATE 2
+ ===> GO
+
+ Start and end phi values for image       2 from image header are    90.00 and   91.00 degrees.
+
+***** WARNING *****
+***** WARNING *****
+***** WARNING *****
+***** WARNING *****
+ Input beam coordinates  102.48mm  104.89mm DO NOT agree with 
+ those calculated from the image header ( 102.46mm  104.74mm)
+
+ image FILENAME: /mntdirect/_scisoft/users/svensson/git/edna/tests/data/images/ref-testscale_1_002.img
+
+
+ Title for MTZ and GENERATE Files (TITLE):
+ .
+ Crystal identifier (IDENT): ref-testscale_1
+  PSIX changed by  0.00 Degrees and CCOMEGA set to 0.000
+
+  MAX. No. of Active Reflections=    33
+
+ Beam divergence refinement
+
+ Refining DIV  with stepsize  0.05 Degrees
+ Divergence      0.000 0.050 0.100 0.150 0.200 0.250 0.300 0.350 0.400 0.450 0.500 0.550 0.600 0.650 0.700 0.750 0.800 0.850 0.900
+ Divergence      0.950 1.000
+ No gained         146    73    74    70    82    80    74    76    71    59    71    69    69    64    73    60    58    65    72
+ No gained          64    83
+ Total intensity 71013 74608 76862 79723 82879 86225 89206 91580 92628 94495 95952 96767 97434 97928 98314 98570 98846 99130 99428
+ Total intensity 99255 99999
+ SD of intensity   354   359   360   362   366   371   374   375   376   377   378   378   379   379   379   379   379   379   379
+ SD of intensity   379   379
+ The mosaicity has been estimated as ---> 0.70 <--- for this image only; 
+This value can be used cautiously as an initial estimate.
+ This estimate is affected badly by the background; this may be due to 
+noise or thermal diffuse scattering
+
+
+
+ *********** END OF PROCESSING *****************

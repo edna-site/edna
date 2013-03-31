@@ -1,13 +1,13 @@
 # coding: utf8
 #
-#    Project: <projectName>
+#    Project: Autoproc
 #             http://www.edna-site.org
 #
 #    File: "$Id$"
 #
-#    Copyright (C) <copyright>
+#    Copyright (C) ESRF
 #
-#    Principal author:        <author>
+#    Principal author: Thomas Boeglin
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="<author>"
+__author__="Thomsa Boeglin"
 __license__ = "GPLv3+"
-__copyright__ = "<copyright>"
+__copyright__ = "ESRF"
 
 import os.path
 
@@ -88,7 +88,7 @@ class EDPluginControlRunXds( EDPluginControl ):
 
         EDVerbose.DEBUG('first run completed...')
 
-        if self.first_run.dataOutput is not None and self.first_run.dataOutput.succeeded:
+        if self.first_run.dataOutput is not None and self.first_run.dataOutput.succeeded.value:
             EDVerbose.DEBUG('... and it worked')
             self.successful_run = self.first_run
         else:
@@ -105,7 +105,7 @@ class EDPluginControlRunXds( EDPluginControl ):
             self.second_run.executeSynchronous()
 
             EDVerbose.DEBUG('second run completed')
-            if self.second_run.dataOutput is not None and self.second_run.dataOutput.succeeded:
+            if self.second_run.dataOutput is not None and self.second_run.dataOutput.succeeded.value:
                 EDVerbose.DEBUG('... and it worked')
                 self.successful_run = self.second_run
             else:
@@ -124,7 +124,7 @@ class EDPluginControlRunXds( EDPluginControl ):
             self.third_run.executeSynchronous()
 
             EDVerbose.DEBUG('third run completed')
-            if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded:
+            if self.third_run.dataOutput is not None and self.third_run.dataOutput.succeeded.value:
                 EDVerbose.DEBUG('... and it worked')
                 self.successful_run = self.third_run
             else:

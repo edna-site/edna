@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_nP_OEOwWEd-YN87dLY1EOA" activeDiagram="_nP_1IOwWEd-YN87dLY1EOA">
   <model href="XSDataBestv1_2.uml#_w8IxIM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_nP_1IOwWEd-YN87dLY1EOA" position="0,0" size="300,300" name="XSDataBestv1_2" viewport="505,0">
+  <diagrams xmi:id="_nP_1IOwWEd-YN87dLY1EOA" position="0,0" size="300,300" name="XSDataBestv1_2" viewport="0,260">
     <property xmi:id="_nQjOwOwWEd-YN87dLY1EOA" key="pageFormatName" value=""/>
     <property xmi:id="_nQjOwewWEd-YN87dLY1EOA" key="diagramWidth" value="1679"/>
     <property xmi:id="_nQjOwuwWEd-YN87dLY1EOA" key="diagramHeight" value="854"/>
@@ -147,6 +147,26 @@
         <contained xsi:type="di:GraphNode" xmi:id="_099toHfGEeCvH5kLARtJaQ" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_099toXfGEeCvH5kLARtJaQ" presentation="default">
             <element href="XSDataBestv1_2.uml#_09-7wHfGEeCvH5kLARtJaQ"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_msGisHUkEeK5bdpB5A9cLA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_msGisXUkEeK5bdpB5A9cLA" presentation="default">
+            <element href="XSDataBestv1_2.uml#_msHw0HUkEeK5bdpB5A9cLA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_pEYosHUkEeK5bdpB5A9cLA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_pEYosXUkEeK5bdpB5A9cLA" presentation="default">
+            <element href="XSDataBestv1_2.uml#_pEZPwHUkEeK5bdpB5A9cLA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_hX-hMHUlEeK5bdpB5A9cLA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_hX-hMXUlEeK5bdpB5A9cLA" presentation="default">
+            <element href="XSDataBestv1_2.uml#_hX_IQHUlEeK5bdpB5A9cLA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_iKUkIHUlEeK5bdpB5A9cLA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_iKVLMHUlEeK5bdpB5A9cLA" presentation="default">
+            <element href="XSDataBestv1_2.uml#_iKVyQHUlEeK5bdpB5A9cLA"/>
           </semanticModel>
         </contained>
       </contained>

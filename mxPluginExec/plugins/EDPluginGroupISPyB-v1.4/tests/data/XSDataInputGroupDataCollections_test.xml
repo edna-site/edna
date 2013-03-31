@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataInputISPyBGroupDataCollections>
+	<dataCollectionGroupId>
+		<value>1095427</value>
+	</dataCollectionGroupId>
+	<filePath>
+		<value>/data/id14eh4/inhouse/opid144/20130318/RAW_DATA/1-2/discrete-1/opid144_1_0001.img</value>
+	</filePath>
+	<filePath>
+		<value>/data/id23eh1/inhouse/opid231/20130315/RAW_DATA/2-1/discrete-1/opid231_1_0001.cbf</value>
+	</filePath>
+</XSDataInputISPyBGroupDataCollections>

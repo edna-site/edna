@@ -1,6 +1,8 @@
 from __future__ import with_statement
 from types import ListType, TupleType
+import logging
 from xdscfgformat import CONFIGURATION_PARSERS
+from xdscfgformat import REPEATABLE_PARAMS
 
 # Load a XDS file, remove the comments, and then split it into a list
 # of (keyword, [args]) tuples
@@ -63,7 +65,18 @@ def parse_xds_file(path):
 
         # XXX maybe catch exc and log them
         parsedargs = parser(args)
-        parsed[kw] = parsedargs
+
+        # special case, for repeatable params, we add them as a list
+        # or append them if they already exist
+        if kw in REPEATABLE_PARAMS:
+            #print 'keyword', kw, 'is repeatable'
+            if kw in parsed:
+                parsed[kw].append(parsedargs)
+            else:
+                parsed[kw] = [parsedargs]
+        else:
+            # regular case just assign the thing
+            parsed[kw] = parsedargs
 
     return parsed
 
@@ -87,13 +100,26 @@ def _uncomment(lines):
 def dump_xds_file(filename, xdsconf):
     with open(filename, 'w') as outfile:
         for key in xdsconf:
-            outfile.write(key)
             value = xdsconf[key]
-            if type(value) in [ListType, TupleType]:
-                for item in value:
-                    outfile.write(' ')
-                    outfile.write(str(item))
-            else: #single val
-                outfile.write(' ')
-                outfile.write(str(value))
-            outfile.write('\n')
+            # repeatable keywords have a list associated, we have to
+            # repeat the kw along with the values
+            if key in REPEATABLE_PARAMS:
+                for val in value:
+                    outfile.write(_format_param(key, val))
+            else:
+                outfile.write(_format_param(key, value))
+
+def _format_param(key, value):
+    """return a string in the form
+key= value value value
+taking into account whether value is a list of things or a single
+value"""
+    if type(value) in [ListType, TupleType]:
+        valstring = ' '.join(map(str, value))
+        res = '{0} {1}\n'.format(key, valstring)
+    else: #single val
+        if type(value) == bool:
+            value = 'TRUE' if value else 'FALSE'
+        res = '{0} {1}\n'.format(key, value)
+
+    return res

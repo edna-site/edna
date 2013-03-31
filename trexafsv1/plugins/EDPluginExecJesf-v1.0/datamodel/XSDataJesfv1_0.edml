@@ -1,0 +1,24 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataDouble
+
+complex type XSDataInputJesf extends XSDataInput {
+	data : XSDataArray
+}
+
+complex type XSDataResultJesf extends XSDataResult {
+	edge : XSDataDouble optional
+	slope : XSDataDouble optional
+	jump : XSDataDouble optional
+	hwl : XSDataDouble optional
+	ewl : XSDataDouble optional
+	fort92 : XSDataArray optional
+	fort95 : XSDataArray optional
+	fort96 : XSDataArray optional
+	fort97 : XSDataArray optional
+	fort98 : XSDataArray optional
+	fort99 : XSDataArray optional
+}

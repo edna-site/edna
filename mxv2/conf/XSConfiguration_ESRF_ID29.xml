@@ -42,10 +42,10 @@
 					<name>useISPyBPlugin</name>
 					<value>True</value>
 				</XSParamItem>
-			    <XSParamItem>
-			        <name>createSimpleHTMLPageForISPyB</name>
-			        <value>True</value>
-			    </XSParamItem>
+                                <XSParamItem>
+			                <name>createSimpleHTMLPageForISPyB</name>
+			                <value>True</value>
+			        </XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 	</XSPluginList> 

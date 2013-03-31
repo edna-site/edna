@@ -164,7 +164,7 @@
                             </y>
                         </size>
                         <transmission>
-                            <value>5.000000e+01</value>
+                            <value>5.000000e+00</value>
                         </transmission>
                         <wavelength>
                             <value>9.341234e-01</value>
@@ -277,7 +277,7 @@
                             </y>
                         </size>
                         <transmission>
-                            <value>5.000000e+01</value>
+                            <value>5.000000e+00</value>
                         </transmission>
                         <wavelength>
                             <value>9.341234e-01</value>
@@ -523,7 +523,7 @@
             </image>
             <indexingLogFile>
                 <path>
-                    <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3_20121112-085748/ControlInterfaceToMXCuBEv1_3-00000003/ControlInterfacev1_2/Characterisation/Indexing/MOSFLMIndexingv10/MOSFLMIndexingv10.log</value>
+                    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/MOSFLMIndexingv10.log</value>
                 </path>
             </indexingLogFile>
             <labelitIndexing>
@@ -3558,7 +3558,7 @@ BEAM            102.526  104.905
                 </generatedMTZFile>
                 <integrationLogFile>
                     <path>
-                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3_20121112-085748/ControlInterfaceToMXCuBEv1_3-00000003/ControlInterfacev1_2/Characterisation/Integration/MOSFLMIntegrationv10-01/MOSFLMIntegrationv10.log</value>
+                        <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/MOSFLMIntegrationv10.log</value>
                     </path>
                 </integrationLogFile>
                 <statistics>
@@ -5376,7 +5376,7 @@ BEAM            102.512  104.835
                 </generatedMTZFile>
                 <integrationLogFile>
                     <path>
-                        <value>/mntdirect/_scisoft/users/svensson/WorkSpace-EDNA/tmp/EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3_20121112-085748/ControlInterfaceToMXCuBEv1_3-00000003/ControlInterfacev1_2/Characterisation/Integration/MOSFLMIntegrationv10-02/MOSFLMIntegrationv10.log</value>
+                        <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/MOSFLMIntegrationv10.log</value>
                     </path>
                 </integrationLogFile>
                 <statistics>

@@ -180,18 +180,21 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                 xsDataStringSpaceGroup = self.getDataInput().getDiffractionPlan().getForcedSpaceGroup()
                 # Space Group has been forced
                 # Prepare chemical composition calculation with the forced Space Group (Space Group Name)
+                bSpaceGroupForced = False
                 if(xsDataStringSpaceGroup is not None):
                     strSpaceGroup = xsDataStringSpaceGroup.getValue().upper()
-                    EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: Forced Space Group Found: " + strSpaceGroup)
-                    try:
-                        strNumOperators = EDUtilsSymmetry.getNumberOfSymmetryOperatorsFromSpaceGroupName(strSpaceGroup, strFileSymop)
-                    except Exception, detail:
-                        strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlStrategyv1_2.preProcess', "Problem to calculate Number of symmetry operators", detail)
-                        EDVerbose.error(strErrorMessage)
-                        self.addErrorMessage(strErrorMessage)
-                        raise RuntimeError, strErrorMessage
-                # Space Group has NOT been forced
-                else:
+                    if strSpaceGroup != "":
+                        EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: Forced Space Group Found: " + strSpaceGroup)
+                        try:
+                            strNumOperators = EDUtilsSymmetry.getNumberOfSymmetryOperatorsFromSpaceGroupName(strSpaceGroup, strFileSymop)
+                            bSpaceGroupForced = True
+                        except Exception, detail:
+                            strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlStrategyv1_2.preProcess', "Problem to calculate Number of symmetry operators", detail)
+                            EDVerbose.error(strErrorMessage)
+                            self.addErrorMessage(strErrorMessage)
+                            raise RuntimeError, strErrorMessage
+                if not bSpaceGroupForced:
+                    # Space Group has NOT been forced
                     xsDataStringSpaceGroup = self._xsDataSampleCopy.getCrystal().getSpaceGroup().getName()
                     if (xsDataStringSpaceGroup is not None):
                         # Prepare chemical composition calculation with the Space Group calculated by indexing (Space Group Name)
