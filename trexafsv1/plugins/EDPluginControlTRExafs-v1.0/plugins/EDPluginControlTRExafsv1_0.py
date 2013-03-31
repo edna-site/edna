@@ -98,8 +98,8 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         listEdPluginExecJesf = self.launchJesfPlugins(numpyDataArray, numpyEnergyCalibrationArray)
         # Create nexus file
         xsDataInputWriteNexusFile = XSDataInputWriteNexusFile()
-        xsDataInputWriteNexusFile.instrument = XSDataString("ID24")
-        xsDataInputWriteNexusFile.outputFileName = XSDataString("id24_test.nxs")
+        xsDataInputWriteNexusFile.instrument = self.dataInput.instrument
+        xsDataInputWriteNexusFile.outputFileName = self.dataInput.nexusFileName
         # Raw data
         xsDataNexusArrayGroupRawData = self.createNexusGroup(
             _numpyDataArray = numpyDataArray, 

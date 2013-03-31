@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Mar 28 07:15::23 2013 by EDGenerateDS.
+# Generated Sat Mar 30 07:28::20 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -16,12 +16,14 @@ dictLocation = { \
  "XSDataCommon": "kernel/datamodel", \
  "XSDataCommon": "kernel/datamodel", \
  "XSDataCommon": "kernel/datamodel", \
+ "XSDataCommon": "kernel/datamodel", \
 }
 
 try:
+	from XSDataCommon import XSDataInput
+	from XSDataCommon import XSDataString
 	from XSDataCommon import XSDataArray
 	from XSDataCommon import XSDataFile
-	from XSDataCommon import XSDataInput
 	from XSDataCommon import XSDataResult
 except ImportError as error:
 	if strEdnaHome is not None:
@@ -33,9 +35,10 @@ except ImportError as error:
 					sys.path.append(strRoot)
 	else:
 		raise error
+from XSDataCommon import XSDataInput
+from XSDataCommon import XSDataString
 from XSDataCommon import XSDataArray
 from XSDataCommon import XSDataFile
-from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataResult
 
 
@@ -128,10 +131,14 @@ class MixedContainer(object):
 
 
 class XSDataInputTRExafs(XSDataInput):
-	def __init__(self, configuration=None, pathToDataArray=None, pathToEnergyArray=None, dataArray=None, energy=None):
+	def __init__(self, configuration=None, pathToDataArray=None, pathToEnergyArray=None, dataArray=None, energy=None, instrument=None, nexusFileName=None):
 		XSDataInput.__init__(self, configuration)
 	
 	
+		checkType("XSDataInputTRExafs", "Constructor of XSDataInputTRExafs", nexusFileName, "XSDataString")
+		self._nexusFileName = nexusFileName
+		checkType("XSDataInputTRExafs", "Constructor of XSDataInputTRExafs", instrument, "XSDataString")
+		self._instrument = instrument
 		checkType("XSDataInputTRExafs", "Constructor of XSDataInputTRExafs", energy, "XSDataArray")
 		self._energy = energy
 		checkType("XSDataInputTRExafs", "Constructor of XSDataInputTRExafs", dataArray, "XSDataArray")
@@ -140,6 +147,20 @@ class XSDataInputTRExafs(XSDataInput):
 		self._pathToEnergyArray = pathToEnergyArray
 		checkType("XSDataInputTRExafs", "Constructor of XSDataInputTRExafs", pathToDataArray, "XSDataFile")
 		self._pathToDataArray = pathToDataArray
+	def getNexusFileName(self): return self._nexusFileName
+	def setNexusFileName(self, nexusFileName):
+		checkType("XSDataInputTRExafs", "setNexusFileName", nexusFileName, "XSDataString")
+		self._nexusFileName = nexusFileName
+	def delNexusFileName(self): self._nexusFileName = None
+	# Properties
+	nexusFileName = property(getNexusFileName, setNexusFileName, delNexusFileName, "Property for nexusFileName")
+	def getInstrument(self): return self._instrument
+	def setInstrument(self, instrument):
+		checkType("XSDataInputTRExafs", "setInstrument", instrument, "XSDataString")
+		self._instrument = instrument
+	def delInstrument(self): self._instrument = None
+	# Properties
+	instrument = property(getInstrument, setInstrument, delInstrument, "Property for instrument")
 	def getEnergy(self): return self._energy
 	def setEnergy(self, energy):
 		checkType("XSDataInputTRExafs", "setEnergy", energy, "XSDataArray")
@@ -176,6 +197,14 @@ class XSDataInputTRExafs(XSDataInput):
 		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='XSDataInputTRExafs'):
 		XSDataInput.exportChildren(self, outfile, level, name_)
+		if self._nexusFileName is not None:
+			self.nexusFileName.export(outfile, level, name_='nexusFileName')
+		else:
+			warnEmptyAttribute("nexusFileName", "XSDataString")
+		if self._instrument is not None:
+			self.instrument.export(outfile, level, name_='instrument')
+		else:
+			warnEmptyAttribute("instrument", "XSDataString")
 		if self._energy is not None:
 			self.energy.export(outfile, level, name_='energy')
 		if self._dataArray is not None:
@@ -190,6 +219,16 @@ class XSDataInputTRExafs(XSDataInput):
 			self.buildChildren(child_, nodeName_)
 	def buildChildren(self, child_, nodeName_):
 		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'nexusFileName':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setNexusFileName(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'instrument':
+			obj_ = XSDataString()
+			obj_.build(child_)
+			self.setInstrument(obj_)
+		elif child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == 'energy':
 			obj_ = XSDataArray()
 			obj_.build(child_)
