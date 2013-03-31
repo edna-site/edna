@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<XSDataInputDexafs>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/2PdAl_21_xoplog_0_asc0</value>
+    </path>
+  </inputFile>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/2PdAl_21_xoplog_1_asc0</value>
+    </path>
+  </inputFile>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/2PdAl_21_xoplog_2_asc0</value>
+    </path>
+  </inputFile>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/2PdAl_21_xoplog_3_asc0</value>
+    </path>
+  </inputFile>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/2PdAl_21_xoplog_4_asc0</value>
+    </path>
+  </inputFile>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/2PdAl_21_xoplog_5_asc0</value>
+    </path>
+  </inputFile>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/2PdAl_21_xoplog_6_asc0</value>
+    </path>
+  </inputFile>
+  <energyCalibration>
+    <a>
+      <value>24070</value>
+    </a>
+    <b>
+      <value>0.82794</value>
+    </b>
+  </energyCalibration>
+</XSDataInputDexafs>
