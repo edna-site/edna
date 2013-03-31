@@ -37,7 +37,6 @@ class EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_characterisationFailur
     def __init__(self, _edStringTestName=None):
         EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3.__init__(self, "EDPluginControlInterfaceToMXCuBEv1_3")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputMXCuBE_characterisationFailure.xml"))
-        self.setAcceptPluginFailure(True)
 
 
     def preProcess(self):

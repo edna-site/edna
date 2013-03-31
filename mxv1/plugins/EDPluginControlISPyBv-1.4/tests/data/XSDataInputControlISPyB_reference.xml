@@ -21612,4 +21612,10 @@
 	        </collectionPlan>
 	    </strategyResult>
 	</characterisationResult>
+	<kappa>
+		<value>10.0</value>
+	</kappa>
+	<phi>
+		<value>20.0</value>
+	</phi>
 </XSDataInputControlIPSyB>

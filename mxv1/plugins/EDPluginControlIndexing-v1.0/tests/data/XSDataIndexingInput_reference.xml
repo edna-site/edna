@@ -1,5 +1,14 @@
 <?xml version="1.0" ?>
 <XSDataIndexingInput>
+    <!-- The following empty spacegroup is added as a check for bug 881:
+         "Empty forced spacegroup make indexing crash" -->
+	<crystal>
+		<spaceGroup>
+			<name>
+				<value></value>
+			</name>
+		</spaceGroup>
+	</crystal>	
     <dataCollection>
         <subWedge>
             <experimentalCondition>

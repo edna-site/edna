@@ -6,31 +6,4 @@
   <XSImportConfiguration>
   	<name>XSConfiguration_ESRF_ISPyBTest_Common</name>
   </XSImportConfiguration>	
-	<XSPluginList>
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreScreeningv1_4</name>  
-			<XSParamList>
-				<XSParamItem>
-					<name>userName</name>
-					<value>${ISPyB_user}</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>passWord</name>
-					<value>${ISPyB_pass}</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>toolsForBLSampleWebServiceWsdl</name>
-					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForBLSampleWebService?wsdl</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>toolsForScreeningEDNAWebServiceWsdl</name>
-					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForScreeningEDNAWebService?wsdl</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl</value>
-				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>
-	</XSPluginList>
 </XSConfiguration> 

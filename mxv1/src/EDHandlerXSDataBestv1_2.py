@@ -65,13 +65,13 @@ class EDHandlerXSDataBestv1_2(EDObject):
         xsDataInputBest = XSDataInputBest()
 
         # Sample      
-        xdDataAbsorbedDose = None
+        xsDataAbsorbedDose = None
         xsDataSusceptibility = None
 
         # Could be None if sample has not been set
         # It could be not None in case Raddose has calculated an absorbed dose with default sample values
         if(xsDataSample is not None):
-            xdDataAbsorbedDose = xsDataSample.getAbsorbedDoseRate()
+            xsDataAbsorbedDose = xsDataSample.getAbsorbedDoseRate()
             xsDataSusceptibility = xsDataSample.getSusceptibility()
             # crystalShape
             # Default value is 1 (We assume that Xtal is smaller than beam)
@@ -91,9 +91,12 @@ class EDHandlerXSDataBestv1_2(EDObject):
                         fCrystalShape = int(10 * fDiagonal / fBeamSizeX) / 10.0
                     xsDataDoubleCrystalShape = XSDataDouble(fCrystalShape)
             xsDataInputBest.setCrystalShape(xsDataDoubleCrystalShape)
+            # Radiation damage model parameters
+            xsDataInputBest.setRadiationDamageModelBeta(xsDataSample.getRadiationDamageModelBeta())
+            xsDataInputBest.setRadiationDamageModelGamma(xsDataSample.getRadiationDamageModelGamma())
 
         # Could be None if Raddose failed to calculate the absorbed dose
-        if(xdDataAbsorbedDose is not None):
+        if(xsDataAbsorbedDose is not None):
             xsDataInputBest.setCrystalAbsorbedDoseRate(xsDataSample.getAbsorbedDoseRate())
 
         xsDataInputBest.setCrystalSusceptibility(xsDataSusceptibility)
@@ -151,6 +154,9 @@ class EDHandlerXSDataBestv1_2(EDObject):
             xsDataInputBest.setNumberOfCrystalPositions(xsDataDiffractionPlan.getNumberOfPositions())
             xsDataInputBest.setDetectorDistanceMin(xsDataDiffractionPlan.getDetectorDistanceMin())
             xsDataInputBest.setDetectorDistanceMax(xsDataDiffractionPlan.getDetectorDistanceMax())
+            xsDataInputBest.setUserDefinedRotationStart(xsDataDiffractionPlan.getUserDefinedRotationStart())
+            xsDataInputBest.setUserDefinedRotationRange(xsDataDiffractionPlan.getUserDefinedRotationRange())            
+
 
         # Best Files
         xsDataInputBest.setBestFileContentDat(xsDataStringBestFileContentDat)

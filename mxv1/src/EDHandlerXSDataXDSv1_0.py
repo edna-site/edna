@@ -299,6 +299,39 @@ class EDHandlerXSDataXDSv1_0:
             xsDataXDSDetector.setTrusted_region(xsDataXDSDoubleRangeTrustedRegion)
 
             xsDataXDSDetector.setSensor_thickness(XSDataDouble(0.32))
+        elif strDetectorType == "pilatus2m":
+            xsDataXDSDetector.setDetector_name(XSDataString("PILATUS"))
+            listUntrustedRectangle = \
+               [[ 487, 495, 0, 1680], \
+                [ 981, 989, 0, 1680], \
+                [   0, 1476, 195, 213], \
+                [   0, 1476, 407, 425], \
+                [   0, 1476, 619, 637], \
+                [   0, 1476, 831, 849], \
+                [   0, 1476, 1043, 1061], \
+                [   0, 1476, 1255, 1273], \
+                [   0, 1476, 1467, 1485]]
+            for listRectangle in listUntrustedRectangle:
+                xsDataXDSRectangle = XSDataXDSRectangle()
+                xsDataXDSRectangle.setX1(XSDataInteger(listRectangle[0]))
+                xsDataXDSRectangle.setX2(XSDataInteger(listRectangle[1]))
+                xsDataXDSRectangle.setY1(XSDataInteger(listRectangle[2]))
+                xsDataXDSRectangle.setY2(XSDataInteger(listRectangle[3]))
+                xsDataXDSDetector.addUntrusted_rectangle(xsDataXDSRectangle)
+            xsDataXDSDetector.setMinimum_valid_pixel_value(XSDataInteger(0))
+            xsDataXDSDetector.setOverload(XSDataInteger(1048500))
+
+            xsDataXDSIntegerRangeTrustedPixel = XSDataXDSIntegerRange()
+            xsDataXDSIntegerRangeTrustedPixel.setLower(XSDataInteger(7000))
+            xsDataXDSIntegerRangeTrustedPixel.setUpper(XSDataInteger(30000))
+            xsDataXDSDetector.setValue_range_for_trusted_detector_pixels(xsDataXDSIntegerRangeTrustedPixel)
+
+            xsDataXDSDoubleRangeTrustedRegion = XSDataXDSDoubleRange()
+            xsDataXDSDoubleRangeTrustedRegion.setLower(XSDataDouble(0.0))
+            xsDataXDSDoubleRangeTrustedRegion.setUpper(XSDataDouble(1.41))
+            xsDataXDSDetector.setTrusted_region(xsDataXDSDoubleRangeTrustedRegion)
+
+            xsDataXDSDetector.setSensor_thickness(XSDataDouble(0.32))
         else:
             # This is a temporary solution for the exception problem pointed out in bug #43.
             # Instead of raising an exception with a known type we send the error message as a string.

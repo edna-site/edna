@@ -1,0 +1,10 @@
+size 13 10
+begin graph
+scale auto
+title "Wilson plot    B-factor =  7.6\AA^2"
+xtitle "1/Resolution^2, \AA^-^2"
+ytitle "Intensity"
+data "B.dat"
+d1 line smooth color green key "Theory"
+d2 line marker triangle color red key "Experiment"
+end graph

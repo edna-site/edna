@@ -218,7 +218,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/BEST/v3.4.4_20110610/linux/best</value>
+					<value>/opt/pxsoft/BEST/v4.1.0_20121002/linux/best</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -226,7 +226,24 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Version 3.4.4 //  10.06.2011</value>
+					<value>Version 4.1.0 //  02.10.2012</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>120</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginRdfitv1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/rdfit</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -371,5 +388,89 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-	</XSPluginList> 
+
+		<XSPluginItem>
+			<name>EDPluginControlRunXdsFastProc</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>1800</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<!-- The autoproc control plugin itself. We use a loooong timeout value 
+			just in case -->
+
+		<XSPluginItem>
+			<name>EDPluginControlAutoproc</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>1800</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<!-- the plugins for the file conversion -->
+		<XSPluginItem>
+			<name>EDPluginExecPointless</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/pointless</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecAimless</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/aimless</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>symdb_path</name>
+					<value>/opt/pxsoft/ccp4-6.0.2/lib/data/syminfo.lib</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecTruncate</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/truncate</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+
+		<XSPluginItem>
+			<name>EDPluginExecUniqueify</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/uniqueify</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList>
 </XSConfiguration> 

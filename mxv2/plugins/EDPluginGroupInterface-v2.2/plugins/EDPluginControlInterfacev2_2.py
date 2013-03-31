@@ -58,7 +58,7 @@ EDFactoryPluginStatic.loadModule("XSDataMXv1")
 EDFactoryPluginStatic.loadModule("XSDataMXv2")
 EDFactoryPluginStatic.loadModule("XSDataInterfacev1_2")
 EDFactoryPluginStatic.loadModule("EDHandlerESRFPyarchv1_0")
-EDFactoryPluginStatic.loadModule("XSDataSimpleHTMLPagev1_0")
+EDFactoryPluginStatic.loadModule("XSDataSimpleHTMLPagev2_0")
 
 import XSDataMXv1
 import XSDataMXv2
@@ -68,7 +68,7 @@ from XSDataInterfacev2_2 import XSDataResultInterfacev2_2
 
 from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
 
-from XSDataSimpleHTMLPagev1_0 import XSDataInputSimpleHTMLPage
+from XSDataSimpleHTMLPagev2_0 import XSDataInputSimpleHTMLPage
 
 class EDPluginControlInterfacev2_2(EDPluginControl):
     """
@@ -159,8 +159,9 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         self.fKappa = None
         self.fOmega = None
         self.fPhi = None
-        self.strCreateSimpleHTMLPageForISPyB = None
-        self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
+        self.bCreateSimpleHTMLPageForISPyB = None
+        self.bUseISPyBPlugin = False
+        self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev2_0"
         self.edPluginExecSimpleHTML = None        
 
 
@@ -171,21 +172,16 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         """
         EDPluginControl.configure(self)
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.configure")
-        pluginConfiguration = self.getConfiguration()
+        if (self.getControlledPluginName("subWedgeAssemblePlugin") is not None):
+            self.strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
+        if (self.getControlledPluginName("characterisationPlugin") is not None):
+            self.strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
+        if (self.getControlledPluginName("ispybPlugin") is not None):
+            self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
 
-        if (pluginConfiguration is None):
-            EDVerbose.DEBUG("No plugin configuration found for EDPluginControlInterfacev2_2.")
-        else:
-            if (self.getControlledPluginName("subWedgeAssemblePlugin") is not None):
-                self.strEDPluginControlSubWedgeAssembleName = self.getControlledPluginName("subWedgeAssemblePlugin")
-            if (self.getControlledPluginName("characterisationPlugin") is not None):
-                self.strEDPluginControlCharacterisationName = self.getControlledPluginName("characterisationPlugin")
-            if (self.getControlledPluginName("ispybPlugin") is not None):
-                self.strEDPluginControlISPyBName = self.getControlledPluginName("ispybPlugin")
-
-            bUseISPyBPlugin = EDConfiguration.getStringParamValue(pluginConfiguration, "useISPyBPlugin")
-            if (bUseISPyBPlugin.lower() != "true"):
-                self.strEDPluginControlISPyBName = None
+        self.bUseISPyBPlugin = self.config.get("useISPyBPlugin")
+        if not self.bUseISPyBPlugin:
+            self.strEDPluginControlISPyBName = None
 
 
     def preProcess(self, _edPlugin=None):
@@ -255,7 +251,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                         self.fMinExposureTimePerImage = self.xsDataExperimentalCodition.getBeam().getMinExposureTimePerImage().getValue()
             if self.fMinExposureTimePerImage == None and xsDataInputInterface.getDiffractionPlan():
                 if xsDataInputInterface.getDiffractionPlan().getMinExposureTimePerImage() != None:
-                    self.fMinExposureTimePerImage = xsDataInputInterface.getdiffractionPlan().getMinExposureTimePerImage().getValue()
+                    self.fMinExposureTimePerImage = xsDataInputInterface.getDiffractionPlan().getMinExposureTimePerImage().getValue()
 
             if self.xsDataExperimentalCodition != None:
                 if self.xsDataExperimentalCodition.getBeam() != None:
@@ -497,8 +493,8 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
 
         self.xsDataInputCharacterisationv2_0 = XSDataMXv2.XSDataInputCharacterisationv2_0()
         # Check if we should create simple HTML and store to ISPyB
-        self.strCreateSimpleHTMLPageForISPyB = self.getStringConfigurationParameterValue("createSimpleHTMLPageForISPyB")
-        if self.strCreateSimpleHTMLPageForISPyB == "True":
+        self.bCreateSimpleHTMLPageForISPyB = self.config.get("createSimpleHTMLPageForISPyB")
+        if self.bCreateSimpleHTMLPageForISPyB:
             self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
 
 
@@ -594,6 +590,20 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             # Execute the ISPyB control plugin
             xsDataInputControlISPyB = XSDataMXv1.XSDataInputControlISPyB()
             xsDataInputControlISPyB.setCharacterisationResult(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
+            # Get kappa angles from strategy comment
+            xsDataSuggestedStrategy = self.edPluginControlCharacterisationv2.getDataOutput().suggestedStrategy
+            fKappa = None
+            fPhi = None
+            if xsDataSuggestedStrategy is not None:
+                xsDataStringComment = xsDataSuggestedStrategy.collectionPlan[0].comment
+                if xsDataStringComment is not None:
+                    listValues = xsDataStringComment.value.split(" ")
+                    kap1 = float(listValues[1].split("=")[1])
+                    kap2 = float(listValues[2].split("=")[1])
+                    fKappa = kap1
+                    fPhi = kap2
+                    xsDataInputControlISPyB.kappa = XSDataAngle(fKappa)
+                    xsDataInputControlISPyB.phi = XSDataAngle(fPhi)
             if (not self.iDataCollectionId is None):
                 xsDataInputControlISPyB.setDataCollectionId(XSDataInteger(self.iDataCollectionId))
             if (not self.strShortComments is None):
@@ -729,6 +739,38 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         retrieve the potential warning messages
         """
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doSuccessActionCharacterisation")
+        # Update kappa angles in mxv2 data collection
+        if _edPlugin.getDataOutput().suggestedStrategy is not None:
+            strComment = _edPlugin.getDataOutput().suggestedStrategy.collectionPlan[0].comment.value
+            listValues = strComment.split(" ")
+            calibDate = '2009-12-10'
+            omegaR = (0, 0, 1)
+            kappaR = (0, 0.707106781187, 0.707106781187)
+            phiR = (0, 0, 1)
+            beamD = (1, 0, 0)
+            polarisationP = (0, 1, 0)
+            # We don't update these parameters as they are not used for mxv2 data collection
+            exposuretime = 1.0
+            imagewidth = 1.0
+            numberimages = 1
+            wavelength = 1.0
+            # Kappa angles to be updated
+            OmegaV = float(listValues[0].split("=")[1])
+            KappaV = float(listValues[1].split("=")[1])
+            PhiV   = float(listValues[2].split("=")[1])
+            imgFnames = []
+            for xsDataImage in self.listImagePaths:
+                imgFnames.append(xsDataImage.getValue())
+            self.mxv2DataCollection = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
+        # Create executive summary before we run ISPyB and HTML plugins
+        if (self.edPluginControlSubWedgeAssemble is not None):
+            if self.edPluginControlSubWedgeAssemble.getListExecutiveSummaryLines() != []:
+                self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlSubWedgeAssembleName)
+                self.appendExecutiveSummary(self.edPluginControlSubWedgeAssemble)
+        if (self.edPluginControlCharacterisationv2 is not None):
+            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlCharacterisationName)
+            self.appendExecutiveSummary(self.edPluginControlCharacterisationv2)
+        self.verboseScreenExecutiveSummary()
         # Store the results if requested
         if (self.strResultsFilePath is not None):
             xsDataCharacterisationResultv2_0 = _edPlugin.getDataOutput()
@@ -737,13 +779,24 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         if _edPlugin.hasDataOutput("statusMessage"):
             self.strStatusMessage = _edPlugin.getDataOutput("statusMessage")[0].getValue()
         self.storeResultsInISPyB(_edPlugin)
+        if self.bCreateSimpleHTMLPageForISPyB and not self.bUseISPyBPlugin:
+            xsDataCharacterisationResultv2_0 = self.edPluginControlCharacterisationv2.getDataOutput()
+            self.runSimpleHTMLPlugin(xsDataCharacterisationResultv2_0)
+
+    def runSimpleHTMLPlugin(self, _xsDataCharacterisationResultv2_0):
+        EDVerbose.DEBUG("EDPluginControlInterfacev2_2.runSimpleHTMLPlugin")
+        xsDataInputSimpleHTMLPage = XSDataInputSimpleHTMLPage()
+        xsDataInputSimpleHTMLPage.setCharacterisationResultv2_0(_xsDataCharacterisationResultv2_0)
+        self.edPluginExecSimpleHTML.setDataInput(xsDataInputSimpleHTMLPage)
+        self.executePluginSynchronous(self.edPluginExecSimpleHTML)
 
     def doSuccessActionISPyB(self, _edPlugin):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doSuccessActionISPyB...")
         self.retrieveSuccessMessages(self.edPluginControlISPyB, "EDPluginControlInterfacev2_2.doSuccessActionISPyB")
-        if self.strCreateSimpleHTMLPageForISPyB == "True":
+        if self.bCreateSimpleHTMLPageForISPyB:
             # Copy the files to PyArch
-            xsDataResultCharacterisation = self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation()
+            xsDataResultCharacterisationv2_0 = self.edPluginControlCharacterisationv2.getDataOutput()
+            xsDataResultCharacterisation = xsDataResultCharacterisationv2_0.getMxv1ResultCharacterisation()
             strPathToDNAFileDirectory = self.createDNAFileDirectoryPath(xsDataResultCharacterisation)
             if self.createDNAFileDirectory(strPathToDNAFileDirectory):
                 self.copyFilesToPyArch(xsDataResultCharacterisation, strPathToDNAFileDirectory)
@@ -751,33 +804,14 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             if self.createDNAFileDirectory(strPyArchPathToDNAFileDirectory):
                 self.copyFilesToPyArch(xsDataResultCharacterisation, strPyArchPathToDNAFileDirectory)
             # Execute plugin which creates a simple HTML page
-            xsDataInputSimpleHTMLPage = XSDataInputSimpleHTMLPage()
-            xsDataInputSimpleHTMLPage.setCharacterisationResult(xsDataResultCharacterisation)
-            self.edPluginExecSimpleHTML.setDataInput(xsDataInputSimpleHTMLPage)
-            self.executePluginSynchronous(self.edPluginExecSimpleHTML)
+            self.runSimpleHTMLPlugin(xsDataResultCharacterisationv2_0)
+
         
 
     def doFailureActionISPyB(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doFailureActionISpyB...")
         self.generateExecutiveSummary(self)
         self.setFailure()
-
-    def generateExecutiveSummary(self, _edPlugin=None):
-        """
-        Prints the executive summary from the plugin
-        """
-        EDVerbose.DEBUG("EDPluginControlInterfacev2_2.generateExecutiveSummary")
-        if (self.edPluginControlSubWedgeAssemble is not None):
-            if self.edPluginControlSubWedgeAssemble.getListExecutiveSummaryLines() != []:
-                self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlSubWedgeAssembleName)
-                self.appendExecutiveSummary(self.edPluginControlSubWedgeAssemble)
-        if (self.edPluginControlCharacterisationv2 is not None):
-            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlCharacterisationName)
-            self.appendExecutiveSummary(self.edPluginControlCharacterisationv2)
-        if (self.edPluginControlISPyB is not None):
-            self.addExecutiveSummaryLine("Summary of plugin %s:" % self.strEDPluginControlISPyBName)
-            self.appendExecutiveSummary(self.edPluginControlISPyB)
-        self.verboseScreenExecutiveSummary()
 
 
     def generateDataCollectionDescriptorForSubWedge(self, calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames):
@@ -856,18 +890,19 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         ##SUBWEDGE
         sw = XSDataMXv2.XSSubWedge()
         # template
-        sw.setImagefilenametemplate(XSDataMXv2.XSDataString(EDUtilsImage.getTemplate(imgFnames[0], "#")))
-        # images
-        for imgFname in imgFnames:
-            img = XSDataMXv2.XSDiffractionImages()
-            img.setFilename(XSDataMXv2.XSDataString(imgFname))
-            sw.addXSDiffractionImages(img)
+        if imgFnames != []:
+            sw.setImagefilenametemplate(XSDataMXv2.XSDataString(EDUtilsImage.getTemplate(imgFnames[0], "#")))
+            # images
+            for imgFname in imgFnames:
+                img = XSDataMXv2.XSDiffractionImages()
+                img.setFilename(XSDataMXv2.XSDataString(imgFname))
+                sw.addXSDiffractionImages(img)
         #RotationExposure
         rotexp = XSDataMXv2.XSRotationExposure()
         rotexp.setExposuretime(XSDataMXv2.XSDataTime(exposuretime))
         rotexp.setImagewidth(XSDataMXv2.XSDataAngle(imagewidth))
         rotexp.setNumberimages(XSDataMXv2.XSDataInteger(numberimages))
-        rotexp.setXSGoniostatAxis(omega)
+        rotexp.setXSGoniostatAxis(XSDataMXv2.XSGoniostatAxis.parseString(omega.marshal()))
         sw.setXSRotationExposure(rotexp)
         #Beamsetting
         beams = XSDataMXv2.XSBeamSetting()
@@ -1005,30 +1040,31 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         """
         # Start with the prediction images
         xsDataIndexingResult = _xsDataResultCharacterisation.getIndexingResult()
-        xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
-        listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
-        for xsDataImagePrediction in listXSDataImagePrediction:
-            strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
-            if (_strPathToLogFileDirectory is not None):
-                strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
-                strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
-                EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
-        # Best log file
-        strPathToBESTLogFile = None
-        strPathToExecutiveSummary = None
-        if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
-            strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
-        if strPathToBESTLogFile is not None:
-            if (_strPathToLogFileDirectory is not None):
-                strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
-                EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
-        if (strPathToExecutiveSummary is not None):
-            if (_strPathToLogFileDirectory is not None):
-                strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
-                # Copy also the executive summary file to "dna_log.txt"...
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+        if xsDataIndexingResult is not None:
+            xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
+            listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
+            for xsDataImagePrediction in listXSDataImagePrediction:
+                strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
+                if (_strPathToLogFileDirectory is not None):
+                    strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
+                    strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
+                    EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
+            # Best log file
+            strPathToBESTLogFile = None
+            strPathToExecutiveSummary = None
+            if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
+                strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
+            if strPathToBESTLogFile is not None:
+                if (_strPathToLogFileDirectory is not None):
+                    strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
+                    EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
+            if (strPathToExecutiveSummary is not None):
+                if (_strPathToLogFileDirectory is not None):
+                    strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+                    # Copy also the executive summary file to "dna_log.txt"...
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
 
 

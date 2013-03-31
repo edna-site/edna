@@ -30,9 +30,11 @@ complex type XSDataImageQualityIndicators extends XSData {
 	inResTotal : XSDataInteger
 	inResolutionOvrlSpots : XSDataInteger
 	maxUnitCell : XSDataDouble
+	optional
 	method1Res : XSDataDouble
-	method2Res : XSDataDouble
+	method2Res : XSDataDouble optional
 	pctSaturationTop50Peaks : XSDataDouble
+	optional
 	saturationRangeAverage : XSDataDouble optional
 	saturationRangeMax : XSDataDouble optional
 	saturationRangeMin : XSDataDouble optional

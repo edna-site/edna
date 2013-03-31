@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<XSDataInputPlotGle>
+  <glePlot>
+    <script>
+      <path>
+        <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/B.gle</value>
+      </path>
+    </script>
+    <data>
+      <path>
+        <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/B.dat</value>    
+      </path>
+    </data>
+  </glePlot>
+</XSDataInputPlotGle>

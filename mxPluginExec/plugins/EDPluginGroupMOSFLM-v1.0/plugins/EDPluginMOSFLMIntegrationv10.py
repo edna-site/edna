@@ -81,14 +81,6 @@ class EDPluginMOSFLMIntegrationv10(EDPluginMOSFLMv10):
             self.setDataOutput(xsDataMOSFLMOutputIntegration)
 
 
-    def configure(self):
-        EDPluginMOSFLMv10.configure(self)
-        self.DEBUG("EDPluginMOSFLMIntegrationv10.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            self.DEBUG("EDPluginMOSFLMIntegrationv10.configure: xsPluginItem is None")
-
-
     def checkParameters(self):
         """
         Checks the mandatory parameters for MOSLFM indexing
@@ -140,26 +132,27 @@ class EDPluginMOSFLMIntegrationv10(EDPluginMOSFLMv10):
         xsDataMOSFLMOutputIntegration = XSDataMOSFLMOutputIntegration()
         # Read bestfile.par, bestfile.hkl and bestfile.dat
         strBestfilePar = self.readBestFile("bestfile.par")
+        bContinue = True
         if (strBestfilePar is not None):
             xsDataMOSFLMOutputIntegration.setBestfilePar(XSDataString(strBestfilePar))
         else:
-            xsDataMOSFLMOutputIntegration = None
+            bContinue = False
 
-        if (xsDataMOSFLMOutputIntegration is not None):
+        if bContinue:
             strBestfileHKL = self.readBestFile("bestfile.hkl")
             if (strBestfileHKL is not None):
                 xsDataMOSFLMOutputIntegration.setBestfileHKL(XSDataString(strBestfileHKL))
             else:
-                xsDataMOSFLMOutputIntegration = None
+                bContinue = False
 
-        if (xsDataMOSFLMOutputIntegration is not None):
+        if bContinue:
             strBestfileDat = self.readBestFile("bestfile.dat")
             if (strBestfileDat is not None):
                 xsDataMOSFLMOutputIntegration.setBestfileDat(XSDataString(strBestfileDat))
             else:
-                xsDataMOSFLMOutputIntegration = None
+                bContinue = False
 
-        if (xsDataMOSFLMOutputIntegration is not None):
+        if bContinue:
             strDnaTablesXML = self.readProcessFile(self.getBaseName() + "_dnaTables.xml")
             xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
 
@@ -340,7 +333,7 @@ class EDPluginMOSFLMIntegrationv10(EDPluginMOSFLMv10):
         self.DEBUG("EDPluginMOSFLMIntegrationv10.createDataMOSFLMOutputIndexing")
         xsDataMOSFLMInputIntegration = self.getDataInput()
         xsDataMOSFLMOutputIntegration = self.getDataOutput()
-        if (xsDataMOSFLMOutputIntegration is not None):
+        if xsDataMOSFLMOutputIntegration.getNumberOfFullyRecordedReflections() is not None:
             self.addExecutiveSummaryLine("Execution of MOSFLM integration successful.")
             self.addExecutiveSummaryLine("Image directory     : %s" % xsDataMOSFLMInputIntegration.getDirectory().getValue())
             self.addExecutiveSummaryLine("Image template      : %s" % xsDataMOSFLMInputIntegration.getTemplate().getValue())

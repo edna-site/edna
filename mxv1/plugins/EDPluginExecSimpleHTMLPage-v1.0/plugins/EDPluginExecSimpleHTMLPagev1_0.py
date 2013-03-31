@@ -29,6 +29,7 @@ from EDFactoryPluginStatic import EDFactoryPluginStatic
 from EDUtilsFile import EDUtilsFile
 from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
 from EDUtilsPath import EDUtilsPath
+from EDUtilsImage import EDUtilsImage
 
 EDFactoryPluginStatic.loadModule("markupv1_7")
 import markupv1_7
@@ -61,6 +62,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
         self.strTableColourTitle2 = "#F0F0FF" 
         self.strTableColourRows   = "#FFFFA0"
         self.strPageEDNALog = None
+        self.fMinTransmission = 10 # %
 
 
     def preProcess(self, _edPlugin=None):
@@ -100,6 +102,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 self.page.strong(")")
             self.page.h1.close()
             self.page.div.close()
+            self.dataCollectionInfo()
             self.diffractionPlan()
             self.strategyResults()
             self.graphs()
@@ -185,23 +188,29 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             xsDataResultIntegration = self.xsDataResultCharacterisation.getIntegrationResult()
             xsDataResultIndexing = self.xsDataResultCharacterisation.getIndexingResult()
             if xsDataResultIndexing is None:
+                self.page.font(_color="red", size="+2")
                 self.page.h2()
                 self.page.strong("Strategy calculation not performed due to indexing failure, see the " )  
                 self.page.a("EDNA log file", href=self.strPageEDNALog)
                 self.page.strong(" for more details" )  
                 self.page.h2.close()
+                self.page.font.close()                
             elif xsDataResultIntegration is None:
+                self.page.font(_color="red", size="+2")
                 self.page.h2()
                 self.page.strong("Strategy calculation not performed due to integration failure, see the " )  
                 self.page.a("EDNA log file", href=self.strPageEDNALog)
                 self.page.strong(" for more details" )  
                 self.page.h2.close()
+                self.page.font.close()                
             else:
+                self.page.font(_color="red", size="+2")
                 self.page.h2()
                 self.page.strong( "Strategy calculation failed, see the " )
                 self.page.a("EDNA log file", href=self.strPageEDNALog)
                 self.page.strong(" for more details" )  
                 self.page.h2.close()
+                self.page.font.close()                
         else:
             # Add link to BEST log file:
             if xsDataResultStrategy.getBestLogFile():
@@ -227,100 +236,149 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                     pageRaddoseLog.a("Back to previous page", href_=self.strHtmlFileName)
                     EDUtilsFile.writeFile(strPageRaddoseLog, str(pageRaddoseLog))
             listXSDataCollectionPlan = xsDataResultStrategy.getCollectionPlan()
-            iNoSubWedges = len(listXSDataCollectionPlan)
-            self.page.h2()
-            if iNoSubWedges != 1:
-                self.page.strong("Multi-wedge collection plan strategy (")
+            if listXSDataCollectionPlan == []:
+                self.page.font(_color="red", size="+2")
+                self.page.h2()
+                self.page.strong("Strategy calculation failed, see the ")
+                self.page.a("BEST log file", href="best_log.html")
+                self.page.strong(" for more details")
+                if strPageRaddoseLog is not None:
+                    self.page.a(" (RADDOSE log file)", href="raddose_log.html")
+                self.page.h2.close()
+                self.page.font.close()                
             else:
-                self.page.strong( "Collection plan strategy (" )
-            if strPageRaddoseLog is not None:
-                self.page.a("RADDOSE log file", href="raddose_log.html")
-                self.page.strong(", ")
-            self.page.a("BEST log file", href="best_log.html")
-            self.page.strong(")")
-            self.page.h2.close()
-            # Check if ranking resolution is higher than the suggested strategy resolution(s)
-            bHigherResolutionDetected = False
-            fRankingResolution = None
-            fResolutionMax = None
-            fDistanceMin = None
-            for xsDataCollectionPlan in listXSDataCollectionPlan:
-                xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
-                xsDataCollectionStrategy = xsDataCollectionPlan.getCollectionStrategy()
-                if xsDataSummaryStrategy.getRankingResolution():
-                    # Retrieve the resolution...
-                    fResolution = xsDataSummaryStrategy.getResolution().getValue()
-                    # Retrieve the detector distance...
-                    fDistance = xsDataCollectionStrategy.getSubWedge()[0].getExperimentalCondition().getDetector().getDistance().getValue()
-                    if fResolutionMax is None:
-                        fResolutionMax = fResolution
-                        fDistanceMin = fDistance
-                    elif (fResolution < fResolutionMax) and (abs(fResolution-fResolutionMax) > 0.1):
-                        fResolutionMax = fResolution                        
-                        fDistanceMin = fDistance
-                    fRankingResolution = xsDataSummaryStrategy.getRankingResolution().getValue()
-            
-            if fRankingResolution != None and fResolutionMax != None:
-                if fRankingResolution < fResolutionMax:
-                    if not bHigherResolutionDetected:
-                        self.page.font(_color="red", size="+2")
-                        self.page.i()
-                        self.page.h2("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
-                        self.page.i.close()
-                        self.page.font.close()
-                        self.page.font(_color="red", size="+1")
-                        self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
-                        #self.page.strong("In order to calculate a strategy to %.2f &Aring; set the detector distance to %.2f mm (%.2f &Aring;) and re-launch the EDNA characterisation." % (fRankingResolution,fDistanceMin,fRankingResolution))
-                        self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to collect %.2f &Aring; data and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
-                        self.page.font.close()
-                    bHigherResolutionDetected = True
+                iNoSubWedges = len(listXSDataCollectionPlan)
+                self.page.h2()
+                if iNoSubWedges != 1:
+                    self.page.strong("Multi-wedge collection plan strategy (")
+                else:
+                    self.page.strong( "Collection plan strategy (" )
+                if strPageRaddoseLog is not None:
+                    self.page.a("RADDOSE log file", href="raddose_log.html")
+                    self.page.strong(", ")
+                self.page.a("BEST log file", href="best_log.html")
+                self.page.strong(")")
+                self.page.h2.close()
+                # Check if ranking resolution is higher than the suggested strategy resolution(s)
+                bHigherResolutionDetected = False
+                fRankingResolution = None
+                fResolutionMax = None
+                fDistanceMin = None
+                for xsDataCollectionPlan in listXSDataCollectionPlan:
+                    xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
+                    xsDataCollectionStrategy = xsDataCollectionPlan.getCollectionStrategy()
+                    if xsDataSummaryStrategy.getRankingResolution():
+                        # Retrieve the resolution...
+                        fResolution = xsDataSummaryStrategy.getResolution().getValue()
+                        # Retrieve the detector distance...
+                        fDistance = xsDataCollectionStrategy.getSubWedge()[0].getExperimentalCondition().getDetector().getDistance().getValue()
+                        if fResolutionMax is None:
+                            fResolutionMax = fResolution
+                            fDistanceMin = fDistance
+                        elif (fResolution < fResolutionMax) and (abs(fResolution-fResolutionMax) > 0.1):
+                            fResolutionMax = fResolution                        
+                            fDistanceMin = fDistance
+                        fRankingResolution = xsDataSummaryStrategy.getRankingResolution().getValue()
                 
-                
-            for xsDataCollectionPlan in listXSDataCollectionPlan:
-                xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
-                fResolutionMax = xsDataSummaryStrategy.getResolution().getValue()
-                strResolutionReasoning = ""
-                if xsDataSummaryStrategy.getResolutionReasoning():
-                    strResolutionReasoning = xsDataSummaryStrategy.getResolutionReasoning().getValue()
-                self.page.table( class_='indexResults', border_="1", cellpadding_="0")
-                self.page.tr( align_="CENTER" )
-                self.page.th(strResolutionReasoning, colspan_="9", bgcolor_=self.strTableColourTitle1)
-                self.page.tr.close()
-                self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
-                self.page.th("Wedge")
-                self.page.th("Subwedge")
-                self.page.th("Start (&deg;)")
-                self.page.th("Width (&deg;)")
-                self.page.th("No images")
-                self.page.th("Exp time (s)")
-                self.page.th("Max res (&Aring;)")
-                self.page.th("Rel trans (%)")
-                self.page.th("Distance (mm)")
-                self.page.tr.close()
-                xsDataCollectionStrategy = xsDataCollectionPlan.getCollectionStrategy()
-                for xsDataSubWegde in xsDataCollectionStrategy.getSubWedge():
-                    xsDataExperimentalCondition = xsDataSubWegde.getExperimentalCondition()
-                    iWedge = xsDataCollectionPlan.getCollectionPlanNumber().getValue()
-                    iRunNumber = xsDataSubWegde.getSubWedgeNumber().getValue()
-                    fRotationAxisStart = xsDataExperimentalCondition.getGoniostat().getRotationAxisStart().getValue()
-                    fRotationAxisEnd = xsDataExperimentalCondition.getGoniostat().getRotationAxisEnd().getValue()
-                    fOscillationWidth = xsDataExperimentalCondition.getGoniostat().getOscillationWidth().getValue()
-                    iNumberOfImages = int((fRotationAxisEnd-fRotationAxisStart)/fOscillationWidth)
-                    fExposureTime = xsDataExperimentalCondition.getBeam().getExposureTime().getValue()
-                    fTransmission = xsDataExperimentalCondition.getBeam().getTransmission().getValue()
-                    fDistance = xsDataExperimentalCondition.getDetector().getDistance().getValue()
-                    self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
-                    self.page.th(iWedge)
-                    self.page.th(iRunNumber)
-                    self.page.th("%.2f" % fRotationAxisStart)
-                    self.page.th("%.2f" % fOscillationWidth)
-                    self.page.th(iNumberOfImages)
-                    self.page.th("%.2f" % fExposureTime)
-                    self.page.th("%.2f" % fResolutionMax)
-                    self.page.th("%.2f" % fTransmission)
-                    self.page.th("%.2f" % fDistance)
+                if fRankingResolution != None and fResolutionMax != None:
+                    if fRankingResolution < fResolutionMax:
+                        if not bHigherResolutionDetected:
+                            self.page.font(_color="red", size="+2")
+                            self.page.i()
+                            self.page.h2("Best has detected that the sample can diffract to %.2f &Aring;!" % fRankingResolution)
+                            self.page.i.close()
+                            self.page.font.close()
+                            self.page.font(_color="red", size="+1")
+                            self.page.strong("The current strategy is calculated to %.2f &Aring;." % fResolutionMax)
+                            #self.page.strong("In order to calculate a strategy to %.2f &Aring; set the detector distance to %.2f mm (%.2f &Aring;) and re-launch the EDNA characterisation." % (fRankingResolution,fDistanceMin,fRankingResolution))
+                            self.page.strong("In order to calculate a strategy to %.2f &Aring; move the detector to collect %.2f &Aring; data and re-launch the EDNA characterisation." % (fRankingResolution,fRankingResolution))
+                            self.page.font.close()
+                        bHigherResolutionDetected = True
+                    
+                    
+                for xsDataCollectionPlan in listXSDataCollectionPlan:
+                    xsDataSummaryStrategy = xsDataCollectionPlan.getStrategySummary()
+                    fResolutionMax = xsDataSummaryStrategy.getResolution().getValue()
+                    strResolutionReasoning = ""
+                    if xsDataSummaryStrategy.getResolutionReasoning():
+                        strResolutionReasoning = xsDataSummaryStrategy.getResolutionReasoning().getValue()
+                    self.page.table( class_='indexResults', border_="1", cellpadding_="0")
+                    self.page.tr( align_="CENTER" )
+                    self.page.th(strResolutionReasoning, colspan_="9", bgcolor_=self.strTableColourTitle1)
                     self.page.tr.close()
-                self.page.table.close()
+                    self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+                    self.page.th("Wedge")
+                    self.page.th("Subwedge")
+                    self.page.th("Start (&deg;)")
+                    self.page.th("Width (&deg;)")
+                    self.page.th("No images")
+                    self.page.th("Exp time (s)")
+                    self.page.th("Max res (&Aring;)")
+                    self.page.th("Rel trans (%)")
+                    self.page.th("Distance (mm)")
+                    self.page.tr.close()
+                    xsDataCollectionStrategy = xsDataCollectionPlan.getCollectionStrategy()
+                    for xsDataSubWegde in xsDataCollectionStrategy.getSubWedge():
+                        xsDataExperimentalCondition = xsDataSubWegde.getExperimentalCondition()
+                        iWedge = xsDataCollectionPlan.getCollectionPlanNumber().getValue()
+                        iRunNumber = xsDataSubWegde.getSubWedgeNumber().getValue()
+                        fRotationAxisStart = xsDataExperimentalCondition.getGoniostat().getRotationAxisStart().getValue()
+                        fRotationAxisEnd = xsDataExperimentalCondition.getGoniostat().getRotationAxisEnd().getValue()
+                        fOscillationWidth = xsDataExperimentalCondition.getGoniostat().getOscillationWidth().getValue()
+                        iNumberOfImages = int((fRotationAxisEnd-fRotationAxisStart)/fOscillationWidth)
+                        fExposureTime = xsDataExperimentalCondition.getBeam().getExposureTime().getValue()
+                        fTransmission = xsDataExperimentalCondition.getBeam().getTransmission().getValue()
+                        fDistance = xsDataExperimentalCondition.getDetector().getDistance().getValue()
+                        self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
+                        self.page.th(iWedge)
+                        self.page.th(iRunNumber)
+                        self.page.th("%.2f" % fRotationAxisStart)
+                        self.page.th("%.2f" % fOscillationWidth)
+                        self.page.th(iNumberOfImages)
+                        self.page.th("%.2f" % fExposureTime)
+                        self.page.th("%.2f" % fResolutionMax)
+                        self.page.th("%.2f" % fTransmission)
+                        self.page.th("%.2f" % fDistance)
+                        self.page.tr.close()
+                    self.page.table.close()
+
+
+    def dataCollectionInfo(self):
+        xsDataCollection = self.xsDataResultCharacterisation.getDataCollection()
+        if xsDataCollection is not None:
+            firstSubWedge = xsDataCollection.subWedge[0]
+            # MXSUP-1445: Check if transmission is less than 10% and warn if it's the case
+            xsDataBeam = firstSubWedge.getExperimentalCondition().getBeam()
+            if xsDataBeam.getTransmission() is not None:
+                fTransmission = xsDataBeam.getTransmission().getValue()
+                if fTransmission < self.fMinTransmission:
+                    strWarningMessage1 = "WARNING! Transmission for characterisation set to %.1f %%" % fTransmission
+                    strWarningMessage2 = "Please consider re-characterising with transmission set to 100 %" 
+                    self.page.font(_color="red", size="+2")
+                    self.page.i()
+                    self.page.h2(strWarningMessage1+"<br>"+strWarningMessage2)
+                    self.page.i.close()
+                    self.page.font.close()
+            self.page.h2( "Data collection info" )
+            firstImage = firstSubWedge.image[0]
+            strDate = firstImage.date.value
+            strPrefix = EDUtilsImage.getPrefix(firstImage.path.value)
+            strDirName = os.path.dirname(firstImage.path.value)
+            self.page.table( class_='dataCollectionInfo', border_="1", cellpadding_="0")
+            self.page.tr( align_="CENTER")
+            self.page.th("Data collection date", bgcolor_=self.strTableColourTitle2)
+            self.page.th(strDate, bgcolor_=self.strTableColourRows)
+            self.page.tr.close()
+            self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+            self.page.th("Image prefix", bgcolor_=self.strTableColourTitle2)
+            self.page.th(strPrefix, bgcolor_=self.strTableColourRows)
+            self.page.tr.close()
+            self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+            self.page.th("Directory", bgcolor_=self.strTableColourTitle2)
+            self.page.th(strDirName, bgcolor_=self.strTableColourRows)
+            self.page.tr.close()
+            self.page.table.close()     
+            
 
 
     def diffractionPlan(self):
@@ -523,21 +581,25 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
 
     def findEDNALogFile(self):
         """Trying to locate the EDNA plugin launcher log file..."""
-        strBaseDir = self.getWorkingDirectory()
+        strWorkingDir = self.getWorkingDirectory()
+        strBaseDir = strWorkingDir
         strPathToLogFile = None
         for iLevels in range(4):
             strBaseDir = os.path.dirname(strBaseDir)
             self.DEBUG("Searching in strBaseDir: " + strBaseDir)
             # Now search for a ED*.log file...
             for strFileName in os.listdir(strBaseDir):
-                if strFileName.startswith("ED") and strFileName.endswith(".log"):
-                    # Check that the corresponding direcory exists...
-                    strDirectoryName = strFileName[:-4]
-                    if os.path.isdir(os.path.join(strBaseDir, strDirectoryName)):
-                        # Final check - is the directory name in the working dir
-                        if self.getWorkingDirectory().find(strDirectoryName) != -1:
-                            # Ok, we found it!
-                            strPathToLogFile = os.path.join(strBaseDir, strFileName)
+                if strFileName.startswith("ED") and strFileName.endswith(".log") and not os.path.isdir(os.path.join(strBaseDir,strFileName)):
+                    # Check that the corresponding directory exists...
+                    strStrippedFileName = strFileName.replace("EDPlugin", "")
+                    strStrippedFileName = strStrippedFileName.replace(".log", "")                      
+                    for strDirName in os.listdir(strBaseDir):
+                        if os.path.isdir(os.path.join(strBaseDir, strDirName)):
+                            if strDirName.find(strStrippedFileName) != -1:
+                                # Final check - is the directory name in the working dir
+                                if strWorkingDir.find(strDirName) != -1:
+                                    # Ok, we found it!
+                                    strPathToLogFile = os.path.join(strBaseDir, strFileName)
         return strPathToLogFile
 
 
@@ -555,7 +617,7 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
             if len(listXSDataFile) >= 7:
                 listPlotsToDisplay = [0, 1, 3, 6]
             elif len(listXSDataFile) >= 4:
-                listPlotsToDisplay = [0, 1, 3]
+                listPlotsToDisplay = [0, 1, 2, 3]
             else:
                 listPlotsToDisplay = range(len(listXSDataFile))
             for iIndexPlot in listPlotsToDisplay:
@@ -569,14 +631,12 @@ class EDPluginExecSimpleHTMLPagev1_0(EDPluginExec):
                 pageGraph = markupv1_7.page()
                 pageGraph.init( title=strFileName, 
                        footer="Generated on %s" % time.asctime())
-                pageGraph.h1(strFileName)
-                pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
-                pageGraph.br()
                 pageGraph.img(src=strFileName, title=strFileName)
+                pageGraph.br()
                 pageGraph.a("Back to previous page", href_=self.strHtmlFileName)
                 EDUtilsFile.writeFile(strPageGraphPath, str(pageGraph))
                 self.page.a( href=strPageGraphFileName)
-                self.page.img( src=strFileName, width=175, height=175, title=strFileName )
+                self.page.img( src=strFileName, width=200, height=150, title=strFileName )
                 self.page.a.close()
                 self.page.td.close()
                 iIndex += 1

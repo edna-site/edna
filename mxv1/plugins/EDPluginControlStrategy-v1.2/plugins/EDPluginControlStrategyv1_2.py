@@ -55,6 +55,7 @@ from XSDataMXv1                        import XSDataChemicalCompositionMM
 
 EDFactoryPluginStatic.loadModule("XSDataPlotGlev1_0")
 from XSDataPlotGlev1_0 import XSDataInputPlotGle
+from XSDataPlotGlev1_0 import XSDataGlePlot
 
 class EDPluginControlStrategyv1_2(EDPluginControl):
     """
@@ -179,18 +180,21 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                 xsDataStringSpaceGroup = self.getDataInput().getDiffractionPlan().getForcedSpaceGroup()
                 # Space Group has been forced
                 # Prepare chemical composition calculation with the forced Space Group (Space Group Name)
+                bSpaceGroupForced = False
                 if(xsDataStringSpaceGroup is not None):
                     strSpaceGroup = xsDataStringSpaceGroup.getValue().upper()
-                    EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: Forced Space Group Found: " + strSpaceGroup)
-                    try:
-                        strNumOperators = EDUtilsSymmetry.getNumberOfSymmetryOperatorsFromSpaceGroupName(strSpaceGroup, strFileSymop)
-                    except Exception, detail:
-                        strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlStrategyv1_2.preProcess', "Problem to calculate Number of symmetry operators", detail)
-                        EDVerbose.error(strErrorMessage)
-                        self.addErrorMessage(strErrorMessage)
-                        raise RuntimeError, strErrorMessage
-                # Space Group has NOT been forced
-                else:
+                    if strSpaceGroup != "":
+                        EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: Forced Space Group Found: " + strSpaceGroup)
+                        try:
+                            strNumOperators = EDUtilsSymmetry.getNumberOfSymmetryOperatorsFromSpaceGroupName(strSpaceGroup, strFileSymop)
+                            bSpaceGroupForced = True
+                        except Exception, detail:
+                            strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlStrategyv1_2.preProcess', "Problem to calculate Number of symmetry operators", detail)
+                            EDVerbose.error(strErrorMessage)
+                            self.addErrorMessage(strErrorMessage)
+                            raise RuntimeError, strErrorMessage
+                if not bSpaceGroupForced:
+                    # Space Group has NOT been forced
                     xsDataStringSpaceGroup = self._xsDataSampleCopy.getCrystal().getSpaceGroup().getName()
                     if (xsDataStringSpaceGroup is not None):
                         # Prepare chemical composition calculation with the Space Group calculated by indexing (Space Group Name)
@@ -250,20 +254,13 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
     def configure(self):
         EDPluginControl.configure(self)
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.configure")
-        pluginConfiguration = self.getConfiguration()
-
-        if(pluginConfiguration == None):
-            strWarningMessage = EDMessage.WARNING_NO_PLUGIN_CONFIGURATION_ITEM_FOUND_02 % ('EDPluginControlStrategyv1_2.configure', self.getPluginName())
+        strSymopHome = self.config.get(self._strCONF_SYMOP_HOME)
+        if strSymopHome is None:
+            strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlStrategyv1_2.configure', self._strCONF_SYMOP_HOME, self.getPluginName())
             EDVerbose.warning(strWarningMessage)
             self.addWarningMessage(strWarningMessage)
         else:
-            strSymopHome = self.getStringConfigurationParameterValue(self._strCONF_SYMOP_HOME)
-            if(strSymopHome == None):
-                strWarningMessage = EDMessage.WARNING_NO_PARAM_CONFIGURATION_ITEM_FOUND_03 % ('EDPluginControlStrategyv1_2.configure', self._strCONF_SYMOP_HOME, self.getPluginName())
-                EDVerbose.warning(strWarningMessage)
-                self.addWarningMessage(strWarningMessage)
-            else:
-                self.setSymopHome(strSymopHome)
+            self.setSymopHome(strSymopHome)
 
 
     def process(self, _edObject=None):
@@ -284,17 +281,30 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         EDPluginControl.postProcess(self, _edObject)
         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.postProcess...")
 
-        xsDataResultBest = self._edPluginBest.getDataOutput()
         #
         # Create the BEST graphs from the plot mtv file
         #
+        # Check if we have GLE files from BEST:
+        xsDataResultBest = self._edPluginBest.getDataOutput()
         xsDataInputPlotGle = XSDataInputPlotGle()
-        xsDataInputPlotGle.filePlotMtv = xsDataResultBest.pathToPlotMtvFile
+        if xsDataResultBest.glePlot != []:
+            for xsDataBestGlePlot in xsDataResultBest.glePlot:
+                xsDataGlePlot = XSDataGlePlot()
+                xsDataGlePlot.script = xsDataBestGlePlot.script
+                xsDataGlePlot.data = xsDataBestGlePlot.data
+                xsDataInputPlotGle.addGlePlot(xsDataGlePlot)
+        else:
+            xsDataInputPlotGle.filePlotMtv = xsDataResultBest.pathToPlotMtvFile
         self._edPluginPlotGle.dataInput = xsDataInputPlotGle
         self._edPluginPlotGle.executeSynchronous()
-        # TODO
-        # Temporary! Otherwise fails Model from -bonly is different
+        
+
+
+    def finallyProcess(self, _edObject=None):
+        EDPluginControl.finallyProcess(self, _edObject)
+        EDVerbose.DEBUG("EDPluginControlStrategyv1_2.finallyProcess")
         xsDataResultStrategy = None
+        xsDataResultBest = self._edPluginBest.getDataOutput()
         if(xsDataResultBest is not None and self.getDataInput().getDiffractionPlan().getStrategyOption() is not None):
             if (self.getDataInput().getDiffractionPlan().getStrategyOption().getValue() != "-Bonly"):
                 xsDataResultStrategy = self._edHandlerXSDataBest.getXSDataResultStrategy(xsDataResultBest, self.getDataInput().getExperimentalCondition(), self._xsDataSampleCopy)
@@ -304,21 +314,13 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
         if self.xsDataFileRaddoseLog is not None:
             xsDataResultStrategy.setRaddoseLogFile(self.xsDataFileRaddoseLog)
         # Plots
-        if not self._edPluginPlotGle.isFailure():
+        if not self._edPluginPlotGle.isFailure() and self._edPluginPlotGle.dataOutput is not None:
             listFileGraph = self._edPluginPlotGle.dataOutput.fileGraph
             xsDataResultStrategy.bestGraphFile = listFileGraph
         # Sample
         xsDataResultStrategy.setSample(self._xsDataSampleCopy)
         self.setDataOutput(xsDataResultStrategy)
         self.generateStrategyShortSummary(xsDataResultStrategy)
-        
-
-
-    def finallyProcess(self, _edObject=None):
-        EDPluginControl.finallyProcess(self, _edObject)
-        EDVerbose.DEBUG("EDPluginControlStrategyv1_2.finallyProcess")
-        if not self.hasDataOutput():
-            self.setDataOutput(XSDataResultStrategy())
 
 
     def doRaddoseToBestTransition(self, _edPlugin):

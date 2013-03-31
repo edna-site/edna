@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataInputISPyBUpdateDataCollectionGroupWorkflow>
+	<fileLocation>
+		<value>/data/id14eh4/inhouse/opid144/20130319/RAW_DATA/1-2/discrete-1</value>
+	</fileLocation>
+	<fileName>
+		<value>opid144_2_0001.img</value>
+	</fileName>
+	<workflowId>
+		<value>8</value>
+	</workflowId>
+</XSDataInputISPyBUpdateDataCollectionGroupWorkflow>

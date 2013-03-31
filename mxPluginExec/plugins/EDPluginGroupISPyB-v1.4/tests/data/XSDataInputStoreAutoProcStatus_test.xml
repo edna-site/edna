@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <XSDataInputAutoProcStatus>
-	<dataCollectionId>12345</dataCollectionId>
+	<dataCollectionId>19570</dataCollectionId>
 	<AutoProcStatus>
 		<step>Indexing</step>
 		<status>Successful</status>

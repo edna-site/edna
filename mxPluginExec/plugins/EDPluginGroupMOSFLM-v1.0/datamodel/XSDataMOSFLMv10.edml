@@ -113,9 +113,9 @@ complex type XSDataMOSFLMNewmat extends XSData {
 }
 
 complex type XSDataMOSFLMOutput extends XSDataResult {
-	refinedBeam : XSDataMOSFLMBeamPosition
-	refinedDistance : XSDataLength
-	refinedNewmat : XSDataMOSFLMNewmat
+	refinedBeam : XSDataMOSFLMBeamPosition optional
+	refinedDistance : XSDataLength optional
+	refinedNewmat : XSDataMOSFLMNewmat optional
 	pathToLogFile : XSDataFile optional
 }
 
@@ -125,16 +125,16 @@ complex type XSDataMOSFLMOutputGeneratePrediction extends XSData {
 }
 
 complex type XSDataMOSFLMOutputIndexing extends XSDataMOSFLMOutput {
-	beamShift : XSDataMOSFLMBeamPosition
-	deviationAngular : XSDataAngle
-	deviationPositional : XSDataLength
-	mosaicityEstimation : XSDataFloat
+	beamShift : XSDataMOSFLMBeamPosition optional
+	deviationAngular : XSDataAngle optional
+	deviationPositional : XSDataLength optional
+	mosaicityEstimation : XSDataFloat optional
 	possibleSolutions : XSDataMOSFLMIndexingSolution [] optional
-	selectedSolutionNumber : XSDataInteger
-	selectedSolutionSpaceGroup : XSDataString
-	selectedSolutionSpaceGroupNumber : XSDataInteger
-	spotsTotal : XSDataInteger
-	spotsUsed : XSDataInteger
+	selectedSolutionNumber : XSDataInteger optional
+	selectedSolutionSpaceGroup : XSDataString optional
+	selectedSolutionSpaceGroupNumber : XSDataInteger optional
+	spotsTotal : XSDataInteger optional
+	spotsUsed : XSDataInteger optional
 }
 
 complex type XSDataMOSFLMOutputIntegration extends XSDataMOSFLMOutput {

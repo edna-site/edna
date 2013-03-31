@@ -79,6 +79,7 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
         self._strStatusMessage = ""
         self._xsDataFileXdsBackgroundImage = None
         self._bDoStrategyCalculation = True
+        self._fMinTransmission = 10 # %
 
 
     def checkParameters(self):
@@ -116,6 +117,23 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
             # create Data Input for indexing
             xsDataInputCharacterisation = self.getDataInput()
             self._xsDataCollection = xsDataInputCharacterisation.getDataCollection()
+            # MXSUP-1445: Check if transmission is less than 10% and warn if it's the case
+            xsDataFirstSubWedge = self._xsDataCollection.getSubWedge()[0]
+            xsDataBeam = xsDataFirstSubWedge.getExperimentalCondition().getBeam()
+            if xsDataBeam.getTransmission() is not None:
+                fTransmission = xsDataBeam.getTransmission().getValue()
+                if fTransmission < self._fMinTransmission:
+                    strWarningMessageBanner = "^"*80 
+                    strWarningMessage1 = "WARNING! Transmission for characterisation set to %.1f %%" % fTransmission
+                    strWarningMessage2 = "Please consider re-characterising with transmission set to 100 %" 
+                    self.warning(strWarningMessageBanner)
+                    self.warning(strWarningMessage1)
+                    self.warning(strWarningMessage2)
+                    self.warning(strWarningMessageBanner)
+                    self.addWarningMessage(strWarningMessageBanner)
+                    self.addWarningMessage(strWarningMessage1)
+                    self.addWarningMessage(strWarningMessage2)
+                    self.addWarningMessage(strWarningMessageBanner)
             xsDataCrystal = None
             xsDataSubWedgeList = self._xsDataCollection.getSubWedge()
             if ((xsDataSubWedgeList is None) or (xsDataSubWedgeList == [])):
@@ -480,6 +498,10 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
         strErrorMessage = "Execution of strategy plugin failed."
         EDVerbose.ERROR(strErrorMessage)
         self.addErrorMessage(strErrorMessage)
+        xsDataStrategyResult = self._edPluginControlStrategy.getDataOutput()
+        self._xsDataResultCharacterisation.setStrategyResult(xsDataStrategyResult)
+        if self._edPluginControlStrategy.hasDataOutput("strategyShortSummary"):
+            self._strCharacterisationShortSummary += self._edPluginControlStrategy.getDataOutput("strategyShortSummary")[0].getValue()
         if self._xsDataResultCharacterisation is not None:
             self.setDataOutput(self._xsDataResultCharacterisation)
         self.addStatusMessage("Strategy calculation FAILURE.")
@@ -498,6 +520,20 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
         self.addExecutiveSummaryLine("Summary of characterisation:")
         xsDataInputStrategy = self.getDataInput()
         xsDataCollection = xsDataInputStrategy.getDataCollection()
+        # MXSUP-1445: Check if transmission is less than 10% and warn if it's the case
+        xsDataFirstSubWedge = xsDataCollection.getSubWedge()[0]
+        xsDataBeam = xsDataFirstSubWedge.getExperimentalCondition().getBeam()
+        if xsDataBeam.getTransmission() is not None:
+            fTransmission = xsDataBeam.getTransmission().getValue()
+            if fTransmission < self._fMinTransmission:
+                self.addExecutiveSummaryLine("^"*80)
+                self.addExecutiveSummaryLine("^"*80)
+                self.addExecutiveSummaryLine("")
+                self.addExecutiveSummaryLine("WARNING! Transmission for characterisation set to %.1f %%" % fTransmission)
+                self.addExecutiveSummaryLine("Please consider re-characterising with transmission set to 100 %")
+                self.addExecutiveSummaryLine("")
+                self.addExecutiveSummaryLine("^"*80)                
+                self.addExecutiveSummaryLine("^"*80)                
         xsDataDiffractionPlan = xsDataCollection.getDiffractionPlan()
         self.addExecutiveSummaryLine("Diffraction plan:")
         if (xsDataDiffractionPlan.getComplexity() is not None):

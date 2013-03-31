@@ -70,23 +70,23 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         Gets the web servise wdsl parameters from the config file and stores them in class member attributes.
         """
         EDPluginExec.configure(self)
-        self.strUserName = self.getStringConfigurationParameterValue("userName")
+        self.strUserName = self.config.get("userName")
         if self.strUserName is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No user name found in configuration!")
             self.setFailure()
-        self.strPassWord = self.getStringConfigurationParameterValue("passWord")
+        self.strPassWord = self.config.get("passWord")
         if self.strPassWord is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No pass word found in configuration!")
             self.setFailure()
-        self.strToolsForBLSampleWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForBLSampleWebServiceWsdl")
+        self.strToolsForBLSampleWebServiceWsdl = self.config.get("toolsForBLSampleWebServiceWsdl")
         if self.strToolsForBLSampleWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForBLSampleWebServiceWsdl found in configuration!")
             self.setFailure()
-        self.strToolsForScreeningEDNAWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForScreeningEDNAWebServiceWsdl")
+        self.strToolsForScreeningEDNAWebServiceWsdl = self.config.get("toolsForScreeningEDNAWebServiceWsdl")
         if self.strToolsForScreeningEDNAWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForScreeningEDNAWebServiceWsdl found in configuration!")
             self.setFailure()
-        self.strToolsForCollectionWebServiceWsdl = self.getStringConfigurationParameterValue("toolsForCollectionWebServiceWsdl")
+        self.strToolsForCollectionWebServiceWsdl = self.config.get("toolsForCollectionWebServiceWsdl")
         if self.strToolsForCollectionWebServiceWsdl is None:
             self.ERROR("EDPluginISPyBStoreScreeningv1_4.configure: No toolsForCollectionWebServiceWsdl found in configuration!")
             self.setFailure()
@@ -111,56 +111,61 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
                 httpAuthenticatedToolsForAutoprocessingWebService3 = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
                 clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService3)
                 iDataCollectionId = self.findDataCollectionFromFileLocationAndFileName(clientToolsForCollectionWebService, xsDataISPyBImage.fileLocation.value, xsDataISPyBImage.fileName.value)
-                xsDataInputISPyBStoreScreening.screening.dataCollectionId = XSDataInteger(iDataCollectionId)
-        # DiffractionPlan
-        xsDataISPyBDiffractionPlan = xsDataInputISPyBStoreScreening.diffractionPlan
-        iDiffractionPlanId = self.storeOrUpdateDiffractionPlan(clientToolsForBLSampleWebServiceWsdl, xsDataISPyBDiffractionPlan)
-        if iDiffractionPlanId is None:
-            self.ERROR("Couldn't create entry for diffraction plan in ISPyB!")
-            self.setFailure()
-            self.bContinue = False
-        # Screening
-        xsDataISPyBScreening = xsDataInputISPyBStoreScreening.screening
-        self.iScreeningId = self.storeOrUpdateScreening(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreening, iDiffractionPlanId)
-        if self.iScreeningId is None:
-            self.ERROR("Couldn't create entry for screening in ISPyB!")
-            self.setFailure()
-            self.bContinue = False
-        # Screening Output Container
-        for xsDataISPyBScreeningOutputContainer in xsDataInputISPyBStoreScreening.screeningOutputContainer:
-            xsDataISPyBScreeningOutput = xsDataISPyBScreeningOutputContainer.screeningOutput
-            iScreeningOutputId = self.storeOrUpdateScreeningOutput(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningOutput, self.iScreeningId)
-            if iScreeningOutputId is None:
+                if iDataCollectionId is None:
+                    self.ERROR("Couldn't obtain data collection id!")
+                    self.setFailure()
+                else:
+                    xsDataInputISPyBStoreScreening.screening.dataCollectionId = XSDataInteger(iDataCollectionId)
+        if not self.isFailure():
+            # DiffractionPlan
+            xsDataISPyBDiffractionPlan = xsDataInputISPyBStoreScreening.diffractionPlan
+            iDiffractionPlanId = self.storeOrUpdateDiffractionPlan(clientToolsForBLSampleWebServiceWsdl, xsDataISPyBDiffractionPlan)
+            if iDiffractionPlanId is None:
+                self.ERROR("Couldn't create entry for diffraction plan in ISPyB!")
+                self.setFailure()
+                self.bContinue = False
+            # Screening
+            xsDataISPyBScreening = xsDataInputISPyBStoreScreening.screening
+            self.iScreeningId = self.storeOrUpdateScreening(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreening, iDiffractionPlanId)
+            if self.iScreeningId is None:
                 self.ERROR("Couldn't create entry for screening in ISPyB!")
                 self.setFailure()
                 self.bContinue = False
-            for xsDataISPyBScreeningOutputLattice in xsDataISPyBScreeningOutputContainer.screeningOutputLattice:
-                iScreeningOutputLatticeId = self.storeOrUpdateScreeningOutputLattice(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningOutputLattice, iScreeningOutputId)
-                if iScreeningOutputLatticeId is None:
-                    self.ERROR("Couldn't create entry for screening lattice in ISPyB!")
+            # Screening Output Container
+            for xsDataISPyBScreeningOutputContainer in xsDataInputISPyBStoreScreening.screeningOutputContainer:
+                xsDataISPyBScreeningOutput = xsDataISPyBScreeningOutputContainer.screeningOutput
+                iScreeningOutputId = self.storeOrUpdateScreeningOutput(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningOutput, self.iScreeningId)
+                if iScreeningOutputId is None:
+                    self.ERROR("Couldn't create entry for screening in ISPyB!")
                     self.setFailure()
                     self.bContinue = False
-            for xsDataISPyBScreeningStrategyContainer in xsDataISPyBScreeningOutputContainer.screeningStrategyContainer:
-                # Create an empty object of type XSDataISPyBScreeningStrategy
-                xsDataISPyBScreeningStrategy = XSDataISPyBScreeningStrategy()
-                iScreeningStrategyId = self.storeOrUpdateScreeningStrategy(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningStrategy, iScreeningOutputId)
-                if iScreeningStrategyId is None:
-                    self.ERROR("Couldn't create entry for screening strategy in ISPyB!")
-                    self.setFailure()
-                    self.bContinue = False
-                for xsDataISPyBScreeningStrategyWedgeContainer in xsDataISPyBScreeningStrategyContainer.screeningStrategyWedgeContainer:
-                    xsDataISPyBScreeningStrategyWedge = xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge
-                    iScreeningStrategyWedgeId = self.storeOrUpdateScreeningStrategyWedge(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningStrategyWedge, iScreeningStrategyId)
-                    if iScreeningStrategyWedgeId is None:
+                for xsDataISPyBScreeningOutputLattice in xsDataISPyBScreeningOutputContainer.screeningOutputLattice:
+                    iScreeningOutputLatticeId = self.storeOrUpdateScreeningOutputLattice(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningOutputLattice, iScreeningOutputId)
+                    if iScreeningOutputLatticeId is None:
+                        self.ERROR("Couldn't create entry for screening lattice in ISPyB!")
+                        self.setFailure()
+                        self.bContinue = False
+                for xsDataISPyBScreeningStrategyContainer in xsDataISPyBScreeningOutputContainer.screeningStrategyContainer:
+                    # Create an empty object of type XSDataISPyBScreeningStrategy
+                    xsDataISPyBScreeningStrategy = XSDataISPyBScreeningStrategy()
+                    iScreeningStrategyId = self.storeOrUpdateScreeningStrategy(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningStrategy, iScreeningOutputId)
+                    if iScreeningStrategyId is None:
                         self.ERROR("Couldn't create entry for screening strategy in ISPyB!")
                         self.setFailure()
                         self.bContinue = False
-                    for xsDataISPyBScreeningStrategySubWedge in xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategySubWedge:
-                        iScreeningStrategySubWedgeId = self.storeOrUpdateScreeningStrategySubWedge(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningStrategySubWedge, iScreeningStrategyWedgeId)
-                        if iScreeningStrategySubWedgeId is None:
+                    for xsDataISPyBScreeningStrategyWedgeContainer in xsDataISPyBScreeningStrategyContainer.screeningStrategyWedgeContainer:
+                        xsDataISPyBScreeningStrategyWedge = xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge
+                        iScreeningStrategyWedgeId = self.storeOrUpdateScreeningStrategyWedge(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningStrategyWedge, iScreeningStrategyId)
+                        if iScreeningStrategyWedgeId is None:
                             self.ERROR("Couldn't create entry for screening strategy in ISPyB!")
                             self.setFailure()
                             self.bContinue = False
+                        for xsDataISPyBScreeningStrategySubWedge in xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategySubWedge:
+                            iScreeningStrategySubWedgeId = self.storeOrUpdateScreeningStrategySubWedge(clientToolsForScreeningEDNAWebServiceWsdl, xsDataISPyBScreeningStrategySubWedge, iScreeningStrategyWedgeId)
+                            if iScreeningStrategySubWedgeId is None:
+                                self.ERROR("Couldn't create entry for screening strategy in ISPyB!")
+                                self.setFailure()
+                                self.bContinue = False
                         
                     
             
@@ -216,8 +221,12 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
                 strDirName, \
                 _strFileName, \
                 )
-        iDataCollectionId = dataCollectionWS3VO.dataCollectionId
-        self.DEBUG("Data collection id for dir %s name %s is %d" % (strDirName, _strFileName, iDataCollectionId))
+        if dataCollectionWS3VO is None:
+            iDataCollectionId = None
+            self.WARNING("Cannot find data collection id for dir %s name %s" % (strDirName, _strFileName))            
+        else:
+            iDataCollectionId = dataCollectionWS3VO.dataCollectionId
+            self.DEBUG("Data collection id for dir %s name %s is %d" % (strDirName, _strFileName, iDataCollectionId))
         return iDataCollectionId
 
     

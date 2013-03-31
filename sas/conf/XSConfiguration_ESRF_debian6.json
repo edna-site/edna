@@ -1,0 +1,14 @@
+{
+    "__extend__": [], 
+    "EDPluginControlSolutionScatteringv0_3": {
+        "jMol": "/usr/bin/jmol", 
+        "timeOut": 1800
+    }, 
+    "EDPluginControlSolutionScatteringv0_4": {
+        "jMol": "/usr/bin/jmol", 
+        "timeOut": 1800
+    }, 
+    "EDPluginControlSolutionScatteringv0_2": {
+        "timeOut": 1800
+    }
+}

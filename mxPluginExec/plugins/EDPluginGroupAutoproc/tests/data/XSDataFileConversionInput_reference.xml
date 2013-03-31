@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<XSDataInput>
+  <input_file>
+    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/XDS_ASCII.HKL</value>
+  </input_file>
+    <output_file>
+    <value>${EDNA_PLUGIN_TESTS_DATA_HOME}/file_conversion_out</value>
+  </output_file>
+  <dataCollectionID>
+      <value>31337</value>
+  </dataCollectionID>
+  <start_image>
+    <value>1</value>
+  </start_image>
+  <end_image>
+    <value>130</value>
+  </end_image>
+  <res>
+    <value>2.702</value>
+  </res>
+  <nres>
+    <value>20</value>
+  </nres>
+  <anom>
+    <value>true</value>
+  </anom>
+</XSDataInput>

@@ -1,0 +1,230 @@
+<?xml version='1.0'?><!DOCTYPE edna_tables>
+<edna_tables program='BEST' version='3.4.4  10.06.2011'>
+   <table name="messages" index="1">
+     <list name="message" index="1">
+       <item name="warning">Anisotropic B-factor can not be determined (error > 30%)</item>
+     </list>
+     <list name="message" index="2">
+       <item name="warning">Collect additional image(s) with PHI near to  50.00 degree</item>
+     </list>
+     <list name="message" index="3">
+       <item name="warning">Isotropic B-factor will be used for ROUGH estimations!</item>
+     </list>
+   </table>
+   <table name="dam_par_plan" index="1">                                                            
+     <list name="general" index="1">                                                                
+       <item name="resolution">2.3</item>                                                          
+       <item name="distance">287.1</item>                                                           
+     </list>                                                                                        
+     <list name="collection_run" index="1">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">0.041</item>                                                     
+       <item name="dose_total">45122.9</item>                                                       
+     </list>                                                                                        
+     <list name="collection_run" index="1">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">0.702</item>                                                     
+       <item name="dose_total">772609.5</item>                                                      
+     </list>                                                                                        
+     <list name="collection_run" index="2">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">0.743</item>                                                     
+       <item name="dose_total">817732.3</item>                                                      
+     </list>                                                                                        
+     <list name="collection_run" index="2">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">1.405</item>                                                     
+       <item name="dose_total">1545219.0</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="3">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">1.446</item>                                                     
+       <item name="dose_total">1590341.8</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="3">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">2.107</item>                                                     
+       <item name="dose_total">2317828.2</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="4">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">2.148</item>                                                     
+       <item name="dose_total">2362951.2</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="4">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">2.809</item>                                                     
+       <item name="dose_total">3090438.0</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="5">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">2.851</item>                                                     
+       <item name="dose_total">3135560.8</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="5">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">3.512</item>                                                     
+       <item name="dose_total">3863047.5</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="6">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">3.553</item>                                                     
+       <item name="dose_total">3908170.5</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="6">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">4.214</item>                                                     
+       <item name="dose_total">4635657.5</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="7">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">4.255</item>                                                     
+       <item name="dose_total">4680780.0</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="7">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">4.917</item>                                                     
+       <item name="dose_total">5408267.0</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="8">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">4.958</item>                                                     
+       <item name="dose_total">5453390.0</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="8">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">5.619</item>                                                     
+       <item name="dose_total">6180877.0</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="9">                                                         
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">5.660</item>                                                     
+       <item name="dose_total">6226000.0</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="9">                                                         
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">6.321</item>                                                     
+       <item name="dose_total">6953486.5</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="10">                                                        
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">6.362</item>                                                     
+       <item name="dose_total">6998609.5</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="10">                                                        
+       <item name="action">burn</item>                                                              
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">0</item>                                                       
+       <item name="phi_width">3.00</item>                                                           
+       <item name="exposure_time">0.661</item>                                                      
+       <item name="transmission">100.00</item>                                                      
+       <item name="exposure_total">7.024</item>                                                     
+       <item name="dose_total">7726096.5</item>                                                     
+     </list>                                                                                        
+     <list name="collection_run" index="11">                                                        
+       <item name="action">exposure</item>                                                          
+       <item name="phi_start">0.00</item>                                                           
+       <item name="number_of_images">3</item>                                                       
+       <item name="phi_width">1.00</item>                                                           
+       <item name="exposure_time">0.050</item>                                                      
+       <item name="transmission">27.35</item>                                                       
+       <item name="exposure_total">7.065</item>                                                     
+       <item name="dose_total">7771219.5</item>                                                     
+     </list>                                                                                        
+   </table>                                                                                         
+</edna_tables>

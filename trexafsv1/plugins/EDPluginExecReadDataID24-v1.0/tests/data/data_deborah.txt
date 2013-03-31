@@ -1,0 +1,2 @@
+The data is not normalized because of this that the "intensity" of the spectra are so different.
+The equation to transform from pixel to energy is: energy = 11426+0.56*pixel

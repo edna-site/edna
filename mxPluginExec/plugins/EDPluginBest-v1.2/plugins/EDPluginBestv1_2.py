@@ -58,6 +58,7 @@ from XSDataBestv1_2 import XSDataBestCollectionRun
 from XSDataBestv1_2 import XSDataBestStrategySummary
 from XSDataBestv1_2 import XSDataBestResolutionBin
 from XSDataBestv1_2 import XSDataCrystalScale
+from XSDataBestv1_2 import XSDataBestGlePlot
 
 from XSDataDnaTablesBestv1_2 import dna_tables
 
@@ -79,23 +80,26 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         self.addCompatibleVersion("Version 3.4.2 //  05.03.2011")
         self.addCompatibleVersion("Version 3.4.3 //  06.05.2011")
         self.addCompatibleVersion("Version 3.4.4 //  10.06.2011")
+        self.addCompatibleVersion("Version 4.1.0 //  02.10.2012")
 
-        self.__strCONF_BEST_HOME_LABEL = "besthome"
+        self.strCONF_BEST_HOME_LABEL = "besthome"
 
         # Default value of strategy complexity
-        self.__strComplexity = "none"
+        self.strComplexity = "none"
 
-        self.__strBestHome = None
-        self.__strCommandBestHome = None
-        self.__strCommandBest = None
+        self.strBestHome = None
+        self.strCommandBestHome = None
+        self.strCommandBest = None
 
-        self.__strExposureTime = None
-        self.__strDoseRate = None
-        self.__strDetectorType = None
+        self.strExposureTime = None
+        self.strDoseRate = None
+        self.strDetectorType = None
 
-        self.__strPathToBestDatFile = None
-        self.__strPathToBestParFile = None
-        self.__listFileBestHKL = []
+        self.strPathToBestDatFile = None
+        self.strPathToBestParFile = None
+        self.listFileBestHKL = []
+
+        self.bVersionHigherThan4_0 = False
 
 
     def checkParameters(self):
@@ -112,59 +116,59 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
 
     def getComplexity(self):
-        return self.__strComplexity
+        return self.strComplexity
 
 
     def setComplexity(self, _strComplexity):
-        self.__strComplexity = _strComplexity
+        self.strComplexity = _strComplexity
 
 
     def getBestHome(self):
-        return self.__strBestHome
+        return self.strBestHome
 
 
     def setBestHome(self, strBestHome):
-        self.__strBestHome = strBestHome
+        self.strBestHome = strBestHome
 
 
     def getCommandBestHome(self):
-        return self.__strCommandBestHome
+        return self.strCommandBestHome
 
 
     def setCommandBestHome(self, _strCommandBestHome):
-        self.__strCommandBestHome = _strCommandBestHome
+        self.strCommandBestHome = _strCommandBestHome
 
 
     def getCommandBest(self):
-        return self.__strCommandBest
+        return self.strCommandBest
 
 
     def setCommandBest(self, _strCommandBest):
-        self.__strCommandBest = _strCommandBest
+        self.strCommandBest = _strCommandBest
 
 
     def getFileBestDat(self):
-        return self.__strPathToBestDatFile
+        return self.strPathToBestDatFile
 
 
     def setFileBestDat(self, _edFileBestDat):
-        self.__strPathToBestDatFile = _edFileBestDat
+        self.strPathToBestDatFile = _edFileBestDat
 
 
     def getFileBestPar(self):
-        return self.__strPathToBestParFile
+        return self.strPathToBestParFile
 
 
     def setFileBestPar(self, _edFileBestPar):
-        self.__strPathToBestParFile = _edFileBestPar
+        self.strPathToBestParFile = _edFileBestPar
 
 
     def getListFileBestHKL(self):
-        return self.__listFileBestHKL
+        return self.listFileBestHKL
 
 
     def setListFileBestHKL(self, _pyListFileBestHKL):
-        self.__listFileBestHKL = _pyListFileBestHKL
+        self.listFileBestHKL = _pyListFileBestHKL
 
 
     def configure(self):
@@ -174,20 +178,17 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         strScriptExecutable = self.getScriptExecutable()
         self.DEBUG("EDPluginBestv1_2.configure: Script Executable: " + strScriptExecutable)
         strBestScriptHome = EDUtilsPath.getFolderName(strScriptExecutable)
-        strBestHome = None
-
-        pluginConfiguration = self.getConfiguration()
-
-        if(pluginConfiguration == None):
-            strBestHome = strBestScriptHome
-        else:
-            strBestHome = EDConfiguration.getStringParamValue(pluginConfiguration, self.__strCONF_BEST_HOME_LABEL)
-            if(strBestHome == None):
-                strBestHome = strBestScriptHome
-
+        strBestHome = self.config.get(self.strCONF_BEST_HOME_LABEL, strBestScriptHome)
         self.setBestHome(strBestHome)
         self.DEBUG("EDPluginBestv1_2.configure: Best Home: " + strBestHome)
         self.setCommandBestHome("export besthome=" + self.getBestHome())
+        strVersion = self.config.get(self.CONF_EXEC_PROCESS_SCRIPT_VERSION_STRING, "Unknown")
+        # Check if version is higher than 4.1:
+        try:
+            if float(strVersion[8:11]) > 4.0:
+                self.bVersionHigherThan4_0 = True
+        except Exception, e:
+            pass 
 
 
     def preProcess(self, _edObject=None):
@@ -208,7 +209,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         for bestFileContentHKL in listBestFileContentHKL:
             iterator = iterator + 1
             bestFileHKL = os.path.join(self.getWorkingDirectory(), "bestfile" + str(iterator) + ".hkl")
-            self.__listFileBestHKL.append(bestFileHKL)
+            self.listFileBestHKL.append(bestFileHKL)
             EDUtilsFile.writeFile(bestFileHKL, bestFileContentHKL.getValue())
 
 
@@ -219,7 +220,7 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
 
 
     def initializeCommands(self):
-        self.addListCommandPreExecution(self.__strCommandBestHome)
+        self.addListCommandPreExecution(self.strCommandBestHome)
 
         listFileBestHKL = self.getListFileBestHKL()
         listFileBestHKLCommand = ""
@@ -231,133 +232,171 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         fExposureTime = self.getDataInput().getBeamExposureTime().getValue()
         fMaxExposureTime = self.getDataInput().getBeamMaxExposureTime().getValue()
 
-        self.__strCommandBest = "-f " + strDetectorName + " " + "-t " + str(fExposureTime) + " "
+        self.strCommandBest = "-f " + strDetectorName + " " + "-t " + str(fExposureTime) + " "
+
+        # Add output of gle files only if version is 4.1.0 (or higher)
+        if self.bVersionHigherThan4_0:
+            self.strCommandBest = self.strCommandBest + "-g "
 
         if(self.getDataInput().getBeamMinExposureTime() is not None):
             strBeamMinExposureTime = str(self.getDataInput().getBeamMinExposureTime().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-M " + strBeamMinExposureTime + " "
+            self.strCommandBest = self.strCommandBest + "-M " + strBeamMinExposureTime + " "
 
         if(self.getDataInput().getGoniostatMaxRotationSpeed() is not None):
             strGoniostatMaxRotationSpeed = str(self.getDataInput().getGoniostatMaxRotationSpeed().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-S " + strGoniostatMaxRotationSpeed + " "
+            self.strCommandBest = self.strCommandBest + "-S " + strGoniostatMaxRotationSpeed + " "
 
         if(self.getDataInput().getGoniostatMinRotationWidth() is not None):
             strGoniostatMinRotationWidth = str(self.getDataInput().getGoniostatMinRotationWidth().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-w " + strGoniostatMinRotationWidth + " "
+            self.strCommandBest = self.strCommandBest + "-w " + strGoniostatMinRotationWidth + " "
 
         if(self.getDataInput().getAimedResolution() is not None):
             strAimedResolution = str(self.getDataInput().getAimedResolution().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-r " + strAimedResolution + " "
+            self.strCommandBest = self.strCommandBest + "-r " + strAimedResolution + " "
 
         if(self.getDataInput().getAimedRedundancy() is not None):
             strAimedRedundancy = str(self.getDataInput().getAimedRedundancy().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-R " + strAimedRedundancy + " "
+            self.strCommandBest = self.strCommandBest + "-R " + strAimedRedundancy + " "
 
         if(self.getDataInput().getAimedCompleteness() is not None):
             strAimedCompleteness = str(self.getDataInput().getAimedCompleteness().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-C " + strAimedCompleteness + " "
+            self.strCommandBest = self.strCommandBest + "-C " + strAimedCompleteness + " "
 
         if(self.getDataInput().getAimedIOverSigma() is not None):
             strAimedIOverSigma = str(self.getDataInput().getAimedIOverSigma().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-i2s " + strAimedIOverSigma + " "
+            self.strCommandBest = self.strCommandBest + "-i2s " + strAimedIOverSigma + " "
 
         if(self.getDataInput().getCrystalAbsorbedDoseRate() is not None):
             strCrystalAbsorbedDoseRate = str(self.getDataInput().getCrystalAbsorbedDoseRate().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-GpS " + strCrystalAbsorbedDoseRate + " "
+            self.strCommandBest = self.strCommandBest + "-GpS " + strCrystalAbsorbedDoseRate + " "
 
         if(self.getDataInput().getCrystalShape() is not None):
             strCrystalShape = str(self.getDataInput().getCrystalShape().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-sh " + strCrystalShape + " "
+            self.strCommandBest = self.strCommandBest + "-sh " + strCrystalShape + " "
 
         if(self.getDataInput().getCrystalSusceptibility() is not None):
             strCrystalSusceptibility = str(self.getDataInput().getCrystalSusceptibility().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-su " + strCrystalSusceptibility + " "
+            self.strCommandBest = self.strCommandBest + "-su " + strCrystalSusceptibility + " "
 
         if(self.getDataInput().getTransmission() is not None):
             strTransmission = str(self.getDataInput().getTransmission().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-Trans " + strTransmission + " "
+            self.strCommandBest = self.strCommandBest + "-Trans " + strTransmission + " "
 
         if(self.getDataInput().getMinTransmission() is not None):
             strMinTransmission = str(self.getDataInput().getMinTransmission().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-TRmin " + strMinTransmission + " "
+            self.strCommandBest = self.strCommandBest + "-TRmin " + strMinTransmission + " "
 
         if(self.getDataInput().getNumberOfCrystalPositions() is not None):
             iNumberOfCrystalPositions = str(self.getDataInput().getNumberOfCrystalPositions().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-Npos " + iNumberOfCrystalPositions + " "
+            self.strCommandBest = self.strCommandBest + "-Npos " + iNumberOfCrystalPositions + " "
 
         
         if(self.getDataInput().getDetectorDistanceMin() is not None):
             fDetectorDistanceMin = str(self.getDataInput().getDetectorDistanceMin().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-DIS_MIN " + fDetectorDistanceMin + " "
+            self.strCommandBest = self.strCommandBest + "-DIS_MIN " + fDetectorDistanceMin + " "
 
         
         if(self.getDataInput().getDetectorDistanceMax() is not None):
             fDetectorDistanceMax = str(self.getDataInput().getDetectorDistanceMax().getValue())
-            self.__strCommandBest = self.__strCommandBest + "-DIS_MAX " + fDetectorDistanceMax + " "
+            self.strCommandBest = self.strCommandBest + "-DIS_MAX " + fDetectorDistanceMax + " "
 
         
         if(self.getDataInput().getAnomalousData() is not None):
             bAnomalousData = self.getDataInput().getAnomalousData().getValue()
             if (bAnomalousData):
                 if(self.getDataInput().getCrystalAbsorbedDoseRate() is not None):
-                    self.__strCommandBest = self.__strCommandBest + "-asad "
+                    self.strCommandBest = self.strCommandBest + "-asad "
                 else:
-                    self.__strCommandBest = self.__strCommandBest + "-a "
+                    self.strCommandBest = self.strCommandBest + "-a "
 
         strStrategyOption = self.getDataInput().getStrategyOption()
         if(strStrategyOption is not None):
-            self.__strCommandBest = self.__strCommandBest + "%s " % strStrategyOption.getValue()
+            self.strCommandBest = self.strCommandBest + "%s " % strStrategyOption.getValue()
 
-        self.__strCommandBest = self.__strCommandBest + "-T " + str(fMaxExposureTime) + " " + \
+        xsDataAngleUserDefinedRotationStart = self.getDataInput().getUserDefinedRotationStart()
+        xsDataAngleUserDefinedRotationRange = self.getDataInput().getUserDefinedRotationRange()
+        if(xsDataAngleUserDefinedRotationStart is not None):
+            self.strCommandBest = self.strCommandBest + "-phi %f %f " % \
+              (xsDataAngleUserDefinedRotationStart.getValue(), xsDataAngleUserDefinedRotationRange.getValue())
+
+        if(self.getDataInput().getRadiationDamageModelBeta() is not None):
+            fRadiationDamageModelBeta = str(self.getDataInput().getRadiationDamageModelBeta().getValue())
+            self.strCommandBest = self.strCommandBest + "-beta " + fRadiationDamageModelBeta + " "
+
+        if(self.getDataInput().getRadiationDamageModelGamma() is not None):
+            fRadiationDamageModelGamma = str(self.getDataInput().getRadiationDamageModelGamma().getValue())
+            self.strCommandBest = self.strCommandBest + "-gama " + fRadiationDamageModelGamma + " "
+
+        self.strCommandBest = self.strCommandBest + "-T " + str(fMaxExposureTime) + " " + \
                                      "-dna " + self.getScriptBaseName() + "_dnaTables.xml" + " " + \
                                      "-o " + os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv ") + \
                                      "-e " + self.getComplexity() + " "
                                      
         if self.getDataInput().getXdsBackgroundImage():
             strPathToXdsBackgroundImage = self.getDataInput().getXdsBackgroundImage().getPath().getValue()
-            self.__strCommandBest = self.__strCommandBest + "-MXDS " + self.getFileBestPar() + " " + strPathToXdsBackgroundImage + " " + listFileBestHKLCommand            
+            self.strCommandBest = self.strCommandBest + "-MXDS " + self.getFileBestPar() + " " + strPathToXdsBackgroundImage + " " + listFileBestHKLCommand            
         else:
-            self.__strCommandBest = self.__strCommandBest + "-mos " + self.getFileBestDat() + " " + self.getFileBestPar() + " " + listFileBestHKLCommand
+            self.strCommandBest = self.strCommandBest + "-mos " + self.getFileBestDat() + " " + self.getFileBestPar() + " " + listFileBestHKLCommand
 
-        self.setScriptCommandline(self.__strCommandBest)
+        self.setScriptCommandline(self.strCommandBest)
 
 
     def finallyProcess(self, _edObject=None):
         EDPluginExecProcessScript.finallyProcess(self)
         self.DEBUG("EDPluginBestv1_2.finallyProcess")
+        xsDataResultBest = self.getOutputDataFromDNATableFile(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
+        xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
+        xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
         strError = self.readProcessErrorLogFile()
         if((strError is not None) and (strError != "")):
-            strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_2.postProcess', 'EDPluginBestv1_2', strError)
+            strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginBestv1_2.finallyProcess', 'EDPluginBestv1_2', strError)
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
-            self.setDataOutput(XSDataResultBest())
+            # Append error message to best log
+            strLog = self.readProcessLogFile()
+            strLog += "\n"+strError
+            EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(),self.getScriptLogFileName()), strLog)
+            self.setDataOutput(xsDataResultBest)
             self.setFailure()
         else:
-            xsDataResultBest = self.getOutputDataFromDNATableFile(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_dnaTables.xml"))
-            xsDataFilePathToLog = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())))
-            xsDataResultBest.setPathToLogFile(xsDataFilePathToLog)
-            xsDataFilePathToPlotMtv = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv")))
-            xsDataResultBest.setPathToPlotMtvFile(xsDataFilePathToPlotMtv)
+            strPathToPlotMtv = os.path.join(self.getWorkingDirectory(), self.getScriptBaseName() + "_plots.mtv")
+            if os.path.exists(strPathToPlotMtv):
+                xsDataFilePathToPlotMtv = XSDataFile(XSDataString(strPathToPlotMtv))
+                xsDataResultBest.setPathToPlotMtvFile(xsDataFilePathToPlotMtv)
+            # Check for .gle files
+            for strPath in os.listdir(self.getWorkingDirectory()):
+                if strPath.endswith(".gle"):
+                    xsDataBestGlePlot = XSDataBestGlePlot()
+                    xsDataBestGlePlot.script = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strPath)))
+                    strDataPath = strPath[:-4]+".dat"
+                    if os.path.exists(os.path.join(self.getWorkingDirectory(),strDataPath)):
+                        xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strDataPath)))
+                    else:
+                        strDataPath = strPath[:-4]+".data"
+                        if os.path.exists(os.path.join(self.getWorkingDirectory(),strDataPath)):
+                            xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strDataPath)))
+                    xsDataResultBest.addGlePlot(xsDataBestGlePlot)
             self.setDataOutput(xsDataResultBest)
 
 
     def getOutputDataFromDNATableFile(self, _strFileName):
-        strDnaTablesXML = self.readProcessFile(_strFileName)
-        xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
         xsDataResultBest = XSDataResultBest()
-        # Loop through all the tables and fill in the relevant parts of xsDataResultBest
-
-        xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
-        if (xsDataStringStrategyOption is not None):
-            strStrategyOption = xsDataStringStrategyOption.getValue()
-            if (strStrategyOption.find("-DamPar") != -1 ):
-                xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
-            elif (strStrategyOption.find("-Bonly") != -1 ):
-                xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
+        if os.path.exists(_strFileName):
+            strDnaTablesXML = self.readProcessFile(_strFileName)
+            xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
+            # Loop through all the tables and fill in the relevant parts of xsDataResultBest
+        
+            xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
+            if (xsDataStringStrategyOption is not None):
+                strStrategyOption = xsDataStringStrategyOption.getValue()
+                if (strStrategyOption.find("-DamPar") != -1 ):
+                    xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
+                elif (strStrategyOption.find("-Bonly") != -1 ):
+                    xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
+                else:
+                    xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
             else:
                 xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
-        else:
-            xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
 
         return xsDataResultBest
 

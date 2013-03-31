@@ -55,12 +55,7 @@ class EDPluginLabelitv1_1(EDPluginExecProcessScript):
     def configure(self):
         EDPluginExecProcessScript.configure(self)
         self.DEBUG("EDPluginLabelitv1_1.configure")
-        xsPluginItem = self.getConfiguration()
-        if (xsPluginItem == None):
-            self.warning("EDPluginLabelitv1_1.configure: No Labelit plugin item defined.")
-            xsPluginItem = XSPluginItem()
-        strPathToLabelitSetpathScript = EDConfiguration.getStringParamValue(xsPluginItem, \
-                                                                            EDPluginLabelitv1_1.CONF_PATH_TO_LABELIT_SETPATH_SCRIPT)
+        strPathToLabelitSetpathScript = self.config.get(self.CONF_PATH_TO_LABELIT_SETPATH_SCRIPT)
         if(strPathToLabelitSetpathScript == None):
             strErrorMessage = "EDPluginLabelitv1_1.configure : Configuration parameter missing: " + \
                                 EDPluginLabelitv1_1.CONF_PATH_TO_LABELIT_SETPATH_SCRIPT

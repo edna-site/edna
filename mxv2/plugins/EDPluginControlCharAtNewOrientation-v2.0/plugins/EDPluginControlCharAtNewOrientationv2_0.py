@@ -224,3 +224,13 @@ class EDPluginControlCharAtNewOrientationv2_0(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.doCharacterisationFailure")
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlCharacterisationv2_0.doFailureActionIndexing")
 
+
+    def generateExecutiveSummary(self, _edPlugin):
+        """
+        Generates a summary of the execution of the plugin.
+        """
+        EDPluginControl.generateExecutiveSummary(self, _edPlugin)
+        EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.generateExecutiveSummary")
+        if (self.edPluginControlCharacterisation is not None):
+            self.appendExecutiveSummary(self.edPluginControlCharacterisation, "Strategy : ")
+            self.addExecutiveSummaryLine("") 

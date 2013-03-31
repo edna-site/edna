@@ -1,0 +1,58 @@
+* EDPluginControlAutoproc.py
+The master plugin that runs all the other ones in sequence. This
+plugin's /process/ method corresponds to the whole fastproc
+autoprocessing pipeline.
+
+** EDPluginControlFileConversion.py
+This plugin implements the different file conversions at the end of
+the pipeline. It uses the some of the following plugins to generate
+.mtz files for anom/noanom and merged/unmerged pairs.
+*** EDPluginExecAimless.py
+Runs aimless (replaces scala.)
+*** EDPluginExecPointless.py
+Runs pointless.
+*** EDPluginExecTruncate.py
+Runs truncate.
+*** EDPluginExecUniqueify.py
+Runs uniqueify.
+*** EDPluginExecXdsToSca.py
+Converts a XDS ASCII file to a .sca file
+
+** EDPluginControlRunXdsFastProc.py
+This plugin runs XDS up to four times, increasing the spot range at
+each iteration in case of failure.
+
+*** EDPluginExecMinimalXds.py
+This plugin runs XDS given the path to an input file and some
+additional parameters to alter in this input file.
+
+** EDPluginParseXdsOutput.py
+Parsed the XDS-generated files to extract shells information, cell
+coordinates, unit cell constants, spacegroup, etc.
+
+** EDPluginControlXscaleGenerate.py
+Generate anom and non anom data with the XScale plugin.
+
+*** EDPluginExecXscale.py
+Encapsulate a run of XScale, like EDPluginExecMinimalXds does for XDS.
+
+*** EDPluginParseXscaleOutput.py
+Parses XScale's output to extract information (the bins.)
+
+** EDPluginRBins.py
+Encapsulate a run of the rbin binary. Not used for the fastproc.
+
+** EDPluginResCutoff.py
+Cuts of data according to the specified i/sigma value. Will probably
+evolve to offer other means of cutting data (and get renamed in the
+process.)
+
+** EDPluginXDSGenerate.py
+Generate using the MinimalXDS plugin.
+
+* Others
+** xdscfgformat.py and xdscfgparser.py
+These two files implement a parser of XDS.INP input files.
+
+** XSDataAutoproc.py
+This file is the "data binding" generated from the "data model".

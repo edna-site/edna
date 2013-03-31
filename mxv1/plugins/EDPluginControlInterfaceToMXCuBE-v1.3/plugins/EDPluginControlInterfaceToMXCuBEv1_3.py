@@ -21,6 +21,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+__author__ = "Olof Svensson"
+__contact__ = "svensson@esrf.fr"
+__license__ = "GPLv3+"
+__copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
+
 import os
 import shutil
 import smtplib
@@ -36,6 +41,8 @@ from EDUtilsPath import EDUtilsPath
 
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataFile
+from XSDataCommon import XSDataFlux
+from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataDictionary
 from XSDataCommon import XSDataKeyValuePair
 
@@ -51,6 +58,8 @@ from XSDataSimpleHTMLPagev1_0 import XSDataInputSimpleHTMLPage
 EDFactoryPluginStatic.loadModule("XSDataInterfacev1_2")
 from XSDataInterfacev1_2 import XSDataInputInterface
 
+EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
+from XSDataISPyBv1_4 import XSDataInputRetrieveDataCollection
 
 class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     """
@@ -81,10 +90,13 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.edPluginExecOutputHTML = None
         self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
         self.edPluginExecSimpleHTML = None
+        self.strPluginISPyBRetrieveDataCollection = "EDPluginISPyBRetrieveDataCollectionv1_4"
+        self.edPluginISPyBRetrieveDataCollection= None
         self.strEDNAContactEmail = None
         self.strEDNAEmailSender = "edna-support@esrf.fr"
         self.tStart = None
         self.tStop = None
+        self.fFluxThreshold = 1e3
 
 
     def checkParameters(self):
@@ -101,15 +113,8 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def configure(self):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure")
-        xsPluginItem = self.getConfiguration()
-        if xsPluginItem == None:
-            self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: No plugin item defined.")
-        else:
-            self.strEDNAContactEmail = EDConfiguration.getStringParamValue(xsPluginItem, EDPluginControlInterfaceToMXCuBEv1_3.EDNA_CONTACT_EMAIL)
-            self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.configure: EDNAContactEmail = %s" % self.strEDNAContactEmail)
-            strEDNAEmailSender = EDConfiguration.getStringParamValue(xsPluginItem, self.EDNA_EMAIL_SENDER)
-            if strEDNAEmailSender:
-                self.strEDNAEmailSender = strEDNAEmailSender
+        self.strEDNAEmailSender = self.config.get(self.EDNA_EMAIL_SENDER, self.strEDNAEmailSender)
+        self.strEDNAContactEmail = self.config.get(self.EDNA_CONTACT_EMAIL, self.strEDNAContactEmail)
 
 
 
@@ -122,27 +127,36 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
 
         self.tStart = time.time()
 
-        xsDataInputMXCuBE = self.getDataInput()
-        xsDataInputInterface = XSDataInputInterface()
-        self.edPluginControlInterface = self.loadPlugin(self.strPluginControlInterface)
-        for xsDataSetMXCuBE in xsDataInputMXCuBE.getDataSet():
-            for xsDataFile in xsDataSetMXCuBE.getImageFile():
-                xsDataInputInterface.addImagePath(xsDataFile)
-
-        xsDataInputInterface.setExperimentalCondition(xsDataInputMXCuBE.getExperimentalCondition())
-        xsDataInputInterface.setDiffractionPlan(xsDataInputMXCuBE.getDiffractionPlan())
-        xsDataInputInterface.setSample(xsDataInputMXCuBE.getSample())
-        xsDataInputInterface.setDataCollectionId(xsDataInputMXCuBE.getDataCollectionId())
-        self.edPluginControlInterface.setDataInput(xsDataInputInterface)
-
         #self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
         self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
+        self.edPluginISPyBRetrieveDataCollection = self.loadPlugin(self.strPluginISPyBRetrieveDataCollection, \
+                                                                   "ISPyBRetrieveDataCollection")
         self.xsDataResultMXCuBE = XSDataResultMXCuBE()
+
 
 
     def process(self, _edPlugin=None):
         EDPluginControl.process(self, _edPlugin)
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.process...")
+
+        xsDataInputMXCuBE = self.getDataInput()
+        xsDataInputInterface = XSDataInputInterface()
+        self.edPluginControlInterface = self.loadPlugin(self.strPluginControlInterface)
+        xsDataFirstImage = None
+        for xsDataSetMXCuBE in xsDataInputMXCuBE.getDataSet():
+            for xsDataFile in xsDataSetMXCuBE.getImageFile():
+                xsDataInputInterface.addImagePath(xsDataFile)
+                if xsDataFirstImage is None:
+                    xsDataFirstImage = xsDataFile
+        
+        xsDataExperimentalCondition = self.getFluxFromISPyB(xsDataFirstImage, \
+                                                            xsDataInputMXCuBE.getExperimentalCondition())
+        
+        xsDataInputInterface.setExperimentalCondition(xsDataExperimentalCondition)
+        xsDataInputInterface.setDiffractionPlan(xsDataInputMXCuBE.getDiffractionPlan())
+        xsDataInputInterface.setSample(xsDataInputMXCuBE.getSample())
+        xsDataInputInterface.setDataCollectionId(xsDataInputMXCuBE.getDataCollectionId())
+        self.edPluginControlInterface.setDataInput(xsDataInputInterface)
 
         if self.edPluginControlInterface is not None:
             self.connectProcess(self.edPluginControlInterface.executeSynchronous)
@@ -159,12 +173,46 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     def doSuccessActionInterface(self, _edPlugin=None):
         self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface...")
         self.retrieveSuccessMessages(self.edPluginControlInterface, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface")
+        # Send success email message (MXSUP-183):
+        self.tStop = time.time()
+        strSubject = "%s : SUCCESS! (%.1f s)" % (EDUtilsPath.getEdnaSite(), self.tStop-self.tStart)
+        strMessage = "Characterisation success!"
+        self.storeResultsInISPyB(strSubject, strMessage)
+        
+    def doFailureActionInterface(self, _edPlugin=None):
+        self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doFailureActionInterface...")
+        # Send failure email message (MXSUP-183):
+        strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
+        strMessage = "Characterisation FAILURE!"
+        self.storeResultsInISPyB(strSubject, strMessage)
+        #self.setFailure()
+#        xsDataResultCharacterisation = None
+#        if self.edPluginControlInterface.hasDataOutput("characterisation"):
+#            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
+#        # Execute plugin which creates a simple HTML page
+#        self.executeSimpleHTML(xsDataResultCharacterisation)            
+#        xsDataResultCharacterisation = self.edPluginControlInterface.dataOutput.resultCharacterisation
+#        if xsDataResultCharacterisation is not None:
+#            self.xsDataResultMXCuBE.characterisationResult = xsDataResultCharacterisation
+#            if xsDataResultCharacterisation.getStatusMessage():
+#                strMessage += "\n\n"
+#                strMessage += xsDataResultCharacterisation.getStatusMessage().getValue()
+#            if xsDataResultCharacterisation.getShortSummary():
+#                strMessage += "\n\n"
+#                strMessage += xsDataResultCharacterisation.getShortSummary().getValue()
+#        self.sendEmail(strSubject, strMessage)
+        
+        
+    def storeResultsInISPyB(self, _strSubject, _strMessage):
+        strSubject = _strSubject
+        strMessage = _strMessage
         xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput().getResultCharacterisation()
         self.xsDataResultMXCuBE.setCharacterisationResult(xsDataResultCharacterisation)
         xsDataResultControlISPyB = self.edPluginControlInterface.getDataOutput().getResultControlISPyB()
         if xsDataResultControlISPyB != None:
             self.xsDataResultMXCuBE.setScreeningId(xsDataResultControlISPyB.getScreeningId())
         if xsDataResultCharacterisation != None:
+            self.xsDataResultMXCuBE.characterisationResult = xsDataResultCharacterisation
             strPathCharacterisationResult = os.path.join(self.getWorkingDirectory(), "CharacterisationResult.xml")
             xsDataResultCharacterisation.exportToFile(strPathCharacterisationResult)
             self.xsDataResultMXCuBE.setListOfOutputFiles(XSDataString(strPathCharacterisationResult))
@@ -177,10 +225,6 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             if (self.createDNAFileDirectory(strPyArchPathToDNAFileDirectory)):
                 xsDataDictionaryLogFile = self.createOutputFileDictionary(xsDataResultCharacterisation, strPyArchPathToDNAFileDirectory)
             self.xsDataResultMXCuBE.setOutputFileDictionary(xsDataDictionaryLogFile)
-            # Send success email message (MXSUP-183):
-            self.tStop = time.time()
-            strSubject = "%s : SUCCESS! (%.1f s)" % (EDUtilsPath.getEdnaSite(), self.tStop-self.tStart)
-            strMessage = "Characterisation success!"
             if xsDataResultCharacterisation.getStatusMessage():
                 strMessage += "\n\n"
                 strMessage += xsDataResultCharacterisation.getStatusMessage().getValue()
@@ -216,26 +260,6 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
 
 
 
-    def doFailureActionInterface(self, _edPlugin=None):
-        self.DEBUG("EDPluginControlInterfaceToMXCuBEv1_3.doFailureActionInterface...")
-        self.setFailure()
-        xsDataResultCharacterisation = None
-        if self.edPluginControlInterface.hasDataOutput("characterisation"):
-            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
-        # Execute plugin which creates a simple HTML page
-        self.executeSimpleHTML(xsDataResultCharacterisation)            
-        # Send failure email message (MXSUP-183):
-        strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
-        strMessage = "Interface FAILURE!"
-        if self.edPluginControlInterface.hasDataOutput("characterisation"):
-            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
-            if xsDataResultCharacterisation.getStatusMessage():
-                strMessage += "\n\n"
-                strMessage += xsDataResultCharacterisation.getStatusMessage().getValue()
-            if xsDataResultCharacterisation.getShortSummary():
-                strMessage += "\n\n"
-                strMessage += xsDataResultCharacterisation.getShortSummary().getValue()
-        self.sendEmail(strSubject, strMessage)
 
 
     def doSuccessActionISPyB(self, _edPlugin):
@@ -376,59 +400,62 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         xsDataDictionaryLogFile = XSDataDictionary()
         # Start with the prediction images
         xsDataIndexingResult = _xsDataResultCharacterisation.getIndexingResult()
-        xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
-        listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
-        for xsDataImagePrediction in listXSDataImagePrediction:
-            xsDataKeyValuePair = XSDataKeyValuePair()
-            iPredictionImageNumber = xsDataImagePrediction.getNumber().getValue()
-            xsDataStringKey = XSDataString("predictionImage_%d" % iPredictionImageNumber)
-            xsDataStringValue = None
-            strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
-            if (_strPathToLogFileDirectory is not None):
-                strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
-                strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
-                EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
-                xsDataStringValue = XSDataString(strNewPredictionImagePath)
-            else:
-                xsDataStringValue = XSDataString(strPredictionImageFileName)
-            xsDataKeyValuePair.setKey(xsDataStringKey)
-            xsDataKeyValuePair.setValue(xsDataStringValue)
-            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+        if xsDataIndexingResult is not None:
+            xsDataGeneratePredictionResult = xsDataIndexingResult.getPredictionResult()
+            if xsDataGeneratePredictionResult is not None:
+                listXSDataImagePrediction = xsDataGeneratePredictionResult.getPredictionImage()
+                for xsDataImagePrediction in listXSDataImagePrediction:
+                    xsDataKeyValuePair = XSDataKeyValuePair()
+                    iPredictionImageNumber = xsDataImagePrediction.getNumber().getValue()
+                    xsDataStringKey = XSDataString("predictionImage_%d" % iPredictionImageNumber)
+                    xsDataStringValue = None
+                    strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
+                    if (_strPathToLogFileDirectory is not None):
+                        strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
+                        strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
+                        EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
+                        xsDataStringValue = XSDataString(strNewPredictionImagePath)
+                    else:
+                        xsDataStringValue = XSDataString(strPredictionImageFileName)
+                    xsDataKeyValuePair.setKey(xsDataStringKey)
+                    xsDataKeyValuePair.setValue(xsDataStringValue)
+                    xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
         # Best log file
         strPathToBESTLogFile = None
         strPathToExecutiveSummary = None
-        if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
-            strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
-        if strPathToBESTLogFile is not None:
-            xsDataStringKey = XSDataString("logFileBest")
-            xsDataStringValue = None
-            if (_strPathToLogFileDirectory is not None):
-                strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
-                EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
-                xsDataStringValue = XSDataString(strNewBestLogPath)
-            else:
-                xsDataStringValue = XSDataString(strPathToBESTLogFile)
-            xsDataKeyValuePair = XSDataKeyValuePair()
-            xsDataKeyValuePair.setKey(xsDataStringKey)
-            xsDataKeyValuePair.setValue(xsDataStringValue)
-            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
-        if (strPathToExecutiveSummary is not None):
-            xsDataStringKey = XSDataString("executiveSummary")
-            xsDataStringValue = None
-            if (_strPathToLogFileDirectory is not None):
-                strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
-                xsDataStringValue = XSDataString(strNewExecutiveSummaryPath)
-                # Copy also the executive summary file to "dna_log.txt"...
-                strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
-                EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
-            else:
-                xsDataStringValue = XSDataString(strPathToExecutiveSummary)
-            xsDataKeyValuePair = XSDataKeyValuePair()
-            xsDataKeyValuePair.setKey(xsDataStringKey)
-            xsDataKeyValuePair.setValue(xsDataStringValue)
-            xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+        if _xsDataResultCharacterisation.getStrategyResult() is not None:
+            if _xsDataResultCharacterisation.getStrategyResult().getBestLogFile() != None:
+                strPathToBESTLogFile = _xsDataResultCharacterisation.getStrategyResult().getBestLogFile().getPath().getValue()
+            if strPathToBESTLogFile is not None:
+                xsDataStringKey = XSDataString("logFileBest")
+                xsDataStringValue = None
+                if (_strPathToLogFileDirectory is not None):
+                    strNewBestLogPath = os.path.join(_strPathToLogFileDirectory, "best.log")
+                    EDUtilsFile.copyFile(strPathToBESTLogFile, strNewBestLogPath)
+                    xsDataStringValue = XSDataString(strNewBestLogPath)
+                else:
+                    xsDataStringValue = XSDataString(strPathToBESTLogFile)
+                xsDataKeyValuePair = XSDataKeyValuePair()
+                xsDataKeyValuePair.setKey(xsDataStringKey)
+                xsDataKeyValuePair.setValue(xsDataStringValue)
+                xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
+            if (strPathToExecutiveSummary is not None):
+                xsDataStringKey = XSDataString("executiveSummary")
+                xsDataStringValue = None
+                if (_strPathToLogFileDirectory is not None):
+                    strExecutiveSummaryFileName = EDUtilsFile.getBaseName(strPathToExecutiveSummary)
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, strExecutiveSummaryFileName)
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+                    xsDataStringValue = XSDataString(strNewExecutiveSummaryPath)
+                    # Copy also the executive summary file to "dna_log.txt"...
+                    strNewExecutiveSummaryPath = os.path.join(_strPathToLogFileDirectory, "dna_log.txt")
+                    EDUtilsFile.copyFile(strPathToExecutiveSummary, strNewExecutiveSummaryPath)
+                else:
+                    xsDataStringValue = XSDataString(strPathToExecutiveSummary)
+                xsDataKeyValuePair = XSDataKeyValuePair()
+                xsDataKeyValuePair.setKey(xsDataStringKey)
+                xsDataKeyValuePair.setValue(xsDataStringValue)
+                xsDataDictionaryLogFile.addKeyValuePair(xsDataKeyValuePair)
 
         return xsDataDictionaryLogFile
 
@@ -447,6 +474,49 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
         strMessage = "Characterisation FAILURE!"
         self.sendEmail(strSubject, strMessage)
+
+
+    def getFluxFromISPyB(self, _xsDataFirstImage, _xsDataExperimentalCondition):
+        """
+        This method retrieves the flux from ISPyB
+        """
+        xsDataExperimentalCondition = None
+        if (_xsDataExperimentalCondition is not None):
+            xsDataExperimentalCondition = _xsDataExperimentalCondition.copy()
+            bFoundValidFlux = False
+            xsDataBeam = xsDataExperimentalCondition.getBeam()
+            if xsDataBeam is None:
+                xsDataBeam = XSDataBeam()    
+                xsDataExperimentalCondition.setBeam(xsDataBeam)
+            xsDataBeamFlux = xsDataBeam.getFlux()
+            if xsDataBeamFlux is not None:
+                fFluxMXCuBE = xsDataBeamFlux.getValue()
+                self.screen("MXCuBE reports flux to be: %g photons/sec" % fFluxMXCuBE)
+                if fFluxMXCuBE > self.fFluxThreshold:
+                    bFoundValidFlux = True
+                else:
+                    self.screen("MXCuBE flux invalid! Trying to obtain flux from ISPyB.")
+            if not bFoundValidFlux:
+                # Here we try to retrieve the flux from ISPyB
+                xsDataInputRetrieveDataCollection = XSDataInputRetrieveDataCollection()
+                xsDataInputRetrieveDataCollection.setImage(XSDataImage(_xsDataFirstImage.getPath()))
+                self.edPluginISPyBRetrieveDataCollection.setDataInput(xsDataInputRetrieveDataCollection)
+                self.edPluginISPyBRetrieveDataCollection.executeSynchronous()
+                xsDataResultRetrieveDataCollection = self.edPluginISPyBRetrieveDataCollection.getDataOutput()
+                if xsDataResultRetrieveDataCollection is not None:
+                    xsDataISPyBDataCollection = xsDataResultRetrieveDataCollection.getDataCollection()
+                    if xsDataISPyBDataCollection is not None:
+                        fFlux = xsDataISPyBDataCollection.getFlux()
+                        if fFlux is not None:
+                            self.screen("ISPyB reports flux to be: %g photons/sec" % fFlux)
+                            xsDataExperimentalCondition.getBeam().setFlux(XSDataFlux(fFlux))
+                            bFoundValidFlux = True
+                if not bFoundValidFlux:
+                    self.screen("No valid flux could be retrieved from ISPyB!")
+        return xsDataExperimentalCondition
+                            
+                            
+
 
 
 

@@ -104,7 +104,8 @@ class EDPluginExecReadImageHeaderADSCv10(EDPluginExec):
             xsDataDetector.setBin(XSDataString(dictHeader[ "BIN" ]))
             xsDataDetector.setDataType(XSDataString(dictHeader[ "TYPE" ]))
             xsDataDetector.setByteOrder(XSDataString(dictHeader[ "BYTE_ORDER" ]))
-            xsDataDetector.setImageSaturation(XSDataInteger(int(dictHeader[ "CCD_IMAGE_SATURATION" ])))
+            if "CCD_IMAGE_SATURATION" in dictHeader.keys():
+                xsDataDetector.setImageSaturation(XSDataInteger(int(dictHeader[ "CCD_IMAGE_SATURATION" ])))
 
             # Determine type of detector...
             iNoPixelsX = xsDataDetector.getNumberPixelX().getValue()

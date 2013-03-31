@@ -1,8 +1,26 @@
 <?xml version="1.0" ?>
-<XSConfiguration> 
+<XSConfiguration>
 	<XSPluginList>
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreScreeningv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBRetrieveDataCollectionv1_4</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyvalid.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl
+					</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreScreeningv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -14,16 +32,23 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForBLSampleWebServiceWsdl</name>
-					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForBLSampleWebService?wsdl</value>
+					<value>http://ispyvalid.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForBLSampleWebService?wsdl
+					</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForScreeningEDNAWebServiceWsdl</name>
-					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForScreeningEDNAWebService?wsdl</value>
+					<value>http://ispyvalid.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForScreeningEDNAWebService?wsdl
+					</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyvalid.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl
+					</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreAutoProcv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreAutoProcv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -35,12 +60,13 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>http://ispyvalid.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForAutoprocessingWebService?wsdl
+					</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreAutoProcStatusv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreAutoProcStatusv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -52,9 +78,10 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>http://160.103.210.4:8080/ispyb-ejb3/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>http://ispyvalid.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForAutoprocessingWebService?wsdl
+					</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-	</XSPluginList> 
+	</XSPluginList>
 </XSConfiguration> 
