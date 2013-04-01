@@ -43,7 +43,7 @@ from XSDataJesfv1_0 import XSDataResultJesf
 
 class EDPluginExecJesfv1_0(EDPluginExecProcessScript):
     """
-    [To be replaced with a description of EDPluginExecTemplatev10]
+    Execution plugin for the program Jesf
     """
     
 
