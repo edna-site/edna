@@ -1,5 +1,11 @@
 <?xml version="1.0" ?>
 <XSDataInputTRExafs>
+	<nexusFileName>
+		<value>bm23down.nxs</value>
+	</nexusFileName>
+	<instrument>
+		<value>BM23</value>
+	</instrument>
     <pathToEnergyArray>
     	<path>
     		<value>${EDNA_TESTIMAGES}/XSDataArrayEnergy_bm23down.xml</value>

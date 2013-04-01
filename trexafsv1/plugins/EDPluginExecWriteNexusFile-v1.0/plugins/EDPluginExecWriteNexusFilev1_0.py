@@ -27,7 +27,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-import os, h5py
+import os, h5py, datetime
 
 from EDPluginExec import EDPluginExec
 from EDUtilsArray import EDUtilsArray
@@ -59,7 +59,8 @@ class EDPluginExecWriteNexusFilev1_0( EDPluginExec ):
             fileDir = self.getWorkingDirectory()
         else:
             fileDir = str(xsDataInput.outputFileDirectory.value)
-        timestamp = "2010-10-18T17:17:04-0500"
+#        timestamp = "2010-10-18T17:17:04-0500"
+        timestamp = datetime.datetime.now().isoformat()
         instrument = str(xsDataInput.instrument.value)
         # Create nexus file
         nexusFile = self.makeFile(os.path.join(fileDir, fileName), file_name=fileName,

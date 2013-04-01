@@ -8,6 +8,19 @@
 					<name>execProcessScriptExecutable</name>
 					<value>/sware/isdd/soft/jesf/vdefault/linux/jesf</value>
 				</XSParamItem>
+				<XSParamItem>
+					<name>writeXMLInputOutput</name>
+					<value>false</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecWriteNexusFilev1_0</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>writeXMLInputOutput</name>
+					<value>false</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 	</XSPluginList> 

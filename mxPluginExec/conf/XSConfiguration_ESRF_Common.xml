@@ -77,6 +77,35 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem> 
+			<name>EDPluginDistlSignalStrengthThinClientv1_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/distl.thin_client</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>100</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>distlServerHost</name>
+					<value>mxedna.esrf.fr</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>distlServerPort</name>
+					<value>8125</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>pathToDistlServer</name>
+					<value>/opt/pxsoft/bin/distl.mp_spotfinder_server_read_file</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem> 
 			<name>EDPluginLabelitDistlv1_1</name>  
 			<XSParamList>
 				<XSParamItem>
@@ -469,6 +498,40 @@
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
 					<value>/opt/pxsoft/bin/uniqueify</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		    <XSPluginItem>
+			<name>EDPluginExecMinimalXds</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/xds/vdefault/redhate4-x86_64/xds_par</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>1800</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginExecXscale</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/xds/vdefault/redhate4-x86_64/xscale_par</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>1200</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

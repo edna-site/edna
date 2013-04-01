@@ -58,13 +58,29 @@ class EDPluginExecReadDataID24v1_0( EDPluginExec ):
         self.checkMandatoryParameters(self.dataInput.energyCalibration.a, "Data Input 'energyCalibration a' is None")
         self.checkMandatoryParameters(self.dataInput.energyCalibration.b, "Data Input 'energyCalibration b' is None")
         # Load input data
-        numpyDataArray = self.loadInputData(self.dataInput.inputFile.path.value)
+        listNumpyArray = []
+        iNumberOfSPectra = 0
+        iNumberOfEnergies = 0
+        for xsDataFile in self.dataInput.inputFile:
+            numpyDataArray = self.loadInputData(xsDataFile.path.value)
+#            print numpyDataArray.shape
+            listNumpyArray.append(numpyDataArray)
+            iNumberOfEnergies = numpyDataArray.shape[0]
+            iNumberOfSPectra += numpyDataArray.shape[1]
+        numpyTotalDataArray = numpy.zeros((iNumberOfEnergies,iNumberOfSPectra))
+#        print numpyTotalDataArray.shape
+        iIndex = 0
+        for numpyDataArray in listNumpyArray:
+            iSpectra = numpyDataArray.shape[1]
+            numpyTotalDataArray[:,iIndex:iIndex+iSpectra] = numpyDataArray
+            iIndex += iSpectra
+            
         # Create energy calibration array
-        numpyEnergyCalibrationArray = self.createEnergyCalibrationArray(numpyDataArray.shape[0], self.dataInput.energyCalibration)
+        numpyEnergyCalibrationArray = self.createEnergyCalibrationArray(numpyTotalDataArray.shape[0], self.dataInput.energyCalibration)
         # Create some output data
         xsDataResultReadDataID24 = XSDataResultReadDataID24()
         xsDataResultReadDataID24.energy = EDUtilsArray.arrayToXSData(numpyEnergyCalibrationArray)
-        xsDataResultReadDataID24.dataArray = EDUtilsArray.arrayToXSData(numpyDataArray)
+        xsDataResultReadDataID24.dataArray = EDUtilsArray.arrayToXSData(numpyTotalDataArray)
         self.setDataOutput(xsDataResultReadDataID24)
     
 
