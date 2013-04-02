@@ -106,7 +106,8 @@ class Client(object):
         options = Options()
         options.transport = HttpAuthenticated()
         self.options = options
-        options.cache = ObjectCache(days=1)
+        # Removed because of bug https://fedorahosted.org/suds/ticket/376 (also MXSUP-1489) Olof Svensson 2013-04-02
+        #options.cache = ObjectCache(days=1)
         self.set_options(**kwargs)
         reader = DefinitionsReader(options, Definitions)
         self.wsdl = reader.open(url)
