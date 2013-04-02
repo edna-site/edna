@@ -26,6 +26,8 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
+
 from EDVerbose import EDVerbose
 
 from EDPluginControl import EDPluginControl
@@ -43,7 +45,7 @@ from XSDataMXv1 import XSDataInputControlImageQualityIndicators
 from XSDataMXv1 import XSDataResultControlImageQualityIndicators
 
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
-from XSDataWaitFilev1_0 import XSDataInputWaitMultiFile
+from XSDataWaitFilev1_0 import XSDataInputWaitFile
 
 EDFactoryPluginStatic.loadModule("XSDataLabelitv1_1")
 from XSDataLabelitv1_1 import XSDataInputDistlSignalStrength
@@ -56,17 +58,17 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
 
     def __init__ (self):
         EDPluginControl.__init__(self)
-        self.strPluginExecWaitMultiFileName = "EDPluginWaitMultiFile"
-        self.strPluginExecImageQualityIndicatorName = "EDPluginDistlSignalStrengthv1_1"
-        self.strPluginExecImageQualityIndicatorNameThinClient = "EDPluginDistlSignalStrengthThinClientv1_1"
+        self.strPluginWaitFileName = "EDPluginWaitFile"
+        self.strPluginName = "EDPluginDistlSignalStrengthv1_1"
+        self.strPluginNameThinClient = "EDPluginDistlSignalStrengthThinClientv1_1"
         self.setXSDataInputClass(XSDataInputControlImageQualityIndicators)
-        self.listPluginExecImageQualityIndicator = None
+        self.listPluginExecImageQualityIndicator = []
         self.xsDataResultControlImageQualityIndicators = None
-        self.edPluginWaitMultiFile = None
+        self.edPluginWaitFile = None
         # Default time out for wait file
         self.fWaitFileTimeOut = 30 #s
         # Flag for using the thin client
-        self.bUseThinClient = True
+        self.bUseThinClient = False
         
 
 
@@ -84,25 +86,6 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         self.fWaitFileTimeOut = float(self.config.get("waitFileTimeOut", self.fWaitFileTimeOut))
 
     
-    def preProcess(self, _edPlugin=None):
-        """
-        Prepares the execution plugin
-        """
-        EDPluginControl.preProcess(self, _edPlugin)
-        EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.preProcess...")
-        # Loop through all the incoming reference images
-        self.edPluginWaitMultiFile = self.loadPlugin(self.strPluginExecWaitMultiFileName)
-        listXSDataImage = self.getDataInput().getImage()
-        xsDataInputWaitMultiFile = XSDataInputWaitMultiFile()
-        for xsDataImage in listXSDataImage:
-            xsDataInputWaitMultiFile.addExpectedFile(XSDataFile(xsDataImage.getPath()))
-        xsDataInputWaitMultiFile.setExpectedSize(XSDataInteger(100000))
-        xsDataInputWaitMultiFile.setTimeOut(XSDataTime(self.fWaitFileTimeOut))
-        self.DEBUG("Wait file timeOut set to %f" % self.fWaitFileTimeOut)
-        self.edPluginWaitMultiFile.setDataInput(xsDataInputWaitMultiFile)
-        self.xsDataResultControlImageQualityIndicators = XSDataResultControlImageQualityIndicators()
-
-
 
     def process(self, _edPlugin=None):
         """
@@ -110,10 +93,34 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         """
         EDPluginControl.process(self, _edPlugin)
         EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.process")
-        self.edPluginWaitMultiFile.connectSUCCESS(self.doSuccessWaitMultiFile)
-        self.edPluginWaitMultiFile.connectFAILURE(self.doFailureWaitMultiFile)
-        self.executePluginSynchronous(self.edPluginWaitMultiFile)
-
+        # Loop through all the incoming reference images
+        listXSDataImage = self.dataInput.image
+        xsDataInputWaitFile = XSDataInputWaitFile()
+        iIndex = 0
+        self.xsDataResultControlImageQualityIndicators = XSDataResultControlImageQualityIndicators()
+        for xsDataImage in listXSDataImage:
+            if not os.path.exists(xsDataImage.path.value):
+                self.edPluginWaitFile = self.loadPlugin(self.strPluginWaitFileName)
+                xsDataInputWaitFile.expectedFile = XSDataFile(xsDataImage.path)
+                xsDataInputWaitFile.setExpectedSize(XSDataInteger(100000))
+                xsDataInputWaitFile.setTimeOut(XSDataTime(self.fWaitFileTimeOut))
+                self.DEBUG("Wait file timeOut set to %f" % self.fWaitFileTimeOut)
+                self.edPluginWaitFile.setDataInput(xsDataInputWaitFile)
+                self.edPluginWaitFile.executeSynchronous()
+            if self.bUseThinClient:
+                strPluginName = self.strPluginNameThinClient
+            else:
+                strPluginName = self.strPluginName
+            edPluginPluginExecImageQualityIndicator = self.loadPlugin(strPluginName, \
+                                                                      "%s-%d" % (strPluginName, iIndex + 1))
+            xsDataInputDistlSignalStrength = XSDataInputDistlSignalStrength()
+            xsDataInputDistlSignalStrength.setReferenceImage(xsDataImage)
+            edPluginPluginExecImageQualityIndicator.setDataInput(xsDataInputDistlSignalStrength)
+            edPluginPluginExecImageQualityIndicator.executeSynchronous()
+            xsDataImageQualityIndicators = edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
+            self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal()))
+            iIndex += 1
+        
 
     def finallyProcess(self, _edPlugin= None):
         EDPluginControl.finallyProcess(self, _edPlugin)
@@ -121,80 +128,11 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         self.setDataOutput(self.xsDataResultControlImageQualityIndicators)
 
 
-    def doSuccessWaitMultiFile(self, _edPlugin):
-        """
-        The file has appeared on the disk 
-        """
-        self.DEBUG("EDPluginControlImageQualityIndicatorsv1_0.doSuccessWaitMultiFile")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlReadImageHeaderv10.doSuccessWaitMultiFile")
-        # Check if we should use the thin client
-        if self.bUseThinClient:
-            self.runExecPluginImageQualityIndicatorsThinClient()
-        else:
-            self.runExecPluginImageQualityIndicators()
-        
-        
-    def runExecPluginImageQualityIndicatorsThinClient(self, _edPlugin=None):
-        """Runs the thin client of the image quality indicator exec plugin"""
-        self.executeImageQualityIndicatorActionCluster(self.strPluginExecImageQualityIndicatorNameThinClient, \
-                                                       self.doSuccessActionCluster, \
-                                                       self.runExecPluginImageQualityIndicators)
-        
-        
-    def runExecPluginImageQualityIndicators(self, _edPlugin=None):
-        """Runs the image quality indicator exec plugin locally"""
-        self.executeImageQualityIndicatorActionCluster(self.strPluginExecImageQualityIndicatorName, \
-                                                       self.doSuccessActionCluster, \
-                                                       self.doFailureActionCluster)
-
-        
-    def executeImageQualityIndicatorActionCluster(self, _strPluginName, _pyMethodSuccess, _pyMethodFailure):
-        # List containing instances of all the exeuction plugins
-        self.listPluginExecImageQualityIndicator = []
-        listXSDataImage = self.getDataInput().getImage()
-        for (iIndex, xsDataImage) in enumerate(listXSDataImage):
-            edPluginPluginExecImageQualityIndicator = self.loadPlugin(_strPluginName, \
-                                                                      "%s-%d" % (_strPluginName, iIndex + 1))
-            xsDataInputDistlSignalStrength = XSDataInputDistlSignalStrength()
-            xsDataInputDistlSignalStrength.setReferenceImage(xsDataImage)
-            edPluginPluginExecImageQualityIndicator.setDataInput(xsDataInputDistlSignalStrength)
-            self.listPluginExecImageQualityIndicator.append(edPluginPluginExecImageQualityIndicator)
-        # Prepare the action cluster
-        edActionCluster = EDActionCluster()
-        for edPluginPluginExecImageQualityIndicator in self.listPluginExecImageQualityIndicator:
-            edActionCluster.addAction(edPluginPluginExecImageQualityIndicator)
-        edActionCluster.connectSUCCESS(_pyMethodSuccess)
-        edActionCluster.connectFAILURE(_pyMethodFailure)
-        # Launch the cluster
-        edActionCluster.executeSynchronous()
-
-
-    def doFailureWaitMultiFile(self, _edPlugin):
-        """
-        The file has not appeared on the disk 
-        """
-        self.DEBUG("EDPluginControlImageQualityIndicatorsv1_0.doFailureWaitMultiFile")
-        self.retrieveFailureMessages(_edPlugin, "EDPluginControlReadImageHeaderv10.doFailureWaitMultiFile")
-        self.ERROR("Timeout when waiting for images")
-        self.setFailure()
-
-    
-    def doSuccessActionCluster(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.doSuccessActionCluster")
-        for edPluginPluginExecImageQualityIndicator in self.listPluginExecImageQualityIndicator:
-            xsDataImageQualityIndicators = edPluginPluginExecImageQualityIndicator.getDataOutput().getImageQualityIndicators()
-            self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal()))
-
-
-    def doFailureActionCluster(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.doFailureGeneratePrediction")
-        #self.retrieveFailureMessages(_edPlugin, "EDPluginControlImageQualityIndicatorsv1_2.doFailureExecPlugin")
-
 
     def generateExecutiveSummary(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.generateExecutiveSummary")
         self.addErrorWarningMessagesToExecutiveSummary("Image quality indicator plugin execution failure! Error messages: ")
-        self.addExecutiveSummaryLine("Summary of image quality indicators with %s :" % self.strPluginExecImageQualityIndicatorName)
+        self.addExecutiveSummaryLine("Summary of image quality indicators with %s :" % self.strPluginName)
         for edPluginPluginExecImageQualityIndicator in self.listPluginExecImageQualityIndicator:
             self.addExecutiveSummaryLine("")
             if edPluginPluginExecImageQualityIndicator is not None:
