@@ -1,5 +1,11 @@
 <?xml version="1.0" ?>
 <XSDataInputTRExafs>
+	<nexusFileName>
+		<value>pdfoil.nxs</value>
+	</nexusFileName>
+	<instrument>
+		<value>ID24</value>
+	</instrument>
     <pathToEnergyArray>
     	<path>
     		<value>${EDNA_TESTIMAGES}/XSDataArrayEnergy_pdfoil.xml</value>

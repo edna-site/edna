@@ -4,9 +4,12 @@ import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataFile
 import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataString
 
 
 complex type XSDataInputTRExafs extends XSDataInput {
+	nexusFileName : XSDataString
+	instrument : XSDataString
 	energy : XSDataArray optional
 	dataArray : XSDataArray optional
 	pathToEnergyArray: XSDataFile optional

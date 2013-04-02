@@ -14,7 +14,7 @@ complex type XSDataEnergyCalibration {
 }
 
 complex type XSDataInputReadDataID24 extends XSDataInput {
-	inputFile : XSDataFile
+	inputFile : XSDataFile []
 	energyCalibration : XSDataEnergyCalibration
 }
 

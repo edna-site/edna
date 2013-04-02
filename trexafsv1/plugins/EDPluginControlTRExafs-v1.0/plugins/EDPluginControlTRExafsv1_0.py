@@ -35,6 +35,7 @@ from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 from EDUtilsArray import EDUtilsArray
 from EDUtilsFile import EDUtilsFile
+from EDUtilsParallel import EDUtilsParallel
 
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataInteger
@@ -65,6 +66,7 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         self.strWriteNexusFilePluginName = "EDPluginExecWriteNexusFilev1_0"
         self.edPluginExecJesf = None
         self.listEdPluginExecJesf = []
+
         
     def process(self, _edObject = None):
         EDPluginControl.process(self)
@@ -98,8 +100,8 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         listEdPluginExecJesf = self.launchJesfPlugins(numpyDataArray, numpyEnergyCalibrationArray)
         # Create nexus file
         xsDataInputWriteNexusFile = XSDataInputWriteNexusFile()
-        xsDataInputWriteNexusFile.instrument = XSDataString("ID24")
-        xsDataInputWriteNexusFile.outputFileName = XSDataString("id24_test.nxs")
+        xsDataInputWriteNexusFile.instrument = self.dataInput.instrument
+        xsDataInputWriteNexusFile.outputFileName = self.dataInput.nexusFileName
         # Raw data
         xsDataNexusArrayGroupRawData = self.createNexusGroup(
             _numpyDataArray = numpyDataArray, 

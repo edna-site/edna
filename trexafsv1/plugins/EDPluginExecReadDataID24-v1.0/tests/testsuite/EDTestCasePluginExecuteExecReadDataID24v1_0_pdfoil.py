@@ -42,13 +42,8 @@ class EDTestCasePluginExecuteExecReadDataID24v1_0(EDTestCasePluginExecute):
     
     def __init__(self, _strTestName = None):
         EDTestCasePluginExecute.__init__(self, "EDPluginExecReadDataID24v1_0")
-#        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
-#                                               "XSConfiguration_<basePluginName>.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
                                            "XSDataInputReadDataID24_pdfoil.xml"))
-#                                           "XSDataInputReadDataID24_debora.xml"))
-#        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
-#                                                     "XSDataResultJesfv1_0_reference.xml"))
                  
     def preProcess(self):
         """
