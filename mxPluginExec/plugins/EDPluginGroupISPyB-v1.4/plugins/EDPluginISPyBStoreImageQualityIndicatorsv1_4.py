@@ -38,7 +38,7 @@ from EDFactoryPluginStatic import EDFactoryPluginStatic
 EDFactoryPluginStatic.loadModule("EDInstallSudsv0_4")
 from suds.client import Client
 from suds.transport.http import HttpAuthenticated
-from suds.sax.date import Date
+from suds.sax.date import DateTime
 
 from XSDataCommon import XSDataInteger
 
@@ -93,6 +93,31 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_4(EDPluginExec):
         else:
             self.iAutoProcProgramId = int(strAutoProcProgramId)
                 
+    def getXSValue(self, _xsData, _oDefaultValue=None, _iMaxStringLength=255):
+        if _xsData is None:
+            oReturnValue = _oDefaultValue
+        else:
+            oReturnValue = _xsData.value
+        if type(oReturnValue) == bool:
+            if oReturnValue:
+                oReturnValue = "1"
+            else:
+                oReturnValue = "0"
+        elif (type(oReturnValue) == str) or (type(oReturnValue) == unicode):
+            if len(oReturnValue) > _iMaxStringLength:
+                strOldString = oReturnValue
+                oReturnValue = oReturnValue[0:_iMaxStringLength-3]+"..."
+                self.warning("String truncated to %d characters for ISPyB! Original string: %s" % (_iMaxStringLength, strOldString))
+                self.warning("Truncated string: %s" % oReturnValue)
+        return oReturnValue
+
+    
+    def getDateValue(self, _strValue, _strFormat, _oDefaultValue):
+        if _strValue is None or _strValue == "None":
+            oReturnValue = _oDefaultValue
+        else:
+            oReturnValue = DateTime(datetime.datetime.strptime(_strValue, _strFormat))
+        return oReturnValue
 
     def process(self, _edObject=None):
         """
@@ -104,33 +129,23 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_4(EDPluginExec):
         # First get the image ID
         xsDataImageQualityIndicators = self.getDataInput().getImageQualityIndicators()
         strPathToImage = xsDataImageQualityIndicators.getImage().getPath().getValue()
-        strDirName = os.path.dirname(strPathToImage)+os.sep
+        strDirName = os.path.dirname(strPathToImage)
         strFileName = os.path.basename(strPathToImage)
-        if strDirName.endswith(os.sep):
-            strDirName = strDirName[:-1]
-        self.DEBUG("Looking for ISPyB imageId for dir %s name %s" % (strDirName, strFileName))
-        httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
-        clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
-        iDataCollectionId = clientToolsForCollectionWebService.service.findDataCollectionFromFileLocationAndFileName(
-                strDirName, \
-                strFileName, \
-                )
-        
         httpAuthenticatedToolsForAutoprocessingWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
         clientToolsForAutoprocessingWebService = Client(self.strToolsForAutoprocessingWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService)
-        iImageId = 0
-        iAutoProcProgramId = self.iAutoProcProgramId
-        iSpotTotal = xsDataImageQualityIndicators.getSpotTotal().getValue()
-        iInResTotal = xsDataImageQualityIndicators.getInResTotal().getValue()
-        iGoodBraggCandidates = xsDataImageQualityIndicators.getGoodBraggCandidates().getValue()
-        iIceRings = xsDataImageQualityIndicators.getIceRings().getValue()
-        fMethod1res = xsDataImageQualityIndicators.getMethod1Res().getValue()
-        fMethod2res = xsDataImageQualityIndicators.getMethod2Res().getValue()
-        fMaxUnitCell = xsDataImageQualityIndicators.getMaxUnitCell().getValue()
-        fPctSaturationTop50peaks = xsDataImageQualityIndicators.getPctSaturationTop50Peaks().getValue()
-        iInResolutionOvrlSpots = xsDataImageQualityIndicators.getInResolutionOvrlSpots().getValue()
-        fBinPopCutOffMethod2res = xsDataImageQualityIndicators.getBinPopCutOffMethod2Res().getValue()
-        providedDate = Date(datetime.datetime.now())
+        iImageId                       = 0
+        iAutoProcProgramId             = self.iAutoProcProgramId
+        iSpotTotal                     = self.getXSValue(xsDataImageQualityIndicators.spotTotal)
+        iInResTotal                    = self.getXSValue(xsDataImageQualityIndicators.inResTotal)
+        iGoodBraggCandidates           = self.getXSValue(xsDataImageQualityIndicators.goodBraggCandidates)
+        iIceRings                      = self.getXSValue(xsDataImageQualityIndicators.iceRings)
+        fMethod1res                    = self.getXSValue(xsDataImageQualityIndicators.method1Res)
+        fMethod2res                    = self.getXSValue(xsDataImageQualityIndicators.method2Res)
+        fMaxUnitCell                   = self.getXSValue(xsDataImageQualityIndicators.maxUnitCell)
+        fPctSaturationTop50peaks       = self.getXSValue(xsDataImageQualityIndicators.pctSaturationTop50Peaks)
+        iInResolutionOvrlSpots         = self.getXSValue(xsDataImageQualityIndicators.inResolutionOvrlSpots)
+        fBinPopCutOffMethod2res        = self.getXSValue(xsDataImageQualityIndicators.binPopCutOffMethod2Res)
+        providedDate                   = DateTime(datetime.datetime.now())
         self.iImageQualityIndicatorsId = clientToolsForAutoprocessingWebService.service.storeImageQualityIndicators(
                 strDirName, \
                 strFileName, \
@@ -147,7 +162,7 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_4(EDPluginExec):
                 iInResolutionOvrlSpots, \
                 fBinPopCutOffMethod2res, \
                 providedDate)
-        self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_4.process: imageQualityIndicatorsId=%d" % self.iImageQualityIndicatorsId)
+        self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_4.process: imageQualityIndicatorsId=%r" % self.iImageQualityIndicatorsId)
             
              
 

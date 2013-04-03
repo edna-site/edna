@@ -70,6 +70,3 @@ class EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_4(EDTestCasePlug
         self.addTestMethod(self.testExecute)
 
 
-if __name__ == '__main__':
-    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_4 = EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_4("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_4")
-    edTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_4.execute()
