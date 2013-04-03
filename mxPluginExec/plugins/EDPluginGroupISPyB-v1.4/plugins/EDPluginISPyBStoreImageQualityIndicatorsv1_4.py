@@ -145,23 +145,25 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_4(EDPluginExec):
         fPctSaturationTop50peaks       = self.getXSValue(xsDataImageQualityIndicators.pctSaturationTop50Peaks)
         iInResolutionOvrlSpots         = self.getXSValue(xsDataImageQualityIndicators.inResolutionOvrlSpots)
         fBinPopCutOffMethod2res        = self.getXSValue(xsDataImageQualityIndicators.binPopCutOffMethod2Res)
+        fTotalIntegratedSignal         = self.getXSValue(xsDataImageQualityIndicators.totalIntegratedSignal)
+
         providedDate                   = DateTime(datetime.datetime.now())
-        self.iImageQualityIndicatorsId = clientToolsForAutoprocessingWebService.service.storeImageQualityIndicators(
-                strDirName, \
-                strFileName, \
-                iImageId, \
-                iAutoProcProgramId, \
-                iSpotTotal, \
-                iInResTotal, \
-                iGoodBraggCandidates, \
-                iIceRings, \
-                fMethod1res, \
-                fMethod2res, \
-                fMaxUnitCell, \
-                fPctSaturationTop50peaks, \
-                iInResolutionOvrlSpots, \
-                fBinPopCutOffMethod2res, \
-                providedDate)
+        self.iImageQualityIndicatorsId = clientToolsForAutoprocessingWebService.service.storeOrUpdateImageQualityIndicatorsForFileName(
+                fileLocation = strDirName, \
+                fileName = strFileName, \
+                imageId = iImageId, \
+                autoProcProgramId = iAutoProcProgramId, \
+                spotTotal = iSpotTotal, \
+                inResTotal = iInResTotal, \
+                goodBraggCandidates = iGoodBraggCandidates, \
+                icdRings = iIceRings, \
+                methodRes1 = fMethod1res, \
+                methodRes2 = fMethod2res, \
+                maxUnitCell = fMaxUnitCell, \
+                pctSaturationTop50Peaks = fPctSaturationTop50peaks, \
+                inResolutionOvrlSpots = iInResolutionOvrlSpots, \
+                binPopCutOffMethod2Res = fBinPopCutOffMethod2res, \
+                totalIntegratedSignal = fTotalIntegratedSignal)
         self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_4.process: imageQualityIndicatorsId=%r" % self.iImageQualityIndicatorsId)
             
              
