@@ -32,9 +32,6 @@ from EDVerbose import EDVerbose
 
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
-from EDConfiguration import EDConfiguration
-from EDActionCluster import EDActionCluster
-
 
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInteger
@@ -71,7 +68,6 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         self.bUseThinClient = False
         
 
-
     def checkParameters(self):
         """
         Checks the mandatory parameters
@@ -96,10 +92,10 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         # Loop through all the incoming reference images
         listXSDataImage = self.dataInput.image
         xsDataInputWaitFile = XSDataInputWaitFile()
-        iIndex = 0
         self.xsDataResultControlImageQualityIndicators = XSDataResultControlImageQualityIndicators()
         for xsDataImage in listXSDataImage:
             if not os.path.exists(xsDataImage.path.value):
+                self.screen("Waiting for image %s" % xsDataImage.path.value)
                 self.edPluginWaitFile = self.loadPlugin(self.strPluginWaitFileName)
                 xsDataInputWaitFile.expectedFile = XSDataFile(xsDataImage.path)
                 xsDataInputWaitFile.setExpectedSize(XSDataInteger(100000))
@@ -107,19 +103,25 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
                 self.DEBUG("Wait file timeOut set to %f" % self.fWaitFileTimeOut)
                 self.edPluginWaitFile.setDataInput(xsDataInputWaitFile)
                 self.edPluginWaitFile.executeSynchronous()
-            if self.bUseThinClient:
-                strPluginName = self.strPluginNameThinClient
+            if not os.path.exists(xsDataImage.path.value):
+                strError = "Time-out while waiting for image %s" % xsDataImage.path.value
+                self.error(strError)
+                self.addErrorMessage(strError)
+                self.setFailure()
             else:
-                strPluginName = self.strPluginName
-            edPluginPluginExecImageQualityIndicator = self.loadPlugin(strPluginName, \
-                                                                      "%s-%d" % (strPluginName, iIndex + 1))
-            xsDataInputDistlSignalStrength = XSDataInputDistlSignalStrength()
-            xsDataInputDistlSignalStrength.setReferenceImage(xsDataImage)
-            edPluginPluginExecImageQualityIndicator.setDataInput(xsDataInputDistlSignalStrength)
-            edPluginPluginExecImageQualityIndicator.executeSynchronous()
-            xsDataImageQualityIndicators = edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
-            self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal()))
-            iIndex += 1
+                if self.bUseThinClient:
+                    strPluginName = self.strPluginNameThinClient
+                else:
+                    strPluginName = self.strPluginName
+                edPluginPluginExecImageQualityIndicator = self.loadPlugin(strPluginName)
+                xsDataInputDistlSignalStrength = XSDataInputDistlSignalStrength()
+                xsDataInputDistlSignalStrength.setReferenceImage(xsDataImage)
+                edPluginPluginExecImageQualityIndicator.setDataInput(xsDataInputDistlSignalStrength)
+                edPluginPluginExecImageQualityIndicator.executeSynchronous()
+                xsDataImageQualityIndicators = \
+                    edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
+                self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(
+                    XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal()))
         
 
     def finallyProcess(self, _edPlugin= None):
