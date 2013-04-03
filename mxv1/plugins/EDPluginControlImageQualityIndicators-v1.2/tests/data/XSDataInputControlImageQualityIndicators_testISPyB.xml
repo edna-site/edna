@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSDataInputControlImageQualityIndicators>
+	<image>
+	  <date>
+	      <value>Tue Mar 19 09:16:32 2013</value>
+	  </date>
+	  <number>
+	      <value>1</value>
+	  </number>
+	  <path>
+	    <value>/data/id14eh4/inhouse/opid144/20130319/RAW_DATA/1-2/discrete-1/opid144_1_0001.img</value>
+	  </path>
+	</image>
+</XSDataInputControlImageQualityIndicators>
