@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<XSConfiguration> 
+	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginControlImageQualityIndicatorsv1_1</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>waitFileTimeOut</name>
+					<value>5</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+	</XSPluginList> 
+</XSConfiguration> 

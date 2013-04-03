@@ -40,3 +40,5 @@ pip-log.txt
 /.XSDataDictionaryModule.xml
 /.project
 /.pydevproject
+/.settings
+/tests/data/images

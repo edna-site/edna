@@ -43,8 +43,8 @@ class EDTestSuitePluginExecuteMXESRF(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginExecuteISPyBv1_4")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteSTACv2_0")
         self.addTestSuiteFromName("EDTestSuitePluginPlotGlev1_0")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteXdsBurnStrategy")
         self.addTestCaseFromName("EDTestCasePluginExecuteDistlSignalStrengthThinClientv1_1")
-        self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy")
         # From mxv1:
         self.addTestSuiteFromName("EDTestSuitePluginUnitMXv1")
         self.addTestCaseFromName("EDTestCaseEDHandlerISPyBv1_4")
@@ -52,6 +52,7 @@ class EDTestSuitePluginExecuteMXESRF(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXv1")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlCharacterisationv1_3")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteControlImageQualityIndicatorsv1_2")
         # From mxv2:
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXv2")
 
