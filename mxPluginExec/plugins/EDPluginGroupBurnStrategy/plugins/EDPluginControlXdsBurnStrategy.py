@@ -73,11 +73,15 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         self.DEBUG("EDPluginControlXdsBest.preProcess")
         self._xds = self.loadPlugin('EDPluginExecMinimalXds')
 
+        # save the root path (where the initial xds.inp is) for later use
+        self.root_dir = os.path.abspath(os.path.dirname(self.dataInput.input_file.value))
+
         # let's begin by copying the input file to avoid clobbering it
         shutil.copy(self.dataInput.input_file.value,
                     self.getWorkingDirectory())
         real_input_file = os.path.join(self.getWorkingDirectory(),
                                        os.path.basename(self.dataInput.input_file.value))
+
         # update the keywords
         parsed_config = parse_xds_file(real_input_file)
         di = self.dataInput
@@ -99,7 +103,24 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         basedir = os.path.abspath(os.path.dirname(self.dataInput.input_file.value))
         newpath = os.path.join(basedir, imtemplate)
         parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = newpath
+        # Make the [XY]-GEO_CORR paths absolute
+        if 'X-GEO_CORR=' in parsed_config:
+            xgeo = os.path.abspath(os.path.join(self.root_dir,
+                                                parsed_config['X-GEO_CORR='][0]))
+            if not os.path.exists(xgeo):
+                self.DEBUG('geometry file {0} does not exist, removing'.format(xgeo))
+                del parsed_config['X-GEO_CORR=']
+            else:
+                parsed_config['X-GEO_CORR='] = xgeo
 
+        if 'Y-GEO_CORR=' in parsed_config:
+            ygeo = os.path.abspath(os.path.join(self.root_dir,
+                                                parsed_config['Y-GEO_CORR='][0]))
+            if not os.path.exists(ygeo):
+                self.DEBUG('geometry file {0} does not exist, removing'.format(ygeo))
+                del parsed_config['Y-GEO_CORR=']
+            else:
+                parsed_config['Y-GEO_CORR='] = ygeo
         dump_xds_file(real_input_file, parsed_config)
 
         # create the input data model for the XDS plugin
