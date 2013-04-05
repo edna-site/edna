@@ -476,7 +476,7 @@ complex type XSDataResultISPyBStoreScreening extends XSDataResult {
 complex type XSDataISPyBWorkflow extends XSData {
 	comments: XSDataString optional
 	logFilePath: XSDataString optional
-	recordTimeStamp: XSDataString
+	recordTimeStamp: XSDataString optional
 	resultFilePath: XSDataString optional
 	status: XSDataString 
 	value1: XSDataString optional
@@ -511,4 +511,13 @@ complex type XSDataInputISPyBGroupDataCollections extends XSDataInput {
 
 complex type XSDataResultISPyBGroupDataCollections extends XSDataResult {
 	dataCollectionId: XSDataInteger [] optional
+}
+
+complex type XSDataInputISPyBUpdateWorkflowStatus extends XSDataInput {
+	workflowId: XSDataInteger
+	newStatus: XSDataString
+}
+
+complex type XSDataResultISPyBUpdateWorkflowStatus extends XSDataResult {
+	workflowId: XSDataInteger
 }

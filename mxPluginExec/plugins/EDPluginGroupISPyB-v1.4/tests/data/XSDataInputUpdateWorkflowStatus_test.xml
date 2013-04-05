@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<XSDataInputStoreWorkflow>
+	<workflowId>
+		<value>1</value>
+	</workflowId>
+	<newStatus>
+		<value>Testing new status</value>
+	</newStatus>
+</XSDataInputStoreWorkflow>
