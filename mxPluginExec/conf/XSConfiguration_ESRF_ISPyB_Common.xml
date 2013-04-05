@@ -102,5 +102,56 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
+		<XSPluginItem> 
+			<name>EDPluginISPyBStoreWorkflowv1_4</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>	
+		<XSPluginItem> 
+			<name>EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>	
+		<XSPluginItem> 
+			<name>EDPluginISPyBGroupDataCollectionsv1_4</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 	</XSPluginList>
 </XSConfiguration> 
