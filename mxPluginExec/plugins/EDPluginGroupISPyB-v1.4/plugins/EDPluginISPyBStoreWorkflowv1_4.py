@@ -129,7 +129,7 @@ class EDPluginISPyBStoreWorkflowv1_4(EDPluginExec):
         workflow3VO.workflowId      = self.getXSValue(xsDataWorkflow.workflowId)
         workflow3VO.workflowTitle   = self.getXSValue(xsDataWorkflow.workflowTitle)
         workflow3VO.workflowType    = self.getXSValue(xsDataWorkflow.workflowType)
-        print workflow3VO
+#        print workflow3VO
         self.iWorkflowId = clientToolsForCollectionWebService.service.storeOrUpdateWorkflow(workflow3VO)
         self.DEBUG("EDPluginISPyBStoreWorkflowv1_4.process: WorkflowId=%d" % self.iWorkflowId)
             
