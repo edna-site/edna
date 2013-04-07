@@ -135,13 +135,13 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
                         xsDataImageQualityIndicators.marshal())
                 xsDataInputStoreImageQualityIndicators.imageQualityIndicators = \
                     xsDataISPyBImageQualityIndicators
-                print xsDataInputStoreImageQualityIndicators.marshal()
+                #print xsDataInputStoreImageQualityIndicators.marshal()
                 edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
                 edPluginISPyB.dataInput = xsDataInputStoreImageQualityIndicators
                 edPluginISPyB.executeSynchronous()
-                xsDataResultISPyB = edPluginISPyB.dataOutput
-                if xsDataResultISPyB is not None:
-                    print xsDataResultISPyB.marshal()
+#                xsDataResultISPyB = edPluginISPyB.dataOutput
+#                if xsDataResultISPyB is not None:
+                    #print xsDataResultISPyB.marshal()
         
 
     def finallyProcess(self, _edPlugin= None):
