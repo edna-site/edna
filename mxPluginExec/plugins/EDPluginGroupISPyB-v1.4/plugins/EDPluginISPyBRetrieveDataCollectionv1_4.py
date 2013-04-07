@@ -60,6 +60,7 @@ class EDPluginISPyBRetrieveDataCollectionv1_4(EDPluginExec):
         self.strUserName = None
         self.strPassWord = None
         self.strToolsForCollectionWebServiceWsdl = None
+        self.collectParameters = None
 
     def configure(self):
         """
