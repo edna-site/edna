@@ -98,6 +98,7 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         listXSDataImage = self.dataInput.image
         xsDataInputWaitFile = XSDataInputWaitFile()
         self.xsDataResultControlImageQualityIndicators = XSDataResultControlImageQualityIndicators()
+        listPlugin = []
         for xsDataImage in listXSDataImage:
             if not os.path.exists(xsDataImage.path.value):
                 self.screen("Waiting for image %s" % xsDataImage.path.value)
@@ -119,26 +120,29 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
                 else:
                     strPluginName = self.strPluginName
                 edPluginPluginExecImageQualityIndicator = self.loadPlugin(strPluginName)
+                listPlugin.append(edPluginPluginExecImageQualityIndicator)
                 self.listPluginExecImageQualityIndicator.append(edPluginPluginExecImageQualityIndicator)
                 xsDataInputDistlSignalStrength = XSDataInputDistlSignalStrength()
                 xsDataInputDistlSignalStrength.setReferenceImage(xsDataImage)
                 edPluginPluginExecImageQualityIndicator.setDataInput(xsDataInputDistlSignalStrength)
-                edPluginPluginExecImageQualityIndicator.executeSynchronous()
-                xsDataImageQualityIndicators = \
-                    edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
-                self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(
-                    XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal()))
-                # Upload to ISPyB
-                xsDataInputStoreImageQualityIndicators = XSDataInputStoreImageQualityIndicators()
-                xsDataISPyBImageQualityIndicators = \
-                    XSDataISPyBImageQualityIndicators.parseString(
-                        xsDataImageQualityIndicators.marshal())
-                xsDataInputStoreImageQualityIndicators.imageQualityIndicators = \
-                    xsDataISPyBImageQualityIndicators
-                #print xsDataInputStoreImageQualityIndicators.marshal()
-                edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
-                edPluginISPyB.dataInput = xsDataInputStoreImageQualityIndicators
-                edPluginISPyB.executeSynchronous()
+                edPluginPluginExecImageQualityIndicator.execute()
+        for edPluginPluginExecImageQualityIndicator in listPlugin:
+            edPluginPluginExecImageQualityIndicator.synchronize()
+            xsDataImageQualityIndicators = \
+                edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
+            self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(
+                XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal()))
+            # Upload to ISPyB
+            xsDataInputStoreImageQualityIndicators = XSDataInputStoreImageQualityIndicators()
+            xsDataISPyBImageQualityIndicators = \
+                XSDataISPyBImageQualityIndicators.parseString(
+                    xsDataImageQualityIndicators.marshal())
+            xsDataInputStoreImageQualityIndicators.imageQualityIndicators = \
+                xsDataISPyBImageQualityIndicators
+            #print xsDataInputStoreImageQualityIndicators.marshal()
+            edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
+            edPluginISPyB.dataInput = xsDataInputStoreImageQualityIndicators
+            edPluginISPyB.executeSynchronous()
 #                xsDataResultISPyB = edPluginISPyB.dataOutput
 #                if xsDataResultISPyB is not None:
                     #print xsDataResultISPyB.marshal()
