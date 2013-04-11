@@ -40,8 +40,7 @@ from XSDataWriteNexusFilev1_0 import XSDataResultWriteNexusFile
 
 class EDPluginExecWriteNexusFilev1_0( EDPluginExec ):
     """
-    This plugin reads an ascii file of DEXAFS data produced by the ID24 beamline at the ESRF.
-    The energy calibration coefficients must be given as input. 
+    This plugin writes a Nexus (HDF 5) file with the data given as input.
     """
 
     def __init__( self ):
