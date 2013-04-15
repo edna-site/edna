@@ -30,7 +30,8 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
-from EDVerbose import EDVerbose
+import os
+
 from EDPluginControlIndexingv10 import EDPluginControlIndexingv10
 
 from XSDataCommon import XSDataBoolean
@@ -47,13 +48,26 @@ class EDPluginControlIndexingLabelitv10(EDPluginControlIndexingv10):
         self.setPluginIndexingExecutiveSummaryName("Labelit")
         self.setGeneratePredictionImage(True)
         self.__listXSDataImageReference = None
+        self.strCONF_SYMOP_HOME = "symopHome"
+        self.strSymopLib = None
+
+    def configure(self):
+        EDPluginControlIndexingv10.configure(self)
+        self.DEBUG("EDPluginControlIndexingLabelitv10.configure")
+        strSymopHome = self.config.get(self.strCONF_SYMOP_HOME)
+        if strSymopHome is None:
+            strWarningMessage = "EDPluginControlIndexingLabelitv10: Configuration parameter '%s' not found" % self.strCONF_SYMOP_HOME
+            self.warning(strWarningMessage)
+            self.addWarningMessage(strWarningMessage)
+        else:
+            self.strSymopLib = os.path.join(strSymopHome, "symop.lib")
 
     def setDataInput(self, _dataInput):
         """
         Sets the Plugin input data. A part from using the EDPlugin.setDataInput method,
         this method also converts the input data to the Labelit specific data model indexing input.
         """
-        EDVerbose.DEBUG("EDPluginControlIndexingLabelitv10.setDataInput")
+        self.DEBUG("EDPluginControlIndexingLabelitv10.setDataInput")
         EDPluginControlIndexingv10.setDataInput(self, _dataInput)
         # Convert the input data to MOSFLM specific input data
         from EDHandlerXSDataLabelitv1_1 import EDHandlerXSDataLabelitv1_1
@@ -79,12 +93,13 @@ class EDPluginControlIndexingLabelitv10(EDPluginControlIndexingv10):
         """
         This method retrieves the indexing results from a MOSFLM indexing plugin.
         """
-        EDVerbose.DEBUG("EDPluginControlIndexingLabelitv10.getDataIndexingResultFromMOSFLM")
+        self.DEBUG("EDPluginControlIndexingLabelitv10.getDataIndexingResultFromMOSFLM")
         xsDataLabelitScreenOutput = _edPlugin.getDataOutput("labelitScreenOutput")[0]
         xsDataLabelitMosflmScriptsOutput = _edPlugin.getDataOutput("mosflmScriptsOutput")[0]
         from EDHandlerXSDataLabelitv1_1 import EDHandlerXSDataLabelitv1_1
         xsDataIndexingResult = EDHandlerXSDataLabelitv1_1.generateXSDataIndexingResult(xsDataLabelitScreenOutput,
                                                                                        xsDataLabelitMosflmScriptsOutput,
-                                                                                       self.getExperimentalCondition())
+                                                                                       self.getExperimentalCondition(),
+                                                                                       self.strSymopLib)
         xsDataIndexingResult.setLabelitIndexing(XSDataBoolean(True))
         return xsDataIndexingResult

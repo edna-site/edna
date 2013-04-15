@@ -129,3 +129,16 @@ class EDUtilsSymmetry:
             if (len(listItems) > 3 and listItems[_iIndex] == _strSpaceGroupIdOrName):
                 strNumOperators = listItems[1]
         return strNumOperators
+
+    @staticmethod
+    def getITNumberFromSpaceGroupName(_strSpaceGroupName, _strSymmetryTableFileName):
+        """
+        """
+        iITNumber = None
+        symmetryTableFile = open(_strSymmetryTableFileName)
+        for strLine in symmetryTableFile.xreadlines():
+            listItems = strLine.split(" ")
+            if len(listItems) > 3:
+                if _strSpaceGroupName == listItems[3]:
+                    iITNumber = int(listItems[0])
+        return iITNumber

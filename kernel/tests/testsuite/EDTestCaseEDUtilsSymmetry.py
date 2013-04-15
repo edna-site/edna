@@ -30,6 +30,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "LGPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import os
 
 from EDTestCase      import EDTestCase
 from EDUtilsSymmetry import EDUtilsSymmetry
@@ -48,10 +49,27 @@ class EDTestCaseEDUtilsSymmetry(EDTestCase):
         for iIndex in range(len(listBravaisLattice)):
             EDAssert.equal(listSpaceGroup[ iIndex ], EDUtilsSymmetry.getMinimumSymmetrySpaceGroupFromBravaisLattice(listBravaisLattice[ iIndex]))
 
+    def testGetITNumberFromSpaceGroupName(self):
+        strSymopFileName = "/opt/pxsoft/ccp4/v6.3.0/linux-x86_64/lib/data/symop.lib"
+        if os.path.exists(strSymopFileName):
+            EDAssert.equal(1, EDUtilsSymmetry.getITNumberFromSpaceGroupName("P1", strSymopFileName), "ITNumber from space group P1")
+            EDAssert.equal(3, EDUtilsSymmetry.getITNumberFromSpaceGroupName("P2", strSymopFileName), "ITNumber from space group P2")
+            EDAssert.equal(5, EDUtilsSymmetry.getITNumberFromSpaceGroupName("C2", strSymopFileName), "ITNumber from space group C2")
+            EDAssert.equal(16, EDUtilsSymmetry.getITNumberFromSpaceGroupName("P222", strSymopFileName), "ITNumber from space group P222")
+            EDAssert.equal(21, EDUtilsSymmetry.getITNumberFromSpaceGroupName("C222", strSymopFileName), "ITNumber from space group C222")
+            EDAssert.equal(22, EDUtilsSymmetry.getITNumberFromSpaceGroupName("F222", strSymopFileName), "ITNumber from space group F222")
+            EDAssert.equal(75, EDUtilsSymmetry.getITNumberFromSpaceGroupName("P4", strSymopFileName), "ITNumber from space group P4")
+            EDAssert.equal(79, EDUtilsSymmetry.getITNumberFromSpaceGroupName("I4", strSymopFileName), "ITNumber from space group I4")
+            EDAssert.equal(143, EDUtilsSymmetry.getITNumberFromSpaceGroupName("P3", strSymopFileName), "ITNumber from space group P3")
+            EDAssert.equal(146, EDUtilsSymmetry.getITNumberFromSpaceGroupName("H3", strSymopFileName), "ITNumber from space group H3")
+            EDAssert.equal(195, EDUtilsSymmetry.getITNumberFromSpaceGroupName("P23", strSymopFileName), "ITNumber from space group P23")
+            EDAssert.equal(196, EDUtilsSymmetry.getITNumberFromSpaceGroupName("F23", strSymopFileName), "ITNumber from space group F23")
+        
 
 
     def process(self):
         self.addTestMethod(self.testGetMinimumSymmetrySpaceGroupFromBravaisLattice)
+        self.addTestMethod(self.testGetITNumberFromSpaceGroupName)
 
 
 if __name__ == '__main__':

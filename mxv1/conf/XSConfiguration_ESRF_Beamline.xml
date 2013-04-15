@@ -2,6 +2,15 @@
 <XSConfiguration> 
 	<XSPluginList>
 		<XSPluginItem>
+			<name>EDPluginControlIndexingLabelitv10</name>  
+			<XSParamList>
+				<XSParamItem>
+					<name>symopHome</name>
+					<value>/opt/pxsoft/ccp4/v6.2.0/linux/lib/data</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
 			<name>EDPluginControlStrategyv1_2</name>  
 			<XSParamList>
 				<XSParamItem>
