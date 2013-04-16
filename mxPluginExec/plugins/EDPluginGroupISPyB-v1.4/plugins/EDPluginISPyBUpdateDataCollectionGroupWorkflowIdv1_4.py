@@ -122,7 +122,7 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4(EDPluginExec):
                 fileName     = self.getXSValue(xsDataInput.fileName), \
                 workflowId   = self.getXSValue(xsDataInput.workflowId), \
                 )
-        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.process: DataCollectionGroupId=%d" % self.iDataCollectionGroupId)
+        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.process: DataCollectionGroupId=%r" % self.iDataCollectionGroupId)
             
              
 
