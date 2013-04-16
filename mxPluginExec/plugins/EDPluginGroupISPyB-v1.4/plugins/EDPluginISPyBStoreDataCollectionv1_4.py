@@ -97,11 +97,11 @@ class EDPluginISPyBStoreDataCollectionv1_4(EDPluginExec):
             self.bContinue = False
 
 
-    def postProcess(self, _edObject=None):
+    def finallyProcess(self, _edObject=None):
         """
         """
-        EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBStoreDataCollectionv1_4.postProcess")
+        EDPluginExec.finallyProcess(self)
+        self.DEBUG("EDPluginISPyBStoreDataCollectionv1_4.finallyProcess")
         xsDataResultStoreDataCollection = XSDataResultStoreDataCollection()
         if self.iDataCollectionId is not None:
             xsDataResultStoreDataCollection.setDataCollectionId(XSDataInteger(self.iDataCollectionId))

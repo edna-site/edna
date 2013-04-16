@@ -149,9 +149,9 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginExec):
             
 
 
-    def postProcess(self, _edObject=None):
-        EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBStoreAutoProcv1_4.postProcess")
+    def finallyProcess(self, _edObject=None):
+        EDPluginExec.finallyProcess(self)
+        self.DEBUG("EDPluginISPyBStoreAutoProcv1_4.finallyProcess")
         xsDataResultStoreAutoProc = XSDataResultStoreAutoProc()
         if self.iAutoProcId is not None:
             xsDataResultStoreAutoProc.setAutoProcId(XSDataInteger(self.iAutoProcId))

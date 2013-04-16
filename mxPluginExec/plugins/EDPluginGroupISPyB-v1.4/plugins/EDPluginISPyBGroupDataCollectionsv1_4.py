@@ -133,9 +133,9 @@ class EDPluginISPyBGroupDataCollectionsv1_4(EDPluginExec):
 
 
 
-    def postProcess(self, _edObject=None):
-        EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBGroupDataCollectionsv1_4.postProcess")
+    def finallyProcess(self, _edObject=None):
+        EDPluginExec.finallyProcess(self)
+        self.DEBUG("EDPluginISPyBGroupDataCollectionsv1_4.finallyProcess")
         xsDataResultISPyBGroupDataCollections = XSDataResultISPyBGroupDataCollections()
         for dataCollectionId in self.listDataCollectionIds:
             xsDataResultISPyBGroupDataCollections.addDataCollectionId(XSDataInteger(dataCollectionId))

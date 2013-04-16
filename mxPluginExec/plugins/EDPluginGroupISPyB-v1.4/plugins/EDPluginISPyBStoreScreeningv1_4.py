@@ -171,9 +171,9 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             
 
 
-    def postProcess(self, _edObject=None):
-        EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBStoreScreeningv1_4.postProcess")
+    def finallyProcess(self, _edObject=None):
+        EDPluginExec.finallyProcess(self)
+        self.DEBUG("EDPluginISPyBStoreScreeningv1_4.finallyProcess")
         xsDataResultISPyBStoreScreening = XSDataResultISPyBStoreScreening()
         if self.iScreeningId is not None:
             xsDataResultISPyBStoreScreening.screeningId = XSDataInteger(self.iScreeningId)

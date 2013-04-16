@@ -128,9 +128,9 @@ class EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4(EDPluginExec):
 
 
 
-    def postProcess(self, _edObject=None):
-        EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.postProcess")
+    def finallyProcess(self, _edObject=None):
+        EDPluginExec.finallyProcess(self)
+        self.DEBUG("EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4.finallyProcess")
         xsDataResultISPyBUpdateDataCollectionGroupWorkflowId = XSDataResultISPyBUpdateDataCollectionGroupWorkflowId()
         if self.iDataCollectionGroupId is not None:
             xsDataResultISPyBUpdateDataCollectionGroupWorkflowId.dataCollectionGroupId = XSDataInteger(self.iDataCollectionGroupId)

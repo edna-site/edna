@@ -170,9 +170,9 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_4(EDPluginExec):
 
 
 
-    def postProcess(self, _edObject=None):
-        EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_4.postProcess")
+    def finallyProcess(self, _edObject=None):
+        EDPluginExec.finallyProcess(self)
+        self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_4.finallyProcess")
         xsDataResultStoreImageQualityIndicators = XSDataResultStoreImageQualityIndicators()
         if self.iImageQualityIndicatorsId is not None:
             xsDataResultStoreImageQualityIndicators.setImageQualityIndicatorsId(XSDataInteger(self.iImageQualityIndicatorsId))

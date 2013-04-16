@@ -110,9 +110,9 @@ class EDPluginISPyBStoreAutoProcStatusv1_4(EDPluginExec):
                                                                  _iAutoProcIntegrationId = self.iAutoProcIntegrationId, \
                                                                  _iAutoProcStatusId = self.iAutoProcStatusId)
 
-    def postProcess(self, _edObject=None):
-        EDPluginExec.postProcess(self)
-        self.DEBUG("EDPluginISPyBStoreAutoProcStatusv1_4.postProcess")
+    def finallyProcess(self, _edObject=None):
+        EDPluginExec.finallyProcess(self)
+        self.DEBUG("EDPluginISPyBStoreAutoProcStatusv1_4.finallyProcess")
         xsDataResultStoreAutoProcStatus = XSDataResultStoreAutoProcStatus()
         xsDataResultStoreAutoProcStatus.setAutoProcIntegrationId(self.iAutoProcIntegrationId)
         xsDataResultStoreAutoProcStatus.setAutoProcStatusId(self.iAutoProcStatusId)
