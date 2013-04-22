@@ -1037,7 +1037,7 @@ class EDNARunBuilder:
                 penalty_value = -1
             self.__edna_run.indexing_results.addSolution(
                 int(soln.number.value),
-                int(soln.penalty.value),
+                penalty_value,
                 str(crystal.spaceGroup.name.value),
                 float(crystal.cell.length_a.value),
                 float(crystal.cell.length_b.value),
@@ -1069,13 +1069,13 @@ class EDNARunBuilder:
         self.__edna_run.indexing_results.spot_deviation_positional = \
             float(statistics.spotDeviationPositional.value)
         # Dirty fix for labelit indexing...
-        spot_deviation_angular = None
+        spot_deviation_angular = -1.0
         try:
             spot_deviation_angular = float(statistics.spotDeviationAngular.value)
         except Exception:
-            spot_deviation_angular = -1.0
+            pass
         self.__edna_run.indexing_results.spot_deviation_angular = \
-            float(statistics.spotDeviationAngular.value)
+            spot_deviation_angular
         self.__edna_run.indexing_results.beam_shift_x = \
             float(statistics.beamPositionShiftX.value)
         self.__edna_run.indexing_results.beam_shift_y = \
