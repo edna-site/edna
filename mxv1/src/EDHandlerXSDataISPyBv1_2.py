@@ -143,10 +143,12 @@ class EDHandlerXSDataISPyBv1_2:
                     fBeamPositionShiftY = xsDataStatisticsIndexing.getBeamPositionShiftY().getValue()
                     xsDataISPyBScreeningOutput.setBeamShiftX(XSDataDouble(fBeamPositionShiftX))
                     xsDataISPyBScreeningOutput.setBeamShiftY(XSDataDouble(fBeamPositionShiftY))
-                    fSpotDeviationAngular = xsDataStatisticsIndexing.getSpotDeviationAngular().getValue()
-                    fSpotDeviationPositional = xsDataStatisticsIndexing.getSpotDeviationPositional().getValue()
-                    xsDataISPyBScreeningOutput.setSpotDeviationR(XSDataDouble(fSpotDeviationPositional))
-                    xsDataISPyBScreeningOutput.setSpotDeviationTheta(XSDataDouble(fSpotDeviationAngular))
+                    if xsDataStatisticsIndexing.getSpotDeviationAngular() is not None:
+                         fSpotDeviationAngular = xsDataStatisticsIndexing.getSpotDeviationAngular().getValue()
+                         xsDataISPyBScreeningOutput.setSpotDeviationTheta(XSDataDouble(fSpotDeviationAngular))
+                    if xsDataStatisticsIndexing.getSpotDeviationPositional() is not None:
+                         fSpotDeviationPositional = xsDataStatisticsIndexing.getSpotDeviationPositional().getValue()
+                         xsDataISPyBScreeningOutput.setSpotDeviationR(XSDataDouble(fSpotDeviationPositional))
                     if ((xsDataStatisticsIndexing.getSpotsTotal() is not None) and (xsDataStatisticsIndexing.getSpotsUsed is not None)):
                         iSpotsTotal = xsDataStatisticsIndexing.getSpotsTotal().getValue()
                         iSpotsUsed = xsDataStatisticsIndexing.getSpotsUsed().getValue()
