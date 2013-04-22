@@ -218,7 +218,7 @@ class EDPluginControlInterfacev1_2(EDPluginControl):
                         self.fMinExposureTimePerImage = self.xsDataExperimentalCodition.getBeam().getMinExposureTimePerImage().getValue()
             if self.fMinExposureTimePerImage == None and xsDataInputInterface.getDiffractionPlan():
                 if xsDataInputInterface.getDiffractionPlan().getMinExposureTimePerImage() != None:
-                    self.fMinExposureTimePerImage = xsDataInputInterface.getdiffractionPlan().getMinExposureTimePerImage().getValue()
+                    self.fMinExposureTimePerImage = xsDataInputInterface.getDiffractionPlan().getMinExposureTimePerImage().getValue()
 
             if self.xsDataExperimentalCodition != None:
                 if self.xsDataExperimentalCodition.getBeam() != None:
