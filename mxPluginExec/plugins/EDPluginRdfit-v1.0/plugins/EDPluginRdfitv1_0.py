@@ -25,10 +25,14 @@ __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
+import os
+
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDUtilsTable              import EDUtilsTable
 
 from XSDataCommon import XSDataDouble
+from XSDataCommon import XSDataString
+from XSDataCommon import XSDataFile
 
 from XSDataDnaTables import dna_tables
 
@@ -57,6 +61,10 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
     def __init__(self ):
         EDPluginExecProcessScript.__init__(self )
         self.setXSDataInputClass(XSDataInputRdfit)
+        self.strScaleIntensityGleFile = self.getBaseName() + "_scaleIntensity.gle"
+        self.strScaleIntensityPlot = self.strScaleIntensityGleFile.replace(".gle", ".png")
+        self.strBFactorGleFile = self.getBaseName() + "_bFactor.gle "
+        self.strBFactorPlot = self.strBFactorGleFile.replace(".gle", ".png")
 
 
     def checkParameters(self):
@@ -73,6 +81,7 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
         self.DEBUG("EDPluginExecMtz2Variousv1_0.preProcess")
         xsDataInputRdfit = self.getDataInput()
         self.setScriptCommandline(self.generateCommands(xsDataInputRdfit))
+        self.addListCommandPostExecution("gle -device png -resolution 150 %s" % self.strScaleIntensityGleFile)
 
         
         
@@ -85,6 +94,11 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
         EDPluginExecProcessScript.finallyProcess(self)
         self.DEBUG("EDPluginExecMtz2Variousv1_0.finallyProcess")
         xsDataResult = self.getOutputDataFromDNATableFile("rdfit.xml")
+        strScaleIntensityPlotPath = os.path.join(self.getWorkingDirectory(),self.strScaleIntensityPlot)
+        if os.path.exists(strScaleIntensityPlotPath):
+            xsDataResult.scaleIntensityPlot = XSDataFile(XSDataString(strScaleIntensityPlotPath))
+        if os.path.exists(self.strBFactorPlot):
+            xsDataResult.bFactorPlot = XSDataFile(XSDataString(self.strBFactorPlot))
         self.setDataOutput(xsDataResult)
     
     def generateCommands(self, _xsDataInputRdfit):
@@ -109,14 +123,16 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
             if _xsDataInputRdfit.bFactorMtvplotFile is not None:
                 strScriptCommandLine += " -gb " + _xsDataInputRdfit.bFactorMtvplotFile.path.value
             
-            if _xsDataInputRdfit.bFactorGlePlotFile is not None:
-                strScriptCommandLine += " -gr " + _xsDataInputRdfit.bFactorGlePlotFile.path.value
-            
             if _xsDataInputRdfit.bScaleIntensityMtvPlotFile is not None:
-                strScriptCommandLine += " -glb " + _xsDataInputRdfit.bScaleIntensityMtvPlotFile.path.value
+                strScriptCommandLine += " -gr " + _xsDataInputRdfit.bScaleIntensityMtvPlotFile.path.value
             
+            if _xsDataInputRdfit.bFactorGlePlotFile is not None:
+                self.strBFactorGleFile = _xsDataInputRdfit.bFactorGlePlotFile.path.value
+#            strScriptCommandLine += " -glb " + _xsDataInputRdfit.bFactorGlePlotFile.path.value
+                            
             if _xsDataInputRdfit.bScaleIntensityGleFile is not None:
-                strScriptCommandLine += " -glr " + _xsDataInputRdfit.bScaleIntensityGleFile.path.value
+                self.strScaleIntensityGleFile = _xsDataInputRdfit.bScaleIntensityGleFile.path.value
+            strScriptCommandLine += " -glr " + self.strScaleIntensityGleFile
             
             if _xsDataInputRdfit.resultsFile is not None:
                 strScriptCommandLine += " -result " + _xsDataInputRdfit.resultsFile.path.value

@@ -25,5 +25,6 @@ complex type XSDataResultRdfit extends XSDataResult {
 	dose_half_th : XSDataDouble optional
 	dose_half : XSDataDouble optional
 	relative_radiation_sensitivity : XSDataDouble optional
-	
+	scaleIntensityPlot : XSDataFile optional
+	bFactorPlot : XSDataFile optional
 }

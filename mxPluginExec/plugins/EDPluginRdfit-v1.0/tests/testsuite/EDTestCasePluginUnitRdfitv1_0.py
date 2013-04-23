@@ -87,7 +87,7 @@ class EDTestCasePluginUnitRdfitv1_0(EDTestCasePluginUnit):
         edPluginRdfit = self.createPlugin()
         xsDataInputRdfit = self.createTestDataInput()
         strCommandLine = edPluginRdfit.generateCommands(xsDataInputRdfit)
-        strCommandLineReference = " -d 1.xml -dmin 1.000000 -beta 2.000000 -gama 3.000000 -gb 2 -glb 3 -glr 4 -result 5 -xml 6 xds_1.hkl xds_2.hkl xds_3.hkl xds_4.hkl"
+        strCommandLineReference = " -d 1.xml -dmin 1.000000 -beta 2.000000 -gama 3.000000 -gb 2 -gr 3 -glr 4 -result 5 -xml 6 xds_1.hkl xds_2.hkl xds_3.hkl xds_4.hkl"
         EDAssert.equal(strCommandLineReference, strCommandLine, "Command line")
 
 
