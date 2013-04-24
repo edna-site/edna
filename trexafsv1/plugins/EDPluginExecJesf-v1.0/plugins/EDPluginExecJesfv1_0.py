@@ -112,7 +112,7 @@ class EDPluginExecJesfv1_0(EDPluginExecProcessScript):
             # Read fort95
             numpyFort95 = numpy.genfromtxt(os.path.join(strWorkDir,"fort.95"))
             xsDataArrayFort95 = EDUtilsArray.arrayToXSData(numpyFort95)
-            xsDataResultJesf.setFort92(xsDataArrayFort95)
+            xsDataResultJesf.setFort95(xsDataArrayFort95)
             # Read fort96
             numpyFort96 = numpy.genfromtxt(os.path.join(strWorkDir,"fort.96"))
             xsDataArrayFort96 = EDUtilsArray.arrayToXSData(numpyFort96)
