@@ -96,7 +96,7 @@ class EDPluginExecReadDataID24v1_0( EDPluginExec ):
         iNumberOfRows    = 0
         iNumberOfColumns = 0
         iMaxNumberOfRows = 10000
-        iMaxNumberOfColumns = 1000
+        iMaxNumberOfColumns = 10000
         iIndexRow = 0
         # Create numpy array
         dataArray = numpy.ndarray((iMaxNumberOfRows,iMaxNumberOfColumns - 1))
@@ -113,8 +113,9 @@ class EDPluginExecReadDataID24v1_0( EDPluginExec ):
                     iNumberOfRows += 1
                     if iNumberOfColumns == 0:
                         iNumberOfColumns = iColumns
-            except:
-                pass
+            except ValueError as e:
+                self.warning("Cannot convert to float: %s" % strDataLine)
+                self.warning("Error: %r" % e)
         returnArray = dataArray[0:iNumberOfRows-1, 0:iNumberOfColumns-1]
         return returnArray
         
