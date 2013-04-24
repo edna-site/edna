@@ -95,8 +95,8 @@ class EDPluginExecReadDataID24v1_0( EDPluginExec ):
         # Loop through all data lines in order to find data dimensions
         iNumberOfRows    = 0
         iNumberOfColumns = 0
-        iMaxNumberOfRows = 100000
-        iMaxNumberOfColumns = 10000
+        iMaxNumberOfRows = 10000
+        iMaxNumberOfColumns = 1000
         iIndexRow = 0
         # Create numpy array
         dataArray = numpy.ndarray((iMaxNumberOfRows,iMaxNumberOfColumns - 1))
