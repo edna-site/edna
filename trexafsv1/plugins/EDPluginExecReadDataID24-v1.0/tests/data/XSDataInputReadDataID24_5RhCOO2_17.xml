@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<XSDataInputDexafs>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/5RhCOO2_17_log_0</value>
+    </path>
+  </inputFile>
+  <energyCalibration>
+    <a>
+      <value>23100.0</value>
+    </a>
+    <b>
+      <value>0.77198</value>
+    </b>
+  </energyCalibration>
+</XSDataInputDexafs>

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<XSDataInputTRExafs>
+	<nexusFileName>
+		<value>5RhCOO2_17.nxs</value>
+	</nexusFileName>
+	<instrument>
+		<value>ID24</value>
+	</instrument>
+    <pathToEnergyArray>
+    	<path>
+    		<value>${EDNA_TESTIMAGES}/XSDataArrayEnergy_5RhCOO2_17.xml</value>
+    	</path>
+    </pathToEnergyArray>
+    <pathToDataArray>
+    	<path>
+    		<value>${EDNA_TESTIMAGES}/XSDataArrayData_5RhCOO2_17.xml</value>
+    	</path>
+    </pathToDataArray>
+</XSDataInputTRExafs>
