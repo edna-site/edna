@@ -38,7 +38,7 @@ class EDTestSuiteTrexafsPluginExecutev1(EDTestSuite):
 
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginExecuteExecJesfv1_0")
-        self.addTestCaseFromName("EDTestCasePluginExecuteExecReadDataID24v1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteExecReadDataID24v1_0_pdfoil")
         self.addTestCaseFromName("EDTestCasePluginExecuteExecWriteNexusFilev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlTRExafsv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlTRExafsv1_0_debora")

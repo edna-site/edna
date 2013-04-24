@@ -35,7 +35,7 @@ from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
 
-class EDTestCasePluginExecuteExecReadDataID24v1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecReadDataID24v1_0_pdfoil(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin <pluginName>
     """
