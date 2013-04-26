@@ -29,6 +29,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 import os
 
 from EDVerbose import EDVerbose
+from EDUtilsParallel import EDUtilsParallel
 
 from EDPluginControl import EDPluginControl
 from EDFactoryPluginStatic import EDFactoryPluginStatic
@@ -94,6 +95,7 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         """
         EDPluginControl.process(self, _edPlugin)
         EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.process")
+        EDUtilsParallel.initializeNbThread()
         # Loop through all the incoming reference images
         listXSDataImage = self.dataInput.image
         xsDataInputWaitFile = XSDataInputWaitFile()
@@ -142,7 +144,7 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
             #print xsDataInputStoreImageQualityIndicators.marshal()
             edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
             edPluginISPyB.dataInput = xsDataInputStoreImageQualityIndicators
-            edPluginISPyB.executeSynchronous()
+            edPluginISPyB.execute()
 #                xsDataResultISPyB = edPluginISPyB.dataOutput
 #                if xsDataResultISPyB is not None:
                     #print xsDataResultISPyB.marshal()
