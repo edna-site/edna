@@ -25,10 +25,15 @@ __author__="Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-import os
+import os, time
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDUtilsTable              import EDUtilsTable
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+from EDUtilsFile import EDUtilsFile
+
+EDFactoryPluginStatic.loadModule("markupv1_7")
+import markupv1_7
 
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
@@ -65,6 +70,7 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
         self.strScaleIntensityPlot = self.strScaleIntensityGleFile.replace(".gle", ".png")
         self.strBFactorGleFile = self.getBaseName() + "_bFactor.gle "
         self.strBFactorPlot = self.strBFactorGleFile.replace(".gle", ".png")
+        self.strHtmlPath = self.getBaseName() + ".html"
 
 
     def checkParameters(self):
@@ -81,13 +87,14 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
         self.DEBUG("EDPluginExecMtz2Variousv1_0.preProcess")
         xsDataInputRdfit = self.getDataInput()
         self.setScriptCommandline(self.generateCommands(xsDataInputRdfit))
-        self.addListCommandPostExecution("gle -device png -resolution 150 %s" % self.strScaleIntensityGleFile)
+        self.addListCommandPostExecution("gle -device png -resolution 100 %s" % self.strScaleIntensityGleFile)
 
         
         
     def process(self, _edObject = None):
         EDPluginExecProcessScript.process(self)
         self.DEBUG("EDPluginExecMtz2Variousv1_0.process")
+        self.createHtmlPage()
 
         
     def finallyProcess(self, _edObject = None):
@@ -99,6 +106,9 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
             xsDataResult.scaleIntensityPlot = XSDataFile(XSDataString(strScaleIntensityPlotPath))
         if os.path.exists(self.strBFactorPlot):
             xsDataResult.bFactorPlot = XSDataFile(XSDataString(self.strBFactorPlot))
+        strHtmlPath = os.path.join(self.getWorkingDirectory(), self.strHtmlPath)
+        if os.path.exists(strHtmlPath):
+            xsDataResult.htmlPage = XSDataFile(XSDataString(strHtmlPath))
         self.setDataOutput(xsDataResult)
     
     def generateCommands(self, _xsDataInputRdfit):
@@ -177,3 +187,18 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
             relative_radiation_sensitivity = xsDataItemRelative_radiation_sensitivity.getValueOf_()
             xsDataResultRdfit.setRelative_radiation_sensitivity(XSDataDouble(relative_radiation_sensitivity))
         return xsDataResultRdfit
+
+    def createHtmlPage(self):
+        page = markupv1_7.page(mode='loose_html')
+        page.init( title="Burn Strategy Results", 
+                        footer="Generated on %s" % time.asctime())
+        page.div( align_="CENTER")
+        page.h1()
+        page.strong("Burn Strategy  Results")
+        page.h1.close()
+        page.img(src=self.strScaleIntensityPlot, title=self.strScaleIntensityPlot)
+        page.div.close()
+        strHTML = str(page)
+        EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(), self.strHtmlPath), strHTML)
+        
+

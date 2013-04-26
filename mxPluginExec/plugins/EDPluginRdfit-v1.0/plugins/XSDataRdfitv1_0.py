@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Apr 23 09:00::44 2013 by EDGenerateDS.
+# Generated Fri Apr 26 03:16::28 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -489,7 +489,7 @@ class XSDataInputRdfit(XSDataInput):
 
 
 class XSDataResultRdfit(XSDataResult):
-    def __init__(self, status=None, bFactorPlot=None, scaleIntensityPlot=None, relative_radiation_sensitivity=None, dose_half=None, dose_half_th=None, gama=None, beta=None):
+    def __init__(self, status=None, htmlPage=None, bFactorPlot=None, scaleIntensityPlot=None, relative_radiation_sensitivity=None, dose_half=None, dose_half_th=None, gama=None, beta=None):
         XSDataResult.__init__(self, status)
         if beta is None:
             self._beta = None
@@ -539,6 +539,13 @@ class XSDataResultRdfit(XSDataResult):
             self._bFactorPlot = bFactorPlot
         else:
             strMessage = "ERROR! XSDataResultRdfit constructor argument 'bFactorPlot' is not XSDataFile but %s" % self._bFactorPlot.__class__.__name__
+            raise BaseException(strMessage)
+        if htmlPage is None:
+            self._htmlPage = None
+        elif htmlPage.__class__.__name__ == "XSDataFile":
+            self._htmlPage = htmlPage
+        else:
+            strMessage = "ERROR! XSDataResultRdfit constructor argument 'htmlPage' is not XSDataFile but %s" % self._htmlPage.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'beta' attribute
     def getBeta(self): return self._beta
@@ -624,6 +631,18 @@ class XSDataResultRdfit(XSDataResult):
             raise BaseException(strMessage)
     def delBFactorPlot(self): self._bFactorPlot = None
     bFactorPlot = property(getBFactorPlot, setBFactorPlot, delBFactorPlot, "Property for bFactorPlot")
+    # Methods and properties for the 'htmlPage' attribute
+    def getHtmlPage(self): return self._htmlPage
+    def setHtmlPage(self, htmlPage):
+        if htmlPage is None:
+            self._htmlPage = None
+        elif htmlPage.__class__.__name__ == "XSDataFile":
+            self._htmlPage = htmlPage
+        else:
+            strMessage = "ERROR! XSDataResultRdfit.setHtmlPage argument is not XSDataFile but %s" % htmlPage.__class__.__name__
+            raise BaseException(strMessage)
+    def delHtmlPage(self): self._htmlPage = None
+    htmlPage = property(getHtmlPage, setHtmlPage, delHtmlPage, "Property for htmlPage")
     def export(self, outfile, level, name_='XSDataResultRdfit'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -646,6 +665,8 @@ class XSDataResultRdfit(XSDataResult):
             self.scaleIntensityPlot.export(outfile, level, name_='scaleIntensityPlot')
         if self._bFactorPlot is not None:
             self.bFactorPlot.export(outfile, level, name_='bFactorPlot')
+        if self._htmlPage is not None:
+            self.htmlPage.export(outfile, level, name_='htmlPage')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -686,6 +707,11 @@ class XSDataResultRdfit(XSDataResult):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setBFactorPlot(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'htmlPage':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setHtmlPage(obj_)
         XSDataResult.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
