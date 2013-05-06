@@ -3,9 +3,9 @@
 	<AutoProcContainer>
 		<AutoProc>
 			<spaceGroup> P 2 3 </spaceGroup>
-			<refinedCell_a>81</refinedCell_a>
-			<refinedCell_b>82</refinedCell_b>
-			<refinedCell_c>83</refinedCell_c>
+			<refinedCell_a>81.0</refinedCell_a>
+			<refinedCell_b>82.0</refinedCell_b>
+			<refinedCell_c>83.0</refinedCell_c>
 			<refinedCell_alpha>91.0</refinedCell_alpha>
 			<refinedCell_beta>92.0</refinedCell_beta>
 			<refinedCell_gamma>93.0</refinedCell_gamma>

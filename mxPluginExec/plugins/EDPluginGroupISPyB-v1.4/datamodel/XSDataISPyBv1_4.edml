@@ -55,12 +55,12 @@ complex type XSDataResultStoreAutoProc extends XSDataResult {
 complex type AutoProc {
 	autoProcId : integer optional
 	spaceGroup : string
-	refinedCell_a : string
-	refinedCell_b : string
-	refinedCell_c : string
-	refinedCell_alpha : string
-	refinedCell_beta : string
-	refinedCell_gamma : string
+	refinedCell_a : float
+	refinedCell_b : float
+	refinedCell_c : float
+	refinedCell_alpha : float
+	refinedCell_beta : float
+	refinedCell_gamma : float
 }
 
 complex type AutoProcScalingContainer {
