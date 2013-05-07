@@ -29,13 +29,27 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 __date__ = "20130328"
 __status__ = "production"
 
+import os
 
-from EDTestSuite                                  import EDTestSuite
+from EDAssert                            import EDAssert
+from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
-class EDTestSuitePluginExecuteXdsBurnStrategy(EDTestSuite):
+
+class EDTestCasePluginExecuteXdsBurnStrategy_firstFailure(EDTestCasePluginExecute):
+
+
+    def __init__(self, _oalStringTestName=None):
+        EDTestCasePluginExecute.__init__(self, "EDPluginControlXdsBurnStrategy")
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputXdsBurnStrategy_firstFailure.xml"))
+
+
+    def testExecute(self):
+        self.run()
+        # Check that we have result HKL file
+        xsDataOutput = self.getPlugin().dataOutput
+        EDAssert.equal(True, os.path.exists(xsDataOutput.xds_hkl.value), "XDS HKL file is present")
 
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy")
-        self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy_pilatus")
-        self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy_firstFailure")
+        self.addTestMethod(self.testExecute)
+

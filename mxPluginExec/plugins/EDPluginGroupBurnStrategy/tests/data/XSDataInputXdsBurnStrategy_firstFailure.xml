@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<XSDataInputXdsBurnStrategy>
+    <input_file>
+        <value>/data/id23eh1/inhouse/opid231/20130507/PROCESSED_DATA/burn/test4/xds_burn-burntestw7_run3_1/XDS.INP</value>
+    </input_file>
+    <space_group>
+        <value>197</value>
+    </space_group>
+    <unit_cell_a>
+        <value>7.865670e+01</value>
+    </unit_cell_a>
+    <unit_cell_b>
+        <value>7.865670e+01</value>
+    </unit_cell_b>
+    <unit_cell_c>
+        <value>7.865670e+01</value>
+    </unit_cell_c>
+    <unit_cell_alpha>
+        <value>9.000000e+01</value>
+    </unit_cell_alpha>
+    <unit_cell_beta>
+        <value>9.000000e+01</value>
+    </unit_cell_beta>
+    <unit_cell_gamma>
+        <value>9.000000e+01</value>
+    </unit_cell_gamma>
+</XSDataInputXdsBurnStrategy>

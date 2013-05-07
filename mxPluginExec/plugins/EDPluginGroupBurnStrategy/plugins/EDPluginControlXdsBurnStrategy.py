@@ -54,6 +54,8 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         """
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputXdsBurnStrategy)
+        self.parsed_config = {}
+        self.real_input_file = None
 
 
     def checkParameters(self):
@@ -79,11 +81,11 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         # let's begin by copying the input file to avoid clobbering it
         shutil.copy(self.dataInput.input_file.value,
                     self.getWorkingDirectory())
-        real_input_file = os.path.join(self.getWorkingDirectory(),
+        self.real_input_file = os.path.join(self.getWorkingDirectory(),
                                        os.path.basename(self.dataInput.input_file.value))
 
         # update the keywords
-        parsed_config = parse_xds_file(real_input_file)
+        self.parsed_config = parse_xds_file(self.real_input_file)
         di = self.dataInput
         unit_cell_constants = '{0:.2f} {1:.2f} {2:.2f} {3:.2f} {4:.2f} {5:.2f}'.format(
             di.unit_cell_a.value,
@@ -93,39 +95,39 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
             di.unit_cell_beta.value,
             di.unit_cell_gamma.value)
         sg = int(di.space_group.value)
-        parsed_config['UNIT_CELL_CONSTANTS='] = unit_cell_constants
-        parsed_config['SPACE_GROUP_NUMBER='] = sg
+        self.parsed_config['UNIT_CELL_CONSTANTS='] = unit_cell_constants
+        self.parsed_config['SPACE_GROUP_NUMBER='] = sg
 
         # to avoid any problem let's also make the image template
         # absolute as well. The underlying XDS template will take care
         # of creating the links in its dir
-        imtemplate = parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
+        imtemplate = self.parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='][0]
         basedir = os.path.abspath(os.path.dirname(self.dataInput.input_file.value))
         newpath = os.path.join(basedir, imtemplate)
-        parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = newpath
+        self.parsed_config['NAME_TEMPLATE_OF_DATA_FRAMES='] = newpath
         # Make the [XY]-GEO_CORR paths absolute
-        if 'X-GEO_CORR=' in parsed_config:
+        if 'X-GEO_CORR=' in self.parsed_config:
             xgeo = os.path.abspath(os.path.join(self.root_dir,
-                                                parsed_config['X-GEO_CORR='][0]))
+                                                self.parsed_config['X-GEO_CORR='][0]))
             if not os.path.exists(xgeo):
                 self.DEBUG('geometry file {0} does not exist, removing'.format(xgeo))
-                del parsed_config['X-GEO_CORR=']
+                del self.parsed_config['X-GEO_CORR=']
             else:
-                parsed_config['X-GEO_CORR='] = xgeo
+                self.parsed_config['X-GEO_CORR='] = xgeo
 
-        if 'Y-GEO_CORR=' in parsed_config:
+        if 'Y-GEO_CORR=' in self.parsed_config:
             ygeo = os.path.abspath(os.path.join(self.root_dir,
-                                                parsed_config['Y-GEO_CORR='][0]))
+                                                self.parsed_config['Y-GEO_CORR='][0]))
             if not os.path.exists(ygeo):
                 self.DEBUG('geometry file {0} does not exist, removing'.format(ygeo))
-                del parsed_config['Y-GEO_CORR=']
+                del self.parsed_config['Y-GEO_CORR=']
             else:
-                parsed_config['Y-GEO_CORR='] = ygeo
-        dump_xds_file(real_input_file, parsed_config)
+                self.parsed_config['Y-GEO_CORR='] = ygeo
+        dump_xds_file(self.real_input_file, self.parsed_config)
 
         # create the input data model for the XDS plugin
         input_dm = XSDataMinimalXdsIn()
-        input_dm.input_file = XSDataString(real_input_file)
+        input_dm.input_file = XSDataString(self.real_input_file)
         self._xds.dataInput = input_dm
 
 
@@ -133,6 +135,18 @@ class EDPluginControlXdsBurnStrategy(EDPluginControl):
         EDPluginControl.process(self)
         self.DEBUG("EDPluginControlXdsBest.process")
         self._xds.executeSynchronous()
+        expected = os.path.join(self._xds.getWorkingDirectory(), 'XDS_ASCII.HKL')
+        if not os.path.exists(expected):
+            # Try to re-run with JOB = DEFPIX INTEGRATE CORRECT
+            self.parsed_config["JOB="] = "DEFPIX INTEGRATE CORRECT"
+            self._xds2 = self.loadPlugin('EDPluginExecMinimalXds')
+            self._xds2.setWorkingDirectory(self._xds.getWorkingDirectory())
+            dump_xds_file(self.real_input_file, self.parsed_config)
+            input_dm2 = XSDataMinimalXdsIn()
+            input_dm2.input_file = XSDataString(self.real_input_file)
+            self._xds2.dataInput = input_dm2
+            self._xds2.executeSynchronous()
+        
 
 
     def postProcess(self, _edObject = None):
