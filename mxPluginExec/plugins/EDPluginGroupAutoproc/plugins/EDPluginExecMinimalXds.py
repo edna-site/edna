@@ -101,9 +101,10 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         first_image = _template_to_image(file_template, first_image_no)
         real_data_dir = os.path.dirname(os.path.realpath(first_image))
 
-        # create a link to this dir in our dir
-        os.symlink(real_data_dir,
-                   os.path.join(self.getWorkingDirectory(), 'i'))
+        # create a link to this dir in our dir - skip if path exists (i.e. multiple XDS runs)
+        i_path = os.path.join(self.getWorkingDirectory(), 'i')
+        if not os.path.exists(i_path):
+            os.symlink(real_data_dir, i_path)
 
         # and update the config to refer to this dir
         new_template = os.path.join('i', os.path.basename(file_template))
@@ -162,13 +163,15 @@ class EDPluginExecMinimalXds(EDPluginExecProcessScript):
         # For [XY]-GEO_CORR files, link them in the cwd and fix their paths
         if 'X-GEO_CORR=' in parsed_config:
             xgeo = parsed_config['X-GEO_CORR='][0]
-            os.symlink(xgeo,
-                       os.path.join(self.getWorkingDirectory(), os.path.basename(xgeo)))
+            xgeo_path = os.path.join(self.getWorkingDirectory(), os.path.basename(xgeo))
+            if not os.path.exists(xgeo_path):
+                os.symlink(xgeo, xgeo_path)
             parsed_config['X-GEO_CORR='] = os.path.basename(xgeo)
         if 'Y-GEO_CORR=' in parsed_config:
             ygeo = parsed_config['Y-GEO_CORR='][0]
-            os.symlink(ygeo,
-                       os.path.join(self.getWorkingDirectory(), os.path.basename(ygeo)))
+            ygeo_path = os.path.join(self.getWorkingDirectory(), os.path.basename(ygeo))
+            if not os.path.exists(ygeo_path):
+                os.symlink(ygeo, ygeo_path)
             parsed_config['Y-GEO_CORR='] = os.path.basename(ygeo)
 
         # Save back the changes
