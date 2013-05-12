@@ -1383,6 +1383,9 @@ This structure is also defined by its number in the asymmetric unit.</body>
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4jJpsF6uEeCLbdOJisH8kw"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_4jMP0LrPEeK16aBjcieMPA" name="selectedIndexingSolution" type="_60pYEOgGEd-TcNOGyxZYYg" isUnique="false">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DUeoILrQEeK16aBjcieMPA"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_bLJrAD6bEeCf_IsLgRsE1A" name="XSDataInputControlXDSGenerateBackgroundImage">
         <generalization xmi:id="_0B4UAD6bEeCf_IsLgRsE1A">
@@ -1405,6 +1408,10 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_RoxAEF6rEeCbJI_iyix8SQ" name="image" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_ZxzoEOfsEd-TcNOGyxZYYg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_a1z-cF6rEeCbJI_iyix8SQ" value="*"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_Yxv2cLraEeKDqoj-M4cBBA" name="doIndexing" visibility="public" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_mXtQYOZyEd-zkMBEigHSXg"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dSVFsLraEeKDqoj-M4cBBA"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_c0mmYF6rEeCbJI_iyix8SQ" name="XSDataResultControlImageQualityIndicators">

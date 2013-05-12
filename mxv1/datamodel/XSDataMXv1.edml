@@ -37,6 +37,7 @@ package XSDataMXv1 {
 			saturationRangeAverage : XSDataDouble optional
 			saturationRangeMax : XSDataDouble optional
 			saturationRangeMin : XSDataDouble optional
+			selectedIndexingSolution : XSDataIndexingSolutionSelected optional
 			signalRangeAverage : XSDataDouble optional
 			signalRangeMax : XSDataDouble optional
 			signalRangeMin : XSDataDouble optional
@@ -56,6 +57,7 @@ package XSDataMXv1 {
 		}
 
 		complex type XSDataInputControlImageQualityIndicators extends XSDataInput {
+			doIndexing : XSDataBoolean optional
 			image : XSDataImage []
 		}
 

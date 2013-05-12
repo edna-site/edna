@@ -41,6 +41,12 @@ from XSDataCommon import XSDataTime
 from XSDataMXv1 import XSDataImageQualityIndicators
 from XSDataMXv1 import XSDataInputControlImageQualityIndicators
 from XSDataMXv1 import XSDataResultControlImageQualityIndicators
+from XSDataMXv1 import XSDataInputReadImageHeader
+from XSDataMXv1 import XSDataInputSubWedgeAssemble
+from XSDataMXv1 import XSDataCollection
+from XSDataMXv1 import XSDataIndexingInput
+
+from EDHandlerXSDataMOSFLMv10 import EDHandlerXSDataMOSFLMv10
 
 EDFactoryPluginStatic.loadModule("XSDataWaitFilev1_0")
 from XSDataWaitFilev1_0 import XSDataInputWaitFile
@@ -64,6 +70,10 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         self.strPluginName = "EDPluginDistlSignalStrengthv1_1"
         self.strPluginNameThinClient = "EDPluginDistlSignalStrengthThinClientv1_1"
         self.strISPyBPluginName = "EDPluginISPyBStoreImageQualityIndicatorsv1_4"
+        self.strIndexingMOSFLMPluginName = "EDPluginMOSFLMIndexingv10"
+        self.edPluginMOSFLMIndexing = None
+        self.strPluginReadImageHeaderName = "EDPluginControlReadImageHeaderv10"
+        self.edPluginReadImageHeader = None
         self.setXSDataInputClass(XSDataInputControlImageQualityIndicators)
         self.listPluginExecImageQualityIndicator = []
         self.xsDataResultControlImageQualityIndicators = None
@@ -128,10 +138,12 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
                 xsDataInputDistlSignalStrength.setReferenceImage(xsDataImage)
                 edPluginPluginExecImageQualityIndicator.setDataInput(xsDataInputDistlSignalStrength)
                 edPluginPluginExecImageQualityIndicator.execute()
+        listIndexing = []
         for edPluginPluginExecImageQualityIndicator in listPlugin:
             edPluginPluginExecImageQualityIndicator.synchronize()
             xsDataImageQualityIndicators = \
                 edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
+            xsDataImage = xsDataImageQualityIndicators.image
             self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(
                 XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal()))
             # Upload to ISPyB
@@ -145,6 +157,42 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
             edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
             edPluginISPyB.dataInput = xsDataInputStoreImageQualityIndicators
             edPluginISPyB.execute()
+            # Check if we should do indexing:
+            bDoIndexing = False
+            if self.dataInput.doIndexing is not None:
+                if self.dataInput.doIndexing.value:
+                     bDoIndexing = True
+            if bDoIndexing and xsDataImageQualityIndicators.goodBraggCandidates.value > 30:
+                xsDataInputReadImageHeader = XSDataInputReadImageHeader()
+                xsDataInputReadImageHeader.image = XSDataFile(xsDataImage.path)
+                self.edPluginReadImageHeader = self.loadPlugin(self.strPluginReadImageHeaderName)
+                self.edPluginReadImageHeader.dataInput = xsDataInputReadImageHeader
+                self.edPluginReadImageHeader.executeSynchronous()
+                xsDataResultReadImageHeader = self.edPluginReadImageHeader.dataOutput
+                if xsDataResultReadImageHeader is not None:
+                    xsDataSubWedge = xsDataResultReadImageHeader.subWedge
+                    self.xsDataCollection = XSDataCollection()
+                    self.xsDataCollection.addSubWedge(xsDataSubWedge)
+                    xsDataIndexingInput = XSDataIndexingInput()
+                    xsDataIndexingInput.setDataCollection(self.xsDataCollection)
+                    xsDataMOSFLMIndexingInput = EDHandlerXSDataMOSFLMv10.generateXSDataMOSFLMInputIndexing(xsDataIndexingInput)
+                    edPluginMOSFLMIndexing = self.loadPlugin(self.strIndexingMOSFLMPluginName)
+                    listIndexing.append((xsDataImage, edPluginMOSFLMIndexing))
+                    edPluginMOSFLMIndexing.setDataInput(xsDataMOSFLMIndexingInput)
+                    edPluginMOSFLMIndexing.execute()
+        for indexingTuple in listIndexing:
+            image = indexingTuple[0]
+            pluginIndexing = indexingTuple[1]
+            pluginIndexing.synchronize()
+            if not pluginIndexing.isFailure():
+                xsDataMOSFLMOutput = pluginIndexing.dataOutput
+                xsDataIndexingResult = EDHandlerXSDataMOSFLMv10.generateXSDataIndexingResult(xsDataMOSFLMOutput)
+                selectedSolution = xsDataIndexingResult.selectedSolution
+                if selectedSolution is not None:
+                    for xsDataResultControlImageQualityIndicator in self.xsDataResultControlImageQualityIndicators.imageQualityIndicators:
+                        if os.path.basename(xsDataResultControlImageQualityIndicator.image.path.value) == os.path.basename(image.path.value):
+                            xsDataResultControlImageQualityIndicator.selectedIndexingSolution = selectedSolution
+#                print xsDataIndexingResult.marshal()
 #                xsDataResultISPyB = edPluginISPyB.dataOutput
 #                if xsDataResultISPyB is not None:
                     #print xsDataResultISPyB.marshal()

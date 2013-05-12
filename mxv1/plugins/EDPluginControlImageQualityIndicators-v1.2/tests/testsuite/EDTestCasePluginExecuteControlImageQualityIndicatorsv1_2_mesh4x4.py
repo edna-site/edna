@@ -27,15 +27,28 @@ __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-from EDTestSuite import EDTestSuite
+import os
+
+from EDTestCasePluginExecute import EDTestCasePluginExecute
 
 
-class EDTestSuitePluginExecuteControlImageQualityIndicatorsv1_2(EDTestSuite):
+class EDTestCasePluginExecuteControlImageQualityIndicatorsv1_2_mesh4x4(EDTestCasePluginExecute):
+
+
+    def __init__(self, _edStringTestName=None):
+        EDTestCasePluginExecute.__init__(self, "EDPluginControlImageQualityIndicatorsv1_2")
+        self.setRequiredPluginConfiguration("EDPluginDistlSignalStrengthv1_1")
+        self.setConfigurationFile(self.getRefConfigFile())
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputControlImageQualityIndicators_mesh4x4.xml"))
+#        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultControlImageQualityIndicators_mesh4x4.xml"))
+
+
+
+    def testExecute(self):
+        self.run()
 
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlImageQualityIndicatorsv1_2")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlImageQualityIndicatorsv1_2_waitFile")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlImageQualityIndicatorsv1_2_timeOut")
-        self.addTestCaseFromName("EDTestCasePluginExecuteControlImageQualityIndicatorsv1_2_mesh4x4")
+        self.addTestMethod(self.testExecute)
+
 
