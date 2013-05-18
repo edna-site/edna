@@ -82,6 +82,8 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         self.fWaitFileTimeOut = 30 #s
         # Flag for using the thin client
         self.bUseThinClient = True
+        self.listPluginISPyB = []
+        self.listPluginMOSFLM = []
         
 
     def checkParameters(self):
@@ -165,6 +167,7 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
             xsDataISPyBImageQualityIndicators
         #print xsDataInputStoreImageQualityIndicators.marshal()
         edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
+        self.listPluginISPyB.append(edPluginISPyB)
         edPluginISPyB.dataInput = xsDataInputStoreImageQualityIndicators
         edPluginISPyB.execute()
         # Check if we should do indexing:
@@ -187,6 +190,7 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
                 xsDataIndexingInput.setDataCollection(self.xsDataCollection)
                 xsDataMOSFLMIndexingInput = EDHandlerXSDataMOSFLMv10.generateXSDataMOSFLMInputIndexing(xsDataIndexingInput)
                 edPluginMOSFLMIndexing = self.loadPlugin(self.strIndexingMOSFLMPluginName)
+                self.listPluginMOSFLM.append(edPluginMOSFLMIndexing)
                 edPluginMOSFLMIndexing.setDataInput(xsDataMOSFLMIndexingInput)
                 edPluginMOSFLMIndexing.executeSynchronous()
                 if not edPluginMOSFLMIndexing.isFailure():
@@ -205,6 +209,11 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
 
     def finallyProcess(self, _edPlugin= None):
         EDPluginControl.finallyProcess(self, _edPlugin)
+        # Synchronize all plugins
+        for pluginISPyB in self.listPluginISPyB:
+            pluginISPyB.synchronize()
+        for pluginMOSFLM in self.listPluginMOSFLM:
+            pluginMOSFLM.synchronize()
         EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.finallyProcess")
         self.setDataOutput(self.xsDataResultControlImageQualityIndicators)
 
