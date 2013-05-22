@@ -521,3 +521,26 @@ complex type XSDataInputISPyBUpdateWorkflowStatus extends XSDataInput {
 complex type XSDataResultISPyBUpdateWorkflowStatus extends XSDataResult {
 	workflowId: XSDataInteger
 }
+
+complex type XSDataISPyBMotorPosition extends XSData {
+	gridIndexY : XSDataInteger
+	gridIndexZ : XSDataInteger
+	kappa : XSDataDouble
+	omega : XSDataDouble
+	phi : XSDataDouble
+	phiX : XSDataDouble
+	phiY : XSDataDouble
+	phiZ : XSDataDouble
+	sampX : XSDataDouble
+	sampY : XSDataDouble
+}
+
+complex type XSDataInputISPyBSetDataCollectionPosition extends XSDataInput {
+	fileName : XSDataFile
+	startPosition : XSDataISPyBMotorPosition
+	endPosition : XSDataISPyBMotorPosition
+}
+
+complex type XSDataResultISPyBSetDataCollectionPosition extends XSDataResult {
+	dataCollectionId : XSDataInteger
+}
