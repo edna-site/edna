@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInputDexafs>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/RhA1000.txt</value>
+    </path>
+  </inputFile>
+  <nSkipHeader>
+  	<value>1</value>
+  </nSkipHeader>
+</XSDataInputDexafs>

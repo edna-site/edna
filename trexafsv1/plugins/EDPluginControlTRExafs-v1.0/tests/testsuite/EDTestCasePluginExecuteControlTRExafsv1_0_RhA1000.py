@@ -32,38 +32,22 @@ import os
 
 from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
-from EDTestCasePluginExecute             import EDTestCasePluginExecute
+from EDTestCasePluginExecuteControlTRExafsv1_0             import EDTestCasePluginExecuteControlTRExafsv1_0
 
 
-class EDTestCasePluginExecuteExecReadDataBM23v1_0_down(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteControlTRExafsv1_0_RhA1000(EDTestCasePluginExecuteControlTRExafsv1_0):
     """
     Those are all execution tests for the EDNA Exec plugin <pluginName>
     """
     
     def __init__(self, _strTestName = None):
-        EDTestCasePluginExecute.__init__(self, "EDPluginExecReadDataBM23v1_0")
+        EDTestCasePluginExecuteControlTRExafsv1_0.__init__(self, "EDPluginControlTRExafsv1_0")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputReadDataBM23_down.xml"))
+                                           "XSDataInputTRExafs_RhA1000.xml"))
                  
     def preProcess(self):
         """
-        Download reference file
+        Download reference files
         """
-        EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage(["BM23.down"])
-        
-    def testExecute(self):
-        self.run()
-        # Prepare test data for control trexafs plugin
-        xsDataResult = self.getPlugin().dataOutput
-        xsDataArrayEnergy = xsDataResult.energy
-        xsDataArrayEnergy.exportToFile("XSDataArrayEnergy_bm23down.xml")
-        xsDataArrayData = xsDataResult.dataArray
-        xsDataArrayData.exportToFile("XSDataArrayData_bm23down.xml")
-        
-
-    def process(self):
-        self.addTestMethod(self.testExecute)
-
-        
-
+        EDTestCasePluginExecuteControlTRExafsv1_0.preProcess(self)
+        self.loadTestImage(["XSDataArrayEnergy_RhA1000.xml", "XSDataArrayData_RhA1000.xml"])

@@ -4,10 +4,12 @@ import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
 import XSDataCommon.XSDataFile
 import XSDataCommon.XSDataArray
+import XSDataCommon.XSDataInteger
 
 
 complex type XSDataInputReadDataBM23 extends XSDataInput {
 	inputFile : XSDataFile
+	nSkipHeader : XSDataInteger optional
 }
 
 complex type XSDataResultReadDataBM23 extends XSDataResult {

@@ -35,7 +35,7 @@ from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
 
-class EDTestCasePluginExecuteExecReadDataBM23v1_0_down(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteExecReadDataBM23v1_0_RhA1000(EDTestCasePluginExecute):
     """
     Those are all execution tests for the EDNA Exec plugin <pluginName>
     """
@@ -43,7 +43,7 @@ class EDTestCasePluginExecuteExecReadDataBM23v1_0_down(EDTestCasePluginExecute):
     def __init__(self, _strTestName = None):
         EDTestCasePluginExecute.__init__(self, "EDPluginExecReadDataBM23v1_0")
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputReadDataBM23_down.xml"))
+                                           "XSDataInputReadDataBM23_RhA1000.xml"))
                  
     def preProcess(self):
         """
@@ -57,9 +57,9 @@ class EDTestCasePluginExecuteExecReadDataBM23v1_0_down(EDTestCasePluginExecute):
         # Prepare test data for control trexafs plugin
         xsDataResult = self.getPlugin().dataOutput
         xsDataArrayEnergy = xsDataResult.energy
-        xsDataArrayEnergy.exportToFile("XSDataArrayEnergy_bm23down.xml")
+        xsDataArrayEnergy.exportToFile("XSDataArrayEnergy_RhA1000.xml")
         xsDataArrayData = xsDataResult.dataArray
-        xsDataArrayData.exportToFile("XSDataArrayData_bm23down.xml")
+        xsDataArrayData.exportToFile("XSDataArrayData_RhA1000.xml")
         
 
     def process(self):

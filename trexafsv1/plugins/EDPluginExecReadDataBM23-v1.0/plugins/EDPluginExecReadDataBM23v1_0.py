@@ -54,8 +54,11 @@ class EDPluginExecReadDataBM23v1_0( EDPluginExec ):
         self.DEBUG("EDPluginExecReadDataBM23v1_0.process")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
         self.checkMandatoryParameters(self.dataInput.inputFile, "Data Input 'inputFile' is None")
+        iSkipHeaderLines = 0
+        if self.dataInput.nSkipHeader:
+            iSkipHeaderLines = self.dataInput.nSkipHeader.value
         # Load input data
-        numpyDataArray = numpy.genfromtxt(self.dataInput.inputFile.path.value)
+        numpyDataArray = numpy.genfromtxt(self.dataInput.inputFile.path.value, skip_header=iSkipHeaderLines)
         # Create output data
         xsDataResultReadDataBM23 = XSDataResultReadDataBM23()
         xsDataResultReadDataBM23.energy = EDUtilsArray.arrayToXSData(numpyDataArray[:,0])
