@@ -51,6 +51,7 @@ class EDTestSuitePluginExecuteISPyBv1_4(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBGroupDataCollectionsv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBUpdateWorkflowStatusv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBSetDataCollectionPositionv1_4")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBSetDataCollectionPositionv1_4_onePosition")
 
 ##############################################################################
 if __name__ == '__main__':

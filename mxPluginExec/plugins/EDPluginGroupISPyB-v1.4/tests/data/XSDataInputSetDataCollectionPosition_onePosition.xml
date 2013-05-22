@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<XSDataInputSetDataCollectionPosition>
+	<fileName>
+		<path>
+			<value>/data/id23eh2/inhouse/opid232/20130516/RAW_DATA/delete_me/delete_me_1_0010.mccd</value>
+		</path>
+	</fileName>
+	<startPosition>
+		<gridIndexY><value>1</value></gridIndexY>
+		<gridIndexZ><value>2</value></gridIndexZ>
+		<kappa><value>3.0</value></kappa>
+		<omega><value>4.0</value></omega>
+		<phi><value>5.0</value></phi>
+		<phiX><value>6.0</value></phiX>
+		<phiY><value>7.0</value></phiY>
+		<phiZ><value>8.0</value></phiZ>
+		<sampX><value>9.0</value></sampX>
+		<sampY><value>10.0</value></sampY>
+	</startPosition>
+</XSDataInputSetDataCollectionPosition>

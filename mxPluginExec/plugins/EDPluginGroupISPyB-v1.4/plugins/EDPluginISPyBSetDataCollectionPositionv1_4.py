@@ -95,7 +95,10 @@ class EDPluginISPyBSetDataCollectionPositionv1_4(EDPluginExec):
         httpAuthenticatedToolsForCollectionWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
         clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForCollectionWebService)
         startMotorPosition3VO = self.createMotorPosition3VO(clientToolsForCollectionWebService, xsDataStartPosition)
-        endMotorPosition3VO   = self.createMotorPosition3VO(clientToolsForCollectionWebService, xsDataEndPosition)
+        if xsDataEndPosition is not None:
+            endMotorPosition3VO   = self.createMotorPosition3VO(clientToolsForCollectionWebService, xsDataEndPosition)
+        else:
+            endMotorPosition3VO = None
         self.iDataCollectionId = clientToolsForCollectionWebService.service.setDataCollectionPosition(
                                     fileLocation = os.path.dirname(strImagePath), \
                                     fileName = os.path.basename(strImagePath), \
