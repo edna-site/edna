@@ -6,6 +6,7 @@ import XSDataMXv1.XSDataResultCharacterisation
 import XSDataMXv1.XSDataResultStrategy
 import XSDataMXv2.kappa_alignment_response
 import XSDataMXv2.XSDataCollection
+import XSDataMXv2.XSDataResultCharacterisationv2_0
 import XSDataInterfacev1_2.XSDataInputInterface
 import XSDataInterfacev1_2.XSDataResultInterface
 
@@ -23,6 +24,7 @@ complex type XSDataInputInterfacev2_2 extends XSDataInputInterface {
 complex type XSDataResultInterfacev2_2 extends XSDataResultInterface {
 	mxv1ResultCharacterisation : XSDataResultCharacterisation
 	mxv1ResultCharacterisation_Reference : XSDataResultCharacterisation optional
+	mxv2ResultCharacterisation : XSDataResultCharacterisationv2_0 optional
 	mxv2DataCollection : XSDataCollection optional
 	mxv2DataCollection_Reference : XSDataCollection optional
 	suggestedStrategy : XSDataResultStrategy optional

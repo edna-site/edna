@@ -540,6 +540,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
             if self.edPluginControlCharacterisationv2.getDataOutput():
                 xsDataResultInterface.setMxv1ResultCharacterisation(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation())
                 xsDataResultInterface.setMxv1ResultCharacterisation_Reference(self.edPluginControlCharacterisationv2.getDataOutput().getMxv1ResultCharacterisation_Reference())
+                xsDataResultInterface.setMxv2ResultCharacterisation(self.edPluginControlCharacterisationv2.getDataOutput())
                 xsDataResultInterface.setMxv2DataCollection(self.mxv2DataCollection)
                 if self.mxv2DataCollection_Reference:
                     xsDataResultInterface.setMxv2DataCollection_Reference(self.mxv2DataCollection_Reference)
