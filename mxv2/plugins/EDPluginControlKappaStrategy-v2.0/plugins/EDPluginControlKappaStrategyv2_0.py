@@ -34,7 +34,7 @@ from EDUtilsSymmetry                   import EDUtilsSymmetry
 from EDFactoryPluginStatic import EDFactoryPluginStatic
 
 from XSDataCommon                      import XSDataString
-from XSDataCommon                      import XSDataFloat
+from XSDataCommon                      import XSDataDouble
 
 EDFactoryPluginStatic.loadModule("XSDataMXv1")
 from XSDataMXv1                        import XSDataInputStrategy
@@ -508,23 +508,23 @@ class EDPluginControlKappaStrategyv2_0(EDPluginControl):
 
         xsDataAtom = XSDataAtom()
         xsDataAtom.setSymbol(XSDataString("S"))
-        xsDataAtom.setNumberOf(XSDataFloat(iNumberOfSulfurAtom))
+        xsDataAtom.setNumberOf(XSDataDouble(iNumberOfSulfurAtom))
         xsDataAtomicComposition = XSDataAtomicComposition()
         xsDataAtomicComposition.addAtom(xsDataAtom)
 
         xsDataChain = XSDataChain()
         xsDataChain.setType(XSDataString("protein"))
-        xsDataChain.setNumberOfMonomers(XSDataFloat(round(fNumberOfMonomersPerAsymmetricUnit)))
-        xsDataChain.setNumberOfCopies(XSDataFloat(1))
+        xsDataChain.setNumberOfMonomers(XSDataDouble(round(fNumberOfMonomersPerAsymmetricUnit)))
+        xsDataChain.setNumberOfCopies(XSDataDouble(1))
         xsDataChain.setHeavyAtoms(xsDataAtomicComposition)
 
         xsDataStructure = XSDataStructure()
         xsDataStructure.addChain(xsDataChain)
-        xsDataStructure.setNumberOfCopiesInAsymmetricUnit(XSDataFloat(1))
+        xsDataStructure.setNumberOfCopiesInAsymmetricUnit(XSDataDouble(1))
 
         xsDataAtomSolvent = XSDataAtom()
         xsDataAtomSolvent.setSymbol(XSDataString("S"))
-        xsDataAtomSolvent.setConcentration(XSDataFloat(self.fAverageSulfurConcentration))
+        xsDataAtomSolvent.setConcentration(XSDataDouble(self.fAverageSulfurConcentration))
         xsDataAtomicCompositionSolvent = XSDataAtomicComposition()
         xsDataAtomicCompositionSolvent.addAtom(xsDataAtomSolvent)
         xsDataSolvent = XSDataSolvent()
@@ -558,7 +558,7 @@ class EDPluginControlKappaStrategyv2_0(EDPluginControl):
                     iNumberOfSulfurAtom = int(round(chain.getNumberOfMonomers().getValue() * 0.05))
                     xsDataSulfurAtom = XSDataAtom()
                     xsDataSulfurAtom.setSymbol(XSDataString("S"))
-                    xsDataSulfurAtom.setNumberOf(XSDataFloat(iNumberOfSulfurAtom))
+                    xsDataSulfurAtom.setNumberOf(XSDataDouble(iNumberOfSulfurAtom))
                     xsDataAtomicCompositionHeavyAtoms.addAtom(xsDataSulfurAtom)
                     chain.setHeavyAtoms(xsDataAtomicCompositionHeavyAtoms)
 
