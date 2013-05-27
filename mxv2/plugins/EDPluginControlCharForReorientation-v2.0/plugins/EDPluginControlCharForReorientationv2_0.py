@@ -192,7 +192,7 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
             dc = self.mxv2DataCollection
             omega = dc.getXSSubWedge()[0].getXSRotationalGoniostatSetting().getBaseaxissetting()
             [kappa, phi] = dc.getXSSubWedge()[0].getXSRotationalGoniostatSetting().getAxissetting()
-            self.suggestedStrategy=EDHandlerXSDataMXv1v1_0.copyStrategyToNewOrientation(xsDataResultStrategy,'%.2f'%omega.getValue(),'%.2f'%kappa.getValue(),'%.2f'%phi.getValue())
+            self.suggestedStrategy=EDHandlerXSDataMXv1v1_0.copyStrategyToNewOrientation(xsDataResultStrategy,'%.2f'%omega.getValue(),'%.2f'%kappa.getValue(),'%.2f'%phi.getValue(), "NO_POSSIBLE_ORIENTATIONS")
     
     def doStrategyFailure(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.doStrategyFailure")
