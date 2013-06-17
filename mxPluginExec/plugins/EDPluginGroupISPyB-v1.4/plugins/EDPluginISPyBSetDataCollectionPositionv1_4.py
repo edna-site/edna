@@ -104,7 +104,7 @@ class EDPluginISPyBSetDataCollectionPositionv1_4(EDPluginExec):
                                     fileName = os.path.basename(strImagePath), \
                                     startPosition = startMotorPosition3VO, \
                                     endPosition = endMotorPosition3VO)
-        self.DEBUG("EDPluginISPyBSetDataCollectionPositionv1_4.process: DataCollectionId=%d" % self.iDataCollectionId)
+        self.DEBUG("EDPluginISPyBSetDataCollectionPositionv1_4.process: DataCollectionId=%r" % self.iDataCollectionId)
             
              
 
