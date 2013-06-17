@@ -1,3 +1,4 @@
+# coding: utf8
 #
 #    Project: mxPluginExec
 #             http://www.edna-site.org
@@ -112,7 +113,9 @@ class EDPluginSTACOrientationv2_0(EDPluginSTACv2_0):
         method for reading back the specific output
         """
         self.xsKappaAlignmentRequest = kappa_alignment_request()
-        self.xsKappaAlignmentRequest = kappa_alignment_request.parseFile(os.path.join(self.getWorkingDirectory(), "DNA_kappa_alignment_request"))
+        strXml = EDUtilsFile.readFile(os.path.join(self.getWorkingDirectory(), "DNA_kappa_alignment_request"))
+        strXml = strXml.replace("°", " degrees")
+        self.xsKappaAlignmentRequest = kappa_alignment_request.parseString(strXml)
         return self.xsKappaAlignmentRequest
 
 
