@@ -28,7 +28,8 @@ __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-import numpy, os
+import numpy, os, scipy.ndimage, pprint
+from numpy.linalg import solve
 
 from EDPluginExec import EDPluginExec
 from EDUtilsFile import EDUtilsFile
@@ -38,6 +39,7 @@ from EDFactoryPluginStatic import EDFactoryPluginStatic
 from XSDataCalibrateEnergyv1_0 import XSDataInputCalibrateEnergy
 from XSDataCalibrateEnergyv1_0 import XSDataResultCalibrateEnergy
 
+ODD_SIGN = 1.0
 
 class EDPluginExecCalibrateEnergyv1_0( EDPluginExec ):
     """
@@ -58,25 +60,32 @@ class EDPluginExecCalibrateEnergyv1_0( EDPluginExec ):
         self.checkMandatoryParameters(self.dataInput.elementName, "Data Input 'energyuCalibration' is None")
         # Load calibration data
         calibratedData = self.loadCalibratedData(self.dataInput.elementName.value)
-        # Normalize
+#        # Normalize
         minData = numpy.min(calibratedData[:,1])
         maxData = numpy.max(calibratedData[:,1])
-        print minData, maxData
         calibratedData[:,1] = (calibratedData[:,1] - minData) / (maxData - minData)
+        peaksCalibrationX = self.findLocalMaxima(calibratedData[:,1])
         from pylab import *
-        plot(calibratedData[:,0], calibratedData[:,1])
+        plot(calibratedData[:,1])
+        plot(peaksCalibrationX, calibratedData[peaksCalibrationX,1], "ro" )
         # Load input data
         xsDataFile = self.dataInput.inputFile
         numpyDataArray = numpy.genfromtxt(xsDataFile.path.value, skip_header=1)
-        # Normalize
+#        # Normalize
         minData = numpy.min(numpyDataArray[:,1])
         maxData = numpy.max(numpyDataArray[:,1])
-        print minData, maxData
         numpyDataArray[:,1] = (numpyDataArray[:,1] - minData) / (maxData - minData)
-        
-        calibrationPoly = numpy.poly1d([0.001, 23.65])
-        print calibrationPoly(numpyDataArray[:,0])
-        plot(calibrationPoly(numpyDataArray[:,0]), numpyDataArray[:,1])
+        peaksDataX = self.findLocalMaxima(numpyDataArray[:,1])
+        from pylab import *
+        # Fit data points
+        polyFit = numpy.polyfit(peaksDataX, peaksCalibrationX, 1)
+        print peaksCalibrationX
+        print peaksDataX
+        print polyFit
+        poly = numpy.poly1d(polyFit)
+        print poly(peaksDataX)
+        plot(poly(numpyDataArray[:,0]), numpyDataArray[:,1])
+        plot(poly(peaksDataX), numpyDataArray[peaksDataX,1], "ro" )        
         show()
             
     
@@ -110,8 +119,36 @@ class EDPluginExecCalibrateEnergyv1_0( EDPluginExec ):
                 
                 
                 
-                 
-        
-    
 
- 
+    
+    def findLocalMaxima(self, data):
+        # From http://stackoverflow.com/questions/9111711/get-coordinates-of-local-maxima-in-2d-array-above-certain-value
+        neighborhood_size = 10
+        threshold = 0.015
+        
+       
+        data_max = scipy.ndimage.filters.maximum_filter(data, neighborhood_size)
+        maxima = (data == data_max)
+        data_min = scipy.ndimage.filters.minimum_filter(data, neighborhood_size)
+        diff = ((data_max - data_min) > threshold)
+        maxima[diff == 0] = 0
+        
+        labeled, num_objects = scipy.ndimage.label(maxima)
+        slices = scipy.ndimage.find_objects(labeled)
+#        print("slices: %s" % pprint.pformat(slices))
+        x = []
+        for slice in slices:
+            dx = slice[0]
+            x_center = (dx.start + dx.stop - 1)/2
+            x.append(x_center)
+#        print("data:")
+#        print(pprint.pformat(data))
+#        print("x: %s" % pprint.pformat(x))
+        # Return the three strongest peaks
+        peaks = [[posX, data[posX]] for posX in x]
+        peaksSorted = sorted(peaks, key=lambda peak: peak[1], reverse=True)
+        if len(peaksSorted) > 2:
+            peaksSorted = peaksSorted[0:2]
+        print(peaksSorted)
+        return [peak[0] for peak in peaksSorted]
+             
