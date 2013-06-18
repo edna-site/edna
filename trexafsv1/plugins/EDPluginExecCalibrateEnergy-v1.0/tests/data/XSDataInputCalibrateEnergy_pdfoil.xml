@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInputCalibrateEnergy>
+  <inputFile>
+    <path>
+      <value>${EDNA_TESTIMAGES}/Pdfoil_sequence_10_log_0</value>
+    </path>
+  </inputFile>
+  <elementName>
+  	<value>pd</value>
+  </elementName>
+</XSDataInputCalibrateEnergy>

@@ -1,0 +1,23 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+
+complex type XSDataEnergyCalibration {
+	a : XSDataDouble
+	b : XSDataDouble
+	c : XSDataDouble optional
+	d : XSDataDouble optional
+}
+
+complex type XSDataInputCalibrateEnergy extends XSDataInput {
+	elementName : XSDataString
+	inputFile : XSDataFile
+}
+
+complex type XSDataResultCalibrateEnergy extends XSDataResult {
+	energyCalibration : XSDataEnergyCalibration
+}
