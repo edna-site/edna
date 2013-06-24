@@ -124,8 +124,6 @@ class EDPluginISPyBStoreWorkflowv1_4(EDPluginExec):
         workflow3VO.recordTimeStamp = self.getDateValue(xsDataWorkflow.recordTimeStamp, "%a %b %d %H:%M:%S %Y", DateTime(datetime.datetime.now()))
         workflow3VO.resultFilePath  = self.getXSValue(xsDataWorkflow.resultFilePath)
         workflow3VO.status          = self.getXSValue(xsDataWorkflow.status)
-        workflow3VO.value1          = self.getXSValue(xsDataWorkflow.value1)
-        workflow3VO.value2          = self.getXSValue(xsDataWorkflow.value2)
         workflow3VO.workflowId      = self.getXSValue(xsDataWorkflow.workflowId)
         workflow3VO.workflowTitle   = self.getXSValue(xsDataWorkflow.workflowTitle)
         workflow3VO.workflowType    = self.getXSValue(xsDataWorkflow.workflowType)

@@ -479,8 +479,6 @@ complex type XSDataISPyBWorkflow extends XSData {
 	recordTimeStamp: XSDataString optional
 	resultFilePath: XSDataString optional
 	status: XSDataString 
-	value1: XSDataString optional
-	value2: XSDataString optional
 	workflowId: XSDataInteger optional
 	workflowTitle: XSDataString optional
 	workflowType: XSDataString optional

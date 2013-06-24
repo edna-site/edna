@@ -13,12 +13,6 @@
 		<status>
 			<value>Test status</value>
 		</status>
-		<value1>
-			<value>-1.0</value>
-		</value1>
-		<value2>
-			<value>1.0</value>
-		</value2>
 		<workflowTitle>
 			<value>Test workflow</value>
 		</workflowTitle>
