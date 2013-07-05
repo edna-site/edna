@@ -542,3 +542,17 @@ complex type XSDataInputISPyBSetDataCollectionPosition extends XSDataInput {
 complex type XSDataResultISPyBSetDataCollectionPosition extends XSDataResult {
 	dataCollectionId : XSDataInteger
 }
+
+complex type XSDataInputISPyBDataCollectionPosition extends XSData {
+	fileName : XSDataFile
+	startPosition : XSDataISPyBSamplePosition
+	endPosition : XSDataISPyBSamplePosition
+}
+
+complex type XSDataInputISPyBSetDataCollectionsPositions extends XSDataInput {
+	dataCollectionPosition : XSDataInputISPyBDataCollectionPosition []
+}
+
+complex type XSDataResultISPyBSetDataCollectionsPositions extends XSDataResult {
+	dataCollectionId : XSDataInteger [] optional
+}
