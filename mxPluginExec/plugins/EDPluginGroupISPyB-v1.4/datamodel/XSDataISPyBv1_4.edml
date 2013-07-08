@@ -43,6 +43,14 @@ complex type XSDataResultStoreImageQualityIndicators extends XSDataResult {
 	imageQualityIndicatorsId : XSDataInteger
 }
 
+complex type XSDataInputStoreListOfImageQualityIndicators extends XSDataInput {
+	imageQualityIndicators : XSDataISPyBImageQualityIndicators []
+}
+
+complex type XSDataResultStoreListOfImageQualityIndicators extends XSDataResult {
+	imageQualityIndicatorsId : XSDataInteger []
+}
+
 complex type XSDataInputStoreAutoProc extends XSDataInput {
 	AutoProcContainer : AutoProcContainer
 } 

@@ -38,6 +38,7 @@ class EDTestSuitePluginExecuteISPyBv1_4(EDTestSuite):
         Adds the plugin execute test cases 
         """
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreImageQualityIndicatorsv1_4")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreListOfImageQualityIndicatorsv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcv1_4_failedProcessing")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreAutoProcStatusv1_4")

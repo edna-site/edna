@@ -102,6 +102,31 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreListOfImageQualityIndicatorsv1_4</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>${ISPyB_user}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>${ISPyB_pass}</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForCollectionWebService?wsdl</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForAutoprocessingWebServiceWsdl</name>
+					<value>http://ispyb.esrf.fr:8080/ispyb-ejb3/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>autoProcProgramId</name>
+					<value>1</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 		<XSPluginItem> 
 			<name>EDPluginISPyBStoreWorkflowv1_4</name>  
 			<XSParamList>
