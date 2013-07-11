@@ -150,7 +150,8 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         xsDataInputStoreListOfImageQualityIndicators = XSDataInputStoreListOfImageQualityIndicators()
         for edPluginPluginExecImageQualityIndicator in listPlugin:
             edPluginPluginExecImageQualityIndicator.synchronize()
-            xsDataImageQualityIndicators = edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
+            xsDataImageQualityIndicators = XSDataImageQualityIndicators.parseString( \
+                                             edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators.marshal())
             self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(xsDataImageQualityIndicators)
             xsDataISPyBImageQualityIndicators = \
                 XSDataISPyBImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal())
