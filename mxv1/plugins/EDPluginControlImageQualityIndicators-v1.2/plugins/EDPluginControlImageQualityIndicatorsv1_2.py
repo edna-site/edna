@@ -56,7 +56,7 @@ from XSDataLabelitv1_1 import XSDataInputDistlSignalStrength
 
 EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
 from XSDataISPyBv1_4 import XSDataISPyBImageQualityIndicators
-from XSDataISPyBv1_4 import XSDataInputStoreImageQualityIndicators
+from XSDataISPyBv1_4 import XSDataInputStoreListOfImageQualityIndicators
 
 
 class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
@@ -69,7 +69,7 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         self.strPluginWaitFileName = "EDPluginWaitFile"
         self.strPluginName = "EDPluginDistlSignalStrengthv1_1"
         self.strPluginNameThinClient = "EDPluginDistlSignalStrengthThinClientv1_1"
-        self.strISPyBPluginName = "EDPluginISPyBStoreImageQualityIndicatorsv1_4"
+        self.strISPyBPluginName = "EDPluginISPyBStoreListOfImageQualityIndicatorsv1_4"
         self.strIndexingMOSFLMPluginName = "EDPluginMOSFLMIndexingv10"
         self.edPluginMOSFLMIndexing = None
         self.strPluginReadImageHeaderName = "EDPluginControlReadImageHeaderv10"
@@ -82,7 +82,7 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
         self.fWaitFileTimeOut = 30 #s
         # Flag for using the thin client
         self.bUseThinClient = True
-        self.listPluginISPyB = []
+        self.edPluginISPyB = None
         self.listPluginMOSFLM = []
         
 
@@ -145,12 +145,20 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
                 xsDataInputDistlSignalStrength.setReferenceImage(xsDataImage)
                 edPluginPluginExecImageQualityIndicator.setDataInput(xsDataInputDistlSignalStrength)
                 edPluginPluginExecImageQualityIndicator.execute()
-                edPluginPluginExecImageQualityIndicator.connectSUCCESS(self.doSuccessImageQualityIndicators)
-#                edPluginPluginExecImageQualityIndicator.connectFAILURE(self.doFailureImageQualityIndicators)
         listIndexing = []
-        # Synchronize all image quality indicator plugins
+        # Synchronize all image quality indicator plugins and upload to ISPyB
+        xsDataInputStoreListOfImageQualityIndicators = XSDataInputStoreListOfImageQualityIndicators()
         for edPluginPluginExecImageQualityIndicator in listPlugin:
             edPluginPluginExecImageQualityIndicator.synchronize()
+            xsDataImageQualityIndicators = edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
+            self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(xsDataImageQualityIndicators)
+            xsDataISPyBImageQualityIndicators = \
+                XSDataISPyBImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal())
+            xsDataInputStoreListOfImageQualityIndicators.addImageQualityIndicators(xsDataISPyBImageQualityIndicators)
+#        print xsDataInputStoreListOfImageQualityIndicators.marshal()
+        self.edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
+        self.edPluginISPyB.dataInput = xsDataInputStoreListOfImageQualityIndicators
+        self.edPluginISPyB.execute()
         #
         if bDoIndexing:
             # Find the 5 most intensive images (TIS):
@@ -192,39 +200,17 @@ class EDPluginControlImageQualityIndicatorsv1_2(EDPluginControl):
 #                if xsDataResultISPyB is not None:
                 #print xsDataResultISPyB.marshal()
             
-    def doSuccessImageQualityIndicators(self, _edPlugin):
-        """
-        Image quality indicators have been calculated, store results in ISPyB
-        """
-        self.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.doSuccessImageQualityIndicators")
-        self.retrieveSuccessMessages(_edPlugin, "EDPluginControlImageQualityIndicatorsv1_2.doSuccessImageQualityIndicators")
-        #
-        edPluginPluginExecImageQualityIndicator =  _edPlugin
-        xsDataImageQualityIndicators = \
-            edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators
-        xsDataImage = xsDataImageQualityIndicators.image
-        xsDataResultControlImageQualityIndicator = XSDataImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal())
-        self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(xsDataResultControlImageQualityIndicator)
-        # Upload to ISPyB
-        xsDataInputStoreImageQualityIndicators = XSDataInputStoreImageQualityIndicators()
-        xsDataISPyBImageQualityIndicators = \
-            XSDataISPyBImageQualityIndicators.parseString(
-                xsDataImageQualityIndicators.marshal())
-        xsDataInputStoreImageQualityIndicators.imageQualityIndicators = \
-            xsDataISPyBImageQualityIndicators
-        #print xsDataInputStoreImageQualityIndicators.marshal()
-        edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
-        self.listPluginISPyB.append(edPluginISPyB)
-        edPluginISPyB.dataInput = xsDataInputStoreImageQualityIndicators
-        edPluginISPyB.execute()
         
 
     def finallyProcess(self, _edPlugin= None):
         EDPluginControl.finallyProcess(self, _edPlugin)
-        # Synchronize all plugins
-        for pluginISPyB in self.listPluginISPyB:
-            pluginISPyB.synchronize()
+        # Synchronize ISPyB plugin
         EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_2.finallyProcess")
+        self.edPluginISPyB.synchronize()
+        listId = []
+        for xsDataInteger in self.edPluginISPyB.dataOutput.imageQualityIndicatorsId:
+            listId.append(xsDataInteger.value)
+        EDVerbose.DEBUG("ISPyB imageQualityIndicatorIds = %r" % listId) 
         self.setDataOutput(self.xsDataResultControlImageQualityIndicators)
 
 
