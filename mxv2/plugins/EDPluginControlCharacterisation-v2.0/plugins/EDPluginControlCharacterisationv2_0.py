@@ -62,8 +62,6 @@ class EDPluginControlCharacterisationv2_0(EDPluginControl):
         self.edPluginIndexing = None
         self.strPluginIntegrationName = "EDPluginControlIntegrationv10"
         self.edPluginIntegration = None
-        self.strPluginStrategyName = "EDPluginControlKappaStrategyv2_0"
-        self.edPluginStrategy = None
         self.xsDataResultCharacterisationv2_0 = None
         self.xsDataResultCharacterisation = None
         self.xsDataInputStrategy = None
@@ -246,16 +244,7 @@ class EDPluginControlCharacterisationv2_0(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlCharacterisationv2_0.configure")
         pluginConfiguration = self.getConfiguration()
 
-        self.strPluginStrategyName = "EDPluginControlKappaStrategyv2_0"
         if(pluginConfiguration != None):
-            strKappaOn = EDConfiguration.getStringParamValue(pluginConfiguration, "KAPPA")
-#            if(strKappaOn == None or strKappaOn != "ON"):
-#                #self.strPluginStrategyName = "EDPluginControlStrategyv10"
-#                #self.strPluginStrategyName = "EDPluginControlStrategyv2_0"
-#                self.strPluginStrategyName = "EDPluginControlKappaStrategyv2_0"
-#            else:
-#                self.strPluginStrategyName = "EDPluginControlKappaStrategyv2_0"
-
             strPointlessOn = EDConfiguration.getStringParamValue(pluginConfiguration, "POINTLESS")
             if(strPointlessOn == None or strPointlessOn != "True"):
                 self.strPluginIntegrationName = "EDPluginControlIntegrationv10"
