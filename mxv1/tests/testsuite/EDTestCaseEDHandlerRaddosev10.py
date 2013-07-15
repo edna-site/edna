@@ -85,6 +85,7 @@ class EDTestCaseEDHandlerRaddosev10(EDTestCase):
         xsDataBeam.setSize(XSDataSize(x=XSDataLength(0.1), y=XSDataLength(0.1)))
         xsDataBeam.setWavelength(XSDataWavelength(2.41))
         xsDataBeam.setFlux(XSDataFlux(1e+12))
+        xsDataBeam.setExposureTime(XSDataTime(0.037))
 
         xsDataSample = XSDataSampleCrystalMM()
         xsDataStructure = XSDataStructure()
@@ -159,12 +160,12 @@ class EDTestCaseEDHandlerRaddosev10(EDTestCase):
         xsDataSample.setCrystal(xsDataCrystal)
 
         iNumSymOperators = 4
-
+        iNumberOfImages = 2
 
         xsDataRaddosev01Input = EDHandlerXSDataRaddosev10().getXSDataRaddoseInput(xsDataBeam,
                                                                                       xsDataSample,
-                                                                                      iNumSymOperators)
-
+                                                                                      iNumSymOperators,
+                                                                                      iNumberOfImages)
 
         xsDataRaddosev01Input.exportToFile(self.strObtainedInputFile2)
         strExpectedInput = EDUtilsTest.readAndParseFile (self.strReferenceInputFile2)

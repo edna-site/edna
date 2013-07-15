@@ -48,7 +48,7 @@ from XSDataRaddosev10    import XSDataAtomicComposition
 class EDHandlerXSDataRaddosev10:
 
 
-    def getXSDataRaddoseInput(self, _xsDataBeam, _xsDataSample, _inumOperators):
+    def getXSDataRaddoseInput(self, _xsDataBeam, _xsDataSample, _inumOperators, _iNumberOfImages):
 
 
 
@@ -59,8 +59,8 @@ class EDHandlerXSDataRaddosev10:
         xsDataRaddoseInput.setBeamFlux(_xsDataBeam.getFlux())
         xsDataRaddoseInput.setBeamWavelength(_xsDataBeam.getWavelength())
 
-        xsDataRaddoseInput.setBeamExposureTime(XSDataTime(1.0))
-        xsDataRaddoseInput.setNumberOfImages(XSDataInteger(1))
+        xsDataRaddoseInput.setBeamExposureTime(_xsDataBeam.getExposureTime())
+        xsDataRaddoseInput.setNumberOfImages(XSDataInteger(_iNumberOfImages))
         xsDataRaddoseInput.setCrystalCell(_xsDataSample.getCrystal().getCell())
 
         xsDataRaddoseInput.setCrystalSize(_xsDataSample.getSize())

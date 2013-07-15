@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Sun May 12 10:04::30 2013 by EDGenerateDS.
+# Generated Thu Jul 11 11:13::47 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -8740,7 +8740,7 @@ class XSDataInputReadImageHeader(XSDataInput):
 
 
 class XSDataInputStrategy(XSDataInput):
-    def __init__(self, configuration=None, xdsBackgroundImage=None, sample=None, experimentalCondition=None, diffractionPlan=None, crystalRefined=None, bestFileContentPar=None, bestFileContentHKL=None, bestFileContentDat=None):
+    def __init__(self, configuration=None, xdsBackgroundImage=None, sample=None, experimentalCondition=None, diffractionPlan=None, dataCollection=None, crystalRefined=None, bestFileContentPar=None, bestFileContentHKL=None, bestFileContentDat=None):
         XSDataInput.__init__(self, configuration)
         if bestFileContentDat is None:
             self._bestFileContentDat = None
@@ -8769,6 +8769,13 @@ class XSDataInputStrategy(XSDataInput):
             self._crystalRefined = crystalRefined
         else:
             strMessage = "ERROR! XSDataInputStrategy constructor argument 'crystalRefined' is not XSDataCrystal but %s" % self._crystalRefined.__class__.__name__
+            raise BaseException(strMessage)
+        if dataCollection is None:
+            self._dataCollection = None
+        elif dataCollection.__class__.__name__ == "XSDataCollection":
+            self._dataCollection = dataCollection
+        else:
+            strMessage = "ERROR! XSDataInputStrategy constructor argument 'dataCollection' is not XSDataCollection but %s" % self._dataCollection.__class__.__name__
             raise BaseException(strMessage)
         if diffractionPlan is None:
             self._diffractionPlan = None
@@ -8867,6 +8874,18 @@ class XSDataInputStrategy(XSDataInput):
             raise BaseException(strMessage)
     def delCrystalRefined(self): self._crystalRefined = None
     crystalRefined = property(getCrystalRefined, setCrystalRefined, delCrystalRefined, "Property for crystalRefined")
+    # Methods and properties for the 'dataCollection' attribute
+    def getDataCollection(self): return self._dataCollection
+    def setDataCollection(self, dataCollection):
+        if dataCollection is None:
+            self._dataCollection = None
+        elif dataCollection.__class__.__name__ == "XSDataCollection":
+            self._dataCollection = dataCollection
+        else:
+            strMessage = "ERROR! XSDataInputStrategy.setDataCollection argument is not XSDataCollection but %s" % dataCollection.__class__.__name__
+            raise BaseException(strMessage)
+    def delDataCollection(self): self._dataCollection = None
+    dataCollection = property(getDataCollection, setDataCollection, delDataCollection, "Property for dataCollection")
     # Methods and properties for the 'diffractionPlan' attribute
     def getDiffractionPlan(self): return self._diffractionPlan
     def setDiffractionPlan(self, diffractionPlan):
@@ -8939,6 +8958,8 @@ class XSDataInputStrategy(XSDataInput):
             self.crystalRefined.export(outfile, level, name_='crystalRefined')
         else:
             warnEmptyAttribute("crystalRefined", "XSDataCrystal")
+        if self._dataCollection is not None:
+            self.dataCollection.export(outfile, level, name_='dataCollection')
         if self._diffractionPlan is not None:
             self.diffractionPlan.export(outfile, level, name_='diffractionPlan')
         else:
@@ -8978,6 +8999,11 @@ class XSDataInputStrategy(XSDataInput):
             obj_ = XSDataCrystal()
             obj_.build(child_)
             self.setCrystalRefined(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'dataCollection':
+            obj_ = XSDataCollection()
+            obj_.build(child_)
+            self.setDataCollection(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'diffractionPlan':
             obj_ = XSDataDiffractionPlan()
