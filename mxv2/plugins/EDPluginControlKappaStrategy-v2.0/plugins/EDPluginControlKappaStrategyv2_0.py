@@ -213,9 +213,10 @@ class EDPluginControlKappaStrategyv2_0(EDPluginControl):
                 xsDataBeam = self.getDataInput("mxv1InputStrategy")[0].getExperimentalCondition().getBeam()
 
                 xsDataRaddoseInput = None
-
+                iNumberOfImages = 1
+                self.warning("Number of images for RADDOSE forced to 1")
                 try:
-                    xsDataRaddoseInput = self.edHandlerXSDataRaddose.getXSDataRaddoseInput(xsDataBeam, self.xsDataSampleCopy, iNumOperators)
+                    xsDataRaddoseInput = self.edHandlerXSDataRaddose.getXSDataRaddoseInput(xsDataBeam, self.xsDataSampleCopy, iNumOperators, iNumberOfImages)
 
                 except Exception, detail:
                     strWarningMessage = EDMessage.WARNING_CANNOT_USE_PLUGIN_03 % ('EDPluginControlKappaStrategyv2_0.preProcess', self.strPluginRaddoseName, "EDHandlerXSDataRaddose : " + detail)
