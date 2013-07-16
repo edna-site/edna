@@ -1,40 +1,40 @@
 <?xml version="1.0" ?>
 <XSDataRaddoseInput>
     <beamExposureTime>
-        <value>1.000000</value>
+        <value>3.700000e-02</value>
     </beamExposureTime>
     <beamFlux>
-        <value>1000000000000.000000</value>
+        <value>1.000000e+12</value>
     </beamFlux>
     <beamSize>
         <x>
-            <value>0.100000</value>
+            <value>1.000000e-01</value>
         </x>
         <y>
-            <value>0.100000</value>
+            <value>1.000000e-01</value>
         </y>
     </beamSize>
     <beamWavelength>
-        <value>2.410000</value>
+        <value>2.410000e+00</value>
     </beamWavelength>
     <crystalCell>
         <angle_alpha>
-            <value>90.000000</value>
+            <value>9.000000e+01</value>
         </angle_alpha>
         <angle_beta>
-            <value>90.000000</value>
+            <value>9.000000e+01</value>
         </angle_beta>
         <angle_gamma>
-            <value>90.000000</value>
+            <value>9.000000e+01</value>
         </angle_gamma>
         <length_a>
-            <value>78.900000</value>
+            <value>7.890000e+01</value>
         </length_a>
         <length_b>
-            <value>95.162000</value>
+            <value>9.516200e+01</value>
         </length_b>
         <length_c>
-            <value>104.087000</value>
+            <value>1.040870e+02</value>
         </length_c>
     </crystalCell>
     <crystalNMON>
@@ -49,7 +49,7 @@
     <crystalPATM>
         <atom>
             <numberOf>
-                <value>8.000000</value>
+                <value>8.000000e+00</value>
             </numberOf>
             <symbol>
                 <value>Se</value>
@@ -57,7 +57,7 @@
         </atom>
         <atom>
             <numberOf>
-                <value>10.000000</value>
+                <value>1.000000e+01</value>
             </numberOf>
             <symbol>
                 <value>S</value>
@@ -65,7 +65,7 @@
         </atom>
         <atom>
             <numberOf>
-                <value>2.000000</value>
+                <value>2.000000e+00</value>
             </numberOf>
             <symbol>
                 <value>Fe</value>
@@ -75,7 +75,7 @@
     <crystalSATM>
         <atom>
             <concentration>
-                <value>1000.000000</value>
+                <value>1.000000e+03</value>
             </concentration>
             <symbol>
                 <value>Na</value>
@@ -83,7 +83,7 @@
         </atom>
         <atom>
             <concentration>
-                <value>1000.000000</value>
+                <value>1.000000e+03</value>
             </concentration>
             <symbol>
                 <value>Cl</value>
@@ -92,16 +92,16 @@
     </crystalSATM>
     <crystalSize>
         <x>
-            <value>0.100000</value>
+            <value>1.000000e-01</value>
         </x>
         <y>
-            <value>0.100000</value>
+            <value>1.000000e-01</value>
         </y>
         <z>
-            <value>0.100000</value>
+            <value>1.000000e-01</value>
         </z>
     </crystalSize>
     <numberOfImages>
-        <value>1</value>
+        <value>2</value>
     </numberOfImages>
 </XSDataRaddoseInput>

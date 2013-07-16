@@ -175,7 +175,7 @@ class EDPluginControlInducedRadiationProcessv10(EDPluginControl):
         xsDataInputStrategy.setBestFileContentDat(xsDataIntegrationSubWedgeResultList[0].getBestfileDat())
         xsDataInputStrategy.setBestFileContentPar(xsDataIntegrationSubWedgeResultList[0].getBestfilePar())
         xsDataInputStrategy.setExperimentalCondition(xsDataIntegrationSubWedgeResultList[0].getExperimentalConditionRefined())
-
+        xsDataInputStrategy.setDataCollection(self.getDataInput().getDataCollection())
         for xsDataIntegrationSubWedgeResult in xsDataIntegrationSubWedgeResultList:
             xsDataInputStrategy.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
 

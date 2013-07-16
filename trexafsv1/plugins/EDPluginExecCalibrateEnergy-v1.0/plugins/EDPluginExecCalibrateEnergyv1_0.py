@@ -29,6 +29,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
 import numpy, os, scipy.ndimage, pprint
+import pylab
 from numpy.linalg import solve
 
 from EDPluginExec import EDPluginExec
@@ -51,6 +52,16 @@ class EDPluginExecCalibrateEnergyv1_0( EDPluginExec ):
         EDPluginExec.__init__(self)
         self.setXSDataInputClass(XSDataInputCalibrateEnergy)   
 
+
+    def fitFunc(self, x, yArray, a0, a1, a2):
+        xPoints = (numpy.arange(yArray.shape[0]) - a0)*a1
+        if x > a0:
+            value = numpy.interp(x, xPoints, yArray) + x*a2
+        else:
+            value = numpy.interp(x, xPoints, yArray)
+        return value
+        
+
     
     def process(self, _edObject = None):
         EDPluginExec.process(self)
@@ -63,30 +74,80 @@ class EDPluginExecCalibrateEnergyv1_0( EDPluginExec ):
 #        # Normalize
         minData = numpy.min(calibratedData[:,1])
         maxData = numpy.max(calibratedData[:,1])
-        calibratedData[:,1] = (calibratedData[:,1] - minData) / (maxData - minData)
-        peaksCalibrationX = self.findLocalMaxima(calibratedData[:,1])
-        from pylab import *
-        plot(calibratedData[:,1])
-        plot(peaksCalibrationX, calibratedData[peaksCalibrationX,1], "ro" )
-        # Load input data
+        normCalibratedData = (calibratedData[:,1] - minData) / (maxData - minData)
+        #  Derivative:
+        derivativeClaibratedData = numpy.diff(calibratedData[:,1])
+        # Normalize
+        maxDerCalibData = numpy.amax(derivativeClaibratedData)
+        maxCalibIndex = numpy.unravel_index(derivativeClaibratedData.argmax(), derivativeClaibratedData.shape)[0]
+        print maxCalibIndex 
+        normDerCalibData = derivativeClaibratedData / maxDerCalibData
+#        pylab.show()
+#        # Load input data
         xsDataFile = self.dataInput.inputFile
         numpyDataArray = numpy.genfromtxt(xsDataFile.path.value, skip_header=1)
+        numpyAverageDataArray = numpy.average(numpyDataArray[:,1:], axis=1)
 #        # Normalize
-        minData = numpy.min(numpyDataArray[:,1])
-        maxData = numpy.max(numpyDataArray[:,1])
-        numpyDataArray[:,1] = (numpyDataArray[:,1] - minData) / (maxData - minData)
-        peaksDataX = self.findLocalMaxima(numpyDataArray[:,1])
-        from pylab import *
-        # Fit data points
-        polyFit = numpy.polyfit(peaksDataX, peaksCalibrationX, 1)
-        print peaksCalibrationX
-        print peaksDataX
-        print polyFit
-        poly = numpy.poly1d(polyFit)
-        print poly(peaksDataX)
-        plot(poly(numpyDataArray[:,0]), numpyDataArray[:,1])
-        plot(poly(peaksDataX), numpyDataArray[peaksDataX,1], "ro" )        
-        show()
+        minData = numpy.min(numpyAverageDataArray)
+        maxData = numpy.max(numpyAverageDataArray)
+        normData = (numpyAverageDataArray - minData) / (maxData - minData)
+        #  Derivative:
+        derivativeData = numpy.diff(numpyAverageDataArray)
+        # Normalize
+        maxDerData = numpy.amax(derivativeData)
+        maxIndex = numpy.unravel_index(derivativeData.argmax(), derivativeData.shape)[0]
+        print maxIndex 
+        derivativeData = derivativeData / maxDerData
+#        pylab.plot(numpy.arange(normDerCalibData.shape[0]) - maxCalibIndex, normDerCalibData)
+#        pylab.plot((numpy.arange(derivativeData.shape[0]) - maxIndex)*0.8, derivativeData)
+#        pylab.plot(numpy.arange(normCalibratedData.shape[0]) - maxCalibIndex, normCalibratedData)
+#        pylab.plot((numpy.arange(normData.shape[0]) - maxIndex), normData)
+        
+        xValues = numpy.arange(normData.shape[0]-1000)-maxIndex
+        print xValues.shape
+        pylab.plot(xValues, normData[:-1000])
+        pylab.plot(xValues, [self.fitFunc(x, normCalibratedData, maxCalibIndex, 1.5, 0.0000) for x in xValues])
+#        from scipy.optimize import curve_fit
+#        popt, pcov = curve_fit(self.fitFunc, xValues, normData[:-1000])
+#        print popt, pcov 
+        # Attempt to fit...
+#        polyFit = numpy.polyfit(normCalibratedData, normData, 1)
+        pylab.show()
+        
+        
+        
+        
+##        # Normalize
+#        minData = numpy.min(calibratedData[:,1])
+#        maxData = numpy.max(calibratedData[:,1])
+#        calibratedData[:,1] = (calibratedData[:,1] - minData) / (maxData - minData)
+#        peaksCalibrationX = self.findLocalMaxima(calibratedData[:,1])
+#        from pylab import *
+#        plot(calibratedData[:,1])
+#        plot(peaksCalibrationX, calibratedData[peaksCalibrationX,1], "ro" )
+#        # Load input data
+#        xsDataFile = self.dataInput.inputFile
+#        numpyDataArray = numpy.genfromtxt(xsDataFile.path.value, skip_header=1)
+        
+        
+        
+        
+##        # Normalize
+#        minData = numpy.min(numpyDataArray[:,1])
+#        maxData = numpy.max(numpyDataArray[:,1])
+#        numpyDataArray[:,1] = (numpyDataArray[:,1] - minData) / (maxData - minData)
+#        peaksDataX = self.findLocalMaxima(numpyDataArray[:,1])
+#        from pylab import *
+#        # Fit data points
+#        polyFit = numpy.polyfit(peaksDataX, peaksCalibrationX, 1)
+#        print peaksCalibrationX
+#        print peaksDataX
+#        print polyFit
+#        poly = numpy.poly1d(polyFit)
+#        print poly(peaksDataX)
+#        plot(poly(numpyDataArray[:,0]), numpyDataArray[:,1])
+#        plot(poly(peaksDataX), numpyDataArray[peaksDataX,1], "ro" )        
+#        show()
             
     
     

@@ -351,6 +351,7 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
             xsDataInputStrategy.setBestFileContentDat(xsDataIntegrationSubWedgeResultList[0].getBestfileDat())
             xsDataInputStrategy.setBestFileContentPar(xsDataIntegrationSubWedgeResultList[0].getBestfilePar())
             xsDataInputStrategy.setExperimentalCondition(xsDataIntegrationSubWedgeResultList[0].getExperimentalConditionRefined())
+            xsDataInputStrategy.setDataCollection(self.xsDataCollection)
             for xsDataIntegrationSubWedgeResult in xsDataIntegrationSubWedgeResultList:
                 xsDataInputStrategy.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
             xsDataInputStrategy.setDiffractionPlan(self.xsDataDiffractionPlan)

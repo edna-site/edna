@@ -1016,6 +1016,9 @@ This structure is also defined by its number in the asymmetric unit.</body>
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_U6q6AOfsEd-TcNOGyxZYYg"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eU_mMD9eEeCJ0N4SAV8zBg"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_6dO_8OoJEeKC6dkiuVhgUg" name="dataCollection" type="_BF4f4Of3Ed-TcNOGyxZYYg" isUnique="false">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_FS13kOoKEeKLodW003tZlw"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_DMWC0OgHEd-TcNOGyxZYYg" name="XSDataResultStrategy">
         <generalization xmi:id="_Md9QsOjOEd-7o_3d0R29SQ">

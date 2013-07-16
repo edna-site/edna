@@ -243,7 +243,22 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                 self._edHandlerXSDataRaddose = EDHandlerXSDataRaddosev10()
                 xsDataBeam = self.getDataInput().getExperimentalCondition().getBeam()
 
-                xsDataRaddoseInput = self._edHandlerXSDataRaddose.getXSDataRaddoseInput(xsDataBeam, self._xsDataSampleCopy, iNumOperators)
+                # Calculate number of images (MXSUP-1616):
+                iNumberOfImages = None
+                xsDataCollection = self.dataInput.dataCollection
+                if xsDataCollection is not None:
+                    iNumberOfImages = 0
+                    for xsDataSubWedge in xsDataCollection.subWedge:
+                        xsDataGoniostat = xsDataSubWedge.experimentalCondition.goniostat
+                        iOscStart = xsDataGoniostat.rotationAxisStart.value
+                        iOscEnd   = xsDataGoniostat.rotationAxisEnd.value
+                        iOscWidth = xsDataGoniostat.oscillationWidth.value
+                        iNumberOfImages += int((iOscEnd-iOscStart)/iOscWidth)
+                if iNumberOfImages is None:
+                    iNumberOfImages = 1
+                    self.WARNING("No goniostat information, number of images for RADDOSE set to 1")
+
+                xsDataRaddoseInput = self._edHandlerXSDataRaddose.getXSDataRaddoseInput(xsDataBeam, self._xsDataSampleCopy, iNumOperators, iNumberOfImages)
                 if xsDataRaddoseInput is not None:
                     self._edPluginRaddose.setDataInput(xsDataRaddoseInput)
                     self._edPluginRaddose.setBaseDirectory(self.getWorkingDirectory())

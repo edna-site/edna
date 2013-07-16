@@ -448,6 +448,7 @@ class EDPluginControlCharacterisationv1_3(EDPluginControl):
             xsDataInputStrategy.setBestFileContentPar(xsDataIntegrationSubWedgeResultList[0].getBestfilePar())
             xsDataInputStrategy.setExperimentalCondition(xsDataIntegrationSubWedgeResultList[0].getExperimentalConditionRefined())
             xsDataInputStrategy.setXdsBackgroundImage(self._xsDataFileXdsBackgroundImage)
+            xsDataInputStrategy.setDataCollection(self._xsDataCollection)
             for xsDataIntegrationSubWedgeResult in xsDataIntegrationSubWedgeResultList:
                 xsDataInputStrategy.addBestFileContentHKL(xsDataIntegrationSubWedgeResult.getBestfileHKL())
             xsDataInputStrategy.setDiffractionPlan(self._xsDataResultCharacterisation.getDataCollection().getDiffractionPlan())
