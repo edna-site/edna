@@ -131,7 +131,7 @@ class EDPluginISPyBStoreListOfImageQualityIndicatorsv1_4(EDPluginExec):
         # Loop over all input image quality indicators:
         listImageQualityIndicatorsForWS = []
         for xsDataImageQualityIndicators in self.dataInput.imageQualityIndicators:
-            print xsDataImageQualityIndicators.marshal()
+            #print xsDataImageQualityIndicators.marshal()
             imageQualityIndicatorsWS3VO = clientToolsForAutoprocessingWebService.factory.create('imageQualityIndicatorsWS3VO')
             strPathToImage = xsDataImageQualityIndicators.getImage().getPath().getValue()
             imageQualityIndicatorsWS3VO.fileName                      = os.path.basename(strPathToImage)
