@@ -13674,6 +13674,15 @@
 	            </chemicalComposition>
 	        </sample>
 	    </suggestedStrategy>
+	    <suggestedOrientation>
+	            <v1>(0.0;1.0;0.0)</v1>
+	            <v2>(1.0;0.0;0.0)</v2>
+	            <omega>296.855</omega>
+	            <kappa>98.041</kappa>
+	            <phi>219.467</phi>
+	            <trans>(0.1889;-1.4124;0.1501)</trans>
+	            <rank>2.319351e+03</rank>
+	    </suggestedOrientation>
 	    <possibleOrientations>
 	        <status>
 	            <code>

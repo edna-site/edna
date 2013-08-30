@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Dec 3 11:21::01 2012 by EDGenerateDS.
+# Generated Fri Aug 30 01:50::59 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -385,110 +385,6 @@ class possible_orientation(object):
 # end class possible_orientation
 
 
-class status(object):
-    def __init__(self, message=None, code=None):
-        if code is None:
-            self._code = None
-        elif code.__class__.__name__ == "status_code":
-            self._code = code
-        else:
-            strMessage = "ERROR! status constructor argument 'code' is not status_code but %s" % self._code.__class__.__name__
-            raise BaseException(strMessage)
-        self._message = str(message)
-    # Methods and properties for the 'code' attribute
-    def getCode(self): return self._code
-    def setCode(self, code):
-        if code is None:
-            self._code = None
-        elif code.__class__.__name__ == "status_code":
-            self._code = code
-        else:
-            strMessage = "ERROR! status.setCode argument is not status_code but %s" % code.__class__.__name__
-            raise BaseException(strMessage)
-    def delCode(self): self._code = None
-    code = property(getCode, setCode, delCode, "Property for code")
-    # Methods and properties for the 'message' attribute
-    def getMessage(self): return self._message
-    def setMessage(self, message):
-        self._message = str(message)
-    def delMessage(self): self._message = None
-    message = property(getMessage, setMessage, delMessage, "Property for message")
-    def export(self, outfile, level, name_='status'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='status'):
-        pass
-        if self._code is not None:
-            self.code.export(outfile, level, name_='code')
-        else:
-            warnEmptyAttribute("code", "status_code")
-        if self._message is not None:
-            showIndent(outfile, level)
-            outfile.write(unicode('<message>%s</message>\n' % self._message))
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'code':
-            obj_ = status_code()
-            obj_.build(child_)
-            self.setCode(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'message':
-            value_ = ''
-            for text__content_ in child_.childNodes:
-                if text__content_.nodeValue is not None:
-                    value_ += text__content_.nodeValue
-            self._message = value_
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="status" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='status' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class status is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return status.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = status()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="status" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = status()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class status
-
-
 class kappa_alignment_response(object):
     def __init__(self, possible_orientation=None, comment=None, status=None):
         if status is None:
@@ -720,6 +616,110 @@ class status_code(object):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class status_code
+
+
+class status(object):
+    def __init__(self, message=None, code=None):
+        if code is None:
+            self._code = None
+        elif code.__class__.__name__ == "status_code":
+            self._code = code
+        else:
+            strMessage = "ERROR! status constructor argument 'code' is not status_code but %s" % self._code.__class__.__name__
+            raise BaseException(strMessage)
+        self._message = str(message)
+    # Methods and properties for the 'code' attribute
+    def getCode(self): return self._code
+    def setCode(self, code):
+        if code is None:
+            self._code = None
+        elif code.__class__.__name__ == "status_code":
+            self._code = code
+        else:
+            strMessage = "ERROR! status.setCode argument is not status_code but %s" % code.__class__.__name__
+            raise BaseException(strMessage)
+    def delCode(self): self._code = None
+    code = property(getCode, setCode, delCode, "Property for code")
+    # Methods and properties for the 'message' attribute
+    def getMessage(self): return self._message
+    def setMessage(self, message):
+        self._message = str(message)
+    def delMessage(self): self._message = None
+    message = property(getMessage, setMessage, delMessage, "Property for message")
+    def export(self, outfile, level, name_='status'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='status'):
+        pass
+        if self._code is not None:
+            self.code.export(outfile, level, name_='code')
+        else:
+            warnEmptyAttribute("code", "status_code")
+        if self._message is not None:
+            showIndent(outfile, level)
+            outfile.write(unicode('<message>%s</message>\n' % self._message))
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'code':
+            obj_ = status_code()
+            obj_.build(child_)
+            self.setCode(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'message':
+            value_ = ''
+            for text__content_ in child_.childNodes:
+                if text__content_.nodeValue is not None:
+                    value_ += text__content_.nodeValue
+            self._message = value_
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="status" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='status' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class status is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return status.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = status()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="status" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = status()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class status
 
 
 class XSBeam(XSData):
@@ -2973,6 +2973,264 @@ class XSImageRange(XSData):
 # end class XSImageRange
 
 
+class XSIndexingOutput(XSData):
+    def __init__(self, XSWedge=None, refinedaxisdirection=None, statistics=None):
+        XSData.__init__(self, )
+        if statistics is None:
+            self._statistics = None
+        elif statistics.__class__.__name__ == "XSStatisticsIndexing":
+            self._statistics = statistics
+        else:
+            strMessage = "ERROR! XSIndexingOutput constructor argument 'statistics' is not XSStatisticsIndexing but %s" % self._statistics.__class__.__name__
+            raise BaseException(strMessage)
+        if refinedaxisdirection is None:
+            self._refinedaxisdirection = None
+        elif refinedaxisdirection.__class__.__name__ == "XSDataUnitVector":
+            self._refinedaxisdirection = refinedaxisdirection
+        else:
+            strMessage = "ERROR! XSIndexingOutput constructor argument 'refinedaxisdirection' is not XSDataUnitVector but %s" % self._refinedaxisdirection.__class__.__name__
+            raise BaseException(strMessage)
+        if XSWedge is None:
+            self._XSWedge = None
+        elif XSWedge.__class__.__name__ == "XSWedge":
+            self._XSWedge = XSWedge
+        else:
+            strMessage = "ERROR! XSIndexingOutput constructor argument 'XSWedge' is not XSWedge but %s" % self._XSWedge.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'statistics' attribute
+    def getStatistics(self): return self._statistics
+    def setStatistics(self, statistics):
+        if statistics is None:
+            self._statistics = None
+        elif statistics.__class__.__name__ == "XSStatisticsIndexing":
+            self._statistics = statistics
+        else:
+            strMessage = "ERROR! XSIndexingOutput.setStatistics argument is not XSStatisticsIndexing but %s" % statistics.__class__.__name__
+            raise BaseException(strMessage)
+    def delStatistics(self): self._statistics = None
+    statistics = property(getStatistics, setStatistics, delStatistics, "Property for statistics")
+    # Methods and properties for the 'refinedaxisdirection' attribute
+    def getRefinedaxisdirection(self): return self._refinedaxisdirection
+    def setRefinedaxisdirection(self, refinedaxisdirection):
+        if refinedaxisdirection is None:
+            self._refinedaxisdirection = None
+        elif refinedaxisdirection.__class__.__name__ == "XSDataUnitVector":
+            self._refinedaxisdirection = refinedaxisdirection
+        else:
+            strMessage = "ERROR! XSIndexingOutput.setRefinedaxisdirection argument is not XSDataUnitVector but %s" % refinedaxisdirection.__class__.__name__
+            raise BaseException(strMessage)
+    def delRefinedaxisdirection(self): self._refinedaxisdirection = None
+    refinedaxisdirection = property(getRefinedaxisdirection, setRefinedaxisdirection, delRefinedaxisdirection, "Property for refinedaxisdirection")
+    # Methods and properties for the 'XSWedge' attribute
+    def getXSWedge(self): return self._XSWedge
+    def setXSWedge(self, XSWedge):
+        if XSWedge is None:
+            self._XSWedge = None
+        elif XSWedge.__class__.__name__ == "XSWedge":
+            self._XSWedge = XSWedge
+        else:
+            strMessage = "ERROR! XSIndexingOutput.setXSWedge argument is not XSWedge but %s" % XSWedge.__class__.__name__
+            raise BaseException(strMessage)
+    def delXSWedge(self): self._XSWedge = None
+    XSWedge = property(getXSWedge, setXSWedge, delXSWedge, "Property for XSWedge")
+    def export(self, outfile, level, name_='XSIndexingOutput'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSIndexingOutput'):
+        XSData.exportChildren(self, outfile, level, name_)
+        if self._statistics is not None:
+            self.statistics.export(outfile, level, name_='statistics')
+        if self._refinedaxisdirection is not None:
+            self.refinedaxisdirection.export(outfile, level, name_='refinedaxisdirection')
+        if self._XSWedge is not None:
+            self.XSWedge.export(outfile, level, name_='XSWedge')
+        else:
+            warnEmptyAttribute("XSWedge", "XSWedge")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'statistics':
+            obj_ = XSStatisticsIndexing()
+            obj_.build(child_)
+            self.setStatistics(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'refinedaxisdirection':
+            obj_ = XSDataUnitVector()
+            obj_.build(child_)
+            self.setRefinedaxisdirection(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'XSWedge':
+            obj_ = XSWedge()
+            obj_.build(child_)
+            self.setXSWedge(obj_)
+        XSData.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSIndexingOutput" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSIndexingOutput' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSIndexingOutput is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSIndexingOutput.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSIndexingOutput()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSIndexingOutput" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSIndexingOutput()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSIndexingOutput
+
+
+class XSIndexingSolution(XSData):
+    def __init__(self, penalty=None, lattice=None):
+        XSData.__init__(self, )
+        if lattice is None:
+            self._lattice = None
+        elif lattice.__class__.__name__ == "XSDataLattice":
+            self._lattice = lattice
+        else:
+            strMessage = "ERROR! XSIndexingSolution constructor argument 'lattice' is not XSDataLattice but %s" % self._lattice.__class__.__name__
+            raise BaseException(strMessage)
+        if penalty is None:
+            self._penalty = None
+        elif penalty.__class__.__name__ == "XSDataDouble":
+            self._penalty = penalty
+        else:
+            strMessage = "ERROR! XSIndexingSolution constructor argument 'penalty' is not XSDataDouble but %s" % self._penalty.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'lattice' attribute
+    def getLattice(self): return self._lattice
+    def setLattice(self, lattice):
+        if lattice is None:
+            self._lattice = None
+        elif lattice.__class__.__name__ == "XSDataLattice":
+            self._lattice = lattice
+        else:
+            strMessage = "ERROR! XSIndexingSolution.setLattice argument is not XSDataLattice but %s" % lattice.__class__.__name__
+            raise BaseException(strMessage)
+    def delLattice(self): self._lattice = None
+    lattice = property(getLattice, setLattice, delLattice, "Property for lattice")
+    # Methods and properties for the 'penalty' attribute
+    def getPenalty(self): return self._penalty
+    def setPenalty(self, penalty):
+        if penalty is None:
+            self._penalty = None
+        elif penalty.__class__.__name__ == "XSDataDouble":
+            self._penalty = penalty
+        else:
+            strMessage = "ERROR! XSIndexingSolution.setPenalty argument is not XSDataDouble but %s" % penalty.__class__.__name__
+            raise BaseException(strMessage)
+    def delPenalty(self): self._penalty = None
+    penalty = property(getPenalty, setPenalty, delPenalty, "Property for penalty")
+    def export(self, outfile, level, name_='XSIndexingSolution'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSIndexingSolution'):
+        XSData.exportChildren(self, outfile, level, name_)
+        if self._lattice is not None:
+            self.lattice.export(outfile, level, name_='lattice')
+        else:
+            warnEmptyAttribute("lattice", "XSDataLattice")
+        if self._penalty is not None:
+            self.penalty.export(outfile, level, name_='penalty')
+        else:
+            warnEmptyAttribute("penalty", "XSDataDouble")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'lattice':
+            obj_ = XSDataLattice()
+            obj_.build(child_)
+            self.setLattice(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'penalty':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setPenalty(obj_)
+        XSData.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSIndexingSolution" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSIndexingSolution' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSIndexingSolution is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSIndexingSolution.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSIndexingSolution()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSIndexingSolution" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSIndexingSolution()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSIndexingSolution
+
+
 class XSIndexingResult(XSData):
     def __init__(self, XSIndexingSolution=None, XSIndexingOutput=None, selectedsolution=None):
         XSData.__init__(self, )
@@ -3313,123 +3571,6 @@ class XSIndexingInput(XSData):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSIndexingInput
-
-
-class XSIndexingSolution(XSData):
-    def __init__(self, penalty=None, lattice=None):
-        XSData.__init__(self, )
-        if lattice is None:
-            self._lattice = None
-        elif lattice.__class__.__name__ == "XSDataLattice":
-            self._lattice = lattice
-        else:
-            strMessage = "ERROR! XSIndexingSolution constructor argument 'lattice' is not XSDataLattice but %s" % self._lattice.__class__.__name__
-            raise BaseException(strMessage)
-        if penalty is None:
-            self._penalty = None
-        elif penalty.__class__.__name__ == "XSDataDouble":
-            self._penalty = penalty
-        else:
-            strMessage = "ERROR! XSIndexingSolution constructor argument 'penalty' is not XSDataDouble but %s" % self._penalty.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'lattice' attribute
-    def getLattice(self): return self._lattice
-    def setLattice(self, lattice):
-        if lattice is None:
-            self._lattice = None
-        elif lattice.__class__.__name__ == "XSDataLattice":
-            self._lattice = lattice
-        else:
-            strMessage = "ERROR! XSIndexingSolution.setLattice argument is not XSDataLattice but %s" % lattice.__class__.__name__
-            raise BaseException(strMessage)
-    def delLattice(self): self._lattice = None
-    lattice = property(getLattice, setLattice, delLattice, "Property for lattice")
-    # Methods and properties for the 'penalty' attribute
-    def getPenalty(self): return self._penalty
-    def setPenalty(self, penalty):
-        if penalty is None:
-            self._penalty = None
-        elif penalty.__class__.__name__ == "XSDataDouble":
-            self._penalty = penalty
-        else:
-            strMessage = "ERROR! XSIndexingSolution.setPenalty argument is not XSDataDouble but %s" % penalty.__class__.__name__
-            raise BaseException(strMessage)
-    def delPenalty(self): self._penalty = None
-    penalty = property(getPenalty, setPenalty, delPenalty, "Property for penalty")
-    def export(self, outfile, level, name_='XSIndexingSolution'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSIndexingSolution'):
-        XSData.exportChildren(self, outfile, level, name_)
-        if self._lattice is not None:
-            self.lattice.export(outfile, level, name_='lattice')
-        else:
-            warnEmptyAttribute("lattice", "XSDataLattice")
-        if self._penalty is not None:
-            self.penalty.export(outfile, level, name_='penalty')
-        else:
-            warnEmptyAttribute("penalty", "XSDataDouble")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'lattice':
-            obj_ = XSDataLattice()
-            obj_.build(child_)
-            self.setLattice(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'penalty':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setPenalty(obj_)
-        XSData.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSIndexingSolution" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSIndexingSolution' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSIndexingSolution is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSIndexingSolution.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSIndexingSolution()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSIndexingSolution" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSIndexingSolution()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSIndexingSolution
 
 
 class XSRotationExposure(XSData):
@@ -4462,147 +4603,6 @@ class XSWedge(XSData):
 # end class XSWedge
 
 
-class XSIndexingOutput(XSData):
-    def __init__(self, XSWedge=None, refinedaxisdirection=None, statistics=None):
-        XSData.__init__(self, )
-        if statistics is None:
-            self._statistics = None
-        elif statistics.__class__.__name__ == "XSStatisticsIndexing":
-            self._statistics = statistics
-        else:
-            strMessage = "ERROR! XSIndexingOutput constructor argument 'statistics' is not XSStatisticsIndexing but %s" % self._statistics.__class__.__name__
-            raise BaseException(strMessage)
-        if refinedaxisdirection is None:
-            self._refinedaxisdirection = None
-        elif refinedaxisdirection.__class__.__name__ == "XSDataUnitVector":
-            self._refinedaxisdirection = refinedaxisdirection
-        else:
-            strMessage = "ERROR! XSIndexingOutput constructor argument 'refinedaxisdirection' is not XSDataUnitVector but %s" % self._refinedaxisdirection.__class__.__name__
-            raise BaseException(strMessage)
-        if XSWedge is None:
-            self._XSWedge = None
-        elif XSWedge.__class__.__name__ == "XSWedge":
-            self._XSWedge = XSWedge
-        else:
-            strMessage = "ERROR! XSIndexingOutput constructor argument 'XSWedge' is not XSWedge but %s" % self._XSWedge.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'statistics' attribute
-    def getStatistics(self): return self._statistics
-    def setStatistics(self, statistics):
-        if statistics is None:
-            self._statistics = None
-        elif statistics.__class__.__name__ == "XSStatisticsIndexing":
-            self._statistics = statistics
-        else:
-            strMessage = "ERROR! XSIndexingOutput.setStatistics argument is not XSStatisticsIndexing but %s" % statistics.__class__.__name__
-            raise BaseException(strMessage)
-    def delStatistics(self): self._statistics = None
-    statistics = property(getStatistics, setStatistics, delStatistics, "Property for statistics")
-    # Methods and properties for the 'refinedaxisdirection' attribute
-    def getRefinedaxisdirection(self): return self._refinedaxisdirection
-    def setRefinedaxisdirection(self, refinedaxisdirection):
-        if refinedaxisdirection is None:
-            self._refinedaxisdirection = None
-        elif refinedaxisdirection.__class__.__name__ == "XSDataUnitVector":
-            self._refinedaxisdirection = refinedaxisdirection
-        else:
-            strMessage = "ERROR! XSIndexingOutput.setRefinedaxisdirection argument is not XSDataUnitVector but %s" % refinedaxisdirection.__class__.__name__
-            raise BaseException(strMessage)
-    def delRefinedaxisdirection(self): self._refinedaxisdirection = None
-    refinedaxisdirection = property(getRefinedaxisdirection, setRefinedaxisdirection, delRefinedaxisdirection, "Property for refinedaxisdirection")
-    # Methods and properties for the 'XSWedge' attribute
-    def getXSWedge(self): return self._XSWedge
-    def setXSWedge(self, XSWedge):
-        if XSWedge is None:
-            self._XSWedge = None
-        elif XSWedge.__class__.__name__ == "XSWedge":
-            self._XSWedge = XSWedge
-        else:
-            strMessage = "ERROR! XSIndexingOutput.setXSWedge argument is not XSWedge but %s" % XSWedge.__class__.__name__
-            raise BaseException(strMessage)
-    def delXSWedge(self): self._XSWedge = None
-    XSWedge = property(getXSWedge, setXSWedge, delXSWedge, "Property for XSWedge")
-    def export(self, outfile, level, name_='XSIndexingOutput'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSIndexingOutput'):
-        XSData.exportChildren(self, outfile, level, name_)
-        if self._statistics is not None:
-            self.statistics.export(outfile, level, name_='statistics')
-        if self._refinedaxisdirection is not None:
-            self.refinedaxisdirection.export(outfile, level, name_='refinedaxisdirection')
-        if self._XSWedge is not None:
-            self.XSWedge.export(outfile, level, name_='XSWedge')
-        else:
-            warnEmptyAttribute("XSWedge", "XSWedge")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'statistics':
-            obj_ = XSStatisticsIndexing()
-            obj_.build(child_)
-            self.setStatistics(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'refinedaxisdirection':
-            obj_ = XSDataUnitVector()
-            obj_.build(child_)
-            self.setRefinedaxisdirection(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'XSWedge':
-            obj_ = XSWedge()
-            obj_.build(child_)
-            self.setXSWedge(obj_)
-        XSData.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSIndexingOutput" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSIndexingOutput' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSIndexingOutput is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSIndexingOutput.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSIndexingOutput()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSIndexingOutput" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSIndexingOutput()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSIndexingOutput
-
-
 class XSCollectionWedge(XSWedge):
     def __init__(self, ednaid=None):
         XSWedge.__init__(self, ednaid)
@@ -4859,7 +4859,7 @@ class XSDataInputCharacterisationv2_0(XSDataInput):
 
 
 class XSDataResultCharacterisationv2_0(XSDataResult):
-    def __init__(self, status=None, possibleOrientations=None, suggestedStrategy=None, mxv1ResultCharacterisation_Reference=None, mxv1ResultCharacterisation=None):
+    def __init__(self, status=None, possibleOrientations=None, suggestedOrientation=None, suggestedStrategy=None, mxv1ResultCharacterisation_Reference=None, mxv1ResultCharacterisation=None):
         XSDataResult.__init__(self, status)
         if mxv1ResultCharacterisation is None:
             self._mxv1ResultCharacterisation = None
@@ -4881,6 +4881,13 @@ class XSDataResultCharacterisationv2_0(XSDataResult):
             self._suggestedStrategy = suggestedStrategy
         else:
             strMessage = "ERROR! XSDataResultCharacterisationv2_0 constructor argument 'suggestedStrategy' is not XSDataResultStrategy but %s" % self._suggestedStrategy.__class__.__name__
+            raise BaseException(strMessage)
+        if suggestedOrientation is None:
+            self._suggestedOrientation = None
+        elif suggestedOrientation.__class__.__name__ == "possible_orientation":
+            self._suggestedOrientation = suggestedOrientation
+        else:
+            strMessage = "ERROR! XSDataResultCharacterisationv2_0 constructor argument 'suggestedOrientation' is not possible_orientation but %s" % self._suggestedOrientation.__class__.__name__
             raise BaseException(strMessage)
         if possibleOrientations is None:
             self._possibleOrientations = None
@@ -4925,6 +4932,18 @@ class XSDataResultCharacterisationv2_0(XSDataResult):
             raise BaseException(strMessage)
     def delSuggestedStrategy(self): self._suggestedStrategy = None
     suggestedStrategy = property(getSuggestedStrategy, setSuggestedStrategy, delSuggestedStrategy, "Property for suggestedStrategy")
+    # Methods and properties for the 'suggestedOrientation' attribute
+    def getSuggestedOrientation(self): return self._suggestedOrientation
+    def setSuggestedOrientation(self, suggestedOrientation):
+        if suggestedOrientation is None:
+            self._suggestedOrientation = None
+        elif suggestedOrientation.__class__.__name__ == "possible_orientation":
+            self._suggestedOrientation = suggestedOrientation
+        else:
+            strMessage = "ERROR! XSDataResultCharacterisationv2_0.setSuggestedOrientation argument is not possible_orientation but %s" % suggestedOrientation.__class__.__name__
+            raise BaseException(strMessage)
+    def delSuggestedOrientation(self): self._suggestedOrientation = None
+    suggestedOrientation = property(getSuggestedOrientation, setSuggestedOrientation, delSuggestedOrientation, "Property for suggestedOrientation")
     # Methods and properties for the 'possibleOrientations' attribute
     def getPossibleOrientations(self): return self._possibleOrientations
     def setPossibleOrientations(self, possibleOrientations):
@@ -4953,6 +4972,8 @@ class XSDataResultCharacterisationv2_0(XSDataResult):
             self.mxv1ResultCharacterisation_Reference.export(outfile, level, name_='mxv1ResultCharacterisation_Reference')
         if self._suggestedStrategy is not None:
             self.suggestedStrategy.export(outfile, level, name_='suggestedStrategy')
+        if self._suggestedOrientation is not None:
+            self.suggestedOrientation.export(outfile, level, name_='suggestedOrientation')
         if self._possibleOrientations is not None:
             self.possibleOrientations.export(outfile, level, name_='possibleOrientations')
     def build(self, node_):
@@ -4975,6 +4996,11 @@ class XSDataResultCharacterisationv2_0(XSDataResult):
             obj_ = XSDataResultStrategy()
             obj_.build(child_)
             self.setSuggestedStrategy(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'suggestedOrientation':
+            obj_ = possible_orientation()
+            obj_.build(child_)
+            self.setSuggestedOrientation(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'possibleOrientations':
             obj_ = kappa_alignment_response()

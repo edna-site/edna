@@ -70,8 +70,8 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         self.edPluginControlStrategy = None
         self.xsDataResultCharacterisation = None
         self.suggestedStrategy=None
-        self.suggestedStrategy=None
         self.newpossibleOrientations=None
+        self.suggestedOrientation = None
 
     def configure(self):
         EDPluginControl.configure(self)
@@ -124,6 +124,9 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         if self.suggestedStrategy is not None:
             self.setDataOutput(self.suggestedStrategy,"SuggestedStrategy")
             xsDataResultCharacterisationv2_0.setSuggestedStrategy(self.suggestedStrategy)
+        if self.suggestedOrientation is not None:
+            self.setDataOutput(self.suggestedOrientation,"suggestedOrientation")
+            xsDataResultCharacterisationv2_0.setSuggestedOrientation(self.suggestedOrientation)            
         if self.newpossibleOrientations is not None:
             self.setDataOutput(self.newpossibleOrientations,"possibleOrientations")
             xsDataResultCharacterisationv2_0.setPossibleOrientations(self.newpossibleOrientations)
@@ -172,6 +175,7 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
         xsDataResultStrategy = self.edPluginControlStrategy.getDataOutput()
         self.xsDataResultCharacterisation.setStrategyResult(xsDataResultStrategy)
         self.suggestedStrategy = None
+        self.suggestedOrientation = None
         self.newpossibleOrientations = None
         if self.edPluginControlStrategy.hasDataOutput("possibleOrientations"):
             EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.doStrategySuccess: With possible orientations")
@@ -184,7 +188,9 @@ class EDPluginControlCharForReorientationv2_0(EDPluginControl):
                 kappa = Orients[0].getKappa()
                 phi = Orients[0].getPhi()
                 self.suggestedStrategy=EDHandlerXSDataMXv1v1_0.mergeStrategyToNewOrientation(xsDataResultStrategy,self.mxv1InputCharacterisation.getDataCollection(),omega,kappa,phi)
-                self.newpossibleOrientations=EDHandlerXSDataSTACv2_0.removeOrientation(self.edPluginControlStrategy.getDataOutput("possibleOrientations")[0],kappa,phi)
+                allPossibleOrientations = self.edPluginControlStrategy.getDataOutput("possibleOrientations")[0]
+                self.suggestedOrientation = allPossibleOrientations.possible_orientation[0]
+                self.newpossibleOrientations=EDHandlerXSDataSTACv2_0.removeOrientation(allPossibleOrientations,kappa,phi)
         if self.suggestedStrategy is None:
             EDVerbose.DEBUG("EDPluginControlCharForReorientationv2_0.doStrategySuccess: Without possible orientations")
             #set the orientation for the actual strategy

@@ -63,6 +63,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
         self.strTableColourTitle2 = "#F0F0FF" 
         self.strTableColourRows   = "#FFFFA0"
         self.strPageEDNALog = None
+        self.xsDataSuggestedStrategy = None
 
 
     def preProcess(self, _edPlugin=None):
@@ -73,6 +74,7 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
             if not self.getDataInput().getCharacterisationResultv2_0() is None:
                 self.xsDataResultCharacterisation = self.getDataInput().getCharacterisationResultv2_0().getMxv1ResultCharacterisation()
                 self.xsDataKappa_alignment_response = self.getDataInput().getCharacterisationResultv2_0().getPossibleOrientations()
+                self.xsDataSuggestedOrientation = self.dataInput.characterisationResultv2_0.suggestedOrientation
         self.strHtmlFileName = "index.html"
         self.strPath = os.path.join(self.getWorkingDirectory(), self.strHtmlFileName)
 
@@ -644,8 +646,28 @@ class EDPluginExecSimpleHTMLPagev2_0(EDPluginExec):
             
             
     def stacResults(self):
+        if self.xsDataSuggestedOrientation is not None:
+            self.page.h3( "Suggested kappa goniostat reorientation (STAC):" )
+            self.page.table( class_='stacSuggestedResult', border_="1", cellpadding_="1")
+            self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
+            self.page.th("Vector 1")
+            self.page.th("Vector 2")
+            self.page.th("Omega")
+            self.page.th("Kappa")
+            self.page.th("Phi")
+            self.page.tr.close()
+            self.page.tr( align_="CENTER", bgcolor_=self.strTableColourRows)
+            self.page.th(" %s " % self.xsDataSuggestedOrientation.getV1())
+            self.page.th(" %s " % self.xsDataSuggestedOrientation.getV2())
+            self.page.th(" %.2f " % float(self.xsDataSuggestedOrientation.getOmega()))
+            self.page.th(" %.2f " % float(self.xsDataSuggestedOrientation.getKappa()))
+            self.page.th(" %.2f " % float(self.xsDataSuggestedOrientation.getPhi()))
+            self.page.table.close()
+            self.page.br()
+            self.page.strong(" ")
+            self.page.br()
         if self.xsDataKappa_alignment_response is not None:
-            self.page.h3( "Kappa goniostat calculation results (STAC):" )
+            self.page.h3( "Other possible kappa goniostat reorientations (STAC):" )
             self.page.table( class_='stacResults', border_="1", cellpadding_="1")
             self.page.tr( align_="CENTER", bgcolor_=self.strTableColourTitle2)
             self.page.th("Vector 1")

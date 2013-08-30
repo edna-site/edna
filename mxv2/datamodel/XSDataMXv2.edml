@@ -278,6 +278,7 @@ complex type XSDataResultCharacterisationv2_0 extends XSDataResult {
 	mxv1ResultCharacterisation : XSDataResultCharacterisation
 	mxv1ResultCharacterisation_Reference : XSDataResultCharacterisation optional
 	suggestedStrategy : XSDataResultStrategy optional
+	suggestedOrientation : possible_orientation optional
 	possibleOrientations : kappa_alignment_response optional
 }
 
