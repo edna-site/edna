@@ -49,7 +49,7 @@ class EDTestCasePluginExecuteSTACOrientationv2_0(EDTestCasePluginExecute):
         self.setDataInputFile(os.path.join(self.m_edStringExecutionTestDataInputHome, "EDPluginSTACOrientationv2_0_dataInputBest_reference.xml"), "inputBest")
         self.setDataInputFile(os.path.join(self.m_edStringExecutionTestDataInputHome, "EDPluginSTACOrientationv2_0_dataInputDataCollection_reference.xml"), "dataCollection")
         self.setDataInputFile(os.path.join(self.m_edStringExecutionTestDataInputHome, "EDPluginSTACOrientationv2_0_dataInputIndexingResult_reference.xml"), "indexingResult")
-        self.__pyStrBCMDEFReference = os.path.join(self.m_edStringExecutionTestDataInputHome, "BCM.dat")
+#        self.__pyStrBCMDEFReference = os.path.join(self.m_edStringExecutionTestDataInputHome, "BCM.dat")
 
         self.setReferenceDataOutputFile(os.path.join(self.m_edStringExecutionTestDataResultHome, "EDPluginSTACOrientationv2_0_dataOutput_reference.xml"))
         #self.m_edObtainedOutputDataFile = self.getPluginName() + "_dataOutput.xml"
@@ -59,7 +59,7 @@ class EDTestCasePluginExecuteSTACOrientationv2_0(EDTestCasePluginExecute):
     def preProcess(self):
         EDTestCasePluginExecute.preProcess(self)
         edPluginSTACOrientation = self.getPlugin()
-        edPluginSTACOrientation.setBCMDEF(self.__pyStrBCMDEFReference)
+#        edPluginSTACOrientation.setBCMDEF(self.__pyStrBCMDEFReference)
         #self.loadTestImage( [ "ref-testscale_1_001.img", "ref-testscale_1_002.img" ] )
 
 

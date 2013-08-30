@@ -55,7 +55,7 @@ class EDTestCasePluginExecuteSTACStrategyv2_0(EDTestCasePluginExecute):
         #self.setDataInputFile( os.path.join( self.m_edStringExecutionTestDataInputHome, "EDPluginSTACStrategyv2_0_dataInputStrategy_reference.xml" ), "inputStrategy" )
         self.setDataInputFile(os.path.join(self.m_edStringExecutionTestDataInputHome, "EDPluginSTACStrategyv2_0_dataInputStrategy_reference.xml"), "inputBest")
         #self.setDataInputFile( os.path.join( self.m_edStringExecutionTestDataInputHome, "EDPluginSTACAlignmentv2_0_dataInputBest_reference.xml" ), "inputBest" )
-        self.__pyStrBCMDEFReference = os.path.join(self.m_edStringExecutionTestDataInputHome, "BCM.dat")
+#        self.__pyStrBCMDEFReference = os.path.join(self.m_edStringExecutionTestDataInputHome, "BCM.dat")
 
         self.setReferenceDataOutputFile(os.path.join(self.m_edStringExecutionTestDataResultHome, "EDPluginSTACStrategyv2_0_dataOutput_reference.xml"))
 
@@ -63,7 +63,7 @@ class EDTestCasePluginExecuteSTACStrategyv2_0(EDTestCasePluginExecute):
     def preProcess(self):
         EDTestCasePluginExecute.preProcess(self)
         edPluginSTACAlignment = self.getPlugin()
-        edPluginSTACAlignment.setBCMDEF(self.__pyStrBCMDEFReference)
+#        edPluginSTACAlignment.setBCMDEF(self.__pyStrBCMDEFReference)
         #self.loadTestImage( [ "ref-testscale_1_001.img", "ref-testscale_1_002.img" ] )
 
         #prepare STAC configuration file

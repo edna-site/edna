@@ -1,0 +1,76 @@
+# GONIO Calibration Settings
+OmegaRot 5.9E-4 -7.9E-4 1.0
+KappaRot -0.28252 -0.29603 0.91244
+PhiRot 0.00673 -0.00958 0.99993
+KappaTrans 0.94621 0.34173 0.40991
+PhiTrans 0.27208 -0.20546 -0.0034
+KappaTransD -0.29095 -0.29243 0.91095
+PhiTransD 0.00664 -0.00752 0.99995
+
+SECTION Alignment_Plugins
+##################################
+Alignment_Plugin AlignmentPlugin_gonset
+
+SECTION Strategy_Plugins
+##################################
+Strategy_Plugin StrategyPlugin_strategy
+
+SECTION BCM_Plugins
+##################################
+BCM_Plugin BCMplugin_tango external
+#vBCM_configuration vBCM.dat_esrf
+
+SECTION Stac_BCMplugin_tango_external
+##################################
+# TANGO URL:
+TANGOURL tango://localhost:5925/vbcm/vbcm_server/General#dbase=no
+#source:
+#  CACHE        - 0
+#  CACHE_DEVICE - 1
+#  DEVICE       - 2
+SOURCE 1
+# motorDescriptor:
+# eg:
+# motorName   motorName  multiplication factor    offset
+# (in STAC)   (in tango) (tangoValue=StacValue*f+offset)
+#
+X X .001000 0.0
+Y Y .001000 0.0
+Z Z .001000 0.0
+Omega Omega 1 0
+Kappa Kappa 1 0
+Phi Phi 1 0
+#
+# remark:
+# mulfac assumes that calibration has been done, and the
+# motors are aligned to the lab axes, otherwise
+# [XYZ] <-> [spec translation] would require a 3d transformation
+#
+SYNC_MOVE SyncMoveMotors 0 0
+CENTER_NEEDLE CenterNeedle 0 0
+CENTERNEEDLERADIUS CenterNeedleRadius 0 0
+STATUSREQUEST State 0 0
+STATUSOK STANDBY 0 0
+STATUSMOVE MOVING 0 0
+
+SECTION Stac_BCMplugin_vBCM_vBCM.dat_esrf
+##################################
+vBCM_configuration vBCM.dat_esrf
+# motorDescriptor:
+# eg:
+# motorName   motorName  multiplication factor    offset
+# (in STAC)   (in tango) (tangoValue=StacValue*f+offset)
+#
+X   X   .001000   0.0010000000000004148   
+Y   Y   .001000   0.0048000000000002286   
+Z   Z   .001000   -0.007300000000000717   
+Omega     Omega                 1           0
+Kappa     Kappa                1           0
+Phi       Phi                   1           0
+#
+# remark:
+# mulfac assumes that calibration has been done, and the
+# motors are aligned to the lab axes, otherwise
+# [XYZ] <-> [spec translation] would require a 3d transformation
+#
+

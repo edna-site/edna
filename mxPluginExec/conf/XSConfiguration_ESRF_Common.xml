@@ -334,7 +334,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>BCMDEF</name>
-					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat</value>
+					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/config/BCM_$EDNA_SITE.dat</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -363,7 +363,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>BCMDEF</name>
-					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat</value>
+					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/config/BCM_$EDNA_SITE.dat</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -392,7 +392,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>BCMDEF</name>
-					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/tests/data/executionTestInput/BCM.dat</value>
+					<value>$EDNA_HOME/mxPluginExec/plugins/EDPluginGroupSTAC-v2.0/config/BCM_$EDNA_SITE.dat</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
