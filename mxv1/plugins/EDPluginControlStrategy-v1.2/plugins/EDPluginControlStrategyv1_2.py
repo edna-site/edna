@@ -182,7 +182,7 @@ class EDPluginControlStrategyv1_2(EDPluginControl):
                 # Prepare chemical composition calculation with the forced Space Group (Space Group Name)
                 bSpaceGroupForced = False
                 if(xsDataStringSpaceGroup is not None):
-                    strSpaceGroup = xsDataStringSpaceGroup.getValue().upper()
+                    strSpaceGroup = xsDataStringSpaceGroup.getValue().upper().replace(" ", "")
                     if strSpaceGroup != "":
                         EDVerbose.DEBUG("EDPluginControlStrategyv1_2.preProcess: Forced Space Group Found: " + strSpaceGroup)
                         try:
