@@ -95,7 +95,7 @@ class EDPluginControlTRExafsv1_0( EDPluginControl ):
         #
         numpyDataArray = EDUtilsArray.xsDataToArray(self.dataInput.dataArray)
         numpyEnergyCalibrationArray = EDUtilsArray.xsDataToArray(self.dataInput.energy)
-        numpySpectraArray = numpy.arange((numpyDataArray.shape[0]))
+        numpySpectraArray = numpy.arange((numpyDataArray.shape[1]))
         # Launch Jesf
         listEdPluginExecJesf = self.launchJesfPlugins(numpyDataArray, numpyEnergyCalibrationArray)
         # Create nexus file
