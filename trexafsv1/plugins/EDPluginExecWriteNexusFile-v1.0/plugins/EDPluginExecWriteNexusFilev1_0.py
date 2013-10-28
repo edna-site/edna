@@ -70,11 +70,11 @@ class EDPluginExecWriteNexusFilev1_0( EDPluginExec ):
             HDF5_Version=h5py.version.hdf5_version,
             h5py_version=h5py.version.version) 
         # Write main data
-        nxentry = self.makeGroup(nexusFile, "Result", "NXentryResult")
+        nxentry = self.makeGroup(nexusFile, "Result", "NXEntry")
         for nexusGroup in xsDataInput.nexusGroup:
             groupTitle = str(nexusGroup.title.value)
             long_name = str(nexusGroup.long_name.value)
-            nxdata = self.makeGroup(nxentry, groupTitle, "NXdata", long_name=long_name)
+            nxdata = self.makeGroup(nxentry, groupTitle, "NXdata", long_name=long_name, interpretation="spectrum")
             # First add the axes - if any...
             listAxisNames = []
             for xsDataNexusAxis in nexusGroup.axis:
