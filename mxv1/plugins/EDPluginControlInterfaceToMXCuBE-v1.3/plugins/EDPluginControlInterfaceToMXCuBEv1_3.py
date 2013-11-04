@@ -476,43 +476,36 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.sendEmail(strSubject, strMessage)
 
 
-    def getFluxFromISPyB(self, _xsDataFirstImage, _xsDataExperimentalCondition):
+    def getFluxAndBeamSizeFromISPyB(self, _xsDataFirstImage, _xsDataExperimentalCondition):
         """
-        This method retrieves the flux from ISPyB
+        This method retrieves the flux and beamsize from ISPyB
         """
         xsDataExperimentalCondition = None
         if (_xsDataExperimentalCondition is not None):
-            xsDataExperimentalCondition = _xsDataExperimentalCondition.copy()
             bFoundValidFlux = False
-            xsDataBeam = xsDataExperimentalCondition.getBeam()
-            if xsDataBeam is None:
-                xsDataBeam = XSDataBeam()    
-                xsDataExperimentalCondition.setBeam(xsDataBeam)
-            xsDataBeamFlux = xsDataBeam.getFlux()
-            if xsDataBeamFlux is not None:
-                fFluxMXCuBE = xsDataBeamFlux.getValue()
-                self.screen("MXCuBE reports flux to be: %g photons/sec" % fFluxMXCuBE)
-                if fFluxMXCuBE > self.fFluxThreshold:
-                    bFoundValidFlux = True
-                else:
-                    self.screen("MXCuBE flux invalid! Trying to obtain flux from ISPyB.")
+            xsDataExperimentalCondition = _xsDataExperimentalCondition.copy()
+            xsDataInputRetrieveDataCollection = XSDataInputRetrieveDataCollection()
+            xsDataInputRetrieveDataCollection.setImage(XSDataImage(_xsDataFirstImage.getPath()))
+            self.edPluginISPyBRetrieveDataCollection.setDataInput(xsDataInputRetrieveDataCollection)
+            self.edPluginISPyBRetrieveDataCollection.executeSynchronous()
+            xsDataResultRetrieveDataCollection = self.edPluginISPyBRetrieveDataCollection.getDataOutput()
+            if xsDataResultRetrieveDataCollection is not None:
+                xsDataISPyBDataCollection = xsDataResultRetrieveDataCollection.getDataCollection()
+                if xsDataISPyBDataCollection is not None:
+                    fFlux = xsDataISPyBDataCollection.getFlux()
+                    if fFlux is not None:
+                        self.screen("ISPyB reports flux to be: %g photons/sec" % fFlux)
+                        xsDataExperimentalCondition.getBeam().setFlux(XSDataFlux(fFlux))
+                        bFoundValidFlux = True
             if not bFoundValidFlux:
-                # Here we try to retrieve the flux from ISPyB
-                xsDataInputRetrieveDataCollection = XSDataInputRetrieveDataCollection()
-                xsDataInputRetrieveDataCollection.setImage(XSDataImage(_xsDataFirstImage.getPath()))
-                self.edPluginISPyBRetrieveDataCollection.setDataInput(xsDataInputRetrieveDataCollection)
-                self.edPluginISPyBRetrieveDataCollection.executeSynchronous()
-                xsDataResultRetrieveDataCollection = self.edPluginISPyBRetrieveDataCollection.getDataOutput()
-                if xsDataResultRetrieveDataCollection is not None:
-                    xsDataISPyBDataCollection = xsDataResultRetrieveDataCollection.getDataCollection()
-                    if xsDataISPyBDataCollection is not None:
-                        fFlux = xsDataISPyBDataCollection.getFlux()
-                        if fFlux is not None:
-                            self.screen("ISPyB reports flux to be: %g photons/sec" % fFlux)
-                            xsDataExperimentalCondition.getBeam().setFlux(XSDataFlux(fFlux))
-                            bFoundValidFlux = True
-                if not bFoundValidFlux:
-                    self.screen("No valid flux could be retrieved from ISPyB!")
+                self.screen("No valid flux could be retrieved from ISPyB! Trying to obtain flux from input data.")
+                xsDataBeam = xsDataExperimentalCondition.getBeam()
+                xsDataBeamFlux = xsDataBeam.getFlux()
+                if xsDataBeamFlux is not None:
+                    fFluxMXCuBE = xsDataBeamFlux.getValue()
+                    self.screen("MXCuBE reports flux to be: %g photons/sec" % fFluxMXCuBE)
+                    if fFluxMXCuBE < self.fFluxThreshold:
+                        self.screen("MXCuBE flux invalid!")
         return xsDataExperimentalCondition
                             
                             
