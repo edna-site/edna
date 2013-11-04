@@ -1,0 +1,13 @@
+<?xml version='1.0'?><!DOCTYPE edna_tables>
+<edna_tables program='BEST' version='4.1.0  02.10.2012'>
+   <table name="messages" index="1">
+     <list name="message" index="1">
+       <item name="warning">Anisotropic B-factor can not be determined (error > 30%)</item>
+     </list>
+     <list name="message" index="2">
+       <item name="warning">Collect additional image(s) with PHI near to 138.00 degree</item>
+     </list>
+     <list name="message" index="3">
+       <item name="warning">Isotropic B-factor will be used for ROUGH estimations!</item>
+     </list>
+   </table>

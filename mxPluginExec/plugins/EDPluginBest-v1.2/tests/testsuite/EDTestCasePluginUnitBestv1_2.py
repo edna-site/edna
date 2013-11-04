@@ -149,11 +149,16 @@ class EDTestCasePluginUnitBestv1_2(EDTestCasePluginUnit):
         edPluginBest.generateExecutiveSummary(edPluginBest)
 
 
+    def testGetOutputDataFromDNATableFile(self):
+        edPluginBest = self.createPlugin()
+        edPluginBest.getOutputDataFromDNATableFile(os.path.join(self.m_pyStrDataPath, "Bestv1_2_dnaTables_collectAdditionalImages.xml"))
+        EDAssert.equal(True, edPluginBest.isFailure(), "Failure when parsing broken XML")
+
     def process(self):
         self.addTestMethod(self.testConfigureOK)
         self.addTestMethod(self.testSetDataModelInput)
         #self.addTestMethod(self.testGenerateExecutiveSummary)
-
+        self.addTestMethod(self.testGetOutputDataFromDNATableFile)
 
 
 if __name__ == '__main__':
