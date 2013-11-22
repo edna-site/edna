@@ -38,6 +38,7 @@ class EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_bestBFactorFailed")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlMXCuBEWrapperv1_3")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_withRotationRangeAndRadiationDamageModel")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlInterfaceToMXCuBEv1_3_collectAdditionalImages")
 
 if __name__ == '__main__':
 

@@ -45,6 +45,8 @@ from XSDataCommon import XSDataFlux
 from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataDictionary
 from XSDataCommon import XSDataKeyValuePair
+from XSDataCommon import XSDataSize
+from XSDataCommon import XSDataLength
 
 from XSDataMXv1 import XSDataInputControlISPyB
 from XSDataMXv1 import XSDataResultCharacterisation
@@ -91,7 +93,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.strPluginExecSimpleHTMLName = "EDPluginExecSimpleHTMLPagev1_0"
         self.edPluginExecSimpleHTML = None
         self.strPluginISPyBRetrieveDataCollection = "EDPluginISPyBRetrieveDataCollectionv1_4"
-        self.edPluginISPyBRetrieveDataCollection= None
+        self.edPluginISPyBRetrieveDataCollection = None
         self.strEDNAContactEmail = None
         self.strEDNAEmailSender = "edna-support@esrf.fr"
         self.tStart = None
@@ -127,7 +129,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
 
         self.tStart = time.time()
 
-        #self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
+        # self.edPluginExecOutputHTML = self.loadPlugin(self.strPluginExecOutputHTMLName, "OutputHTML")
         self.edPluginExecSimpleHTML = self.loadPlugin(self.strPluginExecSimpleHTMLName, "SimpleHTML")
         self.edPluginISPyBRetrieveDataCollection = self.loadPlugin(self.strPluginISPyBRetrieveDataCollection, \
                                                                    "ISPyBRetrieveDataCollection")
@@ -149,7 +151,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                 if xsDataFirstImage is None:
                     xsDataFirstImage = xsDataFile
         
-        xsDataExperimentalCondition = self.getFluxFromISPyB(xsDataFirstImage, \
+        xsDataExperimentalCondition = self.getFluxAndBeamSizeFromISPyB(xsDataFirstImage, \
                                                             xsDataInputMXCuBE.getExperimentalCondition())
         
         xsDataInputInterface.setExperimentalCondition(xsDataExperimentalCondition)
@@ -175,7 +177,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         self.retrieveSuccessMessages(self.edPluginControlInterface, "EDPluginControlInterfaceToMXCuBEv1_3.doSuccessActionInterface")
         # Send success email message (MXSUP-183):
         self.tStop = time.time()
-        strSubject = "%s : SUCCESS! (%.1f s)" % (EDUtilsPath.getEdnaSite(), self.tStop-self.tStart)
+        strSubject = "%s : SUCCESS! (%.1f s)" % (EDUtilsPath.getEdnaSite(), self.tStop - self.tStart)
         strMessage = "Characterisation success!"
         self.storeResultsInISPyB(strSubject, strMessage)
         
@@ -185,7 +187,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
         strMessage = "Characterisation FAILURE!"
         self.storeResultsInISPyB(strSubject, strMessage)
-        #self.setFailure()
+        # self.setFailure()
 #        xsDataResultCharacterisation = None
 #        if self.edPluginControlInterface.hasDataOutput("characterisation"):
 #            xsDataResultCharacterisation = self.edPluginControlInterface.getDataOutput("characterisation")[0]
@@ -474,7 +476,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         strSubject = "%s : FAILURE!" % EDUtilsPath.getEdnaSite()
         strMessage = "Characterisation FAILURE!"
         self.sendEmail(strSubject, strMessage)
-
+        
 
     def getFluxAndBeamSizeFromISPyB(self, _xsDataFirstImage, _xsDataExperimentalCondition):
         """
@@ -497,6 +499,15 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                         self.screen("ISPyB reports flux to be: %g photons/sec" % fFlux)
                         xsDataExperimentalCondition.getBeam().setFlux(XSDataFlux(fFlux))
                         bFoundValidFlux = True
+                    fBeamSizeAtSampleX = xsDataISPyBDataCollection.beamSizeAtSampleX
+                    fBeamSizeAtSampleY = xsDataISPyBDataCollection.beamSizeAtSampleY
+                    if fBeamSizeAtSampleX is not None and fBeamSizeAtSampleY is not None:
+                        self.screen("ISPyB reports beamsize X to be: %.3f mm" % fBeamSizeAtSampleX)
+                        self.screen("ISPyB reports beamsize Y to be: %.3f mm" % fBeamSizeAtSampleY)
+                        xsDataSize = XSDataSize()
+                        xsDataSize.x = XSDataLength(fBeamSizeAtSampleX)
+                        xsDataSize.y = XSDataLength(fBeamSizeAtSampleY)
+                        xsDataExperimentalCondition.getBeam().setSize(xsDataSize)
             if not bFoundValidFlux:
                 self.screen("No valid flux could be retrieved from ISPyB! Trying to obtain flux from input data.")
                 xsDataBeam = xsDataExperimentalCondition.getBeam()
