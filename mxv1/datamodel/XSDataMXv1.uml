@@ -335,6 +335,7 @@ The subWedgeNumber is an optional number for relating different subwedges, espec
         </ownedAttribute>
         <ownedAttribute xmi:id="_cpHRkNSrEeC5HOde0nkBCA" name="samplePosition" isUnique="false">
           <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_8khCAOc8Ed-jKbXLtzGSgw"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YfdBYFKMEeOY_sw0KCosTg" value="2"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tqzQ8NSrEeC5HOde0nkBCA"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_4WzwwPmDEeCVLdCH0Sh5cA" name="overlap" isUnique="false">

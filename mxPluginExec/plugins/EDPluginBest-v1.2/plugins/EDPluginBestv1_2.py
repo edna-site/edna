@@ -383,20 +383,26 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         xsDataResultBest = XSDataResultBest()
         if os.path.exists(_strFileName):
             strDnaTablesXML = self.readProcessFile(_strFileName)
-            xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
+            # Fix for MXSUP-1751: Error when parsing broken XML
+            try:
+                xsDataDnaTables = dna_tables.parseString(strDnaTablesXML)
+            except Exception as e:
+                self.setFailure()
+                self.error("Parsing of BEST XML file failed: %s" % e)
+                
             # Loop through all the tables and fill in the relevant parts of xsDataResultBest
-        
-            xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
-            if (xsDataStringStrategyOption is not None):
-                strStrategyOption = xsDataStringStrategyOption.getValue()
-                if (strStrategyOption.find("-DamPar") != -1 ):
-                    xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
-                elif (strStrategyOption.find("-Bonly") != -1 ):
-                    xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
+            if not self.isFailure():
+                xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
+                if (xsDataStringStrategyOption is not None):
+                    strStrategyOption = xsDataStringStrategyOption.getValue()
+                    if (strStrategyOption.find("-DamPar") != -1 ):
+                        xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
+                    elif (strStrategyOption.find("-Bonly") != -1 ):
+                        xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
+                    else:
+                        xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
                 else:
                     xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
-            else:
-                xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
 
         return xsDataResultBest
 

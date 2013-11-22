@@ -215,7 +215,7 @@ package XSDataMXv1 {
 			rotationAxis : XSDataString
 			rotationAxisEnd : XSDataAngle
 			rotationAxisStart : XSDataAngle
-			samplePosition : XSDataVectorDouble optional
+			samplePosition : XSDataVectorDouble [] optional
 		}
 
 		complex type XSDataSubWedge extends XSData {
