@@ -497,8 +497,9 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                     fFlux = xsDataISPyBDataCollection.getFlux()
                     if fFlux is not None:
                         self.screen("ISPyB reports flux to be: %g photons/sec" % fFlux)
-                        xsDataExperimentalCondition.getBeam().setFlux(XSDataFlux(fFlux))
-                        bFoundValidFlux = True
+                        if fFlux > self.fFluxThreshold:
+                            xsDataExperimentalCondition.getBeam().setFlux(XSDataFlux(fFlux))
+                            bFoundValidFlux = True
                     fBeamSizeAtSampleX = xsDataISPyBDataCollection.beamSizeAtSampleX
                     fBeamSizeAtSampleY = xsDataISPyBDataCollection.beamSizeAtSampleY
                     if fBeamSizeAtSampleX is not None and fBeamSizeAtSampleY is not None:
@@ -508,7 +509,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                         xsDataSize.x = XSDataLength(fBeamSizeAtSampleX)
                         xsDataSize.y = XSDataLength(fBeamSizeAtSampleY)
                         xsDataExperimentalCondition.getBeam().setSize(xsDataSize)
-            if not bFoundValidFlux or fFlux < self.fFluxThreshold:
+            if not bFoundValidFlux:
                 self.screen("No valid flux could be retrieved from ISPyB! Trying to obtain flux from input data.")
                 xsDataBeam = xsDataExperimentalCondition.getBeam()
                 xsDataBeamFlux = xsDataBeam.getFlux()
