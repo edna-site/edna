@@ -508,7 +508,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                         xsDataSize.x = XSDataLength(fBeamSizeAtSampleX)
                         xsDataSize.y = XSDataLength(fBeamSizeAtSampleY)
                         xsDataExperimentalCondition.getBeam().setSize(xsDataSize)
-            if not bFoundValidFlux:
+            if not bFoundValidFlux or fFlux < self.fFluxThreshold:
                 self.screen("No valid flux could be retrieved from ISPyB! Trying to obtain flux from input data.")
                 xsDataBeam = xsDataExperimentalCondition.getBeam()
                 xsDataBeamFlux = xsDataBeam.getFlux()
