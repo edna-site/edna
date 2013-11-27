@@ -21,7 +21,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Olof Svensson"
+__author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
@@ -44,7 +44,7 @@ from XSDataDnaTables import dna_tables
 from XSDataRdfitv1_0 import XSDataInputRdfit
 from XSDataRdfitv1_0 import XSDataResultRdfit
 
-class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
+class EDPluginRdfitv1_0(EDPluginExecProcessScript):
     """
     This plugin runs the rdfit program written by Sasha Popov:
 
@@ -63,9 +63,10 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
     """
     
 
-    def __init__(self ):
-        EDPluginExecProcessScript.__init__(self )
+    def __init__(self):
+        EDPluginExecProcessScript.__init__(self)
         self.setXSDataInputClass(XSDataInputRdfit)
+        self.setDataOutput(XSDataResultRdfit())
         self.strScaleIntensityGleFile = self.getBaseName() + "_scaleIntensity.gle"
         self.strScaleIntensityPlot = self.strScaleIntensityGleFile.replace(".gle", ".png")
         self.strBFactorGleFile = self.getBaseName() + "_bFactor.gle "
@@ -78,11 +79,11 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginExecMtz2Variousv1_0.checkParameters")
-        self.checkMandatoryParameters(self.dataInput,"Data Input is None")
-        self.checkMandatoryParameters(self.dataInput.getBestXmlFile(),"Best XML file path is None")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
+        self.checkMandatoryParameters(self.dataInput.getBestXmlFile(), "Best XML file path is None")
 
     
-    def preProcess(self, _edObject = None):
+    def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
         self.DEBUG("EDPluginExecMtz2Variousv1_0.preProcess")
         xsDataInputRdfit = self.getDataInput()
@@ -91,17 +92,17 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
 
         
         
-    def process(self, _edObject = None):
+    def process(self, _edObject=None):
         EDPluginExecProcessScript.process(self)
         self.DEBUG("EDPluginExecMtz2Variousv1_0.process")
         self.createHtmlPage()
 
         
-    def finallyProcess(self, _edObject = None):
+    def finallyProcess(self, _edObject=None):
         EDPluginExecProcessScript.finallyProcess(self)
         self.DEBUG("EDPluginExecMtz2Variousv1_0.finallyProcess")
         xsDataResult = self.getOutputDataFromDNATableFile("rdfit.xml")
-        strScaleIntensityPlotPath = os.path.join(self.getWorkingDirectory(),self.strScaleIntensityPlot)
+        strScaleIntensityPlotPath = os.path.join(self.getWorkingDirectory(), self.strScaleIntensityPlot)
         if os.path.exists(strScaleIntensityPlotPath):
             xsDataResult.scaleIntensityPlot = XSDataFile(XSDataString(strScaleIntensityPlotPath))
         if os.path.exists(self.strBFactorPlot):
@@ -190,9 +191,9 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript ):
 
     def createHtmlPage(self):
         page = markupv1_7.page(mode='loose_html')
-        page.init( title="Burn Strategy Results", 
+        page.init(title="Burn Strategy Results",
                         footer="Generated on %s" % time.asctime())
-        page.div( align_="CENTER")
+        page.div(align_="CENTER")
         page.h1()
         page.strong("Burn Strategy  Results")
         page.h1.close()
