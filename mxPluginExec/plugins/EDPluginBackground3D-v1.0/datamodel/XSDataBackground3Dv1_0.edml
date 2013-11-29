@@ -1,0 +1,40 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+
+
+complex type XSDataImageBackground3D {
+	number : XSDataInteger
+	scale : XSDataDouble optional
+	bfactor : XSDataDouble optional
+	resolution : XSDataDouble optional
+	correlation : XSDataDouble optional
+	rfactor : XSDataDouble optional
+	b_coef : XSDataDouble 
+	b_cryst : XSDataDouble
+	esitmate : XSDataDouble optional
+}
+
+complex type XSDataInputBackground3D extends XSDataInput {
+	detectorType : XSDataString
+	exposureTime : XSDataDouble
+	detectorDistance : XSDataDouble
+	wavelength : XSDataDouble
+	fractionPolatization : XSDataDouble optional
+	orgx : XSDataDouble
+	orgy : XSDataDouble
+	oscillationRange : XSDataDouble
+	imageStep : XSDataDouble optional
+	startingAngle : XSDataDouble optional
+	firstImageNumber : XSDataInteger
+	numberImages : XSDataInteger
+	nameTemplateImage : XSDataString
+}
+
+complex type XSDataResultBackground3D extends XSDataResult {
+	imageBackground : XSDataImageBackground3D [] optional
+}

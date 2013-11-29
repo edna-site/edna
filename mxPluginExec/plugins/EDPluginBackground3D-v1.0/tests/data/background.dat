@@ -1,0 +1,21 @@
+!parameters of background data collection 
+detector pilatus6m
+exposure 1
+!
+detector_distance 608.7
+X-ray_wavelength  0.979
+fraction_polarization 0.99
+orgx 1220.60
+orgy 1259.24
+!
+oscillation_range 1.0
+image_step 10.0
+starting_angle 0.0
+first_image_number 1
+number_images 15
+!name_template_image B1/b_????.cbf
+!name_template_image /data/id23eh1/inhouse/opid231/20130421/RAW_DATA/TRYPSIN_SIZE/background_1_????.cbf                        
+name_template_image  Mesh2D_01/mesh2d-x1_1_????.cbf
+!name_template_image LIC/background_1_????.cbf 
+!name_template_image AIR/air_7_????.cbf   
+end
