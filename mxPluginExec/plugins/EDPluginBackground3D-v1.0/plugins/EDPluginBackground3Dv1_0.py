@@ -41,8 +41,13 @@ from XSDataCommon import XSDataFile
 
 from XSDataDnaTables import dna_tables
 
+from XSDataCommon import XSDataInteger
+from XSDataCommon import XSDataDouble
+from XSDataCommon import XSDataString
+
 from XSDataBackground3Dv1_0 import XSDataInputBackground3D
 from XSDataBackground3Dv1_0 import XSDataResultBackground3D
+from XSDataBackground3Dv1_0 import XSDataImageBackground3D
 
 class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
     """
@@ -95,3 +100,33 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
             strCommandText += "name_template_image %s\n" % _xsDataInputBackground3D.nameTemplateImage.value
         return strCommandText
     
+    def parseOutput(self, _strFileName):
+        """
+        This method parses the output of background3D
+        """
+        xsDataResultBackground3D = XSDataResultBackground3D()
+        strOutput = EDUtilsFile.readFile(_strFileName)
+        # Skip the four first lines
+        listOutput = strOutput.split("\n")[4:]
+        for strLine in listOutput:
+            xsDataImageBackground3D = XSDataImageBackground3D()
+            # Remove empty strings ""
+            listLine = filter(None, strLine.split(" "))
+            if listLine != []:
+                xsDataImageBackground3D.number = XSDataInteger(listLine[0])
+                if listLine[1].startswith("-"):
+                    xsDataImageBackground3D.b_coef = XSDataDouble(listLine[4])
+                    xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[5])
+                    xsDataImageBackground3D.esitmate = XSDataDouble(listLine[6])
+                else:
+                    xsDataImageBackground3D.scale = XSDataDouble(listLine[1])
+                    xsDataImageBackground3D.bfactor = XSDataDouble(listLine[2])
+                    xsDataImageBackground3D.resolution = XSDataDouble(listLine[3])
+                    xsDataImageBackground3D.correlation = XSDataDouble(listLine[4])
+                    xsDataImageBackground3D.rfactor = XSDataDouble(listLine[5])
+                    xsDataImageBackground3D.b_coef = XSDataDouble(listLine[6])
+                    xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[7])
+                    xsDataImageBackground3D.esitmate = XSDataDouble(listLine[8])
+                xsDataResultBackground3D.addImageBackground(xsDataImageBackground3D)
+        return xsDataResultBackground3D
+        

@@ -57,5 +57,11 @@ class EDTestCasePluginUnitBackground3Dv1_0(EDTestCasePluginUnit):
         strCommandText = edPlugin.generateCommands(xsDataInput)
         print strCommandText
 
+    def test_parseOutput(self):
+        edPlugin = self.getPlugin()
+        xsDataResult = edPlugin.parseOutput(os.path.join(self.strDataPath, "background.log"))
+        EDAssert.equal(15, len(xsDataResult.imageBackground), "Result from 15 images")
+        
     def process(self):
         self.addTestMethod(self.test_generateCommands)
+        self.addTestMethod(self.test_parseOutput)
