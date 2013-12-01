@@ -43,7 +43,7 @@ class EDTestCasePluginExecuteBackground3Dv1_0(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginBackground3Dv1_0")
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputBackground3D_reference.xml"))
-        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBackground3D_reference.xml"))
+#        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultBackground3D_reference.xml"))
 
     def preProcess(self):
         EDTestCasePluginExecute.preProcess(self)

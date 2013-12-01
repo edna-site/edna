@@ -59,30 +59,40 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
         EDPluginExecProcessScript.__init__(self)
         self.setXSDataInputClass(XSDataInputBackground3D)
         self.setDataOutput(XSDataResultBackground3D())
+        self.strImageLinkSubDirectory = "img"
 
 
     def checkParameters(self):
         """
         Checks the mandatory parameters.
         """
-        self.DEBUG("EDPluginExecMtz2Variousv1_0.checkParameters")
+        self.DEBUG("EDPluginBackground3Dv1_0.checkParameters")
         self.checkMandatoryParameters(self.dataInput, "Data Input is None")
 
     
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
-        self.DEBUG("EDPluginExecMtz2Variousv1_0.preProcess")
+        self.DEBUG("EDPluginBackground3Dv1_0.preProcess")
         xsDataInputBackground3D = self.getDataInput()
-        self.setScriptCommandline(self.generateCommands(xsDataInputBackground3D))
+        self.setScriptCommandline("background.dat")
+        strCommands = self.generateCommands(xsDataInputBackground3D)
+        self.createImageLinks(xsDataInputBackground3D)
+        EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(), "background.dat"), strCommands)
 
-        
-        
+
+    def postProcess(self, _edObject=None):
+        EDPluginExecProcessScript.postProcess(self)
+        self.DEBUG("EDPluginBackground3Dv1_0.postProcess")
+        self.dataOutput = self.parseOutput(os.path.join(self.getWorkingDirectory(),
+                                                        self.getScriptLogFileName()))
+
+
     
     def generateCommands(self, _xsDataInputBackground3D):
         """
         This method creates the input file for background3D
         """
-        self.DEBUG("EDPluginExecMtz2Variousv1_0.generateCommands")
+        self.DEBUG("EDPluginBackground3Dv1_0.generateCommands")
         strCommandText = None
         if _xsDataInputBackground3D is not None:
             strCommandText = "detector %s\n" % _xsDataInputBackground3D.detectorType.value
@@ -97,9 +107,30 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
             strCommandText += "starting_angle %.3f\n" % _xsDataInputBackground3D.startingAngle.value
             strCommandText += "first_image_number %d\n" % _xsDataInputBackground3D.firstImageNumber.value
             strCommandText += "number_images %d\n" % _xsDataInputBackground3D.numberImages.value
-            strCommandText += "name_template_image %s\n" % _xsDataInputBackground3D.nameTemplateImage.value
+            strCommandText += "name_template_image %s\n" % os.path.join(self.strImageLinkSubDirectory,
+                                                                        os.path.basename(_xsDataInputBackground3D.nameTemplateImage.value))
+            strCommandText += "end\n"
         return strCommandText
     
+
+    def createImageLinks(self, _xsDataInputBackground3D):
+        self.addListCommandPreExecution("rm -rf %s" % (self.strImageLinkSubDirectory))
+        self.addListCommandPreExecution("mkdir -p %s" % (self.strImageLinkSubDirectory))
+        strTemplate = os.path.basename(_xsDataInputBackground3D.nameTemplateImage.value)
+        strTemplatePrefix, strTemplateSuffix = strTemplate.split("????")
+        for index in range(_xsDataInputBackground3D.numberImages.value):
+            iImageNo = _xsDataInputBackground3D.firstImageNumber.value + index
+            strImageName = strTemplatePrefix + "%04d" % iImageNo + strTemplateSuffix
+            strSourcePath = os.path.join(os.path.dirname(_xsDataInputBackground3D.nameTemplateImage.value),
+                                           strImageName)
+            strTargetPath = os.path.join(self.strImageLinkSubDirectory,
+                                       strImageName)
+            self.addListCommandPreExecution("ln -s %s %s" % (strSourcePath, strTargetPath))
+
+        
+        
+  
+        
     def parseOutput(self, _strFileName):
         """
         This method parses the output of background3D

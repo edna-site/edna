@@ -34,9 +34,9 @@
 		<value>1</value>
 	</firstImageNumber>
 	<numberImages>
-		<value>15</value>
+		<value>1</value>
 	</numberImages>
 	<nameTemplateImage>
-		<value>${EDNA_PLUGIN_TESTS_DATA_HOME}/mesh2d-x1_1_????.cbf</value>
+		<value>${EDNA_TESTIMAGES}/mesh2d-x1_1_????.cbf</value>
 	</nameTemplateImage>
 </XSDataInputBackground3D>

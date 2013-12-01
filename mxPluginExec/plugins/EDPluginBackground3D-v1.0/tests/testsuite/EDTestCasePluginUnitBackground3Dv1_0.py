@@ -62,6 +62,13 @@ class EDTestCasePluginUnitBackground3Dv1_0(EDTestCasePluginUnit):
         xsDataResult = edPlugin.parseOutput(os.path.join(self.strDataPath, "background.log"))
         EDAssert.equal(15, len(xsDataResult.imageBackground), "Result from 15 images")
         
+    def test_createImageLinks(self):
+        edPlugin = self.getPlugin()
+        strInputXML = EDUtilsFile.readFile(os.path.join(self.strDataPath, "XSDataInputBackground3D_reference.xml"))
+        xsDataInput = XSDataInputBackground3D.parseString(strInputXML)
+        strCommandText = edPlugin.createImageLinks(xsDataInput)
+
     def process(self):
         self.addTestMethod(self.test_generateCommands)
         self.addTestMethod(self.test_parseOutput)
+        self.addTestMethod(self.test_createImageLinks)
