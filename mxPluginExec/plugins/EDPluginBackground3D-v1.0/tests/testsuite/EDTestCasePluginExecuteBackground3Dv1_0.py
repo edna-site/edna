@@ -47,6 +47,7 @@ class EDTestCasePluginExecuteBackground3Dv1_0(EDTestCasePluginExecute):
 
     def preProcess(self):
         EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([ "mesh2d-x1_1_0001.cbf" ])
 
     def testExecute(self):
         self.run()
