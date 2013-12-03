@@ -1,6 +1,6 @@
 # coding: utf8
 #
-#    Project: MX Plugin Exec
+#    Project: MXv1
 #             http://www.edna-site.org
 #
 #    Copyright (C) ESRF
@@ -25,41 +25,40 @@ __author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-import os, time
+import os
 
-from EDPluginExecProcessScript import EDPluginExecProcessScript
-from EDUtilsTable              import EDUtilsTable
-from EDFactoryPluginStatic import EDFactoryPluginStatic
-from EDUtilsFile import EDUtilsFile
-
-EDFactoryPluginStatic.loadModule("markupv1_7")
-import markupv1_7
-
-from XSDataCommon import XSDataDouble
-from XSDataCommon import XSDataString
-from XSDataCommon import XSDataFile
-
-from XSDataDnaTables import dna_tables
+from EDPluginControl import EDPluginControl
+from EDUtilsImage import EDUtilsImage
 
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
 
+from EDFactoryPluginStatic import EDFactoryPluginStatic
+EDFactoryPluginStatic.loadModule("XSDataBackground3Dv1_0")
 from XSDataBackground3Dv1_0 import XSDataInputBackground3D
-from XSDataBackground3Dv1_0 import XSDataResultBackground3D
-from XSDataBackground3Dv1_0 import XSDataImageBackground3D
 
-class EDPluginControlBackground3Dv1_0(EDPluginExecProcessScript):
+from XSDataMXv1 import XSDataInputReadImageHeader
+
+from XSDataControlBackground3Dv1_0 import XSDataInputControlBackground3D
+from XSDataControlBackground3Dv1_0 import XSDataResultControlBackground3D
+from XSDataControlBackground3Dv1_0 import XSDataControlImageBackground3D
+
+
+class EDPluginControlBackground3Dv1_0(EDPluginControl):
     """
     This plugin runs the Background3D program written by Sasha Popov
     """
     
 
     def __init__(self):
-        EDPluginExecProcessScript.__init__(self)
-        self.setXSDataInputClass(XSDataInputBackground3D)
-        self.setDataOutput(XSDataResultBackground3D())
-        self.strImageLinkSubDirectory = "img"
+        EDPluginControl.__init__(self)
+        self.setXSDataInputClass(XSDataInputControlBackground3D)
+        self.setDataOutput(XSDataResultControlBackground3D())
+        self.strEDPluginControlReadImageHeaderName = "EDPluginControlReadImageHeaderv10"
+        self.edPluginControlReadImageHeader = None
+        self.strEDPluginBackground3DName = "EDPluginBackground3Dv1_0"
+        self.edPluginBackground3D = None
 
 
     def checkParameters(self):
@@ -71,93 +70,62 @@ class EDPluginControlBackground3Dv1_0(EDPluginExecProcessScript):
 
     
     def preProcess(self, _edObject=None):
-        EDPluginExecProcessScript.preProcess(self)
+        EDPluginControl.preProcess(self)
         self.DEBUG("EDPluginControlBackground3Dv1_0.preProcess")
-        xsDataInputBackground3D = self.getDataInput()
-        self.setScriptCommandline("background.dat")
-        strCommands = self.generateCommands(xsDataInputBackground3D)
-        self.createImageLinks(xsDataInputBackground3D)
-        EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(), "background.dat"), strCommands)
-
-
-    def postProcess(self, _edObject=None):
-        EDPluginExecProcessScript.postProcess(self)
-        self.DEBUG("EDPluginControlBackground3Dv1_0.postProcess")
-        self.dataOutput = self.parseOutput(os.path.join(self.getWorkingDirectory(),
-                                                        self.getScriptLogFileName()))
-
-
-    
-    def generateCommands(self, _xsDataInputBackground3D):
-        """
-        This method creates the input file for background3D
-        """
-        self.DEBUG("EDPluginControlBackground3Dv1_0.generateCommands")
-        strCommandText = None
-        if _xsDataInputBackground3D is not None:
-            strCommandText = "detector %s\n" % _xsDataInputBackground3D.detectorType.value
-            strCommandText += "exposure %.3f\n" % _xsDataInputBackground3D.exposureTime.value
-            strCommandText += "detector_distance %.3f\n" % _xsDataInputBackground3D.detectorDistance.value
-            strCommandText += "X-ray_wavelength %.3f\n" % _xsDataInputBackground3D.wavelength.value
-            strCommandText += "fraction_polarization %.3f\n" % _xsDataInputBackground3D.fractionPolatization.value
-            strCommandText += "orgx %.1f\n" % _xsDataInputBackground3D.orgx.value
-            strCommandText += "orgy %.1f\n" % _xsDataInputBackground3D.orgy.value
-            strCommandText += "oscillation_range %.3f\n" % _xsDataInputBackground3D.oscillationRange.value
-            strCommandText += "image_step %.3f\n" % _xsDataInputBackground3D.imageStep.value
-            strCommandText += "starting_angle %.3f\n" % _xsDataInputBackground3D.startingAngle.value
-            strCommandText += "first_image_number %d\n" % _xsDataInputBackground3D.firstImageNumber.value
-            strCommandText += "number_images %d\n" % _xsDataInputBackground3D.numberImages.value
-            strCommandText += "name_template_image %s\n" % os.path.join(self.strImageLinkSubDirectory,
-                                                                        os.path.basename(_xsDataInputBackground3D.nameTemplateImage.value))
-            strCommandText += "end\n"
-        return strCommandText
-    
-
-    def createImageLinks(self, _xsDataInputBackground3D):
-        self.addListCommandPreExecution("rm -rf %s" % (self.strImageLinkSubDirectory))
-        self.addListCommandPreExecution("mkdir -p %s" % (self.strImageLinkSubDirectory))
-        strTemplate = os.path.basename(_xsDataInputBackground3D.nameTemplateImage.value)
-        strTemplatePrefix, strTemplateSuffix = strTemplate.split("????")
-        for index in range(_xsDataInputBackground3D.numberImages.value):
-            iImageNo = _xsDataInputBackground3D.firstImageNumber.value + index
-            strImageName = strTemplatePrefix + "%04d" % iImageNo + strTemplateSuffix
-            strSourcePath = os.path.join(os.path.dirname(_xsDataInputBackground3D.nameTemplateImage.value),
-                                           strImageName)
-            strTargetPath = os.path.join(self.strImageLinkSubDirectory,
-                                       strImageName)
-            self.addListCommandPreExecution("ln -s %s %s" % (strSourcePath, strTargetPath))
-
+        self.edPluginControlReadImageHeader = self.loadPlugin(self.strEDPluginControlReadImageHeaderName, "SubWedgeAssemble")
+        self.edPluginBackground3D = self.loadPlugin(self.strEDPluginBackground3DName, "Background3D")
         
-        
-  
-        
-    def parseOutput(self, _strFileName):
-        """
-        This method parses the output of background3D
-        """
-        xsDataResultBackground3D = XSDataResultBackground3D()
-        strOutput = EDUtilsFile.readFile(_strFileName)
-        # Skip the four first lines
-        listOutput = strOutput.split("\n")[4:]
-        for strLine in listOutput:
-            xsDataImageBackground3D = XSDataImageBackground3D()
-            # Remove empty strings ""
-            listLine = filter(None, strLine.split(" "))
-            if listLine != []:
-                xsDataImageBackground3D.number = XSDataInteger(listLine[0])
-                if listLine[1].startswith("-"):
-                    xsDataImageBackground3D.b_coef = XSDataDouble(listLine[4])
-                    xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[5])
-                    xsDataImageBackground3D.esitmate = XSDataDouble(listLine[6])
-                else:
-                    xsDataImageBackground3D.scale = XSDataDouble(listLine[1])
-                    xsDataImageBackground3D.bfactor = XSDataDouble(listLine[2])
-                    xsDataImageBackground3D.resolution = XSDataDouble(listLine[3])
-                    xsDataImageBackground3D.correlation = XSDataDouble(listLine[4])
-                    xsDataImageBackground3D.rfactor = XSDataDouble(listLine[5])
-                    xsDataImageBackground3D.b_coef = XSDataDouble(listLine[6])
-                    xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[7])
-                    xsDataImageBackground3D.esitmate = XSDataDouble(listLine[8])
-                xsDataResultBackground3D.addImageBackground(xsDataImageBackground3D)
-        return xsDataResultBackground3D
-        
+
+
+    def process(self, _edObject=None):
+        EDPluginControl.process(self)
+        self.DEBUG("EDPluginControlBackground3Dv1_0.process")
+        xsDataResultControlBackground3D = XSDataResultControlBackground3D()
+        for xsDataFile in self.dataInput.image:
+            edPluginControlReadImageHeader = self.loadPlugin(self.strEDPluginControlReadImageHeaderName)
+            xsDataInputReadImageHeader = XSDataInputReadImageHeader()
+            xsDataInputReadImageHeader.image = xsDataFile
+            edPluginControlReadImageHeader.dataInput = xsDataInputReadImageHeader
+            edPluginControlReadImageHeader.executeSynchronous()
+            subWedge = edPluginControlReadImageHeader.dataOutput.subWedge
+            xsDataInputBackground3D = XSDataInputBackground3D()
+            beam = subWedge.experimentalCondition.beam
+            detector = subWedge.experimentalCondition.detector
+            goniostat = subWedge.experimentalCondition.goniostat
+            xsDataInputBackground3D.detectorType = detector.type
+            xsDataInputBackground3D.exposureTime = XSDataDouble(beam.exposureTime.value)
+            xsDataInputBackground3D.detectorDistance = XSDataDouble(detector.distance.value)
+            xsDataInputBackground3D.wavelength = XSDataDouble(beam.wavelength.value)
+#            xsDataInputBackground3D.fractionPolatization : XSDataDouble optional
+            orgx = detector.beamPositionY.value / detector.pixelSizeY.value
+            orgy = detector.beamPositionX.value / detector.pixelSizeX.value
+            xsDataInputBackground3D.orgx = XSDataDouble(orgx)
+            xsDataInputBackground3D.orgy = XSDataDouble(orgy)
+            xsDataInputBackground3D.oscillationRange = XSDataDouble(goniostat.oscillationWidth.value)
+#            xsDataInputBackground3D.imageStep : XSDataDouble optional
+            xsDataInputBackground3D.startingAngle = XSDataDouble(goniostat.rotationAxisStart.value)
+            xsDataInputBackground3D.firstImageNumber = subWedge.image[0].number
+            xsDataInputBackground3D.numberImages = XSDataInteger(1)
+            strFileName = subWedge.image[0].path.value
+            strPrefix = EDUtilsImage.getPrefix(strFileName)
+            strSuffix = EDUtilsImage.getSuffix(strFileName)
+            strXDSTemplate = "%s_????.%s" % (strPrefix, strSuffix)
+            xsDataInputBackground3D.nameTemplateImage = XSDataString(os.path.join(os.path.dirname(strFileName), strXDSTemplate))
+            edPluginBackground3D = self.loadPlugin(self.strEDPluginBackground3DName, "Background3D")
+            edPluginBackground3D.dataInput = xsDataInputBackground3D
+            edPluginBackground3D.executeSynchronous()
+            xsDataResultBackground3D = edPluginBackground3D.dataOutput.imageBackground[0]
+            xsDataControlImageBackground3D = XSDataControlImageBackground3D()
+            xsDataControlImageBackground3D.image = xsDataFile
+            xsDataControlImageBackground3D.scale = xsDataResultBackground3D.scale
+            xsDataControlImageBackground3D.bfactor = xsDataResultBackground3D.bfactor
+            xsDataControlImageBackground3D.resolution = xsDataResultBackground3D.resolution
+            xsDataControlImageBackground3D.correlation = xsDataResultBackground3D.correlation
+            xsDataControlImageBackground3D.rfactor = xsDataResultBackground3D.rfactor
+            xsDataControlImageBackground3D.b_coef = xsDataResultBackground3D.b_coef
+            xsDataControlImageBackground3D.b_cryst = xsDataResultBackground3D.b_cryst
+            xsDataControlImageBackground3D.esitmate = xsDataResultBackground3D.esitmate
+            xsDataResultControlBackground3D.addImageBackground(xsDataControlImageBackground3D)
+        self.dataOutput = xsDataResultControlBackground3D
+
+     

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Nov 29 04:56::30 2013 by EDGenerateDS.
+# Generated Tue Dec 3 09:57::23 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -419,7 +419,7 @@ class XSDataImageBackground3D(object):
 
 
 class XSDataInputBackground3D(XSDataInput):
-    def __init__(self, configuration=None, nameTemplateImage=None, numberImages=None, firstImageNumber=None, startingAngle=None, imageStep=None, oscillationRange=None, orgy=None, orgx=None, fractionPolatization=None, wavelength=None, detectorDistance=None, exposureTime=None, detectorType=None):
+    def __init__(self, configuration=None, nameTemplateImage=None, numberImages=None, firstImageNumber=None, startingAngle=None, imageStep=None, oscillationRange=None, orgy=None, orgx=None, fractionPolarization=None, wavelength=None, detectorDistance=None, exposureTime=None, detectorType=None):
         XSDataInput.__init__(self, configuration)
         if detectorType is None:
             self._detectorType = None
@@ -449,12 +449,12 @@ class XSDataInputBackground3D(XSDataInput):
         else:
             strMessage = "ERROR! XSDataInputBackground3D constructor argument 'wavelength' is not XSDataDouble but %s" % self._wavelength.__class__.__name__
             raise BaseException(strMessage)
-        if fractionPolatization is None:
-            self._fractionPolatization = None
-        elif fractionPolatization.__class__.__name__ == "XSDataDouble":
-            self._fractionPolatization = fractionPolatization
+        if fractionPolarization is None:
+            self._fractionPolarization = None
+        elif fractionPolarization.__class__.__name__ == "XSDataDouble":
+            self._fractionPolarization = fractionPolarization
         else:
-            strMessage = "ERROR! XSDataInputBackground3D constructor argument 'fractionPolatization' is not XSDataDouble but %s" % self._fractionPolatization.__class__.__name__
+            strMessage = "ERROR! XSDataInputBackground3D constructor argument 'fractionPolarization' is not XSDataDouble but %s" % self._fractionPolarization.__class__.__name__
             raise BaseException(strMessage)
         if orgx is None:
             self._orgx = None
@@ -560,18 +560,18 @@ class XSDataInputBackground3D(XSDataInput):
             raise BaseException(strMessage)
     def delWavelength(self): self._wavelength = None
     wavelength = property(getWavelength, setWavelength, delWavelength, "Property for wavelength")
-    # Methods and properties for the 'fractionPolatization' attribute
-    def getFractionPolatization(self): return self._fractionPolatization
-    def setFractionPolatization(self, fractionPolatization):
-        if fractionPolatization is None:
-            self._fractionPolatization = None
-        elif fractionPolatization.__class__.__name__ == "XSDataDouble":
-            self._fractionPolatization = fractionPolatization
+    # Methods and properties for the 'fractionPolarization' attribute
+    def getFractionPolarization(self): return self._fractionPolarization
+    def setFractionPolarization(self, fractionPolarization):
+        if fractionPolarization is None:
+            self._fractionPolarization = None
+        elif fractionPolarization.__class__.__name__ == "XSDataDouble":
+            self._fractionPolarization = fractionPolarization
         else:
-            strMessage = "ERROR! XSDataInputBackground3D.setFractionPolatization argument is not XSDataDouble but %s" % fractionPolatization.__class__.__name__
+            strMessage = "ERROR! XSDataInputBackground3D.setFractionPolarization argument is not XSDataDouble but %s" % fractionPolarization.__class__.__name__
             raise BaseException(strMessage)
-    def delFractionPolatization(self): self._fractionPolatization = None
-    fractionPolatization = property(getFractionPolatization, setFractionPolatization, delFractionPolatization, "Property for fractionPolatization")
+    def delFractionPolarization(self): self._fractionPolarization = None
+    fractionPolarization = property(getFractionPolarization, setFractionPolarization, delFractionPolarization, "Property for fractionPolarization")
     # Methods and properties for the 'orgx' attribute
     def getOrgx(self): return self._orgx
     def setOrgx(self, orgx):
@@ -692,8 +692,8 @@ class XSDataInputBackground3D(XSDataInput):
             self.wavelength.export(outfile, level, name_='wavelength')
         else:
             warnEmptyAttribute("wavelength", "XSDataDouble")
-        if self._fractionPolatization is not None:
-            self.fractionPolatization.export(outfile, level, name_='fractionPolatization')
+        if self._fractionPolarization is not None:
+            self.fractionPolarization.export(outfile, level, name_='fractionPolarization')
         if self._orgx is not None:
             self.orgx.export(outfile, level, name_='orgx')
         else:
@@ -748,10 +748,10 @@ class XSDataInputBackground3D(XSDataInput):
             obj_.build(child_)
             self.setWavelength(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'fractionPolatization':
+            nodeName_ == 'fractionPolarization':
             obj_ = XSDataDouble()
             obj_.build(child_)
-            self.setFractionPolatization(obj_)
+            self.setFractionPolarization(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'orgx':
             obj_ = XSDataDouble()

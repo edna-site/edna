@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Sun Dec 1 03:35::08 2013 by EDGenerateDS.
+# Generated Mon Dec 2 09:42::43 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -20,9 +20,9 @@ dictLocation = { \
 
 try:
     from XSDataCommon import XSDataDouble
+    from XSDataCommon import XSDataFile
     from XSDataCommon import XSDataInput
     from XSDataCommon import XSDataResult
-    from XSDataCommon import XSDataImage
 except ImportError as error:
     if strEdnaHome is not None:
         for strXsdName in dictLocation:
@@ -34,9 +34,9 @@ except ImportError as error:
     else:
         raise error
 from XSDataCommon import XSDataDouble
+from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataResult
-from XSDataCommon import XSDataImage
 
 
 
@@ -120,10 +120,10 @@ class XSDataControlImageBackground3D(object):
     def __init__(self, esitmate=None, b_cryst=None, b_coef=None, rfactor=None, correlation=None, resolution=None, bfactor=None, scale=None, image=None):
         if image is None:
             self._image = None
-        elif image.__class__.__name__ == "XSDataImage":
+        elif image.__class__.__name__ == "XSDataFile":
             self._image = image
         else:
-            strMessage = "ERROR! XSDataControlImageBackground3D constructor argument 'image' is not XSDataImage but %s" % self._image.__class__.__name__
+            strMessage = "ERROR! XSDataControlImageBackground3D constructor argument 'image' is not XSDataFile but %s" % self._image.__class__.__name__
             raise BaseException(strMessage)
         if scale is None:
             self._scale = None
@@ -186,10 +186,10 @@ class XSDataControlImageBackground3D(object):
     def setImage(self, image):
         if image is None:
             self._image = None
-        elif image.__class__.__name__ == "XSDataImage":
+        elif image.__class__.__name__ == "XSDataFile":
             self._image = image
         else:
-            strMessage = "ERROR! XSDataControlImageBackground3D.setImage argument is not XSDataImage but %s" % image.__class__.__name__
+            strMessage = "ERROR! XSDataControlImageBackground3D.setImage argument is not XSDataFile but %s" % image.__class__.__name__
             raise BaseException(strMessage)
     def delImage(self): self._image = None
     image = property(getImage, setImage, delImage, "Property for image")
@@ -300,7 +300,7 @@ class XSDataControlImageBackground3D(object):
         if self._image is not None:
             self.image.export(outfile, level, name_='image')
         else:
-            warnEmptyAttribute("image", "XSDataImage")
+            warnEmptyAttribute("image", "XSDataFile")
         if self._scale is not None:
             self.scale.export(outfile, level, name_='scale')
         if self._bfactor is not None:
@@ -328,7 +328,7 @@ class XSDataControlImageBackground3D(object):
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'image':
-            obj_ = XSDataImage()
+            obj_ = XSDataFile()
             obj_.build(child_)
             self.setImage(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -441,10 +441,10 @@ class XSDataInputControlBackground3D(XSDataInput):
         if value is None:
             strMessage = "ERROR! XSDataInputControlBackground3D.addImage argument is None"
             raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataImage":
+        elif value.__class__.__name__ == "XSDataFile":
             self._image.append(value)
         else:
-            strMessage = "ERROR! XSDataInputControlBackground3D.addImage argument is not XSDataImage but %s" % value.__class__.__name__
+            strMessage = "ERROR! XSDataInputControlBackground3D.addImage argument is not XSDataFile but %s" % value.__class__.__name__
             raise BaseException(strMessage)
     def insertImage(self, index, value):
         if index is None:
@@ -453,10 +453,10 @@ class XSDataInputControlBackground3D(XSDataInput):
         if value is None:
             strMessage = "ERROR! XSDataInputControlBackground3D.insertImage argument 'value' is None"
             raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataImage":
+        elif value.__class__.__name__ == "XSDataFile":
             self._image[index] = value
         else:
-            strMessage = "ERROR! XSDataInputControlBackground3D.addImage argument is not XSDataImage but %s" % value.__class__.__name__
+            strMessage = "ERROR! XSDataInputControlBackground3D.addImage argument is not XSDataFile but %s" % value.__class__.__name__
             raise BaseException(strMessage)
     def export(self, outfile, level, name_='XSDataInputControlBackground3D'):
         showIndent(outfile, level)
@@ -469,7 +469,7 @@ class XSDataInputControlBackground3D(XSDataInput):
         for image_ in self.getImage():
             image_.export(outfile, level, name_='image')
         if self.getImage() == []:
-            warnEmptyAttribute("image", "XSDataImage")
+            warnEmptyAttribute("image", "XSDataFile")
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -477,7 +477,7 @@ class XSDataInputControlBackground3D(XSDataInput):
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'image':
-            obj_ = XSDataImage()
+            obj_ = XSDataFile()
             obj_.build(child_)
             self.image.append(obj_)
         XSDataInput.buildChildren(self, child_, nodeName_)

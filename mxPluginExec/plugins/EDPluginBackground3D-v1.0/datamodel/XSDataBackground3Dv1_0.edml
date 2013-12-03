@@ -24,7 +24,7 @@ complex type XSDataInputBackground3D extends XSDataInput {
 	exposureTime : XSDataDouble
 	detectorDistance : XSDataDouble
 	wavelength : XSDataDouble
-	fractionPolatization : XSDataDouble optional
+	fractionPolarization : XSDataDouble optional
 	orgx : XSDataDouble
 	orgy : XSDataDouble
 	oscillationRange : XSDataDouble

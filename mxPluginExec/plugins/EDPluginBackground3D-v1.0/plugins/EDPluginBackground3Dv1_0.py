@@ -60,7 +60,9 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
         self.setXSDataInputClass(XSDataInputBackground3D)
         self.setDataOutput(XSDataResultBackground3D())
         self.strImageLinkSubDirectory = "img"
-
+        self.defaultFractionPolarization = 0.99
+        self.defaultImageStep = 1
+        self.startingAngle = 0.0
 
     def checkParameters(self):
         """
@@ -99,12 +101,24 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
             strCommandText += "exposure %.3f\n" % _xsDataInputBackground3D.exposureTime.value
             strCommandText += "detector_distance %.3f\n" % _xsDataInputBackground3D.detectorDistance.value
             strCommandText += "X-ray_wavelength %.3f\n" % _xsDataInputBackground3D.wavelength.value
-            strCommandText += "fraction_polarization %.3f\n" % _xsDataInputBackground3D.fractionPolatization.value
+            if _xsDataInputBackground3D.fractionPolarization is None:
+                fractionPolarization = self.defaultFractionPolarization
+            else:
+                fractionPolarization = _xsDataInputBackground3D.fractionPolarization.value
+            strCommandText += "fraction_polarization %.3f\n" % fractionPolarization
             strCommandText += "orgx %.1f\n" % _xsDataInputBackground3D.orgx.value
             strCommandText += "orgy %.1f\n" % _xsDataInputBackground3D.orgy.value
             strCommandText += "oscillation_range %.3f\n" % _xsDataInputBackground3D.oscillationRange.value
-            strCommandText += "image_step %.3f\n" % _xsDataInputBackground3D.imageStep.value
-            strCommandText += "starting_angle %.3f\n" % _xsDataInputBackground3D.startingAngle.value
+            if _xsDataInputBackground3D.imageStep is None:
+                imageStep = self.defaultImageStep
+            else:
+                imageStep = _xsDataInputBackground3D.imageStep.value
+            strCommandText += "image_step %.3f\n" % imageStep
+            if _xsDataInputBackground3D.startingAngle is None:
+                startingAngle = self.defaultStartingAngle
+            else:
+                startingAngle = _xsDataInputBackground3D.startingAngle.value
+            strCommandText += "starting_angle %.3f\n" % startingAngle
             strCommandText += "first_image_number %d\n" % _xsDataInputBackground3D.firstImageNumber.value
             strCommandText += "number_images %d\n" % _xsDataInputBackground3D.numberImages.value
             strCommandText += "name_template_image %s\n" % os.path.join(self.strImageLinkSubDirectory,

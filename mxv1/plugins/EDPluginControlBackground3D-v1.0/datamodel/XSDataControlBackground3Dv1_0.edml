@@ -5,11 +5,11 @@ import XSDataCommon.XSDataDouble
 import XSDataCommon.XSDataString
 import XSDataCommon.XSDataInput
 import XSDataCommon.XSDataResult
-import XSDataCommon.XSDataImage
+import XSDataCommon.XSDataFile
 
 
 complex type XSDataControlImageBackground3D {
-	image : XSDataImage
+	image : XSDataFile
 	scale : XSDataDouble optional
 	bfactor : XSDataDouble optional
 	resolution : XSDataDouble optional
@@ -22,7 +22,7 @@ complex type XSDataControlImageBackground3D {
 
 
 complex type XSDataInputControlBackground3D extends XSDataInput {
-	image : XSDataImage []
+	image : XSDataFile []
 }
 
 complex type XSDataResultControlBackground3D extends XSDataResult {
