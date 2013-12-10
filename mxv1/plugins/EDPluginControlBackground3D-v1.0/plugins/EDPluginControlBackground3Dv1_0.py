@@ -124,7 +124,7 @@ class EDPluginControlBackground3Dv1_0(EDPluginControl):
             xsDataControlImageBackground3D.rfactor = xsDataResultBackground3D.rfactor
             xsDataControlImageBackground3D.b_coef = xsDataResultBackground3D.b_coef
             xsDataControlImageBackground3D.b_cryst = xsDataResultBackground3D.b_cryst
-            xsDataControlImageBackground3D.esitmate = xsDataResultBackground3D.esitmate
+            xsDataControlImageBackground3D.estimate = xsDataResultBackground3D.estimate
             xsDataResultControlBackground3D.addImageBackground(xsDataControlImageBackground3D)
         self.dataOutput = xsDataResultControlBackground3D
 

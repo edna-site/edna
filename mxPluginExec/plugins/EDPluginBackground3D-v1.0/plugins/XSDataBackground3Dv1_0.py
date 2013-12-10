@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Dec 3 09:57::23 2013 by EDGenerateDS.
+# Generated Tue Dec 10 02:41::54 2013 by EDGenerateDS.
 #
 
 import os, sys
@@ -120,7 +120,7 @@ class MixedContainer(object):
 
 
 class XSDataImageBackground3D(object):
-    def __init__(self, esitmate=None, b_cryst=None, b_coef=None, rfactor=None, correlation=None, resolution=None, bfactor=None, scale=None, number=None):
+    def __init__(self, estimate=None, b_cryst=None, b_coef=None, rfactor=None, correlation=None, resolution=None, bfactor=None, scale=None, number=None):
         if number is None:
             self._number = None
         elif number.__class__.__name__ == "XSDataInteger":
@@ -177,12 +177,12 @@ class XSDataImageBackground3D(object):
         else:
             strMessage = "ERROR! XSDataImageBackground3D constructor argument 'b_cryst' is not XSDataDouble but %s" % self._b_cryst.__class__.__name__
             raise BaseException(strMessage)
-        if esitmate is None:
-            self._esitmate = None
-        elif esitmate.__class__.__name__ == "XSDataDouble":
-            self._esitmate = esitmate
+        if estimate is None:
+            self._estimate = None
+        elif estimate.__class__.__name__ == "XSDataDouble":
+            self._estimate = estimate
         else:
-            strMessage = "ERROR! XSDataImageBackground3D constructor argument 'esitmate' is not XSDataDouble but %s" % self._esitmate.__class__.__name__
+            strMessage = "ERROR! XSDataImageBackground3D constructor argument 'estimate' is not XSDataDouble but %s" % self._estimate.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'number' attribute
     def getNumber(self): return self._number
@@ -280,18 +280,18 @@ class XSDataImageBackground3D(object):
             raise BaseException(strMessage)
     def delB_cryst(self): self._b_cryst = None
     b_cryst = property(getB_cryst, setB_cryst, delB_cryst, "Property for b_cryst")
-    # Methods and properties for the 'esitmate' attribute
-    def getEsitmate(self): return self._esitmate
-    def setEsitmate(self, esitmate):
-        if esitmate is None:
-            self._esitmate = None
-        elif esitmate.__class__.__name__ == "XSDataDouble":
-            self._esitmate = esitmate
+    # Methods and properties for the 'estimate' attribute
+    def getEstimate(self): return self._estimate
+    def setEstimate(self, estimate):
+        if estimate is None:
+            self._estimate = None
+        elif estimate.__class__.__name__ == "XSDataDouble":
+            self._estimate = estimate
         else:
-            strMessage = "ERROR! XSDataImageBackground3D.setEsitmate argument is not XSDataDouble but %s" % esitmate.__class__.__name__
+            strMessage = "ERROR! XSDataImageBackground3D.setEstimate argument is not XSDataDouble but %s" % estimate.__class__.__name__
             raise BaseException(strMessage)
-    def delEsitmate(self): self._esitmate = None
-    esitmate = property(getEsitmate, setEsitmate, delEsitmate, "Property for esitmate")
+    def delEstimate(self): self._estimate = None
+    estimate = property(getEstimate, setEstimate, delEstimate, "Property for estimate")
     def export(self, outfile, level, name_='XSDataImageBackground3D'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -322,8 +322,8 @@ class XSDataImageBackground3D(object):
             self.b_cryst.export(outfile, level, name_='b_cryst')
         else:
             warnEmptyAttribute("b_cryst", "XSDataDouble")
-        if self._esitmate is not None:
-            self.esitmate.export(outfile, level, name_='esitmate')
+        if self._estimate is not None:
+            self.estimate.export(outfile, level, name_='estimate')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -370,10 +370,10 @@ class XSDataImageBackground3D(object):
             obj_.build(child_)
             self.setB_cryst(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'esitmate':
+            nodeName_ == 'estimate':
             obj_ = XSDataDouble()
             obj_.build(child_)
-            self.setEsitmate(obj_)
+            self.setEstimate(obj_)
     #Method for marshalling an object
     def marshal( self ):
         oStreamString = StringIO()

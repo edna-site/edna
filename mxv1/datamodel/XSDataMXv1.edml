@@ -24,6 +24,7 @@ package XSDataMXv1 {
 	package MXv1CharacterisationEtc {
 
 		complex type XSDataImageQualityIndicators extends XSData {
+			background3D_estimate : XSDataDouble optional
 			binPopCutOffMethod2Res : XSDataDouble
 			goodBraggCandidates : XSDataInteger
 			iceRings : XSDataInteger

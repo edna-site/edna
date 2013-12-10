@@ -16,7 +16,7 @@ complex type XSDataImageBackground3D {
 	rfactor : XSDataDouble optional
 	b_coef : XSDataDouble 
 	b_cryst : XSDataDouble
-	esitmate : XSDataDouble optional
+	estimate : XSDataDouble optional
 }
 
 complex type XSDataInputBackground3D extends XSDataInput {

@@ -162,7 +162,7 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
                 if listLine[1].startswith("-"):
                     xsDataImageBackground3D.b_coef = XSDataDouble(listLine[4])
                     xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[5])
-                    xsDataImageBackground3D.esitmate = XSDataDouble(listLine[6])
+                    xsDataImageBackground3D.estimate = XSDataDouble(listLine[6])
                 else:
                     xsDataImageBackground3D.scale = XSDataDouble(listLine[1])
                     xsDataImageBackground3D.bfactor = XSDataDouble(listLine[2])
@@ -171,7 +171,7 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
                     xsDataImageBackground3D.rfactor = XSDataDouble(listLine[5])
                     xsDataImageBackground3D.b_coef = XSDataDouble(listLine[6])
                     xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[7])
-                    xsDataImageBackground3D.esitmate = XSDataDouble(listLine[8])
+                    xsDataImageBackground3D.estimate = XSDataDouble(listLine[8])
                 xsDataResultBackground3D.addImageBackground(xsDataImageBackground3D)
         return xsDataResultBackground3D
         

@@ -1390,6 +1390,10 @@ This structure is also defined by its number in the asymmetric unit.</body>
         <ownedAttribute xmi:id="_4jMP0LrPEeK16aBjcieMPA" name="selectedIndexingSolution" type="_60pYEOgGEd-TcNOGyxZYYg" isUnique="false">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DUeoILrQEeK16aBjcieMPA"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_f_GcoGGcEeOAH_ctSUuXkA" name="background3D_estimate" isUnique="false">
+          <type xmi:type="uml:Class" href="../../kernel/datamodel/XSDataCommon.uml#_AWAkcOZ-Ed-EdKKHX-lwYA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_erGzQGGeEeOVe4Vx830JHQ"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_bLJrAD6bEeCf_IsLgRsE1A" name="XSDataInputControlXDSGenerateBackgroundImage">
         <generalization xmi:id="_0B4UAD6bEeCf_IsLgRsE1A">
