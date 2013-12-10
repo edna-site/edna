@@ -114,18 +114,19 @@ class EDPluginControlBackground3Dv1_0(EDPluginControl):
             edPluginBackground3D = self.loadPlugin(self.strEDPluginBackground3DName, "Background3D")
             edPluginBackground3D.dataInput = xsDataInputBackground3D
             edPluginBackground3D.executeSynchronous()
-            xsDataResultBackground3D = edPluginBackground3D.dataOutput.imageBackground[0]
-            xsDataControlImageBackground3D = XSDataControlImageBackground3D()
-            xsDataControlImageBackground3D.image = xsDataFile
-            xsDataControlImageBackground3D.scale = xsDataResultBackground3D.scale
-            xsDataControlImageBackground3D.bfactor = xsDataResultBackground3D.bfactor
-            xsDataControlImageBackground3D.resolution = xsDataResultBackground3D.resolution
-            xsDataControlImageBackground3D.correlation = xsDataResultBackground3D.correlation
-            xsDataControlImageBackground3D.rfactor = xsDataResultBackground3D.rfactor
-            xsDataControlImageBackground3D.b_coef = xsDataResultBackground3D.b_coef
-            xsDataControlImageBackground3D.b_cryst = xsDataResultBackground3D.b_cryst
-            xsDataControlImageBackground3D.estimate = xsDataResultBackground3D.estimate
-            xsDataResultControlBackground3D.addImageBackground(xsDataControlImageBackground3D)
+            if edPluginBackground3D.dataOutput.imageBackground != []:
+                xsDataResultBackground3D = edPluginBackground3D.dataOutput.imageBackground[0]
+                xsDataControlImageBackground3D = XSDataControlImageBackground3D()
+                xsDataControlImageBackground3D.image = xsDataFile
+                xsDataControlImageBackground3D.scale = xsDataResultBackground3D.scale
+                xsDataControlImageBackground3D.bfactor = xsDataResultBackground3D.bfactor
+                xsDataControlImageBackground3D.resolution = xsDataResultBackground3D.resolution
+                xsDataControlImageBackground3D.correlation = xsDataResultBackground3D.correlation
+                xsDataControlImageBackground3D.rfactor = xsDataResultBackground3D.rfactor
+                xsDataControlImageBackground3D.b_coef = xsDataResultBackground3D.b_coef
+                xsDataControlImageBackground3D.b_cryst = xsDataResultBackground3D.b_cryst
+                xsDataControlImageBackground3D.estimate = xsDataResultBackground3D.estimate
+                xsDataResultControlBackground3D.addImageBackground(xsDataControlImageBackground3D)
         self.dataOutput = xsDataResultControlBackground3D
 
      

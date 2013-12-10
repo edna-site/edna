@@ -166,7 +166,8 @@ class EDPluginControlImageQualityIndicatorsv1_3(EDPluginControl):
             edPluginControlBackground3D.synchronize()
             xsDataImageQualityIndicators = XSDataImageQualityIndicators.parseString(\
                                              edPluginPluginExecImageQualityIndicator.dataOutput.imageQualityIndicators.marshal())
-            xsDataImageQualityIndicators.background3D_estimate = edPluginControlBackground3D.dataOutput.imageBackground[0].estimate
+            if edPluginControlBackground3D.dataOutput.imageBackground != []:
+                xsDataImageQualityIndicators.background3D_estimate = edPluginControlBackground3D.dataOutput.imageBackground[0].estimate
             self.xsDataResultControlImageQualityIndicators.addImageQualityIndicators(xsDataImageQualityIndicators)
             xsDataISPyBImageQualityIndicators = \
                 XSDataISPyBImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal())
@@ -179,8 +180,12 @@ class EDPluginControlImageQualityIndicatorsv1_3(EDPluginControl):
         if bDoIndexing:
             # Find the 5 most intensive images (TIS):
             listImage = []
-            listSorted = sorted(self.xsDataResultControlImageQualityIndicators.imageQualityIndicators,
-                                key=lambda imageQualityIndicators: imageQualityIndicators.totalIntegratedSignal.value)
+            if self.xsDataResultControlImageQualityIndicators.imageQualityIndicators[0].background3D_estimate is not None:
+                listSorted = sorted(self.xsDataResultControlImageQualityIndicators.imageQualityIndicators,
+                                    key=lambda imageQualityIndicators: imageQualityIndicators.totalIntegratedSignal.value)
+            else:
+                listSorted = sorted(self.xsDataResultControlImageQualityIndicators.imageQualityIndicators,
+                                    key=lambda imageQualityIndicators: imageQualityIndicators.background3D_estimate.value)
             for xsDataResultControlImageQualityIndicator in listSorted[-5:]:
                 if xsDataResultControlImageQualityIndicator.goodBraggCandidates.value > 30:
                     xsDataInputReadImageHeader = XSDataInputReadImageHeader()
