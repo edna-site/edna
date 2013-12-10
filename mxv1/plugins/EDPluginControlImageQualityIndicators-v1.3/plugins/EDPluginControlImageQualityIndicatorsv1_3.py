@@ -180,7 +180,7 @@ class EDPluginControlImageQualityIndicatorsv1_3(EDPluginControl):
         if bDoIndexing:
             # Find the 5 most intensive images (TIS):
             listImage = []
-            if self.xsDataResultControlImageQualityIndicators.imageQualityIndicators[0].background3D_estimate is not None:
+            if self.xsDataResultControlImageQualityIndicators.imageQualityIndicators[0].background3D_estimate is None:
                 listSorted = sorted(self.xsDataResultControlImageQualityIndicators.imageQualityIndicators,
                                     key=lambda imageQualityIndicators: imageQualityIndicators.totalIntegratedSignal.value)
             else:
