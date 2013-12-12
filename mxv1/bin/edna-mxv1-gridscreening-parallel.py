@@ -182,7 +182,7 @@ def functionXMLout(_xsDataInputGridScreening, _xsDataResultGridScreening):
             if imageQualityIndicators.getTotalIntegratedSignal():
                 strTotalIntegratedSignal = "%10.0f" % imageQualityIndicators.getTotalIntegratedSignal().getValue()
             if imageQualityIndicators.getBackground3D_estimate():
-                strBackground3D_estimate = "%10.0f" % imageQualityIndicators.getBackground3D_estimate().getValue()
+                strBackground3D_estimate = "%10.2f" % imageQualityIndicators.getBackground3D_estimate().getValue()
             strResultText += strMethod1Res + strMethod2Res + strSpotTotal + strGoodBraggCandidates + strTotalIntegratedSignal + strBackground3D_estimate
         if _xsDataResultGridScreening.getMosaicity() is None:
             strResultText += "%6s" % "NA"
