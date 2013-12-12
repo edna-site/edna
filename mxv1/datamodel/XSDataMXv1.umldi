@@ -2374,7 +2374,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_OlxNoAfOEeCHfoTkpt3vnQ">
     <model href="XSDataMXv1.uml#_McKc0AfOEeCHfoTkpt3vnQ"/>
-    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,0">
+    <diagrams xmi:id="_OlxNoQfOEeCHfoTkpt3vnQ" position="0,0" size="100,100" name="Characterisation etc" viewport="0,506">
       <property xmi:id="_Om52EAfOEeCHfoTkpt3vnQ" key="pageFormatName" value=""/>
       <property xmi:id="_Om52EQfOEeCHfoTkpt3vnQ" key="diagramWidth" value="1144"/>
       <property xmi:id="_Om52EgfOEeCHfoTkpt3vnQ" key="diagramHeight" value="1498"/>
@@ -2914,6 +2914,11 @@
           <contained xsi:type="di:GraphNode" xmi:id="_YxuBQLraEeKDqoj-M4cBBA" position="0,0" size="-1,-1">
             <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YxuBQbraEeKDqoj-M4cBBA" presentation="default">
               <element href="XSDataMXv1.uml#_Yxv2cLraEeKDqoj-M4cBBA"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_4RtqoGMKEeO7wcgNNBBYtg" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4RtqoWMKEeO7wcgNNBBYtg" presentation="default">
+              <element href="XSDataMXv1.uml#_4RxVAGMKEeO7wcgNNBBYtg"/>
             </semanticModel>
           </contained>
         </contained>

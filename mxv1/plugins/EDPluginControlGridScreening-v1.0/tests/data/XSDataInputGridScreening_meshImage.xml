@@ -2,7 +2,7 @@
 <XSDataInputGridScreening>
 	<imageFile>
         <path>
-            <value>${EDNA_TESTIMAGES}/mesh_90_21.687_-0.017_39_001.mccd</value>
+            <value>${EDNA_TESTIMAGES}/thermn_2_7_0001.cbf</value>
         </path>
 	</imageFile>
 </XSDataInputGridScreening>

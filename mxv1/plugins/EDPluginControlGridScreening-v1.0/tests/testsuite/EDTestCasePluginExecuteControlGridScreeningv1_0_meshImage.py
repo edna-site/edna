@@ -45,12 +45,12 @@ class EDTestCasePluginExecuteControlGridScreeningv1_0_meshImage(EDTestCasePlugin
         self.setConfigurationFile(self.getRefConfigFile())
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputGridScreening_meshImage.xml"))
         self.setNoExpectedWarningMessages(1)
-        self.setNoExpectedErrorMessages(3)
+        self.setNoExpectedErrorMessages(0)
 
 
     def preProcess(self):
         EDTestCasePluginExecuteControlGridScreeningv1_0.preProcess(self)
-        self.loadTestImage([ "mesh_90_21.687_-0.017_39_001.mccd" ])
+        self.loadTestImage([ "thermn_2_7_0001.cbf" ])
 
 
 #    def testExecute(self):

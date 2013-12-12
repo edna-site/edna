@@ -138,8 +138,9 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
             # Create the image object
             xsDataImage = XSDataImage()
             xsDataImage.setPath(XSDataString(strPath))
-            strTimeStamp = dictPilatus6MHeader[ "DateTime" ]
-            xsDataImage.setDate(XSDataString(strTimeStamp))
+            if "DateTime" in dictPilatus6MHeader:
+                strTimeStamp = dictPilatus6MHeader[ "DateTime" ]
+                xsDataImage.setDate(XSDataString(strTimeStamp))
             iImageNumber = EDUtilsImage.getImageNumber(strPath)
             xsDataImage.setNumber(XSDataInteger(iImageNumber))
 

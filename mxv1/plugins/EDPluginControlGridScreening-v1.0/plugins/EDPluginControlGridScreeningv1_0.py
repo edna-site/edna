@@ -77,7 +77,7 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputGridScreening)
         self.strControlReadImageHeaderPluginName = "EDPluginControlReadImageHeaderv10"
         self.edPluginControlReadImageHeader = None
-        self.strControlledIndicatorsPluginName = "EDPluginControlImageQualityIndicatorsv1_1"
+        self.strControlledIndicatorsPluginName = "EDPluginControlImageQualityIndicatorsv1_3"
         self.edPluginControlIndicators = None
         self.strISPyBStoreImageQualityIndicatorsPluginName = "EDPluginISPyBStoreImageQualityIndicatorsv1_3"
         self.edPluginISPyBStoreImageQualityIndicators = None
@@ -203,7 +203,7 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
         xsDataResultGridScreening.setComment(XSDataString(strComment))
         if self.iImageQualityIndicatorsId is not None:
             xsDataResultGridScreening.setImageQualityIndicatorsId(XSDataInteger(self.iImageQualityIndicatorsId))
-        #print xsDataResultGridScreening.marshal()
+        # print xsDataResultGridScreening.marshal()
         self.setDataOutput(xsDataResultGridScreening)
 
 
@@ -219,6 +219,10 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
             self.xsDataCollection.setDiffractionPlan(self.xsDataDiffractionPlan)
             if not self.bDoOnlyIntegrationWithXMLOutput:
                 xsDataInputControlImageQualityIndicators = XSDataInputControlImageQualityIndicators()
+                if self.bStoreImageQualityIndicatorsInISPyB:
+                    xsDataInputControlImageQualityIndicators.doUploadToIspyb = XSDataBoolean(True)
+                else:
+                    xsDataInputControlImageQualityIndicators.doUploadToIspyb = XSDataBoolean(False)
                 xsDataInputControlImageQualityIndicators.addImage(XSDataImage(path=XSDataString(self.strImageFile)))
                 self.edPluginControlIndicators.setDataInput(xsDataInputControlImageQualityIndicators)
                 self.edPluginControlIndicators.connectSUCCESS(self.doSuccessIndicators)
@@ -243,18 +247,9 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
     
     def doSuccessIndicators(self, _edPlugin=None):
         self.DEBUG("EDPluginControlGridScreeningv1_0.doSuccessIndicators")
-        #self.retrieveSuccessMessages(_edPlugin, "EDPluginControlGridScreeningv1_0.doSuccessIndexingIndicators")
+        # self.retrieveSuccessMessages(_edPlugin, "EDPluginControlGridScreeningv1_0.doSuccessIndexingIndicators")
         if self.edPluginControlIndicators.hasDataOutput():
             self.xsDataImageQualityIndicators = self.edPluginControlIndicators.getDataOutput().getImageQualityIndicators()[0]
-            # Store results in ISPyB if requested
-            if self.bStoreImageQualityIndicatorsInISPyB:
-                xsDataInputStoreImageQualityIndicators = XSDataInputStoreImageQualityIndicators()
-                xsDataISPyBImageQualityIndicators = XSDataISPyBImageQualityIndicators.parseString(self.xsDataImageQualityIndicators.marshal())
-                xsDataInputStoreImageQualityIndicators.setImageQualityIndicators(xsDataISPyBImageQualityIndicators)
-                self.edPluginISPyBStoreImageQualityIndicators.setDataInput(xsDataInputStoreImageQualityIndicators)
-                self.edPluginISPyBStoreImageQualityIndicators.connectSUCCESS(self.doSuccessISPyBStoreImageQualityIndicators)
-                self.edPluginISPyBStoreImageQualityIndicators.connectFAILURE(self.doFailureISPyBStoreImageQualityIndicators)
-                self.edPluginISPyBStoreImageQualityIndicators.execute()
             # Continue only if requested
             if not self.bDoOnlyImageQualityIndicators:
                 xsDataIndexingInput = XSDataIndexingInput()
@@ -324,7 +319,7 @@ class EDPluginControlGridScreeningv1_0(EDPluginControl):
         # Integration short summary
         if self.edPluginControlIntegration.hasDataOutput("integrationShortSummary"):
             self.strCharacterisationShortSummary += self.edPluginControlIntegration.getDataOutput("integrationShortSummary")[0].getValue()
-        #self.DEBUG( self.xsDataExperimentCharacterisation.marshal() )
+        # self.DEBUG( self.xsDataExperimentCharacterisation.marshal() )
         if self.bDoOnlyIntegrationWithXMLOutput:
             # Run mtz2various
             xsDataInputMtz2Various = XSDataInputMtz2Various()

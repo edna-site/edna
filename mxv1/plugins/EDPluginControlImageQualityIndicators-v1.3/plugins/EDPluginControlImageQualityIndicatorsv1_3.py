@@ -173,9 +173,10 @@ class EDPluginControlImageQualityIndicatorsv1_3(EDPluginControl):
                 XSDataISPyBImageQualityIndicators.parseString(xsDataImageQualityIndicators.marshal())
             xsDataInputStoreListOfImageQualityIndicators.addImageQualityIndicators(xsDataISPyBImageQualityIndicators)
 #        print xsDataInputStoreListOfImageQualityIndicators.marshal()
-        self.edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
-        self.edPluginISPyB.dataInput = xsDataInputStoreListOfImageQualityIndicators
-        self.edPluginISPyB.execute()
+        if self.dataInput.doUploadToIspyb is not None and self.dataInput.doUploadToIspyb.value:
+            self.edPluginISPyB = self.loadPlugin(self.strISPyBPluginName)
+            self.edPluginISPyB.dataInput = xsDataInputStoreListOfImageQualityIndicators
+            self.edPluginISPyB.execute()
         #
         if bDoIndexing:
             # Find the 5 most intensive images (TIS):
@@ -225,13 +226,14 @@ class EDPluginControlImageQualityIndicatorsv1_3(EDPluginControl):
 
     def finallyProcess(self, _edPlugin=None):
         EDPluginControl.finallyProcess(self, _edPlugin)
-        # Synchronize ISPyB plugin
-        EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_3.finallyProcess")
-        self.edPluginISPyB.synchronize()
-        listId = []
-        for xsDataInteger in self.edPluginISPyB.dataOutput.imageQualityIndicatorsId:
-            listId.append(xsDataInteger.value)
-        EDVerbose.DEBUG("ISPyB imageQualityIndicatorIds = %r" % listId) 
+        if self.edPluginISPyB is not None:
+            # Synchronize ISPyB plugin
+            EDVerbose.DEBUG("EDPluginControlImageQualityIndicatorsv1_3.finallyProcess")
+            self.edPluginISPyB.synchronize()
+            listId = []
+            for xsDataInteger in self.edPluginISPyB.dataOutput.imageQualityIndicatorsId:
+                listId.append(xsDataInteger.value)
+            EDVerbose.DEBUG("ISPyB imageQualityIndicatorIds = %r" % listId) 
         self.setDataOutput(self.xsDataResultControlImageQualityIndicators)
 
 

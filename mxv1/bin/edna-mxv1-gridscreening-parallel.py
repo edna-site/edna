@@ -97,10 +97,10 @@ class EDParallelExecuteGridScreening(EDParallelExecute):
     
 
 
-#As an example, you can define the plugin name here
+# As an example, you can define the plugin name here
 EDNAPluginName = "EDPluginControlGridScreeningv1_0"
 
-#Here we defile three functions for managing XML strings
+# Here we defile three functions for managing XML strings
 def functionXMLin(_strFilename):
     """Here we create the XML string to be passed to the EDNA plugin from the input strFilename
     This can / should be modified by the final user
@@ -145,7 +145,7 @@ def functionXMLout(_xsDataInputGridScreening, _xsDataResultGridScreening):
     strResultText = None
     if EDParallelExecuteGridScreening.bDoOnlyIntegrationWithXMLOutput:
         if _xsDataResultGridScreening.getResultIntegration() is not None:
-            strResultText  = "  <image>\n"
+            strResultText = "  <image>\n"
             strResultText += "    <fileName>%s</fileName>\n" % _xsDataResultGridScreening.getResultIntegration().getFileName()
             strResultText += "    <fileDirectory>%s</fileDirectory>\n" % _xsDataResultGridScreening.getResultIntegration().getFileDirectory()
             strResultText += "    <integratedData>%s</integratedData>\n" % _xsDataResultGridScreening.getResultIntegration().getIntegratedData()        
@@ -154,7 +154,7 @@ def functionXMLout(_xsDataInputGridScreening, _xsDataResultGridScreening):
         strResultText = "%40s  " % os.path.basename(strImagePath)
         fileNameParameters = _xsDataResultGridScreening.getFileNameParameters()
         if fileNameParameters is None:
-            strResultText += "%6s%10s%10s%6s" % ("NA", "NA", "NA","NA")
+            strResultText += "%6s%10s%10s%6s" % ("NA", "NA", "NA", "NA")
         else:
             strResultText += "%6s%10s%10s%6s" % (
                             fileNameParameters.getScanId1().getValue(),
@@ -164,7 +164,7 @@ def functionXMLout(_xsDataInputGridScreening, _xsDataResultGridScreening):
                                                     )
         imageQualityIndicators = _xsDataResultGridScreening.getImageQualityIndicators()
         if imageQualityIndicators is None:
-            strResultText += "%6s%6s%6s%6s%10s" % ("NA", "NA", "NA","NA", "NA")
+            strResultText += "%6s%6s%6s%6s%10s%10s" % ("NA", "NA", "NA", "NA", "NA", "NA")
         else:
             strMethod1Res = "%6s" % "NA"
             if imageQualityIndicators.getMethod1Res():
@@ -181,7 +181,9 @@ def functionXMLout(_xsDataInputGridScreening, _xsDataResultGridScreening):
             strTotalIntegratedSignal = "%10s" % "NA"
             if imageQualityIndicators.getTotalIntegratedSignal():
                 strTotalIntegratedSignal = "%10.0f" % imageQualityIndicators.getTotalIntegratedSignal().getValue()
-            strResultText += strMethod1Res + strMethod2Res + strSpotTotal + strGoodBraggCandidates + strTotalIntegratedSignal
+            if imageQualityIndicators.getBackground3D_estimate():
+                strBackground3D_estimate = "%10.0f" % imageQualityIndicators.getBackground3D_estimate().getValue()
+            strResultText += strMethod1Res + strMethod2Res + strSpotTotal + strGoodBraggCandidates + strTotalIntegratedSignal + strBackground3D_estimate
         if _xsDataResultGridScreening.getMosaicity() is None:
             strResultText += "%6s" % "NA"
         else:
@@ -197,7 +199,7 @@ def functionXMLout(_xsDataInputGridScreening, _xsDataResultGridScreening):
 
 def writeToResultFile(_strResultText):
     EDParallelExecuteGridScreening.writeFileSemaphore.acquire()
-    #print _strResultText
+    # print _strResultText
     strPath = EDParallelExecuteGridScreening.strResultFileName
     f = open(strPath, "a")
     f.write(_strResultText + "\n")
