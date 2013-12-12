@@ -160,18 +160,25 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
             if listLine != []:
                 xsDataImageBackground3D.number = XSDataInteger(listLine[0])
                 if listLine[1].startswith("-"):
-                    xsDataImageBackground3D.b_coef = XSDataDouble(listLine[4])
-                    xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[5])
-                    xsDataImageBackground3D.estimate = XSDataDouble(listLine[6])
+                    xsDataImageBackground3D.b_coef = self.parseDouble(listLine[4])
+                    xsDataImageBackground3D.b_cryst = self.parseDouble(listLine[5])
+                    xsDataImageBackground3D.estimate = self.parseDouble(listLine[6])
                 else:
-                    xsDataImageBackground3D.scale = XSDataDouble(listLine[1])
-                    xsDataImageBackground3D.bfactor = XSDataDouble(listLine[2])
-                    xsDataImageBackground3D.resolution = XSDataDouble(listLine[3])
-                    xsDataImageBackground3D.correlation = XSDataDouble(listLine[4])
-                    xsDataImageBackground3D.rfactor = XSDataDouble(listLine[5])
-                    xsDataImageBackground3D.b_coef = XSDataDouble(listLine[6])
-                    xsDataImageBackground3D.b_cryst = XSDataDouble(listLine[7])
-                    xsDataImageBackground3D.estimate = XSDataDouble(listLine[8])
+                    xsDataImageBackground3D.scale = self.parseDouble(listLine[1])
+                    xsDataImageBackground3D.bfactor = self.parseDouble(listLine[2])
+                    xsDataImageBackground3D.resolution = self.parseDouble(listLine[3])
+                    xsDataImageBackground3D.correlation = self.parseDouble(listLine[4])
+                    xsDataImageBackground3D.rfactor = self.parseDouble(listLine[5])
+                    xsDataImageBackground3D.b_coef = self.parseDouble(listLine[6])
+                    xsDataImageBackground3D.b_cryst = self.parseDouble(listLine[7])
+                    xsDataImageBackground3D.estimate = self.parseDouble(listLine[8])
                 xsDataResultBackground3D.addImageBackground(xsDataImageBackground3D)
         return xsDataResultBackground3D
         
+    def parseDouble(self, _strValue):
+        returnValue = None
+        try:
+            returnValue = XSDataDouble(_strValue)
+        except BaseException as ex:
+            self.warning("Error when trying to parse '" + _strValue + "': %r" % ex)
+        return returnValue

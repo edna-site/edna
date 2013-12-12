@@ -68,7 +68,14 @@ class EDTestCasePluginUnitBackground3Dv1_0(EDTestCasePluginUnit):
         xsDataInput = XSDataInputBackground3D.parseString(strInputXML)
         strCommandText = edPlugin.createImageLinks(xsDataInput)
 
+    def test_parseDouble(self):
+        edPlugin = self.getPlugin()
+        EDAssert.strAlmostEqual(1.0, edPlugin.parseDouble("1.0").value, "Parsing '1.0'")
+        EDAssert.equal(None, edPlugin.parseDouble("****"), "Parsing '****'")
+        
+
     def process(self):
         self.addTestMethod(self.test_generateCommands)
         self.addTestMethod(self.test_parseOutput)
         self.addTestMethod(self.test_createImageLinks)
+        self.addTestMethod(self.test_parseDouble)
