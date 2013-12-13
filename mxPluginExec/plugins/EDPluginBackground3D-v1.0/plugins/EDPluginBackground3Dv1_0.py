@@ -97,7 +97,8 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
         self.DEBUG("EDPluginBackground3Dv1_0.generateCommands")
         strCommandText = None
         if _xsDataInputBackground3D is not None:
-            strCommandText = "detector %s\n" % _xsDataInputBackground3D.detectorType.value
+            strCommandText = "job single\n"
+            strCommandText += "detector %s\n" % _xsDataInputBackground3D.detectorType.value
             strCommandText += "exposure %.3f\n" % _xsDataInputBackground3D.exposureTime.value
             strCommandText += "detector_distance %.3f\n" % _xsDataInputBackground3D.detectorDistance.value
             strCommandText += "X-ray_wavelength %.3f\n" % _xsDataInputBackground3D.wavelength.value
@@ -106,6 +107,12 @@ class EDPluginBackground3Dv1_0(EDPluginExecProcessScript):
             else:
                 fractionPolarization = _xsDataInputBackground3D.fractionPolarization.value
             strCommandText += "fraction_polarization %.3f\n" % fractionPolarization
+            strCommandText += "pixel_min -1\n"
+            strCommandText += "pixel_max 64000\n"
+            strCommandText += "ix_min 1\n"
+            strCommandText += "ix_max 1321\n"
+            strCommandText += "iy_min 1198\n"
+            strCommandText += "iy_max 1304\n"
             strCommandText += "orgx %.1f\n" % _xsDataInputBackground3D.orgx.value
             strCommandText += "orgy %.1f\n" % _xsDataInputBackground3D.orgy.value
             strCommandText += "oscillation_range %.3f\n" % _xsDataInputBackground3D.oscillationRange.value
