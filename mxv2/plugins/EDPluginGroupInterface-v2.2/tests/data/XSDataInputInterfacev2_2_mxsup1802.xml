@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<XSDataInputInterfacev2_2>
+    <diffractionPlan>
+        <goniostatMaxOscillationSpeed>
+            <value>3.600000e+02</value>
+        </goniostatMaxOscillationSpeed>
+        <goniostatMinOscillationWidth>
+            <value>1.000000e-01</value>
+        </goniostatMinOscillationWidth>
+        <kappaStrategyOption>
+            <value>Cell</value>
+        </kappaStrategyOption>
+        <minExposureTimePerImage>
+            <value>3.700000e-02</value>
+        </minExposureTimePerImage>
+    </diffractionPlan>
+    <imagePath>
+        <path>
+            <value>/data/id23eh1/inhouse/opid231/20131215/RAW_DATA/Barbara/AP6382/KappaReorientation_01/ref-AP6382_1_0001.cbf</value>
+        </path>
+    </imagePath>
+    <imagePath>
+        <path>
+            <value>/data/id23eh1/inhouse/opid231/20131215/RAW_DATA/Barbara/AP6382/KappaReorientation_01/ref-AP6382_1_0002.cbf</value>
+        </path>
+    </imagePath>
+    <flux>
+        <value>9.390000e+11</value>
+    </flux>
+    <beamSizeX>
+        <value>4.500000e-02</value>
+    </beamSizeX>
+    <beamSizeY>
+        <value>3.000000e-02</value>
+    </beamSizeY>
+    <omega>
+        <value>8.080316e+02</value>
+    </omega>
+    <kappa>
+        <value>0.000000e+00</value>
+    </kappa>
+    <phi>
+        <value>0.000000e+00</value>
+    </phi>
+</XSDataInputInterfacev2_2>

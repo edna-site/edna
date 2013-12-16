@@ -123,7 +123,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
 
         self.listImagePaths = []
         self.fFlux = None
-        self.fMaxExposureTimePerDataCollection = 10000 # s, default prototype value
+        self.fMaxExposureTimePerDataCollection = 10000  # s, default prototype value
         self.fMinExposureTimePerImage = None
         self.fBeamSizeX = None
         self.fBeamSizeY = None
@@ -691,7 +691,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                 
     def generateMXv2DataCollection(self):
         # TEMP: generates the file to be read in
-        ##PARAMS
+        # #PARAMS
         calibDate = '2009-12-10'
         omegaR = (0, 0, 1)
         kappaR = (0, 0.707106781187, 0.707106781187)
@@ -741,28 +741,29 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         """
         EDVerbose.DEBUG("EDPluginControlInterfacev2_2.doSuccessActionCharacterisation")
         # Update kappa angles in mxv2 data collection
-        if _edPlugin.getDataOutput().suggestedStrategy is not None:
-            strComment = _edPlugin.getDataOutput().suggestedStrategy.collectionPlan[0].comment.value
-            listValues = strComment.split(" ")
-            calibDate = '2009-12-10'
-            omegaR = (0, 0, 1)
-            kappaR = (0, 0.707106781187, 0.707106781187)
-            phiR = (0, 0, 1)
-            beamD = (1, 0, 0)
-            polarisationP = (0, 1, 0)
-            # We don't update these parameters as they are not used for mxv2 data collection
-            exposuretime = 1.0
-            imagewidth = 1.0
-            numberimages = 1
-            wavelength = 1.0
-            # Kappa angles to be updated
-            OmegaV = float(listValues[0].split("=")[1])
-            KappaV = float(listValues[1].split("=")[1])
-            PhiV   = float(listValues[2].split("=")[1])
-            imgFnames = []
-            for xsDataImage in self.listImagePaths:
-                imgFnames.append(xsDataImage.getValue())
-            self.mxv2DataCollection = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
+        if _edPlugin.dataOutput.suggestedStrategy is not None:
+            if _edPlugin.dataOutput.suggestedStrategy.collectionPlan != []:
+                strComment = _edPlugin.getDataOutput().suggestedStrategy.collectionPlan[0].comment.value
+                listValues = strComment.split(" ")
+                calibDate = '2009-12-10'
+                omegaR = (0, 0, 1)
+                kappaR = (0, 0.707106781187, 0.707106781187)
+                phiR = (0, 0, 1)
+                beamD = (1, 0, 0)
+                polarisationP = (0, 1, 0)
+                # We don't update these parameters as they are not used for mxv2 data collection
+                exposuretime = 1.0
+                imagewidth = 1.0
+                numberimages = 1
+                wavelength = 1.0
+                # Kappa angles to be updated
+                OmegaV = float(listValues[0].split("=")[1])
+                KappaV = float(listValues[1].split("=")[1])
+                PhiV = float(listValues[2].split("=")[1])
+                imgFnames = []
+                for xsDataImage in self.listImagePaths:
+                    imgFnames.append(xsDataImage.getValue())
+                self.mxv2DataCollection = self.generateDataCollectionDescriptorForSubWedge(calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames)
         # Create executive summary before we run ISPyB and HTML plugins
         if (self.edPluginControlSubWedgeAssemble is not None):
             if self.edPluginControlSubWedgeAssemble.getListExecutiveSummaryLines() != []:
@@ -816,15 +817,15 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
 
 
     def generateDataCollectionDescriptorForSubWedge(self, calibDate, omegaR, kappaR, phiR, beamD, polarisationP, exposuretime, imagewidth, numberimages, wavelength, OmegaV, KappaV, PhiV, imgFnames):
-        ##CONTAINER
+        # #CONTAINER
         xsDC_v2 = XSDataMXv2.XSDataCollection()
 
-        ##GonioCalib
+        # #GonioCalib
         calib = XSDataMXv2.XSCalibration()
         cdate = XSDataMXv2.XSDataDate()
         cdate.setValue(calibDate)
         calib.setDate(cdate)
-        #OmegaCalib
+        # OmegaCalib
         omegacal = XSDataMXv2.XSCalibratedDisplacementAxis()
         zdir = XSDataMXv2.XSDataUnitVector()
         zdir.setV1(omegaR[0])
@@ -832,7 +833,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         zdir.setV3(omegaR[2])
         omegacal.setZerodirection(zdir)
         omegacal.setXSCalibration(calib)
-        #KappaCalib
+        # KappaCalib
         kappacal = XSDataMXv2.XSCalibratedDisplacementAxis()
         zdir = XSDataMXv2.XSDataUnitVector()
         zdir.setV1(kappaR[0])
@@ -840,7 +841,7 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         zdir.setV3(kappaR[2])
         kappacal.setZerodirection(zdir)
         kappacal.setXSCalibration(calib)
-        #PhiCalib
+        # PhiCalib
         phical = XSDataMXv2.XSCalibratedDisplacementAxis()
         zdir = XSDataMXv2.XSDataUnitVector()
         zdir.setV1(phiR[0])
@@ -849,28 +850,28 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         phical.setZerodirection(zdir)
         phical.setXSCalibration(calib)
 
-        ##goni
+        # #goni
         actgonio = XSDataMXv2.XSRotationalGoniostat()
-        #omega
+        # omega
         omega = XSDataMXv2.XSGoniostatBaseAxis()
         omega.setName(XSDataMXv2.XSDataString('Omega'))
         omega.setIsscannable(XSDataMXv2.XSDataBoolean(1))
         omega.addXSCalibratedDisplacementAxis(omegacal)
         actgonio.setXSGoniostatBaseAxis(omega)
-        #kappa
+        # kappa
         kappa = XSDataMXv2.XSGoniostatRotatableAxis()
         kappa.setName(XSDataMXv2.XSDataString('Kappa'))
         kappa.setIsscannable(XSDataMXv2.XSDataBoolean(0))
         kappa.addXSCalibratedDisplacementAxis(kappacal)
         actgonio.addXSGoniostatRotatableAxis(kappa)
-        #phi
+        # phi
         phi = XSDataMXv2.XSGoniostatRotatableAxis()
         phi.setName(XSDataMXv2.XSDataString('Phi'))
         phi.setIsscannable(XSDataMXv2.XSDataBoolean(0))
         phi.addXSCalibratedDisplacementAxis(phical)
         actgonio.addXSGoniostatRotatableAxis(phi)
 
-        ##beam
+        # #beam
         beam = XSDataMXv2.XSBeam()
         zdir = XSDataMXv2.XSDataUnitVector()
         zdir.setV1(polarisationP[0])
@@ -883,12 +884,12 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         zdir.setV3(beamD[2])
         beam.setDirection(zdir)
 
-        ##detector
+        # #detector
         detector = XSDataMXv2.XSDetector()
         detector.setName(XSDataMXv2.XSDataString('detector'))
-        ###detector.set
+        # ##detector.set
 
-        ##SUBWEDGE
+        # #SUBWEDGE
         sw = XSDataMXv2.XSSubWedge()
         # template
         if imgFnames != []:
@@ -898,21 +899,21 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
                 img = XSDataMXv2.XSDiffractionImages()
                 img.setFilename(XSDataMXv2.XSDataString(imgFname))
                 sw.addXSDiffractionImages(img)
-        #RotationExposure
+        # RotationExposure
         rotexp = XSDataMXv2.XSRotationExposure()
         rotexp.setExposuretime(XSDataMXv2.XSDataTime(exposuretime))
         rotexp.setImagewidth(XSDataMXv2.XSDataAngle(imagewidth))
         rotexp.setNumberimages(XSDataMXv2.XSDataInteger(numberimages))
         rotexp.setXSGoniostatAxis(XSDataMXv2.XSGoniostatAxis.parseString(omega.marshal()))
         sw.setXSRotationExposure(rotexp)
-        #Beamsetting
+        # Beamsetting
         beams = XSDataMXv2.XSBeamSetting()
         w = XSDataMXv2.XSDataWavelength()
         w.setValue(wavelength)
         beams.setWavelength(w)
         beams.setXSBeam(beam)
         sw.setXSBeamSetting(beams)
-        #RotationalGonioSetting
+        # RotationalGonioSetting
         rotgset = XSDataMXv2.XSRotationalGoniostatSetting()
         rotgset.setXSRotationalGoniostat(actgonio)
         oang = XSDataMXv2.XSDataAngle()
@@ -925,19 +926,19 @@ class EDPluginControlInterfacev2_2(EDPluginControl):
         pang.setValue(PhiV)
         rotgset.addAxissetting(pang)
         sw.setXSRotationalGoniostatSetting(rotgset)
-        #DetectorSetting TODOTODO
+        # DetectorSetting TODOTODO
         detset = XSDataMXv2.XSDetectorSetting()
-        #axissetting=(XSDataMXv2.XSDataAngle().setValue(KappaV),XSDataMXv2.XSDataAngle().setValue(PhiV))
-        #detset.setAxissetting(axissetting)
+        # axissetting=(XSDataMXv2.XSDataAngle().setValue(KappaV),XSDataMXv2.XSDataAngle().setValue(PhiV))
+        # detset.setAxissetting(axissetting)
 
         xsDC_v2.addXSSubWedge(sw)
 
         return xsDC_v2
 
 
-        #xsDataResultSubWedgeAssemble = self.__edPluginControlSubWedgeAssemble.getDataOutput()
-        #imgFname = xsDataResultSubWedgeAssemble.getSubWedge()[0].getImage()[0].getPath().getValue()
-        #self.xsDC_v2.outputFile(os.path.dirname(imgFname) + '/edna_' + EDUtilsImage.getTemplate(imgFname, "#") + '_auto')
+        # xsDataResultSubWedgeAssemble = self.__edPluginControlSubWedgeAssemble.getDataOutput()
+        # imgFname = xsDataResultSubWedgeAssemble.getSubWedge()[0].getImage()[0].getPath().getValue()
+        # self.xsDC_v2.outputFile(os.path.dirname(imgFname) + '/edna_' + EDUtilsImage.getTemplate(imgFname, "#") + '_auto')
 
 
 #    def createInputCharacterisationFromSubWedges(self):
