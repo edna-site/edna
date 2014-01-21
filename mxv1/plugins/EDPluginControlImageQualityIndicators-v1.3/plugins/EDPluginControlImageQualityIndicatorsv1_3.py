@@ -181,12 +181,17 @@ class EDPluginControlImageQualityIndicatorsv1_3(EDPluginControl):
         if bDoIndexing:
             # Find the 5 most intensive images (TIS):
             listImage = []
-            if self.xsDataResultControlImageQualityIndicators.imageQualityIndicators[0].background3D_estimate is None:
-                listSorted = sorted(self.xsDataResultControlImageQualityIndicators.imageQualityIndicators,
-                                    key=lambda imageQualityIndicators: imageQualityIndicators.totalIntegratedSignal.value)
-            else:
+            # Check that we have background3D_estimate from all images:
+            has_background3D_estimate = True
+            for imageQualityIndicators in self.xsDataResultControlImageQualityIndicators.imageQualityIndicators:
+                if imageQualityIndicators.background3D_estimate is None:
+                    has_background3D_estimate = False
+            if has_background3D_estimate:
                 listSorted = sorted(self.xsDataResultControlImageQualityIndicators.imageQualityIndicators,
                                     key=lambda imageQualityIndicators: imageQualityIndicators.background3D_estimate.value)
+            else:
+                listSorted = sorted(self.xsDataResultControlImageQualityIndicators.imageQualityIndicators,
+                                    key=lambda imageQualityIndicators: imageQualityIndicators.totalIntegratedSignal.value)
             for xsDataResultControlImageQualityIndicator in listSorted[-5:]:
                 if xsDataResultControlImageQualityIndicator.goodBraggCandidates.value > 30:
                     xsDataInputReadImageHeader = XSDataInputReadImageHeader()
