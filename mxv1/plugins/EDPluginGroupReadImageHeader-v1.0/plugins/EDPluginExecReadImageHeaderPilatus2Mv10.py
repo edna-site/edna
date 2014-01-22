@@ -114,7 +114,7 @@ class EDPluginExecReadImageHeaderPilatus2Mv10(EDPluginExec):
 #            #xsDataDetector.setByteOrder(           XSDataString(   dictPilatus2MHeader[ "BYTE_ORDER" ] ) ) )
 #            xsDataDetector.setImageSaturation(XSDataInteger(int(dictPilatus2MHeader[ "saturation_level" ])))
             xsDataDetector.setName(XSDataString("PILATUS2 3M"))
-            xsDataDetector.setType(XSDataString("Pilatus2M"))
+            xsDataDetector.setType(XSDataString("pilatus2m"))
             xsDataExperimentalCondition.setDetector(xsDataDetector)
 
             # Beam object

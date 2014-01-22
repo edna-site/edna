@@ -39,7 +39,7 @@
                     <value>PILATUS2 3M, S/N 24-0118, ESRF ID23</value>
                 </serialNumber>
                 <type>
-                    <value>Pilatus2M</value>
+                    <value>pilatus2m</value>
                 </type>
             </detector>
             <goniostat>
