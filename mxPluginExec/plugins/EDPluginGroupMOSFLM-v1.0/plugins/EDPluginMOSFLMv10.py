@@ -157,21 +157,29 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
 
             # Add exclude regions if Pilatus
             if xsDataMOSFLMInput.getDetector().getType().getValue() == "PILATUS":
-                self.addListCommandExecution("LIMITS EXCLUDE  0.0 338.77 434.6 340.24")
-                self.addListCommandExecution("LIMITS EXCLUDE  0.0 253.80 434.6 255.28")
-                self.addListCommandExecution("LIMITS EXCLUDE  0.0 168.83 434.6 170.21")
-                self.addListCommandExecution("LIMITS EXCLUDE  0.0  83.86 434.6  85.24")
-                self.addListCommandExecution("LIMITS EXCLUDE 398.18  0.0 401.28 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 361.72  0.0 364.81 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 325.25  0.0 328.35 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 288.79  0.0 291.88 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 252.32  0.0 255.42 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 215.86  0.0 218.96 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 179.40  0.0 182.49 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 142.93  0.0 145.86 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE 106.47  0.0 109.56 423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE  70.00  0.0 73.10  423.6")
-                self.addListCommandExecution("LIMITS EXCLUDE  33.54  0.0 36.64  423.6")
+                if xsDataMOSFLMInput.getDetector().getNumberPixelX().getValue() == 1475 and \
+                   xsDataMOSFLMInput.getDetector().getNumberPixelY().getValue() == 1679:
+                    # Pilatus 2M
+                    # No untrusted region yet...
+                    pass
+                elif xsDataMOSFLMInput.getDetector().getNumberPixelX().getValue() == 2463 and \
+                   xsDataMOSFLMInput.getDetector().getNumberPixelY().getValue() == 2527:
+                    # Pilatus 6M
+                    self.addListCommandExecution("LIMITS EXCLUDE  0.0 338.77 434.6 340.24")
+                    self.addListCommandExecution("LIMITS EXCLUDE  0.0 253.80 434.6 255.28")
+                    self.addListCommandExecution("LIMITS EXCLUDE  0.0 168.83 434.6 170.21")
+                    self.addListCommandExecution("LIMITS EXCLUDE  0.0  83.86 434.6  85.24")
+                    self.addListCommandExecution("LIMITS EXCLUDE 398.18  0.0 401.28 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 361.72  0.0 364.81 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 325.25  0.0 328.35 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 288.79  0.0 291.88 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 252.32  0.0 255.42 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 215.86  0.0 218.96 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 179.40  0.0 182.49 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 142.93  0.0 145.86 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE 106.47  0.0 109.56 423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE  70.00  0.0 73.10  423.6")
+                    self.addListCommandExecution("LIMITS EXCLUDE  33.54  0.0 36.64  423.6")
             
             # Check if reversephi is configured
             if self.bReversephi:
@@ -249,7 +257,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
                 self.error(strErrorMessage)
                 self.addErrorMessage(strErrorMessage)
                 self.setFailure()
-        #print strNewmat
+        # print strNewmat
         if (strNewmat is not None):
             listLine = strNewmat.split("\n")
             # Convert into list of lists of float
