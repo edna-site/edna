@@ -30,20 +30,19 @@ from EDVerbose                           import EDVerbose
 from EDAssert                            import EDAssert
 from EDTestCasePluginExecute             import EDTestCasePluginExecute
 
-class EDTestCasePluginExecuteControlXDSGenerateBackgroundImagev1_0(EDTestCasePluginExecute):
+class EDTestCasePluginExecuteControlXDSGenerateBackgroundImagev1_0_pilatus2m(EDTestCasePluginExecute):
 
 
     def __init__(self, _strTestName=None):
         EDTestCasePluginExecute.__init__(self, "EDPluginControlXDSGenerateBackgroundImagev1_0")
-#        self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(),
-#                                               "XSConfiguration_XDSGenerateBackgroundImage.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), \
-                                           "XSDataInputControlXDSGenerateBackgroundImage_reference.xml"))
+                                           "XSDataInputControlXDSGenerateBackgroundImage_pilatus2m.xml"))
         self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), \
                                                      "XSDataResultControlXDSGenerateBackgroundImage_reference.xml"))
+
     def preProcess(self):
         EDTestCasePluginExecute.preProcess(self)
-        self.loadTestImage([ "FAE_1_1_00001.cbf" ])
+        self.loadTestImage([ "ref-2m_RNASE_1_0001.cbf" ])
 
 
     def testExecute(self):

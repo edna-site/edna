@@ -2,8 +2,6 @@
 #    Project: MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
 #    Copyright (C) ESRF
 #
 #    Principal author:        Olof Svensson
@@ -81,8 +79,8 @@ class EDPluginControlXDSGenerateBackgroundImagev1_0(EDPluginControl):
         EDPluginControl.postProcess(self)
         EDVerbose.DEBUG("EDPluginControlXDSGenerateBackgroundImagev1_0.postProcess")
         # Create some output data
-        #xsDataResult = XSDataResultControlXDSGenerateBackgroundImage()
-        #self.setDataOutput(xsDataResult)
+        # xsDataResult = XSDataResultControlXDSGenerateBackgroundImage()
+        # self.setDataOutput(xsDataResult)
 
 
     def doSuccessExecTemplate(self, _edPlugin=None):

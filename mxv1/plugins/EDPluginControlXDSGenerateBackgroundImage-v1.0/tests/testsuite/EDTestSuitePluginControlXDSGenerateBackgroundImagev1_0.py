@@ -22,7 +22,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Olof Svensson"
+__author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
@@ -37,6 +37,7 @@ class EDTestSuitePluginControlXDSGenerateBackgroundImagev1_0(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginUnitControlXDSGenerateBackgroundImagev1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlXDSGenerateBackgroundImagev1_0")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlXDSGenerateBackgroundImagev1_0_pilatus2m")
         
 
 

@@ -30,7 +30,8 @@ __copyright__ = "ESRF"
 from EDVerbose import EDVerbose
 from EDTestCasePluginUnit import EDTestCasePluginUnit
 
-from XSDataMXv1 import XSDataInputXDSGenerateBackgroundImage
+from XSDataMXv1 import XSDataInputControlXDSGenerateBackgroundImage
+
 
 class EDTestCasePluginUnitControlXDSGenerateBackgroundImagev1_0(EDTestCasePluginUnit):
 
@@ -40,7 +41,7 @@ class EDTestCasePluginUnitControlXDSGenerateBackgroundImagev1_0(EDTestCasePlugin
 
 
     def testCheckParameters(self):
-        xsDataInput = XSDataInputXDSGenerateBackgroundImage()
+        xsDataInput = XSDataInputControlXDSGenerateBackgroundImage()
         edPluginExecXDSGenerateBackgroundImage = self.createPlugin()
         edPluginExecXDSGenerateBackgroundImage.setDataInput(xsDataInput)
         edPluginExecXDSGenerateBackgroundImage.checkParameters()

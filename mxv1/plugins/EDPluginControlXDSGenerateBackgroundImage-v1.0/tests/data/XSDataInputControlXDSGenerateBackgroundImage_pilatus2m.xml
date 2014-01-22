@@ -5,66 +5,66 @@
 	        <experimentalCondition>
 	            <beam>
 	                <exposureTime>
-	                    <value>2.550000e-01</value>
+	                    <value>5.000000e-01</value>
 	                </exposureTime>
 	                <wavelength>
-	                    <value>9.788000e-01</value>
+	                    <value>8.729000e-01</value>
 	                </wavelength>
 	            </beam>
 	            <detector>
 	                <beamPositionX>
-	                    <value>2.287944e-01</value>
+	                    <value>1.135544e+02</value>
 	                </beamPositionX>
 	                <beamPositionY>
-	                    <value>2.257844e-01</value>
+	                    <value>1.122936e+02</value>
 	                </beamPositionY>
 	                <distance>
-	                    <value>3.500000e-01</value>
+	                    <value>3.052220e+02</value>
 	                </distance>
 	                <name>
-	                    <value>PILATUS 6M</value>
+	                    <value>PILATUS2 3M</value>
 	                </name>
 	                <numberPixelX>
-	                    <value>2463</value>
+	                    <value>1475</value>
 	                </numberPixelX>
 	                <numberPixelY>
-	                    <value>2527</value>
+	                    <value>1679</value>
 	                </numberPixelY>
 	                <pixelSizeX>
-	                    <value>1.720000e-04</value>
+	                    <value>1.720000e-01</value>
 	                </pixelSizeX>
 	                <pixelSizeY>
-	                    <value>1.720000e-04</value>
+	                    <value>1.720000e-01</value>
 	                </pixelSizeY>
 	                <serialNumber>
-	                    <value>PILATUS 6M, SN 60-0001, X06SA@SLS.PSI.CH</value>
+	                    <value>PILATUS2 3M, S/N 24-0118, ESRF ID23</value>
 	                </serialNumber>
 	                <type>
-	                    <value>pilatus6m</value>
+	                    <value>pilatus2m</value>
 	                </type>
 	            </detector>
 	            <goniostat>
 	                <oscillationWidth>
-	                    <value>2.500000e-01</value>
+	                    <value>1.000000e+00</value>
 	                </oscillationWidth>
 	                <rotationAxisEnd>
-	                    <value>2.500000e-01</value>
+	                    <value>5.550000e+01</value>
 	                </rotationAxisEnd>
 	                <rotationAxisStart>
-	                    <value>0.000000e+00</value>
+	                    <value>5.450000e+01</value>
 	                </rotationAxisStart>
 	            </goniostat>
 	        </experimentalCondition>
 	        <image>
+	            <path>
+	                <value>${EDNA_TESTIMAGES}/ref-2m_RNASE_1_0001.cbf</value>
+	            </path>
 	            <date>
-	                <value>2008/Mar/05 18:04:59.549</value>
+	                <value>2014/Jan/21 16:50:20.585</value>
 	            </date>
 	            <number>
 	                <value>1</value>
 	            </number>
-	            <path>
-	                <value>${EDNA_TESTIMAGES}/FAE_1_1_00001.cbf</value>
-	            </path>
 	        </image>
 	    </subWedge>
     </dataCollection>
