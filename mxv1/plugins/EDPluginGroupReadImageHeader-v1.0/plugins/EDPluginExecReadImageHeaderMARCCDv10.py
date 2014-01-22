@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2014 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -125,10 +123,10 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
                     self.setFailure()
             xsDataDetector.setDistance(XSDataLength(fDistance))
             xsDataDetector.setNumberBytesInHeader(XSDataInteger(float(dictMARCCDHeader[ "header_size"   ])))
-            #xsDataDetector.setSerialNumber(        XSDataInteger(  dictMARCCDHeader[ "DETECTOR_SN"   ] ) ) )
-            #xsDataDetector.setBin(                 XSDataString(   dictMARCCDHeader[ "BIN" ] ) ) )
-            #xsDataDetector.setDataType(            XSDataString(   dictMARCCDHeader[ "TYPE" ] ) ) )
-            #xsDataDetector.setByteOrder(           XSDataString(   dictMARCCDHeader[ "BYTE_ORDER" ] ) ) )
+            # xsDataDetector.setSerialNumber(        XSDataInteger(  dictMARCCDHeader[ "DETECTOR_SN"   ] ) ) )
+            # xsDataDetector.setBin(                 XSDataString(   dictMARCCDHeader[ "BIN" ] ) ) )
+            # xsDataDetector.setDataType(            XSDataString(   dictMARCCDHeader[ "TYPE" ] ) ) )
+            # xsDataDetector.setByteOrder(           XSDataString(   dictMARCCDHeader[ "BYTE_ORDER" ] ) ) )
             xsDataDetector.setImageSaturation(XSDataInteger(int(dictMARCCDHeader[ "saturation_level" ])))
             # Determine type of detector...
             if (iNoPixelsX == 2048 and iNoPixelsY == 2048):
@@ -198,13 +196,13 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
         #
         strUint32 = 'I'
         strChar = 's'
-        #strInt16 = 'H'
+        # strInt16 = 'H'
         strInt32 = 'i'
 
         iMAXIMAGES = 9
 
         pyListHeader = [
-        #File/header format parameters (256bytes)
+        # File/header format parameters (256bytes)
         [strUint32, 'header_type'],
         [strChar, 'header_name', 16],
         [strUint32, 'header_major_version'],
@@ -262,7 +260,7 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
         [strUint32, 'postscan_nslow'],
         [strUint32, 'prepost_trimmed'],
         [strChar, 'reserve1', 20],
-        #Data statistics (128 bytes)
+        # Data statistics (128 bytes)
         [strUint32, 'total_counts', 2],
         [strUint32, 'special_counts1', 2],
         [strUint32, 'special_counts2', 2],
@@ -276,14 +274,14 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
         [strUint32, 'pixel_noise', iMAXIMAGES],
         [strChar, 'reserve2', (19 - iMAXIMAGES) * 4 ],
 
-        #More statistics (256 bytes)
-        #[uint16,'percentile',128],
-        #Percentile is substituted by Sample changer info
+        # More statistics (256 bytes)
+        # [uint16,'percentile',128],
+        # Percentile is substituted by Sample changer info
         [strChar, 'barcode', 16],
         [strUint32, 'barcode_angle'],
         [strUint32, 'barcode_status'],
         [strChar, 'reserve2a', 232],
-        #Goniostat parameters (128 bytes)
+        # Goniostat parameters (128 bytes)
         [strInt32, 'xtal_to_detector'],
         [strInt32, 'beam_x'],
         [strInt32, 'beam_y'],
@@ -314,7 +312,7 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
         [strInt32, 'detector_rotz'],
         [strInt32, 'total_dose'],
         [strChar, 'reserve3', 12],
-        #Detector parameters (128 bytes)
+        # Detector parameters (128 bytes)
         [strInt32, 'detector_type'],
         [strInt32, 'pixelsize_x'],
         [strInt32, 'pixelsize_y'],
@@ -323,7 +321,7 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
         [strInt32, 'measured_bias', iMAXIMAGES],
         [strInt32, 'measured_temperature', iMAXIMAGES],
         [strInt32, 'measured_pressure', iMAXIMAGES],
-        #X-ray source and optics parameters (128 bytes)
+        # X-ray source and optics parameters (128 bytes)
         [strInt32, 'source_type'],
         [strInt32, 'source_dx'],
         [strInt32, 'source_dy'],
@@ -349,7 +347,7 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
         [strInt32, 'optics_polarization_y'],
         [strChar, 'reserve_optics', 16],
         [strChar, 'reserve5', 16],
-        #File parameters
+        # File parameters
         [strChar, 'filetitle', 128],
         [strChar, 'filepath', 128],
         [strChar, 'filename', 64],
@@ -371,7 +369,7 @@ class EDPluginExecReadImageHeaderMARCCDv10(EDPluginExec):
         if (pyFile is not None):
             EDVerbose.DEBUG("EDPluginExecReadImageHeaderMARCCDv10.readHeaderMarccd: Reading header from image " + _strFileName)
             dictMarccd = {}
-            #Move to marccd part of header
+            # Move to marccd part of header
             pyFile.seek(1024)
             for pyListRow in pyListHeader:
                 if len(pyListRow) == 3:

@@ -54,7 +54,7 @@ from XSDataMXv1 import XSDataResultReadImageHeader
 
 
 
-class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
+class EDPluginExecReadImageHeaderPilatus2Mv10(EDPluginExec):
 
 
     def __init__(self):
@@ -69,19 +69,19 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
         """
         Checks the mandatory parameters.
         """
-        EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus6Mv10.checkParameters")
+        EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus2Mv10.checkParameters")
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
 
 
     def process(self, _edObject=None):
         EDPluginExec.process(self)
-        EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus6Mv10.process")
+        EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus2Mv10.process")
         xsDataInputReadImageHeader = self.getDataInput()
         xsDataFile = xsDataInputReadImageHeader.getImage()
         strPath = xsDataFile.getPath().getValue()
-        dictPilatus6MHeader = self.readHeaderPilatus6M(strPath)
-        if (dictPilatus6MHeader is None):
-            strErrorMessage = "EDPluginExecReadImageHeaderPilatus6Mv10.process : Cannot read header : %s" % strPath
+        dictPilatus2MHeader = self.readHeaderPilatus2M(strPath)
+        if (dictPilatus2MHeader is None):
+            strErrorMessage = "EDPluginExecReadImageHeaderPilatus2Mv10.process : Cannot read header : %s" % strPath
             EDVerbose.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
             self.setFailure()
@@ -89,45 +89,45 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
             xsDataExperimentalCondition = XSDataExperimentalCondition()
             xsDataDetector = XSDataDetector()
 
-            iNoPixelsX = 2463
-            iNoPixelsY = 2527
+            iNoPixelsX = 1475
+            iNoPixelsY = 1679
             xsDataDetector.setNumberPixelX(XSDataInteger(iNoPixelsX))
             xsDataDetector.setNumberPixelY(XSDataInteger(iNoPixelsY))
             # Pixel size
-            listPixelSizeXY = dictPilatus6MHeader[ "Pixel_size"   ].split(" ")
+            listPixelSizeXY = dictPilatus2MHeader[ "Pixel_size"   ].split(" ")
             fPixelSizeX = float(listPixelSizeXY[0]) * 1000
             xsDataDetector.setPixelSizeX(XSDataLength(fPixelSizeX))
             fPixelSizeY = float(listPixelSizeXY[3]) * 1000
             xsDataDetector.setPixelSizeY(XSDataLength(fPixelSizeY))
             # Beam position
-            listBeamPosition = dictPilatus6MHeader["Beam_xy"].replace("(", " ").replace(")", " ").replace(",", " ").split()
+            listBeamPosition = dictPilatus2MHeader["Beam_xy"].replace("(", " ").replace(")", " ").replace(",", " ").split()
             fBeamPositionX = float(listBeamPosition[1]) * fPixelSizeX
             fBeamPositionY = float(listBeamPosition[0]) * fPixelSizeY
             xsDataDetector.setBeamPositionX(XSDataLength(fBeamPositionX))
             xsDataDetector.setBeamPositionY(XSDataLength(fBeamPositionY))
-            fDistance = float(dictPilatus6MHeader[ "Detector_distance" ].split(" ")[0]) * 1000
+            fDistance = float(dictPilatus2MHeader[ "Detector_distance" ].split(" ")[0]) * 1000
             xsDataDetector.setDistance(XSDataLength(fDistance))
-#            xsDataDetector.setNumberBytesInHeader(XSDataInteger(float(dictPilatus6MHeader[ "header_size"   ])))
-            xsDataDetector.setSerialNumber(XSDataString(dictPilatus6MHeader[ "Detector:"   ]))
-#            #xsDataDetector.setBin(                 XSDataString(   dictPilatus6MHeader[ "BIN" ] ) ) )
-#            #xsDataDetector.setDataType(            XSDataString(   dictPilatus6MHeader[ "TYPE" ] ) ) )
-#            #xsDataDetector.setByteOrder(           XSDataString(   dictPilatus6MHeader[ "BYTE_ORDER" ] ) ) )
-#            xsDataDetector.setImageSaturation(XSDataInteger(int(dictPilatus6MHeader[ "saturation_level" ])))
-            xsDataDetector.setName(XSDataString("PILATUS 6M"))
-            xsDataDetector.setType(XSDataString("pilatus6m"))
+#            xsDataDetector.setNumberBytesInHeader(XSDataInteger(float(dictPilatus2MHeader[ "header_size"   ])))
+            xsDataDetector.setSerialNumber(XSDataString(dictPilatus2MHeader[ "Detector:"   ]))
+#            #xsDataDetector.setBin(                 XSDataString(   dictPilatus2MHeader[ "BIN" ] ) ) )
+#            #xsDataDetector.setDataType(            XSDataString(   dictPilatus2MHeader[ "TYPE" ] ) ) )
+#            #xsDataDetector.setByteOrder(           XSDataString(   dictPilatus2MHeader[ "BYTE_ORDER" ] ) ) )
+#            xsDataDetector.setImageSaturation(XSDataInteger(int(dictPilatus2MHeader[ "saturation_level" ])))
+            xsDataDetector.setName(XSDataString("PILATUS2 3M"))
+            xsDataDetector.setType(XSDataString("Pilatus2M"))
             xsDataExperimentalCondition.setDetector(xsDataDetector)
 
             # Beam object
 
             xsDataBeam = XSDataBeam()
-            xsDataBeam.setWavelength(XSDataWavelength(float(dictPilatus6MHeader[ "Wavelength" ].split(" ")[0])))
-            xsDataBeam.setExposureTime(XSDataTime(float(dictPilatus6MHeader[ "Exposure_time" ].split(" ")[0])))
+            xsDataBeam.setWavelength(XSDataWavelength(float(dictPilatus2MHeader[ "Wavelength" ].split(" ")[0])))
+            xsDataBeam.setExposureTime(XSDataTime(float(dictPilatus2MHeader[ "Exposure_time" ].split(" ")[0])))
             xsDataExperimentalCondition.setBeam(xsDataBeam)
 
             # Goniostat object
             xsDataGoniostat = XSDataGoniostat()
-            fRotationAxisStart = float(dictPilatus6MHeader[ "Start_angle" ].split(" ")[0])
-            fOscillationWidth = float(dictPilatus6MHeader[ "Angle_increment" ].split(" ")[0])
+            fRotationAxisStart = float(dictPilatus2MHeader[ "Start_angle" ].split(" ")[0])
+            fOscillationWidth = float(dictPilatus2MHeader[ "Angle_increment" ].split(" ")[0])
             xsDataGoniostat.setRotationAxisStart(XSDataAngle(fRotationAxisStart))
             xsDataGoniostat.setRotationAxisEnd(XSDataAngle(fRotationAxisStart + fOscillationWidth))
             xsDataGoniostat.setOscillationWidth(XSDataAngle(fOscillationWidth))
@@ -136,8 +136,8 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
             # Create the image object
             xsDataImage = XSDataImage()
             xsDataImage.setPath(XSDataString(strPath))
-            if "DateTime" in dictPilatus6MHeader:
-                strTimeStamp = dictPilatus6MHeader[ "DateTime" ]
+            if "DateTime" in dictPilatus2MHeader:
+                strTimeStamp = dictPilatus2MHeader[ "DateTime" ]
                 xsDataImage.setDate(XSDataString(strTimeStamp))
             iImageNumber = EDUtilsImage.getImageNumber(strPath)
             xsDataImage.setNumber(XSDataInteger(iImageNumber))
@@ -152,24 +152,24 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
 
     def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
-        EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus6Mv10.postProcess")
+        EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus2Mv10.postProcess")
         if (self.__xsDataResultReadImageHeader is not None):
             self.setDataOutput(self.__xsDataResultReadImageHeader)
 
 
-    def readHeaderPilatus6M(self, _strImageFileName):
+    def readHeaderPilatus2M(self, _strImageFileName):
         """
         Returns an dictionary with the contents of a Pilatus 6M CBF image header.
         """
-        dictPilatus6M = None
+        dictPilatus2M = None
         pyFile = None
         try:
             pyFile = open(_strImageFileName, "r")
         except:
-            EDVerbose.ERROR("EDPluginExecReadImageHeaderPilatus6Mv10.readHeaderPilauts6M: couldn't open file: " + _strImageFileName)
+            EDVerbose.ERROR("EDPluginExecReadImageHeaderPilatus2Mv10.readHeaderPilauts6M: couldn't open file: " + _strImageFileName)
             self.setFailure()
         if (pyFile != None):
-            EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus6Mv10.readHeaderPilauts6M: Reading header from image " + _strImageFileName)
+            EDVerbose.DEBUG("EDPluginExecReadImageHeaderPilatus2Mv10.readHeaderPilauts6M: Reading header from image " + _strImageFileName)
             pyFile.seek(0, 0)
             bContinue = True
             iMax = 60
@@ -178,18 +178,18 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
                 strLine = pyFile.readline()
                 iIndex += 1
                 if (strLine.find("_array_data.header_contents") != -1):
-                    dictPilatus6M = {}
+                    dictPilatus2M = {}
                 if (strLine.find("_array_data.data") != -1) or iIndex > iMax:
                     bContinue = False
-                if (dictPilatus6M != None) and (strLine[0] == "#"):
+                if (dictPilatus2M != None) and (strLine[0] == "#"):
                     # Check for date
                     strTmp = strLine[2:].replace("\r\n", "")
                     if strLine[6] == "/" and strLine[10] == "/":
-                        dictPilatus6M["DateTime"] = strTmp
+                        dictPilatus2M["DateTime"] = strTmp
                     else:
                         strKey = strTmp.split(" ")[0]
                         strValue = strTmp.replace(strKey, "")[1:]
-                        dictPilatus6M[strKey] = strValue
+                        dictPilatus2M[strKey] = strValue
             pyFile.close()
-        return dictPilatus6M
+        return dictPilatus2M
 

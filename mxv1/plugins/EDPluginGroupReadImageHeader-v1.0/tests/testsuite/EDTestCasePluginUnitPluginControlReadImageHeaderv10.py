@@ -2,13 +2,11 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2014 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Michael Hellmig (michael.hellmig@bessy.de)
-#							 Marie-Francoise Incardona (incardon@esrf.fr)
+# 							 Marie-Francoise Incardona (incardon@esrf.fr)
 #                            Olof Svensson (svensson@esrf.fr) 
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -53,28 +51,33 @@ class EDTestCasePluginUnitPluginControlReadImageHeaderv10(EDTestCasePluginUnit):
         self.loadTestImage([ "testscale_1_001.img" ])
         strImage1 = os.path.join(self.getTestsDataImagesHome(), "testscale_1_001.img")
         strType1 = edPluginControlReadImageHeaderv10.determineImageType(strImage1)
-        EDAssert.equal(strType1, "ADSC")
+        EDAssert.equal(strType1, "ADSC", "ADSC")
         # Test 2 : MAR CCD with .mccd suffix
         self.loadTestImage([ "ref-screentest-crystal1_1_001.mccd" ])
         strImage2 = os.path.join(self.getTestsDataImagesHome(), "ref-screentest-crystal1_1_001.mccd")
         strType2 = edPluginControlReadImageHeaderv10.determineImageType(strImage2)
-        EDAssert.equal(strType2, "MARCCD")
+        EDAssert.equal(strType2, "MARCCD", "MARCCD 1")
         # Test 3 : MAR CCD with .marccd suffix - copied from ref-screentest-crystal1_1_001.mccd
         strImage3 = tempfile.mktemp(suffix="_1_001.marccd", prefix="ref-screentest-crystal1_")
         shutil.copyfile(strImage2, strImage3)
         strType3 = edPluginControlReadImageHeaderv10.determineImageType(strImage3)
-        EDAssert.equal(strType3, "MARCCD")
+        EDAssert.equal(strType3, "MARCCD", "MARCCD 2")
         os.remove(strImage3)
-        # Test 4 : Pilatus 6M CBF image
+        # Test 4 : Pilatus 2M CBF image
+        self.loadTestImage([ "ref-2m_RNASE_1_0001.cbf" ])
+        strImage1 = os.path.join(self.getTestsDataImagesHome(), "ref-2m_RNASE_1_0001.cbf")
+        strType1 = edPluginControlReadImageHeaderv10.determineImageType(strImage1)
+        EDAssert.equal(strType1, "Pilatus2M", "Pilatus2M")
+        # Test 5 : Pilatus 6M CBF image
         self.loadTestImage([ "FAE_1_1_00001.cbf" ])
         strImage1 = os.path.join(self.getTestsDataImagesHome(), "FAE_1_1_00001.cbf")
         strType1 = edPluginControlReadImageHeaderv10.determineImageType(strImage1)
-        EDAssert.equal(strType1, "Pilatus6M")
-        # Test 5 : Unknown image - created by the test
+        EDAssert.equal(strType1, "Pilatus6M", "Pilatus6M")
+        # Test 6 : Unknown image - created by the test
         strImage4 = tempfile.mktemp(suffix="_1_001.unknown", prefix="zeroes_")
         EDUtilsFile.writeFile(strImage4, "Dummy text string for EDTestCasePluginUnitPluginControlReadImageHeaderv10.testDetermineImageType")
         strType4 = edPluginControlReadImageHeaderv10.determineImageType(strImage4)
-        EDAssert.equal(True, edPluginControlReadImageHeaderv10.isFailure())
+        EDAssert.equal(True, edPluginControlReadImageHeaderv10.isFailure(), "Not recognized format")
         os.remove(strImage4)
 
 

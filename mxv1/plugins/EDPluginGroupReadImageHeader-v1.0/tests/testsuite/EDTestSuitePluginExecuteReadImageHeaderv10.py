@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2014 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Marie-Francoise Incardona (incardon@esrf.fr)
@@ -39,9 +37,12 @@ class EDTestSuitePluginExecuteReadImageHeaderv10(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginExecutePluginExecReadImageHeaderADSCv10")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginExecReadImageHeaderMARCCDv10")
+        self.addTestCaseFromName("EDTestCasePluginExecutePluginExecReadImageHeaderPilatus2Mv10")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginExecReadImageHeaderPilatus6Mv10")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_MARCCD")
+        self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_Pilatus2M")
+        self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_Pilatus6M")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_ADSC_waitFile")
         self.addTestCaseFromName("EDTestCasePluginExecutePluginControlReadImageHeaderv10_failure")
 

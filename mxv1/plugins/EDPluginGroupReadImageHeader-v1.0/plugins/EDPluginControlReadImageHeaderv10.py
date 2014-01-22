@@ -2,9 +2,7 @@
 #    Project: EDNA MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+#    Copyright (C) 2008-2014 European Synchrotron Radiation Facility
 #                            Grenoble, France
 #
 #    Principal authors:      Michael Hellmig (michael.hellmig@bessy.de)
@@ -60,33 +58,38 @@ class EDPluginControlReadImageHeaderv10(EDPluginControl):
         self.xsDataResultReadImageHeader = None
         self.strFileImagePath = None
         # Default time out for wait file
-        self.fWaitFileTimeOut = 30 #s
+        self.fWaitFileTimeOut = 30  # s
         # Map between image suffix and image type
         self.strSuffixADSC = "img"
         self.strSuffixMARCCD1 = "mccd"
         self.strSuffixMARCCD2 = "marccd"
+        self.strSuffixPilatus2M = "cbf"
         self.strSuffixPilatus6M = "cbf"
         # Recognised types of detectors
         self.strADSC = "ADSC"
         self.strMARCCD = "MARCCD"
+        self.strPilatus2M = "Pilatus2M"
         self.strPilatus6M = "Pilatus6M"
         #
         self.strPluginExecWaitFile = "EDPluginWaitFile"
         self.strPluginExecReadImageHeaderADSC = "EDPluginExecReadImageHeaderADSCv10"
         self.strPluginExecReadImageHeaderMARCCD = "EDPluginExecReadImageHeaderMARCCDv10"
+        self.strPluginExecReadImageHeaderPilatus2M = "EDPluginExecReadImageHeaderPilatus2Mv10"
         self.strPluginExecReadImageHeaderPilatus6M = "EDPluginExecReadImageHeaderPilatus6Mv10"
         # Table mapping image suffix with detector type
-        self.dictSuffixToImageType = { \
-              self.strSuffixADSC    : self.strADSC, \
-              self.strSuffixMARCCD1 : self.strMARCCD, \
-              self.strSuffixMARCCD2 : self.strMARCCD, \
-              self.strSuffixPilatus6M : self.strPilatus6M \
+        self.dictSuffixToImageType = {
+              self.strSuffixADSC    : self.strADSC,
+              self.strSuffixMARCCD1 : self.strMARCCD,
+              self.strSuffixMARCCD2 : self.strMARCCD,
+              self.strSuffixPilatus2M : self.strPilatus2M,
+              self.strSuffixPilatus6M : self.strPilatus6M,
                                                     }
 		# Table mapping image type with exec read image header plugin
-        self.dictImageTypeToPluginName = { \
-			  self.strADSC   : self.strPluginExecReadImageHeaderADSC, \
-              self.strMARCCD : self.strPluginExecReadImageHeaderMARCCD, \
-              self.strPilatus6M : self.strPluginExecReadImageHeaderPilatus6M
+        self.dictImageTypeToPluginName = {
+			  self.strADSC   : self.strPluginExecReadImageHeaderADSC,
+              self.strMARCCD : self.strPluginExecReadImageHeaderMARCCD,
+              self.strPilatus2M : self.strPluginExecReadImageHeaderPilatus2M,
+              self.strPilatus6M : self.strPluginExecReadImageHeaderPilatus6M,
                 									 }
 
     def checkParameters(self):
@@ -97,7 +100,7 @@ class EDPluginControlReadImageHeaderv10(EDPluginControl):
         self.checkMandatoryParameters(self.getDataInput(), "Data Input is None")
 
 
-    def configure(self, _edPlugin = None):
+    def configure(self, _edPlugin=None):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlReadImageHeaderv10.configure")
         self.fWaitFileTimeOut = float(self.config.get("waitFileTimeOut", self.fWaitFileTimeOut))
@@ -265,6 +268,28 @@ class EDPluginControlReadImageHeaderv10(EDPluginControl):
             return False
 
 
+    def isPilatus2MImageFormat(self, _strImageFileName):
+        """
+        Detects Pilatus 2M CBF image format and returns True after successful identification.
+        """
+        strKeyword = None
+        pyFile = None
+        bIsPilatus2MFormat = False
+        try:
+            pyFile = open(_strImageFileName, "r")
+        except:
+            self.warning("EDPluginControlReadImageHeaderv10.isPilatus6MImageFormat: couldn't open file: " + _strImageFileName)
+
+        if pyFile != None:
+            self.DEBUG("EDPluginControlReadImageHeaderv10.isPilatus6MImageFormat: detecting image format from file " + _strImageFileName)
+            pyFile.seek(0, 0)
+            for iIndex in range(20):
+                strLine = pyFile.readline()
+                if strLine.find("Detector: PILATUS2 3M") != -1:
+                    bIsPilatus2MFormat = True
+            pyFile.close()
+        return bIsPilatus2MFormat
+
     def isPilatus6MImageFormat(self, _strImageFileName):
         """
         Detects Pilatus 6M CBF image format and returns True after successful identification.
@@ -280,11 +305,10 @@ class EDPluginControlReadImageHeaderv10(EDPluginControl):
         if pyFile != None:
             self.DEBUG("EDPluginControlReadImageHeaderv10.isPilatus6MImageFormat: detecting image format from file " + _strImageFileName)
             pyFile.seek(0, 0)
-            strLine = pyFile.readline()
-            if strLine.find("SLS/DECTRIS PILATUS detectors") != -1:
-                bIsPilatus6MFormat = True
-            elif strLine.find("###CBF: VERSION 1.5") != -1:
-                bIsPilatus6MFormat = True
+            for iIndex in range(20):
+                strLine = pyFile.readline()
+                if strLine.find("Detector: PILATUS 6M") != -1:
+                    bIsPilatus6MFormat = True
             pyFile.close()
         return bIsPilatus6MFormat
 
@@ -306,6 +330,8 @@ class EDPluginControlReadImageHeaderv10(EDPluginControl):
                 strImageType = self.strMARCCD
             elif self.isAdscImageFormat(_strImagePath):
                 strImageType = self.strADSC
+            elif self.isPilatus2MImageFormat(_strImagePath):
+                strImageType = self.strPilatus2M
             elif self.isPilatus6MImageFormat(_strImagePath):
                 strImageType = self.strPilatus6M
             else:

@@ -28,17 +28,30 @@ __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-from EDTestSuite                                   import EDTestSuite
+import os
 
-class EDTestSuitePluginUnitReadImageHeaderv10(EDTestSuite):
+from EDTestCasePluginExecutePluginControlReadImageHeaderv10 import EDTestCasePluginExecutePluginControlReadImageHeaderv10
+
+
+class EDTestCasePluginExecutePluginControlReadImageHeaderv10_Pilatus2M(EDTestCasePluginExecutePluginControlReadImageHeaderv10):
+
+
+    def __init__(self, _strTestName="EDPluginControlReadImageHeaderv10"):
+        EDTestCasePluginExecutePluginControlReadImageHeaderv10.__init__(self, _strTestName)
+        self.setConfigurationFile(self.getRefConfigFile())
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputReadImageHeader_Pilatus2M_reference.xml"))
+        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultReadImageHeader_Pilatus2M_reference.xml"))
+
+
+    def preProcess(self):
+        EDTestCasePluginExecutePluginControlReadImageHeaderv10.preProcess(self)
+        self.loadTestImage([ "ref-2m_RNASE_1_0001.cbf" ])
+
+
 
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitPluginExecReadImageHeaderPilatus6Mv10")
-        self.addTestCaseFromName("EDTestCasePluginUnitPluginControlReadImageHeaderv10")
+        self.addTestMethod(self.testExecute)
 
 
-if __name__ == '__main__':
 
-    edTestSuitePluginUnitReadImageHeaderv10 = EDTestSuitePluginUnitReadImageHeaderv10("EDTestSuitePluginUnitReadImageHeaderv10")
-    edTestSuitePluginUnitReadImageHeaderv10.execute()

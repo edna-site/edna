@@ -22,23 +22,38 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+
 __authors__ = [ "Olof Svensson", "Marie-Francoise Incardona" ]
 __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 
-from EDTestSuite                                   import EDTestSuite
 
-class EDTestSuitePluginUnitReadImageHeaderv10(EDTestSuite):
+import os
+
+from EDTestCasePluginExecute             import EDTestCasePluginExecute
+
+
+class EDTestCasePluginExecutePluginExecReadImageHeaderPilatus2Mv10(EDTestCasePluginExecute):
+
+
+    def __init__(self, _strTestName="EDPluginExecReadImageHeaderPilatus2Mv10"):
+        EDTestCasePluginExecute.__init__(self, _strTestName)
+        self.setConfigurationFile(self.getRefConfigFile())
+        self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputReadImageHeader_Pilatus2M_reference.xml"))
+        self.setReferenceDataOutputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataResultReadImageHeader_Pilatus2M_reference.xml"))
+
+
+    def preProcess(self):
+        EDTestCasePluginExecute.preProcess(self)
+        self.loadTestImage([ "FAE_1_1_00001.cbf" ])
+
+
+    def testExecute(self):
+        self.run()
+
 
 
     def process(self):
-        self.addTestCaseFromName("EDTestCasePluginUnitPluginExecReadImageHeaderPilatus6Mv10")
-        self.addTestCaseFromName("EDTestCasePluginUnitPluginControlReadImageHeaderv10")
-
-
-if __name__ == '__main__':
-
-    edTestSuitePluginUnitReadImageHeaderv10 = EDTestSuitePluginUnitReadImageHeaderv10("EDTestSuitePluginUnitReadImageHeaderv10")
-    edTestSuitePluginUnitReadImageHeaderv10.execute()
+        self.addTestMethod(self.testExecute)

@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<XSDataResultReadImageHeader>
+    <subWedge>
+        <experimentalCondition>
+            <beam>
+                <exposureTime>
+                    <value>5.000000e-01</value>
+                </exposureTime>
+                <wavelength>
+                    <value>8.729000e-01</value>
+                </wavelength>
+            </beam>
+            <detector>
+                <beamPositionX>
+                    <value>1.135544e+02</value>
+                </beamPositionX>
+                <beamPositionY>
+                    <value>1.122936e+02</value>
+                </beamPositionY>
+                <distance>
+                    <value>3.052220e+02</value>
+                </distance>
+                <name>
+                    <value>PILATUS2 3M</value>
+                </name>
+                <numberPixelX>
+                    <value>1475</value>
+                </numberPixelX>
+                <numberPixelY>
+                    <value>1679</value>
+                </numberPixelY>
+                <pixelSizeX>
+                    <value>1.720000e-01</value>
+                </pixelSizeX>
+                <pixelSizeY>
+                    <value>1.720000e-01</value>
+                </pixelSizeY>
+                <serialNumber>
+                    <value>PILATUS2 3M, S/N 24-0118, ESRF ID23</value>
+                </serialNumber>
+                <type>
+                    <value>Pilatus2M</value>
+                </type>
+            </detector>
+            <goniostat>
+                <oscillationWidth>
+                    <value>1.000000e+00</value>
+                </oscillationWidth>
+                <rotationAxisEnd>
+                    <value>5.550000e+01</value>
+                </rotationAxisEnd>
+                <rotationAxisStart>
+                    <value>5.450000e+01</value>
+                </rotationAxisStart>
+            </goniostat>
+        </experimentalCondition>
+        <image>
+            <path>
+                <value>/mntdirect/_scisoft/users/svensson/git/edna/tests/data/images/ref-2m_RNASE_1_0001.cbf</value>
+            </path>
+            <date>
+                <value>2014/Jan/21 16:50:20.585</value>
+            </date>
+            <number>
+                <value>1</value>
+            </number>
+        </image>
+    </subWedge>
+</XSDataResultReadImageHeader>
