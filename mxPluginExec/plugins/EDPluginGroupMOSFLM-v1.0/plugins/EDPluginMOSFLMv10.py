@@ -160,7 +160,15 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
                 if xsDataMOSFLMInput.getDetector().getNumberPixelX().getValue() == 1475 and \
                    xsDataMOSFLMInput.getDetector().getNumberPixelY().getValue() == 1679:
                     # Pilatus 2M
-                    # No untrusted region yet...
+                    self.addListCommandExecution("LIMITS EXCLUDE    0.0  83.76  288.96   85.14")
+                    self.addListCommandExecution("LIMITS EXCLUDE    0.0 168.73  288.96  170.10")
+                    self.addListCommandExecution("LIMITS EXCLUDE   33.54   0.0   36.63  253.87")
+                    self.addListCommandExecution("LIMITS EXCLUDE   70.00   0.0   73.1   253.87")
+                    self.addListCommandExecution("LIMITS EXCLUDE  106.46   0.0  109.56  253.87")
+                    self.addListCommandExecution("LIMITS EXCLUDE  142.93   0.0  146.02  253.87")
+                    self.addListCommandExecution("LIMITS EXCLUDE  179.39   0.0  182.49  253.87")
+                    self.addListCommandExecution("LIMITS EXCLUDE  215.86   0.0  218.95  253.87")
+                    self.addListCommandExecution("LIMITS EXCLUDE  252.32   0.0  255.42  253.87")
                     pass
                 elif xsDataMOSFLMInput.getDetector().getNumberPixelX().getValue() == 2463 and \
                    xsDataMOSFLMInput.getDetector().getNumberPixelY().getValue() == 2527:
