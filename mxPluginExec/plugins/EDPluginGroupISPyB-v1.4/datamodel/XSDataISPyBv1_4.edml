@@ -32,6 +32,7 @@ complex type XSDataISPyBImageQualityIndicators extends XSData {
 	signalRangeMin : XSDataDouble optional
 	spotTotal : XSDataInteger
 	totalIntegratedSignal : XSDataDouble optional
+	background3D_score : XSDataDouble optional
 }
 
 

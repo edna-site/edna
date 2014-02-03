@@ -1,0 +1,80 @@
+# GONIO Calibration Settings
+OmegaRot 0.00295 -0.00253 0.99999
+KappaRot -0.28505 -0.28947 0.91376
+PhiRot 0.02036 -0.01629 0.99966
+KappaTrans -0.26777 0.0494 -22.73379
+PhiTrans -0.55978 -0.14757 -23.41816
+KappaTransD -0.29018 -0.29007 0.91195
+PhiTransD 0.01621 -0.01762 0.99971
+
+SECTION STAC_GUI
+##################################
+STAC_GUI_language English
+
+SECTION STAC_GUI_English
+##################################
+V1 v1-Spindle
+V2 v2-Horizontal
+V1_TOOLTIP Vector v1-Spindle along the Spindle \n Vector v2-Horizontal in the plane of spindle and beam
+NEW_XTAL New Xtal
+NEW_XTAL_TOOLTIP Start to work with a new crystal \n Start with this button when a new crystal is mounted!
+
+SECTION STAC_GUI_Magyar
+##################################
+V1 vForgas
+V2 vSugar
+V1_TOOLTIP A vForgas vektor keruljon a forgastengellyel parhuzamos helyzetbe \nA vSugar vektor keruljon a Sugar es a forgastengely sikjaba. \n Amennyiben a Kozel be van kapcsolva, akkor iterativ kozelito szamitas vegzese szukseg eseten.
+NEW_XTAL UJ!
+NEW_XTAL_TOOLTIP Kiserlet kezdese egy uj kristallyal
+
+SECTION Alignment_Plugins
+##################################
+Alignment_Plugin AlignmentPlugin_gonset
+
+SECTION Strategy_Plugins
+##################################
+Strategy_Plugin StrategyPlugin_strategy
+
+SECTION BCM_Plugins
+##################################
+BCM_Plugin BCMplugin_esrf_complex external
+#vBCM_configuration vBCM.dat_esrf
+
+SECTION Stac_BCMplugin_esrf_complex_external
+##################################
+# spec version:
+SPECVERSION lid232:eh1
+# motorDescriptor:
+# eg:
+# motorName   motorName  multiplication factor    offset    dialOffset
+# (in STAC)   (in spec) (specValue=StacValue*f+offset)   (user=dial+dialOffset)
+# 
+X sampx -1.0 0.0 -1.907357000008325E-5
+Y sampy 1.0 0.0 1.6348770000007562E-5
+Z phiy 1.0 0.0 3.333329999932744E-5
+Omega phi 1.0 -3.90625E-4 1.5625E-4
+Kappa r_kap1 1.0 0.0 0.0
+Phi r_kap2 1.0 0.0 0.0
+# 
+# remark:
+# mulfac assumes that calibration has been done, and the
+# motors are aligned to the lab axes, otherwise
+# [XYZ] <-> [spec translation] would require a 3d transformation
+#
+INITSTRING minikappa_init
+MOVESYNC syncMove
+#
+#
+CENTERPREPARE centerprepare 0 0 0
+TANGOURL_CENTERNEEDLE tango://basil:20000/id23/mxautocentring/1 0 0 0
+#source:
+#  CACHE        - 0
+#  CACHE_DEVICE - 1
+#  DEVICE       - 2
+SOURCE 1 0 0 0
+CENTERNEEDLE CenterNeedle 0 0 0
+CENTERNEEDLERADIUS R 0 0 0
+CENTERSTATUSEQUEST State 0 0 0
+CENTERSTATUSOK STANDBY 0 0 0
+CENTERSTATUSMOVE RUNNING 0 0 0
+

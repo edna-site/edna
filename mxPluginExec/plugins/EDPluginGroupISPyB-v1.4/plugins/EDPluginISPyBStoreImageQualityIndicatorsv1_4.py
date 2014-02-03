@@ -106,7 +106,7 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_4(EDPluginExec):
         elif (type(oReturnValue) == str) or (type(oReturnValue) == unicode):
             if len(oReturnValue) > _iMaxStringLength:
                 strOldString = oReturnValue
-                oReturnValue = oReturnValue[0:_iMaxStringLength-3]+"..."
+                oReturnValue = oReturnValue[0:_iMaxStringLength - 3] + "..."
                 self.warning("String truncated to %d characters for ISPyB! Original string: %s" % (_iMaxStringLength, strOldString))
                 self.warning("Truncated string: %s" % oReturnValue)
         return oReturnValue
@@ -133,37 +133,39 @@ class EDPluginISPyBStoreImageQualityIndicatorsv1_4(EDPluginExec):
         strFileName = os.path.basename(strPathToImage)
         httpAuthenticatedToolsForAutoprocessingWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
         clientToolsForAutoprocessingWebService = Client(self.strToolsForAutoprocessingWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService)
-        iImageId                       = 0
-        iAutoProcProgramId             = self.iAutoProcProgramId
-        iSpotTotal                     = self.getXSValue(xsDataImageQualityIndicators.spotTotal)
-        iInResTotal                    = self.getXSValue(xsDataImageQualityIndicators.inResTotal)
-        iGoodBraggCandidates           = self.getXSValue(xsDataImageQualityIndicators.goodBraggCandidates)
-        iIceRings                      = self.getXSValue(xsDataImageQualityIndicators.iceRings)
-        fMethod1res                    = self.getXSValue(xsDataImageQualityIndicators.method1Res)
-        fMethod2res                    = self.getXSValue(xsDataImageQualityIndicators.method2Res)
-        fMaxUnitCell                   = self.getXSValue(xsDataImageQualityIndicators.maxUnitCell)
-        fPctSaturationTop50peaks       = self.getXSValue(xsDataImageQualityIndicators.pctSaturationTop50Peaks)
-        iInResolutionOvrlSpots         = self.getXSValue(xsDataImageQualityIndicators.inResolutionOvrlSpots)
-        fBinPopCutOffMethod2res        = self.getXSValue(xsDataImageQualityIndicators.binPopCutOffMethod2Res)
-        fTotalIntegratedSignal         = self.getXSValue(xsDataImageQualityIndicators.totalIntegratedSignal)
+        iImageId = 0
+        iAutoProcProgramId = self.iAutoProcProgramId
+        iSpotTotal = self.getXSValue(xsDataImageQualityIndicators.spotTotal)
+        iInResTotal = self.getXSValue(xsDataImageQualityIndicators.inResTotal)
+        iGoodBraggCandidates = self.getXSValue(xsDataImageQualityIndicators.goodBraggCandidates)
+        iIceRings = self.getXSValue(xsDataImageQualityIndicators.iceRings)
+        fMethod1res = self.getXSValue(xsDataImageQualityIndicators.method1Res)
+        fMethod2res = self.getXSValue(xsDataImageQualityIndicators.method2Res)
+        fMaxUnitCell = self.getXSValue(xsDataImageQualityIndicators.maxUnitCell)
+        fPctSaturationTop50peaks = self.getXSValue(xsDataImageQualityIndicators.pctSaturationTop50Peaks)
+        iInResolutionOvrlSpots = self.getXSValue(xsDataImageQualityIndicators.inResolutionOvrlSpots)
+        fBinPopCutOffMethod2res = self.getXSValue(xsDataImageQualityIndicators.binPopCutOffMethod2Res)
+        fTotalIntegratedSignal = self.getXSValue(xsDataImageQualityIndicators.totalIntegratedSignal)
+        fBackground3D_score = self.getXSValue(xsDataImageQualityIndicators.background3D_score)
 
-        providedDate                   = DateTime(datetime.datetime.now())
+        providedDate = DateTime(datetime.datetime.now())
         self.iImageQualityIndicatorsId = clientToolsForAutoprocessingWebService.service.storeOrUpdateImageQualityIndicatorsForFileName(
-                fileLocation = strDirName, \
-                fileName = strFileName, \
-                imageId = iImageId, \
-                autoProcProgramId = iAutoProcProgramId, \
-                spotTotal = iSpotTotal, \
-                inResTotal = iInResTotal, \
-                goodBraggCandidates = iGoodBraggCandidates, \
-                icdRings = iIceRings, \
-                methodRes1 = fMethod1res, \
-                methodRes2 = fMethod2res, \
-                maxUnitCell = fMaxUnitCell, \
-                pctSaturationTop50Peaks = fPctSaturationTop50peaks, \
-                inResolutionOvrlSpots = iInResolutionOvrlSpots, \
-                binPopCutOffMethod2Res = fBinPopCutOffMethod2res, \
-                totalIntegratedSignal = fTotalIntegratedSignal)
+                fileLocation=strDirName, \
+                fileName=strFileName, \
+                imageId=iImageId, \
+                autoProcProgramId=iAutoProcProgramId, \
+                spotTotal=iSpotTotal, \
+                inResTotal=iInResTotal, \
+                goodBraggCandidates=iGoodBraggCandidates, \
+                iceRings=iIceRings, \
+                method1Res=fMethod1res, \
+                method2Res=fMethod2res, \
+                maxUnitCell=fMaxUnitCell, \
+                pctSaturationTop50Peaks=fPctSaturationTop50peaks, \
+                inResolutionOvrlSpots=iInResolutionOvrlSpots, \
+                binPopCutOffMethod2Res=fBinPopCutOffMethod2res, \
+                totalIntegratedSignal=fTotalIntegratedSignal, \
+                background3D_score=fBackground3D_score)
         self.DEBUG("EDPluginISPyBStoreImageQualityIndicatorsv1_4.process: imageQualityIndicatorsId=%r" % self.iImageQualityIndicatorsId)
             
              

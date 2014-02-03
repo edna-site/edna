@@ -2,10 +2,10 @@
 <XSDataInputStoreImageQualityIndicators>
     <imageQualityIndicators>
         <goodBraggCandidates>
-            <value>11</value>
+            <value>4</value>
         </goodBraggCandidates>
         <iceRings>
-            <value>0</value>
+            <value>5</value>
         </iceRings>
         <image>
             <path>
@@ -19,22 +19,34 @@
             </number>
         </image>
         <inResTotal>
-            <value>13</value>
+            <value>3</value>
         </inResTotal>
         <inResolutionOvrlSpots>
-            <value>0</value>
+            <value>6</value>
         </inResolutionOvrlSpots>
         <maxUnitCell>
-            <value>2.040000e+02</value>
+            <value>5.3</value>
         </maxUnitCell>
         <method1Res>
-            <value>4.060000e+00</value>
+            <value>5.1</value>
         </method1Res>
+        <method2Res>
+            <value>5.2</value>
+        </method2Res>
         <spotTotal>
-            <value>13</value>
+            <value>2</value>
         </spotTotal>
         <totalIntegratedSignal>
-            <value>6.830000e+02</value>
+            <value>9.4</value>
         </totalIntegratedSignal>
+        <background3D_score>
+            <value>123.45</value>
+        </background3D_score>
+        <pctSaturationTop50Peaks>
+            <value>5.4</value>
+        </pctSaturationTop50Peaks>
+        <binPopCutOffMethod2Res>
+            <value>7.1</value>
+        </binPopCutOffMethod2Res>
     </imageQualityIndicators>
 </XSDataInputStoreImageQualityIndicators>

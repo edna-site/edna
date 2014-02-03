@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Oct 28 11:06::01 2013 by EDGenerateDS.
+# Generated Wed Jan 29 08:56::38 2014 by EDGenerateDS.
 #
 
 import os, sys
@@ -5778,7 +5778,7 @@ class XSDataISPyBImagePosition(XSData):
 
 
 class XSDataISPyBImageQualityIndicators(XSData):
-    def __init__(self, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
+    def __init__(self, background3D_score=None, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
         XSData.__init__(self, )
         if binPopCutOffMethod2Res is None:
             self._binPopCutOffMethod2Res = None
@@ -5905,6 +5905,13 @@ class XSDataISPyBImageQualityIndicators(XSData):
             self._totalIntegratedSignal = totalIntegratedSignal
         else:
             strMessage = "ERROR! XSDataISPyBImageQualityIndicators constructor argument 'totalIntegratedSignal' is not XSDataDouble but %s" % self._totalIntegratedSignal.__class__.__name__
+            raise BaseException(strMessage)
+        if background3D_score is None:
+            self._background3D_score = None
+        elif background3D_score.__class__.__name__ == "XSDataDouble":
+            self._background3D_score = background3D_score
+        else:
+            strMessage = "ERROR! XSDataISPyBImageQualityIndicators constructor argument 'background3D_score' is not XSDataDouble but %s" % self._background3D_score.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'binPopCutOffMethod2Res' attribute
     def getBinPopCutOffMethod2Res(self): return self._binPopCutOffMethod2Res
@@ -6122,6 +6129,18 @@ class XSDataISPyBImageQualityIndicators(XSData):
             raise BaseException(strMessage)
     def delTotalIntegratedSignal(self): self._totalIntegratedSignal = None
     totalIntegratedSignal = property(getTotalIntegratedSignal, setTotalIntegratedSignal, delTotalIntegratedSignal, "Property for totalIntegratedSignal")
+    # Methods and properties for the 'background3D_score' attribute
+    def getBackground3D_score(self): return self._background3D_score
+    def setBackground3D_score(self, background3D_score):
+        if background3D_score is None:
+            self._background3D_score = None
+        elif background3D_score.__class__.__name__ == "XSDataDouble":
+            self._background3D_score = background3D_score
+        else:
+            strMessage = "ERROR! XSDataISPyBImageQualityIndicators.setBackground3D_score argument is not XSDataDouble but %s" % background3D_score.__class__.__name__
+            raise BaseException(strMessage)
+    def delBackground3D_score(self): self._background3D_score = None
+    background3D_score = property(getBackground3D_score, setBackground3D_score, delBackground3D_score, "Property for background3D_score")
     def export(self, outfile, level, name_='XSDataISPyBImageQualityIndicators'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -6182,6 +6201,8 @@ class XSDataISPyBImageQualityIndicators(XSData):
             warnEmptyAttribute("spotTotal", "XSDataInteger")
         if self._totalIntegratedSignal is not None:
             self.totalIntegratedSignal.export(outfile, level, name_='totalIntegratedSignal')
+        if self._background3D_score is not None:
+            self.background3D_score.export(outfile, level, name_='background3D_score')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -6277,6 +6298,11 @@ class XSDataISPyBImageQualityIndicators(XSData):
             obj_ = XSDataDouble()
             obj_.build(child_)
             self.setTotalIntegratedSignal(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'background3D_score':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setBackground3D_score(obj_)
         XSData.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):
@@ -9166,6 +9192,142 @@ class XSDataISPyBScreeningStrategy(XSData):
 # end class XSDataISPyBScreeningStrategy
 
 
+class XSDataISPyBScreeningStrategyContainer(XSData):
+    def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
+        XSData.__init__(self, )
+        if screeningStrategy is None:
+            self._screeningStrategy = None
+        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
+            self._screeningStrategy = screeningStrategy
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategy' is not XSDataISPyBScreeningStrategy but %s" % self._screeningStrategy.__class__.__name__
+            raise BaseException(strMessage)
+        if screeningStrategyWedgeContainer is None:
+            self._screeningStrategyWedgeContainer = []
+        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
+            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategyWedgeContainer' is not list but %s" % self._screeningStrategyWedgeContainer.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'screeningStrategy' attribute
+    def getScreeningStrategy(self): return self._screeningStrategy
+    def setScreeningStrategy(self, screeningStrategy):
+        if screeningStrategy is None:
+            self._screeningStrategy = None
+        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
+            self._screeningStrategy = screeningStrategy
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategy argument is not XSDataISPyBScreeningStrategy but %s" % screeningStrategy.__class__.__name__
+            raise BaseException(strMessage)
+    def delScreeningStrategy(self): self._screeningStrategy = None
+    screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
+    # Methods and properties for the 'screeningStrategyWedgeContainer' attribute
+    def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
+    def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
+        if screeningStrategyWedgeContainer is None:
+            self._screeningStrategyWedgeContainer = []
+        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
+            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategyWedgeContainer argument is not list but %s" % screeningStrategyWedgeContainer.__class__.__name__
+            raise BaseException(strMessage)
+    def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
+    screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
+    def addScreeningStrategyWedgeContainer(self, value):
+        if value is None:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is None"
+            raise BaseException(strMessage)            
+        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
+            self._screeningStrategyWedgeContainer.append(value)
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
+            raise BaseException(strMessage)
+    def insertScreeningStrategyWedgeContainer(self, index, value):
+        if index is None:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'index' is None"
+            raise BaseException(strMessage)            
+        if value is None:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'value' is None"
+            raise BaseException(strMessage)            
+        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
+            self._screeningStrategyWedgeContainer[index] = value
+        else:
+            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
+            raise BaseException(strMessage)
+    def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
+        XSData.exportChildren(self, outfile, level, name_)
+        if self._screeningStrategy is not None:
+            self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
+        else:
+            warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
+        for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
+            screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'screeningStrategy':
+            obj_ = XSDataISPyBScreeningStrategy()
+            obj_.build(child_)
+            self.setScreeningStrategy(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'screeningStrategyWedgeContainer':
+            obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
+            obj_.build(child_)
+            self.screeningStrategyWedgeContainer.append(obj_)
+        XSData.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBScreeningStrategyContainer()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBScreeningStrategyContainer()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataISPyBScreeningStrategyContainer
+
+
 class XSDataISPyBScreeningStrategySubWedge(XSData):
     def __init__(self, comments=None, numberOfImages=None, doseTotal=None, multiplicity=None, completeness=None, oscillationRange=None, transmission=None, exposureTime=None, axisEnd=None, axisStart=None, rotationAxis=None, subWedgeNumber=None, screeningStrategyWedgeId=None, screeningStrategySubWedgeId=None):
         XSData.__init__(self, )
@@ -10152,142 +10314,6 @@ class XSDataISPyBScreeningStrategyWedgeContainer(XSData):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataISPyBScreeningStrategyWedgeContainer
-
-
-class XSDataISPyBScreeningStrategyContainer(XSData):
-    def __init__(self, screeningStrategyWedgeContainer=None, screeningStrategy=None):
-        XSData.__init__(self, )
-        if screeningStrategy is None:
-            self._screeningStrategy = None
-        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
-            self._screeningStrategy = screeningStrategy
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategy' is not XSDataISPyBScreeningStrategy but %s" % self._screeningStrategy.__class__.__name__
-            raise BaseException(strMessage)
-        if screeningStrategyWedgeContainer is None:
-            self._screeningStrategyWedgeContainer = []
-        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
-            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer constructor argument 'screeningStrategyWedgeContainer' is not list but %s" % self._screeningStrategyWedgeContainer.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'screeningStrategy' attribute
-    def getScreeningStrategy(self): return self._screeningStrategy
-    def setScreeningStrategy(self, screeningStrategy):
-        if screeningStrategy is None:
-            self._screeningStrategy = None
-        elif screeningStrategy.__class__.__name__ == "XSDataISPyBScreeningStrategy":
-            self._screeningStrategy = screeningStrategy
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategy argument is not XSDataISPyBScreeningStrategy but %s" % screeningStrategy.__class__.__name__
-            raise BaseException(strMessage)
-    def delScreeningStrategy(self): self._screeningStrategy = None
-    screeningStrategy = property(getScreeningStrategy, setScreeningStrategy, delScreeningStrategy, "Property for screeningStrategy")
-    # Methods and properties for the 'screeningStrategyWedgeContainer' attribute
-    def getScreeningStrategyWedgeContainer(self): return self._screeningStrategyWedgeContainer
-    def setScreeningStrategyWedgeContainer(self, screeningStrategyWedgeContainer):
-        if screeningStrategyWedgeContainer is None:
-            self._screeningStrategyWedgeContainer = []
-        elif screeningStrategyWedgeContainer.__class__.__name__ == "list":
-            self._screeningStrategyWedgeContainer = screeningStrategyWedgeContainer
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.setScreeningStrategyWedgeContainer argument is not list but %s" % screeningStrategyWedgeContainer.__class__.__name__
-            raise BaseException(strMessage)
-    def delScreeningStrategyWedgeContainer(self): self._screeningStrategyWedgeContainer = None
-    screeningStrategyWedgeContainer = property(getScreeningStrategyWedgeContainer, setScreeningStrategyWedgeContainer, delScreeningStrategyWedgeContainer, "Property for screeningStrategyWedgeContainer")
-    def addScreeningStrategyWedgeContainer(self, value):
-        if value is None:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is None"
-            raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
-            self._screeningStrategyWedgeContainer.append(value)
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
-            raise BaseException(strMessage)
-    def insertScreeningStrategyWedgeContainer(self, index, value):
-        if index is None:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'index' is None"
-            raise BaseException(strMessage)            
-        if value is None:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.insertScreeningStrategyWedgeContainer argument 'value' is None"
-            raise BaseException(strMessage)            
-        elif value.__class__.__name__ == "XSDataISPyBScreeningStrategyWedgeContainer":
-            self._screeningStrategyWedgeContainer[index] = value
-        else:
-            strMessage = "ERROR! XSDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer argument is not XSDataISPyBScreeningStrategyWedgeContainer but %s" % value.__class__.__name__
-            raise BaseException(strMessage)
-    def export(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataISPyBScreeningStrategyContainer'):
-        XSData.exportChildren(self, outfile, level, name_)
-        if self._screeningStrategy is not None:
-            self.screeningStrategy.export(outfile, level, name_='screeningStrategy')
-        else:
-            warnEmptyAttribute("screeningStrategy", "XSDataISPyBScreeningStrategy")
-        for screeningStrategyWedgeContainer_ in self.getScreeningStrategyWedgeContainer():
-            screeningStrategyWedgeContainer_.export(outfile, level, name_='screeningStrategyWedgeContainer')
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'screeningStrategy':
-            obj_ = XSDataISPyBScreeningStrategy()
-            obj_.build(child_)
-            self.setScreeningStrategy(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'screeningStrategyWedgeContainer':
-            obj_ = XSDataISPyBScreeningStrategyWedgeContainer()
-            obj_.build(child_)
-            self.screeningStrategyWedgeContainer.append(obj_)
-        XSData.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataISPyBScreeningStrategyContainer' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataISPyBScreeningStrategyContainer is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataISPyBScreeningStrategyContainer.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBScreeningStrategyContainer()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataISPyBScreeningStrategyContainer" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBScreeningStrategyContainer()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataISPyBScreeningStrategyContainer
 
 
 class XSDataISPyBWorkflow(XSData):
