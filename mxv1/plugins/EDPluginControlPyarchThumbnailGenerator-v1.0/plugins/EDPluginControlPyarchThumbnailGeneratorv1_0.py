@@ -1,10 +1,8 @@
 #
-#    Project: PROJECT
+#    Project: MXv1
 #             http://www.edna-site.org
 #
-#    File: "$Id$"
-#
-#    Copyright (C) 2010 ESRF
+#    Copyright (C) 2010-2014 ESRF
 #
 #    Principal author:        Olof Svensson
 #
@@ -64,15 +62,16 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
     def __init__(self):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputPyarchThumbnailGenerator)
-        self.__strExecThumbnailPluginName = "EDPluginExecThumbnailv10"
-        self.__edPluginExecThumbnail = None
-        self.__strWaitFilePluginName = "EDPluginWaitFile"
-        self.__edPluginWaitFile = None
+        self.setDataOutput(XSDataResultPyarchThumbnailGenerator())
+        self.strExecThumbnailPluginName = "EDPluginExecThumbnailv10"
+        self.edPluginExecThumbnail = None
+        self.strWaitFilePluginName = "EDPluginWaitFile"
+        self.edPluginWaitFile = None
         self.strOutputPath = None
         self.strOutputPathWithoutExtension = None
-        self.__xsDataFilePathToThumbnail = None
-        self.__xsDataFilePathToThumbnail2 = None
-        self.__iExpectedSize = 1000000
+        self.xsDataFilePathToThumbnail = None
+        self.xsDataFilePathToThumbnail2 = None
+        self.iExpectedSize = 1000000
 
 
 
@@ -93,20 +92,19 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
         strPathToDiffractionImage = self.getDataInput().getDiffractionImage().getPath().getValue()
         strImageFileNameExtension = os.path.splitext(strPathToDiffractionImage)[1]
         if not strImageFileNameExtension in [".img", ".marccd", ".mccd", ".cbf"]:
-            print strImageFileNameExtension
             EDVerbose.error("Unknown image file name extension for pyarch thumbnail generator: %s" % strPathToDiffractionImage)
             self.setFailure()
         else:
             # Load the waitFile plugin
             xsDataInputWaitFile = XSDataInputWaitFile()
-            xsDataInputWaitFile.setExpectedSize(XSDataInteger(self.__iExpectedSize))
+            xsDataInputWaitFile.setExpectedSize(XSDataInteger(self.iExpectedSize))
             xsDataInputWaitFile.setExpectedFile(self.getDataInput().getDiffractionImage())
             if self.getDataInput().getWaitForFileTimeOut():
                 xsDataInputWaitFile.setTimeOut(self.getDataInput().getWaitForFileTimeOut())
-            self.__edPluginWaitFile = EDPluginWaitFile()
-            self.__edPluginWaitFile.setDataInput(xsDataInputWaitFile)
+            self.edPluginWaitFile = EDPluginWaitFile()
+            self.edPluginWaitFile.setDataInput(xsDataInputWaitFile)
             # Load the execution plugin
-            self.__edPluginExecThumbnail = self.loadPlugin(self.__strExecThumbnailPluginName)
+            self.edPluginExecThumbnail = self.loadPlugin(self.strExecThumbnailPluginName)
             xsDataInputExecThumbnail = XSDataInputExecThumbnail()
             xsDataInputExecThumbnail.setInputImagePath(self.getDataInput().getDiffractionImage())
             xsDataInputExecThumbnail.setLevelsInvert(XSDataBoolean(True))
@@ -151,16 +149,16 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
                 self.strOutputPathWithoutExtension = os.path.join(strOutputDirname, strImageNameWithoutExt)
             self.strOutputPath = os.path.join(self.strOutputPathWithoutExtension + ".jpeg")
             xsDataInputExecThumbnail.setOutputPath(XSDataFile(XSDataString(self.strOutputPath)))
-            self.__edPluginExecThumbnail.setDataInput(xsDataInputExecThumbnail)
+            self.edPluginExecThumbnail.setDataInput(xsDataInputExecThumbnail)
 
 
     def process(self, _edObject=None):
         EDPluginControl.process(self)
         EDVerbose.DEBUG("EDPluginControlPyarchThumbnailGeneratorv1_0.process")
-        if self.__edPluginExecThumbnail and self.__edPluginWaitFile:
-            self.__edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
-            self.__edPluginWaitFile.connectFAILURE(self.doFailureWaitFile)
-            self.__edPluginWaitFile.executeSynchronous()
+        if self.edPluginExecThumbnail and self.edPluginWaitFile:
+            self.edPluginWaitFile.connectSUCCESS(self.doSuccessWaitFile)
+            self.edPluginWaitFile.connectFAILURE(self.doFailureWaitFile)
+            self.edPluginWaitFile.executeSynchronous()
 
 
 
@@ -169,10 +167,10 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlPyarchThumbnailGeneratorv1_0.postProcess")
         # Create some output data
         xsDataResult = XSDataResultPyarchThumbnailGenerator()
-        if self.__xsDataFilePathToThumbnail:
-            xsDataResult.setPathToJPEGImage(self.__xsDataFilePathToThumbnail)
-        if self.__xsDataFilePathToThumbnail2:
-            xsDataResult.setPathToThumbImage(self.__xsDataFilePathToThumbnail2)
+        if self.xsDataFilePathToThumbnail:
+            xsDataResult.setPathToJPEGImage(self.xsDataFilePathToThumbnail)
+        if self.xsDataFilePathToThumbnail2:
+            xsDataResult.setPathToThumbImage(self.xsDataFilePathToThumbnail2)
         self.setDataOutput(xsDataResult)
 
 
@@ -181,10 +179,10 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlID29CreateThumbnailv1_0.doSuccessWaitFile")
         # Check that the image is really there
         # The image is here - make the first thumbnail
-        if not self.__edPluginWaitFile.getDataOutput().getTimedOut().getValue():
-            self.__edPluginExecThumbnail.connectSUCCESS(self.doSuccessExecThumbnail)
-            self.__edPluginExecThumbnail.connectFAILURE(self.doFailureExecThumbnail)
-            self.__edPluginExecThumbnail.executeSynchronous()
+        if not self.edPluginWaitFile.getDataOutput().getTimedOut().getValue():
+            self.edPluginExecThumbnail.connectSUCCESS(self.doSuccessExecThumbnail)
+            self.edPluginExecThumbnail.connectFAILURE(self.doFailureExecThumbnail)
+            self.edPluginExecThumbnail.executeSynchronous()
         else:
             EDVerbose.error("Time-out while waiting for image!")
             self.setFailure()
@@ -201,19 +199,19 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
         EDVerbose.DEBUG("EDPluginControlPyarchThumbnailGeneratorv1_0.doSuccessExecThumbnail")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlPyarchThumbnailGeneratorv1_0.doSuccessExecThumbnail")
         # Retrieve the output path
-        self.__xsDataFilePathToThumbnail = self.__edPluginExecThumbnail.getDataOutput().getThumbnailPath()
+        self.xsDataFilePathToThumbnail = self.edPluginExecThumbnail.getDataOutput().getThumbnailPath()
         # Run the plugin again, this time with the first thumbnail as input
-        self.__edPluginExecThumbnail2 = self.loadPlugin(self.__strExecThumbnailPluginName)
+        self.edPluginExecThumbnail2 = self.loadPlugin(self.strExecThumbnailPluginName)
         xsDataInputExecThumbnail = XSDataInputExecThumbnail()
-        xsDataInputExecThumbnail.setInputImagePath(self.__edPluginExecThumbnail.getDataOutput().getThumbnailPath())
+        xsDataInputExecThumbnail.setInputImagePath(self.edPluginExecThumbnail.getDataOutput().getThumbnailPath())
         xsDataInputExecThumbnail.setThumbHeight(XSDataInteger(256))
         xsDataInputExecThumbnail.setThumbWidth(XSDataInteger(256))
         xsDataInputExecThumbnail.setKeepRatio(XSDataBoolean(False))
         xsDataInputExecThumbnail.setOutputPath(XSDataFile(XSDataString(self.strOutputPathWithoutExtension + ".thumb.jpeg")))
-        self.__edPluginExecThumbnail2.setDataInput(xsDataInputExecThumbnail)
-        self.__edPluginExecThumbnail2.connectSUCCESS(self.doSuccessExecThumbnail2)
-        self.__edPluginExecThumbnail2.connectFAILURE(self.doFailureExecThumbnail2)
-        self.__edPluginExecThumbnail2.executeSynchronous()
+        self.edPluginExecThumbnail2.setDataInput(xsDataInputExecThumbnail)
+        self.edPluginExecThumbnail2.connectSUCCESS(self.doSuccessExecThumbnail2)
+        self.edPluginExecThumbnail2.connectFAILURE(self.doFailureExecThumbnail2)
+        self.edPluginExecThumbnail2.executeSynchronous()
 
 
 
@@ -227,7 +225,7 @@ class EDPluginControlPyarchThumbnailGeneratorv1_0(EDPluginControl):
     def doSuccessExecThumbnail2(self, _edPlugin=None):
         EDVerbose.DEBUG("EDPluginControlPyarchThumbnailGeneratorv1_0.doSuccessExecThumbnail2")
         self.retrieveSuccessMessages(_edPlugin, "EDPluginControlPyarchThumbnailGeneratorv1_0.doSuccessExecThumbnail2")
-        self.__xsDataFilePathToThumbnail2 = self.__edPluginExecThumbnail2.getDataOutput().getThumbnailPath()
+        self.xsDataFilePathToThumbnail2 = self.edPluginExecThumbnail2.getDataOutput().getThumbnailPath()
 
 
     def doFailureExecThumbnail2(self, _edPlugin=None):

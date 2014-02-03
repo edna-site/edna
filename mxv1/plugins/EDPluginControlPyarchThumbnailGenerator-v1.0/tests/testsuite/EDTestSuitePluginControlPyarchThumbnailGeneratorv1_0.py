@@ -38,6 +38,7 @@ class EDTestSuitePluginControlPyarchThumbnailGeneratorv1_0(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginUnitControlPyarchThumbnailGeneratorv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlPyarchThumbnailGeneratorv1_0")
         self.addTestCaseFromName("EDTestCasePluginExecuteControlPyarchThumbnailGeneratorv1_0_waitForFile")
+        self.addTestCaseFromName("EDTestCasePluginExecuteControlPyarchThumbnailGeneratorParallelv1_0")
 
 
 

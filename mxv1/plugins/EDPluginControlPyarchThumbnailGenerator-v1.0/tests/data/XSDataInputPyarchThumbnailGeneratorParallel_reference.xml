@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<XSDataInputPyarchTumbnailGenerator>
+	<diffractionImage>
+		<path>
+			<value>${EDNA_TESTIMAGES}/FAE_1_1_00001.cbf</value>
+		</path>
+	</diffractionImage>
+	<diffractionImage>
+		<path>
+			<value>${EDNA_TESTIMAGES}/ref-testscale_1_0001.img</value>
+		</path>
+	</diffractionImage>
+	<diffractionImage>
+		<path>
+			<value>${EDNA_TESTIMAGES}/ref-testscale_1_0002.img</value>
+		</path>
+	</diffractionImage>
+	<diffractionImage>
+		<path>
+			<value>${EDNA_TESTIMAGES}/ref-thermo1_1_001.img</value>
+		</path>
+	</diffractionImage>
+	<diffractionImage>
+		<path>
+			<value>${EDNA_TESTIMAGES}/ref-thermo1_1_002.img</value>
+		</path>
+	</diffractionImage>
+	<forcedOutputDirectory>
+		<path>
+			<value>${EDNA_WORKING_DIR}</value>
+		</path>
+	</forcedOutputDirectory>
+	<waitForFileTimeOut>
+	    <value>15</value>
+	</waitForFileTimeOut>
+</XSDataInputPyarchTumbnailGenerator>
