@@ -1,0 +1,21 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataFile
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataTime
+package XSDataPyarchThumbnailGeneratorv10 {
+
+	complex type XSDataInputPyarchThumbnailGenerator extends XSDataInput {
+		diffractionImage : XSDataFile
+		forcedOutputDirectory : XSDataFile optional
+		waitForFileTimeOut : XSDataTime
+		optional
+	}
+
+	complex type XSDataResultPyarchThumbnailGenerator extends XSDataResult {
+		pathToJPEGImage : XSDataFile optional
+		pathToThumbImage : XSDataFile optional
+	}
+
+}
