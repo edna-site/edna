@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Jan 29 08:56::38 2014 by EDGenerateDS.
+# Generated Wed Feb 5 09:02::14 2014 by EDGenerateDS.
 #
 
 import os, sys
@@ -30,11 +30,11 @@ try:
     from XSDataCommon import XSData
     from XSDataCommon import XSDataBoolean
     from XSDataCommon import XSDataDouble
-    from XSDataCommon import XSDataInteger
-    from XSDataCommon import XSDataString
     from XSDataCommon import XSDataFile
     from XSDataCommon import XSDataInput
+    from XSDataCommon import XSDataInteger
     from XSDataCommon import XSDataResult
+    from XSDataCommon import XSDataString
     from XSDataCommon import XSDataImage
     from XSDataCommon import XSDataLength
     from XSDataCommon import XSDataTime
@@ -52,11 +52,11 @@ except ImportError as error:
 from XSDataCommon import XSData
 from XSDataCommon import XSDataBoolean
 from XSDataCommon import XSDataDouble
-from XSDataCommon import XSDataInteger
-from XSDataCommon import XSDataString
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
+from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
+from XSDataCommon import XSDataString
 from XSDataCommon import XSDataImage
 from XSDataCommon import XSDataLength
 from XSDataCommon import XSDataTime
@@ -5319,464 +5319,6 @@ class XSDataISPyBImage(XSData):
 # end class XSDataISPyBImage
 
 
-class XSDataISPyBSamplePosition(XSData):
-    def __init__(self, sampY=None, sampX=None, phiZ=None, phiY=None, phiX=None, phi=None, omega=None, kappa=None, gridIndexZ=None, gridIndexY=None):
-        XSData.__init__(self, )
-        if gridIndexY is None:
-            self._gridIndexY = None
-        elif gridIndexY.__class__.__name__ == "XSDataInteger":
-            self._gridIndexY = gridIndexY
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'gridIndexY' is not XSDataInteger but %s" % self._gridIndexY.__class__.__name__
-            raise BaseException(strMessage)
-        if gridIndexZ is None:
-            self._gridIndexZ = None
-        elif gridIndexZ.__class__.__name__ == "XSDataInteger":
-            self._gridIndexZ = gridIndexZ
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'gridIndexZ' is not XSDataInteger but %s" % self._gridIndexZ.__class__.__name__
-            raise BaseException(strMessage)
-        if kappa is None:
-            self._kappa = None
-        elif kappa.__class__.__name__ == "XSDataDouble":
-            self._kappa = kappa
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'kappa' is not XSDataDouble but %s" % self._kappa.__class__.__name__
-            raise BaseException(strMessage)
-        if omega is None:
-            self._omega = None
-        elif omega.__class__.__name__ == "XSDataDouble":
-            self._omega = omega
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'omega' is not XSDataDouble but %s" % self._omega.__class__.__name__
-            raise BaseException(strMessage)
-        if phi is None:
-            self._phi = None
-        elif phi.__class__.__name__ == "XSDataDouble":
-            self._phi = phi
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phi' is not XSDataDouble but %s" % self._phi.__class__.__name__
-            raise BaseException(strMessage)
-        if phiX is None:
-            self._phiX = None
-        elif phiX.__class__.__name__ == "XSDataDouble":
-            self._phiX = phiX
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phiX' is not XSDataDouble but %s" % self._phiX.__class__.__name__
-            raise BaseException(strMessage)
-        if phiY is None:
-            self._phiY = None
-        elif phiY.__class__.__name__ == "XSDataDouble":
-            self._phiY = phiY
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phiY' is not XSDataDouble but %s" % self._phiY.__class__.__name__
-            raise BaseException(strMessage)
-        if phiZ is None:
-            self._phiZ = None
-        elif phiZ.__class__.__name__ == "XSDataDouble":
-            self._phiZ = phiZ
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phiZ' is not XSDataDouble but %s" % self._phiZ.__class__.__name__
-            raise BaseException(strMessage)
-        if sampX is None:
-            self._sampX = None
-        elif sampX.__class__.__name__ == "XSDataDouble":
-            self._sampX = sampX
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'sampX' is not XSDataDouble but %s" % self._sampX.__class__.__name__
-            raise BaseException(strMessage)
-        if sampY is None:
-            self._sampY = None
-        elif sampY.__class__.__name__ == "XSDataDouble":
-            self._sampY = sampY
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'sampY' is not XSDataDouble but %s" % self._sampY.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'gridIndexY' attribute
-    def getGridIndexY(self): return self._gridIndexY
-    def setGridIndexY(self, gridIndexY):
-        if gridIndexY is None:
-            self._gridIndexY = None
-        elif gridIndexY.__class__.__name__ == "XSDataInteger":
-            self._gridIndexY = gridIndexY
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setGridIndexY argument is not XSDataInteger but %s" % gridIndexY.__class__.__name__
-            raise BaseException(strMessage)
-    def delGridIndexY(self): self._gridIndexY = None
-    gridIndexY = property(getGridIndexY, setGridIndexY, delGridIndexY, "Property for gridIndexY")
-    # Methods and properties for the 'gridIndexZ' attribute
-    def getGridIndexZ(self): return self._gridIndexZ
-    def setGridIndexZ(self, gridIndexZ):
-        if gridIndexZ is None:
-            self._gridIndexZ = None
-        elif gridIndexZ.__class__.__name__ == "XSDataInteger":
-            self._gridIndexZ = gridIndexZ
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setGridIndexZ argument is not XSDataInteger but %s" % gridIndexZ.__class__.__name__
-            raise BaseException(strMessage)
-    def delGridIndexZ(self): self._gridIndexZ = None
-    gridIndexZ = property(getGridIndexZ, setGridIndexZ, delGridIndexZ, "Property for gridIndexZ")
-    # Methods and properties for the 'kappa' attribute
-    def getKappa(self): return self._kappa
-    def setKappa(self, kappa):
-        if kappa is None:
-            self._kappa = None
-        elif kappa.__class__.__name__ == "XSDataDouble":
-            self._kappa = kappa
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setKappa argument is not XSDataDouble but %s" % kappa.__class__.__name__
-            raise BaseException(strMessage)
-    def delKappa(self): self._kappa = None
-    kappa = property(getKappa, setKappa, delKappa, "Property for kappa")
-    # Methods and properties for the 'omega' attribute
-    def getOmega(self): return self._omega
-    def setOmega(self, omega):
-        if omega is None:
-            self._omega = None
-        elif omega.__class__.__name__ == "XSDataDouble":
-            self._omega = omega
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setOmega argument is not XSDataDouble but %s" % omega.__class__.__name__
-            raise BaseException(strMessage)
-    def delOmega(self): self._omega = None
-    omega = property(getOmega, setOmega, delOmega, "Property for omega")
-    # Methods and properties for the 'phi' attribute
-    def getPhi(self): return self._phi
-    def setPhi(self, phi):
-        if phi is None:
-            self._phi = None
-        elif phi.__class__.__name__ == "XSDataDouble":
-            self._phi = phi
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhi argument is not XSDataDouble but %s" % phi.__class__.__name__
-            raise BaseException(strMessage)
-    def delPhi(self): self._phi = None
-    phi = property(getPhi, setPhi, delPhi, "Property for phi")
-    # Methods and properties for the 'phiX' attribute
-    def getPhiX(self): return self._phiX
-    def setPhiX(self, phiX):
-        if phiX is None:
-            self._phiX = None
-        elif phiX.__class__.__name__ == "XSDataDouble":
-            self._phiX = phiX
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhiX argument is not XSDataDouble but %s" % phiX.__class__.__name__
-            raise BaseException(strMessage)
-    def delPhiX(self): self._phiX = None
-    phiX = property(getPhiX, setPhiX, delPhiX, "Property for phiX")
-    # Methods and properties for the 'phiY' attribute
-    def getPhiY(self): return self._phiY
-    def setPhiY(self, phiY):
-        if phiY is None:
-            self._phiY = None
-        elif phiY.__class__.__name__ == "XSDataDouble":
-            self._phiY = phiY
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhiY argument is not XSDataDouble but %s" % phiY.__class__.__name__
-            raise BaseException(strMessage)
-    def delPhiY(self): self._phiY = None
-    phiY = property(getPhiY, setPhiY, delPhiY, "Property for phiY")
-    # Methods and properties for the 'phiZ' attribute
-    def getPhiZ(self): return self._phiZ
-    def setPhiZ(self, phiZ):
-        if phiZ is None:
-            self._phiZ = None
-        elif phiZ.__class__.__name__ == "XSDataDouble":
-            self._phiZ = phiZ
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhiZ argument is not XSDataDouble but %s" % phiZ.__class__.__name__
-            raise BaseException(strMessage)
-    def delPhiZ(self): self._phiZ = None
-    phiZ = property(getPhiZ, setPhiZ, delPhiZ, "Property for phiZ")
-    # Methods and properties for the 'sampX' attribute
-    def getSampX(self): return self._sampX
-    def setSampX(self, sampX):
-        if sampX is None:
-            self._sampX = None
-        elif sampX.__class__.__name__ == "XSDataDouble":
-            self._sampX = sampX
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setSampX argument is not XSDataDouble but %s" % sampX.__class__.__name__
-            raise BaseException(strMessage)
-    def delSampX(self): self._sampX = None
-    sampX = property(getSampX, setSampX, delSampX, "Property for sampX")
-    # Methods and properties for the 'sampY' attribute
-    def getSampY(self): return self._sampY
-    def setSampY(self, sampY):
-        if sampY is None:
-            self._sampY = None
-        elif sampY.__class__.__name__ == "XSDataDouble":
-            self._sampY = sampY
-        else:
-            strMessage = "ERROR! XSDataISPyBSamplePosition.setSampY argument is not XSDataDouble but %s" % sampY.__class__.__name__
-            raise BaseException(strMessage)
-    def delSampY(self): self._sampY = None
-    sampY = property(getSampY, setSampY, delSampY, "Property for sampY")
-    def export(self, outfile, level, name_='XSDataISPyBSamplePosition'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataISPyBSamplePosition'):
-        XSData.exportChildren(self, outfile, level, name_)
-        if self._gridIndexY is not None:
-            self.gridIndexY.export(outfile, level, name_='gridIndexY')
-        else:
-            warnEmptyAttribute("gridIndexY", "XSDataInteger")
-        if self._gridIndexZ is not None:
-            self.gridIndexZ.export(outfile, level, name_='gridIndexZ')
-        else:
-            warnEmptyAttribute("gridIndexZ", "XSDataInteger")
-        if self._kappa is not None:
-            self.kappa.export(outfile, level, name_='kappa')
-        else:
-            warnEmptyAttribute("kappa", "XSDataDouble")
-        if self._omega is not None:
-            self.omega.export(outfile, level, name_='omega')
-        else:
-            warnEmptyAttribute("omega", "XSDataDouble")
-        if self._phi is not None:
-            self.phi.export(outfile, level, name_='phi')
-        else:
-            warnEmptyAttribute("phi", "XSDataDouble")
-        if self._phiX is not None:
-            self.phiX.export(outfile, level, name_='phiX')
-        else:
-            warnEmptyAttribute("phiX", "XSDataDouble")
-        if self._phiY is not None:
-            self.phiY.export(outfile, level, name_='phiY')
-        else:
-            warnEmptyAttribute("phiY", "XSDataDouble")
-        if self._phiZ is not None:
-            self.phiZ.export(outfile, level, name_='phiZ')
-        else:
-            warnEmptyAttribute("phiZ", "XSDataDouble")
-        if self._sampX is not None:
-            self.sampX.export(outfile, level, name_='sampX')
-        else:
-            warnEmptyAttribute("sampX", "XSDataDouble")
-        if self._sampY is not None:
-            self.sampY.export(outfile, level, name_='sampY')
-        else:
-            warnEmptyAttribute("sampY", "XSDataDouble")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'gridIndexY':
-            obj_ = XSDataInteger()
-            obj_.build(child_)
-            self.setGridIndexY(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'gridIndexZ':
-            obj_ = XSDataInteger()
-            obj_.build(child_)
-            self.setGridIndexZ(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'kappa':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setKappa(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'omega':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setOmega(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'phi':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setPhi(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'phiX':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setPhiX(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'phiY':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setPhiY(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'phiZ':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setPhiZ(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'sampX':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setSampX(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'sampY':
-            obj_ = XSDataDouble()
-            obj_.build(child_)
-            self.setSampY(obj_)
-        XSData.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataISPyBSamplePosition" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataISPyBSamplePosition' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataISPyBSamplePosition is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataISPyBSamplePosition.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBSamplePosition()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataISPyBSamplePosition" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBSamplePosition()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataISPyBSamplePosition
-
-
-class XSDataISPyBImagePosition(XSData):
-    def __init__(self, position=None, fileName=None):
-        XSData.__init__(self, )
-        if fileName is None:
-            self._fileName = None
-        elif fileName.__class__.__name__ == "XSDataFile":
-            self._fileName = fileName
-        else:
-            strMessage = "ERROR! XSDataISPyBImagePosition constructor argument 'fileName' is not XSDataFile but %s" % self._fileName.__class__.__name__
-            raise BaseException(strMessage)
-        if position is None:
-            self._position = None
-        elif position.__class__.__name__ == "XSDataISPyBSamplePosition":
-            self._position = position
-        else:
-            strMessage = "ERROR! XSDataISPyBImagePosition constructor argument 'position' is not XSDataISPyBSamplePosition but %s" % self._position.__class__.__name__
-            raise BaseException(strMessage)
-    # Methods and properties for the 'fileName' attribute
-    def getFileName(self): return self._fileName
-    def setFileName(self, fileName):
-        if fileName is None:
-            self._fileName = None
-        elif fileName.__class__.__name__ == "XSDataFile":
-            self._fileName = fileName
-        else:
-            strMessage = "ERROR! XSDataISPyBImagePosition.setFileName argument is not XSDataFile but %s" % fileName.__class__.__name__
-            raise BaseException(strMessage)
-    def delFileName(self): self._fileName = None
-    fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
-    # Methods and properties for the 'position' attribute
-    def getPosition(self): return self._position
-    def setPosition(self, position):
-        if position is None:
-            self._position = None
-        elif position.__class__.__name__ == "XSDataISPyBSamplePosition":
-            self._position = position
-        else:
-            strMessage = "ERROR! XSDataISPyBImagePosition.setPosition argument is not XSDataISPyBSamplePosition but %s" % position.__class__.__name__
-            raise BaseException(strMessage)
-    def delPosition(self): self._position = None
-    position = property(getPosition, setPosition, delPosition, "Property for position")
-    def export(self, outfile, level, name_='XSDataISPyBImagePosition'):
-        showIndent(outfile, level)
-        outfile.write(unicode('<%s>\n' % name_))
-        self.exportChildren(outfile, level + 1, name_)
-        showIndent(outfile, level)
-        outfile.write(unicode('</%s>\n' % name_))
-    def exportChildren(self, outfile, level, name_='XSDataISPyBImagePosition'):
-        XSData.exportChildren(self, outfile, level, name_)
-        if self._fileName is not None:
-            self.fileName.export(outfile, level, name_='fileName')
-        else:
-            warnEmptyAttribute("fileName", "XSDataFile")
-        if self._position is not None:
-            self.position.export(outfile, level, name_='position')
-        else:
-            warnEmptyAttribute("position", "XSDataISPyBSamplePosition")
-    def build(self, node_):
-        for child_ in node_.childNodes:
-            nodeName_ = child_.nodeName.split(':')[-1]
-            self.buildChildren(child_, nodeName_)
-    def buildChildren(self, child_, nodeName_):
-        if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'fileName':
-            obj_ = XSDataFile()
-            obj_.build(child_)
-            self.setFileName(obj_)
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'position':
-            obj_ = XSDataISPyBSamplePosition()
-            obj_.build(child_)
-            self.setPosition(obj_)
-        XSData.buildChildren(self, child_, nodeName_)
-    #Method for marshalling an object
-    def marshal( self ):
-        oStreamString = StringIO()
-        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
-        self.export( oStreamString, 0, name_="XSDataISPyBImagePosition" )
-        oStringXML = oStreamString.getvalue()
-        oStreamString.close()
-        return oStringXML
-    #Only to export the entire XML tree to a file stream on disk
-    def exportToFile( self, _outfileName ):
-        outfile = open( _outfileName, "w" )
-        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
-        self.export( outfile, 0, name_='XSDataISPyBImagePosition' )
-        outfile.close()
-    #Deprecated method, replaced by exportToFile
-    def outputFile( self, _outfileName ):
-        print("WARNING: Method outputFile in class XSDataISPyBImagePosition is deprecated, please use instead exportToFile!")
-        self.exportToFile(_outfileName)
-    #Method for making a copy in a new instance
-    def copy( self ):
-        return XSDataISPyBImagePosition.parseString(self.marshal())
-    #Static method for parsing a string
-    def parseString( _inString ):
-        doc = minidom.parseString(_inString)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBImagePosition()
-        rootObj.build(rootNode)
-        # Check that all minOccurs are obeyed by marshalling the created object
-        oStreamString = StringIO()
-        rootObj.export( oStreamString, 0, name_="XSDataISPyBImagePosition" )
-        oStreamString.close()
-        return rootObj
-    parseString = staticmethod( parseString )
-    #Static method for parsing a file
-    def parseFile( _inFilePath ):
-        doc = minidom.parse(_inFilePath)
-        rootNode = doc.documentElement
-        rootObj = XSDataISPyBImagePosition()
-        rootObj.build(rootNode)
-        return rootObj
-    parseFile = staticmethod( parseFile )
-# end class XSDataISPyBImagePosition
-
-
 class XSDataISPyBImageQualityIndicators(XSData):
     def __init__(self, background3D_score=None, totalIntegratedSignal=None, spotTotal=None, signalRangeMin=None, signalRangeMax=None, signalRangeAverage=None, saturationRangeMin=None, saturationRangeMax=None, saturationRangeAverage=None, pctSaturationTop50Peaks=None, method2Res=None, method1Res=None, maxUnitCell=None, inResolutionOvrlSpots=None, inResTotal=None, image=None, iceRings=None, goodBraggCandidates=None, binPopCutOffMethod2Res=None):
         XSData.__init__(self, )
@@ -6346,6 +5888,464 @@ class XSDataISPyBImageQualityIndicators(XSData):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataISPyBImageQualityIndicators
+
+
+class XSDataISPyBSamplePosition(XSData):
+    def __init__(self, sampY=None, sampX=None, phiZ=None, phiY=None, phiX=None, phi=None, omega=None, kappa=None, gridIndexZ=None, gridIndexY=None):
+        XSData.__init__(self, )
+        if gridIndexY is None:
+            self._gridIndexY = None
+        elif gridIndexY.__class__.__name__ == "XSDataInteger":
+            self._gridIndexY = gridIndexY
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'gridIndexY' is not XSDataInteger but %s" % self._gridIndexY.__class__.__name__
+            raise BaseException(strMessage)
+        if gridIndexZ is None:
+            self._gridIndexZ = None
+        elif gridIndexZ.__class__.__name__ == "XSDataInteger":
+            self._gridIndexZ = gridIndexZ
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'gridIndexZ' is not XSDataInteger but %s" % self._gridIndexZ.__class__.__name__
+            raise BaseException(strMessage)
+        if kappa is None:
+            self._kappa = None
+        elif kappa.__class__.__name__ == "XSDataDouble":
+            self._kappa = kappa
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'kappa' is not XSDataDouble but %s" % self._kappa.__class__.__name__
+            raise BaseException(strMessage)
+        if omega is None:
+            self._omega = None
+        elif omega.__class__.__name__ == "XSDataDouble":
+            self._omega = omega
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'omega' is not XSDataDouble but %s" % self._omega.__class__.__name__
+            raise BaseException(strMessage)
+        if phi is None:
+            self._phi = None
+        elif phi.__class__.__name__ == "XSDataDouble":
+            self._phi = phi
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phi' is not XSDataDouble but %s" % self._phi.__class__.__name__
+            raise BaseException(strMessage)
+        if phiX is None:
+            self._phiX = None
+        elif phiX.__class__.__name__ == "XSDataDouble":
+            self._phiX = phiX
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phiX' is not XSDataDouble but %s" % self._phiX.__class__.__name__
+            raise BaseException(strMessage)
+        if phiY is None:
+            self._phiY = None
+        elif phiY.__class__.__name__ == "XSDataDouble":
+            self._phiY = phiY
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phiY' is not XSDataDouble but %s" % self._phiY.__class__.__name__
+            raise BaseException(strMessage)
+        if phiZ is None:
+            self._phiZ = None
+        elif phiZ.__class__.__name__ == "XSDataDouble":
+            self._phiZ = phiZ
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'phiZ' is not XSDataDouble but %s" % self._phiZ.__class__.__name__
+            raise BaseException(strMessage)
+        if sampX is None:
+            self._sampX = None
+        elif sampX.__class__.__name__ == "XSDataDouble":
+            self._sampX = sampX
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'sampX' is not XSDataDouble but %s" % self._sampX.__class__.__name__
+            raise BaseException(strMessage)
+        if sampY is None:
+            self._sampY = None
+        elif sampY.__class__.__name__ == "XSDataDouble":
+            self._sampY = sampY
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition constructor argument 'sampY' is not XSDataDouble but %s" % self._sampY.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'gridIndexY' attribute
+    def getGridIndexY(self): return self._gridIndexY
+    def setGridIndexY(self, gridIndexY):
+        if gridIndexY is None:
+            self._gridIndexY = None
+        elif gridIndexY.__class__.__name__ == "XSDataInteger":
+            self._gridIndexY = gridIndexY
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setGridIndexY argument is not XSDataInteger but %s" % gridIndexY.__class__.__name__
+            raise BaseException(strMessage)
+    def delGridIndexY(self): self._gridIndexY = None
+    gridIndexY = property(getGridIndexY, setGridIndexY, delGridIndexY, "Property for gridIndexY")
+    # Methods and properties for the 'gridIndexZ' attribute
+    def getGridIndexZ(self): return self._gridIndexZ
+    def setGridIndexZ(self, gridIndexZ):
+        if gridIndexZ is None:
+            self._gridIndexZ = None
+        elif gridIndexZ.__class__.__name__ == "XSDataInteger":
+            self._gridIndexZ = gridIndexZ
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setGridIndexZ argument is not XSDataInteger but %s" % gridIndexZ.__class__.__name__
+            raise BaseException(strMessage)
+    def delGridIndexZ(self): self._gridIndexZ = None
+    gridIndexZ = property(getGridIndexZ, setGridIndexZ, delGridIndexZ, "Property for gridIndexZ")
+    # Methods and properties for the 'kappa' attribute
+    def getKappa(self): return self._kappa
+    def setKappa(self, kappa):
+        if kappa is None:
+            self._kappa = None
+        elif kappa.__class__.__name__ == "XSDataDouble":
+            self._kappa = kappa
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setKappa argument is not XSDataDouble but %s" % kappa.__class__.__name__
+            raise BaseException(strMessage)
+    def delKappa(self): self._kappa = None
+    kappa = property(getKappa, setKappa, delKappa, "Property for kappa")
+    # Methods and properties for the 'omega' attribute
+    def getOmega(self): return self._omega
+    def setOmega(self, omega):
+        if omega is None:
+            self._omega = None
+        elif omega.__class__.__name__ == "XSDataDouble":
+            self._omega = omega
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setOmega argument is not XSDataDouble but %s" % omega.__class__.__name__
+            raise BaseException(strMessage)
+    def delOmega(self): self._omega = None
+    omega = property(getOmega, setOmega, delOmega, "Property for omega")
+    # Methods and properties for the 'phi' attribute
+    def getPhi(self): return self._phi
+    def setPhi(self, phi):
+        if phi is None:
+            self._phi = None
+        elif phi.__class__.__name__ == "XSDataDouble":
+            self._phi = phi
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhi argument is not XSDataDouble but %s" % phi.__class__.__name__
+            raise BaseException(strMessage)
+    def delPhi(self): self._phi = None
+    phi = property(getPhi, setPhi, delPhi, "Property for phi")
+    # Methods and properties for the 'phiX' attribute
+    def getPhiX(self): return self._phiX
+    def setPhiX(self, phiX):
+        if phiX is None:
+            self._phiX = None
+        elif phiX.__class__.__name__ == "XSDataDouble":
+            self._phiX = phiX
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhiX argument is not XSDataDouble but %s" % phiX.__class__.__name__
+            raise BaseException(strMessage)
+    def delPhiX(self): self._phiX = None
+    phiX = property(getPhiX, setPhiX, delPhiX, "Property for phiX")
+    # Methods and properties for the 'phiY' attribute
+    def getPhiY(self): return self._phiY
+    def setPhiY(self, phiY):
+        if phiY is None:
+            self._phiY = None
+        elif phiY.__class__.__name__ == "XSDataDouble":
+            self._phiY = phiY
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhiY argument is not XSDataDouble but %s" % phiY.__class__.__name__
+            raise BaseException(strMessage)
+    def delPhiY(self): self._phiY = None
+    phiY = property(getPhiY, setPhiY, delPhiY, "Property for phiY")
+    # Methods and properties for the 'phiZ' attribute
+    def getPhiZ(self): return self._phiZ
+    def setPhiZ(self, phiZ):
+        if phiZ is None:
+            self._phiZ = None
+        elif phiZ.__class__.__name__ == "XSDataDouble":
+            self._phiZ = phiZ
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setPhiZ argument is not XSDataDouble but %s" % phiZ.__class__.__name__
+            raise BaseException(strMessage)
+    def delPhiZ(self): self._phiZ = None
+    phiZ = property(getPhiZ, setPhiZ, delPhiZ, "Property for phiZ")
+    # Methods and properties for the 'sampX' attribute
+    def getSampX(self): return self._sampX
+    def setSampX(self, sampX):
+        if sampX is None:
+            self._sampX = None
+        elif sampX.__class__.__name__ == "XSDataDouble":
+            self._sampX = sampX
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setSampX argument is not XSDataDouble but %s" % sampX.__class__.__name__
+            raise BaseException(strMessage)
+    def delSampX(self): self._sampX = None
+    sampX = property(getSampX, setSampX, delSampX, "Property for sampX")
+    # Methods and properties for the 'sampY' attribute
+    def getSampY(self): return self._sampY
+    def setSampY(self, sampY):
+        if sampY is None:
+            self._sampY = None
+        elif sampY.__class__.__name__ == "XSDataDouble":
+            self._sampY = sampY
+        else:
+            strMessage = "ERROR! XSDataISPyBSamplePosition.setSampY argument is not XSDataDouble but %s" % sampY.__class__.__name__
+            raise BaseException(strMessage)
+    def delSampY(self): self._sampY = None
+    sampY = property(getSampY, setSampY, delSampY, "Property for sampY")
+    def export(self, outfile, level, name_='XSDataISPyBSamplePosition'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataISPyBSamplePosition'):
+        XSData.exportChildren(self, outfile, level, name_)
+        if self._gridIndexY is not None:
+            self.gridIndexY.export(outfile, level, name_='gridIndexY')
+        else:
+            warnEmptyAttribute("gridIndexY", "XSDataInteger")
+        if self._gridIndexZ is not None:
+            self.gridIndexZ.export(outfile, level, name_='gridIndexZ')
+        else:
+            warnEmptyAttribute("gridIndexZ", "XSDataInteger")
+        if self._kappa is not None:
+            self.kappa.export(outfile, level, name_='kappa')
+        else:
+            warnEmptyAttribute("kappa", "XSDataDouble")
+        if self._omega is not None:
+            self.omega.export(outfile, level, name_='omega')
+        else:
+            warnEmptyAttribute("omega", "XSDataDouble")
+        if self._phi is not None:
+            self.phi.export(outfile, level, name_='phi')
+        else:
+            warnEmptyAttribute("phi", "XSDataDouble")
+        if self._phiX is not None:
+            self.phiX.export(outfile, level, name_='phiX')
+        else:
+            warnEmptyAttribute("phiX", "XSDataDouble")
+        if self._phiY is not None:
+            self.phiY.export(outfile, level, name_='phiY')
+        else:
+            warnEmptyAttribute("phiY", "XSDataDouble")
+        if self._phiZ is not None:
+            self.phiZ.export(outfile, level, name_='phiZ')
+        else:
+            warnEmptyAttribute("phiZ", "XSDataDouble")
+        if self._sampX is not None:
+            self.sampX.export(outfile, level, name_='sampX')
+        else:
+            warnEmptyAttribute("sampX", "XSDataDouble")
+        if self._sampY is not None:
+            self.sampY.export(outfile, level, name_='sampY')
+        else:
+            warnEmptyAttribute("sampY", "XSDataDouble")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gridIndexY':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setGridIndexY(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'gridIndexZ':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setGridIndexZ(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'kappa':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setKappa(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'omega':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setOmega(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'phi':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setPhi(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'phiX':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setPhiX(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'phiY':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setPhiY(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'phiZ':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setPhiZ(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'sampX':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setSampX(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'sampY':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setSampY(obj_)
+        XSData.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataISPyBSamplePosition" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataISPyBSamplePosition' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataISPyBSamplePosition is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataISPyBSamplePosition.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBSamplePosition()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataISPyBSamplePosition" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBSamplePosition()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataISPyBSamplePosition
+
+
+class XSDataISPyBImagePosition(XSData):
+    def __init__(self, position=None, fileName=None):
+        XSData.__init__(self, )
+        if fileName is None:
+            self._fileName = None
+        elif fileName.__class__.__name__ == "XSDataFile":
+            self._fileName = fileName
+        else:
+            strMessage = "ERROR! XSDataISPyBImagePosition constructor argument 'fileName' is not XSDataFile but %s" % self._fileName.__class__.__name__
+            raise BaseException(strMessage)
+        if position is None:
+            self._position = None
+        elif position.__class__.__name__ == "XSDataISPyBSamplePosition":
+            self._position = position
+        else:
+            strMessage = "ERROR! XSDataISPyBImagePosition constructor argument 'position' is not XSDataISPyBSamplePosition but %s" % self._position.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'fileName' attribute
+    def getFileName(self): return self._fileName
+    def setFileName(self, fileName):
+        if fileName is None:
+            self._fileName = None
+        elif fileName.__class__.__name__ == "XSDataFile":
+            self._fileName = fileName
+        else:
+            strMessage = "ERROR! XSDataISPyBImagePosition.setFileName argument is not XSDataFile but %s" % fileName.__class__.__name__
+            raise BaseException(strMessage)
+    def delFileName(self): self._fileName = None
+    fileName = property(getFileName, setFileName, delFileName, "Property for fileName")
+    # Methods and properties for the 'position' attribute
+    def getPosition(self): return self._position
+    def setPosition(self, position):
+        if position is None:
+            self._position = None
+        elif position.__class__.__name__ == "XSDataISPyBSamplePosition":
+            self._position = position
+        else:
+            strMessage = "ERROR! XSDataISPyBImagePosition.setPosition argument is not XSDataISPyBSamplePosition but %s" % position.__class__.__name__
+            raise BaseException(strMessage)
+    def delPosition(self): self._position = None
+    position = property(getPosition, setPosition, delPosition, "Property for position")
+    def export(self, outfile, level, name_='XSDataISPyBImagePosition'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataISPyBImagePosition'):
+        XSData.exportChildren(self, outfile, level, name_)
+        if self._fileName is not None:
+            self.fileName.export(outfile, level, name_='fileName')
+        else:
+            warnEmptyAttribute("fileName", "XSDataFile")
+        if self._position is not None:
+            self.position.export(outfile, level, name_='position')
+        else:
+            warnEmptyAttribute("position", "XSDataISPyBSamplePosition")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'fileName':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setFileName(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'position':
+            obj_ = XSDataISPyBSamplePosition()
+            obj_.build(child_)
+            self.setPosition(obj_)
+        XSData.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataISPyBImagePosition" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataISPyBImagePosition' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataISPyBImagePosition is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataISPyBImagePosition.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBImagePosition()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataISPyBImagePosition" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataISPyBImagePosition()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataISPyBImagePosition
 
 
 class XSDataISPyBScreening(XSData):
@@ -13381,7 +13381,7 @@ class XSDataResultRetrieveDataCollection(XSDataResult):
 
 
 class XSDataResultStoreAutoProc(XSDataResult):
-    def __init__(self, status=None, autoProcId=None):
+    def __init__(self, status=None, autoProcScalingId=None, autoProcId=None):
         XSDataResult.__init__(self, status)
         if autoProcId is None:
             self._autoProcId = None
@@ -13389,6 +13389,13 @@ class XSDataResultStoreAutoProc(XSDataResult):
             self._autoProcId = autoProcId
         else:
             strMessage = "ERROR! XSDataResultStoreAutoProc constructor argument 'autoProcId' is not XSDataInteger but %s" % self._autoProcId.__class__.__name__
+            raise BaseException(strMessage)
+        if autoProcScalingId is None:
+            self._autoProcScalingId = None
+        elif autoProcScalingId.__class__.__name__ == "XSDataInteger":
+            self._autoProcScalingId = autoProcScalingId
+        else:
+            strMessage = "ERROR! XSDataResultStoreAutoProc constructor argument 'autoProcScalingId' is not XSDataInteger but %s" % self._autoProcScalingId.__class__.__name__
             raise BaseException(strMessage)
     # Methods and properties for the 'autoProcId' attribute
     def getAutoProcId(self): return self._autoProcId
@@ -13402,6 +13409,18 @@ class XSDataResultStoreAutoProc(XSDataResult):
             raise BaseException(strMessage)
     def delAutoProcId(self): self._autoProcId = None
     autoProcId = property(getAutoProcId, setAutoProcId, delAutoProcId, "Property for autoProcId")
+    # Methods and properties for the 'autoProcScalingId' attribute
+    def getAutoProcScalingId(self): return self._autoProcScalingId
+    def setAutoProcScalingId(self, autoProcScalingId):
+        if autoProcScalingId is None:
+            self._autoProcScalingId = None
+        elif autoProcScalingId.__class__.__name__ == "XSDataInteger":
+            self._autoProcScalingId = autoProcScalingId
+        else:
+            strMessage = "ERROR! XSDataResultStoreAutoProc.setAutoProcScalingId argument is not XSDataInteger but %s" % autoProcScalingId.__class__.__name__
+            raise BaseException(strMessage)
+    def delAutoProcScalingId(self): self._autoProcScalingId = None
+    autoProcScalingId = property(getAutoProcScalingId, setAutoProcScalingId, delAutoProcScalingId, "Property for autoProcScalingId")
     def export(self, outfile, level, name_='XSDataResultStoreAutoProc'):
         showIndent(outfile, level)
         outfile.write(unicode('<%s>\n' % name_))
@@ -13412,6 +13431,8 @@ class XSDataResultStoreAutoProc(XSDataResult):
         XSDataResult.exportChildren(self, outfile, level, name_)
         if self._autoProcId is not None:
             self.autoProcId.export(outfile, level, name_='autoProcId')
+        if self._autoProcScalingId is not None:
+            self.autoProcScalingId.export(outfile, level, name_='autoProcScalingId')
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -13422,6 +13443,11 @@ class XSDataResultStoreAutoProc(XSDataResult):
             obj_ = XSDataInteger()
             obj_.build(child_)
             self.setAutoProcId(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'autoProcScalingId':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setAutoProcScalingId(obj_)
         XSDataResult.buildChildren(self, child_, nodeName_)
     #Method for marshalling an object
     def marshal( self ):

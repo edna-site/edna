@@ -44,7 +44,7 @@ class EDTestCasePluginExecuteISPyBStoreAutoProcv1_4(EDTestCasePluginExecute):
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBStoreAutoProcv1_4")
 
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
-        #self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_productionDataBase.xml"))
+        # self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_productionDataBase.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputStoreAutoProc_test.xml"))
 
 
@@ -57,10 +57,8 @@ class EDTestCasePluginExecuteISPyBStoreAutoProcv1_4(EDTestCasePluginExecute):
         # Check that the id extists in the results
         edPlugin = self.getPlugin()
         xsDataResult = edPlugin.getDataOutput()
-        bAttributeExists = True
-        if xsDataResult.getAutoProcId() is None:
-            bAttributeExists = False
-        EDAssert.equal(True, bAttributeExists, "Attribute AutoProcId in the result")
+        EDAssert.equal(True, xsDataResult.getAutoProcId() is not None, "Attribute AutoProcId in the result")
+        EDAssert.equal(True, xsDataResult.getAutoProcScalingId() is not None, "Attribute AutoProcScalingId in the result")
 
 
     def process(self):

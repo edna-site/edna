@@ -58,12 +58,6 @@ from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
 from XSDataISPyBv1_4 import AutoProcContainer
 
 
-def successAction(self, _edObject=None):
-    EDVerbose.screen("XML data sucessfully stored in ISPyB")
-
-def failureAction(self, _edObject=None):
-    EDVerbose.ERROR("XML data not stored in ISPyB")
-
 if __name__ == '__main__':
     strCwd = os.getcwd()
     strPathToTempDir = tempfile.mkdtemp(prefix="edna-autoproc2ispyb_")
@@ -103,6 +97,14 @@ if __name__ == '__main__':
             xsDataInputStoreAutoProc.setAutoProcContainer(xsDataAutoProcContainer)
             edPluginISPyBStoreAutoProc = EDFactoryPluginStatic.loadPlugin("EDPluginISPyBStoreAutoProcv1_4")
             edPluginISPyBStoreAutoProc.setDataInput(xsDataInputStoreAutoProc)
-            edPluginISPyBStoreAutoProc.connectSUCCESS(successAction)
-            edPluginISPyBStoreAutoProc.connectFAILURE(failureAction)
             edPluginISPyBStoreAutoProc.executeSynchronous()
+            if edPluginISPyBStoreAutoProc.isFailure():
+                EDVerbose.ERROR("XML data not stored in ISPyB")
+            else:
+                xsDataResultISPyBStoreAutoProc = edPluginISPyBStoreAutoProc.dataOutput
+                EDVerbose.screen("XML data sucessfully stored in ISPyB")
+                if xsDataResultISPyBStoreAutoProc.autoProcScalingId is not None:
+                    EDVerbose.screen("autoProcScalingId: %d" % xsDataResultISPyBStoreAutoProc.autoProcScalingId.value)
+                else:
+                    EDVerbose.warning("No autoProcScalingId in results!")
+                

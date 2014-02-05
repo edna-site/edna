@@ -58,6 +58,7 @@ complex type XSDataInputStoreAutoProc extends XSDataInput {
 
 complex type XSDataResultStoreAutoProc extends XSDataResult {
 	autoProcId : XSDataInteger optional
+	autoProcScalingId : XSDataInteger optional
 } 
 
 
