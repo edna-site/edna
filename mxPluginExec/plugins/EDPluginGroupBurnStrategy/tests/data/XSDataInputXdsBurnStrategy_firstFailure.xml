@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <XSDataInputXdsBurnStrategy>
     <input_file>
-        <value>/data/id23eh1/inhouse/opid231/20130507/PROCESSED_DATA/burn/test4/xds_burn-burntestw7_run3_1/XDS.INP</value>
+        <value>/scisoft/pxsoft/data/WORKFLOW_TEST_DATA/id23eh1/inhouse/opid231/20130507/PROCESSED_DATA/burn/test4/xds_burn-burntestw7_run3_1/XDS.INP</value>
     </input_file>
     <space_group>
         <value>197</value>
