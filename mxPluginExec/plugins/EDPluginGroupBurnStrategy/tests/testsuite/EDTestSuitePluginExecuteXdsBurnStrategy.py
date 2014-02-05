@@ -38,4 +38,4 @@ class EDTestSuitePluginExecuteXdsBurnStrategy(EDTestSuite):
     def process(self):
         self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy")
         self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy_pilatus")
-        self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy_firstFailure")
+#        self.addTestCaseFromName("EDTestCasePluginExecuteXdsBurnStrategy_firstFailure")
