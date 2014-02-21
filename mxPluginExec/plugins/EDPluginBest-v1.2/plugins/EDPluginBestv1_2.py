@@ -71,15 +71,8 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
         EDPluginExecProcessScript.__init__(self)
         self.setXSDataInputClass(XSDataInputBest)
 
-        # Version 3.3.0 is deprecated, see bug #532
-        self.addCompatibleVersion("Version 3.3.0 //  15.11.2009")
-        self.addCompatibleVersion("Version 3.3.1 //  24.04.2010")
-        self.addCompatibleVersion("Version 3.3.2 //  25.10.2010")
-        self.addCompatibleVersion("Version 3.4.0 //  15.11.2010")
-        self.addCompatibleVersion("Version 3.4.1 //  15.02.2011")
-        self.addCompatibleVersion("Version 3.4.2 //  05.03.2011")
-        self.addCompatibleVersion("Version 3.4.3 //  06.05.2011")
-        self.addCompatibleVersion("Version 3.4.4 //  10.06.2011")
+        # This version of the Best plugin requires the latest
+        # version of Best. 
         self.addCompatibleVersion("Version 4.1.0 //  02.10.2012")
 
         self.strCONF_BEST_HOME_LABEL = "besthome"
@@ -354,8 +347,8 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
             self.addErrorMessage(strErrorMessage)
             # Append error message to best log
             strLog = self.readProcessLogFile()
-            strLog += "\n"+strError
-            EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(),self.getScriptLogFileName()), strLog)
+            strLog += "\n" + strError
+            EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName()), strLog)
             self.setDataOutput(xsDataResultBest)
             self.setFailure()
         else:
@@ -367,14 +360,14 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
             for strPath in os.listdir(self.getWorkingDirectory()):
                 if strPath.endswith(".gle"):
                     xsDataBestGlePlot = XSDataBestGlePlot()
-                    xsDataBestGlePlot.script = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strPath)))
-                    strDataPath = strPath[:-4]+".dat"
-                    if os.path.exists(os.path.join(self.getWorkingDirectory(),strDataPath)):
-                        xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strDataPath)))
+                    xsDataBestGlePlot.script = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), strPath)))
+                    strDataPath = strPath[:-4] + ".dat"
+                    if os.path.exists(os.path.join(self.getWorkingDirectory(), strDataPath)):
+                        xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), strDataPath)))
                     else:
-                        strDataPath = strPath[:-4]+".data"
-                        if os.path.exists(os.path.join(self.getWorkingDirectory(),strDataPath)):
-                            xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(),strDataPath)))
+                        strDataPath = strPath[:-4] + ".data"
+                        if os.path.exists(os.path.join(self.getWorkingDirectory(), strDataPath)):
+                            xsDataBestGlePlot.data = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), strDataPath)))
                     xsDataResultBest.addGlePlot(xsDataBestGlePlot)
             self.setDataOutput(xsDataResultBest)
 
@@ -395,9 +388,9 @@ class EDPluginBestv1_2(EDPluginExecProcessScript):
                 xsDataStringStrategyOption = self.getDataInput().getStrategyOption()
                 if (xsDataStringStrategyOption is not None):
                     strStrategyOption = xsDataStringStrategyOption.getValue()
-                    if (strStrategyOption.find("-DamPar") != -1 ):
+                    if (strStrategyOption.find("-DamPar") != -1):
                         xsDataResultBest = self.getDamParOutputFromDNATables(xsDataDnaTables)
-                    elif (strStrategyOption.find("-Bonly") != -1 ):
+                    elif (strStrategyOption.find("-Bonly") != -1):
                         xsDataResultBest = self.getBonlyOutputFromDNATables(xsDataDnaTables)
                     else:
                         xsDataResultBest = self.getDataCollectionOutputDataFromDNATables(xsDataDnaTables)
