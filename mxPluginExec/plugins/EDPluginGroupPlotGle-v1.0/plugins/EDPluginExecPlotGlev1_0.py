@@ -21,13 +21,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__="Olof Svensson"
+__author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 __date__ = "20120712"
 __status__ = "production"
 
-import os, tempfile, numpy, threading, shlex, shutil
+import os, tempfile, numpy, threading, shlex, shutil, subprocess
 
 from EDPluginExec import EDPluginExec
 from EDUtilsFile import EDUtilsFile
@@ -44,16 +44,16 @@ from XSDataPlotGlev1_0 import XSDataPlotSet
 from XSDataPlotGlev1_0 import XSDataInputPlotGle
 from XSDataPlotGlev1_0 import XSDataResultPlotGle
 
-class EDPluginExecPlotGlev1_0(EDPluginExec ):
+class EDPluginExecPlotGlev1_0(EDPluginExec):
     """
     [To be replaced with a description of EDPluginExecTemplatev10]
     """
     
 
-    def __init__(self ):
+    def __init__(self):
         """
         """
-        EDPluginExec.__init__(self )
+        EDPluginExec.__init__(self)
         self.setXSDataInputClass(XSDataInputPlotGle)
         self.listPlot = []
 
@@ -63,10 +63,10 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         Checks the mandatory parameters.
         """
         self.DEBUG("EDPluginExecPlotGlev1_0.checkParameters")
-        self.checkMandatoryParameters(self.dataInput,"Data Input is None")
+        self.checkMandatoryParameters(self.dataInput, "Data Input is None")
 
     
-    def preProcess(self, _edObject = None):
+    def preProcess(self, _edObject=None):
         EDPluginExec.preProcess(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.preProcess")
         FileGle = None
@@ -96,9 +96,9 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                     xsDataPlot.xsize = 10
                 if xsDataPlot.ysize is None:
                     xsDataPlot.ysize = 10
-                if iIndex in [1,5,8]:
+                if iIndex in [1, 5, 8]:
                     xsDataPlot.keypos = "tl"
-                elif iIndex in [2,4,6]:
+                elif iIndex in [2, 4, 6]:
                     xsDataPlot.keypos = "tr"
                 elif iIndex in [3]:
                     xsDataPlot.keypos = "br"
@@ -108,14 +108,14 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                     xsDataPlot.xmax = 500
                 strPlotFile = os.path.join(self.getWorkingDirectory(), "plot%d" % iIndex)
                 (strGle, listDataFiles) = self.prepareGleGraph(xsDataPlot)
-                EDUtilsFile.writeFile(strPlotFile+".gle", strGle)
+                EDUtilsFile.writeFile(strPlotFile + ".gle", strGle)
                 dictPlot = {}
-                dictPlot["script"] = strPlotFile+".gle"
+                dictPlot["script"] = strPlotFile + ".gle"
                 dictPlot["data"] = listDataFiles
                 self.listPlot.append(dictPlot)
                 iIndex += 1
         
-    def process(self, _edObject = None):
+    def process(self, _edObject=None):
         EDPluginExec.process(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.process")
         for dictPlot in self.listPlot:
@@ -124,18 +124,24 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             listDataFiles = dictPlot["data"]
             for strDataFileFullPath in listDataFiles:
                 strDataFile = os.path.basename(strDataFileFullPath)
-                if not os.path.exists(os.path.join(self.getWorkingDirectory(),strDataFile)):
+                if not os.path.exists(os.path.join(self.getWorkingDirectory(), strDataFile)):
                     shutil.copy(strDataFileFullPath, self.getWorkingDirectory())
             strCommand = "gle -verbosity 0 -r 150 -d jpg %s" % os.path.basename(dictPlot["script"])
             # Copied from EDPluginExecProcess
             self.DEBUG(self.getBaseName() + ": Processing")
             timer = threading.Timer(float(self.getTimeOut()), self.kill)
             timer.start()
-            self.__subprocess = EDUtilsPlatform.Popen(shlex.split(str(EDUtilsPlatform.escape(strCommand))),
+            try:
+                self.__subprocess = EDUtilsPlatform.Popen(shlex.split(str(EDUtilsPlatform.escape(strCommand))),
                                                    cwd=self.getWorkingDirectory())
-            self.__iPID = self.__subprocess.pid
-            self.__strExecutionStatus = str(self.__subprocess.wait())
-            timer.cancel()            
+                self.__iPID = self.__subprocess.pid
+                self.__strExecutionStatus = str(self.__subprocess.wait())
+            except OSError, e:
+                strErrorMessage = self.getPluginName() + " : required program gle not installed"
+                self.error(strErrorMessage)
+                self.setFailure()
+            finally:
+                timer.cancel()            
 
     def kill(self):
         self.WARNING("I will kill subprocess %s pid= %s" % (self.__subprocess, self.__iPID))
@@ -147,7 +153,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         raise RuntimeError, errorMessage
 
         
-    def postProcess(self, _edObject = None):
+    def postProcess(self, _edObject=None):
         EDPluginExec.postProcess(self)
         self.DEBUG("EDPluginExecPlotGlev1_0.postProcess")
         # Create some output data
@@ -194,7 +200,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             numpyData = EDUtilsArray.xsDataToArray(xsDataGraph.data, _bForceNoNumpy=True)
             numpy.savetxt(strTmpDataPath, numpyData, delimiter=" ")
             listDataFiles.append(strTmpDataPath)
-            #EDUtilsFile.writeFile(strTmpDataPath, strData)
+            # EDUtilsFile.writeFile(strTmpDataPath, strData)
             strGraph += "  data %s\n" % strTmpDataPath
             strGraph += "  d%d line " % iIndex
             if xsDataGraph.lineColor != None and xsDataGraph.lineColor != "None":
@@ -210,7 +216,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
             if xsDataGraph.label != None and xsDataGraph.label != "None":
                 strGraph += " key \"%s\" " % xsDataGraph.label
             strGraph += "\n"
-            iIndex+=1
+            iIndex += 1
         strGraph += "end graph\n"
         return (strGraph, listDataFiles)
 
@@ -257,7 +263,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                 xsDataPlot.ytitle = strYLabel
             elif strLine.startswith("# Curve"):
                 if xsDataGraph is not None:
-                    xsDataGraph.data = EDUtilsArray.arrayToXSData(listData,_bForceNoNumpy=True)
+                    xsDataGraph.data = EDUtilsArray.arrayToXSData(listData, _bForceNoNumpy=True)
                 xsDataGraph = XSDataGraph()
                 xsDataPlot.addGraph(xsDataGraph)
                 listData = []
@@ -266,7 +272,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                 xsDataGraph.lineStyle = self.lineTypePlotMtv(int(strLineType)) 
             elif strLine.find("linewidth") != -1:
                 strLineWidth = strLine.split("=")[1]
-                xsDataGraph.lineWidth = float(strLineWidth)*0.02 
+                xsDataGraph.lineWidth = float(strLineWidth) * 0.02 
             elif strLine.find("linecolor") != -1:
                 iLineColorCode = int(strLine.split("=")[1])
                 xsDataGraph.lineColor = self.colorPlotMtv(iLineColorCode)
@@ -290,7 +296,7 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
                     self.DEBUG("Couldn't convert %s to data point" % strLine)
         # Last data
         if xsDataGraph is not None and listData != []:
-            xsDataGraph.data =  EDUtilsArray.arrayToXSData(listData,_bForceNoNumpy=True)
+            xsDataGraph.data = EDUtilsArray.arrayToXSData(listData, _bForceNoNumpy=True)
         return xsDataPlotSet
 
 
@@ -332,27 +338,27 @@ class EDPluginExecPlotGlev1_0(EDPluginExec ):
         # 7=Long-Dash
         # 8=Sparse Dot-Dash
         # 9=Triple-Dot
-        #10=Dot-Dot-Dash
+        # 10=Dot-Dot-Dash
         iLineTypeGle = _iLineType
         if iLineTypeGle > 9:
             iLineTypeGle = 1
         return iLineTypeGle
     
     def markerTypePlotMtv(self, _iMarkerType):
-        #0=None
-        #1=Dot
-        #2=Cross
-        #3=X
-        #4=White Square
-        #5=Black Square
-        #6=White Diamond
-        #7=Black Diamond
-        #8=White Triangle
-        #9=Black Triangle
-        #10=White Inverted Triangle
-        #11=Black Inverted Triangle
-        #12=White Circle
-        #13=Black Circle
+        # 0=None
+        # 1=Dot
+        # 2=Cross
+        # 3=X
+        # 4=White Square
+        # 5=Black Square
+        # 6=White Diamond
+        # 7=Black Diamond
+        # 8=White Triangle
+        # 9=Black Triangle
+        # 10=White Inverted Triangle
+        # 11=Black Inverted Triangle
+        # 12=White Circle
+        # 13=Black Circle
         strGleMarker = None
         if _iMarkerType == 10:
             strGleMarker = "triangle"
