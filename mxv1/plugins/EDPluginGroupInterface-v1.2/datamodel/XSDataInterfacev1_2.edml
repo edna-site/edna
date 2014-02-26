@@ -42,5 +42,5 @@ complex type XSDataInputInterface {
 
 complex type XSDataResultInterface {
 	resultCharacterisation : XSDataResultCharacterisation optional
-	resultControlISPyB : XSDataResultControlISPyB
+	resultControlISPyB : XSDataResultControlISPyB optional
 }
