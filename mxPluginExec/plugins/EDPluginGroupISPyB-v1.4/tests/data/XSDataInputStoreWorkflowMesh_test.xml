@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<XSDataInputISPyBStoreWorkflowMesh>
+	<workflowId>
+		<value>1</value>
+	</workflowId>
+	<bestPositionId>
+		<value>2</value>
+	</bestPositionId>
+	<bestImageId>
+		<value>3</value>
+	</bestImageId>
+	<value1>
+		<value>4.0</value>
+	</value1>
+	<value2>
+		<value>5.0</value>
+	</value2>
+	<value3>
+		<value>6.0</value>
+	</value3>
+	<value4>
+		<value>7.0</value>
+	</value4>
+	<cartographyPath>
+		<value>/tmp/test/path/to/grid.png</value>
+	</cartographyPath>
+</XSDataInputISPyBStoreWorkflowMesh>

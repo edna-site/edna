@@ -597,3 +597,19 @@ complex type XSDataInputISPyBStoreGridInfo extends XSDataInput {
 complex type XSDataResultISPyBStoreGridInfo extends XSDataResult {
 	gridInfoId : XSDataInteger optional
 }
+
+	
+complex type XSDataInputISPyBStoreWorkflowMesh extends XSDataInput {
+	workflowId: XSDataInteger
+	bestPositionId: XSDataInteger
+	bestImageId: XSDataInteger
+	value1: XSDataDouble
+	value2: XSDataDouble
+	value3: XSDataDouble
+	value4: XSDataDouble
+	cartographyPath: XSDataString
+}
+
+complex type XSDataResultISPyBStoreWorkflowMesh extends XSDataResult {
+	workflowMeshId : XSDataInteger
+}
