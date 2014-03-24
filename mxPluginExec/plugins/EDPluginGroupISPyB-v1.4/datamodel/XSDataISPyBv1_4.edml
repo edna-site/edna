@@ -581,3 +581,19 @@ complex type XSDataInputISPyBSetDataCollectionsPositions extends XSDataInput {
 complex type XSDataResultISPyBSetDataCollectionsPositions extends XSDataResult {
 	dataCollectionId : XSDataInteger [] optional
 }
+
+complex type XSDataInputISPyBStoreGridInfo extends XSDataInput {
+	gridInfoId : XSDataInteger optional
+	workflowMeshId : XSDataInteger
+	dx_mm : XSDataDouble
+	dy_mm : XSDataDouble
+	xOffset : XSDataDouble
+	yOffset : XSDataDouble
+	steps_x : XSDataInteger
+	steps_y : XSDataInteger
+	meshAngle : XSDataDouble
+}
+
+complex type XSDataResultISPyBStoreGridInfo extends XSDataResult {
+	gridInfoId : XSDataInteger optional
+}

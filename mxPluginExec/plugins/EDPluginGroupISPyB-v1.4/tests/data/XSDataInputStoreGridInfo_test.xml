@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<XSDataInputStoreGridInfo>
+	<workflowMeshId>
+		<value>1</value>
+	</workflowMeshId>
+	<dx_mm>
+		<value>2.0</value>
+	</dx_mm>
+	<dy_mm>
+		<value>3.0</value>
+	</dy_mm>
+	<xOffset>
+		<value>4.0</value>
+	</xOffset>
+	<yOffset>
+		<value>5.0</value>
+	</yOffset>
+	<steps_x>
+		<value>6</value>
+	</steps_x>
+	<steps_y>
+		<value>7</value>
+	</steps_y>
+	<meshAngle>
+		<value>8.0</value>
+	</meshAngle>
+</XSDataInputStoreGridInfo>
