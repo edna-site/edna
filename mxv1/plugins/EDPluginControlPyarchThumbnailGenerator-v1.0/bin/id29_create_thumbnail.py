@@ -55,6 +55,7 @@ EDFactoryPluginStatic.loadModule("EDPluginControlPyarchThumbnailGeneratorv1_0")
 from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataString
 from XSDataCommon import XSDataInteger
+from XSDataCommon import XSDataTime
 
 from EDPluginControlPyarchThumbnailGeneratorv1_0 import EDPluginControlPyarchThumbnailGeneratorv1_0
 from XSDataPyarchThumbnailGeneratorv1_0 import XSDataInputPyarchThumbnailGenerator
@@ -84,7 +85,7 @@ if __name__ == '__main__':
             listImageName = [ listImageName[0] ]
     for strImageName in listImageName:
         xsDataInputPyarchThumbnailGenerator = XSDataInputPyarchThumbnailGenerator()
-        xsDataInputPyarchThumbnailGenerator.setWaitForFileTimeOut(XSDataInteger(1000))
+        xsDataInputPyarchThumbnailGenerator.setWaitForFileTimeOut(XSDataTime(1000))
         strImagePath = os.path.join(strImageDirectory, strImageName)
         xsDataInputPyarchThumbnailGenerator.setDiffractionImage(XSDataFile(XSDataString(strImagePath)))
         EDVerbose.screen("XML input for EDPluginControlPyarchThumbnailGeneratorv1_0: %s" % xsDataInputPyarchThumbnailGenerator.marshal())
