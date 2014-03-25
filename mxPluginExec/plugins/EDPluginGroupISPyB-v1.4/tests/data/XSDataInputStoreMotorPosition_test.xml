@@ -1,8 +1,6 @@
 <?xml version="1.0" ?>
 <XSDataInputSetImagesPositions>
 	<motorPosition>
-		<gridIndexY><value>1</value></gridIndexY>
-		<gridIndexZ><value>2</value></gridIndexZ>
 		<kappa><value>3.0</value></kappa>
 		<omega><value>4.0</value></omega>
 		<phi><value>5.0</value></phi>

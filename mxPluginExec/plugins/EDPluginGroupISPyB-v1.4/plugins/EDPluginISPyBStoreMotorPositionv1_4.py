@@ -110,8 +110,10 @@ class EDPluginISPyBStoreMotorPositionv1_4(EDPluginExec):
 
     def createMotorPosition3VO(self, _clientToolsForCollectionWebService, _xsDataPosition):
         position3VO = _clientToolsForCollectionWebService.factory.create('motorPosition3VO')
-        position3VO.gridIndexY = _xsDataPosition.gridIndexY.value
-        position3VO.gridIndexZ = _xsDataPosition.gridIndexZ.value
+        if _xsDataPosition.gridIndexY is not None:
+            position3VO.gridIndexY = _xsDataPosition.gridIndexY.value
+        if _xsDataPosition.gridIndexZ is not None:
+            position3VO.gridIndexZ = _xsDataPosition.gridIndexZ.value
         position3VO.kappa = _xsDataPosition.kappa.value
         position3VO.omega = _xsDataPosition.omega.value
         position3VO.phi = _xsDataPosition.phi.value

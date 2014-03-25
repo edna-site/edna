@@ -531,8 +531,8 @@ complex type XSDataResultISPyBUpdateWorkflowStatus extends XSDataResult {
 }
 
 complex type XSDataISPyBSamplePosition extends XSData {
-	gridIndexY : XSDataInteger
-	gridIndexZ : XSDataInteger
+	gridIndexY : XSDataInteger optional
+	gridIndexZ : XSDataInteger optional
 	kappa : XSDataDouble
 	omega : XSDataDouble
 	phi : XSDataDouble
