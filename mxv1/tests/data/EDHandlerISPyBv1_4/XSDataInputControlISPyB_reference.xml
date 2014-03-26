@@ -20154,6 +20154,31 @@
 	                <value>/users/svensson/tmp/EDTestCasePluginExecuteControlCharacterisationv1_2With2Sweep_20120229-214927/ControlCharacterisationv1_2-00000003/Strategy/Bestv1_2/best.log</value>
 	            </path>
 	        </bestLogFile>
+            <bestGraphFile>
+                <path>
+                    <value>/data/visitor/mx1528/id23eh2/20140318/PROCESSED_DATA/Wuerzburg/CP302A/Pos10/EDApplication_20140319-023828/ControlInterfaceToMXCuBEv1_3/ControlInterfacev1_2/Characterisation/Strategy/PlotGlev1_0/B.jpg</value>
+                </path>
+            </bestGraphFile>
+            <bestGraphFile>
+                <path>
+                    <value>/data/visitor/mx1528/id23eh2/20140318/PROCESSED_DATA/Wuerzburg/CP302A/Pos10/EDApplication_20140319-023828/ControlInterfaceToMXCuBEv1_3/ControlInterfacev1_2/Characterisation/Strategy/PlotGlev1_0/phi_overlap.jpg</value>
+                </path>
+            </bestGraphFile>
+            <bestGraphFile>
+                <path>
+                    <value>/data/visitor/mx1528/id23eh2/20140318/PROCESSED_DATA/Wuerzburg/CP302A/Pos10/EDApplication_20140319-023828/ControlInterfaceToMXCuBEv1_3/ControlInterfacev1_2/Characterisation/Strategy/PlotGlev1_0/compl.jpg</value>
+                </path>
+            </bestGraphFile>
+            <bestGraphFile>
+                <path>
+                    <value>/data/visitor/mx1528/id23eh2/20140318/PROCESSED_DATA/Wuerzburg/CP302A/Pos10/EDApplication_20140319-023828/ControlInterfaceToMXCuBEv1_3/ControlInterfacev1_2/Characterisation/Strategy/PlotGlev1_0/I2D.jpg</value>
+                </path>
+            </bestGraphFile>
+            <bestLogFile>
+                <path>
+                    <value>/data/visitor/mx1528/id23eh2/20140318/PROCESSED_DATA/Wuerzburg/CP302A/Pos10/EDApplication_20140319-023828/ControlInterfaceToMXCuBEv1_3/ControlInterfacev1_2/Characterisation/Strategy/Bestv1_2/best.log</value>
+                </path>
+            </bestLogFile>
 	        <collectionPlan>
 	            <collectionPlanNumber>
 	                <value>1</value>

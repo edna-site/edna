@@ -70,16 +70,25 @@ class EDTestCaseEDHandlerISPyBv1_4(EDTestCase):
         strReferencePath = os.path.join(self.strDataPath, strReferenceInputISPyBFile)
         strXMLInputISPyBReference = EDUtilsFile.readFileAndParseVariables(strReferencePath, self.dictReplace)
         EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
-        #xsDataInputISPyBReference = XSDataInputISPyBScreening.parseString(strXMLInputISPyBReference)
+        # xsDataInputISPyBReference = XSDataInputISPyBScreening.parseString(strXMLInputISPyBReference)
         # Remove the time strings since they otherwise make the test fail
-        #xsDataInputISPyBReference.getScreening().setTimeStamp(None)
-        #xsDataInputISPyB.getScreening().setTimeStamp(None)
-        #EDAssert.equal(xsDataInputISPyBReference.marshal(), xsDataInputISPyB.marshal())
+        # xsDataInputISPyBReference.getScreening().setTimeStamp(None)
+        # xsDataInputISPyB.getScreening().setTimeStamp(None)
+        # EDAssert.equal(xsDataInputISPyBReference.marshal(), xsDataInputISPyB.marshal())
 
-
+    def testGetBestWilsonPlotPath(self):
+        strReferenceInputControlISPyBFile = EDUtilsPath.mergePath(self.strDataPath, "XSDataInputControlISPyB_reference.xml")
+        strPath = os.path.join(self.strDataPath, strReferenceInputControlISPyBFile)
+        strXMLIndexingInput = EDUtilsFile.readFileAndParseVariables(strPath, self.dictReplace)
+        xsDataInputControlISPyB = XSDataInputControlISPyB.parseString(strXMLIndexingInput)
+        xsDataCharacterisationResult = xsDataInputControlISPyB.characterisationResult
+        strPath = EDHandlerXSDataISPyBv1_4.getBestWilsonPlotPath(xsDataCharacterisationResult)
+        EDAssert.equal(True, strPath.endswith("B.jpg"), "Wilson plot path extracted from characterisation results")
+        
 
     def process(self):
         self.addTestMethod(self.testGenerateXSDataInputISPyB)
+        self.addTestMethod(self.testGetBestWilsonPlotPath)
 
 
 

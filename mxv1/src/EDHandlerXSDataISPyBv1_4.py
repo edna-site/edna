@@ -139,7 +139,7 @@ class EDHandlerXSDataISPyBv1_4(object):
                 xsDataISPyBDiffractionPlan = XSDataISPyBDiffractionPlan()
                 xsDataISPyBDiffractionPlan.aimedCompleteness = xsDataDiffractionPlan.aimedCompleteness
                 xsDataISPyBDiffractionPlan.aimedIOverSigmaAtHighestResolution = xsDataDiffractionPlan.aimedIOverSigmaAtHighestResolution
-                xsDataISPyBDiffractionPlan.aimedMultiplicity =  xsDataDiffractionPlan.aimedMultiplicity
+                xsDataISPyBDiffractionPlan.aimedMultiplicity = xsDataDiffractionPlan.aimedMultiplicity
                 xsDataISPyBDiffractionPlan.aimedResolution = xsDataDiffractionPlan.aimedResolution
                 xsDataISPyBDiffractionPlan.anomalousData = xsDataDiffractionPlan.anomalousData
                 xsDataISPyBDiffractionPlan.complexity = xsDataDiffractionPlan.complexity
@@ -267,7 +267,7 @@ class EDHandlerXSDataISPyBv1_4(object):
                 xsDataStrategySummary = xsDataCollectionPlan.strategySummary
                 if xsDataStrategySummary is not None:
                     xsDataISPyBScreeningStrategyWedge.completeness = xsDataStrategySummary.completeness
-                    xsDataISPyBScreeningStrategyWedge.resolution   = xsDataStrategySummary.resolution
+                    xsDataISPyBScreeningStrategyWedge.resolution = xsDataStrategySummary.resolution
                     xsDataISPyBScreeningStrategyWedge.multiplicity = xsDataStrategySummary.redundancy
                     xsDataISPyBScreeningOutput.rankingResolution = xsDataStrategySummary.rankingResolution
                     if xsDataStrategySummary.totalExposureTime is not None:
@@ -285,7 +285,7 @@ class EDHandlerXSDataISPyBv1_4(object):
                         if  (xsDataSubWedge.experimentalCondition.goniostat.rotationAxisStart is not None) and \
                             (xsDataSubWedge.experimentalCondition.goniostat.rotationAxisEnd is not None) and \
                             (xsDataSubWedge.experimentalCondition.goniostat.oscillationWidth is not None):
-                            numberOfImagesSubWedge = int( (xsDataSubWedge.experimentalCondition.goniostat.rotationAxisEnd.value - \
+                            numberOfImagesSubWedge = int((xsDataSubWedge.experimentalCondition.goniostat.rotationAxisEnd.value - \
                                              xsDataSubWedge.experimentalCondition.goniostat.rotationAxisStart.value) / \
                                              xsDataSubWedge.experimentalCondition.goniostat.oscillationWidth.value + 0.5) 
                             xsDataISPyBScreeningStrategySubWedge.numberOfImages = XSDataInteger(numberOfImagesSubWedge)
@@ -299,7 +299,7 @@ class EDHandlerXSDataISPyBv1_4(object):
                         xsDataISPyBScreeningStrategyWedgeContainer.addScreeningStrategySubWedge(xsDataISPyBScreeningStrategySubWedge)
                 if numberOfImagesWedge is not None:
                     xsDataISPyBScreeningStrategyWedge.numberOfImages = XSDataInteger(numberOfImagesWedge)
-                    iTotalNumberOfImages +=  numberOfImagesWedge
+                    iTotalNumberOfImages += numberOfImagesWedge
                 xsDataISPyBScreeningStrategyWedgeContainer.screeningStrategyWedge = xsDataISPyBScreeningStrategyWedge
                 xsDataISPyBScreeningStrategyContainer.addScreeningStrategyWedgeContainer(xsDataISPyBScreeningStrategyWedgeContainer)
             xsDataISPyBScreeningOutput.totalExposureTime = XSDataDouble(fTotalExposureTime)   
@@ -403,3 +403,16 @@ class EDHandlerXSDataISPyBv1_4(object):
                                         bFirstStrategy = False
                                     else:
                                         _xsDataISPyBScreeningOutputContainer.addScreeningStrategyContainer(xsDataISPyBScreeningStrategyContainer)
+
+    @staticmethod
+    def getBestWilsonPlotPath(_xsDataResultCharacterisation):
+        strBestWilsonPlotPath = None
+        if _xsDataResultCharacterisation is not None:
+            strategyResult = _xsDataResultCharacterisation.strategyResult
+            if strategyResult is not None:
+                for bestGraphFile in strategyResult.bestGraphFile:
+                    strPath = bestGraphFile.path.value
+                    if strPath.endswith("B.jpg"):
+                        strBestWilsonPlotPath = strPath
+        return strBestWilsonPlotPath
+                        
