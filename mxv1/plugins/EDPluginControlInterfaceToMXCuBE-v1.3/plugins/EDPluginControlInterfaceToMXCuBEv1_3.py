@@ -263,18 +263,21 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
             self.executeSimpleHTML(xsDataResultCharacterisation)    
             # Upload the best wilson plot path to ISPyB
             strBestWilsonPlotPath = EDHandlerXSDataISPyBv1_4.getBestWilsonPlotPath(xsDataResultCharacterisation)
-            if strBestWilsonPlotPath is not None:
-                # Covert path to ISPyB pyarch path
-                strBestWilsonPlotPyarchPath = self.createPyArchDNAFilePath(strBestWilsonPlotPath)
-                if strBestWilsonPlotPyarchPath is not None:
-                    self.DEBUG("Best wilson pyarch path: %s " % strBestWilsonPlotPyarchPath)
-                    if self.edPluginControlInterface.dataOutput.resultControlISPyB is not None:
-                        xsDataInputISPyBSetBestWilsonPlotPath = XSDataInputISPyBSetBestWilsonPlotPath()
-                        xsDataInputISPyBSetBestWilsonPlotPath.dataCollectionId = self.edPluginControlInterface.dataOutput.resultControlISPyB.dataCollectionId
-                        xsDataInputISPyBSetBestWilsonPlotPath.bestWilsonPlotPath = XSDataString(strBestWilsonPlotPyarchPath)
-                        edPluginSetBestWilsonPlotPath = self.loadPlugin("EDPluginISPyBSetBestWilsonPlotPathv1_4", "ISPyBSetBestWilsonPlotPath")
-                        edPluginSetBestWilsonPlotPath.dataInput = xsDataInputISPyBSetBestWilsonPlotPath
-                        edPluginSetBestWilsonPlotPath.executeSynchronous()
+            if strBestWilsonPlotPath is not None and strPyArchPathToDNAFileDirectory is not None:
+                # Copy wilson path to Pyarch
+                strBestWilsonPlotPyarchPath = os.path.join(strPyArchPathToDNAFileDirectory, os.path.basename(strBestWilsonPlotPath))
+                if not os.path.exists(strBestWilsonPlotPyarchPath):
+                    if not os.path.exists(os.path.dirname(strBestWilsonPlotPyarchPath)):
+                        os.makedirs(os.path.dirname(strBestWilsonPlotPyarchPath), 755)
+                    shutil.copy(strBestWilsonPlotPath, strBestWilsonPlotPyarchPath)
+                self.DEBUG("Best wilson pyarch path: %s " % strBestWilsonPlotPyarchPath)
+                if self.edPluginControlInterface.dataOutput.resultControlISPyB is not None:
+                    xsDataInputISPyBSetBestWilsonPlotPath = XSDataInputISPyBSetBestWilsonPlotPath()
+                    xsDataInputISPyBSetBestWilsonPlotPath.dataCollectionId = self.edPluginControlInterface.dataOutput.resultControlISPyB.dataCollectionId
+                    xsDataInputISPyBSetBestWilsonPlotPath.bestWilsonPlotPath = XSDataString(strBestWilsonPlotPyarchPath)
+                    edPluginSetBestWilsonPlotPath = self.loadPlugin("EDPluginISPyBSetBestWilsonPlotPathv1_4", "ISPyBSetBestWilsonPlotPath")
+                    edPluginSetBestWilsonPlotPath.dataInput = xsDataInputISPyBSetBestWilsonPlotPath
+                    edPluginSetBestWilsonPlotPath.executeSynchronous()
 
                     
 
