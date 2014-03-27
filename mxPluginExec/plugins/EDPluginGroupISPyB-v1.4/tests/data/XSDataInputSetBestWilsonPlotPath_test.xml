@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<XSDataInputISPyBSetBestWilsonPlotPath>
+	<dataCollectionId>
+		<value>123456</value>
+	</dataCollectionId>
+	<bestWilsonPlotPath>
+		<value>/tmp/path/to/best/wilson/plot.png</value>
+	</bestWilsonPlotPath>
+</XSDataInputISPyBSetBestWilsonPlotPath>

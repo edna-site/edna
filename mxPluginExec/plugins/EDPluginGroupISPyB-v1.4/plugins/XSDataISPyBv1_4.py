@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Mar 25 04:14::34 2014 by EDGenerateDS.
+# Generated Thu Mar 27 01:57::46 2014 by EDGenerateDS.
 #
 
 import os, sys
@@ -10866,6 +10866,123 @@ class XSDataInputISPyBGroupDataCollections(XSDataInput):
 # end class XSDataInputISPyBGroupDataCollections
 
 
+class XSDataInputISPyBSetBestWilsonPlotPath(XSDataInput):
+    def __init__(self, configuration=None, bestWilsonPlotPath=None, dataCollectionId=None):
+        XSDataInput.__init__(self, configuration)
+        if dataCollectionId is None:
+            self._dataCollectionId = None
+        elif dataCollectionId.__class__.__name__ == "XSDataInteger":
+            self._dataCollectionId = dataCollectionId
+        else:
+            strMessage = "ERROR! XSDataInputISPyBSetBestWilsonPlotPath constructor argument 'dataCollectionId' is not XSDataInteger but %s" % self._dataCollectionId.__class__.__name__
+            raise BaseException(strMessage)
+        if bestWilsonPlotPath is None:
+            self._bestWilsonPlotPath = None
+        elif bestWilsonPlotPath.__class__.__name__ == "XSDataString":
+            self._bestWilsonPlotPath = bestWilsonPlotPath
+        else:
+            strMessage = "ERROR! XSDataInputISPyBSetBestWilsonPlotPath constructor argument 'bestWilsonPlotPath' is not XSDataString but %s" % self._bestWilsonPlotPath.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'dataCollectionId' attribute
+    def getDataCollectionId(self): return self._dataCollectionId
+    def setDataCollectionId(self, dataCollectionId):
+        if dataCollectionId is None:
+            self._dataCollectionId = None
+        elif dataCollectionId.__class__.__name__ == "XSDataInteger":
+            self._dataCollectionId = dataCollectionId
+        else:
+            strMessage = "ERROR! XSDataInputISPyBSetBestWilsonPlotPath.setDataCollectionId argument is not XSDataInteger but %s" % dataCollectionId.__class__.__name__
+            raise BaseException(strMessage)
+    def delDataCollectionId(self): self._dataCollectionId = None
+    dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
+    # Methods and properties for the 'bestWilsonPlotPath' attribute
+    def getBestWilsonPlotPath(self): return self._bestWilsonPlotPath
+    def setBestWilsonPlotPath(self, bestWilsonPlotPath):
+        if bestWilsonPlotPath is None:
+            self._bestWilsonPlotPath = None
+        elif bestWilsonPlotPath.__class__.__name__ == "XSDataString":
+            self._bestWilsonPlotPath = bestWilsonPlotPath
+        else:
+            strMessage = "ERROR! XSDataInputISPyBSetBestWilsonPlotPath.setBestWilsonPlotPath argument is not XSDataString but %s" % bestWilsonPlotPath.__class__.__name__
+            raise BaseException(strMessage)
+    def delBestWilsonPlotPath(self): self._bestWilsonPlotPath = None
+    bestWilsonPlotPath = property(getBestWilsonPlotPath, setBestWilsonPlotPath, delBestWilsonPlotPath, "Property for bestWilsonPlotPath")
+    def export(self, outfile, level, name_='XSDataInputISPyBSetBestWilsonPlotPath'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataInputISPyBSetBestWilsonPlotPath'):
+        XSDataInput.exportChildren(self, outfile, level, name_)
+        if self._dataCollectionId is not None:
+            self.dataCollectionId.export(outfile, level, name_='dataCollectionId')
+        else:
+            warnEmptyAttribute("dataCollectionId", "XSDataInteger")
+        if self._bestWilsonPlotPath is not None:
+            self.bestWilsonPlotPath.export(outfile, level, name_='bestWilsonPlotPath')
+        else:
+            warnEmptyAttribute("bestWilsonPlotPath", "XSDataString")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'dataCollectionId':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setDataCollectionId(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'bestWilsonPlotPath':
+            obj_ = XSDataString()
+            obj_.build(child_)
+            self.setBestWilsonPlotPath(obj_)
+        XSDataInput.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataInputISPyBSetBestWilsonPlotPath" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataInputISPyBSetBestWilsonPlotPath' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataInputISPyBSetBestWilsonPlotPath is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataInputISPyBSetBestWilsonPlotPath.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputISPyBSetBestWilsonPlotPath()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataInputISPyBSetBestWilsonPlotPath" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataInputISPyBSetBestWilsonPlotPath()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataInputISPyBSetBestWilsonPlotPath
+
+
 class XSDataInputISPyBSetDataCollectionPosition(XSDataInput):
     def __init__(self, configuration=None, endPosition=None, startPosition=None, fileName=None):
         XSDataInput.__init__(self, configuration)
@@ -13309,6 +13426,95 @@ class XSDataResultISPyBGroupDataCollections(XSDataResult):
         return rootObj
     parseFile = staticmethod( parseFile )
 # end class XSDataResultISPyBGroupDataCollections
+
+
+class XSDataResultISPyBSetBestWilsonPlotPath(XSDataResult):
+    def __init__(self, status=None, dataCollectionId=None):
+        XSDataResult.__init__(self, status)
+        if dataCollectionId is None:
+            self._dataCollectionId = None
+        elif dataCollectionId.__class__.__name__ == "XSDataInteger":
+            self._dataCollectionId = dataCollectionId
+        else:
+            strMessage = "ERROR! XSDataResultISPyBSetBestWilsonPlotPath constructor argument 'dataCollectionId' is not XSDataInteger but %s" % self._dataCollectionId.__class__.__name__
+            raise BaseException(strMessage)
+    # Methods and properties for the 'dataCollectionId' attribute
+    def getDataCollectionId(self): return self._dataCollectionId
+    def setDataCollectionId(self, dataCollectionId):
+        if dataCollectionId is None:
+            self._dataCollectionId = None
+        elif dataCollectionId.__class__.__name__ == "XSDataInteger":
+            self._dataCollectionId = dataCollectionId
+        else:
+            strMessage = "ERROR! XSDataResultISPyBSetBestWilsonPlotPath.setDataCollectionId argument is not XSDataInteger but %s" % dataCollectionId.__class__.__name__
+            raise BaseException(strMessage)
+    def delDataCollectionId(self): self._dataCollectionId = None
+    dataCollectionId = property(getDataCollectionId, setDataCollectionId, delDataCollectionId, "Property for dataCollectionId")
+    def export(self, outfile, level, name_='XSDataResultISPyBSetBestWilsonPlotPath'):
+        showIndent(outfile, level)
+        outfile.write(unicode('<%s>\n' % name_))
+        self.exportChildren(outfile, level + 1, name_)
+        showIndent(outfile, level)
+        outfile.write(unicode('</%s>\n' % name_))
+    def exportChildren(self, outfile, level, name_='XSDataResultISPyBSetBestWilsonPlotPath'):
+        XSDataResult.exportChildren(self, outfile, level, name_)
+        if self._dataCollectionId is not None:
+            self.dataCollectionId.export(outfile, level, name_='dataCollectionId')
+        else:
+            warnEmptyAttribute("dataCollectionId", "XSDataInteger")
+    def build(self, node_):
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'dataCollectionId':
+            obj_ = XSDataInteger()
+            obj_.build(child_)
+            self.setDataCollectionId(obj_)
+        XSDataResult.buildChildren(self, child_, nodeName_)
+    #Method for marshalling an object
+    def marshal( self ):
+        oStreamString = StringIO()
+        oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
+        self.export( oStreamString, 0, name_="XSDataResultISPyBSetBestWilsonPlotPath" )
+        oStringXML = oStreamString.getvalue()
+        oStreamString.close()
+        return oStringXML
+    #Only to export the entire XML tree to a file stream on disk
+    def exportToFile( self, _outfileName ):
+        outfile = open( _outfileName, "w" )
+        outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
+        self.export( outfile, 0, name_='XSDataResultISPyBSetBestWilsonPlotPath' )
+        outfile.close()
+    #Deprecated method, replaced by exportToFile
+    def outputFile( self, _outfileName ):
+        print("WARNING: Method outputFile in class XSDataResultISPyBSetBestWilsonPlotPath is deprecated, please use instead exportToFile!")
+        self.exportToFile(_outfileName)
+    #Method for making a copy in a new instance
+    def copy( self ):
+        return XSDataResultISPyBSetBestWilsonPlotPath.parseString(self.marshal())
+    #Static method for parsing a string
+    def parseString( _inString ):
+        doc = minidom.parseString(_inString)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultISPyBSetBestWilsonPlotPath()
+        rootObj.build(rootNode)
+        # Check that all minOccurs are obeyed by marshalling the created object
+        oStreamString = StringIO()
+        rootObj.export( oStreamString, 0, name_="XSDataResultISPyBSetBestWilsonPlotPath" )
+        oStreamString.close()
+        return rootObj
+    parseString = staticmethod( parseString )
+    #Static method for parsing a file
+    def parseFile( _inFilePath ):
+        doc = minidom.parse(_inFilePath)
+        rootNode = doc.documentElement
+        rootObj = XSDataResultISPyBSetBestWilsonPlotPath()
+        rootObj.build(rootNode)
+        return rootObj
+    parseFile = staticmethod( parseFile )
+# end class XSDataResultISPyBSetBestWilsonPlotPath
 
 
 class XSDataResultISPyBSetDataCollectionPosition(XSDataResult):

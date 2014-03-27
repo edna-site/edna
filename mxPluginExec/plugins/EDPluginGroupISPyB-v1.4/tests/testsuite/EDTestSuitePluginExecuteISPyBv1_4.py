@@ -59,6 +59,7 @@ class EDTestSuitePluginExecuteISPyBv1_4(EDTestSuite):
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreGridInfov1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreWorkflowMeshv1_4")
         self.addTestCaseFromName("EDTestCasePluginExecuteISPyBStoreMotorPositionv1_4")
+        self.addTestCaseFromName("EDTestCasePluginExecuteISPyBSetBestWilsonPlotPathv1_4")
 
 ##############################################################################
 if __name__ == '__main__':

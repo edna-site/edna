@@ -621,3 +621,12 @@ complex type XSDataInputISPyBStoreWorkflowMesh extends XSDataInput {
 complex type XSDataResultISPyBStoreWorkflowMesh extends XSDataResult {
 	workflowMeshId : XSDataInteger
 }
+
+complex type XSDataInputISPyBSetBestWilsonPlotPath extends XSDataInput {
+	dataCollectionId: XSDataInteger
+	bestWilsonPlotPath: XSDataString
+}
+
+complex type XSDataResultISPyBSetBestWilsonPlotPath extends XSDataResult {
+	dataCollectionId : XSDataInteger
+}
