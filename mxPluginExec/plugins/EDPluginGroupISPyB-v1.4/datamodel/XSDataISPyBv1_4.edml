@@ -481,6 +481,7 @@ complex type XSDataInputISPyBStoreScreening extends XSDataInput {
 
 complex type XSDataResultISPyBStoreScreening extends XSDataResult {
 	screeningId : XSDataInteger optional
+	dataCollectionId : XSDataInteger optional
 }
 
 complex type XSDataISPyBWorkflow extends XSData {

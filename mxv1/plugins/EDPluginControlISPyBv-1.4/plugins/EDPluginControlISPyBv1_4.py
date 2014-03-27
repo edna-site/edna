@@ -78,7 +78,7 @@ class EDPluginControlISPyBv1_4(EDPluginControl):
 
         self.edPluginExecISPyB = self.loadPlugin(self.edStringPluginExecISPyBName)
         try:
-            xsDataInputISPyBStoreScreening = EDHandlerXSDataISPyBv1_4.generateXSDataInputISPyBStoreScreening(self.getDataInput(), 
+            xsDataInputISPyBStoreScreening = EDHandlerXSDataISPyBv1_4.generateXSDataInputISPyBStoreScreening(self.getDataInput(),
                                                                                                              self.strStatusMessage, \
                                                                                                              self.strShortComments, \
                                                                                                              self.strComments)
@@ -114,12 +114,14 @@ class EDPluginControlISPyBv1_4(EDPluginControl):
         self.retrieveFailureMessages(_edPlugin, "EDPluginControlISPyBv1_4.doFailureExecISPyB")
 
 
-    def postProcess(self, _edPlugin=None):
-        EDVerbose.DEBUG("EDPluginControlISPyBv1_4.postProcess")
+    def finallyProcess(self, _edPlugin=None):
+        EDPluginControl.finallyProcess(self, _edPlugin)
+        EDVerbose.DEBUG("EDPluginControlISPyBv1_4.finallyProcess")
         # For the moment just an empty result object
         xsDataResultControlISPyB = XSDataResultControlISPyB()
         if self.edPluginExecISPyB.hasDataOutput():
             xsDataResultControlISPyB.screeningId = self.edPluginExecISPyB.dataOutput.screeningId
+            xsDataResultControlISPyB.dataCollectionId = self.edPluginExecISPyB.dataOutput.dataCollectionId
         self.setDataOutput(xsDataResultControlISPyB)
 
 

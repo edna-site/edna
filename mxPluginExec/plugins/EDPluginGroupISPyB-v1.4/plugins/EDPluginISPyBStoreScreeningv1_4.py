@@ -63,6 +63,7 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         self.strToolsForBLSampleWebServiceWsdl = None
         self.strToolsForScreeningEDNAWebServiceWsdl = None
         self.iScreeningId = None
+        self.iDataCollectionId = None
         
     
     def configure(self):
@@ -110,12 +111,14 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
             if xsDataISPyBImage is not None:
                 httpAuthenticatedToolsForAutoprocessingWebService3 = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
                 clientToolsForCollectionWebService = Client(self.strToolsForCollectionWebServiceWsdl, transport=httpAuthenticatedToolsForAutoprocessingWebService3)
-                iDataCollectionId = self.findDataCollectionFromFileLocationAndFileName(clientToolsForCollectionWebService, xsDataISPyBImage.fileLocation.value, xsDataISPyBImage.fileName.value)
-                if iDataCollectionId is None:
+                self.iDataCollectionId = self.findDataCollectionFromFileLocationAndFileName(clientToolsForCollectionWebService, xsDataISPyBImage.fileLocation.value, xsDataISPyBImage.fileName.value)
+                if self.iDataCollectionId is None:
                     self.ERROR("Couldn't obtain data collection id!")
                     self.setFailure()
                 else:
-                    xsDataInputISPyBStoreScreening.screening.dataCollectionId = XSDataInteger(iDataCollectionId)
+                    xsDataInputISPyBStoreScreening.screening.dataCollectionId = XSDataInteger(self.iDataCollectionId)
+        else:
+            self.iDataCollectionId = xsDataInputISPyBStoreScreening.screening.dataCollectionId.value
         if not self.isFailure():
             # DiffractionPlan
             xsDataISPyBDiffractionPlan = xsDataInputISPyBStoreScreening.diffractionPlan
@@ -177,6 +180,8 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         xsDataResultISPyBStoreScreening = XSDataResultISPyBStoreScreening()
         if self.iScreeningId is not None:
             xsDataResultISPyBStoreScreening.screeningId = XSDataInteger(self.iScreeningId)
+        if self.iDataCollectionId is not None:
+            xsDataResultISPyBStoreScreening.dataCollectionId = XSDataInteger(self.iDataCollectionId)
         self.setDataOutput(xsDataResultISPyBStoreScreening)
 
 
@@ -193,7 +198,7 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         elif (type(oReturnValue) == str) or (type(oReturnValue) == unicode):
             if len(oReturnValue) > _iMaxStringLength:
                 strOldString = oReturnValue
-                oReturnValue = oReturnValue[0:_iMaxStringLength-3]+"..."
+                oReturnValue = oReturnValue[0:_iMaxStringLength - 3] + "..."
                 self.warning("String truncated to %d characters for ISPyB! Original string: %s" % (_iMaxStringLength, strOldString))
                 self.warning("Truncated string: %s" % oReturnValue)
         return oReturnValue
@@ -353,30 +358,30 @@ class EDPluginISPyBStoreScreeningv1_4(EDPluginExec):
         fRFriedel = self.getXSValue(_xsDataISPyBScreeningOutput.rFriedel)
         iScreeningOutputId = _clientToolsForScreeningEDNAWebServiceWsdl.service.storeOrUpdateScreeningOutput(
             iScreeningOutputId, \
-            screeningId = iScreeningId, \
-            statusDescription = strStatusDescription, \
-            rejectedReflections = iRejectedReflections, \
-            resolutionObtained = fResolutionObtained, \
-            spotDeviationR = fSpotDeviationR, \
-            spotDeviationTheta = fSpotDeviationTheta, \
-            beamShiftX = fBeamShiftX, \
-            beamShiftY = fBeamShiftY, \
-            numSpotsFound = iNumSpotsFound, \
-            numSpotsUsed = iNumSpotsUsed, \
-            numSpotsRejected = iNumSpotsRejected, \
-            mosaicity = fMosaicity, \
-            ioverSigma = fIOverSigma, \
-            diffractionRings = bDiffractionRings, \
-            strategySuccess = bStrategySuccess, \
-            indexingSuccess = bIndexingSuccess, \
-            mosaicityEstimated = bMosaicityEstimated, \
-            rankingResolution = fRankingResolution, \
-            program = strProgram, \
-            doseTotal = fDoseTotal, \
-            totalExposureTime = fTotalExposureTime, \
-            totalRotationRange = fTotalRotationRange, \
-            totalNumberOfImages = fTotalNumberOfImages, \
-            rFriedel = fRFriedel, \
+            screeningId=iScreeningId, \
+            statusDescription=strStatusDescription, \
+            rejectedReflections=iRejectedReflections, \
+            resolutionObtained=fResolutionObtained, \
+            spotDeviationR=fSpotDeviationR, \
+            spotDeviationTheta=fSpotDeviationTheta, \
+            beamShiftX=fBeamShiftX, \
+            beamShiftY=fBeamShiftY, \
+            numSpotsFound=iNumSpotsFound, \
+            numSpotsUsed=iNumSpotsUsed, \
+            numSpotsRejected=iNumSpotsRejected, \
+            mosaicity=fMosaicity, \
+            ioverSigma=fIOverSigma, \
+            diffractionRings=bDiffractionRings, \
+            strategySuccess=bStrategySuccess, \
+            indexingSuccess=bIndexingSuccess, \
+            mosaicityEstimated=bMosaicityEstimated, \
+            rankingResolution=fRankingResolution, \
+            program=strProgram, \
+            doseTotal=fDoseTotal, \
+            totalExposureTime=fTotalExposureTime, \
+            totalRotationRange=fTotalRotationRange, \
+            totalNumberOfImages=fTotalNumberOfImages, \
+            rFriedel=fRFriedel, \
             )
         self.DEBUG("ScreeningOutputId: %d" % iScreeningOutputId)
         return iScreeningOutputId
