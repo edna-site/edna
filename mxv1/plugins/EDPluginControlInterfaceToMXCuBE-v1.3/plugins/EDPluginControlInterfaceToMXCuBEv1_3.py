@@ -62,6 +62,9 @@ from XSDataInterfacev1_2 import XSDataInputInterface
 
 EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
 from XSDataISPyBv1_4 import XSDataInputRetrieveDataCollection
+from XSDataISPyBv1_4 import XSDataInputISPyBSetBestWilsonPlotPath
+
+from EDHandlerXSDataISPyBv1_4 import EDHandlerXSDataISPyBv1_4
 
 class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
     """
@@ -258,6 +261,21 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                         EDUtilsFile.writeFile(strPath, strBestfilePar)
             # Execute plugin which creates a simple HTML page
             self.executeSimpleHTML(xsDataResultCharacterisation)    
+            # Upload the best wilson plot path to ISPyB
+            strBestWilsonPlotPath = EDHandlerXSDataISPyBv1_4.getBestWilsonPlotPath(xsDataResultCharacterisation)
+            if strBestWilsonPlotPath is not None:
+                # Covert path to ISPyB pyarch path
+                strBestWilsonPlotPyarchPath = self.createPyArchDNAFilePath(strBestWilsonPlotPath)
+                if strBestWilsonPlotPyarchPath is not None:
+                    self.DEBUG("Best wilson pyarch path: %s " % strBestWilsonPlotPyarchPath)
+                    if self.edPluginControlInterface.dataOutput.resultControlISPyB is not None:
+                        xsDataInputISPyBSetBestWilsonPlotPath = XSDataInputISPyBSetBestWilsonPlotPath()
+                        xsDataInputISPyBSetBestWilsonPlotPath.dataCollectionId = self.edPluginControlInterface.dataOutput.resultControlISPyB.dataCollectionId
+                        xsDataInputISPyBSetBestWilsonPlotPath.bestWilsonPlotPath = XSDataString(strBestWilsonPlotPyarchPath)
+                        edPluginSetBestWilsonPlotPath = self.loadPlugin("EDPluginISPyBSetBestWilsonPlotPathv1_4", "ISPyBSetBestWilsonPlotPath")
+                        edPluginSetBestWilsonPlotPath.dataInput = xsDataInputISPyBSetBestWilsonPlotPath
+                        edPluginSetBestWilsonPlotPath.executeSynchronous()
+
                     
 
 
