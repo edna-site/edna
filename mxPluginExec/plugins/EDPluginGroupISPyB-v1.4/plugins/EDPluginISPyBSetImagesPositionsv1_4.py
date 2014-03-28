@@ -41,9 +41,12 @@ from suds.transport.http import HttpAuthenticated
 from suds.sax.date import DateTime
 
 from XSDataCommon import XSDataInteger
+from XSDataCommon import XSDataString
+from XSDataCommon import XSDataBoolean
 
 from XSDataISPyBv1_4 import XSDataInputISPyBSetImagesPositions
 from XSDataISPyBv1_4 import XSDataResultISPyBSetImagesPositions
+from XSDataISPyBv1_4 import XSDataISPyBImageCreation
 
 
 class EDPluginISPyBSetImagesPositionsv1_4(EDPluginExec):
@@ -60,7 +63,7 @@ class EDPluginISPyBSetImagesPositionsv1_4(EDPluginExec):
         self.strUserName = None
         self.strPassWord = None
         self.strToolsForCollectionWebServiceWsdl = None
-        self.listImageId  = []
+        self.listImageCreation = []
         
     
     def configure(self):
@@ -97,11 +100,15 @@ class EDPluginISPyBSetImagesPositionsv1_4(EDPluginExec):
             # Get the workflow ID and status
             imagePosition.fileName = os.path.basename(xsDataImagePosition.fileName.path.value)
             imagePosition.fileLocation = os.path.dirname(xsDataImagePosition.fileName.path.value)
+            if xsDataImagePosition.jpegFileFullPath is not None:
+                imagePosition.jpegFileFullPath = xsDataImagePosition.jpegFileFullPath.path.value
+            if xsDataImagePosition.jpegThumbnailFileFullPath is not None:
+                imagePosition.jpegThumbnailFileFullPath = xsDataImagePosition.jpegThumbnailFileFullPath.path.value            
             imagePosition.motorPosition = self.createMotorPosition3VO(clientToolsForCollectionWebService, xsDataImagePosition.position)
             listImagePosition.append(imagePosition)
-        self.listImageId = clientToolsForCollectionWebService.service.setImagesPositions(
-                                    listImagePosition = listImagePosition)
-        self.DEBUG("EDPluginISPyBSetImagesPositionsv1_4.process: imageId=%r" % self.listImageId)
+        self.listImageCreation = clientToolsForCollectionWebService.service.setImagesPositions(
+                                    listImagePosition=listImagePosition)
+        self.DEBUG("EDPluginISPyBSetImagesPositionsv1_4.process: listImageCreation=%r" % self.listImageCreation)
             
              
 
@@ -111,8 +118,13 @@ class EDPluginISPyBSetImagesPositionsv1_4(EDPluginExec):
         EDPluginExec.finallyProcess(self)
         self.DEBUG("EDPluginISPyBSetImagesPositionsv1_4.finallyProcess")
         xsDataResultISPyBSetImagesPositions = XSDataResultISPyBSetImagesPositions()
-        for imageId in self.listImageId:
-            xsDataResultISPyBSetImagesPositions.addImageId(XSDataInteger(imageId))
+        for imageCreation in self.listImageCreation:
+            xsDataISPyBImageCreation = XSDataISPyBImageCreation()
+            xsDataISPyBImageCreation.fileLocation = XSDataString(imageCreation.fileLocation)
+            xsDataISPyBImageCreation.fileName = XSDataString(imageCreation.fileName)
+            xsDataISPyBImageCreation.imageId = XSDataInteger(imageCreation.imageId)
+            xsDataISPyBImageCreation.isCreated = XSDataBoolean(imageCreation.isCreated)
+            xsDataResultISPyBSetImagesPositions.addImageCreation(xsDataISPyBImageCreation)
         self.setDataOutput(xsDataResultISPyBSetImagesPositions)
 
 
@@ -120,12 +132,12 @@ class EDPluginISPyBSetImagesPositionsv1_4(EDPluginExec):
         position3VO = _clientToolsForCollectionWebService.factory.create('motorPosition3VO')
         position3VO.gridIndexY = _xsDataPosition.gridIndexY.value
         position3VO.gridIndexZ = _xsDataPosition.gridIndexZ.value
-        position3VO.kappa      = _xsDataPosition.kappa.value
-        position3VO.omega      = _xsDataPosition.omega.value
-        position3VO.phi        = _xsDataPosition.phi.value
-        position3VO.phiX       = _xsDataPosition.phiX.value
-        position3VO.phiY       = _xsDataPosition.phiY.value
-        position3VO.phiZ       = _xsDataPosition.phiZ.value
-        position3VO.sampX      = _xsDataPosition.sampX.value
-        position3VO.sampY      = _xsDataPosition.sampY.value
+        position3VO.kappa = _xsDataPosition.kappa.value
+        position3VO.omega = _xsDataPosition.omega.value
+        position3VO.phi = _xsDataPosition.phi.value
+        position3VO.phiX = _xsDataPosition.phiX.value
+        position3VO.phiY = _xsDataPosition.phiY.value
+        position3VO.phiZ = _xsDataPosition.phiZ.value
+        position3VO.sampX = _xsDataPosition.sampX.value
+        position3VO.sampY = _xsDataPosition.sampY.value
         return position3VO

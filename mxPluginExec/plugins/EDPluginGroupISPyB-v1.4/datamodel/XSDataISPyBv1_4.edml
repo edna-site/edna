@@ -548,6 +548,8 @@ complex type XSDataISPyBSamplePosition extends XSData {
 complex type XSDataISPyBImagePosition extends XSData {
 	fileName : XSDataFile
 	position : XSDataISPyBSamplePosition
+	jpegFileFullPath : XSDataFile
+	jpegThumbnailFileFullPath : XSDataFile
 }
 
 
@@ -555,8 +557,16 @@ complex type XSDataInputISPyBSetImagesPositions extends XSDataInput {
 	imagePosition : XSDataISPyBImagePosition []
 }
 
+
+complex type XSDataISPyBImageCreation extends XSData {
+	fileLocation : XSDataString
+	fileName : XSDataString
+	imageId : XSDataInteger
+	isCreated : XSDataBoolean
+}
+
 complex type XSDataResultISPyBSetImagesPositions extends XSDataResult {
-	imageId : XSDataInteger []
+	imageCreation : XSDataISPyBImageCreation [] optional
 }
 
 complex type XSDataInputISPyBStoreMotorPosition extends XSDataInput {

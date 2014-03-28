@@ -44,7 +44,7 @@ class EDTestCasePluginExecuteISPyBSetImagesPositionsv1_4(EDTestCasePluginExecute
         EDTestCasePluginExecute.__init__(self, "EDPluginISPyBSetImagesPositionsv1_4")
 
         self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_testDataBaseJboss6.xml"))
-        #self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_productionDataBase.xml"))
+        # self.setConfigurationFile(os.path.join(self.getPluginTestsDataHome(), "XSConfiguration_ESRF_productionDataBase.xml"))
         self.setDataInputFile(os.path.join(self.getPluginTestsDataHome(), "XSDataInputSetImagesPositions_test.xml"))
 
 
@@ -58,7 +58,7 @@ class EDTestCasePluginExecuteISPyBSetImagesPositionsv1_4(EDTestCasePluginExecute
         edPlugin = self.getPlugin()
         xsDataResult = edPlugin.getDataOutput()
         bAttributeExists = True
-        if xsDataResult.imageId is None:
+        if xsDataResult.imageCreation is None:
             bAttributeExists = False
         EDAssert.equal(True, bAttributeExists, "Attribute dataCollectionId in the result")
 
