@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<XSDataResultRdfit>
+    <beta>
+        <value>1.380000e+00</value>
+    </beta>
+    <gama>
+        <value>7.000000e-02</value>
+    </gama>
+    <dose_half_th>
+        <value>7.176000e+00</value>
+    </dose_half_th>
+    <dose_half>
+        <value>7.790000e+00</value>
+    </dose_half>
+    <relative_radiation_sensitivity>
+        <value>1.240000e+00</value>
+    </relative_radiation_sensitivity>
+</XSDataResultRdfit>

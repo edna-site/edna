@@ -1,0 +1,8 @@
+ Program dozor /A.Popov & G.Bourenkov/
+ Version 1.0.0 //  08.04.2014
+ Copyright 2013 by Alexander Popov and Gleb Bourenkov
+ N   |           SPOTS    |        Powder Wilson              |     
+     |num.of  INTaver Res.|   Scale B-fac. Res. Corr. R-factor|  Score
+---------------------------------------------------------------------
+   1|   891      946.  5.4|   12.69  196.1  3.4  99.2    12.7 | 1798.052
+   2|   905      938.  5.2|    9.01  206.7  3.6  98.7     8.8 | 3564.815

@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<XSDataInputDozor>
+    <detectorType>
+		<value>pilatus6m</value>
+	</detectorType>
+	<exposureTime>
+		<value>1.0</value>
+	</exposureTime>
+	<spotSize>
+		<value>5.0</value>
+	</spotSize>
+	<detectorDistance>
+		<value>608.7</value>
+	</detectorDistance>
+	<wavelength>
+		<value>0.979</value>
+	</wavelength>
+	<fractionPolatization>
+		<value>0.99</value>
+	</fractionPolatization>
+	<orgx>
+		<value>1220.60</value>
+	</orgx>
+	<orgy>
+		<value>1259.24</value>
+	</orgy>
+	<oscillationRange>
+		<value>0.1</value>
+	</oscillationRange>
+	<imageStep>
+		<value>10.0</value>
+	</imageStep>
+	<startingAngle>
+		<value>0.0</value>
+	</startingAngle>
+	<firstImageNumber>
+		<value>1</value>
+	</firstImageNumber>
+	<numberImages>
+		<value>2</value>
+	</numberImages>
+	<nameTemplateImage>
+		<value>${EDNA_TESTIMAGES}/thermn_2_7_????.cbf</value>
+	</nameTemplateImage>
+</XSDataInputDozor>

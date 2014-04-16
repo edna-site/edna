@@ -1,0 +1,37 @@
+!parameters of background data collection 
+job single
+!job all
+detector pilatus6m
+exposure 1.0
+spot_size 5
+!
+detector_distance 386.690
+X-ray_wavelength  0.9729
+fraction_polarization 0.99
+!orgx 1240.10  gleb
+!orgy 1263.1
+pixel_min -1
+pixel_max 36000
+ix_min 1
+ix_max 1270
+iy_min 1190
+iy_max 1310
+orgx 1228.1
+orgy 1255.15
+!ix_min 1
+!ix_max 1321
+!iy_min 1198
+!iy_max 1304
+!orgx 1220.60
+!orgy 1259.24
+!
+oscillation_range 1.0
+image_step 10.0
+starting_angle 0.0
+first_image_number 1
+number_images 147
+name_template_image /data/visitor/mx415/id23eh1/20140404/RAW_DATA/CER-SampD05/MXPressO_01/mesh-CER-SampD05_1_????.cbf 
+end
+
+
+

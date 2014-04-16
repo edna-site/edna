@@ -1,0 +1,42 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+
+
+complex type XSDataImageDozor {
+	number : XSDataInteger
+	spots_num_of : XSDataInteger
+	spots_int_aver : XSDataDouble 
+	spots_resolution : XSDataDouble optional
+	powder_wilson_scale : XSDataDouble optional
+	powder_wilson_bfactor : XSDataDouble optional
+	powder_wilson_resolution : XSDataDouble optional
+	powder_wilson_correlation : XSDataDouble optional
+	powder_wilson_rfactor : XSDataDouble optional
+	score : XSDataDouble optional
+}
+
+complex type XSDataInputDozor extends XSDataInput {
+	detectorType : XSDataString
+	exposureTime : XSDataDouble
+	spotSize : XSDataDouble
+	detectorDistance : XSDataDouble
+	wavelength : XSDataDouble
+	fractionPolarization : XSDataDouble optional
+	orgx : XSDataDouble
+	orgy : XSDataDouble
+	oscillationRange : XSDataDouble
+	imageStep : XSDataDouble optional
+	startingAngle : XSDataDouble optional
+	firstImageNumber : XSDataInteger
+	numberImages : XSDataInteger
+	nameTemplateImage : XSDataString
+}
+
+complex type XSDataResultDozor extends XSDataResult {
+	imageDozor : XSDataImageDozor [] optional
+}
