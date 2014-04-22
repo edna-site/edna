@@ -53,6 +53,8 @@ class EDTestSuitePluginExecuteMXESRF(EDTestSuite):
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlCharacterisationv1_3")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlInterfaceToMXCuBEv1_3")
         self.addTestSuiteFromName("EDTestSuitePluginExecuteControlImageQualityIndicatorsv1_2")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteControlImageQualityIndicatorsv1_3")
+        self.addTestSuiteFromName("EDTestSuitePluginExecuteControlImageQualityIndicatorsv1_4")
         # From mxv2:
         self.addTestSuiteFromName("EDTestSuitePluginExecuteMXv2")
 
