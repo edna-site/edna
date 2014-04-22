@@ -262,34 +262,38 @@ complex type XSDataISPyBDataCollection {
 
 
 complex type XSDataISPyBDiffractionPlan extends XSData {
-	diffractionPlanId : XSDataInteger optional
-	xmlDocumentId : XSDataInteger optional
-	experimentKind : XSDataString optional
-	observedResolution : XSDataDouble optional
-	minimalResolution : XSDataDouble optional
-	exposureTime : XSDataDouble optional
-	oscillationRange : XSDataDouble optional
-	maximalResolution : XSDataDouble optional
-	screeningResolution : XSDataDouble optional
-	radiationSensitivity : XSDataDouble optional
-	anomalousScatterer : XSDataString optional
-	preferredBeamSizeX : XSDataDouble optional
-	preferredBeamSizeY : XSDataDouble optional
-	comments : XSDataString optional
 	aimedCompleteness : XSDataDouble optional
 	aimedIOverSigmaAtHighestResolution : XSDataDouble optional
 	aimedMultiplicity : XSDataDouble optional
 	aimedResolution : XSDataDouble optional
 	anomalousData : XSDataBoolean optional
+	comments : XSDataString optional
 	complexity : XSDataString optional
+	diffractionPlanId : XSDataInteger optional
 	estimateRadiationDamage : XSDataBoolean optional
+	experimentKind : XSDataString optional
+	exposureTime : XSDataDouble optional
 	forcedSpaceGroup : XSDataString optional
+	kappaStrategyOption : XSDataString optional
+	maxDimAccrossSpindleAxis : XSDataDouble optional
+	maximalResolution : XSDataDouble optional
+	minDimAccrossSpindleAxis : XSDataDouble optional
+	minimalResolution : XSDataDouble optional
+	numberOfPositions : XSDataInteger optional
+	observedResolution : XSDataDouble optional
+	oscillationRange : XSDataDouble optional
+	preferredBeamSizeX : XSDataDouble optional
+	preferredBeamSizeY : XSDataDouble optional
+	radiationSensitivity : XSDataDouble optional
+	radiationSensitivityBeta : XSDataDouble optional
+	radiationSensitivityGamma : XSDataDouble optional
 	requiredCompleteness : XSDataDouble optional
 	requiredMultiplicity : XSDataDouble optional
 	requiredResolution : XSDataDouble optional
+	screeningResolution : XSDataDouble optional
+	anomalousScatterer : XSDataString optional
 	strategyOption : XSDataString optional
-	kappaStrategyOption : XSDataString optional
-	numberOfPositions : XSDataInteger optional
+	xmlDocumentId : XSDataInteger optional
 }
 
 complex type XSDataISPyBScreening extends XSData {
@@ -640,4 +644,29 @@ complex type XSDataInputISPyBSetBestWilsonPlotPath extends XSDataInput {
 
 complex type XSDataResultISPyBSetBestWilsonPlotPath extends XSDataResult {
 	dataCollectionId : XSDataInteger
+}
+
+
+complex type XSDataInputGetSampleInformation extends XSDataInput {
+	sampleId: XSDataInteger
+}
+
+complex type XSDataResultGetSampleInformation extends XSDataResult {
+	cellA: XSDataDouble
+	cellB: XSDataDouble
+	cellC: XSDataDouble
+	cellAlpha: XSDataDouble
+	cellBeta: XSDataDouble
+	cellGamma: XSDataDouble
+	code: XSDataString
+	containerSampleChangerLocation: XSDataString
+	crystalSpaceGroup: XSDataString
+	diffractionPlan: XSDataISPyBDiffractionPlan
+	experimentType: XSDataString
+	holderLength: XSDataDouble
+	minimalResolution: XSDataDouble
+	proteinAcronym: XSDataString
+	sampleId: XSDataInteger
+	sampleLocation: XSDataString
+	sampleName: XSDataString
 }
